@@ -8,8 +8,10 @@ namespace Flint;
  * @property-read string|null $default_variant_id
  * @property-read string|null $description
  * @property-read bool|null $is_catalog_item_unavailable
+ * @property-read bool|null $is_sold_out
  * @property-read string|null $key
  * @property-read int|null $max_quantity
+ * @property-read int|null $max_total_quantity
  * @property-read MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $max_unit_price_money
  * @property-read int|null $min_quantity
  * @property-read MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $min_unit_price_money
@@ -18,6 +20,7 @@ namespace Flint;
  * @property-read string|null $product_id
  * @property-read string|null $product_type
  * @property-read int|null $quantity
+ * @property-read int|null $remaining_quantity
  * @property-read string|null $resolved_name
  * @property-read ProductPriceRangePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $resolved_price_range
  * @property-read MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $resolved_unit_price_money
@@ -29,7 +32,7 @@ namespace Flint;
  * @property-read list<string>|null $variant_ids
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentLinkLineItemCustomFixedPreviousAttributesInput extends Model {
-    /** @param array{'allow_quantity_adjustment'?: bool|null, 'allow_unit_price_adjustment'?: bool|null, 'bundle_id'?: string|null, 'default_variant_id'?: string|null, 'description'?: string|null, 'is_catalog_item_unavailable'?: bool|null, 'key'?: string|null, 'max_quantity'?: int|null, 'max_unit_price_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'min_quantity'?: int|null, 'min_unit_price_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'name'?: string|null, 'payment_link_line_item_id'?: string|null, 'product_id'?: string|null, 'product_type'?: string|null, 'quantity'?: int|null, 'resolved_name'?: string|null, 'resolved_price_range'?: ProductPriceRangePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'resolved_unit_price_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'suggested_unit_price_money_options'?: list<MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'tax'?: OrderLineItemTaxPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'type'?: string|null, 'unit_price_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'variant_id'?: string|null, 'variant_ids'?: list<string>|null, ...}|object $values */
+    /** @param array{'allow_quantity_adjustment'?: bool|null, 'allow_unit_price_adjustment'?: bool|null, 'bundle_id'?: string|null, 'default_variant_id'?: string|null, 'description'?: string|null, 'is_catalog_item_unavailable'?: bool|null, 'is_sold_out'?: bool|null, 'key'?: string|null, 'max_quantity'?: int|null, 'max_total_quantity'?: int|null, 'max_unit_price_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'min_quantity'?: int|null, 'min_unit_price_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'name'?: string|null, 'payment_link_line_item_id'?: string|null, 'product_id'?: string|null, 'product_type'?: string|null, 'quantity'?: int|null, 'remaining_quantity'?: int|null, 'resolved_name'?: string|null, 'resolved_price_range'?: ProductPriceRangePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'resolved_unit_price_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'suggested_unit_price_money_options'?: list<MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'tax'?: OrderLineItemTaxPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'type'?: string|null, 'unit_price_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'variant_id'?: string|null, 'variant_ids'?: list<string>|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinkLineItemCustomFixedPreviousAttributesInput')); }
     /** Whether the buyer can change the quantity in checkout. anyOf[1] (Value): boolean. Whether the buyer can change the quantity in checkout. anyOf[2] (Value): null.
      * @return bool|null
@@ -67,6 +70,12 @@ final class PaymentLinkLineItemCustomFixedPreviousAttributesInput extends Model 
      */
     public function getIsCatalogItemUnavailable(): mixed { return $this->get('is_catalog_item_unavailable'); }
     public function hasIsCatalogItemUnavailable(): bool { return $this->has('is_catalog_item_unavailable'); }
+    /** Public event read: true when the tier or event has no capacity left. anyOf[1] (Value): boolean. Public event read: true when the tier or event has no capacity left. anyOf[2] (Value): null.
+     * @return bool|null
+     * @throws SdkError When is_sold_out is omitted; use hasIsSoldOut() or valueOrDefault().
+     */
+    public function getIsSoldOut(): mixed { return $this->get('is_sold_out'); }
+    public function hasIsSoldOut(): bool { return $this->has('is_sold_out'); }
     /** Keys the resolve override maps. Stable line item key used in checkout overrides. Must not have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when omitted, skipping numbers already used by explicit keys; retained for an existing line item when omitted on update. anyOf[1] (Value): string. Keys the resolve override maps. Stable line item key used in checkout overrides. Must not have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when omitted, skipping numbers already used by explicit keys; retained for an existing line item when omitted on update. anyOf[2] (Value): null.
      * @return string|null
      * @throws SdkError When key is omitted; use hasKey() or valueOrDefault().
@@ -79,7 +88,13 @@ final class PaymentLinkLineItemCustomFixedPreviousAttributesInput extends Model 
      */
     public function getMaxQuantity(): mixed { return $this->get('max_quantity'); }
     public function hasMaxQuantity(): bool { return $this->has('max_quantity'); }
-    /** Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
+    /** Optional whole-number admission capacity across all orders for an event tier; fractional quantities are not supported. Must be at least 1 and cannot exceed event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it in a line_items replacement removes an existing cap. anyOf[1] (Value): integer. Optional whole-number admission capacity across all orders for an event tier; fractional quantities are not supported. Must be at least 1 and cannot exceed event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it in a line_items replacement removes an existing cap. Format: int32. minimum: 1. anyOf[2] (Value): null.
+     * @return int|null
+     * @throws SdkError When max_total_quantity is omitted; use hasMaxTotalQuantity() or valueOrDefault().
+     */
+    public function getMaxTotalQuantity(): mixed { return $this->get('max_total_quantity'); }
+    public function hasMaxTotalQuantity(): bool { return $this->has('max_total_quantity'); }
+    /** Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Must be greater than zero and greater than or equal to min_unit_price_money. Omit for no maximum. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
      * @return MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null
      * @throws SdkError When max_unit_price_money is omitted; use hasMaxUnitPriceMoney() or valueOrDefault().
      */
@@ -127,6 +142,12 @@ final class PaymentLinkLineItemCustomFixedPreviousAttributesInput extends Model 
      */
     public function getQuantity(): mixed { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
+    /** Public event read: whole-number admissions left after sales and payment holds; fractional quantities are not supported. This quantity is bounded by both the tier and event caps. Omitted when neither is capped. anyOf[1] (Value): integer. Public event read: whole-number admissions left after sales and payment holds; fractional quantities are not supported. This quantity is bounded by both the tier and event caps. Omitted when neither is capped. Format: int32. anyOf[2] (Value): null.
+     * @return int|null
+     * @throws SdkError When remaining_quantity is omitted; use hasRemainingQuantity() or valueOrDefault().
+     */
+    public function getRemainingQuantity(): mixed { return $this->get('remaining_quantity'); }
+    public function hasRemainingQuantity(): bool { return $this->has('remaining_quantity'); }
     /** Current catalog name of the referenced variant or bundle, or the product name for variant_ids lines. A variant reads as the product name, plus the variant name when the variant is a named option combination. This is the catalog value at read time, not a stored snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line items and when the catalog object no longer exists. anyOf[1] (Value): string. Current catalog name of the referenced variant or bundle, or the product name for variant_ids lines. A variant reads as the product name, plus the variant name when the variant is a named option combination. This is the catalog value at read time, not a stored snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line items and when the catalog object no longer exists. anyOf[2] (Value): null.
      * @return string|null
      * @throws SdkError When resolved_name is omitted; use hasResolvedName() or valueOrDefault().

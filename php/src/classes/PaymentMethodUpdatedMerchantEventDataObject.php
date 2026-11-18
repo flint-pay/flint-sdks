@@ -8,6 +8,7 @@ namespace Flint;
  * @property-read string $customer_id
  * @property-read ?string $fingerprint
  * @property-read bool $is_default
+ * @property-read bool $is_removing
  * @property-read string $merchant_id
  * @property-read string $payment_method_id
  * @property-read ?string $saved_with
@@ -17,7 +18,7 @@ namespace Flint;
  * @property-read string $usage
  * Presence-aware response; omitted optional fields return null. */
 final class PaymentMethodUpdatedMerchantEventDataObject extends Model {
-    /** @param array{'card'?: mixed, 'created_at': string, 'customer'?: mixed, 'customer_id': string, 'fingerprint'?: string, 'is_default': bool, 'merchant_id': string, 'payment_method_id': string, 'saved_with'?: string, 'status': string, 'type': string, 'updated_at': string, 'usage': string, ...}|object $values */
+    /** @param array{'card'?: mixed, 'created_at': string, 'customer'?: mixed, 'customer_id': string, 'fingerprint'?: string, 'is_default': bool, 'is_removing': bool, 'merchant_id': string, 'payment_method_id': string, 'saved_with'?: string, 'status': string, 'type': string, 'updated_at': string, 'usage': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentMethodUpdatedMerchantEventDataObject')); }
     /** Brand, expiry and last four digits. Present when `type` is `card`. Card details on a payment method: brand, expiration month and year, last four digits, and the wallet when one was used.
      * @return ?CardDetails
@@ -44,11 +45,16 @@ final class PaymentMethodUpdatedMerchantEventDataObject extends Model {
      */
     public function getFingerprint(): ?string { return $this->get('fingerprint'); }
     public function hasFingerprint(): bool { return $this->has('fingerprint'); }
-    /** Whether this is the customer's default payment method, the one Customer.default_payment_method_id names. Change the default with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
+    /** Whether this is the customer's default payment method, the one Customer.default_payment_method_id names. Change the default with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method event. Existing subscriptions keep their payment_method_id.
      * @return bool
      */
     public function getIsDefault(): bool { return $this->get('is_default'); }
     public function hasIsDefault(): bool { return $this->has('is_default'); }
+    /** Removal is in progress. Show this card as Removing and offer retry with DELETE /v1/payment-methods/{payment_method_id}, or DELETE /v1/me/payment-methods/{payment_method_id} for buyers. Do not offer it for a new payment, subscription, or default. Flint retries abandoned removals automatically.
+     * @return bool
+     */
+    public function getIsRemoving(): bool { return $this->get('is_removing'); }
+    public function hasIsRemoving(): bool { return $this->has('is_removing'); }
     /** ID of the merchant this resource belongs to.
      * @return string
      */
@@ -64,7 +70,7 @@ final class PaymentMethodUpdatedMerchantEventDataObject extends Model {
      */
     public function getSavedWith(): ?string { return $this->get('saved_with'); }
     public function hasSavedWith(): bool { return $this->has('saved_with'); }
-    /** Whether the payment method can be charged. Treat any value other than active as not chargeable, including values added later. Value enum: "pending", "active", "expired", "archived", "failed".
+    /** The saved card lifecycle. Offer the card for a new payment only when status is active and is_removing is false. Treat any other status as not chargeable, including values added later. Value enum: "pending", "active", "expired", "archived", "failed".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }

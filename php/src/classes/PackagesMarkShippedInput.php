@@ -10,7 +10,7 @@ namespace Flint;
 final class PackagesMarkShippedInput extends Model {
     /** @param array{'package_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body'?: array{'buyer_notification_behavior'?: string, 'carrier'?: string, 'expected_delivery_at'?: string|\DateTimeInterface|null, 'expected_version'?: int, 'occurred_at'?: string|\DateTimeInterface, 'reason_message'?: string, 'service_code'?: string, 'tracking_number'?: string, 'tracking_url'?: string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PackagesMarkShippedInput')); }
-    /** Flint package ID. Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R".
+    /** Flint package ID. Must be a valid ID with prefix pkg_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R".
      * @return string
      * @throws SdkError When package_id is omitted; use hasPackageId() or valueOrDefault().
      */

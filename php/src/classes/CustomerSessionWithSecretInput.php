@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read list<string> $capabilities
  * @property-read string|\DateTimeInterface $created_at
  * @property-read string $customer_id
  * @property-read string $customer_session_id
@@ -14,8 +15,14 @@ namespace Flint;
  * @property-read string $secret
  * Presence-aware input; omitted fields throw when accessed. */
 final class CustomerSessionWithSecretInput extends Model {
-    /** @param array{'created_at': string|\DateTimeInterface, 'customer_id': string, 'customer_session_id': string, 'expires_at': string|\DateTimeInterface, 'refresh_token_expires_at': string|\DateTimeInterface, 'revoked_at'?: string|\DateTimeInterface, 'status': string, 'supported_actions': list<string>, 'refresh_token'?: string, 'secret'?: string, ...}|object $values */
+    /** @param array{'capabilities': list<string>, 'created_at': string|\DateTimeInterface, 'customer_id': string, 'customer_session_id': string, 'expires_at': string|\DateTimeInterface, 'refresh_token_expires_at': string|\DateTimeInterface, 'revoked_at'?: string|\DateTimeInterface, 'status': string, 'supported_actions': list<string>, 'refresh_token'?: string, 'secret'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerSessionWithSecretInput')); }
+    /** Granted operation capabilities. Default sessions report the full capability catalog. Refresh never widens an explicit grant. [] (Value): string.
+     * @return list<string>
+     * @throws SdkError When capabilities is omitted; use hasCapabilities() or valueOrDefault().
+     */
+    public function getCapabilities(): array { return $this->get('capabilities'); }
+    public function hasCapabilities(): bool { return $this->has('capabilities'); }
     /** When the session was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().

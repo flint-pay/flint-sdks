@@ -1,6 +1,7 @@
-import type { MetadataRequestInput, MetadataMap, MerchantWebhookEnvelope } from './types-41.js';
-import type { PackageCreateRequestInput } from './types-47.js';
-import type { ReturnShipmentLineItemAllocationRequestInput } from './types-63.js';
+import type { RiskPredicateNodeRequestInput, RiskPredicateNodeRequest } from './types-67.js';
+import type { MetadataMap, MetadataRequestInput } from './types-43.js';
+import type { PackageCreateRequest, PackageCreateRequestInput } from './types-48.js';
+import type { ReturnResolutionLineItemRequest, ReturnShipmentLineItemAllocationRequestInput } from './types-65.js';
 import type {
     SubscriptionIntervalOption,
     SubscriptionIntervalOptionRequestInput,
@@ -12,53 +13,1306 @@ import type {
     SubscriptionGiftRecipientRequest,
     SubscriptionEndAfterRequestInput,
     SubscriptionGiftRecipientRequestInput
-} from './types-68.js';
+} from './types-70.js';
 import type { ImageRequest, ImageRequestInput } from './types-31.js';
 import type { InventoryRoutingSourceRequest, InventoryRoutingSourceRequestInput } from './types-33.js';
-import type { MoneyValue, MoneyValueInput, MoneyValuePreviousAttributes } from './types-42.js';
+import type { MoneyValue, MoneyValueInput } from './types-44.js';
 import type {
     SubscriptionPlanChangeOption,
     SubscriptionPlanLineItemRequest,
     SubscriptionPlanChangeOptionRequestInput,
     SubscriptionPlanLineItemRequestInput,
     SubscriptionPlanChangeLineItemRequest,
-    SubscriptionPlanChangeLineItemRequestInput,
-    SubscriptionPromotionRequest,
-    SubscriptionPromotionRequestInput
-} from './types-69.js';
-import type { UpdateDeliveryMethodRequest, UpdateDeliveryMethodRequestInput } from './types-73.js';
+    SubscriptionPlanChangeLineItemRequestInput
+} from './types-71.js';
+import type { UpdateDeliveryMethodRequest, UpdateDeliveryMethodRequestInput } from './types-75.js';
 import type {
     SubscriptionServiceLocationRequest,
     SubscriptionQuantityChangeLineItemRequest,
     SubscriptionQuantityChangeLineItemRequestInput,
+    SubscriptionPromotionRequest,
     SubscriptionTaxRequest,
     SubscriptionTermsRequest,
+    SubscriptionPromotionRequestInput,
     SubscriptionServiceLocationRequestInput,
     SubscriptionTaxRequestInput,
     SubscriptionTermsRequestInput
-} from './types-70.js';
+} from './types-72.js';
 import type {
     SubscriptionDeliveryDestinationRequestInput,
     SubscriptionBillingScheduleRequest,
     SubscriptionBillingStartRequest,
     SubscriptionBillingScheduleRequestInput,
     SubscriptionBillingStartRequestInput
-} from './types-67.js';
-import type { PromotionRefRequest, PromotionRefRequestInput } from './types-57.js';
-import type { TaxCalculationCallbackConfiguration, TaxCalculationCallbackConfigurationRequestInput } from './types-71.js';
+} from './types-69.js';
+import type { PromotionRefRequest, PromotionRefRequestInput } from './types-58.js';
+import type { TaxCalculationCallbackConfiguration, TaxCalculationCallbackConfigurationRequestInput } from './types-73.js';
 import type {
     WebhookSigningMethod,
     WebhookSigningMethodInput,
     WorkloadIdentityClaimConditionRequest,
     WorkloadIdentityClaimConditionRequestInput
-} from './types-77.js';
+} from './types-79.js';
 import type { CredentialProvider } from '../runtime.js';
-import type { CreditNoteLineItem } from './types-15.js';
-import type { ExpandedInvoiceSummary } from './types-26.js';
-import type { TaxCurrencyConversion, TaxIdentity } from './types-72.js';
-import type { PartnerWebhookEnvelope } from './types-49.js';
-import type { ResponseMeta } from './types-60.js';
-import type { Invoice } from './types-34.js';
+/** The `stored_rule` variant of `CreateRiskPreviewRequest`. */
+export type CreateRiskPreviewRequestStoredRuleInput = ({
+    /**
+     * Action to preview. In stored_rule mode, omitted or null keeps the saved action. Value enum:
+     * "allow", "block", "review", "require_3ds", null.
+     */
+    "action"?: "allow" | "block" | "review" | "require_3ds" | null;
+    /** What to check: a rule in this request, or a saved rule. Value enum: "stored_rule". */
+    "mode": "stored_rule";
+    /**
+     * Predicate to preview. In stored_rule mode, omitted or null keeps the saved predicate.
+     * anyOf[1] (Value): {@link RiskPredicateNodeRequestInput}. A node in a risk rule condition: a
+     * comparison of an attribute, or an `all`, `any`, or `not` group of other nodes. anyOf[2]
+     * (Value): null.
+     */
+    "predicate"?: ((RiskPredicateNodeRequestInput) | (null));
+    /** ID of the saved rule to check. minLength: 1. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319". */
+    "risk_rule_id": string;
+})
+    & ({
+    /** What to check: a rule in this request, or a saved rule. Value enum: "stored_rule". */
+    "mode": ("stored_rule") & ("stored_rule");
+    /** ID of the saved rule to check. minLength: 1. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319". */
+    "risk_rule_id": string;
+});
+/** The request body for: Create a risk rule. */
+export type CreateRiskRuleRequest = {
+    /**
+     * What Flint does with a payment the rule matches. Value enum: "allow", "block", "review",
+     * "require_3ds".
+     */
+    "action": "allow" | "block" | "review" | "require_3ds" | (string & {});
+    /**
+     * Your note on what the rule is for. Limited to 512 characters (Unicode code points). Leading
+     * and trailing whitespace is trimmed. minLength: 1. maxLength: 512.
+     */
+    "description": string;
+    /**
+     * The condition a payment must meet for the rule to match. A node in a risk rule condition: a
+     * comparison of an attribute, or an `all`, `any`, or `not` group of other nodes.
+     */
+    "predicate": RiskPredicateNodeRequest;
+    /** Whether the rule runs. Default: "active". Value enum: "active", "inactive". */
+    "status"?: "active" | "inactive" | (string & {});
+};
+/** The request body for: Create a risk rule. */
+export type CreateRiskRuleRequestInput = {
+    /**
+     * What Flint does with a payment the rule matches. Value enum: "allow", "block", "review",
+     * "require_3ds".
+     */
+    "action": "allow" | "block" | "review" | "require_3ds";
+    /**
+     * Your note on what the rule is for. Limited to 512 characters (Unicode code points). Leading
+     * and trailing whitespace is trimmed. minLength: 1. maxLength: 512.
+     */
+    "description": string;
+    /**
+     * The condition a payment must meet for the rule to match. A node in a risk rule condition: a
+     * comparison of an attribute, or an `all`, `any`, or `not` group of other nodes.
+     */
+    "predicate": RiskPredicateNodeRequestInput;
+    /** Whether the rule runs. Default: "active". Value enum: "active", "inactive". */
+    "status"?: "active" | "inactive";
+};
+/** The request body for: Create sandbox. */
+export type CreateSandboxRequest = ({
+    /**
+     * Key access. Full and read_only resolve from the current scope catalog for the key's mode;
+     * restricted holds only its listed scopes. Granting full or read_only requires a freshly
+     * verified authorized user session, or a full-access API key in the key's mode or a live
+     * full-access key granting a test key. Value enum: "full", "read_only", "restricted".
+     */
+    "access"?: "full" | "read_only" | "restricted" | (string & {});
+    /**
+     * The onboarding state the sandbox starts in, and returns to when you reset it. `complete`
+     * prefills a verified test identity; `not_started` leaves requirements due so you can rehearse
+     * onboarding. Default: "complete". Value enum: "complete", "not_started".
+     */
+    "initial_onboarding"?: "complete" | "not_started" | (string & {});
+    /**
+     * Whether to issue a test API key for the new sandbox. Defaults to `false`. When `true`, the
+     * response includes the key and its one-time `secret_key`, and `access`, `scopes`,
+     * `test_key_name`, and `test_key_expires_at` apply. When `false`, sending any of them returns
+     * 400 NOT_ALLOWED.
+     */
+    "issue_test_key"?: boolean;
+    /**
+     * Name of the new sandbox. Required. Surrounding whitespace is trimmed before length
+     * validation. A supplied value cannot be blank; use null where clearing is supported.
+     * minLength: 1.
+     */
+    "name": string;
+    /**
+     * The scopes to grant. Required only with access restricted; forbidden with full or read_only.
+     * For a test key, use only scopes whose key_modes includes test in x-flint-scopes. The
+     * developer.sandboxes.read and developer.sandboxes.write scopes are valid on test keys;
+     * developer.partner_apps.read and developer.partner_apps.write are live-only. minItems: 1.
+     * uniqueItems: true. [] enum: "accounts.api_keys.read", "accounts.api_keys.write",
+     * "accounts.devices.read", "accounts.devices.write", "accounts.workload_identities.read",
+     * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
+     * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
+     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
+     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
+     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
+     * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
+     * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
+     * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
+     * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
+     * "commerce.invoices.read", "commerce.invoices.write", "commerce.license_keys.read",
+     * "commerce.license_keys.secrets.write", "commerce.license_keys.write",
+     * "commerce.orders.read", "commerce.orders.write", "commerce.products.read",
+     * "commerce.products.write", "commerce.promotions.read", "commerce.promotions.write",
+     * "commerce.refunds.read", "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.returns.operations.write", "commerce.returns.policies.write",
+     * "commerce.returns.read", "commerce.returns.reasons.write",
+     * "commerce.returns.resolutions.write", "commerce.returns.write",
+     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
+     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
+     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
+     * "developer.merchant_signups.read", "developer.merchant_signups.write",
+     * "developer.partner_apps.read", "developer.partner_apps.write",
+     * "developer.request_logs.read", "developer.request_logs.self.read",
+     * "developer.resource_timelines.read", "developer.sandboxes.read",
+     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
+     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
+     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
+     * "merchants.profile.read", "merchants.profile.write",
+     * "money_movement.balance_transactions.read", "money_movement.balances.read",
+     * "money_movement.payment_splits.read", "money_movement.payout_settings.read",
+     * "money_movement.payout_settings.write", "money_movement.payouts.read",
+     * "money_movement.payouts.write", "money_movement.platform_fees.read",
+     * "payments.disputes.read", "payments.disputes.write", "payments.payment_intents.read",
+     * "payments.payment_intents.write", "payments.payment_method_domains.read",
+     * "payments.payment_method_domains.write", "payments.payment_methods.read",
+     * "payments.payment_methods.write", "payments.readers.read", "payments.readers.write",
+     * "reports.read", "reports.write", "risk.controls.write", "risk.read", "risk.reviews.write",
+     * "settings.read", "settings.write", "webhooks.read", "webhooks.write". [] (Value): string.
+     * Value enum: "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read",
+     * "accounts.devices.write", "accounts.workload_identities.read",
+     * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
+     * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
+     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
+     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
+     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
+     * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
+     * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
+     * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
+     * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
+     * "commerce.invoices.read", "commerce.invoices.write", "commerce.license_keys.read",
+     * "commerce.license_keys.secrets.write", "commerce.license_keys.write",
+     * "commerce.orders.read", "commerce.orders.write", "commerce.products.read",
+     * "commerce.products.write", "commerce.promotions.read", "commerce.promotions.write",
+     * "commerce.refunds.read", "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.returns.operations.write", "commerce.returns.policies.write",
+     * "commerce.returns.read", "commerce.returns.reasons.write",
+     * "commerce.returns.resolutions.write", "commerce.returns.write",
+     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
+     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
+     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
+     * "developer.merchant_signups.read", "developer.merchant_signups.write",
+     * "developer.partner_apps.read", "developer.partner_apps.write",
+     * "developer.request_logs.read", "developer.request_logs.self.read",
+     * "developer.resource_timelines.read", "developer.sandboxes.read",
+     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
+     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
+     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
+     * "merchants.profile.read", "merchants.profile.write",
+     * "money_movement.balance_transactions.read", "money_movement.balances.read",
+     * "money_movement.payment_splits.read", "money_movement.payout_settings.read",
+     * "money_movement.payout_settings.write", "money_movement.payouts.read",
+     * "money_movement.payouts.write", "money_movement.platform_fees.read",
+     * "payments.disputes.read", "payments.disputes.write", "payments.payment_intents.read",
+     * "payments.payment_intents.write", "payments.payment_method_domains.read",
+     * "payments.payment_method_domains.write", "payments.payment_methods.read",
+     * "payments.payment_methods.write", "payments.readers.read", "payments.readers.write",
+     * "reports.read", "reports.write", "risk.controls.write", "risk.read", "risk.reviews.write",
+     * "settings.read", "settings.write", "webhooks.read", "webhooks.write".
+     */
+    "scopes"?: Array<"accounts.api_keys.read"
+        | "accounts.api_keys.write"
+        | "accounts.devices.read"
+        | "accounts.devices.write"
+        | "accounts.workload_identities.read"
+        | "accounts.workload_identities.write"
+        | "analytics.read"
+        | "checkouts.checkout_sessions.read"
+        | "checkouts.checkout_sessions.write"
+        | "checkouts.payment_links.read"
+        | "checkouts.payment_links.write"
+        | "commerce.bundles.read"
+        | "commerce.bundles.write"
+        | "commerce.catalog.read"
+        | "commerce.catalog.write"
+        | "commerce.credit_notes.read"
+        | "commerce.credit_notes.write"
+        | "commerce.delivery.read"
+        | "commerce.delivery.write"
+        | "commerce.gift_cards.adjustments.write"
+        | "commerce.gift_cards.read"
+        | "commerce.gift_cards.redemptions.write"
+        | "commerce.gift_cards.secrets.write"
+        | "commerce.gift_cards.write"
+        | "commerce.inventory.allocation.write"
+        | "commerce.inventory.policies.write"
+        | "commerce.inventory.read"
+        | "commerce.inventory.write"
+        | "commerce.invoices.read"
+        | "commerce.invoices.write"
+        | "commerce.license_keys.read"
+        | "commerce.license_keys.secrets.write"
+        | "commerce.license_keys.write"
+        | "commerce.orders.read"
+        | "commerce.orders.write"
+        | "commerce.products.read"
+        | "commerce.products.write"
+        | "commerce.promotions.read"
+        | "commerce.promotions.write"
+        | "commerce.refunds.read"
+        | "commerce.refunds.tax_overrides.write"
+        | "commerce.refunds.write"
+        | "commerce.returns.operations.write"
+        | "commerce.returns.policies.write"
+        | "commerce.returns.read"
+        | "commerce.returns.reasons.write"
+        | "commerce.returns.resolutions.write"
+        | "commerce.returns.write"
+        | "commerce.subscription_plans.read"
+        | "commerce.subscription_plans.write"
+        | "commerce.subscriptions.read"
+        | "commerce.subscriptions.write"
+        | "commerce.tickets.read"
+        | "commerce.tickets.write"
+        | "customers.read"
+        | "customers.sessions.write"
+        | "customers.write"
+        | "developer.merchant_signups.read"
+        | "developer.merchant_signups.write"
+        | "developer.partner_apps.read"
+        | "developer.partner_apps.write"
+        | "developer.request_logs.read"
+        | "developer.request_logs.self.read"
+        | "developer.resource_timelines.read"
+        | "developer.sandboxes.read"
+        | "developer.sandboxes.write"
+        | "developer.test_clocks.read"
+        | "developer.test_clocks.write"
+        | "merchant_billing.read"
+        | "merchants.account_sessions.write"
+        | "merchants.locations.read"
+        | "merchants.locations.write"
+        | "merchants.onboarding.read"
+        | "merchants.onboarding.write"
+        | "merchants.profile.read"
+        | "merchants.profile.write"
+        | "money_movement.balance_transactions.read"
+        | "money_movement.balances.read"
+        | "money_movement.payment_splits.read"
+        | "money_movement.payout_settings.read"
+        | "money_movement.payout_settings.write"
+        | "money_movement.payouts.read"
+        | "money_movement.payouts.write"
+        | "money_movement.platform_fees.read"
+        | "payments.disputes.read"
+        | "payments.disputes.write"
+        | "payments.payment_intents.read"
+        | "payments.payment_intents.write"
+        | "payments.payment_method_domains.read"
+        | "payments.payment_method_domains.write"
+        | "payments.payment_methods.read"
+        | "payments.payment_methods.write"
+        | "payments.readers.read"
+        | "payments.readers.write"
+        | "reports.read"
+        | "reports.write"
+        | "risk.controls.write"
+        | "risk.read"
+        | "risk.reviews.write"
+        | "settings.read"
+        | "settings.write"
+        | "webhooks.read"
+        | "webhooks.write"
+        | (string & {})>;
+    /**
+     * Future RFC 3339 timestamp when the issued test key expires. Allowed only with issue_test_key
+     * true. Omit for a key that doesn't expire. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "test_key_expires_at"?: string;
+    /**
+     * Name for the issued test key, 1 to 100 characters. Allowed only with issue_test_key true.
+     * Defaults to the sandbox name followed by `Test Key`. minLength: 1. maxLength: 100.
+     */
+    "test_key_name"?: string;
+})
+    & ((({
+    /** Value enum: true. */
+    "issue_test_key": boolean;
+})
+    & ((({
+    /** Value enum: "full". */
+    "access": unknown;
+}))
+    | (({
+    /** Value enum: "read_only". */
+    "access": unknown;
+}))
+    | ({
+    /** Value enum: "restricted". */
+    "access": unknown;
+    /**
+     * The scopes to grant. Required only with access restricted; forbidden with full or read_only.
+     * For a test key, use only scopes whose key_modes includes test in x-flint-scopes. The
+     * developer.sandboxes.read and developer.sandboxes.write scopes are valid on test keys;
+     * developer.partner_apps.read and developer.partner_apps.write are live-only. minItems: 1.
+     * uniqueItems: true. [] enum: "accounts.api_keys.read", "accounts.api_keys.write",
+     * "accounts.devices.read", "accounts.devices.write", "accounts.workload_identities.read",
+     * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
+     * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
+     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
+     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
+     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
+     * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
+     * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
+     * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
+     * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
+     * "commerce.invoices.read", "commerce.invoices.write", "commerce.license_keys.read",
+     * "commerce.license_keys.secrets.write", "commerce.license_keys.write",
+     * "commerce.orders.read", "commerce.orders.write", "commerce.products.read",
+     * "commerce.products.write", "commerce.promotions.read", "commerce.promotions.write",
+     * "commerce.refunds.read", "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.returns.operations.write", "commerce.returns.policies.write",
+     * "commerce.returns.read", "commerce.returns.reasons.write",
+     * "commerce.returns.resolutions.write", "commerce.returns.write",
+     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
+     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
+     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
+     * "developer.merchant_signups.read", "developer.merchant_signups.write",
+     * "developer.partner_apps.read", "developer.partner_apps.write",
+     * "developer.request_logs.read", "developer.request_logs.self.read",
+     * "developer.resource_timelines.read", "developer.sandboxes.read",
+     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
+     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
+     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
+     * "merchants.profile.read", "merchants.profile.write",
+     * "money_movement.balance_transactions.read", "money_movement.balances.read",
+     * "money_movement.payment_splits.read", "money_movement.payout_settings.read",
+     * "money_movement.payout_settings.write", "money_movement.payouts.read",
+     * "money_movement.payouts.write", "money_movement.platform_fees.read",
+     * "payments.disputes.read", "payments.disputes.write", "payments.payment_intents.read",
+     * "payments.payment_intents.write", "payments.payment_method_domains.read",
+     * "payments.payment_method_domains.write", "payments.payment_methods.read",
+     * "payments.payment_methods.write", "payments.readers.read", "payments.readers.write",
+     * "reports.read", "reports.write", "risk.controls.write", "risk.read", "risk.reviews.write",
+     * "settings.read", "settings.write", "webhooks.read", "webhooks.write". [] (Value): string.
+     * Value enum: "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read",
+     * "accounts.devices.write", "accounts.workload_identities.read",
+     * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
+     * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
+     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
+     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
+     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
+     * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
+     * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
+     * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
+     * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
+     * "commerce.invoices.read", "commerce.invoices.write", "commerce.license_keys.read",
+     * "commerce.license_keys.secrets.write", "commerce.license_keys.write",
+     * "commerce.orders.read", "commerce.orders.write", "commerce.products.read",
+     * "commerce.products.write", "commerce.promotions.read", "commerce.promotions.write",
+     * "commerce.refunds.read", "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.returns.operations.write", "commerce.returns.policies.write",
+     * "commerce.returns.read", "commerce.returns.reasons.write",
+     * "commerce.returns.resolutions.write", "commerce.returns.write",
+     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
+     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
+     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
+     * "developer.merchant_signups.read", "developer.merchant_signups.write",
+     * "developer.partner_apps.read", "developer.partner_apps.write",
+     * "developer.request_logs.read", "developer.request_logs.self.read",
+     * "developer.resource_timelines.read", "developer.sandboxes.read",
+     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
+     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
+     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
+     * "merchants.profile.read", "merchants.profile.write",
+     * "money_movement.balance_transactions.read", "money_movement.balances.read",
+     * "money_movement.payment_splits.read", "money_movement.payout_settings.read",
+     * "money_movement.payout_settings.write", "money_movement.payouts.read",
+     * "money_movement.payouts.write", "money_movement.platform_fees.read",
+     * "payments.disputes.read", "payments.disputes.write", "payments.payment_intents.read",
+     * "payments.payment_intents.write", "payments.payment_method_domains.read",
+     * "payments.payment_method_domains.write", "payments.payment_methods.read",
+     * "payments.payment_methods.write", "payments.readers.read", "payments.readers.write",
+     * "reports.read", "reports.write", "risk.controls.write", "risk.read", "risk.reviews.write",
+     * "settings.read", "settings.write", "webhooks.read", "webhooks.write".
+     */
+    "scopes": Array<"accounts.api_keys.read"
+        | "accounts.api_keys.write"
+        | "accounts.devices.read"
+        | "accounts.devices.write"
+        | "accounts.workload_identities.read"
+        | "accounts.workload_identities.write"
+        | "analytics.read"
+        | "checkouts.checkout_sessions.read"
+        | "checkouts.checkout_sessions.write"
+        | "checkouts.payment_links.read"
+        | "checkouts.payment_links.write"
+        | "commerce.bundles.read"
+        | "commerce.bundles.write"
+        | "commerce.catalog.read"
+        | "commerce.catalog.write"
+        | "commerce.credit_notes.read"
+        | "commerce.credit_notes.write"
+        | "commerce.delivery.read"
+        | "commerce.delivery.write"
+        | "commerce.gift_cards.adjustments.write"
+        | "commerce.gift_cards.read"
+        | "commerce.gift_cards.redemptions.write"
+        | "commerce.gift_cards.secrets.write"
+        | "commerce.gift_cards.write"
+        | "commerce.inventory.allocation.write"
+        | "commerce.inventory.policies.write"
+        | "commerce.inventory.read"
+        | "commerce.inventory.write"
+        | "commerce.invoices.read"
+        | "commerce.invoices.write"
+        | "commerce.license_keys.read"
+        | "commerce.license_keys.secrets.write"
+        | "commerce.license_keys.write"
+        | "commerce.orders.read"
+        | "commerce.orders.write"
+        | "commerce.products.read"
+        | "commerce.products.write"
+        | "commerce.promotions.read"
+        | "commerce.promotions.write"
+        | "commerce.refunds.read"
+        | "commerce.refunds.tax_overrides.write"
+        | "commerce.refunds.write"
+        | "commerce.returns.operations.write"
+        | "commerce.returns.policies.write"
+        | "commerce.returns.read"
+        | "commerce.returns.reasons.write"
+        | "commerce.returns.resolutions.write"
+        | "commerce.returns.write"
+        | "commerce.subscription_plans.read"
+        | "commerce.subscription_plans.write"
+        | "commerce.subscriptions.read"
+        | "commerce.subscriptions.write"
+        | "commerce.tickets.read"
+        | "commerce.tickets.write"
+        | "customers.read"
+        | "customers.sessions.write"
+        | "customers.write"
+        | "developer.merchant_signups.read"
+        | "developer.merchant_signups.write"
+        | "developer.partner_apps.read"
+        | "developer.partner_apps.write"
+        | "developer.request_logs.read"
+        | "developer.request_logs.self.read"
+        | "developer.resource_timelines.read"
+        | "developer.sandboxes.read"
+        | "developer.sandboxes.write"
+        | "developer.test_clocks.read"
+        | "developer.test_clocks.write"
+        | "merchant_billing.read"
+        | "merchants.account_sessions.write"
+        | "merchants.locations.read"
+        | "merchants.locations.write"
+        | "merchants.onboarding.read"
+        | "merchants.onboarding.write"
+        | "merchants.profile.read"
+        | "merchants.profile.write"
+        | "money_movement.balance_transactions.read"
+        | "money_movement.balances.read"
+        | "money_movement.payment_splits.read"
+        | "money_movement.payout_settings.read"
+        | "money_movement.payout_settings.write"
+        | "money_movement.payouts.read"
+        | "money_movement.payouts.write"
+        | "money_movement.platform_fees.read"
+        | "payments.disputes.read"
+        | "payments.disputes.write"
+        | "payments.payment_intents.read"
+        | "payments.payment_intents.write"
+        | "payments.payment_method_domains.read"
+        | "payments.payment_method_domains.write"
+        | "payments.payment_methods.read"
+        | "payments.payment_methods.write"
+        | "payments.readers.read"
+        | "payments.readers.write"
+        | "reports.read"
+        | "reports.write"
+        | "risk.controls.write"
+        | "risk.read"
+        | "risk.reviews.write"
+        | "settings.read"
+        | "settings.write"
+        | "webhooks.read"
+        | "webhooks.write"
+        | (string & {})>;
+})
+    | (Record<string, unknown>)))
+    | (({
+    /** Value enum: false. */
+    "issue_test_key"?: boolean;
+}))
+    | (Record<string, unknown>));
+/** The request body for: Create sandbox. */
+export type CreateSandboxRequestInput = ({
+    /**
+     * Key access. Full and read_only resolve from the current scope catalog for the key's mode;
+     * restricted holds only its listed scopes. Granting full or read_only requires a freshly
+     * verified authorized user session, or a full-access API key in the key's mode or a live
+     * full-access key granting a test key. Value enum: "full", "read_only", "restricted".
+     */
+    "access"?: "full" | "read_only" | "restricted";
+    /**
+     * The onboarding state the sandbox starts in, and returns to when you reset it. `complete`
+     * prefills a verified test identity; `not_started` leaves requirements due so you can rehearse
+     * onboarding. Default: "complete". Value enum: "complete", "not_started".
+     */
+    "initial_onboarding"?: "complete" | "not_started";
+    /**
+     * Whether to issue a test API key for the new sandbox. Defaults to `false`. When `true`, the
+     * response includes the key and its one-time `secret_key`, and `access`, `scopes`,
+     * `test_key_name`, and `test_key_expires_at` apply. When `false`, sending any of them returns
+     * 400 NOT_ALLOWED.
+     */
+    "issue_test_key"?: boolean;
+    /**
+     * Name of the new sandbox. Required. Surrounding whitespace is trimmed before length
+     * validation. A supplied value cannot be blank; use null where clearing is supported.
+     * minLength: 1.
+     */
+    "name": string;
+    /**
+     * The scopes to grant. Required only with access restricted; forbidden with full or read_only.
+     * For a test key, use only scopes whose key_modes includes test in x-flint-scopes. The
+     * developer.sandboxes.read and developer.sandboxes.write scopes are valid on test keys;
+     * developer.partner_apps.read and developer.partner_apps.write are live-only. minItems: 1.
+     * uniqueItems: true. [] enum: "accounts.api_keys.read", "accounts.api_keys.write",
+     * "accounts.devices.read", "accounts.devices.write", "accounts.workload_identities.read",
+     * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
+     * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
+     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
+     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
+     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
+     * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
+     * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
+     * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
+     * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
+     * "commerce.invoices.read", "commerce.invoices.write", "commerce.license_keys.read",
+     * "commerce.license_keys.secrets.write", "commerce.license_keys.write",
+     * "commerce.orders.read", "commerce.orders.write", "commerce.products.read",
+     * "commerce.products.write", "commerce.promotions.read", "commerce.promotions.write",
+     * "commerce.refunds.read", "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.returns.operations.write", "commerce.returns.policies.write",
+     * "commerce.returns.read", "commerce.returns.reasons.write",
+     * "commerce.returns.resolutions.write", "commerce.returns.write",
+     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
+     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
+     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
+     * "developer.merchant_signups.read", "developer.merchant_signups.write",
+     * "developer.partner_apps.read", "developer.partner_apps.write",
+     * "developer.request_logs.read", "developer.request_logs.self.read",
+     * "developer.resource_timelines.read", "developer.sandboxes.read",
+     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
+     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
+     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
+     * "merchants.profile.read", "merchants.profile.write",
+     * "money_movement.balance_transactions.read", "money_movement.balances.read",
+     * "money_movement.payment_splits.read", "money_movement.payout_settings.read",
+     * "money_movement.payout_settings.write", "money_movement.payouts.read",
+     * "money_movement.payouts.write", "money_movement.platform_fees.read",
+     * "payments.disputes.read", "payments.disputes.write", "payments.payment_intents.read",
+     * "payments.payment_intents.write", "payments.payment_method_domains.read",
+     * "payments.payment_method_domains.write", "payments.payment_methods.read",
+     * "payments.payment_methods.write", "payments.readers.read", "payments.readers.write",
+     * "reports.read", "reports.write", "risk.controls.write", "risk.read", "risk.reviews.write",
+     * "settings.read", "settings.write", "webhooks.read", "webhooks.write". [] (Value): string.
+     * Value enum: "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read",
+     * "accounts.devices.write", "accounts.workload_identities.read",
+     * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
+     * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
+     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
+     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
+     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
+     * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
+     * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
+     * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
+     * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
+     * "commerce.invoices.read", "commerce.invoices.write", "commerce.license_keys.read",
+     * "commerce.license_keys.secrets.write", "commerce.license_keys.write",
+     * "commerce.orders.read", "commerce.orders.write", "commerce.products.read",
+     * "commerce.products.write", "commerce.promotions.read", "commerce.promotions.write",
+     * "commerce.refunds.read", "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.returns.operations.write", "commerce.returns.policies.write",
+     * "commerce.returns.read", "commerce.returns.reasons.write",
+     * "commerce.returns.resolutions.write", "commerce.returns.write",
+     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
+     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
+     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
+     * "developer.merchant_signups.read", "developer.merchant_signups.write",
+     * "developer.partner_apps.read", "developer.partner_apps.write",
+     * "developer.request_logs.read", "developer.request_logs.self.read",
+     * "developer.resource_timelines.read", "developer.sandboxes.read",
+     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
+     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
+     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
+     * "merchants.profile.read", "merchants.profile.write",
+     * "money_movement.balance_transactions.read", "money_movement.balances.read",
+     * "money_movement.payment_splits.read", "money_movement.payout_settings.read",
+     * "money_movement.payout_settings.write", "money_movement.payouts.read",
+     * "money_movement.payouts.write", "money_movement.platform_fees.read",
+     * "payments.disputes.read", "payments.disputes.write", "payments.payment_intents.read",
+     * "payments.payment_intents.write", "payments.payment_method_domains.read",
+     * "payments.payment_method_domains.write", "payments.payment_methods.read",
+     * "payments.payment_methods.write", "payments.readers.read", "payments.readers.write",
+     * "reports.read", "reports.write", "risk.controls.write", "risk.read", "risk.reviews.write",
+     * "settings.read", "settings.write", "webhooks.read", "webhooks.write".
+     */
+    "scopes"?: Array<"accounts.api_keys.read"
+        | "accounts.api_keys.write"
+        | "accounts.devices.read"
+        | "accounts.devices.write"
+        | "accounts.workload_identities.read"
+        | "accounts.workload_identities.write"
+        | "analytics.read"
+        | "checkouts.checkout_sessions.read"
+        | "checkouts.checkout_sessions.write"
+        | "checkouts.payment_links.read"
+        | "checkouts.payment_links.write"
+        | "commerce.bundles.read"
+        | "commerce.bundles.write"
+        | "commerce.catalog.read"
+        | "commerce.catalog.write"
+        | "commerce.credit_notes.read"
+        | "commerce.credit_notes.write"
+        | "commerce.delivery.read"
+        | "commerce.delivery.write"
+        | "commerce.gift_cards.adjustments.write"
+        | "commerce.gift_cards.read"
+        | "commerce.gift_cards.redemptions.write"
+        | "commerce.gift_cards.secrets.write"
+        | "commerce.gift_cards.write"
+        | "commerce.inventory.allocation.write"
+        | "commerce.inventory.policies.write"
+        | "commerce.inventory.read"
+        | "commerce.inventory.write"
+        | "commerce.invoices.read"
+        | "commerce.invoices.write"
+        | "commerce.license_keys.read"
+        | "commerce.license_keys.secrets.write"
+        | "commerce.license_keys.write"
+        | "commerce.orders.read"
+        | "commerce.orders.write"
+        | "commerce.products.read"
+        | "commerce.products.write"
+        | "commerce.promotions.read"
+        | "commerce.promotions.write"
+        | "commerce.refunds.read"
+        | "commerce.refunds.tax_overrides.write"
+        | "commerce.refunds.write"
+        | "commerce.returns.operations.write"
+        | "commerce.returns.policies.write"
+        | "commerce.returns.read"
+        | "commerce.returns.reasons.write"
+        | "commerce.returns.resolutions.write"
+        | "commerce.returns.write"
+        | "commerce.subscription_plans.read"
+        | "commerce.subscription_plans.write"
+        | "commerce.subscriptions.read"
+        | "commerce.subscriptions.write"
+        | "commerce.tickets.read"
+        | "commerce.tickets.write"
+        | "customers.read"
+        | "customers.sessions.write"
+        | "customers.write"
+        | "developer.merchant_signups.read"
+        | "developer.merchant_signups.write"
+        | "developer.partner_apps.read"
+        | "developer.partner_apps.write"
+        | "developer.request_logs.read"
+        | "developer.request_logs.self.read"
+        | "developer.resource_timelines.read"
+        | "developer.sandboxes.read"
+        | "developer.sandboxes.write"
+        | "developer.test_clocks.read"
+        | "developer.test_clocks.write"
+        | "merchant_billing.read"
+        | "merchants.account_sessions.write"
+        | "merchants.locations.read"
+        | "merchants.locations.write"
+        | "merchants.onboarding.read"
+        | "merchants.onboarding.write"
+        | "merchants.profile.read"
+        | "merchants.profile.write"
+        | "money_movement.balance_transactions.read"
+        | "money_movement.balances.read"
+        | "money_movement.payment_splits.read"
+        | "money_movement.payout_settings.read"
+        | "money_movement.payout_settings.write"
+        | "money_movement.payouts.read"
+        | "money_movement.payouts.write"
+        | "money_movement.platform_fees.read"
+        | "payments.disputes.read"
+        | "payments.disputes.write"
+        | "payments.payment_intents.read"
+        | "payments.payment_intents.write"
+        | "payments.payment_method_domains.read"
+        | "payments.payment_method_domains.write"
+        | "payments.payment_methods.read"
+        | "payments.payment_methods.write"
+        | "payments.readers.read"
+        | "payments.readers.write"
+        | "reports.read"
+        | "reports.write"
+        | "risk.controls.write"
+        | "risk.read"
+        | "risk.reviews.write"
+        | "settings.read"
+        | "settings.write"
+        | "webhooks.read"
+        | "webhooks.write">;
+    /**
+     * Future RFC 3339 timestamp when the issued test key expires. Allowed only with issue_test_key
+     * true. Omit for a key that doesn't expire. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "test_key_expires_at"?: string | globalThis.Date;
+    /**
+     * Name for the issued test key, 1 to 100 characters. Allowed only with issue_test_key true.
+     * Defaults to the sandbox name followed by `Test Key`. minLength: 1. maxLength: 100.
+     */
+    "test_key_name"?: string;
+})
+    & ((({
+    /** Value enum: true. */
+    "issue_test_key": true;
+})
+    & ((({
+    /** Value enum: "full". */
+    "access": ("full") & ("full");
+})
+    & ({
+    "scopes"?: never;
+}))
+    | (({
+    /** Value enum: "read_only". */
+    "access": ("read_only") & ("read_only");
+})
+    & ({
+    "scopes"?: never;
+}))
+    | ({
+    /** Value enum: "restricted". */
+    "access": ("restricted") & ("restricted");
+    /**
+     * The scopes to grant. Required only with access restricted; forbidden with full or read_only.
+     * For a test key, use only scopes whose key_modes includes test in x-flint-scopes. The
+     * developer.sandboxes.read and developer.sandboxes.write scopes are valid on test keys;
+     * developer.partner_apps.read and developer.partner_apps.write are live-only. minItems: 1.
+     * uniqueItems: true. [] enum: "accounts.api_keys.read", "accounts.api_keys.write",
+     * "accounts.devices.read", "accounts.devices.write", "accounts.workload_identities.read",
+     * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
+     * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
+     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
+     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
+     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
+     * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
+     * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
+     * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
+     * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
+     * "commerce.invoices.read", "commerce.invoices.write", "commerce.license_keys.read",
+     * "commerce.license_keys.secrets.write", "commerce.license_keys.write",
+     * "commerce.orders.read", "commerce.orders.write", "commerce.products.read",
+     * "commerce.products.write", "commerce.promotions.read", "commerce.promotions.write",
+     * "commerce.refunds.read", "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.returns.operations.write", "commerce.returns.policies.write",
+     * "commerce.returns.read", "commerce.returns.reasons.write",
+     * "commerce.returns.resolutions.write", "commerce.returns.write",
+     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
+     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
+     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
+     * "developer.merchant_signups.read", "developer.merchant_signups.write",
+     * "developer.partner_apps.read", "developer.partner_apps.write",
+     * "developer.request_logs.read", "developer.request_logs.self.read",
+     * "developer.resource_timelines.read", "developer.sandboxes.read",
+     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
+     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
+     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
+     * "merchants.profile.read", "merchants.profile.write",
+     * "money_movement.balance_transactions.read", "money_movement.balances.read",
+     * "money_movement.payment_splits.read", "money_movement.payout_settings.read",
+     * "money_movement.payout_settings.write", "money_movement.payouts.read",
+     * "money_movement.payouts.write", "money_movement.platform_fees.read",
+     * "payments.disputes.read", "payments.disputes.write", "payments.payment_intents.read",
+     * "payments.payment_intents.write", "payments.payment_method_domains.read",
+     * "payments.payment_method_domains.write", "payments.payment_methods.read",
+     * "payments.payment_methods.write", "payments.readers.read", "payments.readers.write",
+     * "reports.read", "reports.write", "risk.controls.write", "risk.read", "risk.reviews.write",
+     * "settings.read", "settings.write", "webhooks.read", "webhooks.write". [] (Value): string.
+     * Value enum: "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read",
+     * "accounts.devices.write", "accounts.workload_identities.read",
+     * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
+     * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
+     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
+     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
+     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
+     * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
+     * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
+     * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
+     * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
+     * "commerce.invoices.read", "commerce.invoices.write", "commerce.license_keys.read",
+     * "commerce.license_keys.secrets.write", "commerce.license_keys.write",
+     * "commerce.orders.read", "commerce.orders.write", "commerce.products.read",
+     * "commerce.products.write", "commerce.promotions.read", "commerce.promotions.write",
+     * "commerce.refunds.read", "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.returns.operations.write", "commerce.returns.policies.write",
+     * "commerce.returns.read", "commerce.returns.reasons.write",
+     * "commerce.returns.resolutions.write", "commerce.returns.write",
+     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
+     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
+     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
+     * "developer.merchant_signups.read", "developer.merchant_signups.write",
+     * "developer.partner_apps.read", "developer.partner_apps.write",
+     * "developer.request_logs.read", "developer.request_logs.self.read",
+     * "developer.resource_timelines.read", "developer.sandboxes.read",
+     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
+     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
+     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
+     * "merchants.profile.read", "merchants.profile.write",
+     * "money_movement.balance_transactions.read", "money_movement.balances.read",
+     * "money_movement.payment_splits.read", "money_movement.payout_settings.read",
+     * "money_movement.payout_settings.write", "money_movement.payouts.read",
+     * "money_movement.payouts.write", "money_movement.platform_fees.read",
+     * "payments.disputes.read", "payments.disputes.write", "payments.payment_intents.read",
+     * "payments.payment_intents.write", "payments.payment_method_domains.read",
+     * "payments.payment_method_domains.write", "payments.payment_methods.read",
+     * "payments.payment_methods.write", "payments.readers.read", "payments.readers.write",
+     * "reports.read", "reports.write", "risk.controls.write", "risk.read", "risk.reviews.write",
+     * "settings.read", "settings.write", "webhooks.read", "webhooks.write".
+     */
+    "scopes": Array<"accounts.api_keys.read"
+        | "accounts.api_keys.write"
+        | "accounts.devices.read"
+        | "accounts.devices.write"
+        | "accounts.workload_identities.read"
+        | "accounts.workload_identities.write"
+        | "analytics.read"
+        | "checkouts.checkout_sessions.read"
+        | "checkouts.checkout_sessions.write"
+        | "checkouts.payment_links.read"
+        | "checkouts.payment_links.write"
+        | "commerce.bundles.read"
+        | "commerce.bundles.write"
+        | "commerce.catalog.read"
+        | "commerce.catalog.write"
+        | "commerce.credit_notes.read"
+        | "commerce.credit_notes.write"
+        | "commerce.delivery.read"
+        | "commerce.delivery.write"
+        | "commerce.gift_cards.adjustments.write"
+        | "commerce.gift_cards.read"
+        | "commerce.gift_cards.redemptions.write"
+        | "commerce.gift_cards.secrets.write"
+        | "commerce.gift_cards.write"
+        | "commerce.inventory.allocation.write"
+        | "commerce.inventory.policies.write"
+        | "commerce.inventory.read"
+        | "commerce.inventory.write"
+        | "commerce.invoices.read"
+        | "commerce.invoices.write"
+        | "commerce.license_keys.read"
+        | "commerce.license_keys.secrets.write"
+        | "commerce.license_keys.write"
+        | "commerce.orders.read"
+        | "commerce.orders.write"
+        | "commerce.products.read"
+        | "commerce.products.write"
+        | "commerce.promotions.read"
+        | "commerce.promotions.write"
+        | "commerce.refunds.read"
+        | "commerce.refunds.tax_overrides.write"
+        | "commerce.refunds.write"
+        | "commerce.returns.operations.write"
+        | "commerce.returns.policies.write"
+        | "commerce.returns.read"
+        | "commerce.returns.reasons.write"
+        | "commerce.returns.resolutions.write"
+        | "commerce.returns.write"
+        | "commerce.subscription_plans.read"
+        | "commerce.subscription_plans.write"
+        | "commerce.subscriptions.read"
+        | "commerce.subscriptions.write"
+        | "commerce.tickets.read"
+        | "commerce.tickets.write"
+        | "customers.read"
+        | "customers.sessions.write"
+        | "customers.write"
+        | "developer.merchant_signups.read"
+        | "developer.merchant_signups.write"
+        | "developer.partner_apps.read"
+        | "developer.partner_apps.write"
+        | "developer.request_logs.read"
+        | "developer.request_logs.self.read"
+        | "developer.resource_timelines.read"
+        | "developer.sandboxes.read"
+        | "developer.sandboxes.write"
+        | "developer.test_clocks.read"
+        | "developer.test_clocks.write"
+        | "merchant_billing.read"
+        | "merchants.account_sessions.write"
+        | "merchants.locations.read"
+        | "merchants.locations.write"
+        | "merchants.onboarding.read"
+        | "merchants.onboarding.write"
+        | "merchants.profile.read"
+        | "merchants.profile.write"
+        | "money_movement.balance_transactions.read"
+        | "money_movement.balances.read"
+        | "money_movement.payment_splits.read"
+        | "money_movement.payout_settings.read"
+        | "money_movement.payout_settings.write"
+        | "money_movement.payouts.read"
+        | "money_movement.payouts.write"
+        | "money_movement.platform_fees.read"
+        | "payments.disputes.read"
+        | "payments.disputes.write"
+        | "payments.payment_intents.read"
+        | "payments.payment_intents.write"
+        | "payments.payment_method_domains.read"
+        | "payments.payment_method_domains.write"
+        | "payments.payment_methods.read"
+        | "payments.payment_methods.write"
+        | "payments.readers.read"
+        | "payments.readers.write"
+        | "reports.read"
+        | "reports.write"
+        | "risk.controls.write"
+        | "risk.read"
+        | "risk.reviews.write"
+        | "settings.read"
+        | "settings.write"
+        | "webhooks.read"
+        | "webhooks.write">;
+})))
+    | (({
+    /** Value enum: false. */
+    "issue_test_key"?: false;
+})
+    & (({
+    "access"?: never;
+})
+    & ({
+    "scopes"?: never;
+})
+    & ({
+    "test_key_name"?: never;
+})
+    & ({
+    "test_key_expires_at"?: never;
+}))));
+/**
+ * Service details you supply when creating a fulfillment: the scheduled start and end, timezone,
+ * and notes.
+ */
+export type CreateServiceFulfillmentDetails = {
+    /** Additional instructions or notes for performing the service. minLength: 1. */
+    "notes"?: string;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "scheduled_end_at"?: string;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "scheduled_start_at"?: string;
+    /** Uses an IANA time zone name. minLength: 1. */
+    "timezone"?: string;
+};
+/**
+ * Service details you supply when creating a fulfillment: the scheduled start and end, timezone,
+ * and notes.
+ */
+export type CreateServiceFulfillmentDetailsInput = {
+    /** Additional instructions or notes for performing the service. minLength: 1. */
+    "notes"?: string;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "scheduled_end_at"?: string | globalThis.Date;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "scheduled_start_at"?: string | globalThis.Date;
+    /** Uses an IANA time zone name. minLength: 1. */
+    "timezone"?: string;
+};
+/** The request body for: Create shipment. */
+export type CreateShipmentRequest = ({
+    /**
+     * Whether the shipment sends items to the buyer or returns items to the merchant. Value enum:
+     * "outbound", "return".
+     */
+    "direction": "outbound" | "return" | (string & {});
+    /**
+     * Caller-owned identifier for this resource in an external system. Requires external_system.
+     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
+     * maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Name of the external system that external_reference_id belongs to. External references are
+     * not unique. Use Idempotency-Key for retries. minLength: 1.
+     */
+    "external_system"?: string;
+    /**
+     * Shipment fulfillment that owns an outbound shipment. Required when direction is outbound;
+     * forbidden when direction is return. minLength: 1. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+     */
+    "fulfillment_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Creates packages atomically with an outbound shipment. Items are optional per package.
+     * Created packages are included in the response. minItems: 1. maxItems: 20. [] (Value): {@link
+     * PackageCreateRequest}. Package to create inline with its enclosing shipment or fulfillment.
+     * Set status to created before handoff, or shipped to report handoff during creation.
+     */
+    "packages"?: Array<PackageCreateRequest>;
+    /**
+     * Return associated with this shipment, when its direction is return. minLength: 1. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id"?: string;
+    /**
+     * Return lines and quantities the shipment carries. minItems: 1. [] (Value): {@link
+     * ReturnResolutionLineItemRequest}. A Return line and the quantity to place in a return
+     * shipment or package. The enclosing Return or shipment determines its parent.
+     */
+    "return_line_items"?: Array<ReturnResolutionLineItemRequest>;
+})
+    & ((Exclude<CreateShipmentRequestOutbound & object, readonly unknown[]>)
+    | (Exclude<CreateShipmentRequestReturn & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** The request body for: Create shipment. */
+export type CreateShipmentRequestInput = ({
+    /**
+     * Whether the shipment sends items to the buyer or returns items to the merchant. Value enum:
+     * "outbound", "return".
+     */
+    "direction": "outbound" | "return";
+    /**
+     * Caller-owned identifier for this resource in an external system. Requires external_system.
+     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
+     * maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Name of the external system that external_reference_id belongs to. External references are
+     * not unique. Use Idempotency-Key for retries. minLength: 1.
+     */
+    "external_system"?: string;
+    /**
+     * Shipment fulfillment that owns an outbound shipment. Required when direction is outbound;
+     * forbidden when direction is return. minLength: 1. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+     */
+    "fulfillment_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Creates packages atomically with an outbound shipment. Items are optional per package.
+     * Created packages are included in the response. minItems: 1. maxItems: 20. [] (Value): {@link
+     * PackageCreateRequestInput}. Package to create inline with its enclosing shipment or
+     * fulfillment. Set status to created before handoff, or shipped to report handoff during
+     * creation.
+     */
+    "packages"?: Array<PackageCreateRequestInput>;
+    /**
+     * Return associated with this shipment, when its direction is return. minLength: 1. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id"?: string;
+    /**
+     * Return lines and quantities the shipment carries. minItems: 1. [] (Value): {@link
+     * ReturnShipmentLineItemAllocationRequestInput}. A Return line and the quantity to place in a
+     * return shipment or package. The enclosing Return or shipment determines its parent.
+     */
+    "return_line_items"?: Array<ReturnShipmentLineItemAllocationRequestInput>;
+})
+    & ((Exclude<CreateShipmentRequestOutboundInput & object, readonly unknown[]>)
+    | (Exclude<CreateShipmentRequestReturnInput & object, readonly unknown[]>));
+/** The `outbound` variant of `CreateShipmentRequest`. */
+export type CreateShipmentRequestOutbound = ({
+    /**
+     * Whether the shipment sends items to the buyer or returns items to the merchant. Value enum:
+     * "outbound".
+     */
+    "direction": "outbound" | (string & {});
+    /**
+     * Caller-owned identifier for this resource in an external system. Requires external_system.
+     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
+     * maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Name of the external system that external_reference_id belongs to. External references are
+     * not unique. Use Idempotency-Key for retries. minLength: 1.
+     */
+    "external_system"?: string;
+    /**
+     * Shipment fulfillment that owns an outbound shipment. Required when direction is outbound;
+     * forbidden when direction is return. minLength: 1. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+     */
+    "fulfillment_id": string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Creates packages atomically with an outbound shipment. Items are optional per package.
+     * Created packages are included in the response. minItems: 1. maxItems: 20. [] (Value): {@link
+     * PackageCreateRequest}. Package to create inline with its enclosing shipment or fulfillment.
+     * Set status to created before handoff, or shipped to report handoff during creation.
+     */
+    "packages"?: Array<PackageCreateRequest>;
+    /**
+     * Return associated with this shipment, when its direction is return. minLength: 1. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id"?: string;
+    /**
+     * Return lines and quantities the shipment carries. minItems: 1. [] (Value): {@link
+     * ReturnResolutionLineItemRequest}. A Return line and the quantity to place in a return
+     * shipment or package. The enclosing Return or shipment determines its parent.
+     */
+    "return_line_items"?: Array<ReturnResolutionLineItemRequest>;
+});
+/** The `outbound` variant of `CreateShipmentRequest`. */
+export type CreateShipmentRequestOutboundInput = ({
+    /**
+     * Whether the shipment sends items to the buyer or returns items to the merchant. Value enum:
+     * "outbound".
+     */
+    "direction": "outbound";
+    /**
+     * Caller-owned identifier for this resource in an external system. Requires external_system.
+     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
+     * maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Name of the external system that external_reference_id belongs to. External references are
+     * not unique. Use Idempotency-Key for retries. minLength: 1.
+     */
+    "external_system"?: string;
+    /**
+     * Shipment fulfillment that owns an outbound shipment. Required when direction is outbound;
+     * forbidden when direction is return. minLength: 1. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+     */
+    "fulfillment_id": string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Creates packages atomically with an outbound shipment. Items are optional per package.
+     * Created packages are included in the response. minItems: 1. maxItems: 20. [] (Value): {@link
+     * PackageCreateRequestInput}. Package to create inline with its enclosing shipment or
+     * fulfillment. Set status to created before handoff, or shipped to report handoff during
+     * creation.
+     */
+    "packages"?: Array<PackageCreateRequestInput>;
+    /**
+     * Return associated with this shipment, when its direction is return. minLength: 1. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id"?: string;
+    /**
+     * Return lines and quantities the shipment carries. minItems: 1. [] (Value): {@link
+     * ReturnShipmentLineItemAllocationRequestInput}. A Return line and the quantity to place in a
+     * return shipment or package. The enclosing Return or shipment determines its parent.
+     */
+    "return_line_items"?: Array<ReturnShipmentLineItemAllocationRequestInput>;
+})
+    & (({
+    "return_id"?: never;
+}))
+    & (({
+    "return_line_items"?: never;
+}));
+/** The `return` variant of `CreateShipmentRequest`. */
+export type CreateShipmentRequestReturn = ({
+    /**
+     * Whether the shipment sends items to the buyer or returns items to the merchant. Value enum:
+     * "return".
+     */
+    "direction": "return" | (string & {});
+    /**
+     * Caller-owned identifier for this resource in an external system. Requires external_system.
+     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
+     * maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Name of the external system that external_reference_id belongs to. External references are
+     * not unique. Use Idempotency-Key for retries. minLength: 1.
+     */
+    "external_system"?: string;
+    /**
+     * Shipment fulfillment that owns an outbound shipment. Required when direction is outbound;
+     * forbidden when direction is return. minLength: 1. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+     */
+    "fulfillment_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Creates packages atomically with an outbound shipment. Items are optional per package.
+     * Created packages are included in the response. minItems: 1. maxItems: 20. [] (Value): {@link
+     * PackageCreateRequest}. Package to create inline with its enclosing shipment or fulfillment.
+     * Set status to created before handoff, or shipped to report handoff during creation.
+     */
+    "packages"?: Array<PackageCreateRequest>;
+    /**
+     * Return associated with this shipment, when its direction is return. minLength: 1. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id": string;
+    /**
+     * Return lines and quantities the shipment carries. minItems: 1. [] (Value): {@link
+     * ReturnResolutionLineItemRequest}. A Return line and the quantity to place in a return
+     * shipment or package. The enclosing Return or shipment determines its parent.
+     */
+    "return_line_items": Array<ReturnResolutionLineItemRequest>;
+});
 /** The `return` variant of `CreateShipmentRequest`. */
 export type CreateShipmentRequestReturnInput = ({
     /**
@@ -140,7 +1394,11 @@ export type CreateSmartReaderRequest = {
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataMap;
-    /** Your label for the reader. minLength: 1. maxLength: 255. */
+    /**
+     * Your label for the reader. Surrounding whitespace is trimmed before length validation. A
+     * supplied value cannot be blank; use null where clearing is supported. minLength: 1.
+     * maxLength: 255.
+     */
     "name": string;
     /**
      * The pairing code the reader shows under Settings. In a sandbox, `simulated-s700` registers a
@@ -174,7 +1432,11 @@ export type CreateSmartReaderRequestInput = {
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataRequestInput;
-    /** Your label for the reader. minLength: 1. maxLength: 255. */
+    /**
+     * Your label for the reader. Surrounding whitespace is trimmed before length validation. A
+     * supplied value cannot be blank; use null where clearing is supported. minLength: 1.
+     * maxLength: 255.
+     */
     "name": string;
     /**
      * The pairing code the reader shows under Settings. In a sandbox, `simulated-s700` registers a
@@ -455,7 +1717,8 @@ export type CreateSubscriptionOfferRequest = {
     "metadata"?: MetadataMap;
     /**
      * Name of the offer. Buyers see it on the order lines it covers, so write it for them.
-     * minLength: 1. maxLength: 255.
+     * Surrounding whitespace is trimmed before length validation. A supplied value cannot be
+     * blank; use null where clearing is supported. minLength: 1. maxLength: 255.
      */
     "name": string;
     /**
@@ -517,7 +1780,8 @@ export type CreateSubscriptionOfferRequestInput = {
     "metadata"?: MetadataRequestInput;
     /**
      * Name of the offer. Buyers see it on the order lines it covers, so write it for them.
-     * minLength: 1. maxLength: 255.
+     * Surrounding whitespace is trimmed before length validation. A supplied value cannot be
+     * blank; use null where clearing is supported. minLength: 1. maxLength: 255.
      */
     "name": string;
     /**
@@ -663,7 +1927,8 @@ export type CreateSubscriptionPlanRequest = {
     "metadata"?: MetadataMap;
     /**
      * Name of the plan. Buyers see it at checkout and on their subscription. Required, and can't
-     * be empty. minLength: 1.
+     * be empty. Surrounding whitespace is trimmed before length validation. A supplied value
+     * cannot be blank; use null where clearing is supported. minLength: 1.
      */
     "name": string;
     /**
@@ -813,7 +2078,8 @@ export type CreateSubscriptionPlanRequestInput = {
     "metadata"?: MetadataRequestInput;
     /**
      * Name of the plan. Buyers see it at checkout and on their subscription. Required, and can't
-     * be empty. minLength: 1.
+     * be empty. Surrounding whitespace is trimmed before length validation. A supplied value
+     * cannot be blank; use null where clearing is supported. minLength: 1.
      */
     "name": string;
     /**
@@ -1405,7 +2671,11 @@ export type CreateTapToPayReaderRequest = {
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataMap;
-    /** Your label for the reader. minLength: 1. maxLength: 255. */
+    /**
+     * Your label for the reader. Surrounding whitespace is trimmed before length validation. A
+     * supplied value cannot be blank; use null where clearing is supported. minLength: 1.
+     * maxLength: 255.
+     */
     "name": string;
     /** `tap_to_pay`. Value enum: "tap_to_pay". */
     "type": "tap_to_pay" | (string & {});
@@ -1433,7 +2703,11 @@ export type CreateTapToPayReaderRequestInput = {
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataRequestInput;
-    /** Your label for the reader. minLength: 1. maxLength: 255. */
+    /**
+     * Your label for the reader. Surrounding whitespace is trimmed before length validation. A
+     * supplied value cannot be blank; use null where clearing is supported. minLength: 1.
+     * maxLength: 255.
+     */
     "name": string;
     /** `tap_to_pay`. Value enum: "tap_to_pay". */
     "type": "tap_to_pay";
@@ -1451,7 +2725,11 @@ export type CreateTaxCalculationCallbackRequest = {
      * 255. Example: "warehouse-1842".
      */
     "external_reference_id"?: string;
-    /** Your label for the callback, from 1 to 255 characters. minLength: 1. maxLength: 255. */
+    /**
+     * Your label for the callback, from 1 to 255 characters. Surrounding whitespace is trimmed
+     * before length validation. A supplied value cannot be blank; use null where clearing is
+     * supported. minLength: 1. maxLength: 255.
+     */
     "name": string;
     /**
      * How Flint signs requests to your endpoint: `jwt` for a bearer JWT you verify with Flint's
@@ -1474,7 +2752,11 @@ export type CreateTaxCalculationCallbackRequestInput = {
      * 255. Example: "warehouse-1842".
      */
     "external_reference_id"?: string;
-    /** Your label for the callback, from 1 to 255 characters. minLength: 1. maxLength: 255. */
+    /**
+     * Your label for the callback, from 1 to 255 characters. Surrounding whitespace is trimmed
+     * before length validation. A supplied value cannot be blank; use null where clearing is
+     * supported. minLength: 1. maxLength: 255.
+     */
     "name": string;
     /**
      * How Flint signs requests to your endpoint: `jwt` for a bearer JWT you verify with Flint's
@@ -1670,7 +2952,11 @@ export type CreateTestClockRequest = {
      * truncated. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      */
     "frozen_at"?: string;
-    /** Your label for the test clock. minLength: 1. maxLength: 255. */
+    /**
+     * Your label for the test clock. Surrounding whitespace is trimmed before length validation. A
+     * supplied value cannot be blank; use null where clearing is supported. minLength: 1.
+     * maxLength: 255.
+     */
     "name"?: string;
 };
 /** The request body for: Create a test clock. */
@@ -1681,7 +2967,11 @@ export type CreateTestClockRequestInput = {
      * truncated. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      */
     "frozen_at"?: string | globalThis.Date;
-    /** Your label for the test clock. minLength: 1. maxLength: 255. */
+    /**
+     * Your label for the test clock. Surrounding whitespace is trimmed before length validation. A
+     * supplied value cannot be blank; use null where clearing is supported. minLength: 1.
+     * maxLength: 255.
+     */
     "name"?: string;
 };
 /** The request body for: Create webhook delivery. */
@@ -1710,6 +3000,7 @@ export type CreateWebhookEndpointRequest = ({
     "api_version"?: string;
     /**
      * Your description of this endpoint. `null` is the same as omitting the field. minLength: 1.
+     * maxLength: 500.
      */
     "description"?: string;
     /**
@@ -1760,7 +3051,7 @@ export type CreateWebhookEndpointRequest = ({
      * Whether this endpoint receives events. Defaults to active. Value enum: "active", "inactive".
      */
     "status"?: "active" | "inactive" | (string & {});
-    /** Public HTTPS URL to receive webhook deliveries. minLength: 1. */
+    /** Public HTTPS URL to receive webhook deliveries. minLength: 1. maxLength: 2048. */
     "url": string;
 });
 /** The request body for: Create webhook endpoint. */
@@ -1773,6 +3064,7 @@ export type CreateWebhookEndpointRequestInput = ({
     "api_version"?: string;
     /**
      * Your description of this endpoint. `null` is the same as omitting the field. minLength: 1.
+     * maxLength: 500.
      */
     "description"?: string;
     /**
@@ -1823,7 +3115,7 @@ export type CreateWebhookEndpointRequestInput = ({
      * Whether this endpoint receives events. Defaults to active. Value enum: "active", "inactive".
      */
     "status"?: "active" | "inactive";
-    /** Public HTTPS URL to receive webhook deliveries. minLength: 1. */
+    /** Public HTTPS URL to receive webhook deliveries. minLength: 1. maxLength: 2048. */
     "url": string;
 });
 /** The request body for: Create webhook test event. */
@@ -1879,15 +3171,18 @@ export type CreateWebhookTestEventRequest = {
      * "invoice_manual_payment.created", "invoice_manual_payment.reversed",
      * "invoice_payment_attempt.canceled", "invoice_payment_attempt.expired",
      * "invoice_payment_attempt.failed", "invoice_payment_attempt.processing",
-     * "invoice_payment_attempt.succeeded", "merchant.readiness_updated", "merchant.updated",
-     * "merchant_billing_balance.updated", "merchant_billing_invoice.issued",
-     * "merchant_billing_invoice.updated", "modifier_group.archived", "modifier_group.created",
-     * "modifier_group.updated", "modifier_set.archived", "modifier_set.created",
-     * "modifier_set.updated", "order.closed", "order.created",
-     * "order.inventory_exception_created", "order.inventory_exception_resolved", "order.paid",
-     * "order.partially_paid", "order.partially_refunded", "order.refunded", "order.updated",
-     * "order_edit.canceled", "order_edit.completed", "order_edit.created", "order_edit.updated",
-     * "package.created", "package.updated", "partner_app.platform_approved",
+     * "invoice_payment_attempt.succeeded", "license_key.created", "license_key.disabled",
+     * "license_key.expired", "license_key.updated", "license_key_activation.created",
+     * "license_key_activation.released", "license_key_pool.archived", "license_key_pool.created",
+     * "license_key_pool.low_stock", "license_key_pool.out_of_stock", "license_key_pool.updated",
+     * "merchant.readiness_updated", "merchant.updated", "merchant_billing_balance.updated",
+     * "merchant_billing_invoice.issued", "merchant_billing_invoice.updated",
+     * "modifier_group.archived", "modifier_group.created", "modifier_group.updated",
+     * "modifier_set.archived", "modifier_set.created", "modifier_set.updated", "order.closed",
+     * "order.created", "order.inventory_exception_created", "order.inventory_exception_resolved",
+     * "order.paid", "order.partially_paid", "order.partially_refunded", "order.refunded",
+     * "order.updated", "order_edit.canceled", "order_edit.completed", "order_edit.created",
+     * "order_edit.updated", "package.created", "package.updated", "partner_app.platform_approved",
      * "partner_app.platform_limited", "partner_app.platform_rejected", "partner_app.updated",
      * "partner_app_install.created", "partner_app_install.permissions_updated",
      * "partner_app_install.revoked", "partner_app_install.updated",
@@ -2070,6 +3365,17 @@ export type CreateWebhookTestEventRequest = {
         | "invoice_payment_attempt.failed"
         | "invoice_payment_attempt.processing"
         | "invoice_payment_attempt.succeeded"
+        | "license_key.created"
+        | "license_key.disabled"
+        | "license_key.expired"
+        | "license_key.updated"
+        | "license_key_activation.created"
+        | "license_key_activation.released"
+        | "license_key_pool.archived"
+        | "license_key_pool.created"
+        | "license_key_pool.low_stock"
+        | "license_key_pool.out_of_stock"
+        | "license_key_pool.updated"
         | "merchant.readiness_updated"
         | "merchant.updated"
         | "merchant_billing_balance.updated"
@@ -2285,15 +3591,18 @@ export type CreateWebhookTestEventRequestInput = {
      * "invoice_manual_payment.created", "invoice_manual_payment.reversed",
      * "invoice_payment_attempt.canceled", "invoice_payment_attempt.expired",
      * "invoice_payment_attempt.failed", "invoice_payment_attempt.processing",
-     * "invoice_payment_attempt.succeeded", "merchant.readiness_updated", "merchant.updated",
-     * "merchant_billing_balance.updated", "merchant_billing_invoice.issued",
-     * "merchant_billing_invoice.updated", "modifier_group.archived", "modifier_group.created",
-     * "modifier_group.updated", "modifier_set.archived", "modifier_set.created",
-     * "modifier_set.updated", "order.closed", "order.created",
-     * "order.inventory_exception_created", "order.inventory_exception_resolved", "order.paid",
-     * "order.partially_paid", "order.partially_refunded", "order.refunded", "order.updated",
-     * "order_edit.canceled", "order_edit.completed", "order_edit.created", "order_edit.updated",
-     * "package.created", "package.updated", "partner_app.platform_approved",
+     * "invoice_payment_attempt.succeeded", "license_key.created", "license_key.disabled",
+     * "license_key.expired", "license_key.updated", "license_key_activation.created",
+     * "license_key_activation.released", "license_key_pool.archived", "license_key_pool.created",
+     * "license_key_pool.low_stock", "license_key_pool.out_of_stock", "license_key_pool.updated",
+     * "merchant.readiness_updated", "merchant.updated", "merchant_billing_balance.updated",
+     * "merchant_billing_invoice.issued", "merchant_billing_invoice.updated",
+     * "modifier_group.archived", "modifier_group.created", "modifier_group.updated",
+     * "modifier_set.archived", "modifier_set.created", "modifier_set.updated", "order.closed",
+     * "order.created", "order.inventory_exception_created", "order.inventory_exception_resolved",
+     * "order.paid", "order.partially_paid", "order.partially_refunded", "order.refunded",
+     * "order.updated", "order_edit.canceled", "order_edit.completed", "order_edit.created",
+     * "order_edit.updated", "package.created", "package.updated", "partner_app.platform_approved",
      * "partner_app.platform_limited", "partner_app.platform_rejected", "partner_app.updated",
      * "partner_app_install.created", "partner_app_install.permissions_updated",
      * "partner_app_install.revoked", "partner_app_install.updated",
@@ -2476,6 +3785,17 @@ export type CreateWebhookTestEventRequestInput = {
         | "invoice_payment_attempt.failed"
         | "invoice_payment_attempt.processing"
         | "invoice_payment_attempt.succeeded"
+        | "license_key.created"
+        | "license_key.disabled"
+        | "license_key.expired"
+        | "license_key.updated"
+        | "license_key_activation.created"
+        | "license_key_activation.released"
+        | "license_key_pool.archived"
+        | "license_key_pool.created"
+        | "license_key_pool.low_stock"
+        | "license_key_pool.out_of_stock"
+        | "license_key_pool.updated"
         | "merchant.readiness_updated"
         | "merchant.updated"
         | "merchant_billing_balance.updated"
@@ -2657,8 +3977,9 @@ export type CreateWorkloadIdentityRequest = {
      */
     "issuer": string;
     /**
-     * A label that helps you tell workload identities apart, 1 to 100 characters. minLength: 1.
-     * maxLength: 100.
+     * A label that helps you tell workload identities apart, 1 to 100 characters. Surrounding
+     * whitespace is trimmed before length validation. A supplied value cannot be blank; use null
+     * where clearing is supported. minLength: 1. maxLength: 100.
      */
     "name": string;
     /**
@@ -2677,17 +3998,17 @@ export type CreateWorkloadIdentityRequest = {
      * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
      * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
      * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
-     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
-     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
-     * "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.invoices.write", "commerce.license_keys.read",
+     * "commerce.license_keys.secrets.write", "commerce.license_keys.write",
+     * "commerce.orders.read", "commerce.orders.write", "commerce.products.read",
+     * "commerce.products.write", "commerce.promotions.read", "commerce.promotions.write",
+     * "commerce.refunds.read", "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
      * "commerce.returns.operations.write", "commerce.returns.policies.write",
      * "commerce.returns.read", "commerce.returns.reasons.write",
      * "commerce.returns.resolutions.write", "commerce.returns.write",
      * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
      * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
      * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
-     * "developer.feedback_reports.read", "developer.feedback_reports.write",
      * "developer.merchant_signups.read", "developer.merchant_signups.write",
      * "developer.partner_apps.read", "developer.partner_apps.write",
      * "developer.request_logs.read", "developer.request_logs.self.read",
@@ -2717,17 +4038,17 @@ export type CreateWorkloadIdentityRequest = {
      * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
      * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
      * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
-     * "commerce.invoices.read", "commerce.invoices.write", "commerce.orders.read",
-     * "commerce.orders.write", "commerce.products.read", "commerce.products.write",
-     * "commerce.promotions.read", "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.invoices.read", "commerce.invoices.write", "commerce.license_keys.read",
+     * "commerce.license_keys.secrets.write", "commerce.license_keys.write",
+     * "commerce.orders.read", "commerce.orders.write", "commerce.products.read",
+     * "commerce.products.write", "commerce.promotions.read", "commerce.promotions.write",
+     * "commerce.refunds.read", "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
      * "commerce.returns.operations.write", "commerce.returns.policies.write",
      * "commerce.returns.read", "commerce.returns.reasons.write",
      * "commerce.returns.resolutions.write", "commerce.returns.write",
      * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
      * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
      * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
-     * "developer.feedback_reports.read", "developer.feedback_reports.write",
      * "developer.merchant_signups.read", "developer.merchant_signups.write",
      * "developer.partner_apps.read", "developer.partner_apps.write",
      * "developer.request_logs.read", "developer.request_logs.self.read",
@@ -2777,6 +4098,9 @@ export type CreateWorkloadIdentityRequest = {
         | "commerce.inventory.write"
         | "commerce.invoices.read"
         | "commerce.invoices.write"
+        | "commerce.license_keys.read"
+        | "commerce.license_keys.secrets.write"
+        | "commerce.license_keys.write"
         | "commerce.orders.read"
         | "commerce.orders.write"
         | "commerce.products.read"
@@ -2801,8 +4125,6 @@ export type CreateWorkloadIdentityRequest = {
         | "customers.read"
         | "customers.sessions.write"
         | "customers.write"
-        | "developer.feedback_reports.read"
-        | "developer.feedback_reports.write"
         | "developer.merchant_signups.read"
         | "developer.merchant_signups.write"
         | "developer.partner_apps.read"
@@ -2881,8 +4203,9 @@ export type CreateWorkloadIdentityRequestInput = {
      */
     "issuer": string;
     /**
-     * A label that helps you tell workload identities apart, 1 to 100 characters. minLength: 1.
-     * maxLength: 100.
+     * A label that helps you tell workload identities apart, 1 to 100 characters. Surrounding
+     * whitespace is trimmed before length validation. A supplied value cannot be blank; use null
+     * where clearing is supported. minLength: 1. maxLength: 100.
      */
     "name": string;
     /**
@@ -2901,17 +4224,17 @@ export type CreateWorkloadIdentityRequestInput = {
      * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
      * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
      * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
-     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
-     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
-     * "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.invoices.write", "commerce.license_keys.read",
+     * "commerce.license_keys.secrets.write", "commerce.license_keys.write",
+     * "commerce.orders.read", "commerce.orders.write", "commerce.products.read",
+     * "commerce.products.write", "commerce.promotions.read", "commerce.promotions.write",
+     * "commerce.refunds.read", "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
      * "commerce.returns.operations.write", "commerce.returns.policies.write",
      * "commerce.returns.read", "commerce.returns.reasons.write",
      * "commerce.returns.resolutions.write", "commerce.returns.write",
      * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
      * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
      * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
-     * "developer.feedback_reports.read", "developer.feedback_reports.write",
      * "developer.merchant_signups.read", "developer.merchant_signups.write",
      * "developer.partner_apps.read", "developer.partner_apps.write",
      * "developer.request_logs.read", "developer.request_logs.self.read",
@@ -2941,17 +4264,17 @@ export type CreateWorkloadIdentityRequestInput = {
      * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
      * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
      * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
-     * "commerce.invoices.read", "commerce.invoices.write", "commerce.orders.read",
-     * "commerce.orders.write", "commerce.products.read", "commerce.products.write",
-     * "commerce.promotions.read", "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.invoices.read", "commerce.invoices.write", "commerce.license_keys.read",
+     * "commerce.license_keys.secrets.write", "commerce.license_keys.write",
+     * "commerce.orders.read", "commerce.orders.write", "commerce.products.read",
+     * "commerce.products.write", "commerce.promotions.read", "commerce.promotions.write",
+     * "commerce.refunds.read", "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
      * "commerce.returns.operations.write", "commerce.returns.policies.write",
      * "commerce.returns.read", "commerce.returns.reasons.write",
      * "commerce.returns.resolutions.write", "commerce.returns.write",
      * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
      * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
      * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
-     * "developer.feedback_reports.read", "developer.feedback_reports.write",
      * "developer.merchant_signups.read", "developer.merchant_signups.write",
      * "developer.partner_apps.read", "developer.partner_apps.write",
      * "developer.request_logs.read", "developer.request_logs.self.read",
@@ -3001,6 +4324,9 @@ export type CreateWorkloadIdentityRequestInput = {
         | "commerce.inventory.write"
         | "commerce.invoices.read"
         | "commerce.invoices.write"
+        | "commerce.license_keys.read"
+        | "commerce.license_keys.secrets.write"
+        | "commerce.license_keys.write"
         | "commerce.orders.read"
         | "commerce.orders.write"
         | "commerce.products.read"
@@ -3025,8 +4351,6 @@ export type CreateWorkloadIdentityRequestInput = {
         | "customers.read"
         | "customers.sessions.write"
         | "customers.write"
-        | "developer.feedback_reports.read"
-        | "developer.feedback_reports.write"
         | "developer.merchant_signups.read"
         | "developer.merchant_signups.write"
         | "developer.partner_apps.read"
@@ -3101,1089 +4425,3 @@ export interface Credentials {
         "OnboardingSessionBearer": string | CredentialProvider;
     };
 }
-/**
- * A correction against an issued invoice. Credit notes reduce what is owed; refunds return what
- * was already collected.
- */
-export type CreditNote = {
-    /**
-     * Credit applied to the invoice, net of reversed allocations. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "allocated_money": MoneyValue;
-    /**
-     * Credit available to allocate or refund. Zero on draft and voided notes. On issued notes,
-     * total_money equals allocated_money plus pending_refund_money plus refunded_money plus
-     * available_money. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "available_money": MoneyValue;
-    /**
-     * Identity frozen on the source invoice at issue. Later profile edits do not change this
-     * document. `null` when no buyer tax identity was captured on the source invoice. Customer
-     * deletion preserves identities captured on issued invoices and credit notes. anyOf[1]
-     * (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed on invoices and
-     * credit notes. Flint does not verify IDs. On a customer, automatic tax sends the tax ID for
-     * an EU, GB, AU or NZ destination to its tax provider, which can apply a reverse charge; other
-     * IDs do not change tax treatment. Tax IDs are an owned collection in display order; replacing
-     * the array requires the parent's expected_version. Existing entries retain their
-     * document_tax_id; omit an entry to remove it, or omit its ID to add one. anyOf[2] (Value):
-     * null.
-     */
-    "buyer_tax_identity": ((TaxIdentity) | (null));
-    /** When the credit note was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /** Unique identifier of the credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". */
-    "credit_note_id": string;
-    /** Assigned at issue and stable from then on. Absent while the credit note is a draft. */
-    "credit_note_number"?: string;
-    /**
-     * Caller-owned identifier for this resource in an external system. `null` when unset.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id": string | null;
-    /**
-     * Summary of the source invoice. Returned only with expand=invoice. An invoice's summary
-     * fields, including status, due date, and paid, outstanding, and refunded amounts, returned
-     * when the invoice is expanded.
-     */
-    "invoice"?: ExpandedInvoiceSummary;
-    /** The invoice this credit note corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". */
-    "invoice_id": string;
-    /**
-     * When the credit note was issued. Absent on a draft. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "issued_at"?: string;
-    /**
-     * Status of the most recent refund linked to this credit note. Absent when no refund has been
-     * requested. Value enum: "pending", "succeeded", "partially_succeeded", "failed".
-     */
-    "latest_refund_status"?: "pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {});
-    /**
-     * Itemized corrections against frozen invoice lines. Amount and quantity corrections share
-     * each source line's remaining value, discount, and tax across issued credit notes that have
-     * not been voided. Drafts reserve no credit. [] (Value): {@link CreditNoteLineItem}. One
-     * correction calculated from the frozen invoice line's remaining billed value, discount, and
-     * tax. The source line's inclusive or additive tax mode is preserved. Current catalog prices
-     * and tax settings do not affect the correction. Stored issued values are never recalculated
-     * by a read.
-     */
-    "line_items": Array<CreditNoteLineItem>;
-    /** Free text shown on the credit note, up to 4096 characters. `null` when unset. */
-    "memo": string | null;
-    /** The merchant that owns the credit note. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-    "merchant_id": string;
-    /**
-     * Credit reserved by linked refunds that have not resolved yet. Released if a refund fails or
-     * is canceled. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code.
-     */
-    "pending_refund_money": MoneyValue;
-    /**
-     * Why the invoice is being corrected. Shown on the credit note document. Value enum:
-     * "returned_goods", "order_adjustment", "billing_error", "goodwill", "other".
-     */
-    "reason": "returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other" | (string & {});
-    /**
-     * Credit consumed by linked refunds that succeeded. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code.
-     */
-    "refunded_money": MoneyValue;
-    /**
-     * Identity frozen on the source invoice at issue. Later profile edits do not change this
-     * document. `null` when no seller tax identity was captured. anyOf[1] (Value): {@link
-     * TaxIdentity}. Merchant-provided legal identity displayed on invoices and credit notes. Flint
-     * does not verify IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or NZ
-     * destination to its tax provider, which can apply a reverse charge; other IDs do not change
-     * tax treatment. Tax IDs are an owned collection in display order; replacing the array
-     * requires the parent's expected_version. Existing entries retain their document_tax_id; omit
-     * an entry to remove it, or omit its ID to add one. anyOf[2] (Value): null.
-     */
-    "seller_tax_identity": ((TaxIdentity) | (null));
-    /**
-     * draft while the credit note is editable, issued once it is numbered and frozen, voided once
-     * withdrawn. Value enum: "draft", "issued", "voided".
-     */
-    "status": "draft" | "issued" | "voided" | (string & {});
-    /**
-     * Lifecycle actions Flint accepts for this resource now, based on stored state. Independent of
-     * the caller's permissions; each action still requires its route's scope. Always [] when no
-     * action is available. [] enum: "issue", "void". [] (Value): string. Value enum: "issue",
-     * "void".
-     */
-    "supported_actions": Array<"issue" | "void" | (string & {})>;
-    /**
-     * The credit note's VAT stated in the currency of the country that charges it, frozen at
-     * issue. Each entry reuses the invoice's currency, exchange_rate, rate_date, and rate_source
-     * from snapshot.tax_currency_conversions, with this note's credited VAT and taxable amount
-     * converted the same way. Always [] on drafts and when the invoice froze no conversion. The
-     * credit note PDF prints the same figures. [] (Value): {@link TaxCurrencyConversion}. VAT on
-     * an issued document converted into the currency of the country whose VAT is charged.
-     */
-    "tax_currency_conversions": Array<TaxCurrencyConversion>;
-    /**
-     * The face value of the credit note, the sum of its lines. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "total_money": MoneyValue;
-    /** When the credit note last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-    /**
-     * Current credit note version. Send this as expected_version when updating the draft. Format:
-     * int64. minimum: 1.
-     */
-    "version": number;
-    /**
-     * When the credit note was voided. Absent unless its status is voided. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z".
-     */
-    "voided_at"?: string;
-};
-/**
- * One application of credit to the invoice. Allocations are append-only: a reversal sets
- * reversed_at rather than removing the row.
- */
-export type CreditNoteAllocation = {
-    /**
-     * When the credit was applied to the invoice balance. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "allocated_at": string;
-    /**
-     * Credit applied to the invoice balance. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-    /** Unique identifier of the allocation. Example: "cna_01KEZF7C00EH6DMS9BD8F72CMA". */
-    "credit_note_allocation_id": string;
-    /** The credit note whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". */
-    "credit_note_id": string;
-    /**
-     * The Idempotency-Key the caller sent when allocating, or the issue request's Idempotency-Key
-     * for an allocation made on issue. Filterable on the allocations list.
-     */
-    "idempotency_key": string;
-    /** The invoice whose balance the credit reduced. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". */
-    "invoice_id": string;
-    /**
-     * When the allocation was reversed and its credit returned. Absent while the allocation
-     * stands. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "reversed_at"?: string;
-    /**
-     * Lifecycle actions Flint accepts for this resource now, based on stored state. Independent of
-     * the caller's permissions; each action still requires its route's scope. Always [] when no
-     * action is available. [] enum: "reverse". [] (Value): string. Value enum: "reverse".
-     */
-    "supported_actions": Array<"reverse" | (string & {})>;
-};
-export type CreditNoteAllocationCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "allocated_at": string;
-            "amount_money": MoneyValue;
-            "credit_note_allocation_id": string;
-            "credit_note_id": string;
-            "idempotency_key": string;
-            "invoice_id": string;
-            "reversed_at"?: string;
-            "supported_actions": Array<"reverse" | (string & {})>;
-        };
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "credit_note_allocation.created";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "allocated_at": string;
-            "amount_money": MoneyValue;
-            "credit_note_allocation_id": string;
-            "credit_note_id": string;
-            "idempotency_key": string;
-            "invoice_id": string;
-            "reversed_at"?: string;
-            "supported_actions": Array<"reverse" | (string & {})>;
-        };
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "credit_note_allocation.created";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "credit_note_allocation.created";
-});
-/**
- * The `credit_note_allocation.created` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type CreditNoteAllocationCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.allocated_at (Required): string. When the credit was applied to
-     * the invoice balance. Format: date-time. Example: "2026-08-02T16:00:00Z". object.amount_money
-     * (Required): {@link MoneyValue}. Credit applied to the invoice balance. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     * object.credit_note_allocation_id (Required): string. Unique identifier of the allocation.
-     * Example: "cna_01KEZF7C00EH6DMS9BD8F72CMA". object.credit_note_id (Required): string. The
-     * credit note whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
-     * object.idempotency_key (Required): string. The Idempotency-Key the caller sent when
-     * allocating, or the issue request's Idempotency-Key for an allocation made on issue.
-     * Filterable on the allocations list. object.invoice_id (Required): string. The invoice whose
-     * balance the credit reduced. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.reversed_at
-     * (Optional): string. When the allocation was reversed and its credit returned. Absent while
-     * the allocation stands. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.supported_actions (Required): Array of string. Lifecycle actions Flint accepts for
-     * this resource now, based on stored state. Independent of the caller's permissions; each
-     * action still requires its route's scope. Always [] when no action is available. [] enum:
-     * "reverse". object.supported_actions[] (Value): string. Value enum: "reverse".
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * allocated_at (Required): string. When the credit was applied to the invoice balance.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". amount_money (Required): {@link
-         * MoneyValue}. Credit applied to the invoice balance. Monetary amount represented as
-         * integer minor units plus an ISO 4217 currency code. credit_note_allocation_id
-         * (Required): string. Unique identifier of the allocation. Example:
-         * "cna_01KEZF7C00EH6DMS9BD8F72CMA". credit_note_id (Required): string. The credit note
-         * whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". idempotency_key
-         * (Required): string. The Idempotency-Key the caller sent when allocating, or the issue
-         * request's Idempotency-Key for an allocation made on issue. Filterable on the allocations
-         * list. invoice_id (Required): string. The invoice whose balance the credit reduced.
-         * Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". reversed_at (Optional): string. When the
-         * allocation was reversed and its credit returned. Absent while the allocation stands.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". supported_actions (Required): Array
-         * of string. Lifecycle actions Flint accepts for this resource now, based on stored state.
-         * Independent of the caller's permissions; each action still requires its route's scope.
-         * Always [] when no action is available. [] enum: "reverse". supported_actions[] (Value):
-         * string. Value enum: "reverse".
-         */
-        "object": {
-            /**
-             * When the credit was applied to the invoice balance. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "allocated_at": string;
-            /**
-             * Credit applied to the invoice balance. Monetary amount represented as integer minor
-             * units plus an ISO 4217 currency code.
-             */
-            "amount_money": MoneyValue;
-            /** Unique identifier of the allocation. Example: "cna_01KEZF7C00EH6DMS9BD8F72CMA". */
-            "credit_note_allocation_id": string;
-            /**
-             * The credit note whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
-             */
-            "credit_note_id": string;
-            /**
-             * The Idempotency-Key the caller sent when allocating, or the issue request's
-             * Idempotency-Key for an allocation made on issue. Filterable on the allocations list.
-             */
-            "idempotency_key": string;
-            /**
-             * The invoice whose balance the credit reduced. Example:
-             * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-             */
-            "invoice_id": string;
-            /**
-             * When the allocation was reversed and its credit returned. Absent while the
-             * allocation stands. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "reversed_at"?: string;
-            /**
-             * Lifecycle actions Flint accepts for this resource now, based on stored state.
-             * Independent of the caller's permissions; each action still requires its route's
-             * scope. Always [] when no action is available. [] enum: "reverse". [] (Value):
-             * string. Value enum: "reverse".
-             */
-            "supported_actions": Array<"reverse" | (string & {})>;
-        };
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "credit_note_allocation.created". */
-    "event_type"?: "credit_note_allocation.created";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `credit_note_allocation.created` webhook payload for the `merchant` event source. Fields
- * shared by merchant webhook payloads.
- */
-export type CreditNoteAllocationCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.allocated_at (Required): string. When the credit was applied to
-     * the invoice balance. Format: date-time. Example: "2026-08-02T16:00:00Z". object.amount_money
-     * (Required): {@link MoneyValue}. Credit applied to the invoice balance. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     * object.credit_note_allocation_id (Required): string. Unique identifier of the allocation.
-     * Example: "cna_01KEZF7C00EH6DMS9BD8F72CMA". object.credit_note_id (Required): string. The
-     * credit note whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
-     * object.idempotency_key (Required): string. The Idempotency-Key the caller sent when
-     * allocating, or the issue request's Idempotency-Key for an allocation made on issue.
-     * Filterable on the allocations list. object.invoice_id (Required): string. The invoice whose
-     * balance the credit reduced. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.reversed_at
-     * (Optional): string. When the allocation was reversed and its credit returned. Absent while
-     * the allocation stands. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.supported_actions (Required): Array of string. Lifecycle actions Flint accepts for
-     * this resource now, based on stored state. Independent of the caller's permissions; each
-     * action still requires its route's scope. Always [] when no action is available. [] enum:
-     * "reverse". object.supported_actions[] (Value): string. Value enum: "reverse".
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * allocated_at (Required): string. When the credit was applied to the invoice balance.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". amount_money (Required): {@link
-         * MoneyValue}. Credit applied to the invoice balance. Monetary amount represented as
-         * integer minor units plus an ISO 4217 currency code. credit_note_allocation_id
-         * (Required): string. Unique identifier of the allocation. Example:
-         * "cna_01KEZF7C00EH6DMS9BD8F72CMA". credit_note_id (Required): string. The credit note
-         * whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". idempotency_key
-         * (Required): string. The Idempotency-Key the caller sent when allocating, or the issue
-         * request's Idempotency-Key for an allocation made on issue. Filterable on the allocations
-         * list. invoice_id (Required): string. The invoice whose balance the credit reduced.
-         * Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". reversed_at (Optional): string. When the
-         * allocation was reversed and its credit returned. Absent while the allocation stands.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". supported_actions (Required): Array
-         * of string. Lifecycle actions Flint accepts for this resource now, based on stored state.
-         * Independent of the caller's permissions; each action still requires its route's scope.
-         * Always [] when no action is available. [] enum: "reverse". supported_actions[] (Value):
-         * string. Value enum: "reverse".
-         */
-        "object": {
-            /**
-             * When the credit was applied to the invoice balance. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "allocated_at": string;
-            /**
-             * Credit applied to the invoice balance. Monetary amount represented as integer minor
-             * units plus an ISO 4217 currency code.
-             */
-            "amount_money": MoneyValue;
-            /** Unique identifier of the allocation. Example: "cna_01KEZF7C00EH6DMS9BD8F72CMA". */
-            "credit_note_allocation_id": string;
-            /**
-             * The credit note whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
-             */
-            "credit_note_id": string;
-            /**
-             * The Idempotency-Key the caller sent when allocating, or the issue request's
-             * Idempotency-Key for an allocation made on issue. Filterable on the allocations list.
-             */
-            "idempotency_key": string;
-            /**
-             * The invoice whose balance the credit reduced. Example:
-             * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-             */
-            "invoice_id": string;
-            /**
-             * When the allocation was reversed and its credit returned. Absent while the
-             * allocation stands. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "reversed_at"?: string;
-            /**
-             * Lifecycle actions Flint accepts for this resource now, based on stored state.
-             * Independent of the caller's permissions; each action still requires its route's
-             * scope. Always [] when no action is available. [] enum: "reverse". [] (Value):
-             * string. Value enum: "reverse".
-             */
-            "supported_actions": Array<"reverse" | (string & {})>;
-        };
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "credit_note_allocation.created". */
-    "event_type"?: "credit_note_allocation.created";
-});
-/** A page of `CreditNoteAllocation` objects. */
-export type CreditNoteAllocationListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * CreditNoteAllocation}. One application of credit to the invoice. Allocations are
-     * append-only: a reversal sets reversed_at rather than removing the row.
-     */
-    "data": Array<CreditNoteAllocation>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `CreditNoteAllocation` data. */
-export type CreditNoteAllocationResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. One application of
-     * credit to the invoice. Allocations are append-only: a reversal sets reversed_at rather than
-     * removing the row.
-     */
-    "data": CreditNoteAllocation;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** The allocation, the credit note with its new available_money, and the recomputed invoice. */
-export type CreditNoteAllocationResult = {
-    /**
-     * The credit note with its recomputed available_money and allocated_money. A correction
-     * against an issued invoice. Credit notes reduce what is owed; refunds return what was already
-     * collected.
-     */
-    "credit_note": CreditNote;
-    /**
-     * The allocation that was created or reversed. One application of credit to the invoice.
-     * Allocations are append-only: a reversal sets reversed_at rather than removing the row.
-     */
-    "credit_note_allocation": CreditNoteAllocation;
-    /**
-     * The invoice with its recomputed outstanding balance and status. A bill issued to a customer.
-     */
-    "invoice": Invoice;
-};
-/** A response containing `CreditNoteAllocationResult` data. */
-export type CreditNoteAllocationResultResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. The allocation, the
-     * credit note with its new available_money, and the recomputed invoice.
-     */
-    "data": CreditNoteAllocationResult;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type CreditNoteAllocationReversedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "allocated_at": string;
-            "amount_money": MoneyValue;
-            "credit_note_allocation_id": string;
-            "credit_note_id": string;
-            "idempotency_key": string;
-            "invoice_id": string;
-            "reversed_at"?: string;
-            "supported_actions": Array<"reverse" | (string & {})>;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "allocated_at"?: ((string) | (null));
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "credit_note_allocation_id"?: ((string) | (null));
-            "credit_note_id"?: ((string) | (null));
-            "idempotency_key"?: ((string) | (null));
-            "invoice_id"?: ((string) | (null));
-            "reversed_at"?: ((string) | (null));
-            "supported_actions"?: ((Array<"reverse" | (string & {})>) | (null));
-        });
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "credit_note_allocation.reversed";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "allocated_at": string;
-            "amount_money": MoneyValue;
-            "credit_note_allocation_id": string;
-            "credit_note_id": string;
-            "idempotency_key": string;
-            "invoice_id": string;
-            "reversed_at"?: string;
-            "supported_actions": Array<"reverse" | (string & {})>;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "allocated_at"?: ((string) | (null));
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "credit_note_allocation_id"?: ((string) | (null));
-            "credit_note_id"?: ((string) | (null));
-            "idempotency_key"?: ((string) | (null));
-            "invoice_id"?: ((string) | (null));
-            "reversed_at"?: ((string) | (null));
-            "supported_actions"?: ((Array<"reverse" | (string & {})>) | (null));
-        });
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "credit_note_allocation.reversed";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "credit_note_allocation.reversed";
-});
-/**
- * The `credit_note_allocation.reversed` webhook payload for the `installed_merchants` event
- * source. Fields shared by partner webhook payloads.
- */
-export type CreditNoteAllocationReversedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.allocated_at (Required): string. When the credit was applied to
-     * the invoice balance. Format: date-time. Example: "2026-08-02T16:00:00Z". object.amount_money
-     * (Required): {@link MoneyValue}. Credit applied to the invoice balance. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     * object.credit_note_allocation_id (Required): string. Unique identifier of the allocation.
-     * Example: "cna_01KEZF7C00EH6DMS9BD8F72CMA". object.credit_note_id (Required): string. The
-     * credit note whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
-     * object.idempotency_key (Required): string. The Idempotency-Key the caller sent when
-     * allocating, or the issue request's Idempotency-Key for an allocation made on issue.
-     * Filterable on the allocations list. object.invoice_id (Required): string. The invoice whose
-     * balance the credit reduced. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.reversed_at
-     * (Optional): string. When the allocation was reversed and its credit returned. Absent while
-     * the allocation stands. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.supported_actions (Required): Array of string. Lifecycle actions Flint accepts for
-     * this resource now, based on stored state. Independent of the caller's permissions; each
-     * action still requires its route's scope. Always [] when no action is available. [] enum:
-     * "reverse". object.supported_actions[] (Value): string. Value enum: "reverse".
-     * previous_attributes (Optional): object. Previous values of changed top-level fields in
-     * data.object, at this delivery's API version. Nested changes include the whole previous
-     * top-level value. A value is null when the field was absent before the change. Omitted when
-     * Flint did not record the previous state, including synthetic test events.
-     * previous_attributes.allocated_at (Optional): string or null. When the credit was applied to
-     * the invoice balance. previous_attributes.allocated_at.anyOf[1] (Value): string. When the
-     * credit was applied to the invoice balance. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.allocated_at.anyOf[2] (Value): null.
-     * previous_attributes.amount_money (Optional): {@link MoneyValuePreviousAttributes} or null.
-     * Credit applied to the invoice balance. previous_attributes.amount_money.anyOf[1] (Value):
-     * {@link MoneyValuePreviousAttributes}. previous_attributes.amount_money.anyOf[2] (Value):
-     * null. previous_attributes.credit_note_allocation_id (Optional): string or null. Unique
-     * identifier of the allocation. previous_attributes.credit_note_allocation_id.anyOf[1]
-     * (Value): string. Unique identifier of the allocation. Example:
-     * "cna_01KEZF7C00EH6DMS9BD8F72CMA". previous_attributes.credit_note_allocation_id.anyOf[2]
-     * (Value): null. previous_attributes.credit_note_id (Optional): string or null. The credit
-     * note whose credit was applied. previous_attributes.credit_note_id.anyOf[1] (Value): string.
-     * The credit note whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
-     * previous_attributes.credit_note_id.anyOf[2] (Value): null.
-     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key the
-     * caller sent when allocating, or the issue request's Idempotency-Key for an allocation made
-     * on issue. Filterable on the allocations list. previous_attributes.idempotency_key.anyOf[1]
-     * (Value): string. The Idempotency-Key the caller sent when allocating, or the issue request's
-     * Idempotency-Key for an allocation made on issue. Filterable on the allocations list.
-     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.invoice_id
-     * (Optional): string or null. The invoice whose balance the credit reduced.
-     * previous_attributes.invoice_id.anyOf[1] (Value): string. The invoice whose balance the
-     * credit reduced. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-     * previous_attributes.invoice_id.anyOf[2] (Value): null. previous_attributes.reversed_at
-     * (Optional): string or null. When the allocation was reversed and its credit returned. Absent
-     * while the allocation stands. previous_attributes.reversed_at.anyOf[1] (Value): string. When
-     * the allocation was reversed and its credit returned. Absent while the allocation stands.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.reversed_at.anyOf[2]
-     * (Value): null. previous_attributes.supported_actions (Optional): Array of string or null.
-     * Lifecycle actions Flint accepts for this resource now, based on stored state. Independent of
-     * the caller's permissions; each action still requires its route's scope. Always [] when no
-     * action is available. [] enum: "reverse". previous_attributes.supported_actions.anyOf[1]
-     * (Value): Array of string. Lifecycle actions Flint accepts for this resource now, based on
-     * stored state. Independent of the caller's permissions; each action still requires its
-     * route's scope. Always [] when no action is available. [] enum: "reverse".
-     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "reverse".
-     * previous_attributes.supported_actions.anyOf[2] (Value): null.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * allocated_at (Required): string. When the credit was applied to the invoice balance.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". amount_money (Required): {@link
-         * MoneyValue}. Credit applied to the invoice balance. Monetary amount represented as
-         * integer minor units plus an ISO 4217 currency code. credit_note_allocation_id
-         * (Required): string. Unique identifier of the allocation. Example:
-         * "cna_01KEZF7C00EH6DMS9BD8F72CMA". credit_note_id (Required): string. The credit note
-         * whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". idempotency_key
-         * (Required): string. The Idempotency-Key the caller sent when allocating, or the issue
-         * request's Idempotency-Key for an allocation made on issue. Filterable on the allocations
-         * list. invoice_id (Required): string. The invoice whose balance the credit reduced.
-         * Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". reversed_at (Optional): string. When the
-         * allocation was reversed and its credit returned. Absent while the allocation stands.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". supported_actions (Required): Array
-         * of string. Lifecycle actions Flint accepts for this resource now, based on stored state.
-         * Independent of the caller's permissions; each action still requires its route's scope.
-         * Always [] when no action is available. [] enum: "reverse". supported_actions[] (Value):
-         * string. Value enum: "reverse".
-         */
-        "object": {
-            /**
-             * When the credit was applied to the invoice balance. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "allocated_at": string;
-            /**
-             * Credit applied to the invoice balance. Monetary amount represented as integer minor
-             * units plus an ISO 4217 currency code.
-             */
-            "amount_money": MoneyValue;
-            /** Unique identifier of the allocation. Example: "cna_01KEZF7C00EH6DMS9BD8F72CMA". */
-            "credit_note_allocation_id": string;
-            /**
-             * The credit note whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
-             */
-            "credit_note_id": string;
-            /**
-             * The Idempotency-Key the caller sent when allocating, or the issue request's
-             * Idempotency-Key for an allocation made on issue. Filterable on the allocations list.
-             */
-            "idempotency_key": string;
-            /**
-             * The invoice whose balance the credit reduced. Example:
-             * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-             */
-            "invoice_id": string;
-            /**
-             * When the allocation was reversed and its credit returned. Absent while the
-             * allocation stands. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "reversed_at"?: string;
-            /**
-             * Lifecycle actions Flint accepts for this resource now, based on stored state.
-             * Independent of the caller's permissions; each action still requires its route's
-             * scope. Always [] when no action is available. [] enum: "reverse". [] (Value):
-             * string. Value enum: "reverse".
-             */
-            "supported_actions": Array<"reverse" | (string & {})>;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. allocated_at (Optional): string or null. When
-         * the credit was applied to the invoice balance. allocated_at.anyOf[1] (Value): string.
-         * When the credit was applied to the invoice balance. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". allocated_at.anyOf[2] (Value): null. amount_money (Optional):
-         * {@link MoneyValuePreviousAttributes} or null. Credit applied to the invoice balance.
-         * amount_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-         * amount_money.anyOf[2] (Value): null. credit_note_allocation_id (Optional): string or
-         * null. Unique identifier of the allocation. credit_note_allocation_id.anyOf[1] (Value):
-         * string. Unique identifier of the allocation. Example: "cna_01KEZF7C00EH6DMS9BD8F72CMA".
-         * credit_note_allocation_id.anyOf[2] (Value): null. credit_note_id (Optional): string or
-         * null. The credit note whose credit was applied. credit_note_id.anyOf[1] (Value): string.
-         * The credit note whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
-         * credit_note_id.anyOf[2] (Value): null. idempotency_key (Optional): string or null. The
-         * Idempotency-Key the caller sent when allocating, or the issue request's Idempotency-Key
-         * for an allocation made on issue. Filterable on the allocations list.
-         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key the caller sent when
-         * allocating, or the issue request's Idempotency-Key for an allocation made on issue.
-         * Filterable on the allocations list. idempotency_key.anyOf[2] (Value): null. invoice_id
-         * (Optional): string or null. The invoice whose balance the credit reduced.
-         * invoice_id.anyOf[1] (Value): string. The invoice whose balance the credit reduced.
-         * Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2] (Value): null.
-         * reversed_at (Optional): string or null. When the allocation was reversed and its credit
-         * returned. Absent while the allocation stands. reversed_at.anyOf[1] (Value): string. When
-         * the allocation was reversed and its credit returned. Absent while the allocation stands.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". reversed_at.anyOf[2] (Value): null.
-         * supported_actions (Optional): Array of string or null. Lifecycle actions Flint accepts
-         * for this resource now, based on stored state. Independent of the caller's permissions;
-         * each action still requires its route's scope. Always [] when no action is available. []
-         * enum: "reverse". supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions
-         * Flint accepts for this resource now, based on stored state. Independent of the caller's
-         * permissions; each action still requires its route's scope. Always [] when no action is
-         * available. [] enum: "reverse". supported_actions.anyOf[1][] (Value): string. Value enum:
-         * "reverse". supported_actions.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * When the credit was applied to the invoice balance. anyOf[1] (Value): string. When
-             * the credit was applied to the invoice balance. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "allocated_at"?: ((string) | (null));
-            /**
-             * Credit applied to the invoice balance. anyOf[1] (Value): {@link
-             * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * Unique identifier of the allocation. anyOf[1] (Value): string. Unique identifier of
-             * the allocation. Example: "cna_01KEZF7C00EH6DMS9BD8F72CMA". anyOf[2] (Value): null.
-             */
-            "credit_note_allocation_id"?: ((string) | (null));
-            /**
-             * The credit note whose credit was applied. anyOf[1] (Value): string. The credit note
-             * whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". anyOf[2]
-             * (Value): null.
-             */
-            "credit_note_id"?: ((string) | (null));
-            /**
-             * The Idempotency-Key the caller sent when allocating, or the issue request's
-             * Idempotency-Key for an allocation made on issue. Filterable on the allocations list.
-             * anyOf[1] (Value): string. The Idempotency-Key the caller sent when allocating, or
-             * the issue request's Idempotency-Key for an allocation made on issue. Filterable on
-             * the allocations list. anyOf[2] (Value): null.
-             */
-            "idempotency_key"?: ((string) | (null));
-            /**
-             * The invoice whose balance the credit reduced. anyOf[1] (Value): string. The invoice
-             * whose balance the credit reduced. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-             * anyOf[2] (Value): null.
-             */
-            "invoice_id"?: ((string) | (null));
-            /**
-             * When the allocation was reversed and its credit returned. Absent while the
-             * allocation stands. anyOf[1] (Value): string. When the allocation was reversed and
-             * its credit returned. Absent while the allocation stands. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "reversed_at"?: ((string) | (null));
-            /**
-             * Lifecycle actions Flint accepts for this resource now, based on stored state.
-             * Independent of the caller's permissions; each action still requires its route's
-             * scope. Always [] when no action is available. [] enum: "reverse". anyOf[1] (Value):
-             * Array of string. Lifecycle actions Flint accepts for this resource now, based on
-             * stored state. Independent of the caller's permissions; each action still requires
-             * its route's scope. Always [] when no action is available. [] enum: "reverse".
-             * anyOf[1][] (Value): string. Value enum: "reverse". anyOf[2] (Value): null.
-             */
-            "supported_actions"?: ((Array<"reverse" | (string & {})>) | (null));
-        });
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "credit_note_allocation.reversed". */
-    "event_type"?: "credit_note_allocation.reversed";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `credit_note_allocation.reversed` webhook payload for the `merchant` event source. Fields
- * shared by merchant webhook payloads.
- */
-export type CreditNoteAllocationReversedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.allocated_at (Required): string. When the credit was applied to
-     * the invoice balance. Format: date-time. Example: "2026-08-02T16:00:00Z". object.amount_money
-     * (Required): {@link MoneyValue}. Credit applied to the invoice balance. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     * object.credit_note_allocation_id (Required): string. Unique identifier of the allocation.
-     * Example: "cna_01KEZF7C00EH6DMS9BD8F72CMA". object.credit_note_id (Required): string. The
-     * credit note whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
-     * object.idempotency_key (Required): string. The Idempotency-Key the caller sent when
-     * allocating, or the issue request's Idempotency-Key for an allocation made on issue.
-     * Filterable on the allocations list. object.invoice_id (Required): string. The invoice whose
-     * balance the credit reduced. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.reversed_at
-     * (Optional): string. When the allocation was reversed and its credit returned. Absent while
-     * the allocation stands. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.supported_actions (Required): Array of string. Lifecycle actions Flint accepts for
-     * this resource now, based on stored state. Independent of the caller's permissions; each
-     * action still requires its route's scope. Always [] when no action is available. [] enum:
-     * "reverse". object.supported_actions[] (Value): string. Value enum: "reverse".
-     * previous_attributes (Optional): object. Previous values of changed top-level fields in
-     * data.object, at this delivery's API version. Nested changes include the whole previous
-     * top-level value. A value is null when the field was absent before the change. Omitted when
-     * Flint did not record the previous state, including synthetic test events.
-     * previous_attributes.allocated_at (Optional): string or null. When the credit was applied to
-     * the invoice balance. previous_attributes.allocated_at.anyOf[1] (Value): string. When the
-     * credit was applied to the invoice balance. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.allocated_at.anyOf[2] (Value): null.
-     * previous_attributes.amount_money (Optional): {@link MoneyValuePreviousAttributes} or null.
-     * Credit applied to the invoice balance. previous_attributes.amount_money.anyOf[1] (Value):
-     * {@link MoneyValuePreviousAttributes}. previous_attributes.amount_money.anyOf[2] (Value):
-     * null. previous_attributes.credit_note_allocation_id (Optional): string or null. Unique
-     * identifier of the allocation. previous_attributes.credit_note_allocation_id.anyOf[1]
-     * (Value): string. Unique identifier of the allocation. Example:
-     * "cna_01KEZF7C00EH6DMS9BD8F72CMA". previous_attributes.credit_note_allocation_id.anyOf[2]
-     * (Value): null. previous_attributes.credit_note_id (Optional): string or null. The credit
-     * note whose credit was applied. previous_attributes.credit_note_id.anyOf[1] (Value): string.
-     * The credit note whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
-     * previous_attributes.credit_note_id.anyOf[2] (Value): null.
-     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key the
-     * caller sent when allocating, or the issue request's Idempotency-Key for an allocation made
-     * on issue. Filterable on the allocations list. previous_attributes.idempotency_key.anyOf[1]
-     * (Value): string. The Idempotency-Key the caller sent when allocating, or the issue request's
-     * Idempotency-Key for an allocation made on issue. Filterable on the allocations list.
-     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.invoice_id
-     * (Optional): string or null. The invoice whose balance the credit reduced.
-     * previous_attributes.invoice_id.anyOf[1] (Value): string. The invoice whose balance the
-     * credit reduced. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-     * previous_attributes.invoice_id.anyOf[2] (Value): null. previous_attributes.reversed_at
-     * (Optional): string or null. When the allocation was reversed and its credit returned. Absent
-     * while the allocation stands. previous_attributes.reversed_at.anyOf[1] (Value): string. When
-     * the allocation was reversed and its credit returned. Absent while the allocation stands.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.reversed_at.anyOf[2]
-     * (Value): null. previous_attributes.supported_actions (Optional): Array of string or null.
-     * Lifecycle actions Flint accepts for this resource now, based on stored state. Independent of
-     * the caller's permissions; each action still requires its route's scope. Always [] when no
-     * action is available. [] enum: "reverse". previous_attributes.supported_actions.anyOf[1]
-     * (Value): Array of string. Lifecycle actions Flint accepts for this resource now, based on
-     * stored state. Independent of the caller's permissions; each action still requires its
-     * route's scope. Always [] when no action is available. [] enum: "reverse".
-     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "reverse".
-     * previous_attributes.supported_actions.anyOf[2] (Value): null.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * allocated_at (Required): string. When the credit was applied to the invoice balance.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". amount_money (Required): {@link
-         * MoneyValue}. Credit applied to the invoice balance. Monetary amount represented as
-         * integer minor units plus an ISO 4217 currency code. credit_note_allocation_id
-         * (Required): string. Unique identifier of the allocation. Example:
-         * "cna_01KEZF7C00EH6DMS9BD8F72CMA". credit_note_id (Required): string. The credit note
-         * whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". idempotency_key
-         * (Required): string. The Idempotency-Key the caller sent when allocating, or the issue
-         * request's Idempotency-Key for an allocation made on issue. Filterable on the allocations
-         * list. invoice_id (Required): string. The invoice whose balance the credit reduced.
-         * Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". reversed_at (Optional): string. When the
-         * allocation was reversed and its credit returned. Absent while the allocation stands.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". supported_actions (Required): Array
-         * of string. Lifecycle actions Flint accepts for this resource now, based on stored state.
-         * Independent of the caller's permissions; each action still requires its route's scope.
-         * Always [] when no action is available. [] enum: "reverse". supported_actions[] (Value):
-         * string. Value enum: "reverse".
-         */
-        "object": {
-            /**
-             * When the credit was applied to the invoice balance. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "allocated_at": string;
-            /**
-             * Credit applied to the invoice balance. Monetary amount represented as integer minor
-             * units plus an ISO 4217 currency code.
-             */
-            "amount_money": MoneyValue;
-            /** Unique identifier of the allocation. Example: "cna_01KEZF7C00EH6DMS9BD8F72CMA". */
-            "credit_note_allocation_id": string;
-            /**
-             * The credit note whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
-             */
-            "credit_note_id": string;
-            /**
-             * The Idempotency-Key the caller sent when allocating, or the issue request's
-             * Idempotency-Key for an allocation made on issue. Filterable on the allocations list.
-             */
-            "idempotency_key": string;
-            /**
-             * The invoice whose balance the credit reduced. Example:
-             * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-             */
-            "invoice_id": string;
-            /**
-             * When the allocation was reversed and its credit returned. Absent while the
-             * allocation stands. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "reversed_at"?: string;
-            /**
-             * Lifecycle actions Flint accepts for this resource now, based on stored state.
-             * Independent of the caller's permissions; each action still requires its route's
-             * scope. Always [] when no action is available. [] enum: "reverse". [] (Value):
-             * string. Value enum: "reverse".
-             */
-            "supported_actions": Array<"reverse" | (string & {})>;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. allocated_at (Optional): string or null. When
-         * the credit was applied to the invoice balance. allocated_at.anyOf[1] (Value): string.
-         * When the credit was applied to the invoice balance. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". allocated_at.anyOf[2] (Value): null. amount_money (Optional):
-         * {@link MoneyValuePreviousAttributes} or null. Credit applied to the invoice balance.
-         * amount_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-         * amount_money.anyOf[2] (Value): null. credit_note_allocation_id (Optional): string or
-         * null. Unique identifier of the allocation. credit_note_allocation_id.anyOf[1] (Value):
-         * string. Unique identifier of the allocation. Example: "cna_01KEZF7C00EH6DMS9BD8F72CMA".
-         * credit_note_allocation_id.anyOf[2] (Value): null. credit_note_id (Optional): string or
-         * null. The credit note whose credit was applied. credit_note_id.anyOf[1] (Value): string.
-         * The credit note whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
-         * credit_note_id.anyOf[2] (Value): null. idempotency_key (Optional): string or null. The
-         * Idempotency-Key the caller sent when allocating, or the issue request's Idempotency-Key
-         * for an allocation made on issue. Filterable on the allocations list.
-         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key the caller sent when
-         * allocating, or the issue request's Idempotency-Key for an allocation made on issue.
-         * Filterable on the allocations list. idempotency_key.anyOf[2] (Value): null. invoice_id
-         * (Optional): string or null. The invoice whose balance the credit reduced.
-         * invoice_id.anyOf[1] (Value): string. The invoice whose balance the credit reduced.
-         * Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2] (Value): null.
-         * reversed_at (Optional): string or null. When the allocation was reversed and its credit
-         * returned. Absent while the allocation stands. reversed_at.anyOf[1] (Value): string. When
-         * the allocation was reversed and its credit returned. Absent while the allocation stands.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". reversed_at.anyOf[2] (Value): null.
-         * supported_actions (Optional): Array of string or null. Lifecycle actions Flint accepts
-         * for this resource now, based on stored state. Independent of the caller's permissions;
-         * each action still requires its route's scope. Always [] when no action is available. []
-         * enum: "reverse". supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions
-         * Flint accepts for this resource now, based on stored state. Independent of the caller's
-         * permissions; each action still requires its route's scope. Always [] when no action is
-         * available. [] enum: "reverse". supported_actions.anyOf[1][] (Value): string. Value enum:
-         * "reverse". supported_actions.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * When the credit was applied to the invoice balance. anyOf[1] (Value): string. When
-             * the credit was applied to the invoice balance. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "allocated_at"?: ((string) | (null));
-            /**
-             * Credit applied to the invoice balance. anyOf[1] (Value): {@link
-             * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * Unique identifier of the allocation. anyOf[1] (Value): string. Unique identifier of
-             * the allocation. Example: "cna_01KEZF7C00EH6DMS9BD8F72CMA". anyOf[2] (Value): null.
-             */
-            "credit_note_allocation_id"?: ((string) | (null));
-            /**
-             * The credit note whose credit was applied. anyOf[1] (Value): string. The credit note
-             * whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". anyOf[2]
-             * (Value): null.
-             */
-            "credit_note_id"?: ((string) | (null));
-            /**
-             * The Idempotency-Key the caller sent when allocating, or the issue request's
-             * Idempotency-Key for an allocation made on issue. Filterable on the allocations list.
-             * anyOf[1] (Value): string. The Idempotency-Key the caller sent when allocating, or
-             * the issue request's Idempotency-Key for an allocation made on issue. Filterable on
-             * the allocations list. anyOf[2] (Value): null.
-             */
-            "idempotency_key"?: ((string) | (null));
-            /**
-             * The invoice whose balance the credit reduced. anyOf[1] (Value): string. The invoice
-             * whose balance the credit reduced. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-             * anyOf[2] (Value): null.
-             */
-            "invoice_id"?: ((string) | (null));
-            /**
-             * When the allocation was reversed and its credit returned. Absent while the
-             * allocation stands. anyOf[1] (Value): string. When the allocation was reversed and
-             * its credit returned. Absent while the allocation stands. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "reversed_at"?: ((string) | (null));
-            /**
-             * Lifecycle actions Flint accepts for this resource now, based on stored state.
-             * Independent of the caller's permissions; each action still requires its route's
-             * scope. Always [] when no action is available. [] enum: "reverse". anyOf[1] (Value):
-             * Array of string. Lifecycle actions Flint accepts for this resource now, based on
-             * stored state. Independent of the caller's permissions; each action still requires
-             * its route's scope. Always [] when no action is available. [] enum: "reverse".
-             * anyOf[1][] (Value): string. Value enum: "reverse". anyOf[2] (Value): null.
-             */
-            "supported_actions"?: ((Array<"reverse" | (string & {})>) | (null));
-        });
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "credit_note_allocation.reversed". */
-    "event_type"?: "credit_note_allocation.reversed";
-});

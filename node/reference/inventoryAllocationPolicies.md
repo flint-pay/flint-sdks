@@ -4,7 +4,7 @@
 
 ### inventoryAllocationPolicies.create
 
-Create an allocation policy with its routing configuration. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, list inventory allocation policies and identify the matching policy.
+Create an allocation policy with its routing configuration. Idempotency is scoped to the authenticated merchant, environment, caller namespace, and operation. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, list inventory allocation policies and identify the matching policy.
 
 `POST /v1/inventory-allocation-policies`
 
@@ -28,7 +28,7 @@ Body model: [CreateInventoryAllocationPolicyRequestInput](../models/CreateInvent
 | `configuration` | Required | [InventoryAllocationPolicyConfigurationRequestInput](../models/InventoryAllocationPolicyConfigurationRequestInput.md#inventoryallocationpolicyconfigurationrequestinput) | Routing rules: ranked groups of Locations, whether demand can be split, and the most Locations one assignment may use. Routing rules for an inventory allocation policy: ranked groups of Locations, whether demand can be split, and how many Locations one assignment may use. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
-| `name` | Required | string | Merchant-facing policy name. minLength: `1`. |
+| `name` | Required | string | Merchant-facing policy name. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. |
 | `status` | Optional | string | Status the allocation policy starts in. Defaults to `active`. Default: `"active"`. Values: `"active"`, `"inactive"`. |
 
 #### Response
@@ -91,7 +91,7 @@ delete(inventory_allocation_policy_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `inventory_allocation_policy_id` | Required | string | Flint inventory allocation policy ID. |
+| `inventory_allocation_policy_id` | Required | string | Flint inventory allocation policy ID. Must be a valid ID with prefix invp_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `expected_version` | Optional | integer | Current resource version used as a concurrency fence. Format: `uint64`. minimum: `1`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
@@ -155,7 +155,7 @@ get(inventory_allocation_policy_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `inventory_allocation_policy_id` | Required | string | Flint inventory allocation policy ID. |
+| `inventory_allocation_policy_id` | Required | string | Flint inventory allocation policy ID. Must be a valid ID with prefix invp_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -214,8 +214,8 @@ getRevision(inventory_allocation_policy_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `inventory_allocation_policy_id` | Required | string | Flint inventory allocation policy ID. |
-| `inventory_allocation_policy_revision_id` | Required | string | Flint inventory allocation policy revision ID. |
+| `inventory_allocation_policy_id` | Required | string | Flint inventory allocation policy ID. Must be a valid ID with prefix invp_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
+| `inventory_allocation_policy_revision_id` | Required | string | Flint inventory allocation policy revision ID. Must be a valid ID with prefix invpv_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -331,7 +331,7 @@ listRevisions(inventory_allocation_policy_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `inventory_allocation_policy_id` | Required | string | Flint inventory allocation policy ID. |
+| `inventory_allocation_policy_id` | Required | string | Flint inventory allocation policy ID. Must be a valid ID with prefix invp_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `sort_direction` | Optional | string | Sort direction. Defaults to desc. Default: `"desc"`. Values: `"asc"`, `"desc"`. |
@@ -380,7 +380,7 @@ const result = await client.inventoryAllocationPolicies.listRevisions("invp_01KE
 
 ### inventoryAllocationPolicies.update
 
-Update policy fields, availability, or atomically replace its routing configuration. expected_version is optional and enforced when sent, and is required when replacing configuration. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, read the inventory allocation policy by ID.
+Update policy fields, availability, or atomically replace its routing configuration. expected_version is optional and enforced when sent, and is required when replacing configuration. Idempotency is scoped to the authenticated merchant, environment, caller namespace, and operation. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, read the inventory allocation policy by ID.
 
 `PATCH /v1/inventory-allocation-policies/{inventory_allocation_policy_id}`
 
@@ -396,7 +396,7 @@ update(inventory_allocation_policy_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `inventory_allocation_policy_id` | Required | string | Flint inventory allocation policy ID. |
+| `inventory_allocation_policy_id` | Required | string | Flint inventory allocation policy ID. Must be a valid ID with prefix invp_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -412,7 +412,7 @@ Body model: [UpdateInventoryAllocationPolicyRequestInput](../models/UpdateInvent
 | `expected_version` | Optional | integer | Required when any of these fields is present: configuration. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequest.md#metadatapatchrequest) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
-| `name` | Optional | string | Merchant-facing policy name. minLength: `1`. |
+| `name` | Optional | string | Merchant-facing policy name. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. |
 | `status` | Optional | string | New status for the allocation policy. Omit it to leave the status unchanged. Values: `"active"`, `"inactive"`. |
 
 #### Response

@@ -14,7 +14,7 @@ Signature: `confirm(customer_verification_id: InputValue<string>, params: Custom
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_verification_id` | Required | string | Flint customer verification ID. |
+| `customer_verification_id` | Required | string | Flint customer verification ID. Must be a valid ID with prefix cver_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Required | [ConfirmCustomerVerificationRequestInput](../models/ConfirmCustomerVerificationRequestInput.md#confirmcustomerverificationrequestinput) | The request body for: Confirm a customer email verification. |
 
 Body model: [ConfirmCustomerVerificationRequestInput](../models/ConfirmCustomerVerificationRequestInput.md#confirmcustomerverificationrequestinput).
@@ -151,7 +151,7 @@ get(customer_verification_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_verification_id` | Required | string | Flint customer verification ID. |
+| `customer_verification_id` | Required | string | Flint customer verification ID. Must be a valid ID with prefix cver_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 

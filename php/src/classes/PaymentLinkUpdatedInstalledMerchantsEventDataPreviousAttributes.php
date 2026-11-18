@@ -85,7 +85,7 @@ final class PaymentLinkUpdatedInstalledMerchantsEventDataPreviousAttributes exte
      */
     public function getDescription(): string|null { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** Largest amount a buyer can give on a donation link. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+    /** Largest amount a buyer can give on a donation link. Must be greater than zero and greater than or equal to donation_min_amount_money. Omit on create for no maximum. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      * @return MoneyValuePreviousAttributes|null
      */
     public function getDonationMaxAmountMoney(): MoneyValuePreviousAttributes|null { return $this->get('donation_max_amount_money'); }

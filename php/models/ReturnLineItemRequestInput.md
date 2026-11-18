@@ -8,7 +8,7 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `buyer_note` | Optional | string | Note about this line. Some return reasons require one. minLength: `1`. |
+| `buyer_note` | Optional | string | Note about this line. Some return reasons require one. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. |
 | `fulfillment_id` | Optional | string | ID of the fulfillment the units were delivered in. minLength: `1`. Example: `"ful_01KEZF7C00F24WVSTTWR1FQX5T"`. |
 | `order_line_item_id` | Required | string | ID of the order line item being returned. minLength: `1`. Example: `"li_01KEZF7C008YPRCK7VDKTGWR31"`. |
 | `requested_quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |

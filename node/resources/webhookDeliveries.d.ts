@@ -1,6 +1,6 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { RequestOptions } from '../declarations/types-60.js';
+import type { RequestOptions } from '../declarations/types-61.js';
 import type {
     WebhookDeliveriesCreateParams,
     WebhookDeliveriesGetParams,
@@ -14,8 +14,8 @@ import type {
     WebhookDeliveryAttemptListResponse,
     WebhookDeliveryListResponse,
     WebhookDeliveryResponse
-} from '../declarations/types-76.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-78.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -43,26 +43,20 @@ export type {
     WebhookDeliveriesResendParams,
     WebhookDeliveryAction,
     WebhookDeliveryActionResponse
-} from '../declarations/types-76.js';
-export type {
-    RequestOptions,
-    ResponseMeta,
-    ResponseWarning,
-    ResourceReference,
-    ResendWebhookDeliveryRequestInput,
-    ResendWebhookDeliveryRequest
-} from '../declarations/types-60.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-78.js';
+export type { RequestOptions, ResendWebhookDeliveryRequestInput, ResendWebhookDeliveryRequest } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateWebhookDeliveryRequestInput, Credentials, CreateWebhookDeliveryRequest } from '../declarations/types-14.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export type { CustomersListAddressesParams } from '../declarations/types-17.js';
-export { makeCreateWebhookDeliveryRequest } from '../declarations/types-82.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeResendWebhookDeliveryRequest } from '../declarations/types-88.js';
+export { makeCreateWebhookDeliveryRequest } from '../declarations/types-84.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeResendWebhookDeliveryRequest } from '../declarations/types-90.js';
 export interface WebhookDeliveriesResource {
     /**
  * Creates a delivery for a retained event and an endpoint that currently subscribes to it, then
@@ -89,7 +83,9 @@ export interface WebhookDeliveriesResource {
  * invisible in sandbox mode; a direct reference returns 404 RESOURCE_NOT_FOUND.
  *
  * `GET /v1/webhook-deliveries/{webhook_delivery_id}`
- * @param webhook_delivery_id Flint webhook delivery ID.
+ * @param webhook_delivery_id Flint webhook delivery ID. Must be a valid ID with prefix wdel_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/webhooks#getWebhookDelivery
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -122,7 +118,9 @@ export interface WebhookDeliveriesResource {
  * attempt_number ascending; this key uniquely orders the results.
  *
  * `GET /v1/webhook-deliveries/{webhook_delivery_id}/attempts`
- * @param webhook_delivery_id Flint webhook delivery ID.
+ * @param webhook_delivery_id Flint webhook delivery ID. Must be a valid ID with prefix wdel_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/webhooks#listWebhookDeliveryAttempts
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -146,7 +144,9 @@ export interface WebhookDeliveriesResource {
  * `live_mode_required`, including on idempotent replay.
  *
  * `POST /v1/webhook-deliveries/{webhook_delivery_id}/resend`
- * @param webhook_delivery_id Flint webhook delivery ID.
+ * @param webhook_delivery_id Flint webhook delivery ID. Must be a valid ID with prefix wdel_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/webhooks#resendWebhookDelivery
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

@@ -8,14 +8,14 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `action_type` | Required | string | Action to take next. Use its target resource and required_fields to prepare the request. Values: [163 declared values](#nextactioninput-action_type-values). |
+| `action_type` | Required | string | Action to take next. Use its target resource and required_fields to prepare the request. Values: [167 declared values](#nextactioninput-action_type-values). |
 | `expires_at` | Optional | string | When this suggested action expires, in RFC3339 format. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `merchant_account_session` | Optional | [ReadinessMerchantAccountSessionInput](../models/ReadinessMerchantAccountSessionInput.md#readinessmerchantaccountsessioninput) | Request body to send unchanged to POST /v1/merchant-account-sessions when action_type is create_merchant_account_session. When absent, GET merchant readiness and use its recommended session body. Shared request body for `create_merchant_account_session` next actions in readiness, onboarding, errors, and warnings. Send unchanged to POST /v1/merchant-account-sessions; components and collection policy describe which requirements to collect. |
 | `method` | Optional | string | HTTP method for the recovery read. Values: `"GET"`. |
 | `reason_code` | Optional | string | Machine-readable reason this action is suggested. |
 | `reason_message` | Optional | string | Explanation of why this action is suggested. |
 | `required_fields` | Optional | Array of string | Field names that must be supplied to perform this action. |
-| `required_scope` | Optional | string | API key scope required to call the public endpoint in url, when the action points at another Flint API endpoint. Values: [102 declared values](APIKeyInput.md#apikeyinput-scopes--values). |
+| `required_scope` | Optional | string | API key scope required to call the public endpoint in url, when the action points at another Flint API endpoint. Values: [103 declared values](APIKeyInput.md#apikeyinput-scopes--values). |
 | `requires_human_confirmation` | Optional | boolean | Whether a person must approve the action before it is performed. |
 | `suggested_delay_milliseconds` | Optional | integer | Suggested wait before performing the action, in milliseconds. Format: `int32`. |
 | `target_resource` | Optional | [ResourceReferenceInput](../models/ResourceReferenceInput.md#resourcereferenceinput) | Resource whose ID to send in the target request field named {resource_type}_id when url cannot carry the target. A reference to another resource by `resource_type` and `resource_id`. |
@@ -70,6 +70,8 @@ Request input.
 - `"get_invoice"`
 - `"get_invoice_manual_payment"`
 - `"get_invoice_payment_term"`
+- `"get_license_key"`
+- `"get_license_key_pool"`
 - `"get_location"`
 - `"get_me"`
 - `"get_me_address"`
@@ -147,6 +149,7 @@ Request input.
 - `"list_invoice_manual_payments"`
 - `"list_invoice_payment_attempts"`
 - `"list_invoices"`
+- `"list_license_key_pool_keys"`
 - `"list_me_gift_cards"`
 - `"list_me_remembered_buyers"`
 - `"list_me_returns"`
@@ -156,6 +159,7 @@ Request input.
 - `"list_order_edits"`
 - `"list_order_line_items"`
 - `"list_order_payment_attempts"`
+- `"list_orders"`
 - `"list_package_items"`
 - `"list_packages"`
 - `"list_payment_intent_activities"`

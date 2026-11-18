@@ -26,7 +26,7 @@ final class TaxJurisdictionPreviousAttributes extends Model {
      */
     public function getLevel(): string|null { return $this->get('level'); }
     public function hasLevel(): bool { return $this->has('level'); }
-    /** Name of the jurisdiction, up to 200 characters. anyOf[1] (Value): string. Name of the jurisdiction, up to 200 characters. minLength: 1. anyOf[2] (Value): null.
+    /** Name of the jurisdiction, up to 200 characters. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. anyOf[1] (Value): string. Name of the jurisdiction, up to 200 characters. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getName(): string|null { return $this->get('name'); }

@@ -38,6 +38,10 @@ The affected public resource without expansions, client authority fields, or fie
 
 Field definitions: [shared fields](Refund.md#refund).
 
+### RefundCreatedMerchantEvent.data fields 1.object.charge_allocations[]
+
+Field definitions: [CancelReturnResponse.data.return_resolutions[].refunds[].charge_allocations[]](../models/CancelReturnResponse.md#cancelreturnresponsedatareturn_resolutionsrefundscharge_allocations).
+
 ### RefundCreatedMerchantEvent.data fields 1.object.line_item_allocations[]
 
 Field definitions: [CancelReturnResponse.data.return_resolutions[].refunds[].line_item_allocations[]](../models/CancelReturnResponse.md#cancelreturnresponsedatareturn_resolutionsrefundsline_item_allocations).

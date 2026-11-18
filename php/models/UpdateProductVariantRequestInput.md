@@ -11,6 +11,7 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `barcode` | Optional | string or null | Send null to clear it. minLength: `1`. maxLength: `100`. |
+| `compare_at_price_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) or null | Reference unit price for sale display. Omit to preserve it; null clears it. Must use the same currency and be strictly greater than the final unit_price_money. Base-price changes must preserve this rule; replace or clear this field in the same request when necessary. |
 | `delivery_profile_id` | Optional | string or null | Omit to preserve the assignment. Send null to clear it. Clearing a digital or service variant restores not_applicable with no delivery requirement and never selects a default. Assigned profiles must be required/manual with allowed_types exactly [digital] or [service], matching the product type. Existing order delivery snapshots do not change. minLength: `1`. Example: `"dprof_01KEZF7C0020J13FQYNY9854R0"`. |
 | `expected_version` | Optional | integer | Resource version last read by the caller. Required when images is present. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. Example: `"warehouse-1842"`. |
@@ -18,10 +19,11 @@ Request input.
 | `images` | Optional | Array of [ImageRequestInput](../models/ImageRequestInput.md#imagerequestinput) | Replaces the authored variant gallery atomically. Send [] to clear it and resume product-image inheritance. minItems: `0`. maxItems: `8`. |
 | `inventory_item` | Optional | [InventoryItemCreateRequestInput](../models/InventoryItemCreateRequestInput.md#inventoryitemcreaterequestinput) | New inventory item to create and track for this variant. Send either inventory_item or inventory_item_id. Inventory item details you supply when creating an inventory item for a product variant: `name`, `sku`, `barcode`, and metadata. |
 | `inventory_item_id` | Optional | string or null | Inventory item tracked by this variant. Send null to stop tracking inventory. minLength: `1`. Example: `"invi_01KEZF7C00A6YEM25MTHW2MPZY"`. |
+| `license_key_configuration` | Optional | [LicenseKeyConfigurationRequestInput](../models/LicenseKeyConfigurationRequestInput.md#licensekeyconfigurationrequestinput) or null | Replaced as a whole: send every field you want to keep. Only product_type digital supports this setting. It adds no delivery requirement and is independent of the delivery profile. Send null to remove every value you set in this section. Omission preserves it on update. |
 | `line_item_tax_category` | Optional | string or null | Flint line-item tax category to store. Send null to clear it and use the merchant default. Returns 409 ACTION_NOT_ALLOWED with reason mixed_tax_treatment and blocking_resources if a containing bundle would become mixed. Values: [13 declared values](#updateproductvariantrequestinput-line_item_tax_category-values). |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. This operation also limits the metadata object you send, before merging: at most 50 keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768 UTF-8 bytes of keys plus values. |
 | `modifier_set_id` | Optional | string or null | Attached modifier set. Send null on update to remove it. minLength: `1`. Example: `"ms_01KEZF7C007EWZVVFAWVJJM8NR"`. |
-| `name` | Optional | string or null | Send null to clear it. minLength: `1`. maxLength: `255`. |
+| `name` | Optional | string or null | Send null to clear it. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `255`. |
 | `position` | Optional | integer | Display order among the product's variants, starting at zero. Format: `int32`. |
 | `quantity_price_breaks` | Optional | Array of [QuantityPriceBreakRequestInput](../models/QuantityPriceBreakRequestInput.md#quantitypricebreakrequestinput) | Complete array of up to 10 quantity price breaks. Replaces the whole array; [] clears it and omission preserves it on update. Minimum quantities start at 2 and strictly increase. Unit prices strictly decrease from the base unit price and use its currency. Gift card variants reject a nonempty array. null is invalid. Include expected_version on update to reject a concurrent variant change. maxItems: `10`. |
 | `release_date` | Optional | string or null | Calendar release date in YYYY-MM-DD format. Omit to preserve it; send null to clear it. Existing order line dates do not change. Format: `date`. minLength: `1`. Example: `"2026-08-02"`. |
@@ -30,7 +32,7 @@ Request input.
 | `status` | Optional | string | Whether the variant is active or inactive. An inactive variant cannot be sold. Values: `"active"`, `"inactive"`. |
 | `taxable` | Optional | boolean | Whether this item is subject to tax. |
 | `unit_dimensions` | Optional | [DimensionsRequestInput](../models/DimensionsRequestInput.md#dimensionsrequestinput) or null | Replaces the complete object. Send null to clear it. |
-| `unit_price_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Base unit price in the currency's smallest unit. It applies below the first quantity price break. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `unit_price_money` | Optional | object | Base unit price in the currency's smallest unit. It applies below the first quantity price break. `unit_price_money`: [field definitions](../models/ProductVariantRequestInput.md#productvariantrequestinputunit_price_money). |
 | `unit_weight` | Optional | [WeightRequestInput](../models/WeightRequestInput.md#weightrequestinput) or null | Replaces the complete object. Send null to clear it. |
 
 #### UpdateProductVariantRequestInput line_item_tax_category values
@@ -48,4 +50,8 @@ Request input.
 - `"medical_goods"`
 - `"admission"`
 - `null`
+
+### UpdateProductVariantRequestInput.unit_price_money
+
+Field definitions: [ProductVariantRequestInput.unit_price_money](../models/ProductVariantRequestInput.md#productvariantrequestinputunit_price_money).
 

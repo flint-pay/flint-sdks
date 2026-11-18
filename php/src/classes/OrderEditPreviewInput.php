@@ -12,9 +12,10 @@ namespace Flint;
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $refund_money
  * @property-read list<OrderEditRemovalInput|array<array-key, mixed>|\stdClass> $remove_line_items
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $removed_total_money
+ * @property-read SignedMoneyInput|array<array-key, mixed>|\stdClass $small_balance_adjustment_money
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrderEditPreviewInput extends Model {
-    /** @param array{'add_line_items': list<OrderEditPreviewAdditionInput|array<array-key, mixed>|\stdClass>, 'added_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'amount_due_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'based_on_order_version': int, 'calculated_at': string|\DateTimeInterface, 'charge_refunds': list<OrderEditChargeRefundInput|array<array-key, mixed>|\stdClass>, 'order_id': string, 'refund_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'remove_line_items': list<OrderEditRemovalInput|array<array-key, mixed>|\stdClass>, 'removed_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'add_line_items': list<OrderEditPreviewAdditionInput|array<array-key, mixed>|\stdClass>, 'added_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'amount_due_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'based_on_order_version': int, 'calculated_at': string|\DateTimeInterface, 'charge_refunds': list<OrderEditChargeRefundInput|array<array-key, mixed>|\stdClass>, 'order_id': string, 'refund_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'remove_line_items': list<OrderEditRemovalInput|array<array-key, mixed>|\stdClass>, 'removed_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'small_balance_adjustment_money': SignedMoneyInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderEditPreviewInput')); }
     /** The requested additions, in request order, priced and taxed. Empty when the request adds nothing. [] (Value): {@see OrderEditPreviewAdditionInput}. A line the preview would add, priced and taxed as it would be added to the order.
      * @return list<OrderEditPreviewAdditionInput|array<array-key, mixed>|\stdClass>
@@ -76,4 +77,10 @@ final class OrderEditPreviewInput extends Model {
      */
     public function getRemovedTotalMoney(): mixed { return $this->get('removed_total_money'); }
     public function hasRemovedTotalMoney(): bool { return $this->has('removed_total_money'); }
+    /** Signed noncash adjustment the edit would record: positive for a balance below the payment minimum, negative when removing previously absorbed value. Included in the order's written-off amount, never paid or refundable. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return SignedMoneyInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When small_balance_adjustment_money is omitted; use hasSmallBalanceAdjustmentMoney() or valueOrDefault().
+     */
+    public function getSmallBalanceAdjustmentMoney(): mixed { return $this->get('small_balance_adjustment_money'); }
+    public function hasSmallBalanceAdjustmentMoney(): bool { return $this->has('small_balance_adjustment_money'); }
 }

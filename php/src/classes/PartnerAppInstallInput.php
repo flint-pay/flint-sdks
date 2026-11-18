@@ -10,6 +10,7 @@ namespace Flint;
  * @property-read string $partner_app_id
  * @property-read string $partner_app_install_id
  * @property-read string $partner_app_name
+ * @property-read PartnerAppPlatformContactInput|array<array-key, mixed>|\stdClass $platform_contact
  * @property-read string|\DateTimeInterface $revoked_at
  * @property-read string $revoked_by
  * @property-read string $revoked_by_user_id
@@ -18,7 +19,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $updated_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class PartnerAppInstallInput extends Model {
-    /** @param array{'created_at': string|\DateTimeInterface, 'environment_grants'?: list<PartnerEnvironmentGrantInput|array<array-key, mixed>|\stdClass>, 'installed_by_user_id'?: string, 'merchant_id': string, 'merchant_signup_id'?: string, 'partner_app_id': string, 'partner_app_install_id': string, 'partner_app_name': string, 'revoked_at'?: string|\DateTimeInterface, 'revoked_by'?: string, 'revoked_by_user_id'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at': string|\DateTimeInterface, ...}|object $values */
+    /** @param array{'created_at': string|\DateTimeInterface, 'environment_grants'?: list<PartnerEnvironmentGrantInput|array<array-key, mixed>|\stdClass>, 'installed_by_user_id'?: string, 'merchant_id': string, 'merchant_signup_id'?: string, 'partner_app_id': string, 'partner_app_install_id': string, 'partner_app_name': string, 'platform_contact'?: PartnerAppPlatformContactInput|array<array-key, mixed>|\stdClass, 'revoked_at'?: string|\DateTimeInterface, 'revoked_by'?: string, 'revoked_by_user_id'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at': string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAppInstallInput')); }
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
@@ -68,6 +69,12 @@ final class PartnerAppInstallInput extends Model {
      */
     public function getPartnerAppName(): string { return $this->get('partner_app_name'); }
     public function hasPartnerAppName(): bool { return $this->has('partner_app_name'); }
+    /** The platform's current support contact, read live from platform_profile. Absent when the app has no platform profile, and in webhook event payloads. The platform's support contact shown to merchants.
+     * @return PartnerAppPlatformContactInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When platform_contact is omitted; use hasPlatformContact() or valueOrDefault().
+     */
+    public function getPlatformContact(): mixed { return $this->get('platform_contact'); }
+    public function hasPlatformContact(): bool { return $this->has('platform_contact'); }
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When revoked_at is omitted; use hasRevokedAt() or valueOrDefault().

@@ -15,6 +15,28 @@ What changed, most common first:
 - [Credentials](#credentials): a credential option passed empty throws instead of falling back to the environment.
 - [Type names](#type-names), [examples](#examples-and-the-default-host), [packaging](#packaging) and [API contract changes](#api-contract-changes-in-800).
 
+## Changes in 8.0.0-beta.7
+
+Use `licenseKeys.validate`, `licenseKeyActivations.create` and `licenseKeyActivations.release` for app-facing calls. For an anonymous call, omit the API key and disable ambient credential discovery. Apply the same client option when adapting the generated examples.
+
+```js
+import { Client } from '@flintpay/node';
+
+const client = new Client({ ambientCredentials: false });
+const validation = await client.licenseKeys.validate({ key, product_ids });
+```
+
+```php
+$client = new \Flint\Client(new \Flint\ClientOptions(ambientCredentials: false));
+$validation = $client->licenseKeys->validate(['key' => $key, 'product_ids' => $productIds]);
+```
+
+Activation also takes a device `name`. Release takes the activation ID as its first argument. Server-side integrations can supply a merchant secret key through `apiKey`.
+
+The pinned public API removed the `feedbackReports.list`, `feedbackReports.create` and `feedbackReports.get` methods and their models. Remove these calls and imports before upgrading to this candidate.
+
+The compatibility comparison against the published beta.6 baseline also flags narrower input schemas and changed PHP model classes.
+
 ## Changes in 8.0.0-beta.6
 
 Previous webhook attributes may omit fields inside nested objects and arrays, including `line_items` on `order.updated`, `order.partially_refunded` and `order.refunded`. Check nested prior fields for omission or null before reading them. Supplied exact money amounts remain strings. Current resource fields keep their requiredness.

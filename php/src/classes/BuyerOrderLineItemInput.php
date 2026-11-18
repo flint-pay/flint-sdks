@@ -15,6 +15,7 @@ namespace Flint;
  * @property-read GiftCardPurchaseSnapshotInput|array<array-key, mixed>|\stdClass $gift_card_purchase
  * @property-read ImageInput|array<array-key, mixed>|\stdClass $image
  * @property-read array{'demands': list<LineItemInventoryDemandInput|array<array-key, mixed>|\stdClass>, 'inventory_tracking': string, ...}|object|null $inventory_snapshot
+ * @property-read int $license_key_quantity
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $modifier_total_money
  * @property-read list<BuyerOrderLineItemModifierInput|array<array-key, mixed>|\stdClass> $modifiers
  * @property-read string $name
@@ -26,6 +27,7 @@ namespace Flint;
  * @property-read string|null $product_type
  * @property-read list<PurchasedGiftCardInput|array<array-key, mixed>|\stdClass> $purchased_gift_cards
  * @property-read int $quantity
+ * @property-read OrderLineItemRefundableInput|array<array-key, mixed>|\stdClass $refundable
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $refunded_money
  * @property-read int $refunded_quantity
  * @property-read string|null $release_date
@@ -46,7 +48,7 @@ namespace Flint;
  * @property-read string $variant_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerOrderLineItemInput extends Model {
-    /** @param array{'backordered_quantity': int, 'base_subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'bundle_components': list<BundleComponentInput|array<array-key, mixed>|\stdClass>, 'bundle_id'?: string, 'categories': list<CategoryReferenceInput|array<array-key, mixed>|\stdClass>, 'description'?: string, 'discount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'expected_ship_date': string|null, 'fulfillment_quantities'?: list<OrderLineItemFulfillmentQuantitiesInput|array<array-key, mixed>|\stdClass>, 'fulfillment_requirements'?: OrderLineItemFulfillmentRequirementsInput|array<array-key, mixed>|\stdClass, 'gift_card_purchase'?: GiftCardPurchaseSnapshotInput|array<array-key, mixed>|\stdClass, 'image'?: ImageInput|array<array-key, mixed>|\stdClass, 'inventory_snapshot': array{'demands': list<LineItemInventoryDemandInput|array<array-key, mixed>|\stdClass>, 'inventory_tracking': string, ...}|object|null, 'modifier_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'modifiers': list<BuyerOrderLineItemModifierInput|array<array-key, mixed>|\stdClass>, 'name': string, 'order_edit_id': string|null, 'order_id': string, 'order_line_item_id': string, 'payment_link_line_item_key': string|null, 'product_id'?: string, 'product_type': string|null, 'purchased_gift_cards': list<PurchasedGiftCardInput|array<array-key, mixed>|\stdClass>, 'quantity': int, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'refunded_quantity': int, 'release_date': string|null, 'removed_quantity': int, 'selected_options': list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>, 'sku'?: string, 'subscription'?: SubscribedLineInput|array<array-key, mixed>|\stdClass, 'subscription_id'?: string, 'subscription_offer'?: OrderLineSubscriptionOfferSummaryInput|array<array-key, mixed>|\stdClass, 'subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'tax'?: OrderCalculatedLineItemTaxInput|array<array-key, mixed>|\stdClass, 'tax_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'type': string, 'unit_dimensions'?: DimensionsInput|array<array-key, mixed>|\stdClass, 'unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'unit_weight'?: WeightInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string, ...}|object $values */
+    /** @param array{'backordered_quantity': int, 'base_subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'bundle_components': list<BundleComponentInput|array<array-key, mixed>|\stdClass>, 'bundle_id'?: string, 'categories': list<CategoryReferenceInput|array<array-key, mixed>|\stdClass>, 'description'?: string, 'discount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'expected_ship_date': string|null, 'fulfillment_quantities'?: list<OrderLineItemFulfillmentQuantitiesInput|array<array-key, mixed>|\stdClass>, 'fulfillment_requirements'?: OrderLineItemFulfillmentRequirementsInput|array<array-key, mixed>|\stdClass, 'gift_card_purchase'?: GiftCardPurchaseSnapshotInput|array<array-key, mixed>|\stdClass, 'image'?: ImageInput|array<array-key, mixed>|\stdClass, 'inventory_snapshot': array{'demands': list<LineItemInventoryDemandInput|array<array-key, mixed>|\stdClass>, 'inventory_tracking': string, ...}|object|null, 'license_key_quantity': int, 'modifier_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'modifiers': list<BuyerOrderLineItemModifierInput|array<array-key, mixed>|\stdClass>, 'name': string, 'order_edit_id': string|null, 'order_id': string, 'order_line_item_id': string, 'payment_link_line_item_key': string|null, 'product_id'?: string, 'product_type': string|null, 'purchased_gift_cards': list<PurchasedGiftCardInput|array<array-key, mixed>|\stdClass>, 'quantity': int, 'refundable': OrderLineItemRefundableInput|array<array-key, mixed>|\stdClass, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'refunded_quantity': int, 'release_date': string|null, 'removed_quantity': int, 'selected_options': list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>, 'sku'?: string, 'subscription'?: SubscribedLineInput|array<array-key, mixed>|\stdClass, 'subscription_id'?: string, 'subscription_offer'?: OrderLineSubscriptionOfferSummaryInput|array<array-key, mixed>|\stdClass, 'subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'tax'?: OrderCalculatedLineItemTaxInput|array<array-key, mixed>|\stdClass, 'tax_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'type': string, 'unit_dimensions'?: DimensionsInput|array<array-key, mixed>|\stdClass, 'unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'unit_weight'?: WeightInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerOrderLineItemInput')); }
     /** Tracked line units waiting for stock. Always 0 when none are backordered. Whole-number quantity; fractional quantities are not supported. Format: int64. minimum: 0.
      * @return int
@@ -126,6 +128,12 @@ final class BuyerOrderLineItemInput extends Model {
      */
     public function getInventorySnapshot(): mixed { return $this->get('inventory_snapshot'); }
     public function hasInventorySnapshot(): bool { return $this->has('inventory_snapshot'); }
+    /** Number of license keys promised by this line: quantity when its frozen catalog setting issues keys, otherwise 0. Includes keys for a subscription started by this line; renewal lines report 0. Refunds do not reduce this count. Keys arrive asynchronously after payment, so they may not exist yet when order.paid arrives. Whole-number quantity; fractional quantities are not supported. Format: int64. minimum: 0.
+     * @return int
+     * @throws SdkError When license_key_quantity is omitted; use hasLicenseKeyQuantity() or valueOrDefault().
+     */
+    public function getLicenseKeyQuantity(): int { return $this->get('license_key_quantity'); }
+    public function hasLicenseKeyQuantity(): bool { return $this->has('license_key_quantity'); }
     /** Sum of the line item's modifier totals. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When modifier_total_money is omitted; use hasModifierTotalMoney() or valueOrDefault().
@@ -192,6 +200,12 @@ final class BuyerOrderLineItemInput extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
+    /** Remaining quantity and components for an ID-only line refund target. Accounts for original-tender capacity, reversals, accepted refunds, and whole-value edit reservations, including credit transferred to added lines and pending or retryable failed edit refunds. All values are zero when exhausted. Refund eligibility is checked again on submission. Remaining refundable quantity and value of an order line, after prior refunds and order edit reservations.
+     * @return OrderLineItemRefundableInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When refundable is omitted; use hasRefundable() or valueOrDefault().
+     */
+    public function getRefundable(): mixed { return $this->get('refundable'); }
+    public function hasRefundable(): bool { return $this->has('refundable'); }
     /** Amount of this line already refunded. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When refunded_money is omitted; use hasRefundedMoney() or valueOrDefault().

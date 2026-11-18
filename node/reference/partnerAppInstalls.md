@@ -67,7 +67,7 @@ Signature: `revoke(partner_app_install_id: InputValue<string>, params?: PartnerA
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `partner_app_install_id` | Required | string | Flint partner app install ID. |
+| `partner_app_install_id` | Required | string | Flint partner app install ID. Must be a valid ID with prefix pinst_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 

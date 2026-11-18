@@ -8,13 +8,14 @@ namespace Flint;
  * @property-read string $partner_app_id
  * @property-read int $partner_app_version
  * @property-read PartnerAppPaymentSplitsInput|array<array-key, mixed>|\stdClass $payment_splits
+ * @property-read PartnerAppPlatformContactInput|array<array-key, mixed>|\stdClass $platform_contact
  * @property-read PlatformFeeCapInput|array<array-key, mixed>|\stdClass $platform_fee_cap
  * @property-read string $redirect_uri
  * @property-read list<string> $requested_permission_ids
  * @property-read list<PartnerAuthorizePreviewPermissionInput|array<array-key, mixed>|\stdClass> $requested_permissions
  * Presence-aware input; omitted fields throw when accessed. */
 final class PartnerAuthorizePreviewInput extends Model {
-    /** @param array{'client_id': string, 'mode': string, 'name': string, 'partner_app_id': string, 'partner_app_version': int, 'payment_splits'?: PartnerAppPaymentSplitsInput|array<array-key, mixed>|\stdClass, 'platform_fee_cap'?: PlatformFeeCapInput|array<array-key, mixed>|\stdClass, 'redirect_uri': string, 'requested_permission_ids': list<string>, 'requested_permissions': list<PartnerAuthorizePreviewPermissionInput|array<array-key, mixed>|\stdClass>, ...}|object $values */
+    /** @param array{'client_id': string, 'mode': string, 'name': string, 'partner_app_id': string, 'partner_app_version': int, 'payment_splits'?: PartnerAppPaymentSplitsInput|array<array-key, mixed>|\stdClass, 'platform_contact'?: PartnerAppPlatformContactInput|array<array-key, mixed>|\stdClass, 'platform_fee_cap'?: PlatformFeeCapInput|array<array-key, mixed>|\stdClass, 'redirect_uri': string, 'requested_permission_ids': list<string>, 'requested_permissions': list<PartnerAuthorizePreviewPermissionInput|array<array-key, mixed>|\stdClass>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAuthorizePreviewInput')); }
     /** The app's client ID, as sent in the authorization request. Example: "fpc_00112233445566778899aabbccddeeff".
      * @return string
@@ -52,6 +53,12 @@ final class PartnerAuthorizePreviewInput extends Model {
      */
     public function getPaymentSplits(): mixed { return $this->get('payment_splits'); }
     public function hasPaymentSplits(): bool { return $this->has('payment_splits'); }
+    /** The platform's current support contact, read live from platform_profile. Absent when the app has no platform profile, and in webhook event payloads. The platform's support contact shown to merchants.
+     * @return PartnerAppPlatformContactInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When platform_contact is omitted; use hasPlatformContact() or valueOrDefault().
+     */
+    public function getPlatformContact(): mixed { return $this->get('platform_contact'); }
+    public function hasPlatformContact(): bool { return $this->has('platform_contact'); }
     /** The app's platform fee cap, which the consent screen shows. Approving this version of the app approves the cap for this mode. Absent when the app charges no platform fees. The most a platform fee can take from one payment. The largest platform fee on a payment is percent of the amount it collects, rounded half up to the minor unit, plus the currency's fixed part if it has one, and never more than the currency's maximum: a cap of 1% + 0.30 USD with a 5.00 USD maximum allows up to 1.30 USD on a 100.00 USD payment. A currency without a maximum can't carry a platform fee.
      * @return PlatformFeeCapInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When platform_fee_cap is omitted; use hasPlatformFeeCap() or valueOrDefault().

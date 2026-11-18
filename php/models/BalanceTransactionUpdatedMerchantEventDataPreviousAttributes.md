@@ -13,6 +13,7 @@ Response model.
 | `balance_transaction_id` | Optional | string or null | Stable identifier of this balance transaction. `balance_transaction_id`: [declared alternatives](../models/BalanceTransactionUpdatedMerchantEventDataPreviousAttributes.md#balancetransactionupdatedmerchanteventdatapreviousattributesbalance_transaction_id). |
 | `currency` | Optional | string or null | ISO 4217 currency code. `currency`: [declared alternatives](../models/MerchantBillingBalanceUpdatedEvent.md#merchantbillingbalanceupdatedeventdata-fields-1previous_attributescurrency). |
 | `description` | Optional | string or null | Short text describing the movement, from Flint or your processor. Use it for display, not for matching. `description`: [declared alternatives](../models/BalanceTransactionUpdatedMerchantEventDataPreviousAttributes.md#balancetransactionupdatedmerchanteventdatapreviousattributesdescription). |
+| `fee_details` | Optional | Array of [BalanceTransactionFeeDetailPreviousAttributes](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributes) or null | Fee sources on a payment charged a platform fee. Amounts are zero or positive and sum to the magnitude of fee_money. These are the original charges; later refunds do not reduce them. Absent on movements without a platform fee or without a payment Flint accepted. `fee_details`: [declared alternatives](../models/BalanceTransactionUpdatedMerchantEventDataPreviousAttributes.md#balancetransactionupdatedmerchanteventdatapreviousattributesfee_details). |
 | `fee_money` | Optional | [SignedMoneyPreviousAttributes](../models/SignedMoneyPreviousAttributes.md#signedmoneypreviousattributes) or null | Fee deducted from this balance movement. On payments, this is processing_fee_money plus every add-on fee in add_on_fees plus platform_fee.amount_money when a partner app charged a platform fee; the payment intent carries the breakdown. On disputes and dispute reversals, this includes the processor's dispute fee charged to your balance or actually returned to it. Charges are positive; returned fees are negative. A dispute of -4200 with a fee of 1500 has a net amount of -5700. A won dispute does not by itself return the fee. |
 | `merchant_id` | Optional | string or null | Merchant whose balance this transaction moved. `merchant_id`: [declared alternatives](../models/BalanceTransactionUpdatedMerchantEventDataPreviousAttributes.md#balancetransactionupdatedmerchanteventdatapreviousattributesmerchant_id). |
 | `net_money` | Optional | [SignedMoneyPreviousAttributes](../models/SignedMoneyPreviousAttributes.md#signedmoneypreviousattributes) or null | Signed net effect on your Flint balance: amount_money minus fee_money in the same currency. |
@@ -23,7 +24,7 @@ Response model.
 | `related_balance_transaction_ids` | Optional | Array of string or null | Earlier balance transactions this one is linked to, including the exact payment principal a refund returns, the payout transaction that a payout_failure, payout_cancellation, or payout_reversal returns, or the collection a merchant_billing_collection_reversal reverses. Empty when there are none. `related_balance_transaction_ids`: [declared alternatives](../models/BalanceTransactionUpdatedMerchantEventDataPreviousAttributes.md#balancetransactionupdatedmerchanteventdatapreviousattributesrelated_balance_transaction_ids). |
 | `related_resource` | Optional | [ResourceReferencePreviousAttributes](../models/ResourceReferencePreviousAttributes.md#resourcereferencepreviousattributes) or null | The Flint resource behind this movement: a payment_intent, payment_split, refund, dispute, payout, payout_destination, merchant_billing_invoice, or platform_fee_payout. Absent when the movement has none. `related_resource`: [declared alternatives](../models/BalanceTransactionUpdatedMerchantEventDataPreviousAttributes.md#balancetransactionupdatedmerchanteventdatapreviousattributesrelated_resource). |
 | `status` | Optional | string or null | Whether the funds can be paid out yet: pending until they become available, then available. Only these two values appear, and the change to available sends balance_transaction.updated. Values: `"pending"`, `"available"`. `status`: [declared alternatives](../models/BalanceTransactionUpdatedMerchantEventDataPreviousAttributes.md#balancetransactionupdatedmerchanteventdatapreviousattributesstatus). |
-| `type` | Optional | string or null | Kind of balance movement. Unmapped movement types are returned as other. Values: [27 declared values](BalanceTransactionInput.md#balancetransactioninput-type-values). `type`: [declared alternatives](../models/BalanceTransactionUpdatedMerchantEventDataPreviousAttributes.md#balancetransactionupdatedmerchanteventdatapreviousattributestype). |
+| `type` | Optional | string or null | Kind of balance movement. Unmapped movement types are returned as other. Values: [29 declared values](BalanceTransactionInput.md#balancetransactioninput-type-values). `type`: [declared alternatives](../models/BalanceTransactionUpdatedMerchantEventDataPreviousAttributes.md#balancetransactionupdatedmerchanteventdatapreviousattributestype). |
 
 ### BalanceTransactionUpdatedMerchantEventDataPreviousAttributes.available_at
 
@@ -70,6 +71,61 @@ anyOf variant 1: Short text describing the movement, from Flint or your processo
 anyOf variant 2.
 
 - Value shape: null. Short text describing the movement, from Flint or your processor. Use it for display, not for matching. 
+
+### BalanceTransactionUpdatedMerchantEventDataPreviousAttributes.fee_details
+
+### BalanceTransactionUpdatedMerchantEventDataPreviousAttributes.fee_details variant 1
+
+anyOf variant 1: Fee sources on a payment charged a platform fee. Amounts are zero or positive and sum to the magnitude of fee_money. These are the original charges; later refunds do not reduce them. Absent on movements without a platform fee or without a payment Flint accepted..
+
+- Value shape: Array of [BalanceTransactionFeeDetailPreviousAttributes](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributes). Fee sources on a payment charged a platform fee. Amounts are zero or positive and sum to the magnitude of fee_money. These are the original charges; later refunds do not reduce them. Absent on movements without a platform fee or without a payment Flint accepted. 
+
+### BalanceTransactionUpdatedMerchantEventDataPreviousAttributes.fee_details variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Fee sources on a payment charged a platform fee. Amounts are zero or positive and sum to the magnitude of fee_money. These are the original charges; later refunds do not reduce them. Absent on movements without a platform fee or without a payment Flint accepted. 
+
+### BalanceTransactionUpdatedMerchantEventDataPreviousAttributes.fee_details variant 1.[] fields 1
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | This source's share of the payment's original fee_money, in the same currency. |
+| `partner_app_id` | Optional | string or null | The partner app that charged the platform fee. Present for platform_fee. `partner_app_id`: [declared alternatives](../models/BalanceTransactionUpdatedMerchantEventDataPreviousAttributes.md#balancetransactionupdatedmerchanteventdatapreviousattributesfee_details-variant-1-fields-1partner_app_id). |
+| `platform_fee_id` | Optional | string or null | The platform fee charged on this payment. Present for platform_fee. `platform_fee_id`: [declared alternatives](../models/BalanceTransactionUpdatedMerchantEventDataPreviousAttributes.md#balancetransactionupdatedmerchanteventdatapreviousattributesfee_details-variant-1-fields-1platform_fee_id). |
+| `type` | Optional | string or null | Who charged this fee. flint includes Flint's processing and add-on fees; platform_fee is the partner app's fee. Values: `"flint"`, `"platform_fee"`. `type`: [declared alternatives](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributestype). |
+
+### BalanceTransactionUpdatedMerchantEventDataPreviousAttributes.fee_details variant 1.[] fields 1.partner_app_id
+
+### BalanceTransactionUpdatedMerchantEventDataPreviousAttributes.fee_details variant 1.[] fields 1.partner_app_id variant 1
+
+anyOf variant 1: The partner app that charged the platform fee. Present for platform_fee..
+
+- Value shape: string. The partner app that charged the platform fee. Present for platform_fee. The partner app that charged the platform fee. Present for platform_fee. Example: `"papp_01KEZF7C00Y8VMXYZ1GNPP3WHV"`. 
+
+### BalanceTransactionUpdatedMerchantEventDataPreviousAttributes.fee_details variant 1.[] fields 1.partner_app_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The partner app that charged the platform fee. Present for platform_fee. 
+
+### BalanceTransactionUpdatedMerchantEventDataPreviousAttributes.fee_details variant 1.[] fields 1.platform_fee_id
+
+### BalanceTransactionUpdatedMerchantEventDataPreviousAttributes.fee_details variant 1.[] fields 1.platform_fee_id variant 1
+
+anyOf variant 1: The platform fee charged on this payment. Present for platform_fee..
+
+- Value shape: string. The platform fee charged on this payment. Present for platform_fee. The platform fee charged on this payment. Present for platform_fee. Example: `"pfee_01KEZF7C00JHAZN19B3MMW0R3A"`. 
+
+### BalanceTransactionUpdatedMerchantEventDataPreviousAttributes.fee_details variant 1.[] fields 1.platform_fee_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The platform fee charged on this payment. Present for platform_fee. 
+
+### BalanceTransactionUpdatedMerchantEventDataPreviousAttributes.fee_details variant 1.[] fields 1.type
+
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.type](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributestype).
 
 ### BalanceTransactionUpdatedMerchantEventDataPreviousAttributes.merchant_id
 
@@ -375,7 +431,7 @@ anyOf variant 2.
 
 anyOf variant 1: Kind of balance movement. Unmapped movement types are returned as other..
 
-- Value shape: string. Kind of balance movement. Unmapped movement types are returned as other. Values: `"payment"`, `"refund"`, `"dispute"`, `"dispute_reversal"`, `"return"`, `"recovery"`, `"payout"`, `"payout_failure"`, `"payout_cancellation"`, `"payout_reversal"`, `"payout_advance"`, `"payout_advance_funding"`, `"reserve_hold"`, `"reserve_release"`, `"adjustment"`, `"merchant_billing_collection"`, `"merchant_billing_collection_reversal"`, `"platform_fee_refund"`, `"platform_fee_payout"`, `"platform_fee_payout_reversal"`, `"payment_split"`, `"payment_split_reversal"`, `"payment_split_reinstatement"`, `"payment_split_failure"`, `"seller_shortfall_coverage"`, `"seller_shortfall_coverage_reversal"`, `"other"`.
+- Value shape: string. Kind of balance movement. Unmapped movement types are returned as other. Values: `"inbound_payout"`, `"inbound_payout_failure"`, `"payment"`, `"refund"`, `"dispute"`, `"dispute_reversal"`, `"return"`, `"recovery"`, `"payout"`, `"payout_failure"`, `"payout_cancellation"`, `"payout_reversal"`, `"payout_advance"`, `"payout_advance_funding"`, `"reserve_hold"`, `"reserve_release"`, `"adjustment"`, `"merchant_billing_collection"`, `"merchant_billing_collection_reversal"`, `"platform_fee_refund"`, `"platform_fee_payout"`, `"platform_fee_payout_reversal"`, `"payment_split"`, `"payment_split_reversal"`, `"payment_split_reinstatement"`, `"payment_split_failure"`, `"seller_shortfall_coverage"`, `"seller_shortfall_coverage_reversal"`, `"other"`.
 
 ### BalanceTransactionUpdatedMerchantEventDataPreviousAttributes.type variant 2
 

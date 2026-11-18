@@ -68,6 +68,20 @@ anyOf variant 2.
 
 - Value shape: null. Kind of case the card network or bank opened. `status` and `is_action_required` say whether a response is needed. 
 
+### DisputeInquiryClosedInstalledMerchantsEventInput.data.previous_attributes.closed_reason
+
+### DisputeInquiryClosedInstalledMerchantsEventInput.data.previous_attributes.closed_reason variant 1
+
+anyOf variant 1: Why the dispute closed, when Flint recorded the cause. Absent when Flint has no confirmed closure reason..
+
+- Value shape: string. Why the dispute closed, when Flint recorded the cause. Absent when Flint has no confirmed closure reason. Values: `"merchant_accepted"`.
+
+### DisputeInquiryClosedInstalledMerchantsEventInput.data.previous_attributes.closed_reason variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Why the dispute closed, when Flint recorded the cause. Absent when Flint has no confirmed closure reason. 
+
 ### DisputeInquiryClosedInstalledMerchantsEventInput.data.previous_attributes.created_at
 
 Declared alternatives: [ApiKeyRevokedEventInput.data.previous_attributes.created_at](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at).

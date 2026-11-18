@@ -42,7 +42,7 @@ final class ReturnProcessInspectionRequestInput extends Model {
      */
     public function getInspectedAt(): string|\DateTimeInterface { return $this->get('inspected_at'); }
     public function hasInspectedAt(): bool { return $this->has('inspected_at'); }
-    /** Note for your own team about this line. minLength: 1.
+    /** Note for your own team about this line. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1.
      * @return string
      * @throws SdkError When internal_note is omitted; use hasInternalNote() or valueOrDefault().
      */

@@ -15,7 +15,7 @@ final class CreateCheckoutSessionUseSavedPaymentMethodsByEmailRequestInput exten
      */
     public function getChannel(): string { return $this->get('channel'); }
     public function hasChannel(): bool { return $this->has('channel'); }
-    /** Email the buyer typed, with no surrounding spaces. Customers are matched by email without regard to case. Format: email. minLength: 1. maxLength: 255. Example: "buyer@example.com".
+    /** Email the buyer typed, with no surrounding spaces. Customers are matched by email without regard to case. The local part before @ must be at most 64 octets (UTF-8 bytes). Format: email. minLength: 1. maxLength: 255. Example: "buyer@example.com".
      * @return string
      * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
      */

@@ -19,6 +19,10 @@ A package within a shipment.
 
 Field definitions: [shared fields](BuyerPackageResponse.md#buyerpackageresponsedata).
 
+### BuyerPackageListResponse.data[].items[]
+
+Field definitions: [BuyerPackageResponse.data.items[]](../models/BuyerPackageResponse.md#buyerpackageresponsedataitems).
+
 ### BuyerPackageListResponse.data[].return_line_items[]
 
 Field definitions: [PackageResponse.data.return_line_items[]](../models/PackageResponse.md#packageresponsedatareturn_line_items).

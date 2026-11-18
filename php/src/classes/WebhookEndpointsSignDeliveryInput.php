@@ -10,7 +10,7 @@ namespace Flint;
 final class WebhookEndpointsSignDeliveryInput extends Model {
     /** @param array{'webhook_endpoint_id': string, 'body': array{'webhook_event_id': string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookEndpointsSignDeliveryInput')); }
-    /** The caller's own merchant event-delivery endpoint in the selected sandbox. Example: "whep_01KEZF7C006FXYTAJRZCGCBJTN".
+    /** The caller's own merchant event-delivery endpoint in the selected sandbox. Must be a valid ID with prefix whep_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "whep_01KEZF7C006FXYTAJRZCGCBJTN".
      * @return string
      * @throws SdkError When webhook_endpoint_id is omitted; use hasWebhookEndpointId() or valueOrDefault().
      */

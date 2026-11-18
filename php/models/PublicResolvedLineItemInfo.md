@@ -13,6 +13,7 @@ Response model.
 | `bundle_components` | Optional | Array of [PublicResolvedBundleComponent](../models/PublicResolvedBundleComponent.md#publicresolvedbundlecomponent) | The components of the bundle. Present for a bundle line item. `bundle_components[]`: [field definitions](../models/PublicPaymentLinkResponse.md#publicpaymentlinkresponsedataresolved_line_itemsbundle_components). |
 | `bundle_id` | Optional | string | ID of the bundle this line item sells. |
 | `catalog_object_type` | Optional | string | What the line item sells. Values: `"variant"`, `"bundle"`. |
+| `compare_at_price_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Current catalog reference unit price for sale display. Null when no variant compare-at price is set. Does not affect the amount charged. |
 | `image` | Optional | [Image](../models/Image.md#image) | Image of the variant or bundle. An image with its URL, size, and alt text. |
 | `is_inventory_tracked` | Optional | boolean | Whether Flint tracks stock for the item. |
 | `is_sold_out` | Required | boolean | True when the fixed variant or bundle components cannot be bought at the line minimum quantity from the link inventory_routing_source. The minimum is min_quantity when quantity adjustment is enabled, otherwise quantity. For variant choice lines, true only when every available_variants entry is sold out. Always false for untracked and ad hoc lines. Exposes no stock counts and reserves no stock. |

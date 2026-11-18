@@ -14,7 +14,7 @@ final class TestClocksCreateParams extends Model {
      */
     public function getFrozenAt(): string|\DateTimeInterface { return $this->get('frozen_at'); }
     public function hasFrozenAt(): bool { return $this->has('frozen_at'); }
-    /** Your label for the test clock. minLength: 1. maxLength: 255.
+    /** Your label for the test clock. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */

@@ -1,17 +1,17 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
+import type { DeliveryZone } from '../declarations/types-24.js';
 import type {
-    DeliveryZone,
     DeliveryZoneListResponse,
     DeliveryZoneResponse,
     DeliveryZonesCreateParams,
     DeliveryZonesDeleteParams,
     DeliveryZonesGetParams,
-    DeliveryZonesListParams
-} from '../declarations/types-24.js';
-import type { DeliveryZonesUpdateParams } from '../declarations/types-25.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+    DeliveryZonesListParams,
+    DeliveryZonesUpdateParams
+} from '../declarations/types-25.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -28,20 +28,22 @@ export type {
 } from '../runtime.js';
 export type {
     DeliveryZonesCreateParams,
-    DeliveryZone,
     DeliveryZoneResponse,
     DeliveryZonesDeleteParams,
     DeliveryZonesGetParams,
     DeliveryZonesListParams,
     DeliveryZoneListResponse,
+    DeliveryZonesUpdateParams
+} from '../declarations/types-25.js';
+export type { RequestOptions } from '../declarations/types-61.js';
+export type {
+    DeliveryZone,
     DeliveryZoneConfigurationRequestInput,
     DeliveryStateConditionRequestInput,
     DeliveryZoneConfiguration,
     DeliveryStateCondition
 } from '../declarations/types-24.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
-export type { DeliveryZonesUpdateParams, DisputesAcceptParams } from '../declarations/types-25.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateDeliveryZoneRequestInput } from '../declarations/types-9.js';
 export type { DeliveryCountryConditionRequestInput, DeliveryDistanceRequestInput, DeliveryDistance } from '../declarations/types-18.js';
@@ -57,26 +59,27 @@ export type {
     DeliveryRadiusCondition,
     DeliveryRadiusOrigin
 } from '../declarations/types-22.js';
-export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-41.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { UpdateDeliveryZoneRequestInput } from '../declarations/types-73.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { UpdateDeliveryZoneRequestInput } from '../declarations/types-75.js';
 export type { DeliveryLocationSetsDeleteParams } from '../declarations/types-19.js';
-export { makeCreateDeliveryZoneRequest } from '../declarations/types-79.js';
-export { makeDeliveryCountryConditionRequest, makeDeliveryDistanceRequest } from '../declarations/types-82.js';
+export type { DisputesAcceptParams } from '../declarations/types-26.js';
+export { makeCreateDeliveryZoneRequest } from '../declarations/types-82.js';
+export { makeDeliveryCountryConditionRequest } from '../declarations/types-84.js';
 export {
+    makeDeliveryDistanceRequest,
     makeDeliveryPostalCodeConditionRequest,
     makeDeliveryPostalCodeValueRequest,
     makeDeliveryRadiusConditionRequest,
-    makeDeliveryRadiusOrigin,
-    makeDeliveryStateConditionRequest,
-    makeDeliveryZoneConfigurationRequest
-} from '../declarations/types-83.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeUpdateDeliveryZoneRequest } from '../declarations/types-90.js';
+    makeDeliveryRadiusOrigin
+} from '../declarations/types-85.js';
+export { makeDeliveryStateConditionRequest, makeDeliveryZoneConfigurationRequest } from '../declarations/types-86.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeUpdateDeliveryZoneRequest } from '../declarations/types-93.js';
 export interface DeliveryZonesResource {
     /**
  * Delivery zones define versioned geographic eligibility. Creation publishes immutable revision 1.
@@ -100,7 +103,9 @@ export interface DeliveryZonesResource {
  * repeating effects.
  *
  * `DELETE /v1/delivery-zones/{delivery_zone_id}`
- * @param delivery_zone_id Flint delivery zone ID.
+ * @param delivery_zone_id Flint delivery zone ID. Must be a valid ID with prefix dzone_. Malformed
+ * IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist
+ * return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/delivery-configuration#deleteDeliveryZone
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -114,7 +119,9 @@ export interface DeliveryZonesResource {
  * Returns the current revision and lifecycle state for one delivery zone.
  *
  * `GET /v1/delivery-zones/{delivery_zone_id}`
- * @param delivery_zone_id Flint delivery zone ID.
+ * @param delivery_zone_id Flint delivery zone ID. Must be a valid ID with prefix dzone_. Malformed
+ * IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist
+ * return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/delivery-configuration#getDeliveryZone
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -147,7 +154,9 @@ export interface DeliveryZonesResource {
  * resource instead.
  *
  * `PATCH /v1/delivery-zones/{delivery_zone_id}`
- * @param delivery_zone_id Flint delivery zone ID.
+ * @param delivery_zone_id Flint delivery zone ID. Must be a valid ID with prefix dzone_. Malformed
+ * IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist
+ * return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/delivery-configuration#updateDeliveryZone
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

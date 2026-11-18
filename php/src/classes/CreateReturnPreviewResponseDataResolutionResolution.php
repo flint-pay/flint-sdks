@@ -11,6 +11,7 @@ namespace Flint;
  * @property-read CreateReturnPreviewResponseDataResolutionResolutionCreditAdjustmentMoney $credit_adjustment_money
  * @property-read CreateReturnPreviewResponseDataResolutionResolutionDeductionMoney $deduction_money
  * @property-read list<CreateReturnPreviewResponseDataResolutionResolutionLineItemsItem> $line_items
+ * @property-read CreateReturnPreviewResponseDataResolutionResolutionRefundShortfallMoney $refund_shortfall_money
  * @property-read list<CreateReturnPreviewResponseDataResolutionResolutionReplacementLineItemsItem> $replacement_line_items
  * @property-read CreateReturnPreviewResponseDataResolutionResolutionReplacementTotalMoney $replacement_total_money
  * @property-read string $resolution_type
@@ -18,7 +19,7 @@ namespace Flint;
  * @property-read CreateReturnPreviewResponseDataResolutionResolutionReturnedTotalMoney $returned_total_money
  * Presence-aware response; omitted optional fields return null. */
 final class CreateReturnPreviewResponseDataResolutionResolution extends Model {
-    /** @param array{'adjustments': list<mixed>, 'based_on_return_version': int, 'buyer_payment_amount_money': mixed, 'buyer_refund_amount_money': mixed, 'calculated_at': string, 'corrects_return_resolution_id'?: string, 'credit_adjustment_money': mixed, 'deduction_money': mixed, 'line_items': list<mixed>, 'replacement_line_items': list<mixed>, 'replacement_total_money': mixed, 'resolution_type': string, 'return_id': string, 'returned_total_money': mixed, ...}|object $values */
+    /** @param array{'adjustments': list<mixed>, 'based_on_return_version': int, 'buyer_payment_amount_money': mixed, 'buyer_refund_amount_money': mixed, 'calculated_at': string, 'corrects_return_resolution_id'?: string, 'credit_adjustment_money': mixed, 'deduction_money': mixed, 'line_items': list<mixed>, 'refund_shortfall_money': mixed, 'replacement_line_items': list<mixed>, 'replacement_total_money': mixed, 'resolution_type': string, 'return_id': string, 'returned_total_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateReturnPreviewResponseDataResolutionResolution')); }
     /** Fees and credits to apply to the resolution, at most 50. [] (Value): {@see CreateReturnPreviewResponseDataResolutionResolutionAdjustmentsItem}. A fee or credit applied to a return resolution, such as a restocking fee, with the assessed and applied amounts and any waiver.
      * @return list<CreateReturnPreviewResponseDataResolutionResolutionAdjustmentsItem>
@@ -65,6 +66,11 @@ final class CreateReturnPreviewResponseDataResolutionResolution extends Model {
      */
     public function getLineItems(): array { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
+    /** Buyer refund value that the original payments cannot fund. Zero when fully payable. buyer_refund_amount_money remains the full entitlement. Create and confirm refuse a shortfall with 409 LIMIT_EXCEEDED and maximum_money. Merchant only. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return CreateReturnPreviewResponseDataResolutionResolutionRefundShortfallMoney
+     */
+    public function getRefundShortfallMoney(): CreateReturnPreviewResponseDataResolutionResolutionRefundShortfallMoney { return $this->get('refund_shortfall_money'); }
+    public function hasRefundShortfallMoney(): bool { return $this->has('refund_shortfall_money'); }
     /** Merchandise the buyer receives instead, up to 100. Send with `exchange` or `replacement`. [] (Value): {@see CreateReturnPreviewResponseDataResolutionResolutionReplacementLineItemsItem}. A replacement item added to a return resolution, with its quantity and price totals.
      * @return list<CreateReturnPreviewResponseDataResolutionResolutionReplacementLineItemsItem>
      */

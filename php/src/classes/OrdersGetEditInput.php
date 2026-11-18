@@ -10,13 +10,13 @@ namespace Flint;
 final class OrdersGetEditInput extends Model {
     /** @param array{'order_id': string, 'order_edit_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrdersGetEditInput')); }
-    /** The order that owns the edit. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+    /** The order that owns the edit. Must be a valid ID with prefix ord_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** The edit belonging to this order. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
+    /** The edit belonging to this order. Must be a valid ID with prefix oed_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
      * @return string
      * @throws SdkError When order_edit_id is omitted; use hasOrderEditId() or valueOrDefault().
      */

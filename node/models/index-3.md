@@ -1,7 +1,16 @@
 [Model index](../MODELS.md)
 
-# BuyerReturnHandoffRequirement to CardDetails
+# BuyerRememberedBuyerResponse to CancelReturnRequest
 
+- [BuyerRememberedBuyerResponse](BuyerRememberedBuyerResponse.md)
+- [BuyerRetentionOffer](BuyerRetentionOffer.md)
+- [BuyerRetentionOfferRequestInput](BuyerRetentionOfferRequestInput.md)
+- [BuyerRetryPaymentActionOptions](BuyerRetryPaymentActionOptions.md)
+- [BuyerReturn](BuyerReturn.md)
+- [BuyerReturnCompletionBlocker](BuyerReturnCompletionBlocker.md)
+- [BuyerReturnEligibilityPreview](BuyerReturnEligibilityPreview.md)
+- [BuyerReturnEligibilityPreviewLineItem](BuyerReturnEligibilityPreviewLineItem.md)
+- [BuyerReturnHandoffDestination](BuyerReturnHandoffDestination.md)
 - [BuyerReturnHandoffRequirement](BuyerReturnHandoffRequirement.md)
 - [BuyerReturnLineItem](BuyerReturnLineItem.md)
 - [BuyerReturnLineItemEligibility](BuyerReturnLineItemEligibility.md)
@@ -13,6 +22,7 @@
 - [BuyerReturnPreviewEligibility](BuyerReturnPreviewEligibility.md)
 - [BuyerReturnPreviewResolution](BuyerReturnPreviewResolution.md)
 - [BuyerReturnPreviewResponse](BuyerReturnPreviewResponse.md)
+- [BuyerReturnRefundEstimate](BuyerReturnRefundEstimate.md)
 - [BuyerReturnReplacementLineItemInputBundle](BuyerReturnReplacementLineItemInputBundle.md)
 - [BuyerReturnReplacementLineItemInputBundleInput](BuyerReturnReplacementLineItemInputBundleInput.md)
 - [BuyerReturnReplacementLineItemInputVariant](BuyerReturnReplacementLineItemInputVariant.md)
@@ -92,14 +102,4 @@
 - [CancelReturnLineItemRequest](CancelReturnLineItemRequest.md)
 - [CancelReturnLineItemRequestInput](CancelReturnLineItemRequestInput.md)
 - [CancelReturnRequest](CancelReturnRequest.md)
-- [CancelReturnRequestInput](CancelReturnRequestInput.md)
-- [CancelReturnResolutionRequestInput](CancelReturnResolutionRequestInput.md)
-- [CancelSubscriptionRequest](CancelSubscriptionRequest.md)
-- [CancelSubscriptionRequestInput](CancelSubscriptionRequestInput.md)
-- [CapabilityReadiness](CapabilityReadiness.md)
-- [CapabilityReadinessPreviousAttributes](CapabilityReadinessPreviousAttributes.md)
-- [CapturePaymentIntentRequest](CapturePaymentIntentRequest.md)
-- [CapturePaymentIntentRequestInput](CapturePaymentIntentRequestInput.md)
-- [CapturePaymentSplitRequestInput](CapturePaymentSplitRequestInput.md)
-- [CardDetails](CardDetails.md)
 

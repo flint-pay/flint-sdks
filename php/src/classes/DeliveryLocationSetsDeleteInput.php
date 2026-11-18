@@ -10,7 +10,7 @@ namespace Flint;
 final class DeliveryLocationSetsDeleteInput extends Model {
     /** @param array{'delivery_location_set_id': string, 'expected_version'?: int, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryLocationSetsDeleteInput')); }
-    /** Flint delivery location set ID. Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H".
+    /** Flint delivery location set ID. Must be a valid ID with prefix dls_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H".
      * @return string
      * @throws SdkError When delivery_location_set_id is omitted; use hasDeliveryLocationSetId() or valueOrDefault().
      */

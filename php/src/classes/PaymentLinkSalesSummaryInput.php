@@ -2,15 +2,23 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read int $attempted_payment_count
  * @property-read int $checked_in_ticket_count
  * @property-read string|\DateTimeInterface $computed_at
+ * @property-read int $failed_payment_count
  * @property-read int $paid_order_count
  * @property-read list<MoneyValueInput|array<array-key, mixed>|\stdClass> $paid_totals
  * @property-read list<MoneyValueInput|array<array-key, mixed>|\stdClass> $refunded_totals
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentLinkSalesSummaryInput extends Model {
-    /** @param array{'checked_in_ticket_count': int, 'computed_at': string|\DateTimeInterface, 'paid_order_count': int, 'paid_totals': list<MoneyValueInput|array<array-key, mixed>|\stdClass>, 'refunded_totals': list<MoneyValueInput|array<array-key, mixed>|\stdClass>, ...}|object $values */
+    /** @param array{'attempted_payment_count': int, 'checked_in_ticket_count': int, 'computed_at': string|\DateTimeInterface, 'failed_payment_count': int, 'paid_order_count': int, 'paid_totals': list<MoneyValueInput|array<array-key, mixed>|\stdClass>, 'refunded_totals': list<MoneyValueInput|array<array-key, mixed>|\stdClass>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinkSalesSummaryInput')); }
+    /** All recorded card attempts from this link, including pending attempts and retries. Format: int64.
+     * @return int
+     * @throws SdkError When attempted_payment_count is omitted; use hasAttemptedPaymentCount() or valueOrDefault().
+     */
+    public function getAttemptedPaymentCount(): int { return $this->get('attempted_payment_count'); }
+    public function hasAttemptedPaymentCount(): bool { return $this->has('attempted_payment_count'); }
     /** Tickets for this payment link that are checked in now, counted when the summary is read. Undoing a check-in or voiding a ticket lowers it. 0 for links that have issued no tickets. Format: int32. minimum: 0.
      * @return int
      * @throws SdkError When checked_in_ticket_count is omitted; use hasCheckedInTicketCount() or valueOrDefault().
@@ -23,6 +31,12 @@ final class PaymentLinkSalesSummaryInput extends Model {
      */
     public function getComputedAt(): string|\DateTimeInterface { return $this->get('computed_at'); }
     public function hasComputedAt(): bool { return $this->has('computed_at'); }
+    /** Recorded failed card attempts from this link. A successful retry does not erase previous failures. Format: int64.
+     * @return int
+     * @throws SdkError When failed_payment_count is omitted; use hasFailedPaymentCount() or valueOrDefault().
+     */
+    public function getFailedPaymentCount(): int { return $this->get('failed_payment_count'); }
+    public function hasFailedPaymentCount(): bool { return $this->has('failed_payment_count'); }
     /** Number of orders whose collection has completed, across all currencies, including fully and partially refunded orders. Format: int64.
      * @return int
      * @throws SdkError When paid_order_count is omitted; use hasPaidOrderCount() or valueOrDefault().

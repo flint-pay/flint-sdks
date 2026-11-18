@@ -22,6 +22,7 @@ Body model: [CreateCustomerSessionRequestInput](../models/CreateCustomerSessionR
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `capabilities` | Optional | Array of string | Operation capabilities granted to this session. Omit for full access; an empty list grants no operations except self-revocation. Refresh preserves this list. uniqueItems: `true`. Items values: [17 declared values](../models/CreateCustomerSessionRequestInput.md#createcustomersessionrequestinput-capabilities--values). |
 | `customer_id` | Required | string | ID of the customer the session acts as. Calls made with the session's secret see only this customer's data. minLength: `1`. |
 | `expires_in_seconds` | Optional | integer | How long the secret authenticates account calls, in seconds. Defaults to 3600 (one hour). Refreshing issues a new secret with a new window. Format: `int64`. minimum: `300`. maximum: `86400`. |
 | `refresh_expires_in_seconds` | Optional | integer | How long the refresh token can be exchanged for a new secret, in seconds. Defaults to 604800 (seven days). Format: `int64`. minimum: `3600`. maximum: `2592000`. |
@@ -150,7 +151,7 @@ Signature: `revoke(string|Model $customer_session_id, array|Model|null $params =
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_session_id` | Required | string | Flint customer session ID. |
+| `customer_session_id` | Required | string | Flint customer session ID. Must be a valid ID with prefix cses_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 

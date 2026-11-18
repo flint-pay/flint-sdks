@@ -7,7 +7,7 @@ namespace Flint;
 final class PaymentLinkResolvePrefillRequestInput extends Model {
     /** @param array{'email'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinkResolvePrefillRequestInput')); }
-    /** Email to fill in for the buyer, who can change it. It is not verified, so it never links the purchase to an existing customer. Format: email. minLength: 1. maxLength: 320. Example: "buyer@example.com".
+    /** Email to fill in for the buyer, who can change it. It is not verified, so it never links the purchase to an existing customer. The local part before @ must be at most 64 octets (UTF-8 bytes). Format: email. minLength: 1. maxLength: 320. Example: "buyer@example.com".
      * @return string
      * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
      */

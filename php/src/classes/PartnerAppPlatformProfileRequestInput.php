@@ -44,7 +44,7 @@ final class PartnerAppPlatformProfileRequestInput extends Model {
      */
     public function getProductDescription(): string { return $this->get('product_description'); }
     public function hasProductDescription(): bool { return $this->has('product_description'); }
-    /** Where the platform's merchants get support. Format: email. minLength: 1. maxLength: 320. Example: "buyer@example.com".
+    /** Where the platform's merchants get support. The local part before @ must be at most 64 octets (UTF-8 bytes). Format: email. minLength: 1. maxLength: 320. Example: "buyer@example.com".
      * @return string
      * @throws SdkError When support_email is omitted; use hasSupportEmail() or valueOrDefault().
      */

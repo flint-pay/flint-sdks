@@ -6,13 +6,13 @@ namespace Flint;
  * @property-read bool $can_manage_api_keys
  * @property-read string|\DateTimeInterface $expires_at
  * @property-read string|\DateTimeInterface $fresh_verification_expires_at
- * @property-read string $merchant_id
+ * @property-read string|null $merchant_id
  * @property-read string $mode
- * @property-read string $sandbox_id
+ * @property-read string|null $sandbox_id
  * @property-read string $user_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class OnboardingSessionAuthContextInput extends Model {
-    /** @param array{'auth_type': string, 'can_manage_api_keys': bool, 'expires_at': string|\DateTimeInterface, 'fresh_verification_expires_at': string|\DateTimeInterface, 'merchant_id': string, 'mode': string, 'sandbox_id': string, 'user_id': string}|object $values */
+    /** @param array{'auth_type': string, 'can_manage_api_keys': bool, 'expires_at': string|\DateTimeInterface, 'fresh_verification_expires_at': string|\DateTimeInterface, 'merchant_id': string|null, 'mode': string, 'sandbox_id': string|null, 'user_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OnboardingSessionAuthContextInput')); }
     /** Credential type that selects this object's fields. Value enum: "onboarding_session".
      * @return string
@@ -38,11 +38,11 @@ final class OnboardingSessionAuthContextInput extends Model {
      */
     public function getFreshVerificationExpiresAt(): string|\DateTimeInterface { return $this->get('fresh_verification_expires_at'); }
     public function hasFreshVerificationExpiresAt(): bool { return $this->has('fresh_verification_expires_at'); }
-    /** Merchant the credential acts for. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     * @return string
+    /** Merchant the credential acts for. Null when an onboarding session has no merchant yet. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * @return string|null
      * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
      */
-    public function getMerchantId(): string { return $this->get('merchant_id'); }
+    public function getMerchantId(): string|null { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
     /** Whether the credential acts in test or live mode. Value enum: "test".
      * @return string
@@ -50,11 +50,11 @@ final class OnboardingSessionAuthContextInput extends Model {
      */
     public function getMode(): string { return $this->get('mode'); }
     public function hasMode(): bool { return $this->has('mode'); }
-    /** Sandbox the credential is bound to, present only in test mode. Example: "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     * @return string
+    /** Public sandbox ID in test mode. Null when an onboarding session has no sandbox yet. Omitted when mode is live. Example: "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     * @return string|null
      * @throws SdkError When sandbox_id is omitted; use hasSandboxId() or valueOrDefault().
      */
-    public function getSandboxId(): string { return $this->get('sandbox_id'); }
+    public function getSandboxId(): string|null { return $this->get('sandbox_id'); }
     public function hasSandboxId(): bool { return $this->has('sandbox_id'); }
     /** User the session acts for. Example: "usr_01KEZF7C00YC8757ZYP9727JM0".
      * @return string

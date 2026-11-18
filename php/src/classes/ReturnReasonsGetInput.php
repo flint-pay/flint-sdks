@@ -9,7 +9,7 @@ namespace Flint;
 final class ReturnReasonsGetInput extends Model {
     /** @param array{'return_reason_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnReasonsGetInput')); }
-    /** Flint return reason id. Example: "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E".
+    /** Flint return reason id. Must be a valid ID with prefix rrsn_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E".
      * @return string
      * @throws SdkError When return_reason_id is omitted; use hasReturnReasonId() or valueOrDefault().
      */

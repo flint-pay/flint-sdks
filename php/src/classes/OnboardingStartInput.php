@@ -4,13 +4,13 @@ namespace Flint;
 /**
  * @internal
  *
- * @property-read array{'business_name'?: string, 'email': string, 'first_name': string, 'last_name': string, 'support_email'?: string, 'support_phone'?: string, 'support_url'?: string, 'website_url'?: string}|object $body
+ * @property-read array{'business_name'?: string, 'email': string, 'first_name': string, 'last_name': string, 'support_email'?: string, 'support_phone'?: string, 'support_url'?: string, 'timezone'?: string, 'website_url'?: string}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class OnboardingStartInput extends Model {
-    /** @param array{'body': array{'business_name'?: string, 'email': string, 'first_name': string, 'last_name': string, 'support_email'?: string, 'support_phone'?: string, 'support_url'?: string, 'website_url'?: string}|object}|object $values */
+    /** @param array{'body': array{'business_name'?: string, 'email': string, 'first_name': string, 'last_name': string, 'support_email'?: string, 'support_phone'?: string, 'support_url'?: string, 'timezone'?: string, 'website_url'?: string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OnboardingStartInput')); }
     /** The request body for: Start onboarding flow. Example: {"email":"owner@example.com","first_name":"Jane","last_name":"Doe"}.
-     * @return array{'business_name'?: string, 'email': string, 'first_name': string, 'last_name': string, 'support_email'?: string, 'support_phone'?: string, 'support_url'?: string, 'website_url'?: string}|object
+     * @return array{'business_name'?: string, 'email': string, 'first_name': string, 'last_name': string, 'support_email'?: string, 'support_phone'?: string, 'support_url'?: string, 'timezone'?: string, 'website_url'?: string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): array|object { return $this->get('body'); }

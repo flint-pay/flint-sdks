@@ -9,7 +9,7 @@ namespace Flint;
 final class ReturnInspectionsGetInput extends Model {
     /** @param array{'return_inspection_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnInspectionsGetInput')); }
-    /** Flint return inspection id. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+    /** Flint return inspection id. Must be a valid ID with prefix retins_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
      * @return string
      * @throws SdkError When return_inspection_id is omitted; use hasReturnInspectionId() or valueOrDefault().
      */

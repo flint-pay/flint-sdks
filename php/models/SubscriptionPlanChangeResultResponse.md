@@ -287,6 +287,10 @@ The subscription after this request, including any scheduled plan change, or the
 
 Field definitions: [shared fields](SubscriptionResponse.md#subscriptionresponsedata).
 
+### SubscriptionPlanChangeResultResponse.data.subscription.billing_hold
+
+Field definitions: [SubscriptionResponse.data.billing_hold](../models/SubscriptionResponse.md#subscriptionresponsedatabilling_hold).
+
 ### SubscriptionPlanChangeResultResponse.data.subscription.cancellation_details
 
 Field definitions: [SubscriptionResponse.data.cancellation_details](../models/SubscriptionResponse.md#subscriptionresponsedatacancellation_details).

@@ -79,7 +79,7 @@ Signature: `get(string|Model $payment_method_domain_id, array|Model|null $params
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `payment_method_domain_id` | Required | string | Flint payment method domain ID. |
+| `payment_method_domain_id` | Required | string | Flint payment method domain ID. Must be a valid ID with prefix pmdom_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 
@@ -182,7 +182,7 @@ Signature: `update(string|Model $payment_method_domain_id, array|Model $params, 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `payment_method_domain_id` | Required | string | Flint payment method domain ID. |
+| `payment_method_domain_id` | Required | string | Flint payment method domain ID. Must be a valid ID with prefix pmdom_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Required | [UpdatePaymentMethodDomainRequestInput](../models/UpdatePaymentMethodDomainRequestInput.md#updatepaymentmethoddomainrequestinput) | The request body for: Update payment method domain. minProperties: `1`. |
 
 Body model: [UpdatePaymentMethodDomainRequestInput](../models/UpdatePaymentMethodDomainRequestInput.md#updatepaymentmethoddomainrequestinput).

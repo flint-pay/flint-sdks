@@ -34,7 +34,7 @@ final class BuyerCustomer extends Model {
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** ID of the customer's default off-session payment method. `null` when none is set.
+    /** ID of the customer's default off-session payment method. Existing subscriptions keep their own payment_method_id when the default changes. `null` when none is set.
      * @return string|null
      */
     public function getDefaultPaymentMethodId(): string|null { return $this->get('default_payment_method_id'); }

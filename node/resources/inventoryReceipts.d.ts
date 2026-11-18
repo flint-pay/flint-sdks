@@ -10,8 +10,8 @@ import type {
     InventoryReceiptsGetParams,
     InventoryReceiptsListParams
 } from '../declarations/types-32.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-77.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -40,28 +40,31 @@ export type {
     InventoryItem,
     InventoryReceiptLine
 } from '../declarations/types-32.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-77.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { RequestOptions } from '../declarations/types-61.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateInventoryReceiptRequestInput } from '../declarations/types-10.js';
 export type { InventorySourceSystemRequestInput, InventorySourceSystem } from '../declarations/types-33.js';
 export type { AuthMode, BackorderPolicy } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { MetadataMap } from '../declarations/types-41.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
-export { makeCreateInventoryReceiptRequest } from '../declarations/types-80.js';
-export { makeInventoryReceiptLineRequest, makeInventorySourceSystemRequest } from '../declarations/types-84.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
+export type { MetadataMap } from '../declarations/types-43.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { DisputesAcceptParams } from '../declarations/types-26.js';
+export { makeCreateInventoryReceiptRequest } from '../declarations/types-82.js';
+export { makeInventoryReceiptLineRequest } from '../declarations/types-86.js';
+export { makeInventorySourceSystemRequest } from '../declarations/types-87.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export interface InventoryReceiptsResource {
     /**
  * Record returned units against a consumed inventory reservation and their disposition. For
  * supplier deliveries, use `client.inventoryAdjustments.create` with reason: received. This is a
  * downstream stock effect, not the customer Return lifecycle. Idempotency is scoped to the
- * authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical
- * request body. To recover the command's effects after a lost response, list inventory receipts
- * with the same idempotency_key, or list inventory movements with that idempotency_key.
+ * authenticated merchant, environment, caller namespace, and operation. Its fingerprint includes
+ * the canonical request body. To recover the command's effects after a lost response, list
+ * inventory receipts with the same idempotency_key, or list inventory movements with that
+ * idempotency_key.
  *
  * `POST /v1/inventory-receipts`
  * @see https://developers.withflintpay.com/docs/api/inventory#createInventoryReceipt
@@ -81,7 +84,9 @@ export interface InventoryReceiptsResource {
  * Retrieve a completed inventory receipt and its disposition lines by ID.
  *
  * `GET /v1/inventory-receipts/{inventory_receipt_id}`
- * @param inventory_receipt_id Flint inventory receipt ID.
+ * @param inventory_receipt_id Flint inventory receipt ID. Must be a valid ID with prefix invrec_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/inventory#getInventoryReceipt
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

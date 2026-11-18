@@ -3,16 +3,16 @@ import type { ClientOptions } from '../declarations/types-7.js';
 import type { CreateReturnInspectionResponse } from '../declarations/types-13.js';
 import type { DecideReturnInspectionLineItemResponse } from '../declarations/types-17.js';
 import type { GetReturnInspectionResponse } from '../declarations/types-28.js';
-import type { ListReturnInspectionsResponse } from '../declarations/types-38.js';
-import type { RequestOptions } from '../declarations/types-60.js';
+import type { ListReturnInspectionsResponse } from '../declarations/types-40.js';
+import type { RequestOptions } from '../declarations/types-61.js';
 import type {
     ReturnInspection,
     ReturnInspectionsCreateParams,
     ReturnInspectionsDecideLineItemParams,
     ReturnInspectionsGetParams,
     ReturnInspectionsListParams
-} from '../declarations/types-61.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-63.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -35,26 +35,26 @@ export type {
     ReturnInspectionsListParams,
     ReturnInspectionLineItemRequestInput,
     ReturnInspectionLineItem
-} from '../declarations/types-61.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-77.js';
-export type { RequestOptions, ReturnDisposition, ReturnActor, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
+} from '../declarations/types-63.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { RequestOptions } from '../declarations/types-61.js';
 export type { CreateReturnInspectionResponse, CreateReturnInspectionRequestInput } from '../declarations/types-13.js';
 export type { DecideReturnInspectionLineItemResponse, DecideReturnInspectionLineItemRequestInput } from '../declarations/types-17.js';
 export type { GetReturnInspectionResponse } from '../declarations/types-28.js';
-export type { ListReturnInspectionsResponse } from '../declarations/types-38.js';
+export type { ListReturnInspectionsResponse } from '../declarations/types-40.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type { ReturnSourceSystemRequestInput, ReturnSourceSystem } from '../declarations/types-63.js';
+export type { ReturnSourceSystemRequestInput, ReturnSourceSystem } from '../declarations/types-65.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { MetadataMap } from '../declarations/types-41.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
-export { makeCreateReturnInspectionRequest } from '../declarations/types-81.js';
-export { makeDecideReturnInspectionLineItemRequest } from '../declarations/types-82.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeReturnInspectionLineItemRequest } from '../declarations/types-88.js';
-export { makeReturnSourceSystemRequest } from '../declarations/types-89.js';
+export type { ReturnDisposition, ReturnActor, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { MetadataMap } from '../declarations/types-43.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { DisputesAcceptParams } from '../declarations/types-26.js';
+export { makeCreateReturnInspectionRequest } from '../declarations/types-83.js';
+export { makeDecideReturnInspectionLineItemRequest } from '../declarations/types-84.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeReturnInspectionLineItemRequest, makeReturnSourceSystemRequest } from '../declarations/types-91.js';
 export interface ReturnInspectionsResource {
     /**
  * Record an immutable inspection observation. Corrections supersede an earlier inspection instead
@@ -82,8 +82,12 @@ export interface ReturnInspectionsResource {
  *
  * `POST
  * /v1/return-inspections/{return_inspection_id}/line-items/{return_inspection_line_item_id}/decide`
- * @param return_inspection_id Flint return inspection id.
- * @param return_inspection_line_item_id Flint return inspection line item id.
+ * @param return_inspection_id Flint return inspection id. Must be a valid ID with prefix retins_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
+ * @param return_inspection_line_item_id Flint return inspection line item id. Must be a valid ID
+ * with prefix retinli_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE;
+ * well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND.
  * @see
  * https://developers.withflintpay.com/docs/api/return-inspections#decideReturnInspectionLineItem
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
@@ -100,7 +104,9 @@ export interface ReturnInspectionsResource {
  * status.
  *
  * `GET /v1/return-inspections/{return_inspection_id}`
- * @param return_inspection_id Flint return inspection id.
+ * @param return_inspection_id Flint return inspection id. Must be a valid ID with prefix retins_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/return-inspections#getReturnInspection
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

@@ -93,7 +93,7 @@ final class UpdatePromotionRequestInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Internal promotion name for dashboards, searching, and reporting. minLength: 1. maxLength: 255.
+    /** Internal promotion name for dashboards, searching, and reporting. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */

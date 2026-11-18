@@ -6,7 +6,12 @@ const client = new Client({
 });
 const result = await client.discountPreviews.create(
   {
-    order_id: "ord_01KEZF7C0054GQKJ142A8X367A",
+    discount: {
+      promotion: {
+        promotion_code: "SPRING15",
+      },
+    },
+    order_id: "ord_01HZYV7Q9Y0Y4H8Q3H9F6R7T8J",
   }
 );
 console.log(result);

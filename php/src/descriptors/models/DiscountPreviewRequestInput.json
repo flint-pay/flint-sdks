@@ -1,1 +1,1 @@
-{"shared":"DiscountPreviewRequest","dependencies":["CreateOrderDiscount","CreateOrderDiscountManual","CreateOrderDiscountPromotion","DiscountPreviewRequest","ManualDiscountRequest","MoneyValue","PromotionRefInputPromotionCode","PromotionRefInputPromotionID","PromotionRefRequest"]}
+{"shared":"DiscountPreviewRequest","dependencies":["DiscountPreviewRequest","PromotionRefInputPromotionCode","PromotionRefInputPromotionID","PromotionRefRequest"]}

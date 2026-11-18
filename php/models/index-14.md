@@ -1,7 +1,19 @@
 [Model index](../MODELS.md)
 
-# GiftCardFundingSourceStoreCreditPreviousAttributesInput to InventoryAllocationPolicyRevisionInput
+# GiftCardFundingSourceGiftCardPurchaseRefundRecoveryInput to InventoryAdjustmentListResponseInput
 
+- [GiftCardFundingSourceGiftCardPurchaseRefundRecoveryInput](GiftCardFundingSourceGiftCardPurchaseRefundRecoveryInput.md)
+- [GiftCardFundingSourceGiftCardPurchaseRefundRecoveryPreviousAttributesInput](GiftCardFundingSourceGiftCardPurchaseRefundRecoveryPreviousAttributesInput.md)
+- [GiftCardFundingSourceGiftCardPurchaseRefundRecoveryRequestInput](GiftCardFundingSourceGiftCardPurchaseRefundRecoveryRequestInput.md)
+- [GiftCardFundingSourceGiftCardRefundInput](GiftCardFundingSourceGiftCardRefundInput.md)
+- [GiftCardFundingSourceGiftCardRefundPreviousAttributesInput](GiftCardFundingSourceGiftCardRefundPreviousAttributesInput.md)
+- [GiftCardFundingSourceGiftCardRefundRequestInput](GiftCardFundingSourceGiftCardRefundRequestInput.md)
+- [GiftCardFundingSourceImportInput](GiftCardFundingSourceImportInput.md)
+- [GiftCardFundingSourceImportPreviousAttributesInput](GiftCardFundingSourceImportPreviousAttributesInput.md)
+- [GiftCardFundingSourceImportRequestInput](GiftCardFundingSourceImportRequestInput.md)
+- [GiftCardFundingSourcePreviousAttributesInput](GiftCardFundingSourcePreviousAttributesInput.md)
+- [GiftCardFundingSourceRequestInput](GiftCardFundingSourceRequestInput.md)
+- [GiftCardFundingSourceStoreCreditInput](GiftCardFundingSourceStoreCreditInput.md)
 - [GiftCardFundingSourceStoreCreditPreviousAttributesInput](GiftCardFundingSourceStoreCreditPreviousAttributesInput.md)
 - [GiftCardFundingSourceStoreCreditRequestInput](GiftCardFundingSourceStoreCreditRequestInput.md)
 - [GiftCardListResponseInput](GiftCardListResponseInput.md)
@@ -90,16 +102,4 @@
 - [InventoryAdjustmentConditionChangeLineRequestInput](InventoryAdjustmentConditionChangeLineRequestInput.md)
 - [InventoryAdjustmentLineInput](InventoryAdjustmentLineInput.md)
 - [InventoryAdjustmentListResponseInput](InventoryAdjustmentListResponseInput.md)
-- [InventoryAdjustmentQuantityLineRequestInput](InventoryAdjustmentQuantityLineRequestInput.md)
-- [InventoryAdjustmentResponseInput](InventoryAdjustmentResponseInput.md)
-- [InventoryAdjustmentResultInput](InventoryAdjustmentResultInput.md)
-- [InventoryAdjustmentResultResponseInput](InventoryAdjustmentResultResponseInput.md)
-- [InventoryAdjustmentSetLineRequestInput](InventoryAdjustmentSetLineRequestInput.md)
-- [InventoryAllocationConfigurationValueInput](InventoryAllocationConfigurationValueInput.md)
-- [InventoryAllocationPolicyInput](InventoryAllocationPolicyInput.md)
-- [InventoryAllocationPolicyConfigurationRequestInput](InventoryAllocationPolicyConfigurationRequestInput.md)
-- [InventoryAllocationPolicyListResponseInput](InventoryAllocationPolicyListResponseInput.md)
-- [InventoryAllocationPolicyLocationInput](InventoryAllocationPolicyLocationInput.md)
-- [InventoryAllocationPolicyResponseInput](InventoryAllocationPolicyResponseInput.md)
-- [InventoryAllocationPolicyRevisionInput](InventoryAllocationPolicyRevisionInput.md)
 

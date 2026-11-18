@@ -1,7 +1,19 @@
 [Model index](../MODELS.md)
 
-# InvoiceLateFeePolicyPercentage to InvoiceReopenedInstalledMerchantsEvent
+# InvoiceIssuedMerchantEvent to InvoicePaymentTermListResponse
 
+- [InvoiceIssuedMerchantEvent](InvoiceIssuedMerchantEvent.md)
+- [InvoiceIssueFailedInstalledMerchantsEvent](InvoiceIssueFailedInstalledMerchantsEvent.md)
+- [InvoiceIssueFailedMerchantEvent](InvoiceIssueFailedMerchantEvent.md)
+- [InvoiceLateFee](InvoiceLateFee.md)
+- [InvoiceLateFeeAssessedInstalledMerchantsEvent](InvoiceLateFeeAssessedInstalledMerchantsEvent.md)
+- [InvoiceLateFeeAssessedMerchantEvent](InvoiceLateFeeAssessedMerchantEvent.md)
+- [InvoiceLateFeeDueInstalledMerchantsEvent](InvoiceLateFeeDueInstalledMerchantsEvent.md)
+- [InvoiceLateFeeDueMerchantEvent](InvoiceLateFeeDueMerchantEvent.md)
+- [InvoiceLateFeePolicy](InvoiceLateFeePolicy.md)
+- [InvoiceLateFeePolicyFixed](InvoiceLateFeePolicyFixed.md)
+- [InvoiceLateFeePolicyFixedPreviousAttributes](InvoiceLateFeePolicyFixedPreviousAttributes.md)
+- [InvoiceLateFeePolicyFixedRequestInput](InvoiceLateFeePolicyFixedRequestInput.md)
 - [InvoiceLateFeePolicyPercentage](InvoiceLateFeePolicyPercentage.md)
 - [InvoiceLateFeePolicyPercentagePreviousAttributes](InvoiceLateFeePolicyPercentagePreviousAttributes.md)
 - [InvoiceLateFeePolicyPercentageRequestInput](InvoiceLateFeePolicyPercentageRequestInput.md)
@@ -90,16 +102,4 @@
 - [InvoicePaymentTermCalculationPreviousAttributes](InvoicePaymentTermCalculationPreviousAttributes.md)
 - [InvoicePaymentTermCalculationRequestInput](InvoicePaymentTermCalculationRequestInput.md)
 - [InvoicePaymentTermListResponse](InvoicePaymentTermListResponse.md)
-- [InvoicePaymentTermResponse](InvoicePaymentTermResponse.md)
-- [InvoicePaymentTermsSnapshot](InvoicePaymentTermsSnapshot.md)
-- [InvoicePaymentTermsSnapshotPreviousAttributes](InvoicePaymentTermsSnapshotPreviousAttributes.md)
-- [InvoiceRefundedInstalledMerchantsEvent](InvoiceRefundedInstalledMerchantsEvent.md)
-- [InvoiceRefundedMerchantEvent](InvoiceRefundedMerchantEvent.md)
-- [InvoiceReminderDueInstalledMerchantsEvent](InvoiceReminderDueInstalledMerchantsEvent.md)
-- [InvoiceReminderDueMerchantEvent](InvoiceReminderDueMerchantEvent.md)
-- [InvoiceReminderPolicy](InvoiceReminderPolicy.md)
-- [InvoiceReminderPolicyInput](InvoiceReminderPolicyInput.md)
-- [InvoiceReminderRule](InvoiceReminderRule.md)
-- [InvoiceReminderRuleInput](InvoiceReminderRuleInput.md)
-- [InvoiceReopenedInstalledMerchantsEvent](InvoiceReopenedInstalledMerchantsEvent.md)
 

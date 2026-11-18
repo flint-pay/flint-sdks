@@ -11,13 +11,13 @@ namespace Flint;
 final class ReturnReceiptsVerifyLineItemInput extends Model {
     /** @param array{'return_receipt_id': string, 'return_receipt_line_item_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'expected_version'?: int, 'return_line_item_id': string, 'verification_reason': string, 'verification_reason_message'?: string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnReceiptsVerifyLineItemInput')); }
-    /** Flint return receipt id. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+    /** Flint return receipt id. Must be a valid ID with prefix retrc_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
      * @return string
      * @throws SdkError When return_receipt_id is omitted; use hasReturnReceiptId() or valueOrDefault().
      */
     public function getReturnReceiptId(): string { return $this->get('return_receipt_id'); }
     public function hasReturnReceiptId(): bool { return $this->has('return_receipt_id'); }
-    /** Flint return receipt line item id. Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
+    /** Flint return receipt line item id. Must be a valid ID with prefix retrcli_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
      * @return string
      * @throws SdkError When return_receipt_line_item_id is omitted; use hasReturnReceiptLineItemId() or valueOrDefault().
      */

@@ -1,50 +1,681 @@
 import type {
+    DeliveryEligibilityExpressionRequestInput,
+    DeliveryExternalPricingStrategy,
+    DeliveryFixedPricingStrategy,
+    DeliveryExternalPricingStrategyPreviousAttributes,
+    DeliveryFixedPricingStrategyPreviousAttributes,
+    DeliveryFixedPricingStrategyRequestInput
+} from './types-19.js';
+import type { MoneyValueInput, MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
+import type {
     DeliveryCalculatedPricingStrategy,
+    DeliveryCalculatedPricingStrategyPreviousAttributes,
     DeliveryCallbackPricingStrategyRequest,
     DeliveryCallerSuppliedPricingStrategyRequest,
-    DeliveryFixedPricingStrategy,
     DeliveryCalculatedPricingStrategyRequestInput,
     DeliveryCallbackPricingStrategyRequestInput,
-    DeliveryCallerSuppliedPricingStrategyRequestInput,
-    DeliveryFixedPricingStrategyRequestInput,
-    DeliveryExternalPricingStrategy,
-    DeliveryCalculatedPricingStrategyPreviousAttributes,
-    DeliveryExternalPricingStrategyPreviousAttributes,
-    DeliveryFixedPricingStrategyPreviousAttributes
+    DeliveryCallerSuppliedPricingStrategyRequestInput
 } from './types-18.js';
 import type {
-    DeliveryRateTablePricingStrategyCreateRequest,
-    DeliveryRateTablePricingStrategyCreateRequestInput,
     DeliveryRateTablePricingStrategy,
     DeliveryRateTablePricingStrategyPreviousAttributes,
+    DeliveryRateTablePricingStrategyCreateRequest,
+    DeliveryRateTablePricingStrategyCreateRequestInput,
     DeliveryRateTablePricingStrategyRequest,
     DeliveryRateTablePricingStrategyRequestInput
 } from './types-23.js';
 import type {
     DeliveryTieredPricingStrategy,
-    DeliveryTieredPricingStrategyRequestInput,
-    DeliveryTieredPricingStrategyPreviousAttributes
+    DeliveryTieredPricingStrategyPreviousAttributes,
+    DeliveryTieredPricingStrategyRequestInput
 } from './types-24.js';
 import type {
-    DeliveryPricingStrategyCreateInputCalculated,
-    DeliveryPricingStrategyCreateInputCallback,
-    DeliveryPricingStrategyCreateInputCalculatedInput,
-    DeliveryPricingStrategyCreateInputCallbackInput,
-    DeliveryPricingStrategyCalculatedPreviousAttributes,
-    DeliveryPricingStrategyCallbackPreviousAttributes,
-    DeliveryPricingStrategyCallerSuppliedPreviousAttributes
-} from './types-20.js';
-import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-42.js';
-import type {
+    DeliveryProfileDiagnostics,
     DeliveryProfileUnconfiguredAssignment,
+    DeliveryProfileOriginPolicy,
     DeliveryProfileOriginPolicyRequest,
     DeliveryProfileOriginPolicyRequestInput,
     DeliveryProfileOriginPolicyPreviousAttributes
 } from './types-22.js';
-import type { MetadataMap, MerchantWebhookEnvelope } from './types-41.js';
-import type { PartnerWebhookEnvelope } from './types-49.js';
-import type { WebhookDeliveryProfile } from './types-76.js';
-import type { ResponseMeta } from './types-60.js';
+import type { MetadataMap, MerchantWebhookEnvelope } from './types-43.js';
+import type { PartnerWebhookEnvelope } from './types-50.js';
+import type { WebhookDeliveryProfile } from './types-78.js';
+import type { ResponseMeta } from './types-62.js';
+/**
+ * A rate in a rate table pricing strategy you send when updating a delivery method. Include
+ * `delivery_rate_id` to keep or update an existing rate.
+ */
+export type DeliveryPricingRateRequestInput = {
+    /**
+     * Price by ISO 4217 currency code. Each key must equal the currency of its Money value. *
+     * (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units plus an
+     * ISO 4217 currency code.
+     */
+    "currency_options": Record<string, MoneyValueInput>;
+    /**
+     * Stable rate identifier returned by Flint. Include it when updating or retaining an existing
+     * rate. minLength: 1. Example: "drate_01KEZF7C00FD0B4QEC0M00MJ4S".
+     */
+    "delivery_rate_id"?: string;
+    /**
+     * Rates are checked from the highest priority to the lowest. The first matching rate sets the
+     * price. Priorities must be unique and at least 0. Format: int32.
+     */
+    "priority": number;
+    /**
+     * Eligibility expression that decides whether this rate applies. The rate matches when the
+     * expression matches. A boolean expression containing exactly one operator or typed condition
+     * at each node. Expressions support at most 8 levels and 100 total nodes.
+     */
+    "when": DeliveryEligibilityExpressionRequestInput;
+};
+/**
+ * How a delivery method sets its price, selected by `type`. Only the matching property (`fixed`,
+ * `rate_table`, `tiered`, `calculated`, `callback`, or `caller_supplied`) is set.
+ */
+export type DeliveryPricingStrategy = ({
+    /**
+     * Calculated pricing settings. Set only when `type` is `calculated`. Delivery pricing
+     * calculated from a base fee, distance, weight, and per-item handling, with minimum and
+     * maximum fees, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategy;
+    /**
+     * Rate callback pricing settings. Set only when `type` is `callback`. Delivery pricing that
+     * comes from outside Flint, from a delivery rate callback or the caller, bounded by minimum
+     * and maximum fees by currency.
+     */
+    "callback"?: DeliveryExternalPricingStrategy;
+    /**
+     * Caller-supplied pricing settings. Set only when `type` is `caller_supplied`. Delivery
+     * pricing that comes from outside Flint, from a delivery rate callback or the caller, bounded
+     * by minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryExternalPricingStrategy;
+    /**
+     * Fixed pricing settings. Set only when `type` is `fixed`. A fixed delivery price, by
+     * currency.
+     */
+    "fixed"?: DeliveryFixedPricingStrategy;
+    /**
+     * Rate table pricing settings. Set only when `type` is `rate_table`. Pricing strategy that
+     * charges the price of the first matching rate in a list of prioritized rates.
+     * `unmatched_behavior` says what happens when none match.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategy;
+    /**
+     * Tiered pricing settings. Set only when `type` is `tiered`. Pricing strategy that charges by
+     * band. The `basis` value, such as total weight or subtotal, selects a band, and `unit`
+     * applies to weight bases.
+     */
+    "tiered"?: DeliveryTieredPricingStrategy;
+    /**
+     * How the method sets its price. Set the property named by this value. Value enum: "fixed",
+     * "rate_table", "tiered", "calculated", "callback", "caller_supplied".
+     */
+    "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied" | (string & {});
+})
+    & ((Exclude<DeliveryPricingStrategyCalculated & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyCallback & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyCallerSupplied & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyFixed & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyRateTable & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyTiered & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** The `calculated` variant of `DeliveryPricingStrategy`. */
+export type DeliveryPricingStrategyCalculated = ({
+    /**
+     * Calculated pricing settings. Set only when `type` is `calculated`. Delivery pricing
+     * calculated from a base fee, distance, weight, and per-item handling, with minimum and
+     * maximum fees, by currency.
+     */
+    "calculated": DeliveryCalculatedPricingStrategy;
+    /**
+     * Rate callback pricing settings. Set only when `type` is `callback`. Delivery pricing that
+     * comes from outside Flint, from a delivery rate callback or the caller, bounded by minimum
+     * and maximum fees by currency.
+     */
+    "callback"?: DeliveryExternalPricingStrategy;
+    /**
+     * Caller-supplied pricing settings. Set only when `type` is `caller_supplied`. Delivery
+     * pricing that comes from outside Flint, from a delivery rate callback or the caller, bounded
+     * by minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryExternalPricingStrategy;
+    /**
+     * Fixed pricing settings. Set only when `type` is `fixed`. A fixed delivery price, by
+     * currency.
+     */
+    "fixed"?: DeliveryFixedPricingStrategy;
+    /**
+     * Rate table pricing settings. Set only when `type` is `rate_table`. Pricing strategy that
+     * charges the price of the first matching rate in a list of prioritized rates.
+     * `unmatched_behavior` says what happens when none match.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategy;
+    /**
+     * Tiered pricing settings. Set only when `type` is `tiered`. Pricing strategy that charges by
+     * band. The `basis` value, such as total weight or subtotal, selects a band, and `unit`
+     * applies to weight bases.
+     */
+    "tiered"?: DeliveryTieredPricingStrategy;
+    /**
+     * How the method sets its price. Set the property named by this value. Value enum:
+     * "calculated".
+     */
+    "type": "calculated" | (string & {});
+})
+    & (({
+    /**
+     * How the method sets its price. Set the property named by this value. Value enum:
+     * "calculated".
+     */
+    "type": unknown;
+    /**
+     * Calculated pricing settings. Set only when `type` is `calculated`. Delivery pricing
+     * calculated from a base fee, distance, weight, and per-item handling, with minimum and
+     * maximum fees, by currency.
+     */
+    "calculated": DeliveryCalculatedPricingStrategy;
+}));
+export type DeliveryPricingStrategyCalculatedPreviousAttributes = ({
+    /**
+     * Calculated pricing settings. Set only when `type` is `calculated`. anyOf[1] (Value): {@link
+     * DeliveryCalculatedPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "calculated"?: ((DeliveryCalculatedPricingStrategyPreviousAttributes) | (null));
+    /**
+     * Rate callback pricing settings. Set only when `type` is `callback`. anyOf[1] (Value): {@link
+     * DeliveryExternalPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "callback"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null));
+    /**
+     * Caller-supplied pricing settings. Set only when `type` is `caller_supplied`. anyOf[1]
+     * (Value): {@link DeliveryExternalPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "caller_supplied"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null));
+    /**
+     * Fixed pricing settings. Set only when `type` is `fixed`. anyOf[1] (Value): {@link
+     * DeliveryFixedPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "fixed"?: ((DeliveryFixedPricingStrategyPreviousAttributes) | (null));
+    /**
+     * Rate table pricing settings. Set only when `type` is `rate_table`. anyOf[1] (Value): {@link
+     * DeliveryRateTablePricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "rate_table"?: ((DeliveryRateTablePricingStrategyPreviousAttributes) | (null));
+    /**
+     * Tiered pricing settings. Set only when `type` is `tiered`. anyOf[1] (Value): {@link
+     * DeliveryTieredPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "tiered"?: ((DeliveryTieredPricingStrategyPreviousAttributes) | (null));
+    /**
+     * How the method sets its price. Set the property named by this value. Value enum:
+     * "calculated". anyOf[1] (Value): string. How the method sets its price. Set the property
+     * named by this value. Value enum: "calculated". anyOf[2] (Value): null.
+     */
+    "type"?: (("calculated" | (string & {})) | (null));
+})
+    & ({
+    /**
+     * How the method sets its price. Set the property named by this value. Value enum:
+     * "calculated". anyOf[1] (Value): any. How the method sets its price. Set the property named
+     * by this value. Value enum: "calculated". anyOf[2] (Value): null.
+     */
+    "type"?: ((unknown) | (null) | (unknown));
+});
+/** The `callback` variant of `DeliveryPricingStrategy`. */
+export type DeliveryPricingStrategyCallback = ({
+    /**
+     * Calculated pricing settings. Set only when `type` is `calculated`. Delivery pricing
+     * calculated from a base fee, distance, weight, and per-item handling, with minimum and
+     * maximum fees, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategy;
+    /**
+     * Rate callback pricing settings. Set only when `type` is `callback`. Delivery pricing that
+     * comes from outside Flint, from a delivery rate callback or the caller, bounded by minimum
+     * and maximum fees by currency.
+     */
+    "callback": DeliveryExternalPricingStrategy;
+    /**
+     * Caller-supplied pricing settings. Set only when `type` is `caller_supplied`. Delivery
+     * pricing that comes from outside Flint, from a delivery rate callback or the caller, bounded
+     * by minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryExternalPricingStrategy;
+    /**
+     * Fixed pricing settings. Set only when `type` is `fixed`. A fixed delivery price, by
+     * currency.
+     */
+    "fixed"?: DeliveryFixedPricingStrategy;
+    /**
+     * Rate table pricing settings. Set only when `type` is `rate_table`. Pricing strategy that
+     * charges the price of the first matching rate in a list of prioritized rates.
+     * `unmatched_behavior` says what happens when none match.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategy;
+    /**
+     * Tiered pricing settings. Set only when `type` is `tiered`. Pricing strategy that charges by
+     * band. The `basis` value, such as total weight or subtotal, selects a band, and `unit`
+     * applies to weight bases.
+     */
+    "tiered"?: DeliveryTieredPricingStrategy;
+    /**
+     * How the method sets its price. Set the property named by this value. Value enum: "callback".
+     */
+    "type": "callback" | (string & {});
+})
+    & (({
+    /**
+     * How the method sets its price. Set the property named by this value. Value enum: "callback".
+     */
+    "type": unknown;
+    /**
+     * Rate callback pricing settings. Set only when `type` is `callback`. Delivery pricing that
+     * comes from outside Flint, from a delivery rate callback or the caller, bounded by minimum
+     * and maximum fees by currency.
+     */
+    "callback": DeliveryExternalPricingStrategy;
+}));
+export type DeliveryPricingStrategyCallbackPreviousAttributes = ({
+    /**
+     * Calculated pricing settings. Set only when `type` is `calculated`. anyOf[1] (Value): {@link
+     * DeliveryCalculatedPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "calculated"?: ((DeliveryCalculatedPricingStrategyPreviousAttributes) | (null));
+    /**
+     * Rate callback pricing settings. Set only when `type` is `callback`. anyOf[1] (Value): {@link
+     * DeliveryExternalPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "callback"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null));
+    /**
+     * Caller-supplied pricing settings. Set only when `type` is `caller_supplied`. anyOf[1]
+     * (Value): {@link DeliveryExternalPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "caller_supplied"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null));
+    /**
+     * Fixed pricing settings. Set only when `type` is `fixed`. anyOf[1] (Value): {@link
+     * DeliveryFixedPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "fixed"?: ((DeliveryFixedPricingStrategyPreviousAttributes) | (null));
+    /**
+     * Rate table pricing settings. Set only when `type` is `rate_table`. anyOf[1] (Value): {@link
+     * DeliveryRateTablePricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "rate_table"?: ((DeliveryRateTablePricingStrategyPreviousAttributes) | (null));
+    /**
+     * Tiered pricing settings. Set only when `type` is `tiered`. anyOf[1] (Value): {@link
+     * DeliveryTieredPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "tiered"?: ((DeliveryTieredPricingStrategyPreviousAttributes) | (null));
+    /**
+     * How the method sets its price. Set the property named by this value. Value enum: "callback".
+     * anyOf[1] (Value): string. How the method sets its price. Set the property named by this
+     * value. Value enum: "callback". anyOf[2] (Value): null.
+     */
+    "type"?: (("callback" | (string & {})) | (null));
+})
+    & ({
+    /**
+     * How the method sets its price. Set the property named by this value. Value enum: "callback".
+     * anyOf[1] (Value): any. How the method sets its price. Set the property named by this value.
+     * Value enum: "callback". anyOf[2] (Value): null.
+     */
+    "type"?: ((unknown) | (null) | (unknown));
+});
+/** The `caller_supplied` variant of `DeliveryPricingStrategy`. */
+export type DeliveryPricingStrategyCallerSupplied = ({
+    /**
+     * Calculated pricing settings. Set only when `type` is `calculated`. Delivery pricing
+     * calculated from a base fee, distance, weight, and per-item handling, with minimum and
+     * maximum fees, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategy;
+    /**
+     * Rate callback pricing settings. Set only when `type` is `callback`. Delivery pricing that
+     * comes from outside Flint, from a delivery rate callback or the caller, bounded by minimum
+     * and maximum fees by currency.
+     */
+    "callback"?: DeliveryExternalPricingStrategy;
+    /**
+     * Caller-supplied pricing settings. Set only when `type` is `caller_supplied`. Delivery
+     * pricing that comes from outside Flint, from a delivery rate callback or the caller, bounded
+     * by minimum and maximum fees by currency.
+     */
+    "caller_supplied": DeliveryExternalPricingStrategy;
+    /**
+     * Fixed pricing settings. Set only when `type` is `fixed`. A fixed delivery price, by
+     * currency.
+     */
+    "fixed"?: DeliveryFixedPricingStrategy;
+    /**
+     * Rate table pricing settings. Set only when `type` is `rate_table`. Pricing strategy that
+     * charges the price of the first matching rate in a list of prioritized rates.
+     * `unmatched_behavior` says what happens when none match.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategy;
+    /**
+     * Tiered pricing settings. Set only when `type` is `tiered`. Pricing strategy that charges by
+     * band. The `basis` value, such as total weight or subtotal, selects a band, and `unit`
+     * applies to weight bases.
+     */
+    "tiered"?: DeliveryTieredPricingStrategy;
+    /**
+     * How the method sets its price. Set the property named by this value. Value enum:
+     * "caller_supplied".
+     */
+    "type": "caller_supplied" | (string & {});
+})
+    & (({
+    /**
+     * How the method sets its price. Set the property named by this value. Value enum:
+     * "caller_supplied".
+     */
+    "type": unknown;
+    /**
+     * Caller-supplied pricing settings. Set only when `type` is `caller_supplied`. Delivery
+     * pricing that comes from outside Flint, from a delivery rate callback or the caller, bounded
+     * by minimum and maximum fees by currency.
+     */
+    "caller_supplied": DeliveryExternalPricingStrategy;
+}));
+export type DeliveryPricingStrategyCallerSuppliedPreviousAttributes = ({
+    /**
+     * Calculated pricing settings. Set only when `type` is `calculated`. anyOf[1] (Value): {@link
+     * DeliveryCalculatedPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "calculated"?: ((DeliveryCalculatedPricingStrategyPreviousAttributes) | (null));
+    /**
+     * Rate callback pricing settings. Set only when `type` is `callback`. anyOf[1] (Value): {@link
+     * DeliveryExternalPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "callback"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null));
+    /**
+     * Caller-supplied pricing settings. Set only when `type` is `caller_supplied`. anyOf[1]
+     * (Value): {@link DeliveryExternalPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "caller_supplied"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null));
+    /**
+     * Fixed pricing settings. Set only when `type` is `fixed`. anyOf[1] (Value): {@link
+     * DeliveryFixedPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "fixed"?: ((DeliveryFixedPricingStrategyPreviousAttributes) | (null));
+    /**
+     * Rate table pricing settings. Set only when `type` is `rate_table`. anyOf[1] (Value): {@link
+     * DeliveryRateTablePricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "rate_table"?: ((DeliveryRateTablePricingStrategyPreviousAttributes) | (null));
+    /**
+     * Tiered pricing settings. Set only when `type` is `tiered`. anyOf[1] (Value): {@link
+     * DeliveryTieredPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "tiered"?: ((DeliveryTieredPricingStrategyPreviousAttributes) | (null));
+    /**
+     * How the method sets its price. Set the property named by this value. Value enum:
+     * "caller_supplied". anyOf[1] (Value): string. How the method sets its price. Set the property
+     * named by this value. Value enum: "caller_supplied". anyOf[2] (Value): null.
+     */
+    "type"?: (("caller_supplied" | (string & {})) | (null));
+})
+    & ({
+    /**
+     * How the method sets its price. Set the property named by this value. Value enum:
+     * "caller_supplied". anyOf[1] (Value): any. How the method sets its price. Set the property
+     * named by this value. Value enum: "caller_supplied". anyOf[2] (Value): null.
+     */
+    "type"?: ((unknown) | (null) | (unknown));
+});
+/** The `calculated` variant of `DeliveryPricingStrategyCreateInput`. */
+export type DeliveryPricingStrategyCreateInputCalculated = ({
+    /**
+     * Calculated pricing settings. Set only when `type` is `calculated`. Calculated delivery
+     * pricing you supply for a delivery method: base fee, distance and weight rates, per-item
+     * handling, and fee limits, by currency.
+     */
+    "calculated": DeliveryCalculatedPricingStrategy;
+    /**
+     * Rate callback pricing settings. Set only when `type` is `callback`. Delivery pricing you
+     * supply that comes from a delivery rate callback (`delivery_rate_callback_id`), with minimum
+     * and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequest;
+    /**
+     * Caller-supplied pricing settings. Set only when `type` is `caller_supplied`. Delivery
+     * pricing where you supply the rate when creating a delivery quote, bounded by minimum and
+     * maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequest;
+    /**
+     * Fixed pricing settings. Set only when `type` is `fixed`. A fixed delivery price by currency,
+     * supplied for a delivery method.
+     */
+    "fixed"?: DeliveryFixedPricingStrategy;
+    /**
+     * Rate table pricing settings. Set only when `type` is `rate_table`. Rate table pricing
+     * strategy you supply when creating a delivery method: a list of prioritized rates, each with
+     * a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyCreateRequest;
+    /**
+     * Tiered pricing settings. Set only when `type` is `tiered`. Tiered pricing strategy you
+     * supply for a delivery method: a `basis`, a list of bands with prices, and a weight `unit`
+     * when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategy;
+    /**
+     * How the method sets its price. Set the property named by this value. Value enum:
+     * "calculated".
+     */
+    "type": "calculated" | (string & {});
+})
+    & (({
+    /**
+     * How the method sets its price. Set the property named by this value. Value enum:
+     * "calculated".
+     */
+    "type": unknown;
+    /**
+     * Calculated pricing settings. Set only when `type` is `calculated`. Calculated delivery
+     * pricing you supply for a delivery method: base fee, distance and weight rates, per-item
+     * handling, and fee limits, by currency.
+     */
+    "calculated": DeliveryCalculatedPricingStrategy;
+}));
+/** The `calculated` variant of `DeliveryPricingStrategyCreateInput`. */
+export type DeliveryPricingStrategyCreateInputCalculatedInput = ({
+    /**
+     * Calculated pricing settings. Set only when `type` is `calculated`. Calculated delivery
+     * pricing you supply for a delivery method: base fee, distance and weight rates, per-item
+     * handling, and fee limits, by currency.
+     */
+    "calculated": DeliveryCalculatedPricingStrategyRequestInput;
+    /**
+     * Rate callback pricing settings. Set only when `type` is `callback`. Delivery pricing you
+     * supply that comes from a delivery rate callback (`delivery_rate_callback_id`), with minimum
+     * and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequestInput;
+    /**
+     * Caller-supplied pricing settings. Set only when `type` is `caller_supplied`. Delivery
+     * pricing where you supply the rate when creating a delivery quote, bounded by minimum and
+     * maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput;
+    /**
+     * Fixed pricing settings. Set only when `type` is `fixed`. A fixed delivery price by currency,
+     * supplied for a delivery method.
+     */
+    "fixed"?: DeliveryFixedPricingStrategyRequestInput;
+    /**
+     * Rate table pricing settings. Set only when `type` is `rate_table`. Rate table pricing
+     * strategy you supply when creating a delivery method: a list of prioritized rates, each with
+     * a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyCreateRequestInput;
+    /**
+     * Tiered pricing settings. Set only when `type` is `tiered`. Tiered pricing strategy you
+     * supply for a delivery method: a `basis`, a list of bands with prices, and a weight `unit`
+     * when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategyRequestInput;
+    /**
+     * How the method sets its price. Set the property named by this value. Value enum:
+     * "calculated".
+     */
+    "type": "calculated";
+})
+    & (({
+    /**
+     * How the method sets its price. Set the property named by this value. Value enum:
+     * "calculated".
+     */
+    "type": ("calculated") & ("calculated");
+    /**
+     * Calculated pricing settings. Set only when `type` is `calculated`. Calculated delivery
+     * pricing you supply for a delivery method: base fee, distance and weight rates, per-item
+     * handling, and fee limits, by currency.
+     */
+    "calculated": DeliveryCalculatedPricingStrategyRequestInput;
+})
+    & (({
+    "callback"?: never;
+})
+    & ({
+    "caller_supplied"?: never;
+})
+    & ({
+    "fixed"?: never;
+})
+    & ({
+    "rate_table"?: never;
+})
+    & ({
+    "tiered"?: never;
+})));
+/** The `callback` variant of `DeliveryPricingStrategyCreateInput`. */
+export type DeliveryPricingStrategyCreateInputCallback = ({
+    /**
+     * Calculated pricing settings. Set only when `type` is `calculated`. Calculated delivery
+     * pricing you supply for a delivery method: base fee, distance and weight rates, per-item
+     * handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategy;
+    /**
+     * Rate callback pricing settings. Set only when `type` is `callback`. Delivery pricing you
+     * supply that comes from a delivery rate callback (`delivery_rate_callback_id`), with minimum
+     * and maximum fees by currency.
+     */
+    "callback": DeliveryCallbackPricingStrategyRequest;
+    /**
+     * Caller-supplied pricing settings. Set only when `type` is `caller_supplied`. Delivery
+     * pricing where you supply the rate when creating a delivery quote, bounded by minimum and
+     * maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequest;
+    /**
+     * Fixed pricing settings. Set only when `type` is `fixed`. A fixed delivery price by currency,
+     * supplied for a delivery method.
+     */
+    "fixed"?: DeliveryFixedPricingStrategy;
+    /**
+     * Rate table pricing settings. Set only when `type` is `rate_table`. Rate table pricing
+     * strategy you supply when creating a delivery method: a list of prioritized rates, each with
+     * a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyCreateRequest;
+    /**
+     * Tiered pricing settings. Set only when `type` is `tiered`. Tiered pricing strategy you
+     * supply for a delivery method: a `basis`, a list of bands with prices, and a weight `unit`
+     * when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategy;
+    /**
+     * How the method sets its price. Set the property named by this value. Value enum: "callback".
+     */
+    "type": "callback" | (string & {});
+})
+    & (({
+    /**
+     * How the method sets its price. Set the property named by this value. Value enum: "callback".
+     */
+    "type": unknown;
+    /**
+     * Rate callback pricing settings. Set only when `type` is `callback`. Delivery pricing you
+     * supply that comes from a delivery rate callback (`delivery_rate_callback_id`), with minimum
+     * and maximum fees by currency.
+     */
+    "callback": DeliveryCallbackPricingStrategyRequest;
+}));
+/** The `callback` variant of `DeliveryPricingStrategyCreateInput`. */
+export type DeliveryPricingStrategyCreateInputCallbackInput = ({
+    /**
+     * Calculated pricing settings. Set only when `type` is `calculated`. Calculated delivery
+     * pricing you supply for a delivery method: base fee, distance and weight rates, per-item
+     * handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategyRequestInput;
+    /**
+     * Rate callback pricing settings. Set only when `type` is `callback`. Delivery pricing you
+     * supply that comes from a delivery rate callback (`delivery_rate_callback_id`), with minimum
+     * and maximum fees by currency.
+     */
+    "callback": DeliveryCallbackPricingStrategyRequestInput;
+    /**
+     * Caller-supplied pricing settings. Set only when `type` is `caller_supplied`. Delivery
+     * pricing where you supply the rate when creating a delivery quote, bounded by minimum and
+     * maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput;
+    /**
+     * Fixed pricing settings. Set only when `type` is `fixed`. A fixed delivery price by currency,
+     * supplied for a delivery method.
+     */
+    "fixed"?: DeliveryFixedPricingStrategyRequestInput;
+    /**
+     * Rate table pricing settings. Set only when `type` is `rate_table`. Rate table pricing
+     * strategy you supply when creating a delivery method: a list of prioritized rates, each with
+     * a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyCreateRequestInput;
+    /**
+     * Tiered pricing settings. Set only when `type` is `tiered`. Tiered pricing strategy you
+     * supply for a delivery method: a `basis`, a list of bands with prices, and a weight `unit`
+     * when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategyRequestInput;
+    /**
+     * How the method sets its price. Set the property named by this value. Value enum: "callback".
+     */
+    "type": "callback";
+})
+    & (({
+    /**
+     * How the method sets its price. Set the property named by this value. Value enum: "callback".
+     */
+    "type": ("callback") & ("callback");
+    /**
+     * Rate callback pricing settings. Set only when `type` is `callback`. Delivery pricing you
+     * supply that comes from a delivery rate callback (`delivery_rate_callback_id`), with minimum
+     * and maximum fees by currency.
+     */
+    "callback": DeliveryCallbackPricingStrategyRequestInput;
+})
+    & (({
+    "calculated"?: never;
+})
+    & ({
+    "caller_supplied"?: never;
+})
+    & ({
+    "fixed"?: never;
+})
+    & ({
+    "rate_table"?: never;
+})
+    & ({
+    "tiered"?: never;
+})));
 /** The `caller_supplied` variant of `DeliveryPricingStrategyCreateInput`. */
 export type DeliveryPricingStrategyCreateInputCallerSupplied = ({
     /**
@@ -3171,276 +3802,3 @@ export type DeliveryProfileConfigurationRequestInput = ({
 })
     & ((Exclude<DeliveryProfileConfigurationInputNoneInput & object, readonly unknown[]>)
     | (Exclude<DeliveryProfileConfigurationInputRequiredInput & object, readonly unknown[]>));
-export type DeliveryProfileCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": WebhookDeliveryProfile;
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "delivery_profile.created";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": WebhookDeliveryProfile;
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "delivery_profile.created";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "delivery_profile.created";
-});
-/**
- * The `delivery_profile.created` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type DeliveryProfileCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link WebhookDeliveryProfile}. The resource snapshot, without
-     * expansions. Webhooks omit these fields: `diagnostics`, `unconfigured_assignment`.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit these fields: `diagnostics`,
-         * `unconfigured_assignment`.
-         */
-        "object": WebhookDeliveryProfile;
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "delivery_profile.created". */
-    "event_type"?: "delivery_profile.created";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `delivery_profile.created` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type DeliveryProfileCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link WebhookDeliveryProfile}. The resource snapshot, without
-     * expansions. Webhooks omit these fields: `diagnostics`, `unconfigured_assignment`.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit these fields: `diagnostics`,
-         * `unconfigured_assignment`.
-         */
-        "object": WebhookDeliveryProfile;
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "delivery_profile.created". */
-    "event_type"?: "delivery_profile.created";
-});
-/**
- * Read-only coverage checks for a delivery profile, such as how many active Locations have no
- * compatible delivery method and how many countries its zones name.
- */
-export type DeliveryProfileDiagnostics = {
-    /** Number of active delivery methods whose type is allowed by this profile. minimum: 0. */
-    "active_method_definitions_count": number;
-    /**
-     * True when this is the physical catalog default and every active physical catalog obligation
-     * uses it.
-     */
-    "covers_all_items": boolean;
-    /**
-     * Number of active Locations that no active delivery method compatible with this profile can
-     * use as an origin. minimum: 0.
-     */
-    "locations_without_rates_count": number;
-    /**
-     * Up to 20 active Location IDs that no compatible active delivery method can use as an origin.
-     * Use locations_without_rates_count for the complete count. [] (Value): string.
-     */
-    "unassigned_locations": Array<string>;
-    /** True when more matching Locations exist than are returned in unassigned_locations. */
-    "unassigned_locations_truncated": boolean;
-    /**
-     * Number of distinct countries explicitly named by zones referenced from compatible active
-     * delivery methods. minimum: 0.
-     */
-    "zone_country_count": number;
-};
-/** A page of `DeliveryProfile` objects. */
-export type DeliveryProfileListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * DeliveryProfile}. Reusable delivery rules assigned to catalog items.
-     */
-    "data": Array<DeliveryProfile>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * Where items under a delivery profile ship or leave from: a fixed Location (`location_id`),
- * inventory routing, or the origin set on the delivery method.
- */
-export type DeliveryProfileOriginPolicy = {
-    /**
-     * ID of the Location items leave from. Required for `fixed_location` and not allowed
-     * otherwise. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id"?: string;
-    /**
-     * Where items under the profile leave from. Value enum: "fixed_location", "inventory_routing",
-     * "method_origin".
-     */
-    "type": "fixed_location" | "inventory_routing" | "method_origin" | (string & {});
-};
-/** The `fixed_location` variant of `DeliveryProfileOriginPolicyInput`. */
-export type DeliveryProfileOriginPolicyInputFixedLocation = ({
-    /**
-     * ID of the Location items leave from. Required for `fixed_location` and not allowed
-     * otherwise. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id": string;
-    /** Where items under the profile leave from. Value enum: "fixed_location". */
-    "type": "fixed_location" | (string & {});
-})
-    & ({
-    /** Where items under the profile leave from. Value enum: "fixed_location". */
-    "type": unknown;
-    /**
-     * ID of the Location items leave from. Required for `fixed_location` and not allowed
-     * otherwise. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id": string;
-});
-/** The `fixed_location` variant of `DeliveryProfileOriginPolicyInput`. */
-export type DeliveryProfileOriginPolicyInputFixedLocationInput = ({
-    /**
-     * ID of the Location items leave from. Required for `fixed_location` and not allowed
-     * otherwise. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id": string;
-    /** Where items under the profile leave from. Value enum: "fixed_location". */
-    "type": "fixed_location";
-})
-    & ({
-    /** Where items under the profile leave from. Value enum: "fixed_location". */
-    "type": "fixed_location";
-    /**
-     * ID of the Location items leave from. Required for `fixed_location` and not allowed
-     * otherwise. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id": string;
-});
-/** The `inventory_routing` variant of `DeliveryProfileOriginPolicyInput`. */
-export type DeliveryProfileOriginPolicyInputInventoryRouting = ({
-    /**
-     * ID of the Location items leave from. Required for `fixed_location` and not allowed
-     * otherwise. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id"?: string;
-    /** Where items under the profile leave from. Value enum: "inventory_routing". */
-    "type": "inventory_routing" | (string & {});
-})
-    & (({
-    /** Where items under the profile leave from. Value enum: "inventory_routing". */
-    "type": unknown;
-}));
-/** The `inventory_routing` variant of `DeliveryProfileOriginPolicyInput`. */
-export type DeliveryProfileOriginPolicyInputInventoryRoutingInput = ({
-    /**
-     * ID of the Location items leave from. Required for `fixed_location` and not allowed
-     * otherwise. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id"?: string;
-    /** Where items under the profile leave from. Value enum: "inventory_routing". */
-    "type": "inventory_routing";
-})
-    & (({
-    /** Where items under the profile leave from. Value enum: "inventory_routing". */
-    "type": "inventory_routing";
-})
-    & (({
-    "location_id"?: never;
-})));
-/** The `method_origin` variant of `DeliveryProfileOriginPolicyInput`. */
-export type DeliveryProfileOriginPolicyInputMethodOrigin = ({
-    /**
-     * ID of the Location items leave from. Required for `fixed_location` and not allowed
-     * otherwise. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id"?: string;
-    /** Where items under the profile leave from. Value enum: "method_origin". */
-    "type": "method_origin" | (string & {});
-})
-    & (({
-    /** Where items under the profile leave from. Value enum: "method_origin". */
-    "type": unknown;
-}));
-/** The `method_origin` variant of `DeliveryProfileOriginPolicyInput`. */
-export type DeliveryProfileOriginPolicyInputMethodOriginInput = ({
-    /**
-     * ID of the Location items leave from. Required for `fixed_location` and not allowed
-     * otherwise. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id"?: string;
-    /** Where items under the profile leave from. Value enum: "method_origin". */
-    "type": "method_origin";
-})
-    & (({
-    /** Where items under the profile leave from. Value enum: "method_origin". */
-    "type": "method_origin";
-})
-    & (({
-    "location_id"?: never;
-})));

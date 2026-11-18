@@ -9,7 +9,7 @@ namespace Flint;
 final class WebhookDeliveriesGetInput extends Model {
     /** @param array{'webhook_delivery_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookDeliveriesGetInput')); }
-    /** Flint webhook delivery ID. Example: "wdel_01KEZF7C001DWSNDCDZHCTBN0A".
+    /** Flint webhook delivery ID. Must be a valid ID with prefix wdel_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "wdel_01KEZF7C001DWSNDCDZHCTBN0A".
      * @return string
      * @throws SdkError When webhook_delivery_id is omitted; use hasWebhookDeliveryId() or valueOrDefault().
      */

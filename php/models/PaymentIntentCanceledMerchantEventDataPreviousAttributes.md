@@ -12,7 +12,7 @@ Response model.
 | `authorization_expires_at` | Optional | string or null | Effective Flint deadline to capture a manual-capture hold: the earlier of the provider capture deadline and any order resource guarantee. Order guarantees last at most 24 hours from the payment attempt start and may end earlier. Capture is refused at or after this time, even while status is requires_capture. Omitted until a hold is placed. `authorization_expires_at`: [declared alternatives](../models/PaymentIntentCanceledMerchantEventDataPreviousAttributes.md#paymentintentcanceledmerchanteventdatapreviousattributesauthorization_expires_at). |
 | `authorized_at` | Optional | string or null | When the processor authorized the payment. Absent until then. `authorized_at`: [declared alternatives](../models/PaymentIntentCanceledMerchantEventDataPreviousAttributes.md#paymentintentcanceledmerchanteventdatapreviousattributesauthorized_at). |
 | `authorized_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | The amount the processor authorized. It always equals amount_money and doesn't change once set, even when a capture collects more. On a payment intent canceled with cancellation_reason payment_returned, it equals the authorization Flint released instead. Absent until the payment is authorized, and on payments canceled before authorization. |
-| `cancellation_reason` | Optional | string or null | Flint-normalized reason the payment intent was canceled. Present only while status is canceled. Unknown processor values are returned as payment_canceled. Values: [9 declared values](#paymentintentcanceledmerchanteventdatapreviousattributes-cancellation_reason-values). `cancellation_reason`: [declared alternatives](../models/PaymentIntentCanceledMerchantEventDataPreviousAttributes.md#paymentintentcanceledmerchanteventdatapreviousattributescancellation_reason). |
+| `cancellation_reason` | Optional | string or null | Flint-normalized reason the payment intent was canceled. Present only while status is canceled. A cancellation without a specific reason returns payment_canceled. Absent while last_payment_error.code is payment_blocked and Flint has not identified money to return. Unknown processor values are returned as payment_canceled. Values: [9 declared values](#paymentintentcanceledmerchanteventdatapreviousattributes-cancellation_reason-values). `cancellation_reason`: [declared alternatives](../models/PaymentIntentCanceledMerchantEventDataPreviousAttributes.md#paymentintentcanceledmerchanteventdatapreviousattributescancellation_reason). |
 | `capturable_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | The part of the authorization you can still capture. Positive only while status is requires_capture, and zero after you capture or cancel or the authorization expires. The authorization lapses at authorization_expires_at, and a capture attempted after that fails even if this is positive. Absent until the payment is authorized. |
 | `capture_method` | Optional | string or null | When money is collected. Defaults to automatic. Values: `"automatic"`, `"manual"`. `capture_method`: [declared alternatives](../models/ExpandedPaymentIntentSummaryPreviousAttributes.md#expandedpaymentintentsummarypreviousattributescapture_method). |
 | `captured_at` | Optional | string or null | When money was captured. For automatic capture, this is when the payment succeeded. Absent until capture. `captured_at`: [declared alternatives](../models/PaymentIntentCanceledMerchantEventDataPreviousAttributes.md#paymentintentcanceledmerchanteventdatapreviousattributescaptured_at). |
@@ -25,6 +25,8 @@ Response model.
 | `customer_presence` | Optional | string or null | Whether the customer was present for the most recent confirmation. absent means Flint charged a saved card without them, as a merchant-initiated payment on its stored credential. Subscription renewals and automatic invoice charges are absent, and other payments are absent only when confirmed or paid with customer_presence absent. A customer who pays any of them with a card they enter makes it present. Each confirmation sets it again. Values: `"present"`, `"absent"`. `customer_presence`: [declared alternatives](../models/PaymentIntentCanceledMerchantEventDataPreviousAttributes.md#paymentintentcanceledmerchanteventdatapreviousattributescustomer_presence). |
 | `dispute_status` | Optional | string or null | Dispute state of this payment. none means no dispute or inquiry is open or recorded. The inquiry_ values track an issuer inquiry or early warning that isn't a chargeback. Read the dispute with GET /v1/disputes for its deadline and evidence. Values: [10 declared values](#paymentintentcanceledmerchanteventdatapreviousattributes-dispute_status-values). `dispute_status`: [declared alternatives](../models/ExpandedPaymentIntentSummaryPreviousAttributes.md#expandedpaymentintentsummarypreviousattributesdispute_status). |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. `null` when no external reference ID has been set on the payment intent. `external_reference_id`: [declared alternatives](../models/PaymentIntentCanceledMerchantEventDataPreviousAttributes.md#paymentintentcanceledmerchanteventdatapreviousattributesexternal_reference_id). |
+| `failed_attempt_count` | Optional | integer or null | All-time failed-attempt count. Present on merchant reads; omitted for buyer credentials. `failed_attempt_count`: [declared alternatives](../models/PaymentIntentCanceledMerchantEventDataPreviousAttributes.md#paymentintentcanceledmerchanteventdatapreviousattributesfailed_attempt_count). |
+| `failed_attempts` | Optional | Array of [FailedPaymentAttemptPreviousAttributes](../models/FailedPaymentAttemptPreviousAttributes.md#failedpaymentattemptpreviousattributes) or null | Newest 50 failed attempts, newest first, with merchant-only card and buyer evidence frozen at admission. Older attempts can be included in failed_attempt_count. `failed_attempts`: [declared alternatives](../models/PaymentIntentCanceledMerchantEventDataPreviousAttributes.md#paymentintentcanceledmerchanteventdatapreviousattributesfailed_attempts). |
 | `fulfillment_hold` | Optional | [PaymentFulfillmentHoldPreviousAttributes](../models/PaymentFulfillmentHoldPreviousAttributes.md#paymentfulfillmentholdpreviousattributes) or null | Present when a payment provider asked Flint to pause fulfillment for this payment. While its status is active, open fulfillments on the order are on hold with reason payment_review. payment_intent.fulfillment_hold_updated is sent when the hold starts and when it lifts. `fulfillment_hold`: [declared alternatives](../models/PaymentIntentCanceledMerchantEventDataPreviousAttributes.md#paymentintentcanceledmerchanteventdatapreviousattributesfulfillment_hold). |
 | `invoice` | Optional | [ExpandedInvoiceSummaryPreviousAttributes](../models/ExpandedInvoiceSummaryPreviousAttributes.md#expandedinvoicesummarypreviousattributes) or null | The linked invoice. Returned only with expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded and there is no related invoice. `invoice`: [declared alternatives](../models/PaymentIntentCanceledMerchantEventDataPreviousAttributes.md#paymentintentcanceledmerchanteventdatapreviousattributesinvoice). |
 | `invoice_id` | Optional | string or null | Invoice this payment intent collects, when it pays an invoice. `invoice_id`: [declared alternatives](../models/PaymentIntentCanceledMerchantEventDataPreviousAttributes.md#paymentintentcanceledmerchanteventdatapreviousattributesinvoice_id). |
@@ -42,7 +44,7 @@ Response model.
 | `payment_options` | Optional | Array of string or null | Payment options the buyer can use for this payment. Items values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`, `"card_present"`. `payment_options`: [declared alternatives](../models/PaymentIntentCanceledMerchantEventDataPreviousAttributes.md#paymentintentcanceledmerchanteventdatapreviousattributespayment_options). |
 | `payment_source` | Optional | [PaymentSourceSummaryPreviousAttributes](../models/PaymentSourceSummaryPreviousAttributes.md#paymentsourcesummarypreviousattributes) or null | Summary of the card or bank account used for the payment. Absent until a payment source is attached. |
 | `platform_fee` | Optional | [PaymentIntentPlatformFeePreviousAttributes](../models/PaymentIntentPlatformFeePreviousAttributes.md#paymentintentplatformfeepreviousattributes) or null | The platform fee a partner app charges on this payment, when it created the payment with an install token and a fee. Absent when the payment carries none. Returned only to merchant credentials; omitted for buyer and checkout credentials. `platform_fee`: [declared alternatives](../models/PaymentIntentCanceledMerchantEventDataPreviousAttributes.md#paymentintentcanceledmerchanteventdatapreviousattributesplatform_fee). |
-| `reader_id` | Optional | string or null | The reader the payment is or was last presented on. Set when Flint presents it and kept afterward. While processing or requires_action with a reader_id, the payment is on that reader now. `reader_id`: [declared alternatives](../models/PaymentAttemptPaymentIntentPreviousAttributes.md#paymentattemptpaymentintentpreviousattributesreader_id). |
+| `reader_id` | Optional | string or null | The reader the payment is or was last presented on. Set when Flint presents it and kept afterward. While processing or requires_action with a reader_id and no payment_source.card.card_present, the payment is on that reader now. After a card is read, the payment can stay processing while Flint captures it. `reader_id`: [declared alternatives](../models/PaymentAttemptPaymentIntentPreviousAttributes.md#paymentattemptpaymentintentpreviousattributesreader_id). |
 | `receipt_email` | Optional | string or null | Email address for this payment's receipt. When it isn't set, Flint uses the customer's email. `null` when no receipt email has been set on the payment intent. `receipt_email`: [declared alternatives](../models/PaymentIntentCanceledMerchantEventDataPreviousAttributes.md#paymentintentcanceledmerchanteventdatapreviousattributesreceipt_email). |
 | `refund_expires_at` | Optional | string or null | Last time Flint can refund this payment through the original payment method. A refund submitted at exactly this time is accepted; after it, refunds through the original payment method are refused. Today only Affirm has a refund window: 120 days after the payment settles. `null` when the method has no refund window, the payment has not succeeded with captured money, or its capture time is missing. Always present with merchant credentials. `refund_expires_at`: [declared alternatives](../models/PaymentIntentCanceledMerchantEventDataPreviousAttributes.md#paymentintentcanceledmerchanteventdatapreviousattributesrefund_expires_at). |
 | `refund_status` | Optional | string or null | How much of captured_money has been refunded, including value issued as store credit, based on refunded_money. Values: `"none"`, `"partially_refunded"`, `"refunded"`. `refund_status`: [declared alternatives](../models/ExpandedPaymentIntentSummaryPreviousAttributes.md#expandedpaymentintentsummarypreviousattributesrefund_status). |
@@ -121,15 +123,15 @@ anyOf variant 2.
 
 ### PaymentIntentCanceledMerchantEventDataPreviousAttributes.cancellation_reason variant 1
 
-anyOf variant 1: Flint-normalized reason the payment intent was canceled. Present only while status is canceled. Unknown processor values are returned as payment_canceled..
+anyOf variant 1: Flint-normalized reason the payment intent was canceled. Present only while status is canceled. A cancellation without a specific reason returns payment_canceled. Absent while last_payment_error.code is payment_blocked and Flint has not identified money to return. Unknown processor values are returned as payment_canceled..
 
-- Value shape: string. Flint-normalized reason the payment intent was canceled. Present only while status is canceled. Unknown processor values are returned as payment_canceled. Values: `"requested_by_customer"`, `"duplicate"`, `"fraudulent"`, `"abandoned"`, `"invoice_payment_failed"`, `"invoice_voided"`, `"order_closed"`, `"payment_canceled"`, `"payment_returned"`.
+- Value shape: string. Flint-normalized reason the payment intent was canceled. Present only while status is canceled. A cancellation without a specific reason returns payment_canceled. Absent while last_payment_error.code is payment_blocked and Flint has not identified money to return. Unknown processor values are returned as payment_canceled. Values: `"requested_by_customer"`, `"duplicate"`, `"fraudulent"`, `"abandoned"`, `"invoice_payment_failed"`, `"invoice_voided"`, `"order_closed"`, `"payment_canceled"`, `"payment_returned"`.
 
 ### PaymentIntentCanceledMerchantEventDataPreviousAttributes.cancellation_reason variant 2
 
 anyOf variant 2.
 
-- Value shape: null. Flint-normalized reason the payment intent was canceled. Present only while status is canceled. Unknown processor values are returned as payment_canceled. 
+- Value shape: null. Flint-normalized reason the payment intent was canceled. Present only while status is canceled. A cancellation without a specific reason returns payment_canceled. Absent while last_payment_error.code is payment_blocked and Flint has not identified money to return. Unknown processor values are returned as payment_canceled. 
 
 ### PaymentIntentCanceledMerchantEventDataPreviousAttributes.capture_method
 
@@ -249,6 +251,104 @@ anyOf variant 1: Caller-owned identifier for this resource in an external system
 anyOf variant 2.
 
 - Value shape: null. Caller-owned identifier for this resource in an external system. `null` when no external reference ID has been set on the payment intent. 
+
+### PaymentIntentCanceledMerchantEventDataPreviousAttributes.failed_attempt_count
+
+### PaymentIntentCanceledMerchantEventDataPreviousAttributes.failed_attempt_count variant 1
+
+anyOf variant 1: All-time failed-attempt count. Present on merchant reads; omitted for buyer credentials..
+
+- Value shape: integer. All-time failed-attempt count. Present on merchant reads; omitted for buyer credentials. All-time failed-attempt count. Present on merchant reads; omitted for buyer credentials. Format: `int64`. 
+
+### PaymentIntentCanceledMerchantEventDataPreviousAttributes.failed_attempt_count variant 2
+
+anyOf variant 2.
+
+- Value shape: null. All-time failed-attempt count. Present on merchant reads; omitted for buyer credentials. 
+
+### PaymentIntentCanceledMerchantEventDataPreviousAttributes.failed_attempts
+
+### PaymentIntentCanceledMerchantEventDataPreviousAttributes.failed_attempts variant 1
+
+anyOf variant 1: Newest 50 failed attempts, newest first, with merchant-only card and buyer evidence frozen at admission. Older attempts can be included in failed_attempt_count..
+
+- Value shape: Array of [FailedPaymentAttemptPreviousAttributes](../models/FailedPaymentAttemptPreviousAttributes.md#failedpaymentattemptpreviousattributes). Newest 50 failed attempts, newest first, with merchant-only card and buyer evidence frozen at admission. Older attempts can be included in failed_attempt_count. 
+
+### PaymentIntentCanceledMerchantEventDataPreviousAttributes.failed_attempts variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Newest 50 failed attempts, newest first, with merchant-only card and buyer evidence frozen at admission. Older attempts can be included in failed_attempt_count. 
+
+### PaymentIntentCanceledMerchantEventDataPreviousAttributes.failed_attempts variant 1.[] fields 1
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `buyer_email` | Optional | string or null | Email used for risk evaluation at admission. `buyer_email`: [declared alternatives](../models/FailedPaymentAttemptPreviousAttributes.md#failedpaymentattemptpreviousattributesbuyer_email). |
+| `buyer_ip_address` | Optional | string or null | Canonical buyer IP stored at admission. API-key relays must supply a trusted buyer_ip_address. `buyer_ip_address`: [declared alternatives](../models/FailedPaymentAttemptPreviousAttributes.md#failedpaymentattemptpreviousattributesbuyer_ip_address). |
+| `card_brand` | Optional | string or null | Card brand recorded before authorization, when available. `card_brand`: [declared alternatives](../models/FailedPaymentAttemptPreviousAttributes.md#failedpaymentattemptpreviousattributescard_brand). |
+| `card_country` | Optional | string or null | Card issuing country, when provided by the processor. Not the buyer IP's country. `card_country`: [declared alternatives](../models/FailedPaymentAttemptPreviousAttributes.md#failedpaymentattemptpreviousattributescard_country). |
+| `card_fingerprint` | Optional | string or null | Merchant/environment-scoped fingerprint used by risk card-fingerprint lists. Never a raw provider fingerprint. `card_fingerprint`: [declared alternatives](../models/FailedPaymentAttemptPreviousAttributes.md#failedpaymentattemptpreviousattributescard_fingerprint). |
+| `card_last4` | Optional | string or null | Last four card digits recorded before authorization. Not a unique card identity. `card_last4`: [declared alternatives](../models/FailedPaymentAttemptPreviousAttributes.md#failedpaymentattemptpreviousattributescard_last4). |
+| `created_at` | Optional | string or null | UTC time the attempt was created. `created_at`: [declared alternatives](../models/PaymentIntentCanceledMerchantEventDataPreviousAttributes.md#paymentintentcanceledmerchanteventdatapreviousattributesfailed_attempts-variant-1-fields-1created_at). |
+| `decline_code` | Optional | string or null | Stable decline code recorded for this attempt. `decline_code`: [declared alternatives](../models/FailedPaymentAttemptPreviousAttributes.md#failedpaymentattemptpreviousattributesdecline_code). |
+| `payment_attempt_id` | Optional | string or null | Identity of the failed attempt. `payment_attempt_id`: [declared alternatives](../models/PaymentIntentCanceledMerchantEventDataPreviousAttributes.md#paymentintentcanceledmerchanteventdatapreviousattributesfailed_attempts-variant-1-fields-1payment_attempt_id). |
+
+### PaymentIntentCanceledMerchantEventDataPreviousAttributes.failed_attempts variant 1.[] fields 1.buyer_email
+
+Declared alternatives: [FailedPaymentAttemptPreviousAttributes.buyer_email](../models/FailedPaymentAttemptPreviousAttributes.md#failedpaymentattemptpreviousattributesbuyer_email).
+
+### PaymentIntentCanceledMerchantEventDataPreviousAttributes.failed_attempts variant 1.[] fields 1.buyer_ip_address
+
+Declared alternatives: [FailedPaymentAttemptPreviousAttributes.buyer_ip_address](../models/FailedPaymentAttemptPreviousAttributes.md#failedpaymentattemptpreviousattributesbuyer_ip_address).
+
+### PaymentIntentCanceledMerchantEventDataPreviousAttributes.failed_attempts variant 1.[] fields 1.card_brand
+
+Declared alternatives: [FailedPaymentAttemptPreviousAttributes.card_brand](../models/FailedPaymentAttemptPreviousAttributes.md#failedpaymentattemptpreviousattributescard_brand).
+
+### PaymentIntentCanceledMerchantEventDataPreviousAttributes.failed_attempts variant 1.[] fields 1.card_country
+
+Declared alternatives: [FailedPaymentAttemptPreviousAttributes.card_country](../models/FailedPaymentAttemptPreviousAttributes.md#failedpaymentattemptpreviousattributescard_country).
+
+### PaymentIntentCanceledMerchantEventDataPreviousAttributes.failed_attempts variant 1.[] fields 1.card_fingerprint
+
+Declared alternatives: [FailedPaymentAttemptPreviousAttributes.card_fingerprint](../models/FailedPaymentAttemptPreviousAttributes.md#failedpaymentattemptpreviousattributescard_fingerprint).
+
+### PaymentIntentCanceledMerchantEventDataPreviousAttributes.failed_attempts variant 1.[] fields 1.card_last4
+
+Declared alternatives: [FailedPaymentAttemptPreviousAttributes.card_last4](../models/FailedPaymentAttemptPreviousAttributes.md#failedpaymentattemptpreviousattributescard_last4).
+
+### PaymentIntentCanceledMerchantEventDataPreviousAttributes.failed_attempts variant 1.[] fields 1.created_at
+
+### PaymentIntentCanceledMerchantEventDataPreviousAttributes.failed_attempts variant 1.[] fields 1.created_at variant 1
+
+anyOf variant 1: UTC time the attempt was created..
+
+- Value shape: string. UTC time the attempt was created. UTC time the attempt was created. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+
+### PaymentIntentCanceledMerchantEventDataPreviousAttributes.failed_attempts variant 1.[] fields 1.created_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. UTC time the attempt was created. 
+
+### PaymentIntentCanceledMerchantEventDataPreviousAttributes.failed_attempts variant 1.[] fields 1.decline_code
+
+Declared alternatives: [FailedPaymentAttemptPreviousAttributes.decline_code](../models/FailedPaymentAttemptPreviousAttributes.md#failedpaymentattemptpreviousattributesdecline_code).
+
+### PaymentIntentCanceledMerchantEventDataPreviousAttributes.failed_attempts variant 1.[] fields 1.payment_attempt_id
+
+### PaymentIntentCanceledMerchantEventDataPreviousAttributes.failed_attempts variant 1.[] fields 1.payment_attempt_id variant 1
+
+anyOf variant 1: Identity of the failed attempt..
+
+- Value shape: string. Identity of the failed attempt. Identity of the failed attempt. Example: `"pia_01KEZF7C00CGGHWWR7KPCGNJRM"`. 
+
+### PaymentIntentCanceledMerchantEventDataPreviousAttributes.failed_attempts variant 1.[] fields 1.payment_attempt_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Identity of the failed attempt. 
 
 ### PaymentIntentCanceledMerchantEventDataPreviousAttributes.fulfillment_hold
 

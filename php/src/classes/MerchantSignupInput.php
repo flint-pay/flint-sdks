@@ -22,11 +22,12 @@ namespace Flint;
  * @property-read string $status
  * @property-read list<string> $supported_actions
  * @property-read MerchantSignupTermsAcceptanceInput|array<array-key, mixed>|\stdClass $terms_acceptance
+ * @property-read string $timezone
  * @property-read string|\DateTimeInterface $updated_at
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class MerchantSignupInput extends Model {
-    /** @param array{'business_name'?: string, 'canceled_at'?: string|\DateTimeInterface, 'code_expires_at'?: string|\DateTimeInterface, 'completed_at'?: string|\DateTimeInterface, 'created_at': string|\DateTimeInterface, 'expires_at': string|\DateTimeInterface, 'external_reference_id'?: string, 'merchant_id'?: string, 'merchant_signup_id': string, 'merchant_terms': MerchantSignupTermsInput|array<array-key, mixed>|\stdClass, 'modes': list<string>, 'owner': MerchantSignupOwnerInput|array<array-key, mixed>|\stdClass, 'partner_app_id': string, 'partner_app_install_id'?: string, 'platform_fee_cap'?: PlatformFeeCapInput|array<array-key, mixed>|\stdClass, 'requested_permissions': list<MerchantSignupPermissionInput|array<array-key, mixed>|\stdClass>, 'sandbox_initial_onboarding': string, 'status': string, 'supported_actions': list<string>, 'terms_acceptance'?: MerchantSignupTermsAcceptanceInput|array<array-key, mixed>|\stdClass, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
+    /** @param array{'business_name'?: string, 'canceled_at'?: string|\DateTimeInterface, 'code_expires_at'?: string|\DateTimeInterface, 'completed_at'?: string|\DateTimeInterface, 'created_at': string|\DateTimeInterface, 'expires_at': string|\DateTimeInterface, 'external_reference_id'?: string, 'merchant_id'?: string, 'merchant_signup_id': string, 'merchant_terms': MerchantSignupTermsInput|array<array-key, mixed>|\stdClass, 'modes': list<string>, 'owner': MerchantSignupOwnerInput|array<array-key, mixed>|\stdClass, 'partner_app_id': string, 'partner_app_install_id'?: string, 'platform_fee_cap'?: PlatformFeeCapInput|array<array-key, mixed>|\stdClass, 'requested_permissions': list<MerchantSignupPermissionInput|array<array-key, mixed>|\stdClass>, 'sandbox_initial_onboarding': string, 'status': string, 'supported_actions': list<string>, 'terms_acceptance'?: MerchantSignupTermsAcceptanceInput|array<array-key, mixed>|\stdClass, 'timezone'?: string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MerchantSignupInput')); }
     /** The new merchant's display name until onboarding sets its legal name. Absent when the request didn't send one: Flint then names the merchant from the owner's email.
      * @return string
@@ -148,6 +149,12 @@ final class MerchantSignupInput extends Model {
      */
     public function getTermsAcceptance(): mixed { return $this->get('terms_acceptance'); }
     public function hasTermsAcceptance(): bool { return $this->has('terms_acceptance'); }
+    /** Business time zone set on the new merchant. Absent when signup did not include one. Uses an IANA time zone name.
+     * @return string
+     * @throws SdkError When timezone is omitted; use hasTimezone() or valueOrDefault().
+     */
+    public function getTimezone(): string { return $this->get('timezone'); }
+    public function hasTimezone(): bool { return $this->has('timezone'); }
     /** When the signup last changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().

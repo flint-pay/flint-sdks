@@ -1,7 +1,19 @@
 [Model index](../MODELS.md)
 
-# InvoicePaymentAttemptProcessingInstalledMerchantsEventInput to InvoiceUpdatedMerchantEventInput
+# InvoicePartiallyPaidInstalledMerchantsEventInput to InvoiceScheduleEntryWriteInstallmentInput
 
+- [InvoicePartiallyPaidInstalledMerchantsEventInput](InvoicePartiallyPaidInstalledMerchantsEventInput.md)
+- [InvoicePartiallyPaidMerchantEventInput](InvoicePartiallyPaidMerchantEventInput.md)
+- [InvoicePartiallyRefundedInstalledMerchantsEventInput](InvoicePartiallyRefundedInstalledMerchantsEventInput.md)
+- [InvoicePartiallyRefundedMerchantEventInput](InvoicePartiallyRefundedMerchantEventInput.md)
+- [InvoicePaymentAttemptInput](InvoicePaymentAttemptInput.md)
+- [InvoicePaymentAttemptCanceledInstalledMerchantsEventInput](InvoicePaymentAttemptCanceledInstalledMerchantsEventInput.md)
+- [InvoicePaymentAttemptCanceledMerchantEventInput](InvoicePaymentAttemptCanceledMerchantEventInput.md)
+- [InvoicePaymentAttemptExpiredInstalledMerchantsEventInput](InvoicePaymentAttemptExpiredInstalledMerchantsEventInput.md)
+- [InvoicePaymentAttemptExpiredMerchantEventInput](InvoicePaymentAttemptExpiredMerchantEventInput.md)
+- [InvoicePaymentAttemptFailedInstalledMerchantsEventInput](InvoicePaymentAttemptFailedInstalledMerchantsEventInput.md)
+- [InvoicePaymentAttemptFailedMerchantEventInput](InvoicePaymentAttemptFailedMerchantEventInput.md)
+- [InvoicePaymentAttemptListResponseInput](InvoicePaymentAttemptListResponseInput.md)
 - [InvoicePaymentAttemptProcessingInstalledMerchantsEventInput](InvoicePaymentAttemptProcessingInstalledMerchantsEventInput.md)
 - [InvoicePaymentAttemptProcessingMerchantEventInput](InvoicePaymentAttemptProcessingMerchantEventInput.md)
 - [InvoicePaymentAttemptResponseInput](InvoicePaymentAttemptResponseInput.md)
@@ -90,16 +102,4 @@
 - [InvoiceScheduleEntryWriteBalanceInput](InvoiceScheduleEntryWriteBalanceInput.md)
 - [InvoiceScheduleEntryWriteDepositInput](InvoiceScheduleEntryWriteDepositInput.md)
 - [InvoiceScheduleEntryWriteInstallmentInput](InvoiceScheduleEntryWriteInstallmentInput.md)
-- [InvoiceSentInstalledMerchantsEventInput](InvoiceSentInstalledMerchantsEventInput.md)
-- [InvoiceSentMerchantEventInput](InvoiceSentMerchantEventInput.md)
-- [InvoiceSettingsInput](InvoiceSettingsInput.md)
-- [InvoiceSettingsPatchInput](InvoiceSettingsPatchInput.md)
-- [InvoiceSettlementAmountsInput](InvoiceSettlementAmountsInput.md)
-- [InvoiceSettlementAmountsPreviousAttributesInput](InvoiceSettlementAmountsPreviousAttributesInput.md)
-- [InvoiceSnapshotInput](InvoiceSnapshotInput.md)
-- [InvoiceSnapshotPreviousAttributesInput](InvoiceSnapshotPreviousAttributesInput.md)
-- [InvoiceTipInput](InvoiceTipInput.md)
-- [InvoiceTipPreviousAttributesInput](InvoiceTipPreviousAttributesInput.md)
-- [InvoiceUpdatedInstalledMerchantsEventInput](InvoiceUpdatedInstalledMerchantsEventInput.md)
-- [InvoiceUpdatedMerchantEventInput](InvoiceUpdatedMerchantEventInput.md)
 

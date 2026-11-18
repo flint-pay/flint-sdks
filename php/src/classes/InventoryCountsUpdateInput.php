@@ -10,7 +10,7 @@ namespace Flint;
 final class InventoryCountsUpdateInput extends Model {
     /** @param array{'inventory_count_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'expected_version': int, 'external_actor_id'?: string, 'observations': list<mixed>, 'occurred_at'?: string|\DateTimeInterface, 'source_system'?: mixed}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryCountsUpdateInput')); }
-    /** Flint inventory count ID. Example: "invc_01KEZF7C00B47NXRE3ET37QQ59".
+    /** Flint inventory count ID. Must be a valid ID with prefix invc_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "invc_01KEZF7C00B47NXRE3ET37QQ59".
      * @return string
      * @throws SdkError When inventory_count_id is omitted; use hasInventoryCountId() or valueOrDefault().
      */

@@ -28,7 +28,7 @@ final class FulfillmentsCancelParams extends Model {
      */
     public function getOccurredAt(): string|\DateTimeInterface { return $this->get('occurred_at'); }
     public function hasOccurredAt(): bool { return $this->has('occurred_at'); }
-    /** Your note explaining this transition. minLength: 1. maxLength: 500.
+    /** Your internal note explaining this transition. Not included in buyer emails. minLength: 1. maxLength: 500.
      * @return string
      * @throws SdkError When reason_message is omitted; use hasReasonMessage() or valueOrDefault().
      */

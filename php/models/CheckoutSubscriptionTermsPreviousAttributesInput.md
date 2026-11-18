@@ -21,6 +21,7 @@ Request input.
 | `gifts_enabled` | Optional | boolean or null | Whether the buyer can name a gift recipient, frozen from the plan's gifts_enabled when the session was created. `gifts_enabled`: [declared alternatives](../models/CheckoutSubscriptionTermsPreviousAttributesInput.md#checkoutsubscriptiontermspreviousattributesinputgifts_enabled). |
 | `line_items` | Optional | Array of object or null | Identified frozen plan lines with buyer quantity permissions and bounds. `line_items`: [declared alternatives](../models/CheckoutSubscriptionTermsPreviousAttributesInput.md#checkoutsubscriptiontermspreviousattributesinputline_items). |
 | `plan_name` | Optional | string or null | Plan name shown to the buyer. `plan_name`: [declared alternatives](../models/CheckoutSubscriptionTermsPreviousAttributesInput.md#checkoutsubscriptiontermspreviousattributesinputplan_name). |
+| `recurring_price_phases` | Optional | Array of [CheckoutSubscriptionPricePhasePreviousAttributesInput](../models/CheckoutSubscriptionPricePhasePreviousAttributesInput.md#checkoutsubscriptionpricephasepreviousattributesinput) or null | Ordered recurring merchandise prices from the first paid billing period, after any trial, with frozen signup promotions applied. Each finite phase is followed by the next phase; the final phase has a null billing_period_count and continues until cancellation. Tax and shipping are additional. Always contains at least one phase. `recurring_price_phases`: [declared alternatives](../models/CheckoutSubscriptionTermsPreviousAttributesInput.md#checkoutsubscriptiontermspreviousattributesinputrecurring_price_phases). |
 | `recurring_shipping` | Optional | [CheckoutSubscriptionRecurringShippingPreviousAttributesInput](../models/CheckoutSubscriptionRecurringShippingPreviousAttributesInput.md#checkoutsubscriptionrecurringshippingpreviousattributesinput) or null | Shipping that renews with each charge, for the delivery method the buyer chose. Omitted when no delivery method applies to the plan's lines. |
 | `recurring_total_money` | Optional | [MoneyValuePreviousAttributesInput](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinput) or null | Charge for one billing period before tax and shipping, including prepaid deliveries and modifiers. |
 | `setup_fee_money` | Optional | [MoneyValuePreviousAttributesInput](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinput) or null | One-time fee charged with the first payment, when the plan has one. |
@@ -276,6 +277,20 @@ anyOf variant 1: Plan name shown to the buyer..
 anyOf variant 2.
 
 - Value shape: null. Plan name shown to the buyer. 
+
+### CheckoutSubscriptionTermsPreviousAttributesInput.recurring_price_phases
+
+### CheckoutSubscriptionTermsPreviousAttributesInput.recurring_price_phases variant 1
+
+anyOf variant 1: Ordered recurring merchandise prices from the first paid billing period, after any trial, with frozen signup promotions applied. Each finite phase is followed by the next phase; the final phase has a null billing_period_count and continues until cancellation. Tax and shipping are additional. Always contains at least one phase..
+
+- Value shape: Array of [CheckoutSubscriptionPricePhasePreviousAttributesInput](../models/CheckoutSubscriptionPricePhasePreviousAttributesInput.md#checkoutsubscriptionpricephasepreviousattributesinput). Ordered recurring merchandise prices from the first paid billing period, after any trial, with frozen signup promotions applied. Each finite phase is followed by the next phase; the final phase has a null billing_period_count and continues until cancellation. Tax and shipping are additional. Always contains at least one phase. 
+
+### CheckoutSubscriptionTermsPreviousAttributesInput.recurring_price_phases variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Ordered recurring merchandise prices from the first paid billing period, after any trial, with frozen signup promotions applied. Each finite phase is followed by the next phase; the final phase has a null billing_period_count and continues until cancellation. Tax and shipping are additional. Always contains at least one phase. 
 
 ### CheckoutSubscriptionTermsPreviousAttributesInput.subscription_plan_id
 

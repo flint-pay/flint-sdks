@@ -4,6 +4,7 @@ namespace Flint;
 /**
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $available_money
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $balance_money
+ * @property-read bool $can_remove
  * @property-read string|\DateTimeInterface $created_at
  * @property-read string $currency
  * @property-read string $gift_card_id
@@ -17,7 +18,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerGiftCardInput extends Model {
-    /** @param array{'available_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'balance_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'created_at': string|\DateTimeInterface, 'currency': string, 'gift_card_id': string, 'last_loaded_at': string|\DateTimeInterface|null, 'last_redeemed_at': string|\DateTimeInterface|null, 'last4': string, 'merchant_id': string, 'reserved_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': int}|object $values */
+    /** @param array{'available_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'balance_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'can_remove': bool, 'created_at': string|\DateTimeInterface, 'currency': string, 'gift_card_id': string, 'last_loaded_at': string|\DateTimeInterface|null, 'last_redeemed_at': string|\DateTimeInterface|null, 'last4': string, 'merchant_id': string, 'reserved_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': int}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerGiftCardInput')); }
     /** The balance minus reserved value: what can be spent now. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
@@ -31,6 +32,12 @@ final class BuyerGiftCardInput extends Model {
      */
     public function getBalanceMoney(): mixed { return $this->get('balance_money'); }
     public function hasBalanceMoney(): bool { return $this->has('balance_money'); }
+    /** Whether the buyer can remove the card from their account. True only for current saved access to a card the buyer does not own.
+     * @return bool
+     * @throws SdkError When can_remove is omitted; use hasCanRemove() or valueOrDefault().
+     */
+    public function getCanRemove(): bool { return $this->get('can_remove'); }
+    public function hasCanRemove(): bool { return $this->has('can_remove'); }
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().

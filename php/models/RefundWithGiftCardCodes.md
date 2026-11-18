@@ -11,7 +11,9 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `amount_money` | Required | [RefundWithGiftCardCodesAmountMoney](../models/RefundWithGiftCardCodesAmountMoney.md#refundwithgiftcardcodesamountmoney) | Total refunded across all tenders, including `refunded_tip_money`. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `charge_allocations` | Optional | Array of ([RefundWithGiftCardCodesChargeAllocationsItem](../models/RefundWithGiftCardCodesChargeAllocationsItem.md#refundwithgiftcardcodeschargeallocationsitem) and [RefundChargeAllocation](../models/RefundChargeAllocation.md#refundchargeallocation)) | Money returned for each order charge, including subtotal, discount, and tax, combined across payment refunds. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+| `credit_adjustment_money` | Required | [RefundWithGiftCardCodesCreditAdjustmentMoney](../models/RefundWithGiftCardCodesCreditAdjustmentMoney.md#refundwithgiftcardcodescreditadjustmentmoney) | Money paid for Return resolution credits, included in amount_money. It carries no merchandise, shipping, tax, or tip allocation. Zero for refunds without credits. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `credit_note_id` | Optional | string | ID of the credit note this refund paid out. Present only on refunds issued through a credit note. |
 | `customer` | Optional | [ExpandedCustomerSummary](../models/ExpandedCustomerSummary.md#expandedcustomersummary) or null |  |
 | `customer_id` | Optional | string | ID of the customer on the refunded order or payment. Absent when neither has one. |

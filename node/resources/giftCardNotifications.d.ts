@@ -9,8 +9,8 @@ import type {
     GiftCardNotificationsGetParams,
     GiftCardNotificationsListParams
 } from '../declarations/types-29.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -36,30 +36,33 @@ export type {
     GiftCardNotificationDelivery,
     GiftCardNotificationDeliveryAttempt,
     GiftCardNotificationDeliveryEvent,
-    GiftCardPurchaseRecipient,
     GiftCardNotificationRecipientInput
 } from '../declarations/types-29.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { RequestOptions } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CancelGiftCardNotificationRequestInput } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
+export type { GiftCardPurchaseRecipient } from '../declarations/types-30.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { CreateGiftCardNotificationRequestInput } from '../declarations/types-10.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
-export { makeCancelGiftCardNotificationRequest } from '../declarations/types-78.js';
-export { makeCreateGiftCardNotificationRequest } from '../declarations/types-80.js';
-export { makeGiftCardNotificationRecipient } from '../declarations/types-84.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
+export type { DisputesAcceptParams } from '../declarations/types-26.js';
+export { makeCancelGiftCardNotificationRequest } from '../declarations/types-80.js';
+export { makeCreateGiftCardNotificationRequest } from '../declarations/types-82.js';
+export { makeGiftCardNotificationRecipient } from '../declarations/types-86.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export interface GiftCardNotificationsResource {
     /**
  * Cancels a notification before sending starts or after confirmed failure. A sending or
  * unconfirmed notification cannot be canceled. Gift card value is preserved.
  *
  * `POST /v1/gift-card-notifications/{gift_card_notification_id}/cancel`
- * @param gift_card_notification_id Flint resource ID.
+ * @param gift_card_notification_id Flint resource ID. Must be a valid ID with prefix gcn_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/gift-cards#cancelGiftCardNotification
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -89,7 +92,9 @@ export interface GiftCardNotificationsResource {
  * message; it does not mean the recipient read it.
  *
  * `GET /v1/gift-card-notifications/{gift_card_notification_id}`
- * @param gift_card_notification_id Flint resource ID.
+ * @param gift_card_notification_id Flint resource ID. Must be a valid ID with prefix gcn_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/gift-cards#getGiftCardNotification
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

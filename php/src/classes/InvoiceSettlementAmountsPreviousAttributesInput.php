@@ -32,7 +32,7 @@ final class InvoiceSettlementAmountsPreviousAttributesInput extends Model {
      */
     public function getLateFeeMoney(): mixed { return $this->get('late_fee_money'); }
     public function hasLateFeeMoney(): bool { return $this->has('late_fee_money'); }
-    /** paid_money minus refunded_money and, on orders, dispute_lost_money, never below zero. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
+    /** paid_money minus refunded_money, never below zero. Dispute losses do not reduce this invoice amount. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
      * @return MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null
      * @throws SdkError When net_collected_money is omitted; use hasNetCollectedMoney() or valueOrDefault().
      */

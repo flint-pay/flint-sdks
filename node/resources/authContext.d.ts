@@ -1,8 +1,8 @@
 import type { WithResponseInfo } from '../runtime.js';
 import type { AuthContext, AuthContextGetParams, AuthContextResponse } from '../declarations/types-1.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -18,18 +18,18 @@ export type {
     WorkloadIdentitySource
 } from '../runtime.js';
 export type { AuthContextGetParams, AuthContext, AuthContextResponse, AuthMode } from '../declarations/types-1.js';
-export type { _SdkWithoutIdempotency, WorkloadIdentityAuthContext } from '../declarations/types-77.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
+export type { _SdkWithoutIdempotency, WorkloadIdentityAuthContext } from '../declarations/types-79.js';
+export type { RequestOptions } from '../declarations/types-61.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { APIKeyAuthContext } from '../declarations/types-0.js';
 export type { CLILoginAuthContext } from '../declarations/types-4.js';
-export type { PartnerAppAuthContext } from '../declarations/types-47.js';
-export type { OnboardingSessionAuthContext } from '../declarations/types-43.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
+export type { PartnerAppAuthContext } from '../declarations/types-49.js';
+export type { OnboardingSessionAuthContext, NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { DisputesAcceptParams } from '../declarations/types-26.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export interface AuthContextResource {
     /**
  * Returns non-secret metadata for the credential that sent the request, as one object per

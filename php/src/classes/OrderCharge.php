@@ -13,6 +13,7 @@ namespace Flint;
  * @property-read string $order_charge_id
  * @property-read string $order_id
  * @property-read ?float $percent
+ * @property-read MoneyValue $refundable_money
  * @property-read MoneyValue $refunded_money
  * @property-read ?OrderCalculatedChargeTax $tax
  * @property-read MoneyValue $tax_money
@@ -21,7 +22,7 @@ namespace Flint;
  * @property-read string $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class OrderCharge extends Model {
-    /** @param array{'amount_money'?: mixed, 'applied_money': mixed, 'calculation_basis'?: string, 'created_at': string, 'description'?: string, 'fulfillment_id'?: string, 'metadata'?: mixed, 'name': string, 'order_charge_id': string, 'order_id': string, 'percent'?: float, 'refunded_money': mixed, 'tax'?: mixed, 'tax_money': mixed, 'total_money': mixed, 'type': string, 'updated_at': string, ...}|object $values */
+    /** @param array{'amount_money'?: mixed, 'applied_money': mixed, 'calculation_basis'?: string, 'created_at': string, 'description'?: string, 'fulfillment_id'?: string, 'metadata'?: mixed, 'name': string, 'order_charge_id': string, 'order_id': string, 'percent'?: float, 'refundable_money': mixed, 'refunded_money': mixed, 'tax'?: mixed, 'tax_money': mixed, 'total_money': mixed, 'type': string, 'updated_at': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderCharge')); }
     /** Fixed charge amount before charge discounts and tax. Percentage charges use percent instead. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?MoneyValue
@@ -78,6 +79,11 @@ final class OrderCharge extends Model {
      */
     public function getPercent(): ?float { return $this->get('percent'); }
     public function hasPercent(): bool { return $this->has('percent'); }
+    /** Remaining amount for an ID-only charge refund target. Accounts for original-tender capacity, reversals, accepted refunds, and whole-value edit reservations, including credit transferred to added lines and pending or retryable failed edit refunds. Zero when exhausted. Refund eligibility is checked again on submission. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValue
+     */
+    public function getRefundableMoney(): MoneyValue { return $this->get('refundable_money'); }
+    public function hasRefundableMoney(): bool { return $this->has('refundable_money'); }
     /** Charge amount already refunded. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */

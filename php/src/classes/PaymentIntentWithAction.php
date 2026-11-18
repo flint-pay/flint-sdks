@@ -20,6 +20,8 @@ namespace Flint;
  * @property-read string $customer_presence
  * @property-read ?string $dispute_status
  * @property-read string|null $external_reference_id
+ * @property-read ?int $failed_attempt_count
+ * @property-read ?list<FailedPaymentAttempt> $failed_attempts
  * @property-read ?PaymentFulfillmentHold $fulfillment_hold
  * @property-read ExpandedInvoiceSummary|null $invoice
  * @property-read ?string $invoice_id
@@ -38,6 +40,7 @@ namespace Flint;
  * @property-read list<string> $payment_options
  * @property-read ?PaymentSourceSummary $payment_source
  * @property-read ?PaymentIntentPlatformFee $platform_fee
+ * @property-read ?list<PaymentProcessingFeeDetail> $processing_fee_details
  * @property-read ?MoneyValue $processing_fee_money
  * @property-read ?string $reader_id
  * @property-read string|null $receipt_email
@@ -63,7 +66,7 @@ namespace Flint;
  * @property-read PendingPaymentAction|null $current_payment_action
  * Presence-aware response; omitted optional fields return null. */
 final class PaymentIntentWithAction extends Model {
-    /** @param array{'add_on_fees'?: list<mixed>, 'amount_money': mixed, 'authorization_expires_at'?: string, 'authorized_at'?: string, 'authorized_money'?: mixed, 'cancellation_reason'?: string, 'capturable_money'?: mixed, 'capture_method'?: string, 'captured_at'?: string, 'captured_money'?: mixed, 'captured_tip_money'?: mixed, 'checkout_session_id'?: string, 'created_at'?: string, 'customer'?: mixed, 'customer_id'?: string, 'customer_presence': string, 'dispute_status'?: string, 'external_reference_id'?: string|null, 'fulfillment_hold'?: mixed, 'invoice'?: mixed, 'invoice_id'?: string, 'invoice_schedule_entry_id'?: string, 'last_payment_error': mixed, 'latest_order_payment_attempt_id'?: string|null, 'merchant_id'?: string, 'merchant_net_money'?: mixed, 'metadata'?: mixed, 'order'?: mixed, 'order_edit_id'?: string, 'order_id'?: string, 'overcapture'?: mixed, 'payment_flow': string, 'payment_intent_id': string, 'payment_options': list<string>, 'payment_source'?: mixed, 'platform_fee'?: mixed, 'processing_fee_money'?: mixed, 'reader_id'?: string, 'receipt_email'?: string|null, 'refund_expires_at'?: string|null, 'refund_status'?: string, 'refunded_money'?: mixed, 'released_money'?: mixed, 'request_overcapture'?: bool, 'return_id'?: string, 'return_resolution_id'?: string, 'risk'?: mixed, 'selected_payment_option'?: string, 'splits'?: list<mixed>, 'statement_descriptor': string|null, 'status': string, 'subscription_id'?: string, 'support_reference': string, 'supported_actions': list<string>, 'tip_money'?: mixed, 'transaction_purpose'?: string, 'updated_at'?: string, 'version': int, 'current_payment_action': mixed, ...}|object $values */
+    /** @param array{'add_on_fees'?: list<mixed>, 'amount_money': mixed, 'authorization_expires_at'?: string, 'authorized_at'?: string, 'authorized_money'?: mixed, 'cancellation_reason'?: string, 'capturable_money'?: mixed, 'capture_method'?: string, 'captured_at'?: string, 'captured_money'?: mixed, 'captured_tip_money'?: mixed, 'checkout_session_id'?: string, 'created_at'?: string, 'customer'?: mixed, 'customer_id'?: string, 'customer_presence': string, 'dispute_status'?: string, 'external_reference_id'?: string|null, 'failed_attempt_count'?: int, 'failed_attempts'?: list<mixed>, 'fulfillment_hold'?: mixed, 'invoice'?: mixed, 'invoice_id'?: string, 'invoice_schedule_entry_id'?: string, 'last_payment_error': mixed, 'latest_order_payment_attempt_id'?: string|null, 'merchant_id'?: string, 'merchant_net_money'?: mixed, 'metadata'?: mixed, 'order'?: mixed, 'order_edit_id'?: string, 'order_id'?: string, 'overcapture'?: mixed, 'payment_flow': string, 'payment_intent_id': string, 'payment_options': list<string>, 'payment_source'?: mixed, 'platform_fee'?: mixed, 'processing_fee_details'?: list<mixed>, 'processing_fee_money'?: mixed, 'reader_id'?: string, 'receipt_email'?: string|null, 'refund_expires_at'?: string|null, 'refund_status'?: string, 'refunded_money'?: mixed, 'released_money'?: mixed, 'request_overcapture'?: bool, 'return_id'?: string, 'return_resolution_id'?: string, 'risk'?: mixed, 'selected_payment_option'?: string, 'splits'?: list<mixed>, 'statement_descriptor': string|null, 'status': string, 'subscription_id'?: string, 'support_reference': string, 'supported_actions': list<string>, 'tip_money'?: mixed, 'transaction_purpose'?: string, 'updated_at'?: string, 'version': int, 'current_payment_action': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentIntentWithAction')); }
     /** Itemized invoice, subscription, and automatic tax fees collected with this payment. Available to the merchant only. Empty until fees settle or when no add-ons apply. Refunds do not return or revise these fees. Absent until Flint has determined and verified the fee. If Flint can't verify it when you read the payment intent, the field is omitted rather than shown unverified; read the payment intent again later. [] (Value): {@see PaymentAddOnFee}. A Flint fee added to a payment intent, with the fee type and amount.
      * @return ?list<PaymentAddOnFee>
@@ -90,7 +93,7 @@ final class PaymentIntentWithAction extends Model {
      */
     public function getAuthorizedMoney(): ?MoneyValue { return $this->get('authorized_money'); }
     public function hasAuthorizedMoney(): bool { return $this->has('authorized_money'); }
-    /** Flint-normalized reason the payment intent was canceled. Present only while status is canceled. Unknown processor values are returned as payment_canceled. Value enum: "requested_by_customer", "duplicate", "fraudulent", "abandoned", "invoice_payment_failed", "invoice_voided", "order_closed", "payment_canceled", "payment_returned".
+    /** Flint-normalized reason the payment intent was canceled. Present only while status is canceled. A cancellation without a specific reason returns payment_canceled. Absent while last_payment_error.code is payment_blocked and Flint has not identified money to return. Unknown processor values are returned as payment_canceled. Value enum: "requested_by_customer", "duplicate", "fraudulent", "abandoned", "invoice_payment_failed", "invoice_voided", "order_closed", "payment_canceled", "payment_returned".
      * @return ?string
      */
     public function getCancellationReason(): ?string { return $this->get('cancellation_reason'); }
@@ -155,6 +158,16 @@ final class PaymentIntentWithAction extends Model {
      */
     public function getExternalReferenceId(): string|null { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
+    /** All-time failed-attempt count. Present on merchant reads; omitted for buyer credentials. Format: int64.
+     * @return ?int
+     */
+    public function getFailedAttemptCount(): ?int { return $this->get('failed_attempt_count'); }
+    public function hasFailedAttemptCount(): bool { return $this->has('failed_attempt_count'); }
+    /** Newest 50 failed attempts, newest first, with merchant-only card and buyer evidence frozen at admission. Older attempts can be included in failed_attempt_count. [] (Value): {@see FailedPaymentAttempt}. Merchant-only evidence from one failed payment attempt. Fields absent from the original attempt are omitted.
+     * @return ?list<FailedPaymentAttempt>
+     */
+    public function getFailedAttempts(): ?array { return $this->get('failed_attempts'); }
+    public function hasFailedAttempts(): bool { return $this->has('failed_attempts'); }
     /** Present when a payment provider asked Flint to pause fulfillment for this payment. While its status is active, open fulfillments on the order are on hold with reason payment_review. payment_intent.fulfillment_hold_updated is sent when the hold starts and when it lifts. A hold on fulfillment tied to a payment, with the reason, the action required, and whether the hold is active or released.
      * @return ?PaymentFulfillmentHold
      */
@@ -245,12 +258,17 @@ final class PaymentIntentWithAction extends Model {
      */
     public function getPlatformFee(): ?PaymentIntentPlatformFee { return $this->get('platform_fee'); }
     public function hasPlatformFee(): bool { return $this->has('platform_fee'); }
+    /** Applied processing fee components, each with type and amount_money. Amounts sum exactly to processing_fee_money. Conditional components appear only when applied. Derived from immutable pricing inputs retained at fee computation, including historical payments with those inputs. Omitted when no verified fee or retained inputs are available. For sum-before-rounding rates, percentages use differences between successive rounded cumulative amounts in formula order. Minimums and caps adjust base; split concessions reduce components in formula order. [] (Value): {@see PaymentProcessingFeeDetail}. An applied component of the processing fee. Amounts sum exactly to processing_fee_money.
+     * @return ?list<PaymentProcessingFeeDetail>
+     */
+    public function getProcessingFeeDetails(): ?array { return $this->get('processing_fee_details'); }
+    public function hasProcessingFeeDetails(): bool { return $this->has('processing_fee_details'); }
     /** Flint's all-in processing fee for this payment. It is the complete price Flint charges to process the payment, never a provider cost passed through. The fee is final once the card payment is captured or the ACH payment succeeds; canceled payments and failures before success have none, except a payment intent canceled with cancellation_reason payment_returned, which shows the fee charged at capture on the charge Flint is returning. Flint returns that fee to your balance separately. Invoice, subscription, and automatic tax fees are itemized separately in add_on_fees. Your net for the payment is captured_money minus this fee and the add-on fees. Refunds do not return or revise it. Absent until Flint has determined and verified the fee. If Flint can't verify it when you read the payment intent, the field is omitted rather than shown unverified; read the payment intent again later. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?MoneyValue
      */
     public function getProcessingFeeMoney(): ?MoneyValue { return $this->get('processing_fee_money'); }
     public function hasProcessingFeeMoney(): bool { return $this->has('processing_fee_money'); }
-    /** The reader the payment is or was last presented on. Set when Flint presents it and kept afterward. While processing or requires_action with a reader_id, the payment is on that reader now.
+    /** The reader the payment is or was last presented on. Set when Flint presents it and kept afterward. While processing or requires_action with a reader_id and no payment_source.card.card_present, the payment is on that reader now. After a card is read, the payment can stay processing while Flint captures it.
      * @return ?string
      */
     public function getReaderId(): ?string { return $this->get('reader_id'); }

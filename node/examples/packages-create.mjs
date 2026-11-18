@@ -19,6 +19,12 @@ const result = await client.packages.create(
     expected_delivery_at: "2026-05-15T18:00:00Z",
     external_reference_id: "pkg_789",
     external_system: "merchant_wms",
+    items: [
+      {
+        order_line_item_id: "li_01KEZF7C0003GP5Y88KW1687AP",
+        quantity: 1,
+      },
+    ],
     metadata: {
       box: "small",
     },

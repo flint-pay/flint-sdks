@@ -32,7 +32,6 @@ namespace Flint;
  * @property-read DisputesResource $disputes
  * @property-read EmailPreferenceLinksResource $emailPreferenceLinks
  * @property-read EmailPreferencesResource $emailPreferences
- * @property-read FeedbackReportsResource $feedbackReports
  * @property-read FilesResource $files
  * @property-read FraudWarningsResource $fraudWarnings
  * @property-read FulfillmentEventsResource $fulfillmentEvents
@@ -55,6 +54,9 @@ namespace Flint;
  * @property-read InventoryTransfersResource $inventoryTransfers
  * @property-read InvoicePaymentTermsResource $invoicePaymentTerms
  * @property-read InvoicesResource $invoices
+ * @property-read LicenseKeyActivationsResource $licenseKeyActivations
+ * @property-read LicenseKeyPoolsResource $licenseKeyPools
+ * @property-read LicenseKeysResource $licenseKeys
  * @property-read LocationsResource $locations
  * @property-read MeResource $me
  * @property-read MerchantResource $merchant
@@ -163,7 +165,6 @@ final class Client {
             'disputes' => $this->resourceCache['disputes'] ??= new DisputesResource($this->runtime),
             'emailPreferenceLinks' => $this->resourceCache['emailPreferenceLinks'] ??= new EmailPreferenceLinksResource($this->runtime),
             'emailPreferences' => $this->resourceCache['emailPreferences'] ??= new EmailPreferencesResource($this->runtime),
-            'feedbackReports' => $this->resourceCache['feedbackReports'] ??= new FeedbackReportsResource($this->runtime),
             'files' => $this->resourceCache['files'] ??= new FilesResource($this->runtime),
             'fraudWarnings' => $this->resourceCache['fraudWarnings'] ??= new FraudWarningsResource($this->runtime),
             'fulfillmentEvents' => $this->resourceCache['fulfillmentEvents'] ??= new FulfillmentEventsResource($this->runtime),
@@ -186,6 +187,9 @@ final class Client {
             'inventoryTransfers' => $this->resourceCache['inventoryTransfers'] ??= new InventoryTransfersResource($this->runtime),
             'invoicePaymentTerms' => $this->resourceCache['invoicePaymentTerms'] ??= new InvoicePaymentTermsResource($this->runtime),
             'invoices' => $this->resourceCache['invoices'] ??= new InvoicesResource($this->runtime),
+            'licenseKeyActivations' => $this->resourceCache['licenseKeyActivations'] ??= new LicenseKeyActivationsResource($this->runtime),
+            'licenseKeyPools' => $this->resourceCache['licenseKeyPools'] ??= new LicenseKeyPoolsResource($this->runtime),
+            'licenseKeys' => $this->resourceCache['licenseKeys'] ??= new LicenseKeysResource($this->runtime),
             'locations' => $this->resourceCache['locations'] ??= new LocationsResource($this->runtime),
             'me' => $this->resourceCache['me'] ??= new MeResource($this->runtime),
             'merchant' => $this->resourceCache['merchant'] ??= new MerchantResource($this->runtime),
@@ -259,7 +263,7 @@ final class Client {
         };
     }
     public function __set(string $name, mixed $value): void { throw SdkError::create('validation', 'Client resource properties are read-only'); }
-    public function __isset(string $name): bool { return in_array($name, ['analytics', 'apiKeys', 'apiRequestLogs', 'authContext', 'balanceTransactions', 'balances', 'bundles', 'categories', 'checkoutSessions', 'creditNotes', 'customDomains', 'customerDeletionRequests', 'customerSessions', 'customerVerifications', 'customers', 'deliveryLocationSets', 'deliveryMethods', 'deliveryPreviews', 'deliveryProfiles', 'deliveryQuotes', 'deliveryRateCallbacks', 'deliveryRevocations', 'deliverySelections', 'deliveryZones', 'demoSessions', 'devices', 'discountPreviews', 'disputes', 'emailPreferenceLinks', 'emailPreferences', 'feedbackReports', 'files', 'fraudWarnings', 'fulfillmentEvents', 'fulfillmentNotifications', 'fulfillments', 'giftCardFundingDispositions', 'giftCardLoads', 'giftCardNotifications', 'giftCardRedemptions', 'giftCardTransactions', 'giftCards', 'inventoryAdjustments', 'inventoryAllocationPolicies', 'inventoryCounts', 'inventoryItems', 'inventoryLevels', 'inventoryMovements', 'inventoryReceipts', 'inventoryReservations', 'inventoryTransfers', 'invoicePaymentTerms', 'invoices', 'locations', 'me', 'merchant', 'merchantAccountSessions', 'merchantBillingBalances', 'merchantBillingEntries', 'merchantBillingInvoices', 'merchantSignups', 'modifierGroups', 'modifierSets', 'oauth', 'onboarding', 'openapi', 'orderEditPreviews', 'orders', 'packages', 'partnerAppInstalls', 'partnerApps', 'paymentIntents', 'paymentLinks', 'paymentMethodDomains', 'paymentMethods', 'paymentReviews', 'paymentSplits', 'payoutDestinations', 'payoutSettings', 'payouts', 'platformFeeBalanceTransactions', 'platformFeeBalances', 'platformFeePayouts', 'platformFees', 'priceLists', 'products', 'promotionCodes', 'promotions', 'readers', 'refunds', 'rememberedBuyers', 'reportDownloads', 'reports', 'resourceTimelines', 'returnDispositions', 'returnInspections', 'returnPolicies', 'returnPreviews', 'returnReasons', 'returnReceipts', 'returnResolutions', 'returns', 'riskLists', 'riskPreviews', 'riskRules', 'sandboxes', 'settings', 'shipments', 'subscriptionDeliveryMigrations', 'subscriptionOffers', 'subscriptionPlans', 'subscriptionPreviews', 'subscriptions', 'taxCalculationCallbacks', 'taxConnection', 'testClocks', 'tickets', 'webhookDeliveries', 'webhookEndpoints', 'webhookEventTypes', 'webhookEvents', 'workloadIdentities'], true); }
+    public function __isset(string $name): bool { return in_array($name, ['analytics', 'apiKeys', 'apiRequestLogs', 'authContext', 'balanceTransactions', 'balances', 'bundles', 'categories', 'checkoutSessions', 'creditNotes', 'customDomains', 'customerDeletionRequests', 'customerSessions', 'customerVerifications', 'customers', 'deliveryLocationSets', 'deliveryMethods', 'deliveryPreviews', 'deliveryProfiles', 'deliveryQuotes', 'deliveryRateCallbacks', 'deliveryRevocations', 'deliverySelections', 'deliveryZones', 'demoSessions', 'devices', 'discountPreviews', 'disputes', 'emailPreferenceLinks', 'emailPreferences', 'files', 'fraudWarnings', 'fulfillmentEvents', 'fulfillmentNotifications', 'fulfillments', 'giftCardFundingDispositions', 'giftCardLoads', 'giftCardNotifications', 'giftCardRedemptions', 'giftCardTransactions', 'giftCards', 'inventoryAdjustments', 'inventoryAllocationPolicies', 'inventoryCounts', 'inventoryItems', 'inventoryLevels', 'inventoryMovements', 'inventoryReceipts', 'inventoryReservations', 'inventoryTransfers', 'invoicePaymentTerms', 'invoices', 'licenseKeyActivations', 'licenseKeyPools', 'licenseKeys', 'locations', 'me', 'merchant', 'merchantAccountSessions', 'merchantBillingBalances', 'merchantBillingEntries', 'merchantBillingInvoices', 'merchantSignups', 'modifierGroups', 'modifierSets', 'oauth', 'onboarding', 'openapi', 'orderEditPreviews', 'orders', 'packages', 'partnerAppInstalls', 'partnerApps', 'paymentIntents', 'paymentLinks', 'paymentMethodDomains', 'paymentMethods', 'paymentReviews', 'paymentSplits', 'payoutDestinations', 'payoutSettings', 'payouts', 'platformFeeBalanceTransactions', 'platformFeeBalances', 'platformFeePayouts', 'platformFees', 'priceLists', 'products', 'promotionCodes', 'promotions', 'readers', 'refunds', 'rememberedBuyers', 'reportDownloads', 'reports', 'resourceTimelines', 'returnDispositions', 'returnInspections', 'returnPolicies', 'returnPreviews', 'returnReasons', 'returnReceipts', 'returnResolutions', 'returns', 'riskLists', 'riskPreviews', 'riskRules', 'sandboxes', 'settings', 'shipments', 'subscriptionDeliveryMigrations', 'subscriptionOffers', 'subscriptionPlans', 'subscriptionPreviews', 'subscriptions', 'taxCalculationCallbacks', 'taxConnection', 'testClocks', 'tickets', 'webhookDeliveries', 'webhookEndpoints', 'webhookEventTypes', 'webhookEvents', 'workloadIdentities'], true); }
     public function close(): void { $this->runtime->close(); }
     /** @param string $rawBody Original request bytes.
      * @param array<string, string|list<string>> $headers Header map, including PSR-7 header arrays.

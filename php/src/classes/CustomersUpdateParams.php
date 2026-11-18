@@ -26,13 +26,13 @@ final class CustomersUpdateParams extends Model {
      */
     public function getDefaultInvoicePaymentTermId(): string|null { return $this->get('default_invoice_payment_term_id'); }
     public function hasDefaultInvoicePaymentTermId(): bool { return $this->has('default_invoice_payment_term_id'); }
-    /** The active off_session payment method to use by default. Omit to leave unchanged; null clears it. A change sends customer.updated. minLength: 1. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
+    /** The active off_session payment method to use by default. Existing subscriptions keep their payment_method_id. Omit to leave unchanged; null clears it. A change sends customer.updated. minLength: 1. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
      * @return string|null
      * @throws SdkError When default_payment_method_id is omitted; use hasDefaultPaymentMethodId() or valueOrDefault().
      */
     public function getDefaultPaymentMethodId(): string|null { return $this->get('default_payment_method_id'); }
     public function hasDefaultPaymentMethodId(): bool { return $this->has('default_payment_method_id'); }
-    /** The customer's email. Omit to leave unchanged; null clears it. In `flint_hosted` mode, you can set, correct, or clear the email until the buyer authenticates or verifies ownership of it. Existing identities with unknown sign-in history remain protected and require a buyer-confirmed change. In `merchant_hosted` mode, you can set, change, or clear it. An email change ends customer sessions and access links for the old address. Format: email. minLength: 1. maxLength: 320. Example: "buyer@example.com".
+    /** The customer's email. Omit to leave unchanged; null clears it. In `flint_hosted` mode, you can set, correct, or clear the email until the buyer authenticates or verifies ownership of it. Existing identities with unknown sign-in history remain protected and require a buyer-confirmed change. In `merchant_hosted` mode, you can set, change, or clear it. An email change ends customer sessions and access links for the old address. The local part before @ must be at most 64 octets (UTF-8 bytes). Format: email. minLength: 1. maxLength: 320. Example: "buyer@example.com".
      * @return string|null
      * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
      */
@@ -50,7 +50,7 @@ final class CustomersUpdateParams extends Model {
      */
     public function getExternalReferenceId(): string|null { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Internal note about this customer. Omit to leave unchanged; null clears it. minLength: 1.
+    /** Internal note about this customer. Omit to leave unchanged; null clears it. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1. maxLength: 1000.
      * @return string|null
      * @throws SdkError When internal_note is omitted; use hasInternalNote() or valueOrDefault().
      */
@@ -68,13 +68,13 @@ final class CustomersUpdateParams extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Customer name, up to 255 characters (Unicode code points) after trimming surrounding whitespace. Omit to leave unchanged; null clears it. minLength: 1.
+    /** Customer name, up to 255 characters (Unicode code points) after trimming surrounding whitespace. Omit to leave unchanged; null clears it. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1.
      * @return string|null
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string|null { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Customer phone number. Omit to leave unchanged; null clears it. minLength: 1.
+    /** Customer phone number in E.164 format: a leading `+`, then the country code and number as digits only, such as `+14155551234`, matching `^\+[1-9][0-9]{1,14}$`. Flint trims surrounding whitespace but rejects spaces, hyphens, dots, and parentheses inside the number, so send `+14155550100`, not `+1 (415) 555-0100`. Leave out a national trunk prefix: send `+442079460958`, not `+4402079460958`. Omit to leave unchanged; null clears it. minLength: 1. Example: "+14155551234".
      * @return string|null
      * @throws SdkError When phone is omitted; use hasPhone() or valueOrDefault().
      */

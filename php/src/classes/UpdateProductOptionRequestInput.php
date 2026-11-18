@@ -25,7 +25,7 @@ final class UpdateProductOptionRequestInput extends Model {
      */
     public function getMetadata(): array|object|null { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Option name, such as Size or Color. minLength: 1. maxLength: 255.
+    /** Option name, such as Size or Color. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */

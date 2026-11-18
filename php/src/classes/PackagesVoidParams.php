@@ -28,7 +28,7 @@ final class PackagesVoidParams extends Model {
      */
     public function getOccurredAt(): string|\DateTimeInterface { return $this->get('occurred_at'); }
     public function hasOccurredAt(): bool { return $this->has('occurred_at'); }
-    /** Your note explaining this action. minLength: 1.
+    /** Your internal note explaining this action. Not included in buyer emails. minLength: 1.
      * @return string
      * @throws SdkError When reason_message is omitted; use hasReasonMessage() or valueOrDefault().
      */

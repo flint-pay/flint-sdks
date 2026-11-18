@@ -66,7 +66,7 @@ final class ProductsUpdateParams extends Model {
      */
     public function getModifierSetId(): string|null { return $this->get('modifier_set_id'); }
     public function hasModifierSetId(): bool { return $this->has('modifier_set_id'); }
-    /** Product name shown to buyers. minLength: 1. maxLength: 255.
+    /** Product name shown to buyers. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */

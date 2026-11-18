@@ -11,7 +11,7 @@ A payout from your partner app's platform fee balance to your merchant balance. 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `amount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The amount transferred to your merchant balance. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `amount_money`: [field definitions](../models/PlatformFeePayout.md#platformfeepayoutamount_money). |
-| `balance_transaction_id` | Optional | string | The credit on your merchant ledger. Present once Flint observes it; linking it sends no payout event and doesn't advance version. Example: `"btxn_01KEZF7C00H1Z82CMFWWXMZGHZ"`. |
+| `balance_transaction_id` | Optional | string | The credit on your merchant ledger. Flint checks daily for the credit, so this field can be absent even after the payout succeeds. Linking the credit sends no payout event and doesn't advance version. Example: `"btxn_01KEZF7C00H1Z82CMFWWXMZGHZ"`. |
 | `created_at` | Required | string | When Flint prepared the payout. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `failure_reason` | Optional | string | Why the payout failed. Present only when status is failed. Can gain values; treat unknown values as payout_failed. Values: `"merchant_cannot_receive"`, `"payout_failed"`. |
 | `partner_app_id` | Required | string | The partner app whose fee balance funded the payout. Example: `"papp_01KEZF7C00Y8VMXYZ1GNPP3WHV"`. |

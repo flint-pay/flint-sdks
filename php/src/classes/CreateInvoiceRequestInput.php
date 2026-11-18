@@ -42,7 +42,7 @@ final class CreateInvoiceRequestInput extends Model {
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Fine print at the bottom of the invoice and PDF. Omit it to use the invoice settings default_footer. minLength: 1.
+    /** Fine print at the bottom of the invoice and PDF. Omit it to use the invoice settings default_footer. minLength: 1. maxLength: 2048.
      * @return string
      * @throws SdkError When footer is omitted; use hasFooter() or valueOrDefault().
      */
@@ -54,7 +54,7 @@ final class CreateInvoiceRequestInput extends Model {
      */
     public function getIssue(): mixed { return $this->get('issue'); }
     public function hasIssue(): bool { return $this->has('issue'); }
-    /** Message to the customer, printed on the invoice and PDF. Omit it to use the invoice settings default_memo. minLength: 1.
+    /** Message to the customer, printed on the invoice and PDF. Omit it to use the invoice settings default_memo. minLength: 1. maxLength: 2048.
      * @return string
      * @throws SdkError When memo is omitted; use hasMemo() or valueOrDefault().
      */
@@ -78,7 +78,7 @@ final class CreateInvoiceRequestInput extends Model {
      */
     public function getPaymentDue(): mixed { return $this->get('payment_due'); }
     public function hasPaymentDue(): bool { return $this->has('payment_due'); }
-    /** The buyer's purchase order number, printed on the invoice and PDF. minLength: 1.
+    /** The buyer's purchase order number, printed on the invoice and PDF. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When po_number is omitted; use hasPoNumber() or valueOrDefault().
      */
@@ -96,7 +96,7 @@ final class CreateInvoiceRequestInput extends Model {
      */
     public function getRecipientEmail(): string|null { return $this->get('recipient_email'); }
     public function hasRecipientEmail(): bool { return $this->has('recipient_email'); }
-    /** Your reference for the invoice, printed on the invoice and PDF. Put the buyer's purchase order number in po_number instead. minLength: 1.
+    /** Your reference for the invoice, printed on the invoice and PDF. Put the buyer's purchase order number in po_number instead. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When reference is omitted; use hasReference() or valueOrDefault().
      */

@@ -1,16 +1,18 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { PaymentMethod, PaymentMethodListResponse, PaymentMethodResponse } from '../declarations/types-51.js';
 import type {
+    PaymentMethod,
+    PaymentMethodListResponse,
+    PaymentMethodResponse,
     PaymentMethodWithSetup,
     PaymentMethodsCreateParams,
     PaymentMethodsDeleteParams,
     PaymentMethodsGetParams,
     PaymentMethodsListParams
-} from '../declarations/types-52.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { SavePaymentMethodResponse } from '../declarations/types-65.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-53.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { SavePaymentMethodResponse } from '../declarations/types-67.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -29,24 +31,26 @@ export type {
     PaymentMethodsCreateParams,
     PaymentMethodWithSetup,
     PaymentMethodsDeleteParams,
+    PaymentMethod,
+    PaymentMethodResponse,
     PaymentMethodsGetParams,
-    PaymentMethodsListParams
-} from '../declarations/types-52.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type { SavePaymentMethodResponse, SavePaymentMethodRequestInput } from '../declarations/types-65.js';
-export type { PaymentMethod, PaymentMethodResponse, PaymentMethodListResponse } from '../declarations/types-51.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+    PaymentMethodsListParams,
+    PaymentMethodListResponse
+} from '../declarations/types-53.js';
+export type { RequestOptions } from '../declarations/types-61.js';
+export type { SavePaymentMethodResponse, SavePaymentMethodRequestInput } from '../declarations/types-67.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { StripeClientSetup, StripeClientSetupStripe, StripeClientAuthority } from '../declarations/types-66.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
+export type { StripeClientSetup, StripeClientSetupStripe, StripeClientAuthority } from '../declarations/types-68.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { CardDetails } from '../declarations/types-5.js';
-export type { ExpandedCustomerSummary } from '../declarations/types-26.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeSavePaymentMethodRequest } from '../declarations/types-89.js';
+export type { ExpandedCustomerSummary, DisputesAcceptParams } from '../declarations/types-26.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeSavePaymentMethodRequest } from '../declarations/types-91.js';
 export interface PaymentMethodsResource {
     /**
  * Initiates saving a payment method and returns the client setup payload needed to complete setup
@@ -64,10 +68,14 @@ export interface PaymentMethodsResource {
     create(params: PaymentMethodsCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<PaymentMethodWithSetup, SavePaymentMethodResponse>>;
     /**
  * Deletes a saved payment method so it can no longer be used for future payments. Returns the
- * payment method with status archived, including when it was already archived.
+ * payment method with status archived, including when it was already archived. Subscriptions block
+ * deletion until they have a scheduled cancellation and no remaining payment or retry. Paid
+ * prepaid deliveries can finish without the card.
  *
  * `DELETE /v1/payment-methods/{payment_method_id}`
- * @param payment_method_id Flint payment method ID.
+ * @param payment_method_id Flint payment method ID. Must be a valid ID with prefix pm_. Malformed
+ * IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist
+ * return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/payment-methods#deletePaymentMethod
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -81,7 +89,9 @@ export interface PaymentMethodsResource {
  * Returns a single payment method by ID.
  *
  * `GET /v1/payment-methods/{payment_method_id}`
- * @param payment_method_id Flint payment method ID.
+ * @param payment_method_id Flint payment method ID. Must be a valid ID with prefix pm_. Malformed
+ * IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist
+ * return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/payment-methods#getPaymentMethod
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

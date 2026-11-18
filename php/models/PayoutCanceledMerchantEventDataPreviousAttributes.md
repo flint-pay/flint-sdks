@@ -8,34 +8,35 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Amount sent to your bank. Always positive. |
-| `arrival_date` | Optional | string or null | Calendar date the bank is expected to receive the funds, in YYYY-MM-DD format using the UTC date of the expected arrival. `arrival_date`: [declared alternatives](../models/ExpandedPayoutSummaryPreviousAttributes.md#expandedpayoutsummarypreviousattributesarrival_date). |
+| `amount_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Amount moved between your bank and Flint. Always positive. |
+| `arrival_date` | Optional | string or null | Expected settlement date of the transfer, in YYYY-MM-DD format using the UTC date of the expected arrival. `arrival_date`: [declared alternatives](../models/ExpandedPayoutSummaryPreviousAttributes.md#expandedpayoutsummarypreviousattributesarrival_date). |
 | `balance_source_type` | Optional | string or null | Balance source this payout draws from. Flint chooses the source when balance_source_type is omitted at create. Clients must accept source types added in future releases. Values: `"card"`, `"bank_account"`. `balance_source_type`: [declared alternatives](../models/ExpandedPayoutSummaryPreviousAttributes.md#expandedpayoutsummarypreviousattributesbalance_source_type). |
 | `created_at` | Optional | string or null | When the payout was created. `created_at`: [declared alternatives](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributescreated_at). |
 | `currency` | Optional | string or null | ISO 4217 currency code. `currency`: [declared alternatives](../models/MerchantBillingBalanceUpdatedEvent.md#merchantbillingbalanceupdatedeventdata-fields-1previous_attributescurrency). |
 | `description` | Optional | string or null | Description sent when the payout was created. Absent when there is none. `description`: [declared alternatives](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributesdescription). |
+| `direction` | Optional | string or null | Direction of the money movement. Outbound payouts deposit funds in your bank; inbound payouts withdraw funds to cover a negative Flint balance. Values: `"outbound"`, `"inbound"`. `direction`: [declared alternatives](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributesdirection). |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. `external_reference_id`: [declared alternatives](../models/TaxCalculationCallbackActivatedEvent.md#taxcalculationcallbackactivatedeventdata-fields-1previous_attributesexternal_reference_id). |
 | `failure_code` | Optional | string or null | Flint-normalized payout failure code. Unknown provider values are returned as payout_failed. Values: [16 declared values](PayoutInput.md#payoutinput-failure_code-values). `failure_code`: [declared alternatives](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributesfailure_code). |
 | `failure_message` | Optional | string or null | Flint-authored payout failure message. This is stable explanatory text, not a raw provider message. `failure_message`: [declared alternatives](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributesfailure_message). |
 | `fee_amount_status` | Optional | string or null | Whether the payout fee is estimated or final. not_applicable means no applicable fee status is known, including unmapped fee states. Values: `"estimated"`, `"final"`, `"not_applicable"`. `fee_amount_status`: [declared alternatives](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributesfee_amount_status). |
 | `fee_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your processor records the payout. `null` when your processor hasn't recorded the payout yet. |
-| `initiated_by` | Optional | string or null | What started the payout. A payout imported from your processor follows the processor: scheduled when it sent the payout automatically, otherwise manual. Only scheduled payouts list their balance transactions through GET /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized. Unmapped sources are returned as other. Values: `"manual"`, `"scheduled"`, `"platform"`, `"other"`. `initiated_by`: [declared alternatives](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributesinitiated_by). |
-| `merchant_id` | Optional | string or null | Merchant receiving the payout. `merchant_id`: [declared alternatives](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributesmerchant_id). |
+| `initiated_by` | Optional | string or null | What started the payout. Inbound payouts are always platform initiated. An outbound payout imported from your processor follows the processor: scheduled when it sent the payout automatically, otherwise manual. Only scheduled outbound payouts list their balance transactions through GET /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized. Unmapped sources are returned as other. Values: `"manual"`, `"scheduled"`, `"platform"`, `"other"`. `initiated_by`: [declared alternatives](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributesinitiated_by). |
+| `merchant_id` | Optional | string or null | Merchant whose balance the payout changes. `merchant_id`: [declared alternatives](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributesmerchant_id). |
 | `metadata` | Optional | Map of string or null | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. `metadata`: [declared alternatives](../models/OrderLineItemModifierPreviousAttributes.md#orderlineitemmodifierpreviousattributesmetadata). |
 | `method` | Optional | string or null | Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant` appears only on a payout Flint recorded from the processor that was sent outside Flint. `other` is a method Flint doesn't map. Values: `"standard"`, `"instant"`, `"other"`. `method`: [declared alternatives](../models/ExpandedPayoutSummaryPreviousAttributes.md#expandedpayoutsummarypreviousattributesmethod). |
-| `net_money` | Optional | [SignedMoneyPreviousAttributes](../models/SignedMoneyPreviousAttributes.md#signedmoneypreviousattributes) or null | Signed effect of this payout on your Flint balance. It is negative because the payout takes money out: a 25000 payout with no fee has net_money -25000. `null` when your processor hasn't recorded the payout yet. |
+| `net_money` | Optional | [SignedMoneyPreviousAttributes](../models/SignedMoneyPreviousAttributes.md#signedmoneypreviousattributes) or null | Signed effect of this payout on your Flint balance. Negative for outbound payouts and positive for inbound payouts. `null` when your processor hasn't recorded the payout yet. |
 | `original_payout` | Optional | [ExpandedPayoutSummaryPreviousAttributes](../models/ExpandedPayoutSummaryPreviousAttributes.md#expandedpayoutsummarypreviousattributes) or null | The payout this one reverses, inlined when you request expand=original_payout. null when expanded and original_payout_id is absent. Present only when `expand` includes `original_payout`; `null` when expanded and there is no related payout. `original_payout`: [declared alternatives](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributesoriginal_payout). |
 | `original_payout_id` | Optional | string or null | On a payout that reverses another payout, the payout it reverses. Present only when Flint has the matching original payout. A payout has at most one of original_payout_id and reversed_by_payout_id. `original_payout_id`: [declared alternatives](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributesoriginal_payout_id). |
 | `payout_destination` | Optional | [ExpandedPayoutDestinationSummaryPreviousAttributes](../models/ExpandedPayoutDestinationSummaryPreviousAttributes.md#expandedpayoutdestinationsummarypreviousattributes) or null | The payout destination, inlined when you request expand=payout_destination. null when expanded and payout_destination_id is absent. Present only when `expand` includes `payout_destination`; `null` when expanded and there is no related payout destination. `payout_destination`: [declared alternatives](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributespayout_destination). |
-| `payout_destination_id` | Optional | string or null | Bank account or debit card receiving the payout. Absent when Flint can't match your processor's destination to a payout destination. `payout_destination_id`: [declared alternatives](../models/ExpandedPayoutSummaryPreviousAttributes.md#expandedpayoutsummarypreviousattributespayout_destination_id). |
+| `payout_destination_id` | Optional | string or null | Bank account or debit card used for the payout. Absent when Flint can't match your processor's destination to a payout destination. `payout_destination_id`: [declared alternatives](../models/ExpandedPayoutSummaryPreviousAttributes.md#expandedpayoutsummarypreviousattributespayout_destination_id). |
 | `payout_id` | Optional | string or null | Stable identifier of the payout. `payout_id`: [declared alternatives](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributespayout_id). |
 | `reversal_status` | Optional | string or null | Whether Flint has pulled a paid payout back from your bank: none until the reversal completes, then reversed. A payout_reversal balance transaction returns the money, and status stays succeeded. Values: `"none"`, `"reversed"`. `reversal_status`: [declared alternatives](../models/ExpandedPayoutSummaryPreviousAttributes.md#expandedpayoutsummarypreviousattributesreversal_status). |
 | `reversed_by_payout` | Optional | [ExpandedPayoutSummaryPreviousAttributes](../models/ExpandedPayoutSummaryPreviousAttributes.md#expandedpayoutsummarypreviousattributes) or null | The payout reversing this one, inlined when you request expand=reversed_by_payout. null when expanded and reversed_by_payout_id is absent. Present only when `expand` includes `reversed_by_payout`; `null` when expanded and there is no related payout. `reversed_by_payout`: [declared alternatives](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributesreversed_by_payout). |
 | `reversed_by_payout_id` | Optional | string or null | The separate payout reversing this one, when Flint has the matching payout. Its presence does not mean the reversal has completed; read reversal_status. A payout has at most one of original_payout_id and reversed_by_payout_id. `reversed_by_payout_id`: [declared alternatives](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributesreversed_by_payout_id). |
-| `statement_descriptor` | Optional | string or null | Text shown on your bank statement for the deposit, when one was set. `statement_descriptor`: [declared alternatives](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributesstatement_descriptor). |
-| `status` | Optional | string or null | Where the payout is: pending until it is sent, in_transit on its way to your bank, then succeeded or failed. A succeeded payout can still become failed if the bank returns the deposit, and canceled means a manual payout was canceled while pending. Values: `"pending"`, `"in_transit"`, `"succeeded"`, `"failed"`, `"canceled"`. `status`: [declared alternatives](../models/ExpandedPayoutSummaryPreviousAttributes.md#expandedpayoutsummarypreviousattributesstatus). |
-| `supported_actions` | Optional | Array of string or null | Lifecycle actions Flint accepts now. cancel is offered while a payout is pending unless it was scheduled automatically. Items values: `"cancel"`. `supported_actions`: [declared alternatives](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributessupported_actions). |
-| `trace_id` | Optional | [PayoutTraceIDPreviousAttributes](../models/PayoutTraceIDPreviousAttributes.md#payouttraceidpreviousattributes) or null | The bank's trace number for the deposit, which your bank can use to locate a late deposit. Its status says whether the number is pending, available, or unsupported, and value holds the number when Flint has it. Absent when Flint has no trace information. |
+| `statement_descriptor` | Optional | string or null | Text shown on your bank statement for the transfer, when one was set. `statement_descriptor`: [declared alternatives](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributesstatement_descriptor). |
+| `status` | Optional | string or null | Where the payout is: pending until it is sent, in_transit moving between Flint and your bank, then succeeded or failed. A succeeded payout can still become failed if the bank returns the transfer, and canceled means a manual payout was canceled while pending. Values: `"pending"`, `"in_transit"`, `"succeeded"`, `"failed"`, `"canceled"`. `status`: [declared alternatives](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributesstatus). |
+| `supported_actions` | Optional | Array of string or null | Lifecycle actions Flint accepts now. cancel is offered while an outbound payout is pending unless it was scheduled automatically. Inbound payouts offer no actions. Items values: `"cancel"`. `supported_actions`: [declared alternatives](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributessupported_actions). |
+| `trace_id` | Optional | [PayoutTraceIDPreviousAttributes](../models/PayoutTraceIDPreviousAttributes.md#payouttraceidpreviousattributes) or null | The bank's trace number for the transfer, which your bank can use to locate it. Its status says whether the number is pending, available, or unsupported, and value holds the number when Flint has it. Absent when Flint has no trace information. |
 | `updated_at` | Optional | string or null | When the payout last changed. `updated_at`: [declared alternatives](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributesupdated_at). |
 
 ### PayoutCanceledMerchantEventDataPreviousAttributes.arrival_date
@@ -77,6 +78,20 @@ anyOf variant 1: Description sent when the payout was created. Absent when there
 anyOf variant 2.
 
 - Value shape: null. Description sent when the payout was created. Absent when there is none. 
+
+### PayoutCanceledMerchantEventDataPreviousAttributes.direction
+
+### PayoutCanceledMerchantEventDataPreviousAttributes.direction variant 1
+
+anyOf variant 1: Direction of the money movement. Outbound payouts deposit funds in your bank; inbound payouts withdraw funds to cover a negative Flint balance..
+
+- Value shape: string. Direction of the money movement. Outbound payouts deposit funds in your bank; inbound payouts withdraw funds to cover a negative Flint balance. Values: `"outbound"`, `"inbound"`.
+
+### PayoutCanceledMerchantEventDataPreviousAttributes.direction variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Direction of the money movement. Outbound payouts deposit funds in your bank; inbound payouts withdraw funds to cover a negative Flint balance. 
 
 ### PayoutCanceledMerchantEventDataPreviousAttributes.external_reference_id
 
@@ -128,29 +143,29 @@ anyOf variant 2.
 
 ### PayoutCanceledMerchantEventDataPreviousAttributes.initiated_by variant 1
 
-anyOf variant 1: What started the payout. A payout imported from your processor follows the processor: scheduled when it sent the payout automatically, otherwise manual. Only scheduled payouts list their balance transactions through GET /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized. Unmapped sources are returned as other..
+anyOf variant 1: What started the payout. Inbound payouts are always platform initiated. An outbound payout imported from your processor follows the processor: scheduled when it sent the payout automatically, otherwise manual. Only scheduled outbound payouts list their balance transactions through GET /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized. Unmapped sources are returned as other..
 
-- Value shape: string. What started the payout. A payout imported from your processor follows the processor: scheduled when it sent the payout automatically, otherwise manual. Only scheduled payouts list their balance transactions through GET /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized. Unmapped sources are returned as other. Values: `"manual"`, `"scheduled"`, `"platform"`, `"other"`.
+- Value shape: string. What started the payout. Inbound payouts are always platform initiated. An outbound payout imported from your processor follows the processor: scheduled when it sent the payout automatically, otherwise manual. Only scheduled outbound payouts list their balance transactions through GET /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized. Unmapped sources are returned as other. Values: `"manual"`, `"scheduled"`, `"platform"`, `"other"`.
 
 ### PayoutCanceledMerchantEventDataPreviousAttributes.initiated_by variant 2
 
 anyOf variant 2.
 
-- Value shape: null. What started the payout. A payout imported from your processor follows the processor: scheduled when it sent the payout automatically, otherwise manual. Only scheduled payouts list their balance transactions through GET /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized. Unmapped sources are returned as other. 
+- Value shape: null. What started the payout. Inbound payouts are always platform initiated. An outbound payout imported from your processor follows the processor: scheduled when it sent the payout automatically, otherwise manual. Only scheduled outbound payouts list their balance transactions through GET /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized. Unmapped sources are returned as other. 
 
 ### PayoutCanceledMerchantEventDataPreviousAttributes.merchant_id
 
 ### PayoutCanceledMerchantEventDataPreviousAttributes.merchant_id variant 1
 
-anyOf variant 1: Merchant receiving the payout..
+anyOf variant 1: Merchant whose balance the payout changes..
 
-- Value shape: string. Merchant receiving the payout. 
+- Value shape: string. Merchant whose balance the payout changes. 
 
 ### PayoutCanceledMerchantEventDataPreviousAttributes.merchant_id variant 2
 
 anyOf variant 2.
 
-- Value shape: null. Merchant receiving the payout. 
+- Value shape: null. Merchant whose balance the payout changes. 
 
 ### PayoutCanceledMerchantEventDataPreviousAttributes.metadata
 
@@ -166,13 +181,14 @@ The payout this one reverses, inlined when you request expand=original_payout. n
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Conditional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Amount sent to your bank. Always positive. |
-| `arrival_date` | Conditional | string or null | Calendar date the bank is expected to receive the funds, in YYYY-MM-DD format using the UTC date of the expected arrival. `arrival_date`: [declared alternatives](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributesoriginal_payout-variant-1arrival_date). |
+| `amount_money` | Conditional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Amount moved between your bank and Flint. Always positive. |
+| `arrival_date` | Conditional | string or null | Expected settlement date of the transfer, in YYYY-MM-DD format using the UTC date of the expected arrival. `arrival_date`: [declared alternatives](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributesoriginal_payout-variant-1arrival_date). |
 | `balance_source_type` | Conditional | string or null | Balance source this payout draws from. Flint chooses the source when balance_source_type is omitted at create. Clients must accept source types added in future releases. Values: `"card"`, `"bank_account"`. `balance_source_type`: [declared alternatives](../models/ExpandedPayoutSummaryPreviousAttributes.md#expandedpayoutsummarypreviousattributesbalance_source_type). |
 | `created_at` | Conditional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/PartnerAppInstallPermissionsUpdatedEvent.md#partnerappinstallpermissionsupdatedeventdata-fields-1previous_attributesenvironment_grants-variant-1-fields-1created_at). |
 | `currency` | Conditional | string or null | ISO 4217 currency code. `currency`: [declared alternatives](../models/CustomerReceivablesPreviousAttributes.md#customerreceivablespreviousattributesbalances-variant-1-fields-1currency). |
+| `direction` | Conditional | string or null | Direction of the money movement. Values: `"outbound"`, `"inbound"`. `direction`: [declared alternatives](../models/ExpandedPayoutSummaryPreviousAttributes.md#expandedpayoutsummarypreviousattributesdirection). |
 | `method` | Conditional | string or null | Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant` appears only on a payout Flint recorded from the processor that was sent outside Flint. `other` is a method Flint doesn't map. Values: `"standard"`, `"instant"`, `"other"`. `method`: [declared alternatives](../models/ExpandedPayoutSummaryPreviousAttributes.md#expandedpayoutsummarypreviousattributesmethod). |
-| `payout_destination_id` | Conditional | string or null | Bank account or debit card receiving the payout. Absent when Flint can't match your processor's destination to a payout destination. `payout_destination_id`: [declared alternatives](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributesoriginal_payout-variant-1payout_destination_id). |
+| `payout_destination_id` | Conditional | string or null | Bank account or debit card used for the payout. Absent when Flint can't match your processor's destination to a payout destination. `payout_destination_id`: [declared alternatives](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributesoriginal_payout-variant-1payout_destination_id). |
 | `payout_id` | Conditional | string or null | Unique identifier for this payout, prefixed `po_`. `payout_id`: [declared alternatives](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributesoriginal_payout-variant-1payout_id). |
 | `reversal_status` | Conditional | string or null | Whether Flint has pulled a paid payout back from your bank: none until the reversal completes, then reversed. A payout_reversal balance transaction returns the money, and status stays succeeded. Values: `"none"`, `"reversed"`. `reversal_status`: [declared alternatives](../models/ExpandedPayoutSummaryPreviousAttributes.md#expandedpayoutsummarypreviousattributesreversal_status). |
 | `status` | Conditional | string or null | Where the payout is: pending until it is sent, in_transit on its way to your bank, then succeeded or failed. A succeeded payout can still become failed if the bank returns the deposit, and canceled means a manual payout was canceled while pending. Values: `"pending"`, `"in_transit"`, `"succeeded"`, `"failed"`, `"canceled"`. `status`: [declared alternatives](../models/ExpandedPayoutSummaryPreviousAttributes.md#expandedpayoutsummarypreviousattributesstatus). |
@@ -183,28 +199,28 @@ The payout this one reverses, inlined when you request expand=original_payout. n
 
 anyOf ExpandedPayoutSummaryPreviousAttributes.
 
-- Optional: `amount_money`, `arrival_date`, `balance_source_type`, `created_at`, `currency`, `method`, `payout_destination_id`, `payout_id`, `reversal_status`, `status`, `supported_actions`, `updated_at`.
+- Optional: `amount_money`, `arrival_date`, `balance_source_type`, `created_at`, `currency`, `direction`, `method`, `payout_destination_id`, `payout_id`, `reversal_status`, `status`, `supported_actions`, `updated_at`.
 
 ### PayoutCanceledMerchantEventDataPreviousAttributes.original_payout variant 2
 
 anyOf variant 2.
 
-- Undeclared: `amount_money`, `arrival_date`, `balance_source_type`, `created_at`, `currency`, `method`, `payout_destination_id`, `payout_id`, `reversal_status`, `status`, `supported_actions`, `updated_at`.
+- Undeclared: `amount_money`, `arrival_date`, `balance_source_type`, `created_at`, `currency`, `direction`, `method`, `payout_destination_id`, `payout_id`, `reversal_status`, `status`, `supported_actions`, `updated_at`.
 - Value shape: null. The payout this one reverses, inlined when you request expand=original_payout. null when expanded and original_payout_id is absent. Present only when `expand` includes `original_payout`; `null` when expanded and there is no related payout. 
 
 ### PayoutCanceledMerchantEventDataPreviousAttributes.original_payout variant 1.arrival_date
 
 ### PayoutCanceledMerchantEventDataPreviousAttributes.original_payout variant 1.arrival_date variant 1
 
-anyOf variant 1: Calendar date the bank is expected to receive the funds, in YYYY-MM-DD format using the UTC date of the expected arrival..
+anyOf variant 1: Expected settlement date of the transfer, in YYYY-MM-DD format using the UTC date of the expected arrival..
 
-- Value shape: string. Calendar date the bank is expected to receive the funds, in YYYY-MM-DD format using the UTC date of the expected arrival. Calendar date the bank is expected to receive the funds, in YYYY-MM-DD format using the UTC date of the expected arrival. Format: `date`. Example: `"2026-08-02"`. 
+- Value shape: string. Expected settlement date of the transfer, in YYYY-MM-DD format using the UTC date of the expected arrival. Expected settlement date of the transfer, in YYYY-MM-DD format using the UTC date of the expected arrival. Format: `date`. Example: `"2026-08-02"`. 
 
 ### PayoutCanceledMerchantEventDataPreviousAttributes.original_payout variant 1.arrival_date variant 2
 
 anyOf variant 2.
 
-- Value shape: null. Calendar date the bank is expected to receive the funds, in YYYY-MM-DD format using the UTC date of the expected arrival. 
+- Value shape: null. Expected settlement date of the transfer, in YYYY-MM-DD format using the UTC date of the expected arrival. 
 
 ### PayoutCanceledMerchantEventDataPreviousAttributes.original_payout variant 1.balance_source_type
 
@@ -218,6 +234,10 @@ Declared alternatives: [PartnerAppInstallPermissionsUpdatedEvent.data fields 1.p
 
 Declared alternatives: [CustomerReceivablesPreviousAttributes.balances variant 1.[] fields 1.currency](../models/CustomerReceivablesPreviousAttributes.md#customerreceivablespreviousattributesbalances-variant-1-fields-1currency).
 
+### PayoutCanceledMerchantEventDataPreviousAttributes.original_payout variant 1.direction
+
+Declared alternatives: [ExpandedPayoutSummaryPreviousAttributes.direction](../models/ExpandedPayoutSummaryPreviousAttributes.md#expandedpayoutsummarypreviousattributesdirection).
+
 ### PayoutCanceledMerchantEventDataPreviousAttributes.original_payout variant 1.method
 
 Declared alternatives: [ExpandedPayoutSummaryPreviousAttributes.method](../models/ExpandedPayoutSummaryPreviousAttributes.md#expandedpayoutsummarypreviousattributesmethod).
@@ -226,15 +246,15 @@ Declared alternatives: [ExpandedPayoutSummaryPreviousAttributes.method](../model
 
 ### PayoutCanceledMerchantEventDataPreviousAttributes.original_payout variant 1.payout_destination_id variant 1
 
-anyOf variant 1: Bank account or debit card receiving the payout. Absent when Flint can't match your processor's destination to a payout destination..
+anyOf variant 1: Bank account or debit card used for the payout. Absent when Flint can't match your processor's destination to a payout destination..
 
-- Value shape: string. Bank account or debit card receiving the payout. Absent when Flint can't match your processor's destination to a payout destination. Bank account or debit card receiving the payout. Absent when Flint can't match your processor's destination to a payout destination. Example: `"pdest_01KEZF7C00M55HZDZXZP6YVE6B"`. 
+- Value shape: string. Bank account or debit card used for the payout. Absent when Flint can't match your processor's destination to a payout destination. Bank account or debit card used for the payout. Absent when Flint can't match your processor's destination to a payout destination. Example: `"pdest_01KEZF7C00M55HZDZXZP6YVE6B"`. 
 
 ### PayoutCanceledMerchantEventDataPreviousAttributes.original_payout variant 1.payout_destination_id variant 2
 
 anyOf variant 2.
 
-- Value shape: null. Bank account or debit card receiving the payout. Absent when Flint can't match your processor's destination to a payout destination. 
+- Value shape: null. Bank account or debit card used for the payout. Absent when Flint can't match your processor's destination to a payout destination. 
 
 ### PayoutCanceledMerchantEventDataPreviousAttributes.original_payout variant 1.payout_id
 
@@ -402,13 +422,13 @@ Field definitions: [shared fields](#payoutcanceledmerchanteventdatapreviousattri
 
 anyOf ExpandedPayoutSummaryPreviousAttributes.
 
-- Optional: `amount_money`, `arrival_date`, `balance_source_type`, `created_at`, `currency`, `method`, `payout_destination_id`, `payout_id`, `reversal_status`, `status`, `supported_actions`, `updated_at`.
+- Optional: `amount_money`, `arrival_date`, `balance_source_type`, `created_at`, `currency`, `direction`, `method`, `payout_destination_id`, `payout_id`, `reversal_status`, `status`, `supported_actions`, `updated_at`.
 
 ### PayoutCanceledMerchantEventDataPreviousAttributes.reversed_by_payout variant 2
 
 anyOf variant 2.
 
-- Undeclared: `amount_money`, `arrival_date`, `balance_source_type`, `created_at`, `currency`, `method`, `payout_destination_id`, `payout_id`, `reversal_status`, `status`, `supported_actions`, `updated_at`.
+- Undeclared: `amount_money`, `arrival_date`, `balance_source_type`, `created_at`, `currency`, `direction`, `method`, `payout_destination_id`, `payout_id`, `reversal_status`, `status`, `supported_actions`, `updated_at`.
 - Value shape: null. The payout reversing this one, inlined when you request expand=reversed_by_payout. null when expanded and reversed_by_payout_id is absent. Present only when `expand` includes `reversed_by_payout`; `null` when expanded and there is no related payout. 
 
 ### PayoutCanceledMerchantEventDataPreviousAttributes.reversed_by_payout variant 1.arrival_date
@@ -426,6 +446,10 @@ Declared alternatives: [PartnerAppInstallPermissionsUpdatedEvent.data fields 1.p
 ### PayoutCanceledMerchantEventDataPreviousAttributes.reversed_by_payout variant 1.currency
 
 Declared alternatives: [CustomerReceivablesPreviousAttributes.balances variant 1.[] fields 1.currency](../models/CustomerReceivablesPreviousAttributes.md#customerreceivablespreviousattributesbalances-variant-1-fields-1currency).
+
+### PayoutCanceledMerchantEventDataPreviousAttributes.reversed_by_payout variant 1.direction
+
+Declared alternatives: [ExpandedPayoutSummaryPreviousAttributes.direction](../models/ExpandedPayoutSummaryPreviousAttributes.md#expandedpayoutsummarypreviousattributesdirection).
 
 ### PayoutCanceledMerchantEventDataPreviousAttributes.reversed_by_payout variant 1.method
 
@@ -473,33 +497,43 @@ anyOf variant 2.
 
 ### PayoutCanceledMerchantEventDataPreviousAttributes.statement_descriptor variant 1
 
-anyOf variant 1: Text shown on your bank statement for the deposit, when one was set..
+anyOf variant 1: Text shown on your bank statement for the transfer, when one was set..
 
-- Value shape: string. Text shown on your bank statement for the deposit, when one was set. 
+- Value shape: string. Text shown on your bank statement for the transfer, when one was set. 
 
 ### PayoutCanceledMerchantEventDataPreviousAttributes.statement_descriptor variant 2
 
 anyOf variant 2.
 
-- Value shape: null. Text shown on your bank statement for the deposit, when one was set. 
+- Value shape: null. Text shown on your bank statement for the transfer, when one was set. 
 
 ### PayoutCanceledMerchantEventDataPreviousAttributes.status
 
-Declared alternatives: [ExpandedPayoutSummaryPreviousAttributes.status](../models/ExpandedPayoutSummaryPreviousAttributes.md#expandedpayoutsummarypreviousattributesstatus).
+### PayoutCanceledMerchantEventDataPreviousAttributes.status variant 1
+
+anyOf variant 1: Where the payout is: pending until it is sent, in_transit moving between Flint and your bank, then succeeded or failed. A succeeded payout can still become failed if the bank returns the transfer, and canceled means a manual payout was canceled while pending..
+
+- Value shape: string. Where the payout is: pending until it is sent, in_transit moving between Flint and your bank, then succeeded or failed. A succeeded payout can still become failed if the bank returns the transfer, and canceled means a manual payout was canceled while pending. Values: `"pending"`, `"in_transit"`, `"succeeded"`, `"failed"`, `"canceled"`.
+
+### PayoutCanceledMerchantEventDataPreviousAttributes.status variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Where the payout is: pending until it is sent, in_transit moving between Flint and your bank, then succeeded or failed. A succeeded payout can still become failed if the bank returns the transfer, and canceled means a manual payout was canceled while pending. 
 
 ### PayoutCanceledMerchantEventDataPreviousAttributes.supported_actions
 
 ### PayoutCanceledMerchantEventDataPreviousAttributes.supported_actions variant 1
 
-anyOf variant 1: Lifecycle actions Flint accepts now. cancel is offered while a payout is pending unless it was scheduled automatically..
+anyOf variant 1: Lifecycle actions Flint accepts now. cancel is offered while an outbound payout is pending unless it was scheduled automatically. Inbound payouts offer no actions..
 
-- Value shape: Array of string. Lifecycle actions Flint accepts now. cancel is offered while a payout is pending unless it was scheduled automatically. Items values: `"cancel"`.
+- Value shape: Array of string. Lifecycle actions Flint accepts now. cancel is offered while an outbound payout is pending unless it was scheduled automatically. Inbound payouts offer no actions. Items values: `"cancel"`.
 
 ### PayoutCanceledMerchantEventDataPreviousAttributes.supported_actions variant 2
 
 anyOf variant 2.
 
-- Value shape: null. Lifecycle actions Flint accepts now. cancel is offered while a payout is pending unless it was scheduled automatically. 
+- Value shape: null. Lifecycle actions Flint accepts now. cancel is offered while an outbound payout is pending unless it was scheduled automatically. Inbound payouts offer no actions. 
 
 ### PayoutCanceledMerchantEventDataPreviousAttributes.updated_at
 

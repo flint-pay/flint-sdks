@@ -22,7 +22,7 @@ final class CreateWebhookEndpointRequestInput extends Model {
      */
     public function getApiVersion(): string { return $this->get('api_version'); }
     public function hasApiVersion(): bool { return $this->has('api_version'); }
-    /** Your description of this endpoint. `null` is the same as omitting the field. minLength: 1.
+    /** Your description of this endpoint. `null` is the same as omitting the field. minLength: 1. maxLength: 500.
      * @return string
      * @throws SdkError When description is omitted; use hasDescription() or valueOrDefault().
      */
@@ -70,7 +70,7 @@ final class CreateWebhookEndpointRequestInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Public HTTPS URL to receive webhook deliveries. minLength: 1.
+    /** Public HTTPS URL to receive webhook deliveries. minLength: 1. maxLength: 2048.
      * @return string
      * @throws SdkError When url is omitted; use hasUrl() or valueOrDefault().
      */

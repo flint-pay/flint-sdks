@@ -10,7 +10,7 @@ namespace Flint;
 final class ApiKeysRevokeInput extends Model {
     /** @param array{'api_key_id': string, 'body'?: array{'expected_version'?: int}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ApiKeysRevokeInput')); }
-    /** Flint API key ID. Example: "key_01KEZF7C008CTC2G5V6J08M6S7".
+    /** Flint API key ID. Must be a valid ID with prefix key_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "key_01KEZF7C008CTC2G5V6J08M6S7".
      * @return string
      * @throws SdkError When api_key_id is omitted; use hasApiKeyId() or valueOrDefault().
      */

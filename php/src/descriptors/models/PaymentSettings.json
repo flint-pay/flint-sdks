@@ -1,1 +1,1 @@
-{"shared":"PaymentSettings","phpRepresentation":{"kind":"record","fields":{"statement_descriptor":{"kind":"nullable","value":{"kind":"value","type":"string"}}}},"dependencies":["PaymentSettings"]}
+{"shared":"PaymentSettings","phpRepresentation":{"kind":"record","fields":{"statement_descriptor":{"kind":"nullable","value":{"kind":"value","type":"string"}},"statement_descriptor_status":{"kind":"entity","name":"StatementDescriptorStatus"}}},"dependencies":["PaymentSettings","StatementDescriptorStatus"]}

@@ -19,13 +19,14 @@ namespace Flint;
  * @property-read MoneyValue $refund_money
  * @property-read list<OrderEditLineRemoval> $remove_line_items
  * @property-read MoneyValue $removed_total_money
+ * @property-read SignedMoney $small_balance_adjustment_money
  * @property-read string $status
  * @property-read list<string> $supported_actions
  * @property-read MoneyValue $unrefunded_money
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class OrderEditCanceledMerchantEventDataObject extends Model {
-    /** @param array{'add_line_items': list<mixed>, 'added_total_money': mixed, 'amount_due_money': mixed, 'canceled_at': string|null, 'cancellation_reason': string|null, 'charge_refunds': list<mixed>, 'completed_at': string|null, 'created_at': string, 'expires_at': string|null, 'order_edit_id': string, 'order_id': string, 'payment_intent_id': string|null, 'reason'?: string, 'refund_ids': list<string>, 'refund_money': mixed, 'remove_line_items': list<mixed>, 'removed_total_money': mixed, 'status': string, 'supported_actions': list<string>, 'unrefunded_money': mixed, 'version': int, ...}|object $values */
+    /** @param array{'add_line_items': list<mixed>, 'added_total_money': mixed, 'amount_due_money': mixed, 'canceled_at': string|null, 'cancellation_reason': string|null, 'charge_refunds': list<mixed>, 'completed_at': string|null, 'created_at': string, 'expires_at': string|null, 'order_edit_id': string, 'order_id': string, 'payment_intent_id': string|null, 'reason'?: string, 'refund_ids': list<string>, 'refund_money': mixed, 'remove_line_items': list<mixed>, 'removed_total_money': mixed, 'small_balance_adjustment_money': mixed, 'status': string, 'supported_actions': list<string>, 'unrefunded_money': mixed, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderEditCanceledMerchantEventDataObject')); }
     /** Added order lines, in request order, with their quantities and values frozen at creation. Empty when the edit added nothing. [] (Value): {@see OrderEditLineAddition}. An order line added by the enclosing edit, with its value frozen at creation.
      * @return list<OrderEditLineAddition>
@@ -112,6 +113,11 @@ final class OrderEditCanceledMerchantEventDataObject extends Model {
      */
     public function getRemovedTotalMoney(): MoneyValue { return $this->get('removed_total_money'); }
     public function hasRemovedTotalMoney(): bool { return $this->has('removed_total_money'); }
+    /** Signed noncash adjustment: positive for an edit balance below the payment minimum, negative when removing previously absorbed value. Included in settlement_amounts.written_off_money, never paid or refundable. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return SignedMoney
+     */
+    public function getSmallBalanceAdjustmentMoney(): SignedMoney { return $this->get('small_balance_adjustment_money'); }
+    public function hasSmallBalanceAdjustmentMoney(): bool { return $this->has('small_balance_adjustment_money'); }
     /** Pending while waiting for a balance payment, completed once the item changes are applied, or canceled when it ends without changing the order. Refund processing has its own status on each refund. Value enum: "pending", "completed", "canceled".
      * @return string
      */

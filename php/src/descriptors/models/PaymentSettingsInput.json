@@ -1,1 +1,1 @@
-{"shared":"PaymentSettings","dependencies":["PaymentSettings"]}
+{"shared":"PaymentSettings","dependencies":["PaymentSettings","StatementDescriptorStatus"]}

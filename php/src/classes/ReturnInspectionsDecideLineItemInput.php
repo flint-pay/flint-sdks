@@ -11,13 +11,13 @@ namespace Flint;
 final class ReturnInspectionsDecideLineItemInput extends Model {
     /** @param array{'return_inspection_id': string, 'return_inspection_line_item_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'acceptance_decision_reason': string, 'acceptance_decision_reason_message'?: string, 'acceptance_status': string, 'expected_version'?: int}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnInspectionsDecideLineItemInput')); }
-    /** Flint return inspection id. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+    /** Flint return inspection id. Must be a valid ID with prefix retins_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
      * @return string
      * @throws SdkError When return_inspection_id is omitted; use hasReturnInspectionId() or valueOrDefault().
      */
     public function getReturnInspectionId(): string { return $this->get('return_inspection_id'); }
     public function hasReturnInspectionId(): bool { return $this->has('return_inspection_id'); }
-    /** Flint return inspection line item id. Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
+    /** Flint return inspection line item id. Must be a valid ID with prefix retinli_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
      * @return string
      * @throws SdkError When return_inspection_line_item_id is omitted; use hasReturnInspectionLineItemId() or valueOrDefault().
      */

@@ -3,10 +3,10 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $allocation
- * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $amount_off_money
+ * @property-read array{'amount': string, 'currency': string}|object $amount_off_money
  * @property-read int $buy_min_quantity
  * @property-read string|null $calculation_basis
- * @property-read array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass|null $currency_options
+ * @property-read array<array-key, array{'amount': string, 'currency': string}|object>|\stdClass|null $currency_options
  * @property-read array{'all': list<array{'attribute': string, 'currency_options'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'operator': string, 'values'?: list<PromotionRuleValueRequestInput|array<array-key, mixed>|\stdClass>}|object|PromotionRuleGroupRequestInput|array<array-key, mixed>|\stdClass>}|object|array{'any': list<array{'attribute': string, 'currency_options'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'operator': string, 'values'?: list<PromotionRuleValueRequestInput|array<array-key, mixed>|\stdClass>}|object|PromotionRuleGroupRequestInput|array<array-key, mixed>|\stdClass>}|object|null $discounted_item_rules
  * @property-read int|float $get_percent_off
  * @property-read int $get_quantity
@@ -19,7 +19,7 @@ namespace Flint;
  * @property-read string $type
  * Presence-aware input; omitted fields throw when accessed. */
 final class PromotionApplicationMethodPatchInput extends Model {
-    /** @param array{'allocation'?: string, 'amount_off_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'buy_min_quantity'?: int, 'calculation_basis'?: string|null, 'currency_options'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass|null, 'discounted_item_rules'?: array{'all': list<array{'attribute': string, 'currency_options'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'operator': string, 'values'?: list<PromotionRuleValueRequestInput|array<array-key, mixed>|\stdClass>}|object|PromotionRuleGroupRequestInput|array<array-key, mixed>|\stdClass>}|object|array{'any': list<array{'attribute': string, 'currency_options'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'operator': string, 'values'?: list<PromotionRuleValueRequestInput|array<array-key, mixed>|\stdClass>}|object|PromotionRuleGroupRequestInput|array<array-key, mixed>|\stdClass>}|object|null, 'get_percent_off'?: int|float, 'get_quantity'?: int, 'max_applications_per_order'?: int|null, 'max_discounted_quantity'?: int|null, 'percent_off'?: int|float, 'qualifying_item_rules'?: PromotionRuleGroupRequestInput|array<array-key, mixed>|\stdClass, 'recurrence'?: array{'period_count'?: int, 'type': string}|object|array{'period_count': int, 'type': string}|object|null, 'reward_selection'?: string, 'type'?: string}|object $values */
+    /** @param array{'allocation'?: string, 'amount_off_money'?: array{'amount': string, 'currency': string}|object, 'buy_min_quantity'?: int, 'calculation_basis'?: string|null, 'currency_options'?: array<array-key, array{'amount': string, 'currency': string}|object>|\stdClass|null, 'discounted_item_rules'?: array{'all': list<array{'attribute': string, 'currency_options'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'operator': string, 'values'?: list<PromotionRuleValueRequestInput|array<array-key, mixed>|\stdClass>}|object|PromotionRuleGroupRequestInput|array<array-key, mixed>|\stdClass>}|object|array{'any': list<array{'attribute': string, 'currency_options'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'operator': string, 'values'?: list<PromotionRuleValueRequestInput|array<array-key, mixed>|\stdClass>}|object|PromotionRuleGroupRequestInput|array<array-key, mixed>|\stdClass>}|object|null, 'get_percent_off'?: int|float, 'get_quantity'?: int, 'max_applications_per_order'?: int|null, 'max_discounted_quantity'?: int|null, 'percent_off'?: int|float, 'qualifying_item_rules'?: PromotionRuleGroupRequestInput|array<array-key, mixed>|\stdClass, 'recurrence'?: array{'period_count'?: int, 'type': string}|object|array{'period_count': int, 'type': string}|object|null, 'reward_selection'?: string, 'type'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PromotionApplicationMethodPatchInput')); }
     /** How the effect is allocated. Omitted allocation keeps its stored value; it defaults by discount_class only when no allocation is stored. Changing discount_class does not reset allocation. Value enum: "each", "across".
      * @return string
@@ -27,11 +27,11 @@ final class PromotionApplicationMethodPatchInput extends Model {
      */
     public function getAllocation(): string { return $this->get('allocation'); }
     public function hasAllocation(): bool { return $this->has('allocation'); }
-    /** Positive fixed discount in the primary currency. allocation determines whether it applies to each matched item or once across the matched set. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
+    /** Positive fixed discount in the primary currency. allocation determines whether it applies to each matched item or once across the matched set. amount (Required): integer string. Positive amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1. currency (Required): string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     * @return array{'amount': string, 'currency': string}|object
      * @throws SdkError When amount_off_money is omitted; use hasAmountOffMoney() or valueOrDefault().
      */
-    public function getAmountOffMoney(): mixed { return $this->get('amount_off_money'); }
+    public function getAmountOffMoney(): array|object { return $this->get('amount_off_money'); }
     public function hasAmountOffMoney(): bool { return $this->has('amount_off_money'); }
     /** Number of qualifying units needed for one application of a buy_x_get_y promotion. Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
      * @return int
@@ -45,8 +45,8 @@ final class PromotionApplicationMethodPatchInput extends Model {
      */
     public function getCalculationBasis(): string|null { return $this->get('calculation_basis'); }
     public function hasCalculationBasis(): bool { return $this->has('calculation_basis'); }
-    /** Alternative positive fixed discounts, keyed by currency code. Each Money currency must match its key. * (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass|null
+    /** Alternative positive fixed discounts, keyed by currency code. Each Money currency must match its key. * (Value): object. *.amount (Required): integer string. Positive amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1. *.currency (Required): string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     * @return array<array-key, array{'amount': string, 'currency': string}|object>|\stdClass|null
      * @throws SdkError When currency_options is omitted; use hasCurrencyOptions() or valueOrDefault().
      */
     public function getCurrencyOptions(): array|object|null { return $this->get('currency_options'); }

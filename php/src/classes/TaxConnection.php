@@ -33,12 +33,12 @@ final class TaxConnection extends Model {
      */
     public function getDisclosure(): TaxConnectionDisclosure { return $this->get('disclosure'); }
     public function hasDisclosure(): bool { return $this->has('disclosure'); }
-    /** Legal business address used as the tax origin. In live mode, comes from processor-verified onboarding details before connect and the tax account snapshot once connected. In sandboxes, comes from the merchant profile. `null` when no legal address is available or the sandbox profile address is incomplete. anyOf[1] (Value): {@see Address}. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. anyOf[2] (Value): null.
+    /** Legal business address used as the tax origin. In live mode, comes from processor-verified onboarding details before connect and the tax account snapshot once connected. In sandboxes, uses an explicit legal_address supplied at connect, otherwise verified live details or the merchant profile, and retains the attested snapshot for retries and reconnects. `null` when no legal address is available. anyOf[1] (Value): {@see Address}. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. anyOf[2] (Value): null.
      * @return Address|null
      */
     public function getLegalAddress(): Address|null { return $this->get('legal_address'); }
     public function hasLegalAddress(): bool { return $this->has('legal_address'); }
-    /** Legal business name verified by the payment processor, which can differ from the merchant-entered Merchant.business_name. Before connect, comes from verified onboarding details; once connected, comes from the tax account snapshot. In sandboxes, comes from the merchant profile. Omitted when no name is available.
+    /** Legal business name verified by the payment processor, which can differ from the merchant-entered Merchant.business_name. Before connect, comes from verified onboarding details; once connected, comes from the tax account snapshot. In sandboxes, uses verified live details when available, otherwise the merchant profile, and retains the connected snapshot. Omitted when no name is available.
      * @return ?string
      */
     public function getLegalBusinessName(): ?string { return $this->get('legal_business_name'); }
@@ -53,12 +53,12 @@ final class TaxConnection extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Machine-readable detail for `not_connected` or `attention_required`. `null` when no reason applies. Unknown reasons normalize to `other`. Value enum: "not_offered", "onboarding_required", "tax_category_required", "registration_required", "temporarily_unavailable", "setup_incomplete", "registration_rejected", "business_details_changed", "support_required", "disconnected", "other", null.
+    /** Machine-readable detail for `not_connected` or `attention_required`. `null` when no reason applies. Unknown reasons normalize to `other`. Value enum: "not_offered", "business_address_required", "onboarding_required", "tax_category_required", "registration_required", "temporarily_unavailable", "setup_incomplete", "registration_rejected", "business_details_changed", "support_required", "disconnected", "other", null.
      * @return string|null
      */
     public function getStatusReason(): string|null { return $this->get('status_reason'); }
     public function hasStatusReason(): bool { return $this->has('status_reason'); }
-    /** Lists connect when setup can complete and disconnect when automatic tax can be turned off, based on the connection state for every credential. An empty array means neither action is available. Performing either action requires settings.write. [] enum: "connect", "disconnect". [] (Value): string.  Value enum: "connect", "disconnect".
+    /** Lists connect when setup can complete, including by supplying legal_address in test mode and disconnect when automatic tax can be turned off, based on the connection state for every credential. An empty array means neither action is available. Performing either action requires settings.write. [] enum: "connect", "disconnect". [] (Value): string.  Value enum: "connect", "disconnect".
      * @return list<string>
      */
     public function getSupportedActions(): array { return $this->get('supported_actions'); }

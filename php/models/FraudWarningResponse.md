@@ -49,6 +49,7 @@ Present only when `expand` includes `dispute`; `null` when expanded and there is
 | `amount_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Amount in dispute. For a chargeback, this amount left your balance when the case opened; an inquiry moves no money. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `can_respond_with_evidence` | Conditional | boolean | Whether this dispute has an evidence response window. It stays true after the window closes or a decision is made. Use is_action_required to know whether a response is needed now. |
 | `case_type` | Conditional | string | Kind of case the card network or bank opened. `status` and `is_action_required` say whether a response is needed. Values: `"inquiry"`, `"chargeback"`, `"compliance"`, `"resolution"`, `"block"`, `"other"`, `"bank_return"`. |
+| `closed_reason` | Conditional | string | Why the dispute closed, when Flint recorded the cause. Absent when Flint has no confirmed closure reason. Values: `"merchant_accepted"`. |
 | `created_at` | Conditional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `customer` | Conditional | [ExpandedCustomerSummary](../models/ExpandedCustomerSummary.md#expandedcustomersummary) or null | Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. `customer`: [declared alternatives](../models/DisputeResponse.md#disputeresponsedatacustomer). |
 | `customer_id` | Conditional | string | The customer on the disputed payment. Absent when the payment has none. Example: `"cus_01KEZF7C006X9JK6NZNA2SM9XD"`. |
@@ -75,18 +76,18 @@ Present only when `expand` includes `dispute`; `null` when expanded and there is
 | `supported_actions` | Conditional | Array of string | Lifecycle actions Flint accepts now. Evaluated when the dispute is read; in a webhook payload, as of when Flint recorded the change. It turns empty once evidence_due_at has passed, with no event. Items values: `"accept"`. |
 | `updated_at` | Conditional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 
-### FraudWarningResponse.data.dispute variant 1
+### FraudWarningResponse.data.dispute variant 1: `closed_reason` = `"merchant_accepted"`
 
 anyOf Dispute: A challenge to a collected payment..
 
 - Required: `amount_money`, `can_respond_with_evidence`, `case_type`, `created_at`, `dispute_id`, `evidence_due_at`, `evidence_submission_count`, `has_evidence`, `is_action_required`, `is_evidence_deadline_passed`, `merchant_id`, `network_reason_code`, `payment_option`, `reason`, `recommended_evidence_types`, `status`, `supported_actions`, `updated_at`.
-- Optional: `customer`, `customer_id`, `fraud_warning_id`, `order`, `order_id`, `payment_intent`, `payment_intent_id`, `response_unavailable_reason`, `split_reversals`, `status_changed_at`.
+- Optional: `closed_reason`, `customer`, `customer_id`, `fraud_warning_id`, `order`, `order_id`, `payment_intent`, `payment_intent_id`, `response_unavailable_reason`, `split_reversals`, `status_changed_at`.
 
 ### FraudWarningResponse.data.dispute variant 2
 
 anyOf variant 2.
 
-- Undeclared: `amount_money`, `can_respond_with_evidence`, `case_type`, `created_at`, `customer`, `customer_id`, `dispute_id`, `evidence_due_at`, `evidence_submission_count`, `fraud_warning_id`, `has_evidence`, `is_action_required`, `is_evidence_deadline_passed`, `merchant_id`, `network_reason_code`, `order`, `order_id`, `payment_intent`, `payment_intent_id`, `payment_option`, `reason`, `recommended_evidence_types`, `response_unavailable_reason`, `split_reversals`, `status`, `status_changed_at`, `supported_actions`, `updated_at`.
+- Undeclared: `amount_money`, `can_respond_with_evidence`, `case_type`, `closed_reason`, `created_at`, `customer`, `customer_id`, `dispute_id`, `evidence_due_at`, `evidence_submission_count`, `fraud_warning_id`, `has_evidence`, `is_action_required`, `is_evidence_deadline_passed`, `merchant_id`, `network_reason_code`, `order`, `order_id`, `payment_intent`, `payment_intent_id`, `payment_option`, `reason`, `recommended_evidence_types`, `response_unavailable_reason`, `split_reversals`, `status`, `status_changed_at`, `supported_actions`, `updated_at`.
 - Value shape: null. Present only when `expand` includes `dispute`; `null` when expanded and there is no related dispute. 
 
 ### FraudWarningResponse.data.dispute variant 1.customer

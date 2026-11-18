@@ -2,7 +2,7 @@
 
 ## CustomerSession
 
-A credential for the /v1/me routes that acts as one customer. Unless it came from an access link, its secret can read and change that customer's orders, payments, subscriptions, saved payment methods, addresses, returns, and invoices, and request account deletion.
+A credential for the /v1/me routes that acts as one customer. By default it can read and change the customer's account and commerce data, including saved payment methods and account deletion requests. Explicit capabilities or access-link resource grants narrow that authority.
 
 
 
@@ -10,6 +10,7 @@ A credential for the /v1/me routes that acts as one customer. Unless it came fro
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `capabilities` | Required | Array of string | Granted operation capabilities. Default sessions report the full capability catalog. Refresh never widens an explicit grant. |
 | `created_at` | Required | string | When the session was created. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `customer_id` | Required | string | ID of the customer the session acts as. Example: `"cus_01KEZF7C006X9JK6NZNA2SM9XD"`. |
 | `customer_session_id` | Required | string | ID of this session. Use it to tell sessions apart; it is not a credential. Example: `"cses_01KEZF7C00FBVRP25FZTW7KWZV"`. |

@@ -1,20 +1,20 @@
-import type { ResourceReference, ResponseMeta, ResourceReferencePreviousAttributes } from './types-60.js';
+import type { ResourceReference, ResponseMeta, ResourceReferencePreviousAttributes } from './types-62.js';
 import type { CreateOrderLineItemRequest, CreateOrderLineItemRequestInput } from './types-11.js';
-import type { OrderChargeRequest, OrderChargeRequestInput } from './types-43.js';
-import type { ReturnLineItemRequest, ReturnLineItemRequestInput } from './types-61.js';
+import type { OrderChargeRequest, OrderChargeRequestInput } from './types-45.js';
+import type { ReturnLineItemRequest, ReturnLineItemRequestInput } from './types-63.js';
 import type { GetReturnResponse, GiftCard } from './types-28.js';
-import type { RiskListItemAddition } from './types-64.js';
-import type { MoneyValue } from './types-42.js';
-import type { SignedMoneyRequestInput } from './types-66.js';
+import type { RiskListItemAddition } from './types-66.js';
+import type { MoneyValue } from './types-44.js';
+import type { SignedMoneyRequestInput } from './types-68.js';
 import type { GiftCardLoad } from './types-29.js';
 import type { GiftCardTransaction } from './types-30.js';
 import type { InputValue } from '../runtime.js';
-import type { MerchantWebhookEnvelope } from './types-41.js';
+import type { MerchantWebhookEnvelope } from './types-43.js';
 import type { CreateAPIKeyRequestInput } from './types-8.js';
 import type { ConfigurationVersionRequestInput } from './types-7.js';
-import type { UpdateAPIKeyRequestInput } from './types-73.js';
-import type { ManualDiscountRequest, ManualDiscountRequestInput } from './types-39.js';
-import type { PromotionRefRequest, PromotionRefRequestInput } from './types-57.js';
+import type { UpdateAPIKeyRequestInput } from './types-75.js';
+import type { ManualDiscountRequest, ManualDiscountRequestInput } from './types-40.js';
+import type { PromotionRefRequest, PromotionRefRequestInput } from './types-58.js';
 /** A credential used to authenticate API requests. */
 export type APIKey = {
     /**
@@ -41,6 +41,12 @@ export type APIKey = {
      * `resource_type` and `resource_id`.
      */
     "created_by"?: ResourceReference;
+    /**
+     * The user accountable for this key: the user who created it, or who created the API key or
+     * workload identity that did. `created_by` names the credential that made the request.
+     * pattern: ^usr_[0-7][0-9A-HJKMNP-TV-Z]{25}$. Example: "usr_01KEZF7C00YC8757ZYP9727JM0".
+     */
+    "created_by_user_id"?: string;
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "expires_at"?: string;
     /**
@@ -83,17 +89,17 @@ export type APIKey = {
      * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
      * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
      * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
-     * "commerce.invoices.read", "commerce.invoices.write", "commerce.orders.read",
-     * "commerce.orders.write", "commerce.products.read", "commerce.products.write",
-     * "commerce.promotions.read", "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.invoices.read", "commerce.invoices.write", "commerce.license_keys.read",
+     * "commerce.license_keys.secrets.write", "commerce.license_keys.write",
+     * "commerce.orders.read", "commerce.orders.write", "commerce.products.read",
+     * "commerce.products.write", "commerce.promotions.read", "commerce.promotions.write",
+     * "commerce.refunds.read", "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
      * "commerce.returns.operations.write", "commerce.returns.policies.write",
      * "commerce.returns.read", "commerce.returns.reasons.write",
      * "commerce.returns.resolutions.write", "commerce.returns.write",
      * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
      * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
      * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
-     * "developer.feedback_reports.read", "developer.feedback_reports.write",
      * "developer.merchant_signups.read", "developer.merchant_signups.write",
      * "developer.partner_apps.read", "developer.partner_apps.write",
      * "developer.request_logs.read", "developer.request_logs.self.read",
@@ -123,17 +129,17 @@ export type APIKey = {
      * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
      * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
      * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
-     * "commerce.invoices.read", "commerce.invoices.write", "commerce.orders.read",
-     * "commerce.orders.write", "commerce.products.read", "commerce.products.write",
-     * "commerce.promotions.read", "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.invoices.read", "commerce.invoices.write", "commerce.license_keys.read",
+     * "commerce.license_keys.secrets.write", "commerce.license_keys.write",
+     * "commerce.orders.read", "commerce.orders.write", "commerce.products.read",
+     * "commerce.products.write", "commerce.promotions.read", "commerce.promotions.write",
+     * "commerce.refunds.read", "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
      * "commerce.returns.operations.write", "commerce.returns.policies.write",
      * "commerce.returns.read", "commerce.returns.reasons.write",
      * "commerce.returns.resolutions.write", "commerce.returns.write",
      * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
      * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
      * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
-     * "developer.feedback_reports.read", "developer.feedback_reports.write",
      * "developer.merchant_signups.read", "developer.merchant_signups.write",
      * "developer.partner_apps.read", "developer.partner_apps.write",
      * "developer.request_logs.read", "developer.request_logs.self.read",
@@ -183,6 +189,9 @@ export type APIKey = {
         | "commerce.inventory.write"
         | "commerce.invoices.read"
         | "commerce.invoices.write"
+        | "commerce.license_keys.read"
+        | "commerce.license_keys.secrets.write"
+        | "commerce.license_keys.write"
         | "commerce.orders.read"
         | "commerce.orders.write"
         | "commerce.products.read"
@@ -207,8 +216,6 @@ export type APIKey = {
         | "customers.read"
         | "customers.sessions.write"
         | "customers.write"
-        | "developer.feedback_reports.read"
-        | "developer.feedback_reports.write"
         | "developer.merchant_signups.read"
         | "developer.merchant_signups.write"
         | "developer.partner_apps.read"
@@ -478,16 +485,17 @@ export type APIRequestLog = {
      * "delivery_method", "delivery_profile", "delivery_quote", "delivery_rate",
      * "delivery_rate_callback", "delivery_revocation", "delivery_selection", "delivery_zone",
      * "demo_session", "device", "discount", "dispute", "email_change_request",
-     * "environment_grant", "feedback_report", "file", "flint_wallet", "flint_wallet_card",
-     * "fraud_warning", "fulfillment", "fulfillment_event", "fulfillment_notification",
-     * "gift_card", "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
+     * "environment_grant", "file", "flint_wallet", "flint_wallet_card", "fraud_warning",
+     * "fulfillment", "fulfillment_event", "fulfillment_notification", "gift_card",
+     * "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
      * "gift_card_redemption", "gift_card_transaction", "image", "inventory_adjustment",
      * "inventory_allocation_policy", "inventory_allocation_policy_revision", "inventory_count",
      * "inventory_item", "inventory_level", "inventory_movement", "inventory_receipt",
      * "inventory_reservation", "inventory_reservation_line", "inventory_transfer",
      * "inventory_transfer_line", "invoice", "invoice_delivery_attempt", "invoice_late_fee",
      * "invoice_line_item", "invoice_manual_payment", "invoice_payment_attempt",
-     * "invoice_payment_term", "location", "merchant", "merchant_billing_balance",
+     * "invoice_payment_term", "license_key", "license_key_activation", "license_key_pool",
+     * "license_key_pool_key", "location", "merchant", "merchant_billing_balance",
      * "merchant_billing_entry", "merchant_billing_invoice", "merchant_signup", "modifier",
      * "modifier_group", "modifier_set", "order", "order_charge", "order_edit", "order_line_item",
      * "order_line_item_modifier", "order_payment_attempt", "package", "package_item",
@@ -543,7 +551,6 @@ export type APIRequestLog = {
         | "dispute"
         | "email_change_request"
         | "environment_grant"
-        | "feedback_report"
         | "file"
         | "flint_wallet"
         | "flint_wallet_card"
@@ -577,6 +584,10 @@ export type APIRequestLog = {
         | "invoice_manual_payment"
         | "invoice_payment_attempt"
         | "invoice_payment_term"
+        | "license_key"
+        | "license_key_activation"
+        | "license_key_pool"
+        | "license_key_pool_key"
         | "location"
         | "merchant"
         | "merchant_billing_balance"
@@ -820,16 +831,17 @@ export type APIRequestLogDetail = {
      * "delivery_method", "delivery_profile", "delivery_quote", "delivery_rate",
      * "delivery_rate_callback", "delivery_revocation", "delivery_selection", "delivery_zone",
      * "demo_session", "device", "discount", "dispute", "email_change_request",
-     * "environment_grant", "feedback_report", "file", "flint_wallet", "flint_wallet_card",
-     * "fraud_warning", "fulfillment", "fulfillment_event", "fulfillment_notification",
-     * "gift_card", "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
+     * "environment_grant", "file", "flint_wallet", "flint_wallet_card", "fraud_warning",
+     * "fulfillment", "fulfillment_event", "fulfillment_notification", "gift_card",
+     * "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
      * "gift_card_redemption", "gift_card_transaction", "image", "inventory_adjustment",
      * "inventory_allocation_policy", "inventory_allocation_policy_revision", "inventory_count",
      * "inventory_item", "inventory_level", "inventory_movement", "inventory_receipt",
      * "inventory_reservation", "inventory_reservation_line", "inventory_transfer",
      * "inventory_transfer_line", "invoice", "invoice_delivery_attempt", "invoice_late_fee",
      * "invoice_line_item", "invoice_manual_payment", "invoice_payment_attempt",
-     * "invoice_payment_term", "location", "merchant", "merchant_billing_balance",
+     * "invoice_payment_term", "license_key", "license_key_activation", "license_key_pool",
+     * "license_key_pool_key", "location", "merchant", "merchant_billing_balance",
      * "merchant_billing_entry", "merchant_billing_invoice", "merchant_signup", "modifier",
      * "modifier_group", "modifier_set", "order", "order_charge", "order_edit", "order_line_item",
      * "order_line_item_modifier", "order_payment_attempt", "package", "package_item",
@@ -885,7 +897,6 @@ export type APIRequestLogDetail = {
         | "dispute"
         | "email_change_request"
         | "environment_grant"
-        | "feedback_report"
         | "file"
         | "flint_wallet"
         | "flint_wallet_card"
@@ -919,6 +930,10 @@ export type APIRequestLogDetail = {
         | "invoice_manual_payment"
         | "invoice_payment_attempt"
         | "invoice_payment_term"
+        | "license_key"
+        | "license_key_activation"
+        | "license_key_pool"
+        | "license_key_pool_key"
         | "location"
         | "merchant"
         | "merchant_billing_balance"
@@ -1147,7 +1162,10 @@ export type AcceptFulfillmentRequestInput = {
      * evidence. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      */
     "occurred_at"?: string | globalThis.Date;
-    /** Your note explaining this transition. minLength: 1. maxLength: 500. */
+    /**
+     * Your internal note explaining this transition. Not included in buyer emails. minLength: 1.
+     * maxLength: 500.
+     */
     "reason_message"?: string;
 };
 /** The request body for: Accept platform terms. */
@@ -1766,6 +1784,7 @@ export type ApiKeyCreatedEvent = ((Exclude<MerchantWebhookEnvelope & object, rea
             "api_key_id": string;
             "created_at": string;
             "created_by"?: ResourceReference;
+            "created_by_user_id"?: string;
             "expires_at"?: string;
             "key_prefix": string;
             "last_used_at"?: string;
@@ -1804,6 +1823,9 @@ export type ApiKeyCreatedEvent = ((Exclude<MerchantWebhookEnvelope & object, rea
                 | "commerce.inventory.write"
                 | "commerce.invoices.read"
                 | "commerce.invoices.write"
+                | "commerce.license_keys.read"
+                | "commerce.license_keys.secrets.write"
+                | "commerce.license_keys.write"
                 | "commerce.orders.read"
                 | "commerce.orders.write"
                 | "commerce.products.read"
@@ -1828,8 +1850,6 @@ export type ApiKeyCreatedEvent = ((Exclude<MerchantWebhookEnvelope & object, rea
                 | "customers.read"
                 | "customers.sessions.write"
                 | "customers.write"
-                | "developer.feedback_reports.read"
-                | "developer.feedback_reports.write"
                 | "developer.merchant_signups.read"
                 | "developer.merchant_signups.write"
                 | "developer.partner_apps.read"
@@ -1897,6 +1917,7 @@ export type ApiKeyRevokedEvent = ((Exclude<MerchantWebhookEnvelope & object, rea
             "api_key_id": string;
             "created_at": string;
             "created_by"?: ResourceReference;
+            "created_by_user_id"?: string;
             "expires_at"?: string;
             "key_prefix": string;
             "last_used_at"?: string;
@@ -1935,6 +1956,9 @@ export type ApiKeyRevokedEvent = ((Exclude<MerchantWebhookEnvelope & object, rea
                 | "commerce.inventory.write"
                 | "commerce.invoices.read"
                 | "commerce.invoices.write"
+                | "commerce.license_keys.read"
+                | "commerce.license_keys.secrets.write"
+                | "commerce.license_keys.write"
                 | "commerce.orders.read"
                 | "commerce.orders.write"
                 | "commerce.products.read"
@@ -1959,8 +1983,6 @@ export type ApiKeyRevokedEvent = ((Exclude<MerchantWebhookEnvelope & object, rea
                 | "customers.read"
                 | "customers.sessions.write"
                 | "customers.write"
-                | "developer.feedback_reports.read"
-                | "developer.feedback_reports.write"
                 | "developer.merchant_signups.read"
                 | "developer.merchant_signups.write"
                 | "developer.partner_apps.read"
@@ -2021,6 +2043,7 @@ export type ApiKeyRevokedEvent = ((Exclude<MerchantWebhookEnvelope & object, rea
             "api_key_id"?: ((string) | (null));
             "created_at"?: ((string) | (null));
             "created_by"?: ((ResourceReferencePreviousAttributes) | (null));
+            "created_by_user_id"?: ((string) | (null));
             "expires_at"?: ((string) | (null));
             "key_prefix"?: ((string) | (null));
             "last_used_at"?: ((string) | (null));
@@ -2059,6 +2082,9 @@ export type ApiKeyRevokedEvent = ((Exclude<MerchantWebhookEnvelope & object, rea
                 | "commerce.inventory.write"
                 | "commerce.invoices.read"
                 | "commerce.invoices.write"
+                | "commerce.license_keys.read"
+                | "commerce.license_keys.secrets.write"
+                | "commerce.license_keys.write"
                 | "commerce.orders.read"
                 | "commerce.orders.write"
                 | "commerce.products.read"
@@ -2083,8 +2109,6 @@ export type ApiKeyRevokedEvent = ((Exclude<MerchantWebhookEnvelope & object, rea
                 | "customers.read"
                 | "customers.sessions.write"
                 | "customers.write"
-                | "developer.feedback_reports.read"
-                | "developer.feedback_reports.write"
                 | "developer.merchant_signups.read"
                 | "developer.merchant_signups.write"
                 | "developer.partner_apps.read"
@@ -2153,6 +2177,7 @@ export type ApiKeyUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object, rea
             "api_key_id": string;
             "created_at": string;
             "created_by"?: ResourceReference;
+            "created_by_user_id"?: string;
             "expires_at"?: string;
             "key_prefix": string;
             "last_used_at"?: string;
@@ -2191,6 +2216,9 @@ export type ApiKeyUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object, rea
                 | "commerce.inventory.write"
                 | "commerce.invoices.read"
                 | "commerce.invoices.write"
+                | "commerce.license_keys.read"
+                | "commerce.license_keys.secrets.write"
+                | "commerce.license_keys.write"
                 | "commerce.orders.read"
                 | "commerce.orders.write"
                 | "commerce.products.read"
@@ -2215,8 +2243,6 @@ export type ApiKeyUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object, rea
                 | "customers.read"
                 | "customers.sessions.write"
                 | "customers.write"
-                | "developer.feedback_reports.read"
-                | "developer.feedback_reports.write"
                 | "developer.merchant_signups.read"
                 | "developer.merchant_signups.write"
                 | "developer.partner_apps.read"
@@ -2277,6 +2303,7 @@ export type ApiKeyUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object, rea
             "api_key_id"?: ((string) | (null));
             "created_at"?: ((string) | (null));
             "created_by"?: ((ResourceReferencePreviousAttributes) | (null));
+            "created_by_user_id"?: ((string) | (null));
             "expires_at"?: ((string) | (null));
             "key_prefix"?: ((string) | (null));
             "last_used_at"?: ((string) | (null));
@@ -2315,6 +2342,9 @@ export type ApiKeyUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object, rea
                 | "commerce.inventory.write"
                 | "commerce.invoices.read"
                 | "commerce.invoices.write"
+                | "commerce.license_keys.read"
+                | "commerce.license_keys.secrets.write"
+                | "commerce.license_keys.write"
                 | "commerce.orders.read"
                 | "commerce.orders.write"
                 | "commerce.products.read"
@@ -2339,8 +2369,6 @@ export type ApiKeyUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object, rea
                 | "customers.read"
                 | "customers.sessions.write"
                 | "customers.write"
-                | "developer.feedback_reports.read"
-                | "developer.feedback_reports.write"
                 | "developer.merchant_signups.read"
                 | "developer.merchant_signups.write"
                 | "developer.partner_apps.read"
@@ -2437,6 +2465,12 @@ export type ApiKeysListParams = {
      * ^(key|usr|wid)_[0-7][0-9A-HJKMNP-TV-Z]{25}$. Example: "key_01KEZF7C008CTC2G5V6J08M6S7".
      */
     "created_by_id"?: InputValue<string>;
+    /**
+     * Filter by the exact ID of the user accountable for the key, including keys their API keys or
+     * workload identities created. Combines with created_by_type and created_by_id. pattern:
+     * ^usr_[0-7][0-9A-HJKMNP-TV-Z]{25}$. Example: "usr_01KEZF7C00YC8757ZYP9727JM0".
+     */
+    "created_by_user_id"?: InputValue<string>;
     /**
      * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
      * 100. Default: 20.
@@ -2575,16 +2609,17 @@ export type ApiRequestLogsListParams = {
      * "delivery_method", "delivery_profile", "delivery_quote", "delivery_rate",
      * "delivery_rate_callback", "delivery_revocation", "delivery_selection", "delivery_zone",
      * "demo_session", "device", "discount", "dispute", "email_change_request",
-     * "environment_grant", "feedback_report", "file", "flint_wallet", "flint_wallet_card",
-     * "fraud_warning", "fulfillment", "fulfillment_event", "fulfillment_notification",
-     * "gift_card", "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
+     * "environment_grant", "file", "flint_wallet", "flint_wallet_card", "fraud_warning",
+     * "fulfillment", "fulfillment_event", "fulfillment_notification", "gift_card",
+     * "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
      * "gift_card_redemption", "gift_card_transaction", "image", "inventory_adjustment",
      * "inventory_allocation_policy", "inventory_allocation_policy_revision", "inventory_count",
      * "inventory_item", "inventory_level", "inventory_movement", "inventory_receipt",
      * "inventory_reservation", "inventory_reservation_line", "inventory_transfer",
      * "inventory_transfer_line", "invoice", "invoice_delivery_attempt", "invoice_late_fee",
      * "invoice_line_item", "invoice_manual_payment", "invoice_payment_attempt",
-     * "invoice_payment_term", "location", "merchant", "merchant_billing_balance",
+     * "invoice_payment_term", "license_key", "license_key_activation", "license_key_pool",
+     * "license_key_pool_key", "location", "merchant", "merchant_billing_balance",
      * "merchant_billing_entry", "merchant_billing_invoice", "merchant_signup", "modifier",
      * "modifier_group", "modifier_set", "order", "order_charge", "order_edit", "order_line_item",
      * "order_line_item_modifier", "order_payment_attempt", "package", "package_item",
@@ -2613,16 +2648,17 @@ export type ApiRequestLogsListParams = {
      * "delivery_method", "delivery_profile", "delivery_quote", "delivery_rate",
      * "delivery_rate_callback", "delivery_revocation", "delivery_selection", "delivery_zone",
      * "demo_session", "device", "discount", "dispute", "email_change_request",
-     * "environment_grant", "feedback_report", "file", "flint_wallet", "flint_wallet_card",
-     * "fraud_warning", "fulfillment", "fulfillment_event", "fulfillment_notification",
-     * "gift_card", "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
+     * "environment_grant", "file", "flint_wallet", "flint_wallet_card", "fraud_warning",
+     * "fulfillment", "fulfillment_event", "fulfillment_notification", "gift_card",
+     * "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
      * "gift_card_redemption", "gift_card_transaction", "image", "inventory_adjustment",
      * "inventory_allocation_policy", "inventory_allocation_policy_revision", "inventory_count",
      * "inventory_item", "inventory_level", "inventory_movement", "inventory_receipt",
      * "inventory_reservation", "inventory_reservation_line", "inventory_transfer",
      * "inventory_transfer_line", "invoice", "invoice_delivery_attempt", "invoice_late_fee",
      * "invoice_line_item", "invoice_manual_payment", "invoice_payment_attempt",
-     * "invoice_payment_term", "location", "merchant", "merchant_billing_balance",
+     * "invoice_payment_term", "license_key", "license_key_activation", "license_key_pool",
+     * "license_key_pool_key", "location", "merchant", "merchant_billing_balance",
      * "merchant_billing_entry", "merchant_billing_invoice", "merchant_signup", "modifier",
      * "modifier_group", "modifier_set", "order", "order_charge", "order_edit", "order_line_item",
      * "order_line_item_modifier", "order_payment_attempt", "package", "package_item",
@@ -2651,16 +2687,17 @@ export type ApiRequestLogsListParams = {
      * "delivery_location_set", "delivery_method", "delivery_profile", "delivery_quote",
      * "delivery_rate", "delivery_rate_callback", "delivery_revocation", "delivery_selection",
      * "delivery_zone", "demo_session", "device", "discount", "dispute", "email_change_request",
-     * "environment_grant", "feedback_report", "file", "flint_wallet", "flint_wallet_card",
-     * "fraud_warning", "fulfillment", "fulfillment_event", "fulfillment_notification",
-     * "gift_card", "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
+     * "environment_grant", "file", "flint_wallet", "flint_wallet_card", "fraud_warning",
+     * "fulfillment", "fulfillment_event", "fulfillment_notification", "gift_card",
+     * "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
      * "gift_card_redemption", "gift_card_transaction", "image", "inventory_adjustment",
      * "inventory_allocation_policy", "inventory_allocation_policy_revision", "inventory_count",
      * "inventory_item", "inventory_level", "inventory_movement", "inventory_receipt",
      * "inventory_reservation", "inventory_reservation_line", "inventory_transfer",
      * "inventory_transfer_line", "invoice", "invoice_delivery_attempt", "invoice_late_fee",
      * "invoice_line_item", "invoice_manual_payment", "invoice_payment_attempt",
-     * "invoice_payment_term", "location", "merchant", "merchant_billing_balance",
+     * "invoice_payment_term", "license_key", "license_key_activation", "license_key_pool",
+     * "license_key_pool_key", "location", "merchant", "merchant_billing_balance",
      * "merchant_billing_entry", "merchant_billing_invoice", "merchant_signup", "modifier",
      * "modifier_group", "modifier_set", "order", "order_charge", "order_edit", "order_line_item",
      * "order_line_item_modifier", "order_payment_attempt", "package", "package_item",
@@ -2689,16 +2726,17 @@ export type ApiRequestLogsListParams = {
      * "delivery_method", "delivery_profile", "delivery_quote", "delivery_rate",
      * "delivery_rate_callback", "delivery_revocation", "delivery_selection", "delivery_zone",
      * "demo_session", "device", "discount", "dispute", "email_change_request",
-     * "environment_grant", "feedback_report", "file", "flint_wallet", "flint_wallet_card",
-     * "fraud_warning", "fulfillment", "fulfillment_event", "fulfillment_notification",
-     * "gift_card", "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
+     * "environment_grant", "file", "flint_wallet", "flint_wallet_card", "fraud_warning",
+     * "fulfillment", "fulfillment_event", "fulfillment_notification", "gift_card",
+     * "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
      * "gift_card_redemption", "gift_card_transaction", "image", "inventory_adjustment",
      * "inventory_allocation_policy", "inventory_allocation_policy_revision", "inventory_count",
      * "inventory_item", "inventory_level", "inventory_movement", "inventory_receipt",
      * "inventory_reservation", "inventory_reservation_line", "inventory_transfer",
      * "inventory_transfer_line", "invoice", "invoice_delivery_attempt", "invoice_late_fee",
      * "invoice_line_item", "invoice_manual_payment", "invoice_payment_attempt",
-     * "invoice_payment_term", "location", "merchant", "merchant_billing_balance",
+     * "invoice_payment_term", "license_key", "license_key_activation", "license_key_pool",
+     * "license_key_pool_key", "location", "merchant", "merchant_billing_balance",
      * "merchant_billing_entry", "merchant_billing_invoice", "merchant_signup", "modifier",
      * "modifier_group", "modifier_set", "order", "order_charge", "order_edit", "order_line_item",
      * "order_line_item_modifier", "order_payment_attempt", "package", "package_item",
@@ -2727,16 +2765,17 @@ export type ApiRequestLogsListParams = {
      * "delivery_method", "delivery_profile", "delivery_quote", "delivery_rate",
      * "delivery_rate_callback", "delivery_revocation", "delivery_selection", "delivery_zone",
      * "demo_session", "device", "discount", "dispute", "email_change_request",
-     * "environment_grant", "feedback_report", "file", "flint_wallet", "flint_wallet_card",
-     * "fraud_warning", "fulfillment", "fulfillment_event", "fulfillment_notification",
-     * "gift_card", "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
+     * "environment_grant", "file", "flint_wallet", "flint_wallet_card", "fraud_warning",
+     * "fulfillment", "fulfillment_event", "fulfillment_notification", "gift_card",
+     * "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
      * "gift_card_redemption", "gift_card_transaction", "image", "inventory_adjustment",
      * "inventory_allocation_policy", "inventory_allocation_policy_revision", "inventory_count",
      * "inventory_item", "inventory_level", "inventory_movement", "inventory_receipt",
      * "inventory_reservation", "inventory_reservation_line", "inventory_transfer",
      * "inventory_transfer_line", "invoice", "invoice_delivery_attempt", "invoice_late_fee",
      * "invoice_line_item", "invoice_manual_payment", "invoice_payment_attempt",
-     * "invoice_payment_term", "location", "merchant", "merchant_billing_balance",
+     * "invoice_payment_term", "license_key", "license_key_activation", "license_key_pool",
+     * "license_key_pool_key", "location", "merchant", "merchant_billing_balance",
      * "merchant_billing_entry", "merchant_billing_invoice", "merchant_signup", "modifier",
      * "modifier_group", "modifier_set", "order", "order_charge", "order_edit", "order_line_item",
      * "order_line_item_modifier", "order_payment_attempt", "package", "package_item",
@@ -2792,7 +2831,6 @@ export type ApiRequestLogsListParams = {
         | "dispute"
         | "email_change_request"
         | "environment_grant"
-        | "feedback_report"
         | "file"
         | "flint_wallet"
         | "flint_wallet_card"
@@ -2826,6 +2864,10 @@ export type ApiRequestLogsListParams = {
         | "invoice_manual_payment"
         | "invoice_payment_attempt"
         | "invoice_payment_term"
+        | "license_key"
+        | "license_key_activation"
+        | "license_key_pool"
+        | "license_key_pool_key"
         | "location"
         | "merchant"
         | "merchant_billing_balance"
@@ -2946,7 +2988,6 @@ export type ApiRequestLogsListParams = {
         | "dispute"
         | "email_change_request"
         | "environment_grant"
-        | "feedback_report"
         | "file"
         | "flint_wallet"
         | "flint_wallet_card"
@@ -2980,6 +3021,10 @@ export type ApiRequestLogsListParams = {
         | "invoice_manual_payment"
         | "invoice_payment_attempt"
         | "invoice_payment_term"
+        | "license_key"
+        | "license_key_activation"
+        | "license_key_pool"
+        | "license_key_pool_key"
         | "location"
         | "merchant"
         | "merchant_billing_balance"
@@ -3067,7 +3112,7 @@ export type ApiRequestLogsListParams = {
         | "workload_identity")[]>;
     /**
      * Filter by resource ID. pattern:
-     * ^((ad|afri|ba|bag|bal|bam|baoa|basa|bav|bepevt|betr|bses|btxn|bue|bun|bunc|bup|busrc|caddr|cagr|capsnap|catid|ccaevt|ccop|cdel|cdom|cecr|ch|clg|clla|cn|cna|cnart|cnlease|cnli|cnmut|cof|cpoc|cpop|cs|cscv|cses|cslimr|csrt|ctex|ctg|cus|cver|dca|dcb|dcbr|dcgrp|ddiag|defc|deff|demo|dev|dleg|dls|dlsr|dmet|dmetr|dms|dmsevt|dmslink|dmsopen|dopt|dp|dprof|dprofr|dqt|drate|drev|dreval|dsel|dsle|dti|du|dzone|dzoner|edat|edel|egrt|fbc|fbr|fev|file|fnt|frw|fsu|ful|fw|fwad|fwcmd|fwcon|fwph|fwpm|fwss|gc|gcg|gcl|gcn|gcpra|gcr|gct|gfd|hat|hce|hcr|hev|hin|hlk|hnt|hrp|hsl|hsr|hth|hwm|iacr|iaevt|iksevt|iksop|img|indel|inevt|inlf|inv|inv_cmd|invadj|invapp|invart|invc|invcln|invi|invl|invlease|invli|invm|invp|invpa|invpay|invpv|invr|invrea|invrec|invrecln|invrln|invse|invt|invtr|invtrln|iomevt|ipt|ivat|key|li|loc|mac|mace|mbbal|mbclaim|mbe|mbin|mbout|mca|mcdchg|mcdsub|mcfr|mcr|mcra|mcrecon|mcrve|menv|mer|mfa|mfce|mg|mod|mpafc|mpagr|mpfa|mpfc|mre|mrecv|mrp|ms|msa|msg|msinv|msinvl|mso|msu|mtac|ntc|ntf|oacr|oact|oalk|och|ocra|oed|olim|olimas|olra|omp|opahold|opaleg|opaobs|opaop|opard|oparp|opasd|opasgen|opasm|opasp|opat|opaum|opcred|opra|oprhold|opsa|opt|optv|ord|ordisp|org|orp|orr|otpial|otra|ovst|pac|pacr|pact|paog|papp|pasg|pat|patok|pava|pavc|pcae|pcal|pcb|pcfg|pchkr|pcode|pcri|pcrr|pcsch|pdest|peat|pendact|pfbal|pfbt|pfee|pfhi|pfhold|pfi|pfinc|pfloss|pflrec|pfpo|pfr|pfrb|pfrf|pfs|phold|pi|pia|pilm|pinst|piop|pipf|pkg|pki|pl|plan|plcf|ple|plli|plog|pm|pmcr|pmdom|po|poe|polog|ppac|ppd|pppa|pppr|ppta|pra|pref|prl|prlp|prod|promo|prrc|prt|prtn|psact|pses|pset|psetop|psinc|psplit|psrev|psu|pvimg|pvlaunch|pvscn|pvses|pvshare|pvw|ra|rbuy|rcs|rdl|rdr|rdrcfg|rdrpres|recon|ref|rep|ret|retact|retadj|retcmd|retdsp|retfx|retinli|retins|retli|retrc|retrcli|retrepli|retres|retresli|retshli|rev|rl|rli|rlia|rliar|rlima|rlog|rpoe|rpol|rpolv|rprev|rra|rrq|rrsn|rta|rtba|rule|sdmig|sdts|sdtu|set|sfba|sfpd|shp|sli|smf|soffer|spc|spcc|spli|spol|sppd|spr|ssu|sub|tac|tcae|tcb|tcbr|tce|tclk|tcn|test|tip|tkt|trg|txb|usr|var|watt|wdel|whcl|whep|whev|whout|whrc|wid|ws)_[0-9A-HJKMNP-TV-Z]{26}|fwa_[A-Z2-7]+|fwc_[A-Z2-7]+|fwin_[0-9a-f]+|req_([0-9a-f]+|caller_supplied_rate|pickup_distance_loc_[0-9A-HJKMNP-TV-Z]{26}))$.
+     * ^((ad|afri|ba|bag|bal|bam|baoa|basa|bav|bepevt|betr|bses|btxn|bue|bun|bunc|bup|busrc|caddr|cagr|capsnap|catid|ccaevt|ccop|cdel|cdom|cecr|ch|clg|clla|cn|cna|cnart|cnlease|cnli|cnmut|cof|cpoc|cpop|cs|cscv|cses|cslimr|csrt|ctex|ctg|cus|cver|dca|dcb|dcbr|dcgrp|ddiag|defc|deff|demo|dev|dleg|dls|dlsr|dmet|dmetr|dms|dmsevt|dmslink|dmsopen|dopt|dp|dprof|dprofr|dqt|drate|drev|dreval|dsel|dsle|dti|du|dzone|dzoner|edat|edel|egrt|fbc|fbr|fev|file|fnt|frw|fsu|ful|fw|fwad|fwcmd|fwcon|fwph|fwpm|fwss|gc|gcg|gcl|gcn|gcpra|gcr|gct|gfd|hat|hce|hcr|hev|hin|hlk|hnt|hrp|hsl|hsr|hth|hwm|iacr|iaevt|iksevt|iksop|img|indel|inevt|inlf|inv|inv_cmd|invadj|invapp|invart|invc|invcln|invi|invl|invlease|invli|invm|invp|invpa|invpay|invpv|invr|invrea|invrec|invrecln|invrln|invse|invt|invtr|invtrln|iomevt|ipt|ivat|key|li|lk|lka|lkp|lkpa|lkpk|lkr|loc|mac|mace|mbbal|mbclaim|mbe|mbin|mbout|mca|mcdchg|mcdsub|mcfr|mcr|mcra|mcrecon|mcrve|menv|mer|mfa|mfce|mg|mod|mpafc|mpagr|mpfa|mpfc|mre|mrecv|mrp|ms|msa|msg|msinv|msinvl|mso|msu|mtac|ntc|ntf|oacr|oact|oalk|och|ocra|oed|olim|olimas|olra|omp|opahold|opaleg|opaobs|opaop|opard|oparp|opasd|opasgen|opasm|opasp|opat|opaum|opcred|opra|oprhold|opsa|opt|optv|ord|ordisp|org|orp|orr|otpial|otra|ovst|pac|pacr|pact|paog|papp|pasg|pat|patok|pava|pavc|pcae|pcal|pcb|pcfg|pchkr|pcode|pcri|pcrr|pcsch|pdest|peat|pendact|pfbal|pfbt|pfee|pfhi|pfhold|pfi|pfinc|pfloss|pflrec|pfpo|pfr|pfrb|pfrf|pfs|phold|pi|pia|pilm|pinst|piop|pipf|pkg|pki|pl|plan|plcf|ple|plli|plog|pm|pmcr|pmdom|po|poe|polog|ppac|ppd|pppa|pppr|ppta|pra|pref|prl|prlp|prod|promo|prrc|prt|prtn|psact|pses|pset|psetop|psinc|psplit|psrev|psu|pvimg|pvlaunch|pvscn|pvses|pvshare|pvw|ra|rbuy|rcaa|rcs|rdl|rdr|rdrcfg|rdrpres|recon|ref|rep|ret|retact|retadj|retcmd|retdsp|retfx|retinli|retins|retli|retrc|retrcli|retrepli|retres|retresli|retshli|rev|rl|rli|rlia|rliar|rlima|rlog|rpoe|rpol|rpolv|rprev|rra|rrq|rrsn|rta|rtba|rule|sdmig|sdts|sdtu|set|sfba|sfpd|shp|sli|smf|soffer|spc|spcc|spli|spol|sppd|spr|ssu|sub|tac|tae|tcae|tcb|tcbr|tce|tclk|tcn|test|tip|tkt|trg|txb|usr|var|watt|wdel|whcl|whep|whev|whout|whrc|wid|ws)_[0-9A-HJKMNP-TV-Z]{26}|fwa_[A-Z2-7]+|fwc_[A-Z2-7]+|fwin_[0-9a-f]+|req_([0-9a-f]+|caller_supplied_rate|pickup_distance_loc_[0-9A-HJKMNP-TV-Z]{26}))$.
      * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      */
     "resource_id"?: InputValue<string>;

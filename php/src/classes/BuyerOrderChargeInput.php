@@ -12,6 +12,7 @@ namespace Flint;
  * @property-read string $order_charge_id
  * @property-read string $order_id
  * @property-read int|float $percent
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $refundable_money
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $refunded_money
  * @property-read OrderCalculatedChargeTaxInput|array<array-key, mixed>|\stdClass $tax
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $tax_money
@@ -20,7 +21,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $updated_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerOrderChargeInput extends Model {
-    /** @param array{'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'applied_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'calculation_basis'?: string, 'created_at': string|\DateTimeInterface, 'description'?: string, 'fulfillment_id'?: string, 'name': string, 'order_charge_id': string, 'order_id': string, 'percent'?: int|float, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'tax'?: OrderCalculatedChargeTaxInput|array<array-key, mixed>|\stdClass, 'tax_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'type': string, 'updated_at': string|\DateTimeInterface, ...}|object $values */
+    /** @param array{'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'applied_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'calculation_basis'?: string, 'created_at': string|\DateTimeInterface, 'description'?: string, 'fulfillment_id'?: string, 'name': string, 'order_charge_id': string, 'order_id': string, 'percent'?: int|float, 'refundable_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'tax'?: OrderCalculatedChargeTaxInput|array<array-key, mixed>|\stdClass, 'tax_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'type': string, 'updated_at': string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerOrderChargeInput')); }
     /** Fixed charge amount before charge discounts and tax. Percentage charges use percent instead. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
@@ -82,6 +83,12 @@ final class BuyerOrderChargeInput extends Model {
      */
     public function getPercent(): int|float { return $this->get('percent'); }
     public function hasPercent(): bool { return $this->has('percent'); }
+    /** Remaining amount for an ID-only charge refund target. Accounts for original-tender capacity, reversals, accepted refunds, and whole-value edit reservations, including credit transferred to added lines and pending or retryable failed edit refunds. Zero when exhausted. Refund eligibility is checked again on submission. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When refundable_money is omitted; use hasRefundableMoney() or valueOrDefault().
+     */
+    public function getRefundableMoney(): mixed { return $this->get('refundable_money'); }
+    public function hasRefundableMoney(): bool { return $this->has('refundable_money'); }
     /** Charge amount already refunded. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When refunded_money is omitted; use hasRefundedMoney() or valueOrDefault().

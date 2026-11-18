@@ -11,7 +11,9 @@ Money returned against a collected payment.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `amount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Total refunded across all tenders, including `refunded_tip_money`. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `amount_money`: [field definitions](../models/BuyerRefund.md#buyerrefundamount_money). |
+| `charge_allocations` | Optional | Array of [RefundChargeAllocation](../models/RefundChargeAllocation.md#refundchargeallocation) | Money returned for each order charge, including subtotal, discount, and tax, combined across payment refunds. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `credit_adjustment_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Money paid for Return resolution credits, included in amount_money. It carries no merchandise, shipping, tax, or tip allocation. Zero for refunds without credits. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `credit_adjustment_money`: [field definitions](../models/BuyerRefund.md#buyerrefundcredit_adjustment_money). |
 | `credit_note_id` | Optional | string | ID of the credit note this refund paid out. Present only on refunds issued through a credit note. Example: `"cn_01KEZF7C00N1TRRCVDNY8S471H"`. |
 | `customer` | Optional | ([ExpandedCustomerSummary](../models/ExpandedCustomerSummary.md#expandedcustomersummary) or null) | Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. |
 | `customer_id` | Optional | string | ID of the customer on the refunded order or payment. Absent when neither has one. Example: `"cus_01KEZF7C006X9JK6NZNA2SM9XD"`. |
@@ -53,6 +55,10 @@ Money returned against a collected payment.
 ### RefundWithGiftCardCodes.amount_money
 
 Field definitions: [BuyerRefund.amount_money](../models/BuyerRefund.md#buyerrefundamount_money).
+
+### RefundWithGiftCardCodes.credit_adjustment_money
+
+Field definitions: [BuyerRefund.credit_adjustment_money](../models/BuyerRefund.md#buyerrefundcredit_adjustment_money).
 
 ### RefundWithGiftCardCodes.metadata
 

@@ -1,16 +1,16 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
+import type { Payout } from '../declarations/types-54.js';
 import type {
-    Payout,
     PayoutListResponse,
     PayoutResponse,
     PayoutsCancelParams,
     PayoutsCreateParams,
     PayoutsGetParams,
     PayoutsListParams
-} from '../declarations/types-53.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-55.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -27,36 +27,38 @@ export type {
 } from '../runtime.js';
 export type {
     PayoutsCancelParams,
-    Payout,
     PayoutResponse,
     PayoutsCreateParams,
     PayoutsGetParams,
     PayoutsListParams,
     PayoutListResponse,
     PayoutTraceID
-} from '../declarations/types-53.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-55.js';
+export type { RequestOptions } from '../declarations/types-61.js';
+export type { Payout } from '../declarations/types-54.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CancelPayoutRequestInput } from '../declarations/types-5.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { MoneyValue, NextAction, MoneyValueInput, MoneyMovementListMeta, MoneyMovementHistoryMeta } from '../declarations/types-42.js';
-export type { MetadataMap, MetadataRequestInput } from '../declarations/types-41.js';
+export type { MoneyValue, NextAction, MoneyValueInput, MoneyMovementListMeta, MoneyMovementHistoryMeta } from '../declarations/types-44.js';
+export type { MetadataMap, MetadataRequestInput } from '../declarations/types-43.js';
 export type { ExpandedPayoutSummary, ExpandedPayoutDestinationSummary } from '../declarations/types-26.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { CreatePayoutRequestInput } from '../declarations/types-12.js';
-export { makeCancelPayoutRequest } from '../declarations/types-78.js';
-export { makeCreatePayoutRequest } from '../declarations/types-81.js';
-export { makeMetadataRequest } from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
+export { makeCancelPayoutRequest } from '../declarations/types-80.js';
+export { makeCreatePayoutRequest } from '../declarations/types-83.js';
+export { makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
 export interface PayoutsResource {
     /**
  * Cancels an eligible payout before it leaves Flint-controlled processing and returns the
  * resulting payout.
  *
  * `POST /v1/payouts/{payout_id}/cancel`
- * @param payout_id Flint payout ID.
+ * @param payout_id Flint payout ID. Must be a valid ID with prefix po_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/money-movement#cancelPayout
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -84,7 +86,9 @@ export interface PayoutsResource {
  * Returns one payout by ID, with optional related payout and payout destination expansions.
  *
  * `GET /v1/payouts/{payout_id}`
- * @param payout_id Flint payout ID.
+ * @param payout_id Flint payout ID. Must be a valid ID with prefix po_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/money-movement#getPayout
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

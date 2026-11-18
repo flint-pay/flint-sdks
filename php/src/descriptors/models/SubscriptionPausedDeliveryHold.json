@@ -1,0 +1,1 @@
+{"shared":"SubscriptionPausedDeliveryHold","phpRepresentation":{"kind":"record","fields":{"reason":{"kind":"value","type":"string"}}},"dependencies":["SubscriptionPausedDeliveryHold"]}

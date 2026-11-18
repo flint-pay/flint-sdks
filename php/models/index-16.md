@@ -1,7 +1,19 @@
 [Model index](../MODELS.md)
 
-# InventoryTransferListResponseInput to InvoicePaymentAttemptListResponseInput
+# InventoryTransferInput to InvoicePaidMerchantEventInput
 
+- [InventoryTransferInput](InventoryTransferInput.md)
+- [InventoryTransferActionConflictErrorDetailInput](InventoryTransferActionConflictErrorDetailInput.md)
+- [InventoryTransferActionConflictErrorEnvelopeInput](InventoryTransferActionConflictErrorEnvelopeInput.md)
+- [InventoryTransferActionConflictErrorObjectInput](InventoryTransferActionConflictErrorObjectInput.md)
+- [InventoryTransferClosedInstalledMerchantsEventInput](InventoryTransferClosedInstalledMerchantsEventInput.md)
+- [InventoryTransferClosedMerchantEventInput](InventoryTransferClosedMerchantEventInput.md)
+- [InventoryTransferConflictErrorEnvelopeInput](InventoryTransferConflictErrorEnvelopeInput.md)
+- [InventoryTransferDepartedInstalledMerchantsEventInput](InventoryTransferDepartedInstalledMerchantsEventInput.md)
+- [InventoryTransferDepartedMerchantEventInput](InventoryTransferDepartedMerchantEventInput.md)
+- [InventoryTransferLineInput](InventoryTransferLineInput.md)
+- [InventoryTransferLinePreviousAttributesInput](InventoryTransferLinePreviousAttributesInput.md)
+- [InventoryTransferLineRequestInput](InventoryTransferLineRequestInput.md)
 - [InventoryTransferListResponseInput](InventoryTransferListResponseInput.md)
 - [InventoryTransferLostInstalledMerchantsEventInput](InventoryTransferLostInstalledMerchantsEventInput.md)
 - [InventoryTransferLostMerchantEventInput](InventoryTransferLostMerchantEventInput.md)
@@ -90,16 +102,4 @@
 - [InvoiceOverdueMerchantEventInput](InvoiceOverdueMerchantEventInput.md)
 - [InvoicePaidInstalledMerchantsEventInput](InvoicePaidInstalledMerchantsEventInput.md)
 - [InvoicePaidMerchantEventInput](InvoicePaidMerchantEventInput.md)
-- [InvoicePartiallyPaidInstalledMerchantsEventInput](InvoicePartiallyPaidInstalledMerchantsEventInput.md)
-- [InvoicePartiallyPaidMerchantEventInput](InvoicePartiallyPaidMerchantEventInput.md)
-- [InvoicePartiallyRefundedInstalledMerchantsEventInput](InvoicePartiallyRefundedInstalledMerchantsEventInput.md)
-- [InvoicePartiallyRefundedMerchantEventInput](InvoicePartiallyRefundedMerchantEventInput.md)
-- [InvoicePaymentAttemptInput](InvoicePaymentAttemptInput.md)
-- [InvoicePaymentAttemptCanceledInstalledMerchantsEventInput](InvoicePaymentAttemptCanceledInstalledMerchantsEventInput.md)
-- [InvoicePaymentAttemptCanceledMerchantEventInput](InvoicePaymentAttemptCanceledMerchantEventInput.md)
-- [InvoicePaymentAttemptExpiredInstalledMerchantsEventInput](InvoicePaymentAttemptExpiredInstalledMerchantsEventInput.md)
-- [InvoicePaymentAttemptExpiredMerchantEventInput](InvoicePaymentAttemptExpiredMerchantEventInput.md)
-- [InvoicePaymentAttemptFailedInstalledMerchantsEventInput](InvoicePaymentAttemptFailedInstalledMerchantsEventInput.md)
-- [InvoicePaymentAttemptFailedMerchantEventInput](InvoicePaymentAttemptFailedMerchantEventInput.md)
-- [InvoicePaymentAttemptListResponseInput](InvoicePaymentAttemptListResponseInput.md)
 

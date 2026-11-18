@@ -4,7 +4,7 @@ namespace Flint;
 final class CustomerVerificationsResource {
     public function __construct(private readonly Runtime $runtime) {}
     /** Confirms the Flint-sent code and returns a verification that can link guest purchases for its customer. A confirmed verification expires in 15 minutes and can be redeemed once.
-     * @param string|Model $customer_verification_id Flint customer verification ID.
+     * @param string|Model $customer_verification_id Flint customer verification ID. Must be a valid ID with prefix cver_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND.
      * @param CustomerVerificationsConfirmParams|array<array-key, mixed>|Model $params Flat body fields and query/header parameters; path arguments follow URL order.
      * @return CustomerVerification
      */
@@ -15,7 +15,7 @@ final class CustomerVerificationsResource {
      */
     public function create(array|Model $params, ?RequestOptions $options = null): CustomerVerification { $input = []; $params = $params instanceof Model ? $params->toInputArray() : $params; $rest = $params ?? []; if ($rest && array_is_list($rest)) throw SdkError::create('validation', 'body must be an object', 'not_sent', errorCode: 'INVALID_REQUEST', details: [['code' => 'INVALID_VALUE', 'param' => 'body']]); foreach (array_keys($rest) as $name) { foreach (['Idempotency-Key', 'Flint-Version', 'X-Request-Id'] as $header) { if (strtolower((string)$name) === strtolower($header)) throw SdkError::create('validation', $header . " can't be sent: supply this header through request options", errorCode: 'INVALID_REQUEST', details: [['code' => 'NOT_ALLOWED', 'param' => $header]]); } } if (true) $input['body'] = (object) $rest; return Runtime::responsePayload($this->runtime->request('createCustomerVerification', $input, $options), ['data']); }
     /** Returns one customer verification in any status. Status and supported_actions are computed when read. Flint deletes a verification 8 days after its code and proof expire; customer deletion also removes it.
-     * @param string|Model $customer_verification_id Flint customer verification ID.
+     * @param string|Model $customer_verification_id Flint customer verification ID. Must be a valid ID with prefix cver_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND.
      * @param CustomerVerificationsGetParams|array<array-key, mixed>|Model|null $params Flat body fields and query/header parameters; path arguments follow URL order.
      * @return CustomerVerification
      */

@@ -23,7 +23,7 @@ Body model: [CreateWebhookEndpointRequestInput](../models/CreateWebhookEndpointR
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `api_version` | Optional | string | Set default to follow the merchant default, or a supported YYYY-MM-DD version to pin this endpoint. Omission pins the API version this create request is served at (Flint-Version, or the merchant default when the header is absent). Null is not accepted. minLength: `1`. |
-| `description` | Optional | string | Your description of this endpoint. `null` is the same as omitting the field. minLength: `1`. |
+| `description` | Optional | string | Your description of this endpoint. `null` is the same as omitting the field. minLength: `1`. maxLength: `500`. |
 | `enabled_events` | Required | Array of string | Event types to deliver. Send ["*"] for every type the endpoint's event_sources deliver, including types added later; * must be the only entry and is not available with installed_merchants. At least one entry is required. Use only current event type names; previous and removed names are rejected. Stored subscriptions map previous names permanently and drop removed names on read. See the changelog. minItems: `1`. Items: minLength: `1`. |
 | `event_sources` | Optional | Array of string | Event sources this endpoint receives. Defaults to merchant. Use partner_app for app lifecycle events and installed_merchants for events from merchants that installed the partner app. Items values: `"merchant"`, `"partner_app"`, `"installed_merchants"`. |
 | `installed_merchant_modes` | Optional | Array of string | Modes of installed-merchant events this endpoint receives. Required when event_sources includes installed_merchants and omitted otherwise. Partner app lifecycle events are delivered regardless of these modes. minItems: `1`. maxItems: `2`. uniqueItems: `true`. Items values: `"test"`, `"live"`. |
@@ -31,7 +31,7 @@ Body model: [CreateWebhookEndpointRequestInput](../models/CreateWebhookEndpointR
 | `partner_app_install_id` | Optional | string | Links this endpoint to a connected app's install. Revoking the install, or its grant for this endpoint's environment, deletes the endpoint. The install must be active and authorized for this environment. Set only at creation; it never changes. Omit for an endpoint not tied to an app. Endpoints created by a linked key are linked to the same install. At most 25 endpoints may link to one install in each environment. minLength: `1`. pattern: `^pinst_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `signing_methods` | Optional | Array of [WebhookSigningMethodInput](../models/WebhookSigningMethodInput.md#webhooksigningmethodinput) | Methods Flint uses to sign deliveries. Defaults to jwt. Including hmac issues a shared secret returned once. minItems: `1`. uniqueItems: `true`. Default: `["jwt"]`. Items values: `"jwt"`, `"hmac"`. |
 | `status` | Optional | string | Whether this endpoint receives events. Defaults to active. Values: `"active"`, `"inactive"`. |
-| `url` | Required | string | Public HTTPS URL to receive webhook deliveries. minLength: `1`. |
+| `url` | Required | string | Public HTTPS URL to receive webhook deliveries. minLength: `1`. maxLength: `2048`. |
 
 #### Response
 
@@ -98,7 +98,7 @@ Signature: `createTestEvent(string|Model $webhook_endpoint_id, array|Model $para
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `webhook_endpoint_id` | Required | string | Flint webhook endpoint ID. |
+| `webhook_endpoint_id` | Required | string | Flint webhook endpoint ID. Must be a valid ID with prefix whep_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Required | [CreateWebhookTestEventRequestInput](../models/CreateWebhookTestEventRequestInput.md#createwebhooktesteventrequestinput) | The request body for: Create webhook test event. |
 
 Body model: [CreateWebhookTestEventRequestInput](../models/CreateWebhookTestEventRequestInput.md#createwebhooktesteventrequestinput).
@@ -107,7 +107,7 @@ Body model: [CreateWebhookTestEventRequestInput](../models/CreateWebhookTestEven
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `event_type` | Required | string | Current event type to send. merchant delivers merchant events; partner_app delivers partner lifecycle events; installed_merchants delivers merchant events permitted by the install read scopes. The event catalog lists event_sources for each type. Values: [294 declared values](../models/CreateWebhookTestEventRequestInput.md#createwebhooktesteventrequestinput-event_type-values). |
+| `event_type` | Required | string | Current event type to send. merchant delivers merchant events; partner_app delivers partner lifecycle events; installed_merchants delivers merchant events permitted by the install read scopes. The event catalog lists event_sources for each type. Values: [305 declared values](../models/CreateWebhookTestEventRequestInput.md#createwebhooktesteventrequestinput-event_type-values). |
 
 #### Response
 
@@ -166,7 +166,7 @@ Signature: `delete(string|Model $webhook_endpoint_id, array|Model|null $params =
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `webhook_endpoint_id` | Required | string | Flint webhook endpoint ID. |
+| `webhook_endpoint_id` | Required | string | Flint webhook endpoint ID. Must be a valid ID with prefix whep_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `expected_version` | Optional | integer | Optional configuration version last read by the caller. Format: `uint64`. minimum: `1`. maximum: `9007199254740991`. |
 
 #### Response
@@ -221,7 +221,7 @@ Signature: `get(string|Model $webhook_endpoint_id, array|Model|null $params = nu
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `webhook_endpoint_id` | Required | string | Flint webhook endpoint ID. |
+| `webhook_endpoint_id` | Required | string | Flint webhook endpoint ID. Must be a valid ID with prefix whep_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -332,7 +332,7 @@ Signature: `rotateSecret(string|Model $webhook_endpoint_id, array|Model|null $pa
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `webhook_endpoint_id` | Required | string | Flint webhook endpoint ID. |
+| `webhook_endpoint_id` | Required | string | Flint webhook endpoint ID. Must be a valid ID with prefix whep_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Optional | [RotateWebhookSecretRequestInput](../models/RotateWebhookSecretRequestInput.md#rotatewebhooksecretrequestinput) | The request body for: Rotate webhook secret. |
 
 Body model: [RotateWebhookSecretRequestInput](../models/RotateWebhookSecretRequestInput.md#rotatewebhooksecretrequestinput).
@@ -398,7 +398,7 @@ Signature: `signDelivery(string|Model $webhook_endpoint_id, array|Model $params,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `webhook_endpoint_id` | Required | string | The caller's own merchant event-delivery endpoint in the selected sandbox. |
+| `webhook_endpoint_id` | Required | string | The caller's own merchant event-delivery endpoint in the selected sandbox. Must be a valid ID with prefix whep_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Required | [SignWebhookEndpointDeliveryRequestInput](../models/SignWebhookEndpointDeliveryRequestInput.md#signwebhookendpointdeliveryrequestinput) | The request body for: Sign a sandbox webhook delivery. |
 
 Body model: [SignWebhookEndpointDeliveryRequestInput](../models/SignWebhookEndpointDeliveryRequestInput.md#signwebhookendpointdeliveryrequestinput).
@@ -461,7 +461,7 @@ Signature: `update(string|Model $webhook_endpoint_id, array|Model $params, ?Requ
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `webhook_endpoint_id` | Required | string | Flint webhook endpoint ID. |
+| `webhook_endpoint_id` | Required | string | Flint webhook endpoint ID. Must be a valid ID with prefix whep_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Required | [UpdateWebhookEndpointRequestInput](../models/UpdateWebhookEndpointRequestInput.md#updatewebhookendpointrequestinput) | The request body for: Update webhook endpoint. minProperties: `1`. |
 
 Body model: [UpdateWebhookEndpointRequestInput](../models/UpdateWebhookEndpointRequestInput.md#updatewebhookendpointrequestinput).
@@ -480,7 +480,7 @@ Body model: [UpdateWebhookEndpointRequestInput](../models/UpdateWebhookEndpointR
 | `partner_app_id` | Optional | string | Partner app that owns partner_app or installed_merchants event sources. minLength: `1`. |
 | `signing_methods` | Optional | Array of [WebhookSigningMethodInput](../models/WebhookSigningMethodInput.md#webhooksigningmethodinput) | Replaces the signing methods. Removing hmac deletes all shared secrets. Adding hmac when no secret exists issues the first secret and returns it once in this response. Omit to leave unchanged. minItems: `1`. uniqueItems: `true`. Items values: `"jwt"`, `"hmac"`. |
 | `status` | Optional | string | Whether this endpoint receives events. Setting inactive suppresses pending deliveries. Omit to leave unchanged. Values: `"active"`, `"inactive"`. |
-| `url` | Optional | string | Public HTTPS URL to receive webhook deliveries. Omit to leave unchanged. minLength: `1`. |
+| `url` | Optional | string | Public HTTPS URL to receive webhook deliveries. Omit to leave unchanged. minLength: `1`. maxLength: `2048`. |
 
 #### Response
 

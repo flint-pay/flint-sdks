@@ -8,7 +8,7 @@ namespace Flint;
 final class CheckoutBuyerContactRequestInput extends Model {
     /** @param array{'email'?: string|null, 'phone'?: string|null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutBuyerContactRequestInput')); }
-    /** Email for the buyer, such as buyer@example.com. On checkout session updates, null clears the saved email. Format: email. minLength: 1. maxLength: 255. Example: "buyer@example.com".
+    /** Email for the buyer, such as buyer@example.com. On checkout session updates, null clears the saved email. The local part before @ must be at most 64 octets (UTF-8 bytes). Format: email. minLength: 1. maxLength: 255. Example: "buyer@example.com".
      * @return string|null
      * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
      */

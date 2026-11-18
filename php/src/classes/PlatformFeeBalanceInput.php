@@ -16,7 +16,7 @@ namespace Flint;
 final class PlatformFeeBalanceInput extends Model {
     /** @param array{'available_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'currency': string, 'next_payout_at'?: string|\DateTimeInterface, 'partner_app_id': string, 'payouts_disabled_reason'?: string, 'payouts_enabled': bool, 'pending_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'platform_fee_balance_id': string, 'reserve_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'updated_at': string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PlatformFeeBalanceInput')); }
-    /** Fees Flint holds as available funds, net of the reserve. It can be negative: a fee returned after payout is owed back from your next fees. available_money plus pending_money equals the sum of amount_money over the app's balance transactions in this currency. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Fees Flint holds as available funds, net of the reserve. It can be negative after a refund when the fee was paid out or its reserve was spent covering losses. Your next fees repay it. available_money plus pending_money equals the sum of amount_money over the app's balance transactions in this currency. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When available_money is omitted; use hasAvailableMoney() or valueOrDefault().
      */

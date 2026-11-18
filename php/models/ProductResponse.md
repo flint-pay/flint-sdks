@@ -28,7 +28,7 @@ The requested product data. An item offered in the merchant's catalog.
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. Example: `"warehouse-1842"`. |
 | `images` | Required | Array of [ImageAttachment](../models/ImageAttachment.md#imageattachment) | Images attached to this resource, in display order. The first image is primary. `images[]`: [field definitions](../models/BundleResponse.md#bundleresponsedataimages). |
 | `is_available_for_sale` | Optional | boolean | Whether the product is active and has at least one active variant. |
-| `matched_variant` | Optional | [ProductVariantMatch](../models/ProductVariantMatch.md#productvariantmatch) | On product list rows, the first non-archived variant by position, then variant_id, that matches all exact variant filters. Without exact variant filters, identifies the first variant whose SKU matches query. Omitted when no variant matches; a product name or description match alone does not set it. Page the product's variants to find all matches. A single variant witness on product list rows only. With exact variant filters, the first variant by position, then variant_id, satisfying every exact predicate. Otherwise, the first variant in that order whose SKU matches query. Use the paginated nested variant list to enumerate every match. `matched_variant`: [field definitions](../models/ProductResponse.md#productresponsedatamatched_variant). |
+| `matched_variant` | Optional | [ProductVariantMatch](../models/ProductVariantMatch.md#productvariantmatch) | On product list rows, the first non-archived variant by position, then variant_id, that matches all exact variant filters. Without exact variant filters, identifies the first variant whose SKU or barcode matches query. Omitted when no variant matches; a product name or description match alone does not set it. Page the product's variants to find all matches. A single variant witness on product list rows only. With exact variant filters, the first variant by position, then variant_id, satisfying every exact predicate. Otherwise, the first variant in that order whose SKU matches query. Use the paginated nested variant list to enumerate every match. `matched_variant`: [field definitions](../models/ProductResponse.md#productresponsedatamatched_variant). |
 | `merchant_id` | Optional | string | Identifier of the merchant that owns this resource. Example: `"mer_01KEZF7C00KPYH1DDFPCCX3B6E"`. |
 | `metadata` | Optional | Map of string | Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/BundleResponse.md#bundleresponsedatametadata). |
 | `modifier_set` | Optional | [ModifierSet](../models/ModifierSet.md#modifierset) or null | Attached modifier set, included when expand=modifier_set is requested. Requires commerce.catalog.read in addition to the resource's read scope. Present only when `expand` includes `modifier_set`; `null` when expanded and there is no related modifier set. `modifier_set`: [declared alternatives](../models/BundleResponse.md#bundleresponsedatamodifier_set). |
@@ -56,6 +56,7 @@ The product's default variant, when one is set. A specific purchasable version o
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `barcode` | Optional | string | Barcode assigned to this sellable item. |
+| `compare_at_price_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Reference unit price for sale display, in the same currency and strictly greater than unit_price_money. Null when no compare-at price is set. Does not affect charges or quantity price breaks. |
 | `created_at` | Optional | string | When this resource was created, as an RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `delivery_configuration_reason` | Optional | string | Reason the variant's delivery configuration needs attention. Values: `"delivery_profile_missing"`, `"delivery_profile_inactive"`. |
 | `delivery_configuration_status` | Required | string | Whether the variant's delivery configuration is ready, needs attention, or does not apply. Values: `"configured"`, `"action_required"`, `"not_applicable"`. |
@@ -69,6 +70,7 @@ The product's default variant, when one is set. A specific purchasable version o
 | `inventory_tracking` | Required | string | Whether sales of this variant consume an inventory item. Values: `"not_tracked"`, `"tracked"`. |
 | `is_available_for_sale` | Required | boolean | Whether the variant and its product are both active. Stock isn't considered; `inventory_availability` reports it on reads. |
 | `is_inheriting_product_images` | Required | boolean | Whether effective_images comes from the product's gallery because this variant's gallery is empty. |
+| `license_key_configuration` | Required | object and Alternative shapes (see declared variants) or null | License key terms. Null when the variant has no license key setting. Replaced as a whole: send every field you want to keep. Only product_type digital supports this setting. It adds no delivery requirement and is independent of the delivery profile. Send null to remove every value you set in this section. Omission preserves it on update. `license_key_configuration`: [declared alternatives](../models/ProductResponse.md#productresponsedatadefault_variantlicense_key_configuration). |
 | `line_item_tax_category` | Optional | string | Stored Flint line-item tax category. New digital-product variants default to digital_goods when omitted. The stored value remains editable. Unset uses the merchant default. Values: [12 declared values](#productresponsedatadefault_variant-line_item_tax_category-values). |
 | `merchant_id` | Optional | string | Identifier of the merchant that owns this resource. Example: `"mer_01KEZF7C00KPYH1DDFPCCX3B6E"`. |
 | `metadata` | Optional | Map of string | Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/BundleResponse.md#bundleresponsedatametadata). |
@@ -148,6 +150,42 @@ anyOf variant 2.
 - Undeclared: `inventory_allocation_policy_id`, `inventory_allocation_policy_revision_id`, `location_id`, `type`.
 - Value shape: null. The routing source evaluated: the merchant's default, with `inventory_allocation_policy_revision_id` set to the revision current at the read when it is a policy. `null` when nothing was evaluated, because `status` is `not_tracked` or no default is set. 
 
+### ProductResponse.data.default_variant.license_key_configuration
+
+License key terms. Null when the variant has no license key setting. Replaced as a whole: send every field you want to keep. Only product_type digital supports this setting. It adds no delivery requirement and is independent of the delivery profile. Send null to remove every value you set in this section. Omission preserves it on update.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `activation_limit` | Conditional | integer or null | Maximum active devices per key. Null when activations are unlimited. Format: `int32`. minimum: `1`. maximum: `10000`. |
+| `email_delivery_enabled` | Conditional | boolean | Whether Flint emails keys to the buyer. Defaults to true. Default: `true`. |
+| `key_prefix` | Conditional | string or null | Prefix shown before each generated key. Null when no prefix is configured. minLength: `2`. maxLength: `8`. pattern: `^[A-Z0-9]{2,8}$`. |
+| `license_key_pool_id` | Conditional | string | Active pool in this merchant and environment. Required when source is pool. pattern: `^lkp_[0-9A-HJKMNP-TV-Z]{26}$`. Example: `"lkp_01KEZF7C00AQV1X2DPWG2NXS7H"`. |
+| `source` | Conditional | string | Source of the license keys. Values: `"generated"`, `"pool"`. |
+| `validity_period_days` | Conditional | integer or null | Days from issuance until expiry. Null when keys do not expire. Format: `int32`. minimum: `1`. maximum: `36500`. |
+
+### ProductResponse.data.default_variant.license_key_configuration variant 1: `source` = `"generated"`
+
+anyOf LicenseKeyConfiguration: License key terms. Null limits mean unlimited activations or no expiry. A null generated key prefix means no prefix.; oneOf with source: "generated": License key terms. Null limits mean unlimited activations or no expiry. A null generated key prefix means no prefix..
+
+- Required: `activation_limit`, `email_delivery_enabled`, `key_prefix`, `source`, `validity_period_days`.
+- Optional: `license_key_pool_id`.
+- Constraints for `source`: Values: `"generated"`.
+
+### ProductResponse.data.default_variant.license_key_configuration variant 2: `source` = `"pool"`
+
+anyOf LicenseKeyConfiguration: License key terms. Null limits mean unlimited activations or no expiry. A null generated key prefix means no prefix.; oneOf with source: "pool": License key terms. Null limits mean unlimited activations or no expiry. A null generated key prefix means no prefix..
+
+- Required: `activation_limit`, `email_delivery_enabled`, `license_key_pool_id`, `source`, `validity_period_days`.
+- Optional: `key_prefix`.
+- Constraints for `source`: Values: `"pool"`.
+
+### ProductResponse.data.default_variant.license_key_configuration variant 3
+
+anyOf variant 2.
+
+- Undeclared: `activation_limit`, `email_delivery_enabled`, `key_prefix`, `license_key_pool_id`, `source`, `validity_period_days`.
+- Value shape: null. License key terms. Null when the variant has no license key setting. Replaced as a whole: send every field you want to keep. Only product_type digital supports this setting. It adds no delivery requirement and is independent of the delivery profile. Send null to remove every value you set in this section. Omission preserves it on update. 
+
 ### ProductResponse.data.default_variant.metadata
 
 Field definitions: [BundleResponse.data.metadata](../models/BundleResponse.md#bundleresponsedatametadata).
@@ -190,7 +228,7 @@ Field definitions: [BundleResponse.data.images[]](../models/BundleResponse.md#bu
 
 ### ProductResponse.data.matched_variant
 
-On product list rows, the first non-archived variant by position, then variant_id, that matches all exact variant filters. Without exact variant filters, identifies the first variant whose SKU matches query. Omitted when no variant matches; a product name or description match alone does not set it. Page the product's variants to find all matches. A single variant witness on product list rows only. With exact variant filters, the first variant by position, then variant_id, satisfying every exact predicate. Otherwise, the first variant in that order whose SKU matches query. Use the paginated nested variant list to enumerate every match.
+On product list rows, the first non-archived variant by position, then variant_id, that matches all exact variant filters. Without exact variant filters, identifies the first variant whose SKU or barcode matches query. Omitted when no variant matches; a product name or description match alone does not set it. Page the product's variants to find all matches. A single variant witness on product list rows only. With exact variant filters, the first variant by position, then variant_id, satisfying every exact predicate. Otherwise, the first variant in that order whose SKU matches query. Use the paginated nested variant list to enumerate every match.
 
 Field definitions: [shared fields](ProductVariantMatchInput.md#productvariantmatchinput).
 
@@ -247,6 +285,7 @@ A specific purchasable version of a product.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `barcode` | Optional | string | Barcode assigned to this sellable item. |
+| `compare_at_price_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Reference unit price for sale display, in the same currency and strictly greater than unit_price_money. Null when no compare-at price is set. Does not affect charges or quantity price breaks. |
 | `created_at` | Optional | string | When this resource was created, as an RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `delivery_configuration_reason` | Optional | string | Reason the variant's delivery configuration needs attention. Values: `"delivery_profile_missing"`, `"delivery_profile_inactive"`. |
 | `delivery_configuration_status` | Required | string | Whether the variant's delivery configuration is ready, needs attention, or does not apply. Values: `"configured"`, `"action_required"`, `"not_applicable"`. |
@@ -260,6 +299,7 @@ A specific purchasable version of a product.
 | `inventory_tracking` | Required | string | Whether sales of this variant consume an inventory item. Values: `"not_tracked"`, `"tracked"`. |
 | `is_available_for_sale` | Required | boolean | Whether the variant and its product are both active. Stock isn't considered; `inventory_availability` reports it on reads. |
 | `is_inheriting_product_images` | Required | boolean | Whether effective_images comes from the product's gallery because this variant's gallery is empty. |
+| `license_key_configuration` | Required | object and Alternative shapes (see declared variants) or null | License key terms. Null when the variant has no license key setting. Replaced as a whole: send every field you want to keep. Only product_type digital supports this setting. It adds no delivery requirement and is independent of the delivery profile. Send null to remove every value you set in this section. Omission preserves it on update. `license_key_configuration`: [declared alternatives](../models/ProductResponse.md#productresponsedatadefault_variantlicense_key_configuration). |
 | `line_item_tax_category` | Optional | string | Stored Flint line-item tax category. New digital-product variants default to digital_goods when omitted. The stored value remains editable. Unset uses the merchant default. Values: [12 declared values](#productresponsedatavariants-line_item_tax_category-values). |
 | `merchant_id` | Optional | string | Identifier of the merchant that owns this resource. Example: `"mer_01KEZF7C00KPYH1DDFPCCX3B6E"`. |
 | `metadata` | Optional | Map of string | Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/BundleResponse.md#bundleresponsedatametadata). |
@@ -307,6 +347,10 @@ Field definitions: [BundleResponse.data.images[]](../models/BundleResponse.md#bu
 ### ProductResponse.data.variants[].inventory_availability
 
 Field definitions: [ProductResponse.data.default_variant.inventory_availability](../models/ProductResponse.md#productresponsedatadefault_variantinventory_availability).
+
+### ProductResponse.data.variants[].license_key_configuration
+
+Declared alternatives: [ProductResponse.data.default_variant.license_key_configuration](../models/ProductResponse.md#productresponsedatadefault_variantlicense_key_configuration).
 
 ### ProductResponse.data.variants[].metadata
 

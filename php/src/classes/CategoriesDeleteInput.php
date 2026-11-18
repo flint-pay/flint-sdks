@@ -10,7 +10,7 @@ namespace Flint;
 final class CategoriesDeleteInput extends Model {
     /** @param array{'category_id': string, 'expected_version'?: int, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CategoriesDeleteInput')); }
-    /** Flint category ID. Example: "ctg_01KEZF7C001T4WWBPVGWRZD88Q".
+    /** Flint category ID. Must be a valid ID with prefix ctg_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "ctg_01KEZF7C001T4WWBPVGWRZD88Q".
      * @return string
      * @throws SdkError When category_id is omitted; use hasCategoryId() or valueOrDefault().
      */

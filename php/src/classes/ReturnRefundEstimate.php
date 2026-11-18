@@ -5,12 +5,13 @@ namespace Flint;
  * @property-read MoneyValue $buyer_refund_amount_money
  * @property-read MoneyValue $buyer_store_credit_amount_money
  * @property-read MoneyValue $deduction_money
+ * @property-read MoneyValue $refund_shortfall_money
  * @property-read MoneyValue $returned_total_money
  * @property-read string $store_credit_destination
  * @property-read list<ReturnRefundEstimateTenderEstimatesItemPaymentIntent|ReturnRefundEstimateTenderEstimatesItemGiftCardRedemption|\stdClass> $tender_estimates
  * Presence-aware response; omitted optional fields return null. */
 final class ReturnRefundEstimate extends Model {
-    /** @param array{'buyer_refund_amount_money': mixed, 'buyer_store_credit_amount_money': mixed, 'deduction_money': mixed, 'returned_total_money': mixed, 'store_credit_destination': string, 'tender_estimates': list<mixed>, ...}|object $values */
+    /** @param array{'buyer_refund_amount_money': mixed, 'buyer_store_credit_amount_money': mixed, 'deduction_money': mixed, 'refund_shortfall_money': mixed, 'returned_total_money': mixed, 'store_credit_destination': string, 'tender_estimates': list<mixed>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnRefundEstimate')); }
     /** Returned total less policy deductions, floored at zero. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
@@ -27,6 +28,11 @@ final class ReturnRefundEstimate extends Model {
      */
     public function getDeductionMoney(): MoneyValue { return $this->get('deduction_money'); }
     public function hasDeductionMoney(): bool { return $this->has('deduction_money'); }
+    /** Selected refund and store credit value that the original payments cannot fund. Zero when fully payable. The merchandise entitlement is unchanged. Merchant only. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValue
+     */
+    public function getRefundShortfallMoney(): MoneyValue { return $this->get('refund_shortfall_money'); }
+    public function hasRefundShortfallMoney(): bool { return $this->has('refund_shortfall_money'); }
     /** What the buyer paid for these quantities after discounts, including tax. Uses the same allocation as a return resolution. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
@@ -37,7 +43,7 @@ final class ReturnRefundEstimate extends Model {
      */
     public function getStoreCreditDestination(): string { return $this->get('store_credit_destination'); }
     public function hasStoreCreditDestination(): bool { return $this->has('store_credit_destination'); }
-    /** Estimated original-payment destinations in refund order. Amounts sum to buyer_refund_amount_money. Empty when the refund amount is zero. [] (Value): {@see ReturnRefundTenderEstimate}. One estimated original-payment destination for a return refund.
+    /** Estimated original-payment funding in refund order. Amounts sum to buyer_refund_amount_money plus buyer_store_credit_amount_money less refund_shortfall_money. Empty when no value is payable. [] (Value): {@see ReturnRefundTenderEstimate}. One estimated original-payment destination for a return refund.
      * @return list<ReturnRefundEstimateTenderEstimatesItemPaymentIntent|ReturnRefundEstimateTenderEstimatesItemGiftCardRedemption|\stdClass>
      */
     public function getTenderEstimates(): array { return $this->get('tender_estimates'); }

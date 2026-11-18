@@ -64,6 +64,10 @@ Declared alternatives: [PaymentMethodActivatedMerchantEventDataPreviousAttribute
 
 Declared alternatives: [PaymentMethodActivatedMerchantEventDataPreviousAttributes.is_default](../models/PaymentMethodActivatedMerchantEventDataPreviousAttributes.md#paymentmethodactivatedmerchanteventdatapreviousattributesis_default).
 
+### PaymentMethodActivatedMerchantEvent.data fields 1.previous_attributes.is_removing
+
+Declared alternatives: [PaymentMethodActivatedMerchantEventDataPreviousAttributes.is_removing](../models/PaymentMethodActivatedMerchantEventDataPreviousAttributes.md#paymentmethodactivatedmerchanteventdatapreviousattributesis_removing).
+
 ### PaymentMethodActivatedMerchantEvent.data fields 1.previous_attributes.merchant_id
 
 Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.merchant_id](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributesmerchant_id).
@@ -78,7 +82,7 @@ Declared alternatives: [PaymentMethodActivatedMerchantEventDataPreviousAttribute
 
 ### PaymentMethodActivatedMerchantEvent.data fields 1.previous_attributes.status
 
-Declared alternatives: [ExpandedPaymentMethodSummaryPreviousAttributes.status](../models/ExpandedPaymentMethodSummaryPreviousAttributes.md#expandedpaymentmethodsummarypreviousattributesstatus).
+Declared alternatives: [PaymentMethodActivatedMerchantEventDataPreviousAttributes.status](../models/PaymentMethodActivatedMerchantEventDataPreviousAttributes.md#paymentmethodactivatedmerchanteventdatapreviousattributesstatus).
 
 ### PaymentMethodActivatedMerchantEvent.data fields 1.previous_attributes.type
 

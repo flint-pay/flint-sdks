@@ -1,5 +1,5 @@
-import { d23 as c0 } from '../descriptors/data/1.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
-import { d23 as d23 } from '../descriptors/data/1.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
+import { d23 as c0 } from '../descriptors/data/1.js?sdk=22459f40165c8f83629c1309c0555e659f12bdc99933459ef8de8ac0e4796ba2';
+import { d23 as d23 } from '../descriptors/data/1.js?sdk=22459f40165c8f83629c1309c0555e659f12bdc99933459ef8de8ac0e4796ba2';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
 const read = d23;
 let prepared;

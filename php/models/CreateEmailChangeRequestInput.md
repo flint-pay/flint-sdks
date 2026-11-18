@@ -8,5 +8,5 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `new_email` | Required | string | The address to change the email to. Flint emails a six-digit code to it. Format: `email`. minLength: `1`. maxLength: `320`. Example: `"buyer@example.com"`. |
+| `new_email` | Required | string | The address to change the email to. Flint emails a six-digit code to it. The local part before @ must be at most 64 octets (UTF-8 bytes). Format: `email`. minLength: `1`. maxLength: `320`. Example: `"buyer@example.com"`. |
 

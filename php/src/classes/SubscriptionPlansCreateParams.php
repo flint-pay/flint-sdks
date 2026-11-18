@@ -124,7 +124,7 @@ final class SubscriptionPlansCreateParams extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Name of the plan. Buyers see it at checkout and on their subscription. Required, and can't be empty. minLength: 1.
+    /** Name of the plan. Buyers see it at checkout and on their subscription. Required, and can't be empty. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */

@@ -10,7 +10,7 @@ namespace Flint;
 final class WorkloadIdentitiesDeleteInput extends Model {
     /** @param array{'workload_identity_id': string, 'expected_version'?: int}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WorkloadIdentitiesDeleteInput')); }
-    /** Flint workload identity ID. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
+    /** Flint workload identity ID. Must be a valid ID with prefix wid_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
      * @return string
      * @throws SdkError When workload_identity_id is omitted; use hasWorkloadIdentityId() or valueOrDefault().
      */

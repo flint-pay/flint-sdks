@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read array{'code': string, 'message': string, 'started_at': string|\DateTimeInterface, ...}|object|null $attention
  * @property-read string $automatic_profile
  * @property-read list<string> $available_location_inputs
  * @property-read OrderTaxCallbackEvaluationInput|array<array-key, mixed>|\stdClass $callback_evaluation
@@ -18,8 +19,14 @@ namespace Flint;
  * @property-read list<TaxBreakdownInput|array<array-key, mixed>|\stdClass> $tax_breakdowns
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrderTaxInput extends Model {
-    /** @param array{'automatic_profile'?: string, 'available_location_inputs'?: list<string>, 'callback_evaluation'?: OrderTaxCallbackEvaluationInput|array<array-key, mixed>|\stdClass, 'components_source'?: string, 'delivery_charge_calculation'?: DeliveryChargeTaxCalculationRequestInput|array<array-key, mixed>|\stdClass, 'enabled': bool, 'exemption'?: OrderTaxExemptionInput|array<array-key, mixed>|\stdClass, 'location'?: OrderTaxLocationInput|array<array-key, mixed>|\stdClass, 'mode': string, 'price_mode'?: string, 'reverse_charge'?: array{'customer_tax_id': array{'country': string, 'identifier_type': string, 'region': string|null, 'value': string, ...}|object|null, ...}|object|null, 'status': string, 'supported_countries'?: list<string>, 'tax_breakdowns'?: list<TaxBreakdownInput|array<array-key, mixed>|\stdClass>, ...}|object $values */
+    /** @param array{'attention'?: array{'code': string, 'message': string, 'started_at': string|\DateTimeInterface, ...}|object|null, 'automatic_profile'?: string, 'available_location_inputs'?: list<string>, 'callback_evaluation'?: OrderTaxCallbackEvaluationInput|array<array-key, mixed>|\stdClass, 'components_source'?: string, 'delivery_charge_calculation'?: DeliveryChargeTaxCalculationRequestInput|array<array-key, mixed>|\stdClass, 'enabled': bool, 'exemption'?: OrderTaxExemptionInput|array<array-key, mixed>|\stdClass, 'location'?: OrderTaxLocationInput|array<array-key, mixed>|\stdClass, 'mode': string, 'price_mode'?: string, 'reverse_charge'?: array{'customer_tax_id': array{'country': string, 'identifier_type': string, 'region': string|null, 'value': string, ...}|object|null, ...}|object|null, 'status': string, 'supported_countries'?: list<string>, 'tax_breakdowns'?: list<TaxBreakdownInput|array<array-key, mixed>|\stdClass>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderTaxInput')); }
+    /** Tax information that needs merchant attention. Null when no tax attention is outstanding. Captured payments and refunds remain recorded; contact Flint support before changing tax. Omitted from buyer responses. Always present with merchant credentials. anyOf[1] (Value): {@see OrderTaxAttentionInput}. A tax issue requiring merchant attention without reversing a recorded payment or refund. anyOf[2] (Value): null.
+     * @return array{'code': string, 'message': string, 'started_at': string|\DateTimeInterface, ...}|object|null
+     * @throws SdkError When attention is omitted; use hasAttention() or valueOrDefault().
+     */
+    public function getAttention(): mixed { return $this->get('attention'); }
+    public function hasAttention(): bool { return $this->has('attention'); }
     /** Identifies which automatic tax behavior applies to this order. connected means the account's tax connection calculated it. standard marks an order calculated before automatic tax required a tax connection. Value enum: "standard", "connected".
      * @return string
      * @throws SdkError When automatic_profile is omitted; use hasAutomaticProfile() or valueOrDefault().

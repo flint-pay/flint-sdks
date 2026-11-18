@@ -9,7 +9,9 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `amount_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Total refunded across all tenders, including `refunded_tip_money`. |
+| `charge_allocations` | Optional | Array of [RefundChargeAllocationPreviousAttributes](../models/RefundChargeAllocationPreviousAttributes.md#refundchargeallocationpreviousattributes) or null | Money returned for each order charge, including subtotal, discount, and tax, combined across payment refunds. `charge_allocations`: [declared alternatives](../models/RefundFailedMerchantEventDataPreviousAttributes.md#refundfailedmerchanteventdatapreviousattributescharge_allocations). |
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at). |
+| `credit_adjustment_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Money paid for Return resolution credits, included in amount_money. It carries no merchandise, shipping, tax, or tip allocation. Zero for refunds without credits. |
 | `credit_note_id` | Optional | string or null | ID of the credit note this refund paid out. Present only on refunds issued through a credit note. `credit_note_id`: [declared alternatives](../models/BuyerRefundPreviousAttributes.md#buyerrefundpreviousattributescredit_note_id). |
 | `customer` | Optional | [ExpandedCustomerSummaryPreviousAttributes](../models/ExpandedCustomerSummaryPreviousAttributes.md#expandedcustomersummarypreviousattributes) or null | Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. `customer`: [declared alternatives](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributescustomer). |
 | `customer_id` | Optional | string or null | ID of the customer on the refunded order or payment. Absent when neither has one. `customer_id`: [declared alternatives](../models/BuyerRefundPreviousAttributes.md#buyerrefundpreviousattributescustomer_id). |
@@ -46,6 +48,59 @@ Response model.
 | `unissued_gift_card_recoveries` | Optional | Array of [RefundUnissuedGiftCardRecoveryPreviousAttributes](../models/RefundUnissuedGiftCardRecoveryPreviousAttributes.md#refundunissuedgiftcardrecoverypreviousattributes) or null | Cash returned after an unissued gift card purchase refund failed. Return it through a new refund against payment_intent_id and order_line_item_id. It does not issue another card. Source remaining and pending amounts describe the entire original settlement allocation; repeated entries for that source are not additive. `unissued_gift_card_recoveries`: [declared alternatives](../models/RefundFailedMerchantEventDataPreviousAttributes.md#refundfailedmerchanteventdatapreviousattributesunissued_gift_card_recoveries). |
 | `updated_at` | Optional | string or null | RFC3339 timestamp. `updated_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at). |
 | `version` | Optional | integer or null | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. `version`: [declared alternatives](../models/PaymentSplitCanceledEvent.md#paymentsplitcanceledeventdata-fields-1previous_attributesversion). |
+
+### RefundFailedMerchantEventDataPreviousAttributes.charge_allocations
+
+### RefundFailedMerchantEventDataPreviousAttributes.charge_allocations variant 1
+
+anyOf variant 1: Money returned for each order charge, including subtotal, discount, and tax, combined across payment refunds..
+
+- Value shape: Array of [RefundChargeAllocationPreviousAttributes](../models/RefundChargeAllocationPreviousAttributes.md#refundchargeallocationpreviousattributes). Money returned for each order charge, including subtotal, discount, and tax, combined across payment refunds. 
+
+### RefundFailedMerchantEventDataPreviousAttributes.charge_allocations variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Money returned for each order charge, including subtotal, discount, and tax, combined across payment refunds. 
+
+### RefundFailedMerchantEventDataPreviousAttributes.charge_allocations variant 1.[] fields 1
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Total returned for this charge, including tax. |
+| `discount_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Discount allocated to the refunded part of the charge. It does not increase the money returned. |
+| `order_charge_id` | Optional | string or null | ID of the refunded order charge. `order_charge_id`: [declared alternatives](../models/RefundFailedMerchantEventDataPreviousAttributes.md#refundfailedmerchanteventdatapreviousattributescharge_allocations-variant-1-fields-1order_charge_id). |
+| `order_id` | Optional | string or null | ID of the order containing the refunded charge. `order_id`: [declared alternatives](../models/RefundFailedMerchantEventDataPreviousAttributes.md#refundfailedmerchanteventdatapreviousattributescharge_allocations-variant-1-fields-1order_id). |
+| `subtotal_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Charge amount returned excluding tax, after discounts. |
+| `tax_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Tax returned for this charge under automatic or external tax. Included in amount_money. |
+
+### RefundFailedMerchantEventDataPreviousAttributes.charge_allocations variant 1.[] fields 1.order_charge_id
+
+### RefundFailedMerchantEventDataPreviousAttributes.charge_allocations variant 1.[] fields 1.order_charge_id variant 1
+
+anyOf variant 1: ID of the refunded order charge..
+
+- Value shape: string. ID of the refunded order charge. ID of the refunded order charge. Example: `"och_01KEZF7C00XX8AKACP0GHKFWWT"`. 
+
+### RefundFailedMerchantEventDataPreviousAttributes.charge_allocations variant 1.[] fields 1.order_charge_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. ID of the refunded order charge. 
+
+### RefundFailedMerchantEventDataPreviousAttributes.charge_allocations variant 1.[] fields 1.order_id
+
+### RefundFailedMerchantEventDataPreviousAttributes.charge_allocations variant 1.[] fields 1.order_id variant 1
+
+anyOf variant 1: ID of the order containing the refunded charge..
+
+- Value shape: string. ID of the order containing the refunded charge. ID of the order containing the refunded charge. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. 
+
+### RefundFailedMerchantEventDataPreviousAttributes.charge_allocations variant 1.[] fields 1.order_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. ID of the order containing the refunded charge. 
 
 ### RefundFailedMerchantEventDataPreviousAttributes.created_at
 

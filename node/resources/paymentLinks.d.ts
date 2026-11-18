@@ -1,9 +1,8 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { BuyerCheckoutSessionWithSecret } from '../declarations/types-1.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { PaymentLink } from '../declarations/types-50.js';
+import type { PaymentLink, PaymentLinkListResponse } from '../declarations/types-52.js';
 import type {
-    PaymentLinkListResponse,
     PaymentLinkResponse,
     PaymentLinksCreateParams,
     PaymentLinksGetParams,
@@ -11,10 +10,11 @@ import type {
     PaymentLinksListParams,
     PaymentLinksResolveParams,
     PaymentLinksUpdateParams
-} from '../declarations/types-51.js';
-import type { PublicPaymentLinkResponse, PublicPaymentLinkResult } from '../declarations/types-57.js';
-import type { RequestOptions, ResolvePaymentLinkResponse } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-53.js';
+import type { PublicPaymentLinkResponse, PublicPaymentLinkResult } from '../declarations/types-59.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { ResolvePaymentLinkResponse } from '../declarations/types-62.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -35,64 +35,54 @@ export type {
     PaymentLinksGetParams,
     PaymentLinksGetPublicParams,
     PaymentLinksListParams,
-    PaymentLinkListResponse,
     PaymentLinksResolveParams,
     PaymentLinksUpdateParams,
-    PaymentLinkLineItemRequestInput,
-    PaymentLinkLineItemInputVariantInput,
-    PaymentLinkPaymentConfigInput,
     PaymentLinkThemeConfigInput,
-    PaymentLinkLineItemVariant,
     PaymentLinkSalesSummary,
-    PaymentLinkProductOption,
-    PaymentLinkProductOptionValue,
     PaymentLinkSubscriptionPreview,
     PaymentLinkResolvePrefillRequestInput,
+    PaymentLinkRedirectsPatchRequestInput,
+    PaymentLinkThemePatchRequestInput,
+    PaymentLinkThemePatchRequest
+} from '../declarations/types-53.js';
+export type { RequestOptions } from '../declarations/types-61.js';
+export type {
+    PaymentLink,
+    PaymentLinkListResponse,
+    PaymentLinkCustomFieldRequestInput,
+    PaymentLinkCustomTextConfigInput,
+    PaymentLinkEventConfigRequestInput,
+    PaymentLinkLegalConfigInput,
+    PaymentLinkLineItemRequestInput,
+    PaymentLinkLineItemInputVariantInput,
+    PaymentLinkLineItemInputBundleInput,
+    PaymentLinkLineItemInputCustomFixedInput,
+    PaymentLinkLineItemInputCustomVariableInput,
+    PaymentLinkPaymentConfigInput,
+    PaymentLinkCustomField,
+    PaymentLinkEventConfig,
+    PaymentLinkLineItem,
+    PaymentLinkLineItemVariant,
+    PaymentLinkLineItemBundle,
+    PaymentLinkLineItemCustomFixed,
+    PaymentLinkLineItemCustomVariable,
+    PaymentLinkAvailableVariant,
+    PaymentLinkProductOption,
+    PaymentLinkProductOptionValue,
+    PaymentLinkCustomFieldPatchRequestInput,
+    PaymentLinkCustomTextPatchRequestInput,
+    PaymentLinkEventConfigPatchRequestInput,
+    PaymentLinkLegalPatchRequestInput,
     PaymentLinkLineItemPatchRequestInput,
     PaymentLinkLineItemPatchInputVariantInput,
     PaymentLinkLineItemPatchInputBundleInput,
     PaymentLinkLineItemPatchInputCustomFixedInput,
     PaymentLinkLineItemPatchInputCustomVariableInput,
     PaymentLinkPaymentPatchRequestInput,
-    PaymentLinkRedirectsPatchRequestInput,
-    PaymentLinkThemePatchRequestInput,
-    PaymentLinkRedirectsPatchRequest,
-    PaymentLinkThemePatchRequest
-} from '../declarations/types-51.js';
-export type {
-    RequestOptions,
-    ResolvePaymentLinkResponse,
-    ResponseMeta,
-    ResponseWarning,
-    ResourceReference,
-    ResolvePaymentLinkRequestInput,
-    ResolvePaymentLinkLineItemModifiersInput,
-    ResolvePaymentLinkLineItemModifierRequestInput,
-    ResolvePaymentLinkTextModifierRequestInput
-} from '../declarations/types-60.js';
-export type {
-    PaymentLink,
-    PaymentLinkCustomFieldRequestInput,
-    PaymentLinkCustomTextConfigInput,
-    PaymentLinkEventConfigRequestInput,
-    PaymentLinkLegalConfigInput,
-    PaymentLinkLineItemInputBundleInput,
-    PaymentLinkLineItemInputCustomFixedInput,
-    PaymentLinkLineItemInputCustomVariableInput,
-    PaymentLinkCustomField,
-    PaymentLinkEventConfig,
-    PaymentLinkLineItem,
-    PaymentLinkLineItemBundle,
-    PaymentLinkLineItemCustomFixed,
-    PaymentLinkLineItemCustomVariable,
-    PaymentLinkAvailableVariant,
-    PaymentLinkCustomFieldPatchRequestInput,
-    PaymentLinkCustomTextPatchRequestInput,
-    PaymentLinkEventConfigPatchRequestInput,
-    PaymentLinkLegalPatchRequestInput,
-    PaymentLinkCustomTextPatchRequest
-} from '../declarations/types-50.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+    PaymentLinkCustomTextPatchRequest,
+    PaymentLinkRedirectsPatchRequest
+} from '../declarations/types-52.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type {
     PublicPaymentLinkResult,
     PublicPaymentLinkResponse,
@@ -102,7 +92,7 @@ export type {
     PublicResolvedModifierOption,
     QuantityPriceBreak,
     PublicResolvedBundleComponent
-} from '../declarations/types-57.js';
+} from '../declarations/types-59.js';
 export type {
     BuyerCheckoutSessionWithSecret,
     AuthMode,
@@ -111,6 +101,18 @@ export type {
     BuyerCheckoutSession,
     BuyerCheckoutProblemResource
 } from '../declarations/types-1.js';
+export type {
+    ResolvePaymentLinkResponse,
+    ResponseMeta,
+    ResponseWarning,
+    ResourceReference,
+    ResolvePaymentLinkRequestInput,
+    ResolvePaymentLinkLineItemModifiersInput,
+    ResolvePaymentLinkLineItemModifierRequestInput,
+    ResolvePaymentLinkTextModifierRequestInput,
+    ResolvePaymentLinkLineItemModifierInputCatalogInput,
+    ResolvePaymentLinkLineItemModifierInputTextInput
+} from '../declarations/types-62.js';
 export type {
     ClientOptions,
     CheckoutTaxConfigRequestInput,
@@ -122,28 +124,30 @@ export type {
     CheckoutTheme,
     CheckoutSubscriptionTermsRequestInput,
     CheckoutSubscriptionTerms,
-    CheckoutSubscriptionRecurringShipping
+    CheckoutSubscriptionPricePhase,
+    CheckoutSubscriptionRecurringShipping,
+    CheckoutSessionTax
 } from '../declarations/types-7.js';
 export type { CreatePaymentLinkRequestInput } from '../declarations/types-12.js';
 export type {
     CheckoutBuyerFieldsRequestInput,
     CheckoutPromotionConfigRequestInput,
     CheckoutRedirectsRequestInput,
+    CheckoutBuyerFields,
     CheckoutCustomTextConfig,
     CheckoutPaymentConfig,
     CheckoutPromotionConfig,
     CheckoutRedirects,
     CheckoutMerchantSupport,
+    CheckoutBuyerContact,
     CheckoutCustomerPrefill,
     CheckoutDerivedDeliveryResource,
     CheckoutGiftCardChallenge,
     CheckoutPaymentMethodSave,
-    CheckoutPrefill,
-    CheckoutSessionTax
+    CheckoutPrefill
 } from '../declarations/types-6.js';
-export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-42.js';
-export type { ImageRequestInput } from '../declarations/types-31.js';
-export type { ImageInputSourceURLInput, ImageInputFileInput, ImageAttachment, Image } from '../declarations/types-30.js';
+export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-44.js';
+export type { ImageRequestInput, ImageInputSourceURLInput, ImageInputFileInput, ImageAttachment, Image } from '../declarations/types-31.js';
 export type {
     InventoryRoutingSourceRequestInput,
     InventoryRoutingSourceInputFixedLocationInput,
@@ -151,25 +155,18 @@ export type {
     InventoryRoutingSourceInputPolicyRevisionInput,
     InventoryRoutingSource
 } from '../declarations/types-33.js';
-export type {
-    OrderLineItemTaxRequestInput,
-    OrderLineItemTax,
-    OrderLineItemModifier,
-    OrderPaymentAttemptPaymentMethodSave,
-    OrderSettlementAmounts
-} from '../declarations/types-45.js';
-export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-41.js';
+export type { OrderLineItemTaxRequestInput, OrderLineItemTax, OrderLineItemModifier, OrderGiftCardAllocation } from '../declarations/types-46.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { CheckoutBuyerFields, CategoryReference, CheckoutBuyerContact } from '../declarations/types-5.js';
 export type { LegalSettings } from '../declarations/types-38.js';
-export type { ProductPriceRange, PricingAmounts } from '../declarations/types-55.js';
+export type { ProductPriceRange } from '../declarations/types-57.js';
 export type { ExpandedSubscriptionPlanSummary, ExpandedCustomerSummary } from '../declarations/types-26.js';
 export type {
     SubscriptionIntervalOption,
     SubscriptionGiftRecipientRequestInput,
     SubscriptionGiftRecipient,
     SubscriptionGiftRecipientRequest
-} from '../declarations/types-68.js';
+} from '../declarations/types-70.js';
 export type {
     SubscriptionPlanLineItem,
     SubscriptionPlanSwapVariant,
@@ -178,9 +175,10 @@ export type {
     SubscriptionPlanLineItemCustom,
     SubscriptionPlanChangeLineItemRequestInput,
     SubscriptionPlanChangeLineItemRequest
-} from '../declarations/types-69.js';
-export type { SelectedProductOption, SettlementAmounts } from '../declarations/types-65.js';
-export type { TextModifierRequest, ThemeConfig, TextModifierConfigRequest } from '../declarations/types-72.js';
+} from '../declarations/types-71.js';
+export type { SelectedProductOption } from '../declarations/types-67.js';
+export type { CategoryReference } from '../declarations/types-5.js';
+export type { TextModifierRequest, ThemeConfig, TextModifierConfigRequest } from '../declarations/types-74.js';
 export type {
     ReadinessMerchantAccountSession,
     RefundLineItemAllocation,
@@ -188,96 +186,94 @@ export type {
     RefundLineItemAdjustment,
     RefundAdjustmentReason,
     RefundLineItemAutomaticRefund,
-    RefundLineItemModifierAllocation
-} from '../declarations/types-58.js';
+    RefundLineItemModifierAllocation,
+    RefundTaxBreakdownRefund,
+    RefundTenderAllocation
+} from '../declarations/types-60.js';
 export type {
     BuyerOrderPaymentAttempt,
-    BuyerErrorRemediation,
-    BuyerInstructionsConfig,
-    BuyerExpandedOrderSummary,
-    BuyerExpandedPaymentIntentSummary
-} from '../declarations/types-2.js';
-export type {
-    PaymentAttemptGiftCardRedemption,
-    PaymentClientAction,
-    PaymentClientActionURL,
-    PaymentClientActionStripe
-} from '../declarations/types-49.js';
-export type {
     BuyerPaymentErrorSummary,
     BuyerPaymentAttemptPaymentIntent,
     BuyerPaymentCollection,
     BuyerPaymentCollectionStripe,
     BuyerPaymentCollectionStripeElements,
-    BuyerSelectableOrderPaymentIntent,
     BuyerRefund,
-    BuyerPaymentRefund,
-    BuyerSetupCollection,
-    BuyerSetupCollectionStripe
+    BuyerPaymentRefund
 } from '../declarations/types-3.js';
-export type { PendingPaymentAction, PendingPaymentActionPaymentIntentSubject } from '../declarations/types-53.js';
+export type { PaymentAttemptGiftCardRedemption, PaymentClientAction } from '../declarations/types-50.js';
+export type {
+    BuyerErrorRemediation,
+    BuyerInstructionsConfig,
+    BuyerExpandedOrderSummary,
+    BuyerExpandedPaymentIntentSummary
+} from '../declarations/types-2.js';
+export type { OrderPaymentAttemptPaymentMethodSave, OrderSettlementAmounts } from '../declarations/types-47.js';
+export type {
+    PendingPaymentAction,
+    PendingPaymentActionSubject,
+    PendingPaymentActionPaymentIntentSubject,
+    PendingPaymentActionSetupPaymentSourceSubject
+} from '../declarations/types-55.js';
+export type { PaymentClientActionURL, PaymentClientActionStripe } from '../declarations/types-51.js';
 export type {
     StripePaymentClientAction,
     StripeSetupIntentClientAction,
-    StripeTerminalPaymentIntentClientAction
-} from '../declarations/types-66.js';
-export type { PendingPaymentActionSubject, PendingPaymentActionSetupPaymentSourceSubject } from '../declarations/types-54.js';
+    StripeTerminalPaymentIntentClientAction,
+    SettlementAmounts
+} from '../declarations/types-68.js';
 export type { Address } from '../declarations/types-0.js';
 export type {
     DeliveryQuoteChoiceGroupResource,
     DeliveryQuoteExecutionLegResource,
     DeliveryQuoteLineItemResource
 } from '../declarations/types-22.js';
-export type { DeliveryAddressAdvisoryResource, DeliveryArrivalEstimate, DeferredPromotion } from '../declarations/types-17.js';
+export type { DeliveryAddressAdvisoryResource, DeferredPromotion } from '../declarations/types-17.js';
 export type {
     DeliveryCandidateOutcomeResource,
+    DeliveryArrivalEstimate,
     DeliveryCandidateOutcomeResourceAvailable,
     DeliveryCandidateOutcomeResourceUnavailable,
     DeliveryCandidateOutcomeResourceInputRequired,
     DeliveryCandidateOutcomeResourceCannotCalculate,
-    DeliveryCandidateOutcomeResourceRequiresCheckoutContext,
-    DeliveryEligibilityMismatch
+    DeliveryCandidateOutcomeResourceRequiresCheckoutContext
 } from '../declarations/types-18.js';
 export type {
     DeliveryInputRequirement,
     DeliveryInputConstraint,
     DeliveryLocationSummaryResource,
-    DeliveryMerchantDiagnostic
+    DeliveryMerchantDiagnostic,
+    DeliveryEligibilityMismatch
 } from '../declarations/types-19.js';
 export type { DeliveryWindowRequest, DeliveryShipmentDetails } from '../declarations/types-24.js';
 export type { DeliveryOptionProjection, DeliveryPlan, DeliveryPickupDetails } from '../declarations/types-20.js';
 export type { DeliveryRecipientRequirement } from '../declarations/types-23.js';
-export type { RefundTaxBreakdownRefund, RefundTenderAllocation } from '../declarations/types-59.js';
+export type { BuyerSelectableOrderPaymentIntent, BuyerSetupCollection, BuyerSetupCollectionStripe } from '../declarations/types-4.js';
+export type { PricingAmounts } from '../declarations/types-56.js';
 export type {
     PaymentSourceSummary,
     PaymentSourceAchDebitSummary,
     PaymentSourceCardSummary,
     PaymentSourceCardPresentDetails
-} from '../declarations/types-52.js';
-export type { OrderGiftCardAllocation } from '../declarations/types-44.js';
-export type { UpdatePaymentLinkRequestInput } from '../declarations/types-74.js';
+} from '../declarations/types-54.js';
+export type { UpdatePaymentLinkRequestInput } from '../declarations/types-76.js';
 export {
     makeCheckoutBuyerFieldsRequest,
     makeCheckoutPromotionConfigRequest,
     makeCheckoutRedirectsRequest,
     makeCheckoutSubscriptionTermsRequest,
     makeCheckoutTaxCalculationRequest,
-    makeCheckoutTaxConfigRequest,
-    makeCheckoutTipConfigRequest
-} from '../declarations/types-78.js';
-export { makeCreatePaymentLinkRequest } from '../declarations/types-81.js';
-export { makeDeliveryWindowRequest } from '../declarations/types-83.js';
+    makeCheckoutTaxConfigRequest
+} from '../declarations/types-80.js';
+export { makeCheckoutTipConfigRequest } from '../declarations/types-81.js';
+export { makeCreatePaymentLinkRequest } from '../declarations/types-83.js';
+export { makeDeliveryWindowRequest, makeImageInputFile, makeImageInputSourceURL, makeImageRequest } from '../declarations/types-86.js';
 export {
-    makeImageInputFile,
-    makeImageInputSourceURL,
-    makeImageRequest,
     makeInventoryRoutingSourceInputFixedLocation,
     makeInventoryRoutingSourceInputPolicy,
     makeInventoryRoutingSourceInputPolicyRevision,
     makeInventoryRoutingSourceRequest
-} from '../declarations/types-84.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
-export { makeMoneyValue, makeOrderLineItemTaxRequest } from '../declarations/types-86.js';
+} from '../declarations/types-87.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue, makeOrderLineItemTaxRequest } from '../declarations/types-88.js';
 export {
     makePaymentLinkCustomFieldPatchRequest,
     makePaymentLinkCustomFieldRequest,
@@ -303,20 +299,21 @@ export {
     makePaymentLinkResolvePrefillRequest,
     makePaymentLinkThemeConfig,
     makePaymentLinkThemePatchRequest
-} from '../declarations/types-87.js';
+} from '../declarations/types-89.js';
 export {
+    makeResolvePaymentLinkLineItemModifierInputCatalog,
+    makeResolvePaymentLinkLineItemModifierInputText,
     makeResolvePaymentLinkLineItemModifierRequest,
     makeResolvePaymentLinkLineItemModifiers,
-    makeResolvePaymentLinkRequest,
-    makeResolvePaymentLinkTextModifierRequest
-} from '../declarations/types-88.js';
+    makeResolvePaymentLinkRequest
+} from '../declarations/types-90.js';
+export { makeResolvePaymentLinkTextModifierRequest } from '../declarations/types-91.js';
 export {
     makeSubscriptionGiftRecipientRequest,
     makeSubscriptionPlanChangeLineItemRequest,
-    makeTextModifierConfigRequest,
-    makeTextModifierRequest
-} from '../declarations/types-90.js';
-export { makeUpdatePaymentLinkRequest } from '../declarations/types-91.js';
+    makeTextModifierConfigRequest
+} from '../declarations/types-92.js';
+export { makeTextModifierRequest, makeUpdatePaymentLinkRequest } from '../declarations/types-93.js';
 export interface PaymentLinksResource {
     /**
  * Creates a payment link for the authenticated merchant. Line items may use fixed prices,
@@ -336,7 +333,9 @@ export interface PaymentLinksResource {
  * refunded totals per currency.
  *
  * `GET /v1/payment-links/{payment_link_id}`
- * @param payment_link_id Flint payment link ID.
+ * @param payment_link_id Flint payment link ID. Must be a valid ID with prefix pl_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/payment-links#getPaymentLink
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -348,7 +347,9 @@ export interface PaymentLinksResource {
  * this browser operation.
  *
  * `GET /v1/payment-links/{payment_link_id}/public`
- * @param payment_link_id Flint payment link ID.
+ * @param payment_link_id Flint payment link ID. Must be a valid ID with prefix pl_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/payment-links#getPaymentLinkPublic
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -381,7 +382,9 @@ export interface PaymentLinksResource {
  * resolution_context.
  *
  * `POST /v1/payment-links/{payment_link_id}/resolve`
- * @param payment_link_id Flint payment link ID.
+ * @param payment_link_id Flint payment link ID. Must be a valid ID with prefix pl_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/payment-links#resolvePaymentLink
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -392,11 +395,14 @@ export interface PaymentLinksResource {
  */
     resolve(payment_link_id: InputValue<string>, params: PaymentLinksResolveParams, options?: RequestOptions<never>): Promise<WithResponseInfo<BuyerCheckoutSessionWithSecret, ResolvePaymentLinkResponse>>;
     /**
- * Updates a payment link. To replace line items, custom fields, or delivery methods, send the
- * complete array with `expected_version`.
+ * Updates a payment link. Setting `status` to `inactive` closes its open, unpaid checkout
+ * sessions. Payments already in progress can finish. To replace line items, custom fields, or
+ * delivery methods, send the complete array with `expected_version`.
  *
  * `PATCH /v1/payment-links/{payment_link_id}`
- * @param payment_link_id Flint payment link ID.
+ * @param payment_link_id Flint payment link ID. Must be a valid ID with prefix pl_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/payment-links#updatePaymentLink
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

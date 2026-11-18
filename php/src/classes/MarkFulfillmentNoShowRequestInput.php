@@ -35,7 +35,7 @@ final class MarkFulfillmentNoShowRequestInput extends Model {
      */
     public function getReason(): string { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
-    /** Your note explaining this transition. minLength: 1. maxLength: 500.
+    /** Your internal note explaining this transition. Not included in buyer emails. minLength: 1. maxLength: 500.
      * @return string
      * @throws SdkError When reason_message is omitted; use hasReasonMessage() or valueOrDefault().
      */

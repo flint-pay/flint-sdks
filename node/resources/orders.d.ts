@@ -1,19 +1,25 @@
 import type { Result, WithResponseInfo, InputValue } from '../runtime.js';
 import type { AccessLink, AccessLinkResponse } from '../declarations/types-0.js';
-import type { CancelOrderEditResponse, CancelOrderEditResult, CancelOrderPaymentAttemptResponse } from '../declarations/types-4.js';
+import type { CancelOrderEditResponse, CancelOrderEditResult, CancelOrderPaymentAttemptResponse } from '../declarations/types-5.js';
 import type { ClientOptions } from '../declarations/types-7.js';
 import type { CreateOrderEditResponse, CreateOrderEditResult } from '../declarations/types-11.js';
-import type { Order, OrderActivity, OrderActivityListResponse, OrderCharge, OrderChargesListResponse } from '../declarations/types-43.js';
-import type { OrderEdit, OrderEditListResponse, OrderEditResponse } from '../declarations/types-44.js';
 import type {
-    OrderLineItem,
+    Order,
+    OrderActivity,
+    OrderActivityListResponse,
+    OrderCharge,
+    OrderChargesListResponse,
+    OrderEdit
+} from '../declarations/types-45.js';
+import type { OrderEditListResponse, OrderEditResponse, OrderLineItem } from '../declarations/types-46.js';
+import type {
     OrderLineItemsListResponse,
     OrderListResponse,
     OrderPaymentAttempt,
     OrderPaymentAttemptListResponse,
     OrderPaymentAttemptResponse,
     OrderResponse
-} from '../declarations/types-45.js';
+} from '../declarations/types-47.js';
 import type {
     OrdersApplyDiscountParams,
     OrdersApplyGiftCardParams,
@@ -37,9 +43,7 @@ import type {
     OrdersListEditsParams,
     OrdersListLineItemsParams,
     OrdersListParams,
-    OrdersListPaymentAttemptsParams
-} from '../declarations/types-46.js';
-import type {
+    OrdersListPaymentAttemptsParams,
     OrdersPayParams,
     OrdersRemoveDiscountsParams,
     OrdersRemoveGiftCardParams,
@@ -50,10 +54,11 @@ import type {
     OrdersUpdateChargeParams,
     OrdersUpdateLineItemParams,
     OrdersUpdateParams
-} from '../declarations/types-47.js';
-import type { PayOrderResponse, PayOrderResult } from '../declarations/types-49.js';
-import type { RequestOptions, RetryOrderEditRefundResponse, RetryOrderEditRefundResult } from '../declarations/types-60.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-48.js';
+import type { PayOrderResponse, PayOrderResult } from '../declarations/types-50.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { RetryOrderEditRefundResponse, RetryOrderEditRefundResult } from '../declarations/types-62.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -92,10 +97,75 @@ export type {
     OrdersListLineItemsParams,
     OrdersListPaymentAttemptsParams,
     OrdersListParams,
+    OrdersPayParams,
+    OrdersRemoveDiscountsParams,
+    OrdersRemoveGiftCardParams,
+    OrdersRepriceDiscountsParams,
+    OrdersResolveInventoryExceptionParams,
+    OrdersRetryEditRefundParams,
+    OrdersSendReceiptParams,
+    OrdersUpdateParams,
+    OrdersUpdateChargeParams,
+    OrdersUpdateLineItemParams,
+    OrderTaxRequestInput,
+    OrderTaxLocationRequestInput,
+    OrderTaxLocationInputPostalCodeInput,
+    OrderTaxLocationPostalAddressRequestInput,
+    OrderTaxUpdateRequestInput,
+    OrderTaxLocationPostalAddressRequest
+} from '../declarations/types-48.js';
+export type {
+    RequestOptions,
+    RefundUnissuedGiftCardRecovery,
+    RemoveDiscountsRequestInput,
+    RepriceDiscountsRequestInput
+} from '../declarations/types-61.js';
+export type {
+    Order,
+    OrderEdit,
+    OrderActivityListResponse,
+    OrderActivity,
+    OrderChargesListResponse,
+    OrderCharge,
+    OrderAuthorizationAmounts,
+    OrderDeliverySummary,
+    OrderDeliveryDestination,
+    OrderDeliveryDestinationRecipient,
+    OrderDiscount,
+    OrderDeliveryRequestInput,
+    OrderDeliveryDestinationRequestInput,
+    OrderDeliveryDestinationRecipientRequestInput,
+    OrderDraftLineItemInventoryDemandRequestInput,
+    OrderDraftLineItemTaxRequestModelInput,
+    OrderDraftLineItemTaxCalculationRequestModelInput,
+    OrderDraftTaxComponentRequestModelInput,
+    OrderDraftTaxJurisdictionRequestModelInput,
+    OrderChargeRequestInput,
+    OrderCalculatedChargeTaxRequestInput,
+    OrderChargeInputAmountInput,
+    OrderChargeInputPercentInput,
+    OrderEditChargeRefund,
+    OrderCalculatedChargeTax,
+    OrderCalculatedLineItemTax,
+    OrderChargeTaxAssignmentInput,
+    OrderCalculatedLineItemTaxRequestInput,
+    OrderDeliveryDestinationRecipientRequest,
+    OrderDraftLineItemInventoryDemandRequest
+} from '../declarations/types-45.js';
+export type {
+    OrderResponse,
+    OrderPaymentAttempt,
+    OrderPaymentAttemptResponse,
+    OrderLineItemsListResponse,
+    OrderPaymentAttemptListResponse,
+    OrderListResponse,
+    OrderSettlementAmounts,
+    OrderReturnCreditSettlement,
+    OrderTax,
+    OrderTaxAttention,
     OrderTaxCallbackEvaluation,
     OrderTaxExemption,
     OrderTaxLocation,
-    OrderTaxRequestInput,
     OrderTaxCalculationRequestInput,
     OrderTaxComponentRequestInput,
     OrderTaxJurisdictionRequestInput,
@@ -105,94 +175,36 @@ export type {
     OrderTaxExemptionInputCustomerInput,
     OrderTaxExemptionInputNoneInput,
     OrderTaxExemptionInputOrderInput,
-    OrderTaxLocationRequestInput,
-    OrderTaxLocationInputPostalCodeInput,
-    OrderTaxLocationPostalAddressRequestInput,
     OrderTaxLocationInputFullAddressInput,
     OrderTaxLocationFullAddressRequestInput,
-    OrderTaxUpdateRequestInput,
-    OrderTaxLocationPostalAddressRequest,
-    OrderTaxLocationFullAddressRequest
-} from '../declarations/types-46.js';
-export type {
-    RequestOptions,
-    RetryOrderEditRefundResult,
-    RetryOrderEditRefundResponse,
-    ResourceReference,
-    ResponseMeta,
-    ResponseWarning,
-    RepriceDiscountsRequestInput,
-    ResolveOrderInventoryExceptionRequestInput,
-    RetryOrderEditRefundRequestInput
-} from '../declarations/types-60.js';
-export type {
-    Order,
-    OrderActivityListResponse,
-    OrderActivity,
-    OrderChargesListResponse,
-    OrderCharge,
-    OrderAuthorizationAmounts,
-    OrderChargeRequestInput,
-    OrderCalculatedChargeTaxRequestInput,
-    OrderChargeInputAmountInput,
-    OrderChargeInputPercentInput,
-    OrderCalculatedChargeTax,
-    OrderCalculatedLineItemTax,
-    OrderChargeTaxAssignmentInput,
-    OrderCalculatedLineItemTaxRequestInput
-} from '../declarations/types-43.js';
-export type {
-    OrderResponse,
-    OrderPaymentAttempt,
-    OrderPaymentAttemptResponse,
-    OrderLineItemsListResponse,
-    OrderLineItem,
-    OrderPaymentAttemptListResponse,
-    OrderListResponse,
-    OrderLineItemModifier,
-    OrderSettlementAmounts,
-    OrderReturnCreditSettlement,
-    OrderLineItemTax,
-    OrderTax,
-    OrderLineItemModifierRequestModelInput,
-    OrderLineItemModifierInputCatalogRequestInput,
-    OrderLineItemModifierInputTextRequestInput,
     OrderPaymentAttemptPaymentMethodSave,
-    OrderLineItemFulfillmentQuantities,
-    OrderLineItemFulfillmentRequirements,
-    OrderLineItemFulfillmentComponent,
-    OrderLineItemFulfillmentProfile,
     OrderLineSubscriptionOfferSummary,
     OrderLineSubscriptionOfferDiscount,
     OrderPaymentIntentSelectionInput,
-    OrderLineItemTaxAssignmentInput
-} from '../declarations/types-45.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency, WeightRequestInput, Weight } from '../declarations/types-77.js';
+    OrderTaxLocationFullAddressRequest
+} from '../declarations/types-47.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency, WeightRequestInput, Weight } from '../declarations/types-79.js';
 export type {
     CancelOrderEditResult,
     CancelOrderEditResponse,
     CancelOrderPaymentAttemptResponse,
+    CategoryReference,
     CancelOrderEditRequestInput,
-    CancelOrderPaymentAttemptRequestInput
-} from '../declarations/types-4.js';
+    CancelOrderPaymentAttemptRequestInput,
+    CatalogPricing
+} from '../declarations/types-5.js';
 export type {
     PayOrderResult,
     PayOrderResponse,
-    PaymentCollection,
-    PaymentCollectionStripe,
-    PaymentCollectionStripeElements,
-    PaymentErrorSummary,
     PaymentAttemptGiftCardRedemption,
     PaymentAttemptPaymentIntent,
     PaymentClientAction,
-    PaymentClientActionURL,
-    PaymentClientActionStripe,
     PayOrderRequestInput,
     PayOrderRequestPayInput,
     PayOrderRequestConfirmPaymentIntentsInput,
     PayOrderRequestSetupInput,
     PayOrderRequestResumeInput
-} from '../declarations/types-49.js';
+} from '../declarations/types-50.js';
 export type {
     AccessLink,
     AccessLinkResponse,
@@ -209,7 +221,6 @@ export type {
 export type {
     CreateOrderEditResult,
     CreateOrderEditResponse,
-    CreateOrderRequestInput,
     CreateOrderDiscountInput,
     CreateOrderDiscountPromotionInput,
     CreateOrderDiscountManualInput,
@@ -217,63 +228,54 @@ export type {
     CreateOrderLineItemInputVariantInput,
     CreateOrderLineItemInputBundleInput,
     CreateOrderLineItemInputCustomInput,
-    CreateOrderTipInput,
-    CreateOrderTipAmountInput,
-    CreateOrderTipPercentInput,
     CreateOrderEditRequestInput
 } from '../declarations/types-11.js';
 export type {
-    OrderEdit,
     OrderEditResponse,
     OrderEditListResponse,
-    OrderDeliverySummary,
-    OrderDeliveryDestination,
-    OrderDeliveryDestinationRecipient,
-    OrderDiscount,
+    OrderLineItem,
+    OrderLineItemModifier,
     OrderGiftCardEstimate,
     OrderGiftCardAllocation,
     OrderGiftCardSettlement,
     OrderGiftCardSelection,
     OrderHandover,
-    OrderDeliveryRequestInput,
-    OrderDeliveryDestinationRequestInput,
-    OrderDeliveryDestinationRecipientRequestInput,
+    OrderLineItemTax,
     OrderHandoverRequestInput,
-    OrderDraftLineItemInventoryDemandRequestInput,
-    OrderDraftLineItemTaxRequestModelInput,
-    OrderDraftLineItemTaxCalculationRequestModelInput,
-    OrderDraftTaxComponentRequestModelInput,
-    OrderDraftTaxJurisdictionRequestModelInput,
+    OrderLineItemModifierRequestModelInput,
+    OrderLineItemModifierInputCatalogRequestInput,
+    OrderLineItemModifierInputTextRequestInput,
     OrderEditRemovalRequestInput,
     OrderEditLineAddition,
-    OrderEditChargeRefund,
     OrderEditLineRemoval,
+    OrderLineItemFulfillmentQuantities,
+    OrderLineItemFulfillmentRequirements,
+    OrderLineItemFulfillmentComponent,
+    OrderLineItemFulfillmentProfile,
+    OrderLineItemRefundable,
     OrderGiftCardAllocationAcceptanceInput,
-    OrderDeliveryDestinationRecipientRequest,
-    OrderDraftLineItemInventoryDemandRequest,
+    OrderLineItemTaxAssignmentInput,
     OrderEditRemovalRequest
-} from '../declarations/types-44.js';
+} from '../declarations/types-46.js';
 export type {
-    OrdersPayParams,
-    OrdersRemoveDiscountsParams,
-    OrdersRemoveGiftCardParams,
-    OrdersRepriceDiscountsParams,
-    OrdersResolveInventoryExceptionParams,
-    OrdersRetryEditRefundParams,
-    OrdersSendReceiptParams,
-    OrdersUpdateParams,
-    OrdersUpdateChargeParams,
-    OrdersUpdateLineItemParams
-} from '../declarations/types-47.js';
+    RetryOrderEditRefundResult,
+    RetryOrderEditRefundResponse,
+    ResourceReference,
+    ResponseMeta,
+    ResponseWarning,
+    ResolveOrderInventoryExceptionRequestInput,
+    RetryOrderEditRefundRequestInput
+} from '../declarations/types-62.js';
 export type { ClientOptions, CloseOrderRequestInput } from '../declarations/types-7.js';
-export type { ManualDiscountRequestInput } from '../declarations/types-39.js';
-export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-42.js';
 export type {
-    PromotionRefRequestInput,
-    PromotionRefInputPromotionIDInput,
-    PromotionRefInputPromotionCodeInput,
-    PurchasedGiftCard
-} from '../declarations/types-57.js';
+    ManualDiscountRequestInput,
+    LineItemFulfillmentRequestModelInput,
+    LineItemFulfillmentOriginRequestModelInput,
+    LineItemInventorySnapshot,
+    LineItemInventoryDemand
+} from '../declarations/types-40.js';
+export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-44.js';
+export type { PromotionRefRequestInput, PromotionRefInputPromotionIDInput, PromotionRefInputPromotionCodeInput } from '../declarations/types-58.js';
 export type {
     AuthMode,
     BuyerAction,
@@ -284,20 +286,14 @@ export type {
 } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { BuyerPauseActionOptions, BuyerPayBalanceActionOptions, BuyerRetryPaymentActionOptions } from '../declarations/types-3.js';
-export type {
-    CheckoutBuyerContact,
-    CategoryReference,
-    CatalogPricing,
-    CheckoutBuyerContactRequestInput,
-    CheckoutBuyerContactRequest
-} from '../declarations/types-5.js';
+export type { CheckoutBuyerContact, CheckoutBuyerContactRequestInput, CheckoutBuyerContactRequest } from '../declarations/types-6.js';
 export type {
     CustomFieldAnswer,
     CustomFieldAnswerText,
     CustomFieldAnswerTextarea,
     CustomFieldAnswerDropdown,
     CustomFieldAnswerCheckbox
-} from '../declarations/types-15.js';
+} from '../declarations/types-16.js';
 export type {
     ExpandedCustomerSummary,
     ExpandedOrderSummary,
@@ -306,26 +302,24 @@ export type {
     ErrorRemediation,
     ExpandedPaymentIntentSummary,
     ExpandedSubscriptionSummary,
-    ExpandedSubscriptionPlanSummary
+    ExpandedSubscriptionPlanSummary,
+    DisputesAcceptParams
 } from '../declarations/types-26.js';
 export type {
     DeferredPromotion,
+    CustomerTaxExemptionCoverage,
+    CustomerTaxExemptionCoverageAllStates,
+    CustomerTaxExemptionCoverageStates,
     CustomerTaxID,
+    CustomerTaxExemptionCoverageRequestInput,
+    CustomerTaxExemptionCoverageAllStatesRequestInput,
     CustomerTaxExemptionCoverageStatesRequestInput,
     CustomersListAddressesParams
 } from '../declarations/types-17.js';
 export type { DeliveryRecipientResource } from '../declarations/types-23.js';
-export type {
-    Fulfillment,
-    FulfillmentHold,
-    FulfillmentChargeLink,
-    FulfillmentLineItem,
-    FulfillmentOutcome,
-    FulfillmentRecipient,
-    FilesCompleteParams
-} from '../declarations/types-27.js';
-export type { DigitalFulfillmentDetails, DimensionsRequestInput, Dimensions, DisputesAcceptParams } from '../declarations/types-25.js';
-export type { MetadataMap, MetadataRequestInput, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-41.js';
+export type { Fulfillment, FulfillmentHold, FulfillmentChargeLink, FulfillmentLineItem, FilesCompleteParams } from '../declarations/types-27.js';
+export type { DigitalFulfillmentDetails, DimensionsRequestInput, Dimensions } from '../declarations/types-25.js';
+export type { MetadataMap, MetadataRequestInput, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type {
     TextModifierRequest,
     TaxJurisdiction,
@@ -333,28 +327,11 @@ export type {
     TextModifierRequestInput,
     TaxJurisdictionRequestModelInput,
     TaxJurisdictionRequestInput
-} from '../declarations/types-72.js';
-export type {
-    DeliveryFulfillmentDetails,
-    DeliveryChargeTaxCalculationRequest,
-    DeliveryChargeTaxCalculationRequestModelInput
-} from '../declarations/types-18.js';
-export type { PricingAmounts } from '../declarations/types-55.js';
+} from '../declarations/types-74.js';
+export type { DeliveryFulfillmentDetails } from '../declarations/types-19.js';
+export type { PricingAmounts, PlatformFeeRequestInput } from '../declarations/types-56.js';
 export type {
     SettlementAmounts,
-    ServiceFulfillmentDetails,
-    SelectableOrderPaymentIntent,
-    SelectedProductOption,
-    SendOrderReceiptRequestInput,
-    SendOrderReceiptRequest
-} from '../declarations/types-65.js';
-export type {
-    PickupFulfillmentDetails,
-    PendingPaymentActionSubject,
-    PendingPaymentActionSetupPaymentSourceSubject,
-    PlatformFeeRequestInput
-} from '../declarations/types-54.js';
-export type {
     ShipmentFulfillmentDetails,
     SetupCollection,
     SetupCollectionStripe,
@@ -364,7 +341,23 @@ export type {
     StripeSetupIntentClientAction,
     StripeTerminalPaymentIntentClientAction,
     SubscribedLine
-} from '../declarations/types-66.js';
+} from '../declarations/types-68.js';
+export type { FulfillmentOutcome, FulfillmentRecipient, GiftCardCustomAmountBounds } from '../declarations/types-28.js';
+export type {
+    PickupFulfillmentDetails,
+    PendingPaymentAction,
+    PendingPaymentActionSubject,
+    PendingPaymentActionPaymentIntentSubject,
+    PendingPaymentActionSetupPaymentSourceSubject,
+    PlatformFeeMoneyInput
+} from '../declarations/types-55.js';
+export type {
+    ServiceFulfillmentDetails,
+    SelectableOrderPaymentIntent,
+    SelectedProductOption,
+    SendOrderReceiptRequestInput,
+    SendOrderReceiptRequest
+} from '../declarations/types-67.js';
 export type {
     InventoryRoutingSource,
     InventoryRoutingSourceRequestInput,
@@ -373,41 +366,50 @@ export type {
     InventoryRoutingSourceInputPolicyRevisionInput
 } from '../declarations/types-33.js';
 export type {
+    PaymentCollection,
+    PaymentCollectionStripe,
+    PaymentCollectionStripeElements,
+    PaymentErrorSummary,
+    PaymentClientActionURL,
+    PaymentClientActionStripe
+} from '../declarations/types-51.js';
+export type {
     ReadinessMerchantAccountSession,
     RefundChargeInput,
     RefundDestinationsInput,
     Refund,
+    RefundChargeAllocation,
     RefundLineItemAllocation,
     RefundLineItemAdjustmentRefund,
     RefundLineItemAdjustment,
     RefundAdjustmentReason,
     RefundLineItemAutomaticRefund,
     RefundLineItemModifierAllocation,
-    ReaderPaymentSourceTipInput,
-    ReaderPaymentSourceTip
-} from '../declarations/types-58.js';
+    RefundTaxBreakdownRefund,
+    RefundTenderAllocation
+} from '../declarations/types-60.js';
 export type {
     PaymentSourceSummary,
     PaymentSourceAchDebitSummary,
     PaymentSourceCardSummary,
     PaymentSourceCardPresentDetails,
-    PaymentRefund,
     PaymentSourceCredentialInput,
     PaymentSourceCredentialPaymentMethodInput,
     PaymentSourceCredentialStripeConfirmationTokenInput,
     PaymentSourceCredentialStripePaymentMethodInput,
     PaymentSourceCredentialReaderInput,
     PaymentSplitRequestInput
-} from '../declarations/types-52.js';
-export type { SubscriptionIntervalOption } from '../declarations/types-68.js';
+} from '../declarations/types-54.js';
+export type { SubscriptionIntervalOption } from '../declarations/types-70.js';
 export type {
     SubscriptionPlanLineItem,
     SubscriptionPlanSwapVariant,
     SubscriptionPlanLineItemVariant,
     SubscriptionPlanLineItemBundle,
     SubscriptionPlanLineItemCustom
-} from '../declarations/types-69.js';
-export type { Image, GiftCardPurchaseSnapshot } from '../declarations/types-30.js';
+} from '../declarations/types-71.js';
+export type { Image, ImageReferenceRequestInput, ImageReferenceRequest } from '../declarations/types-31.js';
+export type { DeliveryChargeTaxCalculationRequest, DeliveryChargeTaxCalculationRequestModelInput } from '../declarations/types-18.js';
 export type {
     TaxComponentRequest,
     TaxBreakdown,
@@ -418,59 +420,46 @@ export type {
     TaxComponentRequestRequestInput,
     TaxCalculationRequest,
     TaxCalculationRequestModelInput
-} from '../declarations/types-71.js';
+} from '../declarations/types-73.js';
+export type { TicketedEvent, Tip, TipPaymentIntentAllocation, TipValueSettlementAllocation } from '../declarations/types-75.js';
 export type {
-    CustomerTaxExemptionCoverage,
-    CustomerTaxExemptionCoverageAllStates,
-    CustomerTaxExemptionCoverageStates,
-    CustomerTaxExemptionCoverageRequestInput,
-    CustomerTaxExemptionCoverageAllStatesRequestInput
-} from '../declarations/types-16.js';
-export type { TicketedEvent, Tip, TipPaymentIntentAllocation, TipValueSettlementAllocation } from '../declarations/types-73.js';
+    CreateOrderRequestInput,
+    CreateOrderTipInput,
+    CreateOrderTipAmountInput,
+    CreateOrderTipPercentInput
+} from '../declarations/types-12.js';
 export type {
     SubscriptionDeliveryDestinationRequestInput,
     SubscriptionDeliveryDestinationInputCustomerAddressInput,
     SubscriptionDeliveryDestinationInputAddressInput
-} from '../declarations/types-67.js';
+} from '../declarations/types-69.js';
 export type { DeliverySelectionRecipientRequestInput, DeliverySelectionRecipientRequest } from '../declarations/types-24.js';
-export type {
-    LineItemFulfillmentRequestModelInput,
-    LineItemFulfillmentOriginRequestModelInput,
-    LineItemInventorySnapshot,
-    LineItemInventoryDemand
-} from '../declarations/types-38.js';
 export type {
     GiftCardPurchaseDetailsRequestInput,
     GiftCardPurchaseRecipientRequestInput,
-    GiftCardProductConfiguration,
+    GiftCardPurchaseSnapshot,
     GiftCardPurchaseRecipient,
     GiftCardPurchaseRecipientPatchRequestInput
-} from '../declarations/types-29.js';
-export type { ImageReferenceRequestInput, ImageReferenceRequest } from '../declarations/types-31.js';
-export type {
-    RefundTaxBreakdownRefund,
-    RefundTenderAllocation,
-    RefundUnissuedGiftCardRecovery,
-    RemoveDiscountsRequestInput
-} from '../declarations/types-59.js';
-export type { PendingPaymentAction, PendingPaymentActionPaymentIntentSubject } from '../declarations/types-53.js';
-export type { GiftCardCustomAmountBounds } from '../declarations/types-28.js';
-export type { UpdateOrderRequestInput, UpdateOrderChargeRequestInput, UpdateLineItemRequestInput } from '../declarations/types-74.js';
+} from '../declarations/types-30.js';
+export type { PaymentRefund } from '../declarations/types-53.js';
+export type { GiftCardProductConfiguration } from '../declarations/types-29.js';
+export type { PurchasedGiftCard, ReaderPaymentSourceTipInput, ReaderPaymentSourceTip } from '../declarations/types-59.js';
+export type { UpdateOrderRequestInput, UpdateOrderChargeRequestInput, UpdateLineItemRequestInput } from '../declarations/types-76.js';
 export {
     makeAddLineItemsRequest,
     makeAddOrderChargeRequest,
     makeAddressRequest,
     makeApplyDiscountRequest,
     makeApplyDiscountRequestManual,
-    makeApplyDiscountRequestPromotion,
-    makeApplyOrderGiftCardRequest
-} from '../declarations/types-77.js';
+    makeApplyDiscountRequestPromotion
+} from '../declarations/types-79.js';
 export {
+    makeApplyOrderGiftCardRequest,
     makeCancelOrderEditRequest,
     makeCancelOrderPaymentAttemptRequest,
-    makeCheckoutBuyerContactRequest,
-    makeCloseOrderRequest
-} from '../declarations/types-78.js';
+    makeCheckoutBuyerContactRequest
+} from '../declarations/types-80.js';
+export { makeCloseOrderRequest } from '../declarations/types-81.js';
 export {
     makeCreateOrderDiscount,
     makeCreateOrderDiscountManual,
@@ -484,32 +473,33 @@ export {
     makeCreateOrderTip,
     makeCreateOrderTipAmount,
     makeCreateOrderTipPercent
-} from '../declarations/types-80.js';
+} from '../declarations/types-83.js';
 export {
     makeCustomerTaxExemptionCoverageAllStatesRequest,
     makeCustomerTaxExemptionCoverageRequest,
     makeCustomerTaxExemptionCoverageStatesRequest,
     makeDeliveryChargeTaxCalculationRequestModel
-} from '../declarations/types-82.js';
-export { makeDeliverySelectionRecipientRequest, makeDimensionsRequest } from '../declarations/types-83.js';
+} from '../declarations/types-84.js';
+export { makeDeliverySelectionRecipientRequest } from '../declarations/types-85.js';
 export {
+    makeDimensionsRequest,
     makeGiftCardPurchaseDetailsRequest,
     makeGiftCardPurchaseRecipientPatchRequest,
     makeGiftCardPurchaseRecipientRequest,
-    makeImageReferenceRequest,
+    makeImageReferenceRequest
+} from '../declarations/types-86.js';
+export {
     makeInventoryRoutingSourceInputFixedLocation,
     makeInventoryRoutingSourceInputPolicy,
     makeInventoryRoutingSourceInputPolicyRevision,
-    makeInventoryRoutingSourceRequest
-} from '../declarations/types-84.js';
-export {
+    makeInventoryRoutingSourceRequest,
     makeLineItemFulfillmentOriginRequestModel,
     makeLineItemFulfillmentRequestModel,
-    makeManualDiscountRequest,
-    makeMetadataPatchRequest,
-    makeMetadataRequest
-} from '../declarations/types-85.js';
+    makeManualDiscountRequest
+} from '../declarations/types-87.js';
 export {
+    makeMetadataPatchRequest,
+    makeMetadataRequest,
     makeMoneyValue,
     makeOrderCalculatedChargeTaxRequest,
     makeOrderCalculatedLineItemTaxRequest,
@@ -538,7 +528,9 @@ export {
     makeOrderTaxCalculationRequest,
     makeOrderTaxComponentRequest,
     makeOrderTaxExemptionInputCustomer,
-    makeOrderTaxExemptionInputNone,
+    makeOrderTaxExemptionInputNone
+} from '../declarations/types-88.js';
+export {
     makeOrderTaxExemptionInputOrder,
     makeOrderTaxExemptionRequest,
     makeOrderTaxJurisdictionRequest,
@@ -548,9 +540,7 @@ export {
     makeOrderTaxLocationPostalAddressRequest,
     makeOrderTaxLocationRequest,
     makeOrderTaxRequest,
-    makeOrderTaxUpdateRequest
-} from '../declarations/types-86.js';
-export {
+    makeOrderTaxUpdateRequest,
     makePaymentSourceCredential,
     makePaymentSourceCredentialPaymentMethod,
     makePaymentSourceCredentialReader,
@@ -562,45 +552,54 @@ export {
     makePayOrderRequestPay,
     makePayOrderRequestResume,
     makePayOrderRequestSetup,
-    makePlatformFeeRequest,
+    makePlatformFeeMoney,
+    makePlatformFeeRequest
+} from '../declarations/types-89.js';
+export {
     makePromotionRefInputPromotionCode,
     makePromotionRefInputPromotionID,
-    makePromotionRefRequest
-} from '../declarations/types-87.js';
-export {
+    makePromotionRefRequest,
     makeReaderPaymentSourceTip,
     makeRefundCharge,
     makeRefundDestinations,
     makeRemoveDiscountsRequest,
     makeRepriceDiscountsRequest,
-    makeResolveOrderInventoryExceptionRequest,
-    makeRetryOrderEditRefundRequest
-} from '../declarations/types-88.js';
+    makeResolveOrderInventoryExceptionRequest
+} from '../declarations/types-90.js';
+export { makeRetryOrderEditRefundRequest, makeSendOrderReceiptRequest } from '../declarations/types-91.js';
 export {
-    makeSendOrderReceiptRequest,
     makeSubscribedLineRequestModel,
     makeSubscriptionDeliveryDestinationInputAddress,
     makeSubscriptionDeliveryDestinationInputCustomerAddress,
-    makeSubscriptionDeliveryDestinationRequest
-} from '../declarations/types-89.js';
-export {
+    makeSubscriptionDeliveryDestinationRequest,
     makeTaxCalculationRequestModel,
     makeTaxCalculationRequestRequest,
     makeTaxComponentRequestModel,
     makeTaxComponentRequestRequest,
     makeTaxJurisdictionRequest,
-    makeTaxJurisdictionRequestModel,
-    makeTextModifierRequest
-} from '../declarations/types-90.js';
-export { makeUpdateLineItemRequest, makeUpdateOrderChargeRequest, makeUpdateOrderRequest } from '../declarations/types-91.js';
-export { makeWeightRequest } from '../declarations/types-92.js';
+    makeTaxJurisdictionRequestModel
+} from '../declarations/types-92.js';
+export {
+    makeTextModifierRequest,
+    makeUpdateLineItemRequest,
+    makeUpdateOrderChargeRequest,
+    makeUpdateOrderRequest
+} from '../declarations/types-93.js';
+export { makeWeightRequest } from '../declarations/types-94.js';
 export interface OrdersResource {
     /**
  * Applies a promotion-backed or manual discount to an order. Checkout-authenticated buyers must
  * provide a promotion code; resource IDs and manual discounts require merchant authentication.
+ * Unknown promotion codes have separate one-hour failure budgets of 5 per checkout session, 10 per
+ * IP within the merchant environment, and 50 per merchant environment. Exhausting any budget
+ * returns 429 RATE_LIMIT_EXCEEDED with Retry-After before another code lookup. Creating another
+ * checkout session does not reset the IP or merchant budget. Known codes do not consume failure
+ * budget.
  *
  * `POST /v1/orders/{order_id}/discounts`
- * @param order_id Flint order ID.
+ * @param order_id Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/orders#applyOrderDiscount
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -618,7 +617,9 @@ export interface OrdersResource {
  * original selection result.
  *
  * `POST /v1/orders/{order_id}/gift-cards`
- * @param order_id Order ID.
+ * @param order_id Order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/orders#applyOrderGiftCard
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -634,8 +635,12 @@ export interface OrdersResource {
  * Idempotency-Key to replay the recorded result.
  *
  * `POST /v1/orders/{order_id}/edits/{order_edit_id}/cancel`
- * @param order_id The order that owns the edit.
- * @param order_edit_id The pending edit to cancel.
+ * @param order_id The order that owns the edit. Must be a valid ID with prefix ord_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
+ * @param order_edit_id The pending edit to cancel. Must be a valid ID with prefix oed_. Malformed
+ * IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist
+ * return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/orders#cancelOrderEdit
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -649,8 +654,12 @@ export interface OrdersResource {
  * Cancels an active order payment attempt, its unsettled payment legs, and its attempt-owned holds.
  *
  * `POST /v1/orders/{order_id}/payment-attempts/{order_payment_attempt_id}/cancel`
- * @param order_id Flint order ID.
- * @param order_payment_attempt_id Flint order payment attempt ID.
+ * @param order_id Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
+ * @param order_payment_attempt_id Flint order payment attempt ID. Must be a valid ID with prefix
+ * opat_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/orders#cancelOrderPaymentAttempt
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -672,7 +681,9 @@ export interface OrdersResource {
  * based on an outdated order read.
  *
  * `POST /v1/orders/{order_id}/close`
- * @param order_id Flint order ID.
+ * @param order_id Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/orders#closeOrder
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -714,7 +725,9 @@ export interface OrdersResource {
  * support with the request ID before sending a new request.
  *
  * `POST /v1/orders/{order_id}/access-links`
- * @param order_id Flint order ID.
+ * @param order_id Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/orders#createOrderAccessLink
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -728,7 +741,9 @@ export interface OrdersResource {
  * Adds a service charge, fee, or surcharge to an order.
  *
  * `POST /v1/orders/{order_id}/charges`
- * @param order_id Flint order ID.
+ * @param order_id Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/orders#createOrderCharge
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -765,7 +780,9 @@ export interface OrdersResource {
  * key and request ID for support; do not change keys to retry an uncertain result.
  *
  * `POST /v1/orders/{order_id}/edits`
- * @param order_id The order that owns the edit.
+ * @param order_id The order that owns the edit. Must be a valid ID with prefix ord_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/orders#createOrderEdit
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -780,7 +797,9 @@ export interface OrdersResource {
  * Adds one or more line items to an order.
  *
  * `POST /v1/orders/{order_id}/line-items`
- * @param order_id Flint order ID.
+ * @param order_id Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/orders#createOrderLineItems
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -794,8 +813,12 @@ export interface OrdersResource {
  * Removes a single service charge, fee, or surcharge from an order.
  *
  * `DELETE /v1/orders/{order_id}/charges/{order_charge_id}`
- * @param order_id Flint order ID.
- * @param order_charge_id Flint order charge ID.
+ * @param order_id Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
+ * @param order_charge_id Flint order charge ID. Must be a valid ID with prefix och_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/orders#deleteOrderCharge
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -809,8 +832,12 @@ export interface OrdersResource {
  * Removes a single line item from an order.
  *
  * `DELETE /v1/orders/{order_id}/line-items/{order_line_item_id}`
- * @param order_id Flint order ID.
- * @param order_line_item_id Flint order line item ID.
+ * @param order_id Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
+ * @param order_line_item_id Flint order line item ID. Must be a valid ID with prefix li_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/orders#deleteOrderLineItem
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -824,7 +851,9 @@ export interface OrdersResource {
  * Returns a single order by ID.
  *
  * `GET /v1/orders/{order_id}`
- * @param order_id Flint order ID.
+ * @param order_id Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/orders#getOrder
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -836,8 +865,12 @@ export interface OrdersResource {
  * refund IDs. The internal note is visible to merchant callers only.
  *
  * `GET /v1/orders/{order_id}/edits/{order_edit_id}`
- * @param order_id The order that owns the edit.
- * @param order_edit_id The edit belonging to this order.
+ * @param order_id The order that owns the edit. Must be a valid ID with prefix ord_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
+ * @param order_edit_id The edit belonging to this order. Must be a valid ID with prefix oed_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/orders#getOrderEdit
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -849,8 +882,12 @@ export interface OrdersResource {
  * attempts created by their own session.
  *
  * `GET /v1/orders/{order_id}/payment-attempts/{order_payment_attempt_id}`
- * @param order_id Flint order ID.
- * @param order_payment_attempt_id Flint order payment attempt ID.
+ * @param order_id Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
+ * @param order_payment_attempt_id Flint order payment attempt ID. Must be a valid ID with prefix
+ * opat_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/orders#getOrderPaymentAttempt
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -868,7 +905,9 @@ export interface OrdersResource {
  * are current.
  *
  * `GET /v1/orders/{order_id}/receipt-pdf`
- * @param order_id Flint order ID.
+ * @param order_id Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/orders#getOrderReceiptPDF
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -888,7 +927,9 @@ export interface OrdersResource {
  * created_at descending, then order_activity_id descending.
  *
  * `GET /v1/orders/{order_id}/activities`
- * @param order_id Flint order ID.
+ * @param order_id Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/orders#listOrderActivities
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -908,7 +949,9 @@ export interface OrdersResource {
  * ascending.
  *
  * `GET /v1/orders/{order_id}/charges`
- * @param order_id Flint order ID.
+ * @param order_id Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/orders#listOrderCharges
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -929,7 +972,9 @@ export interface OrdersResource {
  * order: created_at descending, then order_edit_id descending.
  *
  * `GET /v1/orders/{order_id}/edits`
- * @param order_id The order that owns the edit.
+ * @param order_id The order that owns the edit. Must be a valid ID with prefix ord_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/orders#listOrderEdits
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -949,7 +994,9 @@ export interface OrdersResource {
  * order_line_item_id ascending.
  *
  * `GET /v1/orders/{order_id}/line-items`
- * @param order_id Flint order ID.
+ * @param order_id Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/orders#listOrderLineItems
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -971,7 +1018,9 @@ export interface OrdersResource {
  * descending.
  *
  * `GET /v1/orders/{order_id}/payment-attempts`
- * @param order_id Flint order ID.
+ * @param order_id Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/orders#listOrderPaymentAttempts
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -1006,29 +1055,39 @@ export interface OrdersResource {
      */
     listItems(params?: OrdersListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<Order>;
     /**
- * Starts or resumes a payment attempt on the order. Starting a subscription requires
- * buyer_contact.email or an email already saved on the checkout session or order. Set action to
- * pay to charge the full outstanding balance, confirm_payment_intents to confirm order-owned
- * payment intents, setup to save a newly collected token on a zero-balance order, or resume to
- * continue an attempt after a pending client action. Each action accepts only its own fields. Only
- * confirm_payment_intents accepts completion_behavior. A pay action without payment_source is
- * valid only when the outstanding balance is zero. To continue a resumable attempt, send action:
- * resume with order_payment_attempt_id and a new Idempotency-Key. A Tap to Pay reader returns
- * requires_action, is_resumable true, and a card_presentment pending action with
- * stripe.terminal_payment_intent authority for the Stripe Terminal SDK. After the app collects and
- * confirms, resume reads the outcome: authorization or capture applies it, processing keeps the
- * attempt processing, and no card or a decline keeps it requires_action with the same authority. A
- * decline updates last_payment_error without ending the attempt; cancel to give up. An exact retry
- * of the original request with its Idempotency-Key returns the stored response if the request
- * completed, or recovers the same attempt if it was interrupted. Payment intents with manual
- * capture return an active authorization instead of settling immediately. A replay preserves the
- * original HTTP status and domain result. Replays return no URL token or Stripe client secret;
- * pending_actions is empty when action authority was stripped. Read the attempt to recover its
- * current permitted actions. Read `client.orders.getPaymentAttempt` for the attempt's current
+ * Starts or resumes a payment attempt on the order. For a new headless order-checkout payment,
+ * Flint automatically quotes and selects a single available delivery option when saved destination
+ * and recipient inputs suffice. Existing choices, multiple options, required windows or
+ * instructions, and methods requiring explicit quotes keep the explicit selection path. The order
+ * reports the applied governing_delivery_selection_id and delivery. A changed delivery total still
+ * requires the caller to refresh and review expected_outstanding_money before payment. Starting a
+ * subscription requires buyer_contact.email or an email already saved on the checkout session or
+ * order. Set action to pay to charge the full outstanding balance, confirm_payment_intents to
+ * confirm order-owned payment intents, setup to save a newly collected token on a zero-balance
+ * order, or resume to continue an attempt after a pending client action. Each action accepts only
+ * its own fields. Only confirm_payment_intents accepts completion_behavior. A pay action without
+ * payment_source is valid only when the outstanding balance is zero. To continue a resumable
+ * attempt, send action: resume with order_payment_attempt_id and a new Idempotency-Key. A Tap to
+ * Pay reader returns requires_action, is_resumable true, and a card_presentment pending action
+ * with stripe.terminal_payment_intent authority for the Stripe Terminal SDK. After the app
+ * collects and confirms, resume reads the outcome: authorization or capture applies it, processing
+ * keeps the attempt processing, and no card or a decline keeps it requires_action with the same
+ * authority. A decline updates last_payment_error without ending the attempt; cancel to give up.
+ * An exact retry of the original request with its Idempotency-Key returns the stored response if
+ * the request completed, or recovers the same attempt if it was interrupted. Payment intents with
+ * manual capture return an active authorization instead of settling immediately. A replay
+ * preserves the original HTTP status and domain result, including when the original checkout
+ * credential retries after its session becomes paid. A new key or changed body on a paid order
+ * returns ACTION_NOT_ALLOWED with reason payment_collected, naming the order and its payment; do
+ * not submit another payment for that purchase. Replays return no URL token or Stripe client
+ * secret; pending_actions is empty when action authority was stripped. Read the attempt to recover
+ * its current permitted actions. Read `client.orders.getPaymentAttempt` for the attempt's current
  * state.
  *
  * `POST /v1/orders/{order_id}/pay`
- * @param order_id Flint order ID.
+ * @param order_id Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/orders#payOrder
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -1044,7 +1103,9 @@ export interface OrdersResource {
  * payment. Redeemed or canceled discounts are settlement history and cannot be removed.
  *
  * `POST /v1/orders/{order_id}/discounts/remove`
- * @param order_id Flint order ID.
+ * @param order_id Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/orders#removeOrderDiscounts
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -1060,8 +1121,12 @@ export interface OrdersResource {
  * with the same idempotency key to recover the original selection result.
  *
  * `DELETE /v1/orders/{order_id}/gift-cards/{gift_card_id}`
- * @param order_id Order ID.
- * @param gift_card_id Selected gift card ID.
+ * @param order_id Order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
+ * @param gift_card_id Selected gift card ID. Must be a valid ID with prefix gc_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/orders#removeOrderGiftCard
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -1076,7 +1141,9 @@ export interface OrdersResource {
  * optional. Send expected_version to reject a mutation based on an outdated order read.
  *
  * `POST /v1/orders/{order_id}/discounts/reprice`
- * @param order_id Flint order ID.
+ * @param order_id Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/orders#repriceOrderDiscounts
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -1091,7 +1158,9 @@ export interface OrdersResource {
  * remediation.
  *
  * `POST /v1/orders/{order_id}/resolve-inventory-exception`
- * @param order_id Flint order ID.
+ * @param order_id Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/orders#resolveOrderInventoryException
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -1112,8 +1181,12 @@ export interface OrdersResource {
  * The response contains only refunds created by this attempt.
  *
  * `POST /v1/orders/{order_id}/edits/{order_edit_id}/retry`
- * @param order_id The order that owns the edit.
- * @param order_edit_id The edit belonging to this order.
+ * @param order_id The order that owns the edit. Must be a valid ID with prefix ord_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
+ * @param order_edit_id The edit belonging to this order. Must be a valid ID with prefix oed_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/orders#retryOrderEditRefund
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -1131,12 +1204,14 @@ export interface OrdersResource {
  * Flint-managed receipt delivery. Sending is limited to once every five minutes per order and
  * normalized recipient. Checkout credentials can send only to the address on file. If no address
  * is on file, checkout credentials can send to at most three distinct addresses over the order's
- * lifetime. Receipts sent for this order through this route count toward this limit, including
- * failed deliveries and receipts sent with a secret API key. Merchant callers can choose any
+ * lifetime. Receipt requests for this order through this route count toward this limit, including
+ * failed deliveries and requests made with a secret API key. Merchant callers can choose any
  * address.
  *
  * `POST /v1/orders/{order_id}/send-receipt`
- * @param order_id Flint order ID.
+ * @param order_id Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/orders#sendOrderReceipt
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -1171,7 +1246,9 @@ export interface OrdersResource {
  * include shipping_money, requoted_shipping_money, tax_money, and requoted_tax_money.
  *
  * `PATCH /v1/orders/{order_id}`
- * @param order_id Flint order ID.
+ * @param order_id Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/orders#updateOrder
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -1185,8 +1262,12 @@ export interface OrdersResource {
  * Updates a single service charge, fee, or surcharge on an order.
  *
  * `PATCH /v1/orders/{order_id}/charges/{order_charge_id}`
- * @param order_id Flint order ID.
- * @param order_charge_id Flint order charge ID.
+ * @param order_id Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
+ * @param order_charge_id Flint order charge ID. Must be a valid ID with prefix och_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/orders#updateOrderCharge
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -1208,8 +1289,12 @@ export interface OrdersResource {
  * value does not change the order version. Set subscription to null to buy the line once.
  *
  * `PATCH /v1/orders/{order_id}/line-items/{order_line_item_id}`
- * @param order_id Flint order ID.
- * @param order_line_item_id Flint order line item ID.
+ * @param order_id Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
+ * @param order_line_item_id Flint order line item ID. Must be a valid ID with prefix li_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/orders#updateOrderLineItem
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

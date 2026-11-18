@@ -9,7 +9,7 @@ namespace Flint;
 final class PlatformFeePayoutsGetInput extends Model {
     /** @param array{'platform_fee_payout_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PlatformFeePayoutsGetInput')); }
-    /** Flint platform fee payout ID. Example: "pfpo_01KEZF7C00H58B147FK286D4A4".
+    /** Flint platform fee payout ID. Must be a valid ID with prefix pfpo_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "pfpo_01KEZF7C00H58B147FK286D4A4".
      * @return string
      * @throws SdkError When platform_fee_payout_id is omitted; use hasPlatformFeePayoutId() or valueOrDefault().
      */

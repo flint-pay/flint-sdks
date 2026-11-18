@@ -14,7 +14,7 @@ final class CustomerSessionsResource {
      */
     public function refresh(array|Model $params, ?RequestOptions $options = null): CustomerSessionWithSecret { $input = []; $params = $params instanceof Model ? $params->toInputArray() : $params; $rest = $params ?? []; if ($rest && array_is_list($rest)) throw SdkError::create('validation', 'body must be an object', 'not_sent', errorCode: 'INVALID_REQUEST', details: [['code' => 'INVALID_VALUE', 'param' => 'body']]); foreach (array_keys($rest) as $name) { foreach (['Idempotency-Key', 'Flint-Version', 'X-Request-Id'] as $header) { if (strtolower((string)$name) === strtolower($header)) throw SdkError::create('validation', $header . " can't be sent: supply this header through request options", errorCode: 'INVALID_REQUEST', details: [['code' => 'NOT_ALLOWED', 'param' => $header]]); } } if (true) $input['body'] = (object) $rest; return Runtime::responsePayload($this->runtime->request('refreshCustomerSession', $input, $options), ['data']); }
     /** Revokes one customer session in the selected merchant environment. This does not revoke an independent Flint Account buyer session.
-     * @param string|Model $customer_session_id Flint customer session ID.
+     * @param string|Model $customer_session_id Flint customer session ID. Must be a valid ID with prefix cses_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND.
      * @param CustomerSessionsRevokeParams|array<array-key, mixed>|Model|null $params Flat body fields and query/header parameters; path arguments follow URL order.
      * @return CustomerSession
      */

@@ -26,6 +26,7 @@ Resource, collection, or operation result returned by this request. A merchant's
 | `partner_app_id` | Required | string | ID of the partner app the merchant installed. Example: `"papp_01KEZF7C00Y8VMXYZ1GNPP3WHV"`. |
 | `partner_app_install_id` | Required | string | Unique identifier for this partner app install, prefixed `pinst_`. Example: `"pinst_01KEZF7C003HVKZR3GZAW6AFAZ"`. |
 | `partner_app_name` | Required | string | The app’s current name. |
+| `platform_contact` | Optional | [PartnerAppPlatformContact](../models/PartnerAppPlatformContact.md#partnerappplatformcontact) | The platform's current support contact, read live from platform_profile. Absent when the app has no platform profile, and in webhook event payloads. The platform's support contact shown to merchants. `platform_contact`: [field definitions](../models/PartnerAppInstallResponse.md#partnerappinstallresponsedataplatform_contact). |
 | `revoked_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `revoked_by` | Optional | string | Who ended the install. Omitted while the install isn't revoked, and cleared when the merchant authorizes the app again. Values: `"merchant"`, `"partner_app"`. |
 | `revoked_by_user_id` | Optional | string | ID of the user who revoked the install. Omitted when the install isn't revoked or no user performed the revoke, as when the app's deletion ended it. Example: `"usr_01KEZF7C00YC8757ZYP9727JM0"`. |
@@ -75,6 +76,12 @@ The installed merchant’s payments and payouts readiness in this grant’s envi
 The merchant's approval to receive split funds from the app in this mode, present while it lasts. A merchant approves by authorizing an app that declares payment_splits. The approval ends when the app removes payment_splits, or when the merchant or you revoke this grant or the install; authorizing again approves again. A payment's splits to this seller need the approval in the payment's mode. The merchant's approval to receive split funds from the app in this grant's mode.
 
 Field definitions: [shared fields](PartnerEnvironmentGrantPaymentSplitsInput.md#partnerenvironmentgrantpaymentsplitsinput).
+
+### PartnerAppInstallResponse.data.platform_contact
+
+The platform's current support contact, read live from platform_profile. Absent when the app has no platform profile, and in webhook event payloads. The platform's support contact shown to merchants.
+
+Field definitions: [shared fields](PartnerAppPlatformContactInput.md#partnerappplatformcontactinput).
 
 ### PartnerAppInstallResponse.meta
 

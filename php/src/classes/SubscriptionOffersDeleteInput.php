@@ -10,7 +10,7 @@ namespace Flint;
 final class SubscriptionOffersDeleteInput extends Model {
     /** @param array{'subscription_offer_id': string, 'expected_version'?: int, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionOffersDeleteInput')); }
-    /** Subscription offer ID. Example: "soffer_01KEZF7C00KAA9Y1X1KM70YFAA".
+    /** Subscription offer ID. Must be a valid ID with prefix soffer_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "soffer_01KEZF7C00KAA9Y1X1KM70YFAA".
      * @return string
      * @throws SdkError When subscription_offer_id is omitted; use hasSubscriptionOfferId() or valueOrDefault().
      */

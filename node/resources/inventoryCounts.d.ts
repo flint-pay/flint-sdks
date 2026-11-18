@@ -1,22 +1,19 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
+import type { InventoryCount, InventoryCountListResponse } from '../declarations/types-31.js';
 import type {
-    InventoryCount,
-    InventoryCountListResponse,
     InventoryCountResponse,
     InventoryCountResult,
     InventoryCountResultResponse,
     InventoryCountsApplyParams,
-    InventoryCountsCancelParams
-} from '../declarations/types-31.js';
-import type {
+    InventoryCountsCancelParams,
     InventoryCountsCreateParams,
     InventoryCountsGetParams,
     InventoryCountsListParams,
     InventoryCountsUpdateParams
 } from '../declarations/types-32.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -36,42 +33,44 @@ export type {
     InventoryCountResult,
     InventoryCountResultResponse,
     InventoryCountsCancelParams,
-    InventoryCount,
-    InventoryCountResponse,
-    InventoryCountListResponse,
-    InventoryCountLine,
-    InventoryCountObservationProvenance,
-    InventoryCountObservationRequestInput,
-    InventoryCountObservationRequest
-} from '../declarations/types-31.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type {
     InventoryCountsCreateParams,
+    InventoryCountResponse,
     InventoryCountsGetParams,
     InventoryCountsListParams,
     InventoryCountsUpdateParams,
     InventoryLevel,
-    InventoryItem
+    InventoryItem,
+    InventoryCountObservationRequestInput,
+    InventoryCountObservationRequest
 } from '../declarations/types-32.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { RequestOptions } from '../declarations/types-61.js';
+export type {
+    InventoryCount,
+    InventoryCountListResponse,
+    InventoryCountLine,
+    InventoryCountObservationProvenance
+} from '../declarations/types-31.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { ApplyInventoryCountRequestInput } from '../declarations/types-0.js';
 export type { AuthMode, BackorderPolicy } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { MetadataMap } from '../declarations/types-41.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
+export type { MetadataMap } from '../declarations/types-43.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { CancelInventoryCountRequestInput } from '../declarations/types-4.js';
 export type { CreateInventoryCountRequestInput, CreateInventoryCountRequest } from '../declarations/types-10.js';
 export type { InventorySourceSystem, InventorySourceSystemRequestInput } from '../declarations/types-33.js';
-export type { UpdateInventoryCountRequestInput } from '../declarations/types-74.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
-export { makeApplyInventoryCountRequest } from '../declarations/types-77.js';
-export { makeCancelInventoryCountRequest } from '../declarations/types-78.js';
-export { makeCreateInventoryCountRequest } from '../declarations/types-80.js';
-export { makeInventoryCountObservationRequest, makeInventorySourceSystemRequest } from '../declarations/types-84.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeUpdateInventoryCountRequest } from '../declarations/types-90.js';
+export type { UpdateInventoryCountRequestInput } from '../declarations/types-76.js';
+export type { DisputesAcceptParams } from '../declarations/types-26.js';
+export { makeApplyInventoryCountRequest } from '../declarations/types-79.js';
+export { makeCancelInventoryCountRequest } from '../declarations/types-80.js';
+export { makeCreateInventoryCountRequest } from '../declarations/types-82.js';
+export { makeInventoryCountObservationRequest } from '../declarations/types-86.js';
+export { makeInventorySourceSystemRequest } from '../declarations/types-87.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeUpdateInventoryCountRequest } from '../declarations/types-93.js';
 export interface InventoryCountsResource {
     /**
  * Sets inventory levels to the counted quantities of an open physical count. Every line needs an
@@ -81,12 +80,14 @@ export interface InventoryCountsResource {
  * recounts, including at a trading location; holds and commitments alone do not invalidate
  * observations. Call it only when apply is in supported_actions. Returns a result with
  * inventory_count as its primary resource and inventory_levels for the levels changed. Idempotency
- * is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the
- * canonical request body. To recover the command's effects after a lost response, read the
- * inventory count by ID.
+ * is scoped to the authenticated merchant, environment, caller namespace, and operation. Its
+ * fingerprint includes the canonical request body. To recover the command's effects after a lost
+ * response, read the inventory count by ID.
  *
  * `POST /v1/inventory-counts/{inventory_count_id}/apply`
- * @param inventory_count_id Flint inventory count ID.
+ * @param inventory_count_id Flint inventory count ID. Must be a valid ID with prefix invc_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/inventory#applyInventoryCount
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -100,11 +101,13 @@ export interface InventoryCountsResource {
  * Closes an open physical count without changing stock. Call it only when cancel is in
  * supported_actions. Returns a result with inventory_count as its primary resource and
  * inventory_levels for the levels changed. Idempotency is scoped to the authenticated merchant,
- * environment, and endpoint. Its fingerprint includes the canonical request body. To recover the
- * command's effects after a lost response, read the inventory count by ID.
+ * environment, caller namespace, and operation. Its fingerprint includes the canonical request
+ * body. To recover the command's effects after a lost response, read the inventory count by ID.
  *
  * `POST /v1/inventory-counts/{inventory_count_id}/cancel`
- * @param inventory_count_id Flint inventory count ID.
+ * @param inventory_count_id Flint inventory count ID. Must be a valid ID with prefix invc_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/inventory#cancelInventoryCount
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -116,9 +119,9 @@ export interface InventoryCountsResource {
     cancel(inventory_count_id: InputValue<string>, params?: InventoryCountsCancelParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<InventoryCountResult, InventoryCountResultResponse>>;
     /**
  * Open a physical count for selected inventory items at one Location. Idempotency is scoped to the
- * authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical
- * request body. To recover the command's effects after a lost response, list inventory counts with
- * the same idempotency_key.
+ * authenticated merchant, environment, caller namespace, and operation. Its fingerprint includes
+ * the canonical request body. To recover the command's effects after a lost response, list
+ * inventory counts with the same idempotency_key.
  *
  * `POST /v1/inventory-counts`
  * @see https://developers.withflintpay.com/docs/api/inventory#createInventoryCount
@@ -134,7 +137,9 @@ export interface InventoryCountsResource {
  * Retrieve an inventory count and its saved observations by ID.
  *
  * `GET /v1/inventory-counts/{inventory_count_id}`
- * @param inventory_count_id Flint inventory count ID.
+ * @param inventory_count_id Flint inventory count ID. Must be a valid ID with prefix invc_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/inventory#getInventoryCount
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -169,11 +174,13 @@ export interface InventoryCountsResource {
  * affected items before supplying fresh fences, even when quantities are unchanged. Omitted
  * condition quantities retain the matching level snapshot's values. occurred_at records provenance
  * and does not reconstruct historical stock. Idempotency is scoped to the authenticated merchant,
- * environment, and endpoint. Its fingerprint includes the canonical request body. To recover the
- * command's effects after a lost response, read the inventory count by ID.
+ * environment, caller namespace, and operation. Its fingerprint includes the canonical request
+ * body. To recover the command's effects after a lost response, read the inventory count by ID.
  *
  * `PATCH /v1/inventory-counts/{inventory_count_id}`
- * @param inventory_count_id Flint inventory count ID.
+ * @param inventory_count_id Flint inventory count ID. Must be a valid ID with prefix invc_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/inventory#updateInventoryCount
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

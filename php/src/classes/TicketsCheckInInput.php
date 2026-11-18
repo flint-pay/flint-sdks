@@ -10,7 +10,7 @@ namespace Flint;
 final class TicketsCheckInInput extends Model {
     /** @param array{'ticket_id': string, 'body'?: array{'admission_code'?: string, 'expected_version'?: int}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TicketsCheckInInput')); }
-    /** The ticket ID. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+    /** The ticket ID. Must be a valid ID with prefix tkt_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
      * @return string
      * @throws SdkError When ticket_id is omitted; use hasTicketId() or valueOrDefault().
      */

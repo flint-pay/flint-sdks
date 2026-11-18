@@ -13,9 +13,9 @@ import type {
     MerchantSignupsResendCodeParams,
     MerchantSignupsRotateAuthorizationCodesParams,
     MerchantSignupsVerifyParams
-} from '../declarations/types-41.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-43.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -51,25 +51,28 @@ export type {
     MerchantSignupOwnerRequestInput,
     MerchantSignupTermsAcceptanceRequestInput,
     MerchantSignupTermsAcceptanceRequest
-} from '../declarations/types-41.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-43.js';
+export type { RequestOptions } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { PlatformFeeCap } from '../declarations/types-54.js';
-export type { MoneyValue, NextAction } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
+export type { PlatformFeeCap } from '../declarations/types-55.js';
+export type { MoneyValue, NextAction } from '../declarations/types-44.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { CreateMerchantSignupRequestInput } from '../declarations/types-11.js';
-export type { VerifyMerchantSignupRequestInput } from '../declarations/types-76.js';
-export { makeCreateMerchantSignupRequest } from '../declarations/types-80.js';
+export type { VerifyMerchantSignupRequestInput } from '../declarations/types-78.js';
+export type { LicenseKeyVersionRequestInput } from '../declarations/types-40.js';
+export { makeCreateMerchantSignupRequest } from '../declarations/types-82.js';
+export { makeLicenseKeyVersionRequest } from '../declarations/types-87.js';
 export {
     makeMerchantSignupOwnerRequest,
     makeMerchantSignupTermsAcceptanceRequest,
-    makeMerchantSignupVersionRequest
-} from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeVerifyMerchantSignupRequest } from '../declarations/types-91.js';
+    makeMerchantSignupVersionRequest,
+    makeMoneyValue
+} from '../declarations/types-88.js';
+export { makeVerifyMerchantSignupRequest } from '../declarations/types-94.js';
 export interface MerchantSignupsResource {
     /**
  * Cancels a `pending` signup and voids its code, so a code email still queued is never sent. A
@@ -80,7 +83,9 @@ export interface MerchantSignupsResource {
  * Partner app tokens can't call it.
  *
  * `POST /v1/merchant-signups/{merchant_signup_id}/cancel`
- * @param merchant_signup_id ID of the merchant signup.
+ * @param merchant_signup_id ID of the merchant signup. Must be a valid ID with prefix msu_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/merchant-signups#cancelMerchantSignup
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -135,7 +140,9 @@ export interface MerchantSignupsResource {
  * FORBIDDEN with reason linked_key_not_allowed. Partner app tokens can't call it.
  *
  * `GET /v1/merchant-signups/{merchant_signup_id}`
- * @param merchant_signup_id ID of the merchant signup.
+ * @param merchant_signup_id ID of the merchant signup. Must be a valid ID with prefix msu_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/merchant-signups#getMerchantSignup
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -176,7 +183,9 @@ export interface MerchantSignupsResource {
  * Partner app tokens can't call it.
  *
  * `POST /v1/merchant-signups/{merchant_signup_id}/resend-code`
- * @param merchant_signup_id ID of the merchant signup.
+ * @param merchant_signup_id ID of the merchant signup. Must be a valid ID with prefix msu_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/merchant-signups#resendMerchantSignupCode
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -201,7 +210,9 @@ export interface MerchantSignupsResource {
  * install gets 403 FORBIDDEN with reason linked_key_not_allowed. Partner app tokens can't call it.
  *
  * `POST /v1/merchant-signups/{merchant_signup_id}/rotate-authorization-codes`
- * @param merchant_signup_id ID of the merchant signup.
+ * @param merchant_signup_id ID of the merchant signup. Must be a valid ID with prefix msu_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see
  * https://developers.withflintpay.com/docs/api/merchant-signups#rotateMerchantSignupAuthorizationCodes
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
@@ -235,7 +246,9 @@ export interface MerchantSignupsResource {
  * it.
  *
  * `POST /v1/merchant-signups/{merchant_signup_id}/verify`
- * @param merchant_signup_id ID of the merchant signup.
+ * @param merchant_signup_id ID of the merchant signup. Must be a valid ID with prefix msu_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/merchant-signups#verifyMerchantSignup
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

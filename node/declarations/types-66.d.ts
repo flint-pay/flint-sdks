@@ -1,1512 +1,826 @@
 import type {
-    PaymentCollectionStripeElements,
-    PaymentCollectionStripeElementsPreviousAttributes,
-    PartnerWebhookEnvelope,
-    PaymentErrorSummary,
-    PaymentErrorSummaryPreviousAttributes
-} from './types-49.js';
-import type {
-    ExpandedOrderSummary,
-    ExpandedPackageSummary,
-    ExpandedOrderSummaryPreviousAttributes,
-    ExpandedPackageSummaryPreviousAttributes,
     ExpandedCustomerSummary,
-    ExpandedPaymentMethodSummary,
-    ExpandedSubscriptionPlanSummary,
     ExpandedCustomerSummaryPreviousAttributes,
-    ExpandedPaymentMethodSummaryPreviousAttributes,
-    ExpandedSubscriptionPlanSummaryPreviousAttributes
+    ExpandedOrderSummary,
+    ExpandedOrderSummaryPreviousAttributes,
+    ExpandedShipmentSummary,
+    ExpandedShipmentSummaryPreviousAttributes,
+    DisputesAcceptParams
 } from './types-26.js';
-import type { MetadataMap, MerchantWebhookEnvelope, MetadataRequestInput } from './types-41.js';
-import type { ReturnHandoffRequirementLineItem, ReturnHandoffRequirementLineItemPreviousAttributes } from './types-61.js';
-import type { ResponseMeta } from './types-60.js';
+import type { MetadataMap, MerchantWebhookEnvelope } from './types-43.js';
+import type { PartnerWebhookEnvelope } from './types-50.js';
+import type {
+    ReturnActor,
+    ReturnActorPreviousAttributes,
+    ReturnCompletionBlocker,
+    ReturnCompletionBlockerPreviousAttributes,
+    ReturnDisposition,
+    ReturnDispositionPreviousAttributes,
+    ResponseMeta,
+    ResourceReference
+} from './types-62.js';
+import type {
+    ReturnFinancialSummary,
+    ReturnFinancialSummaryPreviousAttributes,
+    ReturnHandoffRequirement,
+    ReturnHandoffRequirementPreviousAttributes,
+    ReturnInspection,
+    ReturnInspectionPreviousAttributes,
+    ReturnLineItem,
+    ReturnLineItemPreviousAttributes
+} from './types-63.js';
+import type {
+    ReturnPolicyEvaluation,
+    ReturnPolicyEvaluationPreviousAttributes,
+    ReturnReceipt,
+    ReturnReceiptPreviousAttributes
+} from './types-64.js';
+import type { ReturnResolution, ReturnResolutionPreviousAttributes } from './types-65.js';
 import type { InputValue } from '../runtime.js';
-import type { CreateShipmentRequestInput } from './types-13.js';
-import type { UpdateShipmentRequestInput } from './types-75.js';
-import type { VoidShipmentRequestInput } from './types-76.js';
-import type { MoneyValue, MoneyValueInput, MoneyValuePreviousAttributes } from './types-42.js';
-import type { Dimensions, DimensionsRequestInput } from './types-25.js';
-import type { Weight, WeightRequestInput } from './types-77.js';
-import type { ConfigurationVersionRequestInput } from './types-7.js';
-import type { AcceptFulfillmentRequestInput } from './types-0.js';
-import type {
-    SubscriptionCancellationDetails,
-    SubscriptionDelivery,
-    SubscriptionDeliveryHold,
-    SubscriptionCancellationDetailsPreviousAttributes,
-    SubscriptionDeliveryHoldPreviousAttributes
-} from './types-67.js';
-import type {
-    SubscriptionEndAfter,
-    SubscriptionGiftRecipient,
-    SubscriptionIntervalOption,
-    SubscriptionInventoryWait,
-    SubscriptionLineItem,
-    SubscriptionDeliveryPreviousAttributes,
-    SubscriptionEndAfterPreviousAttributes,
-    SubscriptionGiftRecipientPreviousAttributes,
-    SubscriptionIntervalOptionPreviousAttributes,
-    SubscriptionInventoryWaitPreviousAttributes,
-    SubscriptionLineItemPreviousAttributes
-} from './types-68.js';
-import type { SubscriptionPromotion, SubscriptionPromotionPreviousAttributes } from './types-69.js';
-import type {
-    SubscriptionScheduledPlanChange,
-    SubscriptionServiceLocation,
-    SubscriptionTax,
-    SubscriptionUpcomingDeliveryHold,
-    SubscriptionScheduledPlanChangePreviousAttributes,
-    SubscriptionServiceLocationPreviousAttributes,
-    SubscriptionTaxPreviousAttributes,
-    SubscriptionUpcomingDeliveryHoldPreviousAttributes,
-    SubscriptionSnapshotMetrics,
-    SubscriptionWindowMetrics
-} from './types-70.js';
-/** Client guidance for saving a payment method on the merchant's connected account. */
-export type SetupCollection = {
-    /**
-     * Client configuration for saving a payment method through Stripe on the merchant's connected
-     * account. Stripe connected account details and Elements configuration for saving a payment
-     * method.
-     */
-    "stripe"?: SetupCollectionStripe;
-};
-export type SetupCollectionPreviousAttributes = {
-    /**
-     * Client configuration for saving a payment method through Stripe on the merchant's connected
-     * account. anyOf[1] (Value): {@link SetupCollectionStripePreviousAttributes}. anyOf[2]
-     * (Value): null.
-     */
-    "stripe"?: ((SetupCollectionStripePreviousAttributes) | (null));
-};
-/** Stripe connected account details and Elements configuration for saving a payment method. */
-export type SetupCollectionStripe = {
-    /**
-     * Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Example:
-     * "acct_1234567890".
-     */
-    "account_id"?: string;
-    /**
-     * Stripe Elements configuration for the available payment methods and amounts. Stripe Elements
-     * collection guidance. Follow next_step in the browser, then submit the result to submit_to
-     * through Flint.
-     */
-    "elements"?: PaymentCollectionStripeElements;
-    /** Publishable Stripe key for initializing the payment client. */
-    "publishable_key"?: string;
-    /** URL the buyer returns to after a redirect payment step. */
-    "return_url"?: string;
-};
-export type SetupCollectionStripePreviousAttributes = {
-    /**
-     * Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. anyOf[1]
-     * (Value): string. Stripe connected account ID to pass as stripeAccount when initializing
-     * Stripe.js. Example: "acct_1234567890". anyOf[2] (Value): null.
-     */
-    "account_id"?: ((string) | (null));
-    /**
-     * Stripe Elements configuration for the available payment methods and amounts. anyOf[1]
-     * (Value): {@link PaymentCollectionStripeElementsPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "elements"?: ((PaymentCollectionStripeElementsPreviousAttributes) | (null));
-    /**
-     * Publishable Stripe key for initializing the payment client. anyOf[1] (Value): string.
-     * Publishable Stripe key for initializing the payment client. anyOf[2] (Value): null.
-     */
-    "publishable_key"?: ((string) | (null));
-    /**
-     * URL the buyer returns to after a redirect payment step. anyOf[1] (Value): string. URL the
-     * buyer returns to after a redirect payment step. anyOf[2] (Value): null.
-     */
-    "return_url"?: ((string) | (null));
-};
-/** A shipment carrying fulfilled order items. */
-export type Shipment = {
-    /** Creation timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /**
-     * When the shipment was delivered, in RFC3339 format. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "delivered_at"?: string;
-    /**
-     * Whether the shipment sends items to the buyer or returns items to the merchant. Value enum:
-     * "outbound", "return".
-     */
-    "direction": "outbound" | "return" | (string & {});
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. maxLength: 255.
-     * Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries.
-     */
-    "external_system"?: string;
-    /** Fulfillment associated with this shipment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". */
-    "fulfillment_id": string;
-    /**
-     * Carrier handoff timestamp for outbound and return shipments, using the recorded shipped_at
-     * when no separate handoff timestamp exists. For return shipments, this can satisfy an
-     * after_handoff execution gate for the declared return_line_items. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "handed_off_at"?: string;
-    /**
-     * Caller-owned key-value metadata associated with the shipment. Caller-owned key-value data
-     * stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
-     * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those
-     * limits may not satisfy them.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Order summary returned when the order relationship is expanded. Present only when `expand`
-     * includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value):
-     * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment and
-     * refund status, and pricing and settlement amounts, returned when the order is expanded.
-     * anyOf[2] (Value): null.
-     */
-    "order"?: ((ExpandedOrderSummary) | (null));
-    /**
-     * Order whose items are transported by the shipment. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id": string;
-    /**
-     * Total number of packages attached to the shipment, including voided packages. Format: int32.
-     * minimum: 0.
-     */
-    "package_count": number;
-    /**
-     * Summaries of the shipment's packages in creation order, returned when the packages
-     * relationship is expanded or when the shipment is created with packages. [] (Value): {@link
-     * ExpandedPackageSummary}. A package's summary fields, including carrier, tracking, status,
-     * and supported actions, returned when the package is expanded.
-     */
-    "packages"?: Array<ExpandedPackageSummary>;
-    /**
-     * Return associated with this shipment, when its direction is return. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id"?: string;
-    /**
-     * Return lines and quantities allocated to this return shipment. [] (Value): {@link
-     * ReturnHandoffRequirementLineItem}. A return line and the quantity placed in a return
-     * shipment or package.
-     */
-    "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
-    /** Stable identifier of the shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". */
-    "shipment_id": string;
-    /**
-     * When the shipment was shipped, in RFC3339 format. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "shipped_at"?: string;
-    /**
-     * Read-only shipment state derived from the shipment's package states. An empty shipment
-     * remains a created draft. - `created`: The shipment leg exists but has not been packed or
-     * handed off. - `packed`: The shipment leg is packed and awaiting carrier handoff. -
-     * `shipped`: The shipment leg was handed to the carrier. - `in_transit`: The carrier is moving
-     * the shipment through its network. - `out_for_delivery`: The shipment is on its final
-     * delivery route. - `delivered`: The carrier reported successful delivery. -
-     * `delivery_attempted`: The carrier attempted delivery but did not complete it. Follow the
-     * carrier instructions before retrying delivery. - `exception`: A carrier exception is
-     * blocking normal progress. Resolve the carrier-reported issue. - `returned`: The shipment was
-     * returned toward or to its origin. - `voided`: The shipment was voided and will not continue
-     * through delivery. Value enum: "created", "packed", "shipped", "in_transit",
-     * "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned", "voided".
-     */
-    "status": "created"
-        | "packed"
-        | "shipped"
-        | "in_transit"
-        | "out_for_delivery"
-        | "delivered"
-        | "delivery_attempted"
-        | "exception"
-        | "returned"
-        | "voided"
-        | (string & {});
-    /**
-     * Lifecycle actions Flint accepts now, independent of permissions. Contains void while the
-     * shipment and its fulfillment permit voiding. [] enum: "void". [] (Value): string. Value
-     * enum: "void".
-     */
-    "supported_actions": Array<"void" | (string & {})>;
-    /** Last update timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-    /** Monotonic shipment version for expected_version checks. Format: uint64. minimum: 1. */
-    "version": number;
-};
-export type ShipmentCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "created_at": string;
-            "delivered_at"?: string;
-            "direction": "outbound" | "return" | (string & {});
-            "external_reference_id"?: string;
-            "external_system"?: string;
-            "fulfillment_id": string;
-            "handed_off_at"?: string;
-            "metadata"?: MetadataMap;
-            "order"?: ((ExpandedOrderSummary) | (null));
-            "order_id": string;
-            "package_count": number;
-            "packages"?: Array<ExpandedPackageSummary>;
-            "return_id"?: string;
-            "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
-            "shipment_id": string;
-            "shipped_at"?: string;
-            "status": "created"
-                | "packed"
-                | "shipped"
-                | "in_transit"
-                | "out_for_delivery"
-                | "delivered"
-                | "delivery_attempted"
-                | "exception"
-                | "returned"
-                | "voided"
-                | (string & {});
-            "supported_actions": Array<"void" | (string & {})>;
-            "updated_at": string;
-            "version": number;
-        };
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "shipment.created";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "created_at": string;
-            "delivered_at"?: string;
-            "direction": "outbound" | "return" | (string & {});
-            "external_reference_id"?: string;
-            "external_system"?: string;
-            "fulfillment_id": string;
-            "handed_off_at"?: string;
-            "metadata"?: MetadataMap;
-            "order"?: ((ExpandedOrderSummary) | (null));
-            "order_id": string;
-            "package_count": number;
-            "packages"?: Array<ExpandedPackageSummary>;
-            "return_id"?: string;
-            "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
-            "shipment_id": string;
-            "shipped_at"?: string;
-            "status": "created"
-                | "packed"
-                | "shipped"
-                | "in_transit"
-                | "out_for_delivery"
-                | "delivered"
-                | "delivery_attempted"
-                | "exception"
-                | "returned"
-                | "voided"
-                | (string & {});
-            "supported_actions": Array<"void" | (string & {})>;
-            "updated_at": string;
-            "version": number;
-        };
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "shipment.created";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "shipment.created";
-});
+import type { CancelReturnLineItemRequestInput, CancelReturnRequestInput } from './types-5.js';
+import type { CompleteReturnRequestInput } from './types-7.js';
+import type { FilesCompleteParams } from './types-27.js';
+import type { AddReturnLineItemRequestInput, AddRiskListItemsRequestInput } from './types-0.js';
+import type { CreateReturnRequestInput, CreateRiskListRequestInput } from './types-13.js';
+import type { DecideReturnRequestInput } from './types-17.js';
+import type { ProcessExistingReturnRequestInput } from './types-56.js';
+import type { ReopenReturnRequestInput } from './types-61.js';
+import type { UpdateReturnLineItemRequestInput, UpdateReturnRequestInput, UpdateRiskListRequestInput } from './types-77.js';
+import type { WaiveReturnLineInspectionRequestInput } from './types-78.js';
+import type { RiskPredicateNodeRequest, RiskPredicateNodeRequestInput } from './types-67.js';
+import type { MoneyValue, MoneyValueInput } from './types-44.js';
 /**
- * The `shipment.created` webhook payload for the `installed_merchants` event source. Fields shared
+ * The `return.updated` webhook payload for the `installed_merchants` event source. Fields shared
  * by partner webhook payloads.
  */
-export type ShipmentCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+export type ReturnUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.created_at (Required): string. Creation timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.delivered_at (Optional): string. When the
-     * shipment was delivered, in RFC3339 format. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.direction (Required): string. Whether the shipment sends
-     * items to the buyer or returns items to the merchant. Value enum: "outbound", "return".
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. Requires external_system. External references are not unique. Use
-     * Idempotency-Key for retries. maxLength: 255. Example: "warehouse-1842".
-     * object.external_system (Optional): string. Name of the external system that
-     * external_reference_id belongs to. External references are not unique. Use Idempotency-Key
-     * for retries. object.fulfillment_id (Required): string. Fulfillment associated with this
-     * shipment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.handed_off_at (Optional):
-     * string. Carrier handoff timestamp for outbound and return shipments, using the recorded
-     * shipped_at when no separate handoff timestamp exists. For return shipments, this can satisfy
-     * an after_handoff execution gate for the declared return_line_items. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.metadata (Optional): {@link MetadataMap}.
-     * Caller-owned key-value metadata associated with the shipment. Caller-owned key-value data
-     * stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
-     * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those
-     * limits may not satisfy them. object.order (Optional): {@link ExpandedOrderSummary} or null.
-     * Order summary returned when the order relationship is expanded. Present only when `expand`
-     * includes `order`; `null` when expanded and there is no related order. object.order.anyOf[1]
-     * (Value): {@link ExpandedOrderSummary}. An order's summary fields, including status, payment
-     * and refund status, and pricing and settlement amounts, returned when the order is expanded.
-     * object.order.anyOf[2] (Value): null. object.order_id (Required): string. Order whose items
-     * are transported by the shipment. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     * object.package_count (Required): integer. Total number of packages attached to the shipment,
-     * including voided packages. Format: int32. minimum: 0. object.packages (Optional): Array of
-     * {@link ExpandedPackageSummary}. Summaries of the shipment's packages in creation order,
-     * returned when the packages relationship is expanded or when the shipment is created with
-     * packages. object.packages[] (Value): {@link ExpandedPackageSummary}. A package's summary
-     * fields, including carrier, tracking, status, and supported actions, returned when the
-     * package is expanded. object.return_id (Optional): string. Return associated with this
-     * shipment, when its direction is return. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     * object.return_line_items (Optional): Array of {@link ReturnHandoffRequirementLineItem}.
-     * Return lines and quantities allocated to this return shipment. object.return_line_items[]
-     * (Value): {@link ReturnHandoffRequirementLineItem}. A return line and the quantity placed in
-     * a return shipment or package. object.shipment_id (Required): string. Stable identifier of
-     * the shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". object.shipped_at (Optional):
-     * string. When the shipment was shipped, in RFC3339 format. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.status (Required): string. Read-only shipment state derived
-     * from the shipment's package states. An empty shipment remains a created draft. - `created`:
-     * The shipment leg exists but has not been packed or handed off. - `packed`: The shipment leg
-     * is packed and awaiting carrier handoff. - `shipped`: The shipment leg was handed to the
-     * carrier. - `in_transit`: The carrier is moving the shipment through its network. -
-     * `out_for_delivery`: The shipment is on its final delivery route. - `delivered`: The carrier
-     * reported successful delivery. - `delivery_attempted`: The carrier attempted delivery but did
-     * not complete it. Follow the carrier instructions before retrying delivery. - `exception`: A
-     * carrier exception is blocking normal progress. Resolve the carrier-reported issue. -
-     * `returned`: The shipment was returned toward or to its origin. - `voided`: The shipment was
-     * voided and will not continue through delivery. Value enum: "created", "packed", "shipped",
-     * "in_transit", "out_for_delivery", "delivered", "delivery_attempted", "exception",
-     * "returned", "voided". object.supported_actions (Required): Array of string. Lifecycle
-     * actions Flint accepts now, independent of permissions. Contains void while the shipment and
-     * its fulfillment permit voiding. [] enum: "void". object.supported_actions[] (Value): string.
-     * Value enum: "void". object.updated_at (Required): string. Last update timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Monotonic
-     * shipment version for expected_version checks. Format: uint64. minimum: 1.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * created_at (Required): string. Creation timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". delivered_at (Optional): string. When the shipment was
-         * delivered, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * direction (Required): string. Whether the shipment sends items to the buyer or returns
-         * items to the merchant. Value enum: "outbound", "return". external_reference_id
-         * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * Requires external_system. External references are not unique. Use Idempotency-Key for
-         * retries. maxLength: 255. Example: "warehouse-1842". external_system (Optional): string.
-         * Name of the external system that external_reference_id belongs to. External references
-         * are not unique. Use Idempotency-Key for retries. fulfillment_id (Required): string.
-         * Fulfillment associated with this shipment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-         * handed_off_at (Optional): string. Carrier handoff timestamp for outbound and return
-         * shipments, using the recorded shipped_at when no separate handoff timestamp exists. For
-         * return shipments, this can satisfy an after_handoff execution gate for the declared
-         * return_line_items. Format: date-time. Example: "2026-08-02T16:00:00Z". metadata
-         * (Optional): {@link MetadataMap}. Caller-owned key-value metadata associated with the
-         * shipment. Caller-owned key-value data stored on a resource. Keys starting with flint_
-         * are reserved for Flint and are not returned. Writes follow the limits on MetadataInput
-         * and MetadataPatchInput; maps written before those limits may not satisfy them. order
-         * (Optional): {@link ExpandedOrderSummary} or null. Order summary returned when the order
-         * relationship is expanded. Present only when `expand` includes `order`; `null` when
-         * expanded and there is no related order. order.anyOf[1] (Value): {@link
-         * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
-         * status, and pricing and settlement amounts, returned when the order is expanded.
-         * order.anyOf[2] (Value): null. order_id (Required): string. Order whose items are
-         * transported by the shipment. Example: "ord_01KEZF7C0054GQKJ142A8X367A". package_count
-         * (Required): integer. Total number of packages attached to the shipment, including voided
-         * packages. Format: int32. minimum: 0. packages (Optional): Array of {@link
-         * ExpandedPackageSummary}. Summaries of the shipment's packages in creation order,
-         * returned when the packages relationship is expanded or when the shipment is created with
-         * packages. packages[] (Value): {@link ExpandedPackageSummary}. A package's summary
-         * fields, including carrier, tracking, status, and supported actions, returned when the
-         * package is expanded. return_id (Optional): string. Return associated with this shipment,
-         * when its direction is return. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-         * return_line_items (Optional): Array of {@link ReturnHandoffRequirementLineItem}. Return
-         * lines and quantities allocated to this return shipment. return_line_items[] (Value):
-         * {@link ReturnHandoffRequirementLineItem}. A return line and the quantity placed in a
-         * return shipment or package. shipment_id (Required): string. Stable identifier of the
-         * shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". shipped_at (Optional): string. When
-         * the shipment was shipped, in RFC3339 format. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". status (Required): string. Read-only shipment state derived from
-         * the shipment's package states. An empty shipment remains a created draft. - `created`:
-         * The shipment leg exists but has not been packed or handed off. - `packed`: The shipment
-         * leg is packed and awaiting carrier handoff. - `shipped`: The shipment leg was handed to
-         * the carrier. - `in_transit`: The carrier is moving the shipment through its network. -
-         * `out_for_delivery`: The shipment is on its final delivery route. - `delivered`: The
-         * carrier reported successful delivery. - `delivery_attempted`: The carrier attempted
-         * delivery but did not complete it. Follow the carrier instructions before retrying
-         * delivery. - `exception`: A carrier exception is blocking normal progress. Resolve the
-         * carrier-reported issue. - `returned`: The shipment was returned toward or to its origin.
-         * - `voided`: The shipment was voided and will not continue through delivery. Value enum:
-         * "created", "packed", "shipped", "in_transit", "out_for_delivery", "delivered",
-         * "delivery_attempted", "exception", "returned", "voided". supported_actions (Required):
-         * Array of string. Lifecycle actions Flint accepts now, independent of permissions.
-         * Contains void while the shipment and its fulfillment permit voiding. [] enum: "void".
-         * supported_actions[] (Value): string. Value enum: "void". updated_at (Required): string.
-         * Last update timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version
-         * (Required): integer. Monotonic shipment version for expected_version checks. Format:
-         * uint64. minimum: 1.
-         */
-        "object": {
-            /** Creation timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * When the shipment was delivered, in RFC3339 format. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "delivered_at"?: string;
-            /**
-             * Whether the shipment sends items to the buyer or returns items to the merchant.
-             * Value enum: "outbound", "return".
-             */
-            "direction": "outbound" | "return" | (string & {});
-            /**
-             * Caller-owned identifier for this resource in an external system. Requires
-             * external_system. External references are not unique. Use Idempotency-Key for
-             * retries. maxLength: 255. Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Name of the external system that external_reference_id belongs to. External
-             * references are not unique. Use Idempotency-Key for retries.
-             */
-            "external_system"?: string;
-            /**
-             * Fulfillment associated with this shipment. Example:
-             * "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-             */
-            "fulfillment_id": string;
-            /**
-             * Carrier handoff timestamp for outbound and return shipments, using the recorded
-             * shipped_at when no separate handoff timestamp exists. For return shipments, this can
-             * satisfy an after_handoff execution gate for the declared return_line_items. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "handed_off_at"?: string;
-            /**
-             * Caller-owned key-value metadata associated with the shipment. Caller-owned key-value
-             * data stored on a resource. Keys starting with flint_ are reserved for Flint and are
-             * not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
-             * written before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Order summary returned when the order relationship is expanded. Present only when
-             * `expand` includes `order`; `null` when expanded and there is no related order.
-             * anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields, including
-             * status, payment and refund status, and pricing and settlement amounts, returned when
-             * the order is expanded. anyOf[2] (Value): null.
-             */
-            "order"?: ((ExpandedOrderSummary) | (null));
-            /**
-             * Order whose items are transported by the shipment. Example:
-             * "ord_01KEZF7C0054GQKJ142A8X367A".
-             */
-            "order_id": string;
-            /**
-             * Total number of packages attached to the shipment, including voided packages.
-             * Format: int32. minimum: 0.
-             */
-            "package_count": number;
-            /**
-             * Summaries of the shipment's packages in creation order, returned when the packages
-             * relationship is expanded or when the shipment is created with packages. [] (Value):
-             * {@link ExpandedPackageSummary}. A package's summary fields, including carrier,
-             * tracking, status, and supported actions, returned when the package is expanded.
-             */
-            "packages"?: Array<ExpandedPackageSummary>;
-            /**
-             * Return associated with this shipment, when its direction is return. Example:
-             * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-             */
-            "return_id"?: string;
-            /**
-             * Return lines and quantities allocated to this return shipment. [] (Value): {@link
-             * ReturnHandoffRequirementLineItem}. A return line and the quantity placed in a return
-             * shipment or package.
-             */
-            "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
-            /** Stable identifier of the shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". */
-            "shipment_id": string;
-            /**
-             * When the shipment was shipped, in RFC3339 format. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "shipped_at"?: string;
-            /**
-             * Read-only shipment state derived from the shipment's package states. An empty
-             * shipment remains a created draft. - `created`: The shipment leg exists but has not
-             * been packed or handed off. - `packed`: The shipment leg is packed and awaiting
-             * carrier handoff. - `shipped`: The shipment leg was handed to the carrier. -
-             * `in_transit`: The carrier is moving the shipment through its network. -
-             * `out_for_delivery`: The shipment is on its final delivery route. - `delivered`: The
-             * carrier reported successful delivery. - `delivery_attempted`: The carrier attempted
-             * delivery but did not complete it. Follow the carrier instructions before retrying
-             * delivery. - `exception`: A carrier exception is blocking normal progress. Resolve
-             * the carrier-reported issue. - `returned`: The shipment was returned toward or to its
-             * origin. - `voided`: The shipment was voided and will not continue through delivery.
-             * Value enum: "created", "packed", "shipped", "in_transit", "out_for_delivery",
-             * "delivered", "delivery_attempted", "exception", "returned", "voided".
-             */
-            "status": "created"
-                | "packed"
-                | "shipped"
-                | "in_transit"
-                | "out_for_delivery"
-                | "delivered"
-                | "delivery_attempted"
-                | "exception"
-                | "returned"
-                | "voided"
-                | (string & {});
-            /**
-             * Lifecycle actions Flint accepts now, independent of permissions. Contains void while
-             * the shipment and its fulfillment permit voiding. [] enum: "void". [] (Value):
-             * string. Value enum: "void".
-             */
-            "supported_actions": Array<"void" | (string & {})>;
-            /** Last update timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Monotonic shipment version for expected_version checks. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "shipment.created". */
-    "event_type"?: "shipment.created";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `shipment.created` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type ShipmentCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.created_at (Required): string. Creation timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.delivered_at (Optional): string. When the
-     * shipment was delivered, in RFC3339 format. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.direction (Required): string. Whether the shipment sends
-     * items to the buyer or returns items to the merchant. Value enum: "outbound", "return".
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. Requires external_system. External references are not unique. Use
-     * Idempotency-Key for retries. maxLength: 255. Example: "warehouse-1842".
-     * object.external_system (Optional): string. Name of the external system that
-     * external_reference_id belongs to. External references are not unique. Use Idempotency-Key
-     * for retries. object.fulfillment_id (Required): string. Fulfillment associated with this
-     * shipment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.handed_off_at (Optional):
-     * string. Carrier handoff timestamp for outbound and return shipments, using the recorded
-     * shipped_at when no separate handoff timestamp exists. For return shipments, this can satisfy
-     * an after_handoff execution gate for the declared return_line_items. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.metadata (Optional): {@link MetadataMap}.
-     * Caller-owned key-value metadata associated with the shipment. Caller-owned key-value data
-     * stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
-     * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those
-     * limits may not satisfy them. object.order (Optional): {@link ExpandedOrderSummary} or null.
-     * Order summary returned when the order relationship is expanded. Present only when `expand`
-     * includes `order`; `null` when expanded and there is no related order. object.order.anyOf[1]
-     * (Value): {@link ExpandedOrderSummary}. An order's summary fields, including status, payment
-     * and refund status, and pricing and settlement amounts, returned when the order is expanded.
-     * object.order.anyOf[2] (Value): null. object.order_id (Required): string. Order whose items
-     * are transported by the shipment. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     * object.package_count (Required): integer. Total number of packages attached to the shipment,
-     * including voided packages. Format: int32. minimum: 0. object.packages (Optional): Array of
-     * {@link ExpandedPackageSummary}. Summaries of the shipment's packages in creation order,
-     * returned when the packages relationship is expanded or when the shipment is created with
-     * packages. object.packages[] (Value): {@link ExpandedPackageSummary}. A package's summary
-     * fields, including carrier, tracking, status, and supported actions, returned when the
-     * package is expanded. object.return_id (Optional): string. Return associated with this
-     * shipment, when its direction is return. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     * object.return_line_items (Optional): Array of {@link ReturnHandoffRequirementLineItem}.
-     * Return lines and quantities allocated to this return shipment. object.return_line_items[]
-     * (Value): {@link ReturnHandoffRequirementLineItem}. A return line and the quantity placed in
-     * a return shipment or package. object.shipment_id (Required): string. Stable identifier of
-     * the shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". object.shipped_at (Optional):
-     * string. When the shipment was shipped, in RFC3339 format. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.status (Required): string. Read-only shipment state derived
-     * from the shipment's package states. An empty shipment remains a created draft. - `created`:
-     * The shipment leg exists but has not been packed or handed off. - `packed`: The shipment leg
-     * is packed and awaiting carrier handoff. - `shipped`: The shipment leg was handed to the
-     * carrier. - `in_transit`: The carrier is moving the shipment through its network. -
-     * `out_for_delivery`: The shipment is on its final delivery route. - `delivered`: The carrier
-     * reported successful delivery. - `delivery_attempted`: The carrier attempted delivery but did
-     * not complete it. Follow the carrier instructions before retrying delivery. - `exception`: A
-     * carrier exception is blocking normal progress. Resolve the carrier-reported issue. -
-     * `returned`: The shipment was returned toward or to its origin. - `voided`: The shipment was
-     * voided and will not continue through delivery. Value enum: "created", "packed", "shipped",
-     * "in_transit", "out_for_delivery", "delivered", "delivery_attempted", "exception",
-     * "returned", "voided". object.supported_actions (Required): Array of string. Lifecycle
-     * actions Flint accepts now, independent of permissions. Contains void while the shipment and
-     * its fulfillment permit voiding. [] enum: "void". object.supported_actions[] (Value): string.
-     * Value enum: "void". object.updated_at (Required): string. Last update timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Monotonic
-     * shipment version for expected_version checks. Format: uint64. minimum: 1.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * created_at (Required): string. Creation timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". delivered_at (Optional): string. When the shipment was
-         * delivered, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * direction (Required): string. Whether the shipment sends items to the buyer or returns
-         * items to the merchant. Value enum: "outbound", "return". external_reference_id
-         * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * Requires external_system. External references are not unique. Use Idempotency-Key for
-         * retries. maxLength: 255. Example: "warehouse-1842". external_system (Optional): string.
-         * Name of the external system that external_reference_id belongs to. External references
-         * are not unique. Use Idempotency-Key for retries. fulfillment_id (Required): string.
-         * Fulfillment associated with this shipment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-         * handed_off_at (Optional): string. Carrier handoff timestamp for outbound and return
-         * shipments, using the recorded shipped_at when no separate handoff timestamp exists. For
-         * return shipments, this can satisfy an after_handoff execution gate for the declared
-         * return_line_items. Format: date-time. Example: "2026-08-02T16:00:00Z". metadata
-         * (Optional): {@link MetadataMap}. Caller-owned key-value metadata associated with the
-         * shipment. Caller-owned key-value data stored on a resource. Keys starting with flint_
-         * are reserved for Flint and are not returned. Writes follow the limits on MetadataInput
-         * and MetadataPatchInput; maps written before those limits may not satisfy them. order
-         * (Optional): {@link ExpandedOrderSummary} or null. Order summary returned when the order
-         * relationship is expanded. Present only when `expand` includes `order`; `null` when
-         * expanded and there is no related order. order.anyOf[1] (Value): {@link
-         * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
-         * status, and pricing and settlement amounts, returned when the order is expanded.
-         * order.anyOf[2] (Value): null. order_id (Required): string. Order whose items are
-         * transported by the shipment. Example: "ord_01KEZF7C0054GQKJ142A8X367A". package_count
-         * (Required): integer. Total number of packages attached to the shipment, including voided
-         * packages. Format: int32. minimum: 0. packages (Optional): Array of {@link
-         * ExpandedPackageSummary}. Summaries of the shipment's packages in creation order,
-         * returned when the packages relationship is expanded or when the shipment is created with
-         * packages. packages[] (Value): {@link ExpandedPackageSummary}. A package's summary
-         * fields, including carrier, tracking, status, and supported actions, returned when the
-         * package is expanded. return_id (Optional): string. Return associated with this shipment,
-         * when its direction is return. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-         * return_line_items (Optional): Array of {@link ReturnHandoffRequirementLineItem}. Return
-         * lines and quantities allocated to this return shipment. return_line_items[] (Value):
-         * {@link ReturnHandoffRequirementLineItem}. A return line and the quantity placed in a
-         * return shipment or package. shipment_id (Required): string. Stable identifier of the
-         * shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". shipped_at (Optional): string. When
-         * the shipment was shipped, in RFC3339 format. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". status (Required): string. Read-only shipment state derived from
-         * the shipment's package states. An empty shipment remains a created draft. - `created`:
-         * The shipment leg exists but has not been packed or handed off. - `packed`: The shipment
-         * leg is packed and awaiting carrier handoff. - `shipped`: The shipment leg was handed to
-         * the carrier. - `in_transit`: The carrier is moving the shipment through its network. -
-         * `out_for_delivery`: The shipment is on its final delivery route. - `delivered`: The
-         * carrier reported successful delivery. - `delivery_attempted`: The carrier attempted
-         * delivery but did not complete it. Follow the carrier instructions before retrying
-         * delivery. - `exception`: A carrier exception is blocking normal progress. Resolve the
-         * carrier-reported issue. - `returned`: The shipment was returned toward or to its origin.
-         * - `voided`: The shipment was voided and will not continue through delivery. Value enum:
-         * "created", "packed", "shipped", "in_transit", "out_for_delivery", "delivered",
-         * "delivery_attempted", "exception", "returned", "voided". supported_actions (Required):
-         * Array of string. Lifecycle actions Flint accepts now, independent of permissions.
-         * Contains void while the shipment and its fulfillment permit voiding. [] enum: "void".
-         * supported_actions[] (Value): string. Value enum: "void". updated_at (Required): string.
-         * Last update timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version
-         * (Required): integer. Monotonic shipment version for expected_version checks. Format:
-         * uint64. minimum: 1.
-         */
-        "object": {
-            /** Creation timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * When the shipment was delivered, in RFC3339 format. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "delivered_at"?: string;
-            /**
-             * Whether the shipment sends items to the buyer or returns items to the merchant.
-             * Value enum: "outbound", "return".
-             */
-            "direction": "outbound" | "return" | (string & {});
-            /**
-             * Caller-owned identifier for this resource in an external system. Requires
-             * external_system. External references are not unique. Use Idempotency-Key for
-             * retries. maxLength: 255. Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Name of the external system that external_reference_id belongs to. External
-             * references are not unique. Use Idempotency-Key for retries.
-             */
-            "external_system"?: string;
-            /**
-             * Fulfillment associated with this shipment. Example:
-             * "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-             */
-            "fulfillment_id": string;
-            /**
-             * Carrier handoff timestamp for outbound and return shipments, using the recorded
-             * shipped_at when no separate handoff timestamp exists. For return shipments, this can
-             * satisfy an after_handoff execution gate for the declared return_line_items. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "handed_off_at"?: string;
-            /**
-             * Caller-owned key-value metadata associated with the shipment. Caller-owned key-value
-             * data stored on a resource. Keys starting with flint_ are reserved for Flint and are
-             * not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
-             * written before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Order summary returned when the order relationship is expanded. Present only when
-             * `expand` includes `order`; `null` when expanded and there is no related order.
-             * anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields, including
-             * status, payment and refund status, and pricing and settlement amounts, returned when
-             * the order is expanded. anyOf[2] (Value): null.
-             */
-            "order"?: ((ExpandedOrderSummary) | (null));
-            /**
-             * Order whose items are transported by the shipment. Example:
-             * "ord_01KEZF7C0054GQKJ142A8X367A".
-             */
-            "order_id": string;
-            /**
-             * Total number of packages attached to the shipment, including voided packages.
-             * Format: int32. minimum: 0.
-             */
-            "package_count": number;
-            /**
-             * Summaries of the shipment's packages in creation order, returned when the packages
-             * relationship is expanded or when the shipment is created with packages. [] (Value):
-             * {@link ExpandedPackageSummary}. A package's summary fields, including carrier,
-             * tracking, status, and supported actions, returned when the package is expanded.
-             */
-            "packages"?: Array<ExpandedPackageSummary>;
-            /**
-             * Return associated with this shipment, when its direction is return. Example:
-             * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-             */
-            "return_id"?: string;
-            /**
-             * Return lines and quantities allocated to this return shipment. [] (Value): {@link
-             * ReturnHandoffRequirementLineItem}. A return line and the quantity placed in a return
-             * shipment or package.
-             */
-            "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
-            /** Stable identifier of the shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". */
-            "shipment_id": string;
-            /**
-             * When the shipment was shipped, in RFC3339 format. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "shipped_at"?: string;
-            /**
-             * Read-only shipment state derived from the shipment's package states. An empty
-             * shipment remains a created draft. - `created`: The shipment leg exists but has not
-             * been packed or handed off. - `packed`: The shipment leg is packed and awaiting
-             * carrier handoff. - `shipped`: The shipment leg was handed to the carrier. -
-             * `in_transit`: The carrier is moving the shipment through its network. -
-             * `out_for_delivery`: The shipment is on its final delivery route. - `delivered`: The
-             * carrier reported successful delivery. - `delivery_attempted`: The carrier attempted
-             * delivery but did not complete it. Follow the carrier instructions before retrying
-             * delivery. - `exception`: A carrier exception is blocking normal progress. Resolve
-             * the carrier-reported issue. - `returned`: The shipment was returned toward or to its
-             * origin. - `voided`: The shipment was voided and will not continue through delivery.
-             * Value enum: "created", "packed", "shipped", "in_transit", "out_for_delivery",
-             * "delivered", "delivery_attempted", "exception", "returned", "voided".
-             */
-            "status": "created"
-                | "packed"
-                | "shipped"
-                | "in_transit"
-                | "out_for_delivery"
-                | "delivered"
-                | "delivery_attempted"
-                | "exception"
-                | "returned"
-                | "voided"
-                | (string & {});
-            /**
-             * Lifecycle actions Flint accepts now, independent of permissions. Contains void while
-             * the shipment and its fulfillment permit voiding. [] enum: "void". [] (Value):
-             * string. Value enum: "void".
-             */
-            "supported_actions": Array<"void" | (string & {})>;
-            /** Last update timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Monotonic shipment version for expected_version checks. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "shipment.created". */
-    "event_type"?: "shipment.created";
-});
-/**
- * Details of a shipment fulfillment: the shipping window, timezone, and when the shipment was
- * handed to the carrier.
- */
-export type ShipmentFulfillmentDetails = {
-    /**
-     * When the shipment was handed to the carrier. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "shipped_at"?: string;
-    /**
-     * IANA zone the shipping window was entered in, used for display. window_start_at and
-     * window_end_at are absolute timestamps, so this does not change the window. maxLength: 255.
-     */
-    "timezone"?: string;
-    /** End of the scheduled shipping window. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "window_end_at"?: string;
-    /**
-     * Start of the scheduled shipping window. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "window_start_at"?: string;
-};
-export type ShipmentFulfillmentDetailsPreviousAttributes = {
-    /**
-     * When the shipment was handed to the carrier. anyOf[1] (Value): string. When the shipment was
-     * handed to the carrier. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+     *  actor (Optional): {@link ReturnActor}. Who caused this event, captured when the change
+     * commits. Omitted when the event predates actor attribution or attribution is unavailable.
+     * Who performed a return action: a buyer, merchant, integration, or the system, with an
+     * optional ID. object (Required): object. The resource snapshot, without expansions. Webhooks
+     * omit no additional fields. object.canceled_at (Optional): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.canceled_by (Optional): {@link
+     * ReturnActor}. Who canceled the Return. Who performed a return action: a buyer, merchant,
+     * integration, or the system, with an optional ID. object.cancellation_reason (Optional):
+     * string. Why the Return was canceled. Value enum: "buyer_request", "merchant_request",
+     * "duplicate", "expired", "created_in_error", "other". object.cancellation_reason_message
+     * (Optional): string. Detail sent with the cancellation. Merchant reads only.
+     * object.completed_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.completed_by (Optional): {@link ReturnActor}. Who completed
+     * the Return. `system` when Flint completed it automatically. Who performed a return action: a
+     * buyer, merchant, integration, or the system, with an optional ID. object.completion_blockers
+     * (Required): Array of {@link ReturnCompletionBlocker}. What is still owed before the Return
+     * can complete. Empty when nothing is. object.completion_blockers[] (Value): {@link
+     * ReturnCompletionBlocker}. Something still owed before a return can complete, with the return
+     * line or record it concerns. object.completion_mode (Optional): string. automatic completes
+     * the Return when the last completion blocker clears; manual waits for POST
+     * /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum:
+     * "manual", "automatic". object.completion_reason (Optional): string. Why the Return was
+     * completed by hand. Absent when Flint completed it automatically. Value enum:
+     * "manual_completion", "exception_waived", "other". object.completion_reason_message
+     * (Optional): string. Detail sent when the Return was completed by hand. object.created_at
+     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.customer (Optional): {@link ExpandedCustomerSummary} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * object.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary
+     * fields, returned in place of a customer ID when the customer is expanded.
+     * object.customer.anyOf[2] (Value): null. object.customer_id (Optional): string. The customer
+     * the Return belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.decision_at
+     * (Optional): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.decision_status (Required): string. Whether the requested units were approved.
+     * `pending` until one decision covers every line. Value enum: "pending", "approved",
+     * "partially_approved", "declined". object.external_reference_id (Optional): string.
+     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842". object.financial_summary (Required): {@link ReturnFinancialSummary}. The
+     * Return's money in one place: the value of the returned lines, deductions and credits, and
+     * what has been refunded or collected. The money for a return: returned value, deductions,
+     * credits, replacement total, and amounts due to or from the buyer.
+     * object.handoff_requirements (Required): Array of {@link ReturnHandoffRequirement}. What the
+     * buyer still has to send back and where. Each entry leaves the list once it is satisfied, so
+     * an empty list means nothing is waiting on the buyer. object.handoff_requirements[] (Value):
+     * {@link ReturnHandoffRequirement}. What the buyer must do to hand merchandise back: the
+     * destination, instructions, line items, and expiry. object.initiated_by (Required): string.
+     * Who created the Return: buyer for a customer session on /v1/me or Flint's hosted account,
+     * merchant for a Dashboard user, integration for an API key or partner app, or system for
+     * Flint automation. It cannot be sent. Value enum: "buyer", "merchant", "integration",
+     * "system". object.line_items (Required): Array of {@link ReturnLineItem}. The lines being
+     * returned. object.line_items[] (Value): {@link ReturnLineItem}. An item included in a return
+     * request. object.merchandise_status (Required): string. On the Return, the least-finished
+     * line's value. Value enum: "not_required", "awaiting_handoff", "in_transit",
+     * "partially_received", "inspection_required", "partially_inspected",
+     * "inspection_review_required", "disposition_required", "resolved", "exception".
+     * object.metadata (Required): {@link MetadataMap}. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a
+     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them. object.order (Optional): {@link ExpandedOrderSummary} or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+     * including status, payment and refund status, and pricing and settlement amounts, returned
+     * when the order is expanded. object.order.anyOf[2] (Value): null. object.order_id (Required):
+     * string. ID of the Order the Return is against. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * object.policy_evaluation (Optional): {@link ReturnPolicyEvaluation}. How your return
+     * policies judged the request when the Return was created. How a return policy evaluated a
+     * return request: overall status and reason, the policy revision used, and per-line results.
+     * object.resolution_status (Required): string. Whether the buyer has received the value they
+     * are owed. Combines the Return's resolutions and its unsettled corrections. Value enum:
+     * "not_selected", "pending", "partially_completed", "requires_action", "completed", "failed".
+     * object.return_disposition_ids (Required): Array of string. IDs of every disposition recorded
+     * for this Return, oldest first, including failed and canceled dispositions. Expand
+     * `return_dispositions` on `GET /v1/returns/{return_id}` to read them inline.
+     * object.return_disposition_ids[] (Value): string. Example:
+     * "retdsp_01KEZF7C007H87J66PH2EEK1VW". object.return_dispositions (Optional): Array of {@link
+     * ReturnDisposition}. Present only when `expand` includes `return_dispositions`. The
+     * dispositions in `return_disposition_ids`, in the same order. object.return_dispositions[]
+     * (Value): {@link ReturnDisposition}. A decision about how returned merchandise will be
+     * handled. object.return_id (Required): string. Unique identifier for this return, prefixed
+     * `ret_`. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". object.return_inspection_ids (Required):
+     * Array of string. IDs of every inspection recorded for this Return, oldest first, including
+     * superseded inspections. Expand `return_inspections` on `GET /v1/returns/{return_id}` to read
+     * them inline. object.return_inspection_ids[] (Value): string. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". object.return_inspections (Optional): Array of {@link
+     * ReturnInspection}. Present only when `expand` includes `return_inspections`. The inspections
+     * in `return_inspection_ids`, in the same order. object.return_inspections[] (Value): {@link
+     * ReturnInspection}. An assessment of the condition of returned items. object.return_number
+     * (Required): string. Human-readable number for the Return. object.return_receipt_ids
+     * (Required): Array of string. IDs of every receipt recorded for this Return, oldest first,
+     * including superseded receipts. Expand `return_receipts` on `GET /v1/returns/{return_id}` to
+     * read them inline. object.return_receipt_ids[] (Value): string. Example:
+     * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". object.return_receipts (Optional): Array of {@link
+     * ReturnReceipt}. Present only when `expand` includes `return_receipts`. The receipts in
+     * `return_receipt_ids`, in the same order. object.return_receipts[] (Value): {@link
+     * ReturnReceipt}. A record of returned items arriving at a location.
+     * object.return_resolution_ids (Required): Array of string. IDs of every resolution created
+     * for this Return, oldest first, including failed and canceled resolutions. Expand
+     * `return_resolutions` on `GET /v1/returns/{return_id}` to read them inline.
+     * object.return_resolution_ids[] (Value): string. Example:
+     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". object.return_resolutions (Optional): Array of {@link
+     * ReturnResolution}. Present only when `expand` includes `return_resolutions`. The resolutions
+     * in `return_resolution_ids`, in the same order. object.return_resolutions[] (Value): {@link
+     * ReturnResolution}. The refund, exchange, or other outcome of a return. object.shipment_ids
+     * (Required): Array of string. IDs of every shipment raised to send this Return's items back,
+     * oldest first, including voided shipments. Expand `shipments` on `GET
+     * /v1/returns/{return_id}` to read them inline. object.shipment_ids[] (Value): string.
+     * Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". object.shipments (Optional): Array of {@link
+     * ExpandedShipmentSummary}. Present only when `expand` includes `shipments`. Summaries of the
+     * shipments in `shipment_ids`, in the same order. object.shipments[] (Value): {@link
+     * ExpandedShipmentSummary}. A shipment's summary fields, including direction, status, and
+     * package count, returned when the shipment is expanded. object.status (Required): string.
+     * Where the whole Return stands. Read `decision_status`, `merchandise_status`, and
+     * `resolution_status` for the part you need. Value enum: "requested", "open", "completed",
+     * "declined", "canceled". object.supported_actions (Required): Array of string. Actions that
+     * can succeed now. Actions the API key or token doesn't have the scope for are left out. A
+     * Return waiting for a decision lists `decide` and `cancel`. An open Return lists `cancel`
+     * only while no units have been received, inspected, dispositioned, or resolved, and it has no
+     * current receipts or inspections, non-canceled dispositions or resolutions, or non-voided
+     * return shipments. It lists `complete` when `completion_mode` is `manual` and
+     * `completion_blockers` is empty. A completed Return lists `reopen`. A declined or canceled
+     * Return lists none. [] enum: "cancel", "complete", "decide", "process", "reopen".
+     * object.supported_actions[] (Value): string. Value enum: "cancel", "complete", "decide",
+     * "process", "reopen". object.updated_at (Required): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Goes up with
+     * every change to the Return. Each activity's `return_version` is the version that activity
+     * produced. A write that takes `expected_version` or `expected_return_version` for this Return
+     * compares it with this value. Format: int64. minimum: 0. previous_attributes (Optional):
+     * object. Previous values of changed top-level fields in data.object, at this delivery's API
+     * version. Nested changes include the whole previous top-level value. A value is null when the
+     * field was absent before the change. Omitted when Flint did not record the previous state,
+     * including synthetic test events. previous_attributes.canceled_at (Optional): string or null.
+     * RFC3339 timestamp. previous_attributes.canceled_at.anyOf[1] (Value): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.canceled_at.anyOf[2] (Value): null. previous_attributes.canceled_by
+     * (Optional): {@link ReturnActorPreviousAttributes} or null. Who canceled the Return.
+     * previous_attributes.canceled_by.anyOf[1] (Value): {@link ReturnActorPreviousAttributes}.
+     * previous_attributes.canceled_by.anyOf[2] (Value): null.
+     * previous_attributes.cancellation_reason (Optional): string or null. Why the Return was
+     * canceled. Value enum: "buyer_request", "merchant_request", "duplicate", "expired",
+     * "created_in_error", "other". previous_attributes.cancellation_reason.anyOf[1] (Value):
+     * string. Why the Return was canceled. Value enum: "buyer_request", "merchant_request",
+     * "duplicate", "expired", "created_in_error", "other".
+     * previous_attributes.cancellation_reason.anyOf[2] (Value): null.
+     * previous_attributes.cancellation_reason_message (Optional): string or null. Detail sent with
+     * the cancellation. Merchant reads only.
+     * previous_attributes.cancellation_reason_message.anyOf[1] (Value): string. Detail sent with
+     * the cancellation. Merchant reads only.
+     * previous_attributes.cancellation_reason_message.anyOf[2] (Value): null.
+     * previous_attributes.completed_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.completed_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.completed_at.anyOf[2]
+     * (Value): null. previous_attributes.completed_by (Optional): {@link
+     * ReturnActorPreviousAttributes} or null. Who completed the Return. `system` when Flint
+     * completed it automatically. previous_attributes.completed_by.anyOf[1] (Value): {@link
+     * ReturnActorPreviousAttributes}. previous_attributes.completed_by.anyOf[2] (Value): null.
+     * previous_attributes.completion_blockers (Optional): Array of {@link
+     * ReturnCompletionBlockerPreviousAttributes} or null. What is still owed before the Return can
+     * complete. Empty when nothing is. previous_attributes.completion_blockers.anyOf[1] (Value):
+     * Array of {@link ReturnCompletionBlockerPreviousAttributes}. What is still owed before the
+     * Return can complete. Empty when nothing is.
+     * previous_attributes.completion_blockers.anyOf[1][] (Value): {@link
+     * ReturnCompletionBlockerPreviousAttributes}. previous_attributes.completion_blockers.anyOf[2]
+     * (Value): null. previous_attributes.completion_mode (Optional): string or null. automatic
+     * completes the Return when the last completion blocker clears; manual waits for POST
+     * /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum:
+     * "manual", "automatic". previous_attributes.completion_mode.anyOf[1] (Value): string.
+     * automatic completes the Return when the last completion blocker clears; manual waits for
+     * POST /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum:
+     * "manual", "automatic". previous_attributes.completion_mode.anyOf[2] (Value): null.
+     * previous_attributes.completion_reason (Optional): string or null. Why the Return was
+     * completed by hand. Absent when Flint completed it automatically. Value enum:
+     * "manual_completion", "exception_waived", "other".
+     * previous_attributes.completion_reason.anyOf[1] (Value): string. Why the Return was completed
+     * by hand. Absent when Flint completed it automatically. Value enum: "manual_completion",
+     * "exception_waived", "other". previous_attributes.completion_reason.anyOf[2] (Value): null.
+     * previous_attributes.completion_reason_message (Optional): string or null. Detail sent when
+     * the Return was completed by hand. previous_attributes.completion_reason_message.anyOf[1]
+     * (Value): string. Detail sent when the Return was completed by hand.
+     * previous_attributes.completion_reason_message.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.customer (Optional): {@link
+     * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+     * `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. The customer the Return
+     * belongs to. previous_attributes.customer_id.anyOf[1] (Value): string. The customer the
+     * Return belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * previous_attributes.customer_id.anyOf[2] (Value): null. previous_attributes.decision_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.decision_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.decision_at.anyOf[2] (Value): null. previous_attributes.decision_status
+     * (Optional): string or null. Whether the requested units were approved. `pending` until one
+     * decision covers every line. Value enum: "pending", "approved", "partially_approved",
+     * "declined". previous_attributes.decision_status.anyOf[1] (Value): string. Whether the
+     * requested units were approved. `pending` until one decision covers every line. Value enum:
+     * "pending", "approved", "partially_approved", "declined".
+     * previous_attributes.decision_status.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.financial_summary (Optional): {@link
+     * ReturnFinancialSummaryPreviousAttributes} or null. The Return's money in one place: the
+     * value of the returned lines, deductions and credits, and what has been refunded or
+     * collected. previous_attributes.financial_summary.anyOf[1] (Value): {@link
+     * ReturnFinancialSummaryPreviousAttributes}. previous_attributes.financial_summary.anyOf[2]
+     * (Value): null. previous_attributes.handoff_requirements (Optional): Array of {@link
+     * ReturnHandoffRequirementPreviousAttributes} or null. What the buyer still has to send back
+     * and where. Each entry leaves the list once it is satisfied, so an empty list means nothing
+     * is waiting on the buyer. previous_attributes.handoff_requirements.anyOf[1] (Value): Array of
+     * {@link ReturnHandoffRequirementPreviousAttributes}. What the buyer still has to send back
+     * and where. Each entry leaves the list once it is satisfied, so an empty list means nothing
+     * is waiting on the buyer. previous_attributes.handoff_requirements.anyOf[1][] (Value): {@link
+     * ReturnHandoffRequirementPreviousAttributes}.
+     * previous_attributes.handoff_requirements.anyOf[2] (Value): null.
+     * previous_attributes.initiated_by (Optional): string or null. Who created the Return: buyer
+     * for a customer session on /v1/me or Flint's hosted account, merchant for a Dashboard user,
+     * integration for an API key or partner app, or system for Flint automation. It cannot be
+     * sent. Value enum: "buyer", "merchant", "integration", "system".
+     * previous_attributes.initiated_by.anyOf[1] (Value): string. Who created the Return: buyer for
+     * a customer session on /v1/me or Flint's hosted account, merchant for a Dashboard user,
+     * integration for an API key or partner app, or system for Flint automation. It cannot be
+     * sent. Value enum: "buyer", "merchant", "integration", "system".
+     * previous_attributes.initiated_by.anyOf[2] (Value): null. previous_attributes.line_items
+     * (Optional): Array of {@link ReturnLineItemPreviousAttributes} or null. The lines being
+     * returned. previous_attributes.line_items.anyOf[1] (Value): Array of {@link
+     * ReturnLineItemPreviousAttributes}. The lines being returned.
+     * previous_attributes.line_items.anyOf[1][] (Value): {@link ReturnLineItemPreviousAttributes}.
+     * previous_attributes.line_items.anyOf[2] (Value): null.
+     * previous_attributes.merchandise_status (Optional): string or null. On the Return, the
+     * least-finished line's value. Value enum: "not_required", "awaiting_handoff", "in_transit",
+     * "partially_received", "inspection_required", "partially_inspected",
+     * "inspection_review_required", "disposition_required", "resolved", "exception".
+     * previous_attributes.merchandise_status.anyOf[1] (Value): string. On the Return, the
+     * least-finished line's value. Value enum: "not_required", "awaiting_handoff", "in_transit",
+     * "partially_received", "inspection_required", "partially_inspected",
+     * "inspection_review_required", "disposition_required", "resolved", "exception".
+     * previous_attributes.merchandise_status.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
+     * (Value): {@link MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.order (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or
+     * null. Present only when `expand` includes `order`; `null` when expanded and there is no
+     * related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value): null.
+     * previous_attributes.order_id (Optional): string or null. ID of the Order the Return is
+     * against. previous_attributes.order_id.anyOf[1] (Value): string. ID of the Order the Return
+     * is against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2]
+     * (Value): null. previous_attributes.policy_evaluation (Optional): {@link
+     * ReturnPolicyEvaluationPreviousAttributes} or null. How your return policies judged the
+     * request when the Return was created. previous_attributes.policy_evaluation.anyOf[1] (Value):
+     * {@link ReturnPolicyEvaluationPreviousAttributes}.
+     * previous_attributes.policy_evaluation.anyOf[2] (Value): null.
+     * previous_attributes.resolution_status (Optional): string or null. Whether the buyer has
+     * received the value they are owed. Combines the Return's resolutions and its unsettled
+     * corrections. Value enum: "not_selected", "pending", "partially_completed",
+     * "requires_action", "completed", "failed". previous_attributes.resolution_status.anyOf[1]
+     * (Value): string. Whether the buyer has received the value they are owed. Combines the
+     * Return's resolutions and its unsettled corrections. Value enum: "not_selected", "pending",
+     * "partially_completed", "requires_action", "completed", "failed".
+     * previous_attributes.resolution_status.anyOf[2] (Value): null.
+     * previous_attributes.return_disposition_ids (Optional): Array of string or null. IDs of every
+     * disposition recorded for this Return, oldest first, including failed and canceled
+     * dispositions. Expand `return_dispositions` on `GET /v1/returns/{return_id}` to read them
+     * inline. previous_attributes.return_disposition_ids.anyOf[1] (Value): Array of string. IDs of
+     * every disposition recorded for this Return, oldest first, including failed and canceled
+     * dispositions. Expand `return_dispositions` on `GET /v1/returns/{return_id}` to read them
+     * inline. previous_attributes.return_disposition_ids.anyOf[1][] (Value): string. Example:
+     * "retdsp_01KEZF7C007H87J66PH2EEK1VW". previous_attributes.return_disposition_ids.anyOf[2]
+     * (Value): null. previous_attributes.return_dispositions (Optional): Array of {@link
+     * ReturnDispositionPreviousAttributes} or null. Present only when `expand` includes
+     * `return_dispositions`. The dispositions in `return_disposition_ids`, in the same order.
+     * previous_attributes.return_dispositions.anyOf[1] (Value): Array of {@link
+     * ReturnDispositionPreviousAttributes}. Present only when `expand` includes
+     * `return_dispositions`. The dispositions in `return_disposition_ids`, in the same order.
+     * previous_attributes.return_dispositions.anyOf[1][] (Value): {@link
+     * ReturnDispositionPreviousAttributes}. previous_attributes.return_dispositions.anyOf[2]
+     * (Value): null. previous_attributes.return_id (Optional): string or null. Unique identifier
+     * for this return, prefixed `ret_`. previous_attributes.return_id.anyOf[1] (Value): string.
+     * Unique identifier for this return, prefixed `ret_`. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X". previous_attributes.return_id.anyOf[2] (Value): null.
+     * previous_attributes.return_inspection_ids (Optional): Array of string or null. IDs of every
+     * inspection recorded for this Return, oldest first, including superseded inspections. Expand
+     * `return_inspections` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.return_inspection_ids.anyOf[1] (Value): Array of string. IDs of every
+     * inspection recorded for this Return, oldest first, including superseded inspections. Expand
+     * `return_inspections` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.return_inspection_ids.anyOf[1][] (Value): string. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". previous_attributes.return_inspection_ids.anyOf[2]
+     * (Value): null. previous_attributes.return_inspections (Optional): Array of {@link
+     * ReturnInspectionPreviousAttributes} or null. Present only when `expand` includes
+     * `return_inspections`. The inspections in `return_inspection_ids`, in the same order.
+     * previous_attributes.return_inspections.anyOf[1] (Value): Array of {@link
+     * ReturnInspectionPreviousAttributes}. Present only when `expand` includes
+     * `return_inspections`. The inspections in `return_inspection_ids`, in the same order.
+     * previous_attributes.return_inspections.anyOf[1][] (Value): {@link
+     * ReturnInspectionPreviousAttributes}. previous_attributes.return_inspections.anyOf[2]
+     * (Value): null. previous_attributes.return_number (Optional): string or null. Human-readable
+     * number for the Return. previous_attributes.return_number.anyOf[1] (Value): string.
+     * Human-readable number for the Return. previous_attributes.return_number.anyOf[2] (Value):
+     * null. previous_attributes.return_receipt_ids (Optional): Array of string or null. IDs of
+     * every receipt recorded for this Return, oldest first, including superseded receipts. Expand
+     * `return_receipts` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.return_receipt_ids.anyOf[1] (Value): Array of string. IDs of every
+     * receipt recorded for this Return, oldest first, including superseded receipts. Expand
+     * `return_receipts` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.return_receipt_ids.anyOf[1][] (Value): string. Example:
+     * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". previous_attributes.return_receipt_ids.anyOf[2] (Value):
+     * null. previous_attributes.return_receipts (Optional): Array of {@link
+     * ReturnReceiptPreviousAttributes} or null. Present only when `expand` includes
+     * `return_receipts`. The receipts in `return_receipt_ids`, in the same order.
+     * previous_attributes.return_receipts.anyOf[1] (Value): Array of {@link
+     * ReturnReceiptPreviousAttributes}. Present only when `expand` includes `return_receipts`. The
+     * receipts in `return_receipt_ids`, in the same order.
+     * previous_attributes.return_receipts.anyOf[1][] (Value): {@link
+     * ReturnReceiptPreviousAttributes}. previous_attributes.return_receipts.anyOf[2] (Value):
+     * null. previous_attributes.return_resolution_ids (Optional): Array of string or null. IDs of
+     * every resolution created for this Return, oldest first, including failed and canceled
+     * resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them
+     * inline. previous_attributes.return_resolution_ids.anyOf[1] (Value): Array of string. IDs of
+     * every resolution created for this Return, oldest first, including failed and canceled
+     * resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them
+     * inline. previous_attributes.return_resolution_ids.anyOf[1][] (Value): string. Example:
+     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". previous_attributes.return_resolution_ids.anyOf[2]
+     * (Value): null. previous_attributes.return_resolutions (Optional): Array of {@link
+     * ReturnResolutionPreviousAttributes} or null. Present only when `expand` includes
+     * `return_resolutions`. The resolutions in `return_resolution_ids`, in the same order.
+     * previous_attributes.return_resolutions.anyOf[1] (Value): Array of {@link
+     * ReturnResolutionPreviousAttributes}. Present only when `expand` includes
+     * `return_resolutions`. The resolutions in `return_resolution_ids`, in the same order.
+     * previous_attributes.return_resolutions.anyOf[1][] (Value): {@link
+     * ReturnResolutionPreviousAttributes}. previous_attributes.return_resolutions.anyOf[2]
+     * (Value): null. previous_attributes.shipment_ids (Optional): Array of string or null. IDs of
+     * every shipment raised to send this Return's items back, oldest first, including voided
+     * shipments. Expand `shipments` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.shipment_ids.anyOf[1] (Value): Array of string. IDs of every shipment
+     * raised to send this Return's items back, oldest first, including voided shipments. Expand
+     * `shipments` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.shipment_ids.anyOf[1][] (Value): string. Example:
+     * "shp_01KEZF7C00Q2AFXWXHMCDR3F68". previous_attributes.shipment_ids.anyOf[2] (Value): null.
+     * previous_attributes.shipments (Optional): Array of {@link
+     * ExpandedShipmentSummaryPreviousAttributes} or null. Present only when `expand` includes
+     * `shipments`. Summaries of the shipments in `shipment_ids`, in the same order.
+     * previous_attributes.shipments.anyOf[1] (Value): Array of {@link
+     * ExpandedShipmentSummaryPreviousAttributes}. Present only when `expand` includes `shipments`.
+     * Summaries of the shipments in `shipment_ids`, in the same order.
+     * previous_attributes.shipments.anyOf[1][] (Value): {@link
+     * ExpandedShipmentSummaryPreviousAttributes}. previous_attributes.shipments.anyOf[2] (Value):
+     * null. previous_attributes.status (Optional): string or null. Where the whole Return stands.
+     * Read `decision_status`, `merchandise_status`, and `resolution_status` for the part you need.
+     * Value enum: "requested", "open", "completed", "declined", "canceled".
+     * previous_attributes.status.anyOf[1] (Value): string. Where the whole Return stands. Read
+     * `decision_status`, `merchandise_status`, and `resolution_status` for the part you need.
+     * Value enum: "requested", "open", "completed", "declined", "canceled".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
+     * (Optional): Array of string or null. Actions that can succeed now. Actions the API key or
+     * token doesn't have the scope for are left out. A Return waiting for a decision lists
+     * `decide` and `cancel`. An open Return lists `cancel` only while no units have been received,
+     * inspected, dispositioned, or resolved, and it has no current receipts or inspections,
+     * non-canceled dispositions or resolutions, or non-voided return shipments. It lists
+     * `complete` when `completion_mode` is `manual` and `completion_blockers` is empty. A
+     * completed Return lists `reopen`. A declined or canceled Return lists none. [] enum:
+     * "cancel", "complete", "decide", "process", "reopen".
+     * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Actions that can
+     * succeed now. Actions the API key or token doesn't have the scope for are left out. A Return
+     * waiting for a decision lists `decide` and `cancel`. An open Return lists `cancel` only while
+     * no units have been received, inspected, dispositioned, or resolved, and it has no current
+     * receipts or inspections, non-canceled dispositions or resolutions, or non-voided return
+     * shipments. It lists `complete` when `completion_mode` is `manual` and `completion_blockers`
+     * is empty. A completed Return lists `reopen`. A declined or canceled Return lists none. []
+     * enum: "cancel", "complete", "decide", "process", "reopen".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "cancel",
+     * "complete", "decide", "process", "reopen". previous_attributes.supported_actions.anyOf[2]
+     * (Value): null. previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Goes up with every change to
+     * the Return. Each activity's `return_version` is the version that activity produced. A write
+     * that takes `expected_version` or `expected_return_version` for this Return compares it with
+     * this value. previous_attributes.version.anyOf[1] (Value): integer. Goes up with every change
+     * to the Return. Each activity's `return_version` is the version that activity produced. A
+     * write that takes `expected_version` or `expected_return_version` for this Return compares it
+     * with this value. Format: int64. minimum: 0. previous_attributes.version.anyOf[2] (Value):
      * null.
      */
-    "shipped_at"?: ((string) | (null));
-    /**
-     * IANA zone the shipping window was entered in, used for display. window_start_at and
-     * window_end_at are absolute timestamps, so this does not change the window. anyOf[1] (Value):
-     * string. IANA zone the shipping window was entered in, used for display. window_start_at and
-     * window_end_at are absolute timestamps, so this does not change the window. maxLength: 255.
-     * anyOf[2] (Value): null.
-     */
-    "timezone"?: ((string) | (null));
-    /**
-     * End of the scheduled shipping window. anyOf[1] (Value): string. End of the scheduled
-     * shipping window. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "window_end_at"?: ((string) | (null));
-    /**
-     * Start of the scheduled shipping window. anyOf[1] (Value): string. Start of the scheduled
-     * shipping window. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "window_start_at"?: ((string) | (null));
-};
-/** A page of `Shipment` objects. */
-export type ShipmentListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * Shipment}. A shipment carrying fulfilled order items.
-     */
-    "data": Array<Shipment>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `Shipment` data. */
-export type ShipmentResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A shipment carrying
-     * fulfilled order items.
-     */
-    "data": Shipment;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type ShipmentUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "created_at": string;
-            "delivered_at"?: string;
-            "direction": "outbound" | "return" | (string & {});
-            "external_reference_id"?: string;
-            "external_system"?: string;
-            "fulfillment_id": string;
-            "handed_off_at"?: string;
-            "metadata"?: MetadataMap;
-            "order"?: ((ExpandedOrderSummary) | (null));
-            "order_id": string;
-            "package_count": number;
-            "packages"?: Array<ExpandedPackageSummary>;
-            "return_id"?: string;
-            "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
-            "shipment_id": string;
-            "shipped_at"?: string;
-            "status": "created"
-                | "packed"
-                | "shipped"
-                | "in_transit"
-                | "out_for_delivery"
-                | "delivered"
-                | "delivery_attempted"
-                | "exception"
-                | "returned"
-                | "voided"
-                | (string & {});
-            "supported_actions": Array<"void" | (string & {})>;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "created_at"?: ((string) | (null));
-            "delivered_at"?: ((string) | (null));
-            "direction"?: (("outbound" | "return" | (string & {})) | (null));
-            "external_reference_id"?: ((string) | (null));
-            "external_system"?: ((string) | (null));
-            "fulfillment_id"?: ((string) | (null));
-            "handed_off_at"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null));
-            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
-            "order_id"?: ((string) | (null));
-            "package_count"?: ((number) | (null));
-            "packages"?: ((Array<ExpandedPackageSummaryPreviousAttributes>) | (null));
-            "return_id"?: ((string) | (null));
-            "return_line_items"?: ((Array<ReturnHandoffRequirementLineItemPreviousAttributes>) | (null));
-            "shipment_id"?: ((string) | (null));
-            "shipped_at"?: ((string) | (null));
-            "status"?: (("created"
-                | "packed"
-                | "shipped"
-                | "in_transit"
-                | "out_for_delivery"
-                | "delivered"
-                | "delivery_attempted"
-                | "exception"
-                | "returned"
-                | "voided"
-                | (string & {}))
-                | (null));
-            "supported_actions"?: ((Array<"void" | (string & {})>) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "shipment.updated";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "created_at": string;
-            "delivered_at"?: string;
-            "direction": "outbound" | "return" | (string & {});
-            "external_reference_id"?: string;
-            "external_system"?: string;
-            "fulfillment_id": string;
-            "handed_off_at"?: string;
-            "metadata"?: MetadataMap;
-            "order"?: ((ExpandedOrderSummary) | (null));
-            "order_id": string;
-            "package_count": number;
-            "packages"?: Array<ExpandedPackageSummary>;
-            "return_id"?: string;
-            "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
-            "shipment_id": string;
-            "shipped_at"?: string;
-            "status": "created"
-                | "packed"
-                | "shipped"
-                | "in_transit"
-                | "out_for_delivery"
-                | "delivered"
-                | "delivery_attempted"
-                | "exception"
-                | "returned"
-                | "voided"
-                | (string & {});
-            "supported_actions": Array<"void" | (string & {})>;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "created_at"?: ((string) | (null));
-            "delivered_at"?: ((string) | (null));
-            "direction"?: (("outbound" | "return" | (string & {})) | (null));
-            "external_reference_id"?: ((string) | (null));
-            "external_system"?: ((string) | (null));
-            "fulfillment_id"?: ((string) | (null));
-            "handed_off_at"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null));
-            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
-            "order_id"?: ((string) | (null));
-            "package_count"?: ((number) | (null));
-            "packages"?: ((Array<ExpandedPackageSummaryPreviousAttributes>) | (null));
-            "return_id"?: ((string) | (null));
-            "return_line_items"?: ((Array<ReturnHandoffRequirementLineItemPreviousAttributes>) | (null));
-            "shipment_id"?: ((string) | (null));
-            "shipped_at"?: ((string) | (null));
-            "status"?: (("created"
-                | "packed"
-                | "shipped"
-                | "in_transit"
-                | "out_for_delivery"
-                | "delivered"
-                | "delivery_attempted"
-                | "exception"
-                | "returned"
-                | "voided"
-                | (string & {}))
-                | (null));
-            "supported_actions"?: ((Array<"void" | (string & {})>) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "shipment.updated";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "shipment.updated";
-});
-/**
- * The `shipment.updated` webhook payload for the `installed_merchants` event source. Fields shared
- * by partner webhook payloads.
- */
-export type ShipmentUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.created_at (Required): string. Creation timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.delivered_at (Optional): string. When the
-     * shipment was delivered, in RFC3339 format. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.direction (Required): string. Whether the shipment sends
-     * items to the buyer or returns items to the merchant. Value enum: "outbound", "return".
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. Requires external_system. External references are not unique. Use
-     * Idempotency-Key for retries. maxLength: 255. Example: "warehouse-1842".
-     * object.external_system (Optional): string. Name of the external system that
-     * external_reference_id belongs to. External references are not unique. Use Idempotency-Key
-     * for retries. object.fulfillment_id (Required): string. Fulfillment associated with this
-     * shipment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.handed_off_at (Optional):
-     * string. Carrier handoff timestamp for outbound and return shipments, using the recorded
-     * shipped_at when no separate handoff timestamp exists. For return shipments, this can satisfy
-     * an after_handoff execution gate for the declared return_line_items. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.metadata (Optional): {@link MetadataMap}.
-     * Caller-owned key-value metadata associated with the shipment. Caller-owned key-value data
-     * stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
-     * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those
-     * limits may not satisfy them. object.order (Optional): {@link ExpandedOrderSummary} or null.
-     * Order summary returned when the order relationship is expanded. Present only when `expand`
-     * includes `order`; `null` when expanded and there is no related order. object.order.anyOf[1]
-     * (Value): {@link ExpandedOrderSummary}. An order's summary fields, including status, payment
-     * and refund status, and pricing and settlement amounts, returned when the order is expanded.
-     * object.order.anyOf[2] (Value): null. object.order_id (Required): string. Order whose items
-     * are transported by the shipment. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     * object.package_count (Required): integer. Total number of packages attached to the shipment,
-     * including voided packages. Format: int32. minimum: 0. object.packages (Optional): Array of
-     * {@link ExpandedPackageSummary}. Summaries of the shipment's packages in creation order,
-     * returned when the packages relationship is expanded or when the shipment is created with
-     * packages. object.packages[] (Value): {@link ExpandedPackageSummary}. A package's summary
-     * fields, including carrier, tracking, status, and supported actions, returned when the
-     * package is expanded. object.return_id (Optional): string. Return associated with this
-     * shipment, when its direction is return. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     * object.return_line_items (Optional): Array of {@link ReturnHandoffRequirementLineItem}.
-     * Return lines and quantities allocated to this return shipment. object.return_line_items[]
-     * (Value): {@link ReturnHandoffRequirementLineItem}. A return line and the quantity placed in
-     * a return shipment or package. object.shipment_id (Required): string. Stable identifier of
-     * the shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". object.shipped_at (Optional):
-     * string. When the shipment was shipped, in RFC3339 format. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.status (Required): string. Read-only shipment state derived
-     * from the shipment's package states. An empty shipment remains a created draft. - `created`:
-     * The shipment leg exists but has not been packed or handed off. - `packed`: The shipment leg
-     * is packed and awaiting carrier handoff. - `shipped`: The shipment leg was handed to the
-     * carrier. - `in_transit`: The carrier is moving the shipment through its network. -
-     * `out_for_delivery`: The shipment is on its final delivery route. - `delivered`: The carrier
-     * reported successful delivery. - `delivery_attempted`: The carrier attempted delivery but did
-     * not complete it. Follow the carrier instructions before retrying delivery. - `exception`: A
-     * carrier exception is blocking normal progress. Resolve the carrier-reported issue. -
-     * `returned`: The shipment was returned toward or to its origin. - `voided`: The shipment was
-     * voided and will not continue through delivery. Value enum: "created", "packed", "shipped",
-     * "in_transit", "out_for_delivery", "delivered", "delivery_attempted", "exception",
-     * "returned", "voided". object.supported_actions (Required): Array of string. Lifecycle
-     * actions Flint accepts now, independent of permissions. Contains void while the shipment and
-     * its fulfillment permit voiding. [] enum: "void". object.supported_actions[] (Value): string.
-     * Value enum: "void". object.updated_at (Required): string. Last update timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Monotonic
-     * shipment version for expected_version checks. Format: uint64. minimum: 1.
-     * previous_attributes (Optional): object. Previous values of changed top-level fields in
-     * data.object, at this delivery's API version. Nested changes include the whole previous
-     * top-level value. A value is null when the field was absent before the change. Omitted when
-     * Flint did not record the previous state, including synthetic test events.
-     * previous_attributes.created_at (Optional): string or null. Creation timestamp.
-     * previous_attributes.created_at.anyOf[1] (Value): string. Creation timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.delivered_at (Optional): string or null. When the shipment was
-     * delivered, in RFC3339 format. previous_attributes.delivered_at.anyOf[1] (Value): string.
-     * When the shipment was delivered, in RFC3339 format. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.delivered_at.anyOf[2] (Value): null.
-     * previous_attributes.direction (Optional): string or null. Whether the shipment sends items
-     * to the buyer or returns items to the merchant. Value enum: "outbound", "return".
-     * previous_attributes.direction.anyOf[1] (Value): string. Whether the shipment sends items to
-     * the buyer or returns items to the merchant. Value enum: "outbound", "return".
-     * previous_attributes.direction.anyOf[2] (Value): null.
-     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
-     * identifier for this resource in an external system. Requires external_system. External
-     * references are not unique. Use Idempotency-Key for retries.
-     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
-     * for this resource in an external system. Requires external_system. External references are
-     * not unique. Use Idempotency-Key for retries. maxLength: 255. Example: "warehouse-1842".
-     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
-     * previous_attributes.external_system (Optional): string or null. Name of the external system
-     * that external_reference_id belongs to. External references are not unique. Use
-     * Idempotency-Key for retries. previous_attributes.external_system.anyOf[1] (Value): string.
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. previous_attributes.external_system.anyOf[2]
-     * (Value): null. previous_attributes.fulfillment_id (Optional): string or null. Fulfillment
-     * associated with this shipment. previous_attributes.fulfillment_id.anyOf[1] (Value): string.
-     * Fulfillment associated with this shipment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-     * previous_attributes.fulfillment_id.anyOf[2] (Value): null. previous_attributes.handed_off_at
-     * (Optional): string or null. Carrier handoff timestamp for outbound and return shipments,
-     * using the recorded shipped_at when no separate handoff timestamp exists. For return
-     * shipments, this can satisfy an after_handoff execution gate for the declared
-     * return_line_items. previous_attributes.handed_off_at.anyOf[1] (Value): string. Carrier
-     * handoff timestamp for outbound and return shipments, using the recorded shipped_at when no
-     * separate handoff timestamp exists. For return shipments, this can satisfy an after_handoff
-     * execution gate for the declared return_line_items. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.handed_off_at.anyOf[2] (Value): null.
-     * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned key-value
-     * metadata associated with the shipment. previous_attributes.metadata.anyOf[1] (Value): {@link
-     * MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.order
-     * (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or null. Order summary returned
-     * when the order relationship is expanded. Present only when `expand` includes `order`; `null`
-     * when expanded and there is no related order. previous_attributes.order.anyOf[1] (Value):
-     * {@link ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value):
-     * null. previous_attributes.order_id (Optional): string or null. Order whose items are
-     * transported by the shipment. previous_attributes.order_id.anyOf[1] (Value): string. Order
-     * whose items are transported by the shipment. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     * previous_attributes.order_id.anyOf[2] (Value): null. previous_attributes.package_count
-     * (Optional): integer or null. Total number of packages attached to the shipment, including
-     * voided packages. previous_attributes.package_count.anyOf[1] (Value): integer. Total number
-     * of packages attached to the shipment, including voided packages. Format: int32. minimum: 0.
-     * previous_attributes.package_count.anyOf[2] (Value): null. previous_attributes.packages
-     * (Optional): Array of {@link ExpandedPackageSummaryPreviousAttributes} or null. Summaries of
-     * the shipment's packages in creation order, returned when the packages relationship is
-     * expanded or when the shipment is created with packages.
-     * previous_attributes.packages.anyOf[1] (Value): Array of {@link
-     * ExpandedPackageSummaryPreviousAttributes}. Summaries of the shipment's packages in creation
-     * order, returned when the packages relationship is expanded or when the shipment is created
-     * with packages. previous_attributes.packages.anyOf[1][] (Value): {@link
-     * ExpandedPackageSummaryPreviousAttributes}. previous_attributes.packages.anyOf[2] (Value):
-     * null. previous_attributes.return_id (Optional): string or null. Return associated with this
-     * shipment, when its direction is return. previous_attributes.return_id.anyOf[1] (Value):
-     * string. Return associated with this shipment, when its direction is return. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X". previous_attributes.return_id.anyOf[2] (Value): null.
-     * previous_attributes.return_line_items (Optional): Array of {@link
-     * ReturnHandoffRequirementLineItemPreviousAttributes} or null. Return lines and quantities
-     * allocated to this return shipment. previous_attributes.return_line_items.anyOf[1] (Value):
-     * Array of {@link ReturnHandoffRequirementLineItemPreviousAttributes}. Return lines and
-     * quantities allocated to this return shipment.
-     * previous_attributes.return_line_items.anyOf[1][] (Value): {@link
-     * ReturnHandoffRequirementLineItemPreviousAttributes}.
-     * previous_attributes.return_line_items.anyOf[2] (Value): null.
-     * previous_attributes.shipment_id (Optional): string or null. Stable identifier of the
-     * shipment. previous_attributes.shipment_id.anyOf[1] (Value): string. Stable identifier of the
-     * shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
-     * previous_attributes.shipment_id.anyOf[2] (Value): null. previous_attributes.shipped_at
-     * (Optional): string or null. When the shipment was shipped, in RFC3339 format.
-     * previous_attributes.shipped_at.anyOf[1] (Value): string. When the shipment was shipped, in
-     * RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.shipped_at.anyOf[2] (Value): null. previous_attributes.status
-     * (Optional): string or null. Read-only shipment state derived from the shipment's package
-     * states. An empty shipment remains a created draft. - `created`: The shipment leg exists but
-     * has not been packed or handed off. - `packed`: The shipment leg is packed and awaiting
-     * carrier handoff. - `shipped`: The shipment leg was handed to the carrier. - `in_transit`:
-     * The carrier is moving the shipment through its network. - `out_for_delivery`: The shipment
-     * is on its final delivery route. - `delivered`: The carrier reported successful delivery. -
-     * `delivery_attempted`: The carrier attempted delivery but did not complete it. Follow the
-     * carrier instructions before retrying delivery. - `exception`: A carrier exception is
-     * blocking normal progress. Resolve the carrier-reported issue. - `returned`: The shipment was
-     * returned toward or to its origin. - `voided`: The shipment was voided and will not continue
-     * through delivery. Value enum: "created", "packed", "shipped", "in_transit",
-     * "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned", "voided".
-     * previous_attributes.status.anyOf[1] (Value): string. Read-only shipment state derived from
-     * the shipment's package states. An empty shipment remains a created draft. - `created`: The
-     * shipment leg exists but has not been packed or handed off. - `packed`: The shipment leg is
-     * packed and awaiting carrier handoff. - `shipped`: The shipment leg was handed to the
-     * carrier. - `in_transit`: The carrier is moving the shipment through its network. -
-     * `out_for_delivery`: The shipment is on its final delivery route. - `delivered`: The carrier
-     * reported successful delivery. - `delivery_attempted`: The carrier attempted delivery but did
-     * not complete it. Follow the carrier instructions before retrying delivery. - `exception`: A
-     * carrier exception is blocking normal progress. Resolve the carrier-reported issue. -
-     * `returned`: The shipment was returned toward or to its origin. - `voided`: The shipment was
-     * voided and will not continue through delivery. Value enum: "created", "packed", "shipped",
-     * "in_transit", "out_for_delivery", "delivered", "delivery_attempted", "exception",
-     * "returned", "voided". previous_attributes.status.anyOf[2] (Value): null.
-     * previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle actions
-     * Flint accepts now, independent of permissions. Contains void while the shipment and its
-     * fulfillment permit voiding. [] enum: "void". previous_attributes.supported_actions.anyOf[1]
-     * (Value): Array of string. Lifecycle actions Flint accepts now, independent of permissions.
-     * Contains void while the shipment and its fulfillment permit voiding. [] enum: "void".
-     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "void".
-     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.updated_at
-     * (Optional): string or null. Last update timestamp. previous_attributes.updated_at.anyOf[1]
-     * (Value): string. Last update timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
-     * (Optional): integer or null. Monotonic shipment version for expected_version checks.
-     * previous_attributes.version.anyOf[1] (Value): integer. Monotonic shipment version for
-     * expected_version checks. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2]
-     * (Value): null.
-     */
     "data"?: {
         /**
+         * Who caused this event, captured when the change commits. Omitted when the event predates
+         * actor attribution or attribution is unavailable. Who performed a return action: a buyer,
+         * merchant, integration, or the system, with an optional ID.
+         */
+        "actor"?: ReturnActor;
+        /**
          * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * created_at (Required): string. Creation timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". delivered_at (Optional): string. When the shipment was
-         * delivered, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * direction (Required): string. Whether the shipment sends items to the buyer or returns
-         * items to the merchant. Value enum: "outbound", "return". external_reference_id
-         * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * Requires external_system. External references are not unique. Use Idempotency-Key for
-         * retries. maxLength: 255. Example: "warehouse-1842". external_system (Optional): string.
-         * Name of the external system that external_reference_id belongs to. External references
-         * are not unique. Use Idempotency-Key for retries. fulfillment_id (Required): string.
-         * Fulfillment associated with this shipment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-         * handed_off_at (Optional): string. Carrier handoff timestamp for outbound and return
-         * shipments, using the recorded shipped_at when no separate handoff timestamp exists. For
-         * return shipments, this can satisfy an after_handoff execution gate for the declared
-         * return_line_items. Format: date-time. Example: "2026-08-02T16:00:00Z". metadata
-         * (Optional): {@link MetadataMap}. Caller-owned key-value metadata associated with the
-         * shipment. Caller-owned key-value data stored on a resource. Keys starting with flint_
-         * are reserved for Flint and are not returned. Writes follow the limits on MetadataInput
-         * and MetadataPatchInput; maps written before those limits may not satisfy them. order
-         * (Optional): {@link ExpandedOrderSummary} or null. Order summary returned when the order
-         * relationship is expanded. Present only when `expand` includes `order`; `null` when
-         * expanded and there is no related order. order.anyOf[1] (Value): {@link
-         * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
-         * status, and pricing and settlement amounts, returned when the order is expanded.
-         * order.anyOf[2] (Value): null. order_id (Required): string. Order whose items are
-         * transported by the shipment. Example: "ord_01KEZF7C0054GQKJ142A8X367A". package_count
-         * (Required): integer. Total number of packages attached to the shipment, including voided
-         * packages. Format: int32. minimum: 0. packages (Optional): Array of {@link
-         * ExpandedPackageSummary}. Summaries of the shipment's packages in creation order,
-         * returned when the packages relationship is expanded or when the shipment is created with
-         * packages. packages[] (Value): {@link ExpandedPackageSummary}. A package's summary
-         * fields, including carrier, tracking, status, and supported actions, returned when the
-         * package is expanded. return_id (Optional): string. Return associated with this shipment,
-         * when its direction is return. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-         * return_line_items (Optional): Array of {@link ReturnHandoffRequirementLineItem}. Return
-         * lines and quantities allocated to this return shipment. return_line_items[] (Value):
-         * {@link ReturnHandoffRequirementLineItem}. A return line and the quantity placed in a
-         * return shipment or package. shipment_id (Required): string. Stable identifier of the
-         * shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". shipped_at (Optional): string. When
-         * the shipment was shipped, in RFC3339 format. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". status (Required): string. Read-only shipment state derived from
-         * the shipment's package states. An empty shipment remains a created draft. - `created`:
-         * The shipment leg exists but has not been packed or handed off. - `packed`: The shipment
-         * leg is packed and awaiting carrier handoff. - `shipped`: The shipment leg was handed to
-         * the carrier. - `in_transit`: The carrier is moving the shipment through its network. -
-         * `out_for_delivery`: The shipment is on its final delivery route. - `delivered`: The
-         * carrier reported successful delivery. - `delivery_attempted`: The carrier attempted
-         * delivery but did not complete it. Follow the carrier instructions before retrying
-         * delivery. - `exception`: A carrier exception is blocking normal progress. Resolve the
-         * carrier-reported issue. - `returned`: The shipment was returned toward or to its origin.
-         * - `voided`: The shipment was voided and will not continue through delivery. Value enum:
-         * "created", "packed", "shipped", "in_transit", "out_for_delivery", "delivered",
-         * "delivery_attempted", "exception", "returned", "voided". supported_actions (Required):
-         * Array of string. Lifecycle actions Flint accepts now, independent of permissions.
-         * Contains void while the shipment and its fulfillment permit voiding. [] enum: "void".
-         * supported_actions[] (Value): string. Value enum: "void". updated_at (Required): string.
-         * Last update timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version
-         * (Required): integer. Monotonic shipment version for expected_version checks. Format:
-         * uint64. minimum: 1.
+         * canceled_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". canceled_by (Optional): {@link ReturnActor}. Who canceled the
+         * Return. Who performed a return action: a buyer, merchant, integration, or the system,
+         * with an optional ID. cancellation_reason (Optional): string. Why the Return was
+         * canceled. Value enum: "buyer_request", "merchant_request", "duplicate", "expired",
+         * "created_in_error", "other". cancellation_reason_message (Optional): string. Detail sent
+         * with the cancellation. Merchant reads only. completed_at (Optional): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". completed_by (Optional):
+         * {@link ReturnActor}. Who completed the Return. `system` when Flint completed it
+         * automatically. Who performed a return action: a buyer, merchant, integration, or the
+         * system, with an optional ID. completion_blockers (Required): Array of {@link
+         * ReturnCompletionBlocker}. What is still owed before the Return can complete. Empty when
+         * nothing is. completion_blockers[] (Value): {@link ReturnCompletionBlocker}. Something
+         * still owed before a return can complete, with the return line or record it concerns.
+         * completion_mode (Optional): string. automatic completes the Return when the last
+         * completion blocker clears; manual waits for POST /v1/returns/{return_id}/complete.
+         * Reopening a Return sets it to manual. Value enum: "manual", "automatic".
+         * completion_reason (Optional): string. Why the Return was completed by hand. Absent when
+         * Flint completed it automatically. Value enum: "manual_completion", "exception_waived",
+         * "other". completion_reason_message (Optional): string. Detail sent when the Return was
+         * completed by hand. created_at (Required): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". customer (Optional): {@link ExpandedCustomerSummary} or
+         * null. Present only when `expand` includes `customer`; `null` when expanded and there is
+         * no related customer. customer.anyOf[1] (Value): {@link ExpandedCustomerSummary}. A
+         * customer's summary fields, returned in place of a customer ID when the customer is
+         * expanded. customer.anyOf[2] (Value): null. customer_id (Optional): string. The customer
+         * the Return belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". decision_at
+         * (Optional): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". decision_status (Required): string. Whether the requested units
+         * were approved. `pending` until one decision covers every line. Value enum: "pending",
+         * "approved", "partially_approved", "declined". external_reference_id (Optional): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". financial_summary (Required): {@link ReturnFinancialSummary}.
+         * The Return's money in one place: the value of the returned lines, deductions and
+         * credits, and what has been refunded or collected. The money for a return: returned
+         * value, deductions, credits, replacement total, and amounts due to or from the buyer.
+         * handoff_requirements (Required): Array of {@link ReturnHandoffRequirement}. What the
+         * buyer still has to send back and where. Each entry leaves the list once it is satisfied,
+         * so an empty list means nothing is waiting on the buyer. handoff_requirements[] (Value):
+         * {@link ReturnHandoffRequirement}. What the buyer must do to hand merchandise back: the
+         * destination, instructions, line items, and expiry. initiated_by (Required): string. Who
+         * created the Return: buyer for a customer session on /v1/me or Flint's hosted account,
+         * merchant for a Dashboard user, integration for an API key or partner app, or system for
+         * Flint automation. It cannot be sent. Value enum: "buyer", "merchant", "integration",
+         * "system". line_items (Required): Array of {@link ReturnLineItem}. The lines being
+         * returned. line_items[] (Value): {@link ReturnLineItem}. An item included in a return
+         * request. merchandise_status (Required): string. On the Return, the least-finished line's
+         * value. Value enum: "not_required", "awaiting_handoff", "in_transit",
+         * "partially_received", "inspection_required", "partially_inspected",
+         * "inspection_review_required", "disposition_required", "resolved", "exception". metadata
+         * (Required): {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput`
+         * for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys
+         * starting with flint_ are reserved for Flint and are not returned. Writes follow the
+         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+         * satisfy them. order (Optional): {@link ExpandedOrderSummary} or null. Present only when
+         * `expand` includes `order`; `null` when expanded and there is no related order.
+         * order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+         * including status, payment and refund status, and pricing and settlement amounts,
+         * returned when the order is expanded. order.anyOf[2] (Value): null. order_id (Required):
+         * string. ID of the Order the Return is against. Example:
+         * "ord_01KEZF7C0054GQKJ142A8X367A". policy_evaluation (Optional): {@link
+         * ReturnPolicyEvaluation}. How your return policies judged the request when the Return was
+         * created. How a return policy evaluated a return request: overall status and reason, the
+         * policy revision used, and per-line results. resolution_status (Required): string.
+         * Whether the buyer has received the value they are owed. Combines the Return's
+         * resolutions and its unsettled corrections. Value enum: "not_selected", "pending",
+         * "partially_completed", "requires_action", "completed", "failed". return_disposition_ids
+         * (Required): Array of string. IDs of every disposition recorded for this Return, oldest
+         * first, including failed and canceled dispositions. Expand `return_dispositions` on `GET
+         * /v1/returns/{return_id}` to read them inline. return_disposition_ids[] (Value): string.
+         * Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW". return_dispositions (Optional): Array of
+         * {@link ReturnDisposition}. Present only when `expand` includes `return_dispositions`.
+         * The dispositions in `return_disposition_ids`, in the same order. return_dispositions[]
+         * (Value): {@link ReturnDisposition}. A decision about how returned merchandise will be
+         * handled. return_id (Required): string. Unique identifier for this return, prefixed
+         * `ret_`. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". return_inspection_ids (Required):
+         * Array of string. IDs of every inspection recorded for this Return, oldest first,
+         * including superseded inspections. Expand `return_inspections` on `GET
+         * /v1/returns/{return_id}` to read them inline. return_inspection_ids[] (Value): string.
+         * Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". return_inspections (Optional): Array of
+         * {@link ReturnInspection}. Present only when `expand` includes `return_inspections`. The
+         * inspections in `return_inspection_ids`, in the same order. return_inspections[] (Value):
+         * {@link ReturnInspection}. An assessment of the condition of returned items.
+         * return_number (Required): string. Human-readable number for the Return.
+         * return_receipt_ids (Required): Array of string. IDs of every receipt recorded for this
+         * Return, oldest first, including superseded receipts. Expand `return_receipts` on `GET
+         * /v1/returns/{return_id}` to read them inline. return_receipt_ids[] (Value): string.
+         * Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". return_receipts (Optional): Array of {@link
+         * ReturnReceipt}. Present only when `expand` includes `return_receipts`. The receipts in
+         * `return_receipt_ids`, in the same order. return_receipts[] (Value): {@link
+         * ReturnReceipt}. A record of returned items arriving at a location. return_resolution_ids
+         * (Required): Array of string. IDs of every resolution created for this Return, oldest
+         * first, including failed and canceled resolutions. Expand `return_resolutions` on `GET
+         * /v1/returns/{return_id}` to read them inline. return_resolution_ids[] (Value): string.
+         * Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3". return_resolutions (Optional): Array of
+         * {@link ReturnResolution}. Present only when `expand` includes `return_resolutions`. The
+         * resolutions in `return_resolution_ids`, in the same order. return_resolutions[] (Value):
+         * {@link ReturnResolution}. The refund, exchange, or other outcome of a return.
+         * shipment_ids (Required): Array of string. IDs of every shipment raised to send this
+         * Return's items back, oldest first, including voided shipments. Expand `shipments` on
+         * `GET /v1/returns/{return_id}` to read them inline. shipment_ids[] (Value): string.
+         * Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". shipments (Optional): Array of {@link
+         * ExpandedShipmentSummary}. Present only when `expand` includes `shipments`. Summaries of
+         * the shipments in `shipment_ids`, in the same order. shipments[] (Value): {@link
+         * ExpandedShipmentSummary}. A shipment's summary fields, including direction, status, and
+         * package count, returned when the shipment is expanded. status (Required): string. Where
+         * the whole Return stands. Read `decision_status`, `merchandise_status`, and
+         * `resolution_status` for the part you need. Value enum: "requested", "open", "completed",
+         * "declined", "canceled". supported_actions (Required): Array of string. Actions that can
+         * succeed now. Actions the API key or token doesn't have the scope for are left out. A
+         * Return waiting for a decision lists `decide` and `cancel`. An open Return lists `cancel`
+         * only while no units have been received, inspected, dispositioned, or resolved, and it
+         * has no current receipts or inspections, non-canceled dispositions or resolutions, or
+         * non-voided return shipments. It lists `complete` when `completion_mode` is `manual` and
+         * `completion_blockers` is empty. A completed Return lists `reopen`. A declined or
+         * canceled Return lists none. [] enum: "cancel", "complete", "decide", "process",
+         * "reopen". supported_actions[] (Value): string. Value enum: "cancel", "complete",
+         * "decide", "process", "reopen". updated_at (Required): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". version (Required): integer. Goes up with
+         * every change to the Return. Each activity's `return_version` is the version that
+         * activity produced. A write that takes `expected_version` or `expected_return_version`
+         * for this Return compares it with this value. Format: int64. minimum: 0.
          */
         "object": {
-            /** Creation timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "canceled_at"?: string;
+            /**
+             * Who canceled the Return. Who performed a return action: a buyer, merchant,
+             * integration, or the system, with an optional ID.
+             */
+            "canceled_by"?: ReturnActor;
+            /**
+             * Why the Return was canceled. Value enum: "buyer_request", "merchant_request",
+             * "duplicate", "expired", "created_in_error", "other".
+             */
+            "cancellation_reason"?: "buyer_request"
+                | "merchant_request"
+                | "duplicate"
+                | "expired"
+                | "created_in_error"
+                | "other"
+                | (string & {});
+            /** Detail sent with the cancellation. Merchant reads only. */
+            "cancellation_reason_message"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "completed_at"?: string;
+            /**
+             * Who completed the Return. `system` when Flint completed it automatically. Who
+             * performed a return action: a buyer, merchant, integration, or the system, with an
+             * optional ID.
+             */
+            "completed_by"?: ReturnActor;
+            /**
+             * What is still owed before the Return can complete. Empty when nothing is. []
+             * (Value): {@link ReturnCompletionBlocker}. Something still owed before a return can
+             * complete, with the return line or record it concerns.
+             */
+            "completion_blockers": Array<ReturnCompletionBlocker>;
+            /**
+             * automatic completes the Return when the last completion blocker clears; manual waits
+             * for POST /v1/returns/{return_id}/complete. Reopening a Return sets it to manual.
+             * Value enum: "manual", "automatic".
+             */
+            "completion_mode"?: "manual" | "automatic" | (string & {});
+            /**
+             * Why the Return was completed by hand. Absent when Flint completed it automatically.
+             * Value enum: "manual_completion", "exception_waived", "other".
+             */
+            "completion_reason"?: "manual_completion" | "exception_waived" | "other" | (string & {});
+            /** Detail sent when the Return was completed by hand. */
+            "completion_reason_message"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
             "created_at": string;
             /**
-             * When the shipment was delivered, in RFC3339 format. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+             * summary fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[2] (Value): null.
              */
-            "delivered_at"?: string;
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            /** The customer the Return belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
+            "customer_id"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "decision_at"?: string;
             /**
-             * Whether the shipment sends items to the buyer or returns items to the merchant.
-             * Value enum: "outbound", "return".
+             * Whether the requested units were approved. `pending` until one decision covers every
+             * line. Value enum: "pending", "approved", "partially_approved", "declined".
              */
-            "direction": "outbound" | "return" | (string & {});
+            "decision_status": "pending" | "approved" | "partially_approved" | "declined" | (string & {});
             /**
-             * Caller-owned identifier for this resource in an external system. Requires
-             * external_system. External references are not unique. Use Idempotency-Key for
-             * retries. maxLength: 255. Example: "warehouse-1842".
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
              */
             "external_reference_id"?: string;
             /**
-             * Name of the external system that external_reference_id belongs to. External
-             * references are not unique. Use Idempotency-Key for retries.
+             * The Return's money in one place: the value of the returned lines, deductions and
+             * credits, and what has been refunded or collected. The money for a return: returned
+             * value, deductions, credits, replacement total, and amounts due to or from the buyer.
              */
-            "external_system"?: string;
+            "financial_summary": ReturnFinancialSummary;
             /**
-             * Fulfillment associated with this shipment. Example:
-             * "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+             * What the buyer still has to send back and where. Each entry leaves the list once it
+             * is satisfied, so an empty list means nothing is waiting on the buyer. [] (Value):
+             * {@link ReturnHandoffRequirement}. What the buyer must do to hand merchandise back:
+             * the destination, instructions, line items, and expiry.
              */
-            "fulfillment_id": string;
+            "handoff_requirements": Array<ReturnHandoffRequirement>;
             /**
-             * Carrier handoff timestamp for outbound and return shipments, using the recorded
-             * shipped_at when no separate handoff timestamp exists. For return shipments, this can
-             * satisfy an after_handoff execution gate for the declared return_line_items. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
+             * Who created the Return: buyer for a customer session on /v1/me or Flint's hosted
+             * account, merchant for a Dashboard user, integration for an API key or partner app,
+             * or system for Flint automation. It cannot be sent. Value enum: "buyer", "merchant",
+             * "integration", "system".
              */
-            "handed_off_at"?: string;
+            "initiated_by": "buyer" | "merchant" | "integration" | "system" | (string & {});
             /**
-             * Caller-owned key-value metadata associated with the shipment. Caller-owned key-value
-             * data stored on a resource. Keys starting with flint_ are reserved for Flint and are
-             * not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
-             * written before those limits may not satisfy them.
+             * The lines being returned. [] (Value): {@link ReturnLineItem}. An item included in a
+             * return request.
              */
-            "metadata"?: MetadataMap;
+            "line_items": Array<ReturnLineItem>;
             /**
-             * Order summary returned when the order relationship is expanded. Present only when
-             * `expand` includes `order`; `null` when expanded and there is no related order.
-             * anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields, including
-             * status, payment and refund status, and pricing and settlement amounts, returned when
-             * the order is expanded. anyOf[2] (Value): null.
+             * On the Return, the least-finished line's value. Value enum: "not_required",
+             * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
+             * "partially_inspected", "inspection_review_required", "disposition_required",
+             * "resolved", "exception".
              */
-            "order"?: ((ExpandedOrderSummary) | (null));
-            /**
-             * Order whose items are transported by the shipment. Example:
-             * "ord_01KEZF7C0054GQKJ142A8X367A".
-             */
-            "order_id": string;
-            /**
-             * Total number of packages attached to the shipment, including voided packages.
-             * Format: int32. minimum: 0.
-             */
-            "package_count": number;
-            /**
-             * Summaries of the shipment's packages in creation order, returned when the packages
-             * relationship is expanded or when the shipment is created with packages. [] (Value):
-             * {@link ExpandedPackageSummary}. A package's summary fields, including carrier,
-             * tracking, status, and supported actions, returned when the package is expanded.
-             */
-            "packages"?: Array<ExpandedPackageSummary>;
-            /**
-             * Return associated with this shipment, when its direction is return. Example:
-             * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-             */
-            "return_id"?: string;
-            /**
-             * Return lines and quantities allocated to this return shipment. [] (Value): {@link
-             * ReturnHandoffRequirementLineItem}. A return line and the quantity placed in a return
-             * shipment or package.
-             */
-            "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
-            /** Stable identifier of the shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". */
-            "shipment_id": string;
-            /**
-             * When the shipment was shipped, in RFC3339 format. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "shipped_at"?: string;
-            /**
-             * Read-only shipment state derived from the shipment's package states. An empty
-             * shipment remains a created draft. - `created`: The shipment leg exists but has not
-             * been packed or handed off. - `packed`: The shipment leg is packed and awaiting
-             * carrier handoff. - `shipped`: The shipment leg was handed to the carrier. -
-             * `in_transit`: The carrier is moving the shipment through its network. -
-             * `out_for_delivery`: The shipment is on its final delivery route. - `delivered`: The
-             * carrier reported successful delivery. - `delivery_attempted`: The carrier attempted
-             * delivery but did not complete it. Follow the carrier instructions before retrying
-             * delivery. - `exception`: A carrier exception is blocking normal progress. Resolve
-             * the carrier-reported issue. - `returned`: The shipment was returned toward or to its
-             * origin. - `voided`: The shipment was voided and will not continue through delivery.
-             * Value enum: "created", "packed", "shipped", "in_transit", "out_for_delivery",
-             * "delivered", "delivery_attempted", "exception", "returned", "voided".
-             */
-            "status": "created"
-                | "packed"
-                | "shipped"
+            "merchandise_status": "not_required"
+                | "awaiting_handoff"
                 | "in_transit"
-                | "out_for_delivery"
-                | "delivered"
-                | "delivery_attempted"
+                | "partially_received"
+                | "inspection_required"
+                | "partially_inspected"
+                | "inspection_review_required"
+                | "disposition_required"
+                | "resolved"
                 | "exception"
-                | "returned"
-                | "voided"
                 | (string & {});
             /**
-             * Lifecycle actions Flint accepts now, independent of permissions. Contains void while
-             * the shipment and its fulfillment permit voiding. [] enum: "void". [] (Value):
-             * string. Value enum: "void".
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
+             * are reserved for Flint and are not returned. Writes follow the limits on
+             * MetadataInput and MetadataPatchInput; maps written before those limits may not
+             * satisfy them.
              */
-            "supported_actions": Array<"void" | (string & {})>;
-            /** Last update timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "metadata": MetadataMap;
+            /**
+             * Present only when `expand` includes `order`; `null` when expanded and there is no
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
+             * fields, including status, payment and refund status, and pricing and settlement
+             * amounts, returned when the order is expanded. anyOf[2] (Value): null.
+             */
+            "order"?: ((ExpandedOrderSummary) | (null));
+            /** ID of the Order the Return is against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+            "order_id": string;
+            /**
+             * How your return policies judged the request when the Return was created. How a
+             * return policy evaluated a return request: overall status and reason, the policy
+             * revision used, and per-line results.
+             */
+            "policy_evaluation"?: ReturnPolicyEvaluation;
+            /**
+             * Whether the buyer has received the value they are owed. Combines the Return's
+             * resolutions and its unsettled corrections. Value enum: "not_selected", "pending",
+             * "partially_completed", "requires_action", "completed", "failed".
+             */
+            "resolution_status": "not_selected"
+                | "pending"
+                | "partially_completed"
+                | "requires_action"
+                | "completed"
+                | "failed"
+                | (string & {});
+            /**
+             * IDs of every disposition recorded for this Return, oldest first, including failed
+             * and canceled dispositions. Expand `return_dispositions` on `GET
+             * /v1/returns/{return_id}` to read them inline. [] (Value): string. Example:
+             * "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+             */
+            "return_disposition_ids": Array<string>;
+            /**
+             * Present only when `expand` includes `return_dispositions`. The dispositions in
+             * `return_disposition_ids`, in the same order. [] (Value): {@link ReturnDisposition}.
+             * A decision about how returned merchandise will be handled.
+             */
+            "return_dispositions"?: Array<ReturnDisposition>;
+            /**
+             * Unique identifier for this return, prefixed `ret_`. Example:
+             * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+             */
+            "return_id": string;
+            /**
+             * IDs of every inspection recorded for this Return, oldest first, including superseded
+             * inspections. Expand `return_inspections` on `GET /v1/returns/{return_id}` to read
+             * them inline. [] (Value): string. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+             */
+            "return_inspection_ids": Array<string>;
+            /**
+             * Present only when `expand` includes `return_inspections`. The inspections in
+             * `return_inspection_ids`, in the same order. [] (Value): {@link ReturnInspection}. An
+             * assessment of the condition of returned items.
+             */
+            "return_inspections"?: Array<ReturnInspection>;
+            /** Human-readable number for the Return. */
+            "return_number": string;
+            /**
+             * IDs of every receipt recorded for this Return, oldest first, including superseded
+             * receipts. Expand `return_receipts` on `GET /v1/returns/{return_id}` to read them
+             * inline. [] (Value): string. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+             */
+            "return_receipt_ids": Array<string>;
+            /**
+             * Present only when `expand` includes `return_receipts`. The receipts in
+             * `return_receipt_ids`, in the same order. [] (Value): {@link ReturnReceipt}. A record
+             * of returned items arriving at a location.
+             */
+            "return_receipts"?: Array<ReturnReceipt>;
+            /**
+             * IDs of every resolution created for this Return, oldest first, including failed and
+             * canceled resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}`
+             * to read them inline. [] (Value): string. Example:
+             * "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+             */
+            "return_resolution_ids": Array<string>;
+            /**
+             * Present only when `expand` includes `return_resolutions`. The resolutions in
+             * `return_resolution_ids`, in the same order. [] (Value): {@link ReturnResolution}.
+             * The refund, exchange, or other outcome of a return.
+             */
+            "return_resolutions"?: Array<ReturnResolution>;
+            /**
+             * IDs of every shipment raised to send this Return's items back, oldest first,
+             * including voided shipments. Expand `shipments` on `GET /v1/returns/{return_id}` to
+             * read them inline. [] (Value): string. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
+             */
+            "shipment_ids": Array<string>;
+            /**
+             * Present only when `expand` includes `shipments`. Summaries of the shipments in
+             * `shipment_ids`, in the same order. [] (Value): {@link ExpandedShipmentSummary}. A
+             * shipment's summary fields, including direction, status, and package count, returned
+             * when the shipment is expanded.
+             */
+            "shipments"?: Array<ExpandedShipmentSummary>;
+            /**
+             * Where the whole Return stands. Read `decision_status`, `merchandise_status`, and
+             * `resolution_status` for the part you need. Value enum: "requested", "open",
+             * "completed", "declined", "canceled".
+             */
+            "status": "requested" | "open" | "completed" | "declined" | "canceled" | (string & {});
+            /**
+             * Actions that can succeed now. Actions the API key or token doesn't have the scope
+             * for are left out. A Return waiting for a decision lists `decide` and `cancel`. An
+             * open Return lists `cancel` only while no units have been received, inspected,
+             * dispositioned, or resolved, and it has no current receipts or inspections,
+             * non-canceled dispositions or resolutions, or non-voided return shipments. It lists
+             * `complete` when `completion_mode` is `manual` and `completion_blockers` is empty. A
+             * completed Return lists `reopen`. A declined or canceled Return lists none. [] enum:
+             * "cancel", "complete", "decide", "process", "reopen". [] (Value): string. Value enum:
+             * "cancel", "complete", "decide", "process", "reopen".
+             */
+            "supported_actions": Array<"cancel" | "complete" | "decide" | "process" | "reopen" | (string & {})>;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
             "updated_at": string;
             /**
-             * Monotonic shipment version for expected_version checks. Format: uint64. minimum: 1.
+             * Goes up with every change to the Return. Each activity's `return_version` is the
+             * version that activity produced. A write that takes `expected_version` or
+             * `expected_return_version` for this Return compares it with this value. Format:
+             * int64. minimum: 0.
              */
             "version": number;
         };
@@ -1514,289 +828,584 @@ export type ShipmentUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. created_at (Optional): string or null. Creation
-         * timestamp. created_at.anyOf[1] (Value): string. Creation timestamp. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. delivered_at
-         * (Optional): string or null. When the shipment was delivered, in RFC3339 format.
-         * delivered_at.anyOf[1] (Value): string. When the shipment was delivered, in RFC3339
-         * format. Format: date-time. Example: "2026-08-02T16:00:00Z". delivered_at.anyOf[2]
-         * (Value): null. direction (Optional): string or null. Whether the shipment sends items to
-         * the buyer or returns items to the merchant. Value enum: "outbound", "return".
-         * direction.anyOf[1] (Value): string. Whether the shipment sends items to the buyer or
-         * returns items to the merchant. Value enum: "outbound", "return". direction.anyOf[2]
-         * (Value): null. external_reference_id (Optional): string or null. Caller-owned identifier
-         * for this resource in an external system. Requires external_system. External references
-         * are not unique. Use Idempotency-Key for retries. external_reference_id.anyOf[1] (Value):
-         * string. Caller-owned identifier for this resource in an external system. Requires
-         * external_system. External references are not unique. Use Idempotency-Key for retries.
-         * maxLength: 255. Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
-         * external_system (Optional): string or null. Name of the external system that
-         * external_reference_id belongs to. External references are not unique. Use
-         * Idempotency-Key for retries. external_system.anyOf[1] (Value): string. Name of the
-         * external system that external_reference_id belongs to. External references are not
-         * unique. Use Idempotency-Key for retries. external_system.anyOf[2] (Value): null.
-         * fulfillment_id (Optional): string or null. Fulfillment associated with this shipment.
-         * fulfillment_id.anyOf[1] (Value): string. Fulfillment associated with this shipment.
-         * Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". fulfillment_id.anyOf[2] (Value): null.
-         * handed_off_at (Optional): string or null. Carrier handoff timestamp for outbound and
-         * return shipments, using the recorded shipped_at when no separate handoff timestamp
-         * exists. For return shipments, this can satisfy an after_handoff execution gate for the
-         * declared return_line_items. handed_off_at.anyOf[1] (Value): string. Carrier handoff
-         * timestamp for outbound and return shipments, using the recorded shipped_at when no
-         * separate handoff timestamp exists. For return shipments, this can satisfy an
-         * after_handoff execution gate for the declared return_line_items. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". handed_off_at.anyOf[2] (Value): null. metadata
-         * (Optional): {@link MetadataMap} or null. Caller-owned key-value metadata associated with
-         * the shipment. metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2] (Value):
-         * null. order (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or null. Order
-         * summary returned when the order relationship is expanded. Present only when `expand`
-         * includes `order`; `null` when expanded and there is no related order. order.anyOf[1]
-         * (Value): {@link ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2] (Value): null.
-         * order_id (Optional): string or null. Order whose items are transported by the shipment.
-         * order_id.anyOf[1] (Value): string. Order whose items are transported by the shipment.
+         * state, including synthetic test events. canceled_at (Optional): string or null. RFC3339
+         * timestamp. canceled_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". canceled_at.anyOf[2] (Value): null. canceled_by
+         * (Optional): {@link ReturnActorPreviousAttributes} or null. Who canceled the Return.
+         * canceled_by.anyOf[1] (Value): {@link ReturnActorPreviousAttributes}.
+         * canceled_by.anyOf[2] (Value): null. cancellation_reason (Optional): string or null. Why
+         * the Return was canceled. Value enum: "buyer_request", "merchant_request", "duplicate",
+         * "expired", "created_in_error", "other". cancellation_reason.anyOf[1] (Value): string.
+         * Why the Return was canceled. Value enum: "buyer_request", "merchant_request",
+         * "duplicate", "expired", "created_in_error", "other". cancellation_reason.anyOf[2]
+         * (Value): null. cancellation_reason_message (Optional): string or null. Detail sent with
+         * the cancellation. Merchant reads only. cancellation_reason_message.anyOf[1] (Value):
+         * string. Detail sent with the cancellation. Merchant reads only.
+         * cancellation_reason_message.anyOf[2] (Value): null. completed_at (Optional): string or
+         * null. RFC3339 timestamp. completed_at.anyOf[1] (Value): string. RFC3339 timestamp.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". completed_at.anyOf[2] (Value): null.
+         * completed_by (Optional): {@link ReturnActorPreviousAttributes} or null. Who completed
+         * the Return. `system` when Flint completed it automatically. completed_by.anyOf[1]
+         * (Value): {@link ReturnActorPreviousAttributes}. completed_by.anyOf[2] (Value): null.
+         * completion_blockers (Optional): Array of {@link
+         * ReturnCompletionBlockerPreviousAttributes} or null. What is still owed before the Return
+         * can complete. Empty when nothing is. completion_blockers.anyOf[1] (Value): Array of
+         * {@link ReturnCompletionBlockerPreviousAttributes}. What is still owed before the Return
+         * can complete. Empty when nothing is. completion_blockers.anyOf[1][] (Value): {@link
+         * ReturnCompletionBlockerPreviousAttributes}. completion_blockers.anyOf[2] (Value): null.
+         * completion_mode (Optional): string or null. automatic completes the Return when the last
+         * completion blocker clears; manual waits for POST /v1/returns/{return_id}/complete.
+         * Reopening a Return sets it to manual. Value enum: "manual", "automatic".
+         * completion_mode.anyOf[1] (Value): string. automatic completes the Return when the last
+         * completion blocker clears; manual waits for POST /v1/returns/{return_id}/complete.
+         * Reopening a Return sets it to manual. Value enum: "manual", "automatic".
+         * completion_mode.anyOf[2] (Value): null. completion_reason (Optional): string or null.
+         * Why the Return was completed by hand. Absent when Flint completed it automatically.
+         * Value enum: "manual_completion", "exception_waived", "other". completion_reason.anyOf[1]
+         * (Value): string. Why the Return was completed by hand. Absent when Flint completed it
+         * automatically. Value enum: "manual_completion", "exception_waived", "other".
+         * completion_reason.anyOf[2] (Value): null. completion_reason_message (Optional): string
+         * or null. Detail sent when the Return was completed by hand.
+         * completion_reason_message.anyOf[1] (Value): string. Detail sent when the Return was
+         * completed by hand. completion_reason_message.anyOf[2] (Value): null. created_at
+         * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
+         * (Value): {@link ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value):
+         * null. customer_id (Optional): string or null. The customer the Return belongs to.
+         * customer_id.anyOf[1] (Value): string. The customer the Return belongs to. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. decision_at
+         * (Optional): string or null. RFC3339 timestamp. decision_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * decision_at.anyOf[2] (Value): null. decision_status (Optional): string or null. Whether
+         * the requested units were approved. `pending` until one decision covers every line. Value
+         * enum: "pending", "approved", "partially_approved", "declined". decision_status.anyOf[1]
+         * (Value): string. Whether the requested units were approved. `pending` until one decision
+         * covers every line. Value enum: "pending", "approved", "partially_approved", "declined".
+         * decision_status.anyOf[2] (Value): null. external_reference_id (Optional): string or
+         * null. Caller-owned identifier for this resource in an external system.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. financial_summary (Optional): {@link
+         * ReturnFinancialSummaryPreviousAttributes} or null. The Return's money in one place: the
+         * value of the returned lines, deductions and credits, and what has been refunded or
+         * collected. financial_summary.anyOf[1] (Value): {@link
+         * ReturnFinancialSummaryPreviousAttributes}. financial_summary.anyOf[2] (Value): null.
+         * handoff_requirements (Optional): Array of {@link
+         * ReturnHandoffRequirementPreviousAttributes} or null. What the buyer still has to send
+         * back and where. Each entry leaves the list once it is satisfied, so an empty list means
+         * nothing is waiting on the buyer. handoff_requirements.anyOf[1] (Value): Array of {@link
+         * ReturnHandoffRequirementPreviousAttributes}. What the buyer still has to send back and
+         * where. Each entry leaves the list once it is satisfied, so an empty list means nothing
+         * is waiting on the buyer. handoff_requirements.anyOf[1][] (Value): {@link
+         * ReturnHandoffRequirementPreviousAttributes}. handoff_requirements.anyOf[2] (Value):
+         * null. initiated_by (Optional): string or null. Who created the Return: buyer for a
+         * customer session on /v1/me or Flint's hosted account, merchant for a Dashboard user,
+         * integration for an API key or partner app, or system for Flint automation. It cannot be
+         * sent. Value enum: "buyer", "merchant", "integration", "system". initiated_by.anyOf[1]
+         * (Value): string. Who created the Return: buyer for a customer session on /v1/me or
+         * Flint's hosted account, merchant for a Dashboard user, integration for an API key or
+         * partner app, or system for Flint automation. It cannot be sent. Value enum: "buyer",
+         * "merchant", "integration", "system". initiated_by.anyOf[2] (Value): null. line_items
+         * (Optional): Array of {@link ReturnLineItemPreviousAttributes} or null. The lines being
+         * returned. line_items.anyOf[1] (Value): Array of {@link
+         * ReturnLineItemPreviousAttributes}. The lines being returned. line_items.anyOf[1][]
+         * (Value): {@link ReturnLineItemPreviousAttributes}. line_items.anyOf[2] (Value): null.
+         * merchandise_status (Optional): string or null. On the Return, the least-finished line's
+         * value. Value enum: "not_required", "awaiting_handoff", "in_transit",
+         * "partially_received", "inspection_required", "partially_inspected",
+         * "inspection_review_required", "disposition_required", "resolved", "exception".
+         * merchandise_status.anyOf[1] (Value): string. On the Return, the least-finished line's
+         * value. Value enum: "not_required", "awaiting_handoff", "in_transit",
+         * "partially_received", "inspection_required", "partially_inspected",
+         * "inspection_review_required", "disposition_required", "resolved", "exception".
+         * merchandise_status.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or
+         * null. Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+         * rules. metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2] (Value): null.
+         * order (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or null. Present only
+         * when `expand` includes `order`; `null` when expanded and there is no related order.
+         * order.anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2]
+         * (Value): null. order_id (Optional): string or null. ID of the Order the Return is
+         * against. order_id.anyOf[1] (Value): string. ID of the Order the Return is against.
          * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
-         * package_count (Optional): integer or null. Total number of packages attached to the
-         * shipment, including voided packages. package_count.anyOf[1] (Value): integer. Total
-         * number of packages attached to the shipment, including voided packages. Format: int32.
-         * minimum: 0. package_count.anyOf[2] (Value): null. packages (Optional): Array of {@link
-         * ExpandedPackageSummaryPreviousAttributes} or null. Summaries of the shipment's packages
-         * in creation order, returned when the packages relationship is expanded or when the
-         * shipment is created with packages. packages.anyOf[1] (Value): Array of {@link
-         * ExpandedPackageSummaryPreviousAttributes}. Summaries of the shipment's packages in
-         * creation order, returned when the packages relationship is expanded or when the shipment
-         * is created with packages. packages.anyOf[1][] (Value): {@link
-         * ExpandedPackageSummaryPreviousAttributes}. packages.anyOf[2] (Value): null. return_id
-         * (Optional): string or null. Return associated with this shipment, when its direction is
-         * return. return_id.anyOf[1] (Value): string. Return associated with this shipment, when
-         * its direction is return. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". return_id.anyOf[2]
-         * (Value): null. return_line_items (Optional): Array of {@link
-         * ReturnHandoffRequirementLineItemPreviousAttributes} or null. Return lines and quantities
-         * allocated to this return shipment. return_line_items.anyOf[1] (Value): Array of {@link
-         * ReturnHandoffRequirementLineItemPreviousAttributes}. Return lines and quantities
-         * allocated to this return shipment. return_line_items.anyOf[1][] (Value): {@link
-         * ReturnHandoffRequirementLineItemPreviousAttributes}. return_line_items.anyOf[2] (Value):
-         * null. shipment_id (Optional): string or null. Stable identifier of the shipment.
-         * shipment_id.anyOf[1] (Value): string. Stable identifier of the shipment. Example:
-         * "shp_01KEZF7C00Q2AFXWXHMCDR3F68". shipment_id.anyOf[2] (Value): null. shipped_at
-         * (Optional): string or null. When the shipment was shipped, in RFC3339 format.
-         * shipped_at.anyOf[1] (Value): string. When the shipment was shipped, in RFC3339 format.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". shipped_at.anyOf[2] (Value): null.
-         * status (Optional): string or null. Read-only shipment state derived from the shipment's
-         * package states. An empty shipment remains a created draft. - `created`: The shipment leg
-         * exists but has not been packed or handed off. - `packed`: The shipment leg is packed and
-         * awaiting carrier handoff. - `shipped`: The shipment leg was handed to the carrier. -
-         * `in_transit`: The carrier is moving the shipment through its network. -
-         * `out_for_delivery`: The shipment is on its final delivery route. - `delivered`: The
-         * carrier reported successful delivery. - `delivery_attempted`: The carrier attempted
-         * delivery but did not complete it. Follow the carrier instructions before retrying
-         * delivery. - `exception`: A carrier exception is blocking normal progress. Resolve the
-         * carrier-reported issue. - `returned`: The shipment was returned toward or to its origin.
-         * - `voided`: The shipment was voided and will not continue through delivery. Value enum:
-         * "created", "packed", "shipped", "in_transit", "out_for_delivery", "delivered",
-         * "delivery_attempted", "exception", "returned", "voided". status.anyOf[1] (Value):
-         * string. Read-only shipment state derived from the shipment's package states. An empty
-         * shipment remains a created draft. - `created`: The shipment leg exists but has not been
-         * packed or handed off. - `packed`: The shipment leg is packed and awaiting carrier
-         * handoff. - `shipped`: The shipment leg was handed to the carrier. - `in_transit`: The
-         * carrier is moving the shipment through its network. - `out_for_delivery`: The shipment
-         * is on its final delivery route. - `delivered`: The carrier reported successful delivery.
-         * - `delivery_attempted`: The carrier attempted delivery but did not complete it. Follow
-         * the carrier instructions before retrying delivery. - `exception`: A carrier exception is
-         * blocking normal progress. Resolve the carrier-reported issue. - `returned`: The shipment
-         * was returned toward or to its origin. - `voided`: The shipment was voided and will not
-         * continue through delivery. Value enum: "created", "packed", "shipped", "in_transit",
-         * "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned",
-         * "voided". status.anyOf[2] (Value): null. supported_actions (Optional): Array of string
-         * or null. Lifecycle actions Flint accepts now, independent of permissions. Contains void
-         * while the shipment and its fulfillment permit voiding. [] enum: "void".
-         * supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions Flint accepts
-         * now, independent of permissions. Contains void while the shipment and its fulfillment
-         * permit voiding. [] enum: "void". supported_actions.anyOf[1][] (Value): string. Value
-         * enum: "void". supported_actions.anyOf[2] (Value): null. updated_at (Optional): string or
-         * null. Last update timestamp. updated_at.anyOf[1] (Value): string. Last update timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null.
-         * version (Optional): integer or null. Monotonic shipment version for expected_version
-         * checks. version.anyOf[1] (Value): integer. Monotonic shipment version for
-         * expected_version checks. Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
+         * policy_evaluation (Optional): {@link ReturnPolicyEvaluationPreviousAttributes} or null.
+         * How your return policies judged the request when the Return was created.
+         * policy_evaluation.anyOf[1] (Value): {@link ReturnPolicyEvaluationPreviousAttributes}.
+         * policy_evaluation.anyOf[2] (Value): null. resolution_status (Optional): string or null.
+         * Whether the buyer has received the value they are owed. Combines the Return's
+         * resolutions and its unsettled corrections. Value enum: "not_selected", "pending",
+         * "partially_completed", "requires_action", "completed", "failed".
+         * resolution_status.anyOf[1] (Value): string. Whether the buyer has received the value
+         * they are owed. Combines the Return's resolutions and its unsettled corrections. Value
+         * enum: "not_selected", "pending", "partially_completed", "requires_action", "completed",
+         * "failed". resolution_status.anyOf[2] (Value): null. return_disposition_ids (Optional):
+         * Array of string or null. IDs of every disposition recorded for this Return, oldest
+         * first, including failed and canceled dispositions. Expand `return_dispositions` on `GET
+         * /v1/returns/{return_id}` to read them inline. return_disposition_ids.anyOf[1] (Value):
+         * Array of string. IDs of every disposition recorded for this Return, oldest first,
+         * including failed and canceled dispositions. Expand `return_dispositions` on `GET
+         * /v1/returns/{return_id}` to read them inline. return_disposition_ids.anyOf[1][] (Value):
+         * string. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW". return_disposition_ids.anyOf[2]
+         * (Value): null. return_dispositions (Optional): Array of {@link
+         * ReturnDispositionPreviousAttributes} or null. Present only when `expand` includes
+         * `return_dispositions`. The dispositions in `return_disposition_ids`, in the same order.
+         * return_dispositions.anyOf[1] (Value): Array of {@link
+         * ReturnDispositionPreviousAttributes}. Present only when `expand` includes
+         * `return_dispositions`. The dispositions in `return_disposition_ids`, in the same order.
+         * return_dispositions.anyOf[1][] (Value): {@link ReturnDispositionPreviousAttributes}.
+         * return_dispositions.anyOf[2] (Value): null. return_id (Optional): string or null. Unique
+         * identifier for this return, prefixed `ret_`. return_id.anyOf[1] (Value): string. Unique
+         * identifier for this return, prefixed `ret_`. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+         * return_id.anyOf[2] (Value): null. return_inspection_ids (Optional): Array of string or
+         * null. IDs of every inspection recorded for this Return, oldest first, including
+         * superseded inspections. Expand `return_inspections` on `GET /v1/returns/{return_id}` to
+         * read them inline. return_inspection_ids.anyOf[1] (Value): Array of string. IDs of every
+         * inspection recorded for this Return, oldest first, including superseded inspections.
+         * Expand `return_inspections` on `GET /v1/returns/{return_id}` to read them inline.
+         * return_inspection_ids.anyOf[1][] (Value): string. Example:
+         * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". return_inspection_ids.anyOf[2] (Value): null.
+         * return_inspections (Optional): Array of {@link ReturnInspectionPreviousAttributes} or
+         * null. Present only when `expand` includes `return_inspections`. The inspections in
+         * `return_inspection_ids`, in the same order. return_inspections.anyOf[1] (Value): Array
+         * of {@link ReturnInspectionPreviousAttributes}. Present only when `expand` includes
+         * `return_inspections`. The inspections in `return_inspection_ids`, in the same order.
+         * return_inspections.anyOf[1][] (Value): {@link ReturnInspectionPreviousAttributes}.
+         * return_inspections.anyOf[2] (Value): null. return_number (Optional): string or null.
+         * Human-readable number for the Return. return_number.anyOf[1] (Value): string.
+         * Human-readable number for the Return. return_number.anyOf[2] (Value): null.
+         * return_receipt_ids (Optional): Array of string or null. IDs of every receipt recorded
+         * for this Return, oldest first, including superseded receipts. Expand `return_receipts`
+         * on `GET /v1/returns/{return_id}` to read them inline. return_receipt_ids.anyOf[1]
+         * (Value): Array of string. IDs of every receipt recorded for this Return, oldest first,
+         * including superseded receipts. Expand `return_receipts` on `GET /v1/returns/{return_id}`
+         * to read them inline. return_receipt_ids.anyOf[1][] (Value): string. Example:
+         * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". return_receipt_ids.anyOf[2] (Value): null.
+         * return_receipts (Optional): Array of {@link ReturnReceiptPreviousAttributes} or null.
+         * Present only when `expand` includes `return_receipts`. The receipts in
+         * `return_receipt_ids`, in the same order. return_receipts.anyOf[1] (Value): Array of
+         * {@link ReturnReceiptPreviousAttributes}. Present only when `expand` includes
+         * `return_receipts`. The receipts in `return_receipt_ids`, in the same order.
+         * return_receipts.anyOf[1][] (Value): {@link ReturnReceiptPreviousAttributes}.
+         * return_receipts.anyOf[2] (Value): null. return_resolution_ids (Optional): Array of
+         * string or null. IDs of every resolution created for this Return, oldest first, including
+         * failed and canceled resolutions. Expand `return_resolutions` on `GET
+         * /v1/returns/{return_id}` to read them inline. return_resolution_ids.anyOf[1] (Value):
+         * Array of string. IDs of every resolution created for this Return, oldest first,
+         * including failed and canceled resolutions. Expand `return_resolutions` on `GET
+         * /v1/returns/{return_id}` to read them inline. return_resolution_ids.anyOf[1][] (Value):
+         * string. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3". return_resolution_ids.anyOf[2]
+         * (Value): null. return_resolutions (Optional): Array of {@link
+         * ReturnResolutionPreviousAttributes} or null. Present only when `expand` includes
+         * `return_resolutions`. The resolutions in `return_resolution_ids`, in the same order.
+         * return_resolutions.anyOf[1] (Value): Array of {@link
+         * ReturnResolutionPreviousAttributes}. Present only when `expand` includes
+         * `return_resolutions`. The resolutions in `return_resolution_ids`, in the same order.
+         * return_resolutions.anyOf[1][] (Value): {@link ReturnResolutionPreviousAttributes}.
+         * return_resolutions.anyOf[2] (Value): null. shipment_ids (Optional): Array of string or
+         * null. IDs of every shipment raised to send this Return's items back, oldest first,
+         * including voided shipments. Expand `shipments` on `GET /v1/returns/{return_id}` to read
+         * them inline. shipment_ids.anyOf[1] (Value): Array of string. IDs of every shipment
+         * raised to send this Return's items back, oldest first, including voided shipments.
+         * Expand `shipments` on `GET /v1/returns/{return_id}` to read them inline.
+         * shipment_ids.anyOf[1][] (Value): string. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
+         * shipment_ids.anyOf[2] (Value): null. shipments (Optional): Array of {@link
+         * ExpandedShipmentSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `shipments`. Summaries of the shipments in `shipment_ids`, in the same order.
+         * shipments.anyOf[1] (Value): Array of {@link ExpandedShipmentSummaryPreviousAttributes}.
+         * Present only when `expand` includes `shipments`. Summaries of the shipments in
+         * `shipment_ids`, in the same order. shipments.anyOf[1][] (Value): {@link
+         * ExpandedShipmentSummaryPreviousAttributes}. shipments.anyOf[2] (Value): null. status
+         * (Optional): string or null. Where the whole Return stands. Read `decision_status`,
+         * `merchandise_status`, and `resolution_status` for the part you need. Value enum:
+         * "requested", "open", "completed", "declined", "canceled". status.anyOf[1] (Value):
+         * string. Where the whole Return stands. Read `decision_status`, `merchandise_status`, and
+         * `resolution_status` for the part you need. Value enum: "requested", "open", "completed",
+         * "declined", "canceled". status.anyOf[2] (Value): null. supported_actions (Optional):
+         * Array of string or null. Actions that can succeed now. Actions the API key or token
+         * doesn't have the scope for are left out. A Return waiting for a decision lists `decide`
+         * and `cancel`. An open Return lists `cancel` only while no units have been received,
+         * inspected, dispositioned, or resolved, and it has no current receipts or inspections,
+         * non-canceled dispositions or resolutions, or non-voided return shipments. It lists
+         * `complete` when `completion_mode` is `manual` and `completion_blockers` is empty. A
+         * completed Return lists `reopen`. A declined or canceled Return lists none. [] enum:
+         * "cancel", "complete", "decide", "process", "reopen". supported_actions.anyOf[1] (Value):
+         * Array of string. Actions that can succeed now. Actions the API key or token doesn't have
+         * the scope for are left out. A Return waiting for a decision lists `decide` and `cancel`.
+         * An open Return lists `cancel` only while no units have been received, inspected,
+         * dispositioned, or resolved, and it has no current receipts or inspections, non-canceled
+         * dispositions or resolutions, or non-voided return shipments. It lists `complete` when
+         * `completion_mode` is `manual` and `completion_blockers` is empty. A completed Return
+         * lists `reopen`. A declined or canceled Return lists none. [] enum: "cancel", "complete",
+         * "decide", "process", "reopen". supported_actions.anyOf[1][] (Value): string. Value enum:
+         * "cancel", "complete", "decide", "process", "reopen". supported_actions.anyOf[2] (Value):
+         * null. updated_at (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1]
+         * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Goes up with
+         * every change to the Return. Each activity's `return_version` is the version that
+         * activity produced. A write that takes `expected_version` or `expected_return_version`
+         * for this Return compares it with this value. version.anyOf[1] (Value): integer. Goes up
+         * with every change to the Return. Each activity's `return_version` is the version that
+         * activity produced. A write that takes `expected_version` or `expected_return_version`
+         * for this Return compares it with this value. Format: int64. minimum: 0. version.anyOf[2]
+         * (Value): null.
          */
         "previous_attributes"?: ({
             [key: string]: unknown;
         })
             & ({
             /**
-             * Creation timestamp. anyOf[1] (Value): string. Creation timestamp. Format: date-time.
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "canceled_at"?: ((string) | (null));
+            /**
+             * Who canceled the Return. anyOf[1] (Value): {@link ReturnActorPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null));
+            /**
+             * Why the Return was canceled. Value enum: "buyer_request", "merchant_request",
+             * "duplicate", "expired", "created_in_error", "other". anyOf[1] (Value): string. Why
+             * the Return was canceled. Value enum: "buyer_request", "merchant_request",
+             * "duplicate", "expired", "created_in_error", "other". anyOf[2] (Value): null.
+             */
+            "cancellation_reason"?: (("buyer_request"
+                | "merchant_request"
+                | "duplicate"
+                | "expired"
+                | "created_in_error"
+                | "other"
+                | (string & {}))
+                | (null));
+            /**
+             * Detail sent with the cancellation. Merchant reads only. anyOf[1] (Value): string.
+             * Detail sent with the cancellation. Merchant reads only. anyOf[2] (Value): null.
+             */
+            "cancellation_reason_message"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "completed_at"?: ((string) | (null));
+            /**
+             * Who completed the Return. `system` when Flint completed it automatically. anyOf[1]
+             * (Value): {@link ReturnActorPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "completed_by"?: ((ReturnActorPreviousAttributes) | (null));
+            /**
+             * What is still owed before the Return can complete. Empty when nothing is. anyOf[1]
+             * (Value): Array of {@link ReturnCompletionBlockerPreviousAttributes}. What is still
+             * owed before the Return can complete. Empty when nothing is. anyOf[1][] (Value):
+             * {@link ReturnCompletionBlockerPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "completion_blockers"?: ((Array<ReturnCompletionBlockerPreviousAttributes>) | (null));
+            /**
+             * automatic completes the Return when the last completion blocker clears; manual waits
+             * for POST /v1/returns/{return_id}/complete. Reopening a Return sets it to manual.
+             * Value enum: "manual", "automatic". anyOf[1] (Value): string. automatic completes the
+             * Return when the last completion blocker clears; manual waits for POST
+             * /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum:
+             * "manual", "automatic". anyOf[2] (Value): null.
+             */
+            "completion_mode"?: (("manual" | "automatic" | (string & {})) | (null));
+            /**
+             * Why the Return was completed by hand. Absent when Flint completed it automatically.
+             * Value enum: "manual_completion", "exception_waived", "other". anyOf[1] (Value):
+             * string. Why the Return was completed by hand. Absent when Flint completed it
+             * automatically. Value enum: "manual_completion", "exception_waived", "other".
+             * anyOf[2] (Value): null.
+             */
+            "completion_reason"?: (("manual_completion" | "exception_waived" | "other" | (string & {})) | (null));
+            /**
+             * Detail sent when the Return was completed by hand. anyOf[1] (Value): string. Detail
+             * sent when the Return was completed by hand. anyOf[2] (Value): null.
+             */
+            "completion_reason_message"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
              * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
             "created_at"?: ((string) | (null));
             /**
-             * When the shipment was delivered, in RFC3339 format. anyOf[1] (Value): string. When
-             * the shipment was delivered, in RFC3339 format. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "delivered_at"?: ((string) | (null));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             /**
-             * Whether the shipment sends items to the buyer or returns items to the merchant.
-             * Value enum: "outbound", "return". anyOf[1] (Value): string. Whether the shipment
-             * sends items to the buyer or returns items to the merchant. Value enum: "outbound",
-             * "return". anyOf[2] (Value): null.
+             * The customer the Return belongs to. anyOf[1] (Value): string. The customer the
+             * Return belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value):
+             * null.
              */
-            "direction"?: (("outbound" | "return" | (string & {})) | (null));
+            "customer_id"?: ((string) | (null));
             /**
-             * Caller-owned identifier for this resource in an external system. Requires
-             * external_system. External references are not unique. Use Idempotency-Key for
-             * retries. anyOf[1] (Value): string. Caller-owned identifier for this resource in an
-             * external system. Requires external_system. External references are not unique. Use
-             * Idempotency-Key for retries. maxLength: 255. Example: "warehouse-1842". anyOf[2]
-             * (Value): null.
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "decision_at"?: ((string) | (null));
+            /**
+             * Whether the requested units were approved. `pending` until one decision covers every
+             * line. Value enum: "pending", "approved", "partially_approved", "declined". anyOf[1]
+             * (Value): string. Whether the requested units were approved. `pending` until one
+             * decision covers every line. Value enum: "pending", "approved", "partially_approved",
+             * "declined". anyOf[2] (Value): null.
+             */
+            "decision_status"?: (("pending" | "approved" | "partially_approved" | "declined" | (string & {})) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
              */
             "external_reference_id"?: ((string) | (null));
             /**
-             * Name of the external system that external_reference_id belongs to. External
-             * references are not unique. Use Idempotency-Key for retries. anyOf[1] (Value):
-             * string. Name of the external system that external_reference_id belongs to. External
-             * references are not unique. Use Idempotency-Key for retries. anyOf[2] (Value): null.
+             * The Return's money in one place: the value of the returned lines, deductions and
+             * credits, and what has been refunded or collected. anyOf[1] (Value): {@link
+             * ReturnFinancialSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "external_system"?: ((string) | (null));
+            "financial_summary"?: ((ReturnFinancialSummaryPreviousAttributes) | (null));
             /**
-             * Fulfillment associated with this shipment. anyOf[1] (Value): string. Fulfillment
-             * associated with this shipment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". anyOf[2]
+             * What the buyer still has to send back and where. Each entry leaves the list once it
+             * is satisfied, so an empty list means nothing is waiting on the buyer. anyOf[1]
+             * (Value): Array of {@link ReturnHandoffRequirementPreviousAttributes}. What the buyer
+             * still has to send back and where. Each entry leaves the list once it is satisfied,
+             * so an empty list means nothing is waiting on the buyer. anyOf[1][] (Value): {@link
+             * ReturnHandoffRequirementPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "handoff_requirements"?: ((Array<ReturnHandoffRequirementPreviousAttributes>) | (null));
+            /**
+             * Who created the Return: buyer for a customer session on /v1/me or Flint's hosted
+             * account, merchant for a Dashboard user, integration for an API key or partner app,
+             * or system for Flint automation. It cannot be sent. Value enum: "buyer", "merchant",
+             * "integration", "system". anyOf[1] (Value): string. Who created the Return: buyer for
+             * a customer session on /v1/me or Flint's hosted account, merchant for a Dashboard
+             * user, integration for an API key or partner app, or system for Flint automation. It
+             * cannot be sent. Value enum: "buyer", "merchant", "integration", "system". anyOf[2]
              * (Value): null.
              */
-            "fulfillment_id"?: ((string) | (null));
+            "initiated_by"?: (("buyer" | "merchant" | "integration" | "system" | (string & {})) | (null));
             /**
-             * Carrier handoff timestamp for outbound and return shipments, using the recorded
-             * shipped_at when no separate handoff timestamp exists. For return shipments, this can
-             * satisfy an after_handoff execution gate for the declared return_line_items. anyOf[1]
-             * (Value): string. Carrier handoff timestamp for outbound and return shipments, using
-             * the recorded shipped_at when no separate handoff timestamp exists. For return
-             * shipments, this can satisfy an after_handoff execution gate for the declared
-             * return_line_items. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
-             * (Value): null.
+             * The lines being returned. anyOf[1] (Value): Array of {@link
+             * ReturnLineItemPreviousAttributes}. The lines being returned. anyOf[1][] (Value):
+             * {@link ReturnLineItemPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "handed_off_at"?: ((string) | (null));
+            "line_items"?: ((Array<ReturnLineItemPreviousAttributes>) | (null));
             /**
-             * Caller-owned key-value metadata associated with the shipment. anyOf[1] (Value):
-             * {@link MetadataMap}. anyOf[2] (Value): null.
+             * On the Return, the least-finished line's value. Value enum: "not_required",
+             * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
+             * "partially_inspected", "inspection_review_required", "disposition_required",
+             * "resolved", "exception". anyOf[1] (Value): string. On the Return, the least-finished
+             * line's value. Value enum: "not_required", "awaiting_handoff", "in_transit",
+             * "partially_received", "inspection_required", "partially_inspected",
+             * "inspection_review_required", "disposition_required", "resolved", "exception".
+             * anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null));
-            /**
-             * Order summary returned when the order relationship is expanded. Present only when
-             * `expand` includes `order`; `null` when expanded and there is no related order.
-             * anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}. anyOf[2] (Value):
-             * null.
-             */
-            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
-            /**
-             * Order whose items are transported by the shipment. anyOf[1] (Value): string. Order
-             * whose items are transported by the shipment. Example:
-             * "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
-             */
-            "order_id"?: ((string) | (null));
-            /**
-             * Total number of packages attached to the shipment, including voided packages.
-             * anyOf[1] (Value): integer. Total number of packages attached to the shipment,
-             * including voided packages. Format: int32. minimum: 0. anyOf[2] (Value): null.
-             */
-            "package_count"?: ((number) | (null));
-            /**
-             * Summaries of the shipment's packages in creation order, returned when the packages
-             * relationship is expanded or when the shipment is created with packages. anyOf[1]
-             * (Value): Array of {@link ExpandedPackageSummaryPreviousAttributes}. Summaries of the
-             * shipment's packages in creation order, returned when the packages relationship is
-             * expanded or when the shipment is created with packages. anyOf[1][] (Value): {@link
-             * ExpandedPackageSummaryPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "packages"?: ((Array<ExpandedPackageSummaryPreviousAttributes>) | (null));
-            /**
-             * Return associated with this shipment, when its direction is return. anyOf[1]
-             * (Value): string. Return associated with this shipment, when its direction is return.
-             * Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value): null.
-             */
-            "return_id"?: ((string) | (null));
-            /**
-             * Return lines and quantities allocated to this return shipment. anyOf[1] (Value):
-             * Array of {@link ReturnHandoffRequirementLineItemPreviousAttributes}. Return lines
-             * and quantities allocated to this return shipment. anyOf[1][] (Value): {@link
-             * ReturnHandoffRequirementLineItemPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "return_line_items"?: ((Array<ReturnHandoffRequirementLineItemPreviousAttributes>) | (null));
-            /**
-             * Stable identifier of the shipment. anyOf[1] (Value): string. Stable identifier of
-             * the shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". anyOf[2] (Value): null.
-             */
-            "shipment_id"?: ((string) | (null));
-            /**
-             * When the shipment was shipped, in RFC3339 format. anyOf[1] (Value): string. When the
-             * shipment was shipped, in RFC3339 format. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "shipped_at"?: ((string) | (null));
-            /**
-             * Read-only shipment state derived from the shipment's package states. An empty
-             * shipment remains a created draft. - `created`: The shipment leg exists but has not
-             * been packed or handed off. - `packed`: The shipment leg is packed and awaiting
-             * carrier handoff. - `shipped`: The shipment leg was handed to the carrier. -
-             * `in_transit`: The carrier is moving the shipment through its network. -
-             * `out_for_delivery`: The shipment is on its final delivery route. - `delivered`: The
-             * carrier reported successful delivery. - `delivery_attempted`: The carrier attempted
-             * delivery but did not complete it. Follow the carrier instructions before retrying
-             * delivery. - `exception`: A carrier exception is blocking normal progress. Resolve
-             * the carrier-reported issue. - `returned`: The shipment was returned toward or to its
-             * origin. - `voided`: The shipment was voided and will not continue through delivery.
-             * Value enum: "created", "packed", "shipped", "in_transit", "out_for_delivery",
-             * "delivered", "delivery_attempted", "exception", "returned", "voided". anyOf[1]
-             * (Value): string. Read-only shipment state derived from the shipment's package
-             * states. An empty shipment remains a created draft. - `created`: The shipment leg
-             * exists but has not been packed or handed off. - `packed`: The shipment leg is packed
-             * and awaiting carrier handoff. - `shipped`: The shipment leg was handed to the
-             * carrier. - `in_transit`: The carrier is moving the shipment through its network. -
-             * `out_for_delivery`: The shipment is on its final delivery route. - `delivered`: The
-             * carrier reported successful delivery. - `delivery_attempted`: The carrier attempted
-             * delivery but did not complete it. Follow the carrier instructions before retrying
-             * delivery. - `exception`: A carrier exception is blocking normal progress. Resolve
-             * the carrier-reported issue. - `returned`: The shipment was returned toward or to its
-             * origin. - `voided`: The shipment was voided and will not continue through delivery.
-             * Value enum: "created", "packed", "shipped", "in_transit", "out_for_delivery",
-             * "delivered", "delivery_attempted", "exception", "returned", "voided". anyOf[2]
-             * (Value): null.
-             */
-            "status"?: (("created"
-                | "packed"
-                | "shipped"
+            "merchandise_status"?: (("not_required"
+                | "awaiting_handoff"
                 | "in_transit"
-                | "out_for_delivery"
-                | "delivered"
-                | "delivery_attempted"
+                | "partially_received"
+                | "inspection_required"
+                | "partially_inspected"
+                | "inspection_review_required"
+                | "disposition_required"
+                | "resolved"
                 | "exception"
-                | "returned"
-                | "voided"
                 | (string & {}))
                 | (null));
             /**
-             * Lifecycle actions Flint accepts now, independent of permissions. Contains void while
-             * the shipment and its fulfillment permit voiding. [] enum: "void". anyOf[1] (Value):
-             * Array of string. Lifecycle actions Flint accepts now, independent of permissions.
-             * Contains void while the shipment and its fulfillment permit voiding. [] enum:
-             * "void". anyOf[1][] (Value): string. Value enum: "void". anyOf[2] (Value): null.
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "supported_actions"?: ((Array<"void" | (string & {})>) | (null));
+            "metadata"?: ((MetadataMap) | (null));
             /**
-             * Last update timestamp. anyOf[1] (Value): string. Last update timestamp. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             * Present only when `expand` includes `order`; `null` when expanded and there is no
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
+            /**
+             * ID of the Order the Return is against. anyOf[1] (Value): string. ID of the Order the
+             * Return is against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value):
+             * null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * How your return policies judged the request when the Return was created. anyOf[1]
+             * (Value): {@link ReturnPolicyEvaluationPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "policy_evaluation"?: ((ReturnPolicyEvaluationPreviousAttributes) | (null));
+            /**
+             * Whether the buyer has received the value they are owed. Combines the Return's
+             * resolutions and its unsettled corrections. Value enum: "not_selected", "pending",
+             * "partially_completed", "requires_action", "completed", "failed". anyOf[1] (Value):
+             * string. Whether the buyer has received the value they are owed. Combines the
+             * Return's resolutions and its unsettled corrections. Value enum: "not_selected",
+             * "pending", "partially_completed", "requires_action", "completed", "failed". anyOf[2]
+             * (Value): null.
+             */
+            "resolution_status"?: (("not_selected"
+                | "pending"
+                | "partially_completed"
+                | "requires_action"
+                | "completed"
+                | "failed"
+                | (string & {}))
+                | (null));
+            /**
+             * IDs of every disposition recorded for this Return, oldest first, including failed
+             * and canceled dispositions. Expand `return_dispositions` on `GET
+             * /v1/returns/{return_id}` to read them inline. anyOf[1] (Value): Array of string. IDs
+             * of every disposition recorded for this Return, oldest first, including failed and
+             * canceled dispositions. Expand `return_dispositions` on `GET /v1/returns/{return_id}`
+             * to read them inline. anyOf[1][] (Value): string. Example:
+             * "retdsp_01KEZF7C007H87J66PH2EEK1VW". anyOf[2] (Value): null.
+             */
+            "return_disposition_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `return_dispositions`. The dispositions in
+             * `return_disposition_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ReturnDispositionPreviousAttributes}. Present only when `expand` includes
+             * `return_dispositions`. The dispositions in `return_disposition_ids`, in the same
+             * order. anyOf[1][] (Value): {@link ReturnDispositionPreviousAttributes}. anyOf[2]
+             * (Value): null.
+             */
+            "return_dispositions"?: ((Array<ReturnDispositionPreviousAttributes>) | (null));
+            /**
+             * Unique identifier for this return, prefixed `ret_`. anyOf[1] (Value): string. Unique
+             * identifier for this return, prefixed `ret_`. Example:
+             * "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value): null.
+             */
+            "return_id"?: ((string) | (null));
+            /**
+             * IDs of every inspection recorded for this Return, oldest first, including superseded
+             * inspections. Expand `return_inspections` on `GET /v1/returns/{return_id}` to read
+             * them inline. anyOf[1] (Value): Array of string. IDs of every inspection recorded for
+             * this Return, oldest first, including superseded inspections. Expand
+             * `return_inspections` on `GET /v1/returns/{return_id}` to read them inline.
+             * anyOf[1][] (Value): string. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2]
+             * (Value): null.
+             */
+            "return_inspection_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `return_inspections`. The inspections in
+             * `return_inspection_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ReturnInspectionPreviousAttributes}. Present only when `expand` includes
+             * `return_inspections`. The inspections in `return_inspection_ids`, in the same order.
+             * anyOf[1][] (Value): {@link ReturnInspectionPreviousAttributes}. anyOf[2] (Value):
+             * null.
+             */
+            "return_inspections"?: ((Array<ReturnInspectionPreviousAttributes>) | (null));
+            /**
+             * Human-readable number for the Return. anyOf[1] (Value): string. Human-readable
+             * number for the Return. anyOf[2] (Value): null.
+             */
+            "return_number"?: ((string) | (null));
+            /**
+             * IDs of every receipt recorded for this Return, oldest first, including superseded
+             * receipts. Expand `return_receipts` on `GET /v1/returns/{return_id}` to read them
+             * inline. anyOf[1] (Value): Array of string. IDs of every receipt recorded for this
+             * Return, oldest first, including superseded receipts. Expand `return_receipts` on
+             * `GET /v1/returns/{return_id}` to read them inline. anyOf[1][] (Value): string.
+             * Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". anyOf[2] (Value): null.
+             */
+            "return_receipt_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `return_receipts`. The receipts in
+             * `return_receipt_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ReturnReceiptPreviousAttributes}. Present only when `expand` includes
+             * `return_receipts`. The receipts in `return_receipt_ids`, in the same order.
+             * anyOf[1][] (Value): {@link ReturnReceiptPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "return_receipts"?: ((Array<ReturnReceiptPreviousAttributes>) | (null));
+            /**
+             * IDs of every resolution created for this Return, oldest first, including failed and
+             * canceled resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}`
+             * to read them inline. anyOf[1] (Value): Array of string. IDs of every resolution
+             * created for this Return, oldest first, including failed and canceled resolutions.
+             * Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them inline.
+             * anyOf[1][] (Value): string. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3". anyOf[2]
+             * (Value): null.
+             */
+            "return_resolution_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `return_resolutions`. The resolutions in
+             * `return_resolution_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ReturnResolutionPreviousAttributes}. Present only when `expand` includes
+             * `return_resolutions`. The resolutions in `return_resolution_ids`, in the same order.
+             * anyOf[1][] (Value): {@link ReturnResolutionPreviousAttributes}. anyOf[2] (Value):
+             * null.
+             */
+            "return_resolutions"?: ((Array<ReturnResolutionPreviousAttributes>) | (null));
+            /**
+             * IDs of every shipment raised to send this Return's items back, oldest first,
+             * including voided shipments. Expand `shipments` on `GET /v1/returns/{return_id}` to
+             * read them inline. anyOf[1] (Value): Array of string. IDs of every shipment raised to
+             * send this Return's items back, oldest first, including voided shipments. Expand
+             * `shipments` on `GET /v1/returns/{return_id}` to read them inline. anyOf[1][]
+             * (Value): string. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". anyOf[2] (Value): null.
+             */
+            "shipment_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `shipments`. Summaries of the shipments in
+             * `shipment_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ExpandedShipmentSummaryPreviousAttributes}. Present only when `expand` includes
+             * `shipments`. Summaries of the shipments in `shipment_ids`, in the same order.
+             * anyOf[1][] (Value): {@link ExpandedShipmentSummaryPreviousAttributes}. anyOf[2]
+             * (Value): null.
+             */
+            "shipments"?: ((Array<ExpandedShipmentSummaryPreviousAttributes>) | (null));
+            /**
+             * Where the whole Return stands. Read `decision_status`, `merchandise_status`, and
+             * `resolution_status` for the part you need. Value enum: "requested", "open",
+             * "completed", "declined", "canceled". anyOf[1] (Value): string. Where the whole
+             * Return stands. Read `decision_status`, `merchandise_status`, and `resolution_status`
+             * for the part you need. Value enum: "requested", "open", "completed", "declined",
+             * "canceled". anyOf[2] (Value): null.
+             */
+            "status"?: (("requested" | "open" | "completed" | "declined" | "canceled" | (string & {})) | (null));
+            /**
+             * Actions that can succeed now. Actions the API key or token doesn't have the scope
+             * for are left out. A Return waiting for a decision lists `decide` and `cancel`. An
+             * open Return lists `cancel` only while no units have been received, inspected,
+             * dispositioned, or resolved, and it has no current receipts or inspections,
+             * non-canceled dispositions or resolutions, or non-voided return shipments. It lists
+             * `complete` when `completion_mode` is `manual` and `completion_blockers` is empty. A
+             * completed Return lists `reopen`. A declined or canceled Return lists none. [] enum:
+             * "cancel", "complete", "decide", "process", "reopen". anyOf[1] (Value): Array of
+             * string. Actions that can succeed now. Actions the API key or token doesn't have the
+             * scope for are left out. A Return waiting for a decision lists `decide` and `cancel`.
+             * An open Return lists `cancel` only while no units have been received, inspected,
+             * dispositioned, or resolved, and it has no current receipts or inspections,
+             * non-canceled dispositions or resolutions, or non-voided return shipments. It lists
+             * `complete` when `completion_mode` is `manual` and `completion_blockers` is empty. A
+             * completed Return lists `reopen`. A declined or canceled Return lists none. [] enum:
+             * "cancel", "complete", "decide", "process", "reopen". anyOf[1][] (Value): string.
+             * Value enum: "cancel", "complete", "decide", "process", "reopen". anyOf[2] (Value):
+             * null.
+             */
+            "supported_actions"?: ((Array<"cancel" | "complete" | "decide" | "process" | "reopen" | (string & {})>) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
             "updated_at"?: ((string) | (null));
             /**
-             * Monotonic shipment version for expected_version checks. anyOf[1] (Value): integer.
-             * Monotonic shipment version for expected_version checks. Format: uint64. minimum: 1.
-             * anyOf[2] (Value): null.
+             * Goes up with every change to the Return. Each activity's `return_version` is the
+             * version that activity produced. A write that takes `expected_version` or
+             * `expected_return_version` for this Return compares it with this value. anyOf[1]
+             * (Value): integer. Goes up with every change to the Return. Each activity's
+             * `return_version` is the version that activity produced. A write that takes
+             * `expected_version` or `expected_return_version` for this Return compares it with
+             * this value. Format: int64. minimum: 0. anyOf[2] (Value): null.
              */
             "version"?: ((number) | (null));
         });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "shipment.updated". */
-    "event_type"?: "shipment.updated";
+    /** Value enum: "return.updated". */
+    "event_type"?: "return.updated";
     /**
      *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
      * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
@@ -1833,379 +1442,777 @@ export type ShipmentUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
     });
 });
 /**
- * The `shipment.updated` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
+ * The `return.updated` webhook payload for the `merchant` event source. Fields shared by merchant
+ * webhook payloads.
  */
-export type ShipmentUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type ReturnUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.created_at (Required): string. Creation timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.delivered_at (Optional): string. When the
-     * shipment was delivered, in RFC3339 format. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.direction (Required): string. Whether the shipment sends
-     * items to the buyer or returns items to the merchant. Value enum: "outbound", "return".
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. Requires external_system. External references are not unique. Use
-     * Idempotency-Key for retries. maxLength: 255. Example: "warehouse-1842".
-     * object.external_system (Optional): string. Name of the external system that
-     * external_reference_id belongs to. External references are not unique. Use Idempotency-Key
-     * for retries. object.fulfillment_id (Required): string. Fulfillment associated with this
-     * shipment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.handed_off_at (Optional):
-     * string. Carrier handoff timestamp for outbound and return shipments, using the recorded
-     * shipped_at when no separate handoff timestamp exists. For return shipments, this can satisfy
-     * an after_handoff execution gate for the declared return_line_items. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.metadata (Optional): {@link MetadataMap}.
-     * Caller-owned key-value metadata associated with the shipment. Caller-owned key-value data
-     * stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
-     * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those
-     * limits may not satisfy them. object.order (Optional): {@link ExpandedOrderSummary} or null.
-     * Order summary returned when the order relationship is expanded. Present only when `expand`
-     * includes `order`; `null` when expanded and there is no related order. object.order.anyOf[1]
-     * (Value): {@link ExpandedOrderSummary}. An order's summary fields, including status, payment
-     * and refund status, and pricing and settlement amounts, returned when the order is expanded.
-     * object.order.anyOf[2] (Value): null. object.order_id (Required): string. Order whose items
-     * are transported by the shipment. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     * object.package_count (Required): integer. Total number of packages attached to the shipment,
-     * including voided packages. Format: int32. minimum: 0. object.packages (Optional): Array of
-     * {@link ExpandedPackageSummary}. Summaries of the shipment's packages in creation order,
-     * returned when the packages relationship is expanded or when the shipment is created with
-     * packages. object.packages[] (Value): {@link ExpandedPackageSummary}. A package's summary
-     * fields, including carrier, tracking, status, and supported actions, returned when the
-     * package is expanded. object.return_id (Optional): string. Return associated with this
-     * shipment, when its direction is return. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     * object.return_line_items (Optional): Array of {@link ReturnHandoffRequirementLineItem}.
-     * Return lines and quantities allocated to this return shipment. object.return_line_items[]
-     * (Value): {@link ReturnHandoffRequirementLineItem}. A return line and the quantity placed in
-     * a return shipment or package. object.shipment_id (Required): string. Stable identifier of
-     * the shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". object.shipped_at (Optional):
-     * string. When the shipment was shipped, in RFC3339 format. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.status (Required): string. Read-only shipment state derived
-     * from the shipment's package states. An empty shipment remains a created draft. - `created`:
-     * The shipment leg exists but has not been packed or handed off. - `packed`: The shipment leg
-     * is packed and awaiting carrier handoff. - `shipped`: The shipment leg was handed to the
-     * carrier. - `in_transit`: The carrier is moving the shipment through its network. -
-     * `out_for_delivery`: The shipment is on its final delivery route. - `delivered`: The carrier
-     * reported successful delivery. - `delivery_attempted`: The carrier attempted delivery but did
-     * not complete it. Follow the carrier instructions before retrying delivery. - `exception`: A
-     * carrier exception is blocking normal progress. Resolve the carrier-reported issue. -
-     * `returned`: The shipment was returned toward or to its origin. - `voided`: The shipment was
-     * voided and will not continue through delivery. Value enum: "created", "packed", "shipped",
-     * "in_transit", "out_for_delivery", "delivered", "delivery_attempted", "exception",
-     * "returned", "voided". object.supported_actions (Required): Array of string. Lifecycle
-     * actions Flint accepts now, independent of permissions. Contains void while the shipment and
-     * its fulfillment permit voiding. [] enum: "void". object.supported_actions[] (Value): string.
-     * Value enum: "void". object.updated_at (Required): string. Last update timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Monotonic
-     * shipment version for expected_version checks. Format: uint64. minimum: 1.
-     * previous_attributes (Optional): object. Previous values of changed top-level fields in
-     * data.object, at this delivery's API version. Nested changes include the whole previous
-     * top-level value. A value is null when the field was absent before the change. Omitted when
-     * Flint did not record the previous state, including synthetic test events.
-     * previous_attributes.created_at (Optional): string or null. Creation timestamp.
-     * previous_attributes.created_at.anyOf[1] (Value): string. Creation timestamp. Format:
+     *  actor (Optional): {@link ReturnActor}. Who caused this event, captured when the change
+     * commits. Omitted when the event predates actor attribution or attribution is unavailable.
+     * Who performed a return action: a buyer, merchant, integration, or the system, with an
+     * optional ID. object (Required): object. The resource snapshot, without expansions. Webhooks
+     * omit no additional fields. object.canceled_at (Optional): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.canceled_by (Optional): {@link
+     * ReturnActor}. Who canceled the Return. Who performed a return action: a buyer, merchant,
+     * integration, or the system, with an optional ID. object.cancellation_reason (Optional):
+     * string. Why the Return was canceled. Value enum: "buyer_request", "merchant_request",
+     * "duplicate", "expired", "created_in_error", "other". object.cancellation_reason_message
+     * (Optional): string. Detail sent with the cancellation. Merchant reads only.
+     * object.completed_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.completed_by (Optional): {@link ReturnActor}. Who completed
+     * the Return. `system` when Flint completed it automatically. Who performed a return action: a
+     * buyer, merchant, integration, or the system, with an optional ID. object.completion_blockers
+     * (Required): Array of {@link ReturnCompletionBlocker}. What is still owed before the Return
+     * can complete. Empty when nothing is. object.completion_blockers[] (Value): {@link
+     * ReturnCompletionBlocker}. Something still owed before a return can complete, with the return
+     * line or record it concerns. object.completion_mode (Optional): string. automatic completes
+     * the Return when the last completion blocker clears; manual waits for POST
+     * /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum:
+     * "manual", "automatic". object.completion_reason (Optional): string. Why the Return was
+     * completed by hand. Absent when Flint completed it automatically. Value enum:
+     * "manual_completion", "exception_waived", "other". object.completion_reason_message
+     * (Optional): string. Detail sent when the Return was completed by hand. object.created_at
+     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.customer (Optional): {@link ExpandedCustomerSummary} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * object.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary
+     * fields, returned in place of a customer ID when the customer is expanded.
+     * object.customer.anyOf[2] (Value): null. object.customer_id (Optional): string. The customer
+     * the Return belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.decision_at
+     * (Optional): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.decision_status (Required): string. Whether the requested units were approved.
+     * `pending` until one decision covers every line. Value enum: "pending", "approved",
+     * "partially_approved", "declined". object.external_reference_id (Optional): string.
+     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842". object.financial_summary (Required): {@link ReturnFinancialSummary}. The
+     * Return's money in one place: the value of the returned lines, deductions and credits, and
+     * what has been refunded or collected. The money for a return: returned value, deductions,
+     * credits, replacement total, and amounts due to or from the buyer.
+     * object.handoff_requirements (Required): Array of {@link ReturnHandoffRequirement}. What the
+     * buyer still has to send back and where. Each entry leaves the list once it is satisfied, so
+     * an empty list means nothing is waiting on the buyer. object.handoff_requirements[] (Value):
+     * {@link ReturnHandoffRequirement}. What the buyer must do to hand merchandise back: the
+     * destination, instructions, line items, and expiry. object.initiated_by (Required): string.
+     * Who created the Return: buyer for a customer session on /v1/me or Flint's hosted account,
+     * merchant for a Dashboard user, integration for an API key or partner app, or system for
+     * Flint automation. It cannot be sent. Value enum: "buyer", "merchant", "integration",
+     * "system". object.line_items (Required): Array of {@link ReturnLineItem}. The lines being
+     * returned. object.line_items[] (Value): {@link ReturnLineItem}. An item included in a return
+     * request. object.merchandise_status (Required): string. On the Return, the least-finished
+     * line's value. Value enum: "not_required", "awaiting_handoff", "in_transit",
+     * "partially_received", "inspection_required", "partially_inspected",
+     * "inspection_review_required", "disposition_required", "resolved", "exception".
+     * object.metadata (Required): {@link MetadataMap}. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a
+     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them. object.order (Optional): {@link ExpandedOrderSummary} or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+     * including status, payment and refund status, and pricing and settlement amounts, returned
+     * when the order is expanded. object.order.anyOf[2] (Value): null. object.order_id (Required):
+     * string. ID of the Order the Return is against. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * object.policy_evaluation (Optional): {@link ReturnPolicyEvaluation}. How your return
+     * policies judged the request when the Return was created. How a return policy evaluated a
+     * return request: overall status and reason, the policy revision used, and per-line results.
+     * object.resolution_status (Required): string. Whether the buyer has received the value they
+     * are owed. Combines the Return's resolutions and its unsettled corrections. Value enum:
+     * "not_selected", "pending", "partially_completed", "requires_action", "completed", "failed".
+     * object.return_disposition_ids (Required): Array of string. IDs of every disposition recorded
+     * for this Return, oldest first, including failed and canceled dispositions. Expand
+     * `return_dispositions` on `GET /v1/returns/{return_id}` to read them inline.
+     * object.return_disposition_ids[] (Value): string. Example:
+     * "retdsp_01KEZF7C007H87J66PH2EEK1VW". object.return_dispositions (Optional): Array of {@link
+     * ReturnDisposition}. Present only when `expand` includes `return_dispositions`. The
+     * dispositions in `return_disposition_ids`, in the same order. object.return_dispositions[]
+     * (Value): {@link ReturnDisposition}. A decision about how returned merchandise will be
+     * handled. object.return_id (Required): string. Unique identifier for this return, prefixed
+     * `ret_`. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". object.return_inspection_ids (Required):
+     * Array of string. IDs of every inspection recorded for this Return, oldest first, including
+     * superseded inspections. Expand `return_inspections` on `GET /v1/returns/{return_id}` to read
+     * them inline. object.return_inspection_ids[] (Value): string. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". object.return_inspections (Optional): Array of {@link
+     * ReturnInspection}. Present only when `expand` includes `return_inspections`. The inspections
+     * in `return_inspection_ids`, in the same order. object.return_inspections[] (Value): {@link
+     * ReturnInspection}. An assessment of the condition of returned items. object.return_number
+     * (Required): string. Human-readable number for the Return. object.return_receipt_ids
+     * (Required): Array of string. IDs of every receipt recorded for this Return, oldest first,
+     * including superseded receipts. Expand `return_receipts` on `GET /v1/returns/{return_id}` to
+     * read them inline. object.return_receipt_ids[] (Value): string. Example:
+     * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". object.return_receipts (Optional): Array of {@link
+     * ReturnReceipt}. Present only when `expand` includes `return_receipts`. The receipts in
+     * `return_receipt_ids`, in the same order. object.return_receipts[] (Value): {@link
+     * ReturnReceipt}. A record of returned items arriving at a location.
+     * object.return_resolution_ids (Required): Array of string. IDs of every resolution created
+     * for this Return, oldest first, including failed and canceled resolutions. Expand
+     * `return_resolutions` on `GET /v1/returns/{return_id}` to read them inline.
+     * object.return_resolution_ids[] (Value): string. Example:
+     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". object.return_resolutions (Optional): Array of {@link
+     * ReturnResolution}. Present only when `expand` includes `return_resolutions`. The resolutions
+     * in `return_resolution_ids`, in the same order. object.return_resolutions[] (Value): {@link
+     * ReturnResolution}. The refund, exchange, or other outcome of a return. object.shipment_ids
+     * (Required): Array of string. IDs of every shipment raised to send this Return's items back,
+     * oldest first, including voided shipments. Expand `shipments` on `GET
+     * /v1/returns/{return_id}` to read them inline. object.shipment_ids[] (Value): string.
+     * Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". object.shipments (Optional): Array of {@link
+     * ExpandedShipmentSummary}. Present only when `expand` includes `shipments`. Summaries of the
+     * shipments in `shipment_ids`, in the same order. object.shipments[] (Value): {@link
+     * ExpandedShipmentSummary}. A shipment's summary fields, including direction, status, and
+     * package count, returned when the shipment is expanded. object.status (Required): string.
+     * Where the whole Return stands. Read `decision_status`, `merchandise_status`, and
+     * `resolution_status` for the part you need. Value enum: "requested", "open", "completed",
+     * "declined", "canceled". object.supported_actions (Required): Array of string. Actions that
+     * can succeed now. Actions the API key or token doesn't have the scope for are left out. A
+     * Return waiting for a decision lists `decide` and `cancel`. An open Return lists `cancel`
+     * only while no units have been received, inspected, dispositioned, or resolved, and it has no
+     * current receipts or inspections, non-canceled dispositions or resolutions, or non-voided
+     * return shipments. It lists `complete` when `completion_mode` is `manual` and
+     * `completion_blockers` is empty. A completed Return lists `reopen`. A declined or canceled
+     * Return lists none. [] enum: "cancel", "complete", "decide", "process", "reopen".
+     * object.supported_actions[] (Value): string. Value enum: "cancel", "complete", "decide",
+     * "process", "reopen". object.updated_at (Required): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Goes up with
+     * every change to the Return. Each activity's `return_version` is the version that activity
+     * produced. A write that takes `expected_version` or `expected_return_version` for this Return
+     * compares it with this value. Format: int64. minimum: 0. previous_attributes (Optional):
+     * object. Previous values of changed top-level fields in data.object, at this delivery's API
+     * version. Nested changes include the whole previous top-level value. A value is null when the
+     * field was absent before the change. Omitted when Flint did not record the previous state,
+     * including synthetic test events. previous_attributes.canceled_at (Optional): string or null.
+     * RFC3339 timestamp. previous_attributes.canceled_at.anyOf[1] (Value): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.canceled_at.anyOf[2] (Value): null. previous_attributes.canceled_by
+     * (Optional): {@link ReturnActorPreviousAttributes} or null. Who canceled the Return.
+     * previous_attributes.canceled_by.anyOf[1] (Value): {@link ReturnActorPreviousAttributes}.
+     * previous_attributes.canceled_by.anyOf[2] (Value): null.
+     * previous_attributes.cancellation_reason (Optional): string or null. Why the Return was
+     * canceled. Value enum: "buyer_request", "merchant_request", "duplicate", "expired",
+     * "created_in_error", "other". previous_attributes.cancellation_reason.anyOf[1] (Value):
+     * string. Why the Return was canceled. Value enum: "buyer_request", "merchant_request",
+     * "duplicate", "expired", "created_in_error", "other".
+     * previous_attributes.cancellation_reason.anyOf[2] (Value): null.
+     * previous_attributes.cancellation_reason_message (Optional): string or null. Detail sent with
+     * the cancellation. Merchant reads only.
+     * previous_attributes.cancellation_reason_message.anyOf[1] (Value): string. Detail sent with
+     * the cancellation. Merchant reads only.
+     * previous_attributes.cancellation_reason_message.anyOf[2] (Value): null.
+     * previous_attributes.completed_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.completed_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.completed_at.anyOf[2]
+     * (Value): null. previous_attributes.completed_by (Optional): {@link
+     * ReturnActorPreviousAttributes} or null. Who completed the Return. `system` when Flint
+     * completed it automatically. previous_attributes.completed_by.anyOf[1] (Value): {@link
+     * ReturnActorPreviousAttributes}. previous_attributes.completed_by.anyOf[2] (Value): null.
+     * previous_attributes.completion_blockers (Optional): Array of {@link
+     * ReturnCompletionBlockerPreviousAttributes} or null. What is still owed before the Return can
+     * complete. Empty when nothing is. previous_attributes.completion_blockers.anyOf[1] (Value):
+     * Array of {@link ReturnCompletionBlockerPreviousAttributes}. What is still owed before the
+     * Return can complete. Empty when nothing is.
+     * previous_attributes.completion_blockers.anyOf[1][] (Value): {@link
+     * ReturnCompletionBlockerPreviousAttributes}. previous_attributes.completion_blockers.anyOf[2]
+     * (Value): null. previous_attributes.completion_mode (Optional): string or null. automatic
+     * completes the Return when the last completion blocker clears; manual waits for POST
+     * /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum:
+     * "manual", "automatic". previous_attributes.completion_mode.anyOf[1] (Value): string.
+     * automatic completes the Return when the last completion blocker clears; manual waits for
+     * POST /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum:
+     * "manual", "automatic". previous_attributes.completion_mode.anyOf[2] (Value): null.
+     * previous_attributes.completion_reason (Optional): string or null. Why the Return was
+     * completed by hand. Absent when Flint completed it automatically. Value enum:
+     * "manual_completion", "exception_waived", "other".
+     * previous_attributes.completion_reason.anyOf[1] (Value): string. Why the Return was completed
+     * by hand. Absent when Flint completed it automatically. Value enum: "manual_completion",
+     * "exception_waived", "other". previous_attributes.completion_reason.anyOf[2] (Value): null.
+     * previous_attributes.completion_reason_message (Optional): string or null. Detail sent when
+     * the Return was completed by hand. previous_attributes.completion_reason_message.anyOf[1]
+     * (Value): string. Detail sent when the Return was completed by hand.
+     * previous_attributes.completion_reason_message.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
      * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.delivered_at (Optional): string or null. When the shipment was
-     * delivered, in RFC3339 format. previous_attributes.delivered_at.anyOf[1] (Value): string.
-     * When the shipment was delivered, in RFC3339 format. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.delivered_at.anyOf[2] (Value): null.
-     * previous_attributes.direction (Optional): string or null. Whether the shipment sends items
-     * to the buyer or returns items to the merchant. Value enum: "outbound", "return".
-     * previous_attributes.direction.anyOf[1] (Value): string. Whether the shipment sends items to
-     * the buyer or returns items to the merchant. Value enum: "outbound", "return".
-     * previous_attributes.direction.anyOf[2] (Value): null.
+     * null. previous_attributes.customer (Optional): {@link
+     * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+     * `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. The customer the Return
+     * belongs to. previous_attributes.customer_id.anyOf[1] (Value): string. The customer the
+     * Return belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * previous_attributes.customer_id.anyOf[2] (Value): null. previous_attributes.decision_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.decision_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.decision_at.anyOf[2] (Value): null. previous_attributes.decision_status
+     * (Optional): string or null. Whether the requested units were approved. `pending` until one
+     * decision covers every line. Value enum: "pending", "approved", "partially_approved",
+     * "declined". previous_attributes.decision_status.anyOf[1] (Value): string. Whether the
+     * requested units were approved. `pending` until one decision covers every line. Value enum:
+     * "pending", "approved", "partially_approved", "declined".
+     * previous_attributes.decision_status.anyOf[2] (Value): null.
      * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
-     * identifier for this resource in an external system. Requires external_system. External
-     * references are not unique. Use Idempotency-Key for retries.
+     * identifier for this resource in an external system.
      * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
-     * for this resource in an external system. Requires external_system. External references are
-     * not unique. Use Idempotency-Key for retries. maxLength: 255. Example: "warehouse-1842".
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
      * previous_attributes.external_reference_id.anyOf[2] (Value): null.
-     * previous_attributes.external_system (Optional): string or null. Name of the external system
-     * that external_reference_id belongs to. External references are not unique. Use
-     * Idempotency-Key for retries. previous_attributes.external_system.anyOf[1] (Value): string.
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. previous_attributes.external_system.anyOf[2]
-     * (Value): null. previous_attributes.fulfillment_id (Optional): string or null. Fulfillment
-     * associated with this shipment. previous_attributes.fulfillment_id.anyOf[1] (Value): string.
-     * Fulfillment associated with this shipment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-     * previous_attributes.fulfillment_id.anyOf[2] (Value): null. previous_attributes.handed_off_at
-     * (Optional): string or null. Carrier handoff timestamp for outbound and return shipments,
-     * using the recorded shipped_at when no separate handoff timestamp exists. For return
-     * shipments, this can satisfy an after_handoff execution gate for the declared
-     * return_line_items. previous_attributes.handed_off_at.anyOf[1] (Value): string. Carrier
-     * handoff timestamp for outbound and return shipments, using the recorded shipped_at when no
-     * separate handoff timestamp exists. For return shipments, this can satisfy an after_handoff
-     * execution gate for the declared return_line_items. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.handed_off_at.anyOf[2] (Value): null.
-     * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned key-value
-     * metadata associated with the shipment. previous_attributes.metadata.anyOf[1] (Value): {@link
-     * MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.order
-     * (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or null. Order summary returned
-     * when the order relationship is expanded. Present only when `expand` includes `order`; `null`
-     * when expanded and there is no related order. previous_attributes.order.anyOf[1] (Value):
-     * {@link ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value):
-     * null. previous_attributes.order_id (Optional): string or null. Order whose items are
-     * transported by the shipment. previous_attributes.order_id.anyOf[1] (Value): string. Order
-     * whose items are transported by the shipment. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     * previous_attributes.order_id.anyOf[2] (Value): null. previous_attributes.package_count
-     * (Optional): integer or null. Total number of packages attached to the shipment, including
-     * voided packages. previous_attributes.package_count.anyOf[1] (Value): integer. Total number
-     * of packages attached to the shipment, including voided packages. Format: int32. minimum: 0.
-     * previous_attributes.package_count.anyOf[2] (Value): null. previous_attributes.packages
-     * (Optional): Array of {@link ExpandedPackageSummaryPreviousAttributes} or null. Summaries of
-     * the shipment's packages in creation order, returned when the packages relationship is
-     * expanded or when the shipment is created with packages.
-     * previous_attributes.packages.anyOf[1] (Value): Array of {@link
-     * ExpandedPackageSummaryPreviousAttributes}. Summaries of the shipment's packages in creation
-     * order, returned when the packages relationship is expanded or when the shipment is created
-     * with packages. previous_attributes.packages.anyOf[1][] (Value): {@link
-     * ExpandedPackageSummaryPreviousAttributes}. previous_attributes.packages.anyOf[2] (Value):
-     * null. previous_attributes.return_id (Optional): string or null. Return associated with this
-     * shipment, when its direction is return. previous_attributes.return_id.anyOf[1] (Value):
-     * string. Return associated with this shipment, when its direction is return. Example:
+     * previous_attributes.financial_summary (Optional): {@link
+     * ReturnFinancialSummaryPreviousAttributes} or null. The Return's money in one place: the
+     * value of the returned lines, deductions and credits, and what has been refunded or
+     * collected. previous_attributes.financial_summary.anyOf[1] (Value): {@link
+     * ReturnFinancialSummaryPreviousAttributes}. previous_attributes.financial_summary.anyOf[2]
+     * (Value): null. previous_attributes.handoff_requirements (Optional): Array of {@link
+     * ReturnHandoffRequirementPreviousAttributes} or null. What the buyer still has to send back
+     * and where. Each entry leaves the list once it is satisfied, so an empty list means nothing
+     * is waiting on the buyer. previous_attributes.handoff_requirements.anyOf[1] (Value): Array of
+     * {@link ReturnHandoffRequirementPreviousAttributes}. What the buyer still has to send back
+     * and where. Each entry leaves the list once it is satisfied, so an empty list means nothing
+     * is waiting on the buyer. previous_attributes.handoff_requirements.anyOf[1][] (Value): {@link
+     * ReturnHandoffRequirementPreviousAttributes}.
+     * previous_attributes.handoff_requirements.anyOf[2] (Value): null.
+     * previous_attributes.initiated_by (Optional): string or null. Who created the Return: buyer
+     * for a customer session on /v1/me or Flint's hosted account, merchant for a Dashboard user,
+     * integration for an API key or partner app, or system for Flint automation. It cannot be
+     * sent. Value enum: "buyer", "merchant", "integration", "system".
+     * previous_attributes.initiated_by.anyOf[1] (Value): string. Who created the Return: buyer for
+     * a customer session on /v1/me or Flint's hosted account, merchant for a Dashboard user,
+     * integration for an API key or partner app, or system for Flint automation. It cannot be
+     * sent. Value enum: "buyer", "merchant", "integration", "system".
+     * previous_attributes.initiated_by.anyOf[2] (Value): null. previous_attributes.line_items
+     * (Optional): Array of {@link ReturnLineItemPreviousAttributes} or null. The lines being
+     * returned. previous_attributes.line_items.anyOf[1] (Value): Array of {@link
+     * ReturnLineItemPreviousAttributes}. The lines being returned.
+     * previous_attributes.line_items.anyOf[1][] (Value): {@link ReturnLineItemPreviousAttributes}.
+     * previous_attributes.line_items.anyOf[2] (Value): null.
+     * previous_attributes.merchandise_status (Optional): string or null. On the Return, the
+     * least-finished line's value. Value enum: "not_required", "awaiting_handoff", "in_transit",
+     * "partially_received", "inspection_required", "partially_inspected",
+     * "inspection_review_required", "disposition_required", "resolved", "exception".
+     * previous_attributes.merchandise_status.anyOf[1] (Value): string. On the Return, the
+     * least-finished line's value. Value enum: "not_required", "awaiting_handoff", "in_transit",
+     * "partially_received", "inspection_required", "partially_inspected",
+     * "inspection_review_required", "disposition_required", "resolved", "exception".
+     * previous_attributes.merchandise_status.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
+     * (Value): {@link MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.order (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or
+     * null. Present only when `expand` includes `order`; `null` when expanded and there is no
+     * related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value): null.
+     * previous_attributes.order_id (Optional): string or null. ID of the Order the Return is
+     * against. previous_attributes.order_id.anyOf[1] (Value): string. ID of the Order the Return
+     * is against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2]
+     * (Value): null. previous_attributes.policy_evaluation (Optional): {@link
+     * ReturnPolicyEvaluationPreviousAttributes} or null. How your return policies judged the
+     * request when the Return was created. previous_attributes.policy_evaluation.anyOf[1] (Value):
+     * {@link ReturnPolicyEvaluationPreviousAttributes}.
+     * previous_attributes.policy_evaluation.anyOf[2] (Value): null.
+     * previous_attributes.resolution_status (Optional): string or null. Whether the buyer has
+     * received the value they are owed. Combines the Return's resolutions and its unsettled
+     * corrections. Value enum: "not_selected", "pending", "partially_completed",
+     * "requires_action", "completed", "failed". previous_attributes.resolution_status.anyOf[1]
+     * (Value): string. Whether the buyer has received the value they are owed. Combines the
+     * Return's resolutions and its unsettled corrections. Value enum: "not_selected", "pending",
+     * "partially_completed", "requires_action", "completed", "failed".
+     * previous_attributes.resolution_status.anyOf[2] (Value): null.
+     * previous_attributes.return_disposition_ids (Optional): Array of string or null. IDs of every
+     * disposition recorded for this Return, oldest first, including failed and canceled
+     * dispositions. Expand `return_dispositions` on `GET /v1/returns/{return_id}` to read them
+     * inline. previous_attributes.return_disposition_ids.anyOf[1] (Value): Array of string. IDs of
+     * every disposition recorded for this Return, oldest first, including failed and canceled
+     * dispositions. Expand `return_dispositions` on `GET /v1/returns/{return_id}` to read them
+     * inline. previous_attributes.return_disposition_ids.anyOf[1][] (Value): string. Example:
+     * "retdsp_01KEZF7C007H87J66PH2EEK1VW". previous_attributes.return_disposition_ids.anyOf[2]
+     * (Value): null. previous_attributes.return_dispositions (Optional): Array of {@link
+     * ReturnDispositionPreviousAttributes} or null. Present only when `expand` includes
+     * `return_dispositions`. The dispositions in `return_disposition_ids`, in the same order.
+     * previous_attributes.return_dispositions.anyOf[1] (Value): Array of {@link
+     * ReturnDispositionPreviousAttributes}. Present only when `expand` includes
+     * `return_dispositions`. The dispositions in `return_disposition_ids`, in the same order.
+     * previous_attributes.return_dispositions.anyOf[1][] (Value): {@link
+     * ReturnDispositionPreviousAttributes}. previous_attributes.return_dispositions.anyOf[2]
+     * (Value): null. previous_attributes.return_id (Optional): string or null. Unique identifier
+     * for this return, prefixed `ret_`. previous_attributes.return_id.anyOf[1] (Value): string.
+     * Unique identifier for this return, prefixed `ret_`. Example:
      * "ret_01KEZF7C00PG93650ZKVQNGF7X". previous_attributes.return_id.anyOf[2] (Value): null.
-     * previous_attributes.return_line_items (Optional): Array of {@link
-     * ReturnHandoffRequirementLineItemPreviousAttributes} or null. Return lines and quantities
-     * allocated to this return shipment. previous_attributes.return_line_items.anyOf[1] (Value):
-     * Array of {@link ReturnHandoffRequirementLineItemPreviousAttributes}. Return lines and
-     * quantities allocated to this return shipment.
-     * previous_attributes.return_line_items.anyOf[1][] (Value): {@link
-     * ReturnHandoffRequirementLineItemPreviousAttributes}.
-     * previous_attributes.return_line_items.anyOf[2] (Value): null.
-     * previous_attributes.shipment_id (Optional): string or null. Stable identifier of the
-     * shipment. previous_attributes.shipment_id.anyOf[1] (Value): string. Stable identifier of the
-     * shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
-     * previous_attributes.shipment_id.anyOf[2] (Value): null. previous_attributes.shipped_at
-     * (Optional): string or null. When the shipment was shipped, in RFC3339 format.
-     * previous_attributes.shipped_at.anyOf[1] (Value): string. When the shipment was shipped, in
-     * RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.shipped_at.anyOf[2] (Value): null. previous_attributes.status
-     * (Optional): string or null. Read-only shipment state derived from the shipment's package
-     * states. An empty shipment remains a created draft. - `created`: The shipment leg exists but
-     * has not been packed or handed off. - `packed`: The shipment leg is packed and awaiting
-     * carrier handoff. - `shipped`: The shipment leg was handed to the carrier. - `in_transit`:
-     * The carrier is moving the shipment through its network. - `out_for_delivery`: The shipment
-     * is on its final delivery route. - `delivered`: The carrier reported successful delivery. -
-     * `delivery_attempted`: The carrier attempted delivery but did not complete it. Follow the
-     * carrier instructions before retrying delivery. - `exception`: A carrier exception is
-     * blocking normal progress. Resolve the carrier-reported issue. - `returned`: The shipment was
-     * returned toward or to its origin. - `voided`: The shipment was voided and will not continue
-     * through delivery. Value enum: "created", "packed", "shipped", "in_transit",
-     * "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned", "voided".
-     * previous_attributes.status.anyOf[1] (Value): string. Read-only shipment state derived from
-     * the shipment's package states. An empty shipment remains a created draft. - `created`: The
-     * shipment leg exists but has not been packed or handed off. - `packed`: The shipment leg is
-     * packed and awaiting carrier handoff. - `shipped`: The shipment leg was handed to the
-     * carrier. - `in_transit`: The carrier is moving the shipment through its network. -
-     * `out_for_delivery`: The shipment is on its final delivery route. - `delivered`: The carrier
-     * reported successful delivery. - `delivery_attempted`: The carrier attempted delivery but did
-     * not complete it. Follow the carrier instructions before retrying delivery. - `exception`: A
-     * carrier exception is blocking normal progress. Resolve the carrier-reported issue. -
-     * `returned`: The shipment was returned toward or to its origin. - `voided`: The shipment was
-     * voided and will not continue through delivery. Value enum: "created", "packed", "shipped",
-     * "in_transit", "out_for_delivery", "delivered", "delivery_attempted", "exception",
-     * "returned", "voided". previous_attributes.status.anyOf[2] (Value): null.
-     * previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle actions
-     * Flint accepts now, independent of permissions. Contains void while the shipment and its
-     * fulfillment permit voiding. [] enum: "void". previous_attributes.supported_actions.anyOf[1]
-     * (Value): Array of string. Lifecycle actions Flint accepts now, independent of permissions.
-     * Contains void while the shipment and its fulfillment permit voiding. [] enum: "void".
-     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "void".
-     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.updated_at
-     * (Optional): string or null. Last update timestamp. previous_attributes.updated_at.anyOf[1]
-     * (Value): string. Last update timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
-     * (Optional): integer or null. Monotonic shipment version for expected_version checks.
-     * previous_attributes.version.anyOf[1] (Value): integer. Monotonic shipment version for
-     * expected_version checks. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2]
-     * (Value): null.
+     * previous_attributes.return_inspection_ids (Optional): Array of string or null. IDs of every
+     * inspection recorded for this Return, oldest first, including superseded inspections. Expand
+     * `return_inspections` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.return_inspection_ids.anyOf[1] (Value): Array of string. IDs of every
+     * inspection recorded for this Return, oldest first, including superseded inspections. Expand
+     * `return_inspections` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.return_inspection_ids.anyOf[1][] (Value): string. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". previous_attributes.return_inspection_ids.anyOf[2]
+     * (Value): null. previous_attributes.return_inspections (Optional): Array of {@link
+     * ReturnInspectionPreviousAttributes} or null. Present only when `expand` includes
+     * `return_inspections`. The inspections in `return_inspection_ids`, in the same order.
+     * previous_attributes.return_inspections.anyOf[1] (Value): Array of {@link
+     * ReturnInspectionPreviousAttributes}. Present only when `expand` includes
+     * `return_inspections`. The inspections in `return_inspection_ids`, in the same order.
+     * previous_attributes.return_inspections.anyOf[1][] (Value): {@link
+     * ReturnInspectionPreviousAttributes}. previous_attributes.return_inspections.anyOf[2]
+     * (Value): null. previous_attributes.return_number (Optional): string or null. Human-readable
+     * number for the Return. previous_attributes.return_number.anyOf[1] (Value): string.
+     * Human-readable number for the Return. previous_attributes.return_number.anyOf[2] (Value):
+     * null. previous_attributes.return_receipt_ids (Optional): Array of string or null. IDs of
+     * every receipt recorded for this Return, oldest first, including superseded receipts. Expand
+     * `return_receipts` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.return_receipt_ids.anyOf[1] (Value): Array of string. IDs of every
+     * receipt recorded for this Return, oldest first, including superseded receipts. Expand
+     * `return_receipts` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.return_receipt_ids.anyOf[1][] (Value): string. Example:
+     * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". previous_attributes.return_receipt_ids.anyOf[2] (Value):
+     * null. previous_attributes.return_receipts (Optional): Array of {@link
+     * ReturnReceiptPreviousAttributes} or null. Present only when `expand` includes
+     * `return_receipts`. The receipts in `return_receipt_ids`, in the same order.
+     * previous_attributes.return_receipts.anyOf[1] (Value): Array of {@link
+     * ReturnReceiptPreviousAttributes}. Present only when `expand` includes `return_receipts`. The
+     * receipts in `return_receipt_ids`, in the same order.
+     * previous_attributes.return_receipts.anyOf[1][] (Value): {@link
+     * ReturnReceiptPreviousAttributes}. previous_attributes.return_receipts.anyOf[2] (Value):
+     * null. previous_attributes.return_resolution_ids (Optional): Array of string or null. IDs of
+     * every resolution created for this Return, oldest first, including failed and canceled
+     * resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them
+     * inline. previous_attributes.return_resolution_ids.anyOf[1] (Value): Array of string. IDs of
+     * every resolution created for this Return, oldest first, including failed and canceled
+     * resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them
+     * inline. previous_attributes.return_resolution_ids.anyOf[1][] (Value): string. Example:
+     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". previous_attributes.return_resolution_ids.anyOf[2]
+     * (Value): null. previous_attributes.return_resolutions (Optional): Array of {@link
+     * ReturnResolutionPreviousAttributes} or null. Present only when `expand` includes
+     * `return_resolutions`. The resolutions in `return_resolution_ids`, in the same order.
+     * previous_attributes.return_resolutions.anyOf[1] (Value): Array of {@link
+     * ReturnResolutionPreviousAttributes}. Present only when `expand` includes
+     * `return_resolutions`. The resolutions in `return_resolution_ids`, in the same order.
+     * previous_attributes.return_resolutions.anyOf[1][] (Value): {@link
+     * ReturnResolutionPreviousAttributes}. previous_attributes.return_resolutions.anyOf[2]
+     * (Value): null. previous_attributes.shipment_ids (Optional): Array of string or null. IDs of
+     * every shipment raised to send this Return's items back, oldest first, including voided
+     * shipments. Expand `shipments` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.shipment_ids.anyOf[1] (Value): Array of string. IDs of every shipment
+     * raised to send this Return's items back, oldest first, including voided shipments. Expand
+     * `shipments` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.shipment_ids.anyOf[1][] (Value): string. Example:
+     * "shp_01KEZF7C00Q2AFXWXHMCDR3F68". previous_attributes.shipment_ids.anyOf[2] (Value): null.
+     * previous_attributes.shipments (Optional): Array of {@link
+     * ExpandedShipmentSummaryPreviousAttributes} or null. Present only when `expand` includes
+     * `shipments`. Summaries of the shipments in `shipment_ids`, in the same order.
+     * previous_attributes.shipments.anyOf[1] (Value): Array of {@link
+     * ExpandedShipmentSummaryPreviousAttributes}. Present only when `expand` includes `shipments`.
+     * Summaries of the shipments in `shipment_ids`, in the same order.
+     * previous_attributes.shipments.anyOf[1][] (Value): {@link
+     * ExpandedShipmentSummaryPreviousAttributes}. previous_attributes.shipments.anyOf[2] (Value):
+     * null. previous_attributes.status (Optional): string or null. Where the whole Return stands.
+     * Read `decision_status`, `merchandise_status`, and `resolution_status` for the part you need.
+     * Value enum: "requested", "open", "completed", "declined", "canceled".
+     * previous_attributes.status.anyOf[1] (Value): string. Where the whole Return stands. Read
+     * `decision_status`, `merchandise_status`, and `resolution_status` for the part you need.
+     * Value enum: "requested", "open", "completed", "declined", "canceled".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
+     * (Optional): Array of string or null. Actions that can succeed now. Actions the API key or
+     * token doesn't have the scope for are left out. A Return waiting for a decision lists
+     * `decide` and `cancel`. An open Return lists `cancel` only while no units have been received,
+     * inspected, dispositioned, or resolved, and it has no current receipts or inspections,
+     * non-canceled dispositions or resolutions, or non-voided return shipments. It lists
+     * `complete` when `completion_mode` is `manual` and `completion_blockers` is empty. A
+     * completed Return lists `reopen`. A declined or canceled Return lists none. [] enum:
+     * "cancel", "complete", "decide", "process", "reopen".
+     * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Actions that can
+     * succeed now. Actions the API key or token doesn't have the scope for are left out. A Return
+     * waiting for a decision lists `decide` and `cancel`. An open Return lists `cancel` only while
+     * no units have been received, inspected, dispositioned, or resolved, and it has no current
+     * receipts or inspections, non-canceled dispositions or resolutions, or non-voided return
+     * shipments. It lists `complete` when `completion_mode` is `manual` and `completion_blockers`
+     * is empty. A completed Return lists `reopen`. A declined or canceled Return lists none. []
+     * enum: "cancel", "complete", "decide", "process", "reopen".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "cancel",
+     * "complete", "decide", "process", "reopen". previous_attributes.supported_actions.anyOf[2]
+     * (Value): null. previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Goes up with every change to
+     * the Return. Each activity's `return_version` is the version that activity produced. A write
+     * that takes `expected_version` or `expected_return_version` for this Return compares it with
+     * this value. previous_attributes.version.anyOf[1] (Value): integer. Goes up with every change
+     * to the Return. Each activity's `return_version` is the version that activity produced. A
+     * write that takes `expected_version` or `expected_return_version` for this Return compares it
+     * with this value. Format: int64. minimum: 0. previous_attributes.version.anyOf[2] (Value):
+     * null.
      */
     "data"?: {
         /**
+         * Who caused this event, captured when the change commits. Omitted when the event predates
+         * actor attribution or attribution is unavailable. Who performed a return action: a buyer,
+         * merchant, integration, or the system, with an optional ID.
+         */
+        "actor"?: ReturnActor;
+        /**
          * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * created_at (Required): string. Creation timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". delivered_at (Optional): string. When the shipment was
-         * delivered, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * direction (Required): string. Whether the shipment sends items to the buyer or returns
-         * items to the merchant. Value enum: "outbound", "return". external_reference_id
-         * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * Requires external_system. External references are not unique. Use Idempotency-Key for
-         * retries. maxLength: 255. Example: "warehouse-1842". external_system (Optional): string.
-         * Name of the external system that external_reference_id belongs to. External references
-         * are not unique. Use Idempotency-Key for retries. fulfillment_id (Required): string.
-         * Fulfillment associated with this shipment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-         * handed_off_at (Optional): string. Carrier handoff timestamp for outbound and return
-         * shipments, using the recorded shipped_at when no separate handoff timestamp exists. For
-         * return shipments, this can satisfy an after_handoff execution gate for the declared
-         * return_line_items. Format: date-time. Example: "2026-08-02T16:00:00Z". metadata
-         * (Optional): {@link MetadataMap}. Caller-owned key-value metadata associated with the
-         * shipment. Caller-owned key-value data stored on a resource. Keys starting with flint_
-         * are reserved for Flint and are not returned. Writes follow the limits on MetadataInput
-         * and MetadataPatchInput; maps written before those limits may not satisfy them. order
-         * (Optional): {@link ExpandedOrderSummary} or null. Order summary returned when the order
-         * relationship is expanded. Present only when `expand` includes `order`; `null` when
-         * expanded and there is no related order. order.anyOf[1] (Value): {@link
-         * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
-         * status, and pricing and settlement amounts, returned when the order is expanded.
-         * order.anyOf[2] (Value): null. order_id (Required): string. Order whose items are
-         * transported by the shipment. Example: "ord_01KEZF7C0054GQKJ142A8X367A". package_count
-         * (Required): integer. Total number of packages attached to the shipment, including voided
-         * packages. Format: int32. minimum: 0. packages (Optional): Array of {@link
-         * ExpandedPackageSummary}. Summaries of the shipment's packages in creation order,
-         * returned when the packages relationship is expanded or when the shipment is created with
-         * packages. packages[] (Value): {@link ExpandedPackageSummary}. A package's summary
-         * fields, including carrier, tracking, status, and supported actions, returned when the
-         * package is expanded. return_id (Optional): string. Return associated with this shipment,
-         * when its direction is return. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-         * return_line_items (Optional): Array of {@link ReturnHandoffRequirementLineItem}. Return
-         * lines and quantities allocated to this return shipment. return_line_items[] (Value):
-         * {@link ReturnHandoffRequirementLineItem}. A return line and the quantity placed in a
-         * return shipment or package. shipment_id (Required): string. Stable identifier of the
-         * shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". shipped_at (Optional): string. When
-         * the shipment was shipped, in RFC3339 format. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". status (Required): string. Read-only shipment state derived from
-         * the shipment's package states. An empty shipment remains a created draft. - `created`:
-         * The shipment leg exists but has not been packed or handed off. - `packed`: The shipment
-         * leg is packed and awaiting carrier handoff. - `shipped`: The shipment leg was handed to
-         * the carrier. - `in_transit`: The carrier is moving the shipment through its network. -
-         * `out_for_delivery`: The shipment is on its final delivery route. - `delivered`: The
-         * carrier reported successful delivery. - `delivery_attempted`: The carrier attempted
-         * delivery but did not complete it. Follow the carrier instructions before retrying
-         * delivery. - `exception`: A carrier exception is blocking normal progress. Resolve the
-         * carrier-reported issue. - `returned`: The shipment was returned toward or to its origin.
-         * - `voided`: The shipment was voided and will not continue through delivery. Value enum:
-         * "created", "packed", "shipped", "in_transit", "out_for_delivery", "delivered",
-         * "delivery_attempted", "exception", "returned", "voided". supported_actions (Required):
-         * Array of string. Lifecycle actions Flint accepts now, independent of permissions.
-         * Contains void while the shipment and its fulfillment permit voiding. [] enum: "void".
-         * supported_actions[] (Value): string. Value enum: "void". updated_at (Required): string.
-         * Last update timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version
-         * (Required): integer. Monotonic shipment version for expected_version checks. Format:
-         * uint64. minimum: 1.
+         * canceled_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". canceled_by (Optional): {@link ReturnActor}. Who canceled the
+         * Return. Who performed a return action: a buyer, merchant, integration, or the system,
+         * with an optional ID. cancellation_reason (Optional): string. Why the Return was
+         * canceled. Value enum: "buyer_request", "merchant_request", "duplicate", "expired",
+         * "created_in_error", "other". cancellation_reason_message (Optional): string. Detail sent
+         * with the cancellation. Merchant reads only. completed_at (Optional): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". completed_by (Optional):
+         * {@link ReturnActor}. Who completed the Return. `system` when Flint completed it
+         * automatically. Who performed a return action: a buyer, merchant, integration, or the
+         * system, with an optional ID. completion_blockers (Required): Array of {@link
+         * ReturnCompletionBlocker}. What is still owed before the Return can complete. Empty when
+         * nothing is. completion_blockers[] (Value): {@link ReturnCompletionBlocker}. Something
+         * still owed before a return can complete, with the return line or record it concerns.
+         * completion_mode (Optional): string. automatic completes the Return when the last
+         * completion blocker clears; manual waits for POST /v1/returns/{return_id}/complete.
+         * Reopening a Return sets it to manual. Value enum: "manual", "automatic".
+         * completion_reason (Optional): string. Why the Return was completed by hand. Absent when
+         * Flint completed it automatically. Value enum: "manual_completion", "exception_waived",
+         * "other". completion_reason_message (Optional): string. Detail sent when the Return was
+         * completed by hand. created_at (Required): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". customer (Optional): {@link ExpandedCustomerSummary} or
+         * null. Present only when `expand` includes `customer`; `null` when expanded and there is
+         * no related customer. customer.anyOf[1] (Value): {@link ExpandedCustomerSummary}. A
+         * customer's summary fields, returned in place of a customer ID when the customer is
+         * expanded. customer.anyOf[2] (Value): null. customer_id (Optional): string. The customer
+         * the Return belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". decision_at
+         * (Optional): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". decision_status (Required): string. Whether the requested units
+         * were approved. `pending` until one decision covers every line. Value enum: "pending",
+         * "approved", "partially_approved", "declined". external_reference_id (Optional): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". financial_summary (Required): {@link ReturnFinancialSummary}.
+         * The Return's money in one place: the value of the returned lines, deductions and
+         * credits, and what has been refunded or collected. The money for a return: returned
+         * value, deductions, credits, replacement total, and amounts due to or from the buyer.
+         * handoff_requirements (Required): Array of {@link ReturnHandoffRequirement}. What the
+         * buyer still has to send back and where. Each entry leaves the list once it is satisfied,
+         * so an empty list means nothing is waiting on the buyer. handoff_requirements[] (Value):
+         * {@link ReturnHandoffRequirement}. What the buyer must do to hand merchandise back: the
+         * destination, instructions, line items, and expiry. initiated_by (Required): string. Who
+         * created the Return: buyer for a customer session on /v1/me or Flint's hosted account,
+         * merchant for a Dashboard user, integration for an API key or partner app, or system for
+         * Flint automation. It cannot be sent. Value enum: "buyer", "merchant", "integration",
+         * "system". line_items (Required): Array of {@link ReturnLineItem}. The lines being
+         * returned. line_items[] (Value): {@link ReturnLineItem}. An item included in a return
+         * request. merchandise_status (Required): string. On the Return, the least-finished line's
+         * value. Value enum: "not_required", "awaiting_handoff", "in_transit",
+         * "partially_received", "inspection_required", "partially_inspected",
+         * "inspection_review_required", "disposition_required", "resolved", "exception". metadata
+         * (Required): {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput`
+         * for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys
+         * starting with flint_ are reserved for Flint and are not returned. Writes follow the
+         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+         * satisfy them. order (Optional): {@link ExpandedOrderSummary} or null. Present only when
+         * `expand` includes `order`; `null` when expanded and there is no related order.
+         * order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+         * including status, payment and refund status, and pricing and settlement amounts,
+         * returned when the order is expanded. order.anyOf[2] (Value): null. order_id (Required):
+         * string. ID of the Order the Return is against. Example:
+         * "ord_01KEZF7C0054GQKJ142A8X367A". policy_evaluation (Optional): {@link
+         * ReturnPolicyEvaluation}. How your return policies judged the request when the Return was
+         * created. How a return policy evaluated a return request: overall status and reason, the
+         * policy revision used, and per-line results. resolution_status (Required): string.
+         * Whether the buyer has received the value they are owed. Combines the Return's
+         * resolutions and its unsettled corrections. Value enum: "not_selected", "pending",
+         * "partially_completed", "requires_action", "completed", "failed". return_disposition_ids
+         * (Required): Array of string. IDs of every disposition recorded for this Return, oldest
+         * first, including failed and canceled dispositions. Expand `return_dispositions` on `GET
+         * /v1/returns/{return_id}` to read them inline. return_disposition_ids[] (Value): string.
+         * Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW". return_dispositions (Optional): Array of
+         * {@link ReturnDisposition}. Present only when `expand` includes `return_dispositions`.
+         * The dispositions in `return_disposition_ids`, in the same order. return_dispositions[]
+         * (Value): {@link ReturnDisposition}. A decision about how returned merchandise will be
+         * handled. return_id (Required): string. Unique identifier for this return, prefixed
+         * `ret_`. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". return_inspection_ids (Required):
+         * Array of string. IDs of every inspection recorded for this Return, oldest first,
+         * including superseded inspections. Expand `return_inspections` on `GET
+         * /v1/returns/{return_id}` to read them inline. return_inspection_ids[] (Value): string.
+         * Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". return_inspections (Optional): Array of
+         * {@link ReturnInspection}. Present only when `expand` includes `return_inspections`. The
+         * inspections in `return_inspection_ids`, in the same order. return_inspections[] (Value):
+         * {@link ReturnInspection}. An assessment of the condition of returned items.
+         * return_number (Required): string. Human-readable number for the Return.
+         * return_receipt_ids (Required): Array of string. IDs of every receipt recorded for this
+         * Return, oldest first, including superseded receipts. Expand `return_receipts` on `GET
+         * /v1/returns/{return_id}` to read them inline. return_receipt_ids[] (Value): string.
+         * Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". return_receipts (Optional): Array of {@link
+         * ReturnReceipt}. Present only when `expand` includes `return_receipts`. The receipts in
+         * `return_receipt_ids`, in the same order. return_receipts[] (Value): {@link
+         * ReturnReceipt}. A record of returned items arriving at a location. return_resolution_ids
+         * (Required): Array of string. IDs of every resolution created for this Return, oldest
+         * first, including failed and canceled resolutions. Expand `return_resolutions` on `GET
+         * /v1/returns/{return_id}` to read them inline. return_resolution_ids[] (Value): string.
+         * Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3". return_resolutions (Optional): Array of
+         * {@link ReturnResolution}. Present only when `expand` includes `return_resolutions`. The
+         * resolutions in `return_resolution_ids`, in the same order. return_resolutions[] (Value):
+         * {@link ReturnResolution}. The refund, exchange, or other outcome of a return.
+         * shipment_ids (Required): Array of string. IDs of every shipment raised to send this
+         * Return's items back, oldest first, including voided shipments. Expand `shipments` on
+         * `GET /v1/returns/{return_id}` to read them inline. shipment_ids[] (Value): string.
+         * Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". shipments (Optional): Array of {@link
+         * ExpandedShipmentSummary}. Present only when `expand` includes `shipments`. Summaries of
+         * the shipments in `shipment_ids`, in the same order. shipments[] (Value): {@link
+         * ExpandedShipmentSummary}. A shipment's summary fields, including direction, status, and
+         * package count, returned when the shipment is expanded. status (Required): string. Where
+         * the whole Return stands. Read `decision_status`, `merchandise_status`, and
+         * `resolution_status` for the part you need. Value enum: "requested", "open", "completed",
+         * "declined", "canceled". supported_actions (Required): Array of string. Actions that can
+         * succeed now. Actions the API key or token doesn't have the scope for are left out. A
+         * Return waiting for a decision lists `decide` and `cancel`. An open Return lists `cancel`
+         * only while no units have been received, inspected, dispositioned, or resolved, and it
+         * has no current receipts or inspections, non-canceled dispositions or resolutions, or
+         * non-voided return shipments. It lists `complete` when `completion_mode` is `manual` and
+         * `completion_blockers` is empty. A completed Return lists `reopen`. A declined or
+         * canceled Return lists none. [] enum: "cancel", "complete", "decide", "process",
+         * "reopen". supported_actions[] (Value): string. Value enum: "cancel", "complete",
+         * "decide", "process", "reopen". updated_at (Required): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". version (Required): integer. Goes up with
+         * every change to the Return. Each activity's `return_version` is the version that
+         * activity produced. A write that takes `expected_version` or `expected_return_version`
+         * for this Return compares it with this value. Format: int64. minimum: 0.
          */
         "object": {
-            /** Creation timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "canceled_at"?: string;
+            /**
+             * Who canceled the Return. Who performed a return action: a buyer, merchant,
+             * integration, or the system, with an optional ID.
+             */
+            "canceled_by"?: ReturnActor;
+            /**
+             * Why the Return was canceled. Value enum: "buyer_request", "merchant_request",
+             * "duplicate", "expired", "created_in_error", "other".
+             */
+            "cancellation_reason"?: "buyer_request"
+                | "merchant_request"
+                | "duplicate"
+                | "expired"
+                | "created_in_error"
+                | "other"
+                | (string & {});
+            /** Detail sent with the cancellation. Merchant reads only. */
+            "cancellation_reason_message"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "completed_at"?: string;
+            /**
+             * Who completed the Return. `system` when Flint completed it automatically. Who
+             * performed a return action: a buyer, merchant, integration, or the system, with an
+             * optional ID.
+             */
+            "completed_by"?: ReturnActor;
+            /**
+             * What is still owed before the Return can complete. Empty when nothing is. []
+             * (Value): {@link ReturnCompletionBlocker}. Something still owed before a return can
+             * complete, with the return line or record it concerns.
+             */
+            "completion_blockers": Array<ReturnCompletionBlocker>;
+            /**
+             * automatic completes the Return when the last completion blocker clears; manual waits
+             * for POST /v1/returns/{return_id}/complete. Reopening a Return sets it to manual.
+             * Value enum: "manual", "automatic".
+             */
+            "completion_mode"?: "manual" | "automatic" | (string & {});
+            /**
+             * Why the Return was completed by hand. Absent when Flint completed it automatically.
+             * Value enum: "manual_completion", "exception_waived", "other".
+             */
+            "completion_reason"?: "manual_completion" | "exception_waived" | "other" | (string & {});
+            /** Detail sent when the Return was completed by hand. */
+            "completion_reason_message"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
             "created_at": string;
             /**
-             * When the shipment was delivered, in RFC3339 format. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+             * summary fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[2] (Value): null.
              */
-            "delivered_at"?: string;
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            /** The customer the Return belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
+            "customer_id"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "decision_at"?: string;
             /**
-             * Whether the shipment sends items to the buyer or returns items to the merchant.
-             * Value enum: "outbound", "return".
+             * Whether the requested units were approved. `pending` until one decision covers every
+             * line. Value enum: "pending", "approved", "partially_approved", "declined".
              */
-            "direction": "outbound" | "return" | (string & {});
+            "decision_status": "pending" | "approved" | "partially_approved" | "declined" | (string & {});
             /**
-             * Caller-owned identifier for this resource in an external system. Requires
-             * external_system. External references are not unique. Use Idempotency-Key for
-             * retries. maxLength: 255. Example: "warehouse-1842".
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
              */
             "external_reference_id"?: string;
             /**
-             * Name of the external system that external_reference_id belongs to. External
-             * references are not unique. Use Idempotency-Key for retries.
+             * The Return's money in one place: the value of the returned lines, deductions and
+             * credits, and what has been refunded or collected. The money for a return: returned
+             * value, deductions, credits, replacement total, and amounts due to or from the buyer.
              */
-            "external_system"?: string;
+            "financial_summary": ReturnFinancialSummary;
             /**
-             * Fulfillment associated with this shipment. Example:
-             * "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+             * What the buyer still has to send back and where. Each entry leaves the list once it
+             * is satisfied, so an empty list means nothing is waiting on the buyer. [] (Value):
+             * {@link ReturnHandoffRequirement}. What the buyer must do to hand merchandise back:
+             * the destination, instructions, line items, and expiry.
              */
-            "fulfillment_id": string;
+            "handoff_requirements": Array<ReturnHandoffRequirement>;
             /**
-             * Carrier handoff timestamp for outbound and return shipments, using the recorded
-             * shipped_at when no separate handoff timestamp exists. For return shipments, this can
-             * satisfy an after_handoff execution gate for the declared return_line_items. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
+             * Who created the Return: buyer for a customer session on /v1/me or Flint's hosted
+             * account, merchant for a Dashboard user, integration for an API key or partner app,
+             * or system for Flint automation. It cannot be sent. Value enum: "buyer", "merchant",
+             * "integration", "system".
              */
-            "handed_off_at"?: string;
+            "initiated_by": "buyer" | "merchant" | "integration" | "system" | (string & {});
             /**
-             * Caller-owned key-value metadata associated with the shipment. Caller-owned key-value
-             * data stored on a resource. Keys starting with flint_ are reserved for Flint and are
-             * not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
-             * written before those limits may not satisfy them.
+             * The lines being returned. [] (Value): {@link ReturnLineItem}. An item included in a
+             * return request.
              */
-            "metadata"?: MetadataMap;
+            "line_items": Array<ReturnLineItem>;
             /**
-             * Order summary returned when the order relationship is expanded. Present only when
-             * `expand` includes `order`; `null` when expanded and there is no related order.
-             * anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields, including
-             * status, payment and refund status, and pricing and settlement amounts, returned when
-             * the order is expanded. anyOf[2] (Value): null.
+             * On the Return, the least-finished line's value. Value enum: "not_required",
+             * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
+             * "partially_inspected", "inspection_review_required", "disposition_required",
+             * "resolved", "exception".
              */
-            "order"?: ((ExpandedOrderSummary) | (null));
-            /**
-             * Order whose items are transported by the shipment. Example:
-             * "ord_01KEZF7C0054GQKJ142A8X367A".
-             */
-            "order_id": string;
-            /**
-             * Total number of packages attached to the shipment, including voided packages.
-             * Format: int32. minimum: 0.
-             */
-            "package_count": number;
-            /**
-             * Summaries of the shipment's packages in creation order, returned when the packages
-             * relationship is expanded or when the shipment is created with packages. [] (Value):
-             * {@link ExpandedPackageSummary}. A package's summary fields, including carrier,
-             * tracking, status, and supported actions, returned when the package is expanded.
-             */
-            "packages"?: Array<ExpandedPackageSummary>;
-            /**
-             * Return associated with this shipment, when its direction is return. Example:
-             * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-             */
-            "return_id"?: string;
-            /**
-             * Return lines and quantities allocated to this return shipment. [] (Value): {@link
-             * ReturnHandoffRequirementLineItem}. A return line and the quantity placed in a return
-             * shipment or package.
-             */
-            "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
-            /** Stable identifier of the shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". */
-            "shipment_id": string;
-            /**
-             * When the shipment was shipped, in RFC3339 format. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "shipped_at"?: string;
-            /**
-             * Read-only shipment state derived from the shipment's package states. An empty
-             * shipment remains a created draft. - `created`: The shipment leg exists but has not
-             * been packed or handed off. - `packed`: The shipment leg is packed and awaiting
-             * carrier handoff. - `shipped`: The shipment leg was handed to the carrier. -
-             * `in_transit`: The carrier is moving the shipment through its network. -
-             * `out_for_delivery`: The shipment is on its final delivery route. - `delivered`: The
-             * carrier reported successful delivery. - `delivery_attempted`: The carrier attempted
-             * delivery but did not complete it. Follow the carrier instructions before retrying
-             * delivery. - `exception`: A carrier exception is blocking normal progress. Resolve
-             * the carrier-reported issue. - `returned`: The shipment was returned toward or to its
-             * origin. - `voided`: The shipment was voided and will not continue through delivery.
-             * Value enum: "created", "packed", "shipped", "in_transit", "out_for_delivery",
-             * "delivered", "delivery_attempted", "exception", "returned", "voided".
-             */
-            "status": "created"
-                | "packed"
-                | "shipped"
+            "merchandise_status": "not_required"
+                | "awaiting_handoff"
                 | "in_transit"
-                | "out_for_delivery"
-                | "delivered"
-                | "delivery_attempted"
+                | "partially_received"
+                | "inspection_required"
+                | "partially_inspected"
+                | "inspection_review_required"
+                | "disposition_required"
+                | "resolved"
                 | "exception"
-                | "returned"
-                | "voided"
                 | (string & {});
             /**
-             * Lifecycle actions Flint accepts now, independent of permissions. Contains void while
-             * the shipment and its fulfillment permit voiding. [] enum: "void". [] (Value):
-             * string. Value enum: "void".
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
+             * are reserved for Flint and are not returned. Writes follow the limits on
+             * MetadataInput and MetadataPatchInput; maps written before those limits may not
+             * satisfy them.
              */
-            "supported_actions": Array<"void" | (string & {})>;
-            /** Last update timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "metadata": MetadataMap;
+            /**
+             * Present only when `expand` includes `order`; `null` when expanded and there is no
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
+             * fields, including status, payment and refund status, and pricing and settlement
+             * amounts, returned when the order is expanded. anyOf[2] (Value): null.
+             */
+            "order"?: ((ExpandedOrderSummary) | (null));
+            /** ID of the Order the Return is against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+            "order_id": string;
+            /**
+             * How your return policies judged the request when the Return was created. How a
+             * return policy evaluated a return request: overall status and reason, the policy
+             * revision used, and per-line results.
+             */
+            "policy_evaluation"?: ReturnPolicyEvaluation;
+            /**
+             * Whether the buyer has received the value they are owed. Combines the Return's
+             * resolutions and its unsettled corrections. Value enum: "not_selected", "pending",
+             * "partially_completed", "requires_action", "completed", "failed".
+             */
+            "resolution_status": "not_selected"
+                | "pending"
+                | "partially_completed"
+                | "requires_action"
+                | "completed"
+                | "failed"
+                | (string & {});
+            /**
+             * IDs of every disposition recorded for this Return, oldest first, including failed
+             * and canceled dispositions. Expand `return_dispositions` on `GET
+             * /v1/returns/{return_id}` to read them inline. [] (Value): string. Example:
+             * "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+             */
+            "return_disposition_ids": Array<string>;
+            /**
+             * Present only when `expand` includes `return_dispositions`. The dispositions in
+             * `return_disposition_ids`, in the same order. [] (Value): {@link ReturnDisposition}.
+             * A decision about how returned merchandise will be handled.
+             */
+            "return_dispositions"?: Array<ReturnDisposition>;
+            /**
+             * Unique identifier for this return, prefixed `ret_`. Example:
+             * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+             */
+            "return_id": string;
+            /**
+             * IDs of every inspection recorded for this Return, oldest first, including superseded
+             * inspections. Expand `return_inspections` on `GET /v1/returns/{return_id}` to read
+             * them inline. [] (Value): string. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+             */
+            "return_inspection_ids": Array<string>;
+            /**
+             * Present only when `expand` includes `return_inspections`. The inspections in
+             * `return_inspection_ids`, in the same order. [] (Value): {@link ReturnInspection}. An
+             * assessment of the condition of returned items.
+             */
+            "return_inspections"?: Array<ReturnInspection>;
+            /** Human-readable number for the Return. */
+            "return_number": string;
+            /**
+             * IDs of every receipt recorded for this Return, oldest first, including superseded
+             * receipts. Expand `return_receipts` on `GET /v1/returns/{return_id}` to read them
+             * inline. [] (Value): string. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+             */
+            "return_receipt_ids": Array<string>;
+            /**
+             * Present only when `expand` includes `return_receipts`. The receipts in
+             * `return_receipt_ids`, in the same order. [] (Value): {@link ReturnReceipt}. A record
+             * of returned items arriving at a location.
+             */
+            "return_receipts"?: Array<ReturnReceipt>;
+            /**
+             * IDs of every resolution created for this Return, oldest first, including failed and
+             * canceled resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}`
+             * to read them inline. [] (Value): string. Example:
+             * "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+             */
+            "return_resolution_ids": Array<string>;
+            /**
+             * Present only when `expand` includes `return_resolutions`. The resolutions in
+             * `return_resolution_ids`, in the same order. [] (Value): {@link ReturnResolution}.
+             * The refund, exchange, or other outcome of a return.
+             */
+            "return_resolutions"?: Array<ReturnResolution>;
+            /**
+             * IDs of every shipment raised to send this Return's items back, oldest first,
+             * including voided shipments. Expand `shipments` on `GET /v1/returns/{return_id}` to
+             * read them inline. [] (Value): string. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
+             */
+            "shipment_ids": Array<string>;
+            /**
+             * Present only when `expand` includes `shipments`. Summaries of the shipments in
+             * `shipment_ids`, in the same order. [] (Value): {@link ExpandedShipmentSummary}. A
+             * shipment's summary fields, including direction, status, and package count, returned
+             * when the shipment is expanded.
+             */
+            "shipments"?: Array<ExpandedShipmentSummary>;
+            /**
+             * Where the whole Return stands. Read `decision_status`, `merchandise_status`, and
+             * `resolution_status` for the part you need. Value enum: "requested", "open",
+             * "completed", "declined", "canceled".
+             */
+            "status": "requested" | "open" | "completed" | "declined" | "canceled" | (string & {});
+            /**
+             * Actions that can succeed now. Actions the API key or token doesn't have the scope
+             * for are left out. A Return waiting for a decision lists `decide` and `cancel`. An
+             * open Return lists `cancel` only while no units have been received, inspected,
+             * dispositioned, or resolved, and it has no current receipts or inspections,
+             * non-canceled dispositions or resolutions, or non-voided return shipments. It lists
+             * `complete` when `completion_mode` is `manual` and `completion_blockers` is empty. A
+             * completed Return lists `reopen`. A declined or canceled Return lists none. [] enum:
+             * "cancel", "complete", "decide", "process", "reopen". [] (Value): string. Value enum:
+             * "cancel", "complete", "decide", "process", "reopen".
+             */
+            "supported_actions": Array<"cancel" | "complete" | "decide" | "process" | "reopen" | (string & {})>;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
             "updated_at": string;
             /**
-             * Monotonic shipment version for expected_version checks. Format: uint64. minimum: 1.
+             * Goes up with every change to the Return. Each activity's `return_version` is the
+             * version that activity produced. A write that takes `expected_version` or
+             * `expected_return_version` for this Return compares it with this value. Format:
+             * int64. minimum: 0.
              */
             "version": number;
         };
@@ -2213,291 +2220,618 @@ export type ShipmentUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. created_at (Optional): string or null. Creation
-         * timestamp. created_at.anyOf[1] (Value): string. Creation timestamp. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. delivered_at
-         * (Optional): string or null. When the shipment was delivered, in RFC3339 format.
-         * delivered_at.anyOf[1] (Value): string. When the shipment was delivered, in RFC3339
-         * format. Format: date-time. Example: "2026-08-02T16:00:00Z". delivered_at.anyOf[2]
-         * (Value): null. direction (Optional): string or null. Whether the shipment sends items to
-         * the buyer or returns items to the merchant. Value enum: "outbound", "return".
-         * direction.anyOf[1] (Value): string. Whether the shipment sends items to the buyer or
-         * returns items to the merchant. Value enum: "outbound", "return". direction.anyOf[2]
-         * (Value): null. external_reference_id (Optional): string or null. Caller-owned identifier
-         * for this resource in an external system. Requires external_system. External references
-         * are not unique. Use Idempotency-Key for retries. external_reference_id.anyOf[1] (Value):
-         * string. Caller-owned identifier for this resource in an external system. Requires
-         * external_system. External references are not unique. Use Idempotency-Key for retries.
-         * maxLength: 255. Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
-         * external_system (Optional): string or null. Name of the external system that
-         * external_reference_id belongs to. External references are not unique. Use
-         * Idempotency-Key for retries. external_system.anyOf[1] (Value): string. Name of the
-         * external system that external_reference_id belongs to. External references are not
-         * unique. Use Idempotency-Key for retries. external_system.anyOf[2] (Value): null.
-         * fulfillment_id (Optional): string or null. Fulfillment associated with this shipment.
-         * fulfillment_id.anyOf[1] (Value): string. Fulfillment associated with this shipment.
-         * Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". fulfillment_id.anyOf[2] (Value): null.
-         * handed_off_at (Optional): string or null. Carrier handoff timestamp for outbound and
-         * return shipments, using the recorded shipped_at when no separate handoff timestamp
-         * exists. For return shipments, this can satisfy an after_handoff execution gate for the
-         * declared return_line_items. handed_off_at.anyOf[1] (Value): string. Carrier handoff
-         * timestamp for outbound and return shipments, using the recorded shipped_at when no
-         * separate handoff timestamp exists. For return shipments, this can satisfy an
-         * after_handoff execution gate for the declared return_line_items. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". handed_off_at.anyOf[2] (Value): null. metadata
-         * (Optional): {@link MetadataMap} or null. Caller-owned key-value metadata associated with
-         * the shipment. metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2] (Value):
-         * null. order (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or null. Order
-         * summary returned when the order relationship is expanded. Present only when `expand`
-         * includes `order`; `null` when expanded and there is no related order. order.anyOf[1]
-         * (Value): {@link ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2] (Value): null.
-         * order_id (Optional): string or null. Order whose items are transported by the shipment.
-         * order_id.anyOf[1] (Value): string. Order whose items are transported by the shipment.
+         * state, including synthetic test events. canceled_at (Optional): string or null. RFC3339
+         * timestamp. canceled_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". canceled_at.anyOf[2] (Value): null. canceled_by
+         * (Optional): {@link ReturnActorPreviousAttributes} or null. Who canceled the Return.
+         * canceled_by.anyOf[1] (Value): {@link ReturnActorPreviousAttributes}.
+         * canceled_by.anyOf[2] (Value): null. cancellation_reason (Optional): string or null. Why
+         * the Return was canceled. Value enum: "buyer_request", "merchant_request", "duplicate",
+         * "expired", "created_in_error", "other". cancellation_reason.anyOf[1] (Value): string.
+         * Why the Return was canceled. Value enum: "buyer_request", "merchant_request",
+         * "duplicate", "expired", "created_in_error", "other". cancellation_reason.anyOf[2]
+         * (Value): null. cancellation_reason_message (Optional): string or null. Detail sent with
+         * the cancellation. Merchant reads only. cancellation_reason_message.anyOf[1] (Value):
+         * string. Detail sent with the cancellation. Merchant reads only.
+         * cancellation_reason_message.anyOf[2] (Value): null. completed_at (Optional): string or
+         * null. RFC3339 timestamp. completed_at.anyOf[1] (Value): string. RFC3339 timestamp.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". completed_at.anyOf[2] (Value): null.
+         * completed_by (Optional): {@link ReturnActorPreviousAttributes} or null. Who completed
+         * the Return. `system` when Flint completed it automatically. completed_by.anyOf[1]
+         * (Value): {@link ReturnActorPreviousAttributes}. completed_by.anyOf[2] (Value): null.
+         * completion_blockers (Optional): Array of {@link
+         * ReturnCompletionBlockerPreviousAttributes} or null. What is still owed before the Return
+         * can complete. Empty when nothing is. completion_blockers.anyOf[1] (Value): Array of
+         * {@link ReturnCompletionBlockerPreviousAttributes}. What is still owed before the Return
+         * can complete. Empty when nothing is. completion_blockers.anyOf[1][] (Value): {@link
+         * ReturnCompletionBlockerPreviousAttributes}. completion_blockers.anyOf[2] (Value): null.
+         * completion_mode (Optional): string or null. automatic completes the Return when the last
+         * completion blocker clears; manual waits for POST /v1/returns/{return_id}/complete.
+         * Reopening a Return sets it to manual. Value enum: "manual", "automatic".
+         * completion_mode.anyOf[1] (Value): string. automatic completes the Return when the last
+         * completion blocker clears; manual waits for POST /v1/returns/{return_id}/complete.
+         * Reopening a Return sets it to manual. Value enum: "manual", "automatic".
+         * completion_mode.anyOf[2] (Value): null. completion_reason (Optional): string or null.
+         * Why the Return was completed by hand. Absent when Flint completed it automatically.
+         * Value enum: "manual_completion", "exception_waived", "other". completion_reason.anyOf[1]
+         * (Value): string. Why the Return was completed by hand. Absent when Flint completed it
+         * automatically. Value enum: "manual_completion", "exception_waived", "other".
+         * completion_reason.anyOf[2] (Value): null. completion_reason_message (Optional): string
+         * or null. Detail sent when the Return was completed by hand.
+         * completion_reason_message.anyOf[1] (Value): string. Detail sent when the Return was
+         * completed by hand. completion_reason_message.anyOf[2] (Value): null. created_at
+         * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
+         * (Value): {@link ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value):
+         * null. customer_id (Optional): string or null. The customer the Return belongs to.
+         * customer_id.anyOf[1] (Value): string. The customer the Return belongs to. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. decision_at
+         * (Optional): string or null. RFC3339 timestamp. decision_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * decision_at.anyOf[2] (Value): null. decision_status (Optional): string or null. Whether
+         * the requested units were approved. `pending` until one decision covers every line. Value
+         * enum: "pending", "approved", "partially_approved", "declined". decision_status.anyOf[1]
+         * (Value): string. Whether the requested units were approved. `pending` until one decision
+         * covers every line. Value enum: "pending", "approved", "partially_approved", "declined".
+         * decision_status.anyOf[2] (Value): null. external_reference_id (Optional): string or
+         * null. Caller-owned identifier for this resource in an external system.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. financial_summary (Optional): {@link
+         * ReturnFinancialSummaryPreviousAttributes} or null. The Return's money in one place: the
+         * value of the returned lines, deductions and credits, and what has been refunded or
+         * collected. financial_summary.anyOf[1] (Value): {@link
+         * ReturnFinancialSummaryPreviousAttributes}. financial_summary.anyOf[2] (Value): null.
+         * handoff_requirements (Optional): Array of {@link
+         * ReturnHandoffRequirementPreviousAttributes} or null. What the buyer still has to send
+         * back and where. Each entry leaves the list once it is satisfied, so an empty list means
+         * nothing is waiting on the buyer. handoff_requirements.anyOf[1] (Value): Array of {@link
+         * ReturnHandoffRequirementPreviousAttributes}. What the buyer still has to send back and
+         * where. Each entry leaves the list once it is satisfied, so an empty list means nothing
+         * is waiting on the buyer. handoff_requirements.anyOf[1][] (Value): {@link
+         * ReturnHandoffRequirementPreviousAttributes}. handoff_requirements.anyOf[2] (Value):
+         * null. initiated_by (Optional): string or null. Who created the Return: buyer for a
+         * customer session on /v1/me or Flint's hosted account, merchant for a Dashboard user,
+         * integration for an API key or partner app, or system for Flint automation. It cannot be
+         * sent. Value enum: "buyer", "merchant", "integration", "system". initiated_by.anyOf[1]
+         * (Value): string. Who created the Return: buyer for a customer session on /v1/me or
+         * Flint's hosted account, merchant for a Dashboard user, integration for an API key or
+         * partner app, or system for Flint automation. It cannot be sent. Value enum: "buyer",
+         * "merchant", "integration", "system". initiated_by.anyOf[2] (Value): null. line_items
+         * (Optional): Array of {@link ReturnLineItemPreviousAttributes} or null. The lines being
+         * returned. line_items.anyOf[1] (Value): Array of {@link
+         * ReturnLineItemPreviousAttributes}. The lines being returned. line_items.anyOf[1][]
+         * (Value): {@link ReturnLineItemPreviousAttributes}. line_items.anyOf[2] (Value): null.
+         * merchandise_status (Optional): string or null. On the Return, the least-finished line's
+         * value. Value enum: "not_required", "awaiting_handoff", "in_transit",
+         * "partially_received", "inspection_required", "partially_inspected",
+         * "inspection_review_required", "disposition_required", "resolved", "exception".
+         * merchandise_status.anyOf[1] (Value): string. On the Return, the least-finished line's
+         * value. Value enum: "not_required", "awaiting_handoff", "in_transit",
+         * "partially_received", "inspection_required", "partially_inspected",
+         * "inspection_review_required", "disposition_required", "resolved", "exception".
+         * merchandise_status.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or
+         * null. Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+         * rules. metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2] (Value): null.
+         * order (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or null. Present only
+         * when `expand` includes `order`; `null` when expanded and there is no related order.
+         * order.anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2]
+         * (Value): null. order_id (Optional): string or null. ID of the Order the Return is
+         * against. order_id.anyOf[1] (Value): string. ID of the Order the Return is against.
          * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
-         * package_count (Optional): integer or null. Total number of packages attached to the
-         * shipment, including voided packages. package_count.anyOf[1] (Value): integer. Total
-         * number of packages attached to the shipment, including voided packages. Format: int32.
-         * minimum: 0. package_count.anyOf[2] (Value): null. packages (Optional): Array of {@link
-         * ExpandedPackageSummaryPreviousAttributes} or null. Summaries of the shipment's packages
-         * in creation order, returned when the packages relationship is expanded or when the
-         * shipment is created with packages. packages.anyOf[1] (Value): Array of {@link
-         * ExpandedPackageSummaryPreviousAttributes}. Summaries of the shipment's packages in
-         * creation order, returned when the packages relationship is expanded or when the shipment
-         * is created with packages. packages.anyOf[1][] (Value): {@link
-         * ExpandedPackageSummaryPreviousAttributes}. packages.anyOf[2] (Value): null. return_id
-         * (Optional): string or null. Return associated with this shipment, when its direction is
-         * return. return_id.anyOf[1] (Value): string. Return associated with this shipment, when
-         * its direction is return. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". return_id.anyOf[2]
-         * (Value): null. return_line_items (Optional): Array of {@link
-         * ReturnHandoffRequirementLineItemPreviousAttributes} or null. Return lines and quantities
-         * allocated to this return shipment. return_line_items.anyOf[1] (Value): Array of {@link
-         * ReturnHandoffRequirementLineItemPreviousAttributes}. Return lines and quantities
-         * allocated to this return shipment. return_line_items.anyOf[1][] (Value): {@link
-         * ReturnHandoffRequirementLineItemPreviousAttributes}. return_line_items.anyOf[2] (Value):
-         * null. shipment_id (Optional): string or null. Stable identifier of the shipment.
-         * shipment_id.anyOf[1] (Value): string. Stable identifier of the shipment. Example:
-         * "shp_01KEZF7C00Q2AFXWXHMCDR3F68". shipment_id.anyOf[2] (Value): null. shipped_at
-         * (Optional): string or null. When the shipment was shipped, in RFC3339 format.
-         * shipped_at.anyOf[1] (Value): string. When the shipment was shipped, in RFC3339 format.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". shipped_at.anyOf[2] (Value): null.
-         * status (Optional): string or null. Read-only shipment state derived from the shipment's
-         * package states. An empty shipment remains a created draft. - `created`: The shipment leg
-         * exists but has not been packed or handed off. - `packed`: The shipment leg is packed and
-         * awaiting carrier handoff. - `shipped`: The shipment leg was handed to the carrier. -
-         * `in_transit`: The carrier is moving the shipment through its network. -
-         * `out_for_delivery`: The shipment is on its final delivery route. - `delivered`: The
-         * carrier reported successful delivery. - `delivery_attempted`: The carrier attempted
-         * delivery but did not complete it. Follow the carrier instructions before retrying
-         * delivery. - `exception`: A carrier exception is blocking normal progress. Resolve the
-         * carrier-reported issue. - `returned`: The shipment was returned toward or to its origin.
-         * - `voided`: The shipment was voided and will not continue through delivery. Value enum:
-         * "created", "packed", "shipped", "in_transit", "out_for_delivery", "delivered",
-         * "delivery_attempted", "exception", "returned", "voided". status.anyOf[1] (Value):
-         * string. Read-only shipment state derived from the shipment's package states. An empty
-         * shipment remains a created draft. - `created`: The shipment leg exists but has not been
-         * packed or handed off. - `packed`: The shipment leg is packed and awaiting carrier
-         * handoff. - `shipped`: The shipment leg was handed to the carrier. - `in_transit`: The
-         * carrier is moving the shipment through its network. - `out_for_delivery`: The shipment
-         * is on its final delivery route. - `delivered`: The carrier reported successful delivery.
-         * - `delivery_attempted`: The carrier attempted delivery but did not complete it. Follow
-         * the carrier instructions before retrying delivery. - `exception`: A carrier exception is
-         * blocking normal progress. Resolve the carrier-reported issue. - `returned`: The shipment
-         * was returned toward or to its origin. - `voided`: The shipment was voided and will not
-         * continue through delivery. Value enum: "created", "packed", "shipped", "in_transit",
-         * "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned",
-         * "voided". status.anyOf[2] (Value): null. supported_actions (Optional): Array of string
-         * or null. Lifecycle actions Flint accepts now, independent of permissions. Contains void
-         * while the shipment and its fulfillment permit voiding. [] enum: "void".
-         * supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions Flint accepts
-         * now, independent of permissions. Contains void while the shipment and its fulfillment
-         * permit voiding. [] enum: "void". supported_actions.anyOf[1][] (Value): string. Value
-         * enum: "void". supported_actions.anyOf[2] (Value): null. updated_at (Optional): string or
-         * null. Last update timestamp. updated_at.anyOf[1] (Value): string. Last update timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null.
-         * version (Optional): integer or null. Monotonic shipment version for expected_version
-         * checks. version.anyOf[1] (Value): integer. Monotonic shipment version for
-         * expected_version checks. Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
+         * policy_evaluation (Optional): {@link ReturnPolicyEvaluationPreviousAttributes} or null.
+         * How your return policies judged the request when the Return was created.
+         * policy_evaluation.anyOf[1] (Value): {@link ReturnPolicyEvaluationPreviousAttributes}.
+         * policy_evaluation.anyOf[2] (Value): null. resolution_status (Optional): string or null.
+         * Whether the buyer has received the value they are owed. Combines the Return's
+         * resolutions and its unsettled corrections. Value enum: "not_selected", "pending",
+         * "partially_completed", "requires_action", "completed", "failed".
+         * resolution_status.anyOf[1] (Value): string. Whether the buyer has received the value
+         * they are owed. Combines the Return's resolutions and its unsettled corrections. Value
+         * enum: "not_selected", "pending", "partially_completed", "requires_action", "completed",
+         * "failed". resolution_status.anyOf[2] (Value): null. return_disposition_ids (Optional):
+         * Array of string or null. IDs of every disposition recorded for this Return, oldest
+         * first, including failed and canceled dispositions. Expand `return_dispositions` on `GET
+         * /v1/returns/{return_id}` to read them inline. return_disposition_ids.anyOf[1] (Value):
+         * Array of string. IDs of every disposition recorded for this Return, oldest first,
+         * including failed and canceled dispositions. Expand `return_dispositions` on `GET
+         * /v1/returns/{return_id}` to read them inline. return_disposition_ids.anyOf[1][] (Value):
+         * string. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW". return_disposition_ids.anyOf[2]
+         * (Value): null. return_dispositions (Optional): Array of {@link
+         * ReturnDispositionPreviousAttributes} or null. Present only when `expand` includes
+         * `return_dispositions`. The dispositions in `return_disposition_ids`, in the same order.
+         * return_dispositions.anyOf[1] (Value): Array of {@link
+         * ReturnDispositionPreviousAttributes}. Present only when `expand` includes
+         * `return_dispositions`. The dispositions in `return_disposition_ids`, in the same order.
+         * return_dispositions.anyOf[1][] (Value): {@link ReturnDispositionPreviousAttributes}.
+         * return_dispositions.anyOf[2] (Value): null. return_id (Optional): string or null. Unique
+         * identifier for this return, prefixed `ret_`. return_id.anyOf[1] (Value): string. Unique
+         * identifier for this return, prefixed `ret_`. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+         * return_id.anyOf[2] (Value): null. return_inspection_ids (Optional): Array of string or
+         * null. IDs of every inspection recorded for this Return, oldest first, including
+         * superseded inspections. Expand `return_inspections` on `GET /v1/returns/{return_id}` to
+         * read them inline. return_inspection_ids.anyOf[1] (Value): Array of string. IDs of every
+         * inspection recorded for this Return, oldest first, including superseded inspections.
+         * Expand `return_inspections` on `GET /v1/returns/{return_id}` to read them inline.
+         * return_inspection_ids.anyOf[1][] (Value): string. Example:
+         * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". return_inspection_ids.anyOf[2] (Value): null.
+         * return_inspections (Optional): Array of {@link ReturnInspectionPreviousAttributes} or
+         * null. Present only when `expand` includes `return_inspections`. The inspections in
+         * `return_inspection_ids`, in the same order. return_inspections.anyOf[1] (Value): Array
+         * of {@link ReturnInspectionPreviousAttributes}. Present only when `expand` includes
+         * `return_inspections`. The inspections in `return_inspection_ids`, in the same order.
+         * return_inspections.anyOf[1][] (Value): {@link ReturnInspectionPreviousAttributes}.
+         * return_inspections.anyOf[2] (Value): null. return_number (Optional): string or null.
+         * Human-readable number for the Return. return_number.anyOf[1] (Value): string.
+         * Human-readable number for the Return. return_number.anyOf[2] (Value): null.
+         * return_receipt_ids (Optional): Array of string or null. IDs of every receipt recorded
+         * for this Return, oldest first, including superseded receipts. Expand `return_receipts`
+         * on `GET /v1/returns/{return_id}` to read them inline. return_receipt_ids.anyOf[1]
+         * (Value): Array of string. IDs of every receipt recorded for this Return, oldest first,
+         * including superseded receipts. Expand `return_receipts` on `GET /v1/returns/{return_id}`
+         * to read them inline. return_receipt_ids.anyOf[1][] (Value): string. Example:
+         * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". return_receipt_ids.anyOf[2] (Value): null.
+         * return_receipts (Optional): Array of {@link ReturnReceiptPreviousAttributes} or null.
+         * Present only when `expand` includes `return_receipts`. The receipts in
+         * `return_receipt_ids`, in the same order. return_receipts.anyOf[1] (Value): Array of
+         * {@link ReturnReceiptPreviousAttributes}. Present only when `expand` includes
+         * `return_receipts`. The receipts in `return_receipt_ids`, in the same order.
+         * return_receipts.anyOf[1][] (Value): {@link ReturnReceiptPreviousAttributes}.
+         * return_receipts.anyOf[2] (Value): null. return_resolution_ids (Optional): Array of
+         * string or null. IDs of every resolution created for this Return, oldest first, including
+         * failed and canceled resolutions. Expand `return_resolutions` on `GET
+         * /v1/returns/{return_id}` to read them inline. return_resolution_ids.anyOf[1] (Value):
+         * Array of string. IDs of every resolution created for this Return, oldest first,
+         * including failed and canceled resolutions. Expand `return_resolutions` on `GET
+         * /v1/returns/{return_id}` to read them inline. return_resolution_ids.anyOf[1][] (Value):
+         * string. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3". return_resolution_ids.anyOf[2]
+         * (Value): null. return_resolutions (Optional): Array of {@link
+         * ReturnResolutionPreviousAttributes} or null. Present only when `expand` includes
+         * `return_resolutions`. The resolutions in `return_resolution_ids`, in the same order.
+         * return_resolutions.anyOf[1] (Value): Array of {@link
+         * ReturnResolutionPreviousAttributes}. Present only when `expand` includes
+         * `return_resolutions`. The resolutions in `return_resolution_ids`, in the same order.
+         * return_resolutions.anyOf[1][] (Value): {@link ReturnResolutionPreviousAttributes}.
+         * return_resolutions.anyOf[2] (Value): null. shipment_ids (Optional): Array of string or
+         * null. IDs of every shipment raised to send this Return's items back, oldest first,
+         * including voided shipments. Expand `shipments` on `GET /v1/returns/{return_id}` to read
+         * them inline. shipment_ids.anyOf[1] (Value): Array of string. IDs of every shipment
+         * raised to send this Return's items back, oldest first, including voided shipments.
+         * Expand `shipments` on `GET /v1/returns/{return_id}` to read them inline.
+         * shipment_ids.anyOf[1][] (Value): string. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
+         * shipment_ids.anyOf[2] (Value): null. shipments (Optional): Array of {@link
+         * ExpandedShipmentSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `shipments`. Summaries of the shipments in `shipment_ids`, in the same order.
+         * shipments.anyOf[1] (Value): Array of {@link ExpandedShipmentSummaryPreviousAttributes}.
+         * Present only when `expand` includes `shipments`. Summaries of the shipments in
+         * `shipment_ids`, in the same order. shipments.anyOf[1][] (Value): {@link
+         * ExpandedShipmentSummaryPreviousAttributes}. shipments.anyOf[2] (Value): null. status
+         * (Optional): string or null. Where the whole Return stands. Read `decision_status`,
+         * `merchandise_status`, and `resolution_status` for the part you need. Value enum:
+         * "requested", "open", "completed", "declined", "canceled". status.anyOf[1] (Value):
+         * string. Where the whole Return stands. Read `decision_status`, `merchandise_status`, and
+         * `resolution_status` for the part you need. Value enum: "requested", "open", "completed",
+         * "declined", "canceled". status.anyOf[2] (Value): null. supported_actions (Optional):
+         * Array of string or null. Actions that can succeed now. Actions the API key or token
+         * doesn't have the scope for are left out. A Return waiting for a decision lists `decide`
+         * and `cancel`. An open Return lists `cancel` only while no units have been received,
+         * inspected, dispositioned, or resolved, and it has no current receipts or inspections,
+         * non-canceled dispositions or resolutions, or non-voided return shipments. It lists
+         * `complete` when `completion_mode` is `manual` and `completion_blockers` is empty. A
+         * completed Return lists `reopen`. A declined or canceled Return lists none. [] enum:
+         * "cancel", "complete", "decide", "process", "reopen". supported_actions.anyOf[1] (Value):
+         * Array of string. Actions that can succeed now. Actions the API key or token doesn't have
+         * the scope for are left out. A Return waiting for a decision lists `decide` and `cancel`.
+         * An open Return lists `cancel` only while no units have been received, inspected,
+         * dispositioned, or resolved, and it has no current receipts or inspections, non-canceled
+         * dispositions or resolutions, or non-voided return shipments. It lists `complete` when
+         * `completion_mode` is `manual` and `completion_blockers` is empty. A completed Return
+         * lists `reopen`. A declined or canceled Return lists none. [] enum: "cancel", "complete",
+         * "decide", "process", "reopen". supported_actions.anyOf[1][] (Value): string. Value enum:
+         * "cancel", "complete", "decide", "process", "reopen". supported_actions.anyOf[2] (Value):
+         * null. updated_at (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1]
+         * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Goes up with
+         * every change to the Return. Each activity's `return_version` is the version that
+         * activity produced. A write that takes `expected_version` or `expected_return_version`
+         * for this Return compares it with this value. version.anyOf[1] (Value): integer. Goes up
+         * with every change to the Return. Each activity's `return_version` is the version that
+         * activity produced. A write that takes `expected_version` or `expected_return_version`
+         * for this Return compares it with this value. Format: int64. minimum: 0. version.anyOf[2]
+         * (Value): null.
          */
         "previous_attributes"?: ({
             [key: string]: unknown;
         })
             & ({
             /**
-             * Creation timestamp. anyOf[1] (Value): string. Creation timestamp. Format: date-time.
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "canceled_at"?: ((string) | (null));
+            /**
+             * Who canceled the Return. anyOf[1] (Value): {@link ReturnActorPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null));
+            /**
+             * Why the Return was canceled. Value enum: "buyer_request", "merchant_request",
+             * "duplicate", "expired", "created_in_error", "other". anyOf[1] (Value): string. Why
+             * the Return was canceled. Value enum: "buyer_request", "merchant_request",
+             * "duplicate", "expired", "created_in_error", "other". anyOf[2] (Value): null.
+             */
+            "cancellation_reason"?: (("buyer_request"
+                | "merchant_request"
+                | "duplicate"
+                | "expired"
+                | "created_in_error"
+                | "other"
+                | (string & {}))
+                | (null));
+            /**
+             * Detail sent with the cancellation. Merchant reads only. anyOf[1] (Value): string.
+             * Detail sent with the cancellation. Merchant reads only. anyOf[2] (Value): null.
+             */
+            "cancellation_reason_message"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "completed_at"?: ((string) | (null));
+            /**
+             * Who completed the Return. `system` when Flint completed it automatically. anyOf[1]
+             * (Value): {@link ReturnActorPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "completed_by"?: ((ReturnActorPreviousAttributes) | (null));
+            /**
+             * What is still owed before the Return can complete. Empty when nothing is. anyOf[1]
+             * (Value): Array of {@link ReturnCompletionBlockerPreviousAttributes}. What is still
+             * owed before the Return can complete. Empty when nothing is. anyOf[1][] (Value):
+             * {@link ReturnCompletionBlockerPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "completion_blockers"?: ((Array<ReturnCompletionBlockerPreviousAttributes>) | (null));
+            /**
+             * automatic completes the Return when the last completion blocker clears; manual waits
+             * for POST /v1/returns/{return_id}/complete. Reopening a Return sets it to manual.
+             * Value enum: "manual", "automatic". anyOf[1] (Value): string. automatic completes the
+             * Return when the last completion blocker clears; manual waits for POST
+             * /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum:
+             * "manual", "automatic". anyOf[2] (Value): null.
+             */
+            "completion_mode"?: (("manual" | "automatic" | (string & {})) | (null));
+            /**
+             * Why the Return was completed by hand. Absent when Flint completed it automatically.
+             * Value enum: "manual_completion", "exception_waived", "other". anyOf[1] (Value):
+             * string. Why the Return was completed by hand. Absent when Flint completed it
+             * automatically. Value enum: "manual_completion", "exception_waived", "other".
+             * anyOf[2] (Value): null.
+             */
+            "completion_reason"?: (("manual_completion" | "exception_waived" | "other" | (string & {})) | (null));
+            /**
+             * Detail sent when the Return was completed by hand. anyOf[1] (Value): string. Detail
+             * sent when the Return was completed by hand. anyOf[2] (Value): null.
+             */
+            "completion_reason_message"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
              * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
             "created_at"?: ((string) | (null));
             /**
-             * When the shipment was delivered, in RFC3339 format. anyOf[1] (Value): string. When
-             * the shipment was delivered, in RFC3339 format. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "delivered_at"?: ((string) | (null));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             /**
-             * Whether the shipment sends items to the buyer or returns items to the merchant.
-             * Value enum: "outbound", "return". anyOf[1] (Value): string. Whether the shipment
-             * sends items to the buyer or returns items to the merchant. Value enum: "outbound",
-             * "return". anyOf[2] (Value): null.
+             * The customer the Return belongs to. anyOf[1] (Value): string. The customer the
+             * Return belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value):
+             * null.
              */
-            "direction"?: (("outbound" | "return" | (string & {})) | (null));
+            "customer_id"?: ((string) | (null));
             /**
-             * Caller-owned identifier for this resource in an external system. Requires
-             * external_system. External references are not unique. Use Idempotency-Key for
-             * retries. anyOf[1] (Value): string. Caller-owned identifier for this resource in an
-             * external system. Requires external_system. External references are not unique. Use
-             * Idempotency-Key for retries. maxLength: 255. Example: "warehouse-1842". anyOf[2]
-             * (Value): null.
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "decision_at"?: ((string) | (null));
+            /**
+             * Whether the requested units were approved. `pending` until one decision covers every
+             * line. Value enum: "pending", "approved", "partially_approved", "declined". anyOf[1]
+             * (Value): string. Whether the requested units were approved. `pending` until one
+             * decision covers every line. Value enum: "pending", "approved", "partially_approved",
+             * "declined". anyOf[2] (Value): null.
+             */
+            "decision_status"?: (("pending" | "approved" | "partially_approved" | "declined" | (string & {})) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
              */
             "external_reference_id"?: ((string) | (null));
             /**
-             * Name of the external system that external_reference_id belongs to. External
-             * references are not unique. Use Idempotency-Key for retries. anyOf[1] (Value):
-             * string. Name of the external system that external_reference_id belongs to. External
-             * references are not unique. Use Idempotency-Key for retries. anyOf[2] (Value): null.
+             * The Return's money in one place: the value of the returned lines, deductions and
+             * credits, and what has been refunded or collected. anyOf[1] (Value): {@link
+             * ReturnFinancialSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "external_system"?: ((string) | (null));
+            "financial_summary"?: ((ReturnFinancialSummaryPreviousAttributes) | (null));
             /**
-             * Fulfillment associated with this shipment. anyOf[1] (Value): string. Fulfillment
-             * associated with this shipment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". anyOf[2]
+             * What the buyer still has to send back and where. Each entry leaves the list once it
+             * is satisfied, so an empty list means nothing is waiting on the buyer. anyOf[1]
+             * (Value): Array of {@link ReturnHandoffRequirementPreviousAttributes}. What the buyer
+             * still has to send back and where. Each entry leaves the list once it is satisfied,
+             * so an empty list means nothing is waiting on the buyer. anyOf[1][] (Value): {@link
+             * ReturnHandoffRequirementPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "handoff_requirements"?: ((Array<ReturnHandoffRequirementPreviousAttributes>) | (null));
+            /**
+             * Who created the Return: buyer for a customer session on /v1/me or Flint's hosted
+             * account, merchant for a Dashboard user, integration for an API key or partner app,
+             * or system for Flint automation. It cannot be sent. Value enum: "buyer", "merchant",
+             * "integration", "system". anyOf[1] (Value): string. Who created the Return: buyer for
+             * a customer session on /v1/me or Flint's hosted account, merchant for a Dashboard
+             * user, integration for an API key or partner app, or system for Flint automation. It
+             * cannot be sent. Value enum: "buyer", "merchant", "integration", "system". anyOf[2]
              * (Value): null.
              */
-            "fulfillment_id"?: ((string) | (null));
+            "initiated_by"?: (("buyer" | "merchant" | "integration" | "system" | (string & {})) | (null));
             /**
-             * Carrier handoff timestamp for outbound and return shipments, using the recorded
-             * shipped_at when no separate handoff timestamp exists. For return shipments, this can
-             * satisfy an after_handoff execution gate for the declared return_line_items. anyOf[1]
-             * (Value): string. Carrier handoff timestamp for outbound and return shipments, using
-             * the recorded shipped_at when no separate handoff timestamp exists. For return
-             * shipments, this can satisfy an after_handoff execution gate for the declared
-             * return_line_items. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
-             * (Value): null.
+             * The lines being returned. anyOf[1] (Value): Array of {@link
+             * ReturnLineItemPreviousAttributes}. The lines being returned. anyOf[1][] (Value):
+             * {@link ReturnLineItemPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "handed_off_at"?: ((string) | (null));
+            "line_items"?: ((Array<ReturnLineItemPreviousAttributes>) | (null));
             /**
-             * Caller-owned key-value metadata associated with the shipment. anyOf[1] (Value):
-             * {@link MetadataMap}. anyOf[2] (Value): null.
+             * On the Return, the least-finished line's value. Value enum: "not_required",
+             * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
+             * "partially_inspected", "inspection_review_required", "disposition_required",
+             * "resolved", "exception". anyOf[1] (Value): string. On the Return, the least-finished
+             * line's value. Value enum: "not_required", "awaiting_handoff", "in_transit",
+             * "partially_received", "inspection_required", "partially_inspected",
+             * "inspection_review_required", "disposition_required", "resolved", "exception".
+             * anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null));
-            /**
-             * Order summary returned when the order relationship is expanded. Present only when
-             * `expand` includes `order`; `null` when expanded and there is no related order.
-             * anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}. anyOf[2] (Value):
-             * null.
-             */
-            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
-            /**
-             * Order whose items are transported by the shipment. anyOf[1] (Value): string. Order
-             * whose items are transported by the shipment. Example:
-             * "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
-             */
-            "order_id"?: ((string) | (null));
-            /**
-             * Total number of packages attached to the shipment, including voided packages.
-             * anyOf[1] (Value): integer. Total number of packages attached to the shipment,
-             * including voided packages. Format: int32. minimum: 0. anyOf[2] (Value): null.
-             */
-            "package_count"?: ((number) | (null));
-            /**
-             * Summaries of the shipment's packages in creation order, returned when the packages
-             * relationship is expanded or when the shipment is created with packages. anyOf[1]
-             * (Value): Array of {@link ExpandedPackageSummaryPreviousAttributes}. Summaries of the
-             * shipment's packages in creation order, returned when the packages relationship is
-             * expanded or when the shipment is created with packages. anyOf[1][] (Value): {@link
-             * ExpandedPackageSummaryPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "packages"?: ((Array<ExpandedPackageSummaryPreviousAttributes>) | (null));
-            /**
-             * Return associated with this shipment, when its direction is return. anyOf[1]
-             * (Value): string. Return associated with this shipment, when its direction is return.
-             * Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value): null.
-             */
-            "return_id"?: ((string) | (null));
-            /**
-             * Return lines and quantities allocated to this return shipment. anyOf[1] (Value):
-             * Array of {@link ReturnHandoffRequirementLineItemPreviousAttributes}. Return lines
-             * and quantities allocated to this return shipment. anyOf[1][] (Value): {@link
-             * ReturnHandoffRequirementLineItemPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "return_line_items"?: ((Array<ReturnHandoffRequirementLineItemPreviousAttributes>) | (null));
-            /**
-             * Stable identifier of the shipment. anyOf[1] (Value): string. Stable identifier of
-             * the shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". anyOf[2] (Value): null.
-             */
-            "shipment_id"?: ((string) | (null));
-            /**
-             * When the shipment was shipped, in RFC3339 format. anyOf[1] (Value): string. When the
-             * shipment was shipped, in RFC3339 format. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "shipped_at"?: ((string) | (null));
-            /**
-             * Read-only shipment state derived from the shipment's package states. An empty
-             * shipment remains a created draft. - `created`: The shipment leg exists but has not
-             * been packed or handed off. - `packed`: The shipment leg is packed and awaiting
-             * carrier handoff. - `shipped`: The shipment leg was handed to the carrier. -
-             * `in_transit`: The carrier is moving the shipment through its network. -
-             * `out_for_delivery`: The shipment is on its final delivery route. - `delivered`: The
-             * carrier reported successful delivery. - `delivery_attempted`: The carrier attempted
-             * delivery but did not complete it. Follow the carrier instructions before retrying
-             * delivery. - `exception`: A carrier exception is blocking normal progress. Resolve
-             * the carrier-reported issue. - `returned`: The shipment was returned toward or to its
-             * origin. - `voided`: The shipment was voided and will not continue through delivery.
-             * Value enum: "created", "packed", "shipped", "in_transit", "out_for_delivery",
-             * "delivered", "delivery_attempted", "exception", "returned", "voided". anyOf[1]
-             * (Value): string. Read-only shipment state derived from the shipment's package
-             * states. An empty shipment remains a created draft. - `created`: The shipment leg
-             * exists but has not been packed or handed off. - `packed`: The shipment leg is packed
-             * and awaiting carrier handoff. - `shipped`: The shipment leg was handed to the
-             * carrier. - `in_transit`: The carrier is moving the shipment through its network. -
-             * `out_for_delivery`: The shipment is on its final delivery route. - `delivered`: The
-             * carrier reported successful delivery. - `delivery_attempted`: The carrier attempted
-             * delivery but did not complete it. Follow the carrier instructions before retrying
-             * delivery. - `exception`: A carrier exception is blocking normal progress. Resolve
-             * the carrier-reported issue. - `returned`: The shipment was returned toward or to its
-             * origin. - `voided`: The shipment was voided and will not continue through delivery.
-             * Value enum: "created", "packed", "shipped", "in_transit", "out_for_delivery",
-             * "delivered", "delivery_attempted", "exception", "returned", "voided". anyOf[2]
-             * (Value): null.
-             */
-            "status"?: (("created"
-                | "packed"
-                | "shipped"
+            "merchandise_status"?: (("not_required"
+                | "awaiting_handoff"
                 | "in_transit"
-                | "out_for_delivery"
-                | "delivered"
-                | "delivery_attempted"
+                | "partially_received"
+                | "inspection_required"
+                | "partially_inspected"
+                | "inspection_review_required"
+                | "disposition_required"
+                | "resolved"
                 | "exception"
-                | "returned"
-                | "voided"
                 | (string & {}))
                 | (null));
             /**
-             * Lifecycle actions Flint accepts now, independent of permissions. Contains void while
-             * the shipment and its fulfillment permit voiding. [] enum: "void". anyOf[1] (Value):
-             * Array of string. Lifecycle actions Flint accepts now, independent of permissions.
-             * Contains void while the shipment and its fulfillment permit voiding. [] enum:
-             * "void". anyOf[1][] (Value): string. Value enum: "void". anyOf[2] (Value): null.
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "supported_actions"?: ((Array<"void" | (string & {})>) | (null));
+            "metadata"?: ((MetadataMap) | (null));
             /**
-             * Last update timestamp. anyOf[1] (Value): string. Last update timestamp. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             * Present only when `expand` includes `order`; `null` when expanded and there is no
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
+            /**
+             * ID of the Order the Return is against. anyOf[1] (Value): string. ID of the Order the
+             * Return is against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value):
+             * null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * How your return policies judged the request when the Return was created. anyOf[1]
+             * (Value): {@link ReturnPolicyEvaluationPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "policy_evaluation"?: ((ReturnPolicyEvaluationPreviousAttributes) | (null));
+            /**
+             * Whether the buyer has received the value they are owed. Combines the Return's
+             * resolutions and its unsettled corrections. Value enum: "not_selected", "pending",
+             * "partially_completed", "requires_action", "completed", "failed". anyOf[1] (Value):
+             * string. Whether the buyer has received the value they are owed. Combines the
+             * Return's resolutions and its unsettled corrections. Value enum: "not_selected",
+             * "pending", "partially_completed", "requires_action", "completed", "failed". anyOf[2]
+             * (Value): null.
+             */
+            "resolution_status"?: (("not_selected"
+                | "pending"
+                | "partially_completed"
+                | "requires_action"
+                | "completed"
+                | "failed"
+                | (string & {}))
+                | (null));
+            /**
+             * IDs of every disposition recorded for this Return, oldest first, including failed
+             * and canceled dispositions. Expand `return_dispositions` on `GET
+             * /v1/returns/{return_id}` to read them inline. anyOf[1] (Value): Array of string. IDs
+             * of every disposition recorded for this Return, oldest first, including failed and
+             * canceled dispositions. Expand `return_dispositions` on `GET /v1/returns/{return_id}`
+             * to read them inline. anyOf[1][] (Value): string. Example:
+             * "retdsp_01KEZF7C007H87J66PH2EEK1VW". anyOf[2] (Value): null.
+             */
+            "return_disposition_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `return_dispositions`. The dispositions in
+             * `return_disposition_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ReturnDispositionPreviousAttributes}. Present only when `expand` includes
+             * `return_dispositions`. The dispositions in `return_disposition_ids`, in the same
+             * order. anyOf[1][] (Value): {@link ReturnDispositionPreviousAttributes}. anyOf[2]
+             * (Value): null.
+             */
+            "return_dispositions"?: ((Array<ReturnDispositionPreviousAttributes>) | (null));
+            /**
+             * Unique identifier for this return, prefixed `ret_`. anyOf[1] (Value): string. Unique
+             * identifier for this return, prefixed `ret_`. Example:
+             * "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value): null.
+             */
+            "return_id"?: ((string) | (null));
+            /**
+             * IDs of every inspection recorded for this Return, oldest first, including superseded
+             * inspections. Expand `return_inspections` on `GET /v1/returns/{return_id}` to read
+             * them inline. anyOf[1] (Value): Array of string. IDs of every inspection recorded for
+             * this Return, oldest first, including superseded inspections. Expand
+             * `return_inspections` on `GET /v1/returns/{return_id}` to read them inline.
+             * anyOf[1][] (Value): string. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2]
+             * (Value): null.
+             */
+            "return_inspection_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `return_inspections`. The inspections in
+             * `return_inspection_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ReturnInspectionPreviousAttributes}. Present only when `expand` includes
+             * `return_inspections`. The inspections in `return_inspection_ids`, in the same order.
+             * anyOf[1][] (Value): {@link ReturnInspectionPreviousAttributes}. anyOf[2] (Value):
+             * null.
+             */
+            "return_inspections"?: ((Array<ReturnInspectionPreviousAttributes>) | (null));
+            /**
+             * Human-readable number for the Return. anyOf[1] (Value): string. Human-readable
+             * number for the Return. anyOf[2] (Value): null.
+             */
+            "return_number"?: ((string) | (null));
+            /**
+             * IDs of every receipt recorded for this Return, oldest first, including superseded
+             * receipts. Expand `return_receipts` on `GET /v1/returns/{return_id}` to read them
+             * inline. anyOf[1] (Value): Array of string. IDs of every receipt recorded for this
+             * Return, oldest first, including superseded receipts. Expand `return_receipts` on
+             * `GET /v1/returns/{return_id}` to read them inline. anyOf[1][] (Value): string.
+             * Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". anyOf[2] (Value): null.
+             */
+            "return_receipt_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `return_receipts`. The receipts in
+             * `return_receipt_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ReturnReceiptPreviousAttributes}. Present only when `expand` includes
+             * `return_receipts`. The receipts in `return_receipt_ids`, in the same order.
+             * anyOf[1][] (Value): {@link ReturnReceiptPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "return_receipts"?: ((Array<ReturnReceiptPreviousAttributes>) | (null));
+            /**
+             * IDs of every resolution created for this Return, oldest first, including failed and
+             * canceled resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}`
+             * to read them inline. anyOf[1] (Value): Array of string. IDs of every resolution
+             * created for this Return, oldest first, including failed and canceled resolutions.
+             * Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them inline.
+             * anyOf[1][] (Value): string. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3". anyOf[2]
+             * (Value): null.
+             */
+            "return_resolution_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `return_resolutions`. The resolutions in
+             * `return_resolution_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ReturnResolutionPreviousAttributes}. Present only when `expand` includes
+             * `return_resolutions`. The resolutions in `return_resolution_ids`, in the same order.
+             * anyOf[1][] (Value): {@link ReturnResolutionPreviousAttributes}. anyOf[2] (Value):
+             * null.
+             */
+            "return_resolutions"?: ((Array<ReturnResolutionPreviousAttributes>) | (null));
+            /**
+             * IDs of every shipment raised to send this Return's items back, oldest first,
+             * including voided shipments. Expand `shipments` on `GET /v1/returns/{return_id}` to
+             * read them inline. anyOf[1] (Value): Array of string. IDs of every shipment raised to
+             * send this Return's items back, oldest first, including voided shipments. Expand
+             * `shipments` on `GET /v1/returns/{return_id}` to read them inline. anyOf[1][]
+             * (Value): string. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". anyOf[2] (Value): null.
+             */
+            "shipment_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `shipments`. Summaries of the shipments in
+             * `shipment_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ExpandedShipmentSummaryPreviousAttributes}. Present only when `expand` includes
+             * `shipments`. Summaries of the shipments in `shipment_ids`, in the same order.
+             * anyOf[1][] (Value): {@link ExpandedShipmentSummaryPreviousAttributes}. anyOf[2]
+             * (Value): null.
+             */
+            "shipments"?: ((Array<ExpandedShipmentSummaryPreviousAttributes>) | (null));
+            /**
+             * Where the whole Return stands. Read `decision_status`, `merchandise_status`, and
+             * `resolution_status` for the part you need. Value enum: "requested", "open",
+             * "completed", "declined", "canceled". anyOf[1] (Value): string. Where the whole
+             * Return stands. Read `decision_status`, `merchandise_status`, and `resolution_status`
+             * for the part you need. Value enum: "requested", "open", "completed", "declined",
+             * "canceled". anyOf[2] (Value): null.
+             */
+            "status"?: (("requested" | "open" | "completed" | "declined" | "canceled" | (string & {})) | (null));
+            /**
+             * Actions that can succeed now. Actions the API key or token doesn't have the scope
+             * for are left out. A Return waiting for a decision lists `decide` and `cancel`. An
+             * open Return lists `cancel` only while no units have been received, inspected,
+             * dispositioned, or resolved, and it has no current receipts or inspections,
+             * non-canceled dispositions or resolutions, or non-voided return shipments. It lists
+             * `complete` when `completion_mode` is `manual` and `completion_blockers` is empty. A
+             * completed Return lists `reopen`. A declined or canceled Return lists none. [] enum:
+             * "cancel", "complete", "decide", "process", "reopen". anyOf[1] (Value): Array of
+             * string. Actions that can succeed now. Actions the API key or token doesn't have the
+             * scope for are left out. A Return waiting for a decision lists `decide` and `cancel`.
+             * An open Return lists `cancel` only while no units have been received, inspected,
+             * dispositioned, or resolved, and it has no current receipts or inspections,
+             * non-canceled dispositions or resolutions, or non-voided return shipments. It lists
+             * `complete` when `completion_mode` is `manual` and `completion_blockers` is empty. A
+             * completed Return lists `reopen`. A declined or canceled Return lists none. [] enum:
+             * "cancel", "complete", "decide", "process", "reopen". anyOf[1][] (Value): string.
+             * Value enum: "cancel", "complete", "decide", "process", "reopen". anyOf[2] (Value):
+             * null.
+             */
+            "supported_actions"?: ((Array<"cancel" | "complete" | "decide" | "process" | "reopen" | (string & {})>) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
             "updated_at"?: ((string) | (null));
             /**
-             * Monotonic shipment version for expected_version checks. anyOf[1] (Value): integer.
-             * Monotonic shipment version for expected_version checks. Format: uint64. minimum: 1.
-             * anyOf[2] (Value): null.
+             * Goes up with every change to the Return. Each activity's `return_version` is the
+             * version that activity produced. A write that takes `expected_version` or
+             * `expected_return_version` for this Return compares it with this value. anyOf[1]
+             * (Value): integer. Goes up with every change to the Return. Each activity's
+             * `return_version` is the version that activity produced. A write that takes
+             * `expected_version` or `expected_return_version` for this Return compares it with
+             * this value. Format: int64. minimum: 0. anyOf[2] (Value): null.
              */
             "version"?: ((number) | (null));
         });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
-    /** Value enum: "shipment.updated". */
-    "event_type"?: "shipment.updated";
+    /** Value enum: "return.updated". */
+    "event_type"?: "return.updated";
 });
-export type ShipmentsCreateParams = (CreateShipmentRequestInput)
+/**
+ * How long after an event, such as fulfillment or delivery, an order can be returned under a
+ * return policy.
+ */
+export type ReturnWindow = {
+    /**
+     * Length of the window in seconds, above 0 and at most 158,112,000 (1,830 days). Format:
+     * int64. minimum: 1. maximum: 158112000.
+     */
+    "duration_seconds": number;
+    /**
+     * The fulfillment event the window counts from. Value enum: "fulfilled", "delivered",
+     * "picked_up", "service_completed".
+     */
+    "starts_at_event": "fulfilled" | "delivered" | "picked_up" | "service_completed" | (string & {});
+};
+/**
+ * How long after an event, such as fulfillment or delivery, an order can be returned under a
+ * return policy.
+ */
+export type ReturnWindowRequestInput = {
+    /**
+     * Length of the window in seconds, above 0 and at most 158,112,000 (1,830 days). Format:
+     * int64. minimum: 1. maximum: 158112000.
+     */
+    "duration_seconds": number;
+    /**
+     * The fulfillment event the window counts from. Value enum: "fulfilled", "delivered",
+     * "picked_up", "service_completed".
+     */
+    "starts_at_event": "fulfilled" | "delivered" | "picked_up" | "service_completed";
+};
+export type ReturnsCancelLineItemParams = (InputValue<CancelReturnLineItemRequestInput>)
     & {
     /**
      * Merchant this request acts for. Required with an app-level partner app token; optional with
@@ -2518,165 +2852,7 @@ export type ShipmentsCreateParams = (CreateShipmentRequestInput)
      */
     "Flint-Sandbox-Id"?: InputValue<string>;
 };
-export type ShipmentsGetParams = {
-    /**
-     * Include related objects in the response. Supported expansions: order, packages. Expansion
-     * requires commerce.orders.read. Limits: at most 10 unique expand paths per request. To-many
-     * expansions are capped at 20 related objects per path. [] enum: "order", "packages". Value
-     * enum: "order", "packages". anyOf[1] (Value): Array of string. [] enum: "order", "packages".
-     * anyOf[1][] (Value): string. Value enum: "order", "packages". anyOf[2] (Value): string. Value
-     * enum: "order", "packages".
-     */
-    "expand"?: InputValue<("order" | "packages") | readonly ("order" | "packages")[]>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type ShipmentsListParams = {
-    /**
-     * Optional order ID filter. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id"?: InputValue<string>;
-    /**
-     * Optional fulfillment ID filter. pattern: ^ful_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-     */
-    "fulfillment_id"?: InputValue<string>;
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /** Filter by external system identifier. */
-    "external_system"?: InputValue<string>;
-    /**
-     * Exact match on the shipment's `external_reference_id`. minLength: 1. maxLength: 255.
-     * Example: "warehouse-1842".
-     */
-    "external_reference_id"?: InputValue<string>;
-    /**
-     * Search across shipment ID and external reference ID. Text fields match any part of the
-     * value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and
-     * need the type prefix, such as shp_01.
-     */
-    "query"?: InputValue<string>;
-    /**
-     * Filter by linked Return ID. pattern: ^ret_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id"?: InputValue<string>;
-    /**
-     * Inclusive lower bound on handed_off_at. Format: date-time. Example: "2026-03-17T14:30:00Z".
-     */
-    "handed_off_after"?: InputValue<string | globalThis.Date>;
-    /**
-     * Exclusive upper bound on handed_off_at. Format: date-time. Example: "2026-03-17T14:30:00Z".
-     */
-    "handed_off_before"?: InputValue<string | globalThis.Date>;
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Filter by package-derived shipment status. Values within this filter are combined with OR.
-     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
-     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
-     * "created", "packed", "shipped", "in_transit", "out_for_delivery", "delivered",
-     * "delivery_attempted", "exception", "returned", "voided". Value enum: "created", "packed",
-     * "shipped", "in_transit", "out_for_delivery", "delivered", "delivery_attempted", "exception",
-     * "returned", "voided". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "created",
-     * "packed", "shipped", "in_transit", "out_for_delivery", "delivered", "delivery_attempted",
-     * "exception", "returned", "voided". anyOf[1][] (Value): string. Value enum: "created",
-     * "packed", "shipped", "in_transit", "out_for_delivery", "delivered", "delivery_attempted",
-     * "exception", "returned", "voided". anyOf[2] (Value): string. Value enum: "created",
-     * "packed", "shipped", "in_transit", "out_for_delivery", "delivered", "delivery_attempted",
-     * "exception", "returned", "voided".
-     */
-    "status"?: InputValue<("created"
-        | "packed"
-        | "shipped"
-        | "in_transit"
-        | "out_for_delivery"
-        | "delivered"
-        | "delivery_attempted"
-        | "exception"
-        | "returned"
-        | "voided")
-        | readonly ("created"
-        | "packed"
-        | "shipped"
-        | "in_transit"
-        | "out_for_delivery"
-        | "delivered"
-        | "delivery_attempted"
-        | "exception"
-        | "returned"
-        | "voided")[]>;
-    /**
-     * Filter by shipment direction. Values within this filter are combined with OR. Values are
-     * trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values
-     * within this filter are ORed; separate filters are ANDed. [] enum: "outbound", "return".
-     * Value enum: "outbound", "return". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
-     * "outbound", "return". anyOf[1][] (Value): string. Value enum: "outbound", "return". anyOf[2]
-     * (Value): string. Value enum: "outbound", "return".
-     */
-    "direction"?: InputValue<("outbound" | "return") | readonly ("outbound" | "return")[]>;
-    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Include related objects in the response. Supported expansions: order. Include the requested
-     * related resources using scoped batch reads for this page. Each relationship requires its
-     * existing target read scopes. Expansion changes the representation without changing
-     * pagination tokens. Limits: at most 10 unique expand paths per request. [] enum: "order".
-     * Value enum: "order". anyOf[1] (Value): Array of string. [] enum: "order". anyOf[1][]
-     * (Value): string. Value enum: "order". anyOf[2] (Value): string. Value enum: "order".
-     */
-    "expand"?: InputValue<("order") | readonly ("order")[]>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type ShipmentsUpdateParams = (InputValue<UpdateShipmentRequestInput>)
+export type ReturnsCancelParams = (InputValue<CancelReturnRequestInput>)
     & {
     /**
      * Merchant this request acts for. Required with an app-level partner app token; optional with
@@ -2697,11 +2873,10 @@ export type ShipmentsUpdateParams = (InputValue<UpdateShipmentRequestInput>)
      */
     "Flint-Sandbox-Id"?: InputValue<string>;
 };
-export type ShipmentsVoidParams = (InputValue<VoidShipmentRequestInput>
+export type ReturnsCompleteParams = (InputValue<CompleteReturnRequestInput>
     | {
-    "buyer_notification_behavior"?: never;
     "expected_version"?: never;
-    "occurred_at"?: never;
+    "reason"?: never;
     "reason_message"?: never;
 })
     & {
@@ -2724,65 +2899,701 @@ export type ShipmentsVoidParams = (InputValue<VoidShipmentRequestInput>
      */
     "Flint-Sandbox-Id"?: InputValue<string>;
 };
-/** The request body for: Sign a sandbox webhook delivery. */
-export type SignWebhookEndpointDeliveryRequest = {
+export type ReturnsCreateAccessLinkParams = FilesCompleteParams;
+export type ReturnsCreateLineItemParams = (InputValue<AddReturnLineItemRequestInput>)
+    & {
     /**
-     * Retained merchant event in the endpoint's sandbox. The endpoint must subscribe to its event
-     * type. minLength: 1. Example: "whev_01KEZF7C00362MS3HV970TRZGS".
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "webhook_event_id": string;
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
 };
-/** The request body for: Sign a sandbox webhook delivery. */
-export type SignWebhookEndpointDeliveryRequestInput = SignWebhookEndpointDeliveryRequest;
-/** Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-export type SignedMoneyRequestInput = {
+export type ReturnsCreateParams = (InputValue<CreateReturnRequestInput>)
+    & {
     /**
-     * Signed amount in the currency's minor unit, such as cents for USD. Use an integer string
-     * (decimal digits), not a floating-point number. Format: int64.
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "amount": `${bigint}` | bigint;
+    "Flint-Merchant-Id"?: InputValue<string>;
     /**
-     * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
-     * Example: "USD".
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
      */
-    "currency": string;
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnsDecideParams = (InputValue<DecideReturnRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnsDeleteLineItemParams = {
+    /**
+     * Optional version of the parent Return. Supply exactly once. A stale value returns
+     * VERSION_CONFLICT with the current Return version. Format: int64. minimum: 1. maximum:
+     * 9007199254740991.
+     */
+    "expected_version"?: InputValue<number>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnsGetLineItemParams = DisputesAcceptParams;
+export type ReturnsGetParams = {
+    /**
+     * Include related objects in the response. Supported expansions: customer,
+     * line_items.fulfillment, line_items.return_reason, order, return_dispositions,
+     * return_inspections, return_receipts, return_resolutions, shipments. Expanded relationships
+     * are returned only when explicitly requested and authorized. Limits: at most 10 unique expand
+     * paths per request. To-many expansions are capped per path: at 100 related objects for
+     * return_dispositions, return_inspections, return_receipts, return_resolutions, and shipments;
+     * at 20 for line_items.fulfillment and line_items.return_reason. [] enum: "customer",
+     * "line_items.fulfillment", "line_items.return_reason", "order", "return_dispositions",
+     * "return_inspections", "return_receipts", "return_resolutions", "shipments". Value enum:
+     * "customer", "line_items.fulfillment", "line_items.return_reason", "order",
+     * "return_dispositions", "return_inspections", "return_receipts", "return_resolutions",
+     * "shipments". anyOf[1] (Value): Array of string. [] enum: "customer",
+     * "line_items.fulfillment", "line_items.return_reason", "order", "return_dispositions",
+     * "return_inspections", "return_receipts", "return_resolutions", "shipments". anyOf[1][]
+     * (Value): string. Value enum: "customer", "line_items.fulfillment",
+     * "line_items.return_reason", "order", "return_dispositions", "return_inspections",
+     * "return_receipts", "return_resolutions", "shipments". anyOf[2] (Value): string. Value enum:
+     * "customer", "line_items.fulfillment", "line_items.return_reason", "order",
+     * "return_dispositions", "return_inspections", "return_receipts", "return_resolutions",
+     * "shipments".
+     */
+    "expand"?: InputValue<("customer"
+        | "line_items.fulfillment"
+        | "line_items.return_reason"
+        | "order"
+        | "return_dispositions"
+        | "return_inspections"
+        | "return_receipts"
+        | "return_resolutions"
+        | "shipments")
+        | readonly ("customer"
+        | "line_items.fulfillment"
+        | "line_items.return_reason"
+        | "order"
+        | "return_dispositions"
+        | "return_inspections"
+        | "return_receipts"
+        | "return_resolutions"
+        | "shipments")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnsListActivitiesParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. Format: int32. minimum:
+     * 1. maximum: 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnsListLineItemsParams = {
+    /**
+     * Filter by fulfillment id. pattern: ^ful_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+     */
+    "fulfillment_id"?: InputValue<string>;
+    /**
+     * Filter by merchandise status. Values are trimmed and deduplicated in first-seen order; empty
+     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "not_required", "awaiting_handoff", "in_transit", "partially_received",
+     * "inspection_required", "partially_inspected", "inspection_review_required",
+     * "disposition_required", "resolved", "exception". Value enum: "not_required",
+     * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
+     * "partially_inspected", "inspection_review_required", "disposition_required", "resolved",
+     * "exception". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "not_required",
+     * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
+     * "partially_inspected", "inspection_review_required", "disposition_required", "resolved",
+     * "exception". anyOf[1][] (Value): string. Value enum: "not_required", "awaiting_handoff",
+     * "in_transit", "partially_received", "inspection_required", "partially_inspected",
+     * "inspection_review_required", "disposition_required", "resolved", "exception". anyOf[2]
+     * (Value): string. Value enum: "not_required", "awaiting_handoff", "in_transit",
+     * "partially_received", "inspection_required", "partially_inspected",
+     * "inspection_review_required", "disposition_required", "resolved", "exception".
+     */
+    "merchandise_status"?: InputValue<("not_required"
+        | "awaiting_handoff"
+        | "in_transit"
+        | "partially_received"
+        | "inspection_required"
+        | "partially_inspected"
+        | "inspection_review_required"
+        | "disposition_required"
+        | "resolved"
+        | "exception")
+        | readonly ("not_required"
+        | "awaiting_handoff"
+        | "in_transit"
+        | "partially_received"
+        | "inspection_required"
+        | "partially_inspected"
+        | "inspection_review_required"
+        | "disposition_required"
+        | "resolved"
+        | "exception")[]>;
+    /**
+     * Filter by order line item id. pattern: ^li_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "li_01KEZF7C008YPRCK7VDKTGWR31".
+     */
+    "order_line_item_id"?: InputValue<string>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. Format: int32. minimum:
+     * 1. maximum: 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Filter by resolution status. Values are trimmed and deduplicated in first-seen order; empty
+     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "not_selected", "pending", "requires_action", "completed", "failed". Value
+     * enum: "not_selected", "pending", "requires_action", "completed", "failed". anyOf[1] (Value):
+     * Array of string. minItems: 1. [] enum: "not_selected", "pending", "requires_action",
+     * "completed", "failed". anyOf[1][] (Value): string. Value enum: "not_selected", "pending",
+     * "requires_action", "completed", "failed". anyOf[2] (Value): string. Value enum:
+     * "not_selected", "pending", "requires_action", "completed", "failed".
+     */
+    "resolution_status"?: InputValue<("not_selected" | "pending" | "requires_action" | "completed" | "failed")
+        | readonly ("not_selected" | "pending" | "requires_action" | "completed" | "failed")[]>;
+    /**
+     * Filter by return reason id. pattern: ^rrsn_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E".
+     */
+    "return_reason_id"?: InputValue<string>;
+    /**
+     * Filter by status. Values are trimmed and deduplicated in first-seen order; empty or unknown
+     * entries are rejected. Values within this filter are ORed; separate filters are ANDed. []
+     * enum: "requested", "open", "completed", "declined", "canceled". Value enum: "requested",
+     * "open", "completed", "declined", "canceled". anyOf[1] (Value): Array of string. minItems: 1.
+     * [] enum: "requested", "open", "completed", "declined", "canceled". anyOf[1][] (Value):
+     * string. Value enum: "requested", "open", "completed", "declined", "canceled". anyOf[2]
+     * (Value): string. Value enum: "requested", "open", "completed", "declined", "canceled".
+     */
+    "status"?: InputValue<("requested" | "open" | "completed" | "declined" | "canceled")
+        | readonly ("requested" | "open" | "completed" | "declined" | "canceled")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnsListParams = {
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Filter by customer id. pattern: ^cus_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: InputValue<string>;
+    /**
+     * Filter by decision status. Values are trimmed and deduplicated in first-seen order; empty or
+     * unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "pending", "approved", "partially_approved", "declined". Value enum:
+     * "pending", "approved", "partially_approved", "declined". anyOf[1] (Value): Array of string.
+     * minItems: 1. [] enum: "pending", "approved", "partially_approved", "declined". anyOf[1][]
+     * (Value): string. Value enum: "pending", "approved", "partially_approved", "declined".
+     * anyOf[2] (Value): string. Value enum: "pending", "approved", "partially_approved",
+     * "declined".
+     */
+    "decision_status"?: InputValue<("pending" | "approved" | "partially_approved" | "declined")
+        | readonly ("pending" | "approved" | "partially_approved" | "declined")[]>;
+    /**
+     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
+     * Example: "warehouse-1842".
+     */
+    "external_reference_id"?: InputValue<string>;
+    /**
+     * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
+     * exact and case-sensitive. Returns only resources created in your caller namespace, plus
+     * resources created before caller scoping under the original key. Returns current authorized
+     * resources, not the recorded response. A pending resource does not prove that the operation
+     * succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength:
+     * 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
+     */
+    "idempotency_key"?: InputValue<string>;
+    /**
+     * Filter by merchandise status. Values are trimmed and deduplicated in first-seen order; empty
+     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "not_required", "awaiting_handoff", "in_transit", "partially_received",
+     * "inspection_required", "partially_inspected", "inspection_review_required",
+     * "disposition_required", "resolved", "exception". Value enum: "not_required",
+     * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
+     * "partially_inspected", "inspection_review_required", "disposition_required", "resolved",
+     * "exception". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "not_required",
+     * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
+     * "partially_inspected", "inspection_review_required", "disposition_required", "resolved",
+     * "exception". anyOf[1][] (Value): string. Value enum: "not_required", "awaiting_handoff",
+     * "in_transit", "partially_received", "inspection_required", "partially_inspected",
+     * "inspection_review_required", "disposition_required", "resolved", "exception". anyOf[2]
+     * (Value): string. Value enum: "not_required", "awaiting_handoff", "in_transit",
+     * "partially_received", "inspection_required", "partially_inspected",
+     * "inspection_review_required", "disposition_required", "resolved", "exception".
+     */
+    "merchandise_status"?: InputValue<("not_required"
+        | "awaiting_handoff"
+        | "in_transit"
+        | "partially_received"
+        | "inspection_required"
+        | "partially_inspected"
+        | "inspection_review_required"
+        | "disposition_required"
+        | "resolved"
+        | "exception")
+        | readonly ("not_required"
+        | "awaiting_handoff"
+        | "in_transit"
+        | "partially_received"
+        | "inspection_required"
+        | "partially_inspected"
+        | "inspection_review_required"
+        | "disposition_required"
+        | "resolved"
+        | "exception")[]>;
+    /**
+     * Filter by order id. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: InputValue<string>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. Format: int32. minimum:
+     * 1. maximum: 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Search by return ID, return number, external reference ID, the order's number, or the
+     * buyer's email.
+     */
+    "query"?: InputValue<string>;
+    /**
+     * Filter by receiving location id. pattern: ^loc_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "receiving_location_id"?: InputValue<string>;
+    /**
+     * Filter by resolution status. Values are trimmed and deduplicated in first-seen order; empty
+     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "not_selected", "pending", "partially_completed", "requires_action",
+     * "completed", "failed". Value enum: "not_selected", "pending", "partially_completed",
+     * "requires_action", "completed", "failed". anyOf[1] (Value): Array of string. minItems: 1. []
+     * enum: "not_selected", "pending", "partially_completed", "requires_action", "completed",
+     * "failed". anyOf[1][] (Value): string. Value enum: "not_selected", "pending",
+     * "partially_completed", "requires_action", "completed", "failed". anyOf[2] (Value): string.
+     * Value enum: "not_selected", "pending", "partially_completed", "requires_action",
+     * "completed", "failed".
+     */
+    "resolution_status"?: InputValue<("not_selected" | "pending" | "partially_completed" | "requires_action" | "completed" | "failed")
+        | readonly ("not_selected" | "pending" | "partially_completed" | "requires_action" | "completed" | "failed")[]>;
+    /**
+     * Filter by resolution type. Values are trimmed and deduplicated in first-seen order; empty or
+     * unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "refund", "exchange", "replacement", "store_credit", "no_monetary_action",
+     * "correction". Value enum: "refund", "exchange", "replacement", "store_credit",
+     * "no_monetary_action", "correction". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
+     * "refund", "exchange", "replacement", "store_credit", "no_monetary_action", "correction".
+     * anyOf[1][] (Value): string. Value enum: "refund", "exchange", "replacement", "store_credit",
+     * "no_monetary_action", "correction". anyOf[2] (Value): string. Value enum: "refund",
+     * "exchange", "replacement", "store_credit", "no_monetary_action", "correction".
+     */
+    "resolution_type"?: InputValue<("refund" | "exchange" | "replacement" | "store_credit" | "no_monetary_action" | "correction")
+        | readonly ("refund" | "exchange" | "replacement" | "store_credit" | "no_monetary_action" | "correction")[]>;
+    /** Filter by return number. */
+    "return_number"?: InputValue<string>;
+    /**
+     * Filter by return reason id. pattern: ^rrsn_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E".
+     */
+    "return_reason_id"?: InputValue<string>;
+    /**
+     * Field to sort by. Defaults to created_at; ties are broken by return_id. Default:
+     * "created_at". Value enum: "created_at".
+     */
+    "sort_by"?: InputValue<"created_at">;
+    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+    /**
+     * Filter by status. Values are trimmed and deduplicated in first-seen order; empty or unknown
+     * entries are rejected. Values within this filter are ORed; separate filters are ANDed. []
+     * enum: "requested", "open", "completed", "declined", "canceled". Value enum: "requested",
+     * "open", "completed", "declined", "canceled". anyOf[1] (Value): Array of string. minItems: 1.
+     * [] enum: "requested", "open", "completed", "declined", "canceled". anyOf[1][] (Value):
+     * string. Value enum: "requested", "open", "completed", "declined", "canceled". anyOf[2]
+     * (Value): string. Value enum: "requested", "open", "completed", "declined", "canceled".
+     */
+    "status"?: InputValue<("requested" | "open" | "completed" | "declined" | "canceled")
+        | readonly ("requested" | "open" | "completed" | "declined" | "canceled")[]>;
+    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Filter by work type. Matches only returns that are still requested or open. Values are
+     * trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values
+     * within this filter are ORed; separate filters are ANDed. [] enum: "decision", "handoff",
+     * "receipt", "inspection", "disposition", "resolution", "exception". Value enum: "decision",
+     * "handoff", "receipt", "inspection", "disposition", "resolution", "exception". anyOf[1]
+     * (Value): Array of string. minItems: 1. [] enum: "decision", "handoff", "receipt",
+     * "inspection", "disposition", "resolution", "exception". anyOf[1][] (Value): string. Value
+     * enum: "decision", "handoff", "receipt", "inspection", "disposition", "resolution",
+     * "exception". anyOf[2] (Value): string. Value enum: "decision", "handoff", "receipt",
+     * "inspection", "disposition", "resolution", "exception".
+     */
+    "work_type"?: InputValue<("decision" | "handoff" | "receipt" | "inspection" | "disposition" | "resolution" | "exception")
+        | readonly ("decision" | "handoff" | "receipt" | "inspection" | "disposition" | "resolution" | "exception")[]>;
+    /**
+     * Include related objects in the response. Supported expansions: customer, order. Include the
+     * requested related resources using scoped batch reads for this page. Each relationship
+     * requires its existing target read scopes. Expansion changes the representation without
+     * changing pagination tokens. Limits: at most 10 unique expand paths per request. [] enum:
+     * "customer", "order". Value enum: "customer", "order". anyOf[1] (Value): Array of string. []
+     * enum: "customer", "order". anyOf[1][] (Value): string. Value enum: "customer", "order".
+     * anyOf[2] (Value): string. Value enum: "customer", "order".
+     */
+    "expand"?: InputValue<("customer" | "order") | readonly ("customer" | "order")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnsProcessParams = (InputValue<ProcessExistingReturnRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnsReopenParams = (InputValue<ReopenReturnRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnsUpdateLineItemParams = (InputValue<UpdateReturnLineItemRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnsUpdateParams = (InputValue<UpdateReturnRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnsWaiveLineItemInspectionParams = (InputValue<WaiveReturnLineInspectionRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+/** The request body for: Reveal a license key. */
+export type RevealLicenseKeyRequestInput = {};
+/** The request body for: Reverse manual invoice payment. */
+export type ReverseInvoiceManualPaymentRequest = {
+    /** Expected version of the invoice. Format: int64. minimum: 1. */
+    "expected_version"?: number;
+    /**
+     * Why the offline payment is being reversed, up to 4096 characters. minLength: 1. maxLength:
+     * 4096.
+     */
+    "reversal_note"?: string;
+    /**
+     * When the payment was reversed. Defaults to now and must not precede received_at. Format:
+     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "reversed_at"?: string;
+};
+/** The request body for: Reverse manual invoice payment. */
+export type ReverseInvoiceManualPaymentRequestInput = {
+    /** Expected version of the invoice. Format: int64. minimum: 1. */
+    "expected_version"?: number;
+    /**
+     * Why the offline payment is being reversed, up to 4096 characters. minLength: 1. maxLength:
+     * 4096.
+     */
+    "reversal_note"?: string;
+    /**
+     * When the payment was reversed. Defaults to now and must not precede received_at. Format:
+     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "reversed_at"?: string | globalThis.Date;
 };
 /**
- * A transient signed delivery for the caller's sandbox endpoint. Forward body bytes and headers
- * unchanged; this is not a persisted delivery or HTTP dispatch.
+ * One attribute a risk rule can test, with its value type, allowed operators, and whether it is
+ * currently available.
  */
-export type SignedWebhookEndpointDelivery = {
-    /** Exact UTF-8 JSON delivery bytes. Do not parse and reserialize before forwarding. */
-    "body": string;
+export type RiskAttribute = {
     /**
-     * JWT expiry, 300 seconds after signing. Existing receiver clock skew rules apply. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z".
+     * The stage from which the attribute's value is known. Value enum: "pre_authorization",
+     * "post_authorization".
      */
-    "expires_at": string;
+    "available_from": "pre_authorization" | "post_authorization" | (string & {});
+    /** The values the attribute can take. Present for `enum` attributes. [] (Value): string. */
+    "enum_values"?: Array<string>;
+    /** Whether the attribute can be used in rules in this environment. */
+    "is_available": boolean;
+    /** Whether the attribute can be missing from a payment. */
+    "is_nullable": boolean;
     /**
-     * Application headers from the real sender, including Authorization and any configured HMAC
-     * signature. Never log these credentials. * (Value): string.
+     * How a comparison treats a payment that has no value for the attribute. Value enum:
+     * "not_applicable_except_is_missing".
      */
-    "headers": Record<string, string>;
+    "missing_value_behavior": "not_applicable_except_is_missing" | (string & {});
+    /** Name of the attribute, as a rule's `attribute` field uses it. */
+    "name": string;
     /**
-     * The authorized sandbox endpoint and JWT audience. Example:
-     * "whep_01KEZF7C006FXYTAJRZCGCBJTN".
+     * Operators accepted by this attribute. [] enum: "eq", "neq", "gt", "gte", "lt", "lte", "in",
+     * "in_list", "is_missing". [] (Value): string. Value enum: "eq", "neq", "gt", "gte", "lt",
+     * "lte", "in", "in_list", "is_missing".
      */
-    "webhook_endpoint_id": string;
+    "operators": Array<"eq" | "neq" | "gt" | "gte" | "lt" | "lte" | "in" | "in_list" | "is_missing" | (string & {})>;
     /**
-     * The event ID, also sent as webhook-id for receiver deduplication. Example:
-     * "whev_01KEZF7C00362MS3HV970TRZGS".
+     * Why the attribute can't be used in rules. Present when `is_available` is `false`. Value
+     * enum: "risk_scoring_not_enabled", "ip_geolocation_not_enabled".
      */
-    "webhook_event_id": string;
+    "unavailable_reason"?: "risk_scoring_not_enabled" | "ip_geolocation_not_enabled" | (string & {});
+    /**
+     * The kind of value the attribute holds. Value enum: "money", "currency", "string", "enum",
+     * "country", "email", "ip_address", "boolean", "integer".
+     */
+    "value_type": "money"
+        | "currency"
+        | "string"
+        | "enum"
+        | "country"
+        | "email"
+        | "ip_address"
+        | "boolean"
+        | "integer"
+        | (string & {});
 };
-/** A response containing `SignedWebhookEndpointDelivery` data. */
-export type SignedWebhookEndpointDeliveryResponse = {
+/** The attributes available to risk rules, in the current environment. */
+export type RiskAttributeRegistry = {
     /**
-     * Resource, collection, or operation result returned by this request. A transient signed
-     * delivery for the caller's sandbox endpoint. Forward body bytes and headers unchanged; this
-     * is not a persisted delivery or HTTP dispatch.
+     * The attributes a risk rule can test. [] (Value): {@link RiskAttribute}. One attribute a risk
+     * rule can test, with its value type, allowed operators, and whether it is currently
+     * available.
      */
-    "data": SignedWebhookEndpointDelivery;
+    "attributes": Array<RiskAttribute>;
+};
+/** A response containing `RiskAttributeRegistry` data. */
+export type RiskAttributeRegistryResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. The attributes available
+     * to risk rules, in the current environment.
+     */
+    "data": RiskAttributeRegistry;
     /**
      * Additional information about this response. Metadata returned with a response: the
      * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
@@ -2794,7108 +3605,135 @@ export type SignedWebhookEndpointDeliveryResponse = {
      */
     "request_id": string;
 };
-/** The request body for: Simulate a dispute outcome. */
-export type SimulateDisputeRequest = {
+/** A collection of values used in payment risk rules. */
+export type RiskList = {
     /**
-     * The ruling to simulate. `won` and `lost` decide a chargeback; `inquiry_closed` and
-     * `escalated` decide an inquiry. Value enum: "won", "lost", "inquiry_closed", "escalated".
+     * Name rules use to refer to this list, such as flagged_emails: a lowercase letter, then up to
+     * 127 lowercase letters, digits, or underscores. Set at creation and never changed.
      */
-    "outcome": "won" | "lost" | "inquiry_closed" | "escalated" | (string & {});
-};
-/** The request body for: Simulate a dispute outcome. */
-export type SimulateDisputeRequestInput = {
+    "alias": string;
     /**
-     * The ruling to simulate. `won` and `lost` decide a chargeback; `inquiry_closed` and
-     * `escalated` decide an inquiry. Value enum: "won", "lost", "inquiry_closed", "escalated".
-     */
-    "outcome": "won" | "lost" | "inquiry_closed" | "escalated";
-};
-/** Sandbox only. Presents a test card on a simulated reader. */
-export type SimulateReaderRequest = {
-    /**
-     * The brand of the test card to present. Defaults to `visa`. Declines present Visa test cards
-     * whatever brand you send. Value enum: "visa", "mastercard", "amex", "discover".
-     */
-    "card_brand"?: "visa" | "mastercard" | "amex" | "discover" | (string & {});
-    /**
-     * The buyer's and issuer's decision. Value enum: "approved", "declined", "insufficient_funds".
-     */
-    "outcome": "approved" | "declined" | "insufficient_funds" | (string & {});
-    /**
-     * The tip the buyer picks, when the payment was sent with the tip screen on. USD only.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "tip_money"?: MoneyValue;
-};
-/** Sandbox only. Presents a test card on a simulated reader. */
-export type SimulateReaderRequestInput = {
-    /**
-     * The brand of the test card to present. Defaults to `visa`. Declines present Visa test cards
-     * whatever brand you send. Value enum: "visa", "mastercard", "amex", "discover".
-     */
-    "card_brand"?: "visa" | "mastercard" | "amex" | "discover";
-    /**
-     * The buyer's and issuer's decision. Value enum: "approved", "declined", "insufficient_funds".
-     */
-    "outcome": "approved" | "declined" | "insufficient_funds";
-    /**
-     * The tip the buyer picks, when the payment was sent with the tip screen on. USD only.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "tip_money"?: MoneyValueInput;
-};
-/**
- * The single package created with a shipment fulfillment. It receives the submitted fulfillment
- * line quantities. Set status to created or shipped; items and return_line_items are not accepted.
- */
-export type SinglePackageCreateInputCreated = ({
-    /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /** Carrier that handles the package. minLength: 1. */
-    "carrier"?: string;
-    /**
-     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
-     * the given `unit`.
-     */
-    "dimensions"?: Dimensions;
-    /**
-     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
-     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "expected_delivery_at"?: string | null;
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-     * external_system for provenance. Flint does not host the label file. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /** Carrier's code for the shipping service used. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
-     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "shipped_at"?: string;
-    /**
-     * Outbound packages can start as created or shipped. Return packages must start as created,
-     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
-     * return package. Value enum: "created".
-     */
-    "status": "created" | (string & {});
-    /**
-     * Explanation of the package's status, kept as the package's `status_reason`. At most 500
-     * characters. `null` is the same as omitting the field. minLength: 1.
-     */
-    "status_reason"?: string;
-    /** Carrier tracking number for the package. minLength: 1. */
-    "tracking_number"?: string;
-    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
-    "tracking_url"?: string;
-    /**
-     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
-     * delivery profile configuration.
-     */
-    "weight"?: Weight;
-});
-/**
- * The single package created with a shipment fulfillment. It receives the submitted fulfillment
- * line quantities. Set status to created or shipped; items and return_line_items are not accepted.
- */
-export type SinglePackageCreateInputCreatedInput = ({
-    /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /** Carrier that handles the package. minLength: 1. */
-    "carrier"?: string;
-    /**
-     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
-     * the given `unit`.
-     */
-    "dimensions"?: DimensionsRequestInput;
-    /**
-     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
-     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "expected_delivery_at"?: string | globalThis.Date | null;
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-     * external_system for provenance. Flint does not host the label file. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** Carrier's code for the shipping service used. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
-     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "shipped_at"?: string | globalThis.Date;
-    /**
-     * Outbound packages can start as created or shipped. Return packages must start as created,
-     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
-     * return package. Value enum: "created".
-     */
-    "status": "created";
-    /**
-     * Explanation of the package's status, kept as the package's `status_reason`. At most 500
-     * characters. `null` is the same as omitting the field. minLength: 1.
-     */
-    "status_reason"?: string;
-    /** Carrier tracking number for the package. minLength: 1. */
-    "tracking_number"?: string;
-    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
-    "tracking_url"?: string;
-    /**
-     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
-     * delivery profile configuration.
-     */
-    "weight"?: WeightRequestInput;
-})
-    & (({
-    "shipped_at"?: never;
-}))
-    & (({
-    "buyer_notification_behavior"?: never;
-}));
-/**
- * The single package created with a shipment fulfillment. It receives the submitted fulfillment
- * line quantities. Set status to created or shipped; items and return_line_items are not accepted.
- */
-export type SinglePackageCreateInputShipped = ({
-    /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /** Carrier that handles the package. minLength: 1. */
-    "carrier"?: string;
-    /**
-     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
-     * the given `unit`.
-     */
-    "dimensions"?: Dimensions;
-    /**
-     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
-     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "expected_delivery_at"?: string | null;
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-     * external_system for provenance. Flint does not host the label file. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /** Carrier's code for the shipping service used. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
-     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "shipped_at"?: string;
-    /**
-     * Outbound packages can start as created or shipped. Return packages must start as created,
-     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
-     * return package. Value enum: "shipped".
-     */
-    "status": "shipped" | (string & {});
-    /**
-     * Explanation of the package's status, kept as the package's `status_reason` and recorded as
-     * the reason on the shipped status change. At most 500 characters. `null` is the same as
-     * omitting the field. minLength: 1.
-     */
-    "status_reason"?: string;
-    /** Carrier tracking number for the package. minLength: 1. */
-    "tracking_number"?: string;
-    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
-    "tracking_url"?: string;
-    /**
-     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
-     * delivery profile configuration.
-     */
-    "weight"?: Weight;
-});
-/**
- * The single package created with a shipment fulfillment. It receives the submitted fulfillment
- * line quantities. Set status to created or shipped; items and return_line_items are not accepted.
- */
-export type SinglePackageCreateInputShippedInput = ({
-    /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /** Carrier that handles the package. minLength: 1. */
-    "carrier"?: string;
-    /**
-     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
-     * the given `unit`.
-     */
-    "dimensions"?: DimensionsRequestInput;
-    /**
-     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
-     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "expected_delivery_at"?: string | globalThis.Date | null;
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-     * external_system for provenance. Flint does not host the label file. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** Carrier's code for the shipping service used. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
-     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "shipped_at"?: string | globalThis.Date;
-    /**
-     * Outbound packages can start as created or shipped. Return packages must start as created,
-     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
-     * return package. Value enum: "shipped".
-     */
-    "status": "shipped";
-    /**
-     * Explanation of the package's status, kept as the package's `status_reason` and recorded as
-     * the reason on the shipped status change. At most 500 characters. `null` is the same as
-     * omitting the field. minLength: 1.
-     */
-    "status_reason"?: string;
-    /** Carrier tracking number for the package. minLength: 1. */
-    "tracking_number"?: string;
-    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
-    "tracking_url"?: string;
-    /**
-     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
-     * delivery profile configuration.
-     */
-    "weight"?: WeightRequestInput;
-})
-    & (({
-    "return_line_items"?: never;
-}));
-/**
- * The single package created with a shipment fulfillment. It receives the submitted fulfillment
- * line quantities. Set status to created or shipped; items and return_line_items are not accepted.
- */
-export type SinglePackageCreateRequest = ({
-    /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /** Carrier that handles the package. minLength: 1. */
-    "carrier"?: string;
-    /**
-     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
-     * the given `unit`.
-     */
-    "dimensions"?: Dimensions;
-    /**
-     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
-     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "expected_delivery_at"?: string | null;
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-     * external_system for provenance. Flint does not host the label file. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /** Carrier's code for the shipping service used. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
-     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "shipped_at"?: string;
-    /**
-     * Outbound packages can start as created or shipped. Return packages must start as created,
-     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
-     * return package. Value enum: "created", "shipped".
-     */
-    "status": "created" | "shipped" | (string & {});
-    /** Additional explanation of the package's starting status. minLength: 1. */
-    "status_reason"?: string;
-    /** Carrier tracking number for the package. minLength: 1. */
-    "tracking_number"?: string;
-    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
-    "tracking_url"?: string;
-    /**
-     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
-     * delivery profile configuration.
-     */
-    "weight"?: Weight;
-})
-    & ((Exclude<SinglePackageCreateInputCreated & object, readonly unknown[]>)
-    | (Exclude<SinglePackageCreateInputShipped & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * The single package created with a shipment fulfillment. It receives the submitted fulfillment
- * line quantities. Set status to created or shipped; items and return_line_items are not accepted.
- */
-export type SinglePackageCreateRequestInput = ({
-    /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /** Carrier that handles the package. minLength: 1. */
-    "carrier"?: string;
-    /**
-     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
-     * the given `unit`.
-     */
-    "dimensions"?: DimensionsRequestInput;
-    /**
-     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
-     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "expected_delivery_at"?: string | globalThis.Date | null;
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-     * external_system for provenance. Flint does not host the label file. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** Carrier's code for the shipping service used. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
-     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "shipped_at"?: string | globalThis.Date;
-    /**
-     * Outbound packages can start as created or shipped. Return packages must start as created,
-     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
-     * return package. Value enum: "created", "shipped".
-     */
-    "status": "created" | "shipped";
-    /** Additional explanation of the package's starting status. minLength: 1. */
-    "status_reason"?: string;
-    /** Carrier tracking number for the package. minLength: 1. */
-    "tracking_number"?: string;
-    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
-    "tracking_url"?: string;
-    /**
-     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
-     * delivery profile configuration.
-     */
-    "weight"?: WeightRequestInput;
-})
-    & ((Exclude<SinglePackageCreateInputCreatedInput & object, readonly unknown[]>)
-    | (Exclude<SinglePackageCreateInputShippedInput & object, readonly unknown[]>));
-/** The request body for: Skip subscription cycle. */
-export type SkipMeSubscriptionCycleRequestInput = ConfigurationVersionRequestInput;
-/** The request body for: Skip subscription cycle. */
-export type SkipSubscriptionCycleRequest = {
-    /**
-     * Version last read from the resource returned in `data` (the primary resource for a result
-     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
-     * the operation and fields being changed. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Who asked for the skip: buyer, merchant, or integration. Defaults to merchant. Attribution
-     * only; this does not apply the store's buyer limits. To enforce them, use a customer session
-     * on POST /v1/me/subscriptions/{subscription_id}/skip-cycle. Flint's skip email says the buyer
-     * skipped for buyer, and that the store skipped otherwise. Default: "merchant". Value enum:
-     * "buyer", "merchant", "integration".
-     */
-    "initiated_by"?: "buyer" | "merchant" | "integration" | (string & {});
-};
-/** The request body for: Skip subscription cycle. */
-export type SkipSubscriptionCycleRequestInput = {
-    /**
-     * Version last read from the resource returned in `data` (the primary resource for a result
-     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
-     * the operation and fields being changed. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Who asked for the skip: buyer, merchant, or integration. Defaults to merchant. Attribution
-     * only; this does not apply the store's buyer limits. To enforce them, use a customer session
-     * on POST /v1/me/subscriptions/{subscription_id}/skip-cycle. Flint's skip email says the buyer
-     * skipped for buyer, and that the store skipped otherwise. Default: "merchant". Value enum:
-     * "buyer", "merchant", "integration".
-     */
-    "initiated_by"?: "buyer" | "merchant" | "integration";
-};
-/**
- * A fixed allocation referencing a read-only reversal nested in a payment split. This reference
- * has no independent lifecycle or write routes.
- */
-export type SplitReversalReference = {
-    /**
-     * The amount fixed at allocation, unchanged by recovery or reinstatement. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-    /** The split whose seller share was allocated. Example: "psplit_01KEZF7C00Y5HA4Z8D4KRA07K8". */
-    "payment_split_id": string;
-    /**
-     * The reversal in PaymentSplit.reversals that records recovery status. Example:
-     * "psrev_01KEZF7C00XC1HA7S8YCQJDBDM".
-     */
-    "payment_split_reversal_id": string;
-};
-export type SplitReversalReferencePreviousAttributes = {
-    /**
-     * The amount fixed at allocation, unchanged by recovery or reinstatement. anyOf[1] (Value):
-     * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
-    /**
-     * The split whose seller share was allocated. anyOf[1] (Value): string. The split whose seller
-     * share was allocated. Example: "psplit_01KEZF7C00Y5HA4Z8D4KRA07K8". anyOf[2] (Value): null.
-     */
-    "payment_split_id"?: ((string) | (null));
-    /**
-     * The reversal in PaymentSplit.reversals that records recovery status. anyOf[1] (Value):
-     * string. The reversal in PaymentSplit.reversals that records recovery status. Example:
-     * "psrev_01KEZF7C00XC1HA7S8YCQJDBDM". anyOf[2] (Value): null.
-     */
-    "payment_split_reversal_id"?: ((string) | (null));
-};
-/** The seller amount to take back from one eligible payment split when creating a refund. */
-export type SplitReversalRequest = {
-    /**
-     * Positive seller amount to take back, in the payment's currency. Monetary amount represented
-     * as integer minor units plus an ISO 4217 currency code. amount (Required): integer string.
-     * Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum:
-     * 1. Amount in the currency's minor unit, such as cents for USD. Use an integer string
-     * (decimal digits), not a floating-point number. Format: int64. minimum: 0. currency
-     * (Required): string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3.
-     * pattern: ^[A-Z]{3}$.
-     */
-    "amount_money": ({
-        /**
-         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
-         * minimum: 1.
-         */
-        "amount"?: `${bigint}`;
-    })
-        & (Exclude<MoneyValue & object, readonly unknown[]>);
-    /**
-     * An eligible split on a payment this refund covers. Each split may appear once. minLength: 1.
-     * pattern: ^psplit_[0-9A-HJKMNP-TV-Z]{26}$. Example: "psplit_01KEZF7C00Y5HA4Z8D4KRA07K8".
-     */
-    "payment_split_id": string;
-};
-/** The seller amount to take back from one eligible payment split when creating a refund. */
-export type SplitReversalRequestInput = {
-    /**
-     * Positive seller amount to take back, in the payment's currency. Monetary amount represented
-     * as integer minor units plus an ISO 4217 currency code. amount (Required): integer string.
-     * Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum:
-     * 1. Amount in the currency's minor unit, such as cents for USD. Use an integer string
-     * (decimal digits), not a floating-point number. Format: int64. minimum: 0. currency
-     * (Required): string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3.
-     * pattern: ^[A-Z]{3}$.
-     */
-    "amount_money": ({
-        /**
-         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
-         * minimum: 1.
-         */
-        "amount"?: `${bigint}` | bigint;
-    })
-        & (Exclude<MoneyValueInput & object, readonly unknown[]>);
-    /**
-     * An eligible split on a payment this refund covers. Each split may appear once. minLength: 1.
-     * pattern: ^psplit_[0-9A-HJKMNP-TV-Z]{26}$. Example: "psplit_01KEZF7C00Y5HA4Z8D4KRA07K8".
-     */
-    "payment_split_id": string;
-};
-/** Starts fulfillment work. */
-export type StartFulfillmentRequestInput = AcceptFulfillmentRequestInput;
-/**
- * One-time client authority for the named Stripe object. This payload always names the Stripe.js
- * call and carries its client secret.
- */
-export type StripeClientAuthority = {
-    /** Stripe client secret for the named PaymentIntent or SetupIntent. */
-    "client_secret": string;
-    /**
-     * Stripe.js operation to perform now. confirm_setup applies to client_setup. Standalone
-     * PaymentIntents use payment_collection plus server confirmation instead of initial
-     * confirm_payment authority. Value enum: "confirm_payment", "confirm_setup".
-     */
-    "stripe_js_call": "confirm_payment" | "confirm_setup" | (string & {});
-};
-/**
- * Stripe.js setup authority returned while saving a payment method. Follow its stripe_js_call now.
- * setup_collection is guidance instead and never carries a secret.
- */
-export type StripeClientSetup = {
-    /**
-     * Stripe.js initialization context and the SetupIntent authority for saving the payment
-     * method. Stripe.js initialization context and SetupIntent setup authority.
-     */
-    "stripe"?: StripeClientSetupStripe;
-};
-/** Stripe.js initialization context and SetupIntent setup authority. */
-export type StripeClientSetupStripe = {
-    /**
-     * Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Example:
-     * "acct_1234567890".
-     */
-    "account_id"?: string;
-    /**
-     * Stripe publishable key for the active Flint payment mode; use this with account_id when
-     * loading Stripe.js.
-     */
-    "publishable_key"?: string;
-    /**
-     * One-time authority for the Stripe SetupIntent: its client secret and the Stripe.js call to
-     * make with it. One-time client authority for the named Stripe object. This payload always
-     * names the Stripe.js call and carries its client secret.
-     */
-    "setup_intent"?: StripeClientAuthority;
-};
-/**
- * Stripe initialization context plus one flow-specific authority object. Exactly one of
- * payment_intent, setup_intent, or terminal_payment_intent is present.
- */
-export type StripePaymentClientAction = ({
-    /**
-     * Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Null when
-     * the payment has splits: initialize Stripe.js with publishable_key alone and omit
-     * stripeAccount. The Terminal SDK ignores this field. Example: "acct_1234567890".
-     */
-    "account_id": string | null;
-    /**
-     * PaymentIntent authority for an order payment authentication action. The client action for a
-     * Stripe payment intent: the client secret to pass to Stripe.js `handleNextAction`.
-     */
-    "payment_intent"?: StripeSetupIntentClientAction;
-    /**
-     * Stripe publishable key for the active Flint payment mode; use this with account_id when
-     * loading Stripe.js. The Terminal SDK ignores this field.
-     */
-    "publishable_key": string;
-    /**
-     * SetupIntent authority for a saved-payment-method authentication action. The client action
-     * for a Stripe setup intent: the client secret to pass to Stripe.js `handleNextAction`.
-     */
-    "setup_intent"?: StripeSetupIntentClientAction;
-    /**
-     * Card-present PaymentIntent authority for the Stripe Terminal SDK on a connected Tap to Pay
-     * reader. Authority to collect and confirm a card-present payment with the Stripe Terminal SDK
-     * on the connected Tap to Pay reader.
-     */
-    "terminal_payment_intent"?: StripeTerminalPaymentIntentClientAction;
-});
-export type StripePaymentClientActionPreviousAttributes = ({
-    /**
-     * Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Null when
-     * the payment has splits: initialize Stripe.js with publishable_key alone and omit
-     * stripeAccount. The Terminal SDK ignores this field. anyOf[1] (Value): string. Stripe
-     * connected account ID to pass as stripeAccount when initializing Stripe.js. Null when the
-     * payment has splits: initialize Stripe.js with publishable_key alone and omit stripeAccount.
-     * The Terminal SDK ignores this field. Example: "acct_1234567890". anyOf[2] (Value): null.
-     */
-    "account_id"?: ((string) | (null));
-    /**
-     * PaymentIntent authority for an order payment authentication action. anyOf[1] (Value): {@link
-     * StripeSetupIntentClientActionPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "payment_intent"?: ((StripeSetupIntentClientActionPreviousAttributes) | (null));
-    /**
-     * Stripe publishable key for the active Flint payment mode; use this with account_id when
-     * loading Stripe.js. The Terminal SDK ignores this field. anyOf[1] (Value): string. Stripe
-     * publishable key for the active Flint payment mode; use this with account_id when loading
-     * Stripe.js. The Terminal SDK ignores this field. anyOf[2] (Value): null.
-     */
-    "publishable_key"?: ((string) | (null));
-    /**
-     * SetupIntent authority for a saved-payment-method authentication action. anyOf[1] (Value):
-     * {@link StripeSetupIntentClientActionPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "setup_intent"?: ((StripeSetupIntentClientActionPreviousAttributes) | (null));
-    /**
-     * Card-present PaymentIntent authority for the Stripe Terminal SDK on a connected Tap to Pay
-     * reader. anyOf[1] (Value): {@link StripeTerminalPaymentIntentClientActionPreviousAttributes}.
-     * anyOf[2] (Value): null.
-     */
-    "terminal_payment_intent"?: ((StripeTerminalPaymentIntentClientActionPreviousAttributes) | (null));
-});
-/**
- * The client action for a Stripe setup intent: the client secret to pass to Stripe.js
- * `handleNextAction`.
- */
-export type StripeSetupIntentClientAction = {
-    /** SetupIntent client secret to pass to Stripe.js handleNextAction. */
-    "client_secret": string;
-    /**
-     * Stripe.js operation to perform. Today this is handle_next_action. Value enum:
-     * "handle_next_action".
-     */
-    "stripe_js_call": "handle_next_action" | (string & {});
-};
-export type StripeSetupIntentClientActionPreviousAttributes = {
-    /**
-     * SetupIntent client secret to pass to Stripe.js handleNextAction. anyOf[1] (Value): string.
-     * SetupIntent client secret to pass to Stripe.js handleNextAction. anyOf[2] (Value): null.
-     */
-    "client_secret"?: ((string) | (null));
-    /**
-     * Stripe.js operation to perform. Today this is handle_next_action. Value enum:
-     * "handle_next_action". anyOf[1] (Value): string. Stripe.js operation to perform. Today this
-     * is handle_next_action. Value enum: "handle_next_action". anyOf[2] (Value): null.
-     */
-    "stripe_js_call"?: (("handle_next_action" | (string & {})) | (null));
-};
-/**
- * Authority to collect and confirm a card-present payment with the Stripe Terminal SDK on the
- * connected Tap to Pay reader.
- */
-export type StripeTerminalPaymentIntentClientAction = {
-    /**
-     * Card-present PaymentIntent client secret to pass to the Terminal SDK's
-     * retrievePaymentIntent, then collect and confirm on the connected Tap to Pay reader.
-     */
-    "client_secret": string;
-    /**
-     * Stripe Terminal SDK operation to perform. collect_and_confirm_payment_intent retrieves,
-     * collects, and confirms the payment. Value enum: "collect_and_confirm_payment_intent".
-     */
-    "stripe_terminal_sdk_call": "collect_and_confirm_payment_intent" | (string & {});
-};
-export type StripeTerminalPaymentIntentClientActionPreviousAttributes = {
-    /**
-     * Card-present PaymentIntent client secret to pass to the Terminal SDK's
-     * retrievePaymentIntent, then collect and confirm on the connected Tap to Pay reader. anyOf[1]
-     * (Value): string. Card-present PaymentIntent client secret to pass to the Terminal SDK's
-     * retrievePaymentIntent, then collect and confirm on the connected Tap to Pay reader. anyOf[2]
-     * (Value): null.
-     */
-    "client_secret"?: ((string) | (null));
-    /**
-     * Stripe Terminal SDK operation to perform. collect_and_confirm_payment_intent retrieves,
-     * collects, and confirms the payment. Value enum: "collect_and_confirm_payment_intent".
-     * anyOf[1] (Value): string. Stripe Terminal SDK operation to perform.
-     * collect_and_confirm_payment_intent retrieves, collects, and confirms the payment. Value
-     * enum: "collect_and_confirm_payment_intent". anyOf[2] (Value): null.
-     */
-    "stripe_terminal_sdk_call"?: (("collect_and_confirm_payment_intent" | (string & {})) | (null));
-};
-/**
- * The subscription offer and billing interval an order line was bought under, with the recurring
- * amount.
- */
-export type SubscribedLine = {
-    /**
-     * Unit of the billing period the line was bought on. Sent with `billing_interval_count`, the
-     * pair must be one of the offer's billing interval options. Value enum: "daily", "weekly",
-     * "monthly", "yearly".
-     */
-    "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-    /** Number of billing_interval units between charges, from 1 to 365. Format: int32. */
-    "billing_interval_count": number;
-    /**
-     * Line amount for the first renewal, including modifiers and recurring discounts, before
-     * shipping and tax. Signup-only discounts are excluded. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code.
-     */
-    "recurring_amount_money"?: MoneyValue;
-    /**
-     * ID of the subscription offer the line was bought under. Example:
-     * "soffer_01KEZF7C00KAA9Y1X1KM70YFAA".
-     */
-    "subscription_offer_id": string;
-};
-export type SubscribedLinePreviousAttributes = {
-    /**
-     * Unit of the billing period the line was bought on. Sent with `billing_interval_count`, the
-     * pair must be one of the offer's billing interval options. Value enum: "daily", "weekly",
-     * "monthly", "yearly". anyOf[1] (Value): string. Unit of the billing period the line was
-     * bought on. Sent with `billing_interval_count`, the pair must be one of the offer's billing
-     * interval options. Value enum: "daily", "weekly", "monthly", "yearly". anyOf[2] (Value):
-     * null.
-     */
-    "billing_interval"?: (("daily" | "weekly" | "monthly" | "yearly" | (string & {})) | (null));
-    /**
-     * Number of billing_interval units between charges, from 1 to 365. anyOf[1] (Value): integer.
-     * Number of billing_interval units between charges, from 1 to 365. Format: int32. anyOf[2]
-     * (Value): null.
-     */
-    "billing_interval_count"?: ((number) | (null));
-    /**
-     * Line amount for the first renewal, including modifiers and recurring discounts, before
-     * shipping and tax. Signup-only discounts are excluded. anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "recurring_amount_money"?: ((MoneyValuePreviousAttributes) | (null));
-    /**
-     * ID of the subscription offer the line was bought under. anyOf[1] (Value): string. ID of the
-     * subscription offer the line was bought under. Example: "soffer_01KEZF7C00KAA9Y1X1KM70YFAA".
-     * anyOf[2] (Value): null.
-     */
-    "subscription_offer_id"?: ((string) | (null));
-};
-/**
- * Makes an order line a subscription purchase, with the subscription offer and billing interval.
- */
-export type SubscribedLineRequest = {
-    /**
-     * Unit of the billing period the line was bought on. Sent with `billing_interval_count`, the
-     * pair must be one of the offer's billing interval options. Value enum: "daily", "weekly",
-     * "monthly", "yearly".
-     */
-    "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-    /**
-     * Number of billing_interval units between charges, from 1 to 365. Format: int32. minimum: 1.
-     * maximum: 365.
-     */
-    "billing_interval_count": number;
-    /**
-     * Active subscription offer for this catalog variant. minLength: 1. Example:
-     * "soffer_01KEZF7C00KAA9Y1X1KM70YFAA".
-     */
-    "subscription_offer_id": string;
-};
-/**
- * Makes an order line a subscription purchase, with the subscription offer and billing interval.
- */
-export type SubscribedLineRequestModelInput = {
-    /**
-     * Unit of the billing period the line was bought on. Sent with `billing_interval_count`, the
-     * pair must be one of the offer's billing interval options. Value enum: "daily", "weekly",
-     * "monthly", "yearly".
-     */
-    "billing_interval": "daily" | "weekly" | "monthly" | "yearly";
-    /**
-     * Number of billing_interval units between charges, from 1 to 365. Format: int32. minimum: 1.
-     * maximum: 365.
-     */
-    "billing_interval_count": number;
-    /**
-     * Active subscription offer for this catalog variant. minLength: 1. Example:
-     * "soffer_01KEZF7C00KAA9Y1X1KM70YFAA".
-     */
-    "subscription_offer_id": string;
-};
-/** A customer's recurring purchase. */
-export type Subscription = {
-    /**
-     * UTC day of the month used for monthly and yearly billing. Applies only to Flint-owned
-     * schedules. Format: int32. minimum: 1. maximum: 31.
-     */
-    "billing_anchor_day"?: number;
-    /**
-     * How often the subscription bills now. Read with billing_interval_count: monthly with a count
-     * of 3 bills quarterly. A change applies from the next renewal that has not been paid;
-     * next_billing_at does not move. Value enum: "daily", "weekly", "monthly", "yearly".
-     */
-    "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-    /**
-     * Number of billing_interval units between charges. Changes with billing_interval. Format:
-     * int32.
-     */
-    "billing_interval_count": number;
-    /**
-     * Billing interval and count pairs the subscription can switch to. For a subscription on a
-     * plan, they follow the plan's current billing_interval_options. A subscription that came from
-     * an offer keeps the pairs the offer had at signup. Prices of lines that ship are per
-     * delivery. Each option charges for all deliveries in its period. Changing the interval does
-     * not change the per-delivery price. maxItems: 12. uniqueItems: true. [] (Value): {@link
-     * SubscriptionIntervalOption}. A billing interval, such as every 2 months, that a plan, offer,
-     * or subscription lets buyers choose. Prices of lines that ship are per delivery, and each
-     * option charges for all deliveries in its period. Without a delivery cadence there is one
-     * delivery per period, so every option bills the same line prices once per period. With a
-     * delivery cadence, a longer period bills more deliveries of the lines that ship; other lines
-     * bill once per period. For a different price per interval with no delivery cadence, create
-     * separate plans.
-     */
-    "billing_interval_options"?: Array<SubscriptionIntervalOption>;
-    /**
-     * Who supplies billing dates: flint advances the schedule after each paid renewal; external
-     * uses dates you supply. Change it with billing_schedule on PATCH
-     * /v1/subscriptions/{subscription_id}. Value enum: "flint", "external".
-     */
-    "billing_schedule_owner": "flint" | "external" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "billing_schedule_waiting_started_at"?: string;
-    /**
-     * True when the subscription is scheduled to cancel at scheduled_cancel_at. Schedule with POST
-     * /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and cancel_at_period_end false.
-     */
-    "cancel_at_period_end": boolean;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "canceled_at"?: string;
-    /**
-     * Who asked to cancel, when, and why. Present once a cancellation is requested, whether it
-     * takes effect at the end of the billing period or right away. Omitted when no one asked, and
-     * removed when a scheduled cancellation is undone. See cancellation_reason for voluntary and
-     * payment-related cancellations. The cancellation request behind a scheduled or completed
-     * cancellation.
-     */
-    "cancellation_details"?: SubscriptionCancellationDetails;
-    /**
-     * Why the subscription is canceled or scheduled to cancel. Uses signup_order_refunded when an
-     * automatic inventory refund fully refunds the signup order, end_after_reached when the
-     * automatic ending agreement is reached, cancellation_details.requested_by when recorded,
-     * payment_failed for other canceled subscriptions without a requester, and other for a
-     * scheduled cancellation without a requester. Omitted otherwise. Value enum: "buyer",
-     * "merchant", "integration", "payment_failed", "other", "end_after_reached",
-     * "signup_order_refunded".
-     */
-    "cancellation_reason"?: "buyer"
-        | "merchant"
-        | "integration"
-        | "payment_failed"
-        | "other"
-        | "end_after_reached"
-        | "signup_order_refunded"
-        | (string & {});
-    /**
-     * Billing cycles charged so far, including cycles imported with
-     * `billing_start.completed_cycles`. The next renewal order's `subscription_cycle` is this
-     * number plus one. Format: uint64. minimum: 0.
-     */
-    "completed_cycles": number;
-    /**
-     * When the recorded contract term ends. Does not move when the subscription pauses or changes
-     * plan. Flint does not stop the buyer from canceling earlier. Format: date-time. Example:
+     * RFC3339 timestamp. `null` when the resource isn't archived. Format: date-time. Example:
      * "2026-08-02T16:00:00Z".
      */
-    "contract_end_at"?: string;
-    /**
-     * When the recorded contract term started. Does not move when the subscription pauses or
-     * changes plan. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "contract_start_at"?: string;
+    "archived_at": string | null;
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "created_at": string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "current_period_end_at"?: string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "current_period_start_at"?: string;
     /**
-     * Present only when `expand` includes `customer`; `null` when expanded and there is no related
-     * customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary fields,
-     * returned in place of a customer ID when the customer is expanded. anyOf[2] (Value): null.
-     */
-    "customer"?: ((ExpandedCustomerSummary) | (null));
-    /** The customer this subscription bills. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
-    "customer_id": string;
-    /**
-     * Deliveries paid for by one billing period, from 1 to 24. One when no separate delivery
-     * cadence is set. Prices of lines that ship are per delivery. Format: int32. minimum: 1.
-     * maximum: 24.
-     */
-    "deliveries_per_period": number;
-    /**
-     * Saved delivery preference with the current delivery method display. Write responses use the
-     * same display as GET: fixed shipping reflects the current method configuration, and quoted
-     * shipping shows the last paid shipping amount when available. A subscription's saved delivery
-     * preference: method, destination, recipient, shipping cost, and who last changed it.
-     */
-    "delivery"?: SubscriptionDelivery;
-    /**
-     * Current delivery issue that blocks collection. Mutually exclusive with
-     * upcoming_delivery_hold. A hold on a subscription's deliveries because its delivery method or
-     * destination no longer works, and who can fix it.
-     */
-    "delivery_hold"?: SubscriptionDeliveryHold;
-    /**
-     * Delivery cadence frozen from the plan. Null when no separate delivery cadence is set; one
-     * delivery is made per billing period. Value enum: "daily", "weekly", "monthly", "yearly",
-     * null.
-     */
-    "delivery_interval": "daily" | "weekly" | "monthly" | "yearly" | null | (string & {}) | null;
-    /**
-     * Number of delivery intervals between deliveries. Null when no separate delivery cadence is
-     * set. Format: int32. minimum: 1.
-     */
-    "delivery_interval_count": number | null;
-    /**
-     * The fee in the recorded contract terms. Present whenever those terms include a fee. It
-     * applies only to a cancellation before contract_end_at. Flint never charges it. Later plan
-     * changes do not change this fee. Monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code.
-     */
-    "early_termination_fee_money"?: MoneyValue;
-    /**
-     * Recorded automatic end condition. Null when no automatic end is set. Cycles count charged
-     * billing periods, including imported completed_cycles. Pauses and skips do not use cycles.
-     * Already-paid prepaid deliveries continue on their shifted dates, even beyond the end date,
-     * and cancellation waits for the last remaining delivery. Skipping defers a delivery without
-     * consuming its entitlement. Ending never refunds. anyOf[1] (Value): {@link
-     * SubscriptionEndAfter}. The subscription's automatic end condition, measured by charged
-     * billing cycles or a saved local calendar date. anyOf[2] (Value): null.
-     */
-    "end_after": ((SubscriptionEndAfter) | (null) | (unknown));
-    /**
-     * Projected end under the current schedule and committed plan changes, including an earlier
-     * scheduled cancellation. A date limit preserves already-paid entitlement without requiring a
-     * future charge schedule. A reached cycle limit uses the last paid period end, or
-     * current_period_end_at when no paid history exists; that fallback includes any skip or pause
-     * extension. A cycle limit with cycles left needs a future charge schedule unless a known
-     * scheduled cancellation determines the end. Paid deliveries extend the end to the last paid
-     * delivery when it is later. An indefinite pause with paid deliveries owed makes the end
-     * unknown. Null when the end cannot be determined or the subscription is canceled. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "expires_at": string | null;
-    /**
-     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Who receives the gift, when this is a gift subscription. customer_id stays the purchaser.
-     * Flint clears it when the subscription ends and when the purchaser's data is erased. Null
-     * when the subscription isn't a gift. anyOf[1] (Value): {@link SubscriptionGiftRecipient}. Who
-     * receives a gift subscription. The customer stays the purchaser, who pays, gets receipts and
-     * reminders, and manages the subscription. delivery.recipient stays the ship-to address.
+     * The credential that created this list. Null when Flint created it, as for Flint's default
+     * lists. The reference may name an API key in the other mode. anyOf[1] (Value): {@link
+     * ResourceReference}. A reference to another resource by `resource_type` and `resource_id`.
      * anyOf[2] (Value): null.
      */
-    "gift_recipient": ((SubscriptionGiftRecipient) | (null));
+    "created_by": ((ResourceReference) | (null));
+    /** Number of values on the list now. Format: int64. */
+    "item_count": number;
     /**
-     * Renewal waiting for stock. Buyers receive only started_at. Shows that a subscription renewal
-     * is waiting for inventory, with the order and invoice involved and when the wait started.
+     * Values are trimmed and compared exactly after item-type normalization for deduplication and
+     * membership. card_fingerprint is the 32-character hexadecimal value from
+     * PaymentMethod.fingerprint and is lowercased; case_sensitive_string preserves case and
+     * Unicode composition. string and email are lowercased, with accents preserved. email requires
+     * a bare address. email_domain is lowercased, has one final dot removed, and converts
+     * internationalized domains to ASCII. ip_address uses canonical IP form, including IPv4-mapped
+     * IPv6 conversion to IPv4. country uses uppercase ISO codes. card_bin preserves 6 through 8
+     * digits, including leading zeros, and matches the full value. customer_id preserves the
+     * validated ID. Value enum: "card_fingerprint", "card_bin", "email", "email_domain",
+     * "ip_address", "country", "customer_id", "string", "case_sensitive_string".
      */
-    "inventory_wait"?: SubscriptionInventoryWait;
-    /**
-     * True while an active or trialing subscription on an external billing schedule has no next
-     * billing date.
-     */
-    "is_awaiting_billing_schedule"?: boolean;
-    /**
-     * Latest renewal payment failure, present only while status is past_due and the latest payment
-     * failed. Buyer responses omit merchant remediation and sensitive decline signals. A summary
-     * of why a payment attempt failed, with a normalized error code, a message, the failure time,
-     * and remediation.
-     */
-    "last_payment_error"?: PaymentErrorSummary;
-    /**
-     * What each renewal bills. Plan edits do not change it. Adding, changing or swapping a line
-     * takes that variant's current catalog price, which then stays until the line changes again.
-     * [] (Value): {@link SubscriptionLineItem}. An item included in a customer's recurring
-     * purchase.
-     */
-    "line_items": Array<SubscriptionLineItem>;
-    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-    "merchant_id": string;
-    /**
-     * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
-     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
-     * Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * The billing date whose payment failed, as an RFC3339 timestamp. Present only while status is
-     * past_due. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "missed_billing_at"?: string;
-    /**
-     * When Flint next starts a scheduled renewal charge, as an RFC3339 timestamp. Present only
-     * while a trialing or active subscription has a billing date and isn't set to cancel at the
-     * end of its period. Absent when no renewal is scheduled: a paused subscription resumes at
-     * scheduled_resume_at, a past_due one reports the failed billing date in missed_billing_at and
-     * retries at next_retry_at, an incomplete one retries at next_retry_at, a scheduled start
-     * begins at starts_at, one set to cancel ends at scheduled_cancel_at, and an external schedule
-     * awaiting a date reports is_awaiting_billing_schedule. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "next_billing_at"?: string;
-    /**
-     * When the next prepaid delivery order is due, shifted by a timed pause. Null when the
-     * subscription has an indefinite pause, no delivery is scheduled, or the subscription is
-     * canceled. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "next_delivery_at": string | null;
-    /**
-     * Recorded automatic payment retry time. Null when no retry time is available. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "next_retry_at": string | null;
-    /**
-     * ID of the paid renewal order whose shipment has not been dispatched. It keeps its committed
-     * delivery destination after preference changes and cancellation. Absent when no such renewal
-     * order exists. Only renewal orders count; the signup order is not included. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "open_renewal_order_id"?: string;
-    /**
-     * Unpaid balance of the failed renewal order, including tax, shipping and discounts, after
-     * payments and credits. Present only while status is past_due and a positive balance remains.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "outstanding_money"?: MoneyValue;
-    /**
-     * Why the subscription is paused: merchant for a pause made with your API key or dashboard,
-     * buyer for the buyer's own pause, delivery_action_required for a pause during or after a
-     * delivery hold, and payment_failed when renewal payment retries ran out and your dunning
-     * settings pause the subscription. Omitted when the subscription is not paused. Value enum:
-     * "buyer", "delivery_action_required", "merchant", "payment_failed".
-     */
-    "pause_reason"?: "buyer" | "delivery_action_required" | "merchant" | "payment_failed" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "paused_at"?: string;
-    /**
-     * Present only when `expand` includes `payment_method`; `null` when expanded and there is no
-     * related payment method. anyOf[1] (Value): {@link ExpandedPaymentMethodSummary}. A payment
-     * method's summary fields, including type, status, and card details, returned when the payment
-     * method is expanded. anyOf[2] (Value): null.
-     */
-    "payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
-    /**
-     * First charge boundary while no card is bound: the later of trial_end_at and next_billing_at
-     * during a trial, or the next billing date for an imported period, even when that cycle's
-     * charge is zero. Recomputed when the schedule changes. A trial still without a card at its
-     * boundary cancels without an order or payment attempt. At that boundary, an imported
-     * subscription with a positive charge that still has no card enters its normal dunning
-     * schedule without a payment attempt. For an imported subscription, a zero charge completes
-     * the renewal without a card and the deadline advances to the following boundary. Null when a
-     * card is bound, collection is not scheduled (paused, canceled, or set to cancel at period
-     * end), an active or trialing subscription is in its final end_after cycle, or an external
-     * schedule has no known boundary. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "payment_method_due_at": string | null;
-    /**
-     * Saved payment method used for renewal charges. Null when no card is bound. Bind a card to
-     * this subscription with PATCH; changing the customer's default alone does not bind it.
-     * Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
-     */
-    "payment_method_id": string | null;
-    /**
-     * Recurring promotions applying to the next charged cycle. Scheduled attachments are listed in
-     * scheduled_promotions. Empty when none apply; signup-only and exhausted promotions are
-     * excluded. [] (Value): {@link SubscriptionPromotion}. A recurring promotion applied to a
-     * subscription, including its recurrence and remaining discounted cycles.
-     */
-    "promotions": Array<SubscriptionPromotion>;
-    /**
-     * Whether this subscription was created to prorate its first anchored paid period. Set at
-     * creation and never changes; starting on the anchor day still bills a normal full period.
-     */
-    "prorate_first_period": boolean;
-    /**
-     * What one billing period's items cost before discounts, shipping, and tax: each line's price
-     * with modifiers, times quantity. It changes when items, quantity, or the plan change; editing
-     * the plan doesn't change it. For the next charge, use a subscription preview in next_renewal
-     * mode. `null` when a cancellation succeeds but Flint couldn't load the billing snapshot
-     * afterward, so the cancel response returns it as null. Retrieve the subscription again to get
-     * it. anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code. anyOf[2] (Value): null.
-     */
-    "recurring_subtotal_money": ((MoneyValue) | (null));
-    /**
-     * Charges left for a cycle limit, bounded by an earlier scheduled cancellation. Null when
-     * there is no cycle limit or the subscription is canceled. Format: uint64. minimum: 0.
-     */
-    "remaining_cycles": number | null;
-    /**
-     * Paid deliveries whose delivery order Flint hasn't created yet. A paid period starts with
-     * deliveries_per_period minus one. When delivery_hold is present and this count is positive,
-     * fixing delivery releases an already-paid delivery with shipping waived and no new charge. A
-     * next_renewal preview still estimates the next paid billing cycle. Skips, holds, and pauses
-     * consume none. Frozen on cancellation for manual refunds. Format: int32. minimum: 0. maximum:
-     * 23.
-     */
-    "remaining_prepaid_deliveries": number;
-    /**
-     * When Flint accepted a pending resume request. Set only while paused with a resume Flint has
-     * not applied yet. Clears when Flint resumes the subscription or refuses the request. `null`
-     * when the subscription isn't paused or no resume request is pending. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z".
-     */
-    "resume_requested_at": string | null;
-    /**
-     * When the scheduled cancellation takes effect: trial_end_at while trialing,
-     * current_period_end_at while active, or next_retry_at while past_due. Paid deliveries extend
-     * it to the last paid delivery when it is later. Null when cancel_at_period_end is false or no
-     * cancellation time is available. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "scheduled_cancel_at": string | null;
-    /**
-     * Frozen target terms for the next charged renewal. Null when no plan change is scheduled.
-     * Cancel with scheduled_plan_change: null on PATCH; replace through change-plan. anyOf[1]
-     * (Value): {@link SubscriptionScheduledPlanChange}. Frozen target terms that apply at the next
-     * charged renewal. anyOf[2] (Value): null.
-     */
-    "scheduled_plan_change": ((SubscriptionScheduledPlanChange) | (null));
-    /**
-     * Attached promotions whose first_cycle is after the next charged cycle, completed_cycles + 1.
-     * Always present; empty when no promotions are scheduled. [] (Value): {@link
-     * SubscriptionPromotion}. A recurring promotion applied to a subscription, including its
-     * recurrence and remaining discounted cycles.
-     */
-    "scheduled_promotions": Array<SubscriptionPromotion>;
-    /**
-     * When a pause with a length (pause_duration_cycles) resumes on its own: that many delivery
-     * intervals after paused_at on a prepaid subscription, or billing intervals otherwise. Null
-     * when the subscription is not paused or the pause has no length, such as a pause until you
-     * resume it or the pause Flint starts when a delivery hold runs out. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z".
-     */
-    "scheduled_resume_at": string | null;
-    /**
-     * Omitted for a checkout session credential that doesn't act for the customer the buyer
-     * verified. The address where a subscription's service is delivered, with the saved customer
-     * address it came from.
-     */
-    "service_location"?: SubscriptionServiceLocation;
-    /**
-     * When a scheduled start's first billing period begins. Present only until that first payment
-     * succeeds. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "starts_at"?: string;
-    /**
-     * Where the subscription is in its lifecycle. Each value says what it means. Value enum:
-     * "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled".
-     */
-    "status": "trialing"
-        | "active"
-        | "paused"
-        | "past_due"
-        | "canceled"
-        | "incomplete"
-        | "scheduled"
+    "item_type": "card_fingerprint"
+        | "card_bin"
+        | "email"
+        | "email_domain"
+        | "ip_address"
+        | "country"
+        | "customer_id"
+        | "string"
+        | "case_sensitive_string"
         | (string & {});
-    /** Stable identifier of the subscription. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM". */
-    "subscription_id": string;
+    /** Display name of the list. */
+    "name": string;
     /**
-     * Present only when `expand` includes `subscription_plan`; `null` when expanded and there is
-     * no related subscription plan. anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary}. A
-     * subscription plan's summary fields, including name, billing interval, currency, and status,
-     * returned when the plan is expanded. anyOf[2] (Value): null.
+     * Whether Flint manages the list or the merchant created it. Value enum: "system_default",
+     * "merchant".
      */
-    "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
+    "origin": "system_default" | "merchant" | (string & {});
     /**
-     * Subscription plan ID. Omitted when terms_type is subscription_offer. Example:
-     * "plan_01KEZF7C004CY5ZR33XST2AASV".
+     * Unique identifier for this risk list, prefixed `rl_`. Example:
+     * "rl_01KEZF7C00VYSERA4QCTJP147A".
      */
-    "subscription_plan_id"?: string;
-    /**
-     * Merchant actions allowed by the subscription's state. A route can still refuse a listed
-     * action for a transient reason, such as a renewal already in progress, with its own error.
-     * Always present with merchant credentials. [] enum: "cancel", "pause", "resume",
-     * "skip_cycle", "renew", "change_plan", "change_quantity". [] (Value): string. Value enum:
-     * "cancel", "pause", "resume", "skip_cycle", "renew", "change_plan", "change_quantity".
-     */
-    "supported_actions"?: Array<"cancel"
-        | "pause"
-        | "resume"
-        | "skip_cycle"
-        | "renew"
-        | "change_plan"
-        | "change_quantity"
-        | (string & {})>;
-    /**
-     * The tax the subscription's renewal, setup fee and plan change orders use. `null` when they
-     * follow `tax.default_enabled` and `tax.default_calculation` from your settings. Returned only
-     * to merchant credentials; omitted for buyer credentials. Always present with merchant
-     * credentials. anyOf[1] (Value): {@link SubscriptionTax}. The tax the subscription's renewal,
-     * setup fee and plan change orders use. Returned only to merchant credentials; omitted for
-     * buyer credentials. anyOf[2] (Value): null.
-     */
-    "tax"?: ((SubscriptionTax) | (null));
-    /**
-     * Terms come from the subscription plan in subscription_plan_id, or from subscription offers
-     * identified on each offer line by subscription_offer_id. Value enum: "subscription_plan",
-     * "subscription_offer".
-     */
-    "terms_type": "subscription_plan" | "subscription_offer" | (string & {});
-    /**
-     * ID of the test clock the subscription's customer was created on. The subscription bills at
-     * the clock's time. Present only when the customer is on a test clock. Included only in
-     * merchant responses and omitted from buyer responses. Example:
-     * "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
-     */
-    "test_clock_id"?: string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "trial_end_at"?: string;
-    /**
-     * Delivery issue forecast for the next renewal at renewal_at. Mutually exclusive with
-     * delivery_hold. A delivery problem detected for an upcoming renewal that will hold the
-     * subscription's delivery, and who can fix it.
-     */
-    "upcoming_delivery_hold"?: SubscriptionUpcomingDeliveryHold;
+    "risk_list_id": string;
+    /** Whether the list can still be used. Value enum: "active", "archived". */
+    "status": "active" | "archived" | (string & {});
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "updated_at": string;
     /**
-     * Goes up with every change to the subscription, including renewals and other changes Flint
-     * makes. Send it as `expected_version` to apply an update only if nothing changed. Format:
-     * uint64. minimum: 0.
+     * Version of persisted list configuration and item-count changes. External observations do not
+     * advance this counter. Format: uint64. minimum: 1.
      */
     "version": number;
 };
-export type SubscriptionActivatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "billing_anchor_day"?: number;
-            "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-            "billing_interval_count": number;
-            "billing_interval_options"?: Array<SubscriptionIntervalOption>;
-            "billing_schedule_owner": "flint" | "external" | (string & {});
-            "billing_schedule_waiting_started_at"?: string;
-            "cancel_at_period_end": boolean;
-            "canceled_at"?: string;
-            "cancellation_details"?: SubscriptionCancellationDetails;
-            "cancellation_reason"?: "buyer"
-                | "merchant"
-                | "integration"
-                | "payment_failed"
-                | "other"
-                | "end_after_reached"
-                | "signup_order_refunded"
-                | (string & {});
-            "completed_cycles": number;
-            "contract_end_at"?: string;
-            "contract_start_at"?: string;
-            "created_at": string;
-            "current_period_end_at"?: string;
-            "current_period_start_at"?: string;
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            "customer_id": string;
-            "deliveries_per_period": number;
-            "delivery"?: SubscriptionDelivery;
-            "delivery_hold"?: SubscriptionDeliveryHold;
-            "delivery_interval": "daily" | "weekly" | "monthly" | "yearly" | null | (string & {}) | null;
-            "delivery_interval_count": number | null;
-            "early_termination_fee_money"?: MoneyValue;
-            "end_after": ((SubscriptionEndAfter) | (null) | (unknown));
-            "expires_at": string | null;
-            "external_reference_id"?: string;
-            "gift_recipient": ((SubscriptionGiftRecipient) | (null));
-            "inventory_wait"?: SubscriptionInventoryWait;
-            "is_awaiting_billing_schedule"?: boolean;
-            "last_payment_error"?: PaymentErrorSummary;
-            "line_items": Array<SubscriptionLineItem>;
-            "merchant_id": string;
-            "metadata"?: MetadataMap;
-            "missed_billing_at"?: string;
-            "next_billing_at"?: string;
-            "next_delivery_at": string | null;
-            "next_retry_at": string | null;
-            "open_renewal_order_id"?: string;
-            "outstanding_money"?: MoneyValue;
-            "pause_reason"?: "buyer" | "delivery_action_required" | "merchant" | "payment_failed" | (string & {});
-            "paused_at"?: string;
-            "payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
-            "payment_method_due_at": string | null;
-            "payment_method_id": string | null;
-            "promotions": Array<SubscriptionPromotion>;
-            "prorate_first_period": boolean;
-            "recurring_subtotal_money": ((MoneyValue) | (null));
-            "remaining_cycles": number | null;
-            "remaining_prepaid_deliveries": number;
-            "resume_requested_at": string | null;
-            "scheduled_cancel_at": string | null;
-            "scheduled_plan_change": ((SubscriptionScheduledPlanChange) | (null));
-            "scheduled_promotions": Array<SubscriptionPromotion>;
-            "scheduled_resume_at": string | null;
-            "service_location"?: SubscriptionServiceLocation;
-            "starts_at"?: string;
-            "status": "trialing"
-                | "active"
-                | "paused"
-                | "past_due"
-                | "canceled"
-                | "incomplete"
-                | "scheduled"
-                | (string & {});
-            "subscription_id": string;
-            "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
-            "subscription_plan_id"?: string;
-            "supported_actions"?: Array<"cancel"
-                | "pause"
-                | "resume"
-                | "skip_cycle"
-                | "renew"
-                | "change_plan"
-                | "change_quantity"
-                | (string & {})>;
-            "tax"?: ((SubscriptionTax) | (null));
-            "terms_type": "subscription_plan" | "subscription_offer" | (string & {});
-            "test_clock_id"?: string;
-            "trial_end_at"?: string;
-            "upcoming_delivery_hold"?: SubscriptionUpcomingDeliveryHold;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "billing_anchor_day"?: ((number) | (null));
-            "billing_interval"?: (("daily" | "weekly" | "monthly" | "yearly" | (string & {})) | (null));
-            "billing_interval_count"?: ((number) | (null));
-            "billing_interval_options"?: ((Array<SubscriptionIntervalOptionPreviousAttributes>) | (null));
-            "billing_schedule_owner"?: (("flint" | "external" | (string & {})) | (null));
-            "billing_schedule_waiting_started_at"?: ((string) | (null));
-            "cancel_at_period_end"?: ((boolean) | (null));
-            "canceled_at"?: ((string) | (null));
-            "cancellation_details"?: ((SubscriptionCancellationDetailsPreviousAttributes) | (null));
-            "cancellation_reason"?: (("buyer"
-                | "merchant"
-                | "integration"
-                | "payment_failed"
-                | "other"
-                | "end_after_reached"
-                | "signup_order_refunded"
-                | (string & {}))
-                | (null));
-            "completed_cycles"?: ((number) | (null));
-            "contract_end_at"?: ((string) | (null));
-            "contract_start_at"?: ((string) | (null));
-            "created_at"?: ((string) | (null));
-            "current_period_end_at"?: ((string) | (null));
-            "current_period_start_at"?: ((string) | (null));
-            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
-            "customer_id"?: ((string) | (null));
-            "deliveries_per_period"?: ((number) | (null));
-            "delivery"?: ((SubscriptionDeliveryPreviousAttributes) | (null));
-            "delivery_hold"?: ((SubscriptionDeliveryHoldPreviousAttributes) | (null));
-            "delivery_interval"?: (("daily" | "weekly" | "monthly" | "yearly" | null | (string & {})) | (null));
-            "delivery_interval_count"?: ((number) | (null));
-            "early_termination_fee_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "end_after"?: (((((SubscriptionEndAfterPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
-            "expires_at"?: ((string) | (null));
-            "external_reference_id"?: ((string) | (null));
-            "gift_recipient"?: ((SubscriptionGiftRecipientPreviousAttributes) | (null));
-            "inventory_wait"?: ((SubscriptionInventoryWaitPreviousAttributes) | (null));
-            "is_awaiting_billing_schedule"?: ((boolean) | (null));
-            "last_payment_error"?: ((PaymentErrorSummaryPreviousAttributes) | (null));
-            "line_items"?: ((Array<SubscriptionLineItemPreviousAttributes>) | (null));
-            "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null));
-            "missed_billing_at"?: ((string) | (null));
-            "next_billing_at"?: ((string) | (null));
-            "next_delivery_at"?: ((string) | (null));
-            "next_retry_at"?: ((string) | (null));
-            "open_renewal_order_id"?: ((string) | (null));
-            "outstanding_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "pause_reason"?: (("buyer" | "delivery_action_required" | "merchant" | "payment_failed" | (string & {})) | (null));
-            "paused_at"?: ((string) | (null));
-            "payment_method"?: ((ExpandedPaymentMethodSummaryPreviousAttributes) | (null));
-            "payment_method_due_at"?: ((string) | (null));
-            "payment_method_id"?: ((string) | (null));
-            "promotions"?: ((Array<SubscriptionPromotionPreviousAttributes>) | (null));
-            "prorate_first_period"?: ((boolean) | (null));
-            "recurring_subtotal_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "remaining_cycles"?: ((number) | (null));
-            "remaining_prepaid_deliveries"?: ((number) | (null));
-            "resume_requested_at"?: ((string) | (null));
-            "scheduled_cancel_at"?: ((string) | (null));
-            "scheduled_plan_change"?: ((SubscriptionScheduledPlanChangePreviousAttributes) | (null));
-            "scheduled_promotions"?: ((Array<SubscriptionPromotionPreviousAttributes>) | (null));
-            "scheduled_resume_at"?: ((string) | (null));
-            "service_location"?: ((SubscriptionServiceLocationPreviousAttributes) | (null));
-            "starts_at"?: ((string) | (null));
-            "status"?: (("trialing"
-                | "active"
-                | "paused"
-                | "past_due"
-                | "canceled"
-                | "incomplete"
-                | "scheduled"
-                | (string & {}))
-                | (null));
-            "subscription_id"?: ((string) | (null));
-            "subscription_plan"?: ((ExpandedSubscriptionPlanSummaryPreviousAttributes) | (null));
-            "subscription_plan_id"?: ((string) | (null));
-            "supported_actions"?: ((Array<"cancel"
-                | "pause"
-                | "resume"
-                | "skip_cycle"
-                | "renew"
-                | "change_plan"
-                | "change_quantity"
-                | (string & {})>)
-                | (null));
-            "tax"?: ((SubscriptionTaxPreviousAttributes) | (null));
-            "terms_type"?: (("subscription_plan" | "subscription_offer" | (string & {})) | (null));
-            "test_clock_id"?: ((string) | (null));
-            "trial_end_at"?: ((string) | (null));
-            "upcoming_delivery_hold"?: ((SubscriptionUpcomingDeliveryHoldPreviousAttributes) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "subscription.activated";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "billing_anchor_day"?: number;
-            "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-            "billing_interval_count": number;
-            "billing_interval_options"?: Array<SubscriptionIntervalOption>;
-            "billing_schedule_owner": "flint" | "external" | (string & {});
-            "billing_schedule_waiting_started_at"?: string;
-            "cancel_at_period_end": boolean;
-            "canceled_at"?: string;
-            "cancellation_details"?: SubscriptionCancellationDetails;
-            "cancellation_reason"?: "buyer"
-                | "merchant"
-                | "integration"
-                | "payment_failed"
-                | "other"
-                | "end_after_reached"
-                | "signup_order_refunded"
-                | (string & {});
-            "completed_cycles": number;
-            "contract_end_at"?: string;
-            "contract_start_at"?: string;
-            "created_at": string;
-            "current_period_end_at"?: string;
-            "current_period_start_at"?: string;
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            "customer_id": string;
-            "deliveries_per_period": number;
-            "delivery"?: SubscriptionDelivery;
-            "delivery_hold"?: SubscriptionDeliveryHold;
-            "delivery_interval": "daily" | "weekly" | "monthly" | "yearly" | null | (string & {}) | null;
-            "delivery_interval_count": number | null;
-            "early_termination_fee_money"?: MoneyValue;
-            "end_after": ((SubscriptionEndAfter) | (null) | (unknown));
-            "expires_at": string | null;
-            "external_reference_id"?: string;
-            "gift_recipient": ((SubscriptionGiftRecipient) | (null));
-            "inventory_wait"?: SubscriptionInventoryWait;
-            "is_awaiting_billing_schedule"?: boolean;
-            "last_payment_error"?: PaymentErrorSummary;
-            "line_items": Array<SubscriptionLineItem>;
-            "merchant_id": string;
-            "metadata"?: MetadataMap;
-            "missed_billing_at"?: string;
-            "next_billing_at"?: string;
-            "next_delivery_at": string | null;
-            "next_retry_at": string | null;
-            "open_renewal_order_id"?: string;
-            "outstanding_money"?: MoneyValue;
-            "pause_reason"?: "buyer" | "delivery_action_required" | "merchant" | "payment_failed" | (string & {});
-            "paused_at"?: string;
-            "payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
-            "payment_method_due_at": string | null;
-            "payment_method_id": string | null;
-            "promotions": Array<SubscriptionPromotion>;
-            "prorate_first_period": boolean;
-            "recurring_subtotal_money": ((MoneyValue) | (null));
-            "remaining_cycles": number | null;
-            "remaining_prepaid_deliveries": number;
-            "resume_requested_at": string | null;
-            "scheduled_cancel_at": string | null;
-            "scheduled_plan_change": ((SubscriptionScheduledPlanChange) | (null));
-            "scheduled_promotions": Array<SubscriptionPromotion>;
-            "scheduled_resume_at": string | null;
-            "service_location"?: SubscriptionServiceLocation;
-            "starts_at"?: string;
-            "status": "trialing"
-                | "active"
-                | "paused"
-                | "past_due"
-                | "canceled"
-                | "incomplete"
-                | "scheduled"
-                | (string & {});
-            "subscription_id": string;
-            "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
-            "subscription_plan_id"?: string;
-            "supported_actions"?: Array<"cancel"
-                | "pause"
-                | "resume"
-                | "skip_cycle"
-                | "renew"
-                | "change_plan"
-                | "change_quantity"
-                | (string & {})>;
-            "tax"?: ((SubscriptionTax) | (null));
-            "terms_type": "subscription_plan" | "subscription_offer" | (string & {});
-            "test_clock_id"?: string;
-            "trial_end_at"?: string;
-            "upcoming_delivery_hold"?: SubscriptionUpcomingDeliveryHold;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "billing_anchor_day"?: ((number) | (null));
-            "billing_interval"?: (("daily" | "weekly" | "monthly" | "yearly" | (string & {})) | (null));
-            "billing_interval_count"?: ((number) | (null));
-            "billing_interval_options"?: ((Array<SubscriptionIntervalOptionPreviousAttributes>) | (null));
-            "billing_schedule_owner"?: (("flint" | "external" | (string & {})) | (null));
-            "billing_schedule_waiting_started_at"?: ((string) | (null));
-            "cancel_at_period_end"?: ((boolean) | (null));
-            "canceled_at"?: ((string) | (null));
-            "cancellation_details"?: ((SubscriptionCancellationDetailsPreviousAttributes) | (null));
-            "cancellation_reason"?: (("buyer"
-                | "merchant"
-                | "integration"
-                | "payment_failed"
-                | "other"
-                | "end_after_reached"
-                | "signup_order_refunded"
-                | (string & {}))
-                | (null));
-            "completed_cycles"?: ((number) | (null));
-            "contract_end_at"?: ((string) | (null));
-            "contract_start_at"?: ((string) | (null));
-            "created_at"?: ((string) | (null));
-            "current_period_end_at"?: ((string) | (null));
-            "current_period_start_at"?: ((string) | (null));
-            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
-            "customer_id"?: ((string) | (null));
-            "deliveries_per_period"?: ((number) | (null));
-            "delivery"?: ((SubscriptionDeliveryPreviousAttributes) | (null));
-            "delivery_hold"?: ((SubscriptionDeliveryHoldPreviousAttributes) | (null));
-            "delivery_interval"?: (("daily" | "weekly" | "monthly" | "yearly" | null | (string & {})) | (null));
-            "delivery_interval_count"?: ((number) | (null));
-            "early_termination_fee_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "end_after"?: (((((SubscriptionEndAfterPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
-            "expires_at"?: ((string) | (null));
-            "external_reference_id"?: ((string) | (null));
-            "gift_recipient"?: ((SubscriptionGiftRecipientPreviousAttributes) | (null));
-            "inventory_wait"?: ((SubscriptionInventoryWaitPreviousAttributes) | (null));
-            "is_awaiting_billing_schedule"?: ((boolean) | (null));
-            "last_payment_error"?: ((PaymentErrorSummaryPreviousAttributes) | (null));
-            "line_items"?: ((Array<SubscriptionLineItemPreviousAttributes>) | (null));
-            "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null));
-            "missed_billing_at"?: ((string) | (null));
-            "next_billing_at"?: ((string) | (null));
-            "next_delivery_at"?: ((string) | (null));
-            "next_retry_at"?: ((string) | (null));
-            "open_renewal_order_id"?: ((string) | (null));
-            "outstanding_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "pause_reason"?: (("buyer" | "delivery_action_required" | "merchant" | "payment_failed" | (string & {})) | (null));
-            "paused_at"?: ((string) | (null));
-            "payment_method"?: ((ExpandedPaymentMethodSummaryPreviousAttributes) | (null));
-            "payment_method_due_at"?: ((string) | (null));
-            "payment_method_id"?: ((string) | (null));
-            "promotions"?: ((Array<SubscriptionPromotionPreviousAttributes>) | (null));
-            "prorate_first_period"?: ((boolean) | (null));
-            "recurring_subtotal_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "remaining_cycles"?: ((number) | (null));
-            "remaining_prepaid_deliveries"?: ((number) | (null));
-            "resume_requested_at"?: ((string) | (null));
-            "scheduled_cancel_at"?: ((string) | (null));
-            "scheduled_plan_change"?: ((SubscriptionScheduledPlanChangePreviousAttributes) | (null));
-            "scheduled_promotions"?: ((Array<SubscriptionPromotionPreviousAttributes>) | (null));
-            "scheduled_resume_at"?: ((string) | (null));
-            "service_location"?: ((SubscriptionServiceLocationPreviousAttributes) | (null));
-            "starts_at"?: ((string) | (null));
-            "status"?: (("trialing"
-                | "active"
-                | "paused"
-                | "past_due"
-                | "canceled"
-                | "incomplete"
-                | "scheduled"
-                | (string & {}))
-                | (null));
-            "subscription_id"?: ((string) | (null));
-            "subscription_plan"?: ((ExpandedSubscriptionPlanSummaryPreviousAttributes) | (null));
-            "subscription_plan_id"?: ((string) | (null));
-            "supported_actions"?: ((Array<"cancel"
-                | "pause"
-                | "resume"
-                | "skip_cycle"
-                | "renew"
-                | "change_plan"
-                | "change_quantity"
-                | (string & {})>)
-                | (null));
-            "tax"?: ((SubscriptionTaxPreviousAttributes) | (null));
-            "terms_type"?: (("subscription_plan" | "subscription_offer" | (string & {})) | (null));
-            "test_clock_id"?: ((string) | (null));
-            "trial_end_at"?: ((string) | (null));
-            "upcoming_delivery_hold"?: ((SubscriptionUpcomingDeliveryHoldPreviousAttributes) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "subscription.activated";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "subscription.activated";
-});
-/**
- * The `subscription.activated` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type SubscriptionActivatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
+/** One value in a payment risk list. */
+export type RiskListItem = {
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
     /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.billing_anchor_day (Optional): integer. UTC day of the month used
-     * for monthly and yearly billing. Applies only to Flint-owned schedules. Format: int32.
-     * minimum: 1. maximum: 31. object.billing_interval (Required): string. How often the
-     * subscription bills now. Read with billing_interval_count: monthly with a count of 3 bills
-     * quarterly. A change applies from the next renewal that has not been paid; next_billing_at
-     * does not move. Value enum: "daily", "weekly", "monthly", "yearly".
-     * object.billing_interval_count (Required): integer. Number of billing_interval units between
-     * charges. Changes with billing_interval. Format: int32. object.billing_interval_options
-     * (Optional): Array of {@link SubscriptionIntervalOption}. Billing interval and count pairs
-     * the subscription can switch to. For a subscription on a plan, they follow the plan's current
-     * billing_interval_options. A subscription that came from an offer keeps the pairs the offer
-     * had at signup. Prices of lines that ship are per delivery. Each option charges for all
-     * deliveries in its period. Changing the interval does not change the per-delivery price.
-     * maxItems: 12. uniqueItems: true. object.billing_interval_options[] (Value): {@link
-     * SubscriptionIntervalOption}. A billing interval, such as every 2 months, that a plan, offer,
-     * or subscription lets buyers choose. Prices of lines that ship are per delivery, and each
-     * option charges for all deliveries in its period. Without a delivery cadence there is one
-     * delivery per period, so every option bills the same line prices once per period. With a
-     * delivery cadence, a longer period bills more deliveries of the lines that ship; other lines
-     * bill once per period. For a different price per interval with no delivery cadence, create
-     * separate plans. object.billing_schedule_owner (Required): string. Who supplies billing
-     * dates: flint advances the schedule after each paid renewal; external uses dates you supply.
-     * Change it with billing_schedule on PATCH /v1/subscriptions/{subscription_id}. Value enum:
-     * "flint", "external". object.billing_schedule_waiting_started_at (Optional): string. RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.cancel_at_period_end
-     * (Required): boolean. True when the subscription is scheduled to cancel at
-     * scheduled_cancel_at. Schedule with POST /v1/subscriptions/{subscription_id}/cancel; undo
-     * with PATCH and cancel_at_period_end false. object.canceled_at (Optional): string. RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.cancellation_details
-     * (Optional): {@link SubscriptionCancellationDetails}. Who asked to cancel, when, and why.
-     * Present once a cancellation is requested, whether it takes effect at the end of the billing
-     * period or right away. Omitted when no one asked, and removed when a scheduled cancellation
-     * is undone. See cancellation_reason for voluntary and payment-related cancellations. The
-     * cancellation request behind a scheduled or completed cancellation.
-     * object.cancellation_reason (Optional): string. Why the subscription is canceled or scheduled
-     * to cancel. Uses signup_order_refunded when an automatic inventory refund fully refunds the
-     * signup order, end_after_reached when the automatic ending agreement is reached,
-     * cancellation_details.requested_by when recorded, payment_failed for other canceled
-     * subscriptions without a requester, and other for a scheduled cancellation without a
-     * requester. Omitted otherwise. Value enum: "buyer", "merchant", "integration",
-     * "payment_failed", "other", "end_after_reached", "signup_order_refunded".
-     * object.completed_cycles (Required): integer. Billing cycles charged so far, including cycles
-     * imported with `billing_start.completed_cycles`. The next renewal order's
-     * `subscription_cycle` is this number plus one. Format: uint64. minimum: 0.
-     * object.contract_end_at (Optional): string. When the recorded contract term ends. Does not
-     * move when the subscription pauses or changes plan. Flint does not stop the buyer from
-     * canceling earlier. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.contract_start_at (Optional): string. When the recorded contract term started. Does
-     * not move when the subscription pauses or changes plan. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.created_at (Required): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.current_period_end_at (Optional): string.
-     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.current_period_start_at (Optional): string. RFC3339 timestamp. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.customer (Optional): {@link ExpandedCustomerSummary}
-     * or null. Present only when `expand` includes `customer`; `null` when expanded and there is
-     * no related customer. object.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary}. A
-     * customer's summary fields, returned in place of a customer ID when the customer is expanded.
-     * object.customer.anyOf[2] (Value): null. object.customer_id (Required): string. The customer
-     * this subscription bills. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * object.deliveries_per_period (Required): integer. Deliveries paid for by one billing period,
-     * from 1 to 24. One when no separate delivery cadence is set. Prices of lines that ship are
-     * per delivery. Format: int32. minimum: 1. maximum: 24. object.delivery (Optional): {@link
-     * SubscriptionDelivery}. Saved delivery preference with the current delivery method display.
-     * Write responses use the same display as GET: fixed shipping reflects the current method
-     * configuration, and quoted shipping shows the last paid shipping amount when available. A
-     * subscription's saved delivery preference: method, destination, recipient, shipping cost, and
-     * who last changed it. object.delivery_hold (Optional): {@link SubscriptionDeliveryHold}.
-     * Current delivery issue that blocks collection. Mutually exclusive with
-     * upcoming_delivery_hold. A hold on a subscription's deliveries because its delivery method or
-     * destination no longer works, and who can fix it. object.delivery_interval (Required): string
-     * or null. Delivery cadence frozen from the plan. Null when no separate delivery cadence is
-     * set; one delivery is made per billing period. Value enum: "daily", "weekly", "monthly",
-     * "yearly", null. object.delivery_interval_count (Required): integer or null. Number of
-     * delivery intervals between deliveries. Null when no separate delivery cadence is set.
-     * Format: int32. minimum: 1. object.early_termination_fee_money (Optional): {@link
-     * MoneyValue}. The fee in the recorded contract terms. Present whenever those terms include a
-     * fee. It applies only to a cancellation before contract_end_at. Flint never charges it. Later
-     * plan changes do not change this fee. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code. object.end_after (Required): {@link SubscriptionEndAfter} or
-     * null. Recorded automatic end condition. Null when no automatic end is set. Cycles count
-     * charged billing periods, including imported completed_cycles. Pauses and skips do not use
-     * cycles. Already-paid prepaid deliveries continue on their shifted dates, even beyond the end
-     * date, and cancellation waits for the last remaining delivery. Skipping defers a delivery
-     * without consuming its entitlement. Ending never refunds. object.end_after.anyOf[1] (Value):
-     * {@link SubscriptionEndAfter}. The subscription's automatic end condition, measured by
-     * charged billing cycles or a saved local calendar date. object.end_after.anyOf[2] (Value):
-     * null. object.expires_at (Required): string or null. Projected end under the current schedule
-     * and committed plan changes, including an earlier scheduled cancellation. A date limit
-     * preserves already-paid entitlement without requiring a future charge schedule. A reached
-     * cycle limit uses the last paid period end, or current_period_end_at when no paid history
-     * exists; that fallback includes any skip or pause extension. A cycle limit with cycles left
-     * needs a future charge schedule unless a known scheduled cancellation determines the end.
-     * Paid deliveries extend the end to the last paid delivery when it is later. An indefinite
-     * pause with paid deliveries owed makes the end unknown. Null when the end cannot be
-     * determined or the subscription is canceled. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.external_reference_id (Optional): string. Caller-owned
-     * identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842". object.gift_recipient (Required): {@link SubscriptionGiftRecipient} or
-     * null. Who receives the gift, when this is a gift subscription. customer_id stays the
-     * purchaser. Flint clears it when the subscription ends and when the purchaser's data is
-     * erased. Null when the subscription isn't a gift. object.gift_recipient.anyOf[1] (Value):
-     * {@link SubscriptionGiftRecipient}. Who receives a gift subscription. The customer stays the
-     * purchaser, who pays, gets receipts and reminders, and manages the subscription.
-     * delivery.recipient stays the ship-to address. object.gift_recipient.anyOf[2] (Value): null.
-     * object.inventory_wait (Optional): {@link SubscriptionInventoryWait}. Renewal waiting for
-     * stock. Buyers receive only started_at. Shows that a subscription renewal is waiting for
-     * inventory, with the order and invoice involved and when the wait started.
-     * object.is_awaiting_billing_schedule (Optional): boolean. True while an active or trialing
-     * subscription on an external billing schedule has no next billing date.
-     * object.last_payment_error (Optional): {@link PaymentErrorSummary}. Latest renewal payment
-     * failure, present only while status is past_due and the latest payment failed. Buyer
-     * responses omit merchant remediation and sensitive decline signals. A summary of why a
-     * payment attempt failed, with a normalized error code, a message, the failure time, and
-     * remediation. object.line_items (Required): Array of {@link SubscriptionLineItem}. What each
-     * renewal bills. Plan edits do not change it. Adding, changing or swapping a line takes that
-     * variant's current catalog price, which then stays until the line changes again.
-     * object.line_items[] (Value): {@link SubscriptionLineItem}. An item included in a customer's
-     * recurring purchase. object.merchant_id (Required): string. ID of the merchant this resource
-     * belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link
-     * MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value, and
-     * size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are
-     * reserved for Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them.
-     * object.missed_billing_at (Optional): string. The billing date whose payment failed, as an
-     * RFC3339 timestamp. Present only while status is past_due. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.next_billing_at (Optional): string. When Flint next starts a
-     * scheduled renewal charge, as an RFC3339 timestamp. Present only while a trialing or active
-     * subscription has a billing date and isn't set to cancel at the end of its period. Absent
-     * when no renewal is scheduled: a paused subscription resumes at scheduled_resume_at, a
-     * past_due one reports the failed billing date in missed_billing_at and retries at
-     * next_retry_at, an incomplete one retries at next_retry_at, a scheduled start begins at
-     * starts_at, one set to cancel ends at scheduled_cancel_at, and an external schedule awaiting
-     * a date reports is_awaiting_billing_schedule. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.next_delivery_at (Required): string or null. When the next
-     * prepaid delivery order is due, shifted by a timed pause. Null when the subscription has an
-     * indefinite pause, no delivery is scheduled, or the subscription is canceled. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.next_retry_at (Required): string or null.
-     * Recorded automatic payment retry time. Null when no retry time is available. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.open_renewal_order_id (Optional): string.
-     * ID of the paid renewal order whose shipment has not been dispatched. It keeps its committed
-     * delivery destination after preference changes and cancellation. Absent when no such renewal
-     * order exists. Only renewal orders count; the signup order is not included. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". object.outstanding_money (Optional): {@link MoneyValue}.
-     * Unpaid balance of the failed renewal order, including tax, shipping and discounts, after
-     * payments and credits. Present only while status is past_due and a positive balance remains.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.pause_reason (Optional): string. Why the subscription is paused: merchant for a pause
-     * made with your API key or dashboard, buyer for the buyer's own pause,
-     * delivery_action_required for a pause during or after a delivery hold, and payment_failed
-     * when renewal payment retries ran out and your dunning settings pause the subscription.
-     * Omitted when the subscription is not paused. Value enum: "buyer",
-     * "delivery_action_required", "merchant", "payment_failed". object.paused_at (Optional):
-     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.payment_method (Optional): {@link ExpandedPaymentMethodSummary} or null. Present only
-     * when `expand` includes `payment_method`; `null` when expanded and there is no related
-     * payment method. object.payment_method.anyOf[1] (Value): {@link
-     * ExpandedPaymentMethodSummary}. A payment method's summary fields, including type, status,
-     * and card details, returned when the payment method is expanded.
-     * object.payment_method.anyOf[2] (Value): null. object.payment_method_due_at (Required):
-     * string or null. First charge boundary while no card is bound: the later of trial_end_at and
-     * next_billing_at during a trial, or the next billing date for an imported period, even when
-     * that cycle's charge is zero. Recomputed when the schedule changes. A trial still without a
-     * card at its boundary cancels without an order or payment attempt. At that boundary, an
-     * imported subscription with a positive charge that still has no card enters its normal
-     * dunning schedule without a payment attempt. For an imported subscription, a zero charge
-     * completes the renewal without a card and the deadline advances to the following boundary.
-     * Null when a card is bound, collection is not scheduled (paused, canceled, or set to cancel
-     * at period end), an active or trialing subscription is in its final end_after cycle, or an
-     * external schedule has no known boundary. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.payment_method_id (Required): string or null. Saved payment method used for renewal
-     * charges. Null when no card is bound. Bind a card to this subscription with PATCH; changing
-     * the customer's default alone does not bind it. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
-     * object.promotions (Required): Array of {@link SubscriptionPromotion}. Recurring promotions
-     * applying to the next charged cycle. Scheduled attachments are listed in
-     * scheduled_promotions. Empty when none apply; signup-only and exhausted promotions are
-     * excluded. object.promotions[] (Value): {@link SubscriptionPromotion}. A recurring promotion
-     * applied to a subscription, including its recurrence and remaining discounted cycles.
-     * object.prorate_first_period (Required): boolean. Whether this subscription was created to
-     * prorate its first anchored paid period. Set at creation and never changes; starting on the
-     * anchor day still bills a normal full period. object.recurring_subtotal_money (Required):
-     * {@link MoneyValue} or null. What one billing period's items cost before discounts, shipping,
-     * and tax: each line's price with modifiers, times quantity. It changes when items, quantity,
-     * or the plan change; editing the plan doesn't change it. For the next charge, use a
-     * subscription preview in next_renewal mode. `null` when a cancellation succeeds but Flint
-     * couldn't load the billing snapshot afterward, so the cancel response returns it as null.
-     * Retrieve the subscription again to get it. object.recurring_subtotal_money.anyOf[1] (Value):
-     * {@link MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code. object.recurring_subtotal_money.anyOf[2] (Value): null.
-     * object.remaining_cycles (Required): integer or null. Charges left for a cycle limit, bounded
-     * by an earlier scheduled cancellation. Null when there is no cycle limit or the subscription
-     * is canceled. Format: uint64. minimum: 0. object.remaining_prepaid_deliveries (Required):
-     * integer. Paid deliveries whose delivery order Flint hasn't created yet. A paid period starts
-     * with deliveries_per_period minus one. When delivery_hold is present and this count is
-     * positive, fixing delivery releases an already-paid delivery with shipping waived and no new
-     * charge. A next_renewal preview still estimates the next paid billing cycle. Skips, holds,
-     * and pauses consume none. Frozen on cancellation for manual refunds. Format: int32. minimum:
-     * 0. maximum: 23. object.resume_requested_at (Required): string or null. When Flint accepted a
-     * pending resume request. Set only while paused with a resume Flint has not applied yet.
-     * Clears when Flint resumes the subscription or refuses the request. `null` when the
-     * subscription isn't paused or no resume request is pending. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.scheduled_cancel_at (Required): string or null. When the
-     * scheduled cancellation takes effect: trial_end_at while trialing, current_period_end_at
-     * while active, or next_retry_at while past_due. Paid deliveries extend it to the last paid
-     * delivery when it is later. Null when cancel_at_period_end is false or no cancellation time
-     * is available. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.scheduled_plan_change (Required): {@link SubscriptionScheduledPlanChange} or null.
-     * Frozen target terms for the next charged renewal. Null when no plan change is scheduled.
-     * Cancel with scheduled_plan_change: null on PATCH; replace through change-plan.
-     * object.scheduled_plan_change.anyOf[1] (Value): {@link SubscriptionScheduledPlanChange}.
-     * Frozen target terms that apply at the next charged renewal.
-     * object.scheduled_plan_change.anyOf[2] (Value): null. object.scheduled_promotions (Required):
-     * Array of {@link SubscriptionPromotion}. Attached promotions whose first_cycle is after the
-     * next charged cycle, completed_cycles + 1. Always present; empty when no promotions are
-     * scheduled. object.scheduled_promotions[] (Value): {@link SubscriptionPromotion}. A recurring
-     * promotion applied to a subscription, including its recurrence and remaining discounted
-     * cycles. object.scheduled_resume_at (Required): string or null. When a pause with a length
-     * (pause_duration_cycles) resumes on its own: that many delivery intervals after paused_at on
-     * a prepaid subscription, or billing intervals otherwise. Null when the subscription is not
-     * paused or the pause has no length, such as a pause until you resume it or the pause Flint
-     * starts when a delivery hold runs out. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.service_location (Optional): {@link SubscriptionServiceLocation}. Omitted for a
-     * checkout session credential that doesn't act for the customer the buyer verified. The
-     * address where a subscription's service is delivered, with the saved customer address it came
-     * from. object.starts_at (Optional): string. When a scheduled start's first billing period
-     * begins. Present only until that first payment succeeds. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.status (Required): string. Where the subscription is in its
-     * lifecycle. Each value says what it means. Value enum: "trialing", "active", "paused",
-     * "past_due", "canceled", "incomplete", "scheduled". object.subscription_id (Required):
-     * string. Stable identifier of the subscription. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
-     * object.subscription_plan (Optional): {@link ExpandedSubscriptionPlanSummary} or null.
-     * Present only when `expand` includes `subscription_plan`; `null` when expanded and there is
-     * no related subscription plan. object.subscription_plan.anyOf[1] (Value): {@link
-     * ExpandedSubscriptionPlanSummary}. A subscription plan's summary fields, including name,
-     * billing interval, currency, and status, returned when the plan is expanded.
-     * object.subscription_plan.anyOf[2] (Value): null. object.subscription_plan_id (Optional):
-     * string. Subscription plan ID. Omitted when terms_type is subscription_offer. Example:
-     * "plan_01KEZF7C004CY5ZR33XST2AASV". object.supported_actions (Optional): Array of string.
-     * Merchant actions allowed by the subscription's state. A route can still refuse a listed
-     * action for a transient reason, such as a renewal already in progress, with its own error.
-     * Always present with merchant credentials. [] enum: "cancel", "pause", "resume",
-     * "skip_cycle", "renew", "change_plan", "change_quantity". object.supported_actions[] (Value):
-     * string. Value enum: "cancel", "pause", "resume", "skip_cycle", "renew", "change_plan",
-     * "change_quantity". object.tax (Optional): {@link SubscriptionTax} or null. The tax the
-     * subscription's renewal, setup fee and plan change orders use. `null` when they follow
-     * `tax.default_enabled` and `tax.default_calculation` from your settings. Returned only to
-     * merchant credentials; omitted for buyer credentials. Always present with merchant
-     * credentials. object.tax.anyOf[1] (Value): {@link SubscriptionTax}. The tax the
-     * subscription's renewal, setup fee and plan change orders use. Returned only to merchant
-     * credentials; omitted for buyer credentials. object.tax.anyOf[2] (Value): null.
-     * object.terms_type (Required): string. Terms come from the subscription plan in
-     * subscription_plan_id, or from subscription offers identified on each offer line by
-     * subscription_offer_id. Value enum: "subscription_plan", "subscription_offer".
-     * object.test_clock_id (Optional): string. ID of the test clock the subscription's customer
-     * was created on. The subscription bills at the clock's time. Present only when the customer
-     * is on a test clock. Included only in merchant responses and omitted from buyer responses.
-     * Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ". object.trial_end_at (Optional): string. RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.upcoming_delivery_hold
-     * (Optional): {@link SubscriptionUpcomingDeliveryHold}. Delivery issue forecast for the next
-     * renewal at renewal_at. Mutually exclusive with delivery_hold. A delivery problem detected
-     * for an upcoming renewal that will hold the subscription's delivery, and who can fix it.
-     * object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.version (Required): integer. Goes up with every change to the
-     * subscription, including renewals and other changes Flint makes. Send it as
-     * `expected_version` to apply an update only if nothing changed. Format: uint64. minimum: 0.
-     * previous_attributes (Optional): object. Previous values of changed top-level fields in
-     * data.object, at this delivery's API version. Nested changes include the whole previous
-     * top-level value. A value is null when the field was absent before the change. Omitted when
-     * Flint did not record the previous state, including synthetic test events.
-     * previous_attributes.billing_anchor_day (Optional): integer or null. UTC day of the month
-     * used for monthly and yearly billing. Applies only to Flint-owned schedules.
-     * previous_attributes.billing_anchor_day.anyOf[1] (Value): integer. UTC day of the month used
-     * for monthly and yearly billing. Applies only to Flint-owned schedules. Format: int32.
-     * minimum: 1. maximum: 31. previous_attributes.billing_anchor_day.anyOf[2] (Value): null.
-     * previous_attributes.billing_interval (Optional): string or null. How often the subscription
-     * bills now. Read with billing_interval_count: monthly with a count of 3 bills quarterly. A
-     * change applies from the next renewal that has not been paid; next_billing_at does not move.
-     * Value enum: "daily", "weekly", "monthly", "yearly".
-     * previous_attributes.billing_interval.anyOf[1] (Value): string. How often the subscription
-     * bills now. Read with billing_interval_count: monthly with a count of 3 bills quarterly. A
-     * change applies from the next renewal that has not been paid; next_billing_at does not move.
-     * Value enum: "daily", "weekly", "monthly", "yearly".
-     * previous_attributes.billing_interval.anyOf[2] (Value): null.
-     * previous_attributes.billing_interval_count (Optional): integer or null. Number of
-     * billing_interval units between charges. Changes with billing_interval.
-     * previous_attributes.billing_interval_count.anyOf[1] (Value): integer. Number of
-     * billing_interval units between charges. Changes with billing_interval. Format: int32.
-     * previous_attributes.billing_interval_count.anyOf[2] (Value): null.
-     * previous_attributes.billing_interval_options (Optional): Array of {@link
-     * SubscriptionIntervalOptionPreviousAttributes} or null. Billing interval and count pairs the
-     * subscription can switch to. For a subscription on a plan, they follow the plan's current
-     * billing_interval_options. A subscription that came from an offer keeps the pairs the offer
-     * had at signup. Prices of lines that ship are per delivery. Each option charges for all
-     * deliveries in its period. Changing the interval does not change the per-delivery price.
-     * previous_attributes.billing_interval_options.anyOf[1] (Value): Array of {@link
-     * SubscriptionIntervalOptionPreviousAttributes}. Billing interval and count pairs the
-     * subscription can switch to. For a subscription on a plan, they follow the plan's current
-     * billing_interval_options. A subscription that came from an offer keeps the pairs the offer
-     * had at signup. Prices of lines that ship are per delivery. Each option charges for all
-     * deliveries in its period. Changing the interval does not change the per-delivery price.
-     * maxItems: 12. uniqueItems: true. previous_attributes.billing_interval_options.anyOf[1][]
-     * (Value): {@link SubscriptionIntervalOptionPreviousAttributes}.
-     * previous_attributes.billing_interval_options.anyOf[2] (Value): null.
-     * previous_attributes.billing_schedule_owner (Optional): string or null. Who supplies billing
-     * dates: flint advances the schedule after each paid renewal; external uses dates you supply.
-     * Change it with billing_schedule on PATCH /v1/subscriptions/{subscription_id}. Value enum:
-     * "flint", "external". previous_attributes.billing_schedule_owner.anyOf[1] (Value): string.
-     * Who supplies billing dates: flint advances the schedule after each paid renewal; external
-     * uses dates you supply. Change it with billing_schedule on PATCH
-     * /v1/subscriptions/{subscription_id}. Value enum: "flint", "external".
-     * previous_attributes.billing_schedule_owner.anyOf[2] (Value): null.
-     * previous_attributes.billing_schedule_waiting_started_at (Optional): string or null. RFC3339
-     * timestamp. previous_attributes.billing_schedule_waiting_started_at.anyOf[1] (Value): string.
-     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.billing_schedule_waiting_started_at.anyOf[2] (Value): null.
-     * previous_attributes.cancel_at_period_end (Optional): boolean or null. True when the
-     * subscription is scheduled to cancel at scheduled_cancel_at. Schedule with POST
-     * /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and cancel_at_period_end false.
-     * previous_attributes.cancel_at_period_end.anyOf[1] (Value): boolean. True when the
-     * subscription is scheduled to cancel at scheduled_cancel_at. Schedule with POST
-     * /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and cancel_at_period_end false.
-     * previous_attributes.cancel_at_period_end.anyOf[2] (Value): null.
-     * previous_attributes.canceled_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.canceled_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.canceled_at.anyOf[2]
-     * (Value): null. previous_attributes.cancellation_details (Optional): {@link
-     * SubscriptionCancellationDetailsPreviousAttributes} or null. Who asked to cancel, when, and
-     * why. Present once a cancellation is requested, whether it takes effect at the end of the
-     * billing period or right away. Omitted when no one asked, and removed when a scheduled
-     * cancellation is undone. See cancellation_reason for voluntary and payment-related
-     * cancellations. previous_attributes.cancellation_details.anyOf[1] (Value): {@link
-     * SubscriptionCancellationDetailsPreviousAttributes}.
-     * previous_attributes.cancellation_details.anyOf[2] (Value): null.
-     * previous_attributes.cancellation_reason (Optional): string or null. Why the subscription is
-     * canceled or scheduled to cancel. Uses signup_order_refunded when an automatic inventory
-     * refund fully refunds the signup order, end_after_reached when the automatic ending agreement
-     * is reached, cancellation_details.requested_by when recorded, payment_failed for other
-     * canceled subscriptions without a requester, and other for a scheduled cancellation without a
-     * requester. Omitted otherwise. Value enum: "buyer", "merchant", "integration",
-     * "payment_failed", "other", "end_after_reached", "signup_order_refunded".
-     * previous_attributes.cancellation_reason.anyOf[1] (Value): string. Why the subscription is
-     * canceled or scheduled to cancel. Uses signup_order_refunded when an automatic inventory
-     * refund fully refunds the signup order, end_after_reached when the automatic ending agreement
-     * is reached, cancellation_details.requested_by when recorded, payment_failed for other
-     * canceled subscriptions without a requester, and other for a scheduled cancellation without a
-     * requester. Omitted otherwise. Value enum: "buyer", "merchant", "integration",
-     * "payment_failed", "other", "end_after_reached", "signup_order_refunded".
-     * previous_attributes.cancellation_reason.anyOf[2] (Value): null.
-     * previous_attributes.completed_cycles (Optional): integer or null. Billing cycles charged so
-     * far, including cycles imported with `billing_start.completed_cycles`. The next renewal
-     * order's `subscription_cycle` is this number plus one.
-     * previous_attributes.completed_cycles.anyOf[1] (Value): integer. Billing cycles charged so
-     * far, including cycles imported with `billing_start.completed_cycles`. The next renewal
-     * order's `subscription_cycle` is this number plus one. Format: uint64. minimum: 0.
-     * previous_attributes.completed_cycles.anyOf[2] (Value): null.
-     * previous_attributes.contract_end_at (Optional): string or null. When the recorded contract
-     * term ends. Does not move when the subscription pauses or changes plan. Flint does not stop
-     * the buyer from canceling earlier. previous_attributes.contract_end_at.anyOf[1] (Value):
-     * string. When the recorded contract term ends. Does not move when the subscription pauses or
-     * changes plan. Flint does not stop the buyer from canceling earlier. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". previous_attributes.contract_end_at.anyOf[2] (Value): null.
-     * previous_attributes.contract_start_at (Optional): string or null. When the recorded contract
-     * term started. Does not move when the subscription pauses or changes plan.
-     * previous_attributes.contract_start_at.anyOf[1] (Value): string. When the recorded contract
-     * term started. Does not move when the subscription pauses or changes plan. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". previous_attributes.contract_start_at.anyOf[2] (Value):
-     * null. previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.current_period_end_at (Optional): string or null. RFC3339
-     * timestamp. previous_attributes.current_period_end_at.anyOf[1] (Value): string. RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.current_period_end_at.anyOf[2] (Value): null.
-     * previous_attributes.current_period_start_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.current_period_start_at.anyOf[1] (Value): string. RFC3339 timestamp.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.current_period_start_at.anyOf[2] (Value): null.
-     * previous_attributes.customer (Optional): {@link ExpandedCustomerSummaryPreviousAttributes}
-     * or null. Present only when `expand` includes `customer`; `null` when expanded and there is
-     * no related customer. previous_attributes.customer.anyOf[1] (Value): {@link
-     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
-     * null. previous_attributes.customer_id (Optional): string or null. The customer this
-     * subscription bills. previous_attributes.customer_id.anyOf[1] (Value): string. The customer
-     * this subscription bills. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * previous_attributes.customer_id.anyOf[2] (Value): null.
-     * previous_attributes.deliveries_per_period (Optional): integer or null. Deliveries paid for
-     * by one billing period, from 1 to 24. One when no separate delivery cadence is set. Prices of
-     * lines that ship are per delivery. previous_attributes.deliveries_per_period.anyOf[1]
-     * (Value): integer. Deliveries paid for by one billing period, from 1 to 24. One when no
-     * separate delivery cadence is set. Prices of lines that ship are per delivery. Format: int32.
-     * minimum: 1. maximum: 24. previous_attributes.deliveries_per_period.anyOf[2] (Value): null.
-     * previous_attributes.delivery (Optional): {@link SubscriptionDeliveryPreviousAttributes} or
-     * null. Saved delivery preference with the current delivery method display. Write responses
-     * use the same display as GET: fixed shipping reflects the current method configuration, and
-     * quoted shipping shows the last paid shipping amount when available.
-     * previous_attributes.delivery.anyOf[1] (Value): {@link
-     * SubscriptionDeliveryPreviousAttributes}. previous_attributes.delivery.anyOf[2] (Value):
-     * null. previous_attributes.delivery_hold (Optional): {@link
-     * SubscriptionDeliveryHoldPreviousAttributes} or null. Current delivery issue that blocks
-     * collection. Mutually exclusive with upcoming_delivery_hold.
-     * previous_attributes.delivery_hold.anyOf[1] (Value): {@link
-     * SubscriptionDeliveryHoldPreviousAttributes}. previous_attributes.delivery_hold.anyOf[2]
-     * (Value): null. previous_attributes.delivery_interval (Optional): string or null. Delivery
-     * cadence frozen from the plan. Null when no separate delivery cadence is set; one delivery is
-     * made per billing period. Value enum: "daily", "weekly", "monthly", "yearly", null.
-     * previous_attributes.delivery_interval.anyOf[1] (Value): string. Delivery cadence frozen from
-     * the plan. Null when no separate delivery cadence is set; one delivery is made per billing
-     * period. Value enum: "daily", "weekly", "monthly", "yearly", null.
-     * previous_attributes.delivery_interval.anyOf[2] (Value): null.
-     * previous_attributes.delivery_interval_count (Optional): integer or null. Number of delivery
-     * intervals between deliveries. Null when no separate delivery cadence is set.
-     * previous_attributes.delivery_interval_count.anyOf[1] (Value): integer. Number of delivery
-     * intervals between deliveries. Null when no separate delivery cadence is set. Format: int32.
-     * minimum: 1. previous_attributes.delivery_interval_count.anyOf[2] (Value): null.
-     * previous_attributes.early_termination_fee_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. The fee in the recorded contract terms. Present
-     * whenever those terms include a fee. It applies only to a cancellation before
-     * contract_end_at. Flint never charges it. Later plan changes do not change this fee.
-     * previous_attributes.early_termination_fee_money.anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.early_termination_fee_money.anyOf[2]
-     * (Value): null. previous_attributes.end_after (Optional): ({@link
-     * SubscriptionEndAfterPreviousAttributes} or null) or null. Recorded automatic end condition.
-     * Null when no automatic end is set. Cycles count charged billing periods, including imported
-     * completed_cycles. Pauses and skips do not use cycles. Already-paid prepaid deliveries
-     * continue on their shifted dates, even beyond the end date, and cancellation waits for the
-     * last remaining delivery. Skipping defers a delivery without consuming its entitlement.
-     * Ending never refunds. previous_attributes.end_after.anyOf[1] (Value): ({@link
-     * SubscriptionEndAfterPreviousAttributes} or null). Recorded automatic end condition. Null
-     * when no automatic end is set. Cycles count charged billing periods, including imported
-     * completed_cycles. Pauses and skips do not use cycles. Already-paid prepaid deliveries
-     * continue on their shifted dates, even beyond the end date, and cancellation waits for the
-     * last remaining delivery. Skipping defers a delivery without consuming its entitlement.
-     * Ending never refunds. previous_attributes.end_after.anyOf[1].anyOf[1] (Value): {@link
-     * SubscriptionEndAfterPreviousAttributes}. The subscription's automatic end condition,
-     * measured by charged billing cycles or a saved local calendar date.
-     * previous_attributes.end_after.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.end_after.anyOf[2] (Value): null. previous_attributes.expires_at
-     * (Optional): string or null. Projected end under the current schedule and committed plan
-     * changes, including an earlier scheduled cancellation. A date limit preserves already-paid
-     * entitlement without requiring a future charge schedule. A reached cycle limit uses the last
-     * paid period end, or current_period_end_at when no paid history exists; that fallback
-     * includes any skip or pause extension. A cycle limit with cycles left needs a future charge
-     * schedule unless a known scheduled cancellation determines the end. Paid deliveries extend
-     * the end to the last paid delivery when it is later. An indefinite pause with paid deliveries
-     * owed makes the end unknown. Null when the end cannot be determined or the subscription is
-     * canceled. previous_attributes.expires_at.anyOf[1] (Value): string. Projected end under the
-     * current schedule and committed plan changes, including an earlier scheduled cancellation. A
-     * date limit preserves already-paid entitlement without requiring a future charge schedule. A
-     * reached cycle limit uses the last paid period end, or current_period_end_at when no paid
-     * history exists; that fallback includes any skip or pause extension. A cycle limit with
-     * cycles left needs a future charge schedule unless a known scheduled cancellation determines
-     * the end. Paid deliveries extend the end to the last paid delivery when it is later. An
-     * indefinite pause with paid deliveries owed makes the end unknown. Null when the end cannot
-     * be determined or the subscription is canceled. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.expires_at.anyOf[2] (Value): null.
-     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
-     * identifier for this resource in an external system.
-     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
-     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
-     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
-     * previous_attributes.gift_recipient (Optional): {@link
-     * SubscriptionGiftRecipientPreviousAttributes} or null. Who receives the gift, when this is a
-     * gift subscription. customer_id stays the purchaser. Flint clears it when the subscription
-     * ends and when the purchaser's data is erased. Null when the subscription isn't a gift.
-     * previous_attributes.gift_recipient.anyOf[1] (Value): {@link
-     * SubscriptionGiftRecipientPreviousAttributes}. previous_attributes.gift_recipient.anyOf[2]
-     * (Value): null. previous_attributes.inventory_wait (Optional): {@link
-     * SubscriptionInventoryWaitPreviousAttributes} or null. Renewal waiting for stock. Buyers
-     * receive only started_at. previous_attributes.inventory_wait.anyOf[1] (Value): {@link
-     * SubscriptionInventoryWaitPreviousAttributes}. previous_attributes.inventory_wait.anyOf[2]
-     * (Value): null. previous_attributes.is_awaiting_billing_schedule (Optional): boolean or null.
-     * True while an active or trialing subscription on an external billing schedule has no next
-     * billing date. previous_attributes.is_awaiting_billing_schedule.anyOf[1] (Value): boolean.
-     * True while an active or trialing subscription on an external billing schedule has no next
-     * billing date. previous_attributes.is_awaiting_billing_schedule.anyOf[2] (Value): null.
-     * previous_attributes.last_payment_error (Optional): {@link
-     * PaymentErrorSummaryPreviousAttributes} or null. Latest renewal payment failure, present only
-     * while status is past_due and the latest payment failed. Buyer responses omit merchant
-     * remediation and sensitive decline signals. previous_attributes.last_payment_error.anyOf[1]
-     * (Value): {@link PaymentErrorSummaryPreviousAttributes}.
-     * previous_attributes.last_payment_error.anyOf[2] (Value): null.
-     * previous_attributes.line_items (Optional): Array of {@link
-     * SubscriptionLineItemPreviousAttributes} or null. What each renewal bills. Plan edits do not
-     * change it. Adding, changing or swapping a line takes that variant's current catalog price,
-     * which then stays until the line changes again. previous_attributes.line_items.anyOf[1]
-     * (Value): Array of {@link SubscriptionLineItemPreviousAttributes}. What each renewal bills.
-     * Plan edits do not change it. Adding, changing or swapping a line takes that variant's
-     * current catalog price, which then stays until the line changes again.
-     * previous_attributes.line_items.anyOf[1][] (Value): {@link
-     * SubscriptionLineItemPreviousAttributes}. previous_attributes.line_items.anyOf[2] (Value):
-     * null. previous_attributes.merchant_id (Optional): string or null. ID of the merchant this
-     * resource belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the
-     * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
-     * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
-     * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
-     * (Value): {@link MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
-     * previous_attributes.missed_billing_at (Optional): string or null. The billing date whose
-     * payment failed, as an RFC3339 timestamp. Present only while status is past_due.
-     * previous_attributes.missed_billing_at.anyOf[1] (Value): string. The billing date whose
-     * payment failed, as an RFC3339 timestamp. Present only while status is past_due. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.missed_billing_at.anyOf[2]
-     * (Value): null. previous_attributes.next_billing_at (Optional): string or null. When Flint
-     * next starts a scheduled renewal charge, as an RFC3339 timestamp. Present only while a
-     * trialing or active subscription has a billing date and isn't set to cancel at the end of its
-     * period. Absent when no renewal is scheduled: a paused subscription resumes at
-     * scheduled_resume_at, a past_due one reports the failed billing date in missed_billing_at and
-     * retries at next_retry_at, an incomplete one retries at next_retry_at, a scheduled start
-     * begins at starts_at, one set to cancel ends at scheduled_cancel_at, and an external schedule
-     * awaiting a date reports is_awaiting_billing_schedule.
-     * previous_attributes.next_billing_at.anyOf[1] (Value): string. When Flint next starts a
-     * scheduled renewal charge, as an RFC3339 timestamp. Present only while a trialing or active
-     * subscription has a billing date and isn't set to cancel at the end of its period. Absent
-     * when no renewal is scheduled: a paused subscription resumes at scheduled_resume_at, a
-     * past_due one reports the failed billing date in missed_billing_at and retries at
-     * next_retry_at, an incomplete one retries at next_retry_at, a scheduled start begins at
-     * starts_at, one set to cancel ends at scheduled_cancel_at, and an external schedule awaiting
-     * a date reports is_awaiting_billing_schedule. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.next_billing_at.anyOf[2] (Value): null.
-     * previous_attributes.next_delivery_at (Optional): string or null. When the next prepaid
-     * delivery order is due, shifted by a timed pause. Null when the subscription has an
-     * indefinite pause, no delivery is scheduled, or the subscription is canceled.
-     * previous_attributes.next_delivery_at.anyOf[1] (Value): string. When the next prepaid
-     * delivery order is due, shifted by a timed pause. Null when the subscription has an
-     * indefinite pause, no delivery is scheduled, or the subscription is canceled. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.next_delivery_at.anyOf[2]
-     * (Value): null. previous_attributes.next_retry_at (Optional): string or null. Recorded
-     * automatic payment retry time. Null when no retry time is available.
-     * previous_attributes.next_retry_at.anyOf[1] (Value): string. Recorded automatic payment retry
-     * time. Null when no retry time is available. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.next_retry_at.anyOf[2] (Value): null.
-     * previous_attributes.open_renewal_order_id (Optional): string or null. ID of the paid renewal
-     * order whose shipment has not been dispatched. It keeps its committed delivery destination
-     * after preference changes and cancellation. Absent when no such renewal order exists. Only
-     * renewal orders count; the signup order is not included.
-     * previous_attributes.open_renewal_order_id.anyOf[1] (Value): string. ID of the paid renewal
-     * order whose shipment has not been dispatched. It keeps its committed delivery destination
-     * after preference changes and cancellation. Absent when no such renewal order exists. Only
-     * renewal orders count; the signup order is not included. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.open_renewal_order_id.anyOf[2]
-     * (Value): null. previous_attributes.outstanding_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. Unpaid balance of the failed renewal order, including
-     * tax, shipping and discounts, after payments and credits. Present only while status is
-     * past_due and a positive balance remains. previous_attributes.outstanding_money.anyOf[1]
-     * (Value): {@link MoneyValuePreviousAttributes}.
-     * previous_attributes.outstanding_money.anyOf[2] (Value): null.
-     * previous_attributes.pause_reason (Optional): string or null. Why the subscription is paused:
-     * merchant for a pause made with your API key or dashboard, buyer for the buyer's own pause,
-     * delivery_action_required for a pause during or after a delivery hold, and payment_failed
-     * when renewal payment retries ran out and your dunning settings pause the subscription.
-     * Omitted when the subscription is not paused. Value enum: "buyer",
-     * "delivery_action_required", "merchant", "payment_failed".
-     * previous_attributes.pause_reason.anyOf[1] (Value): string. Why the subscription is paused:
-     * merchant for a pause made with your API key or dashboard, buyer for the buyer's own pause,
-     * delivery_action_required for a pause during or after a delivery hold, and payment_failed
-     * when renewal payment retries ran out and your dunning settings pause the subscription.
-     * Omitted when the subscription is not paused. Value enum: "buyer",
-     * "delivery_action_required", "merchant", "payment_failed".
-     * previous_attributes.pause_reason.anyOf[2] (Value): null. previous_attributes.paused_at
-     * (Optional): string or null. RFC3339 timestamp. previous_attributes.paused_at.anyOf[1]
-     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.paused_at.anyOf[2] (Value): null. previous_attributes.payment_method
-     * (Optional): {@link ExpandedPaymentMethodSummaryPreviousAttributes} or null. Present only
-     * when `expand` includes `payment_method`; `null` when expanded and there is no related
-     * payment method. previous_attributes.payment_method.anyOf[1] (Value): {@link
-     * ExpandedPaymentMethodSummaryPreviousAttributes}. previous_attributes.payment_method.anyOf[2]
-     * (Value): null. previous_attributes.payment_method_due_at (Optional): string or null. First
-     * charge boundary while no card is bound: the later of trial_end_at and next_billing_at during
-     * a trial, or the next billing date for an imported period, even when that cycle's charge is
-     * zero. Recomputed when the schedule changes. A trial still without a card at its boundary
-     * cancels without an order or payment attempt. At that boundary, an imported subscription with
-     * a positive charge that still has no card enters its normal dunning schedule without a
-     * payment attempt. For an imported subscription, a zero charge completes the renewal without a
-     * card and the deadline advances to the following boundary. Null when a card is bound,
-     * collection is not scheduled (paused, canceled, or set to cancel at period end), an active or
-     * trialing subscription is in its final end_after cycle, or an external schedule has no known
-     * boundary. previous_attributes.payment_method_due_at.anyOf[1] (Value): string. First charge
-     * boundary while no card is bound: the later of trial_end_at and next_billing_at during a
-     * trial, or the next billing date for an imported period, even when that cycle's charge is
-     * zero. Recomputed when the schedule changes. A trial still without a card at its boundary
-     * cancels without an order or payment attempt. At that boundary, an imported subscription with
-     * a positive charge that still has no card enters its normal dunning schedule without a
-     * payment attempt. For an imported subscription, a zero charge completes the renewal without a
-     * card and the deadline advances to the following boundary. Null when a card is bound,
-     * collection is not scheduled (paused, canceled, or set to cancel at period end), an active or
-     * trialing subscription is in its final end_after cycle, or an external schedule has no known
-     * boundary. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.payment_method_due_at.anyOf[2] (Value): null.
-     * previous_attributes.payment_method_id (Optional): string or null. Saved payment method used
-     * for renewal charges. Null when no card is bound. Bind a card to this subscription with
-     * PATCH; changing the customer's default alone does not bind it.
-     * previous_attributes.payment_method_id.anyOf[1] (Value): string. Saved payment method used
-     * for renewal charges. Null when no card is bound. Bind a card to this subscription with
-     * PATCH; changing the customer's default alone does not bind it. Example:
-     * "pm_01KEZF7C0034B248TXXE4NXYFZ". previous_attributes.payment_method_id.anyOf[2] (Value):
-     * null. previous_attributes.promotions (Optional): Array of {@link
-     * SubscriptionPromotionPreviousAttributes} or null. Recurring promotions applying to the next
-     * charged cycle. Scheduled attachments are listed in scheduled_promotions. Empty when none
-     * apply; signup-only and exhausted promotions are excluded.
-     * previous_attributes.promotions.anyOf[1] (Value): Array of {@link
-     * SubscriptionPromotionPreviousAttributes}. Recurring promotions applying to the next charged
-     * cycle. Scheduled attachments are listed in scheduled_promotions. Empty when none apply;
-     * signup-only and exhausted promotions are excluded. previous_attributes.promotions.anyOf[1][]
-     * (Value): {@link SubscriptionPromotionPreviousAttributes}.
-     * previous_attributes.promotions.anyOf[2] (Value): null.
-     * previous_attributes.prorate_first_period (Optional): boolean or null. Whether this
-     * subscription was created to prorate its first anchored paid period. Set at creation and
-     * never changes; starting on the anchor day still bills a normal full period.
-     * previous_attributes.prorate_first_period.anyOf[1] (Value): boolean. Whether this
-     * subscription was created to prorate its first anchored paid period. Set at creation and
-     * never changes; starting on the anchor day still bills a normal full period.
-     * previous_attributes.prorate_first_period.anyOf[2] (Value): null.
-     * previous_attributes.recurring_subtotal_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. What one billing period's items cost before
-     * discounts, shipping, and tax: each line's price with modifiers, times quantity. It changes
-     * when items, quantity, or the plan change; editing the plan doesn't change it. For the next
-     * charge, use a subscription preview in next_renewal mode. `null` when a cancellation succeeds
-     * but Flint couldn't load the billing snapshot afterward, so the cancel response returns it as
-     * null. Retrieve the subscription again to get it.
-     * previous_attributes.recurring_subtotal_money.anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.recurring_subtotal_money.anyOf[2]
-     * (Value): null. previous_attributes.remaining_cycles (Optional): integer or null. Charges
-     * left for a cycle limit, bounded by an earlier scheduled cancellation. Null when there is no
-     * cycle limit or the subscription is canceled. previous_attributes.remaining_cycles.anyOf[1]
-     * (Value): integer. Charges left for a cycle limit, bounded by an earlier scheduled
-     * cancellation. Null when there is no cycle limit or the subscription is canceled. Format:
-     * uint64. minimum: 0. previous_attributes.remaining_cycles.anyOf[2] (Value): null.
-     * previous_attributes.remaining_prepaid_deliveries (Optional): integer or null. Paid
-     * deliveries whose delivery order Flint hasn't created yet. A paid period starts with
-     * deliveries_per_period minus one. When delivery_hold is present and this count is positive,
-     * fixing delivery releases an already-paid delivery with shipping waived and no new charge. A
-     * next_renewal preview still estimates the next paid billing cycle. Skips, holds, and pauses
-     * consume none. Frozen on cancellation for manual refunds.
-     * previous_attributes.remaining_prepaid_deliveries.anyOf[1] (Value): integer. Paid deliveries
-     * whose delivery order Flint hasn't created yet. A paid period starts with
-     * deliveries_per_period minus one. When delivery_hold is present and this count is positive,
-     * fixing delivery releases an already-paid delivery with shipping waived and no new charge. A
-     * next_renewal preview still estimates the next paid billing cycle. Skips, holds, and pauses
-     * consume none. Frozen on cancellation for manual refunds. Format: int32. minimum: 0. maximum:
-     * 23. previous_attributes.remaining_prepaid_deliveries.anyOf[2] (Value): null.
-     * previous_attributes.resume_requested_at (Optional): string or null. When Flint accepted a
-     * pending resume request. Set only while paused with a resume Flint has not applied yet.
-     * Clears when Flint resumes the subscription or refuses the request. `null` when the
-     * subscription isn't paused or no resume request is pending.
-     * previous_attributes.resume_requested_at.anyOf[1] (Value): string. When Flint accepted a
-     * pending resume request. Set only while paused with a resume Flint has not applied yet.
-     * Clears when Flint resumes the subscription or refuses the request. `null` when the
-     * subscription isn't paused or no resume request is pending. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.resume_requested_at.anyOf[2] (Value): null.
-     * previous_attributes.scheduled_cancel_at (Optional): string or null. When the scheduled
-     * cancellation takes effect: trial_end_at while trialing, current_period_end_at while active,
-     * or next_retry_at while past_due. Paid deliveries extend it to the last paid delivery when it
-     * is later. Null when cancel_at_period_end is false or no cancellation time is available.
-     * previous_attributes.scheduled_cancel_at.anyOf[1] (Value): string. When the scheduled
-     * cancellation takes effect: trial_end_at while trialing, current_period_end_at while active,
-     * or next_retry_at while past_due. Paid deliveries extend it to the last paid delivery when it
-     * is later. Null when cancel_at_period_end is false or no cancellation time is available.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.scheduled_cancel_at.anyOf[2] (Value): null.
-     * previous_attributes.scheduled_plan_change (Optional): {@link
-     * SubscriptionScheduledPlanChangePreviousAttributes} or null. Frozen target terms for the next
-     * charged renewal. Null when no plan change is scheduled. Cancel with scheduled_plan_change:
-     * null on PATCH; replace through change-plan.
-     * previous_attributes.scheduled_plan_change.anyOf[1] (Value): {@link
-     * SubscriptionScheduledPlanChangePreviousAttributes}.
-     * previous_attributes.scheduled_plan_change.anyOf[2] (Value): null.
-     * previous_attributes.scheduled_promotions (Optional): Array of {@link
-     * SubscriptionPromotionPreviousAttributes} or null. Attached promotions whose first_cycle is
-     * after the next charged cycle, completed_cycles + 1. Always present; empty when no promotions
-     * are scheduled. previous_attributes.scheduled_promotions.anyOf[1] (Value): Array of {@link
-     * SubscriptionPromotionPreviousAttributes}. Attached promotions whose first_cycle is after the
-     * next charged cycle, completed_cycles + 1. Always present; empty when no promotions are
-     * scheduled. previous_attributes.scheduled_promotions.anyOf[1][] (Value): {@link
-     * SubscriptionPromotionPreviousAttributes}. previous_attributes.scheduled_promotions.anyOf[2]
-     * (Value): null. previous_attributes.scheduled_resume_at (Optional): string or null. When a
-     * pause with a length (pause_duration_cycles) resumes on its own: that many delivery intervals
-     * after paused_at on a prepaid subscription, or billing intervals otherwise. Null when the
-     * subscription is not paused or the pause has no length, such as a pause until you resume it
-     * or the pause Flint starts when a delivery hold runs out.
-     * previous_attributes.scheduled_resume_at.anyOf[1] (Value): string. When a pause with a length
-     * (pause_duration_cycles) resumes on its own: that many delivery intervals after paused_at on
-     * a prepaid subscription, or billing intervals otherwise. Null when the subscription is not
-     * paused or the pause has no length, such as a pause until you resume it or the pause Flint
-     * starts when a delivery hold runs out. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.scheduled_resume_at.anyOf[2] (Value): null.
-     * previous_attributes.service_location (Optional): {@link
-     * SubscriptionServiceLocationPreviousAttributes} or null. Omitted for a checkout session
-     * credential that doesn't act for the customer the buyer verified.
-     * previous_attributes.service_location.anyOf[1] (Value): {@link
-     * SubscriptionServiceLocationPreviousAttributes}.
-     * previous_attributes.service_location.anyOf[2] (Value): null. previous_attributes.starts_at
-     * (Optional): string or null. When a scheduled start's first billing period begins. Present
-     * only until that first payment succeeds. previous_attributes.starts_at.anyOf[1] (Value):
-     * string. When a scheduled start's first billing period begins. Present only until that first
-     * payment succeeds. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.starts_at.anyOf[2] (Value): null. previous_attributes.status (Optional):
-     * string or null. Where the subscription is in its lifecycle. Each value says what it means.
-     * Value enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete",
-     * "scheduled". previous_attributes.status.anyOf[1] (Value): string. Where the subscription is
-     * in its lifecycle. Each value says what it means. Value enum: "trialing", "active", "paused",
-     * "past_due", "canceled", "incomplete", "scheduled". previous_attributes.status.anyOf[2]
-     * (Value): null. previous_attributes.subscription_id (Optional): string or null. Stable
-     * identifier of the subscription. previous_attributes.subscription_id.anyOf[1] (Value):
-     * string. Stable identifier of the subscription. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
-     * previous_attributes.subscription_id.anyOf[2] (Value): null.
-     * previous_attributes.subscription_plan (Optional): {@link
-     * ExpandedSubscriptionPlanSummaryPreviousAttributes} or null. Present only when `expand`
-     * includes `subscription_plan`; `null` when expanded and there is no related subscription
-     * plan. previous_attributes.subscription_plan.anyOf[1] (Value): {@link
-     * ExpandedSubscriptionPlanSummaryPreviousAttributes}.
-     * previous_attributes.subscription_plan.anyOf[2] (Value): null.
-     * previous_attributes.subscription_plan_id (Optional): string or null. Subscription plan ID.
-     * Omitted when terms_type is subscription_offer.
-     * previous_attributes.subscription_plan_id.anyOf[1] (Value): string. Subscription plan ID.
-     * Omitted when terms_type is subscription_offer. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
-     * previous_attributes.subscription_plan_id.anyOf[2] (Value): null.
-     * previous_attributes.supported_actions (Optional): Array of string or null. Merchant actions
-     * allowed by the subscription's state. A route can still refuse a listed action for a
-     * transient reason, such as a renewal already in progress, with its own error. Always present
-     * with merchant credentials. [] enum: "cancel", "pause", "resume", "skip_cycle", "renew",
-     * "change_plan", "change_quantity". previous_attributes.supported_actions.anyOf[1] (Value):
-     * Array of string. Merchant actions allowed by the subscription's state. A route can still
-     * refuse a listed action for a transient reason, such as a renewal already in progress, with
-     * its own error. Always present with merchant credentials. [] enum: "cancel", "pause",
-     * "resume", "skip_cycle", "renew", "change_plan", "change_quantity".
-     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "cancel",
-     * "pause", "resume", "skip_cycle", "renew", "change_plan", "change_quantity".
-     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.tax
-     * (Optional): {@link SubscriptionTaxPreviousAttributes} or null. The tax the subscription's
-     * renewal, setup fee and plan change orders use. `null` when they follow `tax.default_enabled`
-     * and `tax.default_calculation` from your settings. Returned only to merchant credentials;
-     * omitted for buyer credentials. Always present with merchant credentials.
-     * previous_attributes.tax.anyOf[1] (Value): {@link SubscriptionTaxPreviousAttributes}.
-     * previous_attributes.tax.anyOf[2] (Value): null. previous_attributes.terms_type (Optional):
-     * string or null. Terms come from the subscription plan in subscription_plan_id, or from
-     * subscription offers identified on each offer line by subscription_offer_id. Value enum:
-     * "subscription_plan", "subscription_offer". previous_attributes.terms_type.anyOf[1] (Value):
-     * string. Terms come from the subscription plan in subscription_plan_id, or from subscription
-     * offers identified on each offer line by subscription_offer_id. Value enum:
-     * "subscription_plan", "subscription_offer". previous_attributes.terms_type.anyOf[2] (Value):
-     * null. previous_attributes.test_clock_id (Optional): string or null. ID of the test clock the
-     * subscription's customer was created on. The subscription bills at the clock's time. Present
-     * only when the customer is on a test clock. Included only in merchant responses and omitted
-     * from buyer responses. previous_attributes.test_clock_id.anyOf[1] (Value): string. ID of the
-     * test clock the subscription's customer was created on. The subscription bills at the clock's
-     * time. Present only when the customer is on a test clock. Included only in merchant responses
-     * and omitted from buyer responses. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
-     * previous_attributes.test_clock_id.anyOf[2] (Value): null. previous_attributes.trial_end_at
-     * (Optional): string or null. RFC3339 timestamp. previous_attributes.trial_end_at.anyOf[1]
-     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.trial_end_at.anyOf[2] (Value): null.
-     * previous_attributes.upcoming_delivery_hold (Optional): {@link
-     * SubscriptionUpcomingDeliveryHoldPreviousAttributes} or null. Delivery issue forecast for the
-     * next renewal at renewal_at. Mutually exclusive with delivery_hold.
-     * previous_attributes.upcoming_delivery_hold.anyOf[1] (Value): {@link
-     * SubscriptionUpcomingDeliveryHoldPreviousAttributes}.
-     * previous_attributes.upcoming_delivery_hold.anyOf[2] (Value): null.
-     * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
-     * null. previous_attributes.version (Optional): integer or null. Goes up with every change to
-     * the subscription, including renewals and other changes Flint makes. Send it as
-     * `expected_version` to apply an update only if nothing changed.
-     * previous_attributes.version.anyOf[1] (Value): integer. Goes up with every change to the
-     * subscription, including renewals and other changes Flint makes. Send it as
-     * `expected_version` to apply an update only if nothing changed. Format: uint64. minimum: 0.
-     * previous_attributes.version.anyOf[2] (Value): null.
+     * The credential that created this list item. Null when Flint created it. The reference may
+     * name an API key in the other mode. anyOf[1] (Value): {@link ResourceReference}. A reference
+     * to another resource by `resource_type` and `resource_id`. anyOf[2] (Value): null.
      */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * billing_anchor_day (Optional): integer. UTC day of the month used for monthly and yearly
-         * billing. Applies only to Flint-owned schedules. Format: int32. minimum: 1. maximum: 31.
-         * billing_interval (Required): string. How often the subscription bills now. Read with
-         * billing_interval_count: monthly with a count of 3 bills quarterly. A change applies from
-         * the next renewal that has not been paid; next_billing_at does not move. Value enum:
-         * "daily", "weekly", "monthly", "yearly". billing_interval_count (Required): integer.
-         * Number of billing_interval units between charges. Changes with billing_interval. Format:
-         * int32. billing_interval_options (Optional): Array of {@link SubscriptionIntervalOption}.
-         * Billing interval and count pairs the subscription can switch to. For a subscription on a
-         * plan, they follow the plan's current billing_interval_options. A subscription that came
-         * from an offer keeps the pairs the offer had at signup. Prices of lines that ship are per
-         * delivery. Each option charges for all deliveries in its period. Changing the interval
-         * does not change the per-delivery price. maxItems: 12. uniqueItems: true.
-         * billing_interval_options[] (Value): {@link SubscriptionIntervalOption}. A billing
-         * interval, such as every 2 months, that a plan, offer, or subscription lets buyers
-         * choose. Prices of lines that ship are per delivery, and each option charges for all
-         * deliveries in its period. Without a delivery cadence there is one delivery per period,
-         * so every option bills the same line prices once per period. With a delivery cadence, a
-         * longer period bills more deliveries of the lines that ship; other lines bill once per
-         * period. For a different price per interval with no delivery cadence, create separate
-         * plans. billing_schedule_owner (Required): string. Who supplies billing dates: flint
-         * advances the schedule after each paid renewal; external uses dates you supply. Change it
-         * with billing_schedule on PATCH /v1/subscriptions/{subscription_id}. Value enum: "flint",
-         * "external". billing_schedule_waiting_started_at (Optional): string. RFC3339 timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". cancel_at_period_end (Required):
-         * boolean. True when the subscription is scheduled to cancel at scheduled_cancel_at.
-         * Schedule with POST /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and
-         * cancel_at_period_end false. canceled_at (Optional): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". cancellation_details (Optional): {@link
-         * SubscriptionCancellationDetails}. Who asked to cancel, when, and why. Present once a
-         * cancellation is requested, whether it takes effect at the end of the billing period or
-         * right away. Omitted when no one asked, and removed when a scheduled cancellation is
-         * undone. See cancellation_reason for voluntary and payment-related cancellations. The
-         * cancellation request behind a scheduled or completed cancellation. cancellation_reason
-         * (Optional): string. Why the subscription is canceled or scheduled to cancel. Uses
-         * signup_order_refunded when an automatic inventory refund fully refunds the signup order,
-         * end_after_reached when the automatic ending agreement is reached,
-         * cancellation_details.requested_by when recorded, payment_failed for other canceled
-         * subscriptions without a requester, and other for a scheduled cancellation without a
-         * requester. Omitted otherwise. Value enum: "buyer", "merchant", "integration",
-         * "payment_failed", "other", "end_after_reached", "signup_order_refunded".
-         * completed_cycles (Required): integer. Billing cycles charged so far, including cycles
-         * imported with `billing_start.completed_cycles`. The next renewal order's
-         * `subscription_cycle` is this number plus one. Format: uint64. minimum: 0.
-         * contract_end_at (Optional): string. When the recorded contract term ends. Does not move
-         * when the subscription pauses or changes plan. Flint does not stop the buyer from
-         * canceling earlier. Format: date-time. Example: "2026-08-02T16:00:00Z". contract_start_at
-         * (Optional): string. When the recorded contract term started. Does not move when the
-         * subscription pauses or changes plan. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". current_period_end_at (Optional): string. RFC3339 timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". current_period_start_at (Optional):
-         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". customer
-         * (Optional): {@link ExpandedCustomerSummary} or null. Present only when `expand` includes
-         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
-         * (Value): {@link ExpandedCustomerSummary}. A customer's summary fields, returned in place
-         * of a customer ID when the customer is expanded. customer.anyOf[2] (Value): null.
-         * customer_id (Required): string. The customer this subscription bills. Example:
-         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". deliveries_per_period (Required): integer. Deliveries
-         * paid for by one billing period, from 1 to 24. One when no separate delivery cadence is
-         * set. Prices of lines that ship are per delivery. Format: int32. minimum: 1. maximum: 24.
-         * delivery (Optional): {@link SubscriptionDelivery}. Saved delivery preference with the
-         * current delivery method display. Write responses use the same display as GET: fixed
-         * shipping reflects the current method configuration, and quoted shipping shows the last
-         * paid shipping amount when available. A subscription's saved delivery preference: method,
-         * destination, recipient, shipping cost, and who last changed it. delivery_hold
-         * (Optional): {@link SubscriptionDeliveryHold}. Current delivery issue that blocks
-         * collection. Mutually exclusive with upcoming_delivery_hold. A hold on a subscription's
-         * deliveries because its delivery method or destination no longer works, and who can fix
-         * it. delivery_interval (Required): string or null. Delivery cadence frozen from the plan.
-         * Null when no separate delivery cadence is set; one delivery is made per billing period.
-         * Value enum: "daily", "weekly", "monthly", "yearly", null. delivery_interval_count
-         * (Required): integer or null. Number of delivery intervals between deliveries. Null when
-         * no separate delivery cadence is set. Format: int32. minimum: 1.
-         * early_termination_fee_money (Optional): {@link MoneyValue}. The fee in the recorded
-         * contract terms. Present whenever those terms include a fee. It applies only to a
-         * cancellation before contract_end_at. Flint never charges it. Later plan changes do not
-         * change this fee. Monetary amount represented as integer minor units plus an ISO 4217
-         * currency code. end_after (Required): {@link SubscriptionEndAfter} or null. Recorded
-         * automatic end condition. Null when no automatic end is set. Cycles count charged billing
-         * periods, including imported completed_cycles. Pauses and skips do not use cycles.
-         * Already-paid prepaid deliveries continue on their shifted dates, even beyond the end
-         * date, and cancellation waits for the last remaining delivery. Skipping defers a delivery
-         * without consuming its entitlement. Ending never refunds. end_after.anyOf[1] (Value):
-         * {@link SubscriptionEndAfter}. The subscription's automatic end condition, measured by
-         * charged billing cycles or a saved local calendar date. end_after.anyOf[2] (Value): null.
-         * expires_at (Required): string or null. Projected end under the current schedule and
-         * committed plan changes, including an earlier scheduled cancellation. A date limit
-         * preserves already-paid entitlement without requiring a future charge schedule. A reached
-         * cycle limit uses the last paid period end, or current_period_end_at when no paid history
-         * exists; that fallback includes any skip or pause extension. A cycle limit with cycles
-         * left needs a future charge schedule unless a known scheduled cancellation determines the
-         * end. Paid deliveries extend the end to the last paid delivery when it is later. An
-         * indefinite pause with paid deliveries owed makes the end unknown. Null when the end
-         * cannot be determined or the subscription is canceled. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". external_reference_id (Optional): string. Caller-owned
-         * identifier for this resource in an external system. maxLength: 255. Example:
-         * "warehouse-1842". gift_recipient (Required): {@link SubscriptionGiftRecipient} or null.
-         * Who receives the gift, when this is a gift subscription. customer_id stays the
-         * purchaser. Flint clears it when the subscription ends and when the purchaser's data is
-         * erased. Null when the subscription isn't a gift. gift_recipient.anyOf[1] (Value): {@link
-         * SubscriptionGiftRecipient}. Who receives a gift subscription. The customer stays the
-         * purchaser, who pays, gets receipts and reminders, and manages the subscription.
-         * delivery.recipient stays the ship-to address. gift_recipient.anyOf[2] (Value): null.
-         * inventory_wait (Optional): {@link SubscriptionInventoryWait}. Renewal waiting for stock.
-         * Buyers receive only started_at. Shows that a subscription renewal is waiting for
-         * inventory, with the order and invoice involved and when the wait started.
-         * is_awaiting_billing_schedule (Optional): boolean. True while an active or trialing
-         * subscription on an external billing schedule has no next billing date.
-         * last_payment_error (Optional): {@link PaymentErrorSummary}. Latest renewal payment
-         * failure, present only while status is past_due and the latest payment failed. Buyer
-         * responses omit merchant remediation and sensitive decline signals. A summary of why a
-         * payment attempt failed, with a normalized error code, a message, the failure time, and
-         * remediation. line_items (Required): Array of {@link SubscriptionLineItem}. What each
-         * renewal bills. Plan edits do not change it. Adding, changing or swapping a line takes
-         * that variant's current catalog price, which then stays until the line changes again.
-         * line_items[] (Value): {@link SubscriptionLineItem}. An item included in a customer's
-         * recurring purchase. merchant_id (Required): string. ID of the merchant this resource
-         * belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link
-         * MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
-         * and size rules. Caller-owned key-value data stored on a resource. Keys starting with
-         * flint_ are reserved for Flint and are not returned. Writes follow the limits on
-         * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
-         * them. missed_billing_at (Optional): string. The billing date whose payment failed, as an
-         * RFC3339 timestamp. Present only while status is past_due. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". next_billing_at (Optional): string. When Flint next starts a
-         * scheduled renewal charge, as an RFC3339 timestamp. Present only while a trialing or
-         * active subscription has a billing date and isn't set to cancel at the end of its period.
-         * Absent when no renewal is scheduled: a paused subscription resumes at
-         * scheduled_resume_at, a past_due one reports the failed billing date in missed_billing_at
-         * and retries at next_retry_at, an incomplete one retries at next_retry_at, a scheduled
-         * start begins at starts_at, one set to cancel ends at scheduled_cancel_at, and an
-         * external schedule awaiting a date reports is_awaiting_billing_schedule. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". next_delivery_at (Required): string or null.
-         * When the next prepaid delivery order is due, shifted by a timed pause. Null when the
-         * subscription has an indefinite pause, no delivery is scheduled, or the subscription is
-         * canceled. Format: date-time. Example: "2026-08-02T16:00:00Z". next_retry_at (Required):
-         * string or null. Recorded automatic payment retry time. Null when no retry time is
-         * available. Format: date-time. Example: "2026-08-02T16:00:00Z". open_renewal_order_id
-         * (Optional): string. ID of the paid renewal order whose shipment has not been dispatched.
-         * It keeps its committed delivery destination after preference changes and cancellation.
-         * Absent when no such renewal order exists. Only renewal orders count; the signup order is
-         * not included. Example: "ord_01KEZF7C0054GQKJ142A8X367A". outstanding_money (Optional):
-         * {@link MoneyValue}. Unpaid balance of the failed renewal order, including tax, shipping
-         * and discounts, after payments and credits. Present only while status is past_due and a
-         * positive balance remains. Monetary amount represented as integer minor units plus an ISO
-         * 4217 currency code. pause_reason (Optional): string. Why the subscription is paused:
-         * merchant for a pause made with your API key or dashboard, buyer for the buyer's own
-         * pause, delivery_action_required for a pause during or after a delivery hold, and
-         * payment_failed when renewal payment retries ran out and your dunning settings pause the
-         * subscription. Omitted when the subscription is not paused. Value enum: "buyer",
-         * "delivery_action_required", "merchant", "payment_failed". paused_at (Optional): string.
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". payment_method
-         * (Optional): {@link ExpandedPaymentMethodSummary} or null. Present only when `expand`
-         * includes `payment_method`; `null` when expanded and there is no related payment method.
-         * payment_method.anyOf[1] (Value): {@link ExpandedPaymentMethodSummary}. A payment
-         * method's summary fields, including type, status, and card details, returned when the
-         * payment method is expanded. payment_method.anyOf[2] (Value): null. payment_method_due_at
-         * (Required): string or null. First charge boundary while no card is bound: the later of
-         * trial_end_at and next_billing_at during a trial, or the next billing date for an
-         * imported period, even when that cycle's charge is zero. Recomputed when the schedule
-         * changes. A trial still without a card at its boundary cancels without an order or
-         * payment attempt. At that boundary, an imported subscription with a positive charge that
-         * still has no card enters its normal dunning schedule without a payment attempt. For an
-         * imported subscription, a zero charge completes the renewal without a card and the
-         * deadline advances to the following boundary. Null when a card is bound, collection is
-         * not scheduled (paused, canceled, or set to cancel at period end), an active or trialing
-         * subscription is in its final end_after cycle, or an external schedule has no known
-         * boundary. Format: date-time. Example: "2026-08-02T16:00:00Z". payment_method_id
-         * (Required): string or null. Saved payment method used for renewal charges. Null when no
-         * card is bound. Bind a card to this subscription with PATCH; changing the customer's
-         * default alone does not bind it. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ". promotions
-         * (Required): Array of {@link SubscriptionPromotion}. Recurring promotions applying to the
-         * next charged cycle. Scheduled attachments are listed in scheduled_promotions. Empty when
-         * none apply; signup-only and exhausted promotions are excluded. promotions[] (Value):
-         * {@link SubscriptionPromotion}. A recurring promotion applied to a subscription,
-         * including its recurrence and remaining discounted cycles. prorate_first_period
-         * (Required): boolean. Whether this subscription was created to prorate its first anchored
-         * paid period. Set at creation and never changes; starting on the anchor day still bills a
-         * normal full period. recurring_subtotal_money (Required): {@link MoneyValue} or null.
-         * What one billing period's items cost before discounts, shipping, and tax: each line's
-         * price with modifiers, times quantity. It changes when items, quantity, or the plan
-         * change; editing the plan doesn't change it. For the next charge, use a subscription
-         * preview in next_renewal mode. `null` when a cancellation succeeds but Flint couldn't
-         * load the billing snapshot afterward, so the cancel response returns it as null. Retrieve
-         * the subscription again to get it. recurring_subtotal_money.anyOf[1] (Value): {@link
-         * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217
-         * currency code. recurring_subtotal_money.anyOf[2] (Value): null. remaining_cycles
-         * (Required): integer or null. Charges left for a cycle limit, bounded by an earlier
-         * scheduled cancellation. Null when there is no cycle limit or the subscription is
-         * canceled. Format: uint64. minimum: 0. remaining_prepaid_deliveries (Required): integer.
-         * Paid deliveries whose delivery order Flint hasn't created yet. A paid period starts with
-         * deliveries_per_period minus one. When delivery_hold is present and this count is
-         * positive, fixing delivery releases an already-paid delivery with shipping waived and no
-         * new charge. A next_renewal preview still estimates the next paid billing cycle. Skips,
-         * holds, and pauses consume none. Frozen on cancellation for manual refunds. Format:
-         * int32. minimum: 0. maximum: 23. resume_requested_at (Required): string or null. When
-         * Flint accepted a pending resume request. Set only while paused with a resume Flint has
-         * not applied yet. Clears when Flint resumes the subscription or refuses the request.
-         * `null` when the subscription isn't paused or no resume request is pending. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". scheduled_cancel_at (Required): string or
-         * null. When the scheduled cancellation takes effect: trial_end_at while trialing,
-         * current_period_end_at while active, or next_retry_at while past_due. Paid deliveries
-         * extend it to the last paid delivery when it is later. Null when cancel_at_period_end is
-         * false or no cancellation time is available. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". scheduled_plan_change (Required): {@link
-         * SubscriptionScheduledPlanChange} or null. Frozen target terms for the next charged
-         * renewal. Null when no plan change is scheduled. Cancel with scheduled_plan_change: null
-         * on PATCH; replace through change-plan. scheduled_plan_change.anyOf[1] (Value): {@link
-         * SubscriptionScheduledPlanChange}. Frozen target terms that apply at the next charged
-         * renewal. scheduled_plan_change.anyOf[2] (Value): null. scheduled_promotions (Required):
-         * Array of {@link SubscriptionPromotion}. Attached promotions whose first_cycle is after
-         * the next charged cycle, completed_cycles + 1. Always present; empty when no promotions
-         * are scheduled. scheduled_promotions[] (Value): {@link SubscriptionPromotion}. A
-         * recurring promotion applied to a subscription, including its recurrence and remaining
-         * discounted cycles. scheduled_resume_at (Required): string or null. When a pause with a
-         * length (pause_duration_cycles) resumes on its own: that many delivery intervals after
-         * paused_at on a prepaid subscription, or billing intervals otherwise. Null when the
-         * subscription is not paused or the pause has no length, such as a pause until you resume
-         * it or the pause Flint starts when a delivery hold runs out. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". service_location (Optional): {@link
-         * SubscriptionServiceLocation}. Omitted for a checkout session credential that doesn't act
-         * for the customer the buyer verified. The address where a subscription's service is
-         * delivered, with the saved customer address it came from. starts_at (Optional): string.
-         * When a scheduled start's first billing period begins. Present only until that first
-         * payment succeeds. Format: date-time. Example: "2026-08-02T16:00:00Z". status (Required):
-         * string. Where the subscription is in its lifecycle. Each value says what it means. Value
-         * enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled".
-         * subscription_id (Required): string. Stable identifier of the subscription. Example:
-         * "sub_01KEZF7C00BVRE8YDBXQB74BBM". subscription_plan (Optional): {@link
-         * ExpandedSubscriptionPlanSummary} or null. Present only when `expand` includes
-         * `subscription_plan`; `null` when expanded and there is no related subscription plan.
-         * subscription_plan.anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary}. A
-         * subscription plan's summary fields, including name, billing interval, currency, and
-         * status, returned when the plan is expanded. subscription_plan.anyOf[2] (Value): null.
-         * subscription_plan_id (Optional): string. Subscription plan ID. Omitted when terms_type
-         * is subscription_offer. Example: "plan_01KEZF7C004CY5ZR33XST2AASV". supported_actions
-         * (Optional): Array of string. Merchant actions allowed by the subscription's state. A
-         * route can still refuse a listed action for a transient reason, such as a renewal already
-         * in progress, with its own error. Always present with merchant credentials. [] enum:
-         * "cancel", "pause", "resume", "skip_cycle", "renew", "change_plan", "change_quantity".
-         * supported_actions[] (Value): string. Value enum: "cancel", "pause", "resume",
-         * "skip_cycle", "renew", "change_plan", "change_quantity". tax (Optional): {@link
-         * SubscriptionTax} or null. The tax the subscription's renewal, setup fee and plan change
-         * orders use. `null` when they follow `tax.default_enabled` and `tax.default_calculation`
-         * from your settings. Returned only to merchant credentials; omitted for buyer
-         * credentials. Always present with merchant credentials. tax.anyOf[1] (Value): {@link
-         * SubscriptionTax}. The tax the subscription's renewal, setup fee and plan change orders
-         * use. Returned only to merchant credentials; omitted for buyer credentials. tax.anyOf[2]
-         * (Value): null. terms_type (Required): string. Terms come from the subscription plan in
-         * subscription_plan_id, or from subscription offers identified on each offer line by
-         * subscription_offer_id. Value enum: "subscription_plan", "subscription_offer".
-         * test_clock_id (Optional): string. ID of the test clock the subscription's customer was
-         * created on. The subscription bills at the clock's time. Present only when the customer
-         * is on a test clock. Included only in merchant responses and omitted from buyer
-         * responses. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ". trial_end_at (Optional): string.
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * upcoming_delivery_hold (Optional): {@link SubscriptionUpcomingDeliveryHold}. Delivery
-         * issue forecast for the next renewal at renewal_at. Mutually exclusive with
-         * delivery_hold. A delivery problem detected for an upcoming renewal that will hold the
-         * subscription's delivery, and who can fix it. updated_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
-         * integer. Goes up with every change to the subscription, including renewals and other
-         * changes Flint makes. Send it as `expected_version` to apply an update only if nothing
-         * changed. Format: uint64. minimum: 0.
-         */
-        "object": {
-            /**
-             * UTC day of the month used for monthly and yearly billing. Applies only to
-             * Flint-owned schedules. Format: int32. minimum: 1. maximum: 31.
-             */
-            "billing_anchor_day"?: number;
-            /**
-             * How often the subscription bills now. Read with billing_interval_count: monthly with
-             * a count of 3 bills quarterly. A change applies from the next renewal that has not
-             * been paid; next_billing_at does not move. Value enum: "daily", "weekly", "monthly",
-             * "yearly".
-             */
-            "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-            /**
-             * Number of billing_interval units between charges. Changes with billing_interval.
-             * Format: int32.
-             */
-            "billing_interval_count": number;
-            /**
-             * Billing interval and count pairs the subscription can switch to. For a subscription
-             * on a plan, they follow the plan's current billing_interval_options. A subscription
-             * that came from an offer keeps the pairs the offer had at signup. Prices of lines
-             * that ship are per delivery. Each option charges for all deliveries in its period.
-             * Changing the interval does not change the per-delivery price. maxItems: 12.
-             * uniqueItems: true. [] (Value): {@link SubscriptionIntervalOption}. A billing
-             * interval, such as every 2 months, that a plan, offer, or subscription lets buyers
-             * choose. Prices of lines that ship are per delivery, and each option charges for all
-             * deliveries in its period. Without a delivery cadence there is one delivery per
-             * period, so every option bills the same line prices once per period. With a delivery
-             * cadence, a longer period bills more deliveries of the lines that ship; other lines
-             * bill once per period. For a different price per interval with no delivery cadence,
-             * create separate plans.
-             */
-            "billing_interval_options"?: Array<SubscriptionIntervalOption>;
-            /**
-             * Who supplies billing dates: flint advances the schedule after each paid renewal;
-             * external uses dates you supply. Change it with billing_schedule on PATCH
-             * /v1/subscriptions/{subscription_id}. Value enum: "flint", "external".
-             */
-            "billing_schedule_owner": "flint" | "external" | (string & {});
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "billing_schedule_waiting_started_at"?: string;
-            /**
-             * True when the subscription is scheduled to cancel at scheduled_cancel_at. Schedule
-             * with POST /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and
-             * cancel_at_period_end false.
-             */
-            "cancel_at_period_end": boolean;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "canceled_at"?: string;
-            /**
-             * Who asked to cancel, when, and why. Present once a cancellation is requested,
-             * whether it takes effect at the end of the billing period or right away. Omitted when
-             * no one asked, and removed when a scheduled cancellation is undone. See
-             * cancellation_reason for voluntary and payment-related cancellations. The
-             * cancellation request behind a scheduled or completed cancellation.
-             */
-            "cancellation_details"?: SubscriptionCancellationDetails;
-            /**
-             * Why the subscription is canceled or scheduled to cancel. Uses signup_order_refunded
-             * when an automatic inventory refund fully refunds the signup order, end_after_reached
-             * when the automatic ending agreement is reached, cancellation_details.requested_by
-             * when recorded, payment_failed for other canceled subscriptions without a requester,
-             * and other for a scheduled cancellation without a requester. Omitted otherwise. Value
-             * enum: "buyer", "merchant", "integration", "payment_failed", "other",
-             * "end_after_reached", "signup_order_refunded".
-             */
-            "cancellation_reason"?: "buyer"
-                | "merchant"
-                | "integration"
-                | "payment_failed"
-                | "other"
-                | "end_after_reached"
-                | "signup_order_refunded"
-                | (string & {});
-            /**
-             * Billing cycles charged so far, including cycles imported with
-             * `billing_start.completed_cycles`. The next renewal order's `subscription_cycle` is
-             * this number plus one. Format: uint64. minimum: 0.
-             */
-            "completed_cycles": number;
-            /**
-             * When the recorded contract term ends. Does not move when the subscription pauses or
-             * changes plan. Flint does not stop the buyer from canceling earlier. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "contract_end_at"?: string;
-            /**
-             * When the recorded contract term started. Does not move when the subscription pauses
-             * or changes plan. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "contract_start_at"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "current_period_end_at"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "current_period_start_at"?: string;
-            /**
-             * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
-             * summary fields, returned in place of a customer ID when the customer is expanded.
-             * anyOf[2] (Value): null.
-             */
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            /** The customer this subscription bills. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
-            "customer_id": string;
-            /**
-             * Deliveries paid for by one billing period, from 1 to 24. One when no separate
-             * delivery cadence is set. Prices of lines that ship are per delivery. Format: int32.
-             * minimum: 1. maximum: 24.
-             */
-            "deliveries_per_period": number;
-            /**
-             * Saved delivery preference with the current delivery method display. Write responses
-             * use the same display as GET: fixed shipping reflects the current method
-             * configuration, and quoted shipping shows the last paid shipping amount when
-             * available. A subscription's saved delivery preference: method, destination,
-             * recipient, shipping cost, and who last changed it.
-             */
-            "delivery"?: SubscriptionDelivery;
-            /**
-             * Current delivery issue that blocks collection. Mutually exclusive with
-             * upcoming_delivery_hold. A hold on a subscription's deliveries because its delivery
-             * method or destination no longer works, and who can fix it.
-             */
-            "delivery_hold"?: SubscriptionDeliveryHold;
-            /**
-             * Delivery cadence frozen from the plan. Null when no separate delivery cadence is
-             * set; one delivery is made per billing period. Value enum: "daily", "weekly",
-             * "monthly", "yearly", null.
-             */
-            "delivery_interval": "daily" | "weekly" | "monthly" | "yearly" | null | (string & {}) | null;
-            /**
-             * Number of delivery intervals between deliveries. Null when no separate delivery
-             * cadence is set. Format: int32. minimum: 1.
-             */
-            "delivery_interval_count": number | null;
-            /**
-             * The fee in the recorded contract terms. Present whenever those terms include a fee.
-             * It applies only to a cancellation before contract_end_at. Flint never charges it.
-             * Later plan changes do not change this fee. Monetary amount represented as integer
-             * minor units plus an ISO 4217 currency code.
-             */
-            "early_termination_fee_money"?: MoneyValue;
-            /**
-             * Recorded automatic end condition. Null when no automatic end is set. Cycles count
-             * charged billing periods, including imported completed_cycles. Pauses and skips do
-             * not use cycles. Already-paid prepaid deliveries continue on their shifted dates,
-             * even beyond the end date, and cancellation waits for the last remaining delivery.
-             * Skipping defers a delivery without consuming its entitlement. Ending never refunds.
-             * anyOf[1] (Value): {@link SubscriptionEndAfter}. The subscription's automatic end
-             * condition, measured by charged billing cycles or a saved local calendar date.
-             * anyOf[2] (Value): null.
-             */
-            "end_after": ((SubscriptionEndAfter) | (null) | (unknown));
-            /**
-             * Projected end under the current schedule and committed plan changes, including an
-             * earlier scheduled cancellation. A date limit preserves already-paid entitlement
-             * without requiring a future charge schedule. A reached cycle limit uses the last paid
-             * period end, or current_period_end_at when no paid history exists; that fallback
-             * includes any skip or pause extension. A cycle limit with cycles left needs a future
-             * charge schedule unless a known scheduled cancellation determines the end. Paid
-             * deliveries extend the end to the last paid delivery when it is later. An indefinite
-             * pause with paid deliveries owed makes the end unknown. Null when the end cannot be
-             * determined or the subscription is canceled. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "expires_at": string | null;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Who receives the gift, when this is a gift subscription. customer_id stays the
-             * purchaser. Flint clears it when the subscription ends and when the purchaser's data
-             * is erased. Null when the subscription isn't a gift. anyOf[1] (Value): {@link
-             * SubscriptionGiftRecipient}. Who receives a gift subscription. The customer stays the
-             * purchaser, who pays, gets receipts and reminders, and manages the subscription.
-             * delivery.recipient stays the ship-to address. anyOf[2] (Value): null.
-             */
-            "gift_recipient": ((SubscriptionGiftRecipient) | (null));
-            /**
-             * Renewal waiting for stock. Buyers receive only started_at. Shows that a subscription
-             * renewal is waiting for inventory, with the order and invoice involved and when the
-             * wait started.
-             */
-            "inventory_wait"?: SubscriptionInventoryWait;
-            /**
-             * True while an active or trialing subscription on an external billing schedule has no
-             * next billing date.
-             */
-            "is_awaiting_billing_schedule"?: boolean;
-            /**
-             * Latest renewal payment failure, present only while status is past_due and the latest
-             * payment failed. Buyer responses omit merchant remediation and sensitive decline
-             * signals. A summary of why a payment attempt failed, with a normalized error code, a
-             * message, the failure time, and remediation.
-             */
-            "last_payment_error"?: PaymentErrorSummary;
-            /**
-             * What each renewal bills. Plan edits do not change it. Adding, changing or swapping a
-             * line takes that variant's current catalog price, which then stays until the line
-             * changes again. [] (Value): {@link SubscriptionLineItem}. An item included in a
-             * customer's recurring purchase.
-             */
-            "line_items": Array<SubscriptionLineItem>;
-            /**
-             * ID of the merchant this resource belongs to. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id": string;
-            /**
-             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
-             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
-             * are reserved for Flint and are not returned. Writes follow the limits on
-             * MetadataInput and MetadataPatchInput; maps written before those limits may not
-             * satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * The billing date whose payment failed, as an RFC3339 timestamp. Present only while
-             * status is past_due. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "missed_billing_at"?: string;
-            /**
-             * When Flint next starts a scheduled renewal charge, as an RFC3339 timestamp. Present
-             * only while a trialing or active subscription has a billing date and isn't set to
-             * cancel at the end of its period. Absent when no renewal is scheduled: a paused
-             * subscription resumes at scheduled_resume_at, a past_due one reports the failed
-             * billing date in missed_billing_at and retries at next_retry_at, an incomplete one
-             * retries at next_retry_at, a scheduled start begins at starts_at, one set to cancel
-             * ends at scheduled_cancel_at, and an external schedule awaiting a date reports
-             * is_awaiting_billing_schedule. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "next_billing_at"?: string;
-            /**
-             * When the next prepaid delivery order is due, shifted by a timed pause. Null when the
-             * subscription has an indefinite pause, no delivery is scheduled, or the subscription
-             * is canceled. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "next_delivery_at": string | null;
-            /**
-             * Recorded automatic payment retry time. Null when no retry time is available. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "next_retry_at": string | null;
-            /**
-             * ID of the paid renewal order whose shipment has not been dispatched. It keeps its
-             * committed delivery destination after preference changes and cancellation. Absent
-             * when no such renewal order exists. Only renewal orders count; the signup order is
-             * not included. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-             */
-            "open_renewal_order_id"?: string;
-            /**
-             * Unpaid balance of the failed renewal order, including tax, shipping and discounts,
-             * after payments and credits. Present only while status is past_due and a positive
-             * balance remains. Monetary amount represented as integer minor units plus an ISO 4217
-             * currency code.
-             */
-            "outstanding_money"?: MoneyValue;
-            /**
-             * Why the subscription is paused: merchant for a pause made with your API key or
-             * dashboard, buyer for the buyer's own pause, delivery_action_required for a pause
-             * during or after a delivery hold, and payment_failed when renewal payment retries ran
-             * out and your dunning settings pause the subscription. Omitted when the subscription
-             * is not paused. Value enum: "buyer", "delivery_action_required", "merchant",
-             * "payment_failed".
-             */
-            "pause_reason"?: "buyer" | "delivery_action_required" | "merchant" | "payment_failed" | (string & {});
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "paused_at"?: string;
-            /**
-             * Present only when `expand` includes `payment_method`; `null` when expanded and there
-             * is no related payment method. anyOf[1] (Value): {@link
-             * ExpandedPaymentMethodSummary}. A payment method's summary fields, including type,
-             * status, and card details, returned when the payment method is expanded. anyOf[2]
-             * (Value): null.
-             */
-            "payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
-            /**
-             * First charge boundary while no card is bound: the later of trial_end_at and
-             * next_billing_at during a trial, or the next billing date for an imported period,
-             * even when that cycle's charge is zero. Recomputed when the schedule changes. A trial
-             * still without a card at its boundary cancels without an order or payment attempt. At
-             * that boundary, an imported subscription with a positive charge that still has no
-             * card enters its normal dunning schedule without a payment attempt. For an imported
-             * subscription, a zero charge completes the renewal without a card and the deadline
-             * advances to the following boundary. Null when a card is bound, collection is not
-             * scheduled (paused, canceled, or set to cancel at period end), an active or trialing
-             * subscription is in its final end_after cycle, or an external schedule has no known
-             * boundary. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "payment_method_due_at": string | null;
-            /**
-             * Saved payment method used for renewal charges. Null when no card is bound. Bind a
-             * card to this subscription with PATCH; changing the customer's default alone does not
-             * bind it. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
-             */
-            "payment_method_id": string | null;
-            /**
-             * Recurring promotions applying to the next charged cycle. Scheduled attachments are
-             * listed in scheduled_promotions. Empty when none apply; signup-only and exhausted
-             * promotions are excluded. [] (Value): {@link SubscriptionPromotion}. A recurring
-             * promotion applied to a subscription, including its recurrence and remaining
-             * discounted cycles.
-             */
-            "promotions": Array<SubscriptionPromotion>;
-            /**
-             * Whether this subscription was created to prorate its first anchored paid period. Set
-             * at creation and never changes; starting on the anchor day still bills a normal full
-             * period.
-             */
-            "prorate_first_period": boolean;
-            /**
-             * What one billing period's items cost before discounts, shipping, and tax: each
-             * line's price with modifiers, times quantity. It changes when items, quantity, or the
-             * plan change; editing the plan doesn't change it. For the next charge, use a
-             * subscription preview in next_renewal mode. `null` when a cancellation succeeds but
-             * Flint couldn't load the billing snapshot afterward, so the cancel response returns
-             * it as null. Retrieve the subscription again to get it. anyOf[1] (Value): {@link
-             * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217
-             * currency code. anyOf[2] (Value): null.
-             */
-            "recurring_subtotal_money": ((MoneyValue) | (null));
-            /**
-             * Charges left for a cycle limit, bounded by an earlier scheduled cancellation. Null
-             * when there is no cycle limit or the subscription is canceled. Format: uint64.
-             * minimum: 0.
-             */
-            "remaining_cycles": number | null;
-            /**
-             * Paid deliveries whose delivery order Flint hasn't created yet. A paid period starts
-             * with deliveries_per_period minus one. When delivery_hold is present and this count
-             * is positive, fixing delivery releases an already-paid delivery with shipping waived
-             * and no new charge. A next_renewal preview still estimates the next paid billing
-             * cycle. Skips, holds, and pauses consume none. Frozen on cancellation for manual
-             * refunds. Format: int32. minimum: 0. maximum: 23.
-             */
-            "remaining_prepaid_deliveries": number;
-            /**
-             * When Flint accepted a pending resume request. Set only while paused with a resume
-             * Flint has not applied yet. Clears when Flint resumes the subscription or refuses the
-             * request. `null` when the subscription isn't paused or no resume request is pending.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "resume_requested_at": string | null;
-            /**
-             * When the scheduled cancellation takes effect: trial_end_at while trialing,
-             * current_period_end_at while active, or next_retry_at while past_due. Paid deliveries
-             * extend it to the last paid delivery when it is later. Null when cancel_at_period_end
-             * is false or no cancellation time is available. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "scheduled_cancel_at": string | null;
-            /**
-             * Frozen target terms for the next charged renewal. Null when no plan change is
-             * scheduled. Cancel with scheduled_plan_change: null on PATCH; replace through
-             * change-plan. anyOf[1] (Value): {@link SubscriptionScheduledPlanChange}. Frozen
-             * target terms that apply at the next charged renewal. anyOf[2] (Value): null.
-             */
-            "scheduled_plan_change": ((SubscriptionScheduledPlanChange) | (null));
-            /**
-             * Attached promotions whose first_cycle is after the next charged cycle,
-             * completed_cycles + 1. Always present; empty when no promotions are scheduled. []
-             * (Value): {@link SubscriptionPromotion}. A recurring promotion applied to a
-             * subscription, including its recurrence and remaining discounted cycles.
-             */
-            "scheduled_promotions": Array<SubscriptionPromotion>;
-            /**
-             * When a pause with a length (pause_duration_cycles) resumes on its own: that many
-             * delivery intervals after paused_at on a prepaid subscription, or billing intervals
-             * otherwise. Null when the subscription is not paused or the pause has no length, such
-             * as a pause until you resume it or the pause Flint starts when a delivery hold runs
-             * out. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "scheduled_resume_at": string | null;
-            /**
-             * Omitted for a checkout session credential that doesn't act for the customer the
-             * buyer verified. The address where a subscription's service is delivered, with the
-             * saved customer address it came from.
-             */
-            "service_location"?: SubscriptionServiceLocation;
-            /**
-             * When a scheduled start's first billing period begins. Present only until that first
-             * payment succeeds. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "starts_at"?: string;
-            /**
-             * Where the subscription is in its lifecycle. Each value says what it means. Value
-             * enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete",
-             * "scheduled".
-             */
-            "status": "trialing"
-                | "active"
-                | "paused"
-                | "past_due"
-                | "canceled"
-                | "incomplete"
-                | "scheduled"
-                | (string & {});
-            /** Stable identifier of the subscription. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM". */
-            "subscription_id": string;
-            /**
-             * Present only when `expand` includes `subscription_plan`; `null` when expanded and
-             * there is no related subscription plan. anyOf[1] (Value): {@link
-             * ExpandedSubscriptionPlanSummary}. A subscription plan's summary fields, including
-             * name, billing interval, currency, and status, returned when the plan is expanded.
-             * anyOf[2] (Value): null.
-             */
-            "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
-            /**
-             * Subscription plan ID. Omitted when terms_type is subscription_offer. Example:
-             * "plan_01KEZF7C004CY5ZR33XST2AASV".
-             */
-            "subscription_plan_id"?: string;
-            /**
-             * Merchant actions allowed by the subscription's state. A route can still refuse a
-             * listed action for a transient reason, such as a renewal already in progress, with
-             * its own error. Always present with merchant credentials. [] enum: "cancel", "pause",
-             * "resume", "skip_cycle", "renew", "change_plan", "change_quantity". [] (Value):
-             * string. Value enum: "cancel", "pause", "resume", "skip_cycle", "renew",
-             * "change_plan", "change_quantity".
-             */
-            "supported_actions"?: Array<"cancel"
-                | "pause"
-                | "resume"
-                | "skip_cycle"
-                | "renew"
-                | "change_plan"
-                | "change_quantity"
-                | (string & {})>;
-            /**
-             * The tax the subscription's renewal, setup fee and plan change orders use. `null`
-             * when they follow `tax.default_enabled` and `tax.default_calculation` from your
-             * settings. Returned only to merchant credentials; omitted for buyer credentials.
-             * Always present with merchant credentials. anyOf[1] (Value): {@link SubscriptionTax}.
-             * The tax the subscription's renewal, setup fee and plan change orders use. Returned
-             * only to merchant credentials; omitted for buyer credentials. anyOf[2] (Value): null.
-             */
-            "tax"?: ((SubscriptionTax) | (null));
-            /**
-             * Terms come from the subscription plan in subscription_plan_id, or from subscription
-             * offers identified on each offer line by subscription_offer_id. Value enum:
-             * "subscription_plan", "subscription_offer".
-             */
-            "terms_type": "subscription_plan" | "subscription_offer" | (string & {});
-            /**
-             * ID of the test clock the subscription's customer was created on. The subscription
-             * bills at the clock's time. Present only when the customer is on a test clock.
-             * Included only in merchant responses and omitted from buyer responses. Example:
-             * "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
-             */
-            "test_clock_id"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "trial_end_at"?: string;
-            /**
-             * Delivery issue forecast for the next renewal at renewal_at. Mutually exclusive with
-             * delivery_hold. A delivery problem detected for an upcoming renewal that will hold
-             * the subscription's delivery, and who can fix it.
-             */
-            "upcoming_delivery_hold"?: SubscriptionUpcomingDeliveryHold;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Goes up with every change to the subscription, including renewals and other changes
-             * Flint makes. Send it as `expected_version` to apply an update only if nothing
-             * changed. Format: uint64. minimum: 0.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. billing_anchor_day (Optional): integer or null.
-         * UTC day of the month used for monthly and yearly billing. Applies only to Flint-owned
-         * schedules. billing_anchor_day.anyOf[1] (Value): integer. UTC day of the month used for
-         * monthly and yearly billing. Applies only to Flint-owned schedules. Format: int32.
-         * minimum: 1. maximum: 31. billing_anchor_day.anyOf[2] (Value): null. billing_interval
-         * (Optional): string or null. How often the subscription bills now. Read with
-         * billing_interval_count: monthly with a count of 3 bills quarterly. A change applies from
-         * the next renewal that has not been paid; next_billing_at does not move. Value enum:
-         * "daily", "weekly", "monthly", "yearly". billing_interval.anyOf[1] (Value): string. How
-         * often the subscription bills now. Read with billing_interval_count: monthly with a count
-         * of 3 bills quarterly. A change applies from the next renewal that has not been paid;
-         * next_billing_at does not move. Value enum: "daily", "weekly", "monthly", "yearly".
-         * billing_interval.anyOf[2] (Value): null. billing_interval_count (Optional): integer or
-         * null. Number of billing_interval units between charges. Changes with billing_interval.
-         * billing_interval_count.anyOf[1] (Value): integer. Number of billing_interval units
-         * between charges. Changes with billing_interval. Format: int32.
-         * billing_interval_count.anyOf[2] (Value): null. billing_interval_options (Optional):
-         * Array of {@link SubscriptionIntervalOptionPreviousAttributes} or null. Billing interval
-         * and count pairs the subscription can switch to. For a subscription on a plan, they
-         * follow the plan's current billing_interval_options. A subscription that came from an
-         * offer keeps the pairs the offer had at signup. Prices of lines that ship are per
-         * delivery. Each option charges for all deliveries in its period. Changing the interval
-         * does not change the per-delivery price. billing_interval_options.anyOf[1] (Value): Array
-         * of {@link SubscriptionIntervalOptionPreviousAttributes}. Billing interval and count
-         * pairs the subscription can switch to. For a subscription on a plan, they follow the
-         * plan's current billing_interval_options. A subscription that came from an offer keeps
-         * the pairs the offer had at signup. Prices of lines that ship are per delivery. Each
-         * option charges for all deliveries in its period. Changing the interval does not change
-         * the per-delivery price. maxItems: 12. uniqueItems: true.
-         * billing_interval_options.anyOf[1][] (Value): {@link
-         * SubscriptionIntervalOptionPreviousAttributes}. billing_interval_options.anyOf[2]
-         * (Value): null. billing_schedule_owner (Optional): string or null. Who supplies billing
-         * dates: flint advances the schedule after each paid renewal; external uses dates you
-         * supply. Change it with billing_schedule on PATCH /v1/subscriptions/{subscription_id}.
-         * Value enum: "flint", "external". billing_schedule_owner.anyOf[1] (Value): string. Who
-         * supplies billing dates: flint advances the schedule after each paid renewal; external
-         * uses dates you supply. Change it with billing_schedule on PATCH
-         * /v1/subscriptions/{subscription_id}. Value enum: "flint", "external".
-         * billing_schedule_owner.anyOf[2] (Value): null. billing_schedule_waiting_started_at
-         * (Optional): string or null. RFC3339 timestamp.
-         * billing_schedule_waiting_started_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". billing_schedule_waiting_started_at.anyOf[2]
-         * (Value): null. cancel_at_period_end (Optional): boolean or null. True when the
-         * subscription is scheduled to cancel at scheduled_cancel_at. Schedule with POST
-         * /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and cancel_at_period_end
-         * false. cancel_at_period_end.anyOf[1] (Value): boolean. True when the subscription is
-         * scheduled to cancel at scheduled_cancel_at. Schedule with POST
-         * /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and cancel_at_period_end
-         * false. cancel_at_period_end.anyOf[2] (Value): null. canceled_at (Optional): string or
-         * null. RFC3339 timestamp. canceled_at.anyOf[1] (Value): string. RFC3339 timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". canceled_at.anyOf[2] (Value): null.
-         * cancellation_details (Optional): {@link
-         * SubscriptionCancellationDetailsPreviousAttributes} or null. Who asked to cancel, when,
-         * and why. Present once a cancellation is requested, whether it takes effect at the end of
-         * the billing period or right away. Omitted when no one asked, and removed when a
-         * scheduled cancellation is undone. See cancellation_reason for voluntary and
-         * payment-related cancellations. cancellation_details.anyOf[1] (Value): {@link
-         * SubscriptionCancellationDetailsPreviousAttributes}. cancellation_details.anyOf[2]
-         * (Value): null. cancellation_reason (Optional): string or null. Why the subscription is
-         * canceled or scheduled to cancel. Uses signup_order_refunded when an automatic inventory
-         * refund fully refunds the signup order, end_after_reached when the automatic ending
-         * agreement is reached, cancellation_details.requested_by when recorded, payment_failed
-         * for other canceled subscriptions without a requester, and other for a scheduled
-         * cancellation without a requester. Omitted otherwise. Value enum: "buyer", "merchant",
-         * "integration", "payment_failed", "other", "end_after_reached", "signup_order_refunded".
-         * cancellation_reason.anyOf[1] (Value): string. Why the subscription is canceled or
-         * scheduled to cancel. Uses signup_order_refunded when an automatic inventory refund fully
-         * refunds the signup order, end_after_reached when the automatic ending agreement is
-         * reached, cancellation_details.requested_by when recorded, payment_failed for other
-         * canceled subscriptions without a requester, and other for a scheduled cancellation
-         * without a requester. Omitted otherwise. Value enum: "buyer", "merchant", "integration",
-         * "payment_failed", "other", "end_after_reached", "signup_order_refunded".
-         * cancellation_reason.anyOf[2] (Value): null. completed_cycles (Optional): integer or
-         * null. Billing cycles charged so far, including cycles imported with
-         * `billing_start.completed_cycles`. The next renewal order's `subscription_cycle` is this
-         * number plus one. completed_cycles.anyOf[1] (Value): integer. Billing cycles charged so
-         * far, including cycles imported with `billing_start.completed_cycles`. The next renewal
-         * order's `subscription_cycle` is this number plus one. Format: uint64. minimum: 0.
-         * completed_cycles.anyOf[2] (Value): null. contract_end_at (Optional): string or null.
-         * When the recorded contract term ends. Does not move when the subscription pauses or
-         * changes plan. Flint does not stop the buyer from canceling earlier.
-         * contract_end_at.anyOf[1] (Value): string. When the recorded contract term ends. Does not
-         * move when the subscription pauses or changes plan. Flint does not stop the buyer from
-         * canceling earlier. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * contract_end_at.anyOf[2] (Value): null. contract_start_at (Optional): string or null.
-         * When the recorded contract term started. Does not move when the subscription pauses or
-         * changes plan. contract_start_at.anyOf[1] (Value): string. When the recorded contract
-         * term started. Does not move when the subscription pauses or changes plan. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". contract_start_at.anyOf[2] (Value): null.
-         * created_at (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value):
-         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. current_period_end_at (Optional): string or null.
-         * RFC3339 timestamp. current_period_end_at.anyOf[1] (Value): string. RFC3339 timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". current_period_end_at.anyOf[2]
-         * (Value): null. current_period_start_at (Optional): string or null. RFC3339 timestamp.
-         * current_period_start_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". current_period_start_at.anyOf[2] (Value): null.
-         * customer (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present
-         * only when `expand` includes `customer`; `null` when expanded and there is no related
-         * customer. customer.anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
-         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. The customer
-         * this subscription bills. customer_id.anyOf[1] (Value): string. The customer this
-         * subscription bills. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2]
-         * (Value): null. deliveries_per_period (Optional): integer or null. Deliveries paid for by
-         * one billing period, from 1 to 24. One when no separate delivery cadence is set. Prices
-         * of lines that ship are per delivery. deliveries_per_period.anyOf[1] (Value): integer.
-         * Deliveries paid for by one billing period, from 1 to 24. One when no separate delivery
-         * cadence is set. Prices of lines that ship are per delivery. Format: int32. minimum: 1.
-         * maximum: 24. deliveries_per_period.anyOf[2] (Value): null. delivery (Optional): {@link
-         * SubscriptionDeliveryPreviousAttributes} or null. Saved delivery preference with the
-         * current delivery method display. Write responses use the same display as GET: fixed
-         * shipping reflects the current method configuration, and quoted shipping shows the last
-         * paid shipping amount when available. delivery.anyOf[1] (Value): {@link
-         * SubscriptionDeliveryPreviousAttributes}. delivery.anyOf[2] (Value): null. delivery_hold
-         * (Optional): {@link SubscriptionDeliveryHoldPreviousAttributes} or null. Current delivery
-         * issue that blocks collection. Mutually exclusive with upcoming_delivery_hold.
-         * delivery_hold.anyOf[1] (Value): {@link SubscriptionDeliveryHoldPreviousAttributes}.
-         * delivery_hold.anyOf[2] (Value): null. delivery_interval (Optional): string or null.
-         * Delivery cadence frozen from the plan. Null when no separate delivery cadence is set;
-         * one delivery is made per billing period. Value enum: "daily", "weekly", "monthly",
-         * "yearly", null. delivery_interval.anyOf[1] (Value): string. Delivery cadence frozen from
-         * the plan. Null when no separate delivery cadence is set; one delivery is made per
-         * billing period. Value enum: "daily", "weekly", "monthly", "yearly", null.
-         * delivery_interval.anyOf[2] (Value): null. delivery_interval_count (Optional): integer or
-         * null. Number of delivery intervals between deliveries. Null when no separate delivery
-         * cadence is set. delivery_interval_count.anyOf[1] (Value): integer. Number of delivery
-         * intervals between deliveries. Null when no separate delivery cadence is set. Format:
-         * int32. minimum: 1. delivery_interval_count.anyOf[2] (Value): null.
-         * early_termination_fee_money (Optional): {@link MoneyValuePreviousAttributes} or null.
-         * The fee in the recorded contract terms. Present whenever those terms include a fee. It
-         * applies only to a cancellation before contract_end_at. Flint never charges it. Later
-         * plan changes do not change this fee. early_termination_fee_money.anyOf[1] (Value):
-         * {@link MoneyValuePreviousAttributes}. early_termination_fee_money.anyOf[2] (Value):
-         * null. end_after (Optional): ({@link SubscriptionEndAfterPreviousAttributes} or null) or
-         * null. Recorded automatic end condition. Null when no automatic end is set. Cycles count
-         * charged billing periods, including imported completed_cycles. Pauses and skips do not
-         * use cycles. Already-paid prepaid deliveries continue on their shifted dates, even beyond
-         * the end date, and cancellation waits for the last remaining delivery. Skipping defers a
-         * delivery without consuming its entitlement. Ending never refunds. end_after.anyOf[1]
-         * (Value): ({@link SubscriptionEndAfterPreviousAttributes} or null). Recorded automatic
-         * end condition. Null when no automatic end is set. Cycles count charged billing periods,
-         * including imported completed_cycles. Pauses and skips do not use cycles. Already-paid
-         * prepaid deliveries continue on their shifted dates, even beyond the end date, and
-         * cancellation waits for the last remaining delivery. Skipping defers a delivery without
-         * consuming its entitlement. Ending never refunds. end_after.anyOf[1].anyOf[1] (Value):
-         * {@link SubscriptionEndAfterPreviousAttributes}. The subscription's automatic end
-         * condition, measured by charged billing cycles or a saved local calendar date.
-         * end_after.anyOf[1].anyOf[2] (Value): null. end_after.anyOf[2] (Value): null. expires_at
-         * (Optional): string or null. Projected end under the current schedule and committed plan
-         * changes, including an earlier scheduled cancellation. A date limit preserves
-         * already-paid entitlement without requiring a future charge schedule. A reached cycle
-         * limit uses the last paid period end, or current_period_end_at when no paid history
-         * exists; that fallback includes any skip or pause extension. A cycle limit with cycles
-         * left needs a future charge schedule unless a known scheduled cancellation determines the
-         * end. Paid deliveries extend the end to the last paid delivery when it is later. An
-         * indefinite pause with paid deliveries owed makes the end unknown. Null when the end
-         * cannot be determined or the subscription is canceled. expires_at.anyOf[1] (Value):
-         * string. Projected end under the current schedule and committed plan changes, including
-         * an earlier scheduled cancellation. A date limit preserves already-paid entitlement
-         * without requiring a future charge schedule. A reached cycle limit uses the last paid
-         * period end, or current_period_end_at when no paid history exists; that fallback includes
-         * any skip or pause extension. A cycle limit with cycles left needs a future charge
-         * schedule unless a known scheduled cancellation determines the end. Paid deliveries
-         * extend the end to the last paid delivery when it is later. An indefinite pause with paid
-         * deliveries owed makes the end unknown. Null when the end cannot be determined or the
-         * subscription is canceled. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * expires_at.anyOf[2] (Value): null. external_reference_id (Optional): string or null.
-         * Caller-owned identifier for this resource in an external system.
-         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
-         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
-         * external_reference_id.anyOf[2] (Value): null. gift_recipient (Optional): {@link
-         * SubscriptionGiftRecipientPreviousAttributes} or null. Who receives the gift, when this
-         * is a gift subscription. customer_id stays the purchaser. Flint clears it when the
-         * subscription ends and when the purchaser's data is erased. Null when the subscription
-         * isn't a gift. gift_recipient.anyOf[1] (Value): {@link
-         * SubscriptionGiftRecipientPreviousAttributes}. gift_recipient.anyOf[2] (Value): null.
-         * inventory_wait (Optional): {@link SubscriptionInventoryWaitPreviousAttributes} or null.
-         * Renewal waiting for stock. Buyers receive only started_at. inventory_wait.anyOf[1]
-         * (Value): {@link SubscriptionInventoryWaitPreviousAttributes}. inventory_wait.anyOf[2]
-         * (Value): null. is_awaiting_billing_schedule (Optional): boolean or null. True while an
-         * active or trialing subscription on an external billing schedule has no next billing
-         * date. is_awaiting_billing_schedule.anyOf[1] (Value): boolean. True while an active or
-         * trialing subscription on an external billing schedule has no next billing date.
-         * is_awaiting_billing_schedule.anyOf[2] (Value): null. last_payment_error (Optional):
-         * {@link PaymentErrorSummaryPreviousAttributes} or null. Latest renewal payment failure,
-         * present only while status is past_due and the latest payment failed. Buyer responses
-         * omit merchant remediation and sensitive decline signals. last_payment_error.anyOf[1]
-         * (Value): {@link PaymentErrorSummaryPreviousAttributes}. last_payment_error.anyOf[2]
-         * (Value): null. line_items (Optional): Array of {@link
-         * SubscriptionLineItemPreviousAttributes} or null. What each renewal bills. Plan edits do
-         * not change it. Adding, changing or swapping a line takes that variant's current catalog
-         * price, which then stays until the line changes again. line_items.anyOf[1] (Value): Array
-         * of {@link SubscriptionLineItemPreviousAttributes}. What each renewal bills. Plan edits
-         * do not change it. Adding, changing or swapping a line takes that variant's current
-         * catalog price, which then stays until the line changes again. line_items.anyOf[1][]
-         * (Value): {@link SubscriptionLineItemPreviousAttributes}. line_items.anyOf[2] (Value):
-         * null. merchant_id (Optional): string or null. ID of the merchant this resource belongs
-         * to. merchant_id.anyOf[1] (Value): string. ID of the merchant this resource belongs to.
-         * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
-         * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
-         * `MetadataInput` for key, value, and size rules. metadata.anyOf[1] (Value): {@link
-         * MetadataMap}. metadata.anyOf[2] (Value): null. missed_billing_at (Optional): string or
-         * null. The billing date whose payment failed, as an RFC3339 timestamp. Present only while
-         * status is past_due. missed_billing_at.anyOf[1] (Value): string. The billing date whose
-         * payment failed, as an RFC3339 timestamp. Present only while status is past_due. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". missed_billing_at.anyOf[2] (Value): null.
-         * next_billing_at (Optional): string or null. When Flint next starts a scheduled renewal
-         * charge, as an RFC3339 timestamp. Present only while a trialing or active subscription
-         * has a billing date and isn't set to cancel at the end of its period. Absent when no
-         * renewal is scheduled: a paused subscription resumes at scheduled_resume_at, a past_due
-         * one reports the failed billing date in missed_billing_at and retries at next_retry_at,
-         * an incomplete one retries at next_retry_at, a scheduled start begins at starts_at, one
-         * set to cancel ends at scheduled_cancel_at, and an external schedule awaiting a date
-         * reports is_awaiting_billing_schedule. next_billing_at.anyOf[1] (Value): string. When
-         * Flint next starts a scheduled renewal charge, as an RFC3339 timestamp. Present only
-         * while a trialing or active subscription has a billing date and isn't set to cancel at
-         * the end of its period. Absent when no renewal is scheduled: a paused subscription
-         * resumes at scheduled_resume_at, a past_due one reports the failed billing date in
-         * missed_billing_at and retries at next_retry_at, an incomplete one retries at
-         * next_retry_at, a scheduled start begins at starts_at, one set to cancel ends at
-         * scheduled_cancel_at, and an external schedule awaiting a date reports
-         * is_awaiting_billing_schedule. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * next_billing_at.anyOf[2] (Value): null. next_delivery_at (Optional): string or null.
-         * When the next prepaid delivery order is due, shifted by a timed pause. Null when the
-         * subscription has an indefinite pause, no delivery is scheduled, or the subscription is
-         * canceled. next_delivery_at.anyOf[1] (Value): string. When the next prepaid delivery
-         * order is due, shifted by a timed pause. Null when the subscription has an indefinite
-         * pause, no delivery is scheduled, or the subscription is canceled. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". next_delivery_at.anyOf[2] (Value): null. next_retry_at
-         * (Optional): string or null. Recorded automatic payment retry time. Null when no retry
-         * time is available. next_retry_at.anyOf[1] (Value): string. Recorded automatic payment
-         * retry time. Null when no retry time is available. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". next_retry_at.anyOf[2] (Value): null. open_renewal_order_id
-         * (Optional): string or null. ID of the paid renewal order whose shipment has not been
-         * dispatched. It keeps its committed delivery destination after preference changes and
-         * cancellation. Absent when no such renewal order exists. Only renewal orders count; the
-         * signup order is not included. open_renewal_order_id.anyOf[1] (Value): string. ID of the
-         * paid renewal order whose shipment has not been dispatched. It keeps its committed
-         * delivery destination after preference changes and cancellation. Absent when no such
-         * renewal order exists. Only renewal orders count; the signup order is not included.
-         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". open_renewal_order_id.anyOf[2] (Value): null.
-         * outstanding_money (Optional): {@link MoneyValuePreviousAttributes} or null. Unpaid
-         * balance of the failed renewal order, including tax, shipping and discounts, after
-         * payments and credits. Present only while status is past_due and a positive balance
-         * remains. outstanding_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-         * outstanding_money.anyOf[2] (Value): null. pause_reason (Optional): string or null. Why
-         * the subscription is paused: merchant for a pause made with your API key or dashboard,
-         * buyer for the buyer's own pause, delivery_action_required for a pause during or after a
-         * delivery hold, and payment_failed when renewal payment retries ran out and your dunning
-         * settings pause the subscription. Omitted when the subscription is not paused. Value
-         * enum: "buyer", "delivery_action_required", "merchant", "payment_failed".
-         * pause_reason.anyOf[1] (Value): string. Why the subscription is paused: merchant for a
-         * pause made with your API key or dashboard, buyer for the buyer's own pause,
-         * delivery_action_required for a pause during or after a delivery hold, and payment_failed
-         * when renewal payment retries ran out and your dunning settings pause the subscription.
-         * Omitted when the subscription is not paused. Value enum: "buyer",
-         * "delivery_action_required", "merchant", "payment_failed". pause_reason.anyOf[2] (Value):
-         * null. paused_at (Optional): string or null. RFC3339 timestamp. paused_at.anyOf[1]
-         * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * paused_at.anyOf[2] (Value): null. payment_method (Optional): {@link
-         * ExpandedPaymentMethodSummaryPreviousAttributes} or null. Present only when `expand`
-         * includes `payment_method`; `null` when expanded and there is no related payment method.
-         * payment_method.anyOf[1] (Value): {@link ExpandedPaymentMethodSummaryPreviousAttributes}.
-         * payment_method.anyOf[2] (Value): null. payment_method_due_at (Optional): string or null.
-         * First charge boundary while no card is bound: the later of trial_end_at and
-         * next_billing_at during a trial, or the next billing date for an imported period, even
-         * when that cycle's charge is zero. Recomputed when the schedule changes. A trial still
-         * without a card at its boundary cancels without an order or payment attempt. At that
-         * boundary, an imported subscription with a positive charge that still has no card enters
-         * its normal dunning schedule without a payment attempt. For an imported subscription, a
-         * zero charge completes the renewal without a card and the deadline advances to the
-         * following boundary. Null when a card is bound, collection is not scheduled (paused,
-         * canceled, or set to cancel at period end), an active or trialing subscription is in its
-         * final end_after cycle, or an external schedule has no known boundary.
-         * payment_method_due_at.anyOf[1] (Value): string. First charge boundary while no card is
-         * bound: the later of trial_end_at and next_billing_at during a trial, or the next billing
-         * date for an imported period, even when that cycle's charge is zero. Recomputed when the
-         * schedule changes. A trial still without a card at its boundary cancels without an order
-         * or payment attempt. At that boundary, an imported subscription with a positive charge
-         * that still has no card enters its normal dunning schedule without a payment attempt. For
-         * an imported subscription, a zero charge completes the renewal without a card and the
-         * deadline advances to the following boundary. Null when a card is bound, collection is
-         * not scheduled (paused, canceled, or set to cancel at period end), an active or trialing
-         * subscription is in its final end_after cycle, or an external schedule has no known
-         * boundary. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * payment_method_due_at.anyOf[2] (Value): null. payment_method_id (Optional): string or
-         * null. Saved payment method used for renewal charges. Null when no card is bound. Bind a
-         * card to this subscription with PATCH; changing the customer's default alone does not
-         * bind it. payment_method_id.anyOf[1] (Value): string. Saved payment method used for
-         * renewal charges. Null when no card is bound. Bind a card to this subscription with
-         * PATCH; changing the customer's default alone does not bind it. Example:
-         * "pm_01KEZF7C0034B248TXXE4NXYFZ". payment_method_id.anyOf[2] (Value): null. promotions
-         * (Optional): Array of {@link SubscriptionPromotionPreviousAttributes} or null. Recurring
-         * promotions applying to the next charged cycle. Scheduled attachments are listed in
-         * scheduled_promotions. Empty when none apply; signup-only and exhausted promotions are
-         * excluded. promotions.anyOf[1] (Value): Array of {@link
-         * SubscriptionPromotionPreviousAttributes}. Recurring promotions applying to the next
-         * charged cycle. Scheduled attachments are listed in scheduled_promotions. Empty when none
-         * apply; signup-only and exhausted promotions are excluded. promotions.anyOf[1][] (Value):
-         * {@link SubscriptionPromotionPreviousAttributes}. promotions.anyOf[2] (Value): null.
-         * prorate_first_period (Optional): boolean or null. Whether this subscription was created
-         * to prorate its first anchored paid period. Set at creation and never changes; starting
-         * on the anchor day still bills a normal full period. prorate_first_period.anyOf[1]
-         * (Value): boolean. Whether this subscription was created to prorate its first anchored
-         * paid period. Set at creation and never changes; starting on the anchor day still bills a
-         * normal full period. prorate_first_period.anyOf[2] (Value): null.
-         * recurring_subtotal_money (Optional): {@link MoneyValuePreviousAttributes} or null. What
-         * one billing period's items cost before discounts, shipping, and tax: each line's price
-         * with modifiers, times quantity. It changes when items, quantity, or the plan change;
-         * editing the plan doesn't change it. For the next charge, use a subscription preview in
-         * next_renewal mode. `null` when a cancellation succeeds but Flint couldn't load the
-         * billing snapshot afterward, so the cancel response returns it as null. Retrieve the
-         * subscription again to get it. recurring_subtotal_money.anyOf[1] (Value): {@link
-         * MoneyValuePreviousAttributes}. recurring_subtotal_money.anyOf[2] (Value): null.
-         * remaining_cycles (Optional): integer or null. Charges left for a cycle limit, bounded by
-         * an earlier scheduled cancellation. Null when there is no cycle limit or the subscription
-         * is canceled. remaining_cycles.anyOf[1] (Value): integer. Charges left for a cycle limit,
-         * bounded by an earlier scheduled cancellation. Null when there is no cycle limit or the
-         * subscription is canceled. Format: uint64. minimum: 0. remaining_cycles.anyOf[2] (Value):
-         * null. remaining_prepaid_deliveries (Optional): integer or null. Paid deliveries whose
-         * delivery order Flint hasn't created yet. A paid period starts with deliveries_per_period
-         * minus one. When delivery_hold is present and this count is positive, fixing delivery
-         * releases an already-paid delivery with shipping waived and no new charge. A next_renewal
-         * preview still estimates the next paid billing cycle. Skips, holds, and pauses consume
-         * none. Frozen on cancellation for manual refunds. remaining_prepaid_deliveries.anyOf[1]
-         * (Value): integer. Paid deliveries whose delivery order Flint hasn't created yet. A paid
-         * period starts with deliveries_per_period minus one. When delivery_hold is present and
-         * this count is positive, fixing delivery releases an already-paid delivery with shipping
-         * waived and no new charge. A next_renewal preview still estimates the next paid billing
-         * cycle. Skips, holds, and pauses consume none. Frozen on cancellation for manual refunds.
-         * Format: int32. minimum: 0. maximum: 23. remaining_prepaid_deliveries.anyOf[2] (Value):
-         * null. resume_requested_at (Optional): string or null. When Flint accepted a pending
-         * resume request. Set only while paused with a resume Flint has not applied yet. Clears
-         * when Flint resumes the subscription or refuses the request. `null` when the subscription
-         * isn't paused or no resume request is pending. resume_requested_at.anyOf[1] (Value):
-         * string. When Flint accepted a pending resume request. Set only while paused with a
-         * resume Flint has not applied yet. Clears when Flint resumes the subscription or refuses
-         * the request. `null` when the subscription isn't paused or no resume request is pending.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". resume_requested_at.anyOf[2]
-         * (Value): null. scheduled_cancel_at (Optional): string or null. When the scheduled
-         * cancellation takes effect: trial_end_at while trialing, current_period_end_at while
-         * active, or next_retry_at while past_due. Paid deliveries extend it to the last paid
-         * delivery when it is later. Null when cancel_at_period_end is false or no cancellation
-         * time is available. scheduled_cancel_at.anyOf[1] (Value): string. When the scheduled
-         * cancellation takes effect: trial_end_at while trialing, current_period_end_at while
-         * active, or next_retry_at while past_due. Paid deliveries extend it to the last paid
-         * delivery when it is later. Null when cancel_at_period_end is false or no cancellation
-         * time is available. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * scheduled_cancel_at.anyOf[2] (Value): null. scheduled_plan_change (Optional): {@link
-         * SubscriptionScheduledPlanChangePreviousAttributes} or null. Frozen target terms for the
-         * next charged renewal. Null when no plan change is scheduled. Cancel with
-         * scheduled_plan_change: null on PATCH; replace through change-plan.
-         * scheduled_plan_change.anyOf[1] (Value): {@link
-         * SubscriptionScheduledPlanChangePreviousAttributes}. scheduled_plan_change.anyOf[2]
-         * (Value): null. scheduled_promotions (Optional): Array of {@link
-         * SubscriptionPromotionPreviousAttributes} or null. Attached promotions whose first_cycle
-         * is after the next charged cycle, completed_cycles + 1. Always present; empty when no
-         * promotions are scheduled. scheduled_promotions.anyOf[1] (Value): Array of {@link
-         * SubscriptionPromotionPreviousAttributes}. Attached promotions whose first_cycle is after
-         * the next charged cycle, completed_cycles + 1. Always present; empty when no promotions
-         * are scheduled. scheduled_promotions.anyOf[1][] (Value): {@link
-         * SubscriptionPromotionPreviousAttributes}. scheduled_promotions.anyOf[2] (Value): null.
-         * scheduled_resume_at (Optional): string or null. When a pause with a length
-         * (pause_duration_cycles) resumes on its own: that many delivery intervals after paused_at
-         * on a prepaid subscription, or billing intervals otherwise. Null when the subscription is
-         * not paused or the pause has no length, such as a pause until you resume it or the pause
-         * Flint starts when a delivery hold runs out. scheduled_resume_at.anyOf[1] (Value):
-         * string. When a pause with a length (pause_duration_cycles) resumes on its own: that many
-         * delivery intervals after paused_at on a prepaid subscription, or billing intervals
-         * otherwise. Null when the subscription is not paused or the pause has no length, such as
-         * a pause until you resume it or the pause Flint starts when a delivery hold runs out.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". scheduled_resume_at.anyOf[2]
-         * (Value): null. service_location (Optional): {@link
-         * SubscriptionServiceLocationPreviousAttributes} or null. Omitted for a checkout session
-         * credential that doesn't act for the customer the buyer verified.
-         * service_location.anyOf[1] (Value): {@link
-         * SubscriptionServiceLocationPreviousAttributes}. service_location.anyOf[2] (Value): null.
-         * starts_at (Optional): string or null. When a scheduled start's first billing period
-         * begins. Present only until that first payment succeeds. starts_at.anyOf[1] (Value):
-         * string. When a scheduled start's first billing period begins. Present only until that
-         * first payment succeeds. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * starts_at.anyOf[2] (Value): null. status (Optional): string or null. Where the
-         * subscription is in its lifecycle. Each value says what it means. Value enum: "trialing",
-         * "active", "paused", "past_due", "canceled", "incomplete", "scheduled". status.anyOf[1]
-         * (Value): string. Where the subscription is in its lifecycle. Each value says what it
-         * means. Value enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete",
-         * "scheduled". status.anyOf[2] (Value): null. subscription_id (Optional): string or null.
-         * Stable identifier of the subscription. subscription_id.anyOf[1] (Value): string. Stable
-         * identifier of the subscription. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
-         * subscription_id.anyOf[2] (Value): null. subscription_plan (Optional): {@link
-         * ExpandedSubscriptionPlanSummaryPreviousAttributes} or null. Present only when `expand`
-         * includes `subscription_plan`; `null` when expanded and there is no related subscription
-         * plan. subscription_plan.anyOf[1] (Value): {@link
-         * ExpandedSubscriptionPlanSummaryPreviousAttributes}. subscription_plan.anyOf[2] (Value):
-         * null. subscription_plan_id (Optional): string or null. Subscription plan ID. Omitted
-         * when terms_type is subscription_offer. subscription_plan_id.anyOf[1] (Value): string.
-         * Subscription plan ID. Omitted when terms_type is subscription_offer. Example:
-         * "plan_01KEZF7C004CY5ZR33XST2AASV". subscription_plan_id.anyOf[2] (Value): null.
-         * supported_actions (Optional): Array of string or null. Merchant actions allowed by the
-         * subscription's state. A route can still refuse a listed action for a transient reason,
-         * such as a renewal already in progress, with its own error. Always present with merchant
-         * credentials. [] enum: "cancel", "pause", "resume", "skip_cycle", "renew", "change_plan",
-         * "change_quantity". supported_actions.anyOf[1] (Value): Array of string. Merchant actions
-         * allowed by the subscription's state. A route can still refuse a listed action for a
-         * transient reason, such as a renewal already in progress, with its own error. Always
-         * present with merchant credentials. [] enum: "cancel", "pause", "resume", "skip_cycle",
-         * "renew", "change_plan", "change_quantity". supported_actions.anyOf[1][] (Value): string.
-         * Value enum: "cancel", "pause", "resume", "skip_cycle", "renew", "change_plan",
-         * "change_quantity". supported_actions.anyOf[2] (Value): null. tax (Optional): {@link
-         * SubscriptionTaxPreviousAttributes} or null. The tax the subscription's renewal, setup
-         * fee and plan change orders use. `null` when they follow `tax.default_enabled` and
-         * `tax.default_calculation` from your settings. Returned only to merchant credentials;
-         * omitted for buyer credentials. Always present with merchant credentials. tax.anyOf[1]
-         * (Value): {@link SubscriptionTaxPreviousAttributes}. tax.anyOf[2] (Value): null.
-         * terms_type (Optional): string or null. Terms come from the subscription plan in
-         * subscription_plan_id, or from subscription offers identified on each offer line by
-         * subscription_offer_id. Value enum: "subscription_plan", "subscription_offer".
-         * terms_type.anyOf[1] (Value): string. Terms come from the subscription plan in
-         * subscription_plan_id, or from subscription offers identified on each offer line by
-         * subscription_offer_id. Value enum: "subscription_plan", "subscription_offer".
-         * terms_type.anyOf[2] (Value): null. test_clock_id (Optional): string or null. ID of the
-         * test clock the subscription's customer was created on. The subscription bills at the
-         * clock's time. Present only when the customer is on a test clock. Included only in
-         * merchant responses and omitted from buyer responses. test_clock_id.anyOf[1] (Value):
-         * string. ID of the test clock the subscription's customer was created on. The
-         * subscription bills at the clock's time. Present only when the customer is on a test
-         * clock. Included only in merchant responses and omitted from buyer responses. Example:
-         * "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ". test_clock_id.anyOf[2] (Value): null. trial_end_at
-         * (Optional): string or null. RFC3339 timestamp. trial_end_at.anyOf[1] (Value): string.
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * trial_end_at.anyOf[2] (Value): null. upcoming_delivery_hold (Optional): {@link
-         * SubscriptionUpcomingDeliveryHoldPreviousAttributes} or null. Delivery issue forecast for
-         * the next renewal at renewal_at. Mutually exclusive with delivery_hold.
-         * upcoming_delivery_hold.anyOf[1] (Value): {@link
-         * SubscriptionUpcomingDeliveryHoldPreviousAttributes}. upcoming_delivery_hold.anyOf[2]
-         * (Value): null. updated_at (Optional): string or null. RFC3339 timestamp.
-         * updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
-         * or null. Goes up with every change to the subscription, including renewals and other
-         * changes Flint makes. Send it as `expected_version` to apply an update only if nothing
-         * changed. version.anyOf[1] (Value): integer. Goes up with every change to the
-         * subscription, including renewals and other changes Flint makes. Send it as
-         * `expected_version` to apply an update only if nothing changed. Format: uint64. minimum:
-         * 0. version.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * UTC day of the month used for monthly and yearly billing. Applies only to
-             * Flint-owned schedules. anyOf[1] (Value): integer. UTC day of the month used for
-             * monthly and yearly billing. Applies only to Flint-owned schedules. Format: int32.
-             * minimum: 1. maximum: 31. anyOf[2] (Value): null.
-             */
-            "billing_anchor_day"?: ((number) | (null));
-            /**
-             * How often the subscription bills now. Read with billing_interval_count: monthly with
-             * a count of 3 bills quarterly. A change applies from the next renewal that has not
-             * been paid; next_billing_at does not move. Value enum: "daily", "weekly", "monthly",
-             * "yearly". anyOf[1] (Value): string. How often the subscription bills now. Read with
-             * billing_interval_count: monthly with a count of 3 bills quarterly. A change applies
-             * from the next renewal that has not been paid; next_billing_at does not move. Value
-             * enum: "daily", "weekly", "monthly", "yearly". anyOf[2] (Value): null.
-             */
-            "billing_interval"?: (("daily" | "weekly" | "monthly" | "yearly" | (string & {})) | (null));
-            /**
-             * Number of billing_interval units between charges. Changes with billing_interval.
-             * anyOf[1] (Value): integer. Number of billing_interval units between charges. Changes
-             * with billing_interval. Format: int32. anyOf[2] (Value): null.
-             */
-            "billing_interval_count"?: ((number) | (null));
-            /**
-             * Billing interval and count pairs the subscription can switch to. For a subscription
-             * on a plan, they follow the plan's current billing_interval_options. A subscription
-             * that came from an offer keeps the pairs the offer had at signup. Prices of lines
-             * that ship are per delivery. Each option charges for all deliveries in its period.
-             * Changing the interval does not change the per-delivery price. anyOf[1] (Value):
-             * Array of {@link SubscriptionIntervalOptionPreviousAttributes}. Billing interval and
-             * count pairs the subscription can switch to. For a subscription on a plan, they
-             * follow the plan's current billing_interval_options. A subscription that came from an
-             * offer keeps the pairs the offer had at signup. Prices of lines that ship are per
-             * delivery. Each option charges for all deliveries in its period. Changing the
-             * interval does not change the per-delivery price. maxItems: 12. uniqueItems: true.
-             * anyOf[1][] (Value): {@link SubscriptionIntervalOptionPreviousAttributes}. anyOf[2]
-             * (Value): null.
-             */
-            "billing_interval_options"?: ((Array<SubscriptionIntervalOptionPreviousAttributes>) | (null));
-            /**
-             * Who supplies billing dates: flint advances the schedule after each paid renewal;
-             * external uses dates you supply. Change it with billing_schedule on PATCH
-             * /v1/subscriptions/{subscription_id}. Value enum: "flint", "external". anyOf[1]
-             * (Value): string. Who supplies billing dates: flint advances the schedule after each
-             * paid renewal; external uses dates you supply. Change it with billing_schedule on
-             * PATCH /v1/subscriptions/{subscription_id}. Value enum: "flint", "external". anyOf[2]
-             * (Value): null.
-             */
-            "billing_schedule_owner"?: (("flint" | "external" | (string & {})) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "billing_schedule_waiting_started_at"?: ((string) | (null));
-            /**
-             * True when the subscription is scheduled to cancel at scheduled_cancel_at. Schedule
-             * with POST /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and
-             * cancel_at_period_end false. anyOf[1] (Value): boolean. True when the subscription is
-             * scheduled to cancel at scheduled_cancel_at. Schedule with POST
-             * /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and cancel_at_period_end
-             * false. anyOf[2] (Value): null.
-             */
-            "cancel_at_period_end"?: ((boolean) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "canceled_at"?: ((string) | (null));
-            /**
-             * Who asked to cancel, when, and why. Present once a cancellation is requested,
-             * whether it takes effect at the end of the billing period or right away. Omitted when
-             * no one asked, and removed when a scheduled cancellation is undone. See
-             * cancellation_reason for voluntary and payment-related cancellations. anyOf[1]
-             * (Value): {@link SubscriptionCancellationDetailsPreviousAttributes}. anyOf[2]
-             * (Value): null.
-             */
-            "cancellation_details"?: ((SubscriptionCancellationDetailsPreviousAttributes) | (null));
-            /**
-             * Why the subscription is canceled or scheduled to cancel. Uses signup_order_refunded
-             * when an automatic inventory refund fully refunds the signup order, end_after_reached
-             * when the automatic ending agreement is reached, cancellation_details.requested_by
-             * when recorded, payment_failed for other canceled subscriptions without a requester,
-             * and other for a scheduled cancellation without a requester. Omitted otherwise. Value
-             * enum: "buyer", "merchant", "integration", "payment_failed", "other",
-             * "end_after_reached", "signup_order_refunded". anyOf[1] (Value): string. Why the
-             * subscription is canceled or scheduled to cancel. Uses signup_order_refunded when an
-             * automatic inventory refund fully refunds the signup order, end_after_reached when
-             * the automatic ending agreement is reached, cancellation_details.requested_by when
-             * recorded, payment_failed for other canceled subscriptions without a requester, and
-             * other for a scheduled cancellation without a requester. Omitted otherwise. Value
-             * enum: "buyer", "merchant", "integration", "payment_failed", "other",
-             * "end_after_reached", "signup_order_refunded". anyOf[2] (Value): null.
-             */
-            "cancellation_reason"?: (("buyer"
-                | "merchant"
-                | "integration"
-                | "payment_failed"
-                | "other"
-                | "end_after_reached"
-                | "signup_order_refunded"
-                | (string & {}))
-                | (null));
-            /**
-             * Billing cycles charged so far, including cycles imported with
-             * `billing_start.completed_cycles`. The next renewal order's `subscription_cycle` is
-             * this number plus one. anyOf[1] (Value): integer. Billing cycles charged so far,
-             * including cycles imported with `billing_start.completed_cycles`. The next renewal
-             * order's `subscription_cycle` is this number plus one. Format: uint64. minimum: 0.
-             * anyOf[2] (Value): null.
-             */
-            "completed_cycles"?: ((number) | (null));
-            /**
-             * When the recorded contract term ends. Does not move when the subscription pauses or
-             * changes plan. Flint does not stop the buyer from canceling earlier. anyOf[1]
-             * (Value): string. When the recorded contract term ends. Does not move when the
-             * subscription pauses or changes plan. Flint does not stop the buyer from canceling
-             * earlier. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "contract_end_at"?: ((string) | (null));
-            /**
-             * When the recorded contract term started. Does not move when the subscription pauses
-             * or changes plan. anyOf[1] (Value): string. When the recorded contract term started.
-             * Does not move when the subscription pauses or changes plan. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "contract_start_at"?: ((string) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "current_period_end_at"?: ((string) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "current_period_start_at"?: ((string) | (null));
-            /**
-             * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): {@link
-             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
-            /**
-             * The customer this subscription bills. anyOf[1] (Value): string. The customer this
-             * subscription bills. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value):
-             * null.
-             */
-            "customer_id"?: ((string) | (null));
-            /**
-             * Deliveries paid for by one billing period, from 1 to 24. One when no separate
-             * delivery cadence is set. Prices of lines that ship are per delivery. anyOf[1]
-             * (Value): integer. Deliveries paid for by one billing period, from 1 to 24. One when
-             * no separate delivery cadence is set. Prices of lines that ship are per delivery.
-             * Format: int32. minimum: 1. maximum: 24. anyOf[2] (Value): null.
-             */
-            "deliveries_per_period"?: ((number) | (null));
-            /**
-             * Saved delivery preference with the current delivery method display. Write responses
-             * use the same display as GET: fixed shipping reflects the current method
-             * configuration, and quoted shipping shows the last paid shipping amount when
-             * available. anyOf[1] (Value): {@link SubscriptionDeliveryPreviousAttributes}.
-             * anyOf[2] (Value): null.
-             */
-            "delivery"?: ((SubscriptionDeliveryPreviousAttributes) | (null));
-            /**
-             * Current delivery issue that blocks collection. Mutually exclusive with
-             * upcoming_delivery_hold. anyOf[1] (Value): {@link
-             * SubscriptionDeliveryHoldPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "delivery_hold"?: ((SubscriptionDeliveryHoldPreviousAttributes) | (null));
-            /**
-             * Delivery cadence frozen from the plan. Null when no separate delivery cadence is
-             * set; one delivery is made per billing period. Value enum: "daily", "weekly",
-             * "monthly", "yearly", null. anyOf[1] (Value): string. Delivery cadence frozen from
-             * the plan. Null when no separate delivery cadence is set; one delivery is made per
-             * billing period. Value enum: "daily", "weekly", "monthly", "yearly", null. anyOf[2]
-             * (Value): null.
-             */
-            "delivery_interval"?: (("daily" | "weekly" | "monthly" | "yearly" | null | (string & {})) | (null));
-            /**
-             * Number of delivery intervals between deliveries. Null when no separate delivery
-             * cadence is set. anyOf[1] (Value): integer. Number of delivery intervals between
-             * deliveries. Null when no separate delivery cadence is set. Format: int32. minimum:
-             * 1. anyOf[2] (Value): null.
-             */
-            "delivery_interval_count"?: ((number) | (null));
-            /**
-             * The fee in the recorded contract terms. Present whenever those terms include a fee.
-             * It applies only to a cancellation before contract_end_at. Flint never charges it.
-             * Later plan changes do not change this fee. anyOf[1] (Value): {@link
-             * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "early_termination_fee_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * Recorded automatic end condition. Null when no automatic end is set. Cycles count
-             * charged billing periods, including imported completed_cycles. Pauses and skips do
-             * not use cycles. Already-paid prepaid deliveries continue on their shifted dates,
-             * even beyond the end date, and cancellation waits for the last remaining delivery.
-             * Skipping defers a delivery without consuming its entitlement. Ending never refunds.
-             * anyOf[1] (Value): ({@link SubscriptionEndAfterPreviousAttributes} or null). Recorded
-             * automatic end condition. Null when no automatic end is set. Cycles count charged
-             * billing periods, including imported completed_cycles. Pauses and skips do not use
-             * cycles. Already-paid prepaid deliveries continue on their shifted dates, even beyond
-             * the end date, and cancellation waits for the last remaining delivery. Skipping
-             * defers a delivery without consuming its entitlement. Ending never refunds.
-             * anyOf[1].anyOf[1] (Value): {@link SubscriptionEndAfterPreviousAttributes}. The
-             * subscription's automatic end condition, measured by charged billing cycles or a
-             * saved local calendar date. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-             */
-            "end_after"?: (((((SubscriptionEndAfterPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
-            /**
-             * Projected end under the current schedule and committed plan changes, including an
-             * earlier scheduled cancellation. A date limit preserves already-paid entitlement
-             * without requiring a future charge schedule. A reached cycle limit uses the last paid
-             * period end, or current_period_end_at when no paid history exists; that fallback
-             * includes any skip or pause extension. A cycle limit with cycles left needs a future
-             * charge schedule unless a known scheduled cancellation determines the end. Paid
-             * deliveries extend the end to the last paid delivery when it is later. An indefinite
-             * pause with paid deliveries owed makes the end unknown. Null when the end cannot be
-             * determined or the subscription is canceled. anyOf[1] (Value): string. Projected end
-             * under the current schedule and committed plan changes, including an earlier
-             * scheduled cancellation. A date limit preserves already-paid entitlement without
-             * requiring a future charge schedule. A reached cycle limit uses the last paid period
-             * end, or current_period_end_at when no paid history exists; that fallback includes
-             * any skip or pause extension. A cycle limit with cycles left needs a future charge
-             * schedule unless a known scheduled cancellation determines the end. Paid deliveries
-             * extend the end to the last paid delivery when it is later. An indefinite pause with
-             * paid deliveries owed makes the end unknown. Null when the end cannot be determined
-             * or the subscription is canceled. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             * anyOf[2] (Value): null.
-             */
-            "expires_at"?: ((string) | (null));
-            /**
-             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
-             * string. Caller-owned identifier for this resource in an external system. maxLength:
-             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
-             */
-            "external_reference_id"?: ((string) | (null));
-            /**
-             * Who receives the gift, when this is a gift subscription. customer_id stays the
-             * purchaser. Flint clears it when the subscription ends and when the purchaser's data
-             * is erased. Null when the subscription isn't a gift. anyOf[1] (Value): {@link
-             * SubscriptionGiftRecipientPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "gift_recipient"?: ((SubscriptionGiftRecipientPreviousAttributes) | (null));
-            /**
-             * Renewal waiting for stock. Buyers receive only started_at. anyOf[1] (Value): {@link
-             * SubscriptionInventoryWaitPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "inventory_wait"?: ((SubscriptionInventoryWaitPreviousAttributes) | (null));
-            /**
-             * True while an active or trialing subscription on an external billing schedule has no
-             * next billing date. anyOf[1] (Value): boolean. True while an active or trialing
-             * subscription on an external billing schedule has no next billing date. anyOf[2]
-             * (Value): null.
-             */
-            "is_awaiting_billing_schedule"?: ((boolean) | (null));
-            /**
-             * Latest renewal payment failure, present only while status is past_due and the latest
-             * payment failed. Buyer responses omit merchant remediation and sensitive decline
-             * signals. anyOf[1] (Value): {@link PaymentErrorSummaryPreviousAttributes}. anyOf[2]
-             * (Value): null.
-             */
-            "last_payment_error"?: ((PaymentErrorSummaryPreviousAttributes) | (null));
-            /**
-             * What each renewal bills. Plan edits do not change it. Adding, changing or swapping a
-             * line takes that variant's current catalog price, which then stays until the line
-             * changes again. anyOf[1] (Value): Array of {@link
-             * SubscriptionLineItemPreviousAttributes}. What each renewal bills. Plan edits do not
-             * change it. Adding, changing or swapping a line takes that variant's current catalog
-             * price, which then stays until the line changes again. anyOf[1][] (Value): {@link
-             * SubscriptionLineItemPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "line_items"?: ((Array<SubscriptionLineItemPreviousAttributes>) | (null));
-            /**
-             * ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the
-             * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             * anyOf[2] (Value): null.
-             */
-            "merchant_id"?: ((string) | (null));
-            /**
-             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
-             * rules. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
-             */
-            "metadata"?: ((MetadataMap) | (null));
-            /**
-             * The billing date whose payment failed, as an RFC3339 timestamp. Present only while
-             * status is past_due. anyOf[1] (Value): string. The billing date whose payment failed,
-             * as an RFC3339 timestamp. Present only while status is past_due. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "missed_billing_at"?: ((string) | (null));
-            /**
-             * When Flint next starts a scheduled renewal charge, as an RFC3339 timestamp. Present
-             * only while a trialing or active subscription has a billing date and isn't set to
-             * cancel at the end of its period. Absent when no renewal is scheduled: a paused
-             * subscription resumes at scheduled_resume_at, a past_due one reports the failed
-             * billing date in missed_billing_at and retries at next_retry_at, an incomplete one
-             * retries at next_retry_at, a scheduled start begins at starts_at, one set to cancel
-             * ends at scheduled_cancel_at, and an external schedule awaiting a date reports
-             * is_awaiting_billing_schedule. anyOf[1] (Value): string. When Flint next starts a
-             * scheduled renewal charge, as an RFC3339 timestamp. Present only while a trialing or
-             * active subscription has a billing date and isn't set to cancel at the end of its
-             * period. Absent when no renewal is scheduled: a paused subscription resumes at
-             * scheduled_resume_at, a past_due one reports the failed billing date in
-             * missed_billing_at and retries at next_retry_at, an incomplete one retries at
-             * next_retry_at, a scheduled start begins at starts_at, one set to cancel ends at
-             * scheduled_cancel_at, and an external schedule awaiting a date reports
-             * is_awaiting_billing_schedule. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             * anyOf[2] (Value): null.
-             */
-            "next_billing_at"?: ((string) | (null));
-            /**
-             * When the next prepaid delivery order is due, shifted by a timed pause. Null when the
-             * subscription has an indefinite pause, no delivery is scheduled, or the subscription
-             * is canceled. anyOf[1] (Value): string. When the next prepaid delivery order is due,
-             * shifted by a timed pause. Null when the subscription has an indefinite pause, no
-             * delivery is scheduled, or the subscription is canceled. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "next_delivery_at"?: ((string) | (null));
-            /**
-             * Recorded automatic payment retry time. Null when no retry time is available.
-             * anyOf[1] (Value): string. Recorded automatic payment retry time. Null when no retry
-             * time is available. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
-             * (Value): null.
-             */
-            "next_retry_at"?: ((string) | (null));
-            /**
-             * ID of the paid renewal order whose shipment has not been dispatched. It keeps its
-             * committed delivery destination after preference changes and cancellation. Absent
-             * when no such renewal order exists. Only renewal orders count; the signup order is
-             * not included. anyOf[1] (Value): string. ID of the paid renewal order whose shipment
-             * has not been dispatched. It keeps its committed delivery destination after
-             * preference changes and cancellation. Absent when no such renewal order exists. Only
-             * renewal orders count; the signup order is not included. Example:
-             * "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
-             */
-            "open_renewal_order_id"?: ((string) | (null));
-            /**
-             * Unpaid balance of the failed renewal order, including tax, shipping and discounts,
-             * after payments and credits. Present only while status is past_due and a positive
-             * balance remains. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2]
-             * (Value): null.
-             */
-            "outstanding_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * Why the subscription is paused: merchant for a pause made with your API key or
-             * dashboard, buyer for the buyer's own pause, delivery_action_required for a pause
-             * during or after a delivery hold, and payment_failed when renewal payment retries ran
-             * out and your dunning settings pause the subscription. Omitted when the subscription
-             * is not paused. Value enum: "buyer", "delivery_action_required", "merchant",
-             * "payment_failed". anyOf[1] (Value): string. Why the subscription is paused: merchant
-             * for a pause made with your API key or dashboard, buyer for the buyer's own pause,
-             * delivery_action_required for a pause during or after a delivery hold, and
-             * payment_failed when renewal payment retries ran out and your dunning settings pause
-             * the subscription. Omitted when the subscription is not paused. Value enum: "buyer",
-             * "delivery_action_required", "merchant", "payment_failed". anyOf[2] (Value): null.
-             */
-            "pause_reason"?: (("buyer" | "delivery_action_required" | "merchant" | "payment_failed" | (string & {})) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "paused_at"?: ((string) | (null));
-            /**
-             * Present only when `expand` includes `payment_method`; `null` when expanded and there
-             * is no related payment method. anyOf[1] (Value): {@link
-             * ExpandedPaymentMethodSummaryPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "payment_method"?: ((ExpandedPaymentMethodSummaryPreviousAttributes) | (null));
-            /**
-             * First charge boundary while no card is bound: the later of trial_end_at and
-             * next_billing_at during a trial, or the next billing date for an imported period,
-             * even when that cycle's charge is zero. Recomputed when the schedule changes. A trial
-             * still without a card at its boundary cancels without an order or payment attempt. At
-             * that boundary, an imported subscription with a positive charge that still has no
-             * card enters its normal dunning schedule without a payment attempt. For an imported
-             * subscription, a zero charge completes the renewal without a card and the deadline
-             * advances to the following boundary. Null when a card is bound, collection is not
-             * scheduled (paused, canceled, or set to cancel at period end), an active or trialing
-             * subscription is in its final end_after cycle, or an external schedule has no known
-             * boundary. anyOf[1] (Value): string. First charge boundary while no card is bound:
-             * the later of trial_end_at and next_billing_at during a trial, or the next billing
-             * date for an imported period, even when that cycle's charge is zero. Recomputed when
-             * the schedule changes. A trial still without a card at its boundary cancels without
-             * an order or payment attempt. At that boundary, an imported subscription with a
-             * positive charge that still has no card enters its normal dunning schedule without a
-             * payment attempt. For an imported subscription, a zero charge completes the renewal
-             * without a card and the deadline advances to the following boundary. Null when a card
-             * is bound, collection is not scheduled (paused, canceled, or set to cancel at period
-             * end), an active or trialing subscription is in its final end_after cycle, or an
-             * external schedule has no known boundary. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "payment_method_due_at"?: ((string) | (null));
-            /**
-             * Saved payment method used for renewal charges. Null when no card is bound. Bind a
-             * card to this subscription with PATCH; changing the customer's default alone does not
-             * bind it. anyOf[1] (Value): string. Saved payment method used for renewal charges.
-             * Null when no card is bound. Bind a card to this subscription with PATCH; changing
-             * the customer's default alone does not bind it. Example:
-             * "pm_01KEZF7C0034B248TXXE4NXYFZ". anyOf[2] (Value): null.
-             */
-            "payment_method_id"?: ((string) | (null));
-            /**
-             * Recurring promotions applying to the next charged cycle. Scheduled attachments are
-             * listed in scheduled_promotions. Empty when none apply; signup-only and exhausted
-             * promotions are excluded. anyOf[1] (Value): Array of {@link
-             * SubscriptionPromotionPreviousAttributes}. Recurring promotions applying to the next
-             * charged cycle. Scheduled attachments are listed in scheduled_promotions. Empty when
-             * none apply; signup-only and exhausted promotions are excluded. anyOf[1][] (Value):
-             * {@link SubscriptionPromotionPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "promotions"?: ((Array<SubscriptionPromotionPreviousAttributes>) | (null));
-            /**
-             * Whether this subscription was created to prorate its first anchored paid period. Set
-             * at creation and never changes; starting on the anchor day still bills a normal full
-             * period. anyOf[1] (Value): boolean. Whether this subscription was created to prorate
-             * its first anchored paid period. Set at creation and never changes; starting on the
-             * anchor day still bills a normal full period. anyOf[2] (Value): null.
-             */
-            "prorate_first_period"?: ((boolean) | (null));
-            /**
-             * What one billing period's items cost before discounts, shipping, and tax: each
-             * line's price with modifiers, times quantity. It changes when items, quantity, or the
-             * plan change; editing the plan doesn't change it. For the next charge, use a
-             * subscription preview in next_renewal mode. `null` when a cancellation succeeds but
-             * Flint couldn't load the billing snapshot afterward, so the cancel response returns
-             * it as null. Retrieve the subscription again to get it. anyOf[1] (Value): {@link
-             * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "recurring_subtotal_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * Charges left for a cycle limit, bounded by an earlier scheduled cancellation. Null
-             * when there is no cycle limit or the subscription is canceled. anyOf[1] (Value):
-             * integer. Charges left for a cycle limit, bounded by an earlier scheduled
-             * cancellation. Null when there is no cycle limit or the subscription is canceled.
-             * Format: uint64. minimum: 0. anyOf[2] (Value): null.
-             */
-            "remaining_cycles"?: ((number) | (null));
-            /**
-             * Paid deliveries whose delivery order Flint hasn't created yet. A paid period starts
-             * with deliveries_per_period minus one. When delivery_hold is present and this count
-             * is positive, fixing delivery releases an already-paid delivery with shipping waived
-             * and no new charge. A next_renewal preview still estimates the next paid billing
-             * cycle. Skips, holds, and pauses consume none. Frozen on cancellation for manual
-             * refunds. anyOf[1] (Value): integer. Paid deliveries whose delivery order Flint
-             * hasn't created yet. A paid period starts with deliveries_per_period minus one. When
-             * delivery_hold is present and this count is positive, fixing delivery releases an
-             * already-paid delivery with shipping waived and no new charge. A next_renewal preview
-             * still estimates the next paid billing cycle. Skips, holds, and pauses consume none.
-             * Frozen on cancellation for manual refunds. Format: int32. minimum: 0. maximum: 23.
-             * anyOf[2] (Value): null.
-             */
-            "remaining_prepaid_deliveries"?: ((number) | (null));
-            /**
-             * When Flint accepted a pending resume request. Set only while paused with a resume
-             * Flint has not applied yet. Clears when Flint resumes the subscription or refuses the
-             * request. `null` when the subscription isn't paused or no resume request is pending.
-             * anyOf[1] (Value): string. When Flint accepted a pending resume request. Set only
-             * while paused with a resume Flint has not applied yet. Clears when Flint resumes the
-             * subscription or refuses the request. `null` when the subscription isn't paused or no
-             * resume request is pending. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             * anyOf[2] (Value): null.
-             */
-            "resume_requested_at"?: ((string) | (null));
-            /**
-             * When the scheduled cancellation takes effect: trial_end_at while trialing,
-             * current_period_end_at while active, or next_retry_at while past_due. Paid deliveries
-             * extend it to the last paid delivery when it is later. Null when cancel_at_period_end
-             * is false or no cancellation time is available. anyOf[1] (Value): string. When the
-             * scheduled cancellation takes effect: trial_end_at while trialing,
-             * current_period_end_at while active, or next_retry_at while past_due. Paid deliveries
-             * extend it to the last paid delivery when it is later. Null when cancel_at_period_end
-             * is false or no cancellation time is available. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "scheduled_cancel_at"?: ((string) | (null));
-            /**
-             * Frozen target terms for the next charged renewal. Null when no plan change is
-             * scheduled. Cancel with scheduled_plan_change: null on PATCH; replace through
-             * change-plan. anyOf[1] (Value): {@link
-             * SubscriptionScheduledPlanChangePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "scheduled_plan_change"?: ((SubscriptionScheduledPlanChangePreviousAttributes) | (null));
-            /**
-             * Attached promotions whose first_cycle is after the next charged cycle,
-             * completed_cycles + 1. Always present; empty when no promotions are scheduled.
-             * anyOf[1] (Value): Array of {@link SubscriptionPromotionPreviousAttributes}. Attached
-             * promotions whose first_cycle is after the next charged cycle, completed_cycles + 1.
-             * Always present; empty when no promotions are scheduled. anyOf[1][] (Value): {@link
-             * SubscriptionPromotionPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "scheduled_promotions"?: ((Array<SubscriptionPromotionPreviousAttributes>) | (null));
-            /**
-             * When a pause with a length (pause_duration_cycles) resumes on its own: that many
-             * delivery intervals after paused_at on a prepaid subscription, or billing intervals
-             * otherwise. Null when the subscription is not paused or the pause has no length, such
-             * as a pause until you resume it or the pause Flint starts when a delivery hold runs
-             * out. anyOf[1] (Value): string. When a pause with a length (pause_duration_cycles)
-             * resumes on its own: that many delivery intervals after paused_at on a prepaid
-             * subscription, or billing intervals otherwise. Null when the subscription is not
-             * paused or the pause has no length, such as a pause until you resume it or the pause
-             * Flint starts when a delivery hold runs out. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "scheduled_resume_at"?: ((string) | (null));
-            /**
-             * Omitted for a checkout session credential that doesn't act for the customer the
-             * buyer verified. anyOf[1] (Value): {@link
-             * SubscriptionServiceLocationPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "service_location"?: ((SubscriptionServiceLocationPreviousAttributes) | (null));
-            /**
-             * When a scheduled start's first billing period begins. Present only until that first
-             * payment succeeds. anyOf[1] (Value): string. When a scheduled start's first billing
-             * period begins. Present only until that first payment succeeds. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "starts_at"?: ((string) | (null));
-            /**
-             * Where the subscription is in its lifecycle. Each value says what it means. Value
-             * enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete",
-             * "scheduled". anyOf[1] (Value): string. Where the subscription is in its lifecycle.
-             * Each value says what it means. Value enum: "trialing", "active", "paused",
-             * "past_due", "canceled", "incomplete", "scheduled". anyOf[2] (Value): null.
-             */
-            "status"?: (("trialing"
-                | "active"
-                | "paused"
-                | "past_due"
-                | "canceled"
-                | "incomplete"
-                | "scheduled"
-                | (string & {}))
-                | (null));
-            /**
-             * Stable identifier of the subscription. anyOf[1] (Value): string. Stable identifier
-             * of the subscription. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM". anyOf[2] (Value):
-             * null.
-             */
-            "subscription_id"?: ((string) | (null));
-            /**
-             * Present only when `expand` includes `subscription_plan`; `null` when expanded and
-             * there is no related subscription plan. anyOf[1] (Value): {@link
-             * ExpandedSubscriptionPlanSummaryPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "subscription_plan"?: ((ExpandedSubscriptionPlanSummaryPreviousAttributes) | (null));
-            /**
-             * Subscription plan ID. Omitted when terms_type is subscription_offer. anyOf[1]
-             * (Value): string. Subscription plan ID. Omitted when terms_type is
-             * subscription_offer. Example: "plan_01KEZF7C004CY5ZR33XST2AASV". anyOf[2] (Value):
-             * null.
-             */
-            "subscription_plan_id"?: ((string) | (null));
-            /**
-             * Merchant actions allowed by the subscription's state. A route can still refuse a
-             * listed action for a transient reason, such as a renewal already in progress, with
-             * its own error. Always present with merchant credentials. [] enum: "cancel", "pause",
-             * "resume", "skip_cycle", "renew", "change_plan", "change_quantity". anyOf[1] (Value):
-             * Array of string. Merchant actions allowed by the subscription's state. A route can
-             * still refuse a listed action for a transient reason, such as a renewal already in
-             * progress, with its own error. Always present with merchant credentials. [] enum:
-             * "cancel", "pause", "resume", "skip_cycle", "renew", "change_plan",
-             * "change_quantity". anyOf[1][] (Value): string. Value enum: "cancel", "pause",
-             * "resume", "skip_cycle", "renew", "change_plan", "change_quantity". anyOf[2] (Value):
-             * null.
-             */
-            "supported_actions"?: ((Array<"cancel"
-                | "pause"
-                | "resume"
-                | "skip_cycle"
-                | "renew"
-                | "change_plan"
-                | "change_quantity"
-                | (string & {})>)
-                | (null));
-            /**
-             * The tax the subscription's renewal, setup fee and plan change orders use. `null`
-             * when they follow `tax.default_enabled` and `tax.default_calculation` from your
-             * settings. Returned only to merchant credentials; omitted for buyer credentials.
-             * Always present with merchant credentials. anyOf[1] (Value): {@link
-             * SubscriptionTaxPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "tax"?: ((SubscriptionTaxPreviousAttributes) | (null));
-            /**
-             * Terms come from the subscription plan in subscription_plan_id, or from subscription
-             * offers identified on each offer line by subscription_offer_id. Value enum:
-             * "subscription_plan", "subscription_offer". anyOf[1] (Value): string. Terms come from
-             * the subscription plan in subscription_plan_id, or from subscription offers
-             * identified on each offer line by subscription_offer_id. Value enum:
-             * "subscription_plan", "subscription_offer". anyOf[2] (Value): null.
-             */
-            "terms_type"?: (("subscription_plan" | "subscription_offer" | (string & {})) | (null));
-            /**
-             * ID of the test clock the subscription's customer was created on. The subscription
-             * bills at the clock's time. Present only when the customer is on a test clock.
-             * Included only in merchant responses and omitted from buyer responses. anyOf[1]
-             * (Value): string. ID of the test clock the subscription's customer was created on.
-             * The subscription bills at the clock's time. Present only when the customer is on a
-             * test clock. Included only in merchant responses and omitted from buyer responses.
-             * Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ". anyOf[2] (Value): null.
-             */
-            "test_clock_id"?: ((string) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "trial_end_at"?: ((string) | (null));
-            /**
-             * Delivery issue forecast for the next renewal at renewal_at. Mutually exclusive with
-             * delivery_hold. anyOf[1] (Value): {@link
-             * SubscriptionUpcomingDeliveryHoldPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "upcoming_delivery_hold"?: ((SubscriptionUpcomingDeliveryHoldPreviousAttributes) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * Goes up with every change to the subscription, including renewals and other changes
-             * Flint makes. Send it as `expected_version` to apply an update only if nothing
-             * changed. anyOf[1] (Value): integer. Goes up with every change to the subscription,
-             * including renewals and other changes Flint makes. Send it as `expected_version` to
-             * apply an update only if nothing changed. Format: uint64. minimum: 0. anyOf[2]
-             * (Value): null.
-             */
-            "version"?: ((number) | (null));
-        });
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "subscription.activated". */
-    "event_type"?: "subscription.activated";
+    "created_by": ((ResourceReference) | (null));
+    /** ID of the risk list this value is on. Example: "rl_01KEZF7C00VYSERA4QCTJP147A". */
+    "risk_list_id": string;
     /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     * Unique identifier for this risk list item, prefixed `rli_`. Example:
+     * "rli_01KEZF7C006BND1CJYPAJW9JWE".
      */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `subscription.activated` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type SubscriptionActivatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
+    "risk_list_item_id": string;
     /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.billing_anchor_day (Optional): integer. UTC day of the month used
-     * for monthly and yearly billing. Applies only to Flint-owned schedules. Format: int32.
-     * minimum: 1. maximum: 31. object.billing_interval (Required): string. How often the
-     * subscription bills now. Read with billing_interval_count: monthly with a count of 3 bills
-     * quarterly. A change applies from the next renewal that has not been paid; next_billing_at
-     * does not move. Value enum: "daily", "weekly", "monthly", "yearly".
-     * object.billing_interval_count (Required): integer. Number of billing_interval units between
-     * charges. Changes with billing_interval. Format: int32. object.billing_interval_options
-     * (Optional): Array of {@link SubscriptionIntervalOption}. Billing interval and count pairs
-     * the subscription can switch to. For a subscription on a plan, they follow the plan's current
-     * billing_interval_options. A subscription that came from an offer keeps the pairs the offer
-     * had at signup. Prices of lines that ship are per delivery. Each option charges for all
-     * deliveries in its period. Changing the interval does not change the per-delivery price.
-     * maxItems: 12. uniqueItems: true. object.billing_interval_options[] (Value): {@link
-     * SubscriptionIntervalOption}. A billing interval, such as every 2 months, that a plan, offer,
-     * or subscription lets buyers choose. Prices of lines that ship are per delivery, and each
-     * option charges for all deliveries in its period. Without a delivery cadence there is one
-     * delivery per period, so every option bills the same line prices once per period. With a
-     * delivery cadence, a longer period bills more deliveries of the lines that ship; other lines
-     * bill once per period. For a different price per interval with no delivery cadence, create
-     * separate plans. object.billing_schedule_owner (Required): string. Who supplies billing
-     * dates: flint advances the schedule after each paid renewal; external uses dates you supply.
-     * Change it with billing_schedule on PATCH /v1/subscriptions/{subscription_id}. Value enum:
-     * "flint", "external". object.billing_schedule_waiting_started_at (Optional): string. RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.cancel_at_period_end
-     * (Required): boolean. True when the subscription is scheduled to cancel at
-     * scheduled_cancel_at. Schedule with POST /v1/subscriptions/{subscription_id}/cancel; undo
-     * with PATCH and cancel_at_period_end false. object.canceled_at (Optional): string. RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.cancellation_details
-     * (Optional): {@link SubscriptionCancellationDetails}. Who asked to cancel, when, and why.
-     * Present once a cancellation is requested, whether it takes effect at the end of the billing
-     * period or right away. Omitted when no one asked, and removed when a scheduled cancellation
-     * is undone. See cancellation_reason for voluntary and payment-related cancellations. The
-     * cancellation request behind a scheduled or completed cancellation.
-     * object.cancellation_reason (Optional): string. Why the subscription is canceled or scheduled
-     * to cancel. Uses signup_order_refunded when an automatic inventory refund fully refunds the
-     * signup order, end_after_reached when the automatic ending agreement is reached,
-     * cancellation_details.requested_by when recorded, payment_failed for other canceled
-     * subscriptions without a requester, and other for a scheduled cancellation without a
-     * requester. Omitted otherwise. Value enum: "buyer", "merchant", "integration",
-     * "payment_failed", "other", "end_after_reached", "signup_order_refunded".
-     * object.completed_cycles (Required): integer. Billing cycles charged so far, including cycles
-     * imported with `billing_start.completed_cycles`. The next renewal order's
-     * `subscription_cycle` is this number plus one. Format: uint64. minimum: 0.
-     * object.contract_end_at (Optional): string. When the recorded contract term ends. Does not
-     * move when the subscription pauses or changes plan. Flint does not stop the buyer from
-     * canceling earlier. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.contract_start_at (Optional): string. When the recorded contract term started. Does
-     * not move when the subscription pauses or changes plan. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.created_at (Required): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.current_period_end_at (Optional): string.
-     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.current_period_start_at (Optional): string. RFC3339 timestamp. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.customer (Optional): {@link ExpandedCustomerSummary}
-     * or null. Present only when `expand` includes `customer`; `null` when expanded and there is
-     * no related customer. object.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary}. A
-     * customer's summary fields, returned in place of a customer ID when the customer is expanded.
-     * object.customer.anyOf[2] (Value): null. object.customer_id (Required): string. The customer
-     * this subscription bills. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * object.deliveries_per_period (Required): integer. Deliveries paid for by one billing period,
-     * from 1 to 24. One when no separate delivery cadence is set. Prices of lines that ship are
-     * per delivery. Format: int32. minimum: 1. maximum: 24. object.delivery (Optional): {@link
-     * SubscriptionDelivery}. Saved delivery preference with the current delivery method display.
-     * Write responses use the same display as GET: fixed shipping reflects the current method
-     * configuration, and quoted shipping shows the last paid shipping amount when available. A
-     * subscription's saved delivery preference: method, destination, recipient, shipping cost, and
-     * who last changed it. object.delivery_hold (Optional): {@link SubscriptionDeliveryHold}.
-     * Current delivery issue that blocks collection. Mutually exclusive with
-     * upcoming_delivery_hold. A hold on a subscription's deliveries because its delivery method or
-     * destination no longer works, and who can fix it. object.delivery_interval (Required): string
-     * or null. Delivery cadence frozen from the plan. Null when no separate delivery cadence is
-     * set; one delivery is made per billing period. Value enum: "daily", "weekly", "monthly",
-     * "yearly", null. object.delivery_interval_count (Required): integer or null. Number of
-     * delivery intervals between deliveries. Null when no separate delivery cadence is set.
-     * Format: int32. minimum: 1. object.early_termination_fee_money (Optional): {@link
-     * MoneyValue}. The fee in the recorded contract terms. Present whenever those terms include a
-     * fee. It applies only to a cancellation before contract_end_at. Flint never charges it. Later
-     * plan changes do not change this fee. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code. object.end_after (Required): {@link SubscriptionEndAfter} or
-     * null. Recorded automatic end condition. Null when no automatic end is set. Cycles count
-     * charged billing periods, including imported completed_cycles. Pauses and skips do not use
-     * cycles. Already-paid prepaid deliveries continue on their shifted dates, even beyond the end
-     * date, and cancellation waits for the last remaining delivery. Skipping defers a delivery
-     * without consuming its entitlement. Ending never refunds. object.end_after.anyOf[1] (Value):
-     * {@link SubscriptionEndAfter}. The subscription's automatic end condition, measured by
-     * charged billing cycles or a saved local calendar date. object.end_after.anyOf[2] (Value):
-     * null. object.expires_at (Required): string or null. Projected end under the current schedule
-     * and committed plan changes, including an earlier scheduled cancellation. A date limit
-     * preserves already-paid entitlement without requiring a future charge schedule. A reached
-     * cycle limit uses the last paid period end, or current_period_end_at when no paid history
-     * exists; that fallback includes any skip or pause extension. A cycle limit with cycles left
-     * needs a future charge schedule unless a known scheduled cancellation determines the end.
-     * Paid deliveries extend the end to the last paid delivery when it is later. An indefinite
-     * pause with paid deliveries owed makes the end unknown. Null when the end cannot be
-     * determined or the subscription is canceled. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.external_reference_id (Optional): string. Caller-owned
-     * identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842". object.gift_recipient (Required): {@link SubscriptionGiftRecipient} or
-     * null. Who receives the gift, when this is a gift subscription. customer_id stays the
-     * purchaser. Flint clears it when the subscription ends and when the purchaser's data is
-     * erased. Null when the subscription isn't a gift. object.gift_recipient.anyOf[1] (Value):
-     * {@link SubscriptionGiftRecipient}. Who receives a gift subscription. The customer stays the
-     * purchaser, who pays, gets receipts and reminders, and manages the subscription.
-     * delivery.recipient stays the ship-to address. object.gift_recipient.anyOf[2] (Value): null.
-     * object.inventory_wait (Optional): {@link SubscriptionInventoryWait}. Renewal waiting for
-     * stock. Buyers receive only started_at. Shows that a subscription renewal is waiting for
-     * inventory, with the order and invoice involved and when the wait started.
-     * object.is_awaiting_billing_schedule (Optional): boolean. True while an active or trialing
-     * subscription on an external billing schedule has no next billing date.
-     * object.last_payment_error (Optional): {@link PaymentErrorSummary}. Latest renewal payment
-     * failure, present only while status is past_due and the latest payment failed. Buyer
-     * responses omit merchant remediation and sensitive decline signals. A summary of why a
-     * payment attempt failed, with a normalized error code, a message, the failure time, and
-     * remediation. object.line_items (Required): Array of {@link SubscriptionLineItem}. What each
-     * renewal bills. Plan edits do not change it. Adding, changing or swapping a line takes that
-     * variant's current catalog price, which then stays until the line changes again.
-     * object.line_items[] (Value): {@link SubscriptionLineItem}. An item included in a customer's
-     * recurring purchase. object.merchant_id (Required): string. ID of the merchant this resource
-     * belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link
-     * MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value, and
-     * size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are
-     * reserved for Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them.
-     * object.missed_billing_at (Optional): string. The billing date whose payment failed, as an
-     * RFC3339 timestamp. Present only while status is past_due. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.next_billing_at (Optional): string. When Flint next starts a
-     * scheduled renewal charge, as an RFC3339 timestamp. Present only while a trialing or active
-     * subscription has a billing date and isn't set to cancel at the end of its period. Absent
-     * when no renewal is scheduled: a paused subscription resumes at scheduled_resume_at, a
-     * past_due one reports the failed billing date in missed_billing_at and retries at
-     * next_retry_at, an incomplete one retries at next_retry_at, a scheduled start begins at
-     * starts_at, one set to cancel ends at scheduled_cancel_at, and an external schedule awaiting
-     * a date reports is_awaiting_billing_schedule. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.next_delivery_at (Required): string or null. When the next
-     * prepaid delivery order is due, shifted by a timed pause. Null when the subscription has an
-     * indefinite pause, no delivery is scheduled, or the subscription is canceled. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.next_retry_at (Required): string or null.
-     * Recorded automatic payment retry time. Null when no retry time is available. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.open_renewal_order_id (Optional): string.
-     * ID of the paid renewal order whose shipment has not been dispatched. It keeps its committed
-     * delivery destination after preference changes and cancellation. Absent when no such renewal
-     * order exists. Only renewal orders count; the signup order is not included. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". object.outstanding_money (Optional): {@link MoneyValue}.
-     * Unpaid balance of the failed renewal order, including tax, shipping and discounts, after
-     * payments and credits. Present only while status is past_due and a positive balance remains.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.pause_reason (Optional): string. Why the subscription is paused: merchant for a pause
-     * made with your API key or dashboard, buyer for the buyer's own pause,
-     * delivery_action_required for a pause during or after a delivery hold, and payment_failed
-     * when renewal payment retries ran out and your dunning settings pause the subscription.
-     * Omitted when the subscription is not paused. Value enum: "buyer",
-     * "delivery_action_required", "merchant", "payment_failed". object.paused_at (Optional):
-     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.payment_method (Optional): {@link ExpandedPaymentMethodSummary} or null. Present only
-     * when `expand` includes `payment_method`; `null` when expanded and there is no related
-     * payment method. object.payment_method.anyOf[1] (Value): {@link
-     * ExpandedPaymentMethodSummary}. A payment method's summary fields, including type, status,
-     * and card details, returned when the payment method is expanded.
-     * object.payment_method.anyOf[2] (Value): null. object.payment_method_due_at (Required):
-     * string or null. First charge boundary while no card is bound: the later of trial_end_at and
-     * next_billing_at during a trial, or the next billing date for an imported period, even when
-     * that cycle's charge is zero. Recomputed when the schedule changes. A trial still without a
-     * card at its boundary cancels without an order or payment attempt. At that boundary, an
-     * imported subscription with a positive charge that still has no card enters its normal
-     * dunning schedule without a payment attempt. For an imported subscription, a zero charge
-     * completes the renewal without a card and the deadline advances to the following boundary.
-     * Null when a card is bound, collection is not scheduled (paused, canceled, or set to cancel
-     * at period end), an active or trialing subscription is in its final end_after cycle, or an
-     * external schedule has no known boundary. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.payment_method_id (Required): string or null. Saved payment method used for renewal
-     * charges. Null when no card is bound. Bind a card to this subscription with PATCH; changing
-     * the customer's default alone does not bind it. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
-     * object.promotions (Required): Array of {@link SubscriptionPromotion}. Recurring promotions
-     * applying to the next charged cycle. Scheduled attachments are listed in
-     * scheduled_promotions. Empty when none apply; signup-only and exhausted promotions are
-     * excluded. object.promotions[] (Value): {@link SubscriptionPromotion}. A recurring promotion
-     * applied to a subscription, including its recurrence and remaining discounted cycles.
-     * object.prorate_first_period (Required): boolean. Whether this subscription was created to
-     * prorate its first anchored paid period. Set at creation and never changes; starting on the
-     * anchor day still bills a normal full period. object.recurring_subtotal_money (Required):
-     * {@link MoneyValue} or null. What one billing period's items cost before discounts, shipping,
-     * and tax: each line's price with modifiers, times quantity. It changes when items, quantity,
-     * or the plan change; editing the plan doesn't change it. For the next charge, use a
-     * subscription preview in next_renewal mode. `null` when a cancellation succeeds but Flint
-     * couldn't load the billing snapshot afterward, so the cancel response returns it as null.
-     * Retrieve the subscription again to get it. object.recurring_subtotal_money.anyOf[1] (Value):
-     * {@link MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code. object.recurring_subtotal_money.anyOf[2] (Value): null.
-     * object.remaining_cycles (Required): integer or null. Charges left for a cycle limit, bounded
-     * by an earlier scheduled cancellation. Null when there is no cycle limit or the subscription
-     * is canceled. Format: uint64. minimum: 0. object.remaining_prepaid_deliveries (Required):
-     * integer. Paid deliveries whose delivery order Flint hasn't created yet. A paid period starts
-     * with deliveries_per_period minus one. When delivery_hold is present and this count is
-     * positive, fixing delivery releases an already-paid delivery with shipping waived and no new
-     * charge. A next_renewal preview still estimates the next paid billing cycle. Skips, holds,
-     * and pauses consume none. Frozen on cancellation for manual refunds. Format: int32. minimum:
-     * 0. maximum: 23. object.resume_requested_at (Required): string or null. When Flint accepted a
-     * pending resume request. Set only while paused with a resume Flint has not applied yet.
-     * Clears when Flint resumes the subscription or refuses the request. `null` when the
-     * subscription isn't paused or no resume request is pending. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.scheduled_cancel_at (Required): string or null. When the
-     * scheduled cancellation takes effect: trial_end_at while trialing, current_period_end_at
-     * while active, or next_retry_at while past_due. Paid deliveries extend it to the last paid
-     * delivery when it is later. Null when cancel_at_period_end is false or no cancellation time
-     * is available. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.scheduled_plan_change (Required): {@link SubscriptionScheduledPlanChange} or null.
-     * Frozen target terms for the next charged renewal. Null when no plan change is scheduled.
-     * Cancel with scheduled_plan_change: null on PATCH; replace through change-plan.
-     * object.scheduled_plan_change.anyOf[1] (Value): {@link SubscriptionScheduledPlanChange}.
-     * Frozen target terms that apply at the next charged renewal.
-     * object.scheduled_plan_change.anyOf[2] (Value): null. object.scheduled_promotions (Required):
-     * Array of {@link SubscriptionPromotion}. Attached promotions whose first_cycle is after the
-     * next charged cycle, completed_cycles + 1. Always present; empty when no promotions are
-     * scheduled. object.scheduled_promotions[] (Value): {@link SubscriptionPromotion}. A recurring
-     * promotion applied to a subscription, including its recurrence and remaining discounted
-     * cycles. object.scheduled_resume_at (Required): string or null. When a pause with a length
-     * (pause_duration_cycles) resumes on its own: that many delivery intervals after paused_at on
-     * a prepaid subscription, or billing intervals otherwise. Null when the subscription is not
-     * paused or the pause has no length, such as a pause until you resume it or the pause Flint
-     * starts when a delivery hold runs out. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.service_location (Optional): {@link SubscriptionServiceLocation}. Omitted for a
-     * checkout session credential that doesn't act for the customer the buyer verified. The
-     * address where a subscription's service is delivered, with the saved customer address it came
-     * from. object.starts_at (Optional): string. When a scheduled start's first billing period
-     * begins. Present only until that first payment succeeds. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.status (Required): string. Where the subscription is in its
-     * lifecycle. Each value says what it means. Value enum: "trialing", "active", "paused",
-     * "past_due", "canceled", "incomplete", "scheduled". object.subscription_id (Required):
-     * string. Stable identifier of the subscription. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
-     * object.subscription_plan (Optional): {@link ExpandedSubscriptionPlanSummary} or null.
-     * Present only when `expand` includes `subscription_plan`; `null` when expanded and there is
-     * no related subscription plan. object.subscription_plan.anyOf[1] (Value): {@link
-     * ExpandedSubscriptionPlanSummary}. A subscription plan's summary fields, including name,
-     * billing interval, currency, and status, returned when the plan is expanded.
-     * object.subscription_plan.anyOf[2] (Value): null. object.subscription_plan_id (Optional):
-     * string. Subscription plan ID. Omitted when terms_type is subscription_offer. Example:
-     * "plan_01KEZF7C004CY5ZR33XST2AASV". object.supported_actions (Optional): Array of string.
-     * Merchant actions allowed by the subscription's state. A route can still refuse a listed
-     * action for a transient reason, such as a renewal already in progress, with its own error.
-     * Always present with merchant credentials. [] enum: "cancel", "pause", "resume",
-     * "skip_cycle", "renew", "change_plan", "change_quantity". object.supported_actions[] (Value):
-     * string. Value enum: "cancel", "pause", "resume", "skip_cycle", "renew", "change_plan",
-     * "change_quantity". object.tax (Optional): {@link SubscriptionTax} or null. The tax the
-     * subscription's renewal, setup fee and plan change orders use. `null` when they follow
-     * `tax.default_enabled` and `tax.default_calculation` from your settings. Returned only to
-     * merchant credentials; omitted for buyer credentials. Always present with merchant
-     * credentials. object.tax.anyOf[1] (Value): {@link SubscriptionTax}. The tax the
-     * subscription's renewal, setup fee and plan change orders use. Returned only to merchant
-     * credentials; omitted for buyer credentials. object.tax.anyOf[2] (Value): null.
-     * object.terms_type (Required): string. Terms come from the subscription plan in
-     * subscription_plan_id, or from subscription offers identified on each offer line by
-     * subscription_offer_id. Value enum: "subscription_plan", "subscription_offer".
-     * object.test_clock_id (Optional): string. ID of the test clock the subscription's customer
-     * was created on. The subscription bills at the clock's time. Present only when the customer
-     * is on a test clock. Included only in merchant responses and omitted from buyer responses.
-     * Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ". object.trial_end_at (Optional): string. RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.upcoming_delivery_hold
-     * (Optional): {@link SubscriptionUpcomingDeliveryHold}. Delivery issue forecast for the next
-     * renewal at renewal_at. Mutually exclusive with delivery_hold. A delivery problem detected
-     * for an upcoming renewal that will hold the subscription's delivery, and who can fix it.
-     * object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.version (Required): integer. Goes up with every change to the
-     * subscription, including renewals and other changes Flint makes. Send it as
-     * `expected_version` to apply an update only if nothing changed. Format: uint64. minimum: 0.
-     * previous_attributes (Optional): object. Previous values of changed top-level fields in
-     * data.object, at this delivery's API version. Nested changes include the whole previous
-     * top-level value. A value is null when the field was absent before the change. Omitted when
-     * Flint did not record the previous state, including synthetic test events.
-     * previous_attributes.billing_anchor_day (Optional): integer or null. UTC day of the month
-     * used for monthly and yearly billing. Applies only to Flint-owned schedules.
-     * previous_attributes.billing_anchor_day.anyOf[1] (Value): integer. UTC day of the month used
-     * for monthly and yearly billing. Applies only to Flint-owned schedules. Format: int32.
-     * minimum: 1. maximum: 31. previous_attributes.billing_anchor_day.anyOf[2] (Value): null.
-     * previous_attributes.billing_interval (Optional): string or null. How often the subscription
-     * bills now. Read with billing_interval_count: monthly with a count of 3 bills quarterly. A
-     * change applies from the next renewal that has not been paid; next_billing_at does not move.
-     * Value enum: "daily", "weekly", "monthly", "yearly".
-     * previous_attributes.billing_interval.anyOf[1] (Value): string. How often the subscription
-     * bills now. Read with billing_interval_count: monthly with a count of 3 bills quarterly. A
-     * change applies from the next renewal that has not been paid; next_billing_at does not move.
-     * Value enum: "daily", "weekly", "monthly", "yearly".
-     * previous_attributes.billing_interval.anyOf[2] (Value): null.
-     * previous_attributes.billing_interval_count (Optional): integer or null. Number of
-     * billing_interval units between charges. Changes with billing_interval.
-     * previous_attributes.billing_interval_count.anyOf[1] (Value): integer. Number of
-     * billing_interval units between charges. Changes with billing_interval. Format: int32.
-     * previous_attributes.billing_interval_count.anyOf[2] (Value): null.
-     * previous_attributes.billing_interval_options (Optional): Array of {@link
-     * SubscriptionIntervalOptionPreviousAttributes} or null. Billing interval and count pairs the
-     * subscription can switch to. For a subscription on a plan, they follow the plan's current
-     * billing_interval_options. A subscription that came from an offer keeps the pairs the offer
-     * had at signup. Prices of lines that ship are per delivery. Each option charges for all
-     * deliveries in its period. Changing the interval does not change the per-delivery price.
-     * previous_attributes.billing_interval_options.anyOf[1] (Value): Array of {@link
-     * SubscriptionIntervalOptionPreviousAttributes}. Billing interval and count pairs the
-     * subscription can switch to. For a subscription on a plan, they follow the plan's current
-     * billing_interval_options. A subscription that came from an offer keeps the pairs the offer
-     * had at signup. Prices of lines that ship are per delivery. Each option charges for all
-     * deliveries in its period. Changing the interval does not change the per-delivery price.
-     * maxItems: 12. uniqueItems: true. previous_attributes.billing_interval_options.anyOf[1][]
-     * (Value): {@link SubscriptionIntervalOptionPreviousAttributes}.
-     * previous_attributes.billing_interval_options.anyOf[2] (Value): null.
-     * previous_attributes.billing_schedule_owner (Optional): string or null. Who supplies billing
-     * dates: flint advances the schedule after each paid renewal; external uses dates you supply.
-     * Change it with billing_schedule on PATCH /v1/subscriptions/{subscription_id}. Value enum:
-     * "flint", "external". previous_attributes.billing_schedule_owner.anyOf[1] (Value): string.
-     * Who supplies billing dates: flint advances the schedule after each paid renewal; external
-     * uses dates you supply. Change it with billing_schedule on PATCH
-     * /v1/subscriptions/{subscription_id}. Value enum: "flint", "external".
-     * previous_attributes.billing_schedule_owner.anyOf[2] (Value): null.
-     * previous_attributes.billing_schedule_waiting_started_at (Optional): string or null. RFC3339
-     * timestamp. previous_attributes.billing_schedule_waiting_started_at.anyOf[1] (Value): string.
-     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.billing_schedule_waiting_started_at.anyOf[2] (Value): null.
-     * previous_attributes.cancel_at_period_end (Optional): boolean or null. True when the
-     * subscription is scheduled to cancel at scheduled_cancel_at. Schedule with POST
-     * /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and cancel_at_period_end false.
-     * previous_attributes.cancel_at_period_end.anyOf[1] (Value): boolean. True when the
-     * subscription is scheduled to cancel at scheduled_cancel_at. Schedule with POST
-     * /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and cancel_at_period_end false.
-     * previous_attributes.cancel_at_period_end.anyOf[2] (Value): null.
-     * previous_attributes.canceled_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.canceled_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.canceled_at.anyOf[2]
-     * (Value): null. previous_attributes.cancellation_details (Optional): {@link
-     * SubscriptionCancellationDetailsPreviousAttributes} or null. Who asked to cancel, when, and
-     * why. Present once a cancellation is requested, whether it takes effect at the end of the
-     * billing period or right away. Omitted when no one asked, and removed when a scheduled
-     * cancellation is undone. See cancellation_reason for voluntary and payment-related
-     * cancellations. previous_attributes.cancellation_details.anyOf[1] (Value): {@link
-     * SubscriptionCancellationDetailsPreviousAttributes}.
-     * previous_attributes.cancellation_details.anyOf[2] (Value): null.
-     * previous_attributes.cancellation_reason (Optional): string or null. Why the subscription is
-     * canceled or scheduled to cancel. Uses signup_order_refunded when an automatic inventory
-     * refund fully refunds the signup order, end_after_reached when the automatic ending agreement
-     * is reached, cancellation_details.requested_by when recorded, payment_failed for other
-     * canceled subscriptions without a requester, and other for a scheduled cancellation without a
-     * requester. Omitted otherwise. Value enum: "buyer", "merchant", "integration",
-     * "payment_failed", "other", "end_after_reached", "signup_order_refunded".
-     * previous_attributes.cancellation_reason.anyOf[1] (Value): string. Why the subscription is
-     * canceled or scheduled to cancel. Uses signup_order_refunded when an automatic inventory
-     * refund fully refunds the signup order, end_after_reached when the automatic ending agreement
-     * is reached, cancellation_details.requested_by when recorded, payment_failed for other
-     * canceled subscriptions without a requester, and other for a scheduled cancellation without a
-     * requester. Omitted otherwise. Value enum: "buyer", "merchant", "integration",
-     * "payment_failed", "other", "end_after_reached", "signup_order_refunded".
-     * previous_attributes.cancellation_reason.anyOf[2] (Value): null.
-     * previous_attributes.completed_cycles (Optional): integer or null. Billing cycles charged so
-     * far, including cycles imported with `billing_start.completed_cycles`. The next renewal
-     * order's `subscription_cycle` is this number plus one.
-     * previous_attributes.completed_cycles.anyOf[1] (Value): integer. Billing cycles charged so
-     * far, including cycles imported with `billing_start.completed_cycles`. The next renewal
-     * order's `subscription_cycle` is this number plus one. Format: uint64. minimum: 0.
-     * previous_attributes.completed_cycles.anyOf[2] (Value): null.
-     * previous_attributes.contract_end_at (Optional): string or null. When the recorded contract
-     * term ends. Does not move when the subscription pauses or changes plan. Flint does not stop
-     * the buyer from canceling earlier. previous_attributes.contract_end_at.anyOf[1] (Value):
-     * string. When the recorded contract term ends. Does not move when the subscription pauses or
-     * changes plan. Flint does not stop the buyer from canceling earlier. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". previous_attributes.contract_end_at.anyOf[2] (Value): null.
-     * previous_attributes.contract_start_at (Optional): string or null. When the recorded contract
-     * term started. Does not move when the subscription pauses or changes plan.
-     * previous_attributes.contract_start_at.anyOf[1] (Value): string. When the recorded contract
-     * term started. Does not move when the subscription pauses or changes plan. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". previous_attributes.contract_start_at.anyOf[2] (Value):
-     * null. previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.current_period_end_at (Optional): string or null. RFC3339
-     * timestamp. previous_attributes.current_period_end_at.anyOf[1] (Value): string. RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.current_period_end_at.anyOf[2] (Value): null.
-     * previous_attributes.current_period_start_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.current_period_start_at.anyOf[1] (Value): string. RFC3339 timestamp.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.current_period_start_at.anyOf[2] (Value): null.
-     * previous_attributes.customer (Optional): {@link ExpandedCustomerSummaryPreviousAttributes}
-     * or null. Present only when `expand` includes `customer`; `null` when expanded and there is
-     * no related customer. previous_attributes.customer.anyOf[1] (Value): {@link
-     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
-     * null. previous_attributes.customer_id (Optional): string or null. The customer this
-     * subscription bills. previous_attributes.customer_id.anyOf[1] (Value): string. The customer
-     * this subscription bills. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * previous_attributes.customer_id.anyOf[2] (Value): null.
-     * previous_attributes.deliveries_per_period (Optional): integer or null. Deliveries paid for
-     * by one billing period, from 1 to 24. One when no separate delivery cadence is set. Prices of
-     * lines that ship are per delivery. previous_attributes.deliveries_per_period.anyOf[1]
-     * (Value): integer. Deliveries paid for by one billing period, from 1 to 24. One when no
-     * separate delivery cadence is set. Prices of lines that ship are per delivery. Format: int32.
-     * minimum: 1. maximum: 24. previous_attributes.deliveries_per_period.anyOf[2] (Value): null.
-     * previous_attributes.delivery (Optional): {@link SubscriptionDeliveryPreviousAttributes} or
-     * null. Saved delivery preference with the current delivery method display. Write responses
-     * use the same display as GET: fixed shipping reflects the current method configuration, and
-     * quoted shipping shows the last paid shipping amount when available.
-     * previous_attributes.delivery.anyOf[1] (Value): {@link
-     * SubscriptionDeliveryPreviousAttributes}. previous_attributes.delivery.anyOf[2] (Value):
-     * null. previous_attributes.delivery_hold (Optional): {@link
-     * SubscriptionDeliveryHoldPreviousAttributes} or null. Current delivery issue that blocks
-     * collection. Mutually exclusive with upcoming_delivery_hold.
-     * previous_attributes.delivery_hold.anyOf[1] (Value): {@link
-     * SubscriptionDeliveryHoldPreviousAttributes}. previous_attributes.delivery_hold.anyOf[2]
-     * (Value): null. previous_attributes.delivery_interval (Optional): string or null. Delivery
-     * cadence frozen from the plan. Null when no separate delivery cadence is set; one delivery is
-     * made per billing period. Value enum: "daily", "weekly", "monthly", "yearly", null.
-     * previous_attributes.delivery_interval.anyOf[1] (Value): string. Delivery cadence frozen from
-     * the plan. Null when no separate delivery cadence is set; one delivery is made per billing
-     * period. Value enum: "daily", "weekly", "monthly", "yearly", null.
-     * previous_attributes.delivery_interval.anyOf[2] (Value): null.
-     * previous_attributes.delivery_interval_count (Optional): integer or null. Number of delivery
-     * intervals between deliveries. Null when no separate delivery cadence is set.
-     * previous_attributes.delivery_interval_count.anyOf[1] (Value): integer. Number of delivery
-     * intervals between deliveries. Null when no separate delivery cadence is set. Format: int32.
-     * minimum: 1. previous_attributes.delivery_interval_count.anyOf[2] (Value): null.
-     * previous_attributes.early_termination_fee_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. The fee in the recorded contract terms. Present
-     * whenever those terms include a fee. It applies only to a cancellation before
-     * contract_end_at. Flint never charges it. Later plan changes do not change this fee.
-     * previous_attributes.early_termination_fee_money.anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.early_termination_fee_money.anyOf[2]
-     * (Value): null. previous_attributes.end_after (Optional): ({@link
-     * SubscriptionEndAfterPreviousAttributes} or null) or null. Recorded automatic end condition.
-     * Null when no automatic end is set. Cycles count charged billing periods, including imported
-     * completed_cycles. Pauses and skips do not use cycles. Already-paid prepaid deliveries
-     * continue on their shifted dates, even beyond the end date, and cancellation waits for the
-     * last remaining delivery. Skipping defers a delivery without consuming its entitlement.
-     * Ending never refunds. previous_attributes.end_after.anyOf[1] (Value): ({@link
-     * SubscriptionEndAfterPreviousAttributes} or null). Recorded automatic end condition. Null
-     * when no automatic end is set. Cycles count charged billing periods, including imported
-     * completed_cycles. Pauses and skips do not use cycles. Already-paid prepaid deliveries
-     * continue on their shifted dates, even beyond the end date, and cancellation waits for the
-     * last remaining delivery. Skipping defers a delivery without consuming its entitlement.
-     * Ending never refunds. previous_attributes.end_after.anyOf[1].anyOf[1] (Value): {@link
-     * SubscriptionEndAfterPreviousAttributes}. The subscription's automatic end condition,
-     * measured by charged billing cycles or a saved local calendar date.
-     * previous_attributes.end_after.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.end_after.anyOf[2] (Value): null. previous_attributes.expires_at
-     * (Optional): string or null. Projected end under the current schedule and committed plan
-     * changes, including an earlier scheduled cancellation. A date limit preserves already-paid
-     * entitlement without requiring a future charge schedule. A reached cycle limit uses the last
-     * paid period end, or current_period_end_at when no paid history exists; that fallback
-     * includes any skip or pause extension. A cycle limit with cycles left needs a future charge
-     * schedule unless a known scheduled cancellation determines the end. Paid deliveries extend
-     * the end to the last paid delivery when it is later. An indefinite pause with paid deliveries
-     * owed makes the end unknown. Null when the end cannot be determined or the subscription is
-     * canceled. previous_attributes.expires_at.anyOf[1] (Value): string. Projected end under the
-     * current schedule and committed plan changes, including an earlier scheduled cancellation. A
-     * date limit preserves already-paid entitlement without requiring a future charge schedule. A
-     * reached cycle limit uses the last paid period end, or current_period_end_at when no paid
-     * history exists; that fallback includes any skip or pause extension. A cycle limit with
-     * cycles left needs a future charge schedule unless a known scheduled cancellation determines
-     * the end. Paid deliveries extend the end to the last paid delivery when it is later. An
-     * indefinite pause with paid deliveries owed makes the end unknown. Null when the end cannot
-     * be determined or the subscription is canceled. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.expires_at.anyOf[2] (Value): null.
-     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
-     * identifier for this resource in an external system.
-     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
-     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
-     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
-     * previous_attributes.gift_recipient (Optional): {@link
-     * SubscriptionGiftRecipientPreviousAttributes} or null. Who receives the gift, when this is a
-     * gift subscription. customer_id stays the purchaser. Flint clears it when the subscription
-     * ends and when the purchaser's data is erased. Null when the subscription isn't a gift.
-     * previous_attributes.gift_recipient.anyOf[1] (Value): {@link
-     * SubscriptionGiftRecipientPreviousAttributes}. previous_attributes.gift_recipient.anyOf[2]
-     * (Value): null. previous_attributes.inventory_wait (Optional): {@link
-     * SubscriptionInventoryWaitPreviousAttributes} or null. Renewal waiting for stock. Buyers
-     * receive only started_at. previous_attributes.inventory_wait.anyOf[1] (Value): {@link
-     * SubscriptionInventoryWaitPreviousAttributes}. previous_attributes.inventory_wait.anyOf[2]
-     * (Value): null. previous_attributes.is_awaiting_billing_schedule (Optional): boolean or null.
-     * True while an active or trialing subscription on an external billing schedule has no next
-     * billing date. previous_attributes.is_awaiting_billing_schedule.anyOf[1] (Value): boolean.
-     * True while an active or trialing subscription on an external billing schedule has no next
-     * billing date. previous_attributes.is_awaiting_billing_schedule.anyOf[2] (Value): null.
-     * previous_attributes.last_payment_error (Optional): {@link
-     * PaymentErrorSummaryPreviousAttributes} or null. Latest renewal payment failure, present only
-     * while status is past_due and the latest payment failed. Buyer responses omit merchant
-     * remediation and sensitive decline signals. previous_attributes.last_payment_error.anyOf[1]
-     * (Value): {@link PaymentErrorSummaryPreviousAttributes}.
-     * previous_attributes.last_payment_error.anyOf[2] (Value): null.
-     * previous_attributes.line_items (Optional): Array of {@link
-     * SubscriptionLineItemPreviousAttributes} or null. What each renewal bills. Plan edits do not
-     * change it. Adding, changing or swapping a line takes that variant's current catalog price,
-     * which then stays until the line changes again. previous_attributes.line_items.anyOf[1]
-     * (Value): Array of {@link SubscriptionLineItemPreviousAttributes}. What each renewal bills.
-     * Plan edits do not change it. Adding, changing or swapping a line takes that variant's
-     * current catalog price, which then stays until the line changes again.
-     * previous_attributes.line_items.anyOf[1][] (Value): {@link
-     * SubscriptionLineItemPreviousAttributes}. previous_attributes.line_items.anyOf[2] (Value):
-     * null. previous_attributes.merchant_id (Optional): string or null. ID of the merchant this
-     * resource belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the
-     * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
-     * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
-     * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
-     * (Value): {@link MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
-     * previous_attributes.missed_billing_at (Optional): string or null. The billing date whose
-     * payment failed, as an RFC3339 timestamp. Present only while status is past_due.
-     * previous_attributes.missed_billing_at.anyOf[1] (Value): string. The billing date whose
-     * payment failed, as an RFC3339 timestamp. Present only while status is past_due. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.missed_billing_at.anyOf[2]
-     * (Value): null. previous_attributes.next_billing_at (Optional): string or null. When Flint
-     * next starts a scheduled renewal charge, as an RFC3339 timestamp. Present only while a
-     * trialing or active subscription has a billing date and isn't set to cancel at the end of its
-     * period. Absent when no renewal is scheduled: a paused subscription resumes at
-     * scheduled_resume_at, a past_due one reports the failed billing date in missed_billing_at and
-     * retries at next_retry_at, an incomplete one retries at next_retry_at, a scheduled start
-     * begins at starts_at, one set to cancel ends at scheduled_cancel_at, and an external schedule
-     * awaiting a date reports is_awaiting_billing_schedule.
-     * previous_attributes.next_billing_at.anyOf[1] (Value): string. When Flint next starts a
-     * scheduled renewal charge, as an RFC3339 timestamp. Present only while a trialing or active
-     * subscription has a billing date and isn't set to cancel at the end of its period. Absent
-     * when no renewal is scheduled: a paused subscription resumes at scheduled_resume_at, a
-     * past_due one reports the failed billing date in missed_billing_at and retries at
-     * next_retry_at, an incomplete one retries at next_retry_at, a scheduled start begins at
-     * starts_at, one set to cancel ends at scheduled_cancel_at, and an external schedule awaiting
-     * a date reports is_awaiting_billing_schedule. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.next_billing_at.anyOf[2] (Value): null.
-     * previous_attributes.next_delivery_at (Optional): string or null. When the next prepaid
-     * delivery order is due, shifted by a timed pause. Null when the subscription has an
-     * indefinite pause, no delivery is scheduled, or the subscription is canceled.
-     * previous_attributes.next_delivery_at.anyOf[1] (Value): string. When the next prepaid
-     * delivery order is due, shifted by a timed pause. Null when the subscription has an
-     * indefinite pause, no delivery is scheduled, or the subscription is canceled. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.next_delivery_at.anyOf[2]
-     * (Value): null. previous_attributes.next_retry_at (Optional): string or null. Recorded
-     * automatic payment retry time. Null when no retry time is available.
-     * previous_attributes.next_retry_at.anyOf[1] (Value): string. Recorded automatic payment retry
-     * time. Null when no retry time is available. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.next_retry_at.anyOf[2] (Value): null.
-     * previous_attributes.open_renewal_order_id (Optional): string or null. ID of the paid renewal
-     * order whose shipment has not been dispatched. It keeps its committed delivery destination
-     * after preference changes and cancellation. Absent when no such renewal order exists. Only
-     * renewal orders count; the signup order is not included.
-     * previous_attributes.open_renewal_order_id.anyOf[1] (Value): string. ID of the paid renewal
-     * order whose shipment has not been dispatched. It keeps its committed delivery destination
-     * after preference changes and cancellation. Absent when no such renewal order exists. Only
-     * renewal orders count; the signup order is not included. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.open_renewal_order_id.anyOf[2]
-     * (Value): null. previous_attributes.outstanding_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. Unpaid balance of the failed renewal order, including
-     * tax, shipping and discounts, after payments and credits. Present only while status is
-     * past_due and a positive balance remains. previous_attributes.outstanding_money.anyOf[1]
-     * (Value): {@link MoneyValuePreviousAttributes}.
-     * previous_attributes.outstanding_money.anyOf[2] (Value): null.
-     * previous_attributes.pause_reason (Optional): string or null. Why the subscription is paused:
-     * merchant for a pause made with your API key or dashboard, buyer for the buyer's own pause,
-     * delivery_action_required for a pause during or after a delivery hold, and payment_failed
-     * when renewal payment retries ran out and your dunning settings pause the subscription.
-     * Omitted when the subscription is not paused. Value enum: "buyer",
-     * "delivery_action_required", "merchant", "payment_failed".
-     * previous_attributes.pause_reason.anyOf[1] (Value): string. Why the subscription is paused:
-     * merchant for a pause made with your API key or dashboard, buyer for the buyer's own pause,
-     * delivery_action_required for a pause during or after a delivery hold, and payment_failed
-     * when renewal payment retries ran out and your dunning settings pause the subscription.
-     * Omitted when the subscription is not paused. Value enum: "buyer",
-     * "delivery_action_required", "merchant", "payment_failed".
-     * previous_attributes.pause_reason.anyOf[2] (Value): null. previous_attributes.paused_at
-     * (Optional): string or null. RFC3339 timestamp. previous_attributes.paused_at.anyOf[1]
-     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.paused_at.anyOf[2] (Value): null. previous_attributes.payment_method
-     * (Optional): {@link ExpandedPaymentMethodSummaryPreviousAttributes} or null. Present only
-     * when `expand` includes `payment_method`; `null` when expanded and there is no related
-     * payment method. previous_attributes.payment_method.anyOf[1] (Value): {@link
-     * ExpandedPaymentMethodSummaryPreviousAttributes}. previous_attributes.payment_method.anyOf[2]
-     * (Value): null. previous_attributes.payment_method_due_at (Optional): string or null. First
-     * charge boundary while no card is bound: the later of trial_end_at and next_billing_at during
-     * a trial, or the next billing date for an imported period, even when that cycle's charge is
-     * zero. Recomputed when the schedule changes. A trial still without a card at its boundary
-     * cancels without an order or payment attempt. At that boundary, an imported subscription with
-     * a positive charge that still has no card enters its normal dunning schedule without a
-     * payment attempt. For an imported subscription, a zero charge completes the renewal without a
-     * card and the deadline advances to the following boundary. Null when a card is bound,
-     * collection is not scheduled (paused, canceled, or set to cancel at period end), an active or
-     * trialing subscription is in its final end_after cycle, or an external schedule has no known
-     * boundary. previous_attributes.payment_method_due_at.anyOf[1] (Value): string. First charge
-     * boundary while no card is bound: the later of trial_end_at and next_billing_at during a
-     * trial, or the next billing date for an imported period, even when that cycle's charge is
-     * zero. Recomputed when the schedule changes. A trial still without a card at its boundary
-     * cancels without an order or payment attempt. At that boundary, an imported subscription with
-     * a positive charge that still has no card enters its normal dunning schedule without a
-     * payment attempt. For an imported subscription, a zero charge completes the renewal without a
-     * card and the deadline advances to the following boundary. Null when a card is bound,
-     * collection is not scheduled (paused, canceled, or set to cancel at period end), an active or
-     * trialing subscription is in its final end_after cycle, or an external schedule has no known
-     * boundary. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.payment_method_due_at.anyOf[2] (Value): null.
-     * previous_attributes.payment_method_id (Optional): string or null. Saved payment method used
-     * for renewal charges. Null when no card is bound. Bind a card to this subscription with
-     * PATCH; changing the customer's default alone does not bind it.
-     * previous_attributes.payment_method_id.anyOf[1] (Value): string. Saved payment method used
-     * for renewal charges. Null when no card is bound. Bind a card to this subscription with
-     * PATCH; changing the customer's default alone does not bind it. Example:
-     * "pm_01KEZF7C0034B248TXXE4NXYFZ". previous_attributes.payment_method_id.anyOf[2] (Value):
-     * null. previous_attributes.promotions (Optional): Array of {@link
-     * SubscriptionPromotionPreviousAttributes} or null. Recurring promotions applying to the next
-     * charged cycle. Scheduled attachments are listed in scheduled_promotions. Empty when none
-     * apply; signup-only and exhausted promotions are excluded.
-     * previous_attributes.promotions.anyOf[1] (Value): Array of {@link
-     * SubscriptionPromotionPreviousAttributes}. Recurring promotions applying to the next charged
-     * cycle. Scheduled attachments are listed in scheduled_promotions. Empty when none apply;
-     * signup-only and exhausted promotions are excluded. previous_attributes.promotions.anyOf[1][]
-     * (Value): {@link SubscriptionPromotionPreviousAttributes}.
-     * previous_attributes.promotions.anyOf[2] (Value): null.
-     * previous_attributes.prorate_first_period (Optional): boolean or null. Whether this
-     * subscription was created to prorate its first anchored paid period. Set at creation and
-     * never changes; starting on the anchor day still bills a normal full period.
-     * previous_attributes.prorate_first_period.anyOf[1] (Value): boolean. Whether this
-     * subscription was created to prorate its first anchored paid period. Set at creation and
-     * never changes; starting on the anchor day still bills a normal full period.
-     * previous_attributes.prorate_first_period.anyOf[2] (Value): null.
-     * previous_attributes.recurring_subtotal_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. What one billing period's items cost before
-     * discounts, shipping, and tax: each line's price with modifiers, times quantity. It changes
-     * when items, quantity, or the plan change; editing the plan doesn't change it. For the next
-     * charge, use a subscription preview in next_renewal mode. `null` when a cancellation succeeds
-     * but Flint couldn't load the billing snapshot afterward, so the cancel response returns it as
-     * null. Retrieve the subscription again to get it.
-     * previous_attributes.recurring_subtotal_money.anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.recurring_subtotal_money.anyOf[2]
-     * (Value): null. previous_attributes.remaining_cycles (Optional): integer or null. Charges
-     * left for a cycle limit, bounded by an earlier scheduled cancellation. Null when there is no
-     * cycle limit or the subscription is canceled. previous_attributes.remaining_cycles.anyOf[1]
-     * (Value): integer. Charges left for a cycle limit, bounded by an earlier scheduled
-     * cancellation. Null when there is no cycle limit or the subscription is canceled. Format:
-     * uint64. minimum: 0. previous_attributes.remaining_cycles.anyOf[2] (Value): null.
-     * previous_attributes.remaining_prepaid_deliveries (Optional): integer or null. Paid
-     * deliveries whose delivery order Flint hasn't created yet. A paid period starts with
-     * deliveries_per_period minus one. When delivery_hold is present and this count is positive,
-     * fixing delivery releases an already-paid delivery with shipping waived and no new charge. A
-     * next_renewal preview still estimates the next paid billing cycle. Skips, holds, and pauses
-     * consume none. Frozen on cancellation for manual refunds.
-     * previous_attributes.remaining_prepaid_deliveries.anyOf[1] (Value): integer. Paid deliveries
-     * whose delivery order Flint hasn't created yet. A paid period starts with
-     * deliveries_per_period minus one. When delivery_hold is present and this count is positive,
-     * fixing delivery releases an already-paid delivery with shipping waived and no new charge. A
-     * next_renewal preview still estimates the next paid billing cycle. Skips, holds, and pauses
-     * consume none. Frozen on cancellation for manual refunds. Format: int32. minimum: 0. maximum:
-     * 23. previous_attributes.remaining_prepaid_deliveries.anyOf[2] (Value): null.
-     * previous_attributes.resume_requested_at (Optional): string or null. When Flint accepted a
-     * pending resume request. Set only while paused with a resume Flint has not applied yet.
-     * Clears when Flint resumes the subscription or refuses the request. `null` when the
-     * subscription isn't paused or no resume request is pending.
-     * previous_attributes.resume_requested_at.anyOf[1] (Value): string. When Flint accepted a
-     * pending resume request. Set only while paused with a resume Flint has not applied yet.
-     * Clears when Flint resumes the subscription or refuses the request. `null` when the
-     * subscription isn't paused or no resume request is pending. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.resume_requested_at.anyOf[2] (Value): null.
-     * previous_attributes.scheduled_cancel_at (Optional): string or null. When the scheduled
-     * cancellation takes effect: trial_end_at while trialing, current_period_end_at while active,
-     * or next_retry_at while past_due. Paid deliveries extend it to the last paid delivery when it
-     * is later. Null when cancel_at_period_end is false or no cancellation time is available.
-     * previous_attributes.scheduled_cancel_at.anyOf[1] (Value): string. When the scheduled
-     * cancellation takes effect: trial_end_at while trialing, current_period_end_at while active,
-     * or next_retry_at while past_due. Paid deliveries extend it to the last paid delivery when it
-     * is later. Null when cancel_at_period_end is false or no cancellation time is available.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.scheduled_cancel_at.anyOf[2] (Value): null.
-     * previous_attributes.scheduled_plan_change (Optional): {@link
-     * SubscriptionScheduledPlanChangePreviousAttributes} or null. Frozen target terms for the next
-     * charged renewal. Null when no plan change is scheduled. Cancel with scheduled_plan_change:
-     * null on PATCH; replace through change-plan.
-     * previous_attributes.scheduled_plan_change.anyOf[1] (Value): {@link
-     * SubscriptionScheduledPlanChangePreviousAttributes}.
-     * previous_attributes.scheduled_plan_change.anyOf[2] (Value): null.
-     * previous_attributes.scheduled_promotions (Optional): Array of {@link
-     * SubscriptionPromotionPreviousAttributes} or null. Attached promotions whose first_cycle is
-     * after the next charged cycle, completed_cycles + 1. Always present; empty when no promotions
-     * are scheduled. previous_attributes.scheduled_promotions.anyOf[1] (Value): Array of {@link
-     * SubscriptionPromotionPreviousAttributes}. Attached promotions whose first_cycle is after the
-     * next charged cycle, completed_cycles + 1. Always present; empty when no promotions are
-     * scheduled. previous_attributes.scheduled_promotions.anyOf[1][] (Value): {@link
-     * SubscriptionPromotionPreviousAttributes}. previous_attributes.scheduled_promotions.anyOf[2]
-     * (Value): null. previous_attributes.scheduled_resume_at (Optional): string or null. When a
-     * pause with a length (pause_duration_cycles) resumes on its own: that many delivery intervals
-     * after paused_at on a prepaid subscription, or billing intervals otherwise. Null when the
-     * subscription is not paused or the pause has no length, such as a pause until you resume it
-     * or the pause Flint starts when a delivery hold runs out.
-     * previous_attributes.scheduled_resume_at.anyOf[1] (Value): string. When a pause with a length
-     * (pause_duration_cycles) resumes on its own: that many delivery intervals after paused_at on
-     * a prepaid subscription, or billing intervals otherwise. Null when the subscription is not
-     * paused or the pause has no length, such as a pause until you resume it or the pause Flint
-     * starts when a delivery hold runs out. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.scheduled_resume_at.anyOf[2] (Value): null.
-     * previous_attributes.service_location (Optional): {@link
-     * SubscriptionServiceLocationPreviousAttributes} or null. Omitted for a checkout session
-     * credential that doesn't act for the customer the buyer verified.
-     * previous_attributes.service_location.anyOf[1] (Value): {@link
-     * SubscriptionServiceLocationPreviousAttributes}.
-     * previous_attributes.service_location.anyOf[2] (Value): null. previous_attributes.starts_at
-     * (Optional): string or null. When a scheduled start's first billing period begins. Present
-     * only until that first payment succeeds. previous_attributes.starts_at.anyOf[1] (Value):
-     * string. When a scheduled start's first billing period begins. Present only until that first
-     * payment succeeds. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.starts_at.anyOf[2] (Value): null. previous_attributes.status (Optional):
-     * string or null. Where the subscription is in its lifecycle. Each value says what it means.
-     * Value enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete",
-     * "scheduled". previous_attributes.status.anyOf[1] (Value): string. Where the subscription is
-     * in its lifecycle. Each value says what it means. Value enum: "trialing", "active", "paused",
-     * "past_due", "canceled", "incomplete", "scheduled". previous_attributes.status.anyOf[2]
-     * (Value): null. previous_attributes.subscription_id (Optional): string or null. Stable
-     * identifier of the subscription. previous_attributes.subscription_id.anyOf[1] (Value):
-     * string. Stable identifier of the subscription. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
-     * previous_attributes.subscription_id.anyOf[2] (Value): null.
-     * previous_attributes.subscription_plan (Optional): {@link
-     * ExpandedSubscriptionPlanSummaryPreviousAttributes} or null. Present only when `expand`
-     * includes `subscription_plan`; `null` when expanded and there is no related subscription
-     * plan. previous_attributes.subscription_plan.anyOf[1] (Value): {@link
-     * ExpandedSubscriptionPlanSummaryPreviousAttributes}.
-     * previous_attributes.subscription_plan.anyOf[2] (Value): null.
-     * previous_attributes.subscription_plan_id (Optional): string or null. Subscription plan ID.
-     * Omitted when terms_type is subscription_offer.
-     * previous_attributes.subscription_plan_id.anyOf[1] (Value): string. Subscription plan ID.
-     * Omitted when terms_type is subscription_offer. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
-     * previous_attributes.subscription_plan_id.anyOf[2] (Value): null.
-     * previous_attributes.supported_actions (Optional): Array of string or null. Merchant actions
-     * allowed by the subscription's state. A route can still refuse a listed action for a
-     * transient reason, such as a renewal already in progress, with its own error. Always present
-     * with merchant credentials. [] enum: "cancel", "pause", "resume", "skip_cycle", "renew",
-     * "change_plan", "change_quantity". previous_attributes.supported_actions.anyOf[1] (Value):
-     * Array of string. Merchant actions allowed by the subscription's state. A route can still
-     * refuse a listed action for a transient reason, such as a renewal already in progress, with
-     * its own error. Always present with merchant credentials. [] enum: "cancel", "pause",
-     * "resume", "skip_cycle", "renew", "change_plan", "change_quantity".
-     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "cancel",
-     * "pause", "resume", "skip_cycle", "renew", "change_plan", "change_quantity".
-     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.tax
-     * (Optional): {@link SubscriptionTaxPreviousAttributes} or null. The tax the subscription's
-     * renewal, setup fee and plan change orders use. `null` when they follow `tax.default_enabled`
-     * and `tax.default_calculation` from your settings. Returned only to merchant credentials;
-     * omitted for buyer credentials. Always present with merchant credentials.
-     * previous_attributes.tax.anyOf[1] (Value): {@link SubscriptionTaxPreviousAttributes}.
-     * previous_attributes.tax.anyOf[2] (Value): null. previous_attributes.terms_type (Optional):
-     * string or null. Terms come from the subscription plan in subscription_plan_id, or from
-     * subscription offers identified on each offer line by subscription_offer_id. Value enum:
-     * "subscription_plan", "subscription_offer". previous_attributes.terms_type.anyOf[1] (Value):
-     * string. Terms come from the subscription plan in subscription_plan_id, or from subscription
-     * offers identified on each offer line by subscription_offer_id. Value enum:
-     * "subscription_plan", "subscription_offer". previous_attributes.terms_type.anyOf[2] (Value):
-     * null. previous_attributes.test_clock_id (Optional): string or null. ID of the test clock the
-     * subscription's customer was created on. The subscription bills at the clock's time. Present
-     * only when the customer is on a test clock. Included only in merchant responses and omitted
-     * from buyer responses. previous_attributes.test_clock_id.anyOf[1] (Value): string. ID of the
-     * test clock the subscription's customer was created on. The subscription bills at the clock's
-     * time. Present only when the customer is on a test clock. Included only in merchant responses
-     * and omitted from buyer responses. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
-     * previous_attributes.test_clock_id.anyOf[2] (Value): null. previous_attributes.trial_end_at
-     * (Optional): string or null. RFC3339 timestamp. previous_attributes.trial_end_at.anyOf[1]
-     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.trial_end_at.anyOf[2] (Value): null.
-     * previous_attributes.upcoming_delivery_hold (Optional): {@link
-     * SubscriptionUpcomingDeliveryHoldPreviousAttributes} or null. Delivery issue forecast for the
-     * next renewal at renewal_at. Mutually exclusive with delivery_hold.
-     * previous_attributes.upcoming_delivery_hold.anyOf[1] (Value): {@link
-     * SubscriptionUpcomingDeliveryHoldPreviousAttributes}.
-     * previous_attributes.upcoming_delivery_hold.anyOf[2] (Value): null.
-     * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
-     * null. previous_attributes.version (Optional): integer or null. Goes up with every change to
-     * the subscription, including renewals and other changes Flint makes. Send it as
-     * `expected_version` to apply an update only if nothing changed.
-     * previous_attributes.version.anyOf[1] (Value): integer. Goes up with every change to the
-     * subscription, including renewals and other changes Flint makes. Send it as
-     * `expected_version` to apply an update only if nothing changed. Format: uint64. minimum: 0.
-     * previous_attributes.version.anyOf[2] (Value): null.
+     * The value as stored after item_type normalization, which is what payments are matched
+     * against.
      */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * billing_anchor_day (Optional): integer. UTC day of the month used for monthly and yearly
-         * billing. Applies only to Flint-owned schedules. Format: int32. minimum: 1. maximum: 31.
-         * billing_interval (Required): string. How often the subscription bills now. Read with
-         * billing_interval_count: monthly with a count of 3 bills quarterly. A change applies from
-         * the next renewal that has not been paid; next_billing_at does not move. Value enum:
-         * "daily", "weekly", "monthly", "yearly". billing_interval_count (Required): integer.
-         * Number of billing_interval units between charges. Changes with billing_interval. Format:
-         * int32. billing_interval_options (Optional): Array of {@link SubscriptionIntervalOption}.
-         * Billing interval and count pairs the subscription can switch to. For a subscription on a
-         * plan, they follow the plan's current billing_interval_options. A subscription that came
-         * from an offer keeps the pairs the offer had at signup. Prices of lines that ship are per
-         * delivery. Each option charges for all deliveries in its period. Changing the interval
-         * does not change the per-delivery price. maxItems: 12. uniqueItems: true.
-         * billing_interval_options[] (Value): {@link SubscriptionIntervalOption}. A billing
-         * interval, such as every 2 months, that a plan, offer, or subscription lets buyers
-         * choose. Prices of lines that ship are per delivery, and each option charges for all
-         * deliveries in its period. Without a delivery cadence there is one delivery per period,
-         * so every option bills the same line prices once per period. With a delivery cadence, a
-         * longer period bills more deliveries of the lines that ship; other lines bill once per
-         * period. For a different price per interval with no delivery cadence, create separate
-         * plans. billing_schedule_owner (Required): string. Who supplies billing dates: flint
-         * advances the schedule after each paid renewal; external uses dates you supply. Change it
-         * with billing_schedule on PATCH /v1/subscriptions/{subscription_id}. Value enum: "flint",
-         * "external". billing_schedule_waiting_started_at (Optional): string. RFC3339 timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". cancel_at_period_end (Required):
-         * boolean. True when the subscription is scheduled to cancel at scheduled_cancel_at.
-         * Schedule with POST /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and
-         * cancel_at_period_end false. canceled_at (Optional): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". cancellation_details (Optional): {@link
-         * SubscriptionCancellationDetails}. Who asked to cancel, when, and why. Present once a
-         * cancellation is requested, whether it takes effect at the end of the billing period or
-         * right away. Omitted when no one asked, and removed when a scheduled cancellation is
-         * undone. See cancellation_reason for voluntary and payment-related cancellations. The
-         * cancellation request behind a scheduled or completed cancellation. cancellation_reason
-         * (Optional): string. Why the subscription is canceled or scheduled to cancel. Uses
-         * signup_order_refunded when an automatic inventory refund fully refunds the signup order,
-         * end_after_reached when the automatic ending agreement is reached,
-         * cancellation_details.requested_by when recorded, payment_failed for other canceled
-         * subscriptions without a requester, and other for a scheduled cancellation without a
-         * requester. Omitted otherwise. Value enum: "buyer", "merchant", "integration",
-         * "payment_failed", "other", "end_after_reached", "signup_order_refunded".
-         * completed_cycles (Required): integer. Billing cycles charged so far, including cycles
-         * imported with `billing_start.completed_cycles`. The next renewal order's
-         * `subscription_cycle` is this number plus one. Format: uint64. minimum: 0.
-         * contract_end_at (Optional): string. When the recorded contract term ends. Does not move
-         * when the subscription pauses or changes plan. Flint does not stop the buyer from
-         * canceling earlier. Format: date-time. Example: "2026-08-02T16:00:00Z". contract_start_at
-         * (Optional): string. When the recorded contract term started. Does not move when the
-         * subscription pauses or changes plan. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". current_period_end_at (Optional): string. RFC3339 timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". current_period_start_at (Optional):
-         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". customer
-         * (Optional): {@link ExpandedCustomerSummary} or null. Present only when `expand` includes
-         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
-         * (Value): {@link ExpandedCustomerSummary}. A customer's summary fields, returned in place
-         * of a customer ID when the customer is expanded. customer.anyOf[2] (Value): null.
-         * customer_id (Required): string. The customer this subscription bills. Example:
-         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". deliveries_per_period (Required): integer. Deliveries
-         * paid for by one billing period, from 1 to 24. One when no separate delivery cadence is
-         * set. Prices of lines that ship are per delivery. Format: int32. minimum: 1. maximum: 24.
-         * delivery (Optional): {@link SubscriptionDelivery}. Saved delivery preference with the
-         * current delivery method display. Write responses use the same display as GET: fixed
-         * shipping reflects the current method configuration, and quoted shipping shows the last
-         * paid shipping amount when available. A subscription's saved delivery preference: method,
-         * destination, recipient, shipping cost, and who last changed it. delivery_hold
-         * (Optional): {@link SubscriptionDeliveryHold}. Current delivery issue that blocks
-         * collection. Mutually exclusive with upcoming_delivery_hold. A hold on a subscription's
-         * deliveries because its delivery method or destination no longer works, and who can fix
-         * it. delivery_interval (Required): string or null. Delivery cadence frozen from the plan.
-         * Null when no separate delivery cadence is set; one delivery is made per billing period.
-         * Value enum: "daily", "weekly", "monthly", "yearly", null. delivery_interval_count
-         * (Required): integer or null. Number of delivery intervals between deliveries. Null when
-         * no separate delivery cadence is set. Format: int32. minimum: 1.
-         * early_termination_fee_money (Optional): {@link MoneyValue}. The fee in the recorded
-         * contract terms. Present whenever those terms include a fee. It applies only to a
-         * cancellation before contract_end_at. Flint never charges it. Later plan changes do not
-         * change this fee. Monetary amount represented as integer minor units plus an ISO 4217
-         * currency code. end_after (Required): {@link SubscriptionEndAfter} or null. Recorded
-         * automatic end condition. Null when no automatic end is set. Cycles count charged billing
-         * periods, including imported completed_cycles. Pauses and skips do not use cycles.
-         * Already-paid prepaid deliveries continue on their shifted dates, even beyond the end
-         * date, and cancellation waits for the last remaining delivery. Skipping defers a delivery
-         * without consuming its entitlement. Ending never refunds. end_after.anyOf[1] (Value):
-         * {@link SubscriptionEndAfter}. The subscription's automatic end condition, measured by
-         * charged billing cycles or a saved local calendar date. end_after.anyOf[2] (Value): null.
-         * expires_at (Required): string or null. Projected end under the current schedule and
-         * committed plan changes, including an earlier scheduled cancellation. A date limit
-         * preserves already-paid entitlement without requiring a future charge schedule. A reached
-         * cycle limit uses the last paid period end, or current_period_end_at when no paid history
-         * exists; that fallback includes any skip or pause extension. A cycle limit with cycles
-         * left needs a future charge schedule unless a known scheduled cancellation determines the
-         * end. Paid deliveries extend the end to the last paid delivery when it is later. An
-         * indefinite pause with paid deliveries owed makes the end unknown. Null when the end
-         * cannot be determined or the subscription is canceled. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". external_reference_id (Optional): string. Caller-owned
-         * identifier for this resource in an external system. maxLength: 255. Example:
-         * "warehouse-1842". gift_recipient (Required): {@link SubscriptionGiftRecipient} or null.
-         * Who receives the gift, when this is a gift subscription. customer_id stays the
-         * purchaser. Flint clears it when the subscription ends and when the purchaser's data is
-         * erased. Null when the subscription isn't a gift. gift_recipient.anyOf[1] (Value): {@link
-         * SubscriptionGiftRecipient}. Who receives a gift subscription. The customer stays the
-         * purchaser, who pays, gets receipts and reminders, and manages the subscription.
-         * delivery.recipient stays the ship-to address. gift_recipient.anyOf[2] (Value): null.
-         * inventory_wait (Optional): {@link SubscriptionInventoryWait}. Renewal waiting for stock.
-         * Buyers receive only started_at. Shows that a subscription renewal is waiting for
-         * inventory, with the order and invoice involved and when the wait started.
-         * is_awaiting_billing_schedule (Optional): boolean. True while an active or trialing
-         * subscription on an external billing schedule has no next billing date.
-         * last_payment_error (Optional): {@link PaymentErrorSummary}. Latest renewal payment
-         * failure, present only while status is past_due and the latest payment failed. Buyer
-         * responses omit merchant remediation and sensitive decline signals. A summary of why a
-         * payment attempt failed, with a normalized error code, a message, the failure time, and
-         * remediation. line_items (Required): Array of {@link SubscriptionLineItem}. What each
-         * renewal bills. Plan edits do not change it. Adding, changing or swapping a line takes
-         * that variant's current catalog price, which then stays until the line changes again.
-         * line_items[] (Value): {@link SubscriptionLineItem}. An item included in a customer's
-         * recurring purchase. merchant_id (Required): string. ID of the merchant this resource
-         * belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link
-         * MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
-         * and size rules. Caller-owned key-value data stored on a resource. Keys starting with
-         * flint_ are reserved for Flint and are not returned. Writes follow the limits on
-         * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
-         * them. missed_billing_at (Optional): string. The billing date whose payment failed, as an
-         * RFC3339 timestamp. Present only while status is past_due. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". next_billing_at (Optional): string. When Flint next starts a
-         * scheduled renewal charge, as an RFC3339 timestamp. Present only while a trialing or
-         * active subscription has a billing date and isn't set to cancel at the end of its period.
-         * Absent when no renewal is scheduled: a paused subscription resumes at
-         * scheduled_resume_at, a past_due one reports the failed billing date in missed_billing_at
-         * and retries at next_retry_at, an incomplete one retries at next_retry_at, a scheduled
-         * start begins at starts_at, one set to cancel ends at scheduled_cancel_at, and an
-         * external schedule awaiting a date reports is_awaiting_billing_schedule. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". next_delivery_at (Required): string or null.
-         * When the next prepaid delivery order is due, shifted by a timed pause. Null when the
-         * subscription has an indefinite pause, no delivery is scheduled, or the subscription is
-         * canceled. Format: date-time. Example: "2026-08-02T16:00:00Z". next_retry_at (Required):
-         * string or null. Recorded automatic payment retry time. Null when no retry time is
-         * available. Format: date-time. Example: "2026-08-02T16:00:00Z". open_renewal_order_id
-         * (Optional): string. ID of the paid renewal order whose shipment has not been dispatched.
-         * It keeps its committed delivery destination after preference changes and cancellation.
-         * Absent when no such renewal order exists. Only renewal orders count; the signup order is
-         * not included. Example: "ord_01KEZF7C0054GQKJ142A8X367A". outstanding_money (Optional):
-         * {@link MoneyValue}. Unpaid balance of the failed renewal order, including tax, shipping
-         * and discounts, after payments and credits. Present only while status is past_due and a
-         * positive balance remains. Monetary amount represented as integer minor units plus an ISO
-         * 4217 currency code. pause_reason (Optional): string. Why the subscription is paused:
-         * merchant for a pause made with your API key or dashboard, buyer for the buyer's own
-         * pause, delivery_action_required for a pause during or after a delivery hold, and
-         * payment_failed when renewal payment retries ran out and your dunning settings pause the
-         * subscription. Omitted when the subscription is not paused. Value enum: "buyer",
-         * "delivery_action_required", "merchant", "payment_failed". paused_at (Optional): string.
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". payment_method
-         * (Optional): {@link ExpandedPaymentMethodSummary} or null. Present only when `expand`
-         * includes `payment_method`; `null` when expanded and there is no related payment method.
-         * payment_method.anyOf[1] (Value): {@link ExpandedPaymentMethodSummary}. A payment
-         * method's summary fields, including type, status, and card details, returned when the
-         * payment method is expanded. payment_method.anyOf[2] (Value): null. payment_method_due_at
-         * (Required): string or null. First charge boundary while no card is bound: the later of
-         * trial_end_at and next_billing_at during a trial, or the next billing date for an
-         * imported period, even when that cycle's charge is zero. Recomputed when the schedule
-         * changes. A trial still without a card at its boundary cancels without an order or
-         * payment attempt. At that boundary, an imported subscription with a positive charge that
-         * still has no card enters its normal dunning schedule without a payment attempt. For an
-         * imported subscription, a zero charge completes the renewal without a card and the
-         * deadline advances to the following boundary. Null when a card is bound, collection is
-         * not scheduled (paused, canceled, or set to cancel at period end), an active or trialing
-         * subscription is in its final end_after cycle, or an external schedule has no known
-         * boundary. Format: date-time. Example: "2026-08-02T16:00:00Z". payment_method_id
-         * (Required): string or null. Saved payment method used for renewal charges. Null when no
-         * card is bound. Bind a card to this subscription with PATCH; changing the customer's
-         * default alone does not bind it. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ". promotions
-         * (Required): Array of {@link SubscriptionPromotion}. Recurring promotions applying to the
-         * next charged cycle. Scheduled attachments are listed in scheduled_promotions. Empty when
-         * none apply; signup-only and exhausted promotions are excluded. promotions[] (Value):
-         * {@link SubscriptionPromotion}. A recurring promotion applied to a subscription,
-         * including its recurrence and remaining discounted cycles. prorate_first_period
-         * (Required): boolean. Whether this subscription was created to prorate its first anchored
-         * paid period. Set at creation and never changes; starting on the anchor day still bills a
-         * normal full period. recurring_subtotal_money (Required): {@link MoneyValue} or null.
-         * What one billing period's items cost before discounts, shipping, and tax: each line's
-         * price with modifiers, times quantity. It changes when items, quantity, or the plan
-         * change; editing the plan doesn't change it. For the next charge, use a subscription
-         * preview in next_renewal mode. `null` when a cancellation succeeds but Flint couldn't
-         * load the billing snapshot afterward, so the cancel response returns it as null. Retrieve
-         * the subscription again to get it. recurring_subtotal_money.anyOf[1] (Value): {@link
-         * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217
-         * currency code. recurring_subtotal_money.anyOf[2] (Value): null. remaining_cycles
-         * (Required): integer or null. Charges left for a cycle limit, bounded by an earlier
-         * scheduled cancellation. Null when there is no cycle limit or the subscription is
-         * canceled. Format: uint64. minimum: 0. remaining_prepaid_deliveries (Required): integer.
-         * Paid deliveries whose delivery order Flint hasn't created yet. A paid period starts with
-         * deliveries_per_period minus one. When delivery_hold is present and this count is
-         * positive, fixing delivery releases an already-paid delivery with shipping waived and no
-         * new charge. A next_renewal preview still estimates the next paid billing cycle. Skips,
-         * holds, and pauses consume none. Frozen on cancellation for manual refunds. Format:
-         * int32. minimum: 0. maximum: 23. resume_requested_at (Required): string or null. When
-         * Flint accepted a pending resume request. Set only while paused with a resume Flint has
-         * not applied yet. Clears when Flint resumes the subscription or refuses the request.
-         * `null` when the subscription isn't paused or no resume request is pending. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". scheduled_cancel_at (Required): string or
-         * null. When the scheduled cancellation takes effect: trial_end_at while trialing,
-         * current_period_end_at while active, or next_retry_at while past_due. Paid deliveries
-         * extend it to the last paid delivery when it is later. Null when cancel_at_period_end is
-         * false or no cancellation time is available. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". scheduled_plan_change (Required): {@link
-         * SubscriptionScheduledPlanChange} or null. Frozen target terms for the next charged
-         * renewal. Null when no plan change is scheduled. Cancel with scheduled_plan_change: null
-         * on PATCH; replace through change-plan. scheduled_plan_change.anyOf[1] (Value): {@link
-         * SubscriptionScheduledPlanChange}. Frozen target terms that apply at the next charged
-         * renewal. scheduled_plan_change.anyOf[2] (Value): null. scheduled_promotions (Required):
-         * Array of {@link SubscriptionPromotion}. Attached promotions whose first_cycle is after
-         * the next charged cycle, completed_cycles + 1. Always present; empty when no promotions
-         * are scheduled. scheduled_promotions[] (Value): {@link SubscriptionPromotion}. A
-         * recurring promotion applied to a subscription, including its recurrence and remaining
-         * discounted cycles. scheduled_resume_at (Required): string or null. When a pause with a
-         * length (pause_duration_cycles) resumes on its own: that many delivery intervals after
-         * paused_at on a prepaid subscription, or billing intervals otherwise. Null when the
-         * subscription is not paused or the pause has no length, such as a pause until you resume
-         * it or the pause Flint starts when a delivery hold runs out. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". service_location (Optional): {@link
-         * SubscriptionServiceLocation}. Omitted for a checkout session credential that doesn't act
-         * for the customer the buyer verified. The address where a subscription's service is
-         * delivered, with the saved customer address it came from. starts_at (Optional): string.
-         * When a scheduled start's first billing period begins. Present only until that first
-         * payment succeeds. Format: date-time. Example: "2026-08-02T16:00:00Z". status (Required):
-         * string. Where the subscription is in its lifecycle. Each value says what it means. Value
-         * enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled".
-         * subscription_id (Required): string. Stable identifier of the subscription. Example:
-         * "sub_01KEZF7C00BVRE8YDBXQB74BBM". subscription_plan (Optional): {@link
-         * ExpandedSubscriptionPlanSummary} or null. Present only when `expand` includes
-         * `subscription_plan`; `null` when expanded and there is no related subscription plan.
-         * subscription_plan.anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary}. A
-         * subscription plan's summary fields, including name, billing interval, currency, and
-         * status, returned when the plan is expanded. subscription_plan.anyOf[2] (Value): null.
-         * subscription_plan_id (Optional): string. Subscription plan ID. Omitted when terms_type
-         * is subscription_offer. Example: "plan_01KEZF7C004CY5ZR33XST2AASV". supported_actions
-         * (Optional): Array of string. Merchant actions allowed by the subscription's state. A
-         * route can still refuse a listed action for a transient reason, such as a renewal already
-         * in progress, with its own error. Always present with merchant credentials. [] enum:
-         * "cancel", "pause", "resume", "skip_cycle", "renew", "change_plan", "change_quantity".
-         * supported_actions[] (Value): string. Value enum: "cancel", "pause", "resume",
-         * "skip_cycle", "renew", "change_plan", "change_quantity". tax (Optional): {@link
-         * SubscriptionTax} or null. The tax the subscription's renewal, setup fee and plan change
-         * orders use. `null` when they follow `tax.default_enabled` and `tax.default_calculation`
-         * from your settings. Returned only to merchant credentials; omitted for buyer
-         * credentials. Always present with merchant credentials. tax.anyOf[1] (Value): {@link
-         * SubscriptionTax}. The tax the subscription's renewal, setup fee and plan change orders
-         * use. Returned only to merchant credentials; omitted for buyer credentials. tax.anyOf[2]
-         * (Value): null. terms_type (Required): string. Terms come from the subscription plan in
-         * subscription_plan_id, or from subscription offers identified on each offer line by
-         * subscription_offer_id. Value enum: "subscription_plan", "subscription_offer".
-         * test_clock_id (Optional): string. ID of the test clock the subscription's customer was
-         * created on. The subscription bills at the clock's time. Present only when the customer
-         * is on a test clock. Included only in merchant responses and omitted from buyer
-         * responses. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ". trial_end_at (Optional): string.
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * upcoming_delivery_hold (Optional): {@link SubscriptionUpcomingDeliveryHold}. Delivery
-         * issue forecast for the next renewal at renewal_at. Mutually exclusive with
-         * delivery_hold. A delivery problem detected for an upcoming renewal that will hold the
-         * subscription's delivery, and who can fix it. updated_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
-         * integer. Goes up with every change to the subscription, including renewals and other
-         * changes Flint makes. Send it as `expected_version` to apply an update only if nothing
-         * changed. Format: uint64. minimum: 0.
-         */
-        "object": {
-            /**
-             * UTC day of the month used for monthly and yearly billing. Applies only to
-             * Flint-owned schedules. Format: int32. minimum: 1. maximum: 31.
-             */
-            "billing_anchor_day"?: number;
-            /**
-             * How often the subscription bills now. Read with billing_interval_count: monthly with
-             * a count of 3 bills quarterly. A change applies from the next renewal that has not
-             * been paid; next_billing_at does not move. Value enum: "daily", "weekly", "monthly",
-             * "yearly".
-             */
-            "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-            /**
-             * Number of billing_interval units between charges. Changes with billing_interval.
-             * Format: int32.
-             */
-            "billing_interval_count": number;
-            /**
-             * Billing interval and count pairs the subscription can switch to. For a subscription
-             * on a plan, they follow the plan's current billing_interval_options. A subscription
-             * that came from an offer keeps the pairs the offer had at signup. Prices of lines
-             * that ship are per delivery. Each option charges for all deliveries in its period.
-             * Changing the interval does not change the per-delivery price. maxItems: 12.
-             * uniqueItems: true. [] (Value): {@link SubscriptionIntervalOption}. A billing
-             * interval, such as every 2 months, that a plan, offer, or subscription lets buyers
-             * choose. Prices of lines that ship are per delivery, and each option charges for all
-             * deliveries in its period. Without a delivery cadence there is one delivery per
-             * period, so every option bills the same line prices once per period. With a delivery
-             * cadence, a longer period bills more deliveries of the lines that ship; other lines
-             * bill once per period. For a different price per interval with no delivery cadence,
-             * create separate plans.
-             */
-            "billing_interval_options"?: Array<SubscriptionIntervalOption>;
-            /**
-             * Who supplies billing dates: flint advances the schedule after each paid renewal;
-             * external uses dates you supply. Change it with billing_schedule on PATCH
-             * /v1/subscriptions/{subscription_id}. Value enum: "flint", "external".
-             */
-            "billing_schedule_owner": "flint" | "external" | (string & {});
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "billing_schedule_waiting_started_at"?: string;
-            /**
-             * True when the subscription is scheduled to cancel at scheduled_cancel_at. Schedule
-             * with POST /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and
-             * cancel_at_period_end false.
-             */
-            "cancel_at_period_end": boolean;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "canceled_at"?: string;
-            /**
-             * Who asked to cancel, when, and why. Present once a cancellation is requested,
-             * whether it takes effect at the end of the billing period or right away. Omitted when
-             * no one asked, and removed when a scheduled cancellation is undone. See
-             * cancellation_reason for voluntary and payment-related cancellations. The
-             * cancellation request behind a scheduled or completed cancellation.
-             */
-            "cancellation_details"?: SubscriptionCancellationDetails;
-            /**
-             * Why the subscription is canceled or scheduled to cancel. Uses signup_order_refunded
-             * when an automatic inventory refund fully refunds the signup order, end_after_reached
-             * when the automatic ending agreement is reached, cancellation_details.requested_by
-             * when recorded, payment_failed for other canceled subscriptions without a requester,
-             * and other for a scheduled cancellation without a requester. Omitted otherwise. Value
-             * enum: "buyer", "merchant", "integration", "payment_failed", "other",
-             * "end_after_reached", "signup_order_refunded".
-             */
-            "cancellation_reason"?: "buyer"
-                | "merchant"
-                | "integration"
-                | "payment_failed"
-                | "other"
-                | "end_after_reached"
-                | "signup_order_refunded"
-                | (string & {});
-            /**
-             * Billing cycles charged so far, including cycles imported with
-             * `billing_start.completed_cycles`. The next renewal order's `subscription_cycle` is
-             * this number plus one. Format: uint64. minimum: 0.
-             */
-            "completed_cycles": number;
-            /**
-             * When the recorded contract term ends. Does not move when the subscription pauses or
-             * changes plan. Flint does not stop the buyer from canceling earlier. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "contract_end_at"?: string;
-            /**
-             * When the recorded contract term started. Does not move when the subscription pauses
-             * or changes plan. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "contract_start_at"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "current_period_end_at"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "current_period_start_at"?: string;
-            /**
-             * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
-             * summary fields, returned in place of a customer ID when the customer is expanded.
-             * anyOf[2] (Value): null.
-             */
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            /** The customer this subscription bills. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
-            "customer_id": string;
-            /**
-             * Deliveries paid for by one billing period, from 1 to 24. One when no separate
-             * delivery cadence is set. Prices of lines that ship are per delivery. Format: int32.
-             * minimum: 1. maximum: 24.
-             */
-            "deliveries_per_period": number;
-            /**
-             * Saved delivery preference with the current delivery method display. Write responses
-             * use the same display as GET: fixed shipping reflects the current method
-             * configuration, and quoted shipping shows the last paid shipping amount when
-             * available. A subscription's saved delivery preference: method, destination,
-             * recipient, shipping cost, and who last changed it.
-             */
-            "delivery"?: SubscriptionDelivery;
-            /**
-             * Current delivery issue that blocks collection. Mutually exclusive with
-             * upcoming_delivery_hold. A hold on a subscription's deliveries because its delivery
-             * method or destination no longer works, and who can fix it.
-             */
-            "delivery_hold"?: SubscriptionDeliveryHold;
-            /**
-             * Delivery cadence frozen from the plan. Null when no separate delivery cadence is
-             * set; one delivery is made per billing period. Value enum: "daily", "weekly",
-             * "monthly", "yearly", null.
-             */
-            "delivery_interval": "daily" | "weekly" | "monthly" | "yearly" | null | (string & {}) | null;
-            /**
-             * Number of delivery intervals between deliveries. Null when no separate delivery
-             * cadence is set. Format: int32. minimum: 1.
-             */
-            "delivery_interval_count": number | null;
-            /**
-             * The fee in the recorded contract terms. Present whenever those terms include a fee.
-             * It applies only to a cancellation before contract_end_at. Flint never charges it.
-             * Later plan changes do not change this fee. Monetary amount represented as integer
-             * minor units plus an ISO 4217 currency code.
-             */
-            "early_termination_fee_money"?: MoneyValue;
-            /**
-             * Recorded automatic end condition. Null when no automatic end is set. Cycles count
-             * charged billing periods, including imported completed_cycles. Pauses and skips do
-             * not use cycles. Already-paid prepaid deliveries continue on their shifted dates,
-             * even beyond the end date, and cancellation waits for the last remaining delivery.
-             * Skipping defers a delivery without consuming its entitlement. Ending never refunds.
-             * anyOf[1] (Value): {@link SubscriptionEndAfter}. The subscription's automatic end
-             * condition, measured by charged billing cycles or a saved local calendar date.
-             * anyOf[2] (Value): null.
-             */
-            "end_after": ((SubscriptionEndAfter) | (null) | (unknown));
-            /**
-             * Projected end under the current schedule and committed plan changes, including an
-             * earlier scheduled cancellation. A date limit preserves already-paid entitlement
-             * without requiring a future charge schedule. A reached cycle limit uses the last paid
-             * period end, or current_period_end_at when no paid history exists; that fallback
-             * includes any skip or pause extension. A cycle limit with cycles left needs a future
-             * charge schedule unless a known scheduled cancellation determines the end. Paid
-             * deliveries extend the end to the last paid delivery when it is later. An indefinite
-             * pause with paid deliveries owed makes the end unknown. Null when the end cannot be
-             * determined or the subscription is canceled. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "expires_at": string | null;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Who receives the gift, when this is a gift subscription. customer_id stays the
-             * purchaser. Flint clears it when the subscription ends and when the purchaser's data
-             * is erased. Null when the subscription isn't a gift. anyOf[1] (Value): {@link
-             * SubscriptionGiftRecipient}. Who receives a gift subscription. The customer stays the
-             * purchaser, who pays, gets receipts and reminders, and manages the subscription.
-             * delivery.recipient stays the ship-to address. anyOf[2] (Value): null.
-             */
-            "gift_recipient": ((SubscriptionGiftRecipient) | (null));
-            /**
-             * Renewal waiting for stock. Buyers receive only started_at. Shows that a subscription
-             * renewal is waiting for inventory, with the order and invoice involved and when the
-             * wait started.
-             */
-            "inventory_wait"?: SubscriptionInventoryWait;
-            /**
-             * True while an active or trialing subscription on an external billing schedule has no
-             * next billing date.
-             */
-            "is_awaiting_billing_schedule"?: boolean;
-            /**
-             * Latest renewal payment failure, present only while status is past_due and the latest
-             * payment failed. Buyer responses omit merchant remediation and sensitive decline
-             * signals. A summary of why a payment attempt failed, with a normalized error code, a
-             * message, the failure time, and remediation.
-             */
-            "last_payment_error"?: PaymentErrorSummary;
-            /**
-             * What each renewal bills. Plan edits do not change it. Adding, changing or swapping a
-             * line takes that variant's current catalog price, which then stays until the line
-             * changes again. [] (Value): {@link SubscriptionLineItem}. An item included in a
-             * customer's recurring purchase.
-             */
-            "line_items": Array<SubscriptionLineItem>;
-            /**
-             * ID of the merchant this resource belongs to. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id": string;
-            /**
-             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
-             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
-             * are reserved for Flint and are not returned. Writes follow the limits on
-             * MetadataInput and MetadataPatchInput; maps written before those limits may not
-             * satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * The billing date whose payment failed, as an RFC3339 timestamp. Present only while
-             * status is past_due. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "missed_billing_at"?: string;
-            /**
-             * When Flint next starts a scheduled renewal charge, as an RFC3339 timestamp. Present
-             * only while a trialing or active subscription has a billing date and isn't set to
-             * cancel at the end of its period. Absent when no renewal is scheduled: a paused
-             * subscription resumes at scheduled_resume_at, a past_due one reports the failed
-             * billing date in missed_billing_at and retries at next_retry_at, an incomplete one
-             * retries at next_retry_at, a scheduled start begins at starts_at, one set to cancel
-             * ends at scheduled_cancel_at, and an external schedule awaiting a date reports
-             * is_awaiting_billing_schedule. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "next_billing_at"?: string;
-            /**
-             * When the next prepaid delivery order is due, shifted by a timed pause. Null when the
-             * subscription has an indefinite pause, no delivery is scheduled, or the subscription
-             * is canceled. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "next_delivery_at": string | null;
-            /**
-             * Recorded automatic payment retry time. Null when no retry time is available. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "next_retry_at": string | null;
-            /**
-             * ID of the paid renewal order whose shipment has not been dispatched. It keeps its
-             * committed delivery destination after preference changes and cancellation. Absent
-             * when no such renewal order exists. Only renewal orders count; the signup order is
-             * not included. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-             */
-            "open_renewal_order_id"?: string;
-            /**
-             * Unpaid balance of the failed renewal order, including tax, shipping and discounts,
-             * after payments and credits. Present only while status is past_due and a positive
-             * balance remains. Monetary amount represented as integer minor units plus an ISO 4217
-             * currency code.
-             */
-            "outstanding_money"?: MoneyValue;
-            /**
-             * Why the subscription is paused: merchant for a pause made with your API key or
-             * dashboard, buyer for the buyer's own pause, delivery_action_required for a pause
-             * during or after a delivery hold, and payment_failed when renewal payment retries ran
-             * out and your dunning settings pause the subscription. Omitted when the subscription
-             * is not paused. Value enum: "buyer", "delivery_action_required", "merchant",
-             * "payment_failed".
-             */
-            "pause_reason"?: "buyer" | "delivery_action_required" | "merchant" | "payment_failed" | (string & {});
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "paused_at"?: string;
-            /**
-             * Present only when `expand` includes `payment_method`; `null` when expanded and there
-             * is no related payment method. anyOf[1] (Value): {@link
-             * ExpandedPaymentMethodSummary}. A payment method's summary fields, including type,
-             * status, and card details, returned when the payment method is expanded. anyOf[2]
-             * (Value): null.
-             */
-            "payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
-            /**
-             * First charge boundary while no card is bound: the later of trial_end_at and
-             * next_billing_at during a trial, or the next billing date for an imported period,
-             * even when that cycle's charge is zero. Recomputed when the schedule changes. A trial
-             * still without a card at its boundary cancels without an order or payment attempt. At
-             * that boundary, an imported subscription with a positive charge that still has no
-             * card enters its normal dunning schedule without a payment attempt. For an imported
-             * subscription, a zero charge completes the renewal without a card and the deadline
-             * advances to the following boundary. Null when a card is bound, collection is not
-             * scheduled (paused, canceled, or set to cancel at period end), an active or trialing
-             * subscription is in its final end_after cycle, or an external schedule has no known
-             * boundary. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "payment_method_due_at": string | null;
-            /**
-             * Saved payment method used for renewal charges. Null when no card is bound. Bind a
-             * card to this subscription with PATCH; changing the customer's default alone does not
-             * bind it. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
-             */
-            "payment_method_id": string | null;
-            /**
-             * Recurring promotions applying to the next charged cycle. Scheduled attachments are
-             * listed in scheduled_promotions. Empty when none apply; signup-only and exhausted
-             * promotions are excluded. [] (Value): {@link SubscriptionPromotion}. A recurring
-             * promotion applied to a subscription, including its recurrence and remaining
-             * discounted cycles.
-             */
-            "promotions": Array<SubscriptionPromotion>;
-            /**
-             * Whether this subscription was created to prorate its first anchored paid period. Set
-             * at creation and never changes; starting on the anchor day still bills a normal full
-             * period.
-             */
-            "prorate_first_period": boolean;
-            /**
-             * What one billing period's items cost before discounts, shipping, and tax: each
-             * line's price with modifiers, times quantity. It changes when items, quantity, or the
-             * plan change; editing the plan doesn't change it. For the next charge, use a
-             * subscription preview in next_renewal mode. `null` when a cancellation succeeds but
-             * Flint couldn't load the billing snapshot afterward, so the cancel response returns
-             * it as null. Retrieve the subscription again to get it. anyOf[1] (Value): {@link
-             * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217
-             * currency code. anyOf[2] (Value): null.
-             */
-            "recurring_subtotal_money": ((MoneyValue) | (null));
-            /**
-             * Charges left for a cycle limit, bounded by an earlier scheduled cancellation. Null
-             * when there is no cycle limit or the subscription is canceled. Format: uint64.
-             * minimum: 0.
-             */
-            "remaining_cycles": number | null;
-            /**
-             * Paid deliveries whose delivery order Flint hasn't created yet. A paid period starts
-             * with deliveries_per_period minus one. When delivery_hold is present and this count
-             * is positive, fixing delivery releases an already-paid delivery with shipping waived
-             * and no new charge. A next_renewal preview still estimates the next paid billing
-             * cycle. Skips, holds, and pauses consume none. Frozen on cancellation for manual
-             * refunds. Format: int32. minimum: 0. maximum: 23.
-             */
-            "remaining_prepaid_deliveries": number;
-            /**
-             * When Flint accepted a pending resume request. Set only while paused with a resume
-             * Flint has not applied yet. Clears when Flint resumes the subscription or refuses the
-             * request. `null` when the subscription isn't paused or no resume request is pending.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "resume_requested_at": string | null;
-            /**
-             * When the scheduled cancellation takes effect: trial_end_at while trialing,
-             * current_period_end_at while active, or next_retry_at while past_due. Paid deliveries
-             * extend it to the last paid delivery when it is later. Null when cancel_at_period_end
-             * is false or no cancellation time is available. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "scheduled_cancel_at": string | null;
-            /**
-             * Frozen target terms for the next charged renewal. Null when no plan change is
-             * scheduled. Cancel with scheduled_plan_change: null on PATCH; replace through
-             * change-plan. anyOf[1] (Value): {@link SubscriptionScheduledPlanChange}. Frozen
-             * target terms that apply at the next charged renewal. anyOf[2] (Value): null.
-             */
-            "scheduled_plan_change": ((SubscriptionScheduledPlanChange) | (null));
-            /**
-             * Attached promotions whose first_cycle is after the next charged cycle,
-             * completed_cycles + 1. Always present; empty when no promotions are scheduled. []
-             * (Value): {@link SubscriptionPromotion}. A recurring promotion applied to a
-             * subscription, including its recurrence and remaining discounted cycles.
-             */
-            "scheduled_promotions": Array<SubscriptionPromotion>;
-            /**
-             * When a pause with a length (pause_duration_cycles) resumes on its own: that many
-             * delivery intervals after paused_at on a prepaid subscription, or billing intervals
-             * otherwise. Null when the subscription is not paused or the pause has no length, such
-             * as a pause until you resume it or the pause Flint starts when a delivery hold runs
-             * out. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "scheduled_resume_at": string | null;
-            /**
-             * Omitted for a checkout session credential that doesn't act for the customer the
-             * buyer verified. The address where a subscription's service is delivered, with the
-             * saved customer address it came from.
-             */
-            "service_location"?: SubscriptionServiceLocation;
-            /**
-             * When a scheduled start's first billing period begins. Present only until that first
-             * payment succeeds. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "starts_at"?: string;
-            /**
-             * Where the subscription is in its lifecycle. Each value says what it means. Value
-             * enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete",
-             * "scheduled".
-             */
-            "status": "trialing"
-                | "active"
-                | "paused"
-                | "past_due"
-                | "canceled"
-                | "incomplete"
-                | "scheduled"
-                | (string & {});
-            /** Stable identifier of the subscription. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM". */
-            "subscription_id": string;
-            /**
-             * Present only when `expand` includes `subscription_plan`; `null` when expanded and
-             * there is no related subscription plan. anyOf[1] (Value): {@link
-             * ExpandedSubscriptionPlanSummary}. A subscription plan's summary fields, including
-             * name, billing interval, currency, and status, returned when the plan is expanded.
-             * anyOf[2] (Value): null.
-             */
-            "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
-            /**
-             * Subscription plan ID. Omitted when terms_type is subscription_offer. Example:
-             * "plan_01KEZF7C004CY5ZR33XST2AASV".
-             */
-            "subscription_plan_id"?: string;
-            /**
-             * Merchant actions allowed by the subscription's state. A route can still refuse a
-             * listed action for a transient reason, such as a renewal already in progress, with
-             * its own error. Always present with merchant credentials. [] enum: "cancel", "pause",
-             * "resume", "skip_cycle", "renew", "change_plan", "change_quantity". [] (Value):
-             * string. Value enum: "cancel", "pause", "resume", "skip_cycle", "renew",
-             * "change_plan", "change_quantity".
-             */
-            "supported_actions"?: Array<"cancel"
-                | "pause"
-                | "resume"
-                | "skip_cycle"
-                | "renew"
-                | "change_plan"
-                | "change_quantity"
-                | (string & {})>;
-            /**
-             * The tax the subscription's renewal, setup fee and plan change orders use. `null`
-             * when they follow `tax.default_enabled` and `tax.default_calculation` from your
-             * settings. Returned only to merchant credentials; omitted for buyer credentials.
-             * Always present with merchant credentials. anyOf[1] (Value): {@link SubscriptionTax}.
-             * The tax the subscription's renewal, setup fee and plan change orders use. Returned
-             * only to merchant credentials; omitted for buyer credentials. anyOf[2] (Value): null.
-             */
-            "tax"?: ((SubscriptionTax) | (null));
-            /**
-             * Terms come from the subscription plan in subscription_plan_id, or from subscription
-             * offers identified on each offer line by subscription_offer_id. Value enum:
-             * "subscription_plan", "subscription_offer".
-             */
-            "terms_type": "subscription_plan" | "subscription_offer" | (string & {});
-            /**
-             * ID of the test clock the subscription's customer was created on. The subscription
-             * bills at the clock's time. Present only when the customer is on a test clock.
-             * Included only in merchant responses and omitted from buyer responses. Example:
-             * "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
-             */
-            "test_clock_id"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "trial_end_at"?: string;
-            /**
-             * Delivery issue forecast for the next renewal at renewal_at. Mutually exclusive with
-             * delivery_hold. A delivery problem detected for an upcoming renewal that will hold
-             * the subscription's delivery, and who can fix it.
-             */
-            "upcoming_delivery_hold"?: SubscriptionUpcomingDeliveryHold;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Goes up with every change to the subscription, including renewals and other changes
-             * Flint makes. Send it as `expected_version` to apply an update only if nothing
-             * changed. Format: uint64. minimum: 0.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. billing_anchor_day (Optional): integer or null.
-         * UTC day of the month used for monthly and yearly billing. Applies only to Flint-owned
-         * schedules. billing_anchor_day.anyOf[1] (Value): integer. UTC day of the month used for
-         * monthly and yearly billing. Applies only to Flint-owned schedules. Format: int32.
-         * minimum: 1. maximum: 31. billing_anchor_day.anyOf[2] (Value): null. billing_interval
-         * (Optional): string or null. How often the subscription bills now. Read with
-         * billing_interval_count: monthly with a count of 3 bills quarterly. A change applies from
-         * the next renewal that has not been paid; next_billing_at does not move. Value enum:
-         * "daily", "weekly", "monthly", "yearly". billing_interval.anyOf[1] (Value): string. How
-         * often the subscription bills now. Read with billing_interval_count: monthly with a count
-         * of 3 bills quarterly. A change applies from the next renewal that has not been paid;
-         * next_billing_at does not move. Value enum: "daily", "weekly", "monthly", "yearly".
-         * billing_interval.anyOf[2] (Value): null. billing_interval_count (Optional): integer or
-         * null. Number of billing_interval units between charges. Changes with billing_interval.
-         * billing_interval_count.anyOf[1] (Value): integer. Number of billing_interval units
-         * between charges. Changes with billing_interval. Format: int32.
-         * billing_interval_count.anyOf[2] (Value): null. billing_interval_options (Optional):
-         * Array of {@link SubscriptionIntervalOptionPreviousAttributes} or null. Billing interval
-         * and count pairs the subscription can switch to. For a subscription on a plan, they
-         * follow the plan's current billing_interval_options. A subscription that came from an
-         * offer keeps the pairs the offer had at signup. Prices of lines that ship are per
-         * delivery. Each option charges for all deliveries in its period. Changing the interval
-         * does not change the per-delivery price. billing_interval_options.anyOf[1] (Value): Array
-         * of {@link SubscriptionIntervalOptionPreviousAttributes}. Billing interval and count
-         * pairs the subscription can switch to. For a subscription on a plan, they follow the
-         * plan's current billing_interval_options. A subscription that came from an offer keeps
-         * the pairs the offer had at signup. Prices of lines that ship are per delivery. Each
-         * option charges for all deliveries in its period. Changing the interval does not change
-         * the per-delivery price. maxItems: 12. uniqueItems: true.
-         * billing_interval_options.anyOf[1][] (Value): {@link
-         * SubscriptionIntervalOptionPreviousAttributes}. billing_interval_options.anyOf[2]
-         * (Value): null. billing_schedule_owner (Optional): string or null. Who supplies billing
-         * dates: flint advances the schedule after each paid renewal; external uses dates you
-         * supply. Change it with billing_schedule on PATCH /v1/subscriptions/{subscription_id}.
-         * Value enum: "flint", "external". billing_schedule_owner.anyOf[1] (Value): string. Who
-         * supplies billing dates: flint advances the schedule after each paid renewal; external
-         * uses dates you supply. Change it with billing_schedule on PATCH
-         * /v1/subscriptions/{subscription_id}. Value enum: "flint", "external".
-         * billing_schedule_owner.anyOf[2] (Value): null. billing_schedule_waiting_started_at
-         * (Optional): string or null. RFC3339 timestamp.
-         * billing_schedule_waiting_started_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". billing_schedule_waiting_started_at.anyOf[2]
-         * (Value): null. cancel_at_period_end (Optional): boolean or null. True when the
-         * subscription is scheduled to cancel at scheduled_cancel_at. Schedule with POST
-         * /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and cancel_at_period_end
-         * false. cancel_at_period_end.anyOf[1] (Value): boolean. True when the subscription is
-         * scheduled to cancel at scheduled_cancel_at. Schedule with POST
-         * /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and cancel_at_period_end
-         * false. cancel_at_period_end.anyOf[2] (Value): null. canceled_at (Optional): string or
-         * null. RFC3339 timestamp. canceled_at.anyOf[1] (Value): string. RFC3339 timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". canceled_at.anyOf[2] (Value): null.
-         * cancellation_details (Optional): {@link
-         * SubscriptionCancellationDetailsPreviousAttributes} or null. Who asked to cancel, when,
-         * and why. Present once a cancellation is requested, whether it takes effect at the end of
-         * the billing period or right away. Omitted when no one asked, and removed when a
-         * scheduled cancellation is undone. See cancellation_reason for voluntary and
-         * payment-related cancellations. cancellation_details.anyOf[1] (Value): {@link
-         * SubscriptionCancellationDetailsPreviousAttributes}. cancellation_details.anyOf[2]
-         * (Value): null. cancellation_reason (Optional): string or null. Why the subscription is
-         * canceled or scheduled to cancel. Uses signup_order_refunded when an automatic inventory
-         * refund fully refunds the signup order, end_after_reached when the automatic ending
-         * agreement is reached, cancellation_details.requested_by when recorded, payment_failed
-         * for other canceled subscriptions without a requester, and other for a scheduled
-         * cancellation without a requester. Omitted otherwise. Value enum: "buyer", "merchant",
-         * "integration", "payment_failed", "other", "end_after_reached", "signup_order_refunded".
-         * cancellation_reason.anyOf[1] (Value): string. Why the subscription is canceled or
-         * scheduled to cancel. Uses signup_order_refunded when an automatic inventory refund fully
-         * refunds the signup order, end_after_reached when the automatic ending agreement is
-         * reached, cancellation_details.requested_by when recorded, payment_failed for other
-         * canceled subscriptions without a requester, and other for a scheduled cancellation
-         * without a requester. Omitted otherwise. Value enum: "buyer", "merchant", "integration",
-         * "payment_failed", "other", "end_after_reached", "signup_order_refunded".
-         * cancellation_reason.anyOf[2] (Value): null. completed_cycles (Optional): integer or
-         * null. Billing cycles charged so far, including cycles imported with
-         * `billing_start.completed_cycles`. The next renewal order's `subscription_cycle` is this
-         * number plus one. completed_cycles.anyOf[1] (Value): integer. Billing cycles charged so
-         * far, including cycles imported with `billing_start.completed_cycles`. The next renewal
-         * order's `subscription_cycle` is this number plus one. Format: uint64. minimum: 0.
-         * completed_cycles.anyOf[2] (Value): null. contract_end_at (Optional): string or null.
-         * When the recorded contract term ends. Does not move when the subscription pauses or
-         * changes plan. Flint does not stop the buyer from canceling earlier.
-         * contract_end_at.anyOf[1] (Value): string. When the recorded contract term ends. Does not
-         * move when the subscription pauses or changes plan. Flint does not stop the buyer from
-         * canceling earlier. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * contract_end_at.anyOf[2] (Value): null. contract_start_at (Optional): string or null.
-         * When the recorded contract term started. Does not move when the subscription pauses or
-         * changes plan. contract_start_at.anyOf[1] (Value): string. When the recorded contract
-         * term started. Does not move when the subscription pauses or changes plan. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". contract_start_at.anyOf[2] (Value): null.
-         * created_at (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value):
-         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. current_period_end_at (Optional): string or null.
-         * RFC3339 timestamp. current_period_end_at.anyOf[1] (Value): string. RFC3339 timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". current_period_end_at.anyOf[2]
-         * (Value): null. current_period_start_at (Optional): string or null. RFC3339 timestamp.
-         * current_period_start_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". current_period_start_at.anyOf[2] (Value): null.
-         * customer (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present
-         * only when `expand` includes `customer`; `null` when expanded and there is no related
-         * customer. customer.anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
-         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. The customer
-         * this subscription bills. customer_id.anyOf[1] (Value): string. The customer this
-         * subscription bills. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2]
-         * (Value): null. deliveries_per_period (Optional): integer or null. Deliveries paid for by
-         * one billing period, from 1 to 24. One when no separate delivery cadence is set. Prices
-         * of lines that ship are per delivery. deliveries_per_period.anyOf[1] (Value): integer.
-         * Deliveries paid for by one billing period, from 1 to 24. One when no separate delivery
-         * cadence is set. Prices of lines that ship are per delivery. Format: int32. minimum: 1.
-         * maximum: 24. deliveries_per_period.anyOf[2] (Value): null. delivery (Optional): {@link
-         * SubscriptionDeliveryPreviousAttributes} or null. Saved delivery preference with the
-         * current delivery method display. Write responses use the same display as GET: fixed
-         * shipping reflects the current method configuration, and quoted shipping shows the last
-         * paid shipping amount when available. delivery.anyOf[1] (Value): {@link
-         * SubscriptionDeliveryPreviousAttributes}. delivery.anyOf[2] (Value): null. delivery_hold
-         * (Optional): {@link SubscriptionDeliveryHoldPreviousAttributes} or null. Current delivery
-         * issue that blocks collection. Mutually exclusive with upcoming_delivery_hold.
-         * delivery_hold.anyOf[1] (Value): {@link SubscriptionDeliveryHoldPreviousAttributes}.
-         * delivery_hold.anyOf[2] (Value): null. delivery_interval (Optional): string or null.
-         * Delivery cadence frozen from the plan. Null when no separate delivery cadence is set;
-         * one delivery is made per billing period. Value enum: "daily", "weekly", "monthly",
-         * "yearly", null. delivery_interval.anyOf[1] (Value): string. Delivery cadence frozen from
-         * the plan. Null when no separate delivery cadence is set; one delivery is made per
-         * billing period. Value enum: "daily", "weekly", "monthly", "yearly", null.
-         * delivery_interval.anyOf[2] (Value): null. delivery_interval_count (Optional): integer or
-         * null. Number of delivery intervals between deliveries. Null when no separate delivery
-         * cadence is set. delivery_interval_count.anyOf[1] (Value): integer. Number of delivery
-         * intervals between deliveries. Null when no separate delivery cadence is set. Format:
-         * int32. minimum: 1. delivery_interval_count.anyOf[2] (Value): null.
-         * early_termination_fee_money (Optional): {@link MoneyValuePreviousAttributes} or null.
-         * The fee in the recorded contract terms. Present whenever those terms include a fee. It
-         * applies only to a cancellation before contract_end_at. Flint never charges it. Later
-         * plan changes do not change this fee. early_termination_fee_money.anyOf[1] (Value):
-         * {@link MoneyValuePreviousAttributes}. early_termination_fee_money.anyOf[2] (Value):
-         * null. end_after (Optional): ({@link SubscriptionEndAfterPreviousAttributes} or null) or
-         * null. Recorded automatic end condition. Null when no automatic end is set. Cycles count
-         * charged billing periods, including imported completed_cycles. Pauses and skips do not
-         * use cycles. Already-paid prepaid deliveries continue on their shifted dates, even beyond
-         * the end date, and cancellation waits for the last remaining delivery. Skipping defers a
-         * delivery without consuming its entitlement. Ending never refunds. end_after.anyOf[1]
-         * (Value): ({@link SubscriptionEndAfterPreviousAttributes} or null). Recorded automatic
-         * end condition. Null when no automatic end is set. Cycles count charged billing periods,
-         * including imported completed_cycles. Pauses and skips do not use cycles. Already-paid
-         * prepaid deliveries continue on their shifted dates, even beyond the end date, and
-         * cancellation waits for the last remaining delivery. Skipping defers a delivery without
-         * consuming its entitlement. Ending never refunds. end_after.anyOf[1].anyOf[1] (Value):
-         * {@link SubscriptionEndAfterPreviousAttributes}. The subscription's automatic end
-         * condition, measured by charged billing cycles or a saved local calendar date.
-         * end_after.anyOf[1].anyOf[2] (Value): null. end_after.anyOf[2] (Value): null. expires_at
-         * (Optional): string or null. Projected end under the current schedule and committed plan
-         * changes, including an earlier scheduled cancellation. A date limit preserves
-         * already-paid entitlement without requiring a future charge schedule. A reached cycle
-         * limit uses the last paid period end, or current_period_end_at when no paid history
-         * exists; that fallback includes any skip or pause extension. A cycle limit with cycles
-         * left needs a future charge schedule unless a known scheduled cancellation determines the
-         * end. Paid deliveries extend the end to the last paid delivery when it is later. An
-         * indefinite pause with paid deliveries owed makes the end unknown. Null when the end
-         * cannot be determined or the subscription is canceled. expires_at.anyOf[1] (Value):
-         * string. Projected end under the current schedule and committed plan changes, including
-         * an earlier scheduled cancellation. A date limit preserves already-paid entitlement
-         * without requiring a future charge schedule. A reached cycle limit uses the last paid
-         * period end, or current_period_end_at when no paid history exists; that fallback includes
-         * any skip or pause extension. A cycle limit with cycles left needs a future charge
-         * schedule unless a known scheduled cancellation determines the end. Paid deliveries
-         * extend the end to the last paid delivery when it is later. An indefinite pause with paid
-         * deliveries owed makes the end unknown. Null when the end cannot be determined or the
-         * subscription is canceled. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * expires_at.anyOf[2] (Value): null. external_reference_id (Optional): string or null.
-         * Caller-owned identifier for this resource in an external system.
-         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
-         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
-         * external_reference_id.anyOf[2] (Value): null. gift_recipient (Optional): {@link
-         * SubscriptionGiftRecipientPreviousAttributes} or null. Who receives the gift, when this
-         * is a gift subscription. customer_id stays the purchaser. Flint clears it when the
-         * subscription ends and when the purchaser's data is erased. Null when the subscription
-         * isn't a gift. gift_recipient.anyOf[1] (Value): {@link
-         * SubscriptionGiftRecipientPreviousAttributes}. gift_recipient.anyOf[2] (Value): null.
-         * inventory_wait (Optional): {@link SubscriptionInventoryWaitPreviousAttributes} or null.
-         * Renewal waiting for stock. Buyers receive only started_at. inventory_wait.anyOf[1]
-         * (Value): {@link SubscriptionInventoryWaitPreviousAttributes}. inventory_wait.anyOf[2]
-         * (Value): null. is_awaiting_billing_schedule (Optional): boolean or null. True while an
-         * active or trialing subscription on an external billing schedule has no next billing
-         * date. is_awaiting_billing_schedule.anyOf[1] (Value): boolean. True while an active or
-         * trialing subscription on an external billing schedule has no next billing date.
-         * is_awaiting_billing_schedule.anyOf[2] (Value): null. last_payment_error (Optional):
-         * {@link PaymentErrorSummaryPreviousAttributes} or null. Latest renewal payment failure,
-         * present only while status is past_due and the latest payment failed. Buyer responses
-         * omit merchant remediation and sensitive decline signals. last_payment_error.anyOf[1]
-         * (Value): {@link PaymentErrorSummaryPreviousAttributes}. last_payment_error.anyOf[2]
-         * (Value): null. line_items (Optional): Array of {@link
-         * SubscriptionLineItemPreviousAttributes} or null. What each renewal bills. Plan edits do
-         * not change it. Adding, changing or swapping a line takes that variant's current catalog
-         * price, which then stays until the line changes again. line_items.anyOf[1] (Value): Array
-         * of {@link SubscriptionLineItemPreviousAttributes}. What each renewal bills. Plan edits
-         * do not change it. Adding, changing or swapping a line takes that variant's current
-         * catalog price, which then stays until the line changes again. line_items.anyOf[1][]
-         * (Value): {@link SubscriptionLineItemPreviousAttributes}. line_items.anyOf[2] (Value):
-         * null. merchant_id (Optional): string or null. ID of the merchant this resource belongs
-         * to. merchant_id.anyOf[1] (Value): string. ID of the merchant this resource belongs to.
-         * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
-         * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
-         * `MetadataInput` for key, value, and size rules. metadata.anyOf[1] (Value): {@link
-         * MetadataMap}. metadata.anyOf[2] (Value): null. missed_billing_at (Optional): string or
-         * null. The billing date whose payment failed, as an RFC3339 timestamp. Present only while
-         * status is past_due. missed_billing_at.anyOf[1] (Value): string. The billing date whose
-         * payment failed, as an RFC3339 timestamp. Present only while status is past_due. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". missed_billing_at.anyOf[2] (Value): null.
-         * next_billing_at (Optional): string or null. When Flint next starts a scheduled renewal
-         * charge, as an RFC3339 timestamp. Present only while a trialing or active subscription
-         * has a billing date and isn't set to cancel at the end of its period. Absent when no
-         * renewal is scheduled: a paused subscription resumes at scheduled_resume_at, a past_due
-         * one reports the failed billing date in missed_billing_at and retries at next_retry_at,
-         * an incomplete one retries at next_retry_at, a scheduled start begins at starts_at, one
-         * set to cancel ends at scheduled_cancel_at, and an external schedule awaiting a date
-         * reports is_awaiting_billing_schedule. next_billing_at.anyOf[1] (Value): string. When
-         * Flint next starts a scheduled renewal charge, as an RFC3339 timestamp. Present only
-         * while a trialing or active subscription has a billing date and isn't set to cancel at
-         * the end of its period. Absent when no renewal is scheduled: a paused subscription
-         * resumes at scheduled_resume_at, a past_due one reports the failed billing date in
-         * missed_billing_at and retries at next_retry_at, an incomplete one retries at
-         * next_retry_at, a scheduled start begins at starts_at, one set to cancel ends at
-         * scheduled_cancel_at, and an external schedule awaiting a date reports
-         * is_awaiting_billing_schedule. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * next_billing_at.anyOf[2] (Value): null. next_delivery_at (Optional): string or null.
-         * When the next prepaid delivery order is due, shifted by a timed pause. Null when the
-         * subscription has an indefinite pause, no delivery is scheduled, or the subscription is
-         * canceled. next_delivery_at.anyOf[1] (Value): string. When the next prepaid delivery
-         * order is due, shifted by a timed pause. Null when the subscription has an indefinite
-         * pause, no delivery is scheduled, or the subscription is canceled. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". next_delivery_at.anyOf[2] (Value): null. next_retry_at
-         * (Optional): string or null. Recorded automatic payment retry time. Null when no retry
-         * time is available. next_retry_at.anyOf[1] (Value): string. Recorded automatic payment
-         * retry time. Null when no retry time is available. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". next_retry_at.anyOf[2] (Value): null. open_renewal_order_id
-         * (Optional): string or null. ID of the paid renewal order whose shipment has not been
-         * dispatched. It keeps its committed delivery destination after preference changes and
-         * cancellation. Absent when no such renewal order exists. Only renewal orders count; the
-         * signup order is not included. open_renewal_order_id.anyOf[1] (Value): string. ID of the
-         * paid renewal order whose shipment has not been dispatched. It keeps its committed
-         * delivery destination after preference changes and cancellation. Absent when no such
-         * renewal order exists. Only renewal orders count; the signup order is not included.
-         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". open_renewal_order_id.anyOf[2] (Value): null.
-         * outstanding_money (Optional): {@link MoneyValuePreviousAttributes} or null. Unpaid
-         * balance of the failed renewal order, including tax, shipping and discounts, after
-         * payments and credits. Present only while status is past_due and a positive balance
-         * remains. outstanding_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-         * outstanding_money.anyOf[2] (Value): null. pause_reason (Optional): string or null. Why
-         * the subscription is paused: merchant for a pause made with your API key or dashboard,
-         * buyer for the buyer's own pause, delivery_action_required for a pause during or after a
-         * delivery hold, and payment_failed when renewal payment retries ran out and your dunning
-         * settings pause the subscription. Omitted when the subscription is not paused. Value
-         * enum: "buyer", "delivery_action_required", "merchant", "payment_failed".
-         * pause_reason.anyOf[1] (Value): string. Why the subscription is paused: merchant for a
-         * pause made with your API key or dashboard, buyer for the buyer's own pause,
-         * delivery_action_required for a pause during or after a delivery hold, and payment_failed
-         * when renewal payment retries ran out and your dunning settings pause the subscription.
-         * Omitted when the subscription is not paused. Value enum: "buyer",
-         * "delivery_action_required", "merchant", "payment_failed". pause_reason.anyOf[2] (Value):
-         * null. paused_at (Optional): string or null. RFC3339 timestamp. paused_at.anyOf[1]
-         * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * paused_at.anyOf[2] (Value): null. payment_method (Optional): {@link
-         * ExpandedPaymentMethodSummaryPreviousAttributes} or null. Present only when `expand`
-         * includes `payment_method`; `null` when expanded and there is no related payment method.
-         * payment_method.anyOf[1] (Value): {@link ExpandedPaymentMethodSummaryPreviousAttributes}.
-         * payment_method.anyOf[2] (Value): null. payment_method_due_at (Optional): string or null.
-         * First charge boundary while no card is bound: the later of trial_end_at and
-         * next_billing_at during a trial, or the next billing date for an imported period, even
-         * when that cycle's charge is zero. Recomputed when the schedule changes. A trial still
-         * without a card at its boundary cancels without an order or payment attempt. At that
-         * boundary, an imported subscription with a positive charge that still has no card enters
-         * its normal dunning schedule without a payment attempt. For an imported subscription, a
-         * zero charge completes the renewal without a card and the deadline advances to the
-         * following boundary. Null when a card is bound, collection is not scheduled (paused,
-         * canceled, or set to cancel at period end), an active or trialing subscription is in its
-         * final end_after cycle, or an external schedule has no known boundary.
-         * payment_method_due_at.anyOf[1] (Value): string. First charge boundary while no card is
-         * bound: the later of trial_end_at and next_billing_at during a trial, or the next billing
-         * date for an imported period, even when that cycle's charge is zero. Recomputed when the
-         * schedule changes. A trial still without a card at its boundary cancels without an order
-         * or payment attempt. At that boundary, an imported subscription with a positive charge
-         * that still has no card enters its normal dunning schedule without a payment attempt. For
-         * an imported subscription, a zero charge completes the renewal without a card and the
-         * deadline advances to the following boundary. Null when a card is bound, collection is
-         * not scheduled (paused, canceled, or set to cancel at period end), an active or trialing
-         * subscription is in its final end_after cycle, or an external schedule has no known
-         * boundary. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * payment_method_due_at.anyOf[2] (Value): null. payment_method_id (Optional): string or
-         * null. Saved payment method used for renewal charges. Null when no card is bound. Bind a
-         * card to this subscription with PATCH; changing the customer's default alone does not
-         * bind it. payment_method_id.anyOf[1] (Value): string. Saved payment method used for
-         * renewal charges. Null when no card is bound. Bind a card to this subscription with
-         * PATCH; changing the customer's default alone does not bind it. Example:
-         * "pm_01KEZF7C0034B248TXXE4NXYFZ". payment_method_id.anyOf[2] (Value): null. promotions
-         * (Optional): Array of {@link SubscriptionPromotionPreviousAttributes} or null. Recurring
-         * promotions applying to the next charged cycle. Scheduled attachments are listed in
-         * scheduled_promotions. Empty when none apply; signup-only and exhausted promotions are
-         * excluded. promotions.anyOf[1] (Value): Array of {@link
-         * SubscriptionPromotionPreviousAttributes}. Recurring promotions applying to the next
-         * charged cycle. Scheduled attachments are listed in scheduled_promotions. Empty when none
-         * apply; signup-only and exhausted promotions are excluded. promotions.anyOf[1][] (Value):
-         * {@link SubscriptionPromotionPreviousAttributes}. promotions.anyOf[2] (Value): null.
-         * prorate_first_period (Optional): boolean or null. Whether this subscription was created
-         * to prorate its first anchored paid period. Set at creation and never changes; starting
-         * on the anchor day still bills a normal full period. prorate_first_period.anyOf[1]
-         * (Value): boolean. Whether this subscription was created to prorate its first anchored
-         * paid period. Set at creation and never changes; starting on the anchor day still bills a
-         * normal full period. prorate_first_period.anyOf[2] (Value): null.
-         * recurring_subtotal_money (Optional): {@link MoneyValuePreviousAttributes} or null. What
-         * one billing period's items cost before discounts, shipping, and tax: each line's price
-         * with modifiers, times quantity. It changes when items, quantity, or the plan change;
-         * editing the plan doesn't change it. For the next charge, use a subscription preview in
-         * next_renewal mode. `null` when a cancellation succeeds but Flint couldn't load the
-         * billing snapshot afterward, so the cancel response returns it as null. Retrieve the
-         * subscription again to get it. recurring_subtotal_money.anyOf[1] (Value): {@link
-         * MoneyValuePreviousAttributes}. recurring_subtotal_money.anyOf[2] (Value): null.
-         * remaining_cycles (Optional): integer or null. Charges left for a cycle limit, bounded by
-         * an earlier scheduled cancellation. Null when there is no cycle limit or the subscription
-         * is canceled. remaining_cycles.anyOf[1] (Value): integer. Charges left for a cycle limit,
-         * bounded by an earlier scheduled cancellation. Null when there is no cycle limit or the
-         * subscription is canceled. Format: uint64. minimum: 0. remaining_cycles.anyOf[2] (Value):
-         * null. remaining_prepaid_deliveries (Optional): integer or null. Paid deliveries whose
-         * delivery order Flint hasn't created yet. A paid period starts with deliveries_per_period
-         * minus one. When delivery_hold is present and this count is positive, fixing delivery
-         * releases an already-paid delivery with shipping waived and no new charge. A next_renewal
-         * preview still estimates the next paid billing cycle. Skips, holds, and pauses consume
-         * none. Frozen on cancellation for manual refunds. remaining_prepaid_deliveries.anyOf[1]
-         * (Value): integer. Paid deliveries whose delivery order Flint hasn't created yet. A paid
-         * period starts with deliveries_per_period minus one. When delivery_hold is present and
-         * this count is positive, fixing delivery releases an already-paid delivery with shipping
-         * waived and no new charge. A next_renewal preview still estimates the next paid billing
-         * cycle. Skips, holds, and pauses consume none. Frozen on cancellation for manual refunds.
-         * Format: int32. minimum: 0. maximum: 23. remaining_prepaid_deliveries.anyOf[2] (Value):
-         * null. resume_requested_at (Optional): string or null. When Flint accepted a pending
-         * resume request. Set only while paused with a resume Flint has not applied yet. Clears
-         * when Flint resumes the subscription or refuses the request. `null` when the subscription
-         * isn't paused or no resume request is pending. resume_requested_at.anyOf[1] (Value):
-         * string. When Flint accepted a pending resume request. Set only while paused with a
-         * resume Flint has not applied yet. Clears when Flint resumes the subscription or refuses
-         * the request. `null` when the subscription isn't paused or no resume request is pending.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". resume_requested_at.anyOf[2]
-         * (Value): null. scheduled_cancel_at (Optional): string or null. When the scheduled
-         * cancellation takes effect: trial_end_at while trialing, current_period_end_at while
-         * active, or next_retry_at while past_due. Paid deliveries extend it to the last paid
-         * delivery when it is later. Null when cancel_at_period_end is false or no cancellation
-         * time is available. scheduled_cancel_at.anyOf[1] (Value): string. When the scheduled
-         * cancellation takes effect: trial_end_at while trialing, current_period_end_at while
-         * active, or next_retry_at while past_due. Paid deliveries extend it to the last paid
-         * delivery when it is later. Null when cancel_at_period_end is false or no cancellation
-         * time is available. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * scheduled_cancel_at.anyOf[2] (Value): null. scheduled_plan_change (Optional): {@link
-         * SubscriptionScheduledPlanChangePreviousAttributes} or null. Frozen target terms for the
-         * next charged renewal. Null when no plan change is scheduled. Cancel with
-         * scheduled_plan_change: null on PATCH; replace through change-plan.
-         * scheduled_plan_change.anyOf[1] (Value): {@link
-         * SubscriptionScheduledPlanChangePreviousAttributes}. scheduled_plan_change.anyOf[2]
-         * (Value): null. scheduled_promotions (Optional): Array of {@link
-         * SubscriptionPromotionPreviousAttributes} or null. Attached promotions whose first_cycle
-         * is after the next charged cycle, completed_cycles + 1. Always present; empty when no
-         * promotions are scheduled. scheduled_promotions.anyOf[1] (Value): Array of {@link
-         * SubscriptionPromotionPreviousAttributes}. Attached promotions whose first_cycle is after
-         * the next charged cycle, completed_cycles + 1. Always present; empty when no promotions
-         * are scheduled. scheduled_promotions.anyOf[1][] (Value): {@link
-         * SubscriptionPromotionPreviousAttributes}. scheduled_promotions.anyOf[2] (Value): null.
-         * scheduled_resume_at (Optional): string or null. When a pause with a length
-         * (pause_duration_cycles) resumes on its own: that many delivery intervals after paused_at
-         * on a prepaid subscription, or billing intervals otherwise. Null when the subscription is
-         * not paused or the pause has no length, such as a pause until you resume it or the pause
-         * Flint starts when a delivery hold runs out. scheduled_resume_at.anyOf[1] (Value):
-         * string. When a pause with a length (pause_duration_cycles) resumes on its own: that many
-         * delivery intervals after paused_at on a prepaid subscription, or billing intervals
-         * otherwise. Null when the subscription is not paused or the pause has no length, such as
-         * a pause until you resume it or the pause Flint starts when a delivery hold runs out.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". scheduled_resume_at.anyOf[2]
-         * (Value): null. service_location (Optional): {@link
-         * SubscriptionServiceLocationPreviousAttributes} or null. Omitted for a checkout session
-         * credential that doesn't act for the customer the buyer verified.
-         * service_location.anyOf[1] (Value): {@link
-         * SubscriptionServiceLocationPreviousAttributes}. service_location.anyOf[2] (Value): null.
-         * starts_at (Optional): string or null. When a scheduled start's first billing period
-         * begins. Present only until that first payment succeeds. starts_at.anyOf[1] (Value):
-         * string. When a scheduled start's first billing period begins. Present only until that
-         * first payment succeeds. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * starts_at.anyOf[2] (Value): null. status (Optional): string or null. Where the
-         * subscription is in its lifecycle. Each value says what it means. Value enum: "trialing",
-         * "active", "paused", "past_due", "canceled", "incomplete", "scheduled". status.anyOf[1]
-         * (Value): string. Where the subscription is in its lifecycle. Each value says what it
-         * means. Value enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete",
-         * "scheduled". status.anyOf[2] (Value): null. subscription_id (Optional): string or null.
-         * Stable identifier of the subscription. subscription_id.anyOf[1] (Value): string. Stable
-         * identifier of the subscription. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
-         * subscription_id.anyOf[2] (Value): null. subscription_plan (Optional): {@link
-         * ExpandedSubscriptionPlanSummaryPreviousAttributes} or null. Present only when `expand`
-         * includes `subscription_plan`; `null` when expanded and there is no related subscription
-         * plan. subscription_plan.anyOf[1] (Value): {@link
-         * ExpandedSubscriptionPlanSummaryPreviousAttributes}. subscription_plan.anyOf[2] (Value):
-         * null. subscription_plan_id (Optional): string or null. Subscription plan ID. Omitted
-         * when terms_type is subscription_offer. subscription_plan_id.anyOf[1] (Value): string.
-         * Subscription plan ID. Omitted when terms_type is subscription_offer. Example:
-         * "plan_01KEZF7C004CY5ZR33XST2AASV". subscription_plan_id.anyOf[2] (Value): null.
-         * supported_actions (Optional): Array of string or null. Merchant actions allowed by the
-         * subscription's state. A route can still refuse a listed action for a transient reason,
-         * such as a renewal already in progress, with its own error. Always present with merchant
-         * credentials. [] enum: "cancel", "pause", "resume", "skip_cycle", "renew", "change_plan",
-         * "change_quantity". supported_actions.anyOf[1] (Value): Array of string. Merchant actions
-         * allowed by the subscription's state. A route can still refuse a listed action for a
-         * transient reason, such as a renewal already in progress, with its own error. Always
-         * present with merchant credentials. [] enum: "cancel", "pause", "resume", "skip_cycle",
-         * "renew", "change_plan", "change_quantity". supported_actions.anyOf[1][] (Value): string.
-         * Value enum: "cancel", "pause", "resume", "skip_cycle", "renew", "change_plan",
-         * "change_quantity". supported_actions.anyOf[2] (Value): null. tax (Optional): {@link
-         * SubscriptionTaxPreviousAttributes} or null. The tax the subscription's renewal, setup
-         * fee and plan change orders use. `null` when they follow `tax.default_enabled` and
-         * `tax.default_calculation` from your settings. Returned only to merchant credentials;
-         * omitted for buyer credentials. Always present with merchant credentials. tax.anyOf[1]
-         * (Value): {@link SubscriptionTaxPreviousAttributes}. tax.anyOf[2] (Value): null.
-         * terms_type (Optional): string or null. Terms come from the subscription plan in
-         * subscription_plan_id, or from subscription offers identified on each offer line by
-         * subscription_offer_id. Value enum: "subscription_plan", "subscription_offer".
-         * terms_type.anyOf[1] (Value): string. Terms come from the subscription plan in
-         * subscription_plan_id, or from subscription offers identified on each offer line by
-         * subscription_offer_id. Value enum: "subscription_plan", "subscription_offer".
-         * terms_type.anyOf[2] (Value): null. test_clock_id (Optional): string or null. ID of the
-         * test clock the subscription's customer was created on. The subscription bills at the
-         * clock's time. Present only when the customer is on a test clock. Included only in
-         * merchant responses and omitted from buyer responses. test_clock_id.anyOf[1] (Value):
-         * string. ID of the test clock the subscription's customer was created on. The
-         * subscription bills at the clock's time. Present only when the customer is on a test
-         * clock. Included only in merchant responses and omitted from buyer responses. Example:
-         * "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ". test_clock_id.anyOf[2] (Value): null. trial_end_at
-         * (Optional): string or null. RFC3339 timestamp. trial_end_at.anyOf[1] (Value): string.
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * trial_end_at.anyOf[2] (Value): null. upcoming_delivery_hold (Optional): {@link
-         * SubscriptionUpcomingDeliveryHoldPreviousAttributes} or null. Delivery issue forecast for
-         * the next renewal at renewal_at. Mutually exclusive with delivery_hold.
-         * upcoming_delivery_hold.anyOf[1] (Value): {@link
-         * SubscriptionUpcomingDeliveryHoldPreviousAttributes}. upcoming_delivery_hold.anyOf[2]
-         * (Value): null. updated_at (Optional): string or null. RFC3339 timestamp.
-         * updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
-         * or null. Goes up with every change to the subscription, including renewals and other
-         * changes Flint makes. Send it as `expected_version` to apply an update only if nothing
-         * changed. version.anyOf[1] (Value): integer. Goes up with every change to the
-         * subscription, including renewals and other changes Flint makes. Send it as
-         * `expected_version` to apply an update only if nothing changed. Format: uint64. minimum:
-         * 0. version.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * UTC day of the month used for monthly and yearly billing. Applies only to
-             * Flint-owned schedules. anyOf[1] (Value): integer. UTC day of the month used for
-             * monthly and yearly billing. Applies only to Flint-owned schedules. Format: int32.
-             * minimum: 1. maximum: 31. anyOf[2] (Value): null.
-             */
-            "billing_anchor_day"?: ((number) | (null));
-            /**
-             * How often the subscription bills now. Read with billing_interval_count: monthly with
-             * a count of 3 bills quarterly. A change applies from the next renewal that has not
-             * been paid; next_billing_at does not move. Value enum: "daily", "weekly", "monthly",
-             * "yearly". anyOf[1] (Value): string. How often the subscription bills now. Read with
-             * billing_interval_count: monthly with a count of 3 bills quarterly. A change applies
-             * from the next renewal that has not been paid; next_billing_at does not move. Value
-             * enum: "daily", "weekly", "monthly", "yearly". anyOf[2] (Value): null.
-             */
-            "billing_interval"?: (("daily" | "weekly" | "monthly" | "yearly" | (string & {})) | (null));
-            /**
-             * Number of billing_interval units between charges. Changes with billing_interval.
-             * anyOf[1] (Value): integer. Number of billing_interval units between charges. Changes
-             * with billing_interval. Format: int32. anyOf[2] (Value): null.
-             */
-            "billing_interval_count"?: ((number) | (null));
-            /**
-             * Billing interval and count pairs the subscription can switch to. For a subscription
-             * on a plan, they follow the plan's current billing_interval_options. A subscription
-             * that came from an offer keeps the pairs the offer had at signup. Prices of lines
-             * that ship are per delivery. Each option charges for all deliveries in its period.
-             * Changing the interval does not change the per-delivery price. anyOf[1] (Value):
-             * Array of {@link SubscriptionIntervalOptionPreviousAttributes}. Billing interval and
-             * count pairs the subscription can switch to. For a subscription on a plan, they
-             * follow the plan's current billing_interval_options. A subscription that came from an
-             * offer keeps the pairs the offer had at signup. Prices of lines that ship are per
-             * delivery. Each option charges for all deliveries in its period. Changing the
-             * interval does not change the per-delivery price. maxItems: 12. uniqueItems: true.
-             * anyOf[1][] (Value): {@link SubscriptionIntervalOptionPreviousAttributes}. anyOf[2]
-             * (Value): null.
-             */
-            "billing_interval_options"?: ((Array<SubscriptionIntervalOptionPreviousAttributes>) | (null));
-            /**
-             * Who supplies billing dates: flint advances the schedule after each paid renewal;
-             * external uses dates you supply. Change it with billing_schedule on PATCH
-             * /v1/subscriptions/{subscription_id}. Value enum: "flint", "external". anyOf[1]
-             * (Value): string. Who supplies billing dates: flint advances the schedule after each
-             * paid renewal; external uses dates you supply. Change it with billing_schedule on
-             * PATCH /v1/subscriptions/{subscription_id}. Value enum: "flint", "external". anyOf[2]
-             * (Value): null.
-             */
-            "billing_schedule_owner"?: (("flint" | "external" | (string & {})) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "billing_schedule_waiting_started_at"?: ((string) | (null));
-            /**
-             * True when the subscription is scheduled to cancel at scheduled_cancel_at. Schedule
-             * with POST /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and
-             * cancel_at_period_end false. anyOf[1] (Value): boolean. True when the subscription is
-             * scheduled to cancel at scheduled_cancel_at. Schedule with POST
-             * /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and cancel_at_period_end
-             * false. anyOf[2] (Value): null.
-             */
-            "cancel_at_period_end"?: ((boolean) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "canceled_at"?: ((string) | (null));
-            /**
-             * Who asked to cancel, when, and why. Present once a cancellation is requested,
-             * whether it takes effect at the end of the billing period or right away. Omitted when
-             * no one asked, and removed when a scheduled cancellation is undone. See
-             * cancellation_reason for voluntary and payment-related cancellations. anyOf[1]
-             * (Value): {@link SubscriptionCancellationDetailsPreviousAttributes}. anyOf[2]
-             * (Value): null.
-             */
-            "cancellation_details"?: ((SubscriptionCancellationDetailsPreviousAttributes) | (null));
-            /**
-             * Why the subscription is canceled or scheduled to cancel. Uses signup_order_refunded
-             * when an automatic inventory refund fully refunds the signup order, end_after_reached
-             * when the automatic ending agreement is reached, cancellation_details.requested_by
-             * when recorded, payment_failed for other canceled subscriptions without a requester,
-             * and other for a scheduled cancellation without a requester. Omitted otherwise. Value
-             * enum: "buyer", "merchant", "integration", "payment_failed", "other",
-             * "end_after_reached", "signup_order_refunded". anyOf[1] (Value): string. Why the
-             * subscription is canceled or scheduled to cancel. Uses signup_order_refunded when an
-             * automatic inventory refund fully refunds the signup order, end_after_reached when
-             * the automatic ending agreement is reached, cancellation_details.requested_by when
-             * recorded, payment_failed for other canceled subscriptions without a requester, and
-             * other for a scheduled cancellation without a requester. Omitted otherwise. Value
-             * enum: "buyer", "merchant", "integration", "payment_failed", "other",
-             * "end_after_reached", "signup_order_refunded". anyOf[2] (Value): null.
-             */
-            "cancellation_reason"?: (("buyer"
-                | "merchant"
-                | "integration"
-                | "payment_failed"
-                | "other"
-                | "end_after_reached"
-                | "signup_order_refunded"
-                | (string & {}))
-                | (null));
-            /**
-             * Billing cycles charged so far, including cycles imported with
-             * `billing_start.completed_cycles`. The next renewal order's `subscription_cycle` is
-             * this number plus one. anyOf[1] (Value): integer. Billing cycles charged so far,
-             * including cycles imported with `billing_start.completed_cycles`. The next renewal
-             * order's `subscription_cycle` is this number plus one. Format: uint64. minimum: 0.
-             * anyOf[2] (Value): null.
-             */
-            "completed_cycles"?: ((number) | (null));
-            /**
-             * When the recorded contract term ends. Does not move when the subscription pauses or
-             * changes plan. Flint does not stop the buyer from canceling earlier. anyOf[1]
-             * (Value): string. When the recorded contract term ends. Does not move when the
-             * subscription pauses or changes plan. Flint does not stop the buyer from canceling
-             * earlier. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "contract_end_at"?: ((string) | (null));
-            /**
-             * When the recorded contract term started. Does not move when the subscription pauses
-             * or changes plan. anyOf[1] (Value): string. When the recorded contract term started.
-             * Does not move when the subscription pauses or changes plan. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "contract_start_at"?: ((string) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "current_period_end_at"?: ((string) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "current_period_start_at"?: ((string) | (null));
-            /**
-             * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): {@link
-             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
-            /**
-             * The customer this subscription bills. anyOf[1] (Value): string. The customer this
-             * subscription bills. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value):
-             * null.
-             */
-            "customer_id"?: ((string) | (null));
-            /**
-             * Deliveries paid for by one billing period, from 1 to 24. One when no separate
-             * delivery cadence is set. Prices of lines that ship are per delivery. anyOf[1]
-             * (Value): integer. Deliveries paid for by one billing period, from 1 to 24. One when
-             * no separate delivery cadence is set. Prices of lines that ship are per delivery.
-             * Format: int32. minimum: 1. maximum: 24. anyOf[2] (Value): null.
-             */
-            "deliveries_per_period"?: ((number) | (null));
-            /**
-             * Saved delivery preference with the current delivery method display. Write responses
-             * use the same display as GET: fixed shipping reflects the current method
-             * configuration, and quoted shipping shows the last paid shipping amount when
-             * available. anyOf[1] (Value): {@link SubscriptionDeliveryPreviousAttributes}.
-             * anyOf[2] (Value): null.
-             */
-            "delivery"?: ((SubscriptionDeliveryPreviousAttributes) | (null));
-            /**
-             * Current delivery issue that blocks collection. Mutually exclusive with
-             * upcoming_delivery_hold. anyOf[1] (Value): {@link
-             * SubscriptionDeliveryHoldPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "delivery_hold"?: ((SubscriptionDeliveryHoldPreviousAttributes) | (null));
-            /**
-             * Delivery cadence frozen from the plan. Null when no separate delivery cadence is
-             * set; one delivery is made per billing period. Value enum: "daily", "weekly",
-             * "monthly", "yearly", null. anyOf[1] (Value): string. Delivery cadence frozen from
-             * the plan. Null when no separate delivery cadence is set; one delivery is made per
-             * billing period. Value enum: "daily", "weekly", "monthly", "yearly", null. anyOf[2]
-             * (Value): null.
-             */
-            "delivery_interval"?: (("daily" | "weekly" | "monthly" | "yearly" | null | (string & {})) | (null));
-            /**
-             * Number of delivery intervals between deliveries. Null when no separate delivery
-             * cadence is set. anyOf[1] (Value): integer. Number of delivery intervals between
-             * deliveries. Null when no separate delivery cadence is set. Format: int32. minimum:
-             * 1. anyOf[2] (Value): null.
-             */
-            "delivery_interval_count"?: ((number) | (null));
-            /**
-             * The fee in the recorded contract terms. Present whenever those terms include a fee.
-             * It applies only to a cancellation before contract_end_at. Flint never charges it.
-             * Later plan changes do not change this fee. anyOf[1] (Value): {@link
-             * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "early_termination_fee_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * Recorded automatic end condition. Null when no automatic end is set. Cycles count
-             * charged billing periods, including imported completed_cycles. Pauses and skips do
-             * not use cycles. Already-paid prepaid deliveries continue on their shifted dates,
-             * even beyond the end date, and cancellation waits for the last remaining delivery.
-             * Skipping defers a delivery without consuming its entitlement. Ending never refunds.
-             * anyOf[1] (Value): ({@link SubscriptionEndAfterPreviousAttributes} or null). Recorded
-             * automatic end condition. Null when no automatic end is set. Cycles count charged
-             * billing periods, including imported completed_cycles. Pauses and skips do not use
-             * cycles. Already-paid prepaid deliveries continue on their shifted dates, even beyond
-             * the end date, and cancellation waits for the last remaining delivery. Skipping
-             * defers a delivery without consuming its entitlement. Ending never refunds.
-             * anyOf[1].anyOf[1] (Value): {@link SubscriptionEndAfterPreviousAttributes}. The
-             * subscription's automatic end condition, measured by charged billing cycles or a
-             * saved local calendar date. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-             */
-            "end_after"?: (((((SubscriptionEndAfterPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
-            /**
-             * Projected end under the current schedule and committed plan changes, including an
-             * earlier scheduled cancellation. A date limit preserves already-paid entitlement
-             * without requiring a future charge schedule. A reached cycle limit uses the last paid
-             * period end, or current_period_end_at when no paid history exists; that fallback
-             * includes any skip or pause extension. A cycle limit with cycles left needs a future
-             * charge schedule unless a known scheduled cancellation determines the end. Paid
-             * deliveries extend the end to the last paid delivery when it is later. An indefinite
-             * pause with paid deliveries owed makes the end unknown. Null when the end cannot be
-             * determined or the subscription is canceled. anyOf[1] (Value): string. Projected end
-             * under the current schedule and committed plan changes, including an earlier
-             * scheduled cancellation. A date limit preserves already-paid entitlement without
-             * requiring a future charge schedule. A reached cycle limit uses the last paid period
-             * end, or current_period_end_at when no paid history exists; that fallback includes
-             * any skip or pause extension. A cycle limit with cycles left needs a future charge
-             * schedule unless a known scheduled cancellation determines the end. Paid deliveries
-             * extend the end to the last paid delivery when it is later. An indefinite pause with
-             * paid deliveries owed makes the end unknown. Null when the end cannot be determined
-             * or the subscription is canceled. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             * anyOf[2] (Value): null.
-             */
-            "expires_at"?: ((string) | (null));
-            /**
-             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
-             * string. Caller-owned identifier for this resource in an external system. maxLength:
-             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
-             */
-            "external_reference_id"?: ((string) | (null));
-            /**
-             * Who receives the gift, when this is a gift subscription. customer_id stays the
-             * purchaser. Flint clears it when the subscription ends and when the purchaser's data
-             * is erased. Null when the subscription isn't a gift. anyOf[1] (Value): {@link
-             * SubscriptionGiftRecipientPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "gift_recipient"?: ((SubscriptionGiftRecipientPreviousAttributes) | (null));
-            /**
-             * Renewal waiting for stock. Buyers receive only started_at. anyOf[1] (Value): {@link
-             * SubscriptionInventoryWaitPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "inventory_wait"?: ((SubscriptionInventoryWaitPreviousAttributes) | (null));
-            /**
-             * True while an active or trialing subscription on an external billing schedule has no
-             * next billing date. anyOf[1] (Value): boolean. True while an active or trialing
-             * subscription on an external billing schedule has no next billing date. anyOf[2]
-             * (Value): null.
-             */
-            "is_awaiting_billing_schedule"?: ((boolean) | (null));
-            /**
-             * Latest renewal payment failure, present only while status is past_due and the latest
-             * payment failed. Buyer responses omit merchant remediation and sensitive decline
-             * signals. anyOf[1] (Value): {@link PaymentErrorSummaryPreviousAttributes}. anyOf[2]
-             * (Value): null.
-             */
-            "last_payment_error"?: ((PaymentErrorSummaryPreviousAttributes) | (null));
-            /**
-             * What each renewal bills. Plan edits do not change it. Adding, changing or swapping a
-             * line takes that variant's current catalog price, which then stays until the line
-             * changes again. anyOf[1] (Value): Array of {@link
-             * SubscriptionLineItemPreviousAttributes}. What each renewal bills. Plan edits do not
-             * change it. Adding, changing or swapping a line takes that variant's current catalog
-             * price, which then stays until the line changes again. anyOf[1][] (Value): {@link
-             * SubscriptionLineItemPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "line_items"?: ((Array<SubscriptionLineItemPreviousAttributes>) | (null));
-            /**
-             * ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the
-             * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             * anyOf[2] (Value): null.
-             */
-            "merchant_id"?: ((string) | (null));
-            /**
-             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
-             * rules. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
-             */
-            "metadata"?: ((MetadataMap) | (null));
-            /**
-             * The billing date whose payment failed, as an RFC3339 timestamp. Present only while
-             * status is past_due. anyOf[1] (Value): string. The billing date whose payment failed,
-             * as an RFC3339 timestamp. Present only while status is past_due. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "missed_billing_at"?: ((string) | (null));
-            /**
-             * When Flint next starts a scheduled renewal charge, as an RFC3339 timestamp. Present
-             * only while a trialing or active subscription has a billing date and isn't set to
-             * cancel at the end of its period. Absent when no renewal is scheduled: a paused
-             * subscription resumes at scheduled_resume_at, a past_due one reports the failed
-             * billing date in missed_billing_at and retries at next_retry_at, an incomplete one
-             * retries at next_retry_at, a scheduled start begins at starts_at, one set to cancel
-             * ends at scheduled_cancel_at, and an external schedule awaiting a date reports
-             * is_awaiting_billing_schedule. anyOf[1] (Value): string. When Flint next starts a
-             * scheduled renewal charge, as an RFC3339 timestamp. Present only while a trialing or
-             * active subscription has a billing date and isn't set to cancel at the end of its
-             * period. Absent when no renewal is scheduled: a paused subscription resumes at
-             * scheduled_resume_at, a past_due one reports the failed billing date in
-             * missed_billing_at and retries at next_retry_at, an incomplete one retries at
-             * next_retry_at, a scheduled start begins at starts_at, one set to cancel ends at
-             * scheduled_cancel_at, and an external schedule awaiting a date reports
-             * is_awaiting_billing_schedule. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             * anyOf[2] (Value): null.
-             */
-            "next_billing_at"?: ((string) | (null));
-            /**
-             * When the next prepaid delivery order is due, shifted by a timed pause. Null when the
-             * subscription has an indefinite pause, no delivery is scheduled, or the subscription
-             * is canceled. anyOf[1] (Value): string. When the next prepaid delivery order is due,
-             * shifted by a timed pause. Null when the subscription has an indefinite pause, no
-             * delivery is scheduled, or the subscription is canceled. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "next_delivery_at"?: ((string) | (null));
-            /**
-             * Recorded automatic payment retry time. Null when no retry time is available.
-             * anyOf[1] (Value): string. Recorded automatic payment retry time. Null when no retry
-             * time is available. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
-             * (Value): null.
-             */
-            "next_retry_at"?: ((string) | (null));
-            /**
-             * ID of the paid renewal order whose shipment has not been dispatched. It keeps its
-             * committed delivery destination after preference changes and cancellation. Absent
-             * when no such renewal order exists. Only renewal orders count; the signup order is
-             * not included. anyOf[1] (Value): string. ID of the paid renewal order whose shipment
-             * has not been dispatched. It keeps its committed delivery destination after
-             * preference changes and cancellation. Absent when no such renewal order exists. Only
-             * renewal orders count; the signup order is not included. Example:
-             * "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
-             */
-            "open_renewal_order_id"?: ((string) | (null));
-            /**
-             * Unpaid balance of the failed renewal order, including tax, shipping and discounts,
-             * after payments and credits. Present only while status is past_due and a positive
-             * balance remains. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2]
-             * (Value): null.
-             */
-            "outstanding_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * Why the subscription is paused: merchant for a pause made with your API key or
-             * dashboard, buyer for the buyer's own pause, delivery_action_required for a pause
-             * during or after a delivery hold, and payment_failed when renewal payment retries ran
-             * out and your dunning settings pause the subscription. Omitted when the subscription
-             * is not paused. Value enum: "buyer", "delivery_action_required", "merchant",
-             * "payment_failed". anyOf[1] (Value): string. Why the subscription is paused: merchant
-             * for a pause made with your API key or dashboard, buyer for the buyer's own pause,
-             * delivery_action_required for a pause during or after a delivery hold, and
-             * payment_failed when renewal payment retries ran out and your dunning settings pause
-             * the subscription. Omitted when the subscription is not paused. Value enum: "buyer",
-             * "delivery_action_required", "merchant", "payment_failed". anyOf[2] (Value): null.
-             */
-            "pause_reason"?: (("buyer" | "delivery_action_required" | "merchant" | "payment_failed" | (string & {})) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "paused_at"?: ((string) | (null));
-            /**
-             * Present only when `expand` includes `payment_method`; `null` when expanded and there
-             * is no related payment method. anyOf[1] (Value): {@link
-             * ExpandedPaymentMethodSummaryPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "payment_method"?: ((ExpandedPaymentMethodSummaryPreviousAttributes) | (null));
-            /**
-             * First charge boundary while no card is bound: the later of trial_end_at and
-             * next_billing_at during a trial, or the next billing date for an imported period,
-             * even when that cycle's charge is zero. Recomputed when the schedule changes. A trial
-             * still without a card at its boundary cancels without an order or payment attempt. At
-             * that boundary, an imported subscription with a positive charge that still has no
-             * card enters its normal dunning schedule without a payment attempt. For an imported
-             * subscription, a zero charge completes the renewal without a card and the deadline
-             * advances to the following boundary. Null when a card is bound, collection is not
-             * scheduled (paused, canceled, or set to cancel at period end), an active or trialing
-             * subscription is in its final end_after cycle, or an external schedule has no known
-             * boundary. anyOf[1] (Value): string. First charge boundary while no card is bound:
-             * the later of trial_end_at and next_billing_at during a trial, or the next billing
-             * date for an imported period, even when that cycle's charge is zero. Recomputed when
-             * the schedule changes. A trial still without a card at its boundary cancels without
-             * an order or payment attempt. At that boundary, an imported subscription with a
-             * positive charge that still has no card enters its normal dunning schedule without a
-             * payment attempt. For an imported subscription, a zero charge completes the renewal
-             * without a card and the deadline advances to the following boundary. Null when a card
-             * is bound, collection is not scheduled (paused, canceled, or set to cancel at period
-             * end), an active or trialing subscription is in its final end_after cycle, or an
-             * external schedule has no known boundary. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "payment_method_due_at"?: ((string) | (null));
-            /**
-             * Saved payment method used for renewal charges. Null when no card is bound. Bind a
-             * card to this subscription with PATCH; changing the customer's default alone does not
-             * bind it. anyOf[1] (Value): string. Saved payment method used for renewal charges.
-             * Null when no card is bound. Bind a card to this subscription with PATCH; changing
-             * the customer's default alone does not bind it. Example:
-             * "pm_01KEZF7C0034B248TXXE4NXYFZ". anyOf[2] (Value): null.
-             */
-            "payment_method_id"?: ((string) | (null));
-            /**
-             * Recurring promotions applying to the next charged cycle. Scheduled attachments are
-             * listed in scheduled_promotions. Empty when none apply; signup-only and exhausted
-             * promotions are excluded. anyOf[1] (Value): Array of {@link
-             * SubscriptionPromotionPreviousAttributes}. Recurring promotions applying to the next
-             * charged cycle. Scheduled attachments are listed in scheduled_promotions. Empty when
-             * none apply; signup-only and exhausted promotions are excluded. anyOf[1][] (Value):
-             * {@link SubscriptionPromotionPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "promotions"?: ((Array<SubscriptionPromotionPreviousAttributes>) | (null));
-            /**
-             * Whether this subscription was created to prorate its first anchored paid period. Set
-             * at creation and never changes; starting on the anchor day still bills a normal full
-             * period. anyOf[1] (Value): boolean. Whether this subscription was created to prorate
-             * its first anchored paid period. Set at creation and never changes; starting on the
-             * anchor day still bills a normal full period. anyOf[2] (Value): null.
-             */
-            "prorate_first_period"?: ((boolean) | (null));
-            /**
-             * What one billing period's items cost before discounts, shipping, and tax: each
-             * line's price with modifiers, times quantity. It changes when items, quantity, or the
-             * plan change; editing the plan doesn't change it. For the next charge, use a
-             * subscription preview in next_renewal mode. `null` when a cancellation succeeds but
-             * Flint couldn't load the billing snapshot afterward, so the cancel response returns
-             * it as null. Retrieve the subscription again to get it. anyOf[1] (Value): {@link
-             * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "recurring_subtotal_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * Charges left for a cycle limit, bounded by an earlier scheduled cancellation. Null
-             * when there is no cycle limit or the subscription is canceled. anyOf[1] (Value):
-             * integer. Charges left for a cycle limit, bounded by an earlier scheduled
-             * cancellation. Null when there is no cycle limit or the subscription is canceled.
-             * Format: uint64. minimum: 0. anyOf[2] (Value): null.
-             */
-            "remaining_cycles"?: ((number) | (null));
-            /**
-             * Paid deliveries whose delivery order Flint hasn't created yet. A paid period starts
-             * with deliveries_per_period minus one. When delivery_hold is present and this count
-             * is positive, fixing delivery releases an already-paid delivery with shipping waived
-             * and no new charge. A next_renewal preview still estimates the next paid billing
-             * cycle. Skips, holds, and pauses consume none. Frozen on cancellation for manual
-             * refunds. anyOf[1] (Value): integer. Paid deliveries whose delivery order Flint
-             * hasn't created yet. A paid period starts with deliveries_per_period minus one. When
-             * delivery_hold is present and this count is positive, fixing delivery releases an
-             * already-paid delivery with shipping waived and no new charge. A next_renewal preview
-             * still estimates the next paid billing cycle. Skips, holds, and pauses consume none.
-             * Frozen on cancellation for manual refunds. Format: int32. minimum: 0. maximum: 23.
-             * anyOf[2] (Value): null.
-             */
-            "remaining_prepaid_deliveries"?: ((number) | (null));
-            /**
-             * When Flint accepted a pending resume request. Set only while paused with a resume
-             * Flint has not applied yet. Clears when Flint resumes the subscription or refuses the
-             * request. `null` when the subscription isn't paused or no resume request is pending.
-             * anyOf[1] (Value): string. When Flint accepted a pending resume request. Set only
-             * while paused with a resume Flint has not applied yet. Clears when Flint resumes the
-             * subscription or refuses the request. `null` when the subscription isn't paused or no
-             * resume request is pending. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             * anyOf[2] (Value): null.
-             */
-            "resume_requested_at"?: ((string) | (null));
-            /**
-             * When the scheduled cancellation takes effect: trial_end_at while trialing,
-             * current_period_end_at while active, or next_retry_at while past_due. Paid deliveries
-             * extend it to the last paid delivery when it is later. Null when cancel_at_period_end
-             * is false or no cancellation time is available. anyOf[1] (Value): string. When the
-             * scheduled cancellation takes effect: trial_end_at while trialing,
-             * current_period_end_at while active, or next_retry_at while past_due. Paid deliveries
-             * extend it to the last paid delivery when it is later. Null when cancel_at_period_end
-             * is false or no cancellation time is available. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "scheduled_cancel_at"?: ((string) | (null));
-            /**
-             * Frozen target terms for the next charged renewal. Null when no plan change is
-             * scheduled. Cancel with scheduled_plan_change: null on PATCH; replace through
-             * change-plan. anyOf[1] (Value): {@link
-             * SubscriptionScheduledPlanChangePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "scheduled_plan_change"?: ((SubscriptionScheduledPlanChangePreviousAttributes) | (null));
-            /**
-             * Attached promotions whose first_cycle is after the next charged cycle,
-             * completed_cycles + 1. Always present; empty when no promotions are scheduled.
-             * anyOf[1] (Value): Array of {@link SubscriptionPromotionPreviousAttributes}. Attached
-             * promotions whose first_cycle is after the next charged cycle, completed_cycles + 1.
-             * Always present; empty when no promotions are scheduled. anyOf[1][] (Value): {@link
-             * SubscriptionPromotionPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "scheduled_promotions"?: ((Array<SubscriptionPromotionPreviousAttributes>) | (null));
-            /**
-             * When a pause with a length (pause_duration_cycles) resumes on its own: that many
-             * delivery intervals after paused_at on a prepaid subscription, or billing intervals
-             * otherwise. Null when the subscription is not paused or the pause has no length, such
-             * as a pause until you resume it or the pause Flint starts when a delivery hold runs
-             * out. anyOf[1] (Value): string. When a pause with a length (pause_duration_cycles)
-             * resumes on its own: that many delivery intervals after paused_at on a prepaid
-             * subscription, or billing intervals otherwise. Null when the subscription is not
-             * paused or the pause has no length, such as a pause until you resume it or the pause
-             * Flint starts when a delivery hold runs out. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "scheduled_resume_at"?: ((string) | (null));
-            /**
-             * Omitted for a checkout session credential that doesn't act for the customer the
-             * buyer verified. anyOf[1] (Value): {@link
-             * SubscriptionServiceLocationPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "service_location"?: ((SubscriptionServiceLocationPreviousAttributes) | (null));
-            /**
-             * When a scheduled start's first billing period begins. Present only until that first
-             * payment succeeds. anyOf[1] (Value): string. When a scheduled start's first billing
-             * period begins. Present only until that first payment succeeds. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "starts_at"?: ((string) | (null));
-            /**
-             * Where the subscription is in its lifecycle. Each value says what it means. Value
-             * enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete",
-             * "scheduled". anyOf[1] (Value): string. Where the subscription is in its lifecycle.
-             * Each value says what it means. Value enum: "trialing", "active", "paused",
-             * "past_due", "canceled", "incomplete", "scheduled". anyOf[2] (Value): null.
-             */
-            "status"?: (("trialing"
-                | "active"
-                | "paused"
-                | "past_due"
-                | "canceled"
-                | "incomplete"
-                | "scheduled"
-                | (string & {}))
-                | (null));
-            /**
-             * Stable identifier of the subscription. anyOf[1] (Value): string. Stable identifier
-             * of the subscription. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM". anyOf[2] (Value):
-             * null.
-             */
-            "subscription_id"?: ((string) | (null));
-            /**
-             * Present only when `expand` includes `subscription_plan`; `null` when expanded and
-             * there is no related subscription plan. anyOf[1] (Value): {@link
-             * ExpandedSubscriptionPlanSummaryPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "subscription_plan"?: ((ExpandedSubscriptionPlanSummaryPreviousAttributes) | (null));
-            /**
-             * Subscription plan ID. Omitted when terms_type is subscription_offer. anyOf[1]
-             * (Value): string. Subscription plan ID. Omitted when terms_type is
-             * subscription_offer. Example: "plan_01KEZF7C004CY5ZR33XST2AASV". anyOf[2] (Value):
-             * null.
-             */
-            "subscription_plan_id"?: ((string) | (null));
-            /**
-             * Merchant actions allowed by the subscription's state. A route can still refuse a
-             * listed action for a transient reason, such as a renewal already in progress, with
-             * its own error. Always present with merchant credentials. [] enum: "cancel", "pause",
-             * "resume", "skip_cycle", "renew", "change_plan", "change_quantity". anyOf[1] (Value):
-             * Array of string. Merchant actions allowed by the subscription's state. A route can
-             * still refuse a listed action for a transient reason, such as a renewal already in
-             * progress, with its own error. Always present with merchant credentials. [] enum:
-             * "cancel", "pause", "resume", "skip_cycle", "renew", "change_plan",
-             * "change_quantity". anyOf[1][] (Value): string. Value enum: "cancel", "pause",
-             * "resume", "skip_cycle", "renew", "change_plan", "change_quantity". anyOf[2] (Value):
-             * null.
-             */
-            "supported_actions"?: ((Array<"cancel"
-                | "pause"
-                | "resume"
-                | "skip_cycle"
-                | "renew"
-                | "change_plan"
-                | "change_quantity"
-                | (string & {})>)
-                | (null));
-            /**
-             * The tax the subscription's renewal, setup fee and plan change orders use. `null`
-             * when they follow `tax.default_enabled` and `tax.default_calculation` from your
-             * settings. Returned only to merchant credentials; omitted for buyer credentials.
-             * Always present with merchant credentials. anyOf[1] (Value): {@link
-             * SubscriptionTaxPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "tax"?: ((SubscriptionTaxPreviousAttributes) | (null));
-            /**
-             * Terms come from the subscription plan in subscription_plan_id, or from subscription
-             * offers identified on each offer line by subscription_offer_id. Value enum:
-             * "subscription_plan", "subscription_offer". anyOf[1] (Value): string. Terms come from
-             * the subscription plan in subscription_plan_id, or from subscription offers
-             * identified on each offer line by subscription_offer_id. Value enum:
-             * "subscription_plan", "subscription_offer". anyOf[2] (Value): null.
-             */
-            "terms_type"?: (("subscription_plan" | "subscription_offer" | (string & {})) | (null));
-            /**
-             * ID of the test clock the subscription's customer was created on. The subscription
-             * bills at the clock's time. Present only when the customer is on a test clock.
-             * Included only in merchant responses and omitted from buyer responses. anyOf[1]
-             * (Value): string. ID of the test clock the subscription's customer was created on.
-             * The subscription bills at the clock's time. Present only when the customer is on a
-             * test clock. Included only in merchant responses and omitted from buyer responses.
-             * Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ". anyOf[2] (Value): null.
-             */
-            "test_clock_id"?: ((string) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "trial_end_at"?: ((string) | (null));
-            /**
-             * Delivery issue forecast for the next renewal at renewal_at. Mutually exclusive with
-             * delivery_hold. anyOf[1] (Value): {@link
-             * SubscriptionUpcomingDeliveryHoldPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "upcoming_delivery_hold"?: ((SubscriptionUpcomingDeliveryHoldPreviousAttributes) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * Goes up with every change to the subscription, including renewals and other changes
-             * Flint makes. Send it as `expected_version` to apply an update only if nothing
-             * changed. anyOf[1] (Value): integer. Goes up with every change to the subscription,
-             * including renewals and other changes Flint makes. Send it as `expected_version` to
-             * apply an update only if nothing changed. Format: uint64. minimum: 0. anyOf[2]
-             * (Value): null.
-             */
-            "version"?: ((number) | (null));
-        });
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "subscription.activated". */
-    "event_type"?: "subscription.activated";
-});
-/**
- * The verification state of a subscription's delivery address: `verified`, `unverified`,
- * `needs_review`, or `unverifiable`.
- */
-export type SubscriptionAddressVerification = {
-    /**
-     * How far verification of the address got. Each value says what it means. Value enum:
-     * "verified", "unverified", "needs_review", "unverifiable".
-     */
-    "state": "verified" | "unverified" | "needs_review" | "unverifiable" | (string & {});
+    "value": string;
 };
-export type SubscriptionAddressVerificationPreviousAttributes = {
+/** The risk list item matched or created for one requested value, and its creation outcome. */
+export type RiskListItemAddition = {
     /**
-     * How far verification of the address got. Each value says what it means. Value enum:
-     * "verified", "unverified", "needs_review", "unverifiable". anyOf[1] (Value): string. How far
-     * verification of the address got. Each value says what it means. Value enum: "verified",
-     * "unverified", "needs_review", "unverifiable". anyOf[2] (Value): null.
+     * Whether the value was added or was already on the list. Value enum: "created", "existing".
      */
-    "state"?: (("verified" | "unverified" | "needs_review" | "unverifiable" | (string & {})) | (null));
+    "outcome": "created" | "existing" | (string & {});
+    /** The list item holding the value. One value in a payment risk list. */
+    "risk_list_item": RiskListItem;
 };
-/**
- * The half-open period [period_start_at, period_end_at) includes its start and excludes its end.
- * Amounts and payments_count use currency; customer and subscription counts span currencies.
- */
-export type SubscriptionAnalytics = {
+/** A page of `RiskListItem` objects. */
+export type RiskListItemListResponse = {
     /**
-     * Currencies of subscription payments selected by succeeded activity created_at in the period,
-     * plus current active and past_due billing snapshots, regardless of the currency filter. The
-     * half-open period [period_start_at, period_end_at) includes its start and excludes its end.
-     * Amounts and payments_count use currency; customer and subscription counts span currencies.
-     * [] (Value): string.
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * RiskListItem}. One value in a payment risk list.
      */
-    "currencies": Array<string>;
+    "data": Array<RiskListItem>;
     /**
-     * ISO 4217 currency for amounts and payment counts. Defaults to the merchant's default
-     * currency. The half-open period [period_start_at, period_end_at) includes its start and
-     * excludes its end. Amounts and payments_count use currency; customer and subscription counts
-     * span currencies. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      */
-    "currency": string;
+    "meta"?: ResponseMeta;
     /**
-     * Exclusive resolved end instant. Omitted or future request ends resolve to the request time
-     * truncated to the second. The half-open period [period_start_at, period_end_at) includes its
-     * start and excludes its end. Amounts and payments_count use currency; customer and
-     * subscription counts span currencies. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
      */
-    "period_end_at": string;
+    "next_page_token"?: string;
     /**
-     * Inclusive start instant. The half-open period [period_start_at, period_end_at) includes its
-     * start and excludes its end. Amounts and payments_count use currency; customer and
-     * subscription counts span currencies. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "period_start_at": string;
-    /**
-     * Current persisted subscription state at computation time, cached briefly. Independent of the
-     * requested period end. The half-open period [period_start_at, period_end_at) includes its
-     * start and excludes its end. Amounts and payments_count use currency; customer and
-     * subscription counts span currencies. The half-open period [period_start_at, period_end_at)
-     * includes its start and excludes its end. Amounts and payments_count use currency; customer
-     * and subscription counts span currencies.
-     */
-    "snapshot_metrics": SubscriptionSnapshotMetrics;
-    /**
-     * Subscription creation, cancellation, and payment success metrics selected within the
-     * requested period. The half-open period [period_start_at, period_end_at) includes its start
-     * and excludes its end. Amounts and payments_count use currency; customer and subscription
-     * counts span currencies. The half-open period [period_start_at, period_end_at) includes its
-     * start and excludes its end. Amounts and payments_count use currency; customer and
-     * subscription counts span currencies.
-     */
-    "window_metrics": SubscriptionWindowMetrics;
+    "request_id": string;
 };
-/** A response containing `SubscriptionAnalytics` data. */
-export type SubscriptionAnalyticsResponse = {
+/** A response containing `RiskListItem` data. */
+export type RiskListItemResponse = {
     /**
-     * Resource, collection, or operation result returned by this request. The half-open period
-     * [period_start_at, period_end_at) includes its start and excludes its end. Amounts and
-     * payments_count use currency; customer and subscription counts span currencies.
+     * Resource, collection, or operation result returned by this request. One value in a payment
+     * risk list.
      */
-    "data": SubscriptionAnalytics;
+    "data": RiskListItem;
     /**
      * Additional information about this response. Metadata returned with a response: the
      * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
@@ -9906,4 +3744,461 @@ export type SubscriptionAnalyticsResponse = {
      * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id": string;
+};
+/** A page of `RiskList` objects. */
+export type RiskListListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * RiskList}. A collection of values used in payment risk rules.
+     */
+    "data": Array<RiskList>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `RiskList` data. */
+export type RiskListResourceResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A collection of values
+     * used in payment risk rules.
+     */
+    "data": RiskList;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type RiskListsCreateItemsParams = (InputValue<AddRiskListItemsRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type RiskListsCreateParams = (InputValue<CreateRiskListRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type RiskListsDeleteItemParams = DisputesAcceptParams;
+export type RiskListsDeleteParams = {
+    /**
+     * Optional risk list version last read by the caller. Format: uint64. minimum: 1. maximum:
+     * 9007199254740991.
+     */
+    "expected_version"?: InputValue<number>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type RiskListsGetItemParams = DisputesAcceptParams;
+export type RiskListsGetParams = DisputesAcceptParams;
+export type RiskListsListParams = {
+    /**
+     * Exact-match filter on the lowercase list alias. No whitespace or case normalization is
+     * applied. minLength: 1. maxLength: 128. pattern: ^[a-z][a-z0-9_]{0,127}$.
+     */
+    "alias"?: InputValue<string>;
+    /**
+     * Filter by status. Omitted, the list leaves out archived rows; name archived to include them.
+     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
+     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active",
+     * "archived". Value enum: "active", "archived". anyOf[1] (Value): Array of string. minItems:
+     * 1. [] enum: "active", "archived". anyOf[1][] (Value): string. Value enum: "active",
+     * "archived". anyOf[2] (Value): string. Value enum: "active", "archived".
+     */
+    "status"?: InputValue<("active" | "archived") | readonly ("active" | "archived")[]>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type RiskListsListRiskListItemsParams = {
+    /**
+     * Exact-match filter after normalization for the parent list's item_type. Accepts 1 through
+     * 512 Unicode characters, following the same normalization as item creation. Commas are
+     * literal. Values are trimmed and compared exactly after item-type normalization for
+     * deduplication and membership. card_fingerprint is the 32-character hexadecimal value from
+     * PaymentMethod.fingerprint and is lowercased; case_sensitive_string preserves case and
+     * Unicode composition. string and email are lowercased, with accents preserved. email requires
+     * a bare address. email_domain is lowercased, has one final dot removed, and converts
+     * internationalized domains to ASCII. ip_address uses canonical IP form, including IPv4-mapped
+     * IPv6 conversion to IPv4. country uses uppercase ISO codes. card_bin preserves 6 through 8
+     * digits, including leading zeros, and matches the full value. customer_id preserves the
+     * validated ID. minLength: 1. maxLength: 512.
+     */
+    "value"?: InputValue<string>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type RiskListsUpdateParams = (InputValue<UpdateRiskListRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+/**
+ * A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not`
+ * group of other nodes.
+ */
+export type RiskPredicateNode = ((RiskPredicateNodeAll)
+    | (RiskPredicateNodeAny)
+    | (RiskPredicateNodeNot)
+    | (RiskPredicateNodeComparison)
+    | (RiskPredicateNodeMoneyComparison)
+    | (RiskPredicateNodeIn)
+    | (RiskPredicateNodeInList)
+    | (RiskPredicateNodeIsMissing)
+    | (Record<string, unknown>));
+/** The `All` variant of `RiskPredicateNode`. */
+export type RiskPredicateNodeAll = {
+    /**
+     * Predicates that must all match. minItems: 1. maxItems: 50. [] (Value): {@link
+     * RiskPredicateNode}. A node in a risk rule condition: a comparison of an attribute, or an
+     * `all`, `any`, or `not` group of other nodes.
+     */
+    "all": Array<RiskPredicateNode>;
+};
+/** The `All` variant of `RiskPredicateNode`. */
+export type RiskPredicateNodeAllRequest = {
+    /**
+     * Predicates that must all match. minItems: 1. maxItems: 50. [] (Value): {@link
+     * RiskPredicateNodeRequest}. A node in a risk rule condition: a comparison of an attribute, or
+     * an `all`, `any`, or `not` group of other nodes.
+     */
+    "all": Array<RiskPredicateNodeRequest>;
+};
+/** The `All` variant of `RiskPredicateNode`. */
+export type RiskPredicateNodeAllRequestInput = {
+    /**
+     * Predicates that must all match. minItems: 1. maxItems: 50. [] (Value): {@link
+     * RiskPredicateNodeRequestInput}. A node in a risk rule condition: a comparison of an
+     * attribute, or an `all`, `any`, or `not` group of other nodes.
+     */
+    "all": Array<RiskPredicateNodeRequestInput>;
+};
+/** The `Any` variant of `RiskPredicateNode`. */
+export type RiskPredicateNodeAny = {
+    /**
+     * Predicates of which at least one must match. minItems: 1. maxItems: 50. [] (Value): {@link
+     * RiskPredicateNode}. A node in a risk rule condition: a comparison of an attribute, or an
+     * `all`, `any`, or `not` group of other nodes.
+     */
+    "any": Array<RiskPredicateNode>;
+};
+/** The `Any` variant of `RiskPredicateNode`. */
+export type RiskPredicateNodeAnyRequest = {
+    /**
+     * Predicates of which at least one must match. minItems: 1. maxItems: 50. [] (Value): {@link
+     * RiskPredicateNodeRequest}. A node in a risk rule condition: a comparison of an attribute, or
+     * an `all`, `any`, or `not` group of other nodes.
+     */
+    "any": Array<RiskPredicateNodeRequest>;
+};
+/** The `Any` variant of `RiskPredicateNode`. */
+export type RiskPredicateNodeAnyRequestInput = {
+    /**
+     * Predicates of which at least one must match. minItems: 1. maxItems: 50. [] (Value): {@link
+     * RiskPredicateNodeRequestInput}. A node in a risk rule condition: a comparison of an
+     * attribute, or an `all`, `any`, or `not` group of other nodes.
+     */
+    "any": Array<RiskPredicateNodeRequestInput>;
+};
+/** The `Comparison` variant of `RiskPredicateNode`. */
+export type RiskPredicateNodeComparison = {
+    /**
+     * The payment attribute to test. Read the attribute registry for the names a rule can use.
+     * minLength: 1. maxLength: 280.
+     */
+    "attribute": string;
+    /** How the attribute is compared. Value enum: "eq", "neq", "gt", "gte", "lt", "lte". */
+    "operator": "eq" | "neq" | "gt" | "gte" | "lt" | "lte" | (string & {});
+    /**
+     * The value to compare with. oneOf[1] (Value): string. minLength: 1. oneOf[2] (Value):
+     * integer. oneOf[3] (Value): boolean.
+     */
+    "value": ((string) | (number) | (boolean) | (unknown));
+};
+/** The `Comparison` variant of `RiskPredicateNode`. */
+export type RiskPredicateNodeComparisonRequestInput = {
+    /**
+     * The payment attribute to test. Read the attribute registry for the names a rule can use.
+     * minLength: 1. maxLength: 280.
+     */
+    "attribute": string;
+    /** How the attribute is compared. Value enum: "eq", "neq", "gt", "gte", "lt", "lte". */
+    "operator": "eq" | "neq" | "gt" | "gte" | "lt" | "lte";
+    /**
+     * The value to compare with. oneOf[1] (Value): string. minLength: 1. oneOf[2] (Value):
+     * integer. oneOf[3] (Value): boolean.
+     */
+    "value": ((string) | (number) | (boolean));
+};
+/** The `In` variant of `RiskPredicateNode`. */
+export type RiskPredicateNodeIn = {
+    /**
+     * The payment attribute to test. Read the attribute registry for the names a rule can use.
+     * minLength: 1. maxLength: 280.
+     */
+    "attribute": string;
+    /** How the attribute is compared. Value enum: "in". */
+    "operator": "in" | (string & {});
+    /**
+     * The values to compare with. The predicate matches when the attribute equals any of them.
+     * minItems: 1. maxItems: 100. [] (Value): string or integer or boolean. [].oneOf[1] (Value):
+     * string. minLength: 1. [].oneOf[2] (Value): integer. [].oneOf[3] (Value): boolean.
+     */
+    "values": Array<((string) | (number) | (boolean) | (unknown))>;
+};
+/** The `In list` variant of `RiskPredicateNode`. */
+export type RiskPredicateNodeInList = {
+    /**
+     * The payment attribute to test. Read the attribute registry for the names a rule can use.
+     * minLength: 1. maxLength: 280.
+     */
+    "attribute": string;
+    /**
+     * Alias of the risk list to look the attribute's value up in. minLength: 1. pattern:
+     * ^[a-z][a-z0-9_]{0,127}$.
+     */
+    "list_alias": string;
+    /** How the attribute is compared. Value enum: "in_list". */
+    "operator": "in_list" | (string & {});
+};
+/** The `In list` variant of `RiskPredicateNode`. */
+export type RiskPredicateNodeInListRequestInput = {
+    /**
+     * The payment attribute to test. Read the attribute registry for the names a rule can use.
+     * minLength: 1. maxLength: 280.
+     */
+    "attribute": string;
+    /**
+     * Alias of the risk list to look the attribute's value up in. minLength: 1. pattern:
+     * ^[a-z][a-z0-9_]{0,127}$.
+     */
+    "list_alias": string;
+    /** How the attribute is compared. Value enum: "in_list". */
+    "operator": "in_list";
+};
+/** The `In` variant of `RiskPredicateNode`. */
+export type RiskPredicateNodeInRequestInput = {
+    /**
+     * The payment attribute to test. Read the attribute registry for the names a rule can use.
+     * minLength: 1. maxLength: 280.
+     */
+    "attribute": string;
+    /** How the attribute is compared. Value enum: "in". */
+    "operator": "in";
+    /**
+     * The values to compare with. The predicate matches when the attribute equals any of them.
+     * minItems: 1. maxItems: 100. [] (Value): string or integer or boolean. [].oneOf[1] (Value):
+     * string. minLength: 1. [].oneOf[2] (Value): integer. [].oneOf[3] (Value): boolean.
+     */
+    "values": Array<((string) | (number) | (boolean))>;
+};
+/** The `Is missing` variant of `RiskPredicateNode`. */
+export type RiskPredicateNodeIsMissing = {
+    /**
+     * The payment attribute to test. Read the attribute registry for the names a rule can use.
+     * minLength: 1. maxLength: 280.
+     */
+    "attribute": string;
+    /** How the attribute is compared. Value enum: "is_missing". */
+    "operator": "is_missing" | (string & {});
+};
+/** The `Is missing` variant of `RiskPredicateNode`. */
+export type RiskPredicateNodeIsMissingRequestInput = {
+    /**
+     * The payment attribute to test. Read the attribute registry for the names a rule can use.
+     * minLength: 1. maxLength: 280.
+     */
+    "attribute": string;
+    /** How the attribute is compared. Value enum: "is_missing". */
+    "operator": "is_missing";
+};
+/** The `Money comparison` variant of `RiskPredicateNode`. */
+export type RiskPredicateNodeMoneyComparison = {
+    /**
+     * The amount to compare with. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /**
+     * The payment attribute to test. Read the attribute registry for the names a rule can use.
+     * Value enum: "amount_money".
+     */
+    "attribute": "amount_money" | (string & {});
+    /** How the attribute is compared. Value enum: "eq", "neq", "gt", "gte", "lt", "lte". */
+    "operator": "eq" | "neq" | "gt" | "gte" | "lt" | "lte" | (string & {});
+};
+/** The `Money comparison` variant of `RiskPredicateNode`. */
+export type RiskPredicateNodeMoneyComparisonRequestInput = {
+    /**
+     * The amount to compare with. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code.
+     */
+    "amount_money": MoneyValueInput;
+    /**
+     * The payment attribute to test. Read the attribute registry for the names a rule can use.
+     * Value enum: "amount_money".
+     */
+    "attribute": "amount_money";
+    /** How the attribute is compared. Value enum: "eq", "neq", "gt", "gte", "lt", "lte". */
+    "operator": "eq" | "neq" | "gt" | "gte" | "lt" | "lte";
+};
+/** The `Not` variant of `RiskPredicateNode`. */
+export type RiskPredicateNodeNot = {
+    /**
+     * The predicate that must not match. A node in a risk rule condition: a comparison of an
+     * attribute, or an `all`, `any`, or `not` group of other nodes.
+     */
+    "not": RiskPredicateNode;
+};
+/** The `Not` variant of `RiskPredicateNode`. */
+export type RiskPredicateNodeNotRequest = {
+    /**
+     * The predicate that must not match. A node in a risk rule condition: a comparison of an
+     * attribute, or an `all`, `any`, or `not` group of other nodes.
+     */
+    "not": RiskPredicateNodeRequest;
+};
+/** The `Not` variant of `RiskPredicateNode`. */
+export type RiskPredicateNodeNotRequestInput = {
+    /**
+     * The predicate that must not match. A node in a risk rule condition: a comparison of an
+     * attribute, or an `all`, `any`, or `not` group of other nodes.
+     */
+    "not": RiskPredicateNodeRequestInput;
 };

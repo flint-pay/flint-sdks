@@ -1,0 +1,176 @@
+import assert from 'node:assert/strict';
+import { execFileSync } from 'node:child_process';
+import { readFileSync } from 'node:fs';
+import test from 'node:test';
+import { inspect } from 'node:util';
+import { Client } from '../node/index.js';
+
+const productId = 'prod_01KEZF7C00BVSHCNWVH528HB66';
+const licenseId = 'lk_01KEZF7C000QD7VJ83G43V0NSN';
+const activationId = 'lka_01KEZF7C00NZEZVCZW3SRDMHTZ';
+const input = { key: 'EXAMPLE-LICENSE-KEY-DO-NOT-USE', product_ids: [productId] };
+const activation = {
+  created_at: '2026-08-02T16:00:00Z',
+  fingerprint: null,
+  last_validated_at: null,
+  license_key_activation_id: activationId,
+  license_key_id: licenseId,
+  name: 'Example desktop',
+  product_id: productId,
+  released_at: null,
+  status: 'active',
+  supported_actions: ['release'],
+  variant_id: 'var_01KEZF7C004GSH2KT8CNYVMHGX',
+};
+const calls = [
+  { resource: 'licenseKeys', method: 'validate', path: '/v1/license-keys/validate',
+    args: [input], data: { is_valid: true }, status: 200 },
+  { resource: 'licenseKeyActivations', method: 'create', path: '/v1/license-key-activations',
+    args: [{ ...input, name: activation.name }], data: activation, status: 201 },
+  { resource: 'licenseKeyActivations', method: 'release', path: `/v1/license-key-activations/${activationId}/release`,
+    args: [activationId, input],
+    data: { ...activation, status: 'released', released_at: activation.created_at, supported_actions: [] }, status: 200 },
+].map(call => ({
+  ...call,
+  body: JSON.stringify({ data: call.data, request_id: 'req_01KWM6WAHG3N9Q8T2V5XRZ7C4D' }),
+}));
+const apiKey = 'synthetic-merchant-key';
+
+for (const credential of [undefined, apiKey]) {
+  test(`Node license key app operations with ${credential ? 'a merchant API key' : 'no credential'}`, async () => {
+    for (const { resource, method, path, args, body, status } of calls) {
+      let requests = 0;
+      const client = new Client({
+        ambientCredentials: false,
+        ...(credential ? { apiKey: credential } : {}),
+        transport: async (url, init) => {
+          requests++;
+          assert.equal(url.pathname, path);
+          assert.equal(init.method, 'POST');
+          assert.equal(init.headers.authorization, credential ? 'Bearer ' + credential : undefined);
+          assert.deepEqual(JSON.parse(init.body), args.at(-1));
+          return new Response(body, { status, headers: { 'content-type': 'application/json' } });
+        },
+      });
+      try {
+        const result = await client[resource][method](...args);
+        assert.equal(result.lastResponse.status, status);
+        assert.equal(requests, 1);
+      } finally {
+        await client.close();
+      }
+    }
+  });
+}
+
+test('PHP license key app operations with and without a merchant API key', () => {
+  execFileSync('php', ['-r', String.raw`
+require 'php/src/autoload.php';
+foreach ([null, $argv[2]] as $credential) {
+    foreach (json_decode($argv[1], true, 512, JSON_THROW_ON_ERROR) as $call) {
+        $requests = 0;
+        $transport = function (array $request) use ($call, $credential, &$requests): array {
+            $requests++;
+            $headers = array_change_key_case($request['headers']);
+            $expectedAuth = $credential === null ? null : 'Bearer ' . $credential;
+            if (($headers['authorization'] ?? null) !== $expectedAuth) {
+                throw new \RuntimeException('Unexpected authorization for ' . $call['method']);
+            }
+            $body = json_decode($request['body'], true, 512, JSON_THROW_ON_ERROR);
+            if ($request['method'] !== 'POST' || parse_url($request['url'], PHP_URL_PATH) !== $call['path']
+                || $body != $call['args'][count($call['args']) - 1]) {
+                throw new \RuntimeException('Unexpected request for ' . $call['method']);
+            }
+            return ['status' => $call['status'], 'body' => $call['body'],
+                'headers' => ['content-type' => 'application/json']];
+        };
+        $options = ['ambientCredentials' => false, 'transport' => $transport];
+        if ($credential !== null) $options['apiKey'] = $credential;
+        $client = new \Flint\Client(new \Flint\ClientOptions(...$options));
+        try {
+            $resource = $call['resource'];
+            $method = $call['method'];
+            $client->$resource->$method(...$call['args']);
+            if ($requests !== 1) throw new \RuntimeException('Expected one request');
+        } finally {
+            $client->close();
+        }
+    }
+}
+`, JSON.stringify(calls), apiKey], { cwd: new URL('..', import.meta.url), timeout: 30000 });
+});
+
+const api = JSON.parse(readFileSync(new URL('../spec/openapi.json', import.meta.url), 'utf8'));
+const disclosure = [
+  { path: '/v1/license-keys/{license_key_id}/reveal', verb: 'post', resource: 'licenseKeys',
+    method: 'reveal', args: [licenseId], credential: 'apiKey' },
+  { path: '/v1/license-keys/{license_key_id}/rotate-key', verb: 'post', resource: 'licenseKeys',
+    method: 'rotateKey', args: [licenseId], credential: 'apiKey' },
+  { path: '/v1/license-keys', verb: 'get', resource: 'licenseKeys',
+    method: 'list', args: [{ order_id: 'ord_01KEZF7C00AQV1X2DPWG2NXS7H' }], credential: 'checkoutToken' },
+  { path: '/v1/me/license-keys', verb: 'get', resource: 'me',
+    method: 'listLicenseKeys', args: [], credential: 'customerToken' },
+].map(call => {
+  const response = api.paths[call.path][call.verb].responses['200'];
+  const body = structuredClone(response.content['application/json'].example);
+  const item = call.verb === 'get' ? body.data[0] : body.data;
+  item.key = input.key;
+  return { ...call, body: JSON.stringify(body) };
+});
+
+test('Node returns full license keys and redacts them from inspection', async () => {
+  for (const call of disclosure) {
+    const client = new Client({
+      ambientCredentials: false,
+      [call.credential]: 'synthetic-credential',
+      transport: async () => new Response(call.body, { headers: { 'content-type': 'application/json' } }),
+    });
+    try {
+      const result = await client[call.resource][call.method](...call.args);
+      const license = call.verb === 'get' ? result.data[0] : result;
+      assert.equal(license.key, input.key);
+      assert.ok(!inspect(license).includes(input.key), call.method);
+    } finally {
+      await client.close();
+    }
+  }
+});
+
+test('PHP returns full license keys and redacts them from var_dump', () => {
+  execFileSync('php', ['-r', String.raw`
+require 'php/src/autoload.php';
+foreach (json_decode($argv[1], true, 512, JSON_THROW_ON_ERROR) as $call) {
+    $options = [
+        'ambientCredentials' => false,
+        $call['credential'] => 'synthetic-credential',
+        'transport' => fn() => ['status' => 200, 'headers' => ['content-type' => 'application/json'],
+            'body' => $call['body']],
+    ];
+    $client = new \Flint\Client(new \Flint\ClientOptions(...$options));
+    try {
+        $resource = $call['resource'];
+        $method = $call['method'];
+        $result = $client->$resource->$method(...$call['args']);
+        $license = $call['verb'] === 'get' ? $result->getData()[0] : $result;
+        if ($license->getKey() !== $argv[2]) throw new \RuntimeException('Missing license key in ' . $method);
+        ob_start();
+        var_dump($license);
+        $dump = ob_get_clean();
+        if (str_contains($dump, $argv[2])) throw new \RuntimeException('License key in dump for ' . $method);
+    } finally {
+        $client->close();
+    }
+}
+`, JSON.stringify(disclosure), input.key], { cwd: new URL('..', import.meta.url), timeout: 30000 });
+});
+
+test('reveal and rotate examples display the license ID without printing the entire response', () => {
+  for (const method of ['reveal', 'rotateKey']) {
+    const node = readFileSync(new URL(`../node/examples/licenseKeys-${method}.mjs`, import.meta.url), 'utf8');
+    const php = readFileSync(new URL(`../php/examples/licenseKeys-${method}.php`, import.meta.url), 'utf8');
+    assert.match(node, /console\.log\(result\.license_key_id\)/);
+    assert.doesNotMatch(node, /console\.log\(result\)/);
+    assert.match(php, /echo \$result->license_key_id /);
+    assert.doesNotMatch(php, /json_encode\(\$result/);
+  }
+});

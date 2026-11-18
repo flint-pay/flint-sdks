@@ -1,15 +1,16 @@
 import type { Result, WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { RequestOptions } from '../declarations/types-60.js';
+import type { RequestOptions } from '../declarations/types-61.js';
 import type {
     WebhookEvent,
     WebhookEventListResponse,
     WebhookEventResponse,
     WebhookEventsGetParams,
     WebhookEventsListParams,
-    WebhookEventsStreamParams
-} from '../declarations/types-76.js';
-import type { WebhookEventsStreamResponse, _SdkWithoutIdempotency } from '../declarations/types-77.js';
+    WebhookEventsStreamParams,
+    WebhookEventsStreamResponse,
+    _SdkWithoutIdempotency
+} from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -26,29 +27,33 @@ export type {
 } from '../runtime.js';
 export type {
     WebhookEventsGetParams,
+    _SdkWithoutIdempotency,
     WebhookEvent,
     WebhookEventResponse,
     WebhookEventsListParams,
     WebhookEventListResponse,
     WebhookEventsStreamParams,
+    WebhookEventsStreamResponse,
     WebhookEventSource
-} from '../declarations/types-76.js';
-export type { _SdkWithoutIdempotency, WebhookEventsStreamResponse } from '../declarations/types-77.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
+} from '../declarations/types-79.js';
+export type { RequestOptions } from '../declarations/types-61.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { DisputesAcceptParams } from '../declarations/types-26.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export interface WebhookEventsResource {
     /**
  * Returns a specific webhook event for the authenticated merchant. Global partner-source records
  * are invisible in sandbox mode; a direct reference returns 404 RESOURCE_NOT_FOUND.
  *
  * `GET /v1/webhook-events/{webhook_event_id}`
- * @param webhook_event_id Flint webhook event ID.
+ * @param webhook_event_id Flint webhook event ID. Must be a valid ID with prefix whev_. Malformed
+ * IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist
+ * return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/webhooks#getWebhookEvent
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

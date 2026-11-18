@@ -85,7 +85,7 @@ final class PaymentLinkCreatedInstalledMerchantsEventDataObject extends Model {
      */
     public function getDescription(): ?string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** Largest amount a buyer can give on a donation link. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Largest amount a buyer can give on a donation link. Must be greater than zero and greater than or equal to donation_min_amount_money. Omit on create for no maximum. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?MoneyValue
      */
     public function getDonationMaxAmountMoney(): ?MoneyValue { return $this->get('donation_max_amount_money'); }

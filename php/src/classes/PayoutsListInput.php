@@ -8,6 +8,7 @@ namespace Flint;
  * @property-read string $currency
  * @property-read list<string>|string $expand
  * @property-read list<string>|string $method
+ * @property-read list<string>|string $direction
  * @property-read list<string>|string $balance_source_type
  * @property-read string $payout_destination_id
  * @property-read string $external_reference_id
@@ -21,9 +22,9 @@ namespace Flint;
  * @property-read string $page_token
  * Presence-aware input; omitted fields throw when accessed. */
 final class PayoutsListInput extends Model {
-    /** @param array{'idempotency_key'?: string, 'currency'?: string, 'expand'?: list<string>|string, 'method'?: list<string>|string, 'balance_source_type'?: list<string>|string, 'payout_destination_id'?: string, 'external_reference_id'?: string, 'query'?: string, 'status'?: list<string>|string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'arrival_date_from'?: string, 'arrival_date_to'?: string, 'page_size'?: int, 'page_token'?: string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
+    /** @param array{'idempotency_key'?: string, 'currency'?: string, 'expand'?: list<string>|string, 'method'?: list<string>|string, 'direction'?: list<string>|string, 'balance_source_type'?: list<string>|string, 'payout_destination_id'?: string, 'external_reference_id'?: string, 'query'?: string, 'status'?: list<string>|string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'arrival_date_from'?: string, 'arrival_date_to'?: string, 'page_size'?: int, 'page_token'?: string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PayoutsListInput')); }
-    /** Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
+    /** Filter by the original Idempotency-Key within the authenticated merchant and environment. Matching is exact and case-sensitive. Returns current authorized payouts, not the recorded response. Partner app installs cannot create payouts. minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
      * @return string
      * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */
@@ -47,6 +48,12 @@ final class PayoutsListInput extends Model {
      */
     public function getMethod(): mixed { return $this->get('method'); }
     public function hasMethod(): bool { return $this->has('method'); }
+    /** Filter by money movement direction. Omit it to list both directions. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "outbound", "inbound". Value enum: "outbound", "inbound". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "outbound", "inbound". anyOf[1][] (Value): string.  Value enum: "outbound", "inbound". anyOf[2] (Value): string.  Value enum: "outbound", "inbound".
+     * @return list<string>|string
+     * @throws SdkError When direction is omitted; use hasDirection() or valueOrDefault().
+     */
+    public function getDirection(): mixed { return $this->get('direction'); }
+    public function hasDirection(): bool { return $this->has('direction'); }
     /** Optional Flint balance source type filter. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "card", "bank_account". Value enum: "card", "bank_account". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "card", "bank_account". anyOf[1][] (Value): string.  Value enum: "card", "bank_account". anyOf[2] (Value): string.  Value enum: "card", "bank_account".
      * @return list<string>|string
      * @throws SdkError When balance_source_type is omitted; use hasBalanceSourceType() or valueOrDefault().

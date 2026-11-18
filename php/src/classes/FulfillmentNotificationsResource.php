@@ -4,7 +4,7 @@ namespace Flint;
 final class FulfillmentNotificationsResource {
     public function __construct(private readonly Runtime $runtime) {}
     /** Retrieves one fulfillment notification audit record by ID.
-     * @param string|Model $fulfillment_notification_id Flint fulfillment notification ID.
+     * @param string|Model $fulfillment_notification_id Flint fulfillment notification ID. Must be a valid ID with prefix fnt_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND.
      * @param FulfillmentNotificationsGetParams|array<array-key, mixed>|Model|null $params Flat body fields and query/header parameters; path arguments follow URL order.
      * @return FulfillmentNotification
      */

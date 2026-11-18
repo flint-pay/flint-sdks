@@ -10,7 +10,7 @@ namespace Flint;
 final class GiftCardNotificationRecipientPreviousAttributes extends Model {
     /** @param array{'email'?: mixed, 'message'?: mixed, 'name'?: mixed, 'send_at'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardNotificationRecipientPreviousAttributes')); }
-    /** Email address the notification is sent to. anyOf[1] (Value): string. Email address the notification is sent to. Format: email. minLength: 1. maxLength: 254. anyOf[2] (Value): null.
+    /** Email address the notification is sent to. The local part before @ must be at most 64 octets (UTF-8 bytes). anyOf[1] (Value): string. Email address the notification is sent to. The local part before @ must be at most 64 octets (UTF-8 bytes). Format: email. minLength: 1. maxLength: 254. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getEmail(): string|null { return $this->get('email'); }
@@ -20,7 +20,7 @@ final class GiftCardNotificationRecipientPreviousAttributes extends Model {
      */
     public function getMessage(): string|null { return $this->get('message'); }
     public function hasMessage(): bool { return $this->has('message'); }
-    /** Name of the person the notification is addressed to. anyOf[1] (Value): string. Name of the person the notification is addressed to. minLength: 1. maxLength: 255. anyOf[2] (Value): null.
+    /** Name of the person the notification is addressed to. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. anyOf[1] (Value): string. Name of the person the notification is addressed to. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1. maxLength: 255. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getName(): string|null { return $this->get('name'); }

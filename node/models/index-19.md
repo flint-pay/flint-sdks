@@ -1,7 +1,19 @@
 [Model index](../MODELS.md)
 
-# InventoryReservationResultResponse to InvoiceLateFeePolicyFixedRequestInput
+# InventoryReservationListResponse to InvoiceIssuedInstalledMerchantsEvent
 
+- [InventoryReservationListResponse](InventoryReservationListResponse.md)
+- [InventoryReservationOwner](InventoryReservationOwner.md)
+- [InventoryReservationOwnerMerchant](InventoryReservationOwnerMerchant.md)
+- [InventoryReservationOwnerMerchantPreviousAttributes](InventoryReservationOwnerMerchantPreviousAttributes.md)
+- [InventoryReservationOwnerOrder](InventoryReservationOwnerOrder.md)
+- [InventoryReservationOwnerOrderPreviousAttributes](InventoryReservationOwnerOrderPreviousAttributes.md)
+- [InventoryReservationOwnerPreviousAttributes](InventoryReservationOwnerPreviousAttributes.md)
+- [InventoryReservationOwnerRequestInput](InventoryReservationOwnerRequestInput.md)
+- [InventoryReservationReleasedInstalledMerchantsEvent](InventoryReservationReleasedInstalledMerchantsEvent.md)
+- [InventoryReservationReleasedMerchantEvent](InventoryReservationReleasedMerchantEvent.md)
+- [InventoryReservationResponse](InventoryReservationResponse.md)
+- [InventoryReservationResult](InventoryReservationResult.md)
 - [InventoryReservationResultResponse](InventoryReservationResultResponse.md)
 - [InventoryReservationUpdatedInstalledMerchantsEvent](InventoryReservationUpdatedInstalledMerchantsEvent.md)
 - [InventoryReservationUpdatedMerchantEvent](InventoryReservationUpdatedMerchantEvent.md)
@@ -90,16 +102,4 @@
 - [InvoiceDiscountPreviousAttributes](InvoiceDiscountPreviousAttributes.md)
 - [InvoiceDocumentRow](InvoiceDocumentRow.md)
 - [InvoiceIssuedInstalledMerchantsEvent](InvoiceIssuedInstalledMerchantsEvent.md)
-- [InvoiceIssuedMerchantEvent](InvoiceIssuedMerchantEvent.md)
-- [InvoiceIssueFailedInstalledMerchantsEvent](InvoiceIssueFailedInstalledMerchantsEvent.md)
-- [InvoiceIssueFailedMerchantEvent](InvoiceIssueFailedMerchantEvent.md)
-- [InvoiceLateFee](InvoiceLateFee.md)
-- [InvoiceLateFeeAssessedInstalledMerchantsEvent](InvoiceLateFeeAssessedInstalledMerchantsEvent.md)
-- [InvoiceLateFeeAssessedMerchantEvent](InvoiceLateFeeAssessedMerchantEvent.md)
-- [InvoiceLateFeeDueInstalledMerchantsEvent](InvoiceLateFeeDueInstalledMerchantsEvent.md)
-- [InvoiceLateFeeDueMerchantEvent](InvoiceLateFeeDueMerchantEvent.md)
-- [InvoiceLateFeePolicy](InvoiceLateFeePolicy.md)
-- [InvoiceLateFeePolicyFixed](InvoiceLateFeePolicyFixed.md)
-- [InvoiceLateFeePolicyFixedPreviousAttributes](InvoiceLateFeePolicyFixedPreviousAttributes.md)
-- [InvoiceLateFeePolicyFixedRequestInput](InvoiceLateFeePolicyFixedRequestInput.md)
 

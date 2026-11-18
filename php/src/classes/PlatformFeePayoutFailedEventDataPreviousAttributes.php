@@ -21,7 +21,7 @@ final class PlatformFeePayoutFailedEventDataPreviousAttributes extends Model {
      */
     public function getAmountMoney(): MoneyValuePreviousAttributes|null { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** The credit on your merchant ledger. Present once Flint observes it; linking it sends no payout event and doesn't advance version. anyOf[1] (Value): string. The credit on your merchant ledger. Present once Flint observes it; linking it sends no payout event and doesn't advance version. anyOf[2] (Value): null.
+    /** The credit on your merchant ledger. Flint checks daily for the credit, so this field can be absent even after the payout succeeds. Linking the credit sends no payout event and doesn't advance version. anyOf[1] (Value): string. The credit on your merchant ledger. Flint checks daily for the credit, so this field can be absent even after the payout succeeds. Linking the credit sends no payout event and doesn't advance version. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getBalanceTransactionId(): string|null { return $this->get('balance_transaction_id'); }

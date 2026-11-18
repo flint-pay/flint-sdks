@@ -8,6 +8,7 @@ namespace Flint;
  * @property-read list<string>|string $status
  * @property-read list<string>|string $created_by_type
  * @property-read string $created_by_id
+ * @property-read string $created_by_user_id
  * @property-read int $page_size
  * @property-read string $page_token
  * @property-read string $sort_by
@@ -18,7 +19,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $updated_before
  * Presence-aware input; omitted fields throw when accessed. */
 final class ApiKeysListInput extends Model {
-    /** @param array{'partner_app_install_id'?: string, 'status'?: list<string>|string, 'created_by_type'?: list<string>|string, 'created_by_id'?: string, 'page_size'?: int, 'page_token'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface}|object $values */
+    /** @param array{'partner_app_install_id'?: string, 'status'?: list<string>|string, 'created_by_type'?: list<string>|string, 'created_by_id'?: string, 'created_by_user_id'?: string, 'page_size'?: int, 'page_token'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ApiKeysListInput')); }
     /** Exact-match filter on partner_app_install_id. pattern: ^pinst_[0-9A-HJKMNP-TV-Z]{26}$. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
      * @return string
@@ -44,6 +45,12 @@ final class ApiKeysListInput extends Model {
      */
     public function getCreatedById(): string { return $this->get('created_by_id'); }
     public function hasCreatedById(): bool { return $this->has('created_by_id'); }
+    /** Filter by the exact ID of the user accountable for the key, including keys their API keys or workload identities created. Combines with created_by_type and created_by_id. pattern: ^usr_[0-7][0-9A-HJKMNP-TV-Z]{25}$. Example: "usr_01KEZF7C00YC8757ZYP9727JM0".
+     * @return string
+     * @throws SdkError When created_by_user_id is omitted; use hasCreatedByUserId() or valueOrDefault().
+     */
+    public function getCreatedByUserId(): string { return $this->get('created_by_user_id'); }
+    public function hasCreatedByUserId(): bool { return $this->has('created_by_user_id'); }
     /** Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum: 100. Default: 20.
      * @return int
      * @throws SdkError When page_size is omitted; use hasPageSize() or valueOrDefault().

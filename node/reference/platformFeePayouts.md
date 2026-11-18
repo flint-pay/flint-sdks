@@ -20,7 +20,7 @@ get(platform_fee_payout_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `platform_fee_payout_id` | Required | string | Flint platform fee payout ID. |
+| `platform_fee_payout_id` | Required | string | Flint platform fee payout ID. Must be a valid ID with prefix pfpo_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 

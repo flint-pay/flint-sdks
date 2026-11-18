@@ -43,7 +43,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `amount_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | The amount transferred to your merchant balance. `amount_money`: [declared alternatives](../models/PlatformFeePayoutFailedEvent.md#platformfeepayoutfailedeventdataprevious_attributesamount_money). |
-| `balance_transaction_id` | Optional | string or null | The credit on your merchant ledger. Present once Flint observes it; linking it sends no payout event and doesn't advance version. `balance_transaction_id`: [declared alternatives](../models/PlatformFeePayoutFailedEvent.md#platformfeepayoutfailedeventdataprevious_attributesbalance_transaction_id). |
+| `balance_transaction_id` | Optional | string or null | The credit on your merchant ledger. Flint checks daily for the credit, so this field can be absent even after the payout succeeds. Linking the credit sends no payout event and doesn't advance version. `balance_transaction_id`: [declared alternatives](../models/PlatformFeePayoutFailedEvent.md#platformfeepayoutfailedeventdataprevious_attributesbalance_transaction_id). |
 | `created_at` | Optional | string or null | When Flint prepared the payout. `created_at`: [declared alternatives](../models/PlatformFeePayoutFailedEvent.md#platformfeepayoutfailedeventdataprevious_attributescreated_at). |
 | `failure_reason` | Optional | string or null | Why the payout failed. Present only when status is failed. Can gain values; treat unknown values as payout_failed. Values: `"merchant_cannot_receive"`, `"payout_failed"`. `failure_reason`: [declared alternatives](../models/PlatformFeePayoutFailedEvent.md#platformfeepayoutfailedeventdataprevious_attributesfailure_reason). |
 | `partner_app_id` | Optional | string or null | The partner app whose fee balance funded the payout. `partner_app_id`: [declared alternatives](../models/PlatformFeePayoutFailedEvent.md#platformfeepayoutfailedeventdataprevious_attributespartner_app_id). |
@@ -74,25 +74,25 @@ anyOf variant 2.
 
 ### PlatformFeePayoutFailedEvent.data.previous_attributes.amount_money variant 1.amount
 
-Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.amount](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1amount).
 
 ### PlatformFeePayoutFailedEvent.data.previous_attributes.amount_money variant 1.currency
 
-Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.currency](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1currency).
 
 ### PlatformFeePayoutFailedEvent.data.previous_attributes.balance_transaction_id
 
 ### PlatformFeePayoutFailedEvent.data.previous_attributes.balance_transaction_id variant 1
 
-anyOf variant 1: The credit on your merchant ledger. Present once Flint observes it; linking it sends no payout event and doesn't advance version..
+anyOf variant 1: The credit on your merchant ledger. Flint checks daily for the credit, so this field can be absent even after the payout succeeds. Linking the credit sends no payout event and doesn't advance version..
 
-- Value shape: string. The credit on your merchant ledger. Present once Flint observes it; linking it sends no payout event and doesn't advance version. The credit on your merchant ledger. Present once Flint observes it; linking it sends no payout event and doesn't advance version. Example: `"btxn_01KEZF7C00H1Z82CMFWWXMZGHZ"`. 
+- Value shape: string. The credit on your merchant ledger. Flint checks daily for the credit, so this field can be absent even after the payout succeeds. Linking the credit sends no payout event and doesn't advance version. The credit on your merchant ledger. Flint checks daily for the credit, so this field can be absent even after the payout succeeds. Linking the credit sends no payout event and doesn't advance version. Example: `"btxn_01KEZF7C00H1Z82CMFWWXMZGHZ"`. 
 
 ### PlatformFeePayoutFailedEvent.data.previous_attributes.balance_transaction_id variant 2
 
 anyOf variant 2.
 
-- Value shape: null. The credit on your merchant ledger. Present once Flint observes it; linking it sends no payout event and doesn't advance version. 
+- Value shape: null. The credit on your merchant ledger. Flint checks daily for the credit, so this field can be absent even after the payout succeeds. Linking the credit sends no payout event and doesn't advance version. 
 
 ### PlatformFeePayoutFailedEvent.data.previous_attributes.created_at
 

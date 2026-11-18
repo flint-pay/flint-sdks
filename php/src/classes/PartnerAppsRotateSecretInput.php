@@ -10,7 +10,7 @@ namespace Flint;
 final class PartnerAppsRotateSecretInput extends Model {
     /** @param array{'partner_app_id': string, 'body'?: array{'expected_version'?: int, 'expire_previous_secret_at'?: string|\DateTimeInterface}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAppsRotateSecretInput')); }
-    /** Flint partner app ID. Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
+    /** Flint partner app ID. Must be a valid ID with prefix papp_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
      * @return string
      * @throws SdkError When partner_app_id is omitted; use hasPartnerAppId() or valueOrDefault().
      */

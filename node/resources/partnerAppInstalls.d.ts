@@ -1,14 +1,15 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { PartnerAppInstall, PartnerAppInstallListResponse } from '../declarations/types-47.js';
 import type {
+    PartnerAppInstall,
+    PartnerAppInstallListResponse,
     PartnerAppInstallWithEndedAccess,
     PartnerAppInstallWithEndedAccessResponse,
     PartnerAppInstallsListParams,
     PartnerAppInstallsRevokeParams
-} from '../declarations/types-48.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-49.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -25,25 +26,27 @@ export type {
 } from '../runtime.js';
 export type {
     PartnerAppInstallsListParams,
+    PartnerAppInstallListResponse,
+    PartnerAppInstall,
     PartnerAppInstallsRevokeParams,
     PartnerAppInstallWithEndedAccess,
     PartnerAppInstallWithEndedAccessResponse,
-    PartnerEnvironmentGrant,
     PartnerAppPermissionManifestEntry,
     PartnerAppMerchantReadiness,
     PartnerAppMerchantReadinessAxis,
-    PartnerEnvironmentGrantPaymentSplits
-} from '../declarations/types-48.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type { PartnerAppInstallListResponse, PartnerAppInstall } from '../declarations/types-47.js';
+    PartnerAppPlatformContact
+} from '../declarations/types-49.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { RequestOptions } from '../declarations/types-61.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { PlatformFeeCap } from '../declarations/types-54.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { PartnerEnvironmentGrant, PartnerEnvironmentGrantPaymentSplits } from '../declarations/types-50.js';
+export type { PlatformFeeCap } from '../declarations/types-55.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export interface PartnerAppInstallsResource {
     /**
  * Lists partner app installs on the authenticated merchant, across live and test mode. Requires a
@@ -76,7 +79,9 @@ export interface PartnerAppInstallsResource {
  * working. To reconnect, install the app again.
  *
  * `POST /v1/partner-app-installs/{partner_app_install_id}/revoke`
- * @param partner_app_install_id Flint partner app install ID.
+ * @param partner_app_install_id Flint partner app install ID. Must be a valid ID with prefix
+ * pinst_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see
  * https://developers.withflintpay.com/docs/api/partner-app-installs#revokeMerchantPartnerAppInstall
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.

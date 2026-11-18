@@ -22,7 +22,7 @@ anyOf AcceptFulfillmentRequest: Declared schema AcceptFulfillmentRequest. Accept
 - Constraints for `buyer_notification_behavior`: Whether to send or suppress the buyer notification for this action. Values: `"send"`, `"suppress"`.
 - Constraints for `expected_version`: Resource version the caller last read.
 - Constraints for `occurred_at`: When the action occurred, as an RFC 3339 timestamp. On complete, also records completion evidence.
-- Constraints for `reason_message`: Your note explaining this transition. minLength: `1`. maxLength: `500`.
+- Constraints for `reason_message`: Your internal note explaining this transition. Not included in buyer emails. minLength: `1`. maxLength: `500`.
 
 ### VoidPackageRequest variant 2
 
@@ -31,7 +31,7 @@ anyOf CancelFulfillmentRequest: Declared schema CancelFulfillmentRequest. Cancel
 - Constraints for `buyer_notification_behavior`: Whether to send or suppress the buyer notification for this action. Values: `"send"`, `"suppress"`.
 - Constraints for `expected_version`: Resource version the caller last read.
 - Constraints for `occurred_at`: When the action occurred, as an RFC 3339 timestamp. On complete, also records completion evidence.
-- Constraints for `reason_message`: Your note explaining this transition. minLength: `1`. maxLength: `500`.
+- Constraints for `reason_message`: Your internal note explaining this transition. Not included in buyer emails. minLength: `1`. maxLength: `500`.
 
 ### VoidPackageRequest variant 3
 
@@ -40,7 +40,7 @@ anyOf CompleteFulfillmentRequest: Declared schema CompleteFulfillmentRequest. Co
 - Constraints for `buyer_notification_behavior`: Whether to send or suppress the buyer notification for this action. Values: `"send"`, `"suppress"`.
 - Constraints for `expected_version`: Resource version the caller last read.
 - Constraints for `occurred_at`: When the action occurred, as an RFC 3339 timestamp. On complete, also records completion evidence.
-- Constraints for `reason_message`: Your note explaining this transition. minLength: `1`. maxLength: `500`.
+- Constraints for `reason_message`: Your internal note explaining this transition. Not included in buyer emails. minLength: `1`. maxLength: `500`.
 
 ### VoidPackageRequest variant 4
 
@@ -49,7 +49,7 @@ anyOf DispatchFulfillmentRequest: Declared schema DispatchFulfillmentRequest. Re
 - Constraints for `buyer_notification_behavior`: Whether to send or suppress the buyer notification for this action. Values: `"send"`, `"suppress"`.
 - Constraints for `expected_version`: Resource version the caller last read.
 - Constraints for `occurred_at`: When the action occurred, as an RFC 3339 timestamp. On complete, also records completion evidence.
-- Constraints for `reason_message`: Your note explaining this transition. minLength: `1`. maxLength: `500`.
+- Constraints for `reason_message`: Your internal note explaining this transition. Not included in buyer emails. minLength: `1`. maxLength: `500`.
 
 ### VoidPackageRequest variant 5
 
@@ -58,7 +58,7 @@ anyOf MarkFulfillmentPackedRequest: Declared schema MarkFulfillmentPackedRequest
 - Constraints for `buyer_notification_behavior`: Whether to send or suppress the buyer notification for this action. Values: `"send"`, `"suppress"`.
 - Constraints for `expected_version`: Resource version the caller last read.
 - Constraints for `occurred_at`: When the action occurred, as an RFC 3339 timestamp. On complete, also records completion evidence.
-- Constraints for `reason_message`: Your note explaining this transition. minLength: `1`. maxLength: `500`.
+- Constraints for `reason_message`: Your internal note explaining this transition. Not included in buyer emails. minLength: `1`. maxLength: `500`.
 
 ### VoidPackageRequest variant 6
 
@@ -67,7 +67,7 @@ anyOf MarkFulfillmentPickedRequest: Declared schema MarkFulfillmentPickedRequest
 - Constraints for `buyer_notification_behavior`: Whether to send or suppress the buyer notification for this action. Values: `"send"`, `"suppress"`.
 - Constraints for `expected_version`: Resource version the caller last read.
 - Constraints for `occurred_at`: When the action occurred, as an RFC 3339 timestamp. On complete, also records completion evidence.
-- Constraints for `reason_message`: Your note explaining this transition. minLength: `1`. maxLength: `500`.
+- Constraints for `reason_message`: Your internal note explaining this transition. Not included in buyer emails. minLength: `1`. maxLength: `500`.
 
 ### VoidPackageRequest variant 7
 
@@ -76,7 +76,7 @@ anyOf MarkFulfillmentPreparingRequest: Declared schema MarkFulfillmentPreparingR
 - Constraints for `buyer_notification_behavior`: Whether to send or suppress the buyer notification for this action. Values: `"send"`, `"suppress"`.
 - Constraints for `expected_version`: Resource version the caller last read.
 - Constraints for `occurred_at`: When the action occurred, as an RFC 3339 timestamp. On complete, also records completion evidence.
-- Constraints for `reason_message`: Your note explaining this transition. minLength: `1`. maxLength: `500`.
+- Constraints for `reason_message`: Your internal note explaining this transition. Not included in buyer emails. minLength: `1`. maxLength: `500`.
 
 ### VoidPackageRequest variant 8
 
@@ -85,7 +85,7 @@ anyOf MarkFulfillmentReadyRequest: Declared schema MarkFulfillmentReadyRequest. 
 - Constraints for `buyer_notification_behavior`: Whether to send or suppress the buyer notification for this action. Values: `"send"`, `"suppress"`.
 - Constraints for `expected_version`: Resource version the caller last read.
 - Constraints for `occurred_at`: When the action occurred, as an RFC 3339 timestamp. On complete, also records completion evidence.
-- Constraints for `reason_message`: Your note explaining this transition. minLength: `1`. maxLength: `500`.
+- Constraints for `reason_message`: Your internal note explaining this transition. Not included in buyer emails. minLength: `1`. maxLength: `500`.
 
 ### VoidPackageRequest variant 9
 
@@ -94,7 +94,7 @@ anyOf MarkPackageDeliveredRequest: Declared schema MarkPackageDeliveredRequest. 
 - Constraints for `buyer_notification_behavior`: Whether to send or suppress the buyer notification for this action. Values: `"send"`, `"suppress"`.
 - Constraints for `expected_version`: Resource version the caller last read.
 - Constraints for `occurred_at`: When the carrier scan or package action occurred, as an RFC 3339 timestamp.
-- Constraints for `reason_message`: Your note explaining this transition. minLength: `1`. maxLength: `500`.
+- Constraints for `reason_message`: Your internal note explaining this transition. Not included in buyer emails. minLength: `1`. maxLength: `500`.
 
 ### VoidPackageRequest variant 10
 
@@ -103,7 +103,7 @@ anyOf MarkPackageDeliveryAttemptedRequest: Declared schema MarkPackageDeliveryAt
 - Constraints for `buyer_notification_behavior`: Whether to send or suppress the buyer notification for this action. Values: `"send"`, `"suppress"`.
 - Constraints for `expected_version`: Resource version the caller last read.
 - Constraints for `occurred_at`: When the carrier scan or package action occurred, as an RFC 3339 timestamp.
-- Constraints for `reason_message`: Your note explaining this transition. minLength: `1`. maxLength: `500`.
+- Constraints for `reason_message`: Your internal note explaining this transition. Not included in buyer emails. minLength: `1`. maxLength: `500`.
 
 ### VoidPackageRequest variant 11
 
@@ -112,7 +112,7 @@ anyOf MarkPackageExceptionRequest: Declared schema MarkPackageExceptionRequest. 
 - Constraints for `buyer_notification_behavior`: Whether to send or suppress the buyer notification for this action. Values: `"send"`, `"suppress"`.
 - Constraints for `expected_version`: Resource version the caller last read.
 - Constraints for `occurred_at`: When the carrier scan or package action occurred, as an RFC 3339 timestamp.
-- Constraints for `reason_message`: Your note explaining this transition. minLength: `1`. maxLength: `500`.
+- Constraints for `reason_message`: Your internal note explaining this transition. Not included in buyer emails. minLength: `1`. maxLength: `500`.
 
 ### VoidPackageRequest variant 12
 
@@ -121,7 +121,7 @@ anyOf MarkPackagePackedRequest: Declared schema MarkPackagePackedRequest. Record
 - Constraints for `buyer_notification_behavior`: Whether to send or suppress the buyer notification for this action. Values: `"send"`, `"suppress"`.
 - Constraints for `expected_version`: Resource version the caller last read.
 - Constraints for `occurred_at`: When the carrier scan or package action occurred, as an RFC 3339 timestamp.
-- Constraints for `reason_message`: Your note explaining this transition. minLength: `1`. maxLength: `500`.
+- Constraints for `reason_message`: Your internal note explaining this transition. Not included in buyer emails. minLength: `1`. maxLength: `500`.
 
 ### VoidPackageRequest variant 13
 
@@ -130,7 +130,7 @@ anyOf MarkPackageReturnedRequest: Declared schema MarkPackageReturnedRequest. Re
 - Constraints for `buyer_notification_behavior`: Whether to send or suppress the buyer notification for this action. Values: `"send"`, `"suppress"`.
 - Constraints for `expected_version`: Resource version the caller last read.
 - Constraints for `occurred_at`: When the carrier scan or package action occurred, as an RFC 3339 timestamp.
-- Constraints for `reason_message`: Your note explaining this transition. minLength: `1`. maxLength: `500`.
+- Constraints for `reason_message`: Your internal note explaining this transition. Not included in buyer emails. minLength: `1`. maxLength: `500`.
 
 ### VoidPackageRequest variant 14
 
@@ -139,7 +139,7 @@ anyOf StartFulfillmentRequest: Declared schema StartFulfillmentRequest. Starts f
 - Constraints for `buyer_notification_behavior`: Whether to send or suppress the buyer notification for this action. Values: `"send"`, `"suppress"`.
 - Constraints for `expected_version`: Resource version the caller last read.
 - Constraints for `occurred_at`: When the action occurred, as an RFC 3339 timestamp. On complete, also records completion evidence.
-- Constraints for `reason_message`: Your note explaining this transition. minLength: `1`. maxLength: `500`.
+- Constraints for `reason_message`: Your internal note explaining this transition. Not included in buyer emails. minLength: `1`. maxLength: `500`.
 
 ### VoidPackageRequest variant 15
 
@@ -148,5 +148,5 @@ anyOf variant 15: Declared schema VoidShipmentRequest. The request body for: Voi
 - Constraints for `buyer_notification_behavior`: Controls buyer email handling. Omit or use send to send when recipient, template, and deduplication rules allow it. Use suppress when another system owns buyer messaging. Values: `"send"`, `"suppress"`.
 - Constraints for `expected_version`: Optional resource version last read by the caller.
 - Constraints for `occurred_at`: Void event timestamp.
-- Constraints for `reason_message`: Your note explaining this action. minLength: `1`.
+- Constraints for `reason_message`: Your internal note explaining this action. Not included in buyer emails. minLength: `1`.
 

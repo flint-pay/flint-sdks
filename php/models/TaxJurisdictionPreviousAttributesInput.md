@@ -11,7 +11,7 @@ Request input.
 | `code` | Optional | string or null | Stable opaque Flint jurisdiction key used for equality and report grouping. `code`: [declared alternatives](../models/TaxJurisdictionPreviousAttributesInput.md#taxjurisdictionpreviousattributesinputcode). |
 | `country` | Optional | string or null | ISO 3166-1 alpha-2 country code. `country`: [declared alternatives](../models/TaxJurisdictionPreviousAttributesInput.md#taxjurisdictionpreviousattributesinputcountry). |
 | `level` | Optional | string or null | The level of government that imposes the tax. Values: `"state"`, `"county"`, `"city"`, `"district"`, `"country"`, `"province"`. `level`: [declared alternatives](../models/TaxJurisdictionPreviousAttributesInput.md#taxjurisdictionpreviousattributesinputlevel). |
-| `name` | Optional | string or null | Name of the jurisdiction, up to 200 characters. `name`: [declared alternatives](../models/TaxJurisdictionPreviousAttributesInput.md#taxjurisdictionpreviousattributesinputname). |
+| `name` | Optional | string or null | Name of the jurisdiction, up to 200 characters. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. `name`: [declared alternatives](../models/TaxJurisdictionPreviousAttributesInput.md#taxjurisdictionpreviousattributesinputname). |
 | `state` | Optional | string or null | Two-letter US state at every level. Elsewhere, the ISO 3166-2 suffix (1 to 3 uppercase letters or digits), required below country level and omitted at country level. `state`: [declared alternatives](../models/TaxJurisdictionPreviousAttributesInput.md#taxjurisdictionpreviousattributesinputstate). |
 
 ### TaxJurisdictionPreviousAttributesInput.code
@@ -60,15 +60,15 @@ anyOf variant 2.
 
 ### TaxJurisdictionPreviousAttributesInput.name variant 1
 
-anyOf variant 1: Name of the jurisdiction, up to 200 characters..
+anyOf variant 1: Name of the jurisdiction, up to 200 characters. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported..
 
-- Value shape: string. Name of the jurisdiction, up to 200 characters. Name of the jurisdiction, up to 200 characters. minLength: `1`. 
+- Value shape: string. Name of the jurisdiction, up to 200 characters. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. Name of the jurisdiction, up to 200 characters. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. 
 
 ### TaxJurisdictionPreviousAttributesInput.name variant 2
 
 anyOf variant 2.
 
-- Value shape: null. Name of the jurisdiction, up to 200 characters. 
+- Value shape: null. Name of the jurisdiction, up to 200 characters. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. 
 
 ### TaxJurisdictionPreviousAttributesInput.state
 

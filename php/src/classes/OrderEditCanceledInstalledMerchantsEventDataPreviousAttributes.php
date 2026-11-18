@@ -19,13 +19,14 @@ namespace Flint;
  * @property-read MoneyValuePreviousAttributes|null $refund_money
  * @property-read list<OrderEditLineRemovalPreviousAttributes>|null $remove_line_items
  * @property-read MoneyValuePreviousAttributes|null $removed_total_money
+ * @property-read SignedMoneyPreviousAttributes|null $small_balance_adjustment_money
  * @property-read string|null $status
  * @property-read list<string>|null $supported_actions
  * @property-read MoneyValuePreviousAttributes|null $unrefunded_money
  * @property-read int|null $version
  * Presence-aware response; omitted optional fields return null. */
 final class OrderEditCanceledInstalledMerchantsEventDataPreviousAttributes extends Model {
-    /** @param array{'add_line_items'?: mixed, 'added_total_money'?: mixed, 'amount_due_money'?: mixed, 'canceled_at'?: mixed, 'cancellation_reason'?: mixed, 'charge_refunds'?: mixed, 'completed_at'?: mixed, 'created_at'?: mixed, 'expires_at'?: mixed, 'order_edit_id'?: mixed, 'order_id'?: mixed, 'payment_intent_id'?: mixed, 'reason'?: mixed, 'refund_ids'?: mixed, 'refund_money'?: mixed, 'remove_line_items'?: mixed, 'removed_total_money'?: mixed, 'status'?: mixed, 'supported_actions'?: mixed, 'unrefunded_money'?: mixed, 'version'?: mixed, ...}|object $values */
+    /** @param array{'add_line_items'?: mixed, 'added_total_money'?: mixed, 'amount_due_money'?: mixed, 'canceled_at'?: mixed, 'cancellation_reason'?: mixed, 'charge_refunds'?: mixed, 'completed_at'?: mixed, 'created_at'?: mixed, 'expires_at'?: mixed, 'order_edit_id'?: mixed, 'order_id'?: mixed, 'payment_intent_id'?: mixed, 'reason'?: mixed, 'refund_ids'?: mixed, 'refund_money'?: mixed, 'remove_line_items'?: mixed, 'removed_total_money'?: mixed, 'small_balance_adjustment_money'?: mixed, 'status'?: mixed, 'supported_actions'?: mixed, 'unrefunded_money'?: mixed, 'version'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderEditCanceledInstalledMerchantsEventDataPreviousAttributes')); }
     /** Added order lines, in request order, with their quantities and values frozen at creation. Empty when the edit added nothing. anyOf[1] (Value): Array of {@see OrderEditLineAdditionPreviousAttributes}. Added order lines, in request order, with their quantities and values frozen at creation. Empty when the edit added nothing. anyOf[1][] (Value): {@see OrderEditLineAdditionPreviousAttributes}. anyOf[2] (Value): null.
      * @return list<OrderEditLineAdditionPreviousAttributes>|null
@@ -112,6 +113,11 @@ final class OrderEditCanceledInstalledMerchantsEventDataPreviousAttributes exten
      */
     public function getRemovedTotalMoney(): MoneyValuePreviousAttributes|null { return $this->get('removed_total_money'); }
     public function hasRemovedTotalMoney(): bool { return $this->has('removed_total_money'); }
+    /** Signed noncash adjustment: positive for an edit balance below the payment minimum, negative when removing previously absorbed value. Included in settlement_amounts.written_off_money, never paid or refundable. anyOf[1] (Value): {@see SignedMoneyPreviousAttributes}. anyOf[2] (Value): null.
+     * @return SignedMoneyPreviousAttributes|null
+     */
+    public function getSmallBalanceAdjustmentMoney(): SignedMoneyPreviousAttributes|null { return $this->get('small_balance_adjustment_money'); }
+    public function hasSmallBalanceAdjustmentMoney(): bool { return $this->has('small_balance_adjustment_money'); }
     /** Pending while waiting for a balance payment, completed once the item changes are applied, or canceled when it ends without changing the order. Refund processing has its own status on each refund. Value enum: "pending", "completed", "canceled". anyOf[1] (Value): string. Pending while waiting for a balance payment, completed once the item changes are applied, or canceled when it ends without changing the order. Refund processing has its own status on each refund. Value enum: "pending", "completed", "canceled". anyOf[2] (Value): null.
      * @return string|null
      */

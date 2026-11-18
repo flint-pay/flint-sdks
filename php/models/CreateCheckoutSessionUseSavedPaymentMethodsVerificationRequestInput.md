@@ -9,7 +9,7 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `channel` | Optional | string | How Flint delivers the code. Default: `"auto"`. Values: `"email"`, `"sms"`, `"auto"`. |
-| `email` | Conditional | string | Email the buyer typed, with no surrounding spaces. Customers are matched by email without regard to case. Format: `email`. minLength: `1`. maxLength: `255`. Example: `"buyer@example.com"`. |
+| `email` | Conditional | string | Email the buyer typed, with no surrounding spaces. Customers are matched by email without regard to case. The local part before @ must be at most 64 octets (UTF-8 bytes). Format: `email`. minLength: `1`. maxLength: `255`. Example: `"buyer@example.com"`. |
 | `purpose` | Required | string | What the buyer is confirming their email or number for. Values: `"use_saved_payment_methods"`. |
 | `remembered_buyer_token` | Conditional | string | Use this remembered identity instead of email, only with purpose use_saved_payment_methods. It never opens saved cards without a right code. minLength: `47`. maxLength: `47`. pattern: `^rbt_[A-Za-z0-9_-]{43}$`. |
 

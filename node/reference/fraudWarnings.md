@@ -14,7 +14,7 @@ Signature: `get(fraud_warning_id: InputValue<string>, params?: FraudWarningsGetP
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `fraud_warning_id` | Required | string | Flint fraud warning ID. |
+| `fraud_warning_id` | Required | string | Flint fraud warning ID. Must be a valid ID with prefix frw_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: dispute, payment_intent. Expansion requires risk.read plus the read scope for each expanded resource. Limits: at most 10 unique expand paths per request. Items values: `"dispute"`, `"payment_intent"`. Values: `"dispute"`, `"payment_intent"`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |

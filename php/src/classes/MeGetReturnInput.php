@@ -9,7 +9,7 @@ namespace Flint;
 final class MeGetReturnInput extends Model {
     /** @param array{'return_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeGetReturnInput')); }
-    /** Flint return id. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+    /** Flint return id. Must be a valid ID with prefix ret_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
      * @return string
      * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
      */

@@ -9,7 +9,7 @@ namespace Flint;
 final class InvoicePaymentTermsGetInput extends Model {
     /** @param array{'invoice_payment_term_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicePaymentTermsGetInput')); }
-    /** Flint invoice payment term ID. Example: "ipt_01KEZF7C0064N1V301BBMQ37R4".
+    /** Flint invoice payment term ID. Must be a valid ID with prefix ipt_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "ipt_01KEZF7C0064N1V301BBMQ37R4".
      * @return string
      * @throws SdkError When invoice_payment_term_id is omitted; use hasInvoicePaymentTermId() or valueOrDefault().
      */

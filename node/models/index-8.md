@@ -1,7 +1,19 @@
 [Model index](../MODELS.md)
 
-# CreateOrderTipAmountInput to CreateReturnResolutionPreviewRequestCorrectionInput
+# CreateOrderLineItemInputCustom to CreateReturnPreviewRequestResolution
 
+- [CreateOrderLineItemInputCustom](CreateOrderLineItemInputCustom.md)
+- [CreateOrderLineItemInputCustomInput](CreateOrderLineItemInputCustomInput.md)
+- [CreateOrderLineItemInputVariant](CreateOrderLineItemInputVariant.md)
+- [CreateOrderLineItemInputVariantInput](CreateOrderLineItemInputVariantInput.md)
+- [CreateOrderLineItemRequest](CreateOrderLineItemRequest.md)
+- [CreateOrderLineItemRequestInput](CreateOrderLineItemRequestInput.md)
+- [CreateOrderLineItemVariant](CreateOrderLineItemVariant.md)
+- [CreateOrderRequest](CreateOrderRequest.md)
+- [CreateOrderRequestInput](CreateOrderRequestInput.md)
+- [CreateOrderTip](CreateOrderTip.md)
+- [CreateOrderTipInput](CreateOrderTipInput.md)
+- [CreateOrderTipAmount](CreateOrderTipAmount.md)
 - [CreateOrderTipAmountInput](CreateOrderTipAmountInput.md)
 - [CreateOrderTipPercent](CreateOrderTipPercent.md)
 - [CreateOrderTipPercentInput](CreateOrderTipPercentInput.md)
@@ -90,16 +102,4 @@
 - [CreateReturnPreviewRequestEligibility](CreateReturnPreviewRequestEligibility.md)
 - [CreateReturnPreviewRequestEligibilityInput](CreateReturnPreviewRequestEligibilityInput.md)
 - [CreateReturnPreviewRequestResolution](CreateReturnPreviewRequestResolution.md)
-- [CreateReturnPreviewRequestResolutionInput](CreateReturnPreviewRequestResolutionInput.md)
-- [CreateReturnPreviewResponse](CreateReturnPreviewResponse.md)
-- [CreateReturnReasonRequest](CreateReturnReasonRequest.md)
-- [CreateReturnReasonRequestInput](CreateReturnReasonRequestInput.md)
-- [CreateReturnReceiptRequest](CreateReturnReceiptRequest.md)
-- [CreateReturnReceiptRequestInput](CreateReturnReceiptRequestInput.md)
-- [CreateReturnRequest](CreateReturnRequest.md)
-- [CreateReturnRequestInput](CreateReturnRequestInput.md)
-- [CreateReturnResolutionPreviewRequest](CreateReturnResolutionPreviewRequest.md)
-- [CreateReturnResolutionPreviewRequestInput](CreateReturnResolutionPreviewRequestInput.md)
-- [CreateReturnResolutionPreviewRequestCorrection](CreateReturnResolutionPreviewRequestCorrection.md)
-- [CreateReturnResolutionPreviewRequestCorrectionInput](CreateReturnResolutionPreviewRequestCorrectionInput.md)
 

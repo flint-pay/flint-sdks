@@ -10,7 +10,7 @@ namespace Flint;
 final class BundlesUpdateInput extends Model {
     /** @param array{'bundle_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'barcode'?: string|null, 'category_handles'?: list<string>, 'components'?: list<mixed>, 'description'?: string|null, 'expected_version'?: int, 'external_reference_id'?: string|null, 'images'?: list<mixed>, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'modifier_set_id'?: string|null, 'name'?: string, 'sku'?: string|null, 'status'?: string, 'unit_price_money'?: mixed}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BundlesUpdateInput')); }
-    /** Flint bundle ID. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+    /** Flint bundle ID. Must be a valid ID with prefix bun_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
      * @return string
      * @throws SdkError When bundle_id is omitted; use hasBundleId() or valueOrDefault().
      */

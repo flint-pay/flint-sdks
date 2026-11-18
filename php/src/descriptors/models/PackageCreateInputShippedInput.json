@@ -1,1 +1,1 @@
-{"shared":"PackageCreateInputShipped","dependencies":["CreatePackageItemRequest","DimensionsRequest","MetadataRequest","PackageCreateInputShipped","ReturnShipmentLineItemAllocationRequest","SharedCodec501","WeightRequest"]}
+{"shared":"PackageCreateInputShipped","dependencies":["CreatePackageItemRequest","DimensionsRequest","MetadataRequest","PackageCreateInputShipped","ReturnShipmentLineItemAllocationRequest","SharedCodec506","WeightRequest"]}

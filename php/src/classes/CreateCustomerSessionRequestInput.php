@@ -2,13 +2,20 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read list<string> $capabilities
  * @property-read string $customer_id
  * @property-read int $expires_in_seconds
  * @property-read int $refresh_expires_in_seconds
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateCustomerSessionRequestInput extends Model {
-    /** @param array{'customer_id': string, 'expires_in_seconds'?: int, 'refresh_expires_in_seconds'?: int}|object $values */
+    /** @param array{'capabilities'?: list<string>, 'customer_id': string, 'expires_in_seconds'?: int, 'refresh_expires_in_seconds'?: int}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateCustomerSessionRequestInput')); }
+    /** Operation capabilities granted to this session. Omit for full access; an empty list grants no operations except self-revocation. Refresh preserves this list. uniqueItems: true. [] enum: "account.read", "account.manage", "account.delete", "orders.read", "returns.read", "returns.create", "subscriptions.read", "subscriptions.manage", "payments.create", "payment_methods.read", "payment_methods.manage", "addresses.read", "addresses.manage", "gift_cards.read", "gift_cards.manage", "license_keys.read", "license_keys.manage". [] (Value): string.  Value enum: "account.read", "account.manage", "account.delete", "orders.read", "returns.read", "returns.create", "subscriptions.read", "subscriptions.manage", "payments.create", "payment_methods.read", "payment_methods.manage", "addresses.read", "addresses.manage", "gift_cards.read", "gift_cards.manage", "license_keys.read", "license_keys.manage".
+     * @return list<string>
+     * @throws SdkError When capabilities is omitted; use hasCapabilities() or valueOrDefault().
+     */
+    public function getCapabilities(): array { return $this->get('capabilities'); }
+    public function hasCapabilities(): bool { return $this->has('capabilities'); }
     /** ID of the customer the session acts as. Calls made with the session's secret see only this customer's data. minLength: 1. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().

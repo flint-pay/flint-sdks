@@ -10,7 +10,7 @@ namespace Flint;
 final class DemoSessionsResetInput extends Model {
     /** @param array{'demo_session_id': string, 'Flint-Challenge-Token': string, 'body'?: array{'template'?: string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DemoSessionsResetInput')); }
-    /** The active or provisioning demo session to reset for this client. Example: "demo_01KEZF7C001S0675NAS5BPBS0V".
+    /** The active or provisioning demo session to reset for this client. Must be a valid ID with prefix demo_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "demo_01KEZF7C001S0675NAS5BPBS0V".
      * @return string
      * @throws SdkError When demo_session_id is omitted; use hasDemoSessionId() or valueOrDefault().
      */

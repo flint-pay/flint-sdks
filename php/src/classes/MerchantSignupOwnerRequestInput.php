@@ -9,7 +9,7 @@ namespace Flint;
 final class MerchantSignupOwnerRequestInput extends Model {
     /** @param array{'email': string, 'first_name': string, 'last_name': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MerchantSignupOwnerRequestInput')); }
-    /** The owner's email address, lowercased, at most 254 characters. Flint emails the code here, and it becomes the new merchant's account email and the owner's Flint login. Send an address the owner gave you, never one on a domain you control. Format: email. minLength: 3. maxLength: 254. Example: "buyer@example.com".
+    /** The owner's email address, lowercased, at most 254 characters. Flint emails the code here, and it becomes the new merchant's account email and the owner's Flint login. Send an address the owner gave you, never one on a domain you control. The local part before @ must be at most 64 octets (UTF-8 bytes). Format: email. minLength: 3. maxLength: 254. Example: "buyer@example.com".
      * @return string
      * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
      */

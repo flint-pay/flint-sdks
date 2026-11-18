@@ -97,6 +97,10 @@ The linked refund, present when refund was requested. A pending refund has been 
 
 Field definitions: [shared fields](CancelReturnResponse.md#cancelreturnresponsedatareturn_resolutionsrefunds).
 
+### IssueCreditNoteResult.refund.charge_allocations[]
+
+Field definitions: [CancelReturnResponse.data.return_resolutions[].refunds[].charge_allocations[]](../models/CancelReturnResponse.md#cancelreturnresponsedatareturn_resolutionsrefundscharge_allocations).
+
 ### IssueCreditNoteResult.refund.customer
 
 Declared alternatives: [DisputeResponse.data.customer](../models/DisputeResponse.md#disputeresponsedatacustomer).

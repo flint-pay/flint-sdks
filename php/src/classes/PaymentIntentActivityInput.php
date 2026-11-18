@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $activity_type
+ * @property-read array{'label': string, 'resource_id': string, 'resource_type': string, ...}|object|null $actor
  * @property-read string $checkout_session_id
  * @property-read string|\DateTimeInterface $created_at
  * @property-read string $description
@@ -16,14 +17,20 @@ namespace Flint;
  * @property-read string $to_status
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentIntentActivityInput extends Model {
-    /** @param array{'activity_type': string, 'checkout_session_id'?: string, 'created_at': string|\DateTimeInterface, 'description': string, 'dispute_id'?: string, 'from_dispute_status'?: string, 'from_status'?: string, 'order_id'?: string, 'payment_intent_activity_id': string, 'refund_id'?: string, 'to_dispute_status'?: string, 'to_status'?: string, ...}|object $values */
+    /** @param array{'activity_type': string, 'actor': array{'label': string, 'resource_id': string, 'resource_type': string, ...}|object|null, 'checkout_session_id'?: string, 'created_at': string|\DateTimeInterface, 'description': string, 'dispute_id'?: string, 'from_dispute_status'?: string, 'from_status'?: string, 'order_id'?: string, 'payment_intent_activity_id': string, 'refund_id'?: string, 'to_dispute_status'?: string, 'to_status'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentIntentActivityInput')); }
-    /** What kind of change this entry records. Value enum: "other", "created", "updated", "status_changed", "failed", "canceled", "expired", "refund_created", "refund_status_changed", "dispute_status_changed", "receipt_sent".
+    /** What kind of change this entry records. Value enum: "other", "created", "updated", "status_changed", "failed", "canceled", "expired", "refund_created", "refund_status_changed", "dispute_status_changed", "receipt_sent", "receipt_queued", "receipt_delivery_failed".
      * @return string
      * @throws SdkError When activity_type is omitted; use hasActivityType() or valueOrDefault().
      */
     public function getActivityType(): string { return $this->get('activity_type'); }
     public function hasActivityType(): bool { return $this->has('activity_type'); }
+    /** Identity that initiated this action. Null for automated activity or when no initiating merchant identity was recorded. Refund creation retains its initiating actor when a worker processes it. Later processor updates are automated activity. anyOf[1] (Value): {@see PaymentActivityActorInput}. The merchant identity that initiated the action. Labels are recorded with the activity and do not change when the identity is renamed or removed. anyOf[2] (Value): null.
+     * @return array{'label': string, 'resource_id': string, 'resource_type': string, ...}|object|null
+     * @throws SdkError When actor is omitted; use hasActor() or valueOrDefault().
+     */
+    public function getActor(): mixed { return $this->get('actor'); }
+    public function hasActor(): bool { return $this->has('actor'); }
     /** ID of the checkout session that created the payment intent. Present only on `created` entries, when the payment intent has no order. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
      * @return string
      * @throws SdkError When checkout_session_id is omitted; use hasCheckoutSessionId() or valueOrDefault().

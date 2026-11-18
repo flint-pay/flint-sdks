@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read list<PublicResolvedModifierGroupInput|array<array-key, mixed>|\stdClass> $available_modifiers
+ * @property-read array{'amount': string, 'currency': string}|object|null $compare_at_price_money
  * @property-read ImageInput|array<array-key, mixed>|\stdClass $image
  * @property-read bool $is_sold_out
  * @property-read string $name
@@ -13,7 +14,7 @@ namespace Flint;
  * @property-read string $variant_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentLinkAvailableVariantInput extends Model {
-    /** @param array{'available_modifiers'?: list<PublicResolvedModifierGroupInput|array<array-key, mixed>|\stdClass>, 'image'?: ImageInput|array<array-key, mixed>|\stdClass, 'is_sold_out': bool, 'name': string, 'product_id': string, 'quantity_price_breaks': list<QuantityPriceBreakInput|array<array-key, mixed>|\stdClass>, 'selected_options': list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>, 'unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id': string, ...}|object $values */
+    /** @param array{'available_modifiers'?: list<PublicResolvedModifierGroupInput|array<array-key, mixed>|\stdClass>, 'compare_at_price_money': array{'amount': string, 'currency': string}|object|null, 'image'?: ImageInput|array<array-key, mixed>|\stdClass, 'is_sold_out': bool, 'name': string, 'product_id': string, 'quantity_price_breaks': list<QuantityPriceBreakInput|array<array-key, mixed>|\stdClass>, 'selected_options': list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>, 'unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinkAvailableVariantInput')); }
     /** Modifier groups available for this variant's effective modifier set. Omitted when the variant has none. [] (Value): {@see PublicResolvedModifierGroupInput}. A modifier group as resolved for a payment link line item, with its selection limits, display flags, and options or text settings.
      * @return list<PublicResolvedModifierGroupInput|array<array-key, mixed>|\stdClass>
@@ -21,6 +22,12 @@ final class PaymentLinkAvailableVariantInput extends Model {
      */
     public function getAvailableModifiers(): array { return $this->get('available_modifiers'); }
     public function hasAvailableModifiers(): bool { return $this->has('available_modifiers'); }
+    /** Current catalog reference unit price for sale display. Null when no variant compare-at price is set. Does not affect the amount charged. anyOf[1] (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
+     * @return array{'amount': string, 'currency': string}|object|null
+     * @throws SdkError When compare_at_price_money is omitted; use hasCompareAtPriceMoney() or valueOrDefault().
+     */
+    public function getCompareAtPriceMoney(): mixed { return $this->get('compare_at_price_money'); }
+    public function hasCompareAtPriceMoney(): bool { return $this->has('compare_at_price_money'); }
     /** Effective primary variant image, inherited from the product when the variant has none. Omitted when neither has an image. An image with its URL, size, and alt text.
      * @return ImageInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When image is omitted; use hasImage() or valueOrDefault().

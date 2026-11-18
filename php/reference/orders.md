@@ -4,7 +4,7 @@
 
 ### orders.applyDiscount
 
-Applies a promotion-backed or manual discount to an order. Checkout-authenticated buyers must provide a promotion code; resource IDs and manual discounts require merchant authentication.
+Applies a promotion-backed or manual discount to an order. Checkout-authenticated buyers must provide a promotion code; resource IDs and manual discounts require merchant authentication. Unknown promotion codes have separate one-hour failure budgets of 5 per checkout session, 10 per IP within the merchant environment, and 50 per merchant environment. Exhausting any budget returns 429 RATE_LIMIT_EXCEEDED with Retry-After before another code lookup. Creating another checkout session does not reset the IP or merchant budget. Known codes do not consume failure budget.
 
 `POST /v1/orders/{order_id}/discounts`
 
@@ -14,7 +14,7 @@ Signature: `applyDiscount(string|Model $order_id, array|Model $params, ?RequestO
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string | Flint order ID. |
+| `order_id` | Required | string | Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -102,7 +102,7 @@ Signature: `applyGiftCard(string|Model $order_id, array|Model $params, ?RequestO
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string | Order ID. |
+| `order_id` | Required | string | Order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Gift-Card-Challenge` | Optional | string | Single-use proof from the checkout's gift card challenge. Needed only after GIFT_CARD_CHALLENGE_REQUIRED. While a challenge is required, every code needs a new proof, for up to an hour after the failures that triggered it. Ignored for API keys. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
@@ -171,8 +171,8 @@ Signature: `cancelEdit(string|Model $order_id, string|Model $order_edit_id, arra
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string | The order that owns the edit. |
-| `order_edit_id` | Required | string | The pending edit to cancel. |
+| `order_id` | Required | string | The order that owns the edit. Must be a valid ID with prefix ord_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
+| `order_edit_id` | Required | string | The pending edit to cancel. Must be a valid ID with prefix oed_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -203,6 +203,7 @@ Returned payload: [CancelOrderEditResult](../models/CancelOrderEditResult.md#can
 | 415 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
+| 502 | ServerError |
 | 503 | ServerError |
 | 504 | ServerError |
 
@@ -252,8 +253,8 @@ cancelPaymentAttempt(string|
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string | Flint order ID. |
-| `order_payment_attempt_id` | Required | string | Flint order payment attempt ID. |
+| `order_id` | Required | string | Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
+| `order_payment_attempt_id` | Required | string | Flint order payment attempt ID. Must be a valid ID with prefix opat_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -323,7 +324,7 @@ Signature: `close(string|Model $order_id, array|Model|null $params = null, ?Requ
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string | Flint order ID. |
+| `order_id` | Required | string | Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -402,14 +403,14 @@ Body model: [CreateOrderRequestInput](../models/CreateOrderRequestInput.md#creat
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `buyer_note` | Optional | string | A note to the buyer. minLength: `1`. maxLength: `1000`. |
+| `buyer_note` | Optional | string | A note to the buyer. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `1000`. |
 | `customer_id` | Optional | string | ID of the customer this order belongs to. minLength: `1`. |
 | `delivery` | Optional | [OrderDeliveryRequestInput](../models/OrderDeliveryRequestInput.md#orderdeliveryrequestinput) | Quotes the exact delivery method and atomically selects it with its charge and inventory hold. Requires orders-write and delivery-write. Shipment and local delivery with one choice group are supported. Cannot be combined with delivery_destination or handover. Complete delivery preference to quote and select together with the order's delivery charge and inventory hold. |
 | `delivery_destination` | Optional | [OrderDeliveryDestinationRequestInput](../models/OrderDeliveryDestinationRequestInput.md#orderdeliverydestinationrequestinput) | Shipment or local-delivery destination for an order created without a delivery selection. The delivery destination you set when creating or updating an order, with an address and an optional recipient. |
 | `discounts` | Optional | Array of [CreateOrderDiscountInput](../models/CreateOrderDiscountInput.md#createorderdiscountinput) | Discounts applied to the order, each with its amount, status, and the line items and charges it covers. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `handover` | Optional | [OrderHandoverRequestInput](../models/OrderHandoverRequestInput.md#orderhandoverrequestinput) | Carry-out sale: every physical item is handed to the buyer at this location when the order is paid, so paying needs no delivery selection. Can't be combined with delivery_destination. Every physical item is handed to the buyer at this location when the order is paid. Replaces a delivery selection. |
-| `internal_note` | Optional | string | A note for your team. Buyer reads leave it out. minLength: `1`. maxLength: `1000`. |
+| `internal_note` | Optional | string | A note for your team. Buyer reads leave it out. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `1000`. |
 | `inventory_routing_source` | Optional | [InventoryRoutingSourceRequestInput](../models/InventoryRoutingSourceRequestInput.md#inventoryroutingsourcerequestinput) | Where tracked demand is routed. When no source is stored or sent, Flint uses settings.inventory.default_routing_source, then the only active Location with inventory_allocation_enabled if exactly one exists in the current environment. Zero or multiple eligible Locations require an explicit source or merchant default. The order stores the resolved source. Where you want inventory routed from: a fixed Location, an inventory allocation policy, or one policy revision, selected by `type`. |
 | `line_items` | Required | Array of [CreateOrderLineItemRequestInput](../models/CreateOrderLineItemRequestInput.md#createorderlineitemrequestinput) | Items the order sells, each with its pricing, tax, and fulfillment quantities. minItems: `1`. |
 | `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
@@ -479,7 +480,7 @@ Signature: `createAccessLink(string|Model $order_id, array|Model|null $params = 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string | Flint order ID. |
+| `order_id` | Required | string | Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -539,7 +540,7 @@ Signature: `createCharge(string|Model $order_id, array|Model $params, ?RequestOp
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string | Flint order ID. |
+| `order_id` | Required | string | Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -617,7 +618,7 @@ Signature: `createEdit(string|Model $order_id, array|Model $params, ?RequestOpti
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string | The order that owns the edit. |
+| `order_id` | Required | string | The order that owns the edit. Must be a valid ID with prefix ord_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -735,7 +736,7 @@ Signature: `createLineItems(string|Model $order_id, array|Model $params, ?Reques
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string | Flint order ID. |
+| `order_id` | Required | string | Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -810,8 +811,8 @@ Signature: `deleteCharge(string|Model $order_id, string|Model $order_charge_id, 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string | Flint order ID. |
-| `order_charge_id` | Required | string | Flint order charge ID. |
+| `order_id` | Required | string | Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
+| `order_charge_id` | Required | string | Flint order charge ID. Must be a valid ID with prefix och_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `expected_version` | Optional | integer | Order version from the last order read. The mutation fails if the order changed. Format: `int64`. minimum: `1`. maximum: `9007199254740991`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
@@ -871,8 +872,8 @@ Signature: `deleteLineItem(string|Model $order_id, string|Model $order_line_item
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string | Flint order ID. |
-| `order_line_item_id` | Required | string | Flint order line item ID. |
+| `order_id` | Required | string | Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
+| `order_line_item_id` | Required | string | Flint order line item ID. Must be a valid ID with prefix li_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `expected_version` | Optional | integer | Order version from the last order read. The mutation fails if the order changed. Format: `int64`. minimum: `1`. maximum: `9007199254740991`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
@@ -932,7 +933,7 @@ Signature: `get(string|Model $order_id, array|Model|null $params = null, ?Reques
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string | Flint order ID. |
+| `order_id` | Required | string | Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: customer, fulfillments.packages, fulfillments.shipments, payment_intents, subscription, subscription_plan. Expansion requires the base order read scope plus the read scope for each expanded resource. Limits: at most 10 unique expand paths per request. To-many expansions are capped at 20 related objects per path. Items values: `"customer"`, `"fulfillments.packages"`, `"fulfillments.shipments"`, `"payment_intents"`, `"subscription"`, `"subscription_plan"`. Values: `"customer"`, `"fulfillments.packages"`, `"fulfillments.shipments"`, `"payment_intents"`, `"subscription"`, `"subscription_plan"`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
@@ -985,8 +986,8 @@ Signature: `getEdit(string|Model $order_id, string|Model $order_edit_id, array|M
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string | The order that owns the edit. |
-| `order_edit_id` | Required | string | The edit belonging to this order. |
+| `order_id` | Required | string | The order that owns the edit. Must be a valid ID with prefix ord_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
+| `order_edit_id` | Required | string | The edit belonging to this order. Must be a valid ID with prefix oed_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -1049,8 +1050,8 @@ getPaymentAttempt(string|
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string | Flint order ID. |
-| `order_payment_attempt_id` | Required | string | Flint order payment attempt ID. |
+| `order_id` | Required | string | Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
+| `order_payment_attempt_id` | Required | string | Flint order payment attempt ID. Must be a valid ID with prefix opat_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -1102,7 +1103,7 @@ Signature: `getReceiptPDF(string|Model $order_id, array|Model|null $params = nul
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string | Flint order ID. |
+| `order_id` | Required | string | Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -1157,7 +1158,7 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 | `customer_id` | Optional | string | Filter by customer ID. pattern: `^cus_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `product_id` | Optional | string | Filter to orders with any line item referencing this product ID. Bundle lines don't match their component products. An unknown product ID returns an empty page. pattern: `^prod_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `variant_id` | Optional | string | Filter to orders with any line item referencing this variant ID. Bundle lines don't match their component variants. An unknown variant ID returns an empty page. pattern: `^var_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `email` | Optional | string | Filter to orders whose buyer_email or linked customer's email equals this address, compared case-insensitively after trimming, with accents preserved. Requires a bare email address. Format: `email`. |
+| `email` | Optional | string | Filter to orders whose buyer_email or linked customer's email equals this address, ignoring case and any whitespace stored around it, with accents preserved. Requires one bare email address without surrounding whitespace. Format: `email`. |
 | `order_id` | Optional | Array of string or string | Exact-match filter on order IDs. Matches any of up to 100 distinct IDs. Unknown IDs and orders outside your merchant or environment are absent. Other filters still apply, and results keep the list's ordering and pagination. Keep the same ID set on subsequent pages. |
 | `closed_reason` | Optional | Array of string or string | Why a closed order closed. Matches orders closed for any reason given. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"invoice_voided"`, `"paid"`, `"closed_by_merchant"`, `"checkout_expired"`, `"written_off"`, `"superseded"`, `"return_resolution_canceled"`, `"other"`. Values: `"invoice_voided"`, `"paid"`, `"closed_by_merchant"`, `"checkout_expired"`, `"written_off"`, `"superseded"`, `"return_resolution_canceled"`, `"other"`. |
 | `status` | Optional | Array of string or string | Order status: open or closed. Selecting open and closed includes both statuses. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"open"`, `"closed"`. Values: `"open"`, `"closed"`. |
@@ -1239,7 +1240,7 @@ Signature: `listActivities(string|Model $order_id, array|Model|null $params = nu
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string | Flint order ID. |
+| `order_id` | Required | string | Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `sort_direction` | Optional | string | Sort direction. Defaults to desc. Default: `"desc"`. Values: `"asc"`, `"desc"`. |
@@ -1297,7 +1298,7 @@ Signature: `listCharges(string|Model $order_id, array|Model|null $params = null,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string | Flint order ID. |
+| `order_id` | Required | string | Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -1353,7 +1354,7 @@ Signature: `listEdits(string|Model $order_id, array|Model|null $params = null, ?
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string | The order that owns the edit. |
+| `order_id` | Required | string | The order that owns the edit. Must be a valid ID with prefix ord_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `status` | Optional | Array of string or string | Exact edit status. Values match any supplied status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending"`, `"completed"`, `"canceled"`. Values: `"pending"`, `"completed"`, `"canceled"`. |
@@ -1461,8 +1462,8 @@ Signature: `listPaymentAttempts(string|Model $order_id, array|Model|null $params
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string | Flint order ID. |
-| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. pattern: `^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$`. |
+| `order_id` | Required | string | Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
+| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns only resources created in your caller namespace, plus resources created before caller scoping under the original key. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. pattern: `^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -1508,7 +1509,7 @@ $result = $client->orders->listPaymentAttempts('ord_01KEZF7C0054GQKJ142A8X367A',
 
 ### orders.pay
 
-Starts or resumes a payment attempt on the order. Starting a subscription requires buyer_contact.email or an email already saved on the checkout session or order. Set action to pay to charge the full outstanding balance, confirm_payment_intents to confirm order-owned payment intents, setup to save a newly collected token on a zero-balance order, or resume to continue an attempt after a pending client action. Each action accepts only its own fields. Only confirm_payment_intents accepts completion_behavior. A pay action without payment_source is valid only when the outstanding balance is zero. To continue a resumable attempt, send action: resume with order_payment_attempt_id and a new Idempotency-Key. A Tap to Pay reader returns requires_action, is_resumable true, and a card_presentment pending action with stripe.terminal_payment_intent authority for the Stripe Terminal SDK. After the app collects and confirms, resume reads the outcome: authorization or capture applies it, processing keeps the attempt processing, and no card or a decline keeps it requires_action with the same authority. A decline updates last_payment_error without ending the attempt; cancel to give up. An exact retry of the original request with its Idempotency-Key returns the stored response if the request completed, or recovers the same attempt if it was interrupted. Payment intents with manual capture return an active authorization instead of settling immediately. A replay preserves the original HTTP status and domain result. Replays return no URL token or Stripe client secret; pending_actions is empty when action authority was stripped. Read the attempt to recover its current permitted actions. Read GET /v1/orders/{order_id}/payment-attempts/{order_payment_attempt_id} for the attempt's current state.
+Starts or resumes a payment attempt on the order. For a new headless order-checkout payment, Flint automatically quotes and selects a single available delivery option when saved destination and recipient inputs suffice. Existing choices, multiple options, required windows or instructions, and methods requiring explicit quotes keep the explicit selection path. The order reports the applied governing_delivery_selection_id and delivery. A changed delivery total still requires the caller to refresh and review expected_outstanding_money before payment. Starting a subscription requires buyer_contact.email or an email already saved on the checkout session or order. Set action to pay to charge the full outstanding balance, confirm_payment_intents to confirm order-owned payment intents, setup to save a newly collected token on a zero-balance order, or resume to continue an attempt after a pending client action. Each action accepts only its own fields. Only confirm_payment_intents accepts completion_behavior. A pay action without payment_source is valid only when the outstanding balance is zero. To continue a resumable attempt, send action: resume with order_payment_attempt_id and a new Idempotency-Key. A Tap to Pay reader returns requires_action, is_resumable true, and a card_presentment pending action with stripe.terminal_payment_intent authority for the Stripe Terminal SDK. After the app collects and confirms, resume reads the outcome: authorization or capture applies it, processing keeps the attempt processing, and no card or a decline keeps it requires_action with the same authority. A decline updates last_payment_error without ending the attempt; cancel to give up. An exact retry of the original request with its Idempotency-Key returns the stored response if the request completed, or recovers the same attempt if it was interrupted. Payment intents with manual capture return an active authorization instead of settling immediately. A replay preserves the original HTTP status and domain result, including when the original checkout credential retries after its session becomes paid. A new key or changed body on a paid order returns ACTION_NOT_ALLOWED with reason payment_collected, naming the order and its payment; do not submit another payment for that purchase. Replays return no URL token or Stripe client secret; pending_actions is empty when action authority was stripped. Read the attempt to recover its current permitted actions. Read GET /v1/orders/{order_id}/payment-attempts/{order_payment_attempt_id} for the attempt's current state.
 
 `POST /v1/orders/{order_id}/pay`
 
@@ -1518,7 +1519,7 @@ Signature: `pay(string|Model $order_id, array|Model $params, ?RequestOptions $op
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string | Flint order ID. |
+| `order_id` | Required | string | Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Buyer-Device` | Optional | string | A stable random device identifier, independent of the order or checkout session. Required for checkout-session gift card purchases. Keep it for subsequent purchases from the same device; it grants no access. pattern: `^[a-f0-9]{32}$`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
@@ -1609,7 +1610,7 @@ Signature: `removeDiscounts(string|Model $order_id, array|Model $params, ?Reques
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string | Flint order ID. |
+| `order_id` | Required | string | Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -1705,8 +1706,8 @@ Signature: `removeGiftCard(string|Model $order_id, string|Model $gift_card_id, a
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string | Order ID. |
-| `gift_card_id` | Required | string | Selected gift card ID. |
+| `order_id` | Required | string | Order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
+| `gift_card_id` | Required | string | Selected gift card ID. Must be a valid ID with prefix gc_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `expected_version` | Required | integer | Order version from the last order read. The mutation fails if the order changed. Format: `int64`. minimum: `1`. maximum: `9007199254740991`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
@@ -1766,7 +1767,7 @@ Signature: `repriceDiscounts(string|Model $order_id, array|Model|null $params = 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string | Flint order ID. |
+| `order_id` | Required | string | Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -1836,7 +1837,7 @@ Signature: `resolveInventoryException(string|Model $order_id, array|Model|null $
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string | Flint order ID. |
+| `order_id` | Required | string | Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -1902,8 +1903,8 @@ Signature: `retryEditRefund(string|Model $order_id, string|Model $order_edit_id,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string | The order that owns the edit. |
-| `order_edit_id` | Required | string | The edit belonging to this order. |
+| `order_id` | Required | string | The order that owns the edit. Must be a valid ID with prefix ord_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
+| `order_edit_id` | Required | string | The edit belonging to this order. Must be a valid ID with prefix oed_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -1960,7 +1961,7 @@ $result = $client->orders->retryEditRefund('ord_01KEZF7C0054GQKJ142A8X367A', 'oe
 
 ### orders.sendReceipt
 
-Queues a receipt for a paid order, including gift card payments and settled payments, and returns the order unchanged. Send email to choose a recipient, or omit it to use the order's email. If no receipt email is on file, email is required when your credential can set it. Otherwise, the request returns ACTION_NOT_ALLOWED with reason configuration_required. Requires Flint-managed receipt delivery. Sending is limited to once every five minutes per order and normalized recipient. Checkout credentials can send only to the address on file. If no address is on file, checkout credentials can send to at most three distinct addresses over the order's lifetime. Receipts sent for this order through this route count toward this limit, including failed deliveries and receipts sent with a secret API key. Merchant callers can choose any address.
+Queues a receipt for a paid order, including gift card payments and settled payments, and returns the order unchanged. Send email to choose a recipient, or omit it to use the order's email. If no receipt email is on file, email is required when your credential can set it. Otherwise, the request returns ACTION_NOT_ALLOWED with reason configuration_required. Requires Flint-managed receipt delivery. Sending is limited to once every five minutes per order and normalized recipient. Checkout credentials can send only to the address on file. If no address is on file, checkout credentials can send to at most three distinct addresses over the order's lifetime. Receipt requests for this order through this route count toward this limit, including failed deliveries and requests made with a secret API key. Merchant callers can choose any address.
 
 `POST /v1/orders/{order_id}/send-receipt`
 
@@ -1970,7 +1971,7 @@ Signature: `sendReceipt(string|Model $order_id, array|Model|null $params = null,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string | Flint order ID. |
+| `order_id` | Required | string | Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -1982,7 +1983,7 @@ Body model: [SendOrderReceiptRequestInput](../models/SendOrderReceiptRequestInpu
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `email` | Optional | string | Receipt email, limited to 254 characters (Unicode code points) after trimming surrounding whitespace. Format: `email`. minLength: `1`. maxLength: `254`. |
+| `email` | Optional | string | Receipt email, limited to 254 characters (Unicode code points) after trimming surrounding whitespace. The local part before @ must be at most 64 octets (UTF-8 bytes). Format: `email`. minLength: `1`. maxLength: `254`. |
 
 #### Response
 
@@ -2039,7 +2040,7 @@ Signature: `update(string|Model $order_id, array|Model $params, ?RequestOptions 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string | Flint order ID. |
+| `order_id` | Required | string | Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -2051,7 +2052,7 @@ Body model: [UpdateOrderRequestInput](../models/UpdateOrderRequestInput.md#updat
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `buyer_note` | Optional | string or null | Buyer-provided note about this order, such as a gift message or purchase preference. Send null to clear it. minLength: `1`. maxLength: `1000`. |
+| `buyer_note` | Optional | string or null | Buyer-provided note about this order, such as a gift message or purchase preference. Send null to clear it. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `1000`. |
 | `catalog_price_behavior` | Optional | string | Defaults to keep, preserving frozen prices. Send reprice with an explicit non-null customer_id to refresh every catalog variant line on an open, unpaid order. Reassigning resolves the new customer’s direct list, then segment list, then variant pricing. Subscription-owned prices remain locked. If any catalog line’s variant is no longer for sale, reprice is refused; remove that line first. Default: `"keep"`. Values: `"keep"`, `"reprice"`. |
 | `customer_id` | Optional | string | Customer to attach. Cannot be null or cleared. Reassignment requires catalog_price_behavior: reprice, which resolves the new customer’s direct list, then segment list, then variant pricing. minLength: `1`. |
 | `delivery` | Optional | [OrderDeliveryRequestInput](../models/OrderDeliveryRequestInput.md#orderdeliveryrequestinput) or null | Complete replacement delivery preference. Omit to leave unchanged. Requires expected_version, orders-write and delivery-write. Send null to clear a provisional direct-order selection, its charge and hold. Draft invoice orders are allowed until issue; checkout-owned, subscription-owned, paid and locked orders are refused. Change delivery separately from delivery_destination, handover and shipping charge calculations. |
@@ -2059,7 +2060,7 @@ Body model: [UpdateOrderRequestInput](../models/UpdateOrderRequestInput.md#updat
 | `expected_version` | Optional | integer | Order version from the last order read. Required when sending delivery or correcting a paid delivery destination. Optional for other updates; when supplied, the update fails if the order changed. Format: `int64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system.  Send null to clear external_reference_id. minLength: `1`. maxLength: `255`. |
 | `handover` | Optional | [OrderHandoverRequestInput](../models/OrderHandoverRequestInput.md#orderhandoverrequestinput) or null | Carry-out handover to set or replace. Allowed while the order is open, nothing is paid, and no checkout session or delivery selection controls its delivery. Can't be combined with delivery_destination. Send null to clear it. |
-| `internal_note` | Optional | string or null | Internal note about this order, visible only to the merchant. Send null to clear it. minLength: `1`. maxLength: `1000`. |
+| `internal_note` | Optional | string or null | Internal note about this order, visible only to the merchant. Send null to clear it. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `1000`. |
 | `inventory_routing_source` | Optional | [InventoryRoutingSourceRequestInput](../models/InventoryRoutingSourceRequestInput.md#inventoryroutingsourcerequestinput) | Where tracked demand is routed. When no source is stored or sent, Flint uses settings.inventory.default_routing_source, then the only active Location with inventory_allocation_enabled if exactly one exists in the current environment. Zero or multiple eligible Locations require an explicit source or merchant default. The order stores the resolved source. Where you want inventory routed from: a fixed Location, an inventory allocation policy, or one policy revision, selected by `type`. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Send null to clear caller-owned metadata and preserve Flint-managed keys. |
 | `requested_tip` | Optional | [CreateOrderTipInput](../models/CreateOrderTipInput.md#createordertipinput) or null | Requested tip to set or replace. Send null to clear the current requested tip. Refused with ACTION_NOT_ALLOWED and reason payment_collected once a payment's capture has set its own tip. |
@@ -2123,8 +2124,8 @@ Signature: `updateCharge(string|Model $order_id, string|Model $order_charge_id, 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string | Flint order ID. |
-| `order_charge_id` | Required | string | Flint order charge ID. |
+| `order_id` | Required | string | Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
+| `order_charge_id` | Required | string | Flint order charge ID. Must be a valid ID with prefix och_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -2142,7 +2143,7 @@ Body model: [UpdateOrderChargeRequestInput](../models/UpdateOrderChargeRequestIn
 | `expected_version` | Optional | integer | Optional order version from the last order read. The mutation fails if the order changed. Format: `int64`. minimum: `1`. |
 | `fulfillment_id` | Optional | string or null |  Send null to unlink the fulfillment. minLength: `1`. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Send null to clear all metadata. |
-| `name` | Optional | string | What the buyer sees for this charge at checkout and on receipts. minLength: `1`. maxLength: `255`. |
+| `name` | Optional | string | What the buyer sees for this charge at checkout and on receipts. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `255`. |
 | `percent` | Optional | number | Percentage points of the base `calculation_basis` names, such as `3` for 3%. Fixed charges use `amount_money` instead. multipleOf: `0.0001`. |
 | `tax` | Optional | [OrderCalculatedChargeTaxRequestInput](../models/OrderCalculatedChargeTaxRequestInput.md#ordercalculatedchargetaxrequestinput) | How tax applies to this charge. Tax settings for an order charge calculated by Flint or supplied by you, including the charge's tax category and whether it is taxable. |
 | `type` | Optional | string | What the charge is for. It classifies the charge in reporting and sets its default tax category. Values: [17 declared values](../models/BuyerOrderChargeInput.md#buyerorderchargeinput-type-values). |
@@ -2205,8 +2206,8 @@ Signature: `updateLineItem(string|Model $order_id, string|Model $order_line_item
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string | Flint order ID. |
-| `order_line_item_id` | Required | string | Flint order line item ID. |
+| `order_id` | Required | string | Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
+| `order_line_item_id` | Required | string | Flint order line item ID. Must be a valid ID with prefix li_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -2225,7 +2226,7 @@ Body model: [UpdateLineItemRequestInput](../models/UpdateLineItemRequestInput.md
 | `gift_card_recipient` | Optional | [GiftCardPurchaseRecipientPatchRequestInput](../models/GiftCardPurchaseRecipientPatchRequestInput.md#giftcardpurchaserecipientpatchrequestinput) or null | Replaces the recipient of an unfunded gift card purchase. Omission preserves it; null clears it. Send expected_version from the order. Send null to clear gift_card_recipient. Requires expected_version. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Send null to clear all metadata. |
 | `modifiers` | Optional | Array of [OrderLineItemModifierRequestModelInput](../models/OrderLineItemModifierRequestInput.md#orderlineitemmodifierrequestinput) | The line item's modifier selections. Sending the field replaces the current selections, so include every modifier you want to keep. Requires `expected_version`. Flint reprices the line item. Modifiers can't change once the line item has been paid for, and the request returns 409. |
-| `name` | Optional | string | Name of the line item. minLength: `1`. |
+| `name` | Optional | string | Name of the line item. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `255`. |
 | `product_type` | Optional | string | Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does not change tax, delivery, or inventory. On an order line PATCH, omission preserves the classification. Catalog lines use their product's type and reject this input. Values: `"physical"`, `"service"`, `"fee"`, `"digital"`. |
 | `quantity` | Optional | integer | Replacement quantity, from 1 through 9999. The extended line subtotal, including modifiers, must satisfy the order money ceiling. Format: `int64`. minimum: `1`. maximum: `9999`. |
 | `subscription` | Optional | [SubscribedLineRequestModelInput](../models/SubscribedLineRequestInput.md#subscribedlinerequestinput) or null | Selects an active subscription offer and reprices an unpaid line. Null selects a one-time purchase. Omission preserves the selection. Requires expected_version from the order and clears the delivery selection when terms change. Send null to clear subscription. Requires expected_version. |

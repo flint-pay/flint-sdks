@@ -9,8 +9,8 @@ import type {
     CustomerDeletionRequestsListParams,
     CustomerDeletionRequestsResolveParams
 } from '../declarations/types-16.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -34,24 +34,19 @@ export type {
     CustomerDeletionRequestListResponse,
     CustomerDeletionRequestsResolveParams
 } from '../declarations/types-16.js';
-export type {
-    RequestOptions,
-    ResponseMeta,
-    ResponseWarning,
-    ResourceReference,
-    ResolveCustomerDeletionRequestInput
-} from '../declarations/types-60.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { RequestOptions } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type { CreateCustomerDeletionRequestInput, CreateCustomerDeletionRequest } from '../declarations/types-8.js';
+export type { CreateCustomerDeletionRequestInput, CreateCustomerDeletionRequest } from '../declarations/types-9.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { ErrorResourceReference } from '../declarations/types-26.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export { makeCreateCustomerDeletionRequest } from '../declarations/types-79.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeResolveCustomerDeletionRequest } from '../declarations/types-88.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference, ResolveCustomerDeletionRequestInput } from '../declarations/types-62.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export { makeCreateCustomerDeletionRequest } from '../declarations/types-81.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeResolveCustomerDeletionRequest } from '../declarations/types-90.js';
 export interface CustomerDeletionRequestsResource {
     /**
  * Creates a deletion request for merchant review, or returns the customer's open request
@@ -71,7 +66,9 @@ export interface CustomerDeletionRequestsResource {
  * Returns the current status of a tracked deletion request.
  *
  * `GET /v1/customer-deletion-requests/{customer_deletion_request_id}`
- * @param customer_deletion_request_id Flint customer deletion request ID.
+ * @param customer_deletion_request_id Flint customer deletion request ID. Must be a valid ID with
+ * prefix cdel_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed
+ * IDs that do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customers#getCustomerDeletionRequest
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -105,7 +102,9 @@ export interface CustomerDeletionRequestsResource {
  * usable saved payment methods.
  *
  * `POST /v1/customer-deletion-requests/{customer_deletion_request_id}/resolve`
- * @param customer_deletion_request_id Flint customer deletion request ID.
+ * @param customer_deletion_request_id Flint customer deletion request ID. Must be a valid ID with
+ * prefix cdel_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed
+ * IDs that do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customers#resolveCustomerDeletionRequest
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

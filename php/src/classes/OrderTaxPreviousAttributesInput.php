@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read OrderTaxAttentionPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $attention
  * @property-read string|null $automatic_profile
  * @property-read list<string>|null $available_location_inputs
  * @property-read OrderTaxCallbackEvaluationPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $callback_evaluation
@@ -18,8 +19,14 @@ namespace Flint;
  * @property-read list<TaxBreakdownPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null $tax_breakdowns
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrderTaxPreviousAttributesInput extends Model {
-    /** @param array{'automatic_profile'?: string|null, 'available_location_inputs'?: list<string>|null, 'callback_evaluation'?: OrderTaxCallbackEvaluationPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'components_source'?: string|null, 'delivery_charge_calculation'?: DeliveryChargeTaxCalculationRequestPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'enabled'?: bool|null, 'exemption'?: OrderTaxExemptionPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'location'?: OrderTaxLocationPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'mode'?: string|null, 'price_mode'?: string|null, 'reverse_charge'?: TaxReverseChargePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'status'?: string|null, 'supported_countries'?: list<string>|null, 'tax_breakdowns'?: list<TaxBreakdownPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, ...}|object $values */
+    /** @param array{'attention'?: OrderTaxAttentionPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'automatic_profile'?: string|null, 'available_location_inputs'?: list<string>|null, 'callback_evaluation'?: OrderTaxCallbackEvaluationPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'components_source'?: string|null, 'delivery_charge_calculation'?: DeliveryChargeTaxCalculationRequestPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'enabled'?: bool|null, 'exemption'?: OrderTaxExemptionPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'location'?: OrderTaxLocationPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'mode'?: string|null, 'price_mode'?: string|null, 'reverse_charge'?: TaxReverseChargePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'status'?: string|null, 'supported_countries'?: list<string>|null, 'tax_breakdowns'?: list<TaxBreakdownPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderTaxPreviousAttributesInput')); }
+    /** Tax information that needs merchant attention. Null when no tax attention is outstanding. Captured payments and refunds remain recorded; contact Flint support before changing tax. Omitted from buyer responses. Always present with merchant credentials. anyOf[1] (Value): {@see OrderTaxAttentionPreviousAttributesInput}. anyOf[2] (Value): null.
+     * @return OrderTaxAttentionPreviousAttributesInput|array<array-key, mixed>|\stdClass|null
+     * @throws SdkError When attention is omitted; use hasAttention() or valueOrDefault().
+     */
+    public function getAttention(): mixed { return $this->get('attention'); }
+    public function hasAttention(): bool { return $this->has('attention'); }
     /** Identifies which automatic tax behavior applies to this order. connected means the account's tax connection calculated it. standard marks an order calculated before automatic tax required a tax connection. Value enum: "standard", "connected". anyOf[1] (Value): string. Identifies which automatic tax behavior applies to this order. connected means the account's tax connection calculated it. standard marks an order calculated before automatic tax required a tax connection. Value enum: "standard", "connected". anyOf[2] (Value): null.
      * @return string|null
      * @throws SdkError When automatic_profile is omitted; use hasAutomaticProfile() or valueOrDefault().

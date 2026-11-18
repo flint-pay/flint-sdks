@@ -77,7 +77,7 @@ final class InvoiceSettingsPatchInput extends Model {
      */
     public function getRemitToAddress(): mixed { return $this->get('remit_to_address'); }
     public function hasRemitToAddress(): bool { return $this->has('remit_to_address'); }
-    /** Limited to 255 characters (Unicode code points), counted before normalization. Send null to clear it. Format: email. minLength: 1. maxLength: 255. Example: "buyer@example.com".
+    /** Limited to 255 characters (Unicode code points), counted before normalization. Send null to clear it. The local part before @ must be at most 64 octets (UTF-8 bytes). Format: email. minLength: 1. maxLength: 255. Example: "buyer@example.com".
      * @return string|null
      * @throws SdkError When reply_to_email is omitted; use hasReplyToEmail() or valueOrDefault().
      */

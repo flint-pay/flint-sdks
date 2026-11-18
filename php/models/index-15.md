@@ -1,7 +1,19 @@
 [Model index](../MODELS.md)
 
-# InventoryAllocationPolicyRevisionListResponseInput to InventoryTransferLineRequestInput
+# InventoryAdjustmentQuantityLineRequestInput to InventorySourceSystemRequestInput
 
+- [InventoryAdjustmentQuantityLineRequestInput](InventoryAdjustmentQuantityLineRequestInput.md)
+- [InventoryAdjustmentResponseInput](InventoryAdjustmentResponseInput.md)
+- [InventoryAdjustmentResultInput](InventoryAdjustmentResultInput.md)
+- [InventoryAdjustmentResultResponseInput](InventoryAdjustmentResultResponseInput.md)
+- [InventoryAdjustmentSetLineRequestInput](InventoryAdjustmentSetLineRequestInput.md)
+- [InventoryAllocationConfigurationValueInput](InventoryAllocationConfigurationValueInput.md)
+- [InventoryAllocationPolicyInput](InventoryAllocationPolicyInput.md)
+- [InventoryAllocationPolicyConfigurationRequestInput](InventoryAllocationPolicyConfigurationRequestInput.md)
+- [InventoryAllocationPolicyListResponseInput](InventoryAllocationPolicyListResponseInput.md)
+- [InventoryAllocationPolicyLocationInput](InventoryAllocationPolicyLocationInput.md)
+- [InventoryAllocationPolicyResponseInput](InventoryAllocationPolicyResponseInput.md)
+- [InventoryAllocationPolicyRevisionInput](InventoryAllocationPolicyRevisionInput.md)
 - [InventoryAllocationPolicyRevisionListResponseInput](InventoryAllocationPolicyRevisionListResponseInput.md)
 - [InventoryAllocationPolicyRevisionResponseInput](InventoryAllocationPolicyRevisionResponseInput.md)
 - [InventoryBackorderPolicyRequestInput](InventoryBackorderPolicyRequestInput.md)
@@ -90,16 +102,4 @@
 - [InventorySourceSystemInput](InventorySourceSystemInput.md)
 - [InventorySourceSystemPreviousAttributesInput](InventorySourceSystemPreviousAttributesInput.md)
 - [InventorySourceSystemRequestInput](InventorySourceSystemRequestInput.md)
-- [InventoryTransferInput](InventoryTransferInput.md)
-- [InventoryTransferActionConflictErrorDetailInput](InventoryTransferActionConflictErrorDetailInput.md)
-- [InventoryTransferActionConflictErrorEnvelopeInput](InventoryTransferActionConflictErrorEnvelopeInput.md)
-- [InventoryTransferActionConflictErrorObjectInput](InventoryTransferActionConflictErrorObjectInput.md)
-- [InventoryTransferClosedInstalledMerchantsEventInput](InventoryTransferClosedInstalledMerchantsEventInput.md)
-- [InventoryTransferClosedMerchantEventInput](InventoryTransferClosedMerchantEventInput.md)
-- [InventoryTransferConflictErrorEnvelopeInput](InventoryTransferConflictErrorEnvelopeInput.md)
-- [InventoryTransferDepartedInstalledMerchantsEventInput](InventoryTransferDepartedInstalledMerchantsEventInput.md)
-- [InventoryTransferDepartedMerchantEventInput](InventoryTransferDepartedMerchantEventInput.md)
-- [InventoryTransferLineInput](InventoryTransferLineInput.md)
-- [InventoryTransferLinePreviousAttributesInput](InventoryTransferLinePreviousAttributesInput.md)
-- [InventoryTransferLineRequestInput](InventoryTransferLineRequestInput.md)
 

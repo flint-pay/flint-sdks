@@ -10,13 +10,13 @@ namespace Flint;
 final class PriceListsGetPriceInput extends Model {
     /** @param array{'price_list_id': string, 'price_list_price_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PriceListsGetPriceInput')); }
-    /** Flint price list id. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+    /** Flint price list id. Must be a valid ID with prefix prl_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
      * @return string
      * @throws SdkError When price_list_id is omitted; use hasPriceListId() or valueOrDefault().
      */
     public function getPriceListId(): string { return $this->get('price_list_id'); }
     public function hasPriceListId(): bool { return $this->has('price_list_id'); }
-    /** Flint price list price id. Example: "prlp_01KEZF7C007DQ721A29CDR73DN".
+    /** Flint price list price id. Must be a valid ID with prefix prlp_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "prlp_01KEZF7C007DQ721A29CDR73DN".
      * @return string
      * @throws SdkError When price_list_price_id is omitted; use hasPriceListPriceId() or valueOrDefault().
      */

@@ -22,6 +22,7 @@ namespace Flint;
  * @property-read int|null $max_completions
  * @property-read array<array-key, string|null>|\stdClass|null $metadata
  * @property-read string $name
+ * @property-read bool $notify_ticket_holders
  * @property-read PaymentLinkPaymentPatchRequestInput|array<array-key, mixed>|\stdClass $payments
  * @property-read CheckoutPromotionConfigRequestInput|array<array-key, mixed>|\stdClass $promotion_config
  * @property-read PaymentLinkRedirectsPatchRequestInput|array<array-key, mixed>|\stdClass $redirects
@@ -32,7 +33,7 @@ namespace Flint;
  * @property-read CheckoutTipConfigRequestInput|array<array-key, mixed>|\stdClass $tip
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdatePaymentLinkRequestInput extends Model {
-    /** @param array{'buyer_fields'?: CheckoutBuyerFieldsRequestInput|array<array-key, mixed>|\stdClass, 'checkout_session_expires_in_seconds'?: int, 'custom_fields'?: list<PaymentLinkCustomFieldPatchRequestInput|array<array-key, mixed>|\stdClass>, 'custom_text'?: PaymentLinkCustomTextPatchRequestInput|array<array-key, mixed>|\stdClass, 'delivery_method_ids'?: list<string>, 'description'?: string|null, 'donation_max_amount_money'?: array{'amount': string, 'currency': string}|object|null, 'donation_min_amount_money'?: array{'amount': string, 'currency': string}|object|null, 'donation_suggested_amount_money_options'?: list<MoneyValueInput|array<array-key, mixed>|\stdClass>, 'event_config'?: PaymentLinkEventConfigPatchRequestInput|array<array-key, mixed>|\stdClass, 'expected_version'?: int, 'external_reference_id'?: string|null, 'image'?: array{'alt'?: string, 'file_id'?: string, 'source_reference'?: string, 'source_url': string}|object|array{'alt'?: string, 'file_id': string, 'source_reference'?: string, 'source_url'?: string}|object|null, 'inactive_message'?: string|null, 'inventory_routing_source'?: InventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass, 'legal'?: PaymentLinkLegalPatchRequestInput|array<array-key, mixed>|\stdClass, 'line_items'?: list<PaymentLinkLineItemPatchRequestInput|array<array-key, mixed>|\stdClass>, 'max_completions'?: int|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name'?: string, 'payments'?: PaymentLinkPaymentPatchRequestInput|array<array-key, mixed>|\stdClass, 'promotion_config'?: CheckoutPromotionConfigRequestInput|array<array-key, mixed>|\stdClass, 'redirects'?: PaymentLinkRedirectsPatchRequestInput|array<array-key, mixed>|\stdClass, 'sales_end_at'?: string|\DateTimeInterface|null, 'status'?: string, 'tax'?: CheckoutTaxConfigRequestInput|array<array-key, mixed>|\stdClass, 'theme'?: PaymentLinkThemePatchRequestInput|array<array-key, mixed>|\stdClass, 'tip'?: CheckoutTipConfigRequestInput|array<array-key, mixed>|\stdClass}|object $values */
+    /** @param array{'buyer_fields'?: CheckoutBuyerFieldsRequestInput|array<array-key, mixed>|\stdClass, 'checkout_session_expires_in_seconds'?: int, 'custom_fields'?: list<PaymentLinkCustomFieldPatchRequestInput|array<array-key, mixed>|\stdClass>, 'custom_text'?: PaymentLinkCustomTextPatchRequestInput|array<array-key, mixed>|\stdClass, 'delivery_method_ids'?: list<string>, 'description'?: string|null, 'donation_max_amount_money'?: array{'amount': string, 'currency': string}|object|null, 'donation_min_amount_money'?: array{'amount': string, 'currency': string}|object|null, 'donation_suggested_amount_money_options'?: list<MoneyValueInput|array<array-key, mixed>|\stdClass>, 'event_config'?: PaymentLinkEventConfigPatchRequestInput|array<array-key, mixed>|\stdClass, 'expected_version'?: int, 'external_reference_id'?: string|null, 'image'?: array{'alt'?: string, 'file_id'?: string, 'source_reference'?: string, 'source_url': string}|object|array{'alt'?: string, 'file_id': string, 'source_reference'?: string, 'source_url'?: string}|object|null, 'inactive_message'?: string|null, 'inventory_routing_source'?: InventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass, 'legal'?: PaymentLinkLegalPatchRequestInput|array<array-key, mixed>|\stdClass, 'line_items'?: list<PaymentLinkLineItemPatchRequestInput|array<array-key, mixed>|\stdClass>, 'max_completions'?: int|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name'?: string, 'notify_ticket_holders'?: bool, 'payments'?: PaymentLinkPaymentPatchRequestInput|array<array-key, mixed>|\stdClass, 'promotion_config'?: CheckoutPromotionConfigRequestInput|array<array-key, mixed>|\stdClass, 'redirects'?: PaymentLinkRedirectsPatchRequestInput|array<array-key, mixed>|\stdClass, 'sales_end_at'?: string|\DateTimeInterface|null, 'status'?: string, 'tax'?: CheckoutTaxConfigRequestInput|array<array-key, mixed>|\stdClass, 'theme'?: PaymentLinkThemePatchRequestInput|array<array-key, mixed>|\stdClass, 'tip'?: CheckoutTipConfigRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdatePaymentLinkRequestInput')); }
     /** What checkout asks the buyer for. Each field you leave out uses your checkout settings.
      * @return CheckoutBuyerFieldsRequestInput|array<array-key, mixed>|\stdClass
@@ -70,7 +71,7 @@ final class UpdatePaymentLinkRequestInput extends Model {
      */
     public function getDescription(): string|null { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** Maximum donation amount. Send null to clear the maximum. Send null to clear. anyOf[1] (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
+    /** Maximum donation amount. Must be greater than zero and greater than or equal to donation_min_amount_money. Send null to clear the maximum. anyOf[1] (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
      * @return array{'amount': string, 'currency': string}|object|null
      * @throws SdkError When donation_max_amount_money is omitted; use hasDonationMaxAmountMoney() or valueOrDefault().
      */
@@ -148,12 +149,18 @@ final class UpdatePaymentLinkRequestInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Name of the payment link. minLength: 1. maxLength: 255.
+    /** Name of the payment link. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
+    /** Whether to email existing ticket holders when event_at, timezone, or venue changes. Defaults to true for each update. Unchanged event details send no notice.
+     * @return bool
+     * @throws SdkError When notify_ticket_holders is omitted; use hasNotifyTicketHolders() or valueOrDefault().
+     */
+    public function getNotifyTicketHolders(): bool { return $this->get('notify_ticket_holders'); }
+    public function hasNotifyTicketHolders(): bool { return $this->has('notify_ticket_holders'); }
     /** Payment options for checkouts started from this link. Changes to a payment link's payment settings. Send null on the payment note to clear it.
      * @return PaymentLinkPaymentPatchRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When payments is omitted; use hasPayments() or valueOrDefault().

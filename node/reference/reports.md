@@ -26,12 +26,12 @@ Body model: [CreateReportRequestInput](../models/CreateReportRequest.md#createre
 | `currency` | Required | string | Three-letter ISO 4217 currency. Reports never combine currencies. gift_card_liability_v1 supports USD only; other currencies return INVALID_REQUEST on currency. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. |
 | `interval_end_at` | Optional | string | Exclusive report interval end instant. Each report type matches its own occurrence time. At most the same local time 366 calendar days after interval_start_at in timezone. Must not be in the future. Format: `date-time`. minLength: `1`. |
 | `interval_start_at` | Optional | string | Inclusive report interval start instant. Each report type matches its own occurrence time. Format: `date-time`. minLength: `1`. |
-| `report_type` | Required | string | Which report to generate. The value names the row and the column version, such as payments_itemized_v1. The Reports guide lists each type's rows, interval matching, and columns. Values: [13 declared values](../models/CreateReportRequest.md#createreportrequest-report_type-values). |
+| `report_type` | Required | string | Which report to generate. The value names the row and the column version, such as payments_itemized_v1. The Reports guide lists each type's rows, interval matching, and columns. Values: [14 declared values](../models/CreateReportRequest.md#createreportrequest-report_type-values). |
 | `timezone` | Optional | string | IANA timezone used for timestamps and date bucketing. A payout occurs at the start of its arrival_date in this timezone. Defaults to the merchant's timezone, then UTC, and is saved on the report at creation. minLength: `1`. |
 
-#### reports.create with `report_type: "balance_transactions_itemized_v1" | "gift_card_liability_v1" | "invoices_itemized_v1" | "merchant_billing_itemized_v1" | "orders_itemized_v1" | "orders_itemized_v2" | "payments_itemized_v1" | "payouts_itemized_v1" | "tax_itemized_v1" | "tax_summarized_v1" | "tax_transactions_itemized_v1" | "tax_transactions_itemized_v2"`
+#### reports.create with `report_type: "balance_transactions_itemized_v1" | "gift_card_liability_v1" | "invoices_itemized_v1" | "merchant_billing_itemized_v1" | "orders_itemized_v1" | "orders_itemized_v2" | "payments_itemized_v1" | "payouts_itemized_v1" | "tax_itemized_v1" | "tax_summarized_v1" | "tax_transactions_itemized_v1" | "tax_transactions_itemized_v2" | "tax_transactions_summarized_v2"`
 
-The `balance_transactions_itemized_v1` variant of `CreateReportRequest`. The `gift_card_liability_v1` variant of `CreateReportRequest`. The `invoices_itemized_v1` variant of `CreateReportRequest`. The `merchant_billing_itemized_v1` variant of `CreateReportRequest`. The `orders_itemized_v1` variant of `CreateReportRequest`. The `orders_itemized_v2` variant of `CreateReportRequest`. The `payments_itemized_v1` variant of `CreateReportRequest`. The `payouts_itemized_v1` variant of `CreateReportRequest`. The `tax_itemized_v1` variant of `CreateReportRequest`. The `tax_summarized_v1` variant of `CreateReportRequest`. The `tax_transactions_itemized_v1` variant of `CreateReportRequest`. The `tax_transactions_itemized_v2` variant of `CreateReportRequest`.
+The `balance_transactions_itemized_v1` variant of `CreateReportRequest`. The `gift_card_liability_v1` variant of `CreateReportRequest`. The `invoices_itemized_v1` variant of `CreateReportRequest`. The `merchant_billing_itemized_v1` variant of `CreateReportRequest`. The `orders_itemized_v1` variant of `CreateReportRequest`. The `orders_itemized_v2` variant of `CreateReportRequest`. The `payments_itemized_v1` variant of `CreateReportRequest`. The `payouts_itemized_v1` variant of `CreateReportRequest`. The `tax_itemized_v1` variant of `CreateReportRequest`. The `tax_summarized_v1` variant of `CreateReportRequest`. The `tax_transactions_itemized_v1` variant of `CreateReportRequest`. The `tax_transactions_itemized_v2` variant of `CreateReportRequest`. The `tax_transactions_summarized_v2` variant of `CreateReportRequest`.
 
 Body model: [CreateIntervalReportRequestInput](../models/CreateIntervalReportRequest.md#createintervalreportrequest).
 
@@ -95,7 +95,7 @@ Signature: `get(report_id: InputValue<string>, params?: ReportsGetParams, option
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `report_id` | Required | string | Flint report ID. |
+| `report_id` | Required | string | Flint report ID. Must be a valid ID with prefix rep_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 
@@ -148,7 +148,7 @@ Signature: `list(params?: ReportsListParams, options?: _SdkWithoutIdempotency<Re
 | --- | --- | --- | --- |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
-| `report_type` | Optional | Array of string or string | Return reports with any of these report types. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [13 declared values](../models/CreateReportRequest.md#createreportrequest-report_type-values). Values: [13 declared values](../models/CreateReportRequest.md#createreportrequest-report_type-values). |
+| `report_type` | Optional | Array of string or string | Return reports with any of these report types. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [14 declared values](../models/CreateReportRequest.md#createreportrequest-report_type-values). Values: [14 declared values](../models/CreateReportRequest.md#createreportrequest-report_type-values). |
 | `status` | Optional | Array of string or string | Return reports in any of these statuses. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending"`, `"succeeded"`, `"failed"`. Values: `"pending"`, `"succeeded"`, `"failed"`. |
 
 #### Response

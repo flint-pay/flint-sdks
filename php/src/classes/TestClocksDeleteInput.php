@@ -10,7 +10,7 @@ namespace Flint;
 final class TestClocksDeleteInput extends Model {
     /** @param array{'test_clock_id': string, 'expected_version'?: int}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TestClocksDeleteInput')); }
-    /** ID of the test clock. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
+    /** ID of the test clock. Must be a valid ID with prefix tclk_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
      * @return string
      * @throws SdkError When test_clock_id is omitted; use hasTestClockId() or valueOrDefault().
      */

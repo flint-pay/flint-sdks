@@ -1,7 +1,19 @@
 [Model index](../MODELS.md)
 
-# DeclinePaymentReviewRequestInput to DeliveryLocationSetUpdatedInstalledMerchantsEvent
+# CustomFieldAnswerDropdown to DeliveryInventoryAssignmentRequestInput
 
+- [CustomFieldAnswerDropdown](CustomFieldAnswerDropdown.md)
+- [CustomFieldAnswerDropdownPreviousAttributes](CustomFieldAnswerDropdownPreviousAttributes.md)
+- [CustomFieldAnswerPreviousAttributes](CustomFieldAnswerPreviousAttributes.md)
+- [CustomFieldAnswerText](CustomFieldAnswerText.md)
+- [CustomFieldAnswerTextarea](CustomFieldAnswerTextarea.md)
+- [CustomFieldAnswerTextareaPreviousAttributes](CustomFieldAnswerTextareaPreviousAttributes.md)
+- [CustomFieldAnswerTextPreviousAttributes](CustomFieldAnswerTextPreviousAttributes.md)
+- [DecideReturnInspectionLineItemRequest](DecideReturnInspectionLineItemRequest.md)
+- [DecideReturnInspectionLineItemRequestInput](DecideReturnInspectionLineItemRequestInput.md)
+- [DecideReturnRequest](DecideReturnRequest.md)
+- [DecideReturnRequestInput](DecideReturnRequestInput.md)
+- [DeclinePaymentReviewRequest](DeclinePaymentReviewRequest.md)
 - [DeclinePaymentReviewRequestInput](DeclinePaymentReviewRequestInput.md)
 - [DeferredPromotion](DeferredPromotion.md)
 - [DeferredPromotionPreviousAttributes](DeferredPromotionPreviousAttributes.md)
@@ -90,16 +102,4 @@
 - [DeliveryInputRequirementPreviousAttributes](DeliveryInputRequirementPreviousAttributes.md)
 - [DeliveryInventoryAssignmentRequest](DeliveryInventoryAssignmentRequest.md)
 - [DeliveryInventoryAssignmentRequestInput](DeliveryInventoryAssignmentRequestInput.md)
-- [DeliveryInventoryReservationSummary](DeliveryInventoryReservationSummary.md)
-- [DeliveryLocationSet](DeliveryLocationSet.md)
-- [DeliveryLocationSetArchivedInstalledMerchantsEvent](DeliveryLocationSetArchivedInstalledMerchantsEvent.md)
-- [DeliveryLocationSetArchivedMerchantEvent](DeliveryLocationSetArchivedMerchantEvent.md)
-- [DeliveryLocationSetConfiguration](DeliveryLocationSetConfiguration.md)
-- [DeliveryLocationSetConfigurationInput](DeliveryLocationSetConfigurationInput.md)
-- [DeliveryLocationSetConfigurationPreviousAttributes](DeliveryLocationSetConfigurationPreviousAttributes.md)
-- [DeliveryLocationSetCreatedInstalledMerchantsEvent](DeliveryLocationSetCreatedInstalledMerchantsEvent.md)
-- [DeliveryLocationSetCreatedMerchantEvent](DeliveryLocationSetCreatedMerchantEvent.md)
-- [DeliveryLocationSetListResponse](DeliveryLocationSetListResponse.md)
-- [DeliveryLocationSetResponse](DeliveryLocationSetResponse.md)
-- [DeliveryLocationSetUpdatedInstalledMerchantsEvent](DeliveryLocationSetUpdatedInstalledMerchantsEvent.md)
 

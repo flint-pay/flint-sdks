@@ -17,7 +17,7 @@ namespace Flint;
 final class ReturnsListLineItemsInput extends Model {
     /** @param array{'return_id': string, 'fulfillment_id'?: string, 'merchandise_status'?: list<string>|string, 'order_line_item_id'?: string, 'page_size'?: int, 'page_token'?: string, 'resolution_status'?: list<string>|string, 'return_reason_id'?: string, 'status'?: list<string>|string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnsListLineItemsInput')); }
-    /** Flint return id. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+    /** Flint return id. Must be a valid ID with prefix ret_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
      * @return string
      * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
      */

@@ -42,7 +42,7 @@ final class BundlesListInput extends Model {
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Filter by exact SKU. maxLength: 100.
+    /** Filter by whole SKU, ignoring surrounding whitespace, case, and accents. maxLength: 100.
      * @return string
      * @throws SdkError When sku is omitted; use hasSku() or valueOrDefault().
      */

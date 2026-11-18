@@ -6,10 +6,10 @@ import type {
     CheckoutSessionCustomerVerificationListResponse,
     CheckoutSessionCustomerVerificationResponse,
     CheckoutSessionLaunchResponse,
-    CheckoutSessionListResponse,
-    CheckoutSessionResponse
+    CheckoutSessionListResponse
 } from '../declarations/types-6.js';
 import type {
+    CheckoutSessionResponse,
     CheckoutSessionWithSecret,
     CheckoutSessionsCloseParams,
     CheckoutSessionsConfirmCustomerVerificationParams,
@@ -22,8 +22,8 @@ import type {
     CheckoutSessionsUpdateParams,
     ClientOptions
 } from '../declarations/types-7.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -40,6 +40,7 @@ export type {
 } from '../runtime.js';
 export type {
     CheckoutSessionsCloseParams,
+    CheckoutSessionResponse,
     CheckoutSessionsConfirmCustomerVerificationParams,
     CheckoutSessionWithSecret,
     CheckoutSessionsCreateParams,
@@ -51,8 +52,11 @@ export type {
     CheckoutSessionsUpdateParams,
     ClientOptions,
     CloseCheckoutSessionRequestInput,
+    CheckoutSessionPlatformFee,
     CheckoutSubscriptionTerms,
+    CheckoutSubscriptionPricePhase,
     CheckoutSubscriptionRecurringShipping,
+    CheckoutSessionTax,
     CheckoutTaxCalculation,
     CheckoutTheme,
     CheckoutTipConfig,
@@ -64,16 +68,17 @@ export type {
     CloseCheckoutSessionRequest,
     ConfirmCheckoutSessionCustomerVerificationRequest
 } from '../declarations/types-7.js';
-export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-60.js';
+export type { RequestOptions } from '../declarations/types-61.js';
 export type {
     CheckoutSession,
-    CheckoutSessionResponse,
     CheckoutSessionCustomerVerificationConfirmationResponse,
     CheckoutSessionLaunchResponse,
     CheckoutSessionCustomerVerification,
     CheckoutSessionCustomerVerificationResponse,
     CheckoutSessionCustomerVerificationListResponse,
     CheckoutSessionListResponse,
+    CheckoutBuyerContact,
+    CheckoutBuyerFields,
     CheckoutCustomTextConfig,
     CheckoutCustomerPrefill,
     CheckoutDerivedDeliveryResource,
@@ -81,12 +86,10 @@ export type {
     CheckoutMerchantSupport,
     CheckoutPaymentMethodSave,
     CheckoutPaymentConfig,
-    CheckoutSessionPlatformFee,
     CheckoutPrefill,
     CheckoutProblemResource,
     CheckoutPromotionConfig,
     CheckoutRedirects,
-    CheckoutSessionTax,
     CheckoutBuyerFieldsRequestInput,
     CheckoutCustomTextWriteConfigInput,
     CheckoutLegalConfigRequestInput,
@@ -94,29 +97,24 @@ export type {
     CheckoutPrefillRequestInput,
     CheckoutPromotionConfigRequestInput,
     CheckoutQuickPayItemRequestInput,
-    CheckoutRedirectsRequestInput
+    CheckoutRedirectsRequestInput,
+    CheckoutBuyerContactRequestInput,
+    CheckoutBuyerContactRequest
 } from '../declarations/types-6.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
+export type { OrderPaymentAttempt, OrderPaymentAttemptPaymentMethodSave, OrderSettlementAmounts } from '../declarations/types-47.js';
+export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-44.js';
+export type { PaymentAttemptGiftCardRedemption, PaymentAttemptPaymentIntent, PaymentClientAction } from '../declarations/types-50.js';
 export type {
-    OrderPaymentAttempt,
-    OrderPaymentAttemptPaymentMethodSave,
-    OrderSettlementAmounts,
-    OrderLineItemTaxRequestInput
-} from '../declarations/types-45.js';
-export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-42.js';
-export type {
-    PaymentAttemptGiftCardRedemption,
     PaymentErrorSummary,
-    PaymentAttemptPaymentIntent,
-    PaymentClientAction,
     PaymentClientActionURL,
     PaymentClientActionStripe,
     PaymentCollection,
     PaymentCollectionStripe,
     PaymentCollectionStripeElements
-} from '../declarations/types-49.js';
+} from '../declarations/types-51.js';
 export type {
     ErrorRemediation,
     ExpandedCustomerSummary,
@@ -132,81 +130,80 @@ export type {
     RefundLineItemAdjustment,
     RefundAdjustmentReason,
     RefundLineItemAutomaticRefund,
-    RefundLineItemModifierAllocation
-} from '../declarations/types-58.js';
-export type { PendingPaymentAction, PendingPaymentActionPaymentIntentSubject } from '../declarations/types-53.js';
+    RefundLineItemModifierAllocation,
+    RefundTaxBreakdownRefund,
+    RefundTenderAllocation
+} from '../declarations/types-60.js';
+export type { ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-62.js';
+export type {
+    PendingPaymentAction,
+    PendingPaymentActionSubject,
+    PendingPaymentActionPaymentIntentSubject,
+    PendingPaymentActionSetupPaymentSourceSubject,
+    PlatformFeeMoneyInput
+} from '../declarations/types-55.js';
 export type {
     StripePaymentClientAction,
     StripeSetupIntentClientAction,
     StripeTerminalPaymentIntentClientAction,
+    SettlementAmounts,
     SetupCollection,
     SetupCollectionStripe
-} from '../declarations/types-66.js';
-export type {
-    PendingPaymentActionSubject,
-    PendingPaymentActionSetupPaymentSourceSubject,
-    PlatformFeeRequestInput
-} from '../declarations/types-54.js';
-export type {
-    CheckoutBuyerContact,
-    CheckoutBuyerFields,
-    CategoryReference,
-    CheckoutBuyerContactRequestInput,
-    CheckoutBuyerContactRequest
-} from '../declarations/types-5.js';
+} from '../declarations/types-68.js';
 export type {
     CustomFieldAnswer,
     CustomFieldAnswerText,
     CustomFieldAnswerTextarea,
     CustomFieldAnswerDropdown,
     CustomFieldAnswerCheckbox
-} from '../declarations/types-15.js';
+} from '../declarations/types-16.js';
 export type { Address, AddressRequestInput, AddressRequest } from '../declarations/types-0.js';
 export type {
     DeliveryQuoteChoiceGroupResource,
     DeliveryQuoteExecutionLegResource,
     DeliveryQuoteLineItemResource
 } from '../declarations/types-22.js';
-export type { DeliveryAddressAdvisoryResource, DeliveryArrivalEstimate, DeferredPromotion } from '../declarations/types-17.js';
+export type { DeliveryAddressAdvisoryResource, DeferredPromotion } from '../declarations/types-17.js';
 export type {
     DeliveryCandidateOutcomeResource,
+    DeliveryArrivalEstimate,
     DeliveryCandidateOutcomeResourceAvailable,
     DeliveryCandidateOutcomeResourceUnavailable,
     DeliveryCandidateOutcomeResourceInputRequired,
     DeliveryCandidateOutcomeResourceCannotCalculate,
-    DeliveryCandidateOutcomeResourceRequiresCheckoutContext,
-    DeliveryEligibilityMismatch
+    DeliveryCandidateOutcomeResourceRequiresCheckoutContext
 } from '../declarations/types-18.js';
 export type {
     DeliveryInputRequirement,
     DeliveryInputConstraint,
     DeliveryLocationSummaryResource,
-    DeliveryMerchantDiagnostic
+    DeliveryMerchantDiagnostic,
+    DeliveryEligibilityMismatch
 } from '../declarations/types-19.js';
 export type { DeliveryWindowRequest, DeliveryShipmentDetails } from '../declarations/types-24.js';
 export type { DeliveryOptionProjection, DeliveryPlan, DeliveryPickupDetails } from '../declarations/types-20.js';
 export type { BuyerInstructionsConfig, BuyerExpandedOrderSummary, BuyerExpandedPaymentIntentSummary } from '../declarations/types-2.js';
 export type { DeliveryRecipientRequirement } from '../declarations/types-23.js';
-export type { PricingAmounts } from '../declarations/types-55.js';
+export type { PricingAmounts, PlatformFeeRequestInput } from '../declarations/types-56.js';
 export type { InvoiceSettlementAmounts, LegalSettings } from '../declarations/types-38.js';
-export type { SettlementAmounts, SelectableOrderPaymentIntent, SelectedProductOption } from '../declarations/types-65.js';
-export type { Image } from '../declarations/types-30.js';
-export type { MetadataMap, MetadataRequestInput, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-41.js';
+export type { Image } from '../declarations/types-31.js';
+export type { MetadataMap, MetadataRequestInput, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
+export type { SelectableOrderPaymentIntent, SelectedProductOption } from '../declarations/types-67.js';
 export type {
     PaymentSourceSummary,
     PaymentSourceAchDebitSummary,
     PaymentSourceCardSummary,
     PaymentSourceCardPresentDetails
-} from '../declarations/types-52.js';
+} from '../declarations/types-54.js';
 export type { BuyerRefund, BuyerPaymentRefund } from '../declarations/types-3.js';
-export type { RefundTaxBreakdownRefund, RefundTenderAllocation } from '../declarations/types-59.js';
-export type { OrderGiftCardAllocation } from '../declarations/types-44.js';
+export type { CategoryReference } from '../declarations/types-5.js';
+export type { OrderGiftCardAllocation, OrderLineItemTaxRequestInput } from '../declarations/types-46.js';
 export type {
     SubscriptionIntervalOption,
     SubscriptionGiftRecipient,
     SubscriptionGiftRecipientRequestInput,
     SubscriptionGiftRecipientRequest
-} from '../declarations/types-68.js';
+} from '../declarations/types-70.js';
 export type {
     CreateCheckoutSessionRequestInput,
     CreateCheckoutSessionDiscountInput,
@@ -224,11 +221,11 @@ export type {
     CreateCheckoutSessionPayToNewAddressVerificationRequestInput,
     CreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequestInput
 } from '../declarations/types-8.js';
-export type { PromotionRefRequestInput, PromotionRefInputPromotionIDInput, PromotionRefInputPromotionCodeInput } from '../declarations/types-57.js';
-export type { SubscriptionPlanChangeLineItemRequestInput, SubscriptionPlanChangeLineItemRequest } from '../declarations/types-69.js';
-export type { ThemeConfigRequestInput } from '../declarations/types-72.js';
-export type { UpdateCheckoutSessionRequestInput } from '../declarations/types-73.js';
-export { makeAddressRequest } from '../declarations/types-77.js';
+export type { PromotionRefRequestInput, PromotionRefInputPromotionIDInput, PromotionRefInputPromotionCodeInput } from '../declarations/types-58.js';
+export type { SubscriptionPlanChangeLineItemRequestInput, SubscriptionPlanChangeLineItemRequest } from '../declarations/types-71.js';
+export type { ThemeConfigRequestInput } from '../declarations/types-74.js';
+export type { UpdateCheckoutSessionRequestInput } from '../declarations/types-75.js';
+export { makeAddressRequest } from '../declarations/types-79.js';
 export {
     makeCheckoutBuyerContactRequest,
     makeCheckoutBuyerFieldsRequest,
@@ -241,12 +238,12 @@ export {
     makeCheckoutRedirectsRequest,
     makeCheckoutSubscriptionTermsRequest,
     makeCheckoutTaxCalculationRequest,
-    makeCheckoutTaxConfigRequest,
+    makeCheckoutTaxConfigRequest
+} from '../declarations/types-80.js';
+export {
     makeCheckoutTipConfigRequest,
     makeCloseCheckoutSessionRequest,
-    makeConfirmCheckoutSessionCustomerVerificationRequest
-} from '../declarations/types-78.js';
-export {
+    makeConfirmCheckoutSessionCustomerVerificationRequest,
     makeCreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequest,
     makeCreateCheckoutSessionCustomerVerificationRequest,
     makeCreateCheckoutSessionDiscount,
@@ -262,28 +259,21 @@ export {
     makeCreateCheckoutSessionUseSavedPaymentMethodsByEmailRequest,
     makeCreateCheckoutSessionUseSavedPaymentMethodsByRememberedBuyerRequest,
     makeCreateCheckoutSessionUseSavedPaymentMethodsVerificationRequest
-} from '../declarations/types-79.js';
-export { makeDeliveryWindowRequest } from '../declarations/types-83.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
-export { makeMoneyValue, makeOrderLineItemTaxRequest } from '../declarations/types-86.js';
-export {
-    makePlatformFeeRequest,
-    makePromotionRefInputPromotionCode,
-    makePromotionRefInputPromotionID,
-    makePromotionRefRequest
-} from '../declarations/types-87.js';
-export {
-    makeSubscriptionGiftRecipientRequest,
-    makeSubscriptionPlanChangeLineItemRequest,
-    makeThemeConfigRequest,
-    makeUpdateCheckoutSessionRequest
-} from '../declarations/types-90.js';
+} from '../declarations/types-81.js';
+export { makeDeliveryWindowRequest } from '../declarations/types-86.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue, makeOrderLineItemTaxRequest } from '../declarations/types-88.js';
+export { makePlatformFeeMoney, makePlatformFeeRequest } from '../declarations/types-89.js';
+export { makePromotionRefInputPromotionCode, makePromotionRefInputPromotionID, makePromotionRefRequest } from '../declarations/types-90.js';
+export { makeSubscriptionGiftRecipientRequest, makeSubscriptionPlanChangeLineItemRequest } from '../declarations/types-92.js';
+export { makeThemeConfigRequest, makeUpdateCheckoutSessionRequest } from '../declarations/types-93.js';
 export interface CheckoutSessionsResource {
     /**
  * Closes an open checkout session before it naturally expires.
  *
  * `POST /v1/checkout-sessions/{checkout_session_id}/close`
- * @param checkout_session_id Flint checkout session ID.
+ * @param checkout_session_id Flint checkout session ID. Must be a valid ID with prefix cs_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/checkout-sessions#closeCheckoutSession
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -333,9 +323,13 @@ export interface CheckoutSessionsResource {
  *
  * `POST
  * /v1/checkout-sessions/{checkout_session_id}/customer-verifications/{checkout_session_customer_verification_id}/confirm`
- * @param checkout_session_id Flint checkout session ID.
+ * @param checkout_session_id Flint checkout session ID. Must be a valid ID with prefix cs_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @param checkout_session_customer_verification_id The checkout_session_customer_verification_id
- * the code request returned.
+ * the code request returned. Must be a valid ID with prefix cscv_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see
  * https://developers.withflintpay.com/docs/api/checkout-sessions#confirmCheckoutSessionCustomerVerification
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
@@ -379,7 +373,9 @@ export interface CheckoutSessionsResource {
  * `client.customerVerifications.create`.
  *
  * `POST /v1/checkout-sessions/{checkout_session_id}/customer-verifications`
- * @param checkout_session_id Flint checkout session ID.
+ * @param checkout_session_id Flint checkout session ID. Must be a valid ID with prefix cs_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see
  * https://developers.withflintpay.com/docs/api/checkout-sessions#createCheckoutSessionCustomerVerification
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
@@ -394,7 +390,9 @@ export interface CheckoutSessionsResource {
  * Returns a single checkout session by ID.
  *
  * `GET /v1/checkout-sessions/{checkout_session_id}`
- * @param checkout_session_id Flint checkout session ID.
+ * @param checkout_session_id Flint checkout session ID. Must be a valid ID with prefix cs_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/checkout-sessions#getCheckoutSession
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -410,8 +408,12 @@ export interface CheckoutSessionsResource {
  *
  * `GET
  * /v1/checkout-sessions/{checkout_session_id}/customer-verifications/{checkout_session_customer_verification_id}`
- * @param checkout_session_id Flint checkout session ID.
+ * @param checkout_session_id Flint checkout session ID. Must be a valid ID with prefix cs_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @param checkout_session_customer_verification_id Flint checkout verification code request ID.
+ * Must be a valid ID with prefix cscv_. Malformed IDs return 400 INVALID_REQUEST with detail
+ * INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND.
  * @see
  * https://developers.withflintpay.com/docs/api/checkout-sessions#getCheckoutSessionCustomerVerification
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
@@ -430,7 +432,9 @@ export interface CheckoutSessionsResource {
  * created_at descending, then checkout_session_customer_verification_id descending.
  *
  * `GET /v1/checkout-sessions/{checkout_session_id}/customer-verifications`
- * @param checkout_session_id Flint checkout session ID.
+ * @param checkout_session_id Flint checkout session ID. Must be a valid ID with prefix cs_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see
  * https://developers.withflintpay.com/docs/api/checkout-sessions#listCheckoutSessionCustomerVerifications
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
@@ -480,7 +484,9 @@ export interface CheckoutSessionsResource {
  * Saving the same values again changes nothing.
  *
  * `PATCH /v1/checkout-sessions/{checkout_session_id}`
- * @param checkout_session_id Flint checkout session ID.
+ * @param checkout_session_id Flint checkout session ID. Must be a valid ID with prefix cs_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/checkout-sessions#updateCheckoutSession
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

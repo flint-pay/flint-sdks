@@ -278,13 +278,13 @@ anyOf variant 2.
 
 ### CustomerDeletionRequestCompletedEvent.data fields 1.previous_attributes.supported_actions variant 1
 
-anyOf variant 1: Lifecycle actions Flint accepts now, independent of the caller's permissions. Contains resolve while awaiting review, when retrying a failed deletion, and after resolution because repeating the original decision succeeds. An opposite decision is refused with field_locked at decision..
+anyOf variant 1: Lifecycle actions Flint accepts now, independent of the caller's permissions. Contains resolve while awaiting review, during processing, and when retrying a failed deletion. Empty for completed and rejected requests. Repeating the original decision still succeeds; an opposite decision is refused with field_locked at decision..
 
-- Value shape: Array of string. Lifecycle actions Flint accepts now, independent of the caller's permissions. Contains resolve while awaiting review, when retrying a failed deletion, and after resolution because repeating the original decision succeeds. An opposite decision is refused with field_locked at decision. Items values: `"resolve"`.
+- Value shape: Array of string. Lifecycle actions Flint accepts now, independent of the caller's permissions. Contains resolve while awaiting review, during processing, and when retrying a failed deletion. Empty for completed and rejected requests. Repeating the original decision still succeeds; an opposite decision is refused with field_locked at decision. Items values: `"resolve"`.
 
 ### CustomerDeletionRequestCompletedEvent.data fields 1.previous_attributes.supported_actions variant 2
 
 anyOf variant 2.
 
-- Value shape: null. Lifecycle actions Flint accepts now, independent of the caller's permissions. Contains resolve while awaiting review, when retrying a failed deletion, and after resolution because repeating the original decision succeeds. An opposite decision is refused with field_locked at decision. 
+- Value shape: null. Lifecycle actions Flint accepts now, independent of the caller's permissions. Contains resolve while awaiting review, during processing, and when retrying a failed deletion. Empty for completed and rejected requests. Repeating the original decision still succeeds; an opposite decision is refused with field_locked at decision. 
 

@@ -7,9 +7,9 @@ namespace Flint;
  * @property-read int $quantity
  * Presence-aware input; omitted fields throw when accessed. */
 final class FulfillmentLineItemRequestInput extends Model {
-    /** @param array{'bundle_component_id': string|null, 'order_line_item_id': string, 'quantity': int}|object $values */
+    /** @param array{'bundle_component_id'?: string|null, 'order_line_item_id': string, 'quantity': int}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FulfillmentLineItemRequestInput')); }
-    /** Bundle component to fulfill, from the order line's bundle_components. `null` when the line isn't a bundle component. A bundle line requires its component ID. minLength: 1. Example: "bunc_01KEZF7C00CQASEZGAPEANTGD1".
+    /** Bundle component to fulfill, from the order line's bundle_components. Omit or send `null` when the line isn't a bundle component. A bundle line requires its component ID. minLength: 1. Example: "bunc_01KEZF7C00CQASEZGAPEANTGD1".
      * @return string|null
      * @throws SdkError When bundle_component_id is omitted; use hasBundleComponentId() or valueOrDefault().
      */

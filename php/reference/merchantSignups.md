@@ -14,7 +14,7 @@ Signature: `cancel(string|Model $merchant_signup_id, array|Model|null $params = 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `merchant_signup_id` | Required | string | ID of the merchant signup. |
+| `merchant_signup_id` | Required | string | ID of the merchant signup. Must be a valid ID with prefix msu_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Optional | [MerchantSignupVersionRequestInput](../models/MerchantSignupVersionRequestInput.md#merchantsignupversionrequestinput) | The request body for: Cancel a merchant signup; Mint new authorization codes for a merchant signup; Send a new merchant signup code. |
 
 #### Response
@@ -88,6 +88,7 @@ Body model: [CreateMerchantSignupRequestInput](../models/CreateMerchantSignupReq
 | `partner_app_id` | Required | string | Your partner app to install on the new merchant. It must be active and have a `merchant_action_url`. minLength: `1`. |
 | `requested_permission_ids` | Optional | Array of string | Optional manifest permissions to request besides the required ones. Defaults to the app's `default_requested_permissions`. Send `[]` to request only the required permissions. uniqueItems: `true`. Items: minLength: `1`. |
 | `sandbox_initial_onboarding` | Optional | string | The onboarding state of the new merchant's default sandbox, which the test grant points at. Send `not_started` to rehearse verification in test mode. Default: `"complete"`. Values: `"complete"`, `"not_started"`. |
+| `timezone` | Optional | string | IANA business time zone for the new merchant, such as America/Chicago. Used for reports and business dates. Omit to leave it unset until a live location or a merchant update sets it. minLength: `1`. |
 
 #### Response
 
@@ -163,7 +164,7 @@ Signature: `get(string|Model $merchant_signup_id, array|Model|null $params = nul
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `merchant_signup_id` | Required | string | ID of the merchant signup. |
+| `merchant_signup_id` | Required | string | ID of the merchant signup. Must be a valid ID with prefix msu_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 
@@ -377,7 +378,7 @@ Signature: `verify(string|Model $merchant_signup_id, array|Model $params, ?Reque
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `merchant_signup_id` | Required | string | ID of the merchant signup. |
+| `merchant_signup_id` | Required | string | ID of the merchant signup. Must be a valid ID with prefix msu_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Required | [VerifyMerchantSignupRequestInput](../models/VerifyMerchantSignupRequestInput.md#verifymerchantsignuprequestinput) | The request body for: Verify a merchant signup. |
 
 Body model: [VerifyMerchantSignupRequestInput](../models/VerifyMerchantSignupRequestInput.md#verifymerchantsignuprequestinput).

@@ -22,7 +22,7 @@ final class UpdateMeRequestInput extends Model {
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** Send null to clear it. minLength: 1.
+    /** Send null to clear it. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1.
      * @return string|null
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */

@@ -1,6 +1,6 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { RequestOptions } from '../declarations/types-60.js';
+import type { RequestOptions } from '../declarations/types-61.js';
 import type {
     TaxCalculationCallback,
     TaxCalculationCallbackConnectionCheck,
@@ -19,8 +19,8 @@ import type {
     TaxCalculationCallbacksListParams,
     TaxCalculationCallbacksRotateSecretParams,
     TaxCalculationCallbacksUpdateParams
-} from '../declarations/types-71.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-73.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -56,23 +56,23 @@ export type {
     TaxCalculationCallbackConfigurationRequestInput,
     TaxCalculationCallbackConfiguration,
     TaxCalculationCallbackConfigurationPatchRequestInput
-} from '../declarations/types-71.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type { _SdkWithoutIdempotency, WebhookSigningMethodInput } from '../declarations/types-77.js';
+} from '../declarations/types-73.js';
+export type { RequestOptions } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency, WebhookSigningMethodInput } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials, CreateTaxCalculationCallbackRequestInput } from '../declarations/types-14.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { UpdateTaxCalculationCallbackRequestInput } from '../declarations/types-76.js';
-export { makeCreateTaxCalculationCallbackRequest } from '../declarations/types-82.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { UpdateTaxCalculationCallbackRequestInput } from '../declarations/types-78.js';
+export { makeCreateTaxCalculationCallbackRequest } from '../declarations/types-84.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export {
     makeTaxCalculationCallbackConfigurationPatchRequest,
     makeTaxCalculationCallbackConfigurationRequest
-} from '../declarations/types-90.js';
-export { makeUpdateTaxCalculationCallbackRequest } from '../declarations/types-91.js';
-export { makeWebhookSigningMethod } from '../declarations/types-92.js';
+} from '../declarations/types-92.js';
+export { makeUpdateTaxCalculationCallbackRequest, makeWebhookSigningMethod } from '../declarations/types-94.js';
 export interface TaxCalculationCallbacksResource {
     /**
  * Tax calculation callback configuration is scoped to the selected environment. Partner
@@ -82,7 +82,9 @@ export interface TaxCalculationCallbacksResource {
  * breaker.
  *
  * `POST /v1/tax-calculation-callbacks/{tax_calculation_callback_id}/check-connection`
- * @param tax_calculation_callback_id Tax calculation callback ID.
+ * @param tax_calculation_callback_id Tax calculation callback ID. Must be a valid ID with prefix
+ * tcb_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see
  * https://developers.withflintpay.com/docs/api/tax-calculation-callbacks#checkTaxCalculationCallbackConnection
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
@@ -119,7 +121,9 @@ export interface TaxCalculationCallbacksResource {
  * callbacks without changing the circuit breaker.
  *
  * `POST /v1/tax-calculation-callbacks/{tax_calculation_callback_id}/test-deliveries`
- * @param tax_calculation_callback_id Tax calculation callback ID.
+ * @param tax_calculation_callback_id Tax calculation callback ID. Must be a valid ID with prefix
+ * tcb_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see
  * https://developers.withflintpay.com/docs/api/tax-calculation-callbacks#createTaxCalculationCallbackTestDelivery
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
@@ -136,7 +140,9 @@ export interface TaxCalculationCallbacksResource {
  * tax.calculation_callback_id before archiving the selected callback.
  *
  * `DELETE /v1/tax-calculation-callbacks/{tax_calculation_callback_id}`
- * @param tax_calculation_callback_id Tax calculation callback ID.
+ * @param tax_calculation_callback_id Tax calculation callback ID. Must be a valid ID with prefix
+ * tcb_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see
  * https://developers.withflintpay.com/docs/api/tax-calculation-callbacks#deleteTaxCalculationCallback
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
@@ -152,7 +158,9 @@ export interface TaxCalculationCallbacksResource {
  * installation tokens are unsupported.
  *
  * `GET /v1/tax-calculation-callbacks/{tax_calculation_callback_id}`
- * @param tax_calculation_callback_id Tax calculation callback ID.
+ * @param tax_calculation_callback_id Tax calculation callback ID. Must be a valid ID with prefix
+ * tcb_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see
  * https://developers.withflintpay.com/docs/api/tax-calculation-callbacks#getTaxCalculationCallback
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
@@ -190,7 +198,9 @@ export interface TaxCalculationCallbacksResource {
  * callbacks.
  *
  * `POST /v1/tax-calculation-callbacks/{tax_calculation_callback_id}/rotate-secret`
- * @param tax_calculation_callback_id Tax calculation callback ID.
+ * @param tax_calculation_callback_id Tax calculation callback ID. Must be a valid ID with prefix
+ * tcb_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see
  * https://developers.withflintpay.com/docs/api/tax-calculation-callbacks#rotateTaxCalculationCallbackSecret
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
@@ -209,7 +219,9 @@ export interface TaxCalculationCallbacksResource {
  * cannot be deactivated.
  *
  * `PATCH /v1/tax-calculation-callbacks/{tax_calculation_callback_id}`
- * @param tax_calculation_callback_id Tax calculation callback ID.
+ * @param tax_calculation_callback_id Tax calculation callback ID. Must be a valid ID with prefix
+ * tcb_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see
  * https://developers.withflintpay.com/docs/api/tax-calculation-callbacks#updateTaxCalculationCallback
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.

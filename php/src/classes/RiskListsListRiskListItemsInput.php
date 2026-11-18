@@ -18,7 +18,7 @@ final class RiskListsListRiskListItemsInput extends Model {
      */
     public function getValue(): string { return $this->get('value'); }
     public function hasValue(): bool { return $this->has('value'); }
-    /** Flint risk list ID. Example: "rl_01KEZF7C00VYSERA4QCTJP147A".
+    /** Flint risk list ID. Must be a valid ID with prefix rl_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "rl_01KEZF7C00VYSERA4QCTJP147A".
      * @return string
      * @throws SdkError When risk_list_id is omitted; use hasRiskListId() or valueOrDefault().
      */

@@ -9,7 +9,7 @@ namespace Flint;
 final class PaymentSplitsGetInput extends Model {
     /** @param array{'payment_split_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentSplitsGetInput')); }
-    /** Flint payment split ID. Example: "psplit_01KEZF7C00Y5HA4Z8D4KRA07K8".
+    /** Flint payment split ID. Must be a valid ID with prefix psplit_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "psplit_01KEZF7C00Y5HA4Z8D4KRA07K8".
      * @return string
      * @throws SdkError When payment_split_id is omitted; use hasPaymentSplitId() or valueOrDefault().
      */

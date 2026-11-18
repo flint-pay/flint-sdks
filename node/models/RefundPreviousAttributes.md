@@ -11,7 +11,9 @@
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `amount_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Total refunded across all tenders, including `refunded_tip_money`. `amount_money`: [declared alternatives](../models/BuyerRefundPreviousAttributes.md#buyerrefundpreviousattributesamount_money). |
+| `charge_allocations` | Optional | Array of [RefundChargeAllocationPreviousAttributes](../models/RefundChargeAllocationPreviousAttributes.md#refundchargeallocationpreviousattributes) or null | Money returned for each order charge, including subtotal, discount, and tax, combined across payment refunds. `charge_allocations`: [declared alternatives](../models/RefundFailedInstalledMerchantsEvent.md#refundfailedinstalledmerchantseventdataprevious_attributescharge_allocations). |
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
+| `credit_adjustment_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Money paid for Return resolution credits, included in amount_money. It carries no merchandise, shipping, tax, or tip allocation. Zero for refunds without credits. `credit_adjustment_money`: [declared alternatives](../models/BuyerRefundPreviousAttributes.md#buyerrefundpreviousattributescredit_adjustment_money). |
 | `credit_note_id` | Optional | string or null | ID of the credit note this refund paid out. Present only on refunds issued through a credit note. `credit_note_id`: [declared alternatives](../models/BuyerRefundPreviousAttributes.md#buyerrefundpreviousattributescredit_note_id). |
 | `customer` | Optional | [ExpandedCustomerSummaryPreviousAttributes](../models/ExpandedCustomerSummaryPreviousAttributes.md#expandedcustomersummarypreviousattributes) or null | Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. |
 | `customer_id` | Optional | string or null | ID of the customer on the refunded order or payment. Absent when neither has one. `customer_id`: [declared alternatives](../models/BuyerRefundPreviousAttributes.md#buyerrefundpreviousattributescustomer_id). |
@@ -53,9 +55,17 @@
 
 Declared alternatives: [BuyerRefundPreviousAttributes.amount_money](../models/BuyerRefundPreviousAttributes.md#buyerrefundpreviousattributesamount_money).
 
+### RefundPreviousAttributes.charge_allocations
+
+Declared alternatives: [RefundFailedInstalledMerchantsEvent.data.previous_attributes.charge_allocations](../models/RefundFailedInstalledMerchantsEvent.md#refundfailedinstalledmerchantseventdataprevious_attributescharge_allocations).
+
 ### RefundPreviousAttributes.created_at
 
 Declared alternatives: [ApiKeyRevokedEvent.data.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at).
+
+### RefundPreviousAttributes.credit_adjustment_money
+
+Declared alternatives: [BuyerRefundPreviousAttributes.credit_adjustment_money](../models/BuyerRefundPreviousAttributes.md#buyerrefundpreviousattributescredit_adjustment_money).
 
 ### RefundPreviousAttributes.credit_note_id
 

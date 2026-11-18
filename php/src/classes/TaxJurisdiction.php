@@ -26,7 +26,7 @@ final class TaxJurisdiction extends Model {
      */
     public function getLevel(): string { return $this->get('level'); }
     public function hasLevel(): bool { return $this->has('level'); }
-    /** Name of the jurisdiction, up to 200 characters. minLength: 1.
+    /** Name of the jurisdiction, up to 200 characters. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1.
      * @return string
      */
     public function getName(): string { return $this->get('name'); }

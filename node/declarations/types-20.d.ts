@@ -1,77 +1,807 @@
 import type {
-    DeliveryMethodOriginSelectorAllocatedOriginGroupPreviousAttributes,
-    DeliveryMethodOriginSelectorFixedLocationPreviousAttributes,
-    DeliveryMethodOriginSelectorInputAllocatedOriginGroup,
-    DeliveryMethodOriginSelectorInputAllocatedOriginGroupInput,
-    DeliveryMethod,
     DeliveryMethodConfiguration,
     DeliveryMethodConfigurationPreviousAttributes,
+    DeliveryMethod,
     DeliveryLocationSetsDeleteParams,
     DeliveryInputRequirement,
     DeliveryLocationSummaryResource,
     DeliveryLocationSummaryResourcePreviousAttributes,
-    DeliveryMerchantDiagnostic
+    DeliveryMerchantDiagnostic,
+    DeliveryEligibilityExpressionRequestInput
 } from './types-19.js';
-import type { ResponseMeta } from './types-60.js';
-import type { MerchantWebhookEnvelope, MetadataMap } from './types-41.js';
-import type { PartnerWebhookEnvelope } from './types-49.js';
-import type { SubscriptionCounts, SubscriptionCountsPreviousAttributes } from './types-67.js';
+import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
+import type { SubscriptionCounts, SubscriptionCountsPreviousAttributes } from './types-69.js';
+import type { ResponseMeta } from './types-62.js';
+import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateDeliveryMethodRequestInput, CreateDeliveryPreviewRequestInput } from './types-9.js';
-import type { DisputesAcceptParams } from './types-25.js';
-import type { UpdateDeliveryMethodRequestInput } from './types-73.js';
+import type { DisputesAcceptParams } from './types-26.js';
+import type { UpdateDeliveryMethodRequestInput } from './types-75.js';
 import type { BuyerInstructionsConfig, BuyerInstructionsConfigPreviousAttributes } from './types-2.js';
 import type {
     DeliveryArrivalEstimate,
     DeliveryArrivalEstimatePreviousAttributes,
-    DeliveryAddressAdvisoryResource
-} from './types-17.js';
+    DeliveryBuyerLocationResource,
+    DeliveryCandidateOutcomeResource,
+    DeliveryEligibilityExpression,
+    DeliveryEligibilityExpressionRequest,
+    DeliveryEligibilityExpressionPreviousAttributes
+} from './types-18.js';
 import type {
     DeliveryQuoteExecutionLegResource,
     DeliveryQuoteExecutionLegResourcePreviousAttributes,
     DeliveryQuoteLineItemResource
 } from './types-22.js';
-import type {
-    DeliveryRecipientRequirement,
-    DeliveryRecipientRequirementPreviousAttributes,
-    DeliveryRateTablePricingStrategy,
-    DeliveryRateTablePricingStrategyPreviousAttributes,
-    DeliveryRateTablePricingStrategyCreateRequest,
-    DeliveryRateTablePricingStrategyCreateRequestInput
-} from './types-23.js';
+import type { DeliveryRecipientRequirement, DeliveryRecipientRequirementPreviousAttributes } from './types-23.js';
 import type {
     DeliveryShipmentDetails,
     DeliveryWindowRequest,
     DeliveryShipmentDetailsPreviousAttributes,
-    DeliveryWindowResourcePreviousAttributes,
-    DeliveryTieredPricingStrategy,
-    DeliveryTieredPricingStrategyPreviousAttributes,
-    DeliveryTieredPricingStrategyRequestInput
+    DeliveryWindowResourcePreviousAttributes
 } from './types-24.js';
-import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-42.js';
+import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
+import type { DeliveryAddressAdvisoryResource } from './types-17.js';
 import type { Address } from './types-0.js';
 import type { CreateOrderLineItem } from './types-11.js';
-import type {
-    DeliveryBuyerLocationResource,
-    DeliveryCandidateOutcomeResource,
-    DeliveryEligibilityExpression,
-    DeliveryEligibilityExpressionRequest,
-    DeliveryEligibilityExpressionRequestInput,
-    DeliveryEligibilityExpressionPreviousAttributes,
-    DeliveryCalculatedPricingStrategy,
-    DeliveryExternalPricingStrategy,
-    DeliveryFixedPricingStrategy,
-    DeliveryCalculatedPricingStrategyPreviousAttributes,
-    DeliveryExternalPricingStrategyPreviousAttributes,
-    DeliveryFixedPricingStrategyPreviousAttributes,
-    DeliveryCallbackPricingStrategyRequest,
-    DeliveryCallerSuppliedPricingStrategyRequest,
-    DeliveryCalculatedPricingStrategyRequestInput,
-    DeliveryCallbackPricingStrategyRequestInput,
-    DeliveryCallerSuppliedPricingStrategyRequestInput,
-    DeliveryFixedPricingStrategyRequestInput
-} from './types-18.js';
-import type { DeliveryPricingStrategyFixed, DeliveryPricingStrategyRateTable, DeliveryPricingStrategyTiered } from './types-21.js';
+/**
+ * The `delivery_method.deactivated` webhook payload for the `merchant` event source. Fields shared
+ * by merchant webhook payloads.
+ */
+export type DeliveryMethodDeactivatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.configuration (Required): {@link DeliveryMethodConfiguration}.
+     * Current eligibility, pricing, origin, estimate, and tax configuration. How a delivery method
+     * works: its origin, pricing, eligibility, timing estimate, tax settings, recipient
+     * requirements, and option lifetimes. object.created_at (Required): string. Time the method
+     * was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.current_delivery_method_revision_id (Required): string. Immutable revision currently
+     * used for new quotes. Example: "dmetr_01KEZF7C001ZF9D92DY1G51GV9". object.delivery_method_id
+     * (Required): string. Stable delivery method ID. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     * object.delivery_revocation_id (Required): string or null. The revocation fencing this
+     * resource's own current revision. `null` when the current revision isn't revoked. It doesn't
+     * cover dependencies: a method can be unusable while this is `null` because its rate callback
+     * revision, signing key, or a Location's address is revoked. A revocation doesn't change
+     * `status`; publish a new revision to clear it. Example: "drev_01KEZF7C007Q141XJ28YAAC87B".
+     * object.description (Optional): string. Optional buyer-facing description.
+     * object.display_position (Required): integer. Ascending display order among methods. Format:
+     * int32. object.external_reference_id (Optional): string. Caller-owned identifier for this
+     * resource in an external system. maxLength: 255. Example: "warehouse-1842". object.metadata
+     * (Optional): {@link MetadataMap}. Caller-owned metadata. Caller-owned key-value data stored
+     * on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them. object.name (Required): string. Merchant-facing method name.
+     * object.recommendation_priority (Optional): integer. Marks this method as recommended. Within
+     * each choice group, the available method with the lowest value is recommended and listed
+     * first. Ties go to the lower display_position, then the method ID. Null never recommends the
+     * method. Format: int32. object.status (Required): string. Current method lifecycle status.
+     * Value enum: "active", "inactive", "archived". object.subscription_counts (Required): {@link
+     * SubscriptionCounts}. How many subscriptions use this method, by status. Counts of
+     * subscriptions by status: active, past due, and paused. object.type (Required): string.
+     * Delivery mode this method offers. Value enum: "shipment", "local_delivery", "pickup".
+     * object.updated_at (Required): string. Time the method last changed. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Optimistic-concurrency
+     * version for method writes. Format: uint64. minimum: 1. previous_attributes (Optional):
+     * object. Previous values of changed top-level fields in data.object, at this delivery's API
+     * version. Nested changes include the whole previous top-level value. A value is null when the
+     * field was absent before the change. Omitted when Flint did not record the previous state,
+     * including synthetic test events. previous_attributes.configuration (Optional): {@link
+     * DeliveryMethodConfigurationPreviousAttributes} or null. Current eligibility, pricing,
+     * origin, estimate, and tax configuration. previous_attributes.configuration.anyOf[1] (Value):
+     * {@link DeliveryMethodConfigurationPreviousAttributes}.
+     * previous_attributes.configuration.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. Time the method was created.
+     * previous_attributes.created_at.anyOf[1] (Value): string. Time the method was created.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
+     * (Value): null. previous_attributes.current_delivery_method_revision_id (Optional): string or
+     * null. Immutable revision currently used for new quotes.
+     * previous_attributes.current_delivery_method_revision_id.anyOf[1] (Value): string. Immutable
+     * revision currently used for new quotes. Example: "dmetr_01KEZF7C001ZF9D92DY1G51GV9".
+     * previous_attributes.current_delivery_method_revision_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_method_id (Optional): string or null. Stable delivery method
+     * ID. previous_attributes.delivery_method_id.anyOf[1] (Value): string. Stable delivery method
+     * ID. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     * previous_attributes.delivery_method_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_revocation_id (Optional): string or null. The revocation
+     * fencing this resource's own current revision. `null` when the current revision isn't
+     * revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
+     * because its rate callback revision, signing key, or a Location's address is revoked. A
+     * revocation doesn't change `status`; publish a new revision to clear it.
+     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing
+     * this resource's own current revision. `null` when the current revision isn't revoked. It
+     * doesn't cover dependencies: a method can be unusable while this is `null` because its rate
+     * callback revision, signing key, or a Location's address is revoked. A revocation doesn't
+     * change `status`; publish a new revision to clear it. Example:
+     * "drev_01KEZF7C007Q141XJ28YAAC87B". previous_attributes.delivery_revocation_id.anyOf[2]
+     * (Value): null. previous_attributes.description (Optional): string or null. Optional
+     * buyer-facing description. previous_attributes.description.anyOf[1] (Value): string. Optional
+     * buyer-facing description. previous_attributes.description.anyOf[2] (Value): null.
+     * previous_attributes.display_position (Optional): integer or null. Ascending display order
+     * among methods. previous_attributes.display_position.anyOf[1] (Value): integer. Ascending
+     * display order among methods. Format: int32. previous_attributes.display_position.anyOf[2]
+     * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
+     * Caller-owned identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.name (Optional):
+     * string or null. Merchant-facing method name. previous_attributes.name.anyOf[1] (Value):
+     * string. Merchant-facing method name. previous_attributes.name.anyOf[2] (Value): null.
+     * previous_attributes.recommendation_priority (Optional): integer or null. Marks this method
+     * as recommended. Within each choice group, the available method with the lowest value is
+     * recommended and listed first. Ties go to the lower display_position, then the method ID.
+     * Null never recommends the method. previous_attributes.recommendation_priority.anyOf[1]
+     * (Value): integer. Marks this method as recommended. Within each choice group, the available
+     * method with the lowest value is recommended and listed first. Ties go to the lower
+     * display_position, then the method ID. Null never recommends the method. Format: int32.
+     * previous_attributes.recommendation_priority.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Current method lifecycle status.
+     * Value enum: "active", "inactive", "archived". previous_attributes.status.anyOf[1] (Value):
+     * string. Current method lifecycle status. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.subscription_counts
+     * (Optional): {@link SubscriptionCountsPreviousAttributes} or null. How many subscriptions use
+     * this method, by status. previous_attributes.subscription_counts.anyOf[1] (Value): {@link
+     * SubscriptionCountsPreviousAttributes}. previous_attributes.subscription_counts.anyOf[2]
+     * (Value): null. previous_attributes.type (Optional): string or null. Delivery mode this
+     * method offers. Value enum: "shipment", "local_delivery", "pickup".
+     * previous_attributes.type.anyOf[1] (Value): string. Delivery mode this method offers. Value
+     * enum: "shipment", "local_delivery", "pickup". previous_attributes.type.anyOf[2] (Value):
+     * null. previous_attributes.updated_at (Optional): string or null. Time the method last
+     * changed. previous_attributes.updated_at.anyOf[1] (Value): string. Time the method last
+     * changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Optimistic-concurrency version for method writes.
+     * previous_attributes.version.anyOf[1] (Value): integer. Optimistic-concurrency version for
+     * method writes. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value):
+     * null.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * configuration (Required): {@link DeliveryMethodConfiguration}. Current eligibility,
+         * pricing, origin, estimate, and tax configuration. How a delivery method works: its
+         * origin, pricing, eligibility, timing estimate, tax settings, recipient requirements, and
+         * option lifetimes. created_at (Required): string. Time the method was created. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". current_delivery_method_revision_id
+         * (Required): string. Immutable revision currently used for new quotes. Example:
+         * "dmetr_01KEZF7C001ZF9D92DY1G51GV9". delivery_method_id (Required): string. Stable
+         * delivery method ID. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_revocation_id
+         * (Required): string or null. The revocation fencing this resource's own current revision.
+         * `null` when the current revision isn't revoked. It doesn't cover dependencies: a method
+         * can be unusable while this is `null` because its rate callback revision, signing key, or
+         * a Location's address is revoked. A revocation doesn't change `status`; publish a new
+         * revision to clear it. Example: "drev_01KEZF7C007Q141XJ28YAAC87B". description
+         * (Optional): string. Optional buyer-facing description. display_position (Required):
+         * integer. Ascending display order among methods. Format: int32. external_reference_id
+         * (Optional): string. Caller-owned identifier for this resource in an external system.
+         * maxLength: 255. Example: "warehouse-1842". metadata (Optional): {@link MetadataMap}.
+         * Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting
+         * with flint_ are reserved for Flint and are not returned. Writes follow the limits on
+         * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
+         * them. name (Required): string. Merchant-facing method name. recommendation_priority
+         * (Optional): integer. Marks this method as recommended. Within each choice group, the
+         * available method with the lowest value is recommended and listed first. Ties go to the
+         * lower display_position, then the method ID. Null never recommends the method. Format:
+         * int32. status (Required): string. Current method lifecycle status. Value enum: "active",
+         * "inactive", "archived". subscription_counts (Required): {@link SubscriptionCounts}. How
+         * many subscriptions use this method, by status. Counts of subscriptions by status:
+         * active, past due, and paused. type (Required): string. Delivery mode this method offers.
+         * Value enum: "shipment", "local_delivery", "pickup". updated_at (Required): string. Time
+         * the method last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
+         * (Required): integer. Optimistic-concurrency version for method writes. Format: uint64.
+         * minimum: 1.
+         */
+        "object": {
+            /**
+             * Current eligibility, pricing, origin, estimate, and tax configuration. How a
+             * delivery method works: its origin, pricing, eligibility, timing estimate, tax
+             * settings, recipient requirements, and option lifetimes.
+             */
+            "configuration": DeliveryMethodConfiguration;
+            /** Time the method was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Immutable revision currently used for new quotes. Example:
+             * "dmetr_01KEZF7C001ZF9D92DY1G51GV9".
+             */
+            "current_delivery_method_revision_id": string;
+            /** Stable delivery method ID. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". */
+            "delivery_method_id": string;
+            /**
+             * The revocation fencing this resource's own current revision. `null` when the current
+             * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
+             * while this is `null` because its rate callback revision, signing key, or a
+             * Location's address is revoked. A revocation doesn't change `status`; publish a new
+             * revision to clear it. Example: "drev_01KEZF7C007Q141XJ28YAAC87B".
+             */
+            "delivery_revocation_id": string | null;
+            /** Optional buyer-facing description. */
+            "description"?: string;
+            /** Ascending display order among methods. Format: int32. */
+            "display_position": number;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys
+             * starting with flint_ are reserved for Flint and are not returned. Writes follow the
+             * limits on MetadataInput and MetadataPatchInput; maps written before those limits may
+             * not satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /** Merchant-facing method name. */
+            "name": string;
+            /**
+             * Marks this method as recommended. Within each choice group, the available method
+             * with the lowest value is recommended and listed first. Ties go to the lower
+             * display_position, then the method ID. Null never recommends the method. Format:
+             * int32.
+             */
+            "recommendation_priority"?: number;
+            /** Current method lifecycle status. Value enum: "active", "inactive", "archived". */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /**
+             * How many subscriptions use this method, by status. Counts of subscriptions by
+             * status: active, past due, and paused.
+             */
+            "subscription_counts": SubscriptionCounts;
+            /**
+             * Delivery mode this method offers. Value enum: "shipment", "local_delivery",
+             * "pickup".
+             */
+            "type": "shipment" | "local_delivery" | "pickup" | (string & {});
+            /** Time the method last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /** Optimistic-concurrency version for method writes. Format: uint64. minimum: 1. */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. configuration (Optional): {@link
+         * DeliveryMethodConfigurationPreviousAttributes} or null. Current eligibility, pricing,
+         * origin, estimate, and tax configuration. configuration.anyOf[1] (Value): {@link
+         * DeliveryMethodConfigurationPreviousAttributes}. configuration.anyOf[2] (Value): null.
+         * created_at (Optional): string or null. Time the method was created. created_at.anyOf[1]
+         * (Value): string. Time the method was created. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
+         * current_delivery_method_revision_id (Optional): string or null. Immutable revision
+         * currently used for new quotes. current_delivery_method_revision_id.anyOf[1] (Value):
+         * string. Immutable revision currently used for new quotes. Example:
+         * "dmetr_01KEZF7C001ZF9D92DY1G51GV9". current_delivery_method_revision_id.anyOf[2]
+         * (Value): null. delivery_method_id (Optional): string or null. Stable delivery method ID.
+         * delivery_method_id.anyOf[1] (Value): string. Stable delivery method ID. Example:
+         * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_method_id.anyOf[2] (Value): null.
+         * delivery_revocation_id (Optional): string or null. The revocation fencing this
+         * resource's own current revision. `null` when the current revision isn't revoked. It
+         * doesn't cover dependencies: a method can be unusable while this is `null` because its
+         * rate callback revision, signing key, or a Location's address is revoked. A revocation
+         * doesn't change `status`; publish a new revision to clear it.
+         * delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing this resource's
+         * own current revision. `null` when the current revision isn't revoked. It doesn't cover
+         * dependencies: a method can be unusable while this is `null` because its rate callback
+         * revision, signing key, or a Location's address is revoked. A revocation doesn't change
+         * `status`; publish a new revision to clear it. Example:
+         * "drev_01KEZF7C007Q141XJ28YAAC87B". delivery_revocation_id.anyOf[2] (Value): null.
+         * description (Optional): string or null. Optional buyer-facing description.
+         * description.anyOf[1] (Value): string. Optional buyer-facing description.
+         * description.anyOf[2] (Value): null. display_position (Optional): integer or null.
+         * Ascending display order among methods. display_position.anyOf[1] (Value): integer.
+         * Ascending display order among methods. Format: int32. display_position.anyOf[2] (Value):
+         * null. external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. metadata.anyOf[1]
+         * (Value): {@link MetadataMap}. metadata.anyOf[2] (Value): null. name (Optional): string
+         * or null. Merchant-facing method name. name.anyOf[1] (Value): string. Merchant-facing
+         * method name. name.anyOf[2] (Value): null. recommendation_priority (Optional): integer or
+         * null. Marks this method as recommended. Within each choice group, the available method
+         * with the lowest value is recommended and listed first. Ties go to the lower
+         * display_position, then the method ID. Null never recommends the method.
+         * recommendation_priority.anyOf[1] (Value): integer. Marks this method as recommended.
+         * Within each choice group, the available method with the lowest value is recommended and
+         * listed first. Ties go to the lower display_position, then the method ID. Null never
+         * recommends the method. Format: int32. recommendation_priority.anyOf[2] (Value): null.
+         * status (Optional): string or null. Current method lifecycle status. Value enum:
+         * "active", "inactive", "archived". status.anyOf[1] (Value): string. Current method
+         * lifecycle status. Value enum: "active", "inactive", "archived". status.anyOf[2] (Value):
+         * null. subscription_counts (Optional): {@link SubscriptionCountsPreviousAttributes} or
+         * null. How many subscriptions use this method, by status. subscription_counts.anyOf[1]
+         * (Value): {@link SubscriptionCountsPreviousAttributes}. subscription_counts.anyOf[2]
+         * (Value): null. type (Optional): string or null. Delivery mode this method offers. Value
+         * enum: "shipment", "local_delivery", "pickup". type.anyOf[1] (Value): string. Delivery
+         * mode this method offers. Value enum: "shipment", "local_delivery", "pickup".
+         * type.anyOf[2] (Value): null. updated_at (Optional): string or null. Time the method last
+         * changed. updated_at.anyOf[1] (Value): string. Time the method last changed. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version
+         * (Optional): integer or null. Optimistic-concurrency version for method writes.
+         * version.anyOf[1] (Value): integer. Optimistic-concurrency version for method writes.
+         * Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Current eligibility, pricing, origin, estimate, and tax configuration. anyOf[1]
+             * (Value): {@link DeliveryMethodConfigurationPreviousAttributes}. anyOf[2] (Value):
+             * null.
+             */
+            "configuration"?: ((DeliveryMethodConfigurationPreviousAttributes) | (null));
+            /**
+             * Time the method was created. anyOf[1] (Value): string. Time the method was created.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Immutable revision currently used for new quotes. anyOf[1] (Value): string.
+             * Immutable revision currently used for new quotes. Example:
+             * "dmetr_01KEZF7C001ZF9D92DY1G51GV9". anyOf[2] (Value): null.
+             */
+            "current_delivery_method_revision_id"?: ((string) | (null));
+            /**
+             * Stable delivery method ID. anyOf[1] (Value): string. Stable delivery method ID.
+             * Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". anyOf[2] (Value): null.
+             */
+            "delivery_method_id"?: ((string) | (null));
+            /**
+             * The revocation fencing this resource's own current revision. `null` when the current
+             * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
+             * while this is `null` because its rate callback revision, signing key, or a
+             * Location's address is revoked. A revocation doesn't change `status`; publish a new
+             * revision to clear it. anyOf[1] (Value): string. The revocation fencing this
+             * resource's own current revision. `null` when the current revision isn't revoked. It
+             * doesn't cover dependencies: a method can be unusable while this is `null` because
+             * its rate callback revision, signing key, or a Location's address is revoked. A
+             * revocation doesn't change `status`; publish a new revision to clear it. Example:
+             * "drev_01KEZF7C007Q141XJ28YAAC87B". anyOf[2] (Value): null.
+             */
+            "delivery_revocation_id"?: ((string) | (null));
+            /**
+             * Optional buyer-facing description. anyOf[1] (Value): string. Optional buyer-facing
+             * description. anyOf[2] (Value): null.
+             */
+            "description"?: ((string) | (null));
+            /**
+             * Ascending display order among methods. anyOf[1] (Value): integer. Ascending display
+             * order among methods. Format: int32. anyOf[2] (Value): null.
+             */
+            "display_position"?: ((number) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value):
+             * null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Merchant-facing method name. anyOf[1] (Value): string. Merchant-facing method name.
+             * anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Marks this method as recommended. Within each choice group, the available method
+             * with the lowest value is recommended and listed first. Ties go to the lower
+             * display_position, then the method ID. Null never recommends the method. anyOf[1]
+             * (Value): integer. Marks this method as recommended. Within each choice group, the
+             * available method with the lowest value is recommended and listed first. Ties go to
+             * the lower display_position, then the method ID. Null never recommends the method.
+             * Format: int32. anyOf[2] (Value): null.
+             */
+            "recommendation_priority"?: ((number) | (null));
+            /**
+             * Current method lifecycle status. Value enum: "active", "inactive", "archived".
+             * anyOf[1] (Value): string. Current method lifecycle status. Value enum: "active",
+             * "inactive", "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * How many subscriptions use this method, by status. anyOf[1] (Value): {@link
+             * SubscriptionCountsPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "subscription_counts"?: ((SubscriptionCountsPreviousAttributes) | (null));
+            /**
+             * Delivery mode this method offers. Value enum: "shipment", "local_delivery",
+             * "pickup". anyOf[1] (Value): string. Delivery mode this method offers. Value enum:
+             * "shipment", "local_delivery", "pickup". anyOf[2] (Value): null.
+             */
+            "type"?: (("shipment" | "local_delivery" | "pickup" | (string & {})) | (null));
+            /**
+             * Time the method last changed. anyOf[1] (Value): string. Time the method last
+             * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Optimistic-concurrency version for method writes. anyOf[1] (Value): integer.
+             * Optimistic-concurrency version for method writes. Format: uint64. minimum: 1.
+             * anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "delivery_method.deactivated". */
+    "event_type"?: "delivery_method.deactivated";
+});
+/** A page of `DeliveryMethod` objects. */
+export type DeliveryMethodListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * DeliveryMethod}. A configured shipping, pickup, or local delivery option.
+     */
+    "data": Array<DeliveryMethod>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * Where a delivery method starts, chosen by `type`: a fixed location, an allocated group of
+ * locations, or a collection of pickup locations.
+ */
+export type DeliveryMethodOriginSelector = ({
+    /**
+     * ID of the delivery location set that names the Locations in the group. Example:
+     * "dls_01KEZF7C00C4WWN7RYTRF55C4H".
+     */
+    "delivery_location_set_id"?: string;
+    /**
+     * ID of the location set revision in effect for this method revision. Example:
+     * "dlsr_01KEZF7C00HN2NT80H5VNQSVFJ".
+     */
+    "delivery_location_set_revision_id"?: string;
+    /**
+     * ID of the Location delivery starts from. Required for `fixed_location` and not allowed
+     * otherwise. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id"?: string;
+    /**
+     * IDs of the Locations in the group. [] (Value): string. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_ids"?: Array<string>;
+    /**
+     * Where delivery starts. Value enum: "fixed_location", "allocated_origin_group",
+     * "pickup_location_collection".
+     */
+    "type": "fixed_location" | "allocated_origin_group" | "pickup_location_collection" | (string & {});
+})
+    & ((Exclude<DeliveryMethodOriginSelectorFixedLocation & object, readonly unknown[]>)
+    | (Exclude<DeliveryMethodOriginSelectorAllocatedOriginGroup & object, readonly unknown[]>)
+    | (Exclude<DeliveryMethodOriginSelectorPickupLocationCollection & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** The `allocated_origin_group` variant of `DeliveryMethodOriginSelector`. */
+export type DeliveryMethodOriginSelectorAllocatedOriginGroup = ({
+    /**
+     * ID of the delivery location set that names the Locations in the group. Example:
+     * "dls_01KEZF7C00C4WWN7RYTRF55C4H".
+     */
+    "delivery_location_set_id"?: string;
+    /**
+     * ID of the location set revision in effect for this method revision. Example:
+     * "dlsr_01KEZF7C00HN2NT80H5VNQSVFJ".
+     */
+    "delivery_location_set_revision_id"?: string;
+    /**
+     * ID of the Location delivery starts from. Required for `fixed_location` and not allowed
+     * otherwise. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id"?: string;
+    /**
+     * IDs of the Locations in the group. [] (Value): string. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_ids"?: Array<string>;
+    /** Where delivery starts. Value enum: "allocated_origin_group". */
+    "type": "allocated_origin_group" | (string & {});
+})
+    & (({
+    /**
+     * IDs of the Locations in the group. minItems: 1. maxItems: 25. uniqueItems: true. [] (Value):
+     * string. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_ids"?: Array<string>;
+    /** Where delivery starts. Value enum: "allocated_origin_group". */
+    "type": unknown;
+})
+    & (({
+    /**
+     * ID of the delivery location set that names the Locations in the group. Example:
+     * "dls_01KEZF7C00C4WWN7RYTRF55C4H".
+     */
+    "delivery_location_set_id": string;
+})
+    | ({
+    /**
+     * IDs of the Locations in the group. IDs of the Locations in the group. minItems: 1. maxItems:
+     * 25. uniqueItems: true. [] (Value): string. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_ids": (Array<string>) & (Array<string>);
+})
+    | (Record<string, unknown>)));
+export type DeliveryMethodOriginSelectorAllocatedOriginGroupPreviousAttributes = ({
+    /**
+     * ID of the delivery location set that names the Locations in the group. anyOf[1] (Value):
+     * string. ID of the delivery location set that names the Locations in the group. Example:
+     * "dls_01KEZF7C00C4WWN7RYTRF55C4H". anyOf[2] (Value): null.
+     */
+    "delivery_location_set_id"?: ((string) | (null));
+    /**
+     * ID of the location set revision in effect for this method revision. anyOf[1] (Value):
+     * string. ID of the location set revision in effect for this method revision. Example:
+     * "dlsr_01KEZF7C00HN2NT80H5VNQSVFJ". anyOf[2] (Value): null.
+     */
+    "delivery_location_set_revision_id"?: ((string) | (null));
+    /**
+     * ID of the Location delivery starts from. Required for `fixed_location` and not allowed
+     * otherwise. anyOf[1] (Value): string. ID of the Location delivery starts from. Required for
+     * `fixed_location` and not allowed otherwise. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * anyOf[2] (Value): null.
+     */
+    "location_id"?: ((string) | (null));
+    /**
+     * IDs of the Locations in the group. anyOf[1] (Value): Array of string. IDs of the Locations
+     * in the group. anyOf[1][] (Value): string. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * anyOf[2] (Value): null.
+     */
+    "location_ids"?: ((Array<string>) | (null));
+    /**
+     * Where delivery starts. Value enum: "allocated_origin_group". anyOf[1] (Value): string. Where
+     * delivery starts. Value enum: "allocated_origin_group". anyOf[2] (Value): null.
+     */
+    "type"?: (("allocated_origin_group" | (string & {})) | (null));
+})
+    & (({
+    /**
+     * IDs of the Locations in the group. anyOf[1] (Value): Array of string. IDs of the Locations
+     * in the group. minItems: 1. maxItems: 25. uniqueItems: true. anyOf[1][] (Value): string.
+     * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value): null.
+     */
+    "location_ids"?: ((Array<string>) | (null));
+    /**
+     * Where delivery starts. Value enum: "allocated_origin_group". anyOf[1] (Value): any. Where
+     * delivery starts. Value enum: "allocated_origin_group". anyOf[2] (Value): null.
+     */
+    "type"?: ((unknown) | (null) | (unknown));
+})
+    & (((unknown) | (unknown) | (Record<string, unknown>))));
+/** The `fixed_location` variant of `DeliveryMethodOriginSelector`. */
+export type DeliveryMethodOriginSelectorFixedLocation = ({
+    /**
+     * ID of the delivery location set that names the Locations in the group. Example:
+     * "dls_01KEZF7C00C4WWN7RYTRF55C4H".
+     */
+    "delivery_location_set_id"?: string;
+    /**
+     * ID of the location set revision in effect for this method revision. Example:
+     * "dlsr_01KEZF7C00HN2NT80H5VNQSVFJ".
+     */
+    "delivery_location_set_revision_id"?: string;
+    /**
+     * ID of the Location delivery starts from. Required for `fixed_location` and not allowed
+     * otherwise. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id": string;
+    /**
+     * IDs of the Locations in the group. [] (Value): string. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_ids"?: Array<string>;
+    /** Where delivery starts. Value enum: "fixed_location". */
+    "type": "fixed_location" | (string & {});
+})
+    & (({
+    /** Where delivery starts. Value enum: "fixed_location". */
+    "type": unknown;
+    /**
+     * ID of the Location delivery starts from. Required for `fixed_location` and not allowed
+     * otherwise. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id": string;
+}));
+export type DeliveryMethodOriginSelectorFixedLocationPreviousAttributes = ({
+    /**
+     * ID of the delivery location set that names the Locations in the group. anyOf[1] (Value):
+     * string. ID of the delivery location set that names the Locations in the group. Example:
+     * "dls_01KEZF7C00C4WWN7RYTRF55C4H". anyOf[2] (Value): null.
+     */
+    "delivery_location_set_id"?: ((string) | (null));
+    /**
+     * ID of the location set revision in effect for this method revision. anyOf[1] (Value):
+     * string. ID of the location set revision in effect for this method revision. Example:
+     * "dlsr_01KEZF7C00HN2NT80H5VNQSVFJ". anyOf[2] (Value): null.
+     */
+    "delivery_location_set_revision_id"?: ((string) | (null));
+    /**
+     * ID of the Location delivery starts from. Required for `fixed_location` and not allowed
+     * otherwise. anyOf[1] (Value): string. ID of the Location delivery starts from. Required for
+     * `fixed_location` and not allowed otherwise. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * anyOf[2] (Value): null.
+     */
+    "location_id"?: ((string) | (null));
+    /**
+     * IDs of the Locations in the group. anyOf[1] (Value): Array of string. IDs of the Locations
+     * in the group. anyOf[1][] (Value): string. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * anyOf[2] (Value): null.
+     */
+    "location_ids"?: ((Array<string>) | (null));
+    /**
+     * Where delivery starts. Value enum: "fixed_location". anyOf[1] (Value): string. Where
+     * delivery starts. Value enum: "fixed_location". anyOf[2] (Value): null.
+     */
+    "type"?: (("fixed_location" | (string & {})) | (null));
+})
+    & ({
+    /**
+     * Where delivery starts. Value enum: "fixed_location". anyOf[1] (Value): any. Where delivery
+     * starts. Value enum: "fixed_location". anyOf[2] (Value): null.
+     */
+    "type"?: ((unknown) | (null) | (unknown));
+});
+/** The `allocated_origin_group` variant of `DeliveryMethodOriginSelectorInput`. */
+export type DeliveryMethodOriginSelectorInputAllocatedOriginGroup = ({
+    /**
+     * Named delivery location set to reuse. Send either delivery_location_set_id or inline
+     * location_ids, never both. The set may contain at most 25 Locations for
+     * allocated_origin_group or 1,000 for pickup_location_collection. minLength: 1. Example:
+     * "dls_01KEZF7C00C4WWN7RYTRF55C4H".
+     */
+    "delivery_location_set_id"?: string;
+    /**
+     * ID of the Location delivery starts from. Required for `fixed_location` and not allowed
+     * otherwise. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id"?: string;
+    /**
+     * Inline Location IDs for a set managed by this delivery method. Send either location_ids or
+     * delivery_location_set_id, never both. Use 1 to 25 unique Locations for
+     * allocated_origin_group or 1 to 1,000 for pickup_location_collection. Reads return these
+     * Location IDs without exposing the managed set. [] (Value): string. minLength: 1. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_ids"?: Array<string>;
+    /** Where delivery starts. Value enum: "allocated_origin_group". */
+    "type": "allocated_origin_group" | (string & {});
+})
+    & (({
+    /**
+     * IDs of the Locations in the group. minItems: 1. maxItems: 25. uniqueItems: true. [] (Value):
+     * string. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_ids"?: Array<string>;
+    /** Where delivery starts. Value enum: "allocated_origin_group". */
+    "type": unknown;
+})
+    & ((Exclude<DeliveryMethodOriginSelectorInputAllocatedOriginGroupDeliveryLocationSet & object, readonly unknown[]>)
+    | (Exclude<DeliveryMethodOriginSelectorInputAllocatedOriginGroupLocations & object, readonly unknown[]>)
+    | (Record<string, unknown>)));
+/** The Delivery location set selector for a allocated_origin_group delivery origin. */
+export type DeliveryMethodOriginSelectorInputAllocatedOriginGroupDeliveryLocationSet = ({
+    /**
+     * ID of the delivery location set that names the Locations in the group. minLength: 1.
+     * Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H".
+     */
+    "delivery_location_set_id": string;
+    /**
+     * ID of the Location delivery starts from. Required for `fixed_location` and not allowed
+     * otherwise. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id"?: string;
+    /**
+     * IDs of the Locations in the group. minItems: 1. maxItems: 25. uniqueItems: true. [] (Value):
+     * string. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_ids"?: Array<string>;
+    /** Where delivery starts. Value enum: "allocated_origin_group". */
+    "type": "allocated_origin_group" | (string & {});
+});
+/** The Delivery location set selector for a allocated_origin_group delivery origin. */
+export type DeliveryMethodOriginSelectorInputAllocatedOriginGroupDeliveryLocationSetInput = ({
+    /**
+     * ID of the delivery location set that names the Locations in the group. minLength: 1.
+     * Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H".
+     */
+    "delivery_location_set_id": string;
+    /**
+     * ID of the Location delivery starts from. Required for `fixed_location` and not allowed
+     * otherwise. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id"?: string;
+    /**
+     * IDs of the Locations in the group. minItems: 1. maxItems: 25. uniqueItems: true. [] (Value):
+     * string. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_ids"?: Array<string>;
+    /** Where delivery starts. Value enum: "allocated_origin_group". */
+    "type": "allocated_origin_group";
+})
+    & (({
+    "location_id"?: never;
+}) & ({
+    "location_ids"?: never;
+}));
+/** The `allocated_origin_group` variant of `DeliveryMethodOriginSelectorInput`. */
+export type DeliveryMethodOriginSelectorInputAllocatedOriginGroupInput = ({
+    /**
+     * Named delivery location set to reuse. Send either delivery_location_set_id or inline
+     * location_ids, never both. The set may contain at most 25 Locations for
+     * allocated_origin_group or 1,000 for pickup_location_collection. minLength: 1. Example:
+     * "dls_01KEZF7C00C4WWN7RYTRF55C4H".
+     */
+    "delivery_location_set_id"?: string;
+    /**
+     * ID of the Location delivery starts from. Required for `fixed_location` and not allowed
+     * otherwise. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id"?: string;
+    /**
+     * Inline Location IDs for a set managed by this delivery method. Send either location_ids or
+     * delivery_location_set_id, never both. Use 1 to 25 unique Locations for
+     * allocated_origin_group or 1 to 1,000 for pickup_location_collection. Reads return these
+     * Location IDs without exposing the managed set. [] (Value): string. minLength: 1. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_ids"?: Array<string>;
+    /** Where delivery starts. Value enum: "allocated_origin_group". */
+    "type": "allocated_origin_group";
+})
+    & (({
+    /**
+     * IDs of the Locations in the group. minItems: 1. maxItems: 25. uniqueItems: true. [] (Value):
+     * string. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_ids"?: Array<string>;
+    /** Where delivery starts. Value enum: "allocated_origin_group". */
+    "type": ("allocated_origin_group") & ("allocated_origin_group");
+})
+    & ((Exclude<DeliveryMethodOriginSelectorInputAllocatedOriginGroupDeliveryLocationSetInput & object, readonly unknown[]>)
+    | (Exclude<DeliveryMethodOriginSelectorInputAllocatedOriginGroupLocationsInput & object, readonly unknown[]>))
+    & ({
+    "location_id"?: never;
+}));
+/** The Locations selector for a allocated_origin_group delivery origin. */
+export type DeliveryMethodOriginSelectorInputAllocatedOriginGroupLocations = ({
+    /**
+     * ID of the delivery location set that names the Locations in the group. minLength: 1.
+     * Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H".
+     */
+    "delivery_location_set_id"?: string;
+    /**
+     * ID of the Location delivery starts from. Required for `fixed_location` and not allowed
+     * otherwise. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id"?: string;
+    /**
+     * IDs of the Locations in the group. minItems: 1. maxItems: 25. uniqueItems: true. [] (Value):
+     * string. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_ids": Array<string>;
+    /** Where delivery starts. Value enum: "allocated_origin_group". */
+    "type": "allocated_origin_group" | (string & {});
+});
 /** The Locations selector for a allocated_origin_group delivery origin. */
 export type DeliveryMethodOriginSelectorInputAllocatedOriginGroupLocationsInput = ({
     /**
@@ -2622,638 +3352,3 @@ export type DeliveryPricingRateRequest = {
      */
     "when": DeliveryEligibilityExpressionRequest;
 };
-/**
- * A rate in a rate table pricing strategy you send when updating a delivery method. Include
- * `delivery_rate_id` to keep or update an existing rate.
- */
-export type DeliveryPricingRateRequestInput = {
-    /**
-     * Price by ISO 4217 currency code. Each key must equal the currency of its Money value. *
-     * (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code.
-     */
-    "currency_options": Record<string, MoneyValueInput>;
-    /**
-     * Stable rate identifier returned by Flint. Include it when updating or retaining an existing
-     * rate. minLength: 1. Example: "drate_01KEZF7C00FD0B4QEC0M00MJ4S".
-     */
-    "delivery_rate_id"?: string;
-    /**
-     * Rates are checked from the highest priority to the lowest. The first matching rate sets the
-     * price. Priorities must be unique and at least 0. Format: int32.
-     */
-    "priority": number;
-    /**
-     * Eligibility expression that decides whether this rate applies. The rate matches when the
-     * expression matches. A boolean expression containing exactly one operator or typed condition
-     * at each node. Expressions support at most 8 levels and 100 total nodes.
-     */
-    "when": DeliveryEligibilityExpressionRequestInput;
-};
-/**
- * How a delivery method sets its price, selected by `type`. Only the matching property (`fixed`,
- * `rate_table`, `tiered`, `calculated`, `callback`, or `caller_supplied`) is set.
- */
-export type DeliveryPricingStrategy = ({
-    /**
-     * Calculated pricing settings. Set only when `type` is `calculated`. Delivery pricing
-     * calculated from a base fee, distance, weight, and per-item handling, with minimum and
-     * maximum fees, by currency.
-     */
-    "calculated"?: DeliveryCalculatedPricingStrategy;
-    /**
-     * Rate callback pricing settings. Set only when `type` is `callback`. Delivery pricing that
-     * comes from outside Flint, from a delivery rate callback or the caller, bounded by minimum
-     * and maximum fees by currency.
-     */
-    "callback"?: DeliveryExternalPricingStrategy;
-    /**
-     * Caller-supplied pricing settings. Set only when `type` is `caller_supplied`. Delivery
-     * pricing that comes from outside Flint, from a delivery rate callback or the caller, bounded
-     * by minimum and maximum fees by currency.
-     */
-    "caller_supplied"?: DeliveryExternalPricingStrategy;
-    /**
-     * Fixed pricing settings. Set only when `type` is `fixed`. A fixed delivery price, by
-     * currency.
-     */
-    "fixed"?: DeliveryFixedPricingStrategy;
-    /**
-     * Rate table pricing settings. Set only when `type` is `rate_table`. Pricing strategy that
-     * charges the price of the first matching rate in a list of prioritized rates.
-     * `unmatched_behavior` says what happens when none match.
-     */
-    "rate_table"?: DeliveryRateTablePricingStrategy;
-    /**
-     * Tiered pricing settings. Set only when `type` is `tiered`. Pricing strategy that charges by
-     * band. The `basis` value, such as total weight or subtotal, selects a band, and `unit`
-     * applies to weight bases.
-     */
-    "tiered"?: DeliveryTieredPricingStrategy;
-    /**
-     * How the method sets its price. Set the property named by this value. Value enum: "fixed",
-     * "rate_table", "tiered", "calculated", "callback", "caller_supplied".
-     */
-    "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied" | (string & {});
-})
-    & ((Exclude<DeliveryPricingStrategyCalculated & object, readonly unknown[]>)
-    | (Exclude<DeliveryPricingStrategyCallback & object, readonly unknown[]>)
-    | (Exclude<DeliveryPricingStrategyCallerSupplied & object, readonly unknown[]>)
-    | (Exclude<DeliveryPricingStrategyFixed & object, readonly unknown[]>)
-    | (Exclude<DeliveryPricingStrategyRateTable & object, readonly unknown[]>)
-    | (Exclude<DeliveryPricingStrategyTiered & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/** The `calculated` variant of `DeliveryPricingStrategy`. */
-export type DeliveryPricingStrategyCalculated = ({
-    /**
-     * Calculated pricing settings. Set only when `type` is `calculated`. Delivery pricing
-     * calculated from a base fee, distance, weight, and per-item handling, with minimum and
-     * maximum fees, by currency.
-     */
-    "calculated": DeliveryCalculatedPricingStrategy;
-    /**
-     * Rate callback pricing settings. Set only when `type` is `callback`. Delivery pricing that
-     * comes from outside Flint, from a delivery rate callback or the caller, bounded by minimum
-     * and maximum fees by currency.
-     */
-    "callback"?: DeliveryExternalPricingStrategy;
-    /**
-     * Caller-supplied pricing settings. Set only when `type` is `caller_supplied`. Delivery
-     * pricing that comes from outside Flint, from a delivery rate callback or the caller, bounded
-     * by minimum and maximum fees by currency.
-     */
-    "caller_supplied"?: DeliveryExternalPricingStrategy;
-    /**
-     * Fixed pricing settings. Set only when `type` is `fixed`. A fixed delivery price, by
-     * currency.
-     */
-    "fixed"?: DeliveryFixedPricingStrategy;
-    /**
-     * Rate table pricing settings. Set only when `type` is `rate_table`. Pricing strategy that
-     * charges the price of the first matching rate in a list of prioritized rates.
-     * `unmatched_behavior` says what happens when none match.
-     */
-    "rate_table"?: DeliveryRateTablePricingStrategy;
-    /**
-     * Tiered pricing settings. Set only when `type` is `tiered`. Pricing strategy that charges by
-     * band. The `basis` value, such as total weight or subtotal, selects a band, and `unit`
-     * applies to weight bases.
-     */
-    "tiered"?: DeliveryTieredPricingStrategy;
-    /**
-     * How the method sets its price. Set the property named by this value. Value enum:
-     * "calculated".
-     */
-    "type": "calculated" | (string & {});
-})
-    & (({
-    /**
-     * How the method sets its price. Set the property named by this value. Value enum:
-     * "calculated".
-     */
-    "type": unknown;
-    /**
-     * Calculated pricing settings. Set only when `type` is `calculated`. Delivery pricing
-     * calculated from a base fee, distance, weight, and per-item handling, with minimum and
-     * maximum fees, by currency.
-     */
-    "calculated": DeliveryCalculatedPricingStrategy;
-}));
-export type DeliveryPricingStrategyCalculatedPreviousAttributes = ({
-    /**
-     * Calculated pricing settings. Set only when `type` is `calculated`. anyOf[1] (Value): {@link
-     * DeliveryCalculatedPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "calculated"?: ((DeliveryCalculatedPricingStrategyPreviousAttributes) | (null));
-    /**
-     * Rate callback pricing settings. Set only when `type` is `callback`. anyOf[1] (Value): {@link
-     * DeliveryExternalPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "callback"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null));
-    /**
-     * Caller-supplied pricing settings. Set only when `type` is `caller_supplied`. anyOf[1]
-     * (Value): {@link DeliveryExternalPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "caller_supplied"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null));
-    /**
-     * Fixed pricing settings. Set only when `type` is `fixed`. anyOf[1] (Value): {@link
-     * DeliveryFixedPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "fixed"?: ((DeliveryFixedPricingStrategyPreviousAttributes) | (null));
-    /**
-     * Rate table pricing settings. Set only when `type` is `rate_table`. anyOf[1] (Value): {@link
-     * DeliveryRateTablePricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "rate_table"?: ((DeliveryRateTablePricingStrategyPreviousAttributes) | (null));
-    /**
-     * Tiered pricing settings. Set only when `type` is `tiered`. anyOf[1] (Value): {@link
-     * DeliveryTieredPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "tiered"?: ((DeliveryTieredPricingStrategyPreviousAttributes) | (null));
-    /**
-     * How the method sets its price. Set the property named by this value. Value enum:
-     * "calculated". anyOf[1] (Value): string. How the method sets its price. Set the property
-     * named by this value. Value enum: "calculated". anyOf[2] (Value): null.
-     */
-    "type"?: (("calculated" | (string & {})) | (null));
-})
-    & ({
-    /**
-     * How the method sets its price. Set the property named by this value. Value enum:
-     * "calculated". anyOf[1] (Value): any. How the method sets its price. Set the property named
-     * by this value. Value enum: "calculated". anyOf[2] (Value): null.
-     */
-    "type"?: ((unknown) | (null) | (unknown));
-});
-/** The `callback` variant of `DeliveryPricingStrategy`. */
-export type DeliveryPricingStrategyCallback = ({
-    /**
-     * Calculated pricing settings. Set only when `type` is `calculated`. Delivery pricing
-     * calculated from a base fee, distance, weight, and per-item handling, with minimum and
-     * maximum fees, by currency.
-     */
-    "calculated"?: DeliveryCalculatedPricingStrategy;
-    /**
-     * Rate callback pricing settings. Set only when `type` is `callback`. Delivery pricing that
-     * comes from outside Flint, from a delivery rate callback or the caller, bounded by minimum
-     * and maximum fees by currency.
-     */
-    "callback": DeliveryExternalPricingStrategy;
-    /**
-     * Caller-supplied pricing settings. Set only when `type` is `caller_supplied`. Delivery
-     * pricing that comes from outside Flint, from a delivery rate callback or the caller, bounded
-     * by minimum and maximum fees by currency.
-     */
-    "caller_supplied"?: DeliveryExternalPricingStrategy;
-    /**
-     * Fixed pricing settings. Set only when `type` is `fixed`. A fixed delivery price, by
-     * currency.
-     */
-    "fixed"?: DeliveryFixedPricingStrategy;
-    /**
-     * Rate table pricing settings. Set only when `type` is `rate_table`. Pricing strategy that
-     * charges the price of the first matching rate in a list of prioritized rates.
-     * `unmatched_behavior` says what happens when none match.
-     */
-    "rate_table"?: DeliveryRateTablePricingStrategy;
-    /**
-     * Tiered pricing settings. Set only when `type` is `tiered`. Pricing strategy that charges by
-     * band. The `basis` value, such as total weight or subtotal, selects a band, and `unit`
-     * applies to weight bases.
-     */
-    "tiered"?: DeliveryTieredPricingStrategy;
-    /**
-     * How the method sets its price. Set the property named by this value. Value enum: "callback".
-     */
-    "type": "callback" | (string & {});
-})
-    & (({
-    /**
-     * How the method sets its price. Set the property named by this value. Value enum: "callback".
-     */
-    "type": unknown;
-    /**
-     * Rate callback pricing settings. Set only when `type` is `callback`. Delivery pricing that
-     * comes from outside Flint, from a delivery rate callback or the caller, bounded by minimum
-     * and maximum fees by currency.
-     */
-    "callback": DeliveryExternalPricingStrategy;
-}));
-export type DeliveryPricingStrategyCallbackPreviousAttributes = ({
-    /**
-     * Calculated pricing settings. Set only when `type` is `calculated`. anyOf[1] (Value): {@link
-     * DeliveryCalculatedPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "calculated"?: ((DeliveryCalculatedPricingStrategyPreviousAttributes) | (null));
-    /**
-     * Rate callback pricing settings. Set only when `type` is `callback`. anyOf[1] (Value): {@link
-     * DeliveryExternalPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "callback"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null));
-    /**
-     * Caller-supplied pricing settings. Set only when `type` is `caller_supplied`. anyOf[1]
-     * (Value): {@link DeliveryExternalPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "caller_supplied"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null));
-    /**
-     * Fixed pricing settings. Set only when `type` is `fixed`. anyOf[1] (Value): {@link
-     * DeliveryFixedPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "fixed"?: ((DeliveryFixedPricingStrategyPreviousAttributes) | (null));
-    /**
-     * Rate table pricing settings. Set only when `type` is `rate_table`. anyOf[1] (Value): {@link
-     * DeliveryRateTablePricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "rate_table"?: ((DeliveryRateTablePricingStrategyPreviousAttributes) | (null));
-    /**
-     * Tiered pricing settings. Set only when `type` is `tiered`. anyOf[1] (Value): {@link
-     * DeliveryTieredPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "tiered"?: ((DeliveryTieredPricingStrategyPreviousAttributes) | (null));
-    /**
-     * How the method sets its price. Set the property named by this value. Value enum: "callback".
-     * anyOf[1] (Value): string. How the method sets its price. Set the property named by this
-     * value. Value enum: "callback". anyOf[2] (Value): null.
-     */
-    "type"?: (("callback" | (string & {})) | (null));
-})
-    & ({
-    /**
-     * How the method sets its price. Set the property named by this value. Value enum: "callback".
-     * anyOf[1] (Value): any. How the method sets its price. Set the property named by this value.
-     * Value enum: "callback". anyOf[2] (Value): null.
-     */
-    "type"?: ((unknown) | (null) | (unknown));
-});
-/** The `caller_supplied` variant of `DeliveryPricingStrategy`. */
-export type DeliveryPricingStrategyCallerSupplied = ({
-    /**
-     * Calculated pricing settings. Set only when `type` is `calculated`. Delivery pricing
-     * calculated from a base fee, distance, weight, and per-item handling, with minimum and
-     * maximum fees, by currency.
-     */
-    "calculated"?: DeliveryCalculatedPricingStrategy;
-    /**
-     * Rate callback pricing settings. Set only when `type` is `callback`. Delivery pricing that
-     * comes from outside Flint, from a delivery rate callback or the caller, bounded by minimum
-     * and maximum fees by currency.
-     */
-    "callback"?: DeliveryExternalPricingStrategy;
-    /**
-     * Caller-supplied pricing settings. Set only when `type` is `caller_supplied`. Delivery
-     * pricing that comes from outside Flint, from a delivery rate callback or the caller, bounded
-     * by minimum and maximum fees by currency.
-     */
-    "caller_supplied": DeliveryExternalPricingStrategy;
-    /**
-     * Fixed pricing settings. Set only when `type` is `fixed`. A fixed delivery price, by
-     * currency.
-     */
-    "fixed"?: DeliveryFixedPricingStrategy;
-    /**
-     * Rate table pricing settings. Set only when `type` is `rate_table`. Pricing strategy that
-     * charges the price of the first matching rate in a list of prioritized rates.
-     * `unmatched_behavior` says what happens when none match.
-     */
-    "rate_table"?: DeliveryRateTablePricingStrategy;
-    /**
-     * Tiered pricing settings. Set only when `type` is `tiered`. Pricing strategy that charges by
-     * band. The `basis` value, such as total weight or subtotal, selects a band, and `unit`
-     * applies to weight bases.
-     */
-    "tiered"?: DeliveryTieredPricingStrategy;
-    /**
-     * How the method sets its price. Set the property named by this value. Value enum:
-     * "caller_supplied".
-     */
-    "type": "caller_supplied" | (string & {});
-})
-    & (({
-    /**
-     * How the method sets its price. Set the property named by this value. Value enum:
-     * "caller_supplied".
-     */
-    "type": unknown;
-    /**
-     * Caller-supplied pricing settings. Set only when `type` is `caller_supplied`. Delivery
-     * pricing that comes from outside Flint, from a delivery rate callback or the caller, bounded
-     * by minimum and maximum fees by currency.
-     */
-    "caller_supplied": DeliveryExternalPricingStrategy;
-}));
-export type DeliveryPricingStrategyCallerSuppliedPreviousAttributes = ({
-    /**
-     * Calculated pricing settings. Set only when `type` is `calculated`. anyOf[1] (Value): {@link
-     * DeliveryCalculatedPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "calculated"?: ((DeliveryCalculatedPricingStrategyPreviousAttributes) | (null));
-    /**
-     * Rate callback pricing settings. Set only when `type` is `callback`. anyOf[1] (Value): {@link
-     * DeliveryExternalPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "callback"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null));
-    /**
-     * Caller-supplied pricing settings. Set only when `type` is `caller_supplied`. anyOf[1]
-     * (Value): {@link DeliveryExternalPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "caller_supplied"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null));
-    /**
-     * Fixed pricing settings. Set only when `type` is `fixed`. anyOf[1] (Value): {@link
-     * DeliveryFixedPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "fixed"?: ((DeliveryFixedPricingStrategyPreviousAttributes) | (null));
-    /**
-     * Rate table pricing settings. Set only when `type` is `rate_table`. anyOf[1] (Value): {@link
-     * DeliveryRateTablePricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "rate_table"?: ((DeliveryRateTablePricingStrategyPreviousAttributes) | (null));
-    /**
-     * Tiered pricing settings. Set only when `type` is `tiered`. anyOf[1] (Value): {@link
-     * DeliveryTieredPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "tiered"?: ((DeliveryTieredPricingStrategyPreviousAttributes) | (null));
-    /**
-     * How the method sets its price. Set the property named by this value. Value enum:
-     * "caller_supplied". anyOf[1] (Value): string. How the method sets its price. Set the property
-     * named by this value. Value enum: "caller_supplied". anyOf[2] (Value): null.
-     */
-    "type"?: (("caller_supplied" | (string & {})) | (null));
-})
-    & ({
-    /**
-     * How the method sets its price. Set the property named by this value. Value enum:
-     * "caller_supplied". anyOf[1] (Value): any. How the method sets its price. Set the property
-     * named by this value. Value enum: "caller_supplied". anyOf[2] (Value): null.
-     */
-    "type"?: ((unknown) | (null) | (unknown));
-});
-/** The `calculated` variant of `DeliveryPricingStrategyCreateInput`. */
-export type DeliveryPricingStrategyCreateInputCalculated = ({
-    /**
-     * Calculated pricing settings. Set only when `type` is `calculated`. Calculated delivery
-     * pricing you supply for a delivery method: base fee, distance and weight rates, per-item
-     * handling, and fee limits, by currency.
-     */
-    "calculated": DeliveryCalculatedPricingStrategy;
-    /**
-     * Rate callback pricing settings. Set only when `type` is `callback`. Delivery pricing you
-     * supply that comes from a delivery rate callback (`delivery_rate_callback_id`), with minimum
-     * and maximum fees by currency.
-     */
-    "callback"?: DeliveryCallbackPricingStrategyRequest;
-    /**
-     * Caller-supplied pricing settings. Set only when `type` is `caller_supplied`. Delivery
-     * pricing where you supply the rate when creating a delivery quote, bounded by minimum and
-     * maximum fees by currency.
-     */
-    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequest;
-    /**
-     * Fixed pricing settings. Set only when `type` is `fixed`. A fixed delivery price by currency,
-     * supplied for a delivery method.
-     */
-    "fixed"?: DeliveryFixedPricingStrategy;
-    /**
-     * Rate table pricing settings. Set only when `type` is `rate_table`. Rate table pricing
-     * strategy you supply when creating a delivery method: a list of prioritized rates, each with
-     * a condition and prices.
-     */
-    "rate_table"?: DeliveryRateTablePricingStrategyCreateRequest;
-    /**
-     * Tiered pricing settings. Set only when `type` is `tiered`. Tiered pricing strategy you
-     * supply for a delivery method: a `basis`, a list of bands with prices, and a weight `unit`
-     * when the basis is total weight.
-     */
-    "tiered"?: DeliveryTieredPricingStrategy;
-    /**
-     * How the method sets its price. Set the property named by this value. Value enum:
-     * "calculated".
-     */
-    "type": "calculated" | (string & {});
-})
-    & (({
-    /**
-     * How the method sets its price. Set the property named by this value. Value enum:
-     * "calculated".
-     */
-    "type": unknown;
-    /**
-     * Calculated pricing settings. Set only when `type` is `calculated`. Calculated delivery
-     * pricing you supply for a delivery method: base fee, distance and weight rates, per-item
-     * handling, and fee limits, by currency.
-     */
-    "calculated": DeliveryCalculatedPricingStrategy;
-}));
-/** The `calculated` variant of `DeliveryPricingStrategyCreateInput`. */
-export type DeliveryPricingStrategyCreateInputCalculatedInput = ({
-    /**
-     * Calculated pricing settings. Set only when `type` is `calculated`. Calculated delivery
-     * pricing you supply for a delivery method: base fee, distance and weight rates, per-item
-     * handling, and fee limits, by currency.
-     */
-    "calculated": DeliveryCalculatedPricingStrategyRequestInput;
-    /**
-     * Rate callback pricing settings. Set only when `type` is `callback`. Delivery pricing you
-     * supply that comes from a delivery rate callback (`delivery_rate_callback_id`), with minimum
-     * and maximum fees by currency.
-     */
-    "callback"?: DeliveryCallbackPricingStrategyRequestInput;
-    /**
-     * Caller-supplied pricing settings. Set only when `type` is `caller_supplied`. Delivery
-     * pricing where you supply the rate when creating a delivery quote, bounded by minimum and
-     * maximum fees by currency.
-     */
-    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput;
-    /**
-     * Fixed pricing settings. Set only when `type` is `fixed`. A fixed delivery price by currency,
-     * supplied for a delivery method.
-     */
-    "fixed"?: DeliveryFixedPricingStrategyRequestInput;
-    /**
-     * Rate table pricing settings. Set only when `type` is `rate_table`. Rate table pricing
-     * strategy you supply when creating a delivery method: a list of prioritized rates, each with
-     * a condition and prices.
-     */
-    "rate_table"?: DeliveryRateTablePricingStrategyCreateRequestInput;
-    /**
-     * Tiered pricing settings. Set only when `type` is `tiered`. Tiered pricing strategy you
-     * supply for a delivery method: a `basis`, a list of bands with prices, and a weight `unit`
-     * when the basis is total weight.
-     */
-    "tiered"?: DeliveryTieredPricingStrategyRequestInput;
-    /**
-     * How the method sets its price. Set the property named by this value. Value enum:
-     * "calculated".
-     */
-    "type": "calculated";
-})
-    & (({
-    /**
-     * How the method sets its price. Set the property named by this value. Value enum:
-     * "calculated".
-     */
-    "type": ("calculated") & ("calculated");
-    /**
-     * Calculated pricing settings. Set only when `type` is `calculated`. Calculated delivery
-     * pricing you supply for a delivery method: base fee, distance and weight rates, per-item
-     * handling, and fee limits, by currency.
-     */
-    "calculated": DeliveryCalculatedPricingStrategyRequestInput;
-})
-    & (({
-    "callback"?: never;
-})
-    & ({
-    "caller_supplied"?: never;
-})
-    & ({
-    "fixed"?: never;
-})
-    & ({
-    "rate_table"?: never;
-})
-    & ({
-    "tiered"?: never;
-})));
-/** The `callback` variant of `DeliveryPricingStrategyCreateInput`. */
-export type DeliveryPricingStrategyCreateInputCallback = ({
-    /**
-     * Calculated pricing settings. Set only when `type` is `calculated`. Calculated delivery
-     * pricing you supply for a delivery method: base fee, distance and weight rates, per-item
-     * handling, and fee limits, by currency.
-     */
-    "calculated"?: DeliveryCalculatedPricingStrategy;
-    /**
-     * Rate callback pricing settings. Set only when `type` is `callback`. Delivery pricing you
-     * supply that comes from a delivery rate callback (`delivery_rate_callback_id`), with minimum
-     * and maximum fees by currency.
-     */
-    "callback": DeliveryCallbackPricingStrategyRequest;
-    /**
-     * Caller-supplied pricing settings. Set only when `type` is `caller_supplied`. Delivery
-     * pricing where you supply the rate when creating a delivery quote, bounded by minimum and
-     * maximum fees by currency.
-     */
-    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequest;
-    /**
-     * Fixed pricing settings. Set only when `type` is `fixed`. A fixed delivery price by currency,
-     * supplied for a delivery method.
-     */
-    "fixed"?: DeliveryFixedPricingStrategy;
-    /**
-     * Rate table pricing settings. Set only when `type` is `rate_table`. Rate table pricing
-     * strategy you supply when creating a delivery method: a list of prioritized rates, each with
-     * a condition and prices.
-     */
-    "rate_table"?: DeliveryRateTablePricingStrategyCreateRequest;
-    /**
-     * Tiered pricing settings. Set only when `type` is `tiered`. Tiered pricing strategy you
-     * supply for a delivery method: a `basis`, a list of bands with prices, and a weight `unit`
-     * when the basis is total weight.
-     */
-    "tiered"?: DeliveryTieredPricingStrategy;
-    /**
-     * How the method sets its price. Set the property named by this value. Value enum: "callback".
-     */
-    "type": "callback" | (string & {});
-})
-    & (({
-    /**
-     * How the method sets its price. Set the property named by this value. Value enum: "callback".
-     */
-    "type": unknown;
-    /**
-     * Rate callback pricing settings. Set only when `type` is `callback`. Delivery pricing you
-     * supply that comes from a delivery rate callback (`delivery_rate_callback_id`), with minimum
-     * and maximum fees by currency.
-     */
-    "callback": DeliveryCallbackPricingStrategyRequest;
-}));
-/** The `callback` variant of `DeliveryPricingStrategyCreateInput`. */
-export type DeliveryPricingStrategyCreateInputCallbackInput = ({
-    /**
-     * Calculated pricing settings. Set only when `type` is `calculated`. Calculated delivery
-     * pricing you supply for a delivery method: base fee, distance and weight rates, per-item
-     * handling, and fee limits, by currency.
-     */
-    "calculated"?: DeliveryCalculatedPricingStrategyRequestInput;
-    /**
-     * Rate callback pricing settings. Set only when `type` is `callback`. Delivery pricing you
-     * supply that comes from a delivery rate callback (`delivery_rate_callback_id`), with minimum
-     * and maximum fees by currency.
-     */
-    "callback": DeliveryCallbackPricingStrategyRequestInput;
-    /**
-     * Caller-supplied pricing settings. Set only when `type` is `caller_supplied`. Delivery
-     * pricing where you supply the rate when creating a delivery quote, bounded by minimum and
-     * maximum fees by currency.
-     */
-    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput;
-    /**
-     * Fixed pricing settings. Set only when `type` is `fixed`. A fixed delivery price by currency,
-     * supplied for a delivery method.
-     */
-    "fixed"?: DeliveryFixedPricingStrategyRequestInput;
-    /**
-     * Rate table pricing settings. Set only when `type` is `rate_table`. Rate table pricing
-     * strategy you supply when creating a delivery method: a list of prioritized rates, each with
-     * a condition and prices.
-     */
-    "rate_table"?: DeliveryRateTablePricingStrategyCreateRequestInput;
-    /**
-     * Tiered pricing settings. Set only when `type` is `tiered`. Tiered pricing strategy you
-     * supply for a delivery method: a `basis`, a list of bands with prices, and a weight `unit`
-     * when the basis is total weight.
-     */
-    "tiered"?: DeliveryTieredPricingStrategyRequestInput;
-    /**
-     * How the method sets its price. Set the property named by this value. Value enum: "callback".
-     */
-    "type": "callback";
-})
-    & (({
-    /**
-     * How the method sets its price. Set the property named by this value. Value enum: "callback".
-     */
-    "type": ("callback") & ("callback");
-    /**
-     * Rate callback pricing settings. Set only when `type` is `callback`. Delivery pricing you
-     * supply that comes from a delivery rate callback (`delivery_rate_callback_id`), with minimum
-     * and maximum fees by currency.
-     */
-    "callback": DeliveryCallbackPricingStrategyRequestInput;
-})
-    & (({
-    "calculated"?: never;
-})
-    & ({
-    "caller_supplied"?: never;
-})
-    & ({
-    "fixed"?: never;
-})
-    & ({
-    "rate_table"?: never;
-})
-    & ({
-    "tiered"?: never;
-})));

@@ -14,7 +14,7 @@ Signature: `get(string|Model $report_download_id, array|Model|null $params = nul
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `report_download_id` | Required | string | Flint report download ID. |
+| `report_download_id` | Required | string | Flint report download ID. Must be a valid ID with prefix rdl_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 

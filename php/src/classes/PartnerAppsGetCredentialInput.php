@@ -10,13 +10,13 @@ namespace Flint;
 final class PartnerAppsGetCredentialInput extends Model {
     /** @param array{'partner_app_id': string, 'partner_app_credential_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAppsGetCredentialInput')); }
-    /** Flint partner app ID. Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
+    /** Flint partner app ID. Must be a valid ID with prefix papp_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
      * @return string
      * @throws SdkError When partner_app_id is omitted; use hasPartnerAppId() or valueOrDefault().
      */
     public function getPartnerAppId(): string { return $this->get('partner_app_id'); }
     public function hasPartnerAppId(): bool { return $this->has('partner_app_id'); }
-    /** Flint partner app credential ID. Example: "pacr_01KEZF7C005RDK44XFG5WF94BB".
+    /** Flint partner app credential ID. Must be a valid ID with prefix pacr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "pacr_01KEZF7C005RDK44XFG5WF94BB".
      * @return string
      * @throws SdkError When partner_app_credential_id is omitted; use hasPartnerAppCredentialId() or valueOrDefault().
      */

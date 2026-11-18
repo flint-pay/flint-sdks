@@ -21,7 +21,7 @@ final class PlatformFeePayoutCreatedEventDataObject extends Model {
      */
     public function getAmountMoney(): MoneyValue { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** The credit on your merchant ledger. Present once Flint observes it; linking it sends no payout event and doesn't advance version.
+    /** The credit on your merchant ledger. Flint checks daily for the credit, so this field can be absent even after the payout succeeds. Linking the credit sends no payout event and doesn't advance version.
      * @return ?string
      */
     public function getBalanceTransactionId(): ?string { return $this->get('balance_transaction_id'); }

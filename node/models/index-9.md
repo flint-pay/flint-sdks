@@ -1,7 +1,19 @@
 [Model index](../MODELS.md)
 
-# CreateReturnResolutionPreviewRequestStandard to CreditNoteIssueAllocationRequest
+# CreateReturnPreviewRequestResolutionInput to CreditNoteAllocationReversedMerchantEvent
 
+- [CreateReturnPreviewRequestResolutionInput](CreateReturnPreviewRequestResolutionInput.md)
+- [CreateReturnPreviewResponse](CreateReturnPreviewResponse.md)
+- [CreateReturnReasonRequest](CreateReturnReasonRequest.md)
+- [CreateReturnReasonRequestInput](CreateReturnReasonRequestInput.md)
+- [CreateReturnReceiptRequest](CreateReturnReceiptRequest.md)
+- [CreateReturnReceiptRequestInput](CreateReturnReceiptRequestInput.md)
+- [CreateReturnRequest](CreateReturnRequest.md)
+- [CreateReturnRequestInput](CreateReturnRequestInput.md)
+- [CreateReturnResolutionPreviewRequest](CreateReturnResolutionPreviewRequest.md)
+- [CreateReturnResolutionPreviewRequestInput](CreateReturnResolutionPreviewRequestInput.md)
+- [CreateReturnResolutionPreviewRequestCorrection](CreateReturnResolutionPreviewRequestCorrection.md)
+- [CreateReturnResolutionPreviewRequestCorrectionInput](CreateReturnResolutionPreviewRequestCorrectionInput.md)
 - [CreateReturnResolutionPreviewRequestStandard](CreateReturnResolutionPreviewRequestStandard.md)
 - [CreateReturnResolutionPreviewRequestStandardInput](CreateReturnResolutionPreviewRequestStandardInput.md)
 - [CreateReturnResolutionRequest](CreateReturnResolutionRequest.md)
@@ -90,16 +102,4 @@
 - [CreditNoteAllocationResultResponse](CreditNoteAllocationResultResponse.md)
 - [CreditNoteAllocationReversedInstalledMerchantsEvent](CreditNoteAllocationReversedInstalledMerchantsEvent.md)
 - [CreditNoteAllocationReversedMerchantEvent](CreditNoteAllocationReversedMerchantEvent.md)
-- [CreditNoteCorrectionRequest](CreditNoteCorrectionRequest.md)
-- [CreditNoteCorrectionRequestAmount](CreditNoteCorrectionRequestAmount.md)
-- [CreditNoteCorrectionRequestAmountPreviousAttributes](CreditNoteCorrectionRequestAmountPreviousAttributes.md)
-- [CreditNoteCorrectionRequestAmountRequestInput](CreditNoteCorrectionRequestAmountRequestInput.md)
-- [CreditNoteCorrectionRequestModelInput](CreditNoteCorrectionRequestModelInput.md)
-- [CreditNoteCorrectionRequestPreviousAttributes](CreditNoteCorrectionRequestPreviousAttributes.md)
-- [CreditNoteCorrectionRequestQuantity](CreditNoteCorrectionRequestQuantity.md)
-- [CreditNoteCorrectionRequestQuantityPreviousAttributes](CreditNoteCorrectionRequestQuantityPreviousAttributes.md)
-- [CreditNoteCorrectionRequestQuantityRequestInput](CreditNoteCorrectionRequestQuantityRequestInput.md)
-- [CreditNoteCreatedInstalledMerchantsEvent](CreditNoteCreatedInstalledMerchantsEvent.md)
-- [CreditNoteCreatedMerchantEvent](CreditNoteCreatedMerchantEvent.md)
-- [CreditNoteIssueAllocationRequest](CreditNoteIssueAllocationRequest.md)
 

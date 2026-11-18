@@ -4,7 +4,7 @@ namespace Flint;
 final class InventoryMovementsResource {
     public function __construct(private readonly Runtime $runtime) {}
     /** Retrieve an inventory movement and its stock changes by ID.
-     * @param string|Model $inventory_movement_id Flint inventory movement ID.
+     * @param string|Model $inventory_movement_id Flint inventory movement ID. Must be a valid ID with prefix invm_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND.
      * @param InventoryMovementsGetParams|array<array-key, mixed>|Model|null $params Flat body fields and query/header parameters; path arguments follow URL order.
      * @return InventoryMovement
      */

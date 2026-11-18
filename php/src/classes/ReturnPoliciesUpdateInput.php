@@ -10,7 +10,7 @@ namespace Flint;
 final class ReturnPoliciesUpdateInput extends Model {
     /** @param array{'return_policy_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'expected_version'?: int, 'external_reference_id'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name'?: string, 'status'?: string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnPoliciesUpdateInput')); }
-    /** Flint return policy id. Example: "rpol_01KEZF7C00H8C042BEK6HBRANX".
+    /** Flint return policy id. Must be a valid ID with prefix rpol_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "rpol_01KEZF7C00H8C042BEK6HBRANX".
      * @return string
      * @throws SdkError When return_policy_id is omitted; use hasReturnPolicyId() or valueOrDefault().
      */

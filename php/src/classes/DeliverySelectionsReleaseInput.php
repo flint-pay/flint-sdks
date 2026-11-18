@@ -9,7 +9,7 @@ namespace Flint;
 final class DeliverySelectionsReleaseInput extends Model {
     /** @param array{'delivery_selection_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliverySelectionsReleaseInput')); }
-    /** ID of the provisional selection to withdraw. Its supported_actions must include release. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
+    /** ID of the provisional selection to withdraw. Its supported_actions must include release. Must be a valid ID with prefix dsel_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
      * @return string
      * @throws SdkError When delivery_selection_id is omitted; use hasDeliverySelectionId() or valueOrDefault().
      */

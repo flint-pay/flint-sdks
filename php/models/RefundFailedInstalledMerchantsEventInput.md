@@ -40,6 +40,20 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 Field definitions: [shared fields](RefundPreviousAttributesInput.md#refundpreviousattributesinput).
 
+### RefundFailedInstalledMerchantsEventInput.data.previous_attributes.charge_allocations
+
+### RefundFailedInstalledMerchantsEventInput.data.previous_attributes.charge_allocations variant 1
+
+anyOf variant 1: Money returned for each order charge, including subtotal, discount, and tax, combined across payment refunds..
+
+- Value shape: Array of [RefundChargeAllocationPreviousAttributesInput](../models/RefundChargeAllocationPreviousAttributesInput.md#refundchargeallocationpreviousattributesinput). Money returned for each order charge, including subtotal, discount, and tax, combined across payment refunds. 
+
+### RefundFailedInstalledMerchantsEventInput.data.previous_attributes.charge_allocations variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Money returned for each order charge, including subtotal, discount, and tax, combined across payment refunds. 
+
 ### RefundFailedInstalledMerchantsEventInput.data.previous_attributes.created_at
 
 Declared alternatives: [ApiKeyRevokedEventInput.data.previous_attributes.created_at](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at).

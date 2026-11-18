@@ -6,9 +6,9 @@ import type {
     MerchantBillingBalanceResponse,
     MerchantBillingBalancesGetParams,
     MerchantBillingBalancesListParams
-} from '../declarations/types-41.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-42.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -29,21 +29,24 @@ export type {
     MerchantBillingBalanceResponse,
     MerchantBillingBalancesListParams,
     MerchantBillingBalanceListResponse
-} from '../declarations/types-41.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
+} from '../declarations/types-42.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { RequestOptions } from '../declarations/types-61.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { MoneyValue, NextAction } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
+export type { MoneyValue, NextAction } from '../declarations/types-44.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export interface MerchantBillingBalancesResource {
     /**
  * Returns what the merchant currently owes Flint and owns as account credit in one currency.
  *
  * `GET /v1/merchant-billing-balances/{merchant_billing_balance_id}`
- * @param merchant_billing_balance_id Flint merchant billing balance ID.
+ * @param merchant_billing_balance_id Flint merchant billing balance ID. Must be a valid ID with
+ * prefix mbbal_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed
+ * IDs that do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/merchant-billing#getMerchantBillingBalance
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

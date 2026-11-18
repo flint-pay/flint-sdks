@@ -55,7 +55,7 @@ final class CustomerUpdatedInstalledMerchantsEventDataPreviousAttributes extends
      */
     public function getDefaultPaymentMethod(): ExpandedPaymentMethodSummaryPreviousAttributes|null { return $this->get('default_payment_method'); }
     public function hasDefaultPaymentMethod(): bool { return $this->has('default_payment_method'); }
-    /** ID of the customer's default off-session payment method. `null` when none is set. anyOf[1] (Value): string. ID of the customer's default off-session payment method. `null` when none is set. anyOf[2] (Value): null.
+    /** ID of the customer's default off-session payment method. Existing subscriptions keep their own payment_method_id when the default changes. `null` when none is set. anyOf[1] (Value): string. ID of the customer's default off-session payment method. Existing subscriptions keep their own payment_method_id when the default changes. `null` when none is set. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getDefaultPaymentMethodId(): string|null { return $this->get('default_payment_method_id'); }

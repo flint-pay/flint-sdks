@@ -10,7 +10,7 @@ namespace Flint;
 final class PromotionCodesUpdateInput extends Model {
     /** @param array{'promotion_code_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'customer_id'?: string|null, 'expected_version'?: int, 'expires_at'?: string|\DateTimeInterface|null, 'max_uses'?: int|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'status'?: string, 'timezone'?: string|null}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PromotionCodesUpdateInput')); }
-    /** Flint promotion code ID. Example: "pcode_01KEZF7C00JCC7QXWC262EF05T".
+    /** Flint promotion code ID. Must be a valid ID with prefix pcode_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "pcode_01KEZF7C00JCC7QXWC262EF05T".
      * @return string
      * @throws SdkError When promotion_code_id is omitted; use hasPromotionCodeId() or valueOrDefault().
      */

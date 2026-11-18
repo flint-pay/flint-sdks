@@ -11,6 +11,6 @@ Request input.
 | `address` | Optional | [AddressRequestInput](../models/AddressRequestInput.md#addressrequestinput) | Postal address where the recipient receives the items. A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none. |
 | `email` | Optional | string | Recipient's contact email address. minLength: `1`. |
 | `instructions` | Optional | string | Instructions for handling the recipient's order. For a pickup that checkout creates, this is the note the buyer left for the store, such as the car to look for. minLength: `1`. |
-| `name` | Optional | string | Recipient's name for delivery or pickup. minLength: `1`. |
+| `name` | Optional | string | Recipient's name for delivery or pickup. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. |
 | `phone` | Optional | string | Recipient's contact phone number. minLength: `1`. |
 

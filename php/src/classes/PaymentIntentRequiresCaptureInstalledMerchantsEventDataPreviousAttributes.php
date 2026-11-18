@@ -19,6 +19,8 @@ namespace Flint;
  * @property-read string|null $customer_presence
  * @property-read string|null $dispute_status
  * @property-read string|null $external_reference_id
+ * @property-read int|null $failed_attempt_count
+ * @property-read list<FailedPaymentAttemptPreviousAttributes>|null $failed_attempts
  * @property-read PaymentFulfillmentHoldPreviousAttributes|null $fulfillment_hold
  * @property-read ExpandedInvoiceSummaryPreviousAttributes|null $invoice
  * @property-read string|null $invoice_id
@@ -59,7 +61,7 @@ namespace Flint;
  * @property-read int|null $version
  * Presence-aware response; omitted optional fields return null. */
 final class PaymentIntentRequiresCaptureInstalledMerchantsEventDataPreviousAttributes extends Model {
-    /** @param array{'amount_money'?: mixed, 'authorization_expires_at'?: mixed, 'authorized_at'?: mixed, 'authorized_money'?: mixed, 'cancellation_reason'?: mixed, 'capturable_money'?: mixed, 'capture_method'?: mixed, 'captured_at'?: mixed, 'captured_money'?: mixed, 'captured_tip_money'?: mixed, 'checkout_session_id'?: mixed, 'created_at'?: mixed, 'customer'?: mixed, 'customer_id'?: mixed, 'customer_presence'?: mixed, 'dispute_status'?: mixed, 'external_reference_id'?: mixed, 'fulfillment_hold'?: mixed, 'invoice'?: mixed, 'invoice_id'?: mixed, 'invoice_schedule_entry_id'?: mixed, 'last_payment_error'?: mixed, 'latest_order_payment_attempt_id'?: mixed, 'merchant_id'?: mixed, 'metadata'?: mixed, 'order'?: mixed, 'order_edit_id'?: mixed, 'order_id'?: mixed, 'overcapture'?: mixed, 'payment_flow'?: mixed, 'payment_intent_id'?: mixed, 'payment_options'?: mixed, 'payment_source'?: mixed, 'platform_fee'?: mixed, 'reader_id'?: mixed, 'receipt_email'?: mixed, 'refund_expires_at'?: mixed, 'refund_status'?: mixed, 'refunded_money'?: mixed, 'released_money'?: mixed, 'request_overcapture'?: mixed, 'return_id'?: mixed, 'return_resolution_id'?: mixed, 'risk'?: mixed, 'selected_payment_option'?: mixed, 'splits'?: mixed, 'statement_descriptor'?: mixed, 'status'?: mixed, 'subscription_id'?: mixed, 'support_reference'?: mixed, 'supported_actions'?: mixed, 'tip_money'?: mixed, 'transaction_purpose'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, ...}|object $values */
+    /** @param array{'amount_money'?: mixed, 'authorization_expires_at'?: mixed, 'authorized_at'?: mixed, 'authorized_money'?: mixed, 'cancellation_reason'?: mixed, 'capturable_money'?: mixed, 'capture_method'?: mixed, 'captured_at'?: mixed, 'captured_money'?: mixed, 'captured_tip_money'?: mixed, 'checkout_session_id'?: mixed, 'created_at'?: mixed, 'customer'?: mixed, 'customer_id'?: mixed, 'customer_presence'?: mixed, 'dispute_status'?: mixed, 'external_reference_id'?: mixed, 'failed_attempt_count'?: mixed, 'failed_attempts'?: mixed, 'fulfillment_hold'?: mixed, 'invoice'?: mixed, 'invoice_id'?: mixed, 'invoice_schedule_entry_id'?: mixed, 'last_payment_error'?: mixed, 'latest_order_payment_attempt_id'?: mixed, 'merchant_id'?: mixed, 'metadata'?: mixed, 'order'?: mixed, 'order_edit_id'?: mixed, 'order_id'?: mixed, 'overcapture'?: mixed, 'payment_flow'?: mixed, 'payment_intent_id'?: mixed, 'payment_options'?: mixed, 'payment_source'?: mixed, 'platform_fee'?: mixed, 'reader_id'?: mixed, 'receipt_email'?: mixed, 'refund_expires_at'?: mixed, 'refund_status'?: mixed, 'refunded_money'?: mixed, 'released_money'?: mixed, 'request_overcapture'?: mixed, 'return_id'?: mixed, 'return_resolution_id'?: mixed, 'risk'?: mixed, 'selected_payment_option'?: mixed, 'splits'?: mixed, 'statement_descriptor'?: mixed, 'status'?: mixed, 'subscription_id'?: mixed, 'support_reference'?: mixed, 'supported_actions'?: mixed, 'tip_money'?: mixed, 'transaction_purpose'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentIntentRequiresCaptureInstalledMerchantsEventDataPreviousAttributes')); }
     /** The amount requested from the buyer, including any tip_money. Capturing doesn't change it: after a partial capture it still shows the requested amount, and captured_money shows what was collected. On a standalone payment intent, PATCH can change it only before the first confirmation attempt. An amount_money or tip_money change that leaves too little for stored splits returns LIMIT_EXCEEDED at the changed field with minimum_money. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      * @return MoneyValuePreviousAttributes|null
@@ -81,7 +83,7 @@ final class PaymentIntentRequiresCaptureInstalledMerchantsEventDataPreviousAttri
      */
     public function getAuthorizedMoney(): MoneyValuePreviousAttributes|null { return $this->get('authorized_money'); }
     public function hasAuthorizedMoney(): bool { return $this->has('authorized_money'); }
-    /** Flint-normalized reason the payment intent was canceled. Present only while status is canceled. Unknown processor values are returned as payment_canceled. Value enum: "requested_by_customer", "duplicate", "fraudulent", "abandoned", "invoice_payment_failed", "invoice_voided", "order_closed", "payment_canceled", "payment_returned". anyOf[1] (Value): string. Flint-normalized reason the payment intent was canceled. Present only while status is canceled. Unknown processor values are returned as payment_canceled. Value enum: "requested_by_customer", "duplicate", "fraudulent", "abandoned", "invoice_payment_failed", "invoice_voided", "order_closed", "payment_canceled", "payment_returned". anyOf[2] (Value): null.
+    /** Flint-normalized reason the payment intent was canceled. Present only while status is canceled. A cancellation without a specific reason returns payment_canceled. Absent while last_payment_error.code is payment_blocked and Flint has not identified money to return. Unknown processor values are returned as payment_canceled. Value enum: "requested_by_customer", "duplicate", "fraudulent", "abandoned", "invoice_payment_failed", "invoice_voided", "order_closed", "payment_canceled", "payment_returned". anyOf[1] (Value): string. Flint-normalized reason the payment intent was canceled. Present only while status is canceled. A cancellation without a specific reason returns payment_canceled. Absent while last_payment_error.code is payment_blocked and Flint has not identified money to return. Unknown processor values are returned as payment_canceled. Value enum: "requested_by_customer", "duplicate", "fraudulent", "abandoned", "invoice_payment_failed", "invoice_voided", "order_closed", "payment_canceled", "payment_returned". anyOf[2] (Value): null.
      * @return string|null
      */
     public function getCancellationReason(): string|null { return $this->get('cancellation_reason'); }
@@ -146,6 +148,16 @@ final class PaymentIntentRequiresCaptureInstalledMerchantsEventDataPreviousAttri
      */
     public function getExternalReferenceId(): string|null { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
+    /** All-time failed-attempt count. Present on merchant reads; omitted for buyer credentials. anyOf[1] (Value): integer. All-time failed-attempt count. Present on merchant reads; omitted for buyer credentials. Format: int64. anyOf[2] (Value): null.
+     * @return int|null
+     */
+    public function getFailedAttemptCount(): int|null { return $this->get('failed_attempt_count'); }
+    public function hasFailedAttemptCount(): bool { return $this->has('failed_attempt_count'); }
+    /** Newest 50 failed attempts, newest first, with merchant-only card and buyer evidence frozen at admission. Older attempts can be included in failed_attempt_count. anyOf[1] (Value): Array of {@see FailedPaymentAttemptPreviousAttributes}. Newest 50 failed attempts, newest first, with merchant-only card and buyer evidence frozen at admission. Older attempts can be included in failed_attempt_count. anyOf[1][] (Value): {@see FailedPaymentAttemptPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<FailedPaymentAttemptPreviousAttributes>|null
+     */
+    public function getFailedAttempts(): array|null { return $this->get('failed_attempts'); }
+    public function hasFailedAttempts(): bool { return $this->has('failed_attempts'); }
     /** Present when a payment provider asked Flint to pause fulfillment for this payment. While its status is active, open fulfillments on the order are on hold with reason payment_review. payment_intent.fulfillment_hold_updated is sent when the hold starts and when it lifts. anyOf[1] (Value): {@see PaymentFulfillmentHoldPreviousAttributes}. anyOf[2] (Value): null.
      * @return PaymentFulfillmentHoldPreviousAttributes|null
      */
@@ -231,7 +243,7 @@ final class PaymentIntentRequiresCaptureInstalledMerchantsEventDataPreviousAttri
      */
     public function getPlatformFee(): PaymentIntentPlatformFeePreviousAttributes|null { return $this->get('platform_fee'); }
     public function hasPlatformFee(): bool { return $this->has('platform_fee'); }
-    /** The reader the payment is or was last presented on. Set when Flint presents it and kept afterward. While processing or requires_action with a reader_id, the payment is on that reader now. anyOf[1] (Value): string. The reader the payment is or was last presented on. Set when Flint presents it and kept afterward. While processing or requires_action with a reader_id, the payment is on that reader now. anyOf[2] (Value): null.
+    /** The reader the payment is or was last presented on. Set when Flint presents it and kept afterward. While processing or requires_action with a reader_id and no payment_source.card.card_present, the payment is on that reader now. After a card is read, the payment can stay processing while Flint captures it. anyOf[1] (Value): string. The reader the payment is or was last presented on. Set when Flint presents it and kept afterward. While processing or requires_action with a reader_id and no payment_source.card.card_present, the payment is on that reader now. After a card is read, the payment can stay processing while Flint captures it. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getReaderId(): string|null { return $this->get('reader_id'); }

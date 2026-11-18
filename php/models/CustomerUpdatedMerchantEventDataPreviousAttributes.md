@@ -13,7 +13,7 @@ Response model.
 | `customer_id` | Optional | string or null | Unique identifier for this customer, prefixed `cus_`. `customer_id`: [declared alternatives](../models/ExpandedCustomerSummaryPreviousAttributes.md#expandedcustomersummarypreviousattributescustomer_id). |
 | `default_invoice_payment_term_id` | Optional | string or null | ID of the invoice payment term that applies to this customer's invoices created with `payment_due.type` set to `customer_default`. Absent when none is set. `default_invoice_payment_term_id`: [declared alternatives](../models/CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributesdefault_invoice_payment_term_id). |
 | `default_payment_method` | Optional | [ExpandedPaymentMethodSummaryPreviousAttributes](../models/ExpandedPaymentMethodSummaryPreviousAttributes.md#expandedpaymentmethodsummarypreviousattributes) or null | Present only when `expand` includes `default_payment_method`; `null` when expanded and there is no related payment method. `default_payment_method`: [declared alternatives](../models/CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributesdefault_payment_method). |
-| `default_payment_method_id` | Optional | string or null | ID of the customer's default off-session payment method. `null` when none is set. `default_payment_method_id`: [declared alternatives](../models/CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributesdefault_payment_method_id). |
+| `default_payment_method_id` | Optional | string or null | ID of the customer's default off-session payment method. Existing subscriptions keep their own payment_method_id when the default changes. `null` when none is set. `default_payment_method_id`: [declared alternatives](../models/CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributesdefault_payment_method_id). |
 | `email` | Optional | string or null | Customer email. `null` when the customer has none. Unique among the environment's customers. `email`: [declared alternatives](../models/ExpandedCustomerSummaryPreviousAttributes.md#expandedcustomersummarypreviousattributesemail). |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this customer in an external system. `null` when none is set. Not returned to customer sessions. `external_reference_id`: [declared alternatives](../models/CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributesexternal_reference_id). |
 | `internal_note` | Optional | string or null | Internal note about this customer. `null` when none is set. Not returned to customer sessions. `internal_note`: [declared alternatives](../models/CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributesinternal_note). |
@@ -173,15 +173,15 @@ Declared alternatives: [PartnerAppInstallPermissionsUpdatedEvent.data fields 1.p
 
 ### CustomerUpdatedMerchantEventDataPreviousAttributes.default_payment_method_id variant 1
 
-anyOf variant 1: ID of the customer's default off-session payment method. `null` when none is set..
+anyOf variant 1: ID of the customer's default off-session payment method. Existing subscriptions keep their own payment_method_id when the default changes. `null` when none is set..
 
-- Value shape: string. ID of the customer's default off-session payment method. `null` when none is set. 
+- Value shape: string. ID of the customer's default off-session payment method. Existing subscriptions keep their own payment_method_id when the default changes. `null` when none is set. 
 
 ### CustomerUpdatedMerchantEventDataPreviousAttributes.default_payment_method_id variant 2
 
 anyOf variant 2.
 
-- Value shape: null. ID of the customer's default off-session payment method. `null` when none is set. 
+- Value shape: null. ID of the customer's default off-session payment method. Existing subscriptions keep their own payment_method_id when the default changes. `null` when none is set. 
 
 ### CustomerUpdatedMerchantEventDataPreviousAttributes.email
 

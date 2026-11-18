@@ -17,5 +17,6 @@ The request body for: Start onboarding flow.
 | `support_email` | Optional | string | Support email shown to buyers. Applied only to a newly created merchant. minLength: `1`. |
 | `support_phone` | Optional | string | Support phone shown to buyers, in E.164 format. Applied only to a newly created merchant. minLength: `1`. maxLength: `16`. pattern: `^\+[1-9][0-9]{6,14}$`. |
 | `support_url` | Optional | string | Support URL shown to buyers. Applied only to a newly created merchant. minLength: `1`. |
+| `timezone` | Optional | string | IANA business time zone for a newly created merchant, such as America/Chicago. Used for reports and business dates. Omit to leave it unset. Existing merchants keep their time zone. minLength: `1`. |
 | `website_url` | Optional | string | Public business website URL. Applied only to a newly created merchant. minLength: `1`. |
 

@@ -4,7 +4,7 @@ namespace Flint;
 final class ReportDownloadsResource {
     public function __construct(private readonly Runtime $runtime) {}
     /** Authorizes the stable Flint download URL and redirects to a short-lived private file URL.
-     * @param string|Model $report_download_id Flint report download ID.
+     * @param string|Model $report_download_id Flint report download ID. Must be a valid ID with prefix rdl_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND.
      * @param ReportDownloadsGetParams|array<array-key, mixed>|Model|null $params Flat body fields and query/header parameters; path arguments follow URL order.
      * @return Result<\stdClass>
      */

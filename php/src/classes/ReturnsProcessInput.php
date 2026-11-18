@@ -10,7 +10,7 @@ namespace Flint;
 final class ReturnsProcessInput extends Model {
     /** @param array{'return_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'completion_mode'?: string, 'expected_version'?: int, 'line_items': list<mixed>, 'receipt'?: mixed}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnsProcessInput')); }
-    /** Flint return id. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+    /** Flint return id. Must be a valid ID with prefix ret_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
      * @return string
      * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
      */

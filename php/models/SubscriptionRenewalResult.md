@@ -232,6 +232,10 @@ The subscription after the renewal attempt. A customer's recurring purchase.
 
 Field definitions: [shared fields](SubscriptionResponse.md#subscriptionresponsedata).
 
+### SubscriptionRenewalResult.subscription.billing_hold
+
+Field definitions: [SubscriptionResponse.data.billing_hold](../models/SubscriptionResponse.md#subscriptionresponsedatabilling_hold).
+
 ### SubscriptionRenewalResult.subscription.cancellation_details
 
 Field definitions: [SubscriptionResponse.data.cancellation_details](../models/SubscriptionResponse.md#subscriptionresponsedatacancellation_details).

@@ -58,6 +58,10 @@ Declared alternatives: [MerchantBillingBalanceUpdatedEvent.data fields 1.previou
 
 Declared alternatives: [BalanceTransactionUpdatedMerchantEventDataPreviousAttributes.description](../models/BalanceTransactionUpdatedMerchantEventDataPreviousAttributes.md#balancetransactionupdatedmerchanteventdatapreviousattributesdescription).
 
+### BalanceTransactionUpdatedMerchantEvent.data fields 1.previous_attributes.fee_details
+
+Declared alternatives: [BalanceTransactionUpdatedMerchantEventDataPreviousAttributes.fee_details](../models/BalanceTransactionUpdatedMerchantEventDataPreviousAttributes.md#balancetransactionupdatedmerchanteventdatapreviousattributesfee_details).
+
 ### BalanceTransactionUpdatedMerchantEvent.data fields 1.previous_attributes.merchant_id
 
 Declared alternatives: [BalanceTransactionUpdatedMerchantEventDataPreviousAttributes.merchant_id](../models/BalanceTransactionUpdatedMerchantEventDataPreviousAttributes.md#balancetransactionupdatedmerchanteventdatapreviousattributesmerchant_id).

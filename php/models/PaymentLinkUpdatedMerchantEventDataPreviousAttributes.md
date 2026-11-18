@@ -16,7 +16,7 @@ Response model.
 | `custom_text` | Optional | [CheckoutCustomTextConfigPreviousAttributes](../models/CheckoutCustomTextConfigPreviousAttributes.md#checkoutcustomtextconfigpreviousattributes) or null | Custom text for checkouts started from this link. |
 | `delivery_method_ids` | Optional | Array of string or null | Delivery methods the link offers. Empty when the link has none, and then its checkouts offer settings.checkout.default_delivery_method_ids when the order has items to deliver. `delivery_method_ids`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesdelivery_method_ids). |
 | `description` | Optional | string or null | Text about what the link sells, returned to buyers when they open it. `description`: [declared alternatives](../models/ExpandedPaymentLinkSummaryPreviousAttributes.md#expandedpaymentlinksummarypreviousattributesdescription). |
-| `donation_max_amount_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Largest amount a buyer can give on a donation link. |
+| `donation_max_amount_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Largest amount a buyer can give on a donation link. Must be greater than zero and greater than or equal to donation_min_amount_money. Omit on create for no maximum. |
 | `donation_min_amount_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Smallest amount a buyer can give on a donation link. |
 | `donation_suggested_amount_money_options` | Optional | Array of [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Amounts a donation link offers as one-tap choices. `donation_suggested_amount_money_options`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesdonation_suggested_amount_money_options). |
 | `event_config` | Optional | [PaymentLinkEventConfigPreviousAttributes](../models/PaymentLinkEventConfigPreviousAttributes.md#paymentlinkeventconfigpreviousattributes) or null | Event details for an `event` link: when and where it takes place and how many tickets it sells. `event_config`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesevent_config). |
@@ -351,9 +351,11 @@ anyOf variant 2.
 | `default_variant_id` | Optional | string or null | Variant selected when the page opens and used at resolve when the buyer omits a selection. Must be in variant_ids. Omit it to require a buyer selection. `default_variant_id`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesline_items-variant-1-fields-1default_variant_id). |
 | `description` | Optional | string or null | Description of an ad hoc line item. `description`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesline_items-variant-1-fields-1description). |
 | `is_catalog_item_unavailable` | Optional | boolean or null | True when the referenced variant or bundle cannot be sold, or no listed variant in variant_ids can be sold in the line currency. Always false on ad hoc line items. `is_catalog_item_unavailable`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesline_items-variant-1-fields-1is_catalog_item_unavailable). |
+| `is_sold_out` | Optional | boolean or null | Public event read: true when the tier or event has no capacity left. `is_sold_out`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesline_items-variant-1-fields-1is_sold_out). |
 | `key` | Optional | string or null | Keys the resolve override maps. Stable line item key used in checkout overrides. Must not have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when omitted, skipping numbers already used by explicit keys; retained for an existing line item when omitted on update. `key`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesline_items-variant-1-fields-1key). |
 | `max_quantity` | Optional | integer or null | Whole-number quantity; fractional quantities are not supported. `max_quantity`: [declared alternatives](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesquantity). |
-| `max_unit_price_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. |
+| `max_total_quantity` | Optional | integer or null | Optional whole-number admission capacity across all orders for an event tier; fractional quantities are not supported. Must be at least 1 and cannot exceed event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it in a line_items replacement removes an existing cap. `max_total_quantity`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesline_items-variant-1-fields-1max_total_quantity). |
+| `max_unit_price_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Must be greater than zero and greater than or equal to min_unit_price_money. Omit for no maximum. |
 | `min_quantity` | Optional | integer or null | Whole-number quantity; fractional quantities are not supported. `min_quantity`: [declared alternatives](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesquantity). |
 | `min_unit_price_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. |
 | `name` | Optional | string or null | Name of an ad hoc line item. Catalog lines take the catalog name. `name`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesline_items-variant-1-fields-1name). |
@@ -361,6 +363,7 @@ anyOf variant 2.
 | `product_id` | Optional | string or null | Parent catalog context only. The product that the variants in variant_ids belong to. Present only on buyer choice lines; refused on input. `product_id`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesline_items-variant-1-fields-1product_id). |
 | `product_type` | Optional | string or null | Classification configured on a custom line for ACH debit. Null when unclassified or catalog-backed; catalog lines get their product classification when checkout starts. Values: `"physical"`, `"service"`, `"fee"`, `"digital"`, `"gift_card"`, `null`. `product_type`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesline_items-variant-1-fields-1product_type). |
 | `quantity` | Optional | integer or null | Whole-number quantity; fractional quantities are not supported. `quantity`: [declared alternatives](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesquantity). |
+| `remaining_quantity` | Optional | integer or null | Public event read: whole-number admissions left after sales and payment holds; fractional quantities are not supported. This quantity is bounded by both the tier and event caps. Omitted when neither is capped. `remaining_quantity`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesline_items-variant-1-fields-1remaining_quantity). |
 | `resolved_name` | Optional | string or null | Current catalog name of the referenced variant or bundle, or the product name for variant_ids lines. A variant reads as the product name, plus the variant name when the variant is a named option combination. This is the catalog value at read time, not a stored snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line items and when the catalog object no longer exists. `resolved_name`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesline_items-variant-1-fields-1resolved_name). |
 | `resolved_price_range` | Optional | [ProductPriceRangePreviousAttributes](../models/ProductPriceRangePreviousAttributes.md#productpricerangepreviousattributes) or null | Current lowest and highest catalog unit prices among listed variants that can be sold in the line currency. Computed at read time, not stored. Omitted when no listed variant can be sold. |
 | `resolved_unit_price_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Current catalog unit price of the referenced variant or bundle. For a fixed variant this is the base price that applies below the first quantity price break. This is the catalog value at read time, not a stored snapshot: checkout resolves the price again when a buyer opens the link, so the amount a buyer pays can differ. Absent on ad-hoc line items, variant_ids lines, and when the catalog object no longer exists. |
@@ -483,6 +486,20 @@ anyOf variant 2.
 
 - Value shape: null. True when the referenced variant or bundle cannot be sold, or no listed variant in variant_ids can be sold in the line currency. Always false on ad hoc line items. 
 
+### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.line_items variant 1.[] fields 1.is_sold_out
+
+### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.line_items variant 1.[] fields 1.is_sold_out variant 1
+
+anyOf variant 1: Public event read: true when the tier or event has no capacity left..
+
+- Value shape: boolean. Public event read: true when the tier or event has no capacity left. 
+
+### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.line_items variant 1.[] fields 1.is_sold_out variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Public event read: true when the tier or event has no capacity left. 
+
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.line_items variant 1.[] fields 1.key
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.line_items variant 1.[] fields 1.key variant 1
@@ -500,6 +517,20 @@ anyOf variant 2.
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.line_items variant 1.[] fields 1.max_quantity
 
 Declared alternatives: [BundleComponentPreviousAttributes.quantity](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesquantity).
+
+### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.line_items variant 1.[] fields 1.max_total_quantity
+
+### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.line_items variant 1.[] fields 1.max_total_quantity variant 1
+
+anyOf variant 1: Optional whole-number admission capacity across all orders for an event tier; fractional quantities are not supported. Must be at least 1 and cannot exceed event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it in a line_items replacement removes an existing cap..
+
+- Value shape: integer. Optional whole-number admission capacity across all orders for an event tier; fractional quantities are not supported. Must be at least 1 and cannot exceed event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it in a line_items replacement removes an existing cap. Optional whole-number admission capacity across all orders for an event tier; fractional quantities are not supported. Must be at least 1 and cannot exceed event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it in a line_items replacement removes an existing cap. Format: `int32`. minimum: `1`. 
+
+### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.line_items variant 1.[] fields 1.max_total_quantity variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Optional whole-number admission capacity across all orders for an event tier; fractional quantities are not supported. Must be at least 1 and cannot exceed event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it in a line_items replacement removes an existing cap. 
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.line_items variant 1.[] fields 1.min_quantity
 
@@ -564,6 +595,20 @@ anyOf variant 2.
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.line_items variant 1.[] fields 1.quantity
 
 Declared alternatives: [BundleComponentPreviousAttributes.quantity](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesquantity).
+
+### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.line_items variant 1.[] fields 1.remaining_quantity
+
+### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.line_items variant 1.[] fields 1.remaining_quantity variant 1
+
+anyOf variant 1: Public event read: whole-number admissions left after sales and payment holds; fractional quantities are not supported. This quantity is bounded by both the tier and event caps. Omitted when neither is capped..
+
+- Value shape: integer. Public event read: whole-number admissions left after sales and payment holds; fractional quantities are not supported. This quantity is bounded by both the tier and event caps. Omitted when neither is capped. Public event read: whole-number admissions left after sales and payment holds; fractional quantities are not supported. This quantity is bounded by both the tier and event caps. Omitted when neither is capped. Format: `int32`. 
+
+### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.line_items variant 1.[] fields 1.remaining_quantity variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Public event read: whole-number admissions left after sales and payment holds; fractional quantities are not supported. This quantity is bounded by both the tier and event caps. Omitted when neither is capped. 
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.line_items variant 1.[] fields 1.resolved_name
 
@@ -907,8 +952,10 @@ Present only with expand=sales_summary on GET /v1/payment-links or GET /v1/payme
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `attempted_payment_count` | Conditional | integer or null | All recorded card attempts from this link, including pending attempts and retries. `attempted_payment_count`: [declared alternatives](../models/PaymentLinkSalesSummaryPreviousAttributes.md#paymentlinksalessummarypreviousattributesattempted_payment_count). |
 | `checked_in_ticket_count` | Conditional | integer or null | Tickets for this payment link that are checked in now, counted when the summary is read. Undoing a check-in or voiding a ticket lowers it. 0 for links that have issued no tickets. `checked_in_ticket_count`: [declared alternatives](../models/PaymentLinkSalesSummaryPreviousAttributes.md#paymentlinksalessummarypreviousattributeschecked_in_ticket_count). |
 | `computed_at` | Conditional | string or null | UTC time at which the summary was computed, at second precision. `computed_at`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributessales_summary-variant-1computed_at). |
+| `failed_payment_count` | Conditional | integer or null | Recorded failed card attempts from this link. A successful retry does not erase previous failures. `failed_payment_count`: [declared alternatives](../models/PaymentLinkSalesSummaryPreviousAttributes.md#paymentlinksalessummarypreviousattributesfailed_payment_count). |
 | `paid_order_count` | Conditional | integer or null | Number of orders whose collection has completed, across all currencies, including fully and partially refunded orders. `paid_order_count`: [declared alternatives](../models/PaymentLinkSalesSummaryPreviousAttributes.md#paymentlinksalessummarypreviousattributespaid_order_count). |
 | `paid_totals` | Conditional | Array of [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Gross paid totals in integer minor units, one Money object per currency with paid orders, sorted by currency. Refunds are not subtracted. Empty array when there are no paid orders. `paid_totals`: [declared alternatives](../models/PaymentLinkSalesSummaryPreviousAttributes.md#paymentlinksalessummarypreviousattributespaid_totals). |
 | `refunded_totals` | Conditional | Array of [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Refunded totals in integer minor units on the same paid orders as paid_totals. One Money object per currency with paid orders, sorted by currency, including zero when nothing was refunded. Empty array when there are no paid orders. `refunded_totals`: [declared alternatives](../models/PaymentLinkSalesSummaryPreviousAttributes.md#paymentlinksalessummarypreviousattributesrefunded_totals). |
@@ -917,14 +964,18 @@ Present only with expand=sales_summary on GET /v1/payment-links or GET /v1/payme
 
 anyOf PaymentLinkSalesSummaryPreviousAttributes.
 
-- Optional: `checked_in_ticket_count`, `computed_at`, `paid_order_count`, `paid_totals`, `refunded_totals`.
+- Optional: `attempted_payment_count`, `checked_in_ticket_count`, `computed_at`, `failed_payment_count`, `paid_order_count`, `paid_totals`, `refunded_totals`.
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.sales_summary variant 2
 
 anyOf variant 2.
 
-- Undeclared: `checked_in_ticket_count`, `computed_at`, `paid_order_count`, `paid_totals`, `refunded_totals`.
+- Undeclared: `attempted_payment_count`, `checked_in_ticket_count`, `computed_at`, `failed_payment_count`, `paid_order_count`, `paid_totals`, `refunded_totals`.
 - Value shape: null. Present only with expand=sales_summary on GET /v1/payment-links or GET /v1/payment-links/{payment_link_id}. Available to merchant callers, including dashboard sessions and API keys with checkouts.payment_links.read. Uses the same paid-order definition as the merchant sales summary. 
+
+### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.sales_summary variant 1.attempted_payment_count
+
+Declared alternatives: [PaymentLinkSalesSummaryPreviousAttributes.attempted_payment_count](../models/PaymentLinkSalesSummaryPreviousAttributes.md#paymentlinksalessummarypreviousattributesattempted_payment_count).
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.sales_summary variant 1.checked_in_ticket_count
 
@@ -943,6 +994,10 @@ anyOf variant 1: UTC time at which the summary was computed, at second precision
 anyOf variant 2.
 
 - Value shape: null. UTC time at which the summary was computed, at second precision. 
+
+### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.sales_summary variant 1.failed_payment_count
+
+Declared alternatives: [PaymentLinkSalesSummaryPreviousAttributes.failed_payment_count](../models/PaymentLinkSalesSummaryPreviousAttributes.md#paymentlinksalessummarypreviousattributesfailed_payment_count).
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.sales_summary variant 1.paid_order_count
 

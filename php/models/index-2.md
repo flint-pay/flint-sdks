@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# BuyerEmailChangeRequestInput to BuyerReturnResolutionResponseInput
+# BuyerDeliveryFulfillmentDetailsInput to BuyerReturnPreviewResolutionInput
 
+- [BuyerDeliveryFulfillmentDetailsInput](BuyerDeliveryFulfillmentDetailsInput.md)
+- [BuyerDigitalFulfillmentDetailsInput](BuyerDigitalFulfillmentDetailsInput.md)
 - [BuyerEmailChangeRequestInput](BuyerEmailChangeRequestInput.md)
 - [BuyerEmailChangeRequestListResponseInput](BuyerEmailChangeRequestListResponseInput.md)
 - [BuyerEmailChangeRequestResponseInput](BuyerEmailChangeRequestResponseInput.md)
@@ -38,6 +40,12 @@
 - [BuyerInvoicePaymentAttemptInput](BuyerInvoicePaymentAttemptInput.md)
 - [BuyerInvoiceResponseInput](BuyerInvoiceResponseInput.md)
 - [BuyerInvoiceSnapshotInput](BuyerInvoiceSnapshotInput.md)
+- [BuyerLicenseKeyInput](BuyerLicenseKeyInput.md)
+- [BuyerLicenseKeyActivationInput](BuyerLicenseKeyActivationInput.md)
+- [BuyerLicenseKeyActivationListResponseInput](BuyerLicenseKeyActivationListResponseInput.md)
+- [BuyerLicenseKeyActivationResponseInput](BuyerLicenseKeyActivationResponseInput.md)
+- [BuyerLicenseKeyListResponseInput](BuyerLicenseKeyListResponseInput.md)
+- [BuyerLicenseKeyResponseInput](BuyerLicenseKeyResponseInput.md)
 - [BuyerOrderInput](BuyerOrderInput.md)
 - [BuyerOrderChargeInput](BuyerOrderChargeInput.md)
 - [BuyerOrderLineItemInput](BuyerOrderLineItemInput.md)
@@ -49,6 +57,7 @@
 - [BuyerOrderTaxExemptionInput](BuyerOrderTaxExemptionInput.md)
 - [BuyerOrderTaxLocationInput](BuyerOrderTaxLocationInput.md)
 - [BuyerPackageInput](BuyerPackageInput.md)
+- [BuyerPackageItemInput](BuyerPackageItemInput.md)
 - [BuyerPackageListResponseInput](BuyerPackageListResponseInput.md)
 - [BuyerPackageResponseInput](BuyerPackageResponseInput.md)
 - [BuyerPauseActionOptionsInput](BuyerPauseActionOptionsInput.md)
@@ -93,13 +102,4 @@
 - [BuyerReturnPreviewInput](BuyerReturnPreviewInput.md)
 - [BuyerReturnPreviewEligibilityInput](BuyerReturnPreviewEligibilityInput.md)
 - [BuyerReturnPreviewResolutionInput](BuyerReturnPreviewResolutionInput.md)
-- [BuyerReturnPreviewResponseInput](BuyerReturnPreviewResponseInput.md)
-- [BuyerReturnReplacementLineItemInputBundleInput](BuyerReturnReplacementLineItemInputBundleInput.md)
-- [BuyerReturnReplacementLineItemInputVariantInput](BuyerReturnReplacementLineItemInputVariantInput.md)
-- [BuyerReturnReplacementLineItemRequestInput](BuyerReturnReplacementLineItemRequestInput.md)
-- [BuyerReturnResolutionInput](BuyerReturnResolutionInput.md)
-- [BuyerReturnResolutionAdjustmentInput](BuyerReturnResolutionAdjustmentInput.md)
-- [BuyerReturnResolutionExecutionBlockerInput](BuyerReturnResolutionExecutionBlockerInput.md)
-- [BuyerReturnResolutionPreviewInput](BuyerReturnResolutionPreviewInput.md)
-- [BuyerReturnResolutionResponseInput](BuyerReturnResolutionResponseInput.md)
 

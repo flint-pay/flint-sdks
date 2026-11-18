@@ -8,8 +8,8 @@ import type {
     GiftCardFundingDispositionsGetParams,
     GiftCardFundingDispositionsListParams
 } from '../declarations/types-28.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-77.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -32,17 +32,18 @@ export type {
     GiftCardFundingDispositionsListParams,
     GiftCardFundingDispositionListResponse
 } from '../declarations/types-28.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-77.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { RequestOptions } from '../declarations/types-61.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateGiftCardFundingDispositionRequestInput } from '../declarations/types-10.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { MoneyValue, NextAction } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
-export { makeCreateGiftCardFundingDispositionRequest } from '../declarations/types-80.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
+export type { MoneyValue, NextAction } from '../declarations/types-44.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { DisputesAcceptParams } from '../declarations/types-26.js';
+export { makeCreateGiftCardFundingDispositionRequest } from '../declarations/types-82.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export interface GiftCardFundingDispositionsResource {
     /**
  * Accepts a confirmed funding dispute loss and honors all gift card value funded by that payment,
@@ -65,7 +66,9 @@ export interface GiftCardFundingDispositionsResource {
  * Retrieves a committed funding disposition within the authenticated merchant and environment.
  *
  * `GET /v1/gift-card-funding-dispositions/{gift_card_funding_disposition_id}`
- * @param gift_card_funding_disposition_id Flint resource ID.
+ * @param gift_card_funding_disposition_id Flint resource ID. Must be a valid ID with prefix gfd_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/gift-cards#getGiftCardFundingDisposition
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

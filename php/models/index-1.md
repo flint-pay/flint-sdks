@@ -1,6 +1,6 @@
 [Model index](../MODELS.md)
 
-# AcceptFulfillmentRequestInput to BuyerDigitalFulfillmentDetailsInput
+# AcceptFulfillmentRequestInput to BuyerCustomerSessionResponseInput
 
 - [AcceptFulfillmentRequestInput](AcceptFulfillmentRequestInput.md)
 - [AcceptPartnerAppPlatformTermsRequestInput](AcceptPartnerAppPlatformTermsRequestInput.md)
@@ -53,6 +53,8 @@
 - [BalanceTransactionInput](BalanceTransactionInput.md)
 - [BalanceTransactionCreatedInstalledMerchantsEventInput](BalanceTransactionCreatedInstalledMerchantsEventInput.md)
 - [BalanceTransactionCreatedMerchantEventInput](BalanceTransactionCreatedMerchantEventInput.md)
+- [BalanceTransactionFeeDetailInput](BalanceTransactionFeeDetailInput.md)
+- [BalanceTransactionFeeDetailPreviousAttributesInput](BalanceTransactionFeeDetailPreviousAttributesInput.md)
 - [BalanceTransactionListResponseInput](BalanceTransactionListResponseInput.md)
 - [BalanceTransactionResponseInput](BalanceTransactionResponseInput.md)
 - [BalanceTransactionUpdatedInstalledMerchantsEventInput](BalanceTransactionUpdatedInstalledMerchantsEventInput.md)
@@ -100,6 +102,4 @@
 - [BuyerCustomerResponseInput](BuyerCustomerResponseInput.md)
 - [BuyerCustomerSessionInput](BuyerCustomerSessionInput.md)
 - [BuyerCustomerSessionResponseInput](BuyerCustomerSessionResponseInput.md)
-- [BuyerDeliveryFulfillmentDetailsInput](BuyerDeliveryFulfillmentDetailsInput.md)
-- [BuyerDigitalFulfillmentDetailsInput](BuyerDigitalFulfillmentDetailsInput.md)
 

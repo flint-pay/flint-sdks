@@ -12,8 +12,8 @@ import type {
 } from '../declarations/types-0.js';
 import type { ClientOptions } from '../declarations/types-7.js';
 import type { CreateAPIKeyResponse } from '../declarations/types-8.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -39,7 +39,7 @@ export type {
     ApiKeysRevokeParams,
     ApiKeysUpdateParams
 } from '../declarations/types-0.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
+export type { RequestOptions } from '../declarations/types-61.js';
 export type {
     CreateAPIKeyResponse,
     CreateAPIKeyRequestInput,
@@ -47,22 +47,23 @@ export type {
     CreateAPIKeyRequestReadOnlyInput,
     CreateAPIKeyRequestRestrictedInput
 } from '../declarations/types-8.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions, ConfigurationVersionRequestInput } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { UpdateAPIKeyRequestInput } from '../declarations/types-73.js';
-export { makeConfigurationVersionRequest } from '../declarations/types-78.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { UpdateAPIKeyRequestInput } from '../declarations/types-75.js';
 export {
+    makeConfigurationVersionRequest,
     makeCreateAPIKeyRequest,
     makeCreateAPIKeyRequestFull,
     makeCreateAPIKeyRequestReadOnly,
     makeCreateAPIKeyRequestRestricted
-} from '../declarations/types-79.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeUpdateAPIKeyRequest } from '../declarations/types-90.js';
+} from '../declarations/types-81.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeUpdateAPIKeyRequest } from '../declarations/types-93.js';
 export interface ApiKeysResource {
     /**
  * Creates a merchant-bound external API key. A live credential creates a live key, or a test key
@@ -88,7 +89,9 @@ export interface ApiKeysResource {
  * sandbox in test mode. A key outside that environment returns 404 RESOURCE_NOT_FOUND.
  *
  * `GET /v1/api-keys/{api_key_id}`
- * @param api_key_id Flint API key ID.
+ * @param api_key_id Flint API key ID. Must be a valid ID with prefix key_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/api-keys#getAPIKey
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -124,7 +127,9 @@ export interface ApiKeysResource {
  * sandbox in test mode. A key outside that environment returns 404 RESOURCE_NOT_FOUND.
  *
  * `POST /v1/api-keys/{api_key_id}/revoke`
- * @param api_key_id Flint API key ID.
+ * @param api_key_id Flint API key ID. Must be a valid ID with prefix key_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/api-keys#revokeAPIKey
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -142,7 +147,9 @@ export interface ApiKeysResource {
  * that environment returns 404 RESOURCE_NOT_FOUND.
  *
  * `PATCH /v1/api-keys/{api_key_id}`
- * @param api_key_id Flint API key ID.
+ * @param api_key_id Flint API key ID. Must be a valid ID with prefix key_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/api-keys#updateAPIKey
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

@@ -11,7 +11,7 @@ namespace Flint;
 final class UpdateReturnLineItemRequestInput extends Model {
     /** @param array{'buyer_note'?: string|null, 'expected_version'?: int, 'requested_quantity'?: int, 'requested_resolution_type'?: string|null, 'return_reason_id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateReturnLineItemRequestInput')); }
-    /** Send null to clear it. minLength: 1.
+    /** Send null to clear it. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1.
      * @return string|null
      * @throws SdkError When buyer_note is omitted; use hasBuyerNote() or valueOrDefault().
      */

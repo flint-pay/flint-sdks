@@ -10,7 +10,7 @@ namespace Flint;
 final class PaymentIntentsConfirmInput extends Model {
     /** @param array{'payment_intent_id': string, 'Flint-Buyer-Device'?: string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body'?: array{'buyer_ip_address'?: string, 'client_action_type'?: string, 'expected_version'?: int, 'payment_return_url'?: string, 'payment_source'?: mixed, 'save_payment_method'?: bool}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentIntentsConfirmInput')); }
-    /** Flint payment intent ID. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+    /** Flint payment intent ID. Must be a valid ID with prefix pi_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
      * @return string
      * @throws SdkError When payment_intent_id is omitted; use hasPaymentIntentId() or valueOrDefault().
      */

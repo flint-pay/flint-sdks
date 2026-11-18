@@ -15,7 +15,7 @@ final class ReturnUnverifiedItemPreviousAttributesInput extends Model {
      */
     public function getDescription(): mixed { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** Name of the unidentified item. anyOf[1] (Value): string. Name of the unidentified item. minLength: 1. anyOf[2] (Value): null.
+    /** Name of the unidentified item. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. anyOf[1] (Value): string. Name of the unidentified item. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1. anyOf[2] (Value): null.
      * @return string|null
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */

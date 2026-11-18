@@ -7,8 +7,8 @@ import type {
     FraudWarningsGetParams,
     FraudWarningsListParams
 } from '../declarations/types-27.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -31,34 +31,36 @@ export type {
     FraudWarningListResponse,
     FraudWarningPaymentSummary
 } from '../declarations/types-27.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { RequestOptions } from '../declarations/types-61.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { Dispute } from '../declarations/types-25.js';
-export type { MoneyValue, NextAction } from '../declarations/types-42.js';
+export type { MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { ExpandedCustomerSummary, ExpandedOrderSummary, ExpandedPaymentIntentSummary } from '../declarations/types-26.js';
-export type { CheckoutBuyerContact } from '../declarations/types-5.js';
+export type { CheckoutBuyerContact } from '../declarations/types-6.js';
 export type { DeferredPromotion } from '../declarations/types-17.js';
-export type { PricingAmounts } from '../declarations/types-55.js';
-export type { OrderSettlementAmounts } from '../declarations/types-45.js';
-export type { SettlementAmounts } from '../declarations/types-65.js';
+export type { PricingAmounts } from '../declarations/types-56.js';
+export type { OrderSettlementAmounts } from '../declarations/types-47.js';
+export type { SettlementAmounts, SplitReversalReference } from '../declarations/types-68.js';
 export type {
     PaymentSourceSummary,
     PaymentSourceAchDebitSummary,
     PaymentSourceCardSummary,
     PaymentSourceCardPresentDetails
-} from '../declarations/types-52.js';
-export type { SplitReversalReference } from '../declarations/types-66.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
+} from '../declarations/types-54.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export interface FraudWarningsResource {
     /**
  * Retrieves an early fraud warning. Expand `payment_intent` or `dispute` to include them.
  *
  * `GET /v1/fraud-warnings/{fraud_warning_id}`
- * @param fraud_warning_id Flint fraud warning ID.
+ * @param fraud_warning_id Flint fraud warning ID. Must be a valid ID with prefix frw_. Malformed
+ * IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist
+ * return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/risk-controls#getFraudWarning
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

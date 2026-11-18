@@ -20,7 +20,7 @@ get(merchant_billing_balance_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `merchant_billing_balance_id` | Required | string | Flint merchant billing balance ID. |
+| `merchant_billing_balance_id` | Required | string | Flint merchant billing balance ID. Must be a valid ID with prefix mbbal_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 

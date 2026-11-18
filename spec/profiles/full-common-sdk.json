@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/flint-pay/sdk-generator/4e727e1e3027cc354518aee1332545b9b968f05f/sdk-config.schema.json",
-  "version": "8.0.0-beta.6",
+  "version": "8.0.0-beta.7",
   "npm": {
     "name": "@flintpay/node",
     "access": "public"
@@ -392,7 +392,284 @@
           "radius"
         ]
       }
-    ]
+    ],
+    "/components/schemas/LicenseKeyWithKey": {
+      "description": "A merchant license key with its full credential when available to the caller.",
+      "properties": {
+        "activation_limit": {
+          "description": "Maximum active installations. Null when activations are unlimited.",
+          "format": "int32",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "active_activation_count": {
+          "description": "Number of currently active installations.",
+          "format": "int32",
+          "type": "integer"
+        },
+        "created_at": {
+          "description": "When the license key was issued.",
+          "example": "2026-08-02T16:00:00Z",
+          "format": "date-time",
+          "type": "string"
+        },
+        "customer": {
+          "$ref": "#/components/schemas/ExpandedCustomerSummary",
+          "description": "Customer summary when requested with expand=customer. Null when the key has no customer. Omitted when no customer expansion is requested."
+        },
+        "customer_id": {
+          "description": "The current customer of the owning order or subscription. Null when the order has no linked customer.",
+          "example": "cus_01KEZF7C006X9JK6NZNA2SM9XD",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "expires_at": {
+          "description": "When the key expires. Null when no expiry is set.",
+          "example": "2026-08-02T16:00:00Z",
+          "format": "date-time",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "key_last4": {
+          "description": "Last four characters of the assigned key. Null when the key is awaiting assignment.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "license_key_id": {
+          "description": "Unique license key ID with the lk_ prefix.",
+          "example": "lk_01KEZF7C000QD7VJ83G43V0NSN",
+          "type": "string"
+        },
+        "license_key_pool_id": {
+          "description": "The source pool ID. Null when the key is generated.",
+          "example": "lkp_01KEZF7C00AQV1X2DPWG2NXS7H",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "metadata": {
+          "$ref": "#/components/schemas/Metadata",
+          "description": "Merchant-defined key-value pairs."
+        },
+        "order": {
+          "$ref": "#/components/schemas/ExpandedOrderSummary",
+          "description": "Order summary when requested with expand=order. Null when the key has no order. Omitted when no order expansion is requested."
+        },
+        "order_id": {
+          "description": "The owning order or the order that started the subscription. Null when a subscription has no starting order.",
+          "example": "ord_01KEZF7C0054GQKJ142A8X367A",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "order_line_item_id": {
+          "description": "The owning order line. Null when the key belongs to a subscription line.",
+          "example": "li_01KEZF7C008YPRCK7VDKTGWR31",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "product_id": {
+          "description": "The product ID.",
+          "example": "prod_01KEZF7C00BVSHCNWVH528HB66",
+          "type": "string"
+        },
+        "restrictions": {
+          "description": "Restrictions currently in force.",
+          "items": {
+            "$ref": "#/components/schemas/LicenseKeyRestriction"
+          },
+          "type": "array"
+        },
+        "source": {
+          "description": "How the key was supplied.",
+          "enum": [
+            "generated",
+            "pool"
+          ],
+          "type": "string",
+          "x-enum-descriptions": [
+            "Flint generated the key for this purchase.",
+            "The merchant supplied the key from a pool."
+          ],
+          "x-flint-enum-kind": "closed",
+          "x-flint-enum-vocabulary": "issued_license_key_source"
+        },
+        "status": {
+          "description": "Whether the key is usable. Expiry takes effect at expires_at.",
+          "enum": [
+            "pending",
+            "active",
+            "disabled",
+            "expired"
+          ],
+          "type": "string",
+          "x-enum-descriptions": [
+            "Waiting for a key from the pool.",
+            "Usable.",
+            "A restriction is in force.",
+            "The expiry time has passed."
+          ],
+          "x-flint-enum-kind": "closed",
+          "x-flint-enum-vocabulary": "license_key_status"
+        },
+        "subscription_id": {
+          "description": "The owning subscription. Null when the key belongs to an order line.",
+          "example": "sub_01KEZF7C00BVRE8YDBXQB74BBM",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "subscription_line_item_id": {
+          "description": "The owning subscription line. Null when the key belongs to an order line.",
+          "example": "sli_01KEZF7C00PPWVJ2N321V84ASA",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "supported_actions": {
+          "description": "Lifecycle actions currently available for this key.",
+          "items": {
+            "enum": [
+              "disable",
+              "reinstate"
+            ],
+            "type": "string",
+            "x-enum-descriptions": [
+              "Call POST /v1/license-keys/{license_key_id}/disable.",
+              "Call POST /v1/license-keys/{license_key_id}/reinstate."
+            ],
+            "x-flint-enum-kind": "extensible"
+          },
+          "type": "array"
+        },
+        "unit_ordinal": {
+          "description": "The unit of the owning line, starting at 1.",
+          "format": "int32",
+          "type": "integer"
+        },
+        "updated_at": {
+          "description": "When the license key version last changed.",
+          "example": "2026-08-02T16:00:00Z",
+          "format": "date-time",
+          "type": "string"
+        },
+        "variant_id": {
+          "description": "The product variant ID.",
+          "example": "var_01KEZF7C004GSH2KT8CNYVMHGX",
+          "type": "string"
+        },
+        "version": {
+          "description": "Persisted version of this resource's owned state. Expanded resources and external observations can change independently.",
+          "format": "uint64",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "key": {
+          "description": "The full key. Omitted when another credential replays the request, the recovery window has ended, or a rotation is replayed after the resource version changed.",
+          "type": "string",
+          "x-flint-secret": true,
+          "x-sensitive": true
+        }
+      },
+      "required": [
+        "activation_limit",
+        "active_activation_count",
+        "created_at",
+        "customer_id",
+        "expires_at",
+        "key_last4",
+        "license_key_id",
+        "license_key_pool_id",
+        "metadata",
+        "order_id",
+        "order_line_item_id",
+        "product_id",
+        "restrictions",
+        "source",
+        "status",
+        "subscription_id",
+        "subscription_line_item_id",
+        "supported_actions",
+        "unit_ordinal",
+        "updated_at",
+        "variant_id",
+        "version"
+      ],
+      "type": "object"
+    },
+    "/components/schemas/BuyerLicenseKey/properties/key": {
+      "description": "The full assigned key. Present only on list responses where Flint verified access to the key.",
+      "type": "string",
+      "x-flint-secret": true,
+      "x-sensitive": true
+    },
+    "/components/schemas/CheckoutLicenseKey/properties/key": {
+      "description": "The full key, when assigned and requested with the paying checkout credential. Returned only to the checkout credential; never in webhook payloads.",
+      "type": "string",
+      "x-flint-omitted-for-auth": [
+        "BearerAuth"
+      ],
+      "x-flint-secret": true,
+      "x-sensitive": true
+    },
+    "/components/schemas/CreateLicenseKeyActivationRequest/properties/key": {
+      "description": "The full license key. Generated keys match on the last 25 normalized characters. Pool keys match exactly after surrounding whitespace is trimmed.",
+      "minLength": 1,
+      "type": "string",
+      "x-flint-secret": true,
+      "x-sensitive": true
+    },
+    "/components/schemas/CreateLicenseKeyPoolKeysRequest/properties/keys/items": {
+      "maxLength": 255,
+      "minLength": 8,
+      "pattern": "^[!-~][ -~]{6,253}[!-~]$",
+      "type": "string",
+      "x-flint-secret": true,
+      "x-sensitive": true
+    },
+    "/components/schemas/LookupLicenseKeyRequest/properties/key": {
+      "description": "The full bearer key. Generated keys ignore case, spaces and hyphens and use the last 25 characters after normalization. Pool keys match exactly after surrounding whitespace is trimmed.",
+      "minLength": 1,
+      "type": "string",
+      "x-flint-secret": true,
+      "x-sensitive": true
+    },
+    "/components/schemas/ReleaseLicenseKeyActivationRequest/properties/key": {
+      "description": "The activation's full license key. Without a merchant credential, send it with product_ids.",
+      "minLength": 1,
+      "type": "string",
+      "x-flint-secret": true,
+      "x-sensitive": true
+    },
+    "/components/schemas/RemoveLicenseKeyPoolKeysRequest/oneOf/0/properties/keys/items": {
+      "description": "A full key. After trimming surrounding whitespace, it must have 8 to 255 printable ASCII characters.",
+      "minLength": 1,
+      "pattern": "^[\t\n\u000b\f\r    -     　]*[!-~][ -~]{6,253}[!-~][\t\n\u000b\f\r    -     　]*$",
+      "type": "string",
+      "x-flint-secret": true,
+      "x-sensitive": true
+    },
+    "/components/schemas/ValidateLicenseKeyRequest/properties/key": {
+      "description": "The full license key. Generated keys match on the last 25 normalized characters. Pool keys match exactly after surrounding whitespace is trimmed.",
+      "minLength": 1,
+      "type": "string",
+      "x-flint-secret": true,
+      "x-sensitive": true
+    }
   },
   "models": {
     "Money": "MoneyValue",
@@ -625,7 +902,8 @@
     "guides": {
       "pagination-and-retries": "# Pagination and retries\n\nCursor helpers follow `page_token` and `next_page_token` lazily and retain your filters. `listItems` yields resources; `listPages` yields page bodies with `data` and `next_page_token`. Read each page's `lastResponse` (PHP `lastResponse()`) for HTTP metadata. Pagination throws `PaginationLimitError` when the implicit 1,000-page cap leaves a continuation; an explicit `maxPages` stops quietly. Set `maxItems` to bound the number of items. `deadlineMs` bounds each page request. Cancellation bounds the whole iteration.\n\nSee [retries and idempotency](../RUNTIME.md#retries-and-idempotency) for retry behavior and request options.\n\n`packages.listItems()` iterates packages; `packages.listPackageItems()` lists contents of a package. `riskLists.listItems()` iterates lists; `riskLists.listRiskListItems()` lists entries inside one risk list.\n",
       "default-credentials": "# Default credentials\n\nThe client discovers merchant credentials only when no credential option is passed on the client or request. Passing an empty credential, including `undefined` or `null`, fails with `ConfigurationError` (`credential_missing`) before sending. Set `FLINT_API_KEY` or `FLINT_ACCESS_TOKEN`, use workload identity, or sign in with `flint auth login` for the saved CLI session. Setting both credential variables fails with `credential_conflict`. Explicit credentials take precedence. Anonymous and buyer-scoped calls retain their existing authentication rules.\n\n## GitHub Actions\n\nConfigure a Flint workload identity that trusts the repository and job subject, and grant the job `permissions: id-token: write`. Set the non-secret `FLINT_WORKLOAD_IDENTITY_ID`. The SDK requests a GitHub subject token and exchanges it with Flint automatically. Set `FLINT_OIDC_AUDIENCE` when your trusted audience differs from the API origin, and `FLINT_OIDC_SCOPE` to narrow permissions.\n\nNode:\n\n```js\nimport { Client } from '@flintpay/node';\nconst client = new Client();\nconst context = await client.authContext.get();\n```\n\nPHP:\n\n```php\n$client = new \\Flint\\Client(new \\Flint\\ClientOptions());\n$context = $client->authContext->get();\n```\n\nThe default API URL serves sandbox and live mode. Use a `flint_test_` key for your sandbox and a `flint_live_` key for live mode.\n\n## Workload identity sources\n\nSet `FLINT_WORKLOAD_IDENTITY_ID` to your Flint workload identity. `FLINT_OIDC_SOURCE` accepts `auto`, `none`, `token`, `token_file`, `github_actions`, `gitlab_ci`, `kubernetes`, `gcp`, `azure` and `aws`. Source options passed to `workloadIdentityCredentials` override environment settings. Auto discovery selects the first matching source:\n\n1. `FLINT_OIDC_TOKEN`, then `FLINT_OIDC_TOKEN_FILE`.\n2. GitHub Actions when `GITHUB_ACTIONS=true`, with `permissions: id-token: write`.\n3. GitLab CI when `GITLAB_CI=true`. Configure `id_tokens:` to supply `FLINT_OIDC_TOKEN` with the trusted audience. A missing token error includes the configuration to add.\n4. Kubernetes when `KUBERNETES_SERVICE_HOST` is set. Project a token for Flint's audience at `/var/run/secrets/flint/token`, or set `FLINT_OIDC_TOKEN_FILE` to your separate projected token.\n5. GCP when `K_SERVICE`, `FUNCTION_TARGET` or `GCE_METADATA_HOST` is set. The SDK requests a metadata identity token for the configured audience; `GCE_METADATA_HOST` overrides the metadata host.\n6. Azure when both `IDENTITY_ENDPOINT` and `IDENTITY_HEADER` are set. Set `FLINT_OIDC_AUDIENCE` to your Entra app ID URI; `FLINT_AZURE_CLIENT_ID` selects a user-assigned identity. Explicit Azure selection uses that endpoint pair when present and IMDS otherwise.\n7. AWS when `AWS_EXECUTION_ENV` starts with `AWS_Lambda_` or `AWS_ECS_`, or `AWS_LAMBDA_FUNCTION_NAME`, `ECS_CONTAINER_METADATA_URI` or `ECS_CONTAINER_METADATA_URI_V4` is set.\n\nCloud metadata is not probed without these markers in auto mode. Explicit `kubernetes`, `gcp`, `azure` and `aws` sources work without markers. Token files are reread on every exchange. Neither runtime reads `AWS_WEB_IDENTITY_TOKEN_FILE`, `AZURE_FEDERATED_TOKEN_FILE` or Kubernetes' default service account token, including when a configured file resolves to one of them. `FLINT_OIDC_AUDIENCE` otherwise defaults to the API origin; `FLINT_OIDC_SCOPE` narrows permissions. Set source `none` to disable federation.\n\n### AWS setup\n\nAWS support is optional. Install its SDK only when using source `aws`:\n\n```sh\nnpm install @aws-sdk/client-sts@^3.1161.0\ncomposer require aws/aws-sdk-php:^3.402.5\n```\n\nNode declares an optional peer dependency; PHP lists a Composer suggestion. Without the package, selecting `aws` throws `ConfigurationError` with code `workload_identity_failed`, `workloadIdentity.reason` set to `source_unavailable` and whose description names `@aws-sdk/client-sts` or `aws/aws-sdk-php`.\n\nConfigure an AWS region and grant the workload role `sts:GetWebIdentityToken`. The source requests an ES384 subject token using AWS's standard credential chain, including shared profiles, assumed roles, SSO, ECS, EKS Pod Identity and EC2 IMDS. AWS manages credential precedence and refresh. Unset `AWS_WEB_IDENTITY_TOKEN_FILE` and remove `web_identity_token_file` from shared configuration and credentials files, including unused profiles: inbound web identity is refused before invoking the chain. The PHP AWS SDK also requires SimpleXML, which Composer checks during installation.\n\nDirect GCP, Azure and AWS metadata requests bypass environment proxies, refuse redirects and use short timeouts bounded by the request deadline. STS GetWebIdentityToken uses a regional endpoint with proxies and redirects disabled. Node AWS refuses `NODE_USE_ENV_PROXY=1`, `--use-env-proxy` (including `NODE_OPTIONS`) and proxy-configured global HTTP agents; its protected STS handler also reaches nested role and SSO clients.\n\nPHP protects the standard chain's direct ECS/IMDS providers and STS requests. Internal profile-based metadata, assume-role, SSO and login clients do not consistently inherit that protection: their requests can honor environment proxies and follow redirects; nested ECS bypasses proxies but can follow redirects. Use those profile paths only where that AWS SDK behavior is acceptable. Profile subprocesses and internally created clients retain AWS's timeout behavior.\n\n## Saved CLI session\n\nWhen neither credential environment variable nor a workload identity ID is set, `defaultCredentials()` runs exactly `flint auth token --output json` without a shell. Run `flint auth login` first. Imported API keys cannot be exported and produce `API_KEY_NOT_EXPORTABLE`. Set `FLINT_CLI_CREDENTIALS=0` to disable the CLI process. Output is bounded to 64 KiB per stream and the process to five seconds, within the request deadline. Tokens with `expires_at` share the refresh cache; tokens without expiry are exported for each resolution.\n\nA configured workload identity that fails never falls back to the CLI session. `ambientCredentials: false` disables all implicit discovery, including the CLI process.\n\nThe SDK validates the subject token audience and expiry before exchange. Access tokens are cached by origin, workload identity, audience, scope and source, refreshed before expiry, and invalidated for one retry after a 401. No refresh token is stored.\n\n## Explicit providers and tenant isolation\n\nNode exports `defaultCredentials()` and `workloadIdentityCredentials({ workloadIdentityId, source, audience, scope })`. PHP exposes the same functions in the `Flint` namespace and accepts an options array for `workloadIdentityCredentials`. Pass a provider through `apiKey` or a named bearer credential.\n\nFor an app that serves multiple merchants, set `ambientCredentials: false` and pass each merchant's credentials explicitly. This prevents missing tenant credentials from using the app's own environment. The option disables automatic discovery; an explicitly supplied provider still runs.\n\n```js\nconst client = new Client({ ambientCredentials: false });\nawait client.orders.list(undefined, { apiKey: tenant.flintKey });\n```\n\n```php\n$client = new \\Flint\\Client(new \\Flint\\ClientOptions(ambientCredentials: false));\n$client->orders->list(null, new \\Flint\\RequestOptions(apiKey: $tenant->flintKey));\n```\n",
-      "partner-oauth": "# Partner app OAuth\n\nA partner app installs on a merchant's account through Flint's consent screen, then calls the API for that merchant with partner app tokens. The handwritten helpers in `custom/` build the consent URL, check the callback, sign the client assertions that token and revoke requests need, and mint and cache partner app tokens. See [partner app installs](https://developers.withflintpay.com/docs/guides/partner-app-installs) for credentials, lifetimes and errors.\n\n## Send the merchant to install\n\n`buildAuthorizeUrl` makes no request. It returns the URL to send the merchant's browser to, a random `state`, and the PKCE `codeVerifier` behind its S256 `code_challenge`. Store `state` and `codeVerifier` with this attempt on your server.\n\nNode:\n\n```js\nimport { buildAuthorizeUrl } from '@flintpay/node/custom/partner-oauth.js';\nconst { url, state, codeVerifier } = buildAuthorizeUrl({\n  clientId: 'fpc_0123456789abcdef',\n  redirectUri: 'https://example.com/flint/oauth/callback',\n  mode: 'test',\n  scope: ['manage_orders', 'read_customers'],\n});\n// Save state and codeVerifier, then redirect the browser to url.\n```\n\nPHP:\n\n```php\nuse Flint\\Partner\\OAuth;\n$authorize = OAuth::buildAuthorizeUrl([\n    'clientId' => 'fpc_0123456789abcdef',\n    'redirectUri' => 'https://example.com/flint/oauth/callback',\n    'mode' => 'test',\n    'scope' => ['manage_orders', 'read_customers'],\n]);\n// Save $authorize->state and $authorize->codeVerifier, then redirect to $authorize->url.\n```\n\nOmit `scope` to request the app's default permissions. `sandboxId` (test mode only), `merchantId` and `baseUrl` are optional. This replaces `oauth.authorizePartnerInstall`, which 8.0.0 removed: `GET /v1/oauth/authorize` redirects a browser to the consent screen, so a call from your server can't complete it.\n\n## Sign client assertions\n\n`privateKeyJwt` signs a new RFC 7523 JWT for every request: `iss` and `sub` are your client ID, `aud` is `https://api.withflintpay.com`, `jti` is unique, and the assertion expires after 120 seconds. It omits the optional `iat`, which Flint rejects when it's ahead of Flint's clock. Use the key registered as a `public_key` credential or published at your `jwks_url`, and pass its `kid` as `keyId`. Node signs ES256, ES384, PS256, RS256 and EdDSA. PHP signs ES256, ES384 and RS256 with ext-openssl, and EdDSA with ext-sodium.\n\nNode:\n\n```js\nimport { privateKeyJwt } from '@flintpay/node/custom/partner-oauth.js';\nconst clientAssertion = privateKeyJwt({\n  clientId: 'fpc_0123456789abcdef',\n  privateKey: process.env.FLINT_PRIVATE_KEY_PEM,\n  algorithm: 'ES256',\n  keyId: 'backend-2026-10',\n});\n```\n\nPHP:\n\n```php\nuse Flint\\Partner\\PrivateKeyJwt;\n$clientAssertion = new PrivateKeyJwt('fpc_0123456789abcdef', getenv('FLINT_PRIVATE_KEY_PEM'), 'ES256', 'backend-2026-10');\n```\n\nWith a `workload_identity` credential, your OIDC provider's token is the assertion. Request it with `https://api.withflintpay.com` as the audience and return it from your own provider: in Node, an object with `clientId` and `getAssertion()`; in PHP, a class implementing `Flint\\Partner\\ClientAssertionProvider`.\n\n## Handle the callback\n\n`parseAuthorizeCallback` compares the callback's `state` with the one you stored before reading anything else. It throws `AuthorizeCallbackError` with `error` set to `state_mismatch`, to the callback's OAuth error such as `access_denied`, or to `invalid_request` for a repeated or missing parameter. Exchange the code right away: it expires after 5 minutes and works once.\n\nNode:\n\n```js\nimport { Client } from '@flintpay/node';\nimport { exchangeCode, parseAuthorizeCallback } from '@flintpay/node/custom/partner-oauth.js';\nconst { code } = parseAuthorizeCallback(request.url, { state: saved.state });\nconst client = new Client({ ambientCredentials: false });\nconst token = await exchangeCode(client, {\n  code,\n  redirectUri: 'https://example.com/flint/oauth/callback',\n  codeVerifier: saved.codeVerifier,\n  clientAssertion,\n});\n```\n\nPHP:\n\n```php\n$callback = OAuth::parseAuthorizeCallback($_SERVER['REQUEST_URI'], $saved['state']);\n$client = new \\Flint\\Client(new \\Flint\\ClientOptions(ambientCredentials: false));\n$token = OAuth::exchangeCode($client, [\n    'code' => $callback['code'],\n    'redirectUri' => 'https://example.com/flint/oauth/callback',\n    'codeVerifier' => $saved['codeVerifier'],\n    'clientAssertion' => $clientAssertion,\n]);\n```\n\nThe exchange activates the install and returns a partner app token bound to that merchant. It lasts up to 900 seconds and comes with no refresh token. Store the response's IDs as the partner guide describes, and mint new tokens with `partnerAppTokens` from then on.\n\n## Call the API for installed merchants\n\n`partnerAppTokens` mints partner app tokens with `grant_type=client_credentials` and a fresh client assertion, one mode per instance. Each provider caches its token until 60 seconds before expiry (`refreshBeforeSeconds`) and mints once for concurrent requests. If a refresh fails while the token is still valid, it keeps serving that token and tries again 5 seconds later. When a replay-safe request gets a 401, the provider drops the token and the SDK retries once. Set `ambientCredentials: false` so a missing token fails instead of using your own `FLINT_API_KEY`.\n\nA backend that serves many merchants should cache one app-level token per mode per process: pass `app()` as the client's `token` and name the merchant in each call's `Flint-Merchant-Id` param. For a component that serves one merchant, such as a per-tenant worker, `forMerchant(merchantId)` returns a provider for a merchant-bound token, so calls need no `Flint-Merchant-Id`. Providers are kept for each merchant you pass. Each app can mint 600 tokens a minute, so don't create a merchant-bound provider per request or per merchant in a shared backend.\n\nNode:\n\n```js\nimport { Client } from '@flintpay/node';\nimport { partnerAppTokens } from '@flintpay/node/custom/partner-oauth.js';\nconst tokens = partnerAppTokens(new Client({ ambientCredentials: false }), { clientAssertion, mode: 'live' });\nconst client = new Client({ token: tokens.app(), ambientCredentials: false });\nconst orders = await client.orders.list({ 'Flint-Merchant-Id': 'mer_01KEZF7C00KPYH1DDFPCCX3B6E' });\n// A single-merchant worker can bind its token instead:\nconst worker = new Client({ token: tokens.forMerchant('mer_01KEZF7C00KPYH1DDFPCCX3B6E'), ambientCredentials: false });\n```\n\nPHP:\n\n```php\nuse Flint\\Partner\\PartnerAppTokens;\n$tokens = new PartnerAppTokens(new \\Flint\\Client(new \\Flint\\ClientOptions(ambientCredentials: false)), $clientAssertion, 'live');\n$client = new \\Flint\\Client(new \\Flint\\ClientOptions(token: $tokens->app(), ambientCredentials: false));\n$orders = $client->orders->list(['Flint-Merchant-Id' => 'mer_01KEZF7C00KPYH1DDFPCCX3B6E']);\n```\n\nCalling `getCredential()` yourself surfaces a failed mint's API error, such as `invalid_client`. Inside a request, a failed mint is reported as `credential_provider_failed`.\n\n## Other token requests\n\n`clientAuthentication(clientAssertion)` (PHP `OAuth::clientAuthentication($clientAssertion)`) returns `client_id`, `client_assertion_type` and a fresh `client_assertion` to add to any `oauth.exchangeToken` or `oauth.revokeToken` call. `revokeToken` (PHP `OAuth::revokeToken`) revokes a token with a fresh assertion. Each signed assertion works once, so get a new one for every request.\n"
+      "partner-oauth": "# Partner app OAuth\n\nA partner app installs on a merchant's account through Flint's consent screen, then calls the API for that merchant with partner app tokens. The handwritten helpers in `custom/` build the consent URL, check the callback, sign the client assertions that token and revoke requests need, and mint and cache partner app tokens. See [partner app installs](https://developers.withflintpay.com/docs/guides/partner-app-installs) for credentials, lifetimes and errors.\n\n## Send the merchant to install\n\n`buildAuthorizeUrl` makes no request. It returns the URL to send the merchant's browser to, a random `state`, and the PKCE `codeVerifier` behind its S256 `code_challenge`. Store `state` and `codeVerifier` with this attempt on your server.\n\nNode:\n\n```js\nimport { buildAuthorizeUrl } from '@flintpay/node/custom/partner-oauth.js';\nconst { url, state, codeVerifier } = buildAuthorizeUrl({\n  clientId: 'fpc_0123456789abcdef',\n  redirectUri: 'https://example.com/flint/oauth/callback',\n  mode: 'test',\n  scope: ['manage_orders', 'read_customers'],\n});\n// Save state and codeVerifier, then redirect the browser to url.\n```\n\nPHP:\n\n```php\nuse Flint\\Partner\\OAuth;\n$authorize = OAuth::buildAuthorizeUrl([\n    'clientId' => 'fpc_0123456789abcdef',\n    'redirectUri' => 'https://example.com/flint/oauth/callback',\n    'mode' => 'test',\n    'scope' => ['manage_orders', 'read_customers'],\n]);\n// Save $authorize->state and $authorize->codeVerifier, then redirect to $authorize->url.\n```\n\nOmit `scope` to request the app's default permissions. `sandboxId` (test mode only), `merchantId` and `baseUrl` are optional. This replaces `oauth.authorizePartnerInstall`, which 8.0.0 removed: `GET /v1/oauth/authorize` redirects a browser to the consent screen, so a call from your server can't complete it.\n\n## Sign client assertions\n\n`privateKeyJwt` signs a new RFC 7523 JWT for every request: `iss` and `sub` are your client ID, `aud` is `https://api.withflintpay.com`, `jti` is unique, and the assertion expires after 120 seconds. It omits the optional `iat`, which Flint rejects when it's ahead of Flint's clock. Use the key registered as a `public_key` credential or published at your `jwks_url`, and pass its `kid` as `keyId`. Node signs ES256, ES384, PS256, RS256 and EdDSA. PHP signs ES256, ES384 and RS256 with ext-openssl, and EdDSA with ext-sodium.\n\nNode:\n\n```js\nimport { privateKeyJwt } from '@flintpay/node/custom/partner-oauth.js';\nconst clientAssertion = privateKeyJwt({\n  clientId: 'fpc_0123456789abcdef',\n  privateKey: process.env.FLINT_PRIVATE_KEY_PEM,\n  algorithm: 'ES256',\n  keyId: 'backend-2026-10',\n});\n```\n\nPHP:\n\n```php\nuse Flint\\Partner\\PrivateKeyJwt;\n$clientAssertion = new PrivateKeyJwt('fpc_0123456789abcdef', getenv('FLINT_PRIVATE_KEY_PEM'), 'ES256', 'backend-2026-10');\n```\n\nWith a `workload_identity` credential, your OIDC provider's token is the assertion. Request it with `https://api.withflintpay.com` as the audience and return it from your own provider: in Node, an object with `clientId` and `getAssertion()`; in PHP, a class implementing `Flint\\Partner\\ClientAssertionProvider`.\n\n## Handle the callback\n\n`parseAuthorizeCallback` compares the callback's `state` with the one you stored before reading anything else. It throws `AuthorizeCallbackError` with `error` set to `state_mismatch`, to the callback's OAuth error such as `access_denied`, or to `invalid_request` for a repeated or missing parameter. Exchange the code right away: it expires after 5 minutes and works once.\n\nNode:\n\n```js\nimport { Client } from '@flintpay/node';\nimport { exchangeCode, parseAuthorizeCallback } from '@flintpay/node/custom/partner-oauth.js';\nconst { code } = parseAuthorizeCallback(request.url, { state: saved.state });\nconst client = new Client({ ambientCredentials: false });\nconst token = await exchangeCode(client, {\n  code,\n  redirectUri: 'https://example.com/flint/oauth/callback',\n  codeVerifier: saved.codeVerifier,\n  clientAssertion,\n});\n```\n\nPHP:\n\n```php\n$callback = OAuth::parseAuthorizeCallback($_SERVER['REQUEST_URI'], $saved['state']);\n$client = new \\Flint\\Client(new \\Flint\\ClientOptions(ambientCredentials: false));\n$token = OAuth::exchangeCode($client, [\n    'code' => $callback['code'],\n    'redirectUri' => 'https://example.com/flint/oauth/callback',\n    'codeVerifier' => $saved['codeVerifier'],\n    'clientAssertion' => $clientAssertion,\n]);\n```\n\nThe exchange activates the install and returns a partner app token bound to that merchant. It lasts up to 900 seconds and comes with no refresh token. Store the response's IDs as the partner guide describes, and mint new tokens with `partnerAppTokens` from then on.\n\n## Call the API for installed merchants\n\n`partnerAppTokens` mints partner app tokens with `grant_type=client_credentials` and a fresh client assertion, one mode per instance. Each provider caches its token until 60 seconds before expiry (`refreshBeforeSeconds`) and mints once for concurrent requests. If a refresh fails while the token is still valid, it keeps serving that token and tries again 5 seconds later. When a replay-safe request gets a 401, the provider drops the token and the SDK retries once. Set `ambientCredentials: false` so a missing token fails instead of using your own `FLINT_API_KEY`.\n\nA backend that serves many merchants should cache one app-level token per mode per process: pass `app()` as the client's `token` and name the merchant in each call's `Flint-Merchant-Id` param. For a component that serves one merchant, such as a per-tenant worker, `forMerchant(merchantId)` returns a provider for a merchant-bound token, so calls need no `Flint-Merchant-Id`. Providers are kept for each merchant you pass. Each app can mint 600 tokens a minute, so don't create a merchant-bound provider per request or per merchant in a shared backend.\n\nNode:\n\n```js\nimport { Client } from '@flintpay/node';\nimport { partnerAppTokens } from '@flintpay/node/custom/partner-oauth.js';\nconst tokens = partnerAppTokens(new Client({ ambientCredentials: false }), { clientAssertion, mode: 'live' });\nconst client = new Client({ token: tokens.app(), ambientCredentials: false });\nconst orders = await client.orders.list({ 'Flint-Merchant-Id': 'mer_01KEZF7C00KPYH1DDFPCCX3B6E' });\n// A single-merchant worker can bind its token instead:\nconst worker = new Client({ token: tokens.forMerchant('mer_01KEZF7C00KPYH1DDFPCCX3B6E'), ambientCredentials: false });\n```\n\nPHP:\n\n```php\nuse Flint\\Partner\\PartnerAppTokens;\n$tokens = new PartnerAppTokens(new \\Flint\\Client(new \\Flint\\ClientOptions(ambientCredentials: false)), $clientAssertion, 'live');\n$client = new \\Flint\\Client(new \\Flint\\ClientOptions(token: $tokens->app(), ambientCredentials: false));\n$orders = $client->orders->list(['Flint-Merchant-Id' => 'mer_01KEZF7C00KPYH1DDFPCCX3B6E']);\n```\n\nCalling `getCredential()` yourself surfaces a failed mint's API error, such as `invalid_client`. Inside a request, a failed mint is reported as `credential_provider_failed`.\n\n## Other token requests\n\n`clientAuthentication(clientAssertion)` (PHP `OAuth::clientAuthentication($clientAssertion)`) returns `client_id`, `client_assertion_type` and a fresh `client_assertion` to add to any `oauth.exchangeToken` or `oauth.revokeToken` call. `revokeToken` (PHP `OAuth::revokeToken`) revokes a token with a fresh assertion. Each signed assertion works once, so get a new one for every request.\n",
+      "license-keys": "# Validate and activate license keys\n\nIn an app, send the full license key and the product IDs the app accepts. Set `ambientCredentials: false` to call without a merchant credential. Apply this option to the generated validate, create activation, and release activation examples when adapting them for an app.\n\nNode:\n\n```js\nimport { Client } from '@flintpay/node';\n\nconst client = new Client({ ambientCredentials: false });\nconst result = await client.licenseKeys.validate({ key, product_ids });\nconsole.log(result.is_valid);\n```\n\nPHP:\n\n```php\n$client = new \\Flint\\Client(new \\Flint\\ClientOptions(ambientCredentials: false));\n$result = $client->licenseKeys->validate(['key' => $key, 'product_ids' => $productIds]);\necho $result->getIsValid() ? \"valid\\n\" : \"invalid\\n\";\n```\n\nActivation takes a device name in addition to `key` and `product_ids`. Release takes the activation ID as its first argument and `key` and `product_ids` in the body. Server-side callers can supply a merchant secret key through `apiKey`.\n\nHandle full license keys as credentials. Log the license key ID or status when you need a diagnostic. Full keys remain available to application code and explicit serialization.\n"
     },
     "apiName": "Flint",
     "operationUrl": "https://developers.withflintpay.com/docs/api/{tagSlug}#{operationId}",
@@ -671,7 +949,6 @@
       "subscription_offers": "subscription-offers",
       "webhooks": "webhooks",
       "developer_logs": "api-request-logs",
-      "feedback_reports": "feedback-reports",
       "merchants": "merchants",
       "merchant_billing": "merchant-billing",
       "organizations": "organizations",
@@ -704,14 +981,14 @@
       "payment_splits": "payment-splits",
       "platform_fees": "platform-fees",
       "readers": "readers",
-      "remembered_buyers": "remembered-buyers"
+      "remembered_buyers": "remembered-buyers",
+      "license-keys": "license-keys"
     },
     "exampleValues": {
       "customer_address_id": "caddr_01ARZ3NDEKTSV4RRFFQ69G5FAV",
       "customer_session_id": "cses_01ARZ3NDEKTSV4RRFFQ69G5FAV",
       "customer_verification_id": "cver_01ARZ3NDEKTSV4RRFFQ69G5FAV",
       "email_change_request_id": "cecr_01ARZ3NDEKTSV4RRFFQ69G5FAV",
-      "feedback_report_id": "fbr_01ARZ3NDEKTSV4RRFFQ69G5FAV",
       "flint_wallet_card_id": "fwc_01ARZ3NDEKTSV4RRFFQ69G5FAV",
       "gift_card_funding_disposition_id": "gfd_01ARZ3NDEKTSV4RRFFQ69G5FAV",
       "invoice_late_fee_id": "inlf_01ARZ3NDEKTSV4RRFFQ69G5FAV",
@@ -2174,32 +2451,6 @@
         "auto": true,
         "autoKeyPrefix": "flint-sdk-"
       },
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
-    "listFeedbackReports": {
-      "response": {
-        "payloadPath": null
-      },
-      "idempotency": false,
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
-    "createFeedbackReport": {
-      "pagination": false,
-      "idempotency": {
-        "auto": true,
-        "autoKeyPrefix": "flint-sdk-"
-      },
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
-    "getFeedbackReport": {
-      "idempotency": false,
-      "pagination": false,
       "retry": {
         "maxAttempts": 3
       }
@@ -8509,6 +8760,345 @@
         "maxAttempts": 3
       },
       "pagination": false,
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
+      }
+    },
+    "listLicenseKeyActivations": {
+      "response": {
+        "payloadPath": null
+      },
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "createLicenseKeyActivation": {
+      "pagination": false,
+      "example": {
+        "body": {
+          "key": "EXAMPLE-LICENSE-KEY-DO-NOT-USE",
+          "product_ids": [
+            "prod_01KEZF7C00BVSHCNWVH528HB66"
+          ],
+          "name": "Example desktop"
+        }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "getLicenseKeyActivation": {
+      "pagination": false,
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "releaseLicenseKeyActivation": {
+      "pagination": false,
+      "example": {
+        "license_key_activation_id": "lka_01KEZF7C00NZEZVCZW3SRDMHTZ",
+        "body": {
+          "key": "EXAMPLE-LICENSE-KEY-DO-NOT-USE",
+          "product_ids": [
+            "prod_01KEZF7C00BVSHCNWVH528HB66"
+          ]
+        }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "listLicenseKeyPools": {
+      "response": {
+        "payloadPath": null
+      },
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "createLicenseKeyPool": {
+      "pagination": false,
+      "example": {
+        "body": {
+          "name": "Example software keys"
+        }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "deleteLicenseKeyPool": {
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "getLicenseKeyPool": {
+      "pagination": false,
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "updateLicenseKeyPool": {
+      "pagination": false,
+      "example": {
+        "license_key_pool_id": "lkp_01KEZF7C00AQV1X2DPWG2NXS7H",
+        "body": {
+          "name": "Example desktop keys",
+          "expected_version": 1
+        }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "listLicenseKeyPoolKeys": {
+      "response": {
+        "payloadPath": null
+      },
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "createLicenseKeyPoolKeys": {
+      "pagination": false,
+      "example": {
+        "license_key_pool_id": "lkp_01KEZF7C00AQV1X2DPWG2NXS7H",
+        "body": {
+          "keys": [
+            "EXAMPLE-LICENSE-KEY-DO-NOT-USE"
+          ],
+          "seller_authorization_confirmed": true
+        }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "removeLicenseKeyPoolKeys": {
+      "pagination": false,
+      "example": {
+        "license_key_pool_id": "lkp_01KEZF7C00AQV1X2DPWG2NXS7H",
+        "body": {
+          "license_key_pool_key_ids": [
+            "lkpk_01KEZF7C004XWT0EAW2ZQGG93S"
+          ]
+        }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "listLicenseKeys": {
+      "response": {
+        "payloadPath": null
+      },
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "example": {
+        "order_id": "ord_01KEZF7C0054GQKJ142A8X367A"
+      }
+    },
+    "lookupLicenseKey": {
+      "pagination": false,
+      "example": {
+        "body": {
+          "key": "EXAMPLE-LICENSE-KEY-DO-NOT-USE"
+        }
+      },
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false
+      }
+    },
+    "validateLicenseKey": {
+      "pagination": false,
+      "example": {
+        "body": {
+          "key": "EXAMPLE-LICENSE-KEY-DO-NOT-USE",
+          "product_ids": [
+            "prod_01KEZF7C00BVSHCNWVH528HB66"
+          ]
+        }
+      },
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false
+      }
+    },
+    "getLicenseKey": {
+      "pagination": false,
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "updateLicenseKey": {
+      "pagination": false,
+      "example": {
+        "license_key_id": "lk_01KEZF7C000QD7VJ83G43V0NSN",
+        "body": {
+          "activation_limit": 2,
+          "expected_version": 1
+        }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "disableLicenseKey": {
+      "pagination": false,
+      "example": {
+        "license_key_id": "lk_01KEZF7C000QD7VJ83G43V0NSN",
+        "body": {
+          "expected_version": 1
+        }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "reinstateLicenseKey": {
+      "pagination": false,
+      "example": {
+        "license_key_id": "lk_01KEZF7C000QD7VJ83G43V0NSN",
+        "body": {
+          "expected_version": 1
+        }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "resendLicenseKey": {
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
+      }
+    },
+    "revealLicenseKey": {
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "rotateLicenseKeyKey": {
+      "pagination": false,
+      "example": {
+        "license_key_id": "lk_01KEZF7C000QD7VJ83G43V0NSN",
+        "body": {
+          "expected_version": 1
+        }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "listMeLicenseKeyActivations": {
+      "response": {
+        "payloadPath": null
+      },
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "releaseMeLicenseKeyActivation": {
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "listMeLicenseKeys": {
+      "response": {
+        "payloadPath": null
+      },
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "resendMeLicenseKey": {
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
       "defaults": {
         "timeoutMs": 150000,
         "deadlineMs": 300000

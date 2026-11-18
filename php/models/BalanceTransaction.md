@@ -13,6 +13,7 @@ Response model.
 | `balance_transaction_id` | Required | string | Stable identifier of this balance transaction. |
 | `currency` | Required | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. |
 | `description` | Optional | string | Short text describing the movement, from Flint or your processor. Use it for display, not for matching. |
+| `fee_details` | Optional | Array of [BalanceTransactionFeeDetail](../models/BalanceTransactionFeeDetail.md#balancetransactionfeedetail) | Fee sources on a payment charged a platform fee. Amounts are zero or positive and sum to the magnitude of fee_money. These are the original charges; later refunds do not reduce them. Absent on movements without a platform fee or without a payment Flint accepted. `fee_details[]`: [field definitions](../models/BalanceTransactionResponse.md#balancetransactionresponsedatafee_details). |
 | `fee_money` | Required | [SignedMoney](../models/SignedMoney.md#signedmoney) | Fee deducted from this balance movement. On payments, this is processing_fee_money plus every add-on fee in add_on_fees plus platform_fee.amount_money when a partner app charged a platform fee; the payment intent carries the breakdown. On disputes and dispute reversals, this includes the processor's dispute fee charged to your balance or actually returned to it. Charges are positive; returned fees are negative. A dispute of -4200 with a fee of 1500 has a net amount of -5700. A won dispute does not by itself return the fee. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `merchant_id` | Required | string | Merchant whose balance this transaction moved. |
 | `net_money` | Required | [SignedMoney](../models/SignedMoney.md#signedmoney) | Signed net effect on your Flint balance: amount_money minus fee_money in the same currency. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. |
@@ -23,7 +24,11 @@ Response model.
 | `related_balance_transaction_ids` | Required | Array of string | Earlier balance transactions this one is linked to, including the exact payment principal a refund returns, the payout transaction that a payout_failure, payout_cancellation, or payout_reversal returns, or the collection a merchant_billing_collection_reversal reverses. Empty when there are none. |
 | `related_resource` | Optional | [ResourceReference](../models/ResourceReference.md#resourcereference) | The Flint resource behind this movement: a payment_intent, payment_split, refund, dispute, payout, payout_destination, merchant_billing_invoice, or platform_fee_payout. Absent when the movement has none. A reference to another resource by `resource_type` and `resource_id`. `related_resource`: [field definitions](../models/BalanceTransactionResponse.md#balancetransactionresponsedatarelated_resource). |
 | `status` | Required | string | Whether the funds can be paid out yet: pending until they become available, then available. Only these two values appear, and the change to available sends balance_transaction.updated. Values: `"pending"`, `"available"`. |
-| `type` | Required | string | Kind of balance movement. Unmapped movement types are returned as other. Values: [27 declared values](BalanceTransactionInput.md#balancetransactioninput-type-values). |
+| `type` | Required | string | Kind of balance movement. Unmapped movement types are returned as other. Values: [29 declared values](BalanceTransactionInput.md#balancetransactioninput-type-values). |
+
+### BalanceTransaction.fee_details[]
+
+Field definitions: [BalanceTransactionResponse.data.fee_details[]](../models/BalanceTransactionResponse.md#balancetransactionresponsedatafee_details).
 
 ### BalanceTransaction.related_resource
 

@@ -23,6 +23,10 @@ Field definitions: [shared fields](PartnerAppInstallResponse.md#partnerappinstal
 
 Field definitions: [PartnerAppInstallResponse.data.environment_grants[]](../models/PartnerAppInstallResponse.md#partnerappinstallresponsedataenvironment_grants).
 
+### PartnerAppInstallListResponse.data[].platform_contact
+
+Field definitions: [PartnerAppInstallResponse.data.platform_contact](../models/PartnerAppInstallResponse.md#partnerappinstallresponsedataplatform_contact).
+
 ### PartnerAppInstallListResponse.meta
 
 Field definitions: [DisputeResponse.meta](../models/DisputeResponse.md#disputeresponsemeta).

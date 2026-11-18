@@ -8,6 +8,7 @@ namespace Flint;
  * @property-read string $customer_id
  * @property-read string $fingerprint
  * @property-read bool $is_default
+ * @property-read bool $is_removing
  * @property-read string $merchant_id
  * @property-read string $payment_method_id
  * @property-read string $saved_with
@@ -18,7 +19,7 @@ namespace Flint;
  * @property-read StripeClientSetupInput|array<array-key, mixed>|\stdClass $client_setup
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentMethodWithSetupInput extends Model {
-    /** @param array{'card'?: CardDetailsInput|array<array-key, mixed>|\stdClass, 'created_at': string|\DateTimeInterface, 'customer'?: array{'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'email': string|null, 'name': string|null, 'phone': string|null, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'customer_id': string, 'fingerprint'?: string, 'is_default': bool, 'merchant_id': string, 'payment_method_id': string, 'saved_with'?: string, 'status': string, 'type': string, 'updated_at': string|\DateTimeInterface, 'usage': string, 'client_setup'?: StripeClientSetupInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'card'?: CardDetailsInput|array<array-key, mixed>|\stdClass, 'created_at': string|\DateTimeInterface, 'customer'?: array{'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'email': string|null, 'name': string|null, 'phone': string|null, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'customer_id': string, 'fingerprint'?: string, 'is_default': bool, 'is_removing': bool, 'merchant_id': string, 'payment_method_id': string, 'saved_with'?: string, 'status': string, 'type': string, 'updated_at': string|\DateTimeInterface, 'usage': string, 'client_setup'?: StripeClientSetupInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentMethodWithSetupInput')); }
     /** Brand, expiry and last four digits. Present when `type` is `card`. Card details on a payment method: brand, expiration month and year, last four digits, and the wallet when one was used.
      * @return CardDetailsInput|array<array-key, mixed>|\stdClass
@@ -50,12 +51,18 @@ final class PaymentMethodWithSetupInput extends Model {
      */
     public function getFingerprint(): string { return $this->get('fingerprint'); }
     public function hasFingerprint(): bool { return $this->has('fingerprint'); }
-    /** Whether this is the customer's default payment method, the one Customer.default_payment_method_id names. Change the default with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
+    /** Whether this is the customer's default payment method, the one Customer.default_payment_method_id names. Change the default with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method event. Existing subscriptions keep their payment_method_id.
      * @return bool
      * @throws SdkError When is_default is omitted; use hasIsDefault() or valueOrDefault().
      */
     public function getIsDefault(): bool { return $this->get('is_default'); }
     public function hasIsDefault(): bool { return $this->has('is_default'); }
+    /** Removal is in progress. Show this card as Removing and offer retry with DELETE /v1/payment-methods/{payment_method_id}, or DELETE /v1/me/payment-methods/{payment_method_id} for buyers. Do not offer it for a new payment, subscription, or default. Flint retries abandoned removals automatically.
+     * @return bool
+     * @throws SdkError When is_removing is omitted; use hasIsRemoving() or valueOrDefault().
+     */
+    public function getIsRemoving(): bool { return $this->get('is_removing'); }
+    public function hasIsRemoving(): bool { return $this->has('is_removing'); }
     /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * @return string
      * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
@@ -74,7 +81,7 @@ final class PaymentMethodWithSetupInput extends Model {
      */
     public function getSavedWith(): string { return $this->get('saved_with'); }
     public function hasSavedWith(): bool { return $this->has('saved_with'); }
-    /** Whether the payment method can be charged. Treat any value other than active as not chargeable, including values added later. Value enum: "pending", "active", "expired", "archived", "failed".
+    /** The saved card lifecycle. Offer the card for a new payment only when status is active and is_removing is false. Treat any other status as not chargeable, including values added later. Value enum: "pending", "active", "expired", "archived", "failed".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */

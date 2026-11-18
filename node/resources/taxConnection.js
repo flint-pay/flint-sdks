@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/taxConnection.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
+import r0 from '../descriptors/resources/taxConnection.js?sdk=22459f40165c8f83629c1309c0555e659f12bdc99933459ef8de8ac0e4796ba2';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
+import settings from '../descriptors/settings.js?sdk=22459f40165c8f83629c1309c0555e659f12bdc99933459ef8de8ac0e4796ba2';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["connectTaxConnection"]:r0,["createTaxRegistration"]:r0,["deleteTaxRegistration"]:r0,["disconnectTaxConnection"]:r0,["getTaxConnection"]:r0,["getTaxRegistration"]:r0,["listTaxRegistrations"]:r0,["updateTaxRegistration"]:r0});
 export class Client {
@@ -88,6 +88,7 @@ this.taxConnection = Object.freeze({
 [Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
+export { makeAddressRequest } from '../models/AddressRequest.js';
 export { makeBuyerPauseCapability } from '../models/BuyerPauseCapability.js';
 export { makeBuyerSkipCapability } from '../models/BuyerSkipCapability.js';
 export { makeConnectTaxConnectionRequest } from '../models/ConnectTaxConnectionRequest.js';

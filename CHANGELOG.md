@@ -1,5 +1,11 @@
 # Changelog
 
+## 8.0.0-beta.7
+
+Both SDKs pin Flint `1ce368dbaaad17a8bd61adbc19fc1c6762ffaf4f` with API date `2026-09-07`. The SDKs add merchant and buyer license key management, activation, and merchant key pools. Apps can validate, activate, and release keys without an API credential by disabling ambient credential discovery and sending the full key and accepted product IDs.
+
+The updated public contract removes the three `feedbackReports` methods. See the [migration notes](MIGRATION.md#changes-in-800-beta7) for the affected calls.
+
 ## 8.0.0-beta.6
 
 - Derive 150 s attempt timeouts and 300 s deadlines from payment and external provider route classes in both SDKs, including subscription charges and invoice collection.

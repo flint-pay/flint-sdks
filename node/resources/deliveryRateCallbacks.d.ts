@@ -3,16 +3,16 @@ import type { ClientOptions } from '../declarations/types-7.js';
 import type {
     DeliveryRateCallback,
     DeliveryRateCallbackConnectionCheck,
-    DeliveryRateCallbackConnectionCheckResponse,
+    DeliveryRateCallbackConnectionCheckResponse
+} from '../declarations/types-22.js';
+import type {
     DeliveryRateCallbackListResponse,
     DeliveryRateCallbackResponse,
     DeliveryRateCallbackTestDelivery,
     DeliveryRateCallbackTestDeliveryResponse,
     DeliveryRateCallbackWithSecret,
     DeliveryRateCallbackWithSecretResponse,
-    DeliveryRateCallbacksCheckConnectionParams
-} from '../declarations/types-22.js';
-import type {
+    DeliveryRateCallbacksCheckConnectionParams,
     DeliveryRateCallbacksCreateParams,
     DeliveryRateCallbacksCreateTestDeliveryParams,
     DeliveryRateCallbacksDeleteParams,
@@ -21,8 +21,8 @@ import type {
     DeliveryRateCallbacksRotateSecretParams,
     DeliveryRateCallbacksUpdateParams
 } from '../declarations/types-23.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -39,44 +39,45 @@ export type {
 } from '../runtime.js';
 export type {
     DeliveryRateCallbacksCheckConnectionParams,
-    DeliveryRateCallbackConnectionCheck,
-    DeliveryRateCallbackConnectionCheckResponse,
+    DeliveryRateCallbacksCreateParams,
     DeliveryRateCallbackWithSecret,
     DeliveryRateCallbackWithSecretResponse,
+    DeliveryRateCallbacksCreateTestDeliveryParams,
     DeliveryRateCallbackTestDelivery,
     DeliveryRateCallbackTestDeliveryResponse,
-    DeliveryRateCallback,
+    DeliveryRateCallbacksDeleteParams,
     DeliveryRateCallbackResponse,
+    DeliveryRateCallbacksGetParams,
+    DeliveryRateCallbacksListParams,
     DeliveryRateCallbackListResponse,
+    DeliveryRateCallbacksRotateSecretParams,
+    DeliveryRateCallbacksUpdateParams
+} from '../declarations/types-23.js';
+export type { RequestOptions } from '../declarations/types-61.js';
+export type {
+    DeliveryRateCallbackConnectionCheck,
+    DeliveryRateCallbackConnectionCheckResponse,
+    DeliveryRateCallback,
     DeliveryRateCallbackConfigurationRequestInput,
     DeliveryRateCallbackConfiguration,
     DeliveryRateCallbackConfigurationPatchRequestInput
 } from '../declarations/types-22.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type {
-    DeliveryRateCallbacksCreateParams,
-    DeliveryRateCallbacksCreateTestDeliveryParams,
-    DeliveryRateCallbacksDeleteParams,
-    DeliveryRateCallbacksGetParams,
-    DeliveryRateCallbacksListParams,
-    DeliveryRateCallbacksRotateSecretParams,
-    DeliveryRateCallbacksUpdateParams
-} from '../declarations/types-23.js';
-export type { _SdkWithoutIdempotency, WebhookSigningMethodInput } from '../declarations/types-77.js';
+export type { _SdkWithoutIdempotency, WebhookSigningMethodInput } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { CreateDeliveryRateCallbackRequestInput } from '../declarations/types-9.js';
-export type { UpdateDeliveryRateCallbackRequestInput } from '../declarations/types-73.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
+export type { UpdateDeliveryRateCallbackRequestInput } from '../declarations/types-75.js';
+export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export type { DeliveryLocationSetsDeleteParams } from '../declarations/types-19.js';
-export { makeCreateDeliveryRateCallbackRequest } from '../declarations/types-79.js';
-export { makeDeliveryRateCallbackConfigurationPatchRequest, makeDeliveryRateCallbackConfigurationRequest } from '../declarations/types-83.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeUpdateDeliveryRateCallbackRequest } from '../declarations/types-90.js';
-export { makeWebhookSigningMethod } from '../declarations/types-92.js';
+export { makeCreateDeliveryRateCallbackRequest } from '../declarations/types-81.js';
+export { makeDeliveryRateCallbackConfigurationPatchRequest, makeDeliveryRateCallbackConfigurationRequest } from '../declarations/types-85.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeUpdateDeliveryRateCallbackRequest } from '../declarations/types-93.js';
+export { makeWebhookSigningMethod } from '../declarations/types-94.js';
 export interface DeliveryRateCallbacksResource {
     /**
  * Sends a minimal signed probe to verify endpoint reachability and callback credentials without
@@ -85,7 +86,9 @@ export interface DeliveryRateCallbacksResource {
  * after the callback changes or is archived.
  *
  * `POST /v1/delivery-rate-callbacks/{delivery_rate_callback_id}/check-connection`
- * @param delivery_rate_callback_id Flint delivery rate callback ID.
+ * @param delivery_rate_callback_id Flint delivery rate callback ID. Must be a valid ID with prefix
+ * dcb_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see
  * https://developers.withflintpay.com/docs/api/delivery-configuration#checkDeliveryRateCallbackConnection
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
@@ -123,7 +126,9 @@ export interface DeliveryRateCallbacksResource {
  * A retry replays the original result even after the callback changes or is archived.
  *
  * `POST /v1/delivery-rate-callbacks/{delivery_rate_callback_id}/test-deliveries`
- * @param delivery_rate_callback_id Flint delivery rate callback ID.
+ * @param delivery_rate_callback_id Flint delivery rate callback ID. Must be a valid ID with prefix
+ * dcb_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see
  * https://developers.withflintpay.com/docs/api/delivery-configuration#createDeliveryRateCallbackTestDelivery
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
@@ -142,7 +147,9 @@ export interface DeliveryRateCallbacksResource {
  * without changing its version or repeating effects.
  *
  * `DELETE /v1/delivery-rate-callbacks/{delivery_rate_callback_id}`
- * @param delivery_rate_callback_id Flint delivery rate callback ID.
+ * @param delivery_rate_callback_id Flint delivery rate callback ID. Must be a valid ID with prefix
+ * dcb_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see
  * https://developers.withflintpay.com/docs/api/delivery-configuration#deleteDeliveryRateCallback
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
@@ -157,7 +164,9 @@ export interface DeliveryRateCallbacksResource {
  * Returns the current revision and lifecycle state for one delivery rate callback.
  *
  * `GET /v1/delivery-rate-callbacks/{delivery_rate_callback_id}`
- * @param delivery_rate_callback_id Flint delivery rate callback ID.
+ * @param delivery_rate_callback_id Flint delivery rate callback ID. Must be a valid ID with prefix
+ * dcb_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/delivery-configuration#getDeliveryRateCallback
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -194,7 +203,9 @@ export interface DeliveryRateCallbacksResource {
  * include hmac to issue the first secret.
  *
  * `POST /v1/delivery-rate-callbacks/{delivery_rate_callback_id}/rotate-secret`
- * @param delivery_rate_callback_id Flint delivery rate callback ID.
+ * @param delivery_rate_callback_id Flint delivery rate callback ID. Must be a valid ID with prefix
+ * dcb_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see
  * https://developers.withflintpay.com/docs/api/delivery-configuration#rotateDeliveryRateCallbackSecret
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
@@ -215,7 +226,9 @@ export interface DeliveryRateCallbacksResource {
  * all shared secrets. Archived resources can't be changed; create a new resource instead.
  *
  * `PATCH /v1/delivery-rate-callbacks/{delivery_rate_callback_id}`
- * @param delivery_rate_callback_id Flint delivery rate callback ID.
+ * @param delivery_rate_callback_id Flint delivery rate callback ID. Must be a valid ID with prefix
+ * dcb_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see
  * https://developers.withflintpay.com/docs/api/delivery-configuration#updateDeliveryRateCallback
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.

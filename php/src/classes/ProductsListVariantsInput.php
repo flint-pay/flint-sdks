@@ -10,6 +10,7 @@ namespace Flint;
  * @property-read list<string>|string $status
  * @property-read string $external_reference_id
  * @property-read string $sku
+ * @property-read string $barcode
  * @property-read string $inventory_item_id
  * @property-read string $query
  * @property-read string $sort_by
@@ -23,9 +24,9 @@ namespace Flint;
  * @property-read list<string>|string $expand
  * Presence-aware input; omitted fields throw when accessed. */
 final class ProductsListVariantsInput extends Model {
-    /** @param array{'product_id': string, 'page_size'?: int, 'page_token'?: string, 'status'?: list<string>|string, 'external_reference_id'?: string, 'sku'?: string, 'inventory_item_id'?: string, 'query'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'delivery_profile_id'?: string, 'delivery_configuration_status'?: list<string>|string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'expand'?: list<string>|string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
+    /** @param array{'product_id': string, 'page_size'?: int, 'page_token'?: string, 'status'?: list<string>|string, 'external_reference_id'?: string, 'sku'?: string, 'barcode'?: string, 'inventory_item_id'?: string, 'query'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'delivery_profile_id'?: string, 'delivery_configuration_status'?: list<string>|string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'expand'?: list<string>|string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ProductsListVariantsInput')); }
-    /** Flint product ID. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+    /** Flint product ID. Must be a valid ID with prefix prod_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
      * @return string
      * @throws SdkError When product_id is omitted; use hasProductId() or valueOrDefault().
      */
@@ -55,12 +56,18 @@ final class ProductsListVariantsInput extends Model {
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Full-value match on ProductVariant.sku, case- and accent-insensitive, with no trimming. Does not search the inventory item's SKU. minLength: 1. maxLength: 100.
+    /** Full-value match on ProductVariant.sku, ignoring surrounding whitespace, case, and accents. Does not search the inventory item's SKU. minLength: 1. maxLength: 100.
      * @return string
      * @throws SdkError When sku is omitted; use hasSku() or valueOrDefault().
      */
     public function getSku(): string { return $this->get('sku'); }
     public function hasSku(): bool { return $this->has('sku'); }
+    /** Full-value match on ProductVariant.barcode, ignoring surrounding whitespace, case, and accents. All exact variant filters must match the same non-archived variant. Does not search the inventory item barcode. minLength: 1. maxLength: 100.
+     * @return string
+     * @throws SdkError When barcode is omitted; use hasBarcode() or valueOrDefault().
+     */
+    public function getBarcode(): string { return $this->get('barcode'); }
+    public function hasBarcode(): bool { return $this->has('barcode'); }
     /** Exact match on ProductVariant.inventory_item_id. Multiple variants may share one inventory item; this does not match or synchronize the inventory item's SKU. On products, all exact variant filters must match the same non-archived variant. pattern: ^invi_[0-9A-HJKMNP-TV-Z]{26}$. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
      * @return string
      * @throws SdkError When inventory_item_id is omitted; use hasInventoryItemId() or valueOrDefault().

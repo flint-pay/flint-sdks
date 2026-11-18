@@ -5,6 +5,7 @@ namespace Flint;
  * @property-read MoneyValue $amount_money
  * @property-read bool $can_respond_with_evidence
  * @property-read string $case_type
+ * @property-read ?string $closed_reason
  * @property-read string $created_at
  * @property-read ExpandedCustomerSummary|null $customer
  * @property-read ?string $customer_id
@@ -32,7 +33,7 @@ namespace Flint;
  * @property-read string $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class DisputePreventedMerchantEventDataObject extends Model {
-    /** @param array{'amount_money': mixed, 'can_respond_with_evidence': bool, 'case_type': string, 'created_at': string, 'customer'?: mixed, 'customer_id'?: string, 'dispute_id': string, 'evidence_due_at': string|null, 'evidence_submission_count': int, 'fraud_warning_id'?: string, 'has_evidence': bool, 'is_action_required': bool, 'is_evidence_deadline_passed': bool, 'merchant_id': string, 'network_reason_code': string|null, 'order'?: mixed, 'order_id'?: string, 'payment_intent'?: mixed, 'payment_intent_id'?: string, 'payment_option': string|null, 'reason': string, 'recommended_evidence_types': list<string>, 'response_unavailable_reason'?: string, 'split_reversals'?: list<mixed>, 'status': string, 'status_changed_at'?: string, 'supported_actions': list<string>, 'updated_at': string, ...}|object $values */
+    /** @param array{'amount_money': mixed, 'can_respond_with_evidence': bool, 'case_type': string, 'closed_reason'?: string, 'created_at': string, 'customer'?: mixed, 'customer_id'?: string, 'dispute_id': string, 'evidence_due_at': string|null, 'evidence_submission_count': int, 'fraud_warning_id'?: string, 'has_evidence': bool, 'is_action_required': bool, 'is_evidence_deadline_passed': bool, 'merchant_id': string, 'network_reason_code': string|null, 'order'?: mixed, 'order_id'?: string, 'payment_intent'?: mixed, 'payment_intent_id'?: string, 'payment_option': string|null, 'reason': string, 'recommended_evidence_types': list<string>, 'response_unavailable_reason'?: string, 'split_reversals'?: list<mixed>, 'status': string, 'status_changed_at'?: string, 'supported_actions': list<string>, 'updated_at': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DisputePreventedMerchantEventDataObject')); }
     /** Amount in dispute. For a chargeback, this amount left your balance when the case opened; an inquiry moves no money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
@@ -49,6 +50,11 @@ final class DisputePreventedMerchantEventDataObject extends Model {
      */
     public function getCaseType(): string { return $this->get('case_type'); }
     public function hasCaseType(): bool { return $this->has('case_type'); }
+    /** Why the dispute closed, when Flint recorded the cause. Absent when Flint has no confirmed closure reason. Value enum: "merchant_accepted".
+     * @return ?string
+     */
+    public function getClosedReason(): ?string { return $this->get('closed_reason'); }
+    public function hasClosedReason(): bool { return $this->has('closed_reason'); }
     /** RFC3339 timestamp. Format: date-time.
      * @return string
      */

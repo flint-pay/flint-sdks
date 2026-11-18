@@ -1,16 +1,15 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
+import type { PaymentReview, PaymentReviewListResponse } from '../declarations/types-53.js';
 import type {
-    PaymentReview,
-    PaymentReviewListResponse,
     PaymentReviewResponse,
     PaymentReviewsApproveParams,
     PaymentReviewsDeclineParams,
     PaymentReviewsGetParams,
     PaymentReviewsListParams
-} from '../declarations/types-52.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-54.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -27,36 +26,43 @@ export type {
 } from '../runtime.js';
 export type {
     PaymentReviewsApproveParams,
-    PaymentReview,
     PaymentReviewResponse,
     PaymentReviewsDeclineParams,
     PaymentReviewsGetParams,
     PaymentReviewsListParams,
-    PaymentReviewListResponse,
-    PaymentReviewResolutionFailure,
     PaymentSourceSummary,
     PaymentSourceAchDebitSummary,
     PaymentSourceCardSummary,
     PaymentSourceCardPresentDetails,
-    PaymentReviewPaymentSummary,
     PaymentReviewRisk
-} from '../declarations/types-52.js';
-export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-60.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-54.js';
+export type { RequestOptions } from '../declarations/types-61.js';
+export type {
+    PaymentReview,
+    PaymentReviewListResponse,
+    PaymentReviewResolutionFailure,
+    PaymentReviewPaymentSummary
+} from '../declarations/types-53.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { ExpandedCustomerSummary, ExpandedOrderSummary, ExpandedPaymentIntentSummary } from '../declarations/types-26.js';
-export type { CheckoutBuyerContact } from '../declarations/types-5.js';
+export type { ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-62.js';
+export type {
+    ExpandedCustomerSummary,
+    ExpandedOrderSummary,
+    ExpandedPaymentIntentSummary,
+    DisputesAcceptParams
+} from '../declarations/types-26.js';
+export type { CheckoutBuyerContact } from '../declarations/types-6.js';
 export type { DeferredPromotion, DeclinePaymentReviewRequestInput, DeclinePaymentReviewRequest } from '../declarations/types-17.js';
-export type { PricingAmounts } from '../declarations/types-55.js';
-export type { MoneyValue, NextAction } from '../declarations/types-42.js';
-export type { OrderSettlementAmounts } from '../declarations/types-45.js';
-export type { SettlementAmounts } from '../declarations/types-65.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
-export { makeDeclinePaymentReviewRequest } from '../declarations/types-82.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
+export type { PricingAmounts } from '../declarations/types-56.js';
+export type { MoneyValue, NextAction } from '../declarations/types-44.js';
+export type { OrderSettlementAmounts } from '../declarations/types-47.js';
+export type { SettlementAmounts } from '../declarations/types-68.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export { makeDeclinePaymentReviewRequest } from '../declarations/types-84.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export interface PaymentReviewsResource {
     /**
  * Approves the payment and closes the review with `closed_reason: approved`. Approving never
@@ -64,7 +70,9 @@ export interface PaymentReviewsResource {
  * a review you already approved returns it unchanged.
  *
  * `POST /v1/payment-reviews/{payment_review_id}/approve`
- * @param payment_review_id Flint payment review ID.
+ * @param payment_review_id Flint payment review ID. Must be a valid ID with prefix rev_. Malformed
+ * IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist
+ * return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/risk-controls#approvePaymentReview
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -83,7 +91,9 @@ export interface PaymentReviewsResource {
  * not complete; wait for `payment_review.closed` or `payment_review.reopened`.
  *
  * `POST /v1/payment-reviews/{payment_review_id}/decline`
- * @param payment_review_id Flint payment review ID.
+ * @param payment_review_id Flint payment review ID. Must be a valid ID with prefix rev_. Malformed
+ * IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist
+ * return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/risk-controls#declinePaymentReview
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -97,7 +107,9 @@ export interface PaymentReviewsResource {
  * Retrieves a payment review. Expand `payment_intent`, `order`, or `customer` to include them.
  *
  * `GET /v1/payment-reviews/{payment_review_id}`
- * @param payment_review_id Flint payment review ID.
+ * @param payment_review_id Flint payment review ID. Must be a valid ID with prefix rev_. Malformed
+ * IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist
+ * return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/risk-controls#getPaymentReview
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

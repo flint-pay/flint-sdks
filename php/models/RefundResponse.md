@@ -18,6 +18,10 @@ Resource, collection, or operation result returned by this request. Money return
 
 Field definitions: [shared fields](CancelReturnResponse.md#cancelreturnresponsedatareturn_resolutionsrefunds).
 
+### RefundResponse.data.charge_allocations[]
+
+Field definitions: [CancelReturnResponse.data.return_resolutions[].refunds[].charge_allocations[]](../models/CancelReturnResponse.md#cancelreturnresponsedatareturn_resolutionsrefundscharge_allocations).
+
 ### RefundResponse.data.customer
 
 Declared alternatives: [DisputeResponse.data.customer](../models/DisputeResponse.md#disputeresponsedatacustomer).

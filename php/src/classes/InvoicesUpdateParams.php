@@ -46,13 +46,13 @@ final class InvoicesUpdateParams extends Model {
      */
     public function getExternalReferenceId(): string|null { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Fine print at the bottom of the invoice and PDF. Send null to clear it. minLength: 1.
+    /** Fine print at the bottom of the invoice and PDF. Send null to clear it. minLength: 1. maxLength: 2048.
      * @return string|null
      * @throws SdkError When footer is omitted; use hasFooter() or valueOrDefault().
      */
     public function getFooter(): string|null { return $this->get('footer'); }
     public function hasFooter(): bool { return $this->has('footer'); }
-    /** Message to the customer, printed on the invoice and PDF. Send null to clear it. minLength: 1.
+    /** Message to the customer, printed on the invoice and PDF. Send null to clear it. minLength: 1. maxLength: 2048.
      * @return string|null
      * @throws SdkError When memo is omitted; use hasMemo() or valueOrDefault().
      */
@@ -70,7 +70,7 @@ final class InvoicesUpdateParams extends Model {
      */
     public function getPaymentDue(): mixed { return $this->get('payment_due'); }
     public function hasPaymentDue(): bool { return $this->has('payment_due'); }
-    /** The buyer's purchase order number, printed on the invoice and PDF. Send null to clear it. minLength: 1.
+    /** The buyer's purchase order number, printed on the invoice and PDF. Send null to clear it. minLength: 1. maxLength: 255.
      * @return string|null
      * @throws SdkError When po_number is omitted; use hasPoNumber() or valueOrDefault().
      */
@@ -82,7 +82,7 @@ final class InvoicesUpdateParams extends Model {
      */
     public function getRecipientEmail(): string|null { return $this->get('recipient_email'); }
     public function hasRecipientEmail(): bool { return $this->has('recipient_email'); }
-    /** Your reference for the invoice, printed on the invoice and PDF. Put the buyer's purchase order number in po_number instead. Send null to clear it. minLength: 1.
+    /** Your reference for the invoice, printed on the invoice and PDF. Put the buyer's purchase order number in po_number instead. Send null to clear it. minLength: 1. maxLength: 255.
      * @return string|null
      * @throws SdkError When reference is omitted; use hasReference() or valueOrDefault().
      */

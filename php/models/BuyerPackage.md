@@ -14,6 +14,7 @@ Response model.
 | `dimensions` | Optional | [Dimensions](../models/Dimensions.md#dimensions) | Physical length, width, and height of the package. Package or item dimensions as `length`, `width`, and `height` in the given `unit`. |
 | `expected_delivery_at` | Optional | string or null | When the carrier or merchant expects this package to arrive. Null when no estimate is set. Retained after delivery as history. This estimate is separate from the fulfillment's promised shipment window. Format: `date-time`. |
 | `fulfillment_id` | Required | string | Fulfillment whose items are in the package. |
+| `items` | Optional | Array of [BuyerPackageItem](../models/BuyerPackageItem.md#buyerpackageitem) | Order line quantities allocated to this outbound package. Present when the package has items. `items[]`: [field definitions](../models/BuyerPackageResponse.md#buyerpackageresponsedataitems). |
 | `label_url` | Optional | string | Return-label URL supplied by the merchant's integration. Included for return packages; omitted for outbound packages. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `order_id` | Required | string | Order whose items are in the package. |
 | `package_id` | Required | string | Stable identifier of the package. |
@@ -28,6 +29,10 @@ Response model.
 | `updated_at` | Required | string | Last update timestamp. Format: `date-time`. |
 | `version` | Required | integer | Monotonic package version for expected_version checks. Format: `uint64`. minimum: `1`. |
 | `weight` | Optional | [Weight](../models/Weight.md#weight) | Physical weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in delivery profile configuration. |
+
+### BuyerPackage.items[]
+
+Field definitions: [BuyerPackageResponse.data.items[]](../models/BuyerPackageResponse.md#buyerpackageresponsedataitems).
 
 ### BuyerPackage.return_line_items[]
 

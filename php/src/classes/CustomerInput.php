@@ -60,7 +60,7 @@ final class CustomerInput extends Model {
      */
     public function getDefaultPaymentMethod(): mixed { return $this->get('default_payment_method'); }
     public function hasDefaultPaymentMethod(): bool { return $this->has('default_payment_method'); }
-    /** ID of the customer's default off-session payment method. `null` when none is set. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
+    /** ID of the customer's default off-session payment method. Existing subscriptions keep their own payment_method_id when the default changes. `null` when none is set. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
      * @return string|null
      * @throws SdkError When default_payment_method_id is omitted; use hasDefaultPaymentMethodId() or valueOrDefault().
      */

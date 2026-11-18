@@ -15,7 +15,7 @@ Signature: `get(string|Model $inventory_level_id, array|Model|null $params = nul
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: inventory_item. Include the full inventory item with expand=inventory_item. Requires commerce.inventory.read. Limits: at most 10 unique expand paths per request. Items values: `"inventory_item"`. Values: `"inventory_item"`. |
-| `inventory_level_id` | Required | string | Flint inventory level ID. |
+| `inventory_level_id` | Required | string | Flint inventory level ID. Must be a valid ID with prefix invl_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -124,7 +124,7 @@ $result = $client->inventoryLevels->list([], new RequestOptions());
 
 ### inventoryLevels.update
 
-Set one inventory level's safety_stock_quantity. expected_version is optional and enforced when sent. The version changes on every quantity or claim change, including holds and commits, so read the level immediately before a PATCH. Returns the updated inventory level. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, read the inventory level by ID.
+Set one inventory level's safety_stock_quantity. expected_version is optional and enforced when sent. The version changes on every quantity or claim change, including holds and commits, so read the level immediately before a PATCH. Returns the updated inventory level. Idempotency is scoped to the authenticated merchant, environment, caller namespace, and operation. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, read the inventory level by ID.
 
 `PATCH /v1/inventory-levels/{inventory_level_id}`
 
@@ -134,7 +134,7 @@ Signature: `update(string|Model $inventory_level_id, array|Model $params, ?Reque
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `inventory_level_id` | Required | string | Flint inventory level ID. |
+| `inventory_level_id` | Required | string | Flint inventory level ID. Must be a valid ID with prefix invl_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |

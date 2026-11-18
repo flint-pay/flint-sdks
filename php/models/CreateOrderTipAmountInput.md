@@ -12,7 +12,7 @@ Request input.
 | `calculation_type` | Required | string | Selects the calculation type branch. Values: `"amount"`. |
 | `description` | Optional | string | Optional description that stays on the tip for your reporting. minLength: `1`. maxLength: `255`. |
 | `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
-| `name` | Optional | string | Optional name that stays on the tip for your reporting. minLength: `1`. maxLength: `255`. |
+| `name` | Optional | string | Optional name that stays on the tip for your reporting. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `255`. |
 | `percent` | Optional | number | Requested tip percentage from 1 through 100, calculated from the post-discount merchandise subtotal. minimum: `1`. maximum: `100`. multipleOf: `0.0001`. |
 
 ### CreateOrderTipAmountInput.amount_money

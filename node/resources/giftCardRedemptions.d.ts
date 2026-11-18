@@ -12,8 +12,8 @@ import type {
     GiftCardRedemptionsGetParams,
     GiftCardRedemptionsListParams
 } from '../declarations/types-30.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-77.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -43,27 +43,28 @@ export type {
     GiftCardRestriction,
     GiftCardTransaction
 } from '../declarations/types-30.js';
-export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-60.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { RequestOptions } from '../declarations/types-61.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { GiftCard } from '../declarations/types-28.js';
-export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
+export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-44.js';
+export type { ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-62.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type {
     CreateGiftCardRedemptionRequestInput,
     CreateGiftCardRedemptionRequestAutomaticInput,
     CreateGiftCardRedemptionRequestManualInput
 } from '../declarations/types-10.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
+export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export {
     makeCreateGiftCardRedemptionRequest,
     makeCreateGiftCardRedemptionRequestAutomatic,
     makeCreateGiftCardRedemptionRequestManual
-} from '../declarations/types-80.js';
-export { makeGiftCardVersionRequest } from '../declarations/types-84.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
+} from '../declarations/types-82.js';
+export { makeGiftCardVersionRequest } from '../declarations/types-86.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export interface GiftCardRedemptionsResource {
     /**
  * Releases an uncaptured standalone reservation without posting a debit or refund. Flint order
@@ -71,7 +72,9 @@ export interface GiftCardRedemptionsResource {
  * the redemption version.
  *
  * `POST /v1/gift-card-redemptions/{gift_card_redemption_id}/cancel`
- * @param gift_card_redemption_id Flint resource ID.
+ * @param gift_card_redemption_id Flint resource ID. Must be a valid ID with prefix gcr_. Malformed
+ * IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist
+ * return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/gift-cards#cancelGiftCardRedemption
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -88,7 +91,9 @@ export interface GiftCardRedemptionsResource {
  * version.
  *
  * `POST /v1/gift-card-redemptions/{gift_card_redemption_id}/capture`
- * @param gift_card_redemption_id Flint resource ID.
+ * @param gift_card_redemption_id Flint resource ID. Must be a valid ID with prefix gcr_. Malformed
+ * IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist
+ * return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/gift-cards#captureGiftCardRedemption
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -120,7 +125,9 @@ export interface GiftCardRedemptionsResource {
  * current reservation status.
  *
  * `GET /v1/gift-card-redemptions/{gift_card_redemption_id}`
- * @param gift_card_redemption_id Flint resource ID.
+ * @param gift_card_redemption_id Flint resource ID. Must be a valid ID with prefix gcr_. Malformed
+ * IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist
+ * return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/gift-cards#getGiftCardRedemption
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

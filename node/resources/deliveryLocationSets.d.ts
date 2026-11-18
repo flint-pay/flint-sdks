@@ -10,8 +10,8 @@ import type {
     DeliveryLocationSetsListParams,
     DeliveryLocationSetsUpdateParams
 } from '../declarations/types-19.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -38,22 +38,22 @@ export type {
     DeliveryLocationSetConfigurationInput,
     DeliveryLocationSetConfiguration
 } from '../declarations/types-19.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { RequestOptions } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateDeliveryLocationSetRequestInput } from '../declarations/types-9.js';
-export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-41.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { UpdateDeliveryLocationSetRequestInput } from '../declarations/types-73.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
-export { makeCreateDeliveryLocationSetRequest } from '../declarations/types-79.js';
-export { makeDeliveryLocationSetConfiguration } from '../declarations/types-82.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeUpdateDeliveryLocationSetRequest } from '../declarations/types-90.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { UpdateDeliveryLocationSetRequestInput } from '../declarations/types-75.js';
+export type { DisputesAcceptParams } from '../declarations/types-26.js';
+export { makeCreateDeliveryLocationSetRequest } from '../declarations/types-81.js';
+export { makeDeliveryLocationSetConfiguration } from '../declarations/types-85.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeUpdateDeliveryLocationSetRequest } from '../declarations/types-93.js';
 export interface DeliveryLocationSetsResource {
     /**
  * Delivery location sets pin reusable sets of Locations for allocation or buyer pickup. Creation
@@ -78,7 +78,9 @@ export interface DeliveryLocationSetsResource {
  * changing its version or repeating effects.
  *
  * `DELETE /v1/delivery-location-sets/{delivery_location_set_id}`
- * @param delivery_location_set_id Flint delivery location set ID.
+ * @param delivery_location_set_id Flint delivery location set ID. Must be a valid ID with prefix
+ * dls_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see
  * https://developers.withflintpay.com/docs/api/delivery-configuration#deleteDeliveryLocationSet
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
@@ -93,7 +95,9 @@ export interface DeliveryLocationSetsResource {
  * Returns the current revision and lifecycle state for one delivery location set.
  *
  * `GET /v1/delivery-location-sets/{delivery_location_set_id}`
- * @param delivery_location_set_id Flint delivery location set ID.
+ * @param delivery_location_set_id Flint delivery location set ID. Must be a valid ID with prefix
+ * dls_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/delivery-configuration#getDeliveryLocationSet
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -129,7 +133,9 @@ export interface DeliveryLocationSetsResource {
  * resource instead.
  *
  * `PATCH /v1/delivery-location-sets/{delivery_location_set_id}`
- * @param delivery_location_set_id Flint delivery location set ID.
+ * @param delivery_location_set_id Flint delivery location set ID. Must be a valid ID with prefix
+ * dls_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see
  * https://developers.withflintpay.com/docs/api/delivery-configuration#updateDeliveryLocationSet
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.

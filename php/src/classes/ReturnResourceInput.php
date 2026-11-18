@@ -156,7 +156,7 @@ final class ReturnResourceInput extends Model {
      */
     public function getHandoffRequirements(): array { return $this->get('handoff_requirements'); }
     public function hasHandoffRequirements(): bool { return $this->has('handoff_requirements'); }
-    /** Who created the Return, from the credential that sent the request: buyer for a customer session on /v1/me or Flint's hosted account, merchant for a Dashboard user, integration for an API key or partner app. It cannot be sent. Value enum: "buyer", "merchant", "integration".
+    /** Who created the Return: buyer for a customer session on /v1/me or Flint's hosted account, merchant for a Dashboard user, integration for an API key or partner app, or system for Flint automation. It cannot be sent. Value enum: "buyer", "merchant", "integration", "system".
      * @return string
      * @throws SdkError When initiated_by is omitted; use hasInitiatedBy() or valueOrDefault().
      */

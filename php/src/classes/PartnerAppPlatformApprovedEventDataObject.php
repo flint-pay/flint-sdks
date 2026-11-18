@@ -121,7 +121,7 @@ final class PartnerAppPlatformApprovedEventDataObject extends Model {
      */
     public function getPlatformFeeCap(): ?PlatformFeeCap { return $this->get('platform_fee_cap'); }
     public function hasPlatformFeeCap(): bool { return $this->has('platform_fee_cap'); }
-    /** What the app told Flint for its platform review. Absent until set. What the platform tells Flint for its review. It is one value: a write replaces it whole.
+    /** What the app told Flint for its platform review. Absent until set. support_email, website_url and support_phone are shown to merchants on the consent screen and install resource. What the platform tells Flint for its review. support_email, website_url and support_phone are shown to merchants on the consent screen and install resource. It is one value: a write replaces it whole.
      * @return ?PartnerAppPlatformProfile
      */
     public function getPlatformProfile(): ?PartnerAppPlatformProfile { return $this->get('platform_profile'); }

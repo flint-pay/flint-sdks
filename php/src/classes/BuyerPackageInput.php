@@ -8,6 +8,7 @@ namespace Flint;
  * @property-read DimensionsInput|array<array-key, mixed>|\stdClass $dimensions
  * @property-read string|\DateTimeInterface|null $expected_delivery_at
  * @property-read string $fulfillment_id
+ * @property-read list<BuyerPackageItemInput|array<array-key, mixed>|\stdClass> $items
  * @property-read string $label_url
  * @property-read string $order_id
  * @property-read string $package_id
@@ -24,7 +25,7 @@ namespace Flint;
  * @property-read WeightInput|array<array-key, mixed>|\stdClass $weight
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerPackageInput extends Model {
-    /** @param array{'carrier'?: string, 'created_at': string|\DateTimeInterface, 'delivered_at'?: string|\DateTimeInterface, 'dimensions'?: DimensionsInput|array<array-key, mixed>|\stdClass, 'expected_delivery_at'?: string|\DateTimeInterface|null, 'fulfillment_id': string, 'label_url'?: string, 'order_id': string, 'package_id': string, 'return_id'?: string, 'return_line_items'?: list<ReturnShipmentLineItemAllocationInput|array<array-key, mixed>|\stdClass>, 'service_code'?: string, 'shipment_id': string, 'shipped_at'?: string|\DateTimeInterface, 'status': string, 'tracking_number'?: string, 'tracking_url'?: string, 'updated_at': string|\DateTimeInterface, 'version': int, 'weight'?: WeightInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'carrier'?: string, 'created_at': string|\DateTimeInterface, 'delivered_at'?: string|\DateTimeInterface, 'dimensions'?: DimensionsInput|array<array-key, mixed>|\stdClass, 'expected_delivery_at'?: string|\DateTimeInterface|null, 'fulfillment_id': string, 'items'?: list<BuyerPackageItemInput|array<array-key, mixed>|\stdClass>, 'label_url'?: string, 'order_id': string, 'package_id': string, 'return_id'?: string, 'return_line_items'?: list<ReturnShipmentLineItemAllocationInput|array<array-key, mixed>|\stdClass>, 'service_code'?: string, 'shipment_id': string, 'shipped_at'?: string|\DateTimeInterface, 'status': string, 'tracking_number'?: string, 'tracking_url'?: string, 'updated_at': string|\DateTimeInterface, 'version': int, 'weight'?: WeightInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerPackageInput')); }
     /** Carrier transporting the package.
      * @return string
@@ -62,6 +63,12 @@ final class BuyerPackageInput extends Model {
      */
     public function getFulfillmentId(): string { return $this->get('fulfillment_id'); }
     public function hasFulfillmentId(): bool { return $this->has('fulfillment_id'); }
+    /** Order line quantities allocated to this outbound package. Present when the package has items. [] (Value): {@see BuyerPackageItemInput}. An order line quantity allocated to this package.
+     * @return list<BuyerPackageItemInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When items is omitted; use hasItems() or valueOrDefault().
+     */
+    public function getItems(): array { return $this->get('items'); }
+    public function hasItems(): bool { return $this->has('items'); }
     /** Return-label URL supplied by the merchant's integration. Included for return packages; omitted for outbound packages. Omitted for a checkout session credential that doesn't act for the customer the buyer verified.
      * @return string
      * @throws SdkError When label_url is omitted; use hasLabelUrl() or valueOrDefault().

@@ -4,7 +4,7 @@ namespace Flint;
 final class PaymentSplitsResource {
     public function __construct(private readonly Runtime $runtime) {}
     /** Read splits you collected or received, with your own credentials and money_movement.payment_splits.read. Install tokens can't read splits. Test splits are in the collecting merchant's sandbox and the seller's test grant's sandbox. Consumers include marketplace payment pages and seller reconciliation.
-     * @param string|Model $payment_split_id Flint payment split ID.
+     * @param string|Model $payment_split_id Flint payment split ID. Must be a valid ID with prefix psplit_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND.
      * @param PaymentSplitsGetParams|array<array-key, mixed>|Model|null $params Flat body fields and query/header parameters; path arguments follow URL order.
      * @return PaymentSplit
      */

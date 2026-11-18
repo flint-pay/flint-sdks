@@ -7,8 +7,8 @@ import type {
     BalanceTransactionsListParams
 } from '../declarations/types-1.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -29,27 +29,31 @@ export type {
     BalanceTransactionResponse,
     BalanceTransactionsListParams,
     BalanceTransactionListResponse,
-    AuthMode
+    AuthMode,
+    BalanceTransactionFeeDetail
 } from '../declarations/types-1.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
-export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-60.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { RequestOptions } from '../declarations/types-61.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { MoneyValue, NextAction, MoneyMovementListMeta, MoneyMovementHistoryMeta } from '../declarations/types-42.js';
+export type { MoneyValue, NextAction, MoneyMovementListMeta, MoneyMovementHistoryMeta } from '../declarations/types-44.js';
 export type { ExpandedOrderSummary } from '../declarations/types-26.js';
-export type { CheckoutBuyerContact } from '../declarations/types-5.js';
+export type { CheckoutBuyerContact } from '../declarations/types-6.js';
 export type { DeferredPromotion } from '../declarations/types-17.js';
-export type { PricingAmounts } from '../declarations/types-55.js';
-export type { OrderSettlementAmounts } from '../declarations/types-45.js';
-export type { SettlementAmounts } from '../declarations/types-65.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
+export type { PricingAmounts } from '../declarations/types-56.js';
+export type { OrderSettlementAmounts } from '../declarations/types-47.js';
+export type { SettlementAmounts } from '../declarations/types-68.js';
+export type { ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-62.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export interface BalanceTransactionsResource {
     /**
  * Returns one balance transaction by ID, with optional related order expansion.
  *
  * `GET /v1/balance-transactions/{balance_transaction_id}`
- * @param balance_transaction_id Flint balance transaction ID.
+ * @param balance_transaction_id Flint balance transaction ID. Must be a valid ID with prefix
+ * btxn_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/money-movement#getBalanceTransaction
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

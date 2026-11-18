@@ -1,11 +1,12 @@
-import { d7705 as c0, d7706 as c1, d7695 as c3 } from '../descriptors/data/331.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
-import { d7719 as c2, d7720 as c4, d7721 as c5 } from '../descriptors/data/332.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
-import { d7484 as c6 } from '../descriptors/data/314.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
-import { d7484 as d7484 } from '../descriptors/data/314.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
+import { d7951 as c0, d7952 as c1 } from '../descriptors/data/342.js?sdk=22459f40165c8f83629c1309c0555e659f12bdc99933459ef8de8ac0e4796ba2';
+import { d7965 as c2, d7966 as c4, d7967 as c5 } from '../descriptors/data/343.js?sdk=22459f40165c8f83629c1309c0555e659f12bdc99933459ef8de8ac0e4796ba2';
+import { d7941 as c3 } from '../descriptors/data/341.js?sdk=22459f40165c8f83629c1309c0555e659f12bdc99933459ef8de8ac0e4796ba2';
+import { d7725 as c6 } from '../descriptors/data/324.js?sdk=22459f40165c8f83629c1309c0555e659f12bdc99933459ef8de8ac0e4796ba2';
+import { d7725 as d7725 } from '../descriptors/data/324.js?sdk=22459f40165c8f83629c1309c0555e659f12bdc99933459ef8de8ac0e4796ba2';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d7484;
+const read = d7725;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["SharedCodec2973"]:c0(),["SharedCodec2974"]:c1(),["SharedCodec332"]:c2(),["SharedCodec5"]:c3(),["SharedCodec565"]:c4(),["SharedCodec566"]:c5(),["UpdateAPIKeyRequest"]:c6()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["SharedCodec3067"]:c0(),["SharedCodec3068"]:c1(),["SharedCodec338"]:c2(),["SharedCodec5"]:c3(),["SharedCodec571"]:c4(),["SharedCodec572"]:c5(),["UpdateAPIKeyRequest"]:c6()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeUpdateAPIKeyRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

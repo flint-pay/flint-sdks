@@ -9,8 +9,8 @@ import type {
     GiftCardLoadsGetParams,
     GiftCardLoadsListParams
 } from '../declarations/types-29.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-77.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -33,50 +33,47 @@ export type {
     GiftCardLoadsListParams,
     GiftCardLoadListResponse,
     GiftCardFundingSourceRequestInput,
+    GiftCardFundingSourceExternalPaymentRequestInput,
     GiftCardFundingSourceFlintPaymentRequestInput,
     GiftCardFundingSourceFlintManualPaymentRequestInput,
     GiftCardFundingSourceImportRequestInput,
+    GiftCardFundingSourceAdjustmentRequestInput,
     GiftCardFundingSourceGiftCardRefundRequestInput,
     GiftCardFundingSourceGiftCardPurchaseRefundRecoveryRequestInput,
     GiftCardFundingSourceStoreCreditRequestInput,
-    GiftCardPurchaseRefundAllocation,
-    GiftCardPurchaseRefundRecovery,
-    GiftCardPurchaseRefundRecoveryDestination,
+    GiftCardFundingSource,
+    GiftCardFundingSourceExternalPayment,
     GiftCardFundingSourceFlintPayment,
+    GiftCardFundingSourceFlintManualPayment,
     GiftCardFundingSourceImport,
+    GiftCardFundingSourceAdjustment,
     GiftCardFundingSourceGiftCardRefund,
     GiftCardFundingSourceGiftCardPurchaseRefundRecovery,
     GiftCardFundingSourceStoreCredit
 } from '../declarations/types-29.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-77.js';
-export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-60.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { RequestOptions } from '../declarations/types-61.js';
 export type { CreateGiftCardLoadResult, CreateGiftCardLoadResultResponse, CreateGiftCardLoadRequestInput } from '../declarations/types-10.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-42.js';
-export type {
-    GiftCardFundingSourceExternalPaymentRequestInput,
-    GiftCardFundingSourceAdjustmentRequestInput,
-    GiftCard,
-    GiftCardFundingDispute,
-    GiftCardFundingLossResolution,
-    GiftCardFundingSource,
-    GiftCardFundingSourceExternalPayment,
-    GiftCardFundingSourceFlintManualPayment,
-    GiftCardFundingSourceAdjustment
-} from '../declarations/types-28.js';
+export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
+export type { GiftCard, GiftCardFundingDispute, GiftCardFundingLossResolution } from '../declarations/types-28.js';
 export type {
     GiftCardRestriction,
     GiftCardTransaction,
     GiftCardPurchaseRefundValueHold,
+    GiftCardPurchaseRefundAllocation,
+    GiftCardPurchaseRefundRecovery,
+    GiftCardPurchaseRefundRecoveryDestination,
     GiftCardPurchaseRefundValueAllocation,
     GiftCardPurchaseRestoration,
     GiftCardRefundProvenance
 } from '../declarations/types-30.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
-export { makeCreateGiftCardLoadRequest } from '../declarations/types-80.js';
+export type { ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-62.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { DisputesAcceptParams } from '../declarations/types-26.js';
+export { makeCreateGiftCardLoadRequest } from '../declarations/types-82.js';
 export {
     makeGiftCardFundingSourceAdjustmentRequest,
     makeGiftCardFundingSourceExternalPaymentRequest,
@@ -87,8 +84,8 @@ export {
     makeGiftCardFundingSourceImportRequest,
     makeGiftCardFundingSourceRequest,
     makeGiftCardFundingSourceStoreCreditRequest
-} from '../declarations/types-84.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
+} from '../declarations/types-86.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export interface GiftCardLoadsResource {
     /**
  * Adds positive value with separately recorded consideration and funding provenance. Limits apply
@@ -114,7 +111,9 @@ export interface GiftCardLoadsResource {
  * one load.
  *
  * `GET /v1/gift-card-loads/{gift_card_load_id}`
- * @param gift_card_load_id Flint resource ID.
+ * @param gift_card_load_id Flint resource ID. Must be a valid ID with prefix gcl_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/gift-cards#getGiftCardLoad
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -122,10 +121,10 @@ export interface GiftCardLoadsResource {
  */
     get(gift_card_load_id: InputValue<string>, params?: GiftCardLoadsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<GiftCardLoad, GiftCardLoadResponse>>;
     /**
- * Lists funding lots in descending ID order. Consideration may be null for imported balances whose
- * original purchase price is unknown. The idempotency_key filter recovers a load after a lost
- * command response. Default order: gift_card_load_id descending; this key uniquely orders the
- * results.
+ * Lists funding lots newest first by created_at, with descending ID order for ties. Consideration
+ * may be null for imported balances whose original purchase price is unknown. The idempotency_key
+ * filter recovers a load after a lost command response. Default order: gift_card_load_id
+ * descending; this key uniquely orders the results.
  *
  * `GET /v1/gift-card-loads`
  * @see https://developers.withflintpay.com/docs/api/gift-cards#listGiftCardLoads

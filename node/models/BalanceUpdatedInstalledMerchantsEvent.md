@@ -97,7 +97,7 @@ anyOf variant 2.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `amount` | Optional | integer string or null | Signed amount in the currency's minor unit, such as cents for USD. `amount`: [declared alternatives](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1amount). |
-| `currency` | Optional | string or null | ISO 4217 currency code for this amount. `currency`: [declared alternatives](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency). |
+| `currency` | Optional | string or null | ISO 4217 currency code for this amount. `currency`: [declared alternatives](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1currency). |
 
 ### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.available_by_source_type variant 1.{} fields 1.amount
 
@@ -105,7 +105,7 @@ Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.pr
 
 ### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.available_by_source_type variant 1.{} fields 1.currency
 
-Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.currency](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1currency).
 
 ### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.available_money
 
@@ -132,7 +132,7 @@ Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.pr
 
 ### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.available_money variant 1.currency
 
-Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.currency](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1currency).
 
 ### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.balance_id
 
@@ -173,21 +173,11 @@ anyOf variant 2.
 
 ### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount
 
-### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount variant 1
-
-anyOf variant 1: Amount in the currency's minor unit, such as cents for USD..
-
-- Value shape: integer string. Amount in the currency's minor unit, such as cents for USD. Amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `0`. 
-
-### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Amount in the currency's minor unit, such as cents for USD. 
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.amount](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1amount).
 
 ### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.currency
 
-Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.currency](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1currency).
 
 ### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.merchant_id
 
@@ -274,7 +264,7 @@ Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.pr
 
 ### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.pending_money variant 1.currency
 
-Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.currency](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1currency).
 
 ### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.reserve_money
 
@@ -297,11 +287,11 @@ anyOf variant 2.
 
 ### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.reserve_money variant 1.amount
 
-Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.amount](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1amount).
 
 ### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.reserve_money variant 1.currency
 
-Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.currency](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1currency).
 
 ### BalanceUpdatedInstalledMerchantsEvent.source
 

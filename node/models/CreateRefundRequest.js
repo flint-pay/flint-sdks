@@ -1,16 +1,17 @@
-import { d362 as c0 } from '../descriptors/data/21.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
-import { d7767 as c1 } from '../descriptors/data/336.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
-import { d7640 as c2 } from '../descriptors/data/327.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
-import { d10114 as c3, d10115 as c4, d10117 as c7, d10118 as c8, d10119 as c9, d10120 as c10, d10121 as c11 } from '../descriptors/data/471.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
-import { d9554 as c5, d9555 as c6 } from '../descriptors/data/439.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
-import { d8754 as c12 } from '../descriptors/data/393.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
-import { d10123 as c13, d10124 as c14, d10125 as c15, d10126 as c16 } from '../descriptors/data/472.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
-import { d10137 as c17, d10138 as c18, d10139 as c19, d10140 as c20, d10141 as c21, d10142 as c22, d10143 as c23, d10144 as c24, d10145 as c25 } from '../descriptors/data/473.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
-import { d362 as d362 } from '../descriptors/data/21.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
+import { d369 as c0 } from '../descriptors/data/22.js?sdk=22459f40165c8f83629c1309c0555e659f12bdc99933459ef8de8ac0e4796ba2';
+import { d8014 as c1 } from '../descriptors/data/347.js?sdk=22459f40165c8f83629c1309c0555e659f12bdc99933459ef8de8ac0e4796ba2';
+import { d7885 as c2 } from '../descriptors/data/338.js?sdk=22459f40165c8f83629c1309c0555e659f12bdc99933459ef8de8ac0e4796ba2';
+import { d10431 as c3, d10432 as c4, d10434 as c7, d10435 as c8, d10436 as c9, d10437 as c10, d10438 as c11 } from '../descriptors/data/485.js?sdk=22459f40165c8f83629c1309c0555e659f12bdc99933459ef8de8ac0e4796ba2';
+import { d9849 as c5, d9850 as c6 } from '../descriptors/data/452.js?sdk=22459f40165c8f83629c1309c0555e659f12bdc99933459ef8de8ac0e4796ba2';
+import { d8994 as c12 } from '../descriptors/data/403.js?sdk=22459f40165c8f83629c1309c0555e659f12bdc99933459ef8de8ac0e4796ba2';
+import { d10440 as c13, d10441 as c14, d10442 as c15, d10443 as c16 } from '../descriptors/data/486.js?sdk=22459f40165c8f83629c1309c0555e659f12bdc99933459ef8de8ac0e4796ba2';
+import { d10454 as c17, d10455 as c18, d10456 as c19, d10457 as c20, d10458 as c21, d10459 as c22, d10460 as c23, d10461 as c24 } from '../descriptors/data/487.js?sdk=22459f40165c8f83629c1309c0555e659f12bdc99933459ef8de8ac0e4796ba2';
+import { d10462 as c25 } from '../descriptors/data/488.js?sdk=22459f40165c8f83629c1309c0555e659f12bdc99933459ef8de8ac0e4796ba2';
+import { d369 as d369 } from '../descriptors/data/22.js?sdk=22459f40165c8f83629c1309c0555e659f12bdc99933459ef8de8ac0e4796ba2';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d362;
+const read = d369;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CreateRefundRequest"]:c0(),["MetadataRequest"]:c1(),["MoneyValue"]:c2(),["RefundAdjustmentAudit"]:c3(),["RefundAdjustmentReasonRequest"]:c4(),["RefundCharge"]:c5(),["RefundDestinations"]:c6(),["RefundLineItem"]:c7(),["RefundLineItemAdjustmentIn"]:c8(),["RefundLineItemAdjustmentRefundIn"]:c9(),["RefundTaxBreakdownRefundIn"]:c10(),["RefundTenderAllocationRequest"]:c11(),["SharedCodec211"]:c12(),["SharedCodec2487"]:c13(),["SharedCodec2488"]:c14(),["SharedCodec2492"]:c15(),["SharedCodec2493"]:c16(),["SharedCodec531"]:c17(),["SharedCodec532"]:c18(),["SharedCodec533"]:c19(),["SharedCodec534"]:c20(),["SharedCodec535"]:c21(),["SharedCodec536"]:c22(),["SharedCodec537"]:c23(),["SharedCodec538"]:c24(),["SplitReversalRequest"]:c25()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["CreateRefundRequest"]:c0(),["MetadataRequest"]:c1(),["MoneyValue"]:c2(),["RefundAdjustmentAudit"]:c3(),["RefundAdjustmentReasonRequest"]:c4(),["RefundCharge"]:c5(),["RefundDestinations"]:c6(),["RefundLineItem"]:c7(),["RefundLineItemAdjustmentIn"]:c8(),["RefundLineItemAdjustmentRefundIn"]:c9(),["RefundTaxBreakdownRefundIn"]:c10(),["RefundTenderAllocationRequest"]:c11(),["SharedCodec216"]:c12(),["SharedCodec2568"]:c13(),["SharedCodec2569"]:c14(),["SharedCodec2573"]:c15(),["SharedCodec2574"]:c16(),["SharedCodec537"]:c17(),["SharedCodec538"]:c18(),["SharedCodec539"]:c19(),["SharedCodec540"]:c20(),["SharedCodec541"]:c21(),["SharedCodec542"]:c22(),["SharedCodec543"]:c23(),["SharedCodec544"]:c24(),["SplitReversalRequest"]:c25()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeCreateRefundRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

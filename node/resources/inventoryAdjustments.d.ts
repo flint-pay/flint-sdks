@@ -10,8 +10,8 @@ import type {
     InventoryAdjustmentsGetParams,
     InventoryAdjustmentsListParams
 } from '../declarations/types-31.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-77.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -40,8 +40,8 @@ export type {
     InventoryAdjustmentSetLineRequestInput,
     InventoryAdjustmentLine
 } from '../declarations/types-31.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-77.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { RequestOptions } from '../declarations/types-61.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type {
     CreateInventoryAdjustmentRequestInput,
@@ -54,33 +54,34 @@ export type { InventorySourceSystemRequestInput, InventorySourceSystem } from '.
 export type { AuthMode, BackorderPolicy } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { InventoryLevel, InventoryItem } from '../declarations/types-32.js';
-export type { MetadataMap } from '../declarations/types-41.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
+export type { MetadataMap } from '../declarations/types-43.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export {
     makeCreateInventoryAdjustmentConditionChangeRequest,
     makeCreateInventoryAdjustmentCorrectionRequest,
     makeCreateInventoryAdjustmentCountedRequest,
     makeCreateInventoryAdjustmentQuantityRequest,
     makeCreateInventoryAdjustmentRequest
-} from '../declarations/types-80.js';
+} from '../declarations/types-82.js';
 export {
     makeInventoryAdjustmentConditionChangeLineRequest,
     makeInventoryAdjustmentQuantityLineRequest,
-    makeInventoryAdjustmentSetLineRequest,
-    makeInventorySourceSystemRequest
-} from '../declarations/types-84.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
+    makeInventoryAdjustmentSetLineRequest
+} from '../declarations/types-86.js';
+export { makeInventorySourceSystemRequest } from '../declarations/types-87.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export interface InventoryAdjustmentsResource {
     /**
  * Record a stock change by what happened: stock received, returned, sold, stolen, lost, or moved
  * between conditions, or an absolute count or correction. Flint computes the change against the
  * current level. Returns the adjustment, its movement IDs, and the resulting level for every level
- * touched. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its
- * fingerprint includes the canonical request body. To recover the command's effects after a lost
- * response, list inventory adjustments with the same idempotency_key, or list inventory movements
- * with that idempotency_key.
+ * touched. Idempotency is scoped to the authenticated merchant, environment, caller namespace, and
+ * operation. Its fingerprint includes the canonical request body. To recover the command's effects
+ * after a lost response, list inventory adjustments with the same idempotency_key, or list
+ * inventory movements with that idempotency_key.
  *
  * `POST /v1/inventory-adjustments`
  * @see https://developers.withflintpay.com/docs/api/inventory#createInventoryAdjustment
@@ -97,7 +98,9 @@ export interface InventoryAdjustmentsResource {
  * Retrieve an inventory adjustment and its lines by ID.
  *
  * `GET /v1/inventory-adjustments/{inventory_adjustment_id}`
- * @param inventory_adjustment_id Flint inventory adjustment ID.
+ * @param inventory_adjustment_id Flint inventory adjustment ID. Must be a valid ID with prefix
+ * invadj_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs
+ * that do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/inventory#getInventoryAdjustment
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

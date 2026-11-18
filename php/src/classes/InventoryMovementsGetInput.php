@@ -16,7 +16,7 @@ final class InventoryMovementsGetInput extends Model {
      */
     public function getExpand(): mixed { return $this->get('expand'); }
     public function hasExpand(): bool { return $this->has('expand'); }
-    /** Flint inventory movement ID. Example: "invm_01KEZF7C00DYPFT9PS0NZY805Z".
+    /** Flint inventory movement ID. Must be a valid ID with prefix invm_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "invm_01KEZF7C00DYPFT9PS0NZY805Z".
      * @return string
      * @throws SdkError When inventory_movement_id is omitted; use hasInventoryMovementId() or valueOrDefault().
      */

@@ -7,6 +7,7 @@ namespace Flint;
  * @property-read string|null $balance_source_type
  * @property-read string|null $created_at
  * @property-read string|null $currency
+ * @property-read string|null $direction
  * @property-read string|null $method
  * @property-read string|null $payout_destination_id
  * @property-read string|null $payout_id
@@ -16,14 +17,14 @@ namespace Flint;
  * @property-read string|null $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class ExpandedPayoutSummaryPreviousAttributes extends Model {
-    /** @param array{'amount_money'?: mixed, 'arrival_date'?: mixed, 'balance_source_type'?: mixed, 'created_at'?: mixed, 'currency'?: mixed, 'method'?: mixed, 'payout_destination_id'?: mixed, 'payout_id'?: mixed, 'reversal_status'?: mixed, 'status'?: mixed, 'supported_actions'?: mixed, 'updated_at'?: mixed, ...}|object $values */
+    /** @param array{'amount_money'?: mixed, 'arrival_date'?: mixed, 'balance_source_type'?: mixed, 'created_at'?: mixed, 'currency'?: mixed, 'direction'?: mixed, 'method'?: mixed, 'payout_destination_id'?: mixed, 'payout_id'?: mixed, 'reversal_status'?: mixed, 'status'?: mixed, 'supported_actions'?: mixed, 'updated_at'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedPayoutSummaryPreviousAttributes')); }
-    /** Amount sent to your bank. Always positive. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+    /** Amount moved between your bank and Flint. Always positive. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      * @return MoneyValuePreviousAttributes|null
      */
     public function getAmountMoney(): MoneyValuePreviousAttributes|null { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** Calendar date the bank is expected to receive the funds, in YYYY-MM-DD format using the UTC date of the expected arrival. anyOf[1] (Value): string. Calendar date the bank is expected to receive the funds, in YYYY-MM-DD format using the UTC date of the expected arrival. Format: date. anyOf[2] (Value): null.
+    /** Expected settlement date of the transfer, in YYYY-MM-DD format using the UTC date of the expected arrival. anyOf[1] (Value): string. Expected settlement date of the transfer, in YYYY-MM-DD format using the UTC date of the expected arrival. Format: date. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getArrivalDate(): string|null { return $this->get('arrival_date'); }
@@ -43,12 +44,17 @@ final class ExpandedPayoutSummaryPreviousAttributes extends Model {
      */
     public function getCurrency(): string|null { return $this->get('currency'); }
     public function hasCurrency(): bool { return $this->has('currency'); }
+    /** Direction of the money movement. Value enum: "outbound", "inbound". anyOf[1] (Value): string. Direction of the money movement. Value enum: "outbound", "inbound". anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getDirection(): string|null { return $this->get('direction'); }
+    public function hasDirection(): bool { return $this->has('direction'); }
     /** Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant` appears only on a payout Flint recorded from the processor that was sent outside Flint. `other` is a method Flint doesn't map. Value enum: "standard", "instant", "other". anyOf[1] (Value): string. Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant` appears only on a payout Flint recorded from the processor that was sent outside Flint. `other` is a method Flint doesn't map. Value enum: "standard", "instant", "other". anyOf[2] (Value): null.
      * @return string|null
      */
     public function getMethod(): string|null { return $this->get('method'); }
     public function hasMethod(): bool { return $this->has('method'); }
-    /** Bank account or debit card receiving the payout. Absent when Flint can't match your processor's destination to a payout destination. anyOf[1] (Value): string. Bank account or debit card receiving the payout. Absent when Flint can't match your processor's destination to a payout destination. anyOf[2] (Value): null.
+    /** Bank account or debit card used for the payout. Absent when Flint can't match your processor's destination to a payout destination. anyOf[1] (Value): string. Bank account or debit card used for the payout. Absent when Flint can't match your processor's destination to a payout destination. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getPayoutDestinationId(): string|null { return $this->get('payout_destination_id'); }

@@ -36,7 +36,7 @@ final class UpdateModifierSetRequestInput extends Model {
      */
     public function getModifierGroups(): array { return $this->get('modifier_groups'); }
     public function hasModifierGroups(): bool { return $this->has('modifier_groups'); }
-    /** Name used to identify this modifier set. minLength: 1. maxLength: 255.
+    /** Name used to identify this modifier set. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */

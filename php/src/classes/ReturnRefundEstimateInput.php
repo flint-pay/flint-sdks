@@ -5,12 +5,13 @@ namespace Flint;
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $buyer_refund_amount_money
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $buyer_store_credit_amount_money
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $deduction_money
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $refund_shortfall_money
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $returned_total_money
  * @property-read string $store_credit_destination
  * @property-read list<ReturnRefundTenderEstimateInput|array<array-key, mixed>|\stdClass> $tender_estimates
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnRefundEstimateInput extends Model {
-    /** @param array{'buyer_refund_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'buyer_store_credit_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'deduction_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'returned_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'store_credit_destination': string, 'tender_estimates': list<ReturnRefundTenderEstimateInput|array<array-key, mixed>|\stdClass>, ...}|object $values */
+    /** @param array{'buyer_refund_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'buyer_store_credit_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'deduction_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'refund_shortfall_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'returned_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'store_credit_destination': string, 'tender_estimates': list<ReturnRefundTenderEstimateInput|array<array-key, mixed>|\stdClass>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnRefundEstimateInput')); }
     /** Returned total less policy deductions, floored at zero. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
@@ -30,6 +31,12 @@ final class ReturnRefundEstimateInput extends Model {
      */
     public function getDeductionMoney(): mixed { return $this->get('deduction_money'); }
     public function hasDeductionMoney(): bool { return $this->has('deduction_money'); }
+    /** Selected refund and store credit value that the original payments cannot fund. Zero when fully payable. The merchandise entitlement is unchanged. Merchant only. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When refund_shortfall_money is omitted; use hasRefundShortfallMoney() or valueOrDefault().
+     */
+    public function getRefundShortfallMoney(): mixed { return $this->get('refund_shortfall_money'); }
+    public function hasRefundShortfallMoney(): bool { return $this->has('refund_shortfall_money'); }
     /** What the buyer paid for these quantities after discounts, including tax. Uses the same allocation as a return resolution. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When returned_total_money is omitted; use hasReturnedTotalMoney() or valueOrDefault().
@@ -42,7 +49,7 @@ final class ReturnRefundEstimateInput extends Model {
      */
     public function getStoreCreditDestination(): string { return $this->get('store_credit_destination'); }
     public function hasStoreCreditDestination(): bool { return $this->has('store_credit_destination'); }
-    /** Estimated original-payment destinations in refund order. Amounts sum to buyer_refund_amount_money. Empty when the refund amount is zero. [] (Value): {@see ReturnRefundTenderEstimateInput}. One estimated original-payment destination for a return refund.
+    /** Estimated original-payment funding in refund order. Amounts sum to buyer_refund_amount_money plus buyer_store_credit_amount_money less refund_shortfall_money. Empty when no value is payable. [] (Value): {@see ReturnRefundTenderEstimateInput}. One estimated original-payment destination for a return refund.
      * @return list<ReturnRefundTenderEstimateInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When tender_estimates is omitted; use hasTenderEstimates() or valueOrDefault().
      */

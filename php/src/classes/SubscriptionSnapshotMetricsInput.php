@@ -9,13 +9,13 @@ namespace Flint;
 final class SubscriptionSnapshotMetricsInput extends Model {
     /** @param array{'arr_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'mrr_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status_counts': SubscriptionStatusCountsInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionSnapshotMetricsInput')); }
-    /** Current mrr_money multiplied by 12, in currency; independent of the requested period. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Current mrr_money multiplied by 12, in currency. Annualizes the current discounted rate rather than forecasting future charges or discount expiration; independent of the requested period. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When arr_money is omitted; use hasArrMoney() or valueOrDefault().
      */
     public function getArrMoney(): mixed { return $this->get('arr_money'); }
     public function hasArrMoney(): bool { return $this->has('arr_money'); }
-    /** Monthly recurring revenue from current billing snapshots of active and past_due subscriptions, restricted to currency. Each subscription is normalized and rounded separately; independent of the requested period. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Monthly recurring merchandise revenue from active and past_due subscriptions after the frozen promotions applicable to the next charged cycle, restricted to currency. Excludes tax, shipping, setup fees, and one-time adjustments. Each subscription is normalized and rounded separately after discounts; independent of the requested period. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When mrr_money is omitted; use hasMrrMoney() or valueOrDefault().
      */

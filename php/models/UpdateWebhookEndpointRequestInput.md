@@ -20,5 +20,5 @@ Request input.
 | `partner_app_id` | Optional | string | Partner app that owns partner_app or installed_merchants event sources. minLength: `1`. Example: `"papp_01KEZF7C00Y8VMXYZ1GNPP3WHV"`. |
 | `signing_methods` | Optional | Array of [WebhookSigningMethodInput](../models/WebhookSigningMethodInput.md#webhooksigningmethodinput) | Replaces the signing methods. Removing hmac deletes all shared secrets. Adding hmac when no secret exists issues the first secret and returns it once in this response. Omit to leave unchanged. minItems: `1`. uniqueItems: `true`. Items values: `"jwt"`, `"hmac"`. |
 | `status` | Optional | string | Whether this endpoint receives events. Setting inactive suppresses pending deliveries. Omit to leave unchanged. Values: `"active"`, `"inactive"`. |
-| `url` | Optional | string | Public HTTPS URL to receive webhook deliveries. Omit to leave unchanged. minLength: `1`. |
+| `url` | Optional | string | Public HTTPS URL to receive webhook deliveries. Omit to leave unchanged. minLength: `1`. maxLength: `2048`. |
 

@@ -2,19 +2,26 @@ import type { AddressPreviousAttributes } from './types-0.js';
 import type { ExpandedCustomerSummaryPreviousAttributes, ExpandedOrderSummaryPreviousAttributes } from './types-26.js';
 import type { InvoiceCollectionPreviousAttributes } from './types-34.js';
 import type { InvoiceLateFeePreviousAttributes, InvoiceLateFeePolicy } from './types-35.js';
-import type { InvoicePaymentTermsSnapshotPreviousAttributes, InvoiceScheduleEntryPreviousAttributes } from './types-37.js';
+import type {
+    InvoicePaymentTermsSnapshotPreviousAttributes,
+    InvoiceScheduleEntryPreviousAttributes,
+    InvoicePaymentTermCalculationDaysAfterMonthEnd,
+    InvoicePaymentTermCalculationNetDays,
+    InvoicePaymentTermCalculationOnReceipt
+} from './types-37.js';
 import type { InvoiceSettlementAmountsPreviousAttributes, InvoiceSnapshotPreviousAttributes } from './types-38.js';
-import type { MetadataMap, MerchantWebhookEnvelope } from './types-41.js';
-import type { PartnerWebhookEnvelope, PaymentErrorSummary, PaymentErrorSummaryPreviousAttributes } from './types-49.js';
-import type { PricingAmountsPreviousAttributes } from './types-55.js';
-import type { WebhookInvoice } from './types-77.js';
-import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-42.js';
-import type { ResponseMeta } from './types-60.js';
+import type { MetadataMap, MerchantWebhookEnvelope } from './types-43.js';
+import type { PartnerWebhookEnvelope } from './types-50.js';
+import type { PricingAmountsPreviousAttributes } from './types-56.js';
+import type { WebhookInvoice } from './types-79.js';
+import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
+import type { PaymentErrorSummary, PaymentErrorSummaryPreviousAttributes } from './types-51.js';
+import type { ResponseMeta } from './types-62.js';
 /**
- * The `invoice.partially_paid` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
+ * The `invoice.marked_uncollectible` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
  */
-export type InvoicePartiallyPaidInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+export type InvoiceMarkedUncollectibleInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
      *  object (Required): {@link WebhookInvoice}. The resource snapshot, without expansions.
@@ -211,8 +218,9 @@ export type InvoicePartiallyPaidInstalledMerchantsEvent = (Exclude<PartnerWebhoo
      * allocated credit notes, late fees, and the remaining invoice balance. What is still owed:
      * pricing_amounts.total_money + late_fee_money - paid_money - credited_money -
      * written_off_money, never below zero. 0 on paid, credited, uncollectible, and voided
-     * invoices; equal to pricing_amounts.total_money on a draft. Refunds and dispute losses don't
-     * change it. previous_attributes.settlement_amounts.anyOf[1] (Value): {@link
+     * invoices; equal to pricing_amounts.total_money on a draft. Refunds and card chargebacks
+     * don't change it. Lost bank returns reopen the balance.
+     * previous_attributes.settlement_amounts.anyOf[1] (Value): {@link
      * InvoiceSettlementAmountsPreviousAttributes}. previous_attributes.settlement_amounts.anyOf[2]
      * (Value): null. previous_attributes.snapshot (Optional): {@link
      * InvoiceSnapshotPreviousAttributes} or null. The billing content of the invoice: line items,
@@ -224,27 +232,29 @@ export type InvoicePartiallyPaidInstalledMerchantsEvent = (Exclude<PartnerWebhoo
      * after a payment or credit allocation reversal; invoice.reopened reports that change. An
      * uncollectible invoice accepts manual recovery payments and becomes paid when fully
      * recovered; reversals restore the write-off. voided is final. Refunds change refund_status
-     * without reopening the balance. A lost dispute leaves paid_money, the balance, and status
+     * without reopening the balance. An ACH bank return reverses paid_money and reopens the
+     * balance. A lost card chargeback leaves paid_money, the balance, and status unchanged;
+     * collecting it again requires a new invoice. Value enum: "draft", "open", "partially_paid",
+     * "paid", "voided", "uncollectible", "credited". previous_attributes.status.anyOf[1] (Value):
+     * string. Current invoice status. paid and credited close the current balance and can reopen
+     * to open or partially_paid after a payment or credit allocation reversal; invoice.reopened
+     * reports that change. An uncollectible invoice accepts manual recovery payments and becomes
+     * paid when fully recovered; reversals restore the write-off. voided is final. Refunds change
+     * refund_status without reopening the balance. An ACH bank return reverses paid_money and
+     * reopens the balance. A lost card chargeback leaves paid_money, the balance, and status
      * unchanged; collecting it again requires a new invoice. Value enum: "draft", "open",
      * "partially_paid", "paid", "voided", "uncollectible", "credited".
-     * previous_attributes.status.anyOf[1] (Value): string. Current invoice status. paid and
-     * credited close the current balance and can reopen to open or partially_paid after a payment
-     * or credit allocation reversal; invoice.reopened reports that change. An uncollectible
-     * invoice accepts manual recovery payments and becomes paid when fully recovered; reversals
-     * restore the write-off. voided is final. Refunds change refund_status without reopening the
-     * balance. A lost dispute leaves paid_money, the balance, and status unchanged; collecting it
-     * again requires a new invoice. Value enum: "draft", "open", "partially_paid", "paid",
-     * "voided", "uncollectible", "credited". previous_attributes.status.anyOf[2] (Value): null.
-     * previous_attributes.subscription_id (Optional): string or null. The subscription the backing
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.subscription_id
+     * (Optional): string or null. The subscription the backing order belongs to, copied when the
+     * draft is created and never changed. `null` when the order isn't part of a subscription.
+     * previous_attributes.subscription_id.anyOf[1] (Value): string. The subscription the backing
      * order belongs to, copied when the draft is created and never changed. `null` when the order
-     * isn't part of a subscription. previous_attributes.subscription_id.anyOf[1] (Value): string.
-     * The subscription the backing order belongs to, copied when the draft is created and never
-     * changed. `null` when the order isn't part of a subscription. Example:
-     * "sub_01KEZF7C00BVRE8YDBXQB74BBM". previous_attributes.subscription_id.anyOf[2] (Value):
-     * null. previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle
-     * actions Flint accepts for this resource now, based on stored state. Independent of the
-     * caller's permissions; each action still requires its route's scope. Always [] when no action
-     * is available. [] enum: "collect", "issue", "mark_uncollectible", "void".
+     * isn't part of a subscription. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+     * previous_attributes.subscription_id.anyOf[2] (Value): null.
+     * previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle actions
+     * Flint accepts for this resource now, based on stored state. Independent of the caller's
+     * permissions; each action still requires its route's scope. Always [] when no action is
+     * available. [] enum: "collect", "issue", "mark_uncollectible", "void".
      * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions
      * Flint accepts for this resource now, based on stored state. Independent of the caller's
      * permissions; each action still requires its route's scope. Always [] when no action is
@@ -451,34 +461,35 @@ export type InvoicePartiallyPaidInstalledMerchantsEvent = (Exclude<PartnerWebhoo
          * allocated credit notes, late fees, and the remaining invoice balance. What is still
          * owed: pricing_amounts.total_money + late_fee_money - paid_money - credited_money -
          * written_off_money, never below zero. 0 on paid, credited, uncollectible, and voided
-         * invoices; equal to pricing_amounts.total_money on a draft. Refunds and dispute losses
-         * don't change it. settlement_amounts.anyOf[1] (Value): {@link
-         * InvoiceSettlementAmountsPreviousAttributes}. settlement_amounts.anyOf[2] (Value): null.
-         * snapshot (Optional): {@link InvoiceSnapshotPreviousAttributes} or null. The billing
-         * content of the invoice: line items, discounts, charges, tip, and tax. A draft previews
-         * the backing order; issue freezes it, and later order changes don't reach an issued
-         * invoice. snapshot.anyOf[1] (Value): {@link InvoiceSnapshotPreviousAttributes}.
+         * invoices; equal to pricing_amounts.total_money on a draft. Refunds and card chargebacks
+         * don't change it. Lost bank returns reopen the balance. settlement_amounts.anyOf[1]
+         * (Value): {@link InvoiceSettlementAmountsPreviousAttributes}. settlement_amounts.anyOf[2]
+         * (Value): null. snapshot (Optional): {@link InvoiceSnapshotPreviousAttributes} or null.
+         * The billing content of the invoice: line items, discounts, charges, tip, and tax. A
+         * draft previews the backing order; issue freezes it, and later order changes don't reach
+         * an issued invoice. snapshot.anyOf[1] (Value): {@link InvoiceSnapshotPreviousAttributes}.
          * snapshot.anyOf[2] (Value): null. status (Optional): string or null. Current invoice
          * status. paid and credited close the current balance and can reopen to open or
          * partially_paid after a payment or credit allocation reversal; invoice.reopened reports
          * that change. An uncollectible invoice accepts manual recovery payments and becomes paid
          * when fully recovered; reversals restore the write-off. voided is final. Refunds change
-         * refund_status without reopening the balance. A lost dispute leaves paid_money, the
-         * balance, and status unchanged; collecting it again requires a new invoice. Value enum:
-         * "draft", "open", "partially_paid", "paid", "voided", "uncollectible", "credited".
-         * status.anyOf[1] (Value): string. Current invoice status. paid and credited close the
-         * current balance and can reopen to open or partially_paid after a payment or credit
-         * allocation reversal; invoice.reopened reports that change. An uncollectible invoice
-         * accepts manual recovery payments and becomes paid when fully recovered; reversals
-         * restore the write-off. voided is final. Refunds change refund_status without reopening
-         * the balance. A lost dispute leaves paid_money, the balance, and status unchanged;
-         * collecting it again requires a new invoice. Value enum: "draft", "open",
-         * "partially_paid", "paid", "voided", "uncollectible", "credited". status.anyOf[2]
-         * (Value): null. subscription_id (Optional): string or null. The subscription the backing
-         * order belongs to, copied when the draft is created and never changed. `null` when the
-         * order isn't part of a subscription. subscription_id.anyOf[1] (Value): string. The
+         * refund_status without reopening the balance. An ACH bank return reverses paid_money and
+         * reopens the balance. A lost card chargeback leaves paid_money, the balance, and status
+         * unchanged; collecting it again requires a new invoice. Value enum: "draft", "open",
+         * "partially_paid", "paid", "voided", "uncollectible", "credited". status.anyOf[1]
+         * (Value): string. Current invoice status. paid and credited close the current balance and
+         * can reopen to open or partially_paid after a payment or credit allocation reversal;
+         * invoice.reopened reports that change. An uncollectible invoice accepts manual recovery
+         * payments and becomes paid when fully recovered; reversals restore the write-off. voided
+         * is final. Refunds change refund_status without reopening the balance. An ACH bank return
+         * reverses paid_money and reopens the balance. A lost card chargeback leaves paid_money,
+         * the balance, and status unchanged; collecting it again requires a new invoice. Value
+         * enum: "draft", "open", "partially_paid", "paid", "voided", "uncollectible", "credited".
+         * status.anyOf[2] (Value): null. subscription_id (Optional): string or null. The
          * subscription the backing order belongs to, copied when the draft is created and never
-         * changed. `null` when the order isn't part of a subscription. Example:
+         * changed. `null` when the order isn't part of a subscription. subscription_id.anyOf[1]
+         * (Value): string. The subscription the backing order belongs to, copied when the draft is
+         * created and never changed. `null` when the order isn't part of a subscription. Example:
          * "sub_01KEZF7C00BVRE8YDBXQB74BBM". subscription_id.anyOf[2] (Value): null.
          * supported_actions (Optional): Array of string or null. Lifecycle actions Flint accepts
          * for this resource now, based on stored state. Independent of the caller's permissions;
@@ -771,8 +782,9 @@ export type InvoicePartiallyPaidInstalledMerchantsEvent = (Exclude<PartnerWebhoo
              * invoice balance. What is still owed: pricing_amounts.total_money + late_fee_money -
              * paid_money - credited_money - written_off_money, never below zero. 0 on paid,
              * credited, uncollectible, and voided invoices; equal to pricing_amounts.total_money
-             * on a draft. Refunds and dispute losses don't change it. anyOf[1] (Value): {@link
-             * InvoiceSettlementAmountsPreviousAttributes}. anyOf[2] (Value): null.
+             * on a draft. Refunds and card chargebacks don't change it. Lost bank returns reopen
+             * the balance. anyOf[1] (Value): {@link InvoiceSettlementAmountsPreviousAttributes}.
+             * anyOf[2] (Value): null.
              */
             "settlement_amounts"?: ((InvoiceSettlementAmountsPreviousAttributes) | (null));
             /**
@@ -788,18 +800,3961 @@ export type InvoicePartiallyPaidInstalledMerchantsEvent = (Exclude<PartnerWebhoo
              * invoice.reopened reports that change. An uncollectible invoice accepts manual
              * recovery payments and becomes paid when fully recovered; reversals restore the
              * write-off. voided is final. Refunds change refund_status without reopening the
-             * balance. A lost dispute leaves paid_money, the balance, and status unchanged;
-             * collecting it again requires a new invoice. Value enum: "draft", "open",
-             * "partially_paid", "paid", "voided", "uncollectible", "credited". anyOf[1] (Value):
-             * string. Current invoice status. paid and credited close the current balance and can
-             * reopen to open or partially_paid after a payment or credit allocation reversal;
+             * balance. An ACH bank return reverses paid_money and reopens the balance. A lost card
+             * chargeback leaves paid_money, the balance, and status unchanged; collecting it again
+             * requires a new invoice. Value enum: "draft", "open", "partially_paid", "paid",
+             * "voided", "uncollectible", "credited". anyOf[1] (Value): string. Current invoice
+             * status. paid and credited close the current balance and can reopen to open or
+             * partially_paid after a payment or credit allocation reversal; invoice.reopened
+             * reports that change. An uncollectible invoice accepts manual recovery payments and
+             * becomes paid when fully recovered; reversals restore the write-off. voided is final.
+             * Refunds change refund_status without reopening the balance. An ACH bank return
+             * reverses paid_money and reopens the balance. A lost card chargeback leaves
+             * paid_money, the balance, and status unchanged; collecting it again requires a new
+             * invoice. Value enum: "draft", "open", "partially_paid", "paid", "voided",
+             * "uncollectible", "credited". anyOf[2] (Value): null.
+             */
+            "status"?: (("draft"
+                | "open"
+                | "partially_paid"
+                | "paid"
+                | "voided"
+                | "uncollectible"
+                | "credited"
+                | (string & {}))
+                | (null));
+            /**
+             * The subscription the backing order belongs to, copied when the draft is created and
+             * never changed. `null` when the order isn't part of a subscription. anyOf[1] (Value):
+             * string. The subscription the backing order belongs to, copied when the draft is
+             * created and never changed. `null` when the order isn't part of a subscription.
+             * Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM". anyOf[2] (Value): null.
+             */
+            "subscription_id"?: ((string) | (null));
+            /**
+             * Lifecycle actions Flint accepts for this resource now, based on stored state.
+             * Independent of the caller's permissions; each action still requires its route's
+             * scope. Always [] when no action is available. [] enum: "collect", "issue",
+             * "mark_uncollectible", "void". anyOf[1] (Value): Array of string. Lifecycle actions
+             * Flint accepts for this resource now, based on stored state. Independent of the
+             * caller's permissions; each action still requires its route's scope. Always [] when
+             * no action is available. [] enum: "collect", "issue", "mark_uncollectible", "void".
+             * anyOf[1][] (Value): string. Value enum: "collect", "issue", "mark_uncollectible",
+             * "void". anyOf[2] (Value): null.
+             */
+            "supported_actions"?: ((Array<"collect" | "issue" | "mark_uncollectible" | "void" | (string & {})>) | (null));
+            /**
+             * IANA time zone snapshot for invoice due dates, reminders, and late fee calendar
+             * days. Taken from the merchant's timezone when the draft is written, or UTC when
+             * unset. Later merchant changes do not alter this invoice's calendar. anyOf[1]
+             * (Value): string. IANA time zone snapshot for invoice due dates, reminders, and late
+             * fee calendar days. Taken from the merchant's timezone when the draft is written, or
+             * UTC when unset. Later merchant changes do not alter this invoice's calendar.
+             * anyOf[2] (Value): null.
+             */
+            "timezone"?: ((string) | (null));
+            /**
+             * When the invoice was marked uncollectible. anyOf[1] (Value): string. When the
+             * invoice was marked uncollectible. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "uncollectible_at"?: ((string) | (null));
+            /**
+             * When the invoice last changed. anyOf[1] (Value): string. When the invoice last
+             * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current invoice version. Send this as expected_version when updating the draft.
+             * anyOf[1] (Value): integer. Current invoice version. Send this as expected_version
+             * when updating the draft. Format: int64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+            /**
+             * When the buyer first opened the invoice through its hosted invoice link. Recorded on
+             * a best-effort basis. anyOf[1] (Value): string. When the buyer first opened the
+             * invoice through its hosted invoice link. Recorded on a best-effort basis. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "viewed_at"?: ((string) | (null));
+            /**
+             * When the invoice was voided. anyOf[1] (Value): string. When the invoice was voided.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "voided_at"?: ((string) | (null));
+        });
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "invoice.marked_uncollectible". */
+    "event_type"?: "invoice.marked_uncollectible";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `invoice.marked_uncollectible` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type InvoiceMarkedUncollectibleMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link WebhookInvoice}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `public_url`. previous_attributes (Optional): object. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events. previous_attributes.cc_emails (Optional): Array of string or null.
+     * Additional recipients copied on the invoice email and every reminder.
+     * previous_attributes.cc_emails.anyOf[1] (Value): Array of string. Additional recipients
+     * copied on the invoice email and every reminder. previous_attributes.cc_emails.anyOf[1][]
+     * (Value): string. previous_attributes.cc_emails.anyOf[2] (Value): null.
+     * previous_attributes.closed_at (Optional): string or null. When the current closed interval
+     * began. Cleared when status returns to open or partially_paid. A direct move between closed
+     * statuses preserves this timestamp. previous_attributes.closed_at.anyOf[1] (Value): string.
+     * When the current closed interval began. Cleared when status returns to open or
+     * partially_paid. A direct move between closed statuses preserves this timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.closed_at.anyOf[2] (Value):
+     * null. previous_attributes.collection (Optional): {@link InvoiceCollectionPreviousAttributes}
+     * or null. How this invoice is collected, resolved when the draft is written. Send this object
+     * back when updating its collection policy. previous_attributes.collection.anyOf[1] (Value):
+     * {@link InvoiceCollectionPreviousAttributes}. previous_attributes.collection.anyOf[2]
+     * (Value): null. previous_attributes.collection_block_status (Optional): string or null.
+     * Whether collection is blocked. While it is inventory_blocked, collection attempts return 409
+     * ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none",
+     * "inventory_blocked", "resolved". previous_attributes.collection_block_status.anyOf[1]
+     * (Value): string. Whether collection is blocked. While it is inventory_blocked, collection
+     * attempts return 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum:
+     * "none", "inventory_blocked", "resolved".
+     * previous_attributes.collection_block_status.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. When the invoice was created.
+     * previous_attributes.created_at.anyOf[1] (Value): string. When the invoice was created.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
+     * (Value): null. previous_attributes.customer (Optional): {@link
+     * ExpandedCustomerSummaryPreviousAttributes} or null. Summary of the billed customer. Returned
+     * only with expand=customer. Present only when `expand` includes `customer`; `null` when
+     * expanded and there is no related customer. previous_attributes.customer.anyOf[1] (Value):
+     * {@link ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2]
+     * (Value): null. previous_attributes.customer_id (Optional): string or null. Customer billed
+     * by this invoice. Absent when the invoice has no customer.
+     * previous_attributes.customer_id.anyOf[1] (Value): string. Customer billed by this invoice.
+     * Absent when the invoice has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * previous_attributes.customer_id.anyOf[2] (Value): null. previous_attributes.delivery_mode
+     * (Optional): string or null. How issue delivered the invoice. Value enum: "email",
+     * "caller_managed". previous_attributes.delivery_mode.anyOf[1] (Value): string. How issue
+     * delivered the invoice. Value enum: "email", "caller_managed".
+     * previous_attributes.delivery_mode.anyOf[2] (Value): null. previous_attributes.due_date
+     * (Optional): string or null. Calendar due date in YYYY-MM-DD format, interpreted in timezone
+     * (UTC when absent). The outstanding balance becomes overdue only after this date ends.
+     * Automatic collection runs at the later of issue and the start of this date. With payment
+     * terms, issue computes this date from issued_at. Absent when there is no due date.
+     * previous_attributes.due_date.anyOf[1] (Value): string. Calendar due date in YYYY-MM-DD
+     * format, interpreted in timezone (UTC when absent). The outstanding balance becomes overdue
+     * only after this date ends. Automatic collection runs at the later of issue and the start of
+     * this date. With payment terms, issue computes this date from issued_at. Absent when there is
+     * no due date. Format: date. Example: "2026-08-02". previous_attributes.due_date.anyOf[2]
+     * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
+     * Caller-owned identifier for this resource in an external system. Use it as your sync key: it
+     * isn't printed on the invoice. `null` when unset.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. Use it as your sync key: it isn't printed on the
+     * invoice. `null` when unset. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null. previous_attributes.footer
+     * (Optional): string or null. Fine print at the bottom of the invoice and PDF. It cannot
+     * change after issue. `null` when unset. previous_attributes.footer.anyOf[1] (Value): string.
+     * Fine print at the bottom of the invoice and PDF. It cannot change after issue. `null` when
+     * unset. previous_attributes.footer.anyOf[2] (Value): null. previous_attributes.invoice_id
+     * (Optional): string or null. Flint invoice ID. previous_attributes.invoice_id.anyOf[1]
+     * (Value): string. Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+     * previous_attributes.invoice_id.anyOf[2] (Value): null. previous_attributes.invoice_number
+     * (Optional): string or null. Sequential document number assigned when the invoice is issued.
+     * Numbering is per merchant, with test and live mode numbered independently.
+     * previous_attributes.invoice_number.anyOf[1] (Value): string. Sequential document number
+     * assigned when the invoice is issued. Numbering is per merchant, with test and live mode
+     * numbered independently. previous_attributes.invoice_number.anyOf[2] (Value): null.
+     * previous_attributes.is_overdue (Optional): boolean or null. Whether the invoice is open or
+     * partially_paid and past due with a balance remaining. Without schedule_entries, the due_date
+     * has ended in timezone (UTC when absent) and outstanding_money is above zero; with them, at
+     * least one entry is overdue. Computed when the invoice is read.
+     * previous_attributes.is_overdue.anyOf[1] (Value): boolean. Whether the invoice is open or
+     * partially_paid and past due with a balance remaining. Without schedule_entries, the due_date
+     * has ended in timezone (UTC when absent) and outstanding_money is above zero; with them, at
+     * least one entry is overdue. Computed when the invoice is read.
+     * previous_attributes.is_overdue.anyOf[2] (Value): null. previous_attributes.issued_at
+     * (Optional): string or null. When the invoice was issued. Absent on a draft.
+     * previous_attributes.issued_at.anyOf[1] (Value): string. When the invoice was issued. Absent
+     * on a draft. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.issued_at.anyOf[2] (Value): null. previous_attributes.late_fees
+     * (Optional): Array of {@link InvoiceLateFeePreviousAttributes} or null. Late fees assessed on
+     * this invoice, each with its paid, waived, written-off, and outstanding amounts.
+     * settlement_amounts.late_fee_money is their assessed total minus waivers.
+     * previous_attributes.late_fees.anyOf[1] (Value): Array of {@link
+     * InvoiceLateFeePreviousAttributes}. Late fees assessed on this invoice, each with its paid,
+     * waived, written-off, and outstanding amounts. settlement_amounts.late_fee_money is their
+     * assessed total minus waivers. previous_attributes.late_fees.anyOf[1][] (Value): {@link
+     * InvoiceLateFeePreviousAttributes}. previous_attributes.late_fees.anyOf[2] (Value): null.
+     * previous_attributes.memo (Optional): string or null. Message to the customer, printed on the
+     * invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.memo.anyOf[1] (Value): string. Message to the customer, printed on the
+     * invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.memo.anyOf[2] (Value): null. previous_attributes.merchant_id (Optional):
+     * string or null. Merchant that owns this invoice. previous_attributes.merchant_id.anyOf[1]
+     * (Value): string. Merchant that owns this invoice. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.order (Optional):
+     * {@link ExpandedOrderSummaryPreviousAttributes} or null. Summary of the backing order.
+     * Returned only with expand=order. Present only when `expand` includes `order`; `null` when
+     * expanded and there is no related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value): null.
+     * previous_attributes.order_id (Optional): string or null. The order this invoice bills. Every
+     * invoice has one; quick pay creates it. previous_attributes.order_id.anyOf[1] (Value):
+     * string. The order this invoice bills. Every invoice has one; quick pay creates it. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
+     * previous_attributes.paid_at (Optional): string or null. When the invoice most recently
+     * became paid. Cleared when status leaves paid and set again on a later paid transition.
+     * previous_attributes.paid_at.anyOf[1] (Value): string. When the invoice most recently became
+     * paid. Cleared when status leaves paid and set again on a later paid transition. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.paid_at.anyOf[2] (Value):
+     * null. previous_attributes.payment_due (Optional): {@link
+     * InvoicePaymentDuePreviousAttributes} or null. The resolved due-date policy. Send this object
+     * back when updating the draft; payment_terms captures the term's current revision again.
+     * previous_attributes.payment_due.anyOf[1] (Value): {@link
+     * InvoicePaymentDuePreviousAttributes}. previous_attributes.payment_due.anyOf[2] (Value):
+     * null. previous_attributes.payment_terms_snapshot (Optional): {@link
+     * InvoicePaymentTermsSnapshotPreviousAttributes} or null. The payment term captured on the
+     * draft, with its due date rule and late fee policy. Later changes to the payment term don't
+     * affect this invoice. previous_attributes.payment_terms_snapshot.anyOf[1] (Value): {@link
+     * InvoicePaymentTermsSnapshotPreviousAttributes}.
+     * previous_attributes.payment_terms_snapshot.anyOf[2] (Value): null.
+     * previous_attributes.po_number (Optional): string or null. The buyer's purchase order number,
+     * printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.po_number.anyOf[1] (Value): string. The buyer's purchase order number,
+     * printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.po_number.anyOf[2] (Value): null. previous_attributes.pricing_amounts
+     * (Optional): {@link PricingAmountsPreviousAttributes} or null. The invoice pricing totals,
+     * frozen at issue. A draft previews the backing order. total_money excludes late fees, which
+     * are in settlement_amounts.late_fee_money. previous_attributes.pricing_amounts.anyOf[1]
+     * (Value): {@link PricingAmountsPreviousAttributes}.
+     * previous_attributes.pricing_amounts.anyOf[2] (Value): null.
+     * previous_attributes.recipient_email (Optional): string or null. Where Flint emails the
+     * invoice and its reminders. Email delivery requires it at issue. `null` when unset.
+     * previous_attributes.recipient_email.anyOf[1] (Value): string. Where Flint emails the invoice
+     * and its reminders. Email delivery requires it at issue. `null` when unset.
+     * previous_attributes.recipient_email.anyOf[2] (Value): null. previous_attributes.reference
+     * (Optional): string or null. Your reference for the invoice, printed on the invoice and PDF.
+     * The buyer's purchase order number goes in po_number. It cannot change after issue. `null`
+     * when unset. previous_attributes.reference.anyOf[1] (Value): string. Your reference for the
+     * invoice, printed on the invoice and PDF. The buyer's purchase order number goes in
+     * po_number. It cannot change after issue. `null` when unset.
+     * previous_attributes.reference.anyOf[2] (Value): null. previous_attributes.refund_status
+     * (Optional): string or null. How much of the collected money has been refunded. It doesn't
+     * change status. Value enum: "none", "partially_refunded", "refunded".
+     * previous_attributes.refund_status.anyOf[1] (Value): string. How much of the collected money
+     * has been refunded. It doesn't change status. Value enum: "none", "partially_refunded",
+     * "refunded". previous_attributes.refund_status.anyOf[2] (Value): null.
+     * previous_attributes.reminders_paused (Optional): boolean or null. Whether automatic
+     * reminders are paused. Set reminders_paused on PATCH /v1/invoices/{invoice_id} to change it.
+     * previous_attributes.reminders_paused.anyOf[1] (Value): boolean. Whether automatic reminders
+     * are paused. Set reminders_paused on PATCH /v1/invoices/{invoice_id} to change it.
+     * previous_attributes.reminders_paused.anyOf[2] (Value): null.
+     * previous_attributes.reminders_paused_at (Optional): string or null. When automatic reminders
+     * were paused. Absent while reminders are active.
+     * previous_attributes.reminders_paused_at.anyOf[1] (Value): string. When automatic reminders
+     * were paused. Absent while reminders are active. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.reminders_paused_at.anyOf[2] (Value): null.
+     * previous_attributes.remit_to_address (Optional): {@link AddressPreviousAttributes} or null.
+     * Where the buyer sends offline payments, shown on the invoice. Defaults to the invoice
+     * settings remit-to address. previous_attributes.remit_to_address.anyOf[1] (Value): {@link
+     * AddressPreviousAttributes}. previous_attributes.remit_to_address.anyOf[2] (Value): null.
+     * previous_attributes.schedule_entries (Optional): Array of {@link
+     * InvoiceScheduleEntryPreviousAttributes} or null. The payment schedule, in schedule order.
+     * Always [] when the invoice has no schedule and is collected in one balance.
+     * previous_attributes.schedule_entries.anyOf[1] (Value): Array of {@link
+     * InvoiceScheduleEntryPreviousAttributes}. The payment schedule, in schedule order. Always []
+     * when the invoice has no schedule and is collected in one balance.
+     * previous_attributes.schedule_entries.anyOf[1][] (Value): {@link
+     * InvoiceScheduleEntryPreviousAttributes}. previous_attributes.schedule_entries.anyOf[2]
+     * (Value): null. previous_attributes.scheduled_issue_at (Optional): string or null. When Flint
+     * will issue and deliver this draft. `null` when no issue is scheduled. Cleared when the draft
+     * is issued or voided, or when you send null. previous_attributes.scheduled_issue_at.anyOf[1]
+     * (Value): string. When Flint will issue and deliver this draft. `null` when no issue is
+     * scheduled. Cleared when the draft is issued or voided, or when you send null. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.scheduled_issue_at.anyOf[2]
+     * (Value): null. previous_attributes.service_date (Optional): string or null. The calendar
+     * date of the billed service, in YYYY-MM-DD format. The invoice and PDF print it as written,
+     * without timezone conversion. `null` when unset. previous_attributes.service_date.anyOf[1]
+     * (Value): string. The calendar date of the billed service, in YYYY-MM-DD format. The invoice
+     * and PDF print it as written, without timezone conversion. `null` when unset. Format: date.
+     * Example: "2026-08-02". previous_attributes.service_date.anyOf[2] (Value): null.
+     * previous_attributes.settlement_amounts (Optional): {@link
+     * InvoiceSettlementAmountsPreviousAttributes} or null. Payments, refunds, write-offs,
+     * allocated credit notes, late fees, and the remaining invoice balance. What is still owed:
+     * pricing_amounts.total_money + late_fee_money - paid_money - credited_money -
+     * written_off_money, never below zero. 0 on paid, credited, uncollectible, and voided
+     * invoices; equal to pricing_amounts.total_money on a draft. Refunds and card chargebacks
+     * don't change it. Lost bank returns reopen the balance.
+     * previous_attributes.settlement_amounts.anyOf[1] (Value): {@link
+     * InvoiceSettlementAmountsPreviousAttributes}. previous_attributes.settlement_amounts.anyOf[2]
+     * (Value): null. previous_attributes.snapshot (Optional): {@link
+     * InvoiceSnapshotPreviousAttributes} or null. The billing content of the invoice: line items,
+     * discounts, charges, tip, and tax. A draft previews the backing order; issue freezes it, and
+     * later order changes don't reach an issued invoice. previous_attributes.snapshot.anyOf[1]
+     * (Value): {@link InvoiceSnapshotPreviousAttributes}. previous_attributes.snapshot.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Current invoice
+     * status. paid and credited close the current balance and can reopen to open or partially_paid
+     * after a payment or credit allocation reversal; invoice.reopened reports that change. An
+     * uncollectible invoice accepts manual recovery payments and becomes paid when fully
+     * recovered; reversals restore the write-off. voided is final. Refunds change refund_status
+     * without reopening the balance. An ACH bank return reverses paid_money and reopens the
+     * balance. A lost card chargeback leaves paid_money, the balance, and status unchanged;
+     * collecting it again requires a new invoice. Value enum: "draft", "open", "partially_paid",
+     * "paid", "voided", "uncollectible", "credited". previous_attributes.status.anyOf[1] (Value):
+     * string. Current invoice status. paid and credited close the current balance and can reopen
+     * to open or partially_paid after a payment or credit allocation reversal; invoice.reopened
+     * reports that change. An uncollectible invoice accepts manual recovery payments and becomes
+     * paid when fully recovered; reversals restore the write-off. voided is final. Refunds change
+     * refund_status without reopening the balance. An ACH bank return reverses paid_money and
+     * reopens the balance. A lost card chargeback leaves paid_money, the balance, and status
+     * unchanged; collecting it again requires a new invoice. Value enum: "draft", "open",
+     * "partially_paid", "paid", "voided", "uncollectible", "credited".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.subscription_id
+     * (Optional): string or null. The subscription the backing order belongs to, copied when the
+     * draft is created and never changed. `null` when the order isn't part of a subscription.
+     * previous_attributes.subscription_id.anyOf[1] (Value): string. The subscription the backing
+     * order belongs to, copied when the draft is created and never changed. `null` when the order
+     * isn't part of a subscription. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+     * previous_attributes.subscription_id.anyOf[2] (Value): null.
+     * previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle actions
+     * Flint accepts for this resource now, based on stored state. Independent of the caller's
+     * permissions; each action still requires its route's scope. Always [] when no action is
+     * available. [] enum: "collect", "issue", "mark_uncollectible", "void".
+     * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions
+     * Flint accepts for this resource now, based on stored state. Independent of the caller's
+     * permissions; each action still requires its route's scope. Always [] when no action is
+     * available. [] enum: "collect", "issue", "mark_uncollectible", "void".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "collect",
+     * "issue", "mark_uncollectible", "void". previous_attributes.supported_actions.anyOf[2]
+     * (Value): null. previous_attributes.timezone (Optional): string or null. IANA time zone
+     * snapshot for invoice due dates, reminders, and late fee calendar days. Taken from the
+     * merchant's timezone when the draft is written, or UTC when unset. Later merchant changes do
+     * not alter this invoice's calendar. previous_attributes.timezone.anyOf[1] (Value): string.
+     * IANA time zone snapshot for invoice due dates, reminders, and late fee calendar days. Taken
+     * from the merchant's timezone when the draft is written, or UTC when unset. Later merchant
+     * changes do not alter this invoice's calendar. previous_attributes.timezone.anyOf[2] (Value):
+     * null. previous_attributes.uncollectible_at (Optional): string or null. When the invoice was
+     * marked uncollectible. previous_attributes.uncollectible_at.anyOf[1] (Value): string. When
+     * the invoice was marked uncollectible. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.uncollectible_at.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. When the invoice last changed.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. When the invoice last changed.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2]
+     * (Value): null. previous_attributes.version (Optional): integer or null. Current invoice
+     * version. Send this as expected_version when updating the draft.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current invoice version. Send this as
+     * expected_version when updating the draft. Format: int64. minimum: 1.
+     * previous_attributes.version.anyOf[2] (Value): null. previous_attributes.viewed_at
+     * (Optional): string or null. When the buyer first opened the invoice through its hosted
+     * invoice link. Recorded on a best-effort basis. previous_attributes.viewed_at.anyOf[1]
+     * (Value): string. When the buyer first opened the invoice through its hosted invoice link.
+     * Recorded on a best-effort basis. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.viewed_at.anyOf[2] (Value): null. previous_attributes.voided_at
+     * (Optional): string or null. When the invoice was voided.
+     * previous_attributes.voided_at.anyOf[1] (Value): string. When the invoice was voided. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.voided_at.anyOf[2] (Value):
+     * null.
+     */
+    "data"?: {
+        /** The resource snapshot, without expansions. Webhooks omit these fields: `public_url`. */
+        "object": WebhookInvoice;
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. cc_emails (Optional): Array of string or null.
+         * Additional recipients copied on the invoice email and every reminder. cc_emails.anyOf[1]
+         * (Value): Array of string. Additional recipients copied on the invoice email and every
+         * reminder. cc_emails.anyOf[1][] (Value): string. cc_emails.anyOf[2] (Value): null.
+         * closed_at (Optional): string or null. When the current closed interval began. Cleared
+         * when status returns to open or partially_paid. A direct move between closed statuses
+         * preserves this timestamp. closed_at.anyOf[1] (Value): string. When the current closed
+         * interval began. Cleared when status returns to open or partially_paid. A direct move
+         * between closed statuses preserves this timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". closed_at.anyOf[2] (Value): null. collection (Optional): {@link
+         * InvoiceCollectionPreviousAttributes} or null. How this invoice is collected, resolved
+         * when the draft is written. Send this object back when updating its collection policy.
+         * collection.anyOf[1] (Value): {@link InvoiceCollectionPreviousAttributes}.
+         * collection.anyOf[2] (Value): null. collection_block_status (Optional): string or null.
+         * Whether collection is blocked. While it is inventory_blocked, collection attempts return
+         * 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none",
+         * "inventory_blocked", "resolved". collection_block_status.anyOf[1] (Value): string.
+         * Whether collection is blocked. While it is inventory_blocked, collection attempts return
+         * 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none",
+         * "inventory_blocked", "resolved". collection_block_status.anyOf[2] (Value): null.
+         * created_at (Optional): string or null. When the invoice was created. created_at.anyOf[1]
+         * (Value): string. When the invoice was created. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Summary of the billed customer.
+         * Returned only with expand=customer. Present only when `expand` includes `customer`;
+         * `null` when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
+         * ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value): null. customer_id
+         * (Optional): string or null. Customer billed by this invoice. Absent when the invoice has
+         * no customer. customer_id.anyOf[1] (Value): string. Customer billed by this invoice.
+         * Absent when the invoice has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+         * customer_id.anyOf[2] (Value): null. delivery_mode (Optional): string or null. How issue
+         * delivered the invoice. Value enum: "email", "caller_managed". delivery_mode.anyOf[1]
+         * (Value): string. How issue delivered the invoice. Value enum: "email", "caller_managed".
+         * delivery_mode.anyOf[2] (Value): null. due_date (Optional): string or null. Calendar due
+         * date in YYYY-MM-DD format, interpreted in timezone (UTC when absent). The outstanding
+         * balance becomes overdue only after this date ends. Automatic collection runs at the
+         * later of issue and the start of this date. With payment terms, issue computes this date
+         * from issued_at. Absent when there is no due date. due_date.anyOf[1] (Value): string.
+         * Calendar due date in YYYY-MM-DD format, interpreted in timezone (UTC when absent). The
+         * outstanding balance becomes overdue only after this date ends. Automatic collection runs
+         * at the later of issue and the start of this date. With payment terms, issue computes
+         * this date from issued_at. Absent when there is no due date. Format: date. Example:
+         * "2026-08-02". due_date.anyOf[2] (Value): null. external_reference_id (Optional): string
+         * or null. Caller-owned identifier for this resource in an external system. Use it as your
+         * sync key: it isn't printed on the invoice. `null` when unset.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. Use it as your sync key: it isn't printed on the
+         * invoice. `null` when unset. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. footer (Optional): string or null. Fine
+         * print at the bottom of the invoice and PDF. It cannot change after issue. `null` when
+         * unset. footer.anyOf[1] (Value): string. Fine print at the bottom of the invoice and PDF.
+         * It cannot change after issue. `null` when unset. footer.anyOf[2] (Value): null.
+         * invoice_id (Optional): string or null. Flint invoice ID. invoice_id.anyOf[1] (Value):
+         * string. Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2]
+         * (Value): null. invoice_number (Optional): string or null. Sequential document number
+         * assigned when the invoice is issued. Numbering is per merchant, with test and live mode
+         * numbered independently. invoice_number.anyOf[1] (Value): string. Sequential document
+         * number assigned when the invoice is issued. Numbering is per merchant, with test and
+         * live mode numbered independently. invoice_number.anyOf[2] (Value): null. is_overdue
+         * (Optional): boolean or null. Whether the invoice is open or partially_paid and past due
+         * with a balance remaining. Without schedule_entries, the due_date has ended in timezone
+         * (UTC when absent) and outstanding_money is above zero; with them, at least one entry is
+         * overdue. Computed when the invoice is read. is_overdue.anyOf[1] (Value): boolean.
+         * Whether the invoice is open or partially_paid and past due with a balance remaining.
+         * Without schedule_entries, the due_date has ended in timezone (UTC when absent) and
+         * outstanding_money is above zero; with them, at least one entry is overdue. Computed when
+         * the invoice is read. is_overdue.anyOf[2] (Value): null. issued_at (Optional): string or
+         * null. When the invoice was issued. Absent on a draft. issued_at.anyOf[1] (Value):
+         * string. When the invoice was issued. Absent on a draft. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". issued_at.anyOf[2] (Value): null. late_fees (Optional): Array of
+         * {@link InvoiceLateFeePreviousAttributes} or null. Late fees assessed on this invoice,
+         * each with its paid, waived, written-off, and outstanding amounts.
+         * settlement_amounts.late_fee_money is their assessed total minus waivers.
+         * late_fees.anyOf[1] (Value): Array of {@link InvoiceLateFeePreviousAttributes}. Late fees
+         * assessed on this invoice, each with its paid, waived, written-off, and outstanding
+         * amounts. settlement_amounts.late_fee_money is their assessed total minus waivers.
+         * late_fees.anyOf[1][] (Value): {@link InvoiceLateFeePreviousAttributes}.
+         * late_fees.anyOf[2] (Value): null. memo (Optional): string or null. Message to the
+         * customer, printed on the invoice and PDF. It cannot change after issue. `null` when
+         * unset. memo.anyOf[1] (Value): string. Message to the customer, printed on the invoice
+         * and PDF. It cannot change after issue. `null` when unset. memo.anyOf[2] (Value): null.
+         * merchant_id (Optional): string or null. Merchant that owns this invoice.
+         * merchant_id.anyOf[1] (Value): string. Merchant that owns this invoice. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. metadata.anyOf[1]
+         * (Value): {@link MetadataMap}. metadata.anyOf[2] (Value): null. order (Optional): {@link
+         * ExpandedOrderSummaryPreviousAttributes} or null. Summary of the backing order. Returned
+         * only with expand=order. Present only when `expand` includes `order`; `null` when
+         * expanded and there is no related order. order.anyOf[1] (Value): {@link
+         * ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2] (Value): null. order_id
+         * (Optional): string or null. The order this invoice bills. Every invoice has one; quick
+         * pay creates it. order_id.anyOf[1] (Value): string. The order this invoice bills. Every
+         * invoice has one; quick pay creates it. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * order_id.anyOf[2] (Value): null. paid_at (Optional): string or null. When the invoice
+         * most recently became paid. Cleared when status leaves paid and set again on a later paid
+         * transition. paid_at.anyOf[1] (Value): string. When the invoice most recently became
+         * paid. Cleared when status leaves paid and set again on a later paid transition. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". paid_at.anyOf[2] (Value): null. payment_due
+         * (Optional): {@link InvoicePaymentDuePreviousAttributes} or null. The resolved due-date
+         * policy. Send this object back when updating the draft; payment_terms captures the term's
+         * current revision again. payment_due.anyOf[1] (Value): {@link
+         * InvoicePaymentDuePreviousAttributes}. payment_due.anyOf[2] (Value): null.
+         * payment_terms_snapshot (Optional): {@link InvoicePaymentTermsSnapshotPreviousAttributes}
+         * or null. The payment term captured on the draft, with its due date rule and late fee
+         * policy. Later changes to the payment term don't affect this invoice.
+         * payment_terms_snapshot.anyOf[1] (Value): {@link
+         * InvoicePaymentTermsSnapshotPreviousAttributes}. payment_terms_snapshot.anyOf[2] (Value):
+         * null. po_number (Optional): string or null. The buyer's purchase order number, printed
+         * on the invoice and PDF. It cannot change after issue. `null` when unset.
+         * po_number.anyOf[1] (Value): string. The buyer's purchase order number, printed on the
+         * invoice and PDF. It cannot change after issue. `null` when unset. po_number.anyOf[2]
+         * (Value): null. pricing_amounts (Optional): {@link PricingAmountsPreviousAttributes} or
+         * null. The invoice pricing totals, frozen at issue. A draft previews the backing order.
+         * total_money excludes late fees, which are in settlement_amounts.late_fee_money.
+         * pricing_amounts.anyOf[1] (Value): {@link PricingAmountsPreviousAttributes}.
+         * pricing_amounts.anyOf[2] (Value): null. recipient_email (Optional): string or null.
+         * Where Flint emails the invoice and its reminders. Email delivery requires it at issue.
+         * `null` when unset. recipient_email.anyOf[1] (Value): string. Where Flint emails the
+         * invoice and its reminders. Email delivery requires it at issue. `null` when unset.
+         * recipient_email.anyOf[2] (Value): null. reference (Optional): string or null. Your
+         * reference for the invoice, printed on the invoice and PDF. The buyer's purchase order
+         * number goes in po_number. It cannot change after issue. `null` when unset.
+         * reference.anyOf[1] (Value): string. Your reference for the invoice, printed on the
+         * invoice and PDF. The buyer's purchase order number goes in po_number. It cannot change
+         * after issue. `null` when unset. reference.anyOf[2] (Value): null. refund_status
+         * (Optional): string or null. How much of the collected money has been refunded. It
+         * doesn't change status. Value enum: "none", "partially_refunded", "refunded".
+         * refund_status.anyOf[1] (Value): string. How much of the collected money has been
+         * refunded. It doesn't change status. Value enum: "none", "partially_refunded",
+         * "refunded". refund_status.anyOf[2] (Value): null. reminders_paused (Optional): boolean
+         * or null. Whether automatic reminders are paused. Set reminders_paused on PATCH
+         * /v1/invoices/{invoice_id} to change it. reminders_paused.anyOf[1] (Value): boolean.
+         * Whether automatic reminders are paused. Set reminders_paused on PATCH
+         * /v1/invoices/{invoice_id} to change it. reminders_paused.anyOf[2] (Value): null.
+         * reminders_paused_at (Optional): string or null. When automatic reminders were paused.
+         * Absent while reminders are active. reminders_paused_at.anyOf[1] (Value): string. When
+         * automatic reminders were paused. Absent while reminders are active. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". reminders_paused_at.anyOf[2] (Value): null.
+         * remit_to_address (Optional): {@link AddressPreviousAttributes} or null. Where the buyer
+         * sends offline payments, shown on the invoice. Defaults to the invoice settings remit-to
+         * address. remit_to_address.anyOf[1] (Value): {@link AddressPreviousAttributes}.
+         * remit_to_address.anyOf[2] (Value): null. schedule_entries (Optional): Array of {@link
+         * InvoiceScheduleEntryPreviousAttributes} or null. The payment schedule, in schedule
+         * order. Always [] when the invoice has no schedule and is collected in one balance.
+         * schedule_entries.anyOf[1] (Value): Array of {@link
+         * InvoiceScheduleEntryPreviousAttributes}. The payment schedule, in schedule order. Always
+         * [] when the invoice has no schedule and is collected in one balance.
+         * schedule_entries.anyOf[1][] (Value): {@link InvoiceScheduleEntryPreviousAttributes}.
+         * schedule_entries.anyOf[2] (Value): null. scheduled_issue_at (Optional): string or null.
+         * When Flint will issue and deliver this draft. `null` when no issue is scheduled. Cleared
+         * when the draft is issued or voided, or when you send null. scheduled_issue_at.anyOf[1]
+         * (Value): string. When Flint will issue and deliver this draft. `null` when no issue is
+         * scheduled. Cleared when the draft is issued or voided, or when you send null. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". scheduled_issue_at.anyOf[2] (Value): null.
+         * service_date (Optional): string or null. The calendar date of the billed service, in
+         * YYYY-MM-DD format. The invoice and PDF print it as written, without timezone conversion.
+         * `null` when unset. service_date.anyOf[1] (Value): string. The calendar date of the
+         * billed service, in YYYY-MM-DD format. The invoice and PDF print it as written, without
+         * timezone conversion. `null` when unset. Format: date. Example: "2026-08-02".
+         * service_date.anyOf[2] (Value): null. settlement_amounts (Optional): {@link
+         * InvoiceSettlementAmountsPreviousAttributes} or null. Payments, refunds, write-offs,
+         * allocated credit notes, late fees, and the remaining invoice balance. What is still
+         * owed: pricing_amounts.total_money + late_fee_money - paid_money - credited_money -
+         * written_off_money, never below zero. 0 on paid, credited, uncollectible, and voided
+         * invoices; equal to pricing_amounts.total_money on a draft. Refunds and card chargebacks
+         * don't change it. Lost bank returns reopen the balance. settlement_amounts.anyOf[1]
+         * (Value): {@link InvoiceSettlementAmountsPreviousAttributes}. settlement_amounts.anyOf[2]
+         * (Value): null. snapshot (Optional): {@link InvoiceSnapshotPreviousAttributes} or null.
+         * The billing content of the invoice: line items, discounts, charges, tip, and tax. A
+         * draft previews the backing order; issue freezes it, and later order changes don't reach
+         * an issued invoice. snapshot.anyOf[1] (Value): {@link InvoiceSnapshotPreviousAttributes}.
+         * snapshot.anyOf[2] (Value): null. status (Optional): string or null. Current invoice
+         * status. paid and credited close the current balance and can reopen to open or
+         * partially_paid after a payment or credit allocation reversal; invoice.reopened reports
+         * that change. An uncollectible invoice accepts manual recovery payments and becomes paid
+         * when fully recovered; reversals restore the write-off. voided is final. Refunds change
+         * refund_status without reopening the balance. An ACH bank return reverses paid_money and
+         * reopens the balance. A lost card chargeback leaves paid_money, the balance, and status
+         * unchanged; collecting it again requires a new invoice. Value enum: "draft", "open",
+         * "partially_paid", "paid", "voided", "uncollectible", "credited". status.anyOf[1]
+         * (Value): string. Current invoice status. paid and credited close the current balance and
+         * can reopen to open or partially_paid after a payment or credit allocation reversal;
+         * invoice.reopened reports that change. An uncollectible invoice accepts manual recovery
+         * payments and becomes paid when fully recovered; reversals restore the write-off. voided
+         * is final. Refunds change refund_status without reopening the balance. An ACH bank return
+         * reverses paid_money and reopens the balance. A lost card chargeback leaves paid_money,
+         * the balance, and status unchanged; collecting it again requires a new invoice. Value
+         * enum: "draft", "open", "partially_paid", "paid", "voided", "uncollectible", "credited".
+         * status.anyOf[2] (Value): null. subscription_id (Optional): string or null. The
+         * subscription the backing order belongs to, copied when the draft is created and never
+         * changed. `null` when the order isn't part of a subscription. subscription_id.anyOf[1]
+         * (Value): string. The subscription the backing order belongs to, copied when the draft is
+         * created and never changed. `null` when the order isn't part of a subscription. Example:
+         * "sub_01KEZF7C00BVRE8YDBXQB74BBM". subscription_id.anyOf[2] (Value): null.
+         * supported_actions (Optional): Array of string or null. Lifecycle actions Flint accepts
+         * for this resource now, based on stored state. Independent of the caller's permissions;
+         * each action still requires its route's scope. Always [] when no action is available. []
+         * enum: "collect", "issue", "mark_uncollectible", "void". supported_actions.anyOf[1]
+         * (Value): Array of string. Lifecycle actions Flint accepts for this resource now, based
+         * on stored state. Independent of the caller's permissions; each action still requires its
+         * route's scope. Always [] when no action is available. [] enum: "collect", "issue",
+         * "mark_uncollectible", "void". supported_actions.anyOf[1][] (Value): string. Value enum:
+         * "collect", "issue", "mark_uncollectible", "void". supported_actions.anyOf[2] (Value):
+         * null. timezone (Optional): string or null. IANA time zone snapshot for invoice due
+         * dates, reminders, and late fee calendar days. Taken from the merchant's timezone when
+         * the draft is written, or UTC when unset. Later merchant changes do not alter this
+         * invoice's calendar. timezone.anyOf[1] (Value): string. IANA time zone snapshot for
+         * invoice due dates, reminders, and late fee calendar days. Taken from the merchant's
+         * timezone when the draft is written, or UTC when unset. Later merchant changes do not
+         * alter this invoice's calendar. timezone.anyOf[2] (Value): null. uncollectible_at
+         * (Optional): string or null. When the invoice was marked uncollectible.
+         * uncollectible_at.anyOf[1] (Value): string. When the invoice was marked uncollectible.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". uncollectible_at.anyOf[2] (Value):
+         * null. updated_at (Optional): string or null. When the invoice last changed.
+         * updated_at.anyOf[1] (Value): string. When the invoice last changed. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional):
+         * integer or null. Current invoice version. Send this as expected_version when updating
+         * the draft. version.anyOf[1] (Value): integer. Current invoice version. Send this as
+         * expected_version when updating the draft. Format: int64. minimum: 1. version.anyOf[2]
+         * (Value): null. viewed_at (Optional): string or null. When the buyer first opened the
+         * invoice through its hosted invoice link. Recorded on a best-effort basis.
+         * viewed_at.anyOf[1] (Value): string. When the buyer first opened the invoice through its
+         * hosted invoice link. Recorded on a best-effort basis. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". viewed_at.anyOf[2] (Value): null. voided_at (Optional): string
+         * or null. When the invoice was voided. voided_at.anyOf[1] (Value): string. When the
+         * invoice was voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * voided_at.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Additional recipients copied on the invoice email and every reminder. anyOf[1]
+             * (Value): Array of string. Additional recipients copied on the invoice email and
+             * every reminder. anyOf[1][] (Value): string. anyOf[2] (Value): null.
+             */
+            "cc_emails"?: ((Array<string>) | (null));
+            /**
+             * When the current closed interval began. Cleared when status returns to open or
+             * partially_paid. A direct move between closed statuses preserves this timestamp.
+             * anyOf[1] (Value): string. When the current closed interval began. Cleared when
+             * status returns to open or partially_paid. A direct move between closed statuses
+             * preserves this timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             * anyOf[2] (Value): null.
+             */
+            "closed_at"?: ((string) | (null));
+            /**
+             * How this invoice is collected, resolved when the draft is written. Send this object
+             * back when updating its collection policy. anyOf[1] (Value): {@link
+             * InvoiceCollectionPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "collection"?: ((InvoiceCollectionPreviousAttributes) | (null));
+            /**
+             * Whether collection is blocked. While it is inventory_blocked, collection attempts
+             * return 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum:
+             * "none", "inventory_blocked", "resolved". anyOf[1] (Value): string. Whether
+             * collection is blocked. While it is inventory_blocked, collection attempts return 409
+             * ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none",
+             * "inventory_blocked", "resolved". anyOf[2] (Value): null.
+             */
+            "collection_block_status"?: (("none" | "inventory_blocked" | "resolved" | (string & {})) | (null));
+            /**
+             * When the invoice was created. anyOf[1] (Value): string. When the invoice was
+             * created. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Summary of the billed customer. Returned only with expand=customer. Present only
+             * when `expand` includes `customer`; `null` when expanded and there is no related
+             * customer. anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            /**
+             * Customer billed by this invoice. Absent when the invoice has no customer. anyOf[1]
+             * (Value): string. Customer billed by this invoice. Absent when the invoice has no
+             * customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * How issue delivered the invoice. Value enum: "email", "caller_managed". anyOf[1]
+             * (Value): string. How issue delivered the invoice. Value enum: "email",
+             * "caller_managed". anyOf[2] (Value): null.
+             */
+            "delivery_mode"?: (("email" | "caller_managed" | (string & {})) | (null));
+            /**
+             * Calendar due date in YYYY-MM-DD format, interpreted in timezone (UTC when absent).
+             * The outstanding balance becomes overdue only after this date ends. Automatic
+             * collection runs at the later of issue and the start of this date. With payment
+             * terms, issue computes this date from issued_at. Absent when there is no due date.
+             * anyOf[1] (Value): string. Calendar due date in YYYY-MM-DD format, interpreted in
+             * timezone (UTC when absent). The outstanding balance becomes overdue only after this
+             * date ends. Automatic collection runs at the later of issue and the start of this
+             * date. With payment terms, issue computes this date from issued_at. Absent when there
+             * is no due date. Format: date. Example: "2026-08-02". anyOf[2] (Value): null.
+             */
+            "due_date"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. Use it as your sync
+             * key: it isn't printed on the invoice. `null` when unset. anyOf[1] (Value): string.
+             * Caller-owned identifier for this resource in an external system. Use it as your sync
+             * key: it isn't printed on the invoice. `null` when unset. minLength: 1. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Fine print at the bottom of the invoice and PDF. It cannot change after issue.
+             * `null` when unset. anyOf[1] (Value): string. Fine print at the bottom of the invoice
+             * and PDF. It cannot change after issue. `null` when unset. anyOf[2] (Value): null.
+             */
+            "footer"?: ((string) | (null));
+            /**
+             * Flint invoice ID. anyOf[1] (Value): string. Flint invoice ID. Example:
+             * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
+             */
+            "invoice_id"?: ((string) | (null));
+            /**
+             * Sequential document number assigned when the invoice is issued. Numbering is per
+             * merchant, with test and live mode numbered independently. anyOf[1] (Value): string.
+             * Sequential document number assigned when the invoice is issued. Numbering is per
+             * merchant, with test and live mode numbered independently. anyOf[2] (Value): null.
+             */
+            "invoice_number"?: ((string) | (null));
+            /**
+             * Whether the invoice is open or partially_paid and past due with a balance remaining.
+             * Without schedule_entries, the due_date has ended in timezone (UTC when absent) and
+             * outstanding_money is above zero; with them, at least one entry is overdue. Computed
+             * when the invoice is read. anyOf[1] (Value): boolean. Whether the invoice is open or
+             * partially_paid and past due with a balance remaining. Without schedule_entries, the
+             * due_date has ended in timezone (UTC when absent) and outstanding_money is above
+             * zero; with them, at least one entry is overdue. Computed when the invoice is read.
+             * anyOf[2] (Value): null.
+             */
+            "is_overdue"?: ((boolean) | (null));
+            /**
+             * When the invoice was issued. Absent on a draft. anyOf[1] (Value): string. When the
+             * invoice was issued. Absent on a draft. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "issued_at"?: ((string) | (null));
+            /**
+             * Late fees assessed on this invoice, each with its paid, waived, written-off, and
+             * outstanding amounts. settlement_amounts.late_fee_money is their assessed total minus
+             * waivers. anyOf[1] (Value): Array of {@link InvoiceLateFeePreviousAttributes}. Late
+             * fees assessed on this invoice, each with its paid, waived, written-off, and
+             * outstanding amounts. settlement_amounts.late_fee_money is their assessed total minus
+             * waivers. anyOf[1][] (Value): {@link InvoiceLateFeePreviousAttributes}. anyOf[2]
+             * (Value): null.
+             */
+            "late_fees"?: ((Array<InvoiceLateFeePreviousAttributes>) | (null));
+            /**
+             * Message to the customer, printed on the invoice and PDF. It cannot change after
+             * issue. `null` when unset. anyOf[1] (Value): string. Message to the customer, printed
+             * on the invoice and PDF. It cannot change after issue. `null` when unset. anyOf[2]
+             * (Value): null.
+             */
+            "memo"?: ((string) | (null));
+            /**
+             * Merchant that owns this invoice. anyOf[1] (Value): string. Merchant that owns this
+             * invoice. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value):
+             * null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Summary of the backing order. Returned only with expand=order. Present only when
+             * `expand` includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}. anyOf[2] (Value):
+             * null.
+             */
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
+            /**
+             * The order this invoice bills. Every invoice has one; quick pay creates it. anyOf[1]
+             * (Value): string. The order this invoice bills. Every invoice has one; quick pay
+             * creates it. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * When the invoice most recently became paid. Cleared when status leaves paid and set
+             * again on a later paid transition. anyOf[1] (Value): string. When the invoice most
+             * recently became paid. Cleared when status leaves paid and set again on a later paid
+             * transition. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "paid_at"?: ((string) | (null));
+            /**
+             * The resolved due-date policy. Send this object back when updating the draft;
+             * payment_terms captures the term's current revision again. anyOf[1] (Value): {@link
+             * InvoicePaymentDuePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "payment_due"?: ((InvoicePaymentDuePreviousAttributes) | (null));
+            /**
+             * The payment term captured on the draft, with its due date rule and late fee policy.
+             * Later changes to the payment term don't affect this invoice. anyOf[1] (Value):
+             * {@link InvoicePaymentTermsSnapshotPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "payment_terms_snapshot"?: ((InvoicePaymentTermsSnapshotPreviousAttributes) | (null));
+            /**
+             * The buyer's purchase order number, printed on the invoice and PDF. It cannot change
+             * after issue. `null` when unset. anyOf[1] (Value): string. The buyer's purchase order
+             * number, printed on the invoice and PDF. It cannot change after issue. `null` when
+             * unset. anyOf[2] (Value): null.
+             */
+            "po_number"?: ((string) | (null));
+            /**
+             * The invoice pricing totals, frozen at issue. A draft previews the backing order.
+             * total_money excludes late fees, which are in settlement_amounts.late_fee_money.
+             * anyOf[1] (Value): {@link PricingAmountsPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "pricing_amounts"?: ((PricingAmountsPreviousAttributes) | (null));
+            /**
+             * Where Flint emails the invoice and its reminders. Email delivery requires it at
+             * issue. `null` when unset. anyOf[1] (Value): string. Where Flint emails the invoice
+             * and its reminders. Email delivery requires it at issue. `null` when unset. anyOf[2]
+             * (Value): null.
+             */
+            "recipient_email"?: ((string) | (null));
+            /**
+             * Your reference for the invoice, printed on the invoice and PDF. The buyer's purchase
+             * order number goes in po_number. It cannot change after issue. `null` when unset.
+             * anyOf[1] (Value): string. Your reference for the invoice, printed on the invoice and
+             * PDF. The buyer's purchase order number goes in po_number. It cannot change after
+             * issue. `null` when unset. anyOf[2] (Value): null.
+             */
+            "reference"?: ((string) | (null));
+            /**
+             * How much of the collected money has been refunded. It doesn't change status. Value
+             * enum: "none", "partially_refunded", "refunded". anyOf[1] (Value): string. How much
+             * of the collected money has been refunded. It doesn't change status. Value enum:
+             * "none", "partially_refunded", "refunded". anyOf[2] (Value): null.
+             */
+            "refund_status"?: (("none" | "partially_refunded" | "refunded" | (string & {})) | (null));
+            /**
+             * Whether automatic reminders are paused. Set reminders_paused on PATCH
+             * /v1/invoices/{invoice_id} to change it. anyOf[1] (Value): boolean. Whether automatic
+             * reminders are paused. Set reminders_paused on PATCH /v1/invoices/{invoice_id} to
+             * change it. anyOf[2] (Value): null.
+             */
+            "reminders_paused"?: ((boolean) | (null));
+            /**
+             * When automatic reminders were paused. Absent while reminders are active. anyOf[1]
+             * (Value): string. When automatic reminders were paused. Absent while reminders are
+             * active. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "reminders_paused_at"?: ((string) | (null));
+            /**
+             * Where the buyer sends offline payments, shown on the invoice. Defaults to the
+             * invoice settings remit-to address. anyOf[1] (Value): {@link
+             * AddressPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "remit_to_address"?: ((AddressPreviousAttributes) | (null));
+            /**
+             * The payment schedule, in schedule order. Always [] when the invoice has no schedule
+             * and is collected in one balance. anyOf[1] (Value): Array of {@link
+             * InvoiceScheduleEntryPreviousAttributes}. The payment schedule, in schedule order.
+             * Always [] when the invoice has no schedule and is collected in one balance.
+             * anyOf[1][] (Value): {@link InvoiceScheduleEntryPreviousAttributes}. anyOf[2]
+             * (Value): null.
+             */
+            "schedule_entries"?: ((Array<InvoiceScheduleEntryPreviousAttributes>) | (null));
+            /**
+             * When Flint will issue and deliver this draft. `null` when no issue is scheduled.
+             * Cleared when the draft is issued or voided, or when you send null. anyOf[1] (Value):
+             * string. When Flint will issue and deliver this draft. `null` when no issue is
+             * scheduled. Cleared when the draft is issued or voided, or when you send null.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "scheduled_issue_at"?: ((string) | (null));
+            /**
+             * The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF
+             * print it as written, without timezone conversion. `null` when unset. anyOf[1]
+             * (Value): string. The calendar date of the billed service, in YYYY-MM-DD format. The
+             * invoice and PDF print it as written, without timezone conversion. `null` when unset.
+             * Format: date. Example: "2026-08-02". anyOf[2] (Value): null.
+             */
+            "service_date"?: ((string) | (null));
+            /**
+             * Payments, refunds, write-offs, allocated credit notes, late fees, and the remaining
+             * invoice balance. What is still owed: pricing_amounts.total_money + late_fee_money -
+             * paid_money - credited_money - written_off_money, never below zero. 0 on paid,
+             * credited, uncollectible, and voided invoices; equal to pricing_amounts.total_money
+             * on a draft. Refunds and card chargebacks don't change it. Lost bank returns reopen
+             * the balance. anyOf[1] (Value): {@link InvoiceSettlementAmountsPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "settlement_amounts"?: ((InvoiceSettlementAmountsPreviousAttributes) | (null));
+            /**
+             * The billing content of the invoice: line items, discounts, charges, tip, and tax. A
+             * draft previews the backing order; issue freezes it, and later order changes don't
+             * reach an issued invoice. anyOf[1] (Value): {@link
+             * InvoiceSnapshotPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "snapshot"?: ((InvoiceSnapshotPreviousAttributes) | (null));
+            /**
+             * Current invoice status. paid and credited close the current balance and can reopen
+             * to open or partially_paid after a payment or credit allocation reversal;
              * invoice.reopened reports that change. An uncollectible invoice accepts manual
              * recovery payments and becomes paid when fully recovered; reversals restore the
              * write-off. voided is final. Refunds change refund_status without reopening the
-             * balance. A lost dispute leaves paid_money, the balance, and status unchanged;
-             * collecting it again requires a new invoice. Value enum: "draft", "open",
-             * "partially_paid", "paid", "voided", "uncollectible", "credited". anyOf[2] (Value):
+             * balance. An ACH bank return reverses paid_money and reopens the balance. A lost card
+             * chargeback leaves paid_money, the balance, and status unchanged; collecting it again
+             * requires a new invoice. Value enum: "draft", "open", "partially_paid", "paid",
+             * "voided", "uncollectible", "credited". anyOf[1] (Value): string. Current invoice
+             * status. paid and credited close the current balance and can reopen to open or
+             * partially_paid after a payment or credit allocation reversal; invoice.reopened
+             * reports that change. An uncollectible invoice accepts manual recovery payments and
+             * becomes paid when fully recovered; reversals restore the write-off. voided is final.
+             * Refunds change refund_status without reopening the balance. An ACH bank return
+             * reverses paid_money and reopens the balance. A lost card chargeback leaves
+             * paid_money, the balance, and status unchanged; collecting it again requires a new
+             * invoice. Value enum: "draft", "open", "partially_paid", "paid", "voided",
+             * "uncollectible", "credited". anyOf[2] (Value): null.
+             */
+            "status"?: (("draft"
+                | "open"
+                | "partially_paid"
+                | "paid"
+                | "voided"
+                | "uncollectible"
+                | "credited"
+                | (string & {}))
+                | (null));
+            /**
+             * The subscription the backing order belongs to, copied when the draft is created and
+             * never changed. `null` when the order isn't part of a subscription. anyOf[1] (Value):
+             * string. The subscription the backing order belongs to, copied when the draft is
+             * created and never changed. `null` when the order isn't part of a subscription.
+             * Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM". anyOf[2] (Value): null.
+             */
+            "subscription_id"?: ((string) | (null));
+            /**
+             * Lifecycle actions Flint accepts for this resource now, based on stored state.
+             * Independent of the caller's permissions; each action still requires its route's
+             * scope. Always [] when no action is available. [] enum: "collect", "issue",
+             * "mark_uncollectible", "void". anyOf[1] (Value): Array of string. Lifecycle actions
+             * Flint accepts for this resource now, based on stored state. Independent of the
+             * caller's permissions; each action still requires its route's scope. Always [] when
+             * no action is available. [] enum: "collect", "issue", "mark_uncollectible", "void".
+             * anyOf[1][] (Value): string. Value enum: "collect", "issue", "mark_uncollectible",
+             * "void". anyOf[2] (Value): null.
+             */
+            "supported_actions"?: ((Array<"collect" | "issue" | "mark_uncollectible" | "void" | (string & {})>) | (null));
+            /**
+             * IANA time zone snapshot for invoice due dates, reminders, and late fee calendar
+             * days. Taken from the merchant's timezone when the draft is written, or UTC when
+             * unset. Later merchant changes do not alter this invoice's calendar. anyOf[1]
+             * (Value): string. IANA time zone snapshot for invoice due dates, reminders, and late
+             * fee calendar days. Taken from the merchant's timezone when the draft is written, or
+             * UTC when unset. Later merchant changes do not alter this invoice's calendar.
+             * anyOf[2] (Value): null.
+             */
+            "timezone"?: ((string) | (null));
+            /**
+             * When the invoice was marked uncollectible. anyOf[1] (Value): string. When the
+             * invoice was marked uncollectible. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "uncollectible_at"?: ((string) | (null));
+            /**
+             * When the invoice last changed. anyOf[1] (Value): string. When the invoice last
+             * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current invoice version. Send this as expected_version when updating the draft.
+             * anyOf[1] (Value): integer. Current invoice version. Send this as expected_version
+             * when updating the draft. Format: int64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+            /**
+             * When the buyer first opened the invoice through its hosted invoice link. Recorded on
+             * a best-effort basis. anyOf[1] (Value): string. When the buyer first opened the
+             * invoice through its hosted invoice link. Recorded on a best-effort basis. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "viewed_at"?: ((string) | (null));
+            /**
+             * When the invoice was voided. anyOf[1] (Value): string. When the invoice was voided.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "voided_at"?: ((string) | (null));
+        });
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "invoice.marked_uncollectible". */
+    "event_type"?: "invoice.marked_uncollectible";
+});
+export type InvoiceOverdueEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookInvoice;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "invoice.overdue";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookInvoice;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "invoice.overdue";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "invoice.overdue";
+});
+/**
+ * The `invoice.overdue` webhook payload for the `installed_merchants` event source. Fields shared
+ * by partner webhook payloads.
+ */
+export type InvoiceOverdueInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link WebhookInvoice}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `public_url`.
+     */
+    "data"?: {
+        /** The resource snapshot, without expansions. Webhooks omit these fields: `public_url`. */
+        "object": WebhookInvoice;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "invoice.overdue". */
+    "event_type"?: "invoice.overdue";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `invoice.overdue` webhook payload for the `merchant` event source. Fields shared by merchant
+ * webhook payloads.
+ */
+export type InvoiceOverdueMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link WebhookInvoice}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `public_url`.
+     */
+    "data"?: {
+        /** The resource snapshot, without expansions. Webhooks omit these fields: `public_url`. */
+        "object": WebhookInvoice;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "invoice.overdue". */
+    "event_type"?: "invoice.overdue";
+});
+export type InvoicePaidEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookInvoice;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "cc_emails"?: ((Array<string>) | (null));
+            "closed_at"?: ((string) | (null));
+            "collection"?: ((InvoiceCollectionPreviousAttributes) | (null));
+            "collection_block_status"?: (("none" | "inventory_blocked" | "resolved" | (string & {})) | (null));
+            "created_at"?: ((string) | (null));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            "customer_id"?: ((string) | (null));
+            "delivery_mode"?: (("email" | "caller_managed" | (string & {})) | (null));
+            "due_date"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "footer"?: ((string) | (null));
+            "invoice_id"?: ((string) | (null));
+            "invoice_number"?: ((string) | (null));
+            "is_overdue"?: ((boolean) | (null));
+            "issued_at"?: ((string) | (null));
+            "late_fees"?: ((Array<InvoiceLateFeePreviousAttributes>) | (null));
+            "memo"?: ((string) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
+            "order_id"?: ((string) | (null));
+            "paid_at"?: ((string) | (null));
+            "payment_due"?: ((InvoicePaymentDuePreviousAttributes) | (null));
+            "payment_terms_snapshot"?: ((InvoicePaymentTermsSnapshotPreviousAttributes) | (null));
+            "po_number"?: ((string) | (null));
+            "pricing_amounts"?: ((PricingAmountsPreviousAttributes) | (null));
+            "recipient_email"?: ((string) | (null));
+            "reference"?: ((string) | (null));
+            "refund_status"?: (("none" | "partially_refunded" | "refunded" | (string & {})) | (null));
+            "reminders_paused"?: ((boolean) | (null));
+            "reminders_paused_at"?: ((string) | (null));
+            "remit_to_address"?: ((AddressPreviousAttributes) | (null));
+            "schedule_entries"?: ((Array<InvoiceScheduleEntryPreviousAttributes>) | (null));
+            "scheduled_issue_at"?: ((string) | (null));
+            "service_date"?: ((string) | (null));
+            "settlement_amounts"?: ((InvoiceSettlementAmountsPreviousAttributes) | (null));
+            "snapshot"?: ((InvoiceSnapshotPreviousAttributes) | (null));
+            "status"?: (("draft"
+                | "open"
+                | "partially_paid"
+                | "paid"
+                | "voided"
+                | "uncollectible"
+                | "credited"
+                | (string & {}))
+                | (null));
+            "subscription_id"?: ((string) | (null));
+            "supported_actions"?: ((Array<"collect" | "issue" | "mark_uncollectible" | "void" | (string & {})>) | (null));
+            "timezone"?: ((string) | (null));
+            "uncollectible_at"?: ((string) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+            "viewed_at"?: ((string) | (null));
+            "voided_at"?: ((string) | (null));
+        });
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "invoice.paid";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookInvoice;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "cc_emails"?: ((Array<string>) | (null));
+            "closed_at"?: ((string) | (null));
+            "collection"?: ((InvoiceCollectionPreviousAttributes) | (null));
+            "collection_block_status"?: (("none" | "inventory_blocked" | "resolved" | (string & {})) | (null));
+            "created_at"?: ((string) | (null));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            "customer_id"?: ((string) | (null));
+            "delivery_mode"?: (("email" | "caller_managed" | (string & {})) | (null));
+            "due_date"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "footer"?: ((string) | (null));
+            "invoice_id"?: ((string) | (null));
+            "invoice_number"?: ((string) | (null));
+            "is_overdue"?: ((boolean) | (null));
+            "issued_at"?: ((string) | (null));
+            "late_fees"?: ((Array<InvoiceLateFeePreviousAttributes>) | (null));
+            "memo"?: ((string) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
+            "order_id"?: ((string) | (null));
+            "paid_at"?: ((string) | (null));
+            "payment_due"?: ((InvoicePaymentDuePreviousAttributes) | (null));
+            "payment_terms_snapshot"?: ((InvoicePaymentTermsSnapshotPreviousAttributes) | (null));
+            "po_number"?: ((string) | (null));
+            "pricing_amounts"?: ((PricingAmountsPreviousAttributes) | (null));
+            "recipient_email"?: ((string) | (null));
+            "reference"?: ((string) | (null));
+            "refund_status"?: (("none" | "partially_refunded" | "refunded" | (string & {})) | (null));
+            "reminders_paused"?: ((boolean) | (null));
+            "reminders_paused_at"?: ((string) | (null));
+            "remit_to_address"?: ((AddressPreviousAttributes) | (null));
+            "schedule_entries"?: ((Array<InvoiceScheduleEntryPreviousAttributes>) | (null));
+            "scheduled_issue_at"?: ((string) | (null));
+            "service_date"?: ((string) | (null));
+            "settlement_amounts"?: ((InvoiceSettlementAmountsPreviousAttributes) | (null));
+            "snapshot"?: ((InvoiceSnapshotPreviousAttributes) | (null));
+            "status"?: (("draft"
+                | "open"
+                | "partially_paid"
+                | "paid"
+                | "voided"
+                | "uncollectible"
+                | "credited"
+                | (string & {}))
+                | (null));
+            "subscription_id"?: ((string) | (null));
+            "supported_actions"?: ((Array<"collect" | "issue" | "mark_uncollectible" | "void" | (string & {})>) | (null));
+            "timezone"?: ((string) | (null));
+            "uncollectible_at"?: ((string) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+            "viewed_at"?: ((string) | (null));
+            "voided_at"?: ((string) | (null));
+        });
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "invoice.paid";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "invoice.paid";
+});
+/**
+ * The `invoice.paid` webhook payload for the `installed_merchants` event source. Fields shared by
+ * partner webhook payloads.
+ */
+export type InvoicePaidInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link WebhookInvoice}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `public_url`. previous_attributes (Optional): object. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events. previous_attributes.cc_emails (Optional): Array of string or null.
+     * Additional recipients copied on the invoice email and every reminder.
+     * previous_attributes.cc_emails.anyOf[1] (Value): Array of string. Additional recipients
+     * copied on the invoice email and every reminder. previous_attributes.cc_emails.anyOf[1][]
+     * (Value): string. previous_attributes.cc_emails.anyOf[2] (Value): null.
+     * previous_attributes.closed_at (Optional): string or null. When the current closed interval
+     * began. Cleared when status returns to open or partially_paid. A direct move between closed
+     * statuses preserves this timestamp. previous_attributes.closed_at.anyOf[1] (Value): string.
+     * When the current closed interval began. Cleared when status returns to open or
+     * partially_paid. A direct move between closed statuses preserves this timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.closed_at.anyOf[2] (Value):
+     * null. previous_attributes.collection (Optional): {@link InvoiceCollectionPreviousAttributes}
+     * or null. How this invoice is collected, resolved when the draft is written. Send this object
+     * back when updating its collection policy. previous_attributes.collection.anyOf[1] (Value):
+     * {@link InvoiceCollectionPreviousAttributes}. previous_attributes.collection.anyOf[2]
+     * (Value): null. previous_attributes.collection_block_status (Optional): string or null.
+     * Whether collection is blocked. While it is inventory_blocked, collection attempts return 409
+     * ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none",
+     * "inventory_blocked", "resolved". previous_attributes.collection_block_status.anyOf[1]
+     * (Value): string. Whether collection is blocked. While it is inventory_blocked, collection
+     * attempts return 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum:
+     * "none", "inventory_blocked", "resolved".
+     * previous_attributes.collection_block_status.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. When the invoice was created.
+     * previous_attributes.created_at.anyOf[1] (Value): string. When the invoice was created.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
+     * (Value): null. previous_attributes.customer (Optional): {@link
+     * ExpandedCustomerSummaryPreviousAttributes} or null. Summary of the billed customer. Returned
+     * only with expand=customer. Present only when `expand` includes `customer`; `null` when
+     * expanded and there is no related customer. previous_attributes.customer.anyOf[1] (Value):
+     * {@link ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2]
+     * (Value): null. previous_attributes.customer_id (Optional): string or null. Customer billed
+     * by this invoice. Absent when the invoice has no customer.
+     * previous_attributes.customer_id.anyOf[1] (Value): string. Customer billed by this invoice.
+     * Absent when the invoice has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * previous_attributes.customer_id.anyOf[2] (Value): null. previous_attributes.delivery_mode
+     * (Optional): string or null. How issue delivered the invoice. Value enum: "email",
+     * "caller_managed". previous_attributes.delivery_mode.anyOf[1] (Value): string. How issue
+     * delivered the invoice. Value enum: "email", "caller_managed".
+     * previous_attributes.delivery_mode.anyOf[2] (Value): null. previous_attributes.due_date
+     * (Optional): string or null. Calendar due date in YYYY-MM-DD format, interpreted in timezone
+     * (UTC when absent). The outstanding balance becomes overdue only after this date ends.
+     * Automatic collection runs at the later of issue and the start of this date. With payment
+     * terms, issue computes this date from issued_at. Absent when there is no due date.
+     * previous_attributes.due_date.anyOf[1] (Value): string. Calendar due date in YYYY-MM-DD
+     * format, interpreted in timezone (UTC when absent). The outstanding balance becomes overdue
+     * only after this date ends. Automatic collection runs at the later of issue and the start of
+     * this date. With payment terms, issue computes this date from issued_at. Absent when there is
+     * no due date. Format: date. Example: "2026-08-02". previous_attributes.due_date.anyOf[2]
+     * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
+     * Caller-owned identifier for this resource in an external system. Use it as your sync key: it
+     * isn't printed on the invoice. `null` when unset.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. Use it as your sync key: it isn't printed on the
+     * invoice. `null` when unset. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null. previous_attributes.footer
+     * (Optional): string or null. Fine print at the bottom of the invoice and PDF. It cannot
+     * change after issue. `null` when unset. previous_attributes.footer.anyOf[1] (Value): string.
+     * Fine print at the bottom of the invoice and PDF. It cannot change after issue. `null` when
+     * unset. previous_attributes.footer.anyOf[2] (Value): null. previous_attributes.invoice_id
+     * (Optional): string or null. Flint invoice ID. previous_attributes.invoice_id.anyOf[1]
+     * (Value): string. Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+     * previous_attributes.invoice_id.anyOf[2] (Value): null. previous_attributes.invoice_number
+     * (Optional): string or null. Sequential document number assigned when the invoice is issued.
+     * Numbering is per merchant, with test and live mode numbered independently.
+     * previous_attributes.invoice_number.anyOf[1] (Value): string. Sequential document number
+     * assigned when the invoice is issued. Numbering is per merchant, with test and live mode
+     * numbered independently. previous_attributes.invoice_number.anyOf[2] (Value): null.
+     * previous_attributes.is_overdue (Optional): boolean or null. Whether the invoice is open or
+     * partially_paid and past due with a balance remaining. Without schedule_entries, the due_date
+     * has ended in timezone (UTC when absent) and outstanding_money is above zero; with them, at
+     * least one entry is overdue. Computed when the invoice is read.
+     * previous_attributes.is_overdue.anyOf[1] (Value): boolean. Whether the invoice is open or
+     * partially_paid and past due with a balance remaining. Without schedule_entries, the due_date
+     * has ended in timezone (UTC when absent) and outstanding_money is above zero; with them, at
+     * least one entry is overdue. Computed when the invoice is read.
+     * previous_attributes.is_overdue.anyOf[2] (Value): null. previous_attributes.issued_at
+     * (Optional): string or null. When the invoice was issued. Absent on a draft.
+     * previous_attributes.issued_at.anyOf[1] (Value): string. When the invoice was issued. Absent
+     * on a draft. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.issued_at.anyOf[2] (Value): null. previous_attributes.late_fees
+     * (Optional): Array of {@link InvoiceLateFeePreviousAttributes} or null. Late fees assessed on
+     * this invoice, each with its paid, waived, written-off, and outstanding amounts.
+     * settlement_amounts.late_fee_money is their assessed total minus waivers.
+     * previous_attributes.late_fees.anyOf[1] (Value): Array of {@link
+     * InvoiceLateFeePreviousAttributes}. Late fees assessed on this invoice, each with its paid,
+     * waived, written-off, and outstanding amounts. settlement_amounts.late_fee_money is their
+     * assessed total minus waivers. previous_attributes.late_fees.anyOf[1][] (Value): {@link
+     * InvoiceLateFeePreviousAttributes}. previous_attributes.late_fees.anyOf[2] (Value): null.
+     * previous_attributes.memo (Optional): string or null. Message to the customer, printed on the
+     * invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.memo.anyOf[1] (Value): string. Message to the customer, printed on the
+     * invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.memo.anyOf[2] (Value): null. previous_attributes.merchant_id (Optional):
+     * string or null. Merchant that owns this invoice. previous_attributes.merchant_id.anyOf[1]
+     * (Value): string. Merchant that owns this invoice. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.order (Optional):
+     * {@link ExpandedOrderSummaryPreviousAttributes} or null. Summary of the backing order.
+     * Returned only with expand=order. Present only when `expand` includes `order`; `null` when
+     * expanded and there is no related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value): null.
+     * previous_attributes.order_id (Optional): string or null. The order this invoice bills. Every
+     * invoice has one; quick pay creates it. previous_attributes.order_id.anyOf[1] (Value):
+     * string. The order this invoice bills. Every invoice has one; quick pay creates it. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
+     * previous_attributes.paid_at (Optional): string or null. When the invoice most recently
+     * became paid. Cleared when status leaves paid and set again on a later paid transition.
+     * previous_attributes.paid_at.anyOf[1] (Value): string. When the invoice most recently became
+     * paid. Cleared when status leaves paid and set again on a later paid transition. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.paid_at.anyOf[2] (Value):
+     * null. previous_attributes.payment_due (Optional): {@link
+     * InvoicePaymentDuePreviousAttributes} or null. The resolved due-date policy. Send this object
+     * back when updating the draft; payment_terms captures the term's current revision again.
+     * previous_attributes.payment_due.anyOf[1] (Value): {@link
+     * InvoicePaymentDuePreviousAttributes}. previous_attributes.payment_due.anyOf[2] (Value):
+     * null. previous_attributes.payment_terms_snapshot (Optional): {@link
+     * InvoicePaymentTermsSnapshotPreviousAttributes} or null. The payment term captured on the
+     * draft, with its due date rule and late fee policy. Later changes to the payment term don't
+     * affect this invoice. previous_attributes.payment_terms_snapshot.anyOf[1] (Value): {@link
+     * InvoicePaymentTermsSnapshotPreviousAttributes}.
+     * previous_attributes.payment_terms_snapshot.anyOf[2] (Value): null.
+     * previous_attributes.po_number (Optional): string or null. The buyer's purchase order number,
+     * printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.po_number.anyOf[1] (Value): string. The buyer's purchase order number,
+     * printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.po_number.anyOf[2] (Value): null. previous_attributes.pricing_amounts
+     * (Optional): {@link PricingAmountsPreviousAttributes} or null. The invoice pricing totals,
+     * frozen at issue. A draft previews the backing order. total_money excludes late fees, which
+     * are in settlement_amounts.late_fee_money. previous_attributes.pricing_amounts.anyOf[1]
+     * (Value): {@link PricingAmountsPreviousAttributes}.
+     * previous_attributes.pricing_amounts.anyOf[2] (Value): null.
+     * previous_attributes.recipient_email (Optional): string or null. Where Flint emails the
+     * invoice and its reminders. Email delivery requires it at issue. `null` when unset.
+     * previous_attributes.recipient_email.anyOf[1] (Value): string. Where Flint emails the invoice
+     * and its reminders. Email delivery requires it at issue. `null` when unset.
+     * previous_attributes.recipient_email.anyOf[2] (Value): null. previous_attributes.reference
+     * (Optional): string or null. Your reference for the invoice, printed on the invoice and PDF.
+     * The buyer's purchase order number goes in po_number. It cannot change after issue. `null`
+     * when unset. previous_attributes.reference.anyOf[1] (Value): string. Your reference for the
+     * invoice, printed on the invoice and PDF. The buyer's purchase order number goes in
+     * po_number. It cannot change after issue. `null` when unset.
+     * previous_attributes.reference.anyOf[2] (Value): null. previous_attributes.refund_status
+     * (Optional): string or null. How much of the collected money has been refunded. It doesn't
+     * change status. Value enum: "none", "partially_refunded", "refunded".
+     * previous_attributes.refund_status.anyOf[1] (Value): string. How much of the collected money
+     * has been refunded. It doesn't change status. Value enum: "none", "partially_refunded",
+     * "refunded". previous_attributes.refund_status.anyOf[2] (Value): null.
+     * previous_attributes.reminders_paused (Optional): boolean or null. Whether automatic
+     * reminders are paused. Set reminders_paused on PATCH /v1/invoices/{invoice_id} to change it.
+     * previous_attributes.reminders_paused.anyOf[1] (Value): boolean. Whether automatic reminders
+     * are paused. Set reminders_paused on PATCH /v1/invoices/{invoice_id} to change it.
+     * previous_attributes.reminders_paused.anyOf[2] (Value): null.
+     * previous_attributes.reminders_paused_at (Optional): string or null. When automatic reminders
+     * were paused. Absent while reminders are active.
+     * previous_attributes.reminders_paused_at.anyOf[1] (Value): string. When automatic reminders
+     * were paused. Absent while reminders are active. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.reminders_paused_at.anyOf[2] (Value): null.
+     * previous_attributes.remit_to_address (Optional): {@link AddressPreviousAttributes} or null.
+     * Where the buyer sends offline payments, shown on the invoice. Defaults to the invoice
+     * settings remit-to address. previous_attributes.remit_to_address.anyOf[1] (Value): {@link
+     * AddressPreviousAttributes}. previous_attributes.remit_to_address.anyOf[2] (Value): null.
+     * previous_attributes.schedule_entries (Optional): Array of {@link
+     * InvoiceScheduleEntryPreviousAttributes} or null. The payment schedule, in schedule order.
+     * Always [] when the invoice has no schedule and is collected in one balance.
+     * previous_attributes.schedule_entries.anyOf[1] (Value): Array of {@link
+     * InvoiceScheduleEntryPreviousAttributes}. The payment schedule, in schedule order. Always []
+     * when the invoice has no schedule and is collected in one balance.
+     * previous_attributes.schedule_entries.anyOf[1][] (Value): {@link
+     * InvoiceScheduleEntryPreviousAttributes}. previous_attributes.schedule_entries.anyOf[2]
+     * (Value): null. previous_attributes.scheduled_issue_at (Optional): string or null. When Flint
+     * will issue and deliver this draft. `null` when no issue is scheduled. Cleared when the draft
+     * is issued or voided, or when you send null. previous_attributes.scheduled_issue_at.anyOf[1]
+     * (Value): string. When Flint will issue and deliver this draft. `null` when no issue is
+     * scheduled. Cleared when the draft is issued or voided, or when you send null. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.scheduled_issue_at.anyOf[2]
+     * (Value): null. previous_attributes.service_date (Optional): string or null. The calendar
+     * date of the billed service, in YYYY-MM-DD format. The invoice and PDF print it as written,
+     * without timezone conversion. `null` when unset. previous_attributes.service_date.anyOf[1]
+     * (Value): string. The calendar date of the billed service, in YYYY-MM-DD format. The invoice
+     * and PDF print it as written, without timezone conversion. `null` when unset. Format: date.
+     * Example: "2026-08-02". previous_attributes.service_date.anyOf[2] (Value): null.
+     * previous_attributes.settlement_amounts (Optional): {@link
+     * InvoiceSettlementAmountsPreviousAttributes} or null. Payments, refunds, write-offs,
+     * allocated credit notes, late fees, and the remaining invoice balance. What is still owed:
+     * pricing_amounts.total_money + late_fee_money - paid_money - credited_money -
+     * written_off_money, never below zero. 0 on paid, credited, uncollectible, and voided
+     * invoices; equal to pricing_amounts.total_money on a draft. Refunds and card chargebacks
+     * don't change it. Lost bank returns reopen the balance.
+     * previous_attributes.settlement_amounts.anyOf[1] (Value): {@link
+     * InvoiceSettlementAmountsPreviousAttributes}. previous_attributes.settlement_amounts.anyOf[2]
+     * (Value): null. previous_attributes.snapshot (Optional): {@link
+     * InvoiceSnapshotPreviousAttributes} or null. The billing content of the invoice: line items,
+     * discounts, charges, tip, and tax. A draft previews the backing order; issue freezes it, and
+     * later order changes don't reach an issued invoice. previous_attributes.snapshot.anyOf[1]
+     * (Value): {@link InvoiceSnapshotPreviousAttributes}. previous_attributes.snapshot.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Current invoice
+     * status. paid and credited close the current balance and can reopen to open or partially_paid
+     * after a payment or credit allocation reversal; invoice.reopened reports that change. An
+     * uncollectible invoice accepts manual recovery payments and becomes paid when fully
+     * recovered; reversals restore the write-off. voided is final. Refunds change refund_status
+     * without reopening the balance. An ACH bank return reverses paid_money and reopens the
+     * balance. A lost card chargeback leaves paid_money, the balance, and status unchanged;
+     * collecting it again requires a new invoice. Value enum: "draft", "open", "partially_paid",
+     * "paid", "voided", "uncollectible", "credited". previous_attributes.status.anyOf[1] (Value):
+     * string. Current invoice status. paid and credited close the current balance and can reopen
+     * to open or partially_paid after a payment or credit allocation reversal; invoice.reopened
+     * reports that change. An uncollectible invoice accepts manual recovery payments and becomes
+     * paid when fully recovered; reversals restore the write-off. voided is final. Refunds change
+     * refund_status without reopening the balance. An ACH bank return reverses paid_money and
+     * reopens the balance. A lost card chargeback leaves paid_money, the balance, and status
+     * unchanged; collecting it again requires a new invoice. Value enum: "draft", "open",
+     * "partially_paid", "paid", "voided", "uncollectible", "credited".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.subscription_id
+     * (Optional): string or null. The subscription the backing order belongs to, copied when the
+     * draft is created and never changed. `null` when the order isn't part of a subscription.
+     * previous_attributes.subscription_id.anyOf[1] (Value): string. The subscription the backing
+     * order belongs to, copied when the draft is created and never changed. `null` when the order
+     * isn't part of a subscription. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+     * previous_attributes.subscription_id.anyOf[2] (Value): null.
+     * previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle actions
+     * Flint accepts for this resource now, based on stored state. Independent of the caller's
+     * permissions; each action still requires its route's scope. Always [] when no action is
+     * available. [] enum: "collect", "issue", "mark_uncollectible", "void".
+     * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions
+     * Flint accepts for this resource now, based on stored state. Independent of the caller's
+     * permissions; each action still requires its route's scope. Always [] when no action is
+     * available. [] enum: "collect", "issue", "mark_uncollectible", "void".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "collect",
+     * "issue", "mark_uncollectible", "void". previous_attributes.supported_actions.anyOf[2]
+     * (Value): null. previous_attributes.timezone (Optional): string or null. IANA time zone
+     * snapshot for invoice due dates, reminders, and late fee calendar days. Taken from the
+     * merchant's timezone when the draft is written, or UTC when unset. Later merchant changes do
+     * not alter this invoice's calendar. previous_attributes.timezone.anyOf[1] (Value): string.
+     * IANA time zone snapshot for invoice due dates, reminders, and late fee calendar days. Taken
+     * from the merchant's timezone when the draft is written, or UTC when unset. Later merchant
+     * changes do not alter this invoice's calendar. previous_attributes.timezone.anyOf[2] (Value):
+     * null. previous_attributes.uncollectible_at (Optional): string or null. When the invoice was
+     * marked uncollectible. previous_attributes.uncollectible_at.anyOf[1] (Value): string. When
+     * the invoice was marked uncollectible. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.uncollectible_at.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. When the invoice last changed.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. When the invoice last changed.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2]
+     * (Value): null. previous_attributes.version (Optional): integer or null. Current invoice
+     * version. Send this as expected_version when updating the draft.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current invoice version. Send this as
+     * expected_version when updating the draft. Format: int64. minimum: 1.
+     * previous_attributes.version.anyOf[2] (Value): null. previous_attributes.viewed_at
+     * (Optional): string or null. When the buyer first opened the invoice through its hosted
+     * invoice link. Recorded on a best-effort basis. previous_attributes.viewed_at.anyOf[1]
+     * (Value): string. When the buyer first opened the invoice through its hosted invoice link.
+     * Recorded on a best-effort basis. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.viewed_at.anyOf[2] (Value): null. previous_attributes.voided_at
+     * (Optional): string or null. When the invoice was voided.
+     * previous_attributes.voided_at.anyOf[1] (Value): string. When the invoice was voided. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.voided_at.anyOf[2] (Value):
+     * null.
+     */
+    "data"?: {
+        /** The resource snapshot, without expansions. Webhooks omit these fields: `public_url`. */
+        "object": WebhookInvoice;
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. cc_emails (Optional): Array of string or null.
+         * Additional recipients copied on the invoice email and every reminder. cc_emails.anyOf[1]
+         * (Value): Array of string. Additional recipients copied on the invoice email and every
+         * reminder. cc_emails.anyOf[1][] (Value): string. cc_emails.anyOf[2] (Value): null.
+         * closed_at (Optional): string or null. When the current closed interval began. Cleared
+         * when status returns to open or partially_paid. A direct move between closed statuses
+         * preserves this timestamp. closed_at.anyOf[1] (Value): string. When the current closed
+         * interval began. Cleared when status returns to open or partially_paid. A direct move
+         * between closed statuses preserves this timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". closed_at.anyOf[2] (Value): null. collection (Optional): {@link
+         * InvoiceCollectionPreviousAttributes} or null. How this invoice is collected, resolved
+         * when the draft is written. Send this object back when updating its collection policy.
+         * collection.anyOf[1] (Value): {@link InvoiceCollectionPreviousAttributes}.
+         * collection.anyOf[2] (Value): null. collection_block_status (Optional): string or null.
+         * Whether collection is blocked. While it is inventory_blocked, collection attempts return
+         * 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none",
+         * "inventory_blocked", "resolved". collection_block_status.anyOf[1] (Value): string.
+         * Whether collection is blocked. While it is inventory_blocked, collection attempts return
+         * 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none",
+         * "inventory_blocked", "resolved". collection_block_status.anyOf[2] (Value): null.
+         * created_at (Optional): string or null. When the invoice was created. created_at.anyOf[1]
+         * (Value): string. When the invoice was created. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Summary of the billed customer.
+         * Returned only with expand=customer. Present only when `expand` includes `customer`;
+         * `null` when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
+         * ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value): null. customer_id
+         * (Optional): string or null. Customer billed by this invoice. Absent when the invoice has
+         * no customer. customer_id.anyOf[1] (Value): string. Customer billed by this invoice.
+         * Absent when the invoice has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+         * customer_id.anyOf[2] (Value): null. delivery_mode (Optional): string or null. How issue
+         * delivered the invoice. Value enum: "email", "caller_managed". delivery_mode.anyOf[1]
+         * (Value): string. How issue delivered the invoice. Value enum: "email", "caller_managed".
+         * delivery_mode.anyOf[2] (Value): null. due_date (Optional): string or null. Calendar due
+         * date in YYYY-MM-DD format, interpreted in timezone (UTC when absent). The outstanding
+         * balance becomes overdue only after this date ends. Automatic collection runs at the
+         * later of issue and the start of this date. With payment terms, issue computes this date
+         * from issued_at. Absent when there is no due date. due_date.anyOf[1] (Value): string.
+         * Calendar due date in YYYY-MM-DD format, interpreted in timezone (UTC when absent). The
+         * outstanding balance becomes overdue only after this date ends. Automatic collection runs
+         * at the later of issue and the start of this date. With payment terms, issue computes
+         * this date from issued_at. Absent when there is no due date. Format: date. Example:
+         * "2026-08-02". due_date.anyOf[2] (Value): null. external_reference_id (Optional): string
+         * or null. Caller-owned identifier for this resource in an external system. Use it as your
+         * sync key: it isn't printed on the invoice. `null` when unset.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. Use it as your sync key: it isn't printed on the
+         * invoice. `null` when unset. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. footer (Optional): string or null. Fine
+         * print at the bottom of the invoice and PDF. It cannot change after issue. `null` when
+         * unset. footer.anyOf[1] (Value): string. Fine print at the bottom of the invoice and PDF.
+         * It cannot change after issue. `null` when unset. footer.anyOf[2] (Value): null.
+         * invoice_id (Optional): string or null. Flint invoice ID. invoice_id.anyOf[1] (Value):
+         * string. Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2]
+         * (Value): null. invoice_number (Optional): string or null. Sequential document number
+         * assigned when the invoice is issued. Numbering is per merchant, with test and live mode
+         * numbered independently. invoice_number.anyOf[1] (Value): string. Sequential document
+         * number assigned when the invoice is issued. Numbering is per merchant, with test and
+         * live mode numbered independently. invoice_number.anyOf[2] (Value): null. is_overdue
+         * (Optional): boolean or null. Whether the invoice is open or partially_paid and past due
+         * with a balance remaining. Without schedule_entries, the due_date has ended in timezone
+         * (UTC when absent) and outstanding_money is above zero; with them, at least one entry is
+         * overdue. Computed when the invoice is read. is_overdue.anyOf[1] (Value): boolean.
+         * Whether the invoice is open or partially_paid and past due with a balance remaining.
+         * Without schedule_entries, the due_date has ended in timezone (UTC when absent) and
+         * outstanding_money is above zero; with them, at least one entry is overdue. Computed when
+         * the invoice is read. is_overdue.anyOf[2] (Value): null. issued_at (Optional): string or
+         * null. When the invoice was issued. Absent on a draft. issued_at.anyOf[1] (Value):
+         * string. When the invoice was issued. Absent on a draft. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". issued_at.anyOf[2] (Value): null. late_fees (Optional): Array of
+         * {@link InvoiceLateFeePreviousAttributes} or null. Late fees assessed on this invoice,
+         * each with its paid, waived, written-off, and outstanding amounts.
+         * settlement_amounts.late_fee_money is their assessed total minus waivers.
+         * late_fees.anyOf[1] (Value): Array of {@link InvoiceLateFeePreviousAttributes}. Late fees
+         * assessed on this invoice, each with its paid, waived, written-off, and outstanding
+         * amounts. settlement_amounts.late_fee_money is their assessed total minus waivers.
+         * late_fees.anyOf[1][] (Value): {@link InvoiceLateFeePreviousAttributes}.
+         * late_fees.anyOf[2] (Value): null. memo (Optional): string or null. Message to the
+         * customer, printed on the invoice and PDF. It cannot change after issue. `null` when
+         * unset. memo.anyOf[1] (Value): string. Message to the customer, printed on the invoice
+         * and PDF. It cannot change after issue. `null` when unset. memo.anyOf[2] (Value): null.
+         * merchant_id (Optional): string or null. Merchant that owns this invoice.
+         * merchant_id.anyOf[1] (Value): string. Merchant that owns this invoice. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. metadata.anyOf[1]
+         * (Value): {@link MetadataMap}. metadata.anyOf[2] (Value): null. order (Optional): {@link
+         * ExpandedOrderSummaryPreviousAttributes} or null. Summary of the backing order. Returned
+         * only with expand=order. Present only when `expand` includes `order`; `null` when
+         * expanded and there is no related order. order.anyOf[1] (Value): {@link
+         * ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2] (Value): null. order_id
+         * (Optional): string or null. The order this invoice bills. Every invoice has one; quick
+         * pay creates it. order_id.anyOf[1] (Value): string. The order this invoice bills. Every
+         * invoice has one; quick pay creates it. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * order_id.anyOf[2] (Value): null. paid_at (Optional): string or null. When the invoice
+         * most recently became paid. Cleared when status leaves paid and set again on a later paid
+         * transition. paid_at.anyOf[1] (Value): string. When the invoice most recently became
+         * paid. Cleared when status leaves paid and set again on a later paid transition. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". paid_at.anyOf[2] (Value): null. payment_due
+         * (Optional): {@link InvoicePaymentDuePreviousAttributes} or null. The resolved due-date
+         * policy. Send this object back when updating the draft; payment_terms captures the term's
+         * current revision again. payment_due.anyOf[1] (Value): {@link
+         * InvoicePaymentDuePreviousAttributes}. payment_due.anyOf[2] (Value): null.
+         * payment_terms_snapshot (Optional): {@link InvoicePaymentTermsSnapshotPreviousAttributes}
+         * or null. The payment term captured on the draft, with its due date rule and late fee
+         * policy. Later changes to the payment term don't affect this invoice.
+         * payment_terms_snapshot.anyOf[1] (Value): {@link
+         * InvoicePaymentTermsSnapshotPreviousAttributes}. payment_terms_snapshot.anyOf[2] (Value):
+         * null. po_number (Optional): string or null. The buyer's purchase order number, printed
+         * on the invoice and PDF. It cannot change after issue. `null` when unset.
+         * po_number.anyOf[1] (Value): string. The buyer's purchase order number, printed on the
+         * invoice and PDF. It cannot change after issue. `null` when unset. po_number.anyOf[2]
+         * (Value): null. pricing_amounts (Optional): {@link PricingAmountsPreviousAttributes} or
+         * null. The invoice pricing totals, frozen at issue. A draft previews the backing order.
+         * total_money excludes late fees, which are in settlement_amounts.late_fee_money.
+         * pricing_amounts.anyOf[1] (Value): {@link PricingAmountsPreviousAttributes}.
+         * pricing_amounts.anyOf[2] (Value): null. recipient_email (Optional): string or null.
+         * Where Flint emails the invoice and its reminders. Email delivery requires it at issue.
+         * `null` when unset. recipient_email.anyOf[1] (Value): string. Where Flint emails the
+         * invoice and its reminders. Email delivery requires it at issue. `null` when unset.
+         * recipient_email.anyOf[2] (Value): null. reference (Optional): string or null. Your
+         * reference for the invoice, printed on the invoice and PDF. The buyer's purchase order
+         * number goes in po_number. It cannot change after issue. `null` when unset.
+         * reference.anyOf[1] (Value): string. Your reference for the invoice, printed on the
+         * invoice and PDF. The buyer's purchase order number goes in po_number. It cannot change
+         * after issue. `null` when unset. reference.anyOf[2] (Value): null. refund_status
+         * (Optional): string or null. How much of the collected money has been refunded. It
+         * doesn't change status. Value enum: "none", "partially_refunded", "refunded".
+         * refund_status.anyOf[1] (Value): string. How much of the collected money has been
+         * refunded. It doesn't change status. Value enum: "none", "partially_refunded",
+         * "refunded". refund_status.anyOf[2] (Value): null. reminders_paused (Optional): boolean
+         * or null. Whether automatic reminders are paused. Set reminders_paused on PATCH
+         * /v1/invoices/{invoice_id} to change it. reminders_paused.anyOf[1] (Value): boolean.
+         * Whether automatic reminders are paused. Set reminders_paused on PATCH
+         * /v1/invoices/{invoice_id} to change it. reminders_paused.anyOf[2] (Value): null.
+         * reminders_paused_at (Optional): string or null. When automatic reminders were paused.
+         * Absent while reminders are active. reminders_paused_at.anyOf[1] (Value): string. When
+         * automatic reminders were paused. Absent while reminders are active. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". reminders_paused_at.anyOf[2] (Value): null.
+         * remit_to_address (Optional): {@link AddressPreviousAttributes} or null. Where the buyer
+         * sends offline payments, shown on the invoice. Defaults to the invoice settings remit-to
+         * address. remit_to_address.anyOf[1] (Value): {@link AddressPreviousAttributes}.
+         * remit_to_address.anyOf[2] (Value): null. schedule_entries (Optional): Array of {@link
+         * InvoiceScheduleEntryPreviousAttributes} or null. The payment schedule, in schedule
+         * order. Always [] when the invoice has no schedule and is collected in one balance.
+         * schedule_entries.anyOf[1] (Value): Array of {@link
+         * InvoiceScheduleEntryPreviousAttributes}. The payment schedule, in schedule order. Always
+         * [] when the invoice has no schedule and is collected in one balance.
+         * schedule_entries.anyOf[1][] (Value): {@link InvoiceScheduleEntryPreviousAttributes}.
+         * schedule_entries.anyOf[2] (Value): null. scheduled_issue_at (Optional): string or null.
+         * When Flint will issue and deliver this draft. `null` when no issue is scheduled. Cleared
+         * when the draft is issued or voided, or when you send null. scheduled_issue_at.anyOf[1]
+         * (Value): string. When Flint will issue and deliver this draft. `null` when no issue is
+         * scheduled. Cleared when the draft is issued or voided, or when you send null. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". scheduled_issue_at.anyOf[2] (Value): null.
+         * service_date (Optional): string or null. The calendar date of the billed service, in
+         * YYYY-MM-DD format. The invoice and PDF print it as written, without timezone conversion.
+         * `null` when unset. service_date.anyOf[1] (Value): string. The calendar date of the
+         * billed service, in YYYY-MM-DD format. The invoice and PDF print it as written, without
+         * timezone conversion. `null` when unset. Format: date. Example: "2026-08-02".
+         * service_date.anyOf[2] (Value): null. settlement_amounts (Optional): {@link
+         * InvoiceSettlementAmountsPreviousAttributes} or null. Payments, refunds, write-offs,
+         * allocated credit notes, late fees, and the remaining invoice balance. What is still
+         * owed: pricing_amounts.total_money + late_fee_money - paid_money - credited_money -
+         * written_off_money, never below zero. 0 on paid, credited, uncollectible, and voided
+         * invoices; equal to pricing_amounts.total_money on a draft. Refunds and card chargebacks
+         * don't change it. Lost bank returns reopen the balance. settlement_amounts.anyOf[1]
+         * (Value): {@link InvoiceSettlementAmountsPreviousAttributes}. settlement_amounts.anyOf[2]
+         * (Value): null. snapshot (Optional): {@link InvoiceSnapshotPreviousAttributes} or null.
+         * The billing content of the invoice: line items, discounts, charges, tip, and tax. A
+         * draft previews the backing order; issue freezes it, and later order changes don't reach
+         * an issued invoice. snapshot.anyOf[1] (Value): {@link InvoiceSnapshotPreviousAttributes}.
+         * snapshot.anyOf[2] (Value): null. status (Optional): string or null. Current invoice
+         * status. paid and credited close the current balance and can reopen to open or
+         * partially_paid after a payment or credit allocation reversal; invoice.reopened reports
+         * that change. An uncollectible invoice accepts manual recovery payments and becomes paid
+         * when fully recovered; reversals restore the write-off. voided is final. Refunds change
+         * refund_status without reopening the balance. An ACH bank return reverses paid_money and
+         * reopens the balance. A lost card chargeback leaves paid_money, the balance, and status
+         * unchanged; collecting it again requires a new invoice. Value enum: "draft", "open",
+         * "partially_paid", "paid", "voided", "uncollectible", "credited". status.anyOf[1]
+         * (Value): string. Current invoice status. paid and credited close the current balance and
+         * can reopen to open or partially_paid after a payment or credit allocation reversal;
+         * invoice.reopened reports that change. An uncollectible invoice accepts manual recovery
+         * payments and becomes paid when fully recovered; reversals restore the write-off. voided
+         * is final. Refunds change refund_status without reopening the balance. An ACH bank return
+         * reverses paid_money and reopens the balance. A lost card chargeback leaves paid_money,
+         * the balance, and status unchanged; collecting it again requires a new invoice. Value
+         * enum: "draft", "open", "partially_paid", "paid", "voided", "uncollectible", "credited".
+         * status.anyOf[2] (Value): null. subscription_id (Optional): string or null. The
+         * subscription the backing order belongs to, copied when the draft is created and never
+         * changed. `null` when the order isn't part of a subscription. subscription_id.anyOf[1]
+         * (Value): string. The subscription the backing order belongs to, copied when the draft is
+         * created and never changed. `null` when the order isn't part of a subscription. Example:
+         * "sub_01KEZF7C00BVRE8YDBXQB74BBM". subscription_id.anyOf[2] (Value): null.
+         * supported_actions (Optional): Array of string or null. Lifecycle actions Flint accepts
+         * for this resource now, based on stored state. Independent of the caller's permissions;
+         * each action still requires its route's scope. Always [] when no action is available. []
+         * enum: "collect", "issue", "mark_uncollectible", "void". supported_actions.anyOf[1]
+         * (Value): Array of string. Lifecycle actions Flint accepts for this resource now, based
+         * on stored state. Independent of the caller's permissions; each action still requires its
+         * route's scope. Always [] when no action is available. [] enum: "collect", "issue",
+         * "mark_uncollectible", "void". supported_actions.anyOf[1][] (Value): string. Value enum:
+         * "collect", "issue", "mark_uncollectible", "void". supported_actions.anyOf[2] (Value):
+         * null. timezone (Optional): string or null. IANA time zone snapshot for invoice due
+         * dates, reminders, and late fee calendar days. Taken from the merchant's timezone when
+         * the draft is written, or UTC when unset. Later merchant changes do not alter this
+         * invoice's calendar. timezone.anyOf[1] (Value): string. IANA time zone snapshot for
+         * invoice due dates, reminders, and late fee calendar days. Taken from the merchant's
+         * timezone when the draft is written, or UTC when unset. Later merchant changes do not
+         * alter this invoice's calendar. timezone.anyOf[2] (Value): null. uncollectible_at
+         * (Optional): string or null. When the invoice was marked uncollectible.
+         * uncollectible_at.anyOf[1] (Value): string. When the invoice was marked uncollectible.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". uncollectible_at.anyOf[2] (Value):
+         * null. updated_at (Optional): string or null. When the invoice last changed.
+         * updated_at.anyOf[1] (Value): string. When the invoice last changed. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional):
+         * integer or null. Current invoice version. Send this as expected_version when updating
+         * the draft. version.anyOf[1] (Value): integer. Current invoice version. Send this as
+         * expected_version when updating the draft. Format: int64. minimum: 1. version.anyOf[2]
+         * (Value): null. viewed_at (Optional): string or null. When the buyer first opened the
+         * invoice through its hosted invoice link. Recorded on a best-effort basis.
+         * viewed_at.anyOf[1] (Value): string. When the buyer first opened the invoice through its
+         * hosted invoice link. Recorded on a best-effort basis. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". viewed_at.anyOf[2] (Value): null. voided_at (Optional): string
+         * or null. When the invoice was voided. voided_at.anyOf[1] (Value): string. When the
+         * invoice was voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * voided_at.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Additional recipients copied on the invoice email and every reminder. anyOf[1]
+             * (Value): Array of string. Additional recipients copied on the invoice email and
+             * every reminder. anyOf[1][] (Value): string. anyOf[2] (Value): null.
+             */
+            "cc_emails"?: ((Array<string>) | (null));
+            /**
+             * When the current closed interval began. Cleared when status returns to open or
+             * partially_paid. A direct move between closed statuses preserves this timestamp.
+             * anyOf[1] (Value): string. When the current closed interval began. Cleared when
+             * status returns to open or partially_paid. A direct move between closed statuses
+             * preserves this timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             * anyOf[2] (Value): null.
+             */
+            "closed_at"?: ((string) | (null));
+            /**
+             * How this invoice is collected, resolved when the draft is written. Send this object
+             * back when updating its collection policy. anyOf[1] (Value): {@link
+             * InvoiceCollectionPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "collection"?: ((InvoiceCollectionPreviousAttributes) | (null));
+            /**
+             * Whether collection is blocked. While it is inventory_blocked, collection attempts
+             * return 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum:
+             * "none", "inventory_blocked", "resolved". anyOf[1] (Value): string. Whether
+             * collection is blocked. While it is inventory_blocked, collection attempts return 409
+             * ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none",
+             * "inventory_blocked", "resolved". anyOf[2] (Value): null.
+             */
+            "collection_block_status"?: (("none" | "inventory_blocked" | "resolved" | (string & {})) | (null));
+            /**
+             * When the invoice was created. anyOf[1] (Value): string. When the invoice was
+             * created. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Summary of the billed customer. Returned only with expand=customer. Present only
+             * when `expand` includes `customer`; `null` when expanded and there is no related
+             * customer. anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            /**
+             * Customer billed by this invoice. Absent when the invoice has no customer. anyOf[1]
+             * (Value): string. Customer billed by this invoice. Absent when the invoice has no
+             * customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * How issue delivered the invoice. Value enum: "email", "caller_managed". anyOf[1]
+             * (Value): string. How issue delivered the invoice. Value enum: "email",
+             * "caller_managed". anyOf[2] (Value): null.
+             */
+            "delivery_mode"?: (("email" | "caller_managed" | (string & {})) | (null));
+            /**
+             * Calendar due date in YYYY-MM-DD format, interpreted in timezone (UTC when absent).
+             * The outstanding balance becomes overdue only after this date ends. Automatic
+             * collection runs at the later of issue and the start of this date. With payment
+             * terms, issue computes this date from issued_at. Absent when there is no due date.
+             * anyOf[1] (Value): string. Calendar due date in YYYY-MM-DD format, interpreted in
+             * timezone (UTC when absent). The outstanding balance becomes overdue only after this
+             * date ends. Automatic collection runs at the later of issue and the start of this
+             * date. With payment terms, issue computes this date from issued_at. Absent when there
+             * is no due date. Format: date. Example: "2026-08-02". anyOf[2] (Value): null.
+             */
+            "due_date"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. Use it as your sync
+             * key: it isn't printed on the invoice. `null` when unset. anyOf[1] (Value): string.
+             * Caller-owned identifier for this resource in an external system. Use it as your sync
+             * key: it isn't printed on the invoice. `null` when unset. minLength: 1. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Fine print at the bottom of the invoice and PDF. It cannot change after issue.
+             * `null` when unset. anyOf[1] (Value): string. Fine print at the bottom of the invoice
+             * and PDF. It cannot change after issue. `null` when unset. anyOf[2] (Value): null.
+             */
+            "footer"?: ((string) | (null));
+            /**
+             * Flint invoice ID. anyOf[1] (Value): string. Flint invoice ID. Example:
+             * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
+             */
+            "invoice_id"?: ((string) | (null));
+            /**
+             * Sequential document number assigned when the invoice is issued. Numbering is per
+             * merchant, with test and live mode numbered independently. anyOf[1] (Value): string.
+             * Sequential document number assigned when the invoice is issued. Numbering is per
+             * merchant, with test and live mode numbered independently. anyOf[2] (Value): null.
+             */
+            "invoice_number"?: ((string) | (null));
+            /**
+             * Whether the invoice is open or partially_paid and past due with a balance remaining.
+             * Without schedule_entries, the due_date has ended in timezone (UTC when absent) and
+             * outstanding_money is above zero; with them, at least one entry is overdue. Computed
+             * when the invoice is read. anyOf[1] (Value): boolean. Whether the invoice is open or
+             * partially_paid and past due with a balance remaining. Without schedule_entries, the
+             * due_date has ended in timezone (UTC when absent) and outstanding_money is above
+             * zero; with them, at least one entry is overdue. Computed when the invoice is read.
+             * anyOf[2] (Value): null.
+             */
+            "is_overdue"?: ((boolean) | (null));
+            /**
+             * When the invoice was issued. Absent on a draft. anyOf[1] (Value): string. When the
+             * invoice was issued. Absent on a draft. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "issued_at"?: ((string) | (null));
+            /**
+             * Late fees assessed on this invoice, each with its paid, waived, written-off, and
+             * outstanding amounts. settlement_amounts.late_fee_money is their assessed total minus
+             * waivers. anyOf[1] (Value): Array of {@link InvoiceLateFeePreviousAttributes}. Late
+             * fees assessed on this invoice, each with its paid, waived, written-off, and
+             * outstanding amounts. settlement_amounts.late_fee_money is their assessed total minus
+             * waivers. anyOf[1][] (Value): {@link InvoiceLateFeePreviousAttributes}. anyOf[2]
+             * (Value): null.
+             */
+            "late_fees"?: ((Array<InvoiceLateFeePreviousAttributes>) | (null));
+            /**
+             * Message to the customer, printed on the invoice and PDF. It cannot change after
+             * issue. `null` when unset. anyOf[1] (Value): string. Message to the customer, printed
+             * on the invoice and PDF. It cannot change after issue. `null` when unset. anyOf[2]
+             * (Value): null.
+             */
+            "memo"?: ((string) | (null));
+            /**
+             * Merchant that owns this invoice. anyOf[1] (Value): string. Merchant that owns this
+             * invoice. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value):
              * null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Summary of the backing order. Returned only with expand=order. Present only when
+             * `expand` includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}. anyOf[2] (Value):
+             * null.
+             */
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
+            /**
+             * The order this invoice bills. Every invoice has one; quick pay creates it. anyOf[1]
+             * (Value): string. The order this invoice bills. Every invoice has one; quick pay
+             * creates it. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * When the invoice most recently became paid. Cleared when status leaves paid and set
+             * again on a later paid transition. anyOf[1] (Value): string. When the invoice most
+             * recently became paid. Cleared when status leaves paid and set again on a later paid
+             * transition. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "paid_at"?: ((string) | (null));
+            /**
+             * The resolved due-date policy. Send this object back when updating the draft;
+             * payment_terms captures the term's current revision again. anyOf[1] (Value): {@link
+             * InvoicePaymentDuePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "payment_due"?: ((InvoicePaymentDuePreviousAttributes) | (null));
+            /**
+             * The payment term captured on the draft, with its due date rule and late fee policy.
+             * Later changes to the payment term don't affect this invoice. anyOf[1] (Value):
+             * {@link InvoicePaymentTermsSnapshotPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "payment_terms_snapshot"?: ((InvoicePaymentTermsSnapshotPreviousAttributes) | (null));
+            /**
+             * The buyer's purchase order number, printed on the invoice and PDF. It cannot change
+             * after issue. `null` when unset. anyOf[1] (Value): string. The buyer's purchase order
+             * number, printed on the invoice and PDF. It cannot change after issue. `null` when
+             * unset. anyOf[2] (Value): null.
+             */
+            "po_number"?: ((string) | (null));
+            /**
+             * The invoice pricing totals, frozen at issue. A draft previews the backing order.
+             * total_money excludes late fees, which are in settlement_amounts.late_fee_money.
+             * anyOf[1] (Value): {@link PricingAmountsPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "pricing_amounts"?: ((PricingAmountsPreviousAttributes) | (null));
+            /**
+             * Where Flint emails the invoice and its reminders. Email delivery requires it at
+             * issue. `null` when unset. anyOf[1] (Value): string. Where Flint emails the invoice
+             * and its reminders. Email delivery requires it at issue. `null` when unset. anyOf[2]
+             * (Value): null.
+             */
+            "recipient_email"?: ((string) | (null));
+            /**
+             * Your reference for the invoice, printed on the invoice and PDF. The buyer's purchase
+             * order number goes in po_number. It cannot change after issue. `null` when unset.
+             * anyOf[1] (Value): string. Your reference for the invoice, printed on the invoice and
+             * PDF. The buyer's purchase order number goes in po_number. It cannot change after
+             * issue. `null` when unset. anyOf[2] (Value): null.
+             */
+            "reference"?: ((string) | (null));
+            /**
+             * How much of the collected money has been refunded. It doesn't change status. Value
+             * enum: "none", "partially_refunded", "refunded". anyOf[1] (Value): string. How much
+             * of the collected money has been refunded. It doesn't change status. Value enum:
+             * "none", "partially_refunded", "refunded". anyOf[2] (Value): null.
+             */
+            "refund_status"?: (("none" | "partially_refunded" | "refunded" | (string & {})) | (null));
+            /**
+             * Whether automatic reminders are paused. Set reminders_paused on PATCH
+             * /v1/invoices/{invoice_id} to change it. anyOf[1] (Value): boolean. Whether automatic
+             * reminders are paused. Set reminders_paused on PATCH /v1/invoices/{invoice_id} to
+             * change it. anyOf[2] (Value): null.
+             */
+            "reminders_paused"?: ((boolean) | (null));
+            /**
+             * When automatic reminders were paused. Absent while reminders are active. anyOf[1]
+             * (Value): string. When automatic reminders were paused. Absent while reminders are
+             * active. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "reminders_paused_at"?: ((string) | (null));
+            /**
+             * Where the buyer sends offline payments, shown on the invoice. Defaults to the
+             * invoice settings remit-to address. anyOf[1] (Value): {@link
+             * AddressPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "remit_to_address"?: ((AddressPreviousAttributes) | (null));
+            /**
+             * The payment schedule, in schedule order. Always [] when the invoice has no schedule
+             * and is collected in one balance. anyOf[1] (Value): Array of {@link
+             * InvoiceScheduleEntryPreviousAttributes}. The payment schedule, in schedule order.
+             * Always [] when the invoice has no schedule and is collected in one balance.
+             * anyOf[1][] (Value): {@link InvoiceScheduleEntryPreviousAttributes}. anyOf[2]
+             * (Value): null.
+             */
+            "schedule_entries"?: ((Array<InvoiceScheduleEntryPreviousAttributes>) | (null));
+            /**
+             * When Flint will issue and deliver this draft. `null` when no issue is scheduled.
+             * Cleared when the draft is issued or voided, or when you send null. anyOf[1] (Value):
+             * string. When Flint will issue and deliver this draft. `null` when no issue is
+             * scheduled. Cleared when the draft is issued or voided, or when you send null.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "scheduled_issue_at"?: ((string) | (null));
+            /**
+             * The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF
+             * print it as written, without timezone conversion. `null` when unset. anyOf[1]
+             * (Value): string. The calendar date of the billed service, in YYYY-MM-DD format. The
+             * invoice and PDF print it as written, without timezone conversion. `null` when unset.
+             * Format: date. Example: "2026-08-02". anyOf[2] (Value): null.
+             */
+            "service_date"?: ((string) | (null));
+            /**
+             * Payments, refunds, write-offs, allocated credit notes, late fees, and the remaining
+             * invoice balance. What is still owed: pricing_amounts.total_money + late_fee_money -
+             * paid_money - credited_money - written_off_money, never below zero. 0 on paid,
+             * credited, uncollectible, and voided invoices; equal to pricing_amounts.total_money
+             * on a draft. Refunds and card chargebacks don't change it. Lost bank returns reopen
+             * the balance. anyOf[1] (Value): {@link InvoiceSettlementAmountsPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "settlement_amounts"?: ((InvoiceSettlementAmountsPreviousAttributes) | (null));
+            /**
+             * The billing content of the invoice: line items, discounts, charges, tip, and tax. A
+             * draft previews the backing order; issue freezes it, and later order changes don't
+             * reach an issued invoice. anyOf[1] (Value): {@link
+             * InvoiceSnapshotPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "snapshot"?: ((InvoiceSnapshotPreviousAttributes) | (null));
+            /**
+             * Current invoice status. paid and credited close the current balance and can reopen
+             * to open or partially_paid after a payment or credit allocation reversal;
+             * invoice.reopened reports that change. An uncollectible invoice accepts manual
+             * recovery payments and becomes paid when fully recovered; reversals restore the
+             * write-off. voided is final. Refunds change refund_status without reopening the
+             * balance. An ACH bank return reverses paid_money and reopens the balance. A lost card
+             * chargeback leaves paid_money, the balance, and status unchanged; collecting it again
+             * requires a new invoice. Value enum: "draft", "open", "partially_paid", "paid",
+             * "voided", "uncollectible", "credited". anyOf[1] (Value): string. Current invoice
+             * status. paid and credited close the current balance and can reopen to open or
+             * partially_paid after a payment or credit allocation reversal; invoice.reopened
+             * reports that change. An uncollectible invoice accepts manual recovery payments and
+             * becomes paid when fully recovered; reversals restore the write-off. voided is final.
+             * Refunds change refund_status without reopening the balance. An ACH bank return
+             * reverses paid_money and reopens the balance. A lost card chargeback leaves
+             * paid_money, the balance, and status unchanged; collecting it again requires a new
+             * invoice. Value enum: "draft", "open", "partially_paid", "paid", "voided",
+             * "uncollectible", "credited". anyOf[2] (Value): null.
+             */
+            "status"?: (("draft"
+                | "open"
+                | "partially_paid"
+                | "paid"
+                | "voided"
+                | "uncollectible"
+                | "credited"
+                | (string & {}))
+                | (null));
+            /**
+             * The subscription the backing order belongs to, copied when the draft is created and
+             * never changed. `null` when the order isn't part of a subscription. anyOf[1] (Value):
+             * string. The subscription the backing order belongs to, copied when the draft is
+             * created and never changed. `null` when the order isn't part of a subscription.
+             * Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM". anyOf[2] (Value): null.
+             */
+            "subscription_id"?: ((string) | (null));
+            /**
+             * Lifecycle actions Flint accepts for this resource now, based on stored state.
+             * Independent of the caller's permissions; each action still requires its route's
+             * scope. Always [] when no action is available. [] enum: "collect", "issue",
+             * "mark_uncollectible", "void". anyOf[1] (Value): Array of string. Lifecycle actions
+             * Flint accepts for this resource now, based on stored state. Independent of the
+             * caller's permissions; each action still requires its route's scope. Always [] when
+             * no action is available. [] enum: "collect", "issue", "mark_uncollectible", "void".
+             * anyOf[1][] (Value): string. Value enum: "collect", "issue", "mark_uncollectible",
+             * "void". anyOf[2] (Value): null.
+             */
+            "supported_actions"?: ((Array<"collect" | "issue" | "mark_uncollectible" | "void" | (string & {})>) | (null));
+            /**
+             * IANA time zone snapshot for invoice due dates, reminders, and late fee calendar
+             * days. Taken from the merchant's timezone when the draft is written, or UTC when
+             * unset. Later merchant changes do not alter this invoice's calendar. anyOf[1]
+             * (Value): string. IANA time zone snapshot for invoice due dates, reminders, and late
+             * fee calendar days. Taken from the merchant's timezone when the draft is written, or
+             * UTC when unset. Later merchant changes do not alter this invoice's calendar.
+             * anyOf[2] (Value): null.
+             */
+            "timezone"?: ((string) | (null));
+            /**
+             * When the invoice was marked uncollectible. anyOf[1] (Value): string. When the
+             * invoice was marked uncollectible. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "uncollectible_at"?: ((string) | (null));
+            /**
+             * When the invoice last changed. anyOf[1] (Value): string. When the invoice last
+             * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current invoice version. Send this as expected_version when updating the draft.
+             * anyOf[1] (Value): integer. Current invoice version. Send this as expected_version
+             * when updating the draft. Format: int64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+            /**
+             * When the buyer first opened the invoice through its hosted invoice link. Recorded on
+             * a best-effort basis. anyOf[1] (Value): string. When the buyer first opened the
+             * invoice through its hosted invoice link. Recorded on a best-effort basis. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "viewed_at"?: ((string) | (null));
+            /**
+             * When the invoice was voided. anyOf[1] (Value): string. When the invoice was voided.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "voided_at"?: ((string) | (null));
+        });
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "invoice.paid". */
+    "event_type"?: "invoice.paid";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `invoice.paid` webhook payload for the `merchant` event source. Fields shared by merchant
+ * webhook payloads.
+ */
+export type InvoicePaidMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link WebhookInvoice}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `public_url`. previous_attributes (Optional): object. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events. previous_attributes.cc_emails (Optional): Array of string or null.
+     * Additional recipients copied on the invoice email and every reminder.
+     * previous_attributes.cc_emails.anyOf[1] (Value): Array of string. Additional recipients
+     * copied on the invoice email and every reminder. previous_attributes.cc_emails.anyOf[1][]
+     * (Value): string. previous_attributes.cc_emails.anyOf[2] (Value): null.
+     * previous_attributes.closed_at (Optional): string or null. When the current closed interval
+     * began. Cleared when status returns to open or partially_paid. A direct move between closed
+     * statuses preserves this timestamp. previous_attributes.closed_at.anyOf[1] (Value): string.
+     * When the current closed interval began. Cleared when status returns to open or
+     * partially_paid. A direct move between closed statuses preserves this timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.closed_at.anyOf[2] (Value):
+     * null. previous_attributes.collection (Optional): {@link InvoiceCollectionPreviousAttributes}
+     * or null. How this invoice is collected, resolved when the draft is written. Send this object
+     * back when updating its collection policy. previous_attributes.collection.anyOf[1] (Value):
+     * {@link InvoiceCollectionPreviousAttributes}. previous_attributes.collection.anyOf[2]
+     * (Value): null. previous_attributes.collection_block_status (Optional): string or null.
+     * Whether collection is blocked. While it is inventory_blocked, collection attempts return 409
+     * ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none",
+     * "inventory_blocked", "resolved". previous_attributes.collection_block_status.anyOf[1]
+     * (Value): string. Whether collection is blocked. While it is inventory_blocked, collection
+     * attempts return 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum:
+     * "none", "inventory_blocked", "resolved".
+     * previous_attributes.collection_block_status.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. When the invoice was created.
+     * previous_attributes.created_at.anyOf[1] (Value): string. When the invoice was created.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
+     * (Value): null. previous_attributes.customer (Optional): {@link
+     * ExpandedCustomerSummaryPreviousAttributes} or null. Summary of the billed customer. Returned
+     * only with expand=customer. Present only when `expand` includes `customer`; `null` when
+     * expanded and there is no related customer. previous_attributes.customer.anyOf[1] (Value):
+     * {@link ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2]
+     * (Value): null. previous_attributes.customer_id (Optional): string or null. Customer billed
+     * by this invoice. Absent when the invoice has no customer.
+     * previous_attributes.customer_id.anyOf[1] (Value): string. Customer billed by this invoice.
+     * Absent when the invoice has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * previous_attributes.customer_id.anyOf[2] (Value): null. previous_attributes.delivery_mode
+     * (Optional): string or null. How issue delivered the invoice. Value enum: "email",
+     * "caller_managed". previous_attributes.delivery_mode.anyOf[1] (Value): string. How issue
+     * delivered the invoice. Value enum: "email", "caller_managed".
+     * previous_attributes.delivery_mode.anyOf[2] (Value): null. previous_attributes.due_date
+     * (Optional): string or null. Calendar due date in YYYY-MM-DD format, interpreted in timezone
+     * (UTC when absent). The outstanding balance becomes overdue only after this date ends.
+     * Automatic collection runs at the later of issue and the start of this date. With payment
+     * terms, issue computes this date from issued_at. Absent when there is no due date.
+     * previous_attributes.due_date.anyOf[1] (Value): string. Calendar due date in YYYY-MM-DD
+     * format, interpreted in timezone (UTC when absent). The outstanding balance becomes overdue
+     * only after this date ends. Automatic collection runs at the later of issue and the start of
+     * this date. With payment terms, issue computes this date from issued_at. Absent when there is
+     * no due date. Format: date. Example: "2026-08-02". previous_attributes.due_date.anyOf[2]
+     * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
+     * Caller-owned identifier for this resource in an external system. Use it as your sync key: it
+     * isn't printed on the invoice. `null` when unset.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. Use it as your sync key: it isn't printed on the
+     * invoice. `null` when unset. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null. previous_attributes.footer
+     * (Optional): string or null. Fine print at the bottom of the invoice and PDF. It cannot
+     * change after issue. `null` when unset. previous_attributes.footer.anyOf[1] (Value): string.
+     * Fine print at the bottom of the invoice and PDF. It cannot change after issue. `null` when
+     * unset. previous_attributes.footer.anyOf[2] (Value): null. previous_attributes.invoice_id
+     * (Optional): string or null. Flint invoice ID. previous_attributes.invoice_id.anyOf[1]
+     * (Value): string. Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+     * previous_attributes.invoice_id.anyOf[2] (Value): null. previous_attributes.invoice_number
+     * (Optional): string or null. Sequential document number assigned when the invoice is issued.
+     * Numbering is per merchant, with test and live mode numbered independently.
+     * previous_attributes.invoice_number.anyOf[1] (Value): string. Sequential document number
+     * assigned when the invoice is issued. Numbering is per merchant, with test and live mode
+     * numbered independently. previous_attributes.invoice_number.anyOf[2] (Value): null.
+     * previous_attributes.is_overdue (Optional): boolean or null. Whether the invoice is open or
+     * partially_paid and past due with a balance remaining. Without schedule_entries, the due_date
+     * has ended in timezone (UTC when absent) and outstanding_money is above zero; with them, at
+     * least one entry is overdue. Computed when the invoice is read.
+     * previous_attributes.is_overdue.anyOf[1] (Value): boolean. Whether the invoice is open or
+     * partially_paid and past due with a balance remaining. Without schedule_entries, the due_date
+     * has ended in timezone (UTC when absent) and outstanding_money is above zero; with them, at
+     * least one entry is overdue. Computed when the invoice is read.
+     * previous_attributes.is_overdue.anyOf[2] (Value): null. previous_attributes.issued_at
+     * (Optional): string or null. When the invoice was issued. Absent on a draft.
+     * previous_attributes.issued_at.anyOf[1] (Value): string. When the invoice was issued. Absent
+     * on a draft. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.issued_at.anyOf[2] (Value): null. previous_attributes.late_fees
+     * (Optional): Array of {@link InvoiceLateFeePreviousAttributes} or null. Late fees assessed on
+     * this invoice, each with its paid, waived, written-off, and outstanding amounts.
+     * settlement_amounts.late_fee_money is their assessed total minus waivers.
+     * previous_attributes.late_fees.anyOf[1] (Value): Array of {@link
+     * InvoiceLateFeePreviousAttributes}. Late fees assessed on this invoice, each with its paid,
+     * waived, written-off, and outstanding amounts. settlement_amounts.late_fee_money is their
+     * assessed total minus waivers. previous_attributes.late_fees.anyOf[1][] (Value): {@link
+     * InvoiceLateFeePreviousAttributes}. previous_attributes.late_fees.anyOf[2] (Value): null.
+     * previous_attributes.memo (Optional): string or null. Message to the customer, printed on the
+     * invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.memo.anyOf[1] (Value): string. Message to the customer, printed on the
+     * invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.memo.anyOf[2] (Value): null. previous_attributes.merchant_id (Optional):
+     * string or null. Merchant that owns this invoice. previous_attributes.merchant_id.anyOf[1]
+     * (Value): string. Merchant that owns this invoice. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.order (Optional):
+     * {@link ExpandedOrderSummaryPreviousAttributes} or null. Summary of the backing order.
+     * Returned only with expand=order. Present only when `expand` includes `order`; `null` when
+     * expanded and there is no related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value): null.
+     * previous_attributes.order_id (Optional): string or null. The order this invoice bills. Every
+     * invoice has one; quick pay creates it. previous_attributes.order_id.anyOf[1] (Value):
+     * string. The order this invoice bills. Every invoice has one; quick pay creates it. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
+     * previous_attributes.paid_at (Optional): string or null. When the invoice most recently
+     * became paid. Cleared when status leaves paid and set again on a later paid transition.
+     * previous_attributes.paid_at.anyOf[1] (Value): string. When the invoice most recently became
+     * paid. Cleared when status leaves paid and set again on a later paid transition. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.paid_at.anyOf[2] (Value):
+     * null. previous_attributes.payment_due (Optional): {@link
+     * InvoicePaymentDuePreviousAttributes} or null. The resolved due-date policy. Send this object
+     * back when updating the draft; payment_terms captures the term's current revision again.
+     * previous_attributes.payment_due.anyOf[1] (Value): {@link
+     * InvoicePaymentDuePreviousAttributes}. previous_attributes.payment_due.anyOf[2] (Value):
+     * null. previous_attributes.payment_terms_snapshot (Optional): {@link
+     * InvoicePaymentTermsSnapshotPreviousAttributes} or null. The payment term captured on the
+     * draft, with its due date rule and late fee policy. Later changes to the payment term don't
+     * affect this invoice. previous_attributes.payment_terms_snapshot.anyOf[1] (Value): {@link
+     * InvoicePaymentTermsSnapshotPreviousAttributes}.
+     * previous_attributes.payment_terms_snapshot.anyOf[2] (Value): null.
+     * previous_attributes.po_number (Optional): string or null. The buyer's purchase order number,
+     * printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.po_number.anyOf[1] (Value): string. The buyer's purchase order number,
+     * printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.po_number.anyOf[2] (Value): null. previous_attributes.pricing_amounts
+     * (Optional): {@link PricingAmountsPreviousAttributes} or null. The invoice pricing totals,
+     * frozen at issue. A draft previews the backing order. total_money excludes late fees, which
+     * are in settlement_amounts.late_fee_money. previous_attributes.pricing_amounts.anyOf[1]
+     * (Value): {@link PricingAmountsPreviousAttributes}.
+     * previous_attributes.pricing_amounts.anyOf[2] (Value): null.
+     * previous_attributes.recipient_email (Optional): string or null. Where Flint emails the
+     * invoice and its reminders. Email delivery requires it at issue. `null` when unset.
+     * previous_attributes.recipient_email.anyOf[1] (Value): string. Where Flint emails the invoice
+     * and its reminders. Email delivery requires it at issue. `null` when unset.
+     * previous_attributes.recipient_email.anyOf[2] (Value): null. previous_attributes.reference
+     * (Optional): string or null. Your reference for the invoice, printed on the invoice and PDF.
+     * The buyer's purchase order number goes in po_number. It cannot change after issue. `null`
+     * when unset. previous_attributes.reference.anyOf[1] (Value): string. Your reference for the
+     * invoice, printed on the invoice and PDF. The buyer's purchase order number goes in
+     * po_number. It cannot change after issue. `null` when unset.
+     * previous_attributes.reference.anyOf[2] (Value): null. previous_attributes.refund_status
+     * (Optional): string or null. How much of the collected money has been refunded. It doesn't
+     * change status. Value enum: "none", "partially_refunded", "refunded".
+     * previous_attributes.refund_status.anyOf[1] (Value): string. How much of the collected money
+     * has been refunded. It doesn't change status. Value enum: "none", "partially_refunded",
+     * "refunded". previous_attributes.refund_status.anyOf[2] (Value): null.
+     * previous_attributes.reminders_paused (Optional): boolean or null. Whether automatic
+     * reminders are paused. Set reminders_paused on PATCH /v1/invoices/{invoice_id} to change it.
+     * previous_attributes.reminders_paused.anyOf[1] (Value): boolean. Whether automatic reminders
+     * are paused. Set reminders_paused on PATCH /v1/invoices/{invoice_id} to change it.
+     * previous_attributes.reminders_paused.anyOf[2] (Value): null.
+     * previous_attributes.reminders_paused_at (Optional): string or null. When automatic reminders
+     * were paused. Absent while reminders are active.
+     * previous_attributes.reminders_paused_at.anyOf[1] (Value): string. When automatic reminders
+     * were paused. Absent while reminders are active. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.reminders_paused_at.anyOf[2] (Value): null.
+     * previous_attributes.remit_to_address (Optional): {@link AddressPreviousAttributes} or null.
+     * Where the buyer sends offline payments, shown on the invoice. Defaults to the invoice
+     * settings remit-to address. previous_attributes.remit_to_address.anyOf[1] (Value): {@link
+     * AddressPreviousAttributes}. previous_attributes.remit_to_address.anyOf[2] (Value): null.
+     * previous_attributes.schedule_entries (Optional): Array of {@link
+     * InvoiceScheduleEntryPreviousAttributes} or null. The payment schedule, in schedule order.
+     * Always [] when the invoice has no schedule and is collected in one balance.
+     * previous_attributes.schedule_entries.anyOf[1] (Value): Array of {@link
+     * InvoiceScheduleEntryPreviousAttributes}. The payment schedule, in schedule order. Always []
+     * when the invoice has no schedule and is collected in one balance.
+     * previous_attributes.schedule_entries.anyOf[1][] (Value): {@link
+     * InvoiceScheduleEntryPreviousAttributes}. previous_attributes.schedule_entries.anyOf[2]
+     * (Value): null. previous_attributes.scheduled_issue_at (Optional): string or null. When Flint
+     * will issue and deliver this draft. `null` when no issue is scheduled. Cleared when the draft
+     * is issued or voided, or when you send null. previous_attributes.scheduled_issue_at.anyOf[1]
+     * (Value): string. When Flint will issue and deliver this draft. `null` when no issue is
+     * scheduled. Cleared when the draft is issued or voided, or when you send null. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.scheduled_issue_at.anyOf[2]
+     * (Value): null. previous_attributes.service_date (Optional): string or null. The calendar
+     * date of the billed service, in YYYY-MM-DD format. The invoice and PDF print it as written,
+     * without timezone conversion. `null` when unset. previous_attributes.service_date.anyOf[1]
+     * (Value): string. The calendar date of the billed service, in YYYY-MM-DD format. The invoice
+     * and PDF print it as written, without timezone conversion. `null` when unset. Format: date.
+     * Example: "2026-08-02". previous_attributes.service_date.anyOf[2] (Value): null.
+     * previous_attributes.settlement_amounts (Optional): {@link
+     * InvoiceSettlementAmountsPreviousAttributes} or null. Payments, refunds, write-offs,
+     * allocated credit notes, late fees, and the remaining invoice balance. What is still owed:
+     * pricing_amounts.total_money + late_fee_money - paid_money - credited_money -
+     * written_off_money, never below zero. 0 on paid, credited, uncollectible, and voided
+     * invoices; equal to pricing_amounts.total_money on a draft. Refunds and card chargebacks
+     * don't change it. Lost bank returns reopen the balance.
+     * previous_attributes.settlement_amounts.anyOf[1] (Value): {@link
+     * InvoiceSettlementAmountsPreviousAttributes}. previous_attributes.settlement_amounts.anyOf[2]
+     * (Value): null. previous_attributes.snapshot (Optional): {@link
+     * InvoiceSnapshotPreviousAttributes} or null. The billing content of the invoice: line items,
+     * discounts, charges, tip, and tax. A draft previews the backing order; issue freezes it, and
+     * later order changes don't reach an issued invoice. previous_attributes.snapshot.anyOf[1]
+     * (Value): {@link InvoiceSnapshotPreviousAttributes}. previous_attributes.snapshot.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Current invoice
+     * status. paid and credited close the current balance and can reopen to open or partially_paid
+     * after a payment or credit allocation reversal; invoice.reopened reports that change. An
+     * uncollectible invoice accepts manual recovery payments and becomes paid when fully
+     * recovered; reversals restore the write-off. voided is final. Refunds change refund_status
+     * without reopening the balance. An ACH bank return reverses paid_money and reopens the
+     * balance. A lost card chargeback leaves paid_money, the balance, and status unchanged;
+     * collecting it again requires a new invoice. Value enum: "draft", "open", "partially_paid",
+     * "paid", "voided", "uncollectible", "credited". previous_attributes.status.anyOf[1] (Value):
+     * string. Current invoice status. paid and credited close the current balance and can reopen
+     * to open or partially_paid after a payment or credit allocation reversal; invoice.reopened
+     * reports that change. An uncollectible invoice accepts manual recovery payments and becomes
+     * paid when fully recovered; reversals restore the write-off. voided is final. Refunds change
+     * refund_status without reopening the balance. An ACH bank return reverses paid_money and
+     * reopens the balance. A lost card chargeback leaves paid_money, the balance, and status
+     * unchanged; collecting it again requires a new invoice. Value enum: "draft", "open",
+     * "partially_paid", "paid", "voided", "uncollectible", "credited".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.subscription_id
+     * (Optional): string or null. The subscription the backing order belongs to, copied when the
+     * draft is created and never changed. `null` when the order isn't part of a subscription.
+     * previous_attributes.subscription_id.anyOf[1] (Value): string. The subscription the backing
+     * order belongs to, copied when the draft is created and never changed. `null` when the order
+     * isn't part of a subscription. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+     * previous_attributes.subscription_id.anyOf[2] (Value): null.
+     * previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle actions
+     * Flint accepts for this resource now, based on stored state. Independent of the caller's
+     * permissions; each action still requires its route's scope. Always [] when no action is
+     * available. [] enum: "collect", "issue", "mark_uncollectible", "void".
+     * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions
+     * Flint accepts for this resource now, based on stored state. Independent of the caller's
+     * permissions; each action still requires its route's scope. Always [] when no action is
+     * available. [] enum: "collect", "issue", "mark_uncollectible", "void".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "collect",
+     * "issue", "mark_uncollectible", "void". previous_attributes.supported_actions.anyOf[2]
+     * (Value): null. previous_attributes.timezone (Optional): string or null. IANA time zone
+     * snapshot for invoice due dates, reminders, and late fee calendar days. Taken from the
+     * merchant's timezone when the draft is written, or UTC when unset. Later merchant changes do
+     * not alter this invoice's calendar. previous_attributes.timezone.anyOf[1] (Value): string.
+     * IANA time zone snapshot for invoice due dates, reminders, and late fee calendar days. Taken
+     * from the merchant's timezone when the draft is written, or UTC when unset. Later merchant
+     * changes do not alter this invoice's calendar. previous_attributes.timezone.anyOf[2] (Value):
+     * null. previous_attributes.uncollectible_at (Optional): string or null. When the invoice was
+     * marked uncollectible. previous_attributes.uncollectible_at.anyOf[1] (Value): string. When
+     * the invoice was marked uncollectible. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.uncollectible_at.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. When the invoice last changed.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. When the invoice last changed.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2]
+     * (Value): null. previous_attributes.version (Optional): integer or null. Current invoice
+     * version. Send this as expected_version when updating the draft.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current invoice version. Send this as
+     * expected_version when updating the draft. Format: int64. minimum: 1.
+     * previous_attributes.version.anyOf[2] (Value): null. previous_attributes.viewed_at
+     * (Optional): string or null. When the buyer first opened the invoice through its hosted
+     * invoice link. Recorded on a best-effort basis. previous_attributes.viewed_at.anyOf[1]
+     * (Value): string. When the buyer first opened the invoice through its hosted invoice link.
+     * Recorded on a best-effort basis. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.viewed_at.anyOf[2] (Value): null. previous_attributes.voided_at
+     * (Optional): string or null. When the invoice was voided.
+     * previous_attributes.voided_at.anyOf[1] (Value): string. When the invoice was voided. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.voided_at.anyOf[2] (Value):
+     * null.
+     */
+    "data"?: {
+        /** The resource snapshot, without expansions. Webhooks omit these fields: `public_url`. */
+        "object": WebhookInvoice;
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. cc_emails (Optional): Array of string or null.
+         * Additional recipients copied on the invoice email and every reminder. cc_emails.anyOf[1]
+         * (Value): Array of string. Additional recipients copied on the invoice email and every
+         * reminder. cc_emails.anyOf[1][] (Value): string. cc_emails.anyOf[2] (Value): null.
+         * closed_at (Optional): string or null. When the current closed interval began. Cleared
+         * when status returns to open or partially_paid. A direct move between closed statuses
+         * preserves this timestamp. closed_at.anyOf[1] (Value): string. When the current closed
+         * interval began. Cleared when status returns to open or partially_paid. A direct move
+         * between closed statuses preserves this timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". closed_at.anyOf[2] (Value): null. collection (Optional): {@link
+         * InvoiceCollectionPreviousAttributes} or null. How this invoice is collected, resolved
+         * when the draft is written. Send this object back when updating its collection policy.
+         * collection.anyOf[1] (Value): {@link InvoiceCollectionPreviousAttributes}.
+         * collection.anyOf[2] (Value): null. collection_block_status (Optional): string or null.
+         * Whether collection is blocked. While it is inventory_blocked, collection attempts return
+         * 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none",
+         * "inventory_blocked", "resolved". collection_block_status.anyOf[1] (Value): string.
+         * Whether collection is blocked. While it is inventory_blocked, collection attempts return
+         * 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none",
+         * "inventory_blocked", "resolved". collection_block_status.anyOf[2] (Value): null.
+         * created_at (Optional): string or null. When the invoice was created. created_at.anyOf[1]
+         * (Value): string. When the invoice was created. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Summary of the billed customer.
+         * Returned only with expand=customer. Present only when `expand` includes `customer`;
+         * `null` when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
+         * ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value): null. customer_id
+         * (Optional): string or null. Customer billed by this invoice. Absent when the invoice has
+         * no customer. customer_id.anyOf[1] (Value): string. Customer billed by this invoice.
+         * Absent when the invoice has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+         * customer_id.anyOf[2] (Value): null. delivery_mode (Optional): string or null. How issue
+         * delivered the invoice. Value enum: "email", "caller_managed". delivery_mode.anyOf[1]
+         * (Value): string. How issue delivered the invoice. Value enum: "email", "caller_managed".
+         * delivery_mode.anyOf[2] (Value): null. due_date (Optional): string or null. Calendar due
+         * date in YYYY-MM-DD format, interpreted in timezone (UTC when absent). The outstanding
+         * balance becomes overdue only after this date ends. Automatic collection runs at the
+         * later of issue and the start of this date. With payment terms, issue computes this date
+         * from issued_at. Absent when there is no due date. due_date.anyOf[1] (Value): string.
+         * Calendar due date in YYYY-MM-DD format, interpreted in timezone (UTC when absent). The
+         * outstanding balance becomes overdue only after this date ends. Automatic collection runs
+         * at the later of issue and the start of this date. With payment terms, issue computes
+         * this date from issued_at. Absent when there is no due date. Format: date. Example:
+         * "2026-08-02". due_date.anyOf[2] (Value): null. external_reference_id (Optional): string
+         * or null. Caller-owned identifier for this resource in an external system. Use it as your
+         * sync key: it isn't printed on the invoice. `null` when unset.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. Use it as your sync key: it isn't printed on the
+         * invoice. `null` when unset. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. footer (Optional): string or null. Fine
+         * print at the bottom of the invoice and PDF. It cannot change after issue. `null` when
+         * unset. footer.anyOf[1] (Value): string. Fine print at the bottom of the invoice and PDF.
+         * It cannot change after issue. `null` when unset. footer.anyOf[2] (Value): null.
+         * invoice_id (Optional): string or null. Flint invoice ID. invoice_id.anyOf[1] (Value):
+         * string. Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2]
+         * (Value): null. invoice_number (Optional): string or null. Sequential document number
+         * assigned when the invoice is issued. Numbering is per merchant, with test and live mode
+         * numbered independently. invoice_number.anyOf[1] (Value): string. Sequential document
+         * number assigned when the invoice is issued. Numbering is per merchant, with test and
+         * live mode numbered independently. invoice_number.anyOf[2] (Value): null. is_overdue
+         * (Optional): boolean or null. Whether the invoice is open or partially_paid and past due
+         * with a balance remaining. Without schedule_entries, the due_date has ended in timezone
+         * (UTC when absent) and outstanding_money is above zero; with them, at least one entry is
+         * overdue. Computed when the invoice is read. is_overdue.anyOf[1] (Value): boolean.
+         * Whether the invoice is open or partially_paid and past due with a balance remaining.
+         * Without schedule_entries, the due_date has ended in timezone (UTC when absent) and
+         * outstanding_money is above zero; with them, at least one entry is overdue. Computed when
+         * the invoice is read. is_overdue.anyOf[2] (Value): null. issued_at (Optional): string or
+         * null. When the invoice was issued. Absent on a draft. issued_at.anyOf[1] (Value):
+         * string. When the invoice was issued. Absent on a draft. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". issued_at.anyOf[2] (Value): null. late_fees (Optional): Array of
+         * {@link InvoiceLateFeePreviousAttributes} or null. Late fees assessed on this invoice,
+         * each with its paid, waived, written-off, and outstanding amounts.
+         * settlement_amounts.late_fee_money is their assessed total minus waivers.
+         * late_fees.anyOf[1] (Value): Array of {@link InvoiceLateFeePreviousAttributes}. Late fees
+         * assessed on this invoice, each with its paid, waived, written-off, and outstanding
+         * amounts. settlement_amounts.late_fee_money is their assessed total minus waivers.
+         * late_fees.anyOf[1][] (Value): {@link InvoiceLateFeePreviousAttributes}.
+         * late_fees.anyOf[2] (Value): null. memo (Optional): string or null. Message to the
+         * customer, printed on the invoice and PDF. It cannot change after issue. `null` when
+         * unset. memo.anyOf[1] (Value): string. Message to the customer, printed on the invoice
+         * and PDF. It cannot change after issue. `null` when unset. memo.anyOf[2] (Value): null.
+         * merchant_id (Optional): string or null. Merchant that owns this invoice.
+         * merchant_id.anyOf[1] (Value): string. Merchant that owns this invoice. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. metadata.anyOf[1]
+         * (Value): {@link MetadataMap}. metadata.anyOf[2] (Value): null. order (Optional): {@link
+         * ExpandedOrderSummaryPreviousAttributes} or null. Summary of the backing order. Returned
+         * only with expand=order. Present only when `expand` includes `order`; `null` when
+         * expanded and there is no related order. order.anyOf[1] (Value): {@link
+         * ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2] (Value): null. order_id
+         * (Optional): string or null. The order this invoice bills. Every invoice has one; quick
+         * pay creates it. order_id.anyOf[1] (Value): string. The order this invoice bills. Every
+         * invoice has one; quick pay creates it. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * order_id.anyOf[2] (Value): null. paid_at (Optional): string or null. When the invoice
+         * most recently became paid. Cleared when status leaves paid and set again on a later paid
+         * transition. paid_at.anyOf[1] (Value): string. When the invoice most recently became
+         * paid. Cleared when status leaves paid and set again on a later paid transition. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". paid_at.anyOf[2] (Value): null. payment_due
+         * (Optional): {@link InvoicePaymentDuePreviousAttributes} or null. The resolved due-date
+         * policy. Send this object back when updating the draft; payment_terms captures the term's
+         * current revision again. payment_due.anyOf[1] (Value): {@link
+         * InvoicePaymentDuePreviousAttributes}. payment_due.anyOf[2] (Value): null.
+         * payment_terms_snapshot (Optional): {@link InvoicePaymentTermsSnapshotPreviousAttributes}
+         * or null. The payment term captured on the draft, with its due date rule and late fee
+         * policy. Later changes to the payment term don't affect this invoice.
+         * payment_terms_snapshot.anyOf[1] (Value): {@link
+         * InvoicePaymentTermsSnapshotPreviousAttributes}. payment_terms_snapshot.anyOf[2] (Value):
+         * null. po_number (Optional): string or null. The buyer's purchase order number, printed
+         * on the invoice and PDF. It cannot change after issue. `null` when unset.
+         * po_number.anyOf[1] (Value): string. The buyer's purchase order number, printed on the
+         * invoice and PDF. It cannot change after issue. `null` when unset. po_number.anyOf[2]
+         * (Value): null. pricing_amounts (Optional): {@link PricingAmountsPreviousAttributes} or
+         * null. The invoice pricing totals, frozen at issue. A draft previews the backing order.
+         * total_money excludes late fees, which are in settlement_amounts.late_fee_money.
+         * pricing_amounts.anyOf[1] (Value): {@link PricingAmountsPreviousAttributes}.
+         * pricing_amounts.anyOf[2] (Value): null. recipient_email (Optional): string or null.
+         * Where Flint emails the invoice and its reminders. Email delivery requires it at issue.
+         * `null` when unset. recipient_email.anyOf[1] (Value): string. Where Flint emails the
+         * invoice and its reminders. Email delivery requires it at issue. `null` when unset.
+         * recipient_email.anyOf[2] (Value): null. reference (Optional): string or null. Your
+         * reference for the invoice, printed on the invoice and PDF. The buyer's purchase order
+         * number goes in po_number. It cannot change after issue. `null` when unset.
+         * reference.anyOf[1] (Value): string. Your reference for the invoice, printed on the
+         * invoice and PDF. The buyer's purchase order number goes in po_number. It cannot change
+         * after issue. `null` when unset. reference.anyOf[2] (Value): null. refund_status
+         * (Optional): string or null. How much of the collected money has been refunded. It
+         * doesn't change status. Value enum: "none", "partially_refunded", "refunded".
+         * refund_status.anyOf[1] (Value): string. How much of the collected money has been
+         * refunded. It doesn't change status. Value enum: "none", "partially_refunded",
+         * "refunded". refund_status.anyOf[2] (Value): null. reminders_paused (Optional): boolean
+         * or null. Whether automatic reminders are paused. Set reminders_paused on PATCH
+         * /v1/invoices/{invoice_id} to change it. reminders_paused.anyOf[1] (Value): boolean.
+         * Whether automatic reminders are paused. Set reminders_paused on PATCH
+         * /v1/invoices/{invoice_id} to change it. reminders_paused.anyOf[2] (Value): null.
+         * reminders_paused_at (Optional): string or null. When automatic reminders were paused.
+         * Absent while reminders are active. reminders_paused_at.anyOf[1] (Value): string. When
+         * automatic reminders were paused. Absent while reminders are active. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". reminders_paused_at.anyOf[2] (Value): null.
+         * remit_to_address (Optional): {@link AddressPreviousAttributes} or null. Where the buyer
+         * sends offline payments, shown on the invoice. Defaults to the invoice settings remit-to
+         * address. remit_to_address.anyOf[1] (Value): {@link AddressPreviousAttributes}.
+         * remit_to_address.anyOf[2] (Value): null. schedule_entries (Optional): Array of {@link
+         * InvoiceScheduleEntryPreviousAttributes} or null. The payment schedule, in schedule
+         * order. Always [] when the invoice has no schedule and is collected in one balance.
+         * schedule_entries.anyOf[1] (Value): Array of {@link
+         * InvoiceScheduleEntryPreviousAttributes}. The payment schedule, in schedule order. Always
+         * [] when the invoice has no schedule and is collected in one balance.
+         * schedule_entries.anyOf[1][] (Value): {@link InvoiceScheduleEntryPreviousAttributes}.
+         * schedule_entries.anyOf[2] (Value): null. scheduled_issue_at (Optional): string or null.
+         * When Flint will issue and deliver this draft. `null` when no issue is scheduled. Cleared
+         * when the draft is issued or voided, or when you send null. scheduled_issue_at.anyOf[1]
+         * (Value): string. When Flint will issue and deliver this draft. `null` when no issue is
+         * scheduled. Cleared when the draft is issued or voided, or when you send null. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". scheduled_issue_at.anyOf[2] (Value): null.
+         * service_date (Optional): string or null. The calendar date of the billed service, in
+         * YYYY-MM-DD format. The invoice and PDF print it as written, without timezone conversion.
+         * `null` when unset. service_date.anyOf[1] (Value): string. The calendar date of the
+         * billed service, in YYYY-MM-DD format. The invoice and PDF print it as written, without
+         * timezone conversion. `null` when unset. Format: date. Example: "2026-08-02".
+         * service_date.anyOf[2] (Value): null. settlement_amounts (Optional): {@link
+         * InvoiceSettlementAmountsPreviousAttributes} or null. Payments, refunds, write-offs,
+         * allocated credit notes, late fees, and the remaining invoice balance. What is still
+         * owed: pricing_amounts.total_money + late_fee_money - paid_money - credited_money -
+         * written_off_money, never below zero. 0 on paid, credited, uncollectible, and voided
+         * invoices; equal to pricing_amounts.total_money on a draft. Refunds and card chargebacks
+         * don't change it. Lost bank returns reopen the balance. settlement_amounts.anyOf[1]
+         * (Value): {@link InvoiceSettlementAmountsPreviousAttributes}. settlement_amounts.anyOf[2]
+         * (Value): null. snapshot (Optional): {@link InvoiceSnapshotPreviousAttributes} or null.
+         * The billing content of the invoice: line items, discounts, charges, tip, and tax. A
+         * draft previews the backing order; issue freezes it, and later order changes don't reach
+         * an issued invoice. snapshot.anyOf[1] (Value): {@link InvoiceSnapshotPreviousAttributes}.
+         * snapshot.anyOf[2] (Value): null. status (Optional): string or null. Current invoice
+         * status. paid and credited close the current balance and can reopen to open or
+         * partially_paid after a payment or credit allocation reversal; invoice.reopened reports
+         * that change. An uncollectible invoice accepts manual recovery payments and becomes paid
+         * when fully recovered; reversals restore the write-off. voided is final. Refunds change
+         * refund_status without reopening the balance. An ACH bank return reverses paid_money and
+         * reopens the balance. A lost card chargeback leaves paid_money, the balance, and status
+         * unchanged; collecting it again requires a new invoice. Value enum: "draft", "open",
+         * "partially_paid", "paid", "voided", "uncollectible", "credited". status.anyOf[1]
+         * (Value): string. Current invoice status. paid and credited close the current balance and
+         * can reopen to open or partially_paid after a payment or credit allocation reversal;
+         * invoice.reopened reports that change. An uncollectible invoice accepts manual recovery
+         * payments and becomes paid when fully recovered; reversals restore the write-off. voided
+         * is final. Refunds change refund_status without reopening the balance. An ACH bank return
+         * reverses paid_money and reopens the balance. A lost card chargeback leaves paid_money,
+         * the balance, and status unchanged; collecting it again requires a new invoice. Value
+         * enum: "draft", "open", "partially_paid", "paid", "voided", "uncollectible", "credited".
+         * status.anyOf[2] (Value): null. subscription_id (Optional): string or null. The
+         * subscription the backing order belongs to, copied when the draft is created and never
+         * changed. `null` when the order isn't part of a subscription. subscription_id.anyOf[1]
+         * (Value): string. The subscription the backing order belongs to, copied when the draft is
+         * created and never changed. `null` when the order isn't part of a subscription. Example:
+         * "sub_01KEZF7C00BVRE8YDBXQB74BBM". subscription_id.anyOf[2] (Value): null.
+         * supported_actions (Optional): Array of string or null. Lifecycle actions Flint accepts
+         * for this resource now, based on stored state. Independent of the caller's permissions;
+         * each action still requires its route's scope. Always [] when no action is available. []
+         * enum: "collect", "issue", "mark_uncollectible", "void". supported_actions.anyOf[1]
+         * (Value): Array of string. Lifecycle actions Flint accepts for this resource now, based
+         * on stored state. Independent of the caller's permissions; each action still requires its
+         * route's scope. Always [] when no action is available. [] enum: "collect", "issue",
+         * "mark_uncollectible", "void". supported_actions.anyOf[1][] (Value): string. Value enum:
+         * "collect", "issue", "mark_uncollectible", "void". supported_actions.anyOf[2] (Value):
+         * null. timezone (Optional): string or null. IANA time zone snapshot for invoice due
+         * dates, reminders, and late fee calendar days. Taken from the merchant's timezone when
+         * the draft is written, or UTC when unset. Later merchant changes do not alter this
+         * invoice's calendar. timezone.anyOf[1] (Value): string. IANA time zone snapshot for
+         * invoice due dates, reminders, and late fee calendar days. Taken from the merchant's
+         * timezone when the draft is written, or UTC when unset. Later merchant changes do not
+         * alter this invoice's calendar. timezone.anyOf[2] (Value): null. uncollectible_at
+         * (Optional): string or null. When the invoice was marked uncollectible.
+         * uncollectible_at.anyOf[1] (Value): string. When the invoice was marked uncollectible.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". uncollectible_at.anyOf[2] (Value):
+         * null. updated_at (Optional): string or null. When the invoice last changed.
+         * updated_at.anyOf[1] (Value): string. When the invoice last changed. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional):
+         * integer or null. Current invoice version. Send this as expected_version when updating
+         * the draft. version.anyOf[1] (Value): integer. Current invoice version. Send this as
+         * expected_version when updating the draft. Format: int64. minimum: 1. version.anyOf[2]
+         * (Value): null. viewed_at (Optional): string or null. When the buyer first opened the
+         * invoice through its hosted invoice link. Recorded on a best-effort basis.
+         * viewed_at.anyOf[1] (Value): string. When the buyer first opened the invoice through its
+         * hosted invoice link. Recorded on a best-effort basis. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". viewed_at.anyOf[2] (Value): null. voided_at (Optional): string
+         * or null. When the invoice was voided. voided_at.anyOf[1] (Value): string. When the
+         * invoice was voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * voided_at.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Additional recipients copied on the invoice email and every reminder. anyOf[1]
+             * (Value): Array of string. Additional recipients copied on the invoice email and
+             * every reminder. anyOf[1][] (Value): string. anyOf[2] (Value): null.
+             */
+            "cc_emails"?: ((Array<string>) | (null));
+            /**
+             * When the current closed interval began. Cleared when status returns to open or
+             * partially_paid. A direct move between closed statuses preserves this timestamp.
+             * anyOf[1] (Value): string. When the current closed interval began. Cleared when
+             * status returns to open or partially_paid. A direct move between closed statuses
+             * preserves this timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             * anyOf[2] (Value): null.
+             */
+            "closed_at"?: ((string) | (null));
+            /**
+             * How this invoice is collected, resolved when the draft is written. Send this object
+             * back when updating its collection policy. anyOf[1] (Value): {@link
+             * InvoiceCollectionPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "collection"?: ((InvoiceCollectionPreviousAttributes) | (null));
+            /**
+             * Whether collection is blocked. While it is inventory_blocked, collection attempts
+             * return 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum:
+             * "none", "inventory_blocked", "resolved". anyOf[1] (Value): string. Whether
+             * collection is blocked. While it is inventory_blocked, collection attempts return 409
+             * ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none",
+             * "inventory_blocked", "resolved". anyOf[2] (Value): null.
+             */
+            "collection_block_status"?: (("none" | "inventory_blocked" | "resolved" | (string & {})) | (null));
+            /**
+             * When the invoice was created. anyOf[1] (Value): string. When the invoice was
+             * created. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Summary of the billed customer. Returned only with expand=customer. Present only
+             * when `expand` includes `customer`; `null` when expanded and there is no related
+             * customer. anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            /**
+             * Customer billed by this invoice. Absent when the invoice has no customer. anyOf[1]
+             * (Value): string. Customer billed by this invoice. Absent when the invoice has no
+             * customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * How issue delivered the invoice. Value enum: "email", "caller_managed". anyOf[1]
+             * (Value): string. How issue delivered the invoice. Value enum: "email",
+             * "caller_managed". anyOf[2] (Value): null.
+             */
+            "delivery_mode"?: (("email" | "caller_managed" | (string & {})) | (null));
+            /**
+             * Calendar due date in YYYY-MM-DD format, interpreted in timezone (UTC when absent).
+             * The outstanding balance becomes overdue only after this date ends. Automatic
+             * collection runs at the later of issue and the start of this date. With payment
+             * terms, issue computes this date from issued_at. Absent when there is no due date.
+             * anyOf[1] (Value): string. Calendar due date in YYYY-MM-DD format, interpreted in
+             * timezone (UTC when absent). The outstanding balance becomes overdue only after this
+             * date ends. Automatic collection runs at the later of issue and the start of this
+             * date. With payment terms, issue computes this date from issued_at. Absent when there
+             * is no due date. Format: date. Example: "2026-08-02". anyOf[2] (Value): null.
+             */
+            "due_date"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. Use it as your sync
+             * key: it isn't printed on the invoice. `null` when unset. anyOf[1] (Value): string.
+             * Caller-owned identifier for this resource in an external system. Use it as your sync
+             * key: it isn't printed on the invoice. `null` when unset. minLength: 1. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Fine print at the bottom of the invoice and PDF. It cannot change after issue.
+             * `null` when unset. anyOf[1] (Value): string. Fine print at the bottom of the invoice
+             * and PDF. It cannot change after issue. `null` when unset. anyOf[2] (Value): null.
+             */
+            "footer"?: ((string) | (null));
+            /**
+             * Flint invoice ID. anyOf[1] (Value): string. Flint invoice ID. Example:
+             * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
+             */
+            "invoice_id"?: ((string) | (null));
+            /**
+             * Sequential document number assigned when the invoice is issued. Numbering is per
+             * merchant, with test and live mode numbered independently. anyOf[1] (Value): string.
+             * Sequential document number assigned when the invoice is issued. Numbering is per
+             * merchant, with test and live mode numbered independently. anyOf[2] (Value): null.
+             */
+            "invoice_number"?: ((string) | (null));
+            /**
+             * Whether the invoice is open or partially_paid and past due with a balance remaining.
+             * Without schedule_entries, the due_date has ended in timezone (UTC when absent) and
+             * outstanding_money is above zero; with them, at least one entry is overdue. Computed
+             * when the invoice is read. anyOf[1] (Value): boolean. Whether the invoice is open or
+             * partially_paid and past due with a balance remaining. Without schedule_entries, the
+             * due_date has ended in timezone (UTC when absent) and outstanding_money is above
+             * zero; with them, at least one entry is overdue. Computed when the invoice is read.
+             * anyOf[2] (Value): null.
+             */
+            "is_overdue"?: ((boolean) | (null));
+            /**
+             * When the invoice was issued. Absent on a draft. anyOf[1] (Value): string. When the
+             * invoice was issued. Absent on a draft. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "issued_at"?: ((string) | (null));
+            /**
+             * Late fees assessed on this invoice, each with its paid, waived, written-off, and
+             * outstanding amounts. settlement_amounts.late_fee_money is their assessed total minus
+             * waivers. anyOf[1] (Value): Array of {@link InvoiceLateFeePreviousAttributes}. Late
+             * fees assessed on this invoice, each with its paid, waived, written-off, and
+             * outstanding amounts. settlement_amounts.late_fee_money is their assessed total minus
+             * waivers. anyOf[1][] (Value): {@link InvoiceLateFeePreviousAttributes}. anyOf[2]
+             * (Value): null.
+             */
+            "late_fees"?: ((Array<InvoiceLateFeePreviousAttributes>) | (null));
+            /**
+             * Message to the customer, printed on the invoice and PDF. It cannot change after
+             * issue. `null` when unset. anyOf[1] (Value): string. Message to the customer, printed
+             * on the invoice and PDF. It cannot change after issue. `null` when unset. anyOf[2]
+             * (Value): null.
+             */
+            "memo"?: ((string) | (null));
+            /**
+             * Merchant that owns this invoice. anyOf[1] (Value): string. Merchant that owns this
+             * invoice. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value):
+             * null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Summary of the backing order. Returned only with expand=order. Present only when
+             * `expand` includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}. anyOf[2] (Value):
+             * null.
+             */
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
+            /**
+             * The order this invoice bills. Every invoice has one; quick pay creates it. anyOf[1]
+             * (Value): string. The order this invoice bills. Every invoice has one; quick pay
+             * creates it. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * When the invoice most recently became paid. Cleared when status leaves paid and set
+             * again on a later paid transition. anyOf[1] (Value): string. When the invoice most
+             * recently became paid. Cleared when status leaves paid and set again on a later paid
+             * transition. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "paid_at"?: ((string) | (null));
+            /**
+             * The resolved due-date policy. Send this object back when updating the draft;
+             * payment_terms captures the term's current revision again. anyOf[1] (Value): {@link
+             * InvoicePaymentDuePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "payment_due"?: ((InvoicePaymentDuePreviousAttributes) | (null));
+            /**
+             * The payment term captured on the draft, with its due date rule and late fee policy.
+             * Later changes to the payment term don't affect this invoice. anyOf[1] (Value):
+             * {@link InvoicePaymentTermsSnapshotPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "payment_terms_snapshot"?: ((InvoicePaymentTermsSnapshotPreviousAttributes) | (null));
+            /**
+             * The buyer's purchase order number, printed on the invoice and PDF. It cannot change
+             * after issue. `null` when unset. anyOf[1] (Value): string. The buyer's purchase order
+             * number, printed on the invoice and PDF. It cannot change after issue. `null` when
+             * unset. anyOf[2] (Value): null.
+             */
+            "po_number"?: ((string) | (null));
+            /**
+             * The invoice pricing totals, frozen at issue. A draft previews the backing order.
+             * total_money excludes late fees, which are in settlement_amounts.late_fee_money.
+             * anyOf[1] (Value): {@link PricingAmountsPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "pricing_amounts"?: ((PricingAmountsPreviousAttributes) | (null));
+            /**
+             * Where Flint emails the invoice and its reminders. Email delivery requires it at
+             * issue. `null` when unset. anyOf[1] (Value): string. Where Flint emails the invoice
+             * and its reminders. Email delivery requires it at issue. `null` when unset. anyOf[2]
+             * (Value): null.
+             */
+            "recipient_email"?: ((string) | (null));
+            /**
+             * Your reference for the invoice, printed on the invoice and PDF. The buyer's purchase
+             * order number goes in po_number. It cannot change after issue. `null` when unset.
+             * anyOf[1] (Value): string. Your reference for the invoice, printed on the invoice and
+             * PDF. The buyer's purchase order number goes in po_number. It cannot change after
+             * issue. `null` when unset. anyOf[2] (Value): null.
+             */
+            "reference"?: ((string) | (null));
+            /**
+             * How much of the collected money has been refunded. It doesn't change status. Value
+             * enum: "none", "partially_refunded", "refunded". anyOf[1] (Value): string. How much
+             * of the collected money has been refunded. It doesn't change status. Value enum:
+             * "none", "partially_refunded", "refunded". anyOf[2] (Value): null.
+             */
+            "refund_status"?: (("none" | "partially_refunded" | "refunded" | (string & {})) | (null));
+            /**
+             * Whether automatic reminders are paused. Set reminders_paused on PATCH
+             * /v1/invoices/{invoice_id} to change it. anyOf[1] (Value): boolean. Whether automatic
+             * reminders are paused. Set reminders_paused on PATCH /v1/invoices/{invoice_id} to
+             * change it. anyOf[2] (Value): null.
+             */
+            "reminders_paused"?: ((boolean) | (null));
+            /**
+             * When automatic reminders were paused. Absent while reminders are active. anyOf[1]
+             * (Value): string. When automatic reminders were paused. Absent while reminders are
+             * active. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "reminders_paused_at"?: ((string) | (null));
+            /**
+             * Where the buyer sends offline payments, shown on the invoice. Defaults to the
+             * invoice settings remit-to address. anyOf[1] (Value): {@link
+             * AddressPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "remit_to_address"?: ((AddressPreviousAttributes) | (null));
+            /**
+             * The payment schedule, in schedule order. Always [] when the invoice has no schedule
+             * and is collected in one balance. anyOf[1] (Value): Array of {@link
+             * InvoiceScheduleEntryPreviousAttributes}. The payment schedule, in schedule order.
+             * Always [] when the invoice has no schedule and is collected in one balance.
+             * anyOf[1][] (Value): {@link InvoiceScheduleEntryPreviousAttributes}. anyOf[2]
+             * (Value): null.
+             */
+            "schedule_entries"?: ((Array<InvoiceScheduleEntryPreviousAttributes>) | (null));
+            /**
+             * When Flint will issue and deliver this draft. `null` when no issue is scheduled.
+             * Cleared when the draft is issued or voided, or when you send null. anyOf[1] (Value):
+             * string. When Flint will issue and deliver this draft. `null` when no issue is
+             * scheduled. Cleared when the draft is issued or voided, or when you send null.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "scheduled_issue_at"?: ((string) | (null));
+            /**
+             * The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF
+             * print it as written, without timezone conversion. `null` when unset. anyOf[1]
+             * (Value): string. The calendar date of the billed service, in YYYY-MM-DD format. The
+             * invoice and PDF print it as written, without timezone conversion. `null` when unset.
+             * Format: date. Example: "2026-08-02". anyOf[2] (Value): null.
+             */
+            "service_date"?: ((string) | (null));
+            /**
+             * Payments, refunds, write-offs, allocated credit notes, late fees, and the remaining
+             * invoice balance. What is still owed: pricing_amounts.total_money + late_fee_money -
+             * paid_money - credited_money - written_off_money, never below zero. 0 on paid,
+             * credited, uncollectible, and voided invoices; equal to pricing_amounts.total_money
+             * on a draft. Refunds and card chargebacks don't change it. Lost bank returns reopen
+             * the balance. anyOf[1] (Value): {@link InvoiceSettlementAmountsPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "settlement_amounts"?: ((InvoiceSettlementAmountsPreviousAttributes) | (null));
+            /**
+             * The billing content of the invoice: line items, discounts, charges, tip, and tax. A
+             * draft previews the backing order; issue freezes it, and later order changes don't
+             * reach an issued invoice. anyOf[1] (Value): {@link
+             * InvoiceSnapshotPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "snapshot"?: ((InvoiceSnapshotPreviousAttributes) | (null));
+            /**
+             * Current invoice status. paid and credited close the current balance and can reopen
+             * to open or partially_paid after a payment or credit allocation reversal;
+             * invoice.reopened reports that change. An uncollectible invoice accepts manual
+             * recovery payments and becomes paid when fully recovered; reversals restore the
+             * write-off. voided is final. Refunds change refund_status without reopening the
+             * balance. An ACH bank return reverses paid_money and reopens the balance. A lost card
+             * chargeback leaves paid_money, the balance, and status unchanged; collecting it again
+             * requires a new invoice. Value enum: "draft", "open", "partially_paid", "paid",
+             * "voided", "uncollectible", "credited". anyOf[1] (Value): string. Current invoice
+             * status. paid and credited close the current balance and can reopen to open or
+             * partially_paid after a payment or credit allocation reversal; invoice.reopened
+             * reports that change. An uncollectible invoice accepts manual recovery payments and
+             * becomes paid when fully recovered; reversals restore the write-off. voided is final.
+             * Refunds change refund_status without reopening the balance. An ACH bank return
+             * reverses paid_money and reopens the balance. A lost card chargeback leaves
+             * paid_money, the balance, and status unchanged; collecting it again requires a new
+             * invoice. Value enum: "draft", "open", "partially_paid", "paid", "voided",
+             * "uncollectible", "credited". anyOf[2] (Value): null.
+             */
+            "status"?: (("draft"
+                | "open"
+                | "partially_paid"
+                | "paid"
+                | "voided"
+                | "uncollectible"
+                | "credited"
+                | (string & {}))
+                | (null));
+            /**
+             * The subscription the backing order belongs to, copied when the draft is created and
+             * never changed. `null` when the order isn't part of a subscription. anyOf[1] (Value):
+             * string. The subscription the backing order belongs to, copied when the draft is
+             * created and never changed. `null` when the order isn't part of a subscription.
+             * Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM". anyOf[2] (Value): null.
+             */
+            "subscription_id"?: ((string) | (null));
+            /**
+             * Lifecycle actions Flint accepts for this resource now, based on stored state.
+             * Independent of the caller's permissions; each action still requires its route's
+             * scope. Always [] when no action is available. [] enum: "collect", "issue",
+             * "mark_uncollectible", "void". anyOf[1] (Value): Array of string. Lifecycle actions
+             * Flint accepts for this resource now, based on stored state. Independent of the
+             * caller's permissions; each action still requires its route's scope. Always [] when
+             * no action is available. [] enum: "collect", "issue", "mark_uncollectible", "void".
+             * anyOf[1][] (Value): string. Value enum: "collect", "issue", "mark_uncollectible",
+             * "void". anyOf[2] (Value): null.
+             */
+            "supported_actions"?: ((Array<"collect" | "issue" | "mark_uncollectible" | "void" | (string & {})>) | (null));
+            /**
+             * IANA time zone snapshot for invoice due dates, reminders, and late fee calendar
+             * days. Taken from the merchant's timezone when the draft is written, or UTC when
+             * unset. Later merchant changes do not alter this invoice's calendar. anyOf[1]
+             * (Value): string. IANA time zone snapshot for invoice due dates, reminders, and late
+             * fee calendar days. Taken from the merchant's timezone when the draft is written, or
+             * UTC when unset. Later merchant changes do not alter this invoice's calendar.
+             * anyOf[2] (Value): null.
+             */
+            "timezone"?: ((string) | (null));
+            /**
+             * When the invoice was marked uncollectible. anyOf[1] (Value): string. When the
+             * invoice was marked uncollectible. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "uncollectible_at"?: ((string) | (null));
+            /**
+             * When the invoice last changed. anyOf[1] (Value): string. When the invoice last
+             * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current invoice version. Send this as expected_version when updating the draft.
+             * anyOf[1] (Value): integer. Current invoice version. Send this as expected_version
+             * when updating the draft. Format: int64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+            /**
+             * When the buyer first opened the invoice through its hosted invoice link. Recorded on
+             * a best-effort basis. anyOf[1] (Value): string. When the buyer first opened the
+             * invoice through its hosted invoice link. Recorded on a best-effort basis. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "viewed_at"?: ((string) | (null));
+            /**
+             * When the invoice was voided. anyOf[1] (Value): string. When the invoice was voided.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "voided_at"?: ((string) | (null));
+        });
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "invoice.paid". */
+    "event_type"?: "invoice.paid";
+});
+export type InvoicePartiallyPaidEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookInvoice;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "cc_emails"?: ((Array<string>) | (null));
+            "closed_at"?: ((string) | (null));
+            "collection"?: ((InvoiceCollectionPreviousAttributes) | (null));
+            "collection_block_status"?: (("none" | "inventory_blocked" | "resolved" | (string & {})) | (null));
+            "created_at"?: ((string) | (null));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            "customer_id"?: ((string) | (null));
+            "delivery_mode"?: (("email" | "caller_managed" | (string & {})) | (null));
+            "due_date"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "footer"?: ((string) | (null));
+            "invoice_id"?: ((string) | (null));
+            "invoice_number"?: ((string) | (null));
+            "is_overdue"?: ((boolean) | (null));
+            "issued_at"?: ((string) | (null));
+            "late_fees"?: ((Array<InvoiceLateFeePreviousAttributes>) | (null));
+            "memo"?: ((string) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
+            "order_id"?: ((string) | (null));
+            "paid_at"?: ((string) | (null));
+            "payment_due"?: ((InvoicePaymentDuePreviousAttributes) | (null));
+            "payment_terms_snapshot"?: ((InvoicePaymentTermsSnapshotPreviousAttributes) | (null));
+            "po_number"?: ((string) | (null));
+            "pricing_amounts"?: ((PricingAmountsPreviousAttributes) | (null));
+            "recipient_email"?: ((string) | (null));
+            "reference"?: ((string) | (null));
+            "refund_status"?: (("none" | "partially_refunded" | "refunded" | (string & {})) | (null));
+            "reminders_paused"?: ((boolean) | (null));
+            "reminders_paused_at"?: ((string) | (null));
+            "remit_to_address"?: ((AddressPreviousAttributes) | (null));
+            "schedule_entries"?: ((Array<InvoiceScheduleEntryPreviousAttributes>) | (null));
+            "scheduled_issue_at"?: ((string) | (null));
+            "service_date"?: ((string) | (null));
+            "settlement_amounts"?: ((InvoiceSettlementAmountsPreviousAttributes) | (null));
+            "snapshot"?: ((InvoiceSnapshotPreviousAttributes) | (null));
+            "status"?: (("draft"
+                | "open"
+                | "partially_paid"
+                | "paid"
+                | "voided"
+                | "uncollectible"
+                | "credited"
+                | (string & {}))
+                | (null));
+            "subscription_id"?: ((string) | (null));
+            "supported_actions"?: ((Array<"collect" | "issue" | "mark_uncollectible" | "void" | (string & {})>) | (null));
+            "timezone"?: ((string) | (null));
+            "uncollectible_at"?: ((string) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+            "viewed_at"?: ((string) | (null));
+            "voided_at"?: ((string) | (null));
+        });
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "invoice.partially_paid";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookInvoice;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "cc_emails"?: ((Array<string>) | (null));
+            "closed_at"?: ((string) | (null));
+            "collection"?: ((InvoiceCollectionPreviousAttributes) | (null));
+            "collection_block_status"?: (("none" | "inventory_blocked" | "resolved" | (string & {})) | (null));
+            "created_at"?: ((string) | (null));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            "customer_id"?: ((string) | (null));
+            "delivery_mode"?: (("email" | "caller_managed" | (string & {})) | (null));
+            "due_date"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "footer"?: ((string) | (null));
+            "invoice_id"?: ((string) | (null));
+            "invoice_number"?: ((string) | (null));
+            "is_overdue"?: ((boolean) | (null));
+            "issued_at"?: ((string) | (null));
+            "late_fees"?: ((Array<InvoiceLateFeePreviousAttributes>) | (null));
+            "memo"?: ((string) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
+            "order_id"?: ((string) | (null));
+            "paid_at"?: ((string) | (null));
+            "payment_due"?: ((InvoicePaymentDuePreviousAttributes) | (null));
+            "payment_terms_snapshot"?: ((InvoicePaymentTermsSnapshotPreviousAttributes) | (null));
+            "po_number"?: ((string) | (null));
+            "pricing_amounts"?: ((PricingAmountsPreviousAttributes) | (null));
+            "recipient_email"?: ((string) | (null));
+            "reference"?: ((string) | (null));
+            "refund_status"?: (("none" | "partially_refunded" | "refunded" | (string & {})) | (null));
+            "reminders_paused"?: ((boolean) | (null));
+            "reminders_paused_at"?: ((string) | (null));
+            "remit_to_address"?: ((AddressPreviousAttributes) | (null));
+            "schedule_entries"?: ((Array<InvoiceScheduleEntryPreviousAttributes>) | (null));
+            "scheduled_issue_at"?: ((string) | (null));
+            "service_date"?: ((string) | (null));
+            "settlement_amounts"?: ((InvoiceSettlementAmountsPreviousAttributes) | (null));
+            "snapshot"?: ((InvoiceSnapshotPreviousAttributes) | (null));
+            "status"?: (("draft"
+                | "open"
+                | "partially_paid"
+                | "paid"
+                | "voided"
+                | "uncollectible"
+                | "credited"
+                | (string & {}))
+                | (null));
+            "subscription_id"?: ((string) | (null));
+            "supported_actions"?: ((Array<"collect" | "issue" | "mark_uncollectible" | "void" | (string & {})>) | (null));
+            "timezone"?: ((string) | (null));
+            "uncollectible_at"?: ((string) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+            "viewed_at"?: ((string) | (null));
+            "voided_at"?: ((string) | (null));
+        });
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "invoice.partially_paid";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "invoice.partially_paid";
+});
+/**
+ * The `invoice.partially_paid` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type InvoicePartiallyPaidInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link WebhookInvoice}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `public_url`. previous_attributes (Optional): object. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events. previous_attributes.cc_emails (Optional): Array of string or null.
+     * Additional recipients copied on the invoice email and every reminder.
+     * previous_attributes.cc_emails.anyOf[1] (Value): Array of string. Additional recipients
+     * copied on the invoice email and every reminder. previous_attributes.cc_emails.anyOf[1][]
+     * (Value): string. previous_attributes.cc_emails.anyOf[2] (Value): null.
+     * previous_attributes.closed_at (Optional): string or null. When the current closed interval
+     * began. Cleared when status returns to open or partially_paid. A direct move between closed
+     * statuses preserves this timestamp. previous_attributes.closed_at.anyOf[1] (Value): string.
+     * When the current closed interval began. Cleared when status returns to open or
+     * partially_paid. A direct move between closed statuses preserves this timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.closed_at.anyOf[2] (Value):
+     * null. previous_attributes.collection (Optional): {@link InvoiceCollectionPreviousAttributes}
+     * or null. How this invoice is collected, resolved when the draft is written. Send this object
+     * back when updating its collection policy. previous_attributes.collection.anyOf[1] (Value):
+     * {@link InvoiceCollectionPreviousAttributes}. previous_attributes.collection.anyOf[2]
+     * (Value): null. previous_attributes.collection_block_status (Optional): string or null.
+     * Whether collection is blocked. While it is inventory_blocked, collection attempts return 409
+     * ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none",
+     * "inventory_blocked", "resolved". previous_attributes.collection_block_status.anyOf[1]
+     * (Value): string. Whether collection is blocked. While it is inventory_blocked, collection
+     * attempts return 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum:
+     * "none", "inventory_blocked", "resolved".
+     * previous_attributes.collection_block_status.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. When the invoice was created.
+     * previous_attributes.created_at.anyOf[1] (Value): string. When the invoice was created.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
+     * (Value): null. previous_attributes.customer (Optional): {@link
+     * ExpandedCustomerSummaryPreviousAttributes} or null. Summary of the billed customer. Returned
+     * only with expand=customer. Present only when `expand` includes `customer`; `null` when
+     * expanded and there is no related customer. previous_attributes.customer.anyOf[1] (Value):
+     * {@link ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2]
+     * (Value): null. previous_attributes.customer_id (Optional): string or null. Customer billed
+     * by this invoice. Absent when the invoice has no customer.
+     * previous_attributes.customer_id.anyOf[1] (Value): string. Customer billed by this invoice.
+     * Absent when the invoice has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * previous_attributes.customer_id.anyOf[2] (Value): null. previous_attributes.delivery_mode
+     * (Optional): string or null. How issue delivered the invoice. Value enum: "email",
+     * "caller_managed". previous_attributes.delivery_mode.anyOf[1] (Value): string. How issue
+     * delivered the invoice. Value enum: "email", "caller_managed".
+     * previous_attributes.delivery_mode.anyOf[2] (Value): null. previous_attributes.due_date
+     * (Optional): string or null. Calendar due date in YYYY-MM-DD format, interpreted in timezone
+     * (UTC when absent). The outstanding balance becomes overdue only after this date ends.
+     * Automatic collection runs at the later of issue and the start of this date. With payment
+     * terms, issue computes this date from issued_at. Absent when there is no due date.
+     * previous_attributes.due_date.anyOf[1] (Value): string. Calendar due date in YYYY-MM-DD
+     * format, interpreted in timezone (UTC when absent). The outstanding balance becomes overdue
+     * only after this date ends. Automatic collection runs at the later of issue and the start of
+     * this date. With payment terms, issue computes this date from issued_at. Absent when there is
+     * no due date. Format: date. Example: "2026-08-02". previous_attributes.due_date.anyOf[2]
+     * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
+     * Caller-owned identifier for this resource in an external system. Use it as your sync key: it
+     * isn't printed on the invoice. `null` when unset.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. Use it as your sync key: it isn't printed on the
+     * invoice. `null` when unset. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null. previous_attributes.footer
+     * (Optional): string or null. Fine print at the bottom of the invoice and PDF. It cannot
+     * change after issue. `null` when unset. previous_attributes.footer.anyOf[1] (Value): string.
+     * Fine print at the bottom of the invoice and PDF. It cannot change after issue. `null` when
+     * unset. previous_attributes.footer.anyOf[2] (Value): null. previous_attributes.invoice_id
+     * (Optional): string or null. Flint invoice ID. previous_attributes.invoice_id.anyOf[1]
+     * (Value): string. Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+     * previous_attributes.invoice_id.anyOf[2] (Value): null. previous_attributes.invoice_number
+     * (Optional): string or null. Sequential document number assigned when the invoice is issued.
+     * Numbering is per merchant, with test and live mode numbered independently.
+     * previous_attributes.invoice_number.anyOf[1] (Value): string. Sequential document number
+     * assigned when the invoice is issued. Numbering is per merchant, with test and live mode
+     * numbered independently. previous_attributes.invoice_number.anyOf[2] (Value): null.
+     * previous_attributes.is_overdue (Optional): boolean or null. Whether the invoice is open or
+     * partially_paid and past due with a balance remaining. Without schedule_entries, the due_date
+     * has ended in timezone (UTC when absent) and outstanding_money is above zero; with them, at
+     * least one entry is overdue. Computed when the invoice is read.
+     * previous_attributes.is_overdue.anyOf[1] (Value): boolean. Whether the invoice is open or
+     * partially_paid and past due with a balance remaining. Without schedule_entries, the due_date
+     * has ended in timezone (UTC when absent) and outstanding_money is above zero; with them, at
+     * least one entry is overdue. Computed when the invoice is read.
+     * previous_attributes.is_overdue.anyOf[2] (Value): null. previous_attributes.issued_at
+     * (Optional): string or null. When the invoice was issued. Absent on a draft.
+     * previous_attributes.issued_at.anyOf[1] (Value): string. When the invoice was issued. Absent
+     * on a draft. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.issued_at.anyOf[2] (Value): null. previous_attributes.late_fees
+     * (Optional): Array of {@link InvoiceLateFeePreviousAttributes} or null. Late fees assessed on
+     * this invoice, each with its paid, waived, written-off, and outstanding amounts.
+     * settlement_amounts.late_fee_money is their assessed total minus waivers.
+     * previous_attributes.late_fees.anyOf[1] (Value): Array of {@link
+     * InvoiceLateFeePreviousAttributes}. Late fees assessed on this invoice, each with its paid,
+     * waived, written-off, and outstanding amounts. settlement_amounts.late_fee_money is their
+     * assessed total minus waivers. previous_attributes.late_fees.anyOf[1][] (Value): {@link
+     * InvoiceLateFeePreviousAttributes}. previous_attributes.late_fees.anyOf[2] (Value): null.
+     * previous_attributes.memo (Optional): string or null. Message to the customer, printed on the
+     * invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.memo.anyOf[1] (Value): string. Message to the customer, printed on the
+     * invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.memo.anyOf[2] (Value): null. previous_attributes.merchant_id (Optional):
+     * string or null. Merchant that owns this invoice. previous_attributes.merchant_id.anyOf[1]
+     * (Value): string. Merchant that owns this invoice. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.order (Optional):
+     * {@link ExpandedOrderSummaryPreviousAttributes} or null. Summary of the backing order.
+     * Returned only with expand=order. Present only when `expand` includes `order`; `null` when
+     * expanded and there is no related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value): null.
+     * previous_attributes.order_id (Optional): string or null. The order this invoice bills. Every
+     * invoice has one; quick pay creates it. previous_attributes.order_id.anyOf[1] (Value):
+     * string. The order this invoice bills. Every invoice has one; quick pay creates it. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
+     * previous_attributes.paid_at (Optional): string or null. When the invoice most recently
+     * became paid. Cleared when status leaves paid and set again on a later paid transition.
+     * previous_attributes.paid_at.anyOf[1] (Value): string. When the invoice most recently became
+     * paid. Cleared when status leaves paid and set again on a later paid transition. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.paid_at.anyOf[2] (Value):
+     * null. previous_attributes.payment_due (Optional): {@link
+     * InvoicePaymentDuePreviousAttributes} or null. The resolved due-date policy. Send this object
+     * back when updating the draft; payment_terms captures the term's current revision again.
+     * previous_attributes.payment_due.anyOf[1] (Value): {@link
+     * InvoicePaymentDuePreviousAttributes}. previous_attributes.payment_due.anyOf[2] (Value):
+     * null. previous_attributes.payment_terms_snapshot (Optional): {@link
+     * InvoicePaymentTermsSnapshotPreviousAttributes} or null. The payment term captured on the
+     * draft, with its due date rule and late fee policy. Later changes to the payment term don't
+     * affect this invoice. previous_attributes.payment_terms_snapshot.anyOf[1] (Value): {@link
+     * InvoicePaymentTermsSnapshotPreviousAttributes}.
+     * previous_attributes.payment_terms_snapshot.anyOf[2] (Value): null.
+     * previous_attributes.po_number (Optional): string or null. The buyer's purchase order number,
+     * printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.po_number.anyOf[1] (Value): string. The buyer's purchase order number,
+     * printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.po_number.anyOf[2] (Value): null. previous_attributes.pricing_amounts
+     * (Optional): {@link PricingAmountsPreviousAttributes} or null. The invoice pricing totals,
+     * frozen at issue. A draft previews the backing order. total_money excludes late fees, which
+     * are in settlement_amounts.late_fee_money. previous_attributes.pricing_amounts.anyOf[1]
+     * (Value): {@link PricingAmountsPreviousAttributes}.
+     * previous_attributes.pricing_amounts.anyOf[2] (Value): null.
+     * previous_attributes.recipient_email (Optional): string or null. Where Flint emails the
+     * invoice and its reminders. Email delivery requires it at issue. `null` when unset.
+     * previous_attributes.recipient_email.anyOf[1] (Value): string. Where Flint emails the invoice
+     * and its reminders. Email delivery requires it at issue. `null` when unset.
+     * previous_attributes.recipient_email.anyOf[2] (Value): null. previous_attributes.reference
+     * (Optional): string or null. Your reference for the invoice, printed on the invoice and PDF.
+     * The buyer's purchase order number goes in po_number. It cannot change after issue. `null`
+     * when unset. previous_attributes.reference.anyOf[1] (Value): string. Your reference for the
+     * invoice, printed on the invoice and PDF. The buyer's purchase order number goes in
+     * po_number. It cannot change after issue. `null` when unset.
+     * previous_attributes.reference.anyOf[2] (Value): null. previous_attributes.refund_status
+     * (Optional): string or null. How much of the collected money has been refunded. It doesn't
+     * change status. Value enum: "none", "partially_refunded", "refunded".
+     * previous_attributes.refund_status.anyOf[1] (Value): string. How much of the collected money
+     * has been refunded. It doesn't change status. Value enum: "none", "partially_refunded",
+     * "refunded". previous_attributes.refund_status.anyOf[2] (Value): null.
+     * previous_attributes.reminders_paused (Optional): boolean or null. Whether automatic
+     * reminders are paused. Set reminders_paused on PATCH /v1/invoices/{invoice_id} to change it.
+     * previous_attributes.reminders_paused.anyOf[1] (Value): boolean. Whether automatic reminders
+     * are paused. Set reminders_paused on PATCH /v1/invoices/{invoice_id} to change it.
+     * previous_attributes.reminders_paused.anyOf[2] (Value): null.
+     * previous_attributes.reminders_paused_at (Optional): string or null. When automatic reminders
+     * were paused. Absent while reminders are active.
+     * previous_attributes.reminders_paused_at.anyOf[1] (Value): string. When automatic reminders
+     * were paused. Absent while reminders are active. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.reminders_paused_at.anyOf[2] (Value): null.
+     * previous_attributes.remit_to_address (Optional): {@link AddressPreviousAttributes} or null.
+     * Where the buyer sends offline payments, shown on the invoice. Defaults to the invoice
+     * settings remit-to address. previous_attributes.remit_to_address.anyOf[1] (Value): {@link
+     * AddressPreviousAttributes}. previous_attributes.remit_to_address.anyOf[2] (Value): null.
+     * previous_attributes.schedule_entries (Optional): Array of {@link
+     * InvoiceScheduleEntryPreviousAttributes} or null. The payment schedule, in schedule order.
+     * Always [] when the invoice has no schedule and is collected in one balance.
+     * previous_attributes.schedule_entries.anyOf[1] (Value): Array of {@link
+     * InvoiceScheduleEntryPreviousAttributes}. The payment schedule, in schedule order. Always []
+     * when the invoice has no schedule and is collected in one balance.
+     * previous_attributes.schedule_entries.anyOf[1][] (Value): {@link
+     * InvoiceScheduleEntryPreviousAttributes}. previous_attributes.schedule_entries.anyOf[2]
+     * (Value): null. previous_attributes.scheduled_issue_at (Optional): string or null. When Flint
+     * will issue and deliver this draft. `null` when no issue is scheduled. Cleared when the draft
+     * is issued or voided, or when you send null. previous_attributes.scheduled_issue_at.anyOf[1]
+     * (Value): string. When Flint will issue and deliver this draft. `null` when no issue is
+     * scheduled. Cleared when the draft is issued or voided, or when you send null. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.scheduled_issue_at.anyOf[2]
+     * (Value): null. previous_attributes.service_date (Optional): string or null. The calendar
+     * date of the billed service, in YYYY-MM-DD format. The invoice and PDF print it as written,
+     * without timezone conversion. `null` when unset. previous_attributes.service_date.anyOf[1]
+     * (Value): string. The calendar date of the billed service, in YYYY-MM-DD format. The invoice
+     * and PDF print it as written, without timezone conversion. `null` when unset. Format: date.
+     * Example: "2026-08-02". previous_attributes.service_date.anyOf[2] (Value): null.
+     * previous_attributes.settlement_amounts (Optional): {@link
+     * InvoiceSettlementAmountsPreviousAttributes} or null. Payments, refunds, write-offs,
+     * allocated credit notes, late fees, and the remaining invoice balance. What is still owed:
+     * pricing_amounts.total_money + late_fee_money - paid_money - credited_money -
+     * written_off_money, never below zero. 0 on paid, credited, uncollectible, and voided
+     * invoices; equal to pricing_amounts.total_money on a draft. Refunds and card chargebacks
+     * don't change it. Lost bank returns reopen the balance.
+     * previous_attributes.settlement_amounts.anyOf[1] (Value): {@link
+     * InvoiceSettlementAmountsPreviousAttributes}. previous_attributes.settlement_amounts.anyOf[2]
+     * (Value): null. previous_attributes.snapshot (Optional): {@link
+     * InvoiceSnapshotPreviousAttributes} or null. The billing content of the invoice: line items,
+     * discounts, charges, tip, and tax. A draft previews the backing order; issue freezes it, and
+     * later order changes don't reach an issued invoice. previous_attributes.snapshot.anyOf[1]
+     * (Value): {@link InvoiceSnapshotPreviousAttributes}. previous_attributes.snapshot.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Current invoice
+     * status. paid and credited close the current balance and can reopen to open or partially_paid
+     * after a payment or credit allocation reversal; invoice.reopened reports that change. An
+     * uncollectible invoice accepts manual recovery payments and becomes paid when fully
+     * recovered; reversals restore the write-off. voided is final. Refunds change refund_status
+     * without reopening the balance. An ACH bank return reverses paid_money and reopens the
+     * balance. A lost card chargeback leaves paid_money, the balance, and status unchanged;
+     * collecting it again requires a new invoice. Value enum: "draft", "open", "partially_paid",
+     * "paid", "voided", "uncollectible", "credited". previous_attributes.status.anyOf[1] (Value):
+     * string. Current invoice status. paid and credited close the current balance and can reopen
+     * to open or partially_paid after a payment or credit allocation reversal; invoice.reopened
+     * reports that change. An uncollectible invoice accepts manual recovery payments and becomes
+     * paid when fully recovered; reversals restore the write-off. voided is final. Refunds change
+     * refund_status without reopening the balance. An ACH bank return reverses paid_money and
+     * reopens the balance. A lost card chargeback leaves paid_money, the balance, and status
+     * unchanged; collecting it again requires a new invoice. Value enum: "draft", "open",
+     * "partially_paid", "paid", "voided", "uncollectible", "credited".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.subscription_id
+     * (Optional): string or null. The subscription the backing order belongs to, copied when the
+     * draft is created and never changed. `null` when the order isn't part of a subscription.
+     * previous_attributes.subscription_id.anyOf[1] (Value): string. The subscription the backing
+     * order belongs to, copied when the draft is created and never changed. `null` when the order
+     * isn't part of a subscription. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+     * previous_attributes.subscription_id.anyOf[2] (Value): null.
+     * previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle actions
+     * Flint accepts for this resource now, based on stored state. Independent of the caller's
+     * permissions; each action still requires its route's scope. Always [] when no action is
+     * available. [] enum: "collect", "issue", "mark_uncollectible", "void".
+     * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions
+     * Flint accepts for this resource now, based on stored state. Independent of the caller's
+     * permissions; each action still requires its route's scope. Always [] when no action is
+     * available. [] enum: "collect", "issue", "mark_uncollectible", "void".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "collect",
+     * "issue", "mark_uncollectible", "void". previous_attributes.supported_actions.anyOf[2]
+     * (Value): null. previous_attributes.timezone (Optional): string or null. IANA time zone
+     * snapshot for invoice due dates, reminders, and late fee calendar days. Taken from the
+     * merchant's timezone when the draft is written, or UTC when unset. Later merchant changes do
+     * not alter this invoice's calendar. previous_attributes.timezone.anyOf[1] (Value): string.
+     * IANA time zone snapshot for invoice due dates, reminders, and late fee calendar days. Taken
+     * from the merchant's timezone when the draft is written, or UTC when unset. Later merchant
+     * changes do not alter this invoice's calendar. previous_attributes.timezone.anyOf[2] (Value):
+     * null. previous_attributes.uncollectible_at (Optional): string or null. When the invoice was
+     * marked uncollectible. previous_attributes.uncollectible_at.anyOf[1] (Value): string. When
+     * the invoice was marked uncollectible. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.uncollectible_at.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. When the invoice last changed.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. When the invoice last changed.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2]
+     * (Value): null. previous_attributes.version (Optional): integer or null. Current invoice
+     * version. Send this as expected_version when updating the draft.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current invoice version. Send this as
+     * expected_version when updating the draft. Format: int64. minimum: 1.
+     * previous_attributes.version.anyOf[2] (Value): null. previous_attributes.viewed_at
+     * (Optional): string or null. When the buyer first opened the invoice through its hosted
+     * invoice link. Recorded on a best-effort basis. previous_attributes.viewed_at.anyOf[1]
+     * (Value): string. When the buyer first opened the invoice through its hosted invoice link.
+     * Recorded on a best-effort basis. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.viewed_at.anyOf[2] (Value): null. previous_attributes.voided_at
+     * (Optional): string or null. When the invoice was voided.
+     * previous_attributes.voided_at.anyOf[1] (Value): string. When the invoice was voided. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.voided_at.anyOf[2] (Value):
+     * null.
+     */
+    "data"?: {
+        /** The resource snapshot, without expansions. Webhooks omit these fields: `public_url`. */
+        "object": WebhookInvoice;
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. cc_emails (Optional): Array of string or null.
+         * Additional recipients copied on the invoice email and every reminder. cc_emails.anyOf[1]
+         * (Value): Array of string. Additional recipients copied on the invoice email and every
+         * reminder. cc_emails.anyOf[1][] (Value): string. cc_emails.anyOf[2] (Value): null.
+         * closed_at (Optional): string or null. When the current closed interval began. Cleared
+         * when status returns to open or partially_paid. A direct move between closed statuses
+         * preserves this timestamp. closed_at.anyOf[1] (Value): string. When the current closed
+         * interval began. Cleared when status returns to open or partially_paid. A direct move
+         * between closed statuses preserves this timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". closed_at.anyOf[2] (Value): null. collection (Optional): {@link
+         * InvoiceCollectionPreviousAttributes} or null. How this invoice is collected, resolved
+         * when the draft is written. Send this object back when updating its collection policy.
+         * collection.anyOf[1] (Value): {@link InvoiceCollectionPreviousAttributes}.
+         * collection.anyOf[2] (Value): null. collection_block_status (Optional): string or null.
+         * Whether collection is blocked. While it is inventory_blocked, collection attempts return
+         * 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none",
+         * "inventory_blocked", "resolved". collection_block_status.anyOf[1] (Value): string.
+         * Whether collection is blocked. While it is inventory_blocked, collection attempts return
+         * 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none",
+         * "inventory_blocked", "resolved". collection_block_status.anyOf[2] (Value): null.
+         * created_at (Optional): string or null. When the invoice was created. created_at.anyOf[1]
+         * (Value): string. When the invoice was created. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Summary of the billed customer.
+         * Returned only with expand=customer. Present only when `expand` includes `customer`;
+         * `null` when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
+         * ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value): null. customer_id
+         * (Optional): string or null. Customer billed by this invoice. Absent when the invoice has
+         * no customer. customer_id.anyOf[1] (Value): string. Customer billed by this invoice.
+         * Absent when the invoice has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+         * customer_id.anyOf[2] (Value): null. delivery_mode (Optional): string or null. How issue
+         * delivered the invoice. Value enum: "email", "caller_managed". delivery_mode.anyOf[1]
+         * (Value): string. How issue delivered the invoice. Value enum: "email", "caller_managed".
+         * delivery_mode.anyOf[2] (Value): null. due_date (Optional): string or null. Calendar due
+         * date in YYYY-MM-DD format, interpreted in timezone (UTC when absent). The outstanding
+         * balance becomes overdue only after this date ends. Automatic collection runs at the
+         * later of issue and the start of this date. With payment terms, issue computes this date
+         * from issued_at. Absent when there is no due date. due_date.anyOf[1] (Value): string.
+         * Calendar due date in YYYY-MM-DD format, interpreted in timezone (UTC when absent). The
+         * outstanding balance becomes overdue only after this date ends. Automatic collection runs
+         * at the later of issue and the start of this date. With payment terms, issue computes
+         * this date from issued_at. Absent when there is no due date. Format: date. Example:
+         * "2026-08-02". due_date.anyOf[2] (Value): null. external_reference_id (Optional): string
+         * or null. Caller-owned identifier for this resource in an external system. Use it as your
+         * sync key: it isn't printed on the invoice. `null` when unset.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. Use it as your sync key: it isn't printed on the
+         * invoice. `null` when unset. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. footer (Optional): string or null. Fine
+         * print at the bottom of the invoice and PDF. It cannot change after issue. `null` when
+         * unset. footer.anyOf[1] (Value): string. Fine print at the bottom of the invoice and PDF.
+         * It cannot change after issue. `null` when unset. footer.anyOf[2] (Value): null.
+         * invoice_id (Optional): string or null. Flint invoice ID. invoice_id.anyOf[1] (Value):
+         * string. Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2]
+         * (Value): null. invoice_number (Optional): string or null. Sequential document number
+         * assigned when the invoice is issued. Numbering is per merchant, with test and live mode
+         * numbered independently. invoice_number.anyOf[1] (Value): string. Sequential document
+         * number assigned when the invoice is issued. Numbering is per merchant, with test and
+         * live mode numbered independently. invoice_number.anyOf[2] (Value): null. is_overdue
+         * (Optional): boolean or null. Whether the invoice is open or partially_paid and past due
+         * with a balance remaining. Without schedule_entries, the due_date has ended in timezone
+         * (UTC when absent) and outstanding_money is above zero; with them, at least one entry is
+         * overdue. Computed when the invoice is read. is_overdue.anyOf[1] (Value): boolean.
+         * Whether the invoice is open or partially_paid and past due with a balance remaining.
+         * Without schedule_entries, the due_date has ended in timezone (UTC when absent) and
+         * outstanding_money is above zero; with them, at least one entry is overdue. Computed when
+         * the invoice is read. is_overdue.anyOf[2] (Value): null. issued_at (Optional): string or
+         * null. When the invoice was issued. Absent on a draft. issued_at.anyOf[1] (Value):
+         * string. When the invoice was issued. Absent on a draft. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". issued_at.anyOf[2] (Value): null. late_fees (Optional): Array of
+         * {@link InvoiceLateFeePreviousAttributes} or null. Late fees assessed on this invoice,
+         * each with its paid, waived, written-off, and outstanding amounts.
+         * settlement_amounts.late_fee_money is their assessed total minus waivers.
+         * late_fees.anyOf[1] (Value): Array of {@link InvoiceLateFeePreviousAttributes}. Late fees
+         * assessed on this invoice, each with its paid, waived, written-off, and outstanding
+         * amounts. settlement_amounts.late_fee_money is their assessed total minus waivers.
+         * late_fees.anyOf[1][] (Value): {@link InvoiceLateFeePreviousAttributes}.
+         * late_fees.anyOf[2] (Value): null. memo (Optional): string or null. Message to the
+         * customer, printed on the invoice and PDF. It cannot change after issue. `null` when
+         * unset. memo.anyOf[1] (Value): string. Message to the customer, printed on the invoice
+         * and PDF. It cannot change after issue. `null` when unset. memo.anyOf[2] (Value): null.
+         * merchant_id (Optional): string or null. Merchant that owns this invoice.
+         * merchant_id.anyOf[1] (Value): string. Merchant that owns this invoice. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. metadata.anyOf[1]
+         * (Value): {@link MetadataMap}. metadata.anyOf[2] (Value): null. order (Optional): {@link
+         * ExpandedOrderSummaryPreviousAttributes} or null. Summary of the backing order. Returned
+         * only with expand=order. Present only when `expand` includes `order`; `null` when
+         * expanded and there is no related order. order.anyOf[1] (Value): {@link
+         * ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2] (Value): null. order_id
+         * (Optional): string or null. The order this invoice bills. Every invoice has one; quick
+         * pay creates it. order_id.anyOf[1] (Value): string. The order this invoice bills. Every
+         * invoice has one; quick pay creates it. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * order_id.anyOf[2] (Value): null. paid_at (Optional): string or null. When the invoice
+         * most recently became paid. Cleared when status leaves paid and set again on a later paid
+         * transition. paid_at.anyOf[1] (Value): string. When the invoice most recently became
+         * paid. Cleared when status leaves paid and set again on a later paid transition. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". paid_at.anyOf[2] (Value): null. payment_due
+         * (Optional): {@link InvoicePaymentDuePreviousAttributes} or null. The resolved due-date
+         * policy. Send this object back when updating the draft; payment_terms captures the term's
+         * current revision again. payment_due.anyOf[1] (Value): {@link
+         * InvoicePaymentDuePreviousAttributes}. payment_due.anyOf[2] (Value): null.
+         * payment_terms_snapshot (Optional): {@link InvoicePaymentTermsSnapshotPreviousAttributes}
+         * or null. The payment term captured on the draft, with its due date rule and late fee
+         * policy. Later changes to the payment term don't affect this invoice.
+         * payment_terms_snapshot.anyOf[1] (Value): {@link
+         * InvoicePaymentTermsSnapshotPreviousAttributes}. payment_terms_snapshot.anyOf[2] (Value):
+         * null. po_number (Optional): string or null. The buyer's purchase order number, printed
+         * on the invoice and PDF. It cannot change after issue. `null` when unset.
+         * po_number.anyOf[1] (Value): string. The buyer's purchase order number, printed on the
+         * invoice and PDF. It cannot change after issue. `null` when unset. po_number.anyOf[2]
+         * (Value): null. pricing_amounts (Optional): {@link PricingAmountsPreviousAttributes} or
+         * null. The invoice pricing totals, frozen at issue. A draft previews the backing order.
+         * total_money excludes late fees, which are in settlement_amounts.late_fee_money.
+         * pricing_amounts.anyOf[1] (Value): {@link PricingAmountsPreviousAttributes}.
+         * pricing_amounts.anyOf[2] (Value): null. recipient_email (Optional): string or null.
+         * Where Flint emails the invoice and its reminders. Email delivery requires it at issue.
+         * `null` when unset. recipient_email.anyOf[1] (Value): string. Where Flint emails the
+         * invoice and its reminders. Email delivery requires it at issue. `null` when unset.
+         * recipient_email.anyOf[2] (Value): null. reference (Optional): string or null. Your
+         * reference for the invoice, printed on the invoice and PDF. The buyer's purchase order
+         * number goes in po_number. It cannot change after issue. `null` when unset.
+         * reference.anyOf[1] (Value): string. Your reference for the invoice, printed on the
+         * invoice and PDF. The buyer's purchase order number goes in po_number. It cannot change
+         * after issue. `null` when unset. reference.anyOf[2] (Value): null. refund_status
+         * (Optional): string or null. How much of the collected money has been refunded. It
+         * doesn't change status. Value enum: "none", "partially_refunded", "refunded".
+         * refund_status.anyOf[1] (Value): string. How much of the collected money has been
+         * refunded. It doesn't change status. Value enum: "none", "partially_refunded",
+         * "refunded". refund_status.anyOf[2] (Value): null. reminders_paused (Optional): boolean
+         * or null. Whether automatic reminders are paused. Set reminders_paused on PATCH
+         * /v1/invoices/{invoice_id} to change it. reminders_paused.anyOf[1] (Value): boolean.
+         * Whether automatic reminders are paused. Set reminders_paused on PATCH
+         * /v1/invoices/{invoice_id} to change it. reminders_paused.anyOf[2] (Value): null.
+         * reminders_paused_at (Optional): string or null. When automatic reminders were paused.
+         * Absent while reminders are active. reminders_paused_at.anyOf[1] (Value): string. When
+         * automatic reminders were paused. Absent while reminders are active. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". reminders_paused_at.anyOf[2] (Value): null.
+         * remit_to_address (Optional): {@link AddressPreviousAttributes} or null. Where the buyer
+         * sends offline payments, shown on the invoice. Defaults to the invoice settings remit-to
+         * address. remit_to_address.anyOf[1] (Value): {@link AddressPreviousAttributes}.
+         * remit_to_address.anyOf[2] (Value): null. schedule_entries (Optional): Array of {@link
+         * InvoiceScheduleEntryPreviousAttributes} or null. The payment schedule, in schedule
+         * order. Always [] when the invoice has no schedule and is collected in one balance.
+         * schedule_entries.anyOf[1] (Value): Array of {@link
+         * InvoiceScheduleEntryPreviousAttributes}. The payment schedule, in schedule order. Always
+         * [] when the invoice has no schedule and is collected in one balance.
+         * schedule_entries.anyOf[1][] (Value): {@link InvoiceScheduleEntryPreviousAttributes}.
+         * schedule_entries.anyOf[2] (Value): null. scheduled_issue_at (Optional): string or null.
+         * When Flint will issue and deliver this draft. `null` when no issue is scheduled. Cleared
+         * when the draft is issued or voided, or when you send null. scheduled_issue_at.anyOf[1]
+         * (Value): string. When Flint will issue and deliver this draft. `null` when no issue is
+         * scheduled. Cleared when the draft is issued or voided, or when you send null. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". scheduled_issue_at.anyOf[2] (Value): null.
+         * service_date (Optional): string or null. The calendar date of the billed service, in
+         * YYYY-MM-DD format. The invoice and PDF print it as written, without timezone conversion.
+         * `null` when unset. service_date.anyOf[1] (Value): string. The calendar date of the
+         * billed service, in YYYY-MM-DD format. The invoice and PDF print it as written, without
+         * timezone conversion. `null` when unset. Format: date. Example: "2026-08-02".
+         * service_date.anyOf[2] (Value): null. settlement_amounts (Optional): {@link
+         * InvoiceSettlementAmountsPreviousAttributes} or null. Payments, refunds, write-offs,
+         * allocated credit notes, late fees, and the remaining invoice balance. What is still
+         * owed: pricing_amounts.total_money + late_fee_money - paid_money - credited_money -
+         * written_off_money, never below zero. 0 on paid, credited, uncollectible, and voided
+         * invoices; equal to pricing_amounts.total_money on a draft. Refunds and card chargebacks
+         * don't change it. Lost bank returns reopen the balance. settlement_amounts.anyOf[1]
+         * (Value): {@link InvoiceSettlementAmountsPreviousAttributes}. settlement_amounts.anyOf[2]
+         * (Value): null. snapshot (Optional): {@link InvoiceSnapshotPreviousAttributes} or null.
+         * The billing content of the invoice: line items, discounts, charges, tip, and tax. A
+         * draft previews the backing order; issue freezes it, and later order changes don't reach
+         * an issued invoice. snapshot.anyOf[1] (Value): {@link InvoiceSnapshotPreviousAttributes}.
+         * snapshot.anyOf[2] (Value): null. status (Optional): string or null. Current invoice
+         * status. paid and credited close the current balance and can reopen to open or
+         * partially_paid after a payment or credit allocation reversal; invoice.reopened reports
+         * that change. An uncollectible invoice accepts manual recovery payments and becomes paid
+         * when fully recovered; reversals restore the write-off. voided is final. Refunds change
+         * refund_status without reopening the balance. An ACH bank return reverses paid_money and
+         * reopens the balance. A lost card chargeback leaves paid_money, the balance, and status
+         * unchanged; collecting it again requires a new invoice. Value enum: "draft", "open",
+         * "partially_paid", "paid", "voided", "uncollectible", "credited". status.anyOf[1]
+         * (Value): string. Current invoice status. paid and credited close the current balance and
+         * can reopen to open or partially_paid after a payment or credit allocation reversal;
+         * invoice.reopened reports that change. An uncollectible invoice accepts manual recovery
+         * payments and becomes paid when fully recovered; reversals restore the write-off. voided
+         * is final. Refunds change refund_status without reopening the balance. An ACH bank return
+         * reverses paid_money and reopens the balance. A lost card chargeback leaves paid_money,
+         * the balance, and status unchanged; collecting it again requires a new invoice. Value
+         * enum: "draft", "open", "partially_paid", "paid", "voided", "uncollectible", "credited".
+         * status.anyOf[2] (Value): null. subscription_id (Optional): string or null. The
+         * subscription the backing order belongs to, copied when the draft is created and never
+         * changed. `null` when the order isn't part of a subscription. subscription_id.anyOf[1]
+         * (Value): string. The subscription the backing order belongs to, copied when the draft is
+         * created and never changed. `null` when the order isn't part of a subscription. Example:
+         * "sub_01KEZF7C00BVRE8YDBXQB74BBM". subscription_id.anyOf[2] (Value): null.
+         * supported_actions (Optional): Array of string or null. Lifecycle actions Flint accepts
+         * for this resource now, based on stored state. Independent of the caller's permissions;
+         * each action still requires its route's scope. Always [] when no action is available. []
+         * enum: "collect", "issue", "mark_uncollectible", "void". supported_actions.anyOf[1]
+         * (Value): Array of string. Lifecycle actions Flint accepts for this resource now, based
+         * on stored state. Independent of the caller's permissions; each action still requires its
+         * route's scope. Always [] when no action is available. [] enum: "collect", "issue",
+         * "mark_uncollectible", "void". supported_actions.anyOf[1][] (Value): string. Value enum:
+         * "collect", "issue", "mark_uncollectible", "void". supported_actions.anyOf[2] (Value):
+         * null. timezone (Optional): string or null. IANA time zone snapshot for invoice due
+         * dates, reminders, and late fee calendar days. Taken from the merchant's timezone when
+         * the draft is written, or UTC when unset. Later merchant changes do not alter this
+         * invoice's calendar. timezone.anyOf[1] (Value): string. IANA time zone snapshot for
+         * invoice due dates, reminders, and late fee calendar days. Taken from the merchant's
+         * timezone when the draft is written, or UTC when unset. Later merchant changes do not
+         * alter this invoice's calendar. timezone.anyOf[2] (Value): null. uncollectible_at
+         * (Optional): string or null. When the invoice was marked uncollectible.
+         * uncollectible_at.anyOf[1] (Value): string. When the invoice was marked uncollectible.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". uncollectible_at.anyOf[2] (Value):
+         * null. updated_at (Optional): string or null. When the invoice last changed.
+         * updated_at.anyOf[1] (Value): string. When the invoice last changed. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional):
+         * integer or null. Current invoice version. Send this as expected_version when updating
+         * the draft. version.anyOf[1] (Value): integer. Current invoice version. Send this as
+         * expected_version when updating the draft. Format: int64. minimum: 1. version.anyOf[2]
+         * (Value): null. viewed_at (Optional): string or null. When the buyer first opened the
+         * invoice through its hosted invoice link. Recorded on a best-effort basis.
+         * viewed_at.anyOf[1] (Value): string. When the buyer first opened the invoice through its
+         * hosted invoice link. Recorded on a best-effort basis. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". viewed_at.anyOf[2] (Value): null. voided_at (Optional): string
+         * or null. When the invoice was voided. voided_at.anyOf[1] (Value): string. When the
+         * invoice was voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * voided_at.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Additional recipients copied on the invoice email and every reminder. anyOf[1]
+             * (Value): Array of string. Additional recipients copied on the invoice email and
+             * every reminder. anyOf[1][] (Value): string. anyOf[2] (Value): null.
+             */
+            "cc_emails"?: ((Array<string>) | (null));
+            /**
+             * When the current closed interval began. Cleared when status returns to open or
+             * partially_paid. A direct move between closed statuses preserves this timestamp.
+             * anyOf[1] (Value): string. When the current closed interval began. Cleared when
+             * status returns to open or partially_paid. A direct move between closed statuses
+             * preserves this timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             * anyOf[2] (Value): null.
+             */
+            "closed_at"?: ((string) | (null));
+            /**
+             * How this invoice is collected, resolved when the draft is written. Send this object
+             * back when updating its collection policy. anyOf[1] (Value): {@link
+             * InvoiceCollectionPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "collection"?: ((InvoiceCollectionPreviousAttributes) | (null));
+            /**
+             * Whether collection is blocked. While it is inventory_blocked, collection attempts
+             * return 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum:
+             * "none", "inventory_blocked", "resolved". anyOf[1] (Value): string. Whether
+             * collection is blocked. While it is inventory_blocked, collection attempts return 409
+             * ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none",
+             * "inventory_blocked", "resolved". anyOf[2] (Value): null.
+             */
+            "collection_block_status"?: (("none" | "inventory_blocked" | "resolved" | (string & {})) | (null));
+            /**
+             * When the invoice was created. anyOf[1] (Value): string. When the invoice was
+             * created. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Summary of the billed customer. Returned only with expand=customer. Present only
+             * when `expand` includes `customer`; `null` when expanded and there is no related
+             * customer. anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            /**
+             * Customer billed by this invoice. Absent when the invoice has no customer. anyOf[1]
+             * (Value): string. Customer billed by this invoice. Absent when the invoice has no
+             * customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * How issue delivered the invoice. Value enum: "email", "caller_managed". anyOf[1]
+             * (Value): string. How issue delivered the invoice. Value enum: "email",
+             * "caller_managed". anyOf[2] (Value): null.
+             */
+            "delivery_mode"?: (("email" | "caller_managed" | (string & {})) | (null));
+            /**
+             * Calendar due date in YYYY-MM-DD format, interpreted in timezone (UTC when absent).
+             * The outstanding balance becomes overdue only after this date ends. Automatic
+             * collection runs at the later of issue and the start of this date. With payment
+             * terms, issue computes this date from issued_at. Absent when there is no due date.
+             * anyOf[1] (Value): string. Calendar due date in YYYY-MM-DD format, interpreted in
+             * timezone (UTC when absent). The outstanding balance becomes overdue only after this
+             * date ends. Automatic collection runs at the later of issue and the start of this
+             * date. With payment terms, issue computes this date from issued_at. Absent when there
+             * is no due date. Format: date. Example: "2026-08-02". anyOf[2] (Value): null.
+             */
+            "due_date"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. Use it as your sync
+             * key: it isn't printed on the invoice. `null` when unset. anyOf[1] (Value): string.
+             * Caller-owned identifier for this resource in an external system. Use it as your sync
+             * key: it isn't printed on the invoice. `null` when unset. minLength: 1. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Fine print at the bottom of the invoice and PDF. It cannot change after issue.
+             * `null` when unset. anyOf[1] (Value): string. Fine print at the bottom of the invoice
+             * and PDF. It cannot change after issue. `null` when unset. anyOf[2] (Value): null.
+             */
+            "footer"?: ((string) | (null));
+            /**
+             * Flint invoice ID. anyOf[1] (Value): string. Flint invoice ID. Example:
+             * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
+             */
+            "invoice_id"?: ((string) | (null));
+            /**
+             * Sequential document number assigned when the invoice is issued. Numbering is per
+             * merchant, with test and live mode numbered independently. anyOf[1] (Value): string.
+             * Sequential document number assigned when the invoice is issued. Numbering is per
+             * merchant, with test and live mode numbered independently. anyOf[2] (Value): null.
+             */
+            "invoice_number"?: ((string) | (null));
+            /**
+             * Whether the invoice is open or partially_paid and past due with a balance remaining.
+             * Without schedule_entries, the due_date has ended in timezone (UTC when absent) and
+             * outstanding_money is above zero; with them, at least one entry is overdue. Computed
+             * when the invoice is read. anyOf[1] (Value): boolean. Whether the invoice is open or
+             * partially_paid and past due with a balance remaining. Without schedule_entries, the
+             * due_date has ended in timezone (UTC when absent) and outstanding_money is above
+             * zero; with them, at least one entry is overdue. Computed when the invoice is read.
+             * anyOf[2] (Value): null.
+             */
+            "is_overdue"?: ((boolean) | (null));
+            /**
+             * When the invoice was issued. Absent on a draft. anyOf[1] (Value): string. When the
+             * invoice was issued. Absent on a draft. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "issued_at"?: ((string) | (null));
+            /**
+             * Late fees assessed on this invoice, each with its paid, waived, written-off, and
+             * outstanding amounts. settlement_amounts.late_fee_money is their assessed total minus
+             * waivers. anyOf[1] (Value): Array of {@link InvoiceLateFeePreviousAttributes}. Late
+             * fees assessed on this invoice, each with its paid, waived, written-off, and
+             * outstanding amounts. settlement_amounts.late_fee_money is their assessed total minus
+             * waivers. anyOf[1][] (Value): {@link InvoiceLateFeePreviousAttributes}. anyOf[2]
+             * (Value): null.
+             */
+            "late_fees"?: ((Array<InvoiceLateFeePreviousAttributes>) | (null));
+            /**
+             * Message to the customer, printed on the invoice and PDF. It cannot change after
+             * issue. `null` when unset. anyOf[1] (Value): string. Message to the customer, printed
+             * on the invoice and PDF. It cannot change after issue. `null` when unset. anyOf[2]
+             * (Value): null.
+             */
+            "memo"?: ((string) | (null));
+            /**
+             * Merchant that owns this invoice. anyOf[1] (Value): string. Merchant that owns this
+             * invoice. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value):
+             * null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Summary of the backing order. Returned only with expand=order. Present only when
+             * `expand` includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}. anyOf[2] (Value):
+             * null.
+             */
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
+            /**
+             * The order this invoice bills. Every invoice has one; quick pay creates it. anyOf[1]
+             * (Value): string. The order this invoice bills. Every invoice has one; quick pay
+             * creates it. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * When the invoice most recently became paid. Cleared when status leaves paid and set
+             * again on a later paid transition. anyOf[1] (Value): string. When the invoice most
+             * recently became paid. Cleared when status leaves paid and set again on a later paid
+             * transition. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "paid_at"?: ((string) | (null));
+            /**
+             * The resolved due-date policy. Send this object back when updating the draft;
+             * payment_terms captures the term's current revision again. anyOf[1] (Value): {@link
+             * InvoicePaymentDuePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "payment_due"?: ((InvoicePaymentDuePreviousAttributes) | (null));
+            /**
+             * The payment term captured on the draft, with its due date rule and late fee policy.
+             * Later changes to the payment term don't affect this invoice. anyOf[1] (Value):
+             * {@link InvoicePaymentTermsSnapshotPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "payment_terms_snapshot"?: ((InvoicePaymentTermsSnapshotPreviousAttributes) | (null));
+            /**
+             * The buyer's purchase order number, printed on the invoice and PDF. It cannot change
+             * after issue. `null` when unset. anyOf[1] (Value): string. The buyer's purchase order
+             * number, printed on the invoice and PDF. It cannot change after issue. `null` when
+             * unset. anyOf[2] (Value): null.
+             */
+            "po_number"?: ((string) | (null));
+            /**
+             * The invoice pricing totals, frozen at issue. A draft previews the backing order.
+             * total_money excludes late fees, which are in settlement_amounts.late_fee_money.
+             * anyOf[1] (Value): {@link PricingAmountsPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "pricing_amounts"?: ((PricingAmountsPreviousAttributes) | (null));
+            /**
+             * Where Flint emails the invoice and its reminders. Email delivery requires it at
+             * issue. `null` when unset. anyOf[1] (Value): string. Where Flint emails the invoice
+             * and its reminders. Email delivery requires it at issue. `null` when unset. anyOf[2]
+             * (Value): null.
+             */
+            "recipient_email"?: ((string) | (null));
+            /**
+             * Your reference for the invoice, printed on the invoice and PDF. The buyer's purchase
+             * order number goes in po_number. It cannot change after issue. `null` when unset.
+             * anyOf[1] (Value): string. Your reference for the invoice, printed on the invoice and
+             * PDF. The buyer's purchase order number goes in po_number. It cannot change after
+             * issue. `null` when unset. anyOf[2] (Value): null.
+             */
+            "reference"?: ((string) | (null));
+            /**
+             * How much of the collected money has been refunded. It doesn't change status. Value
+             * enum: "none", "partially_refunded", "refunded". anyOf[1] (Value): string. How much
+             * of the collected money has been refunded. It doesn't change status. Value enum:
+             * "none", "partially_refunded", "refunded". anyOf[2] (Value): null.
+             */
+            "refund_status"?: (("none" | "partially_refunded" | "refunded" | (string & {})) | (null));
+            /**
+             * Whether automatic reminders are paused. Set reminders_paused on PATCH
+             * /v1/invoices/{invoice_id} to change it. anyOf[1] (Value): boolean. Whether automatic
+             * reminders are paused. Set reminders_paused on PATCH /v1/invoices/{invoice_id} to
+             * change it. anyOf[2] (Value): null.
+             */
+            "reminders_paused"?: ((boolean) | (null));
+            /**
+             * When automatic reminders were paused. Absent while reminders are active. anyOf[1]
+             * (Value): string. When automatic reminders were paused. Absent while reminders are
+             * active. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "reminders_paused_at"?: ((string) | (null));
+            /**
+             * Where the buyer sends offline payments, shown on the invoice. Defaults to the
+             * invoice settings remit-to address. anyOf[1] (Value): {@link
+             * AddressPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "remit_to_address"?: ((AddressPreviousAttributes) | (null));
+            /**
+             * The payment schedule, in schedule order. Always [] when the invoice has no schedule
+             * and is collected in one balance. anyOf[1] (Value): Array of {@link
+             * InvoiceScheduleEntryPreviousAttributes}. The payment schedule, in schedule order.
+             * Always [] when the invoice has no schedule and is collected in one balance.
+             * anyOf[1][] (Value): {@link InvoiceScheduleEntryPreviousAttributes}. anyOf[2]
+             * (Value): null.
+             */
+            "schedule_entries"?: ((Array<InvoiceScheduleEntryPreviousAttributes>) | (null));
+            /**
+             * When Flint will issue and deliver this draft. `null` when no issue is scheduled.
+             * Cleared when the draft is issued or voided, or when you send null. anyOf[1] (Value):
+             * string. When Flint will issue and deliver this draft. `null` when no issue is
+             * scheduled. Cleared when the draft is issued or voided, or when you send null.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "scheduled_issue_at"?: ((string) | (null));
+            /**
+             * The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF
+             * print it as written, without timezone conversion. `null` when unset. anyOf[1]
+             * (Value): string. The calendar date of the billed service, in YYYY-MM-DD format. The
+             * invoice and PDF print it as written, without timezone conversion. `null` when unset.
+             * Format: date. Example: "2026-08-02". anyOf[2] (Value): null.
+             */
+            "service_date"?: ((string) | (null));
+            /**
+             * Payments, refunds, write-offs, allocated credit notes, late fees, and the remaining
+             * invoice balance. What is still owed: pricing_amounts.total_money + late_fee_money -
+             * paid_money - credited_money - written_off_money, never below zero. 0 on paid,
+             * credited, uncollectible, and voided invoices; equal to pricing_amounts.total_money
+             * on a draft. Refunds and card chargebacks don't change it. Lost bank returns reopen
+             * the balance. anyOf[1] (Value): {@link InvoiceSettlementAmountsPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "settlement_amounts"?: ((InvoiceSettlementAmountsPreviousAttributes) | (null));
+            /**
+             * The billing content of the invoice: line items, discounts, charges, tip, and tax. A
+             * draft previews the backing order; issue freezes it, and later order changes don't
+             * reach an issued invoice. anyOf[1] (Value): {@link
+             * InvoiceSnapshotPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "snapshot"?: ((InvoiceSnapshotPreviousAttributes) | (null));
+            /**
+             * Current invoice status. paid and credited close the current balance and can reopen
+             * to open or partially_paid after a payment or credit allocation reversal;
+             * invoice.reopened reports that change. An uncollectible invoice accepts manual
+             * recovery payments and becomes paid when fully recovered; reversals restore the
+             * write-off. voided is final. Refunds change refund_status without reopening the
+             * balance. An ACH bank return reverses paid_money and reopens the balance. A lost card
+             * chargeback leaves paid_money, the balance, and status unchanged; collecting it again
+             * requires a new invoice. Value enum: "draft", "open", "partially_paid", "paid",
+             * "voided", "uncollectible", "credited". anyOf[1] (Value): string. Current invoice
+             * status. paid and credited close the current balance and can reopen to open or
+             * partially_paid after a payment or credit allocation reversal; invoice.reopened
+             * reports that change. An uncollectible invoice accepts manual recovery payments and
+             * becomes paid when fully recovered; reversals restore the write-off. voided is final.
+             * Refunds change refund_status without reopening the balance. An ACH bank return
+             * reverses paid_money and reopens the balance. A lost card chargeback leaves
+             * paid_money, the balance, and status unchanged; collecting it again requires a new
+             * invoice. Value enum: "draft", "open", "partially_paid", "paid", "voided",
+             * "uncollectible", "credited". anyOf[2] (Value): null.
              */
             "status"?: (("draft"
                 | "open"
@@ -1111,8 +5066,9 @@ export type InvoicePartiallyPaidMerchantEvent = (Exclude<MerchantWebhookEnvelope
      * allocated credit notes, late fees, and the remaining invoice balance. What is still owed:
      * pricing_amounts.total_money + late_fee_money - paid_money - credited_money -
      * written_off_money, never below zero. 0 on paid, credited, uncollectible, and voided
-     * invoices; equal to pricing_amounts.total_money on a draft. Refunds and dispute losses don't
-     * change it. previous_attributes.settlement_amounts.anyOf[1] (Value): {@link
+     * invoices; equal to pricing_amounts.total_money on a draft. Refunds and card chargebacks
+     * don't change it. Lost bank returns reopen the balance.
+     * previous_attributes.settlement_amounts.anyOf[1] (Value): {@link
      * InvoiceSettlementAmountsPreviousAttributes}. previous_attributes.settlement_amounts.anyOf[2]
      * (Value): null. previous_attributes.snapshot (Optional): {@link
      * InvoiceSnapshotPreviousAttributes} or null. The billing content of the invoice: line items,
@@ -1124,27 +5080,29 @@ export type InvoicePartiallyPaidMerchantEvent = (Exclude<MerchantWebhookEnvelope
      * after a payment or credit allocation reversal; invoice.reopened reports that change. An
      * uncollectible invoice accepts manual recovery payments and becomes paid when fully
      * recovered; reversals restore the write-off. voided is final. Refunds change refund_status
-     * without reopening the balance. A lost dispute leaves paid_money, the balance, and status
+     * without reopening the balance. An ACH bank return reverses paid_money and reopens the
+     * balance. A lost card chargeback leaves paid_money, the balance, and status unchanged;
+     * collecting it again requires a new invoice. Value enum: "draft", "open", "partially_paid",
+     * "paid", "voided", "uncollectible", "credited". previous_attributes.status.anyOf[1] (Value):
+     * string. Current invoice status. paid and credited close the current balance and can reopen
+     * to open or partially_paid after a payment or credit allocation reversal; invoice.reopened
+     * reports that change. An uncollectible invoice accepts manual recovery payments and becomes
+     * paid when fully recovered; reversals restore the write-off. voided is final. Refunds change
+     * refund_status without reopening the balance. An ACH bank return reverses paid_money and
+     * reopens the balance. A lost card chargeback leaves paid_money, the balance, and status
      * unchanged; collecting it again requires a new invoice. Value enum: "draft", "open",
      * "partially_paid", "paid", "voided", "uncollectible", "credited".
-     * previous_attributes.status.anyOf[1] (Value): string. Current invoice status. paid and
-     * credited close the current balance and can reopen to open or partially_paid after a payment
-     * or credit allocation reversal; invoice.reopened reports that change. An uncollectible
-     * invoice accepts manual recovery payments and becomes paid when fully recovered; reversals
-     * restore the write-off. voided is final. Refunds change refund_status without reopening the
-     * balance. A lost dispute leaves paid_money, the balance, and status unchanged; collecting it
-     * again requires a new invoice. Value enum: "draft", "open", "partially_paid", "paid",
-     * "voided", "uncollectible", "credited". previous_attributes.status.anyOf[2] (Value): null.
-     * previous_attributes.subscription_id (Optional): string or null. The subscription the backing
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.subscription_id
+     * (Optional): string or null. The subscription the backing order belongs to, copied when the
+     * draft is created and never changed. `null` when the order isn't part of a subscription.
+     * previous_attributes.subscription_id.anyOf[1] (Value): string. The subscription the backing
      * order belongs to, copied when the draft is created and never changed. `null` when the order
-     * isn't part of a subscription. previous_attributes.subscription_id.anyOf[1] (Value): string.
-     * The subscription the backing order belongs to, copied when the draft is created and never
-     * changed. `null` when the order isn't part of a subscription. Example:
-     * "sub_01KEZF7C00BVRE8YDBXQB74BBM". previous_attributes.subscription_id.anyOf[2] (Value):
-     * null. previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle
-     * actions Flint accepts for this resource now, based on stored state. Independent of the
-     * caller's permissions; each action still requires its route's scope. Always [] when no action
-     * is available. [] enum: "collect", "issue", "mark_uncollectible", "void".
+     * isn't part of a subscription. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+     * previous_attributes.subscription_id.anyOf[2] (Value): null.
+     * previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle actions
+     * Flint accepts for this resource now, based on stored state. Independent of the caller's
+     * permissions; each action still requires its route's scope. Always [] when no action is
+     * available. [] enum: "collect", "issue", "mark_uncollectible", "void".
      * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions
      * Flint accepts for this resource now, based on stored state. Independent of the caller's
      * permissions; each action still requires its route's scope. Always [] when no action is
@@ -1351,34 +5309,35 @@ export type InvoicePartiallyPaidMerchantEvent = (Exclude<MerchantWebhookEnvelope
          * allocated credit notes, late fees, and the remaining invoice balance. What is still
          * owed: pricing_amounts.total_money + late_fee_money - paid_money - credited_money -
          * written_off_money, never below zero. 0 on paid, credited, uncollectible, and voided
-         * invoices; equal to pricing_amounts.total_money on a draft. Refunds and dispute losses
-         * don't change it. settlement_amounts.anyOf[1] (Value): {@link
-         * InvoiceSettlementAmountsPreviousAttributes}. settlement_amounts.anyOf[2] (Value): null.
-         * snapshot (Optional): {@link InvoiceSnapshotPreviousAttributes} or null. The billing
-         * content of the invoice: line items, discounts, charges, tip, and tax. A draft previews
-         * the backing order; issue freezes it, and later order changes don't reach an issued
-         * invoice. snapshot.anyOf[1] (Value): {@link InvoiceSnapshotPreviousAttributes}.
+         * invoices; equal to pricing_amounts.total_money on a draft. Refunds and card chargebacks
+         * don't change it. Lost bank returns reopen the balance. settlement_amounts.anyOf[1]
+         * (Value): {@link InvoiceSettlementAmountsPreviousAttributes}. settlement_amounts.anyOf[2]
+         * (Value): null. snapshot (Optional): {@link InvoiceSnapshotPreviousAttributes} or null.
+         * The billing content of the invoice: line items, discounts, charges, tip, and tax. A
+         * draft previews the backing order; issue freezes it, and later order changes don't reach
+         * an issued invoice. snapshot.anyOf[1] (Value): {@link InvoiceSnapshotPreviousAttributes}.
          * snapshot.anyOf[2] (Value): null. status (Optional): string or null. Current invoice
          * status. paid and credited close the current balance and can reopen to open or
          * partially_paid after a payment or credit allocation reversal; invoice.reopened reports
          * that change. An uncollectible invoice accepts manual recovery payments and becomes paid
          * when fully recovered; reversals restore the write-off. voided is final. Refunds change
-         * refund_status without reopening the balance. A lost dispute leaves paid_money, the
-         * balance, and status unchanged; collecting it again requires a new invoice. Value enum:
-         * "draft", "open", "partially_paid", "paid", "voided", "uncollectible", "credited".
-         * status.anyOf[1] (Value): string. Current invoice status. paid and credited close the
-         * current balance and can reopen to open or partially_paid after a payment or credit
-         * allocation reversal; invoice.reopened reports that change. An uncollectible invoice
-         * accepts manual recovery payments and becomes paid when fully recovered; reversals
-         * restore the write-off. voided is final. Refunds change refund_status without reopening
-         * the balance. A lost dispute leaves paid_money, the balance, and status unchanged;
-         * collecting it again requires a new invoice. Value enum: "draft", "open",
-         * "partially_paid", "paid", "voided", "uncollectible", "credited". status.anyOf[2]
-         * (Value): null. subscription_id (Optional): string or null. The subscription the backing
-         * order belongs to, copied when the draft is created and never changed. `null` when the
-         * order isn't part of a subscription. subscription_id.anyOf[1] (Value): string. The
+         * refund_status without reopening the balance. An ACH bank return reverses paid_money and
+         * reopens the balance. A lost card chargeback leaves paid_money, the balance, and status
+         * unchanged; collecting it again requires a new invoice. Value enum: "draft", "open",
+         * "partially_paid", "paid", "voided", "uncollectible", "credited". status.anyOf[1]
+         * (Value): string. Current invoice status. paid and credited close the current balance and
+         * can reopen to open or partially_paid after a payment or credit allocation reversal;
+         * invoice.reopened reports that change. An uncollectible invoice accepts manual recovery
+         * payments and becomes paid when fully recovered; reversals restore the write-off. voided
+         * is final. Refunds change refund_status without reopening the balance. An ACH bank return
+         * reverses paid_money and reopens the balance. A lost card chargeback leaves paid_money,
+         * the balance, and status unchanged; collecting it again requires a new invoice. Value
+         * enum: "draft", "open", "partially_paid", "paid", "voided", "uncollectible", "credited".
+         * status.anyOf[2] (Value): null. subscription_id (Optional): string or null. The
          * subscription the backing order belongs to, copied when the draft is created and never
-         * changed. `null` when the order isn't part of a subscription. Example:
+         * changed. `null` when the order isn't part of a subscription. subscription_id.anyOf[1]
+         * (Value): string. The subscription the backing order belongs to, copied when the draft is
+         * created and never changed. `null` when the order isn't part of a subscription. Example:
          * "sub_01KEZF7C00BVRE8YDBXQB74BBM". subscription_id.anyOf[2] (Value): null.
          * supported_actions (Optional): Array of string or null. Lifecycle actions Flint accepts
          * for this resource now, based on stored state. Independent of the caller's permissions;
@@ -1671,8 +5630,9 @@ export type InvoicePartiallyPaidMerchantEvent = (Exclude<MerchantWebhookEnvelope
              * invoice balance. What is still owed: pricing_amounts.total_money + late_fee_money -
              * paid_money - credited_money - written_off_money, never below zero. 0 on paid,
              * credited, uncollectible, and voided invoices; equal to pricing_amounts.total_money
-             * on a draft. Refunds and dispute losses don't change it. anyOf[1] (Value): {@link
-             * InvoiceSettlementAmountsPreviousAttributes}. anyOf[2] (Value): null.
+             * on a draft. Refunds and card chargebacks don't change it. Lost bank returns reopen
+             * the balance. anyOf[1] (Value): {@link InvoiceSettlementAmountsPreviousAttributes}.
+             * anyOf[2] (Value): null.
              */
             "settlement_amounts"?: ((InvoiceSettlementAmountsPreviousAttributes) | (null));
             /**
@@ -1688,18 +5648,19 @@ export type InvoicePartiallyPaidMerchantEvent = (Exclude<MerchantWebhookEnvelope
              * invoice.reopened reports that change. An uncollectible invoice accepts manual
              * recovery payments and becomes paid when fully recovered; reversals restore the
              * write-off. voided is final. Refunds change refund_status without reopening the
-             * balance. A lost dispute leaves paid_money, the balance, and status unchanged;
-             * collecting it again requires a new invoice. Value enum: "draft", "open",
-             * "partially_paid", "paid", "voided", "uncollectible", "credited". anyOf[1] (Value):
-             * string. Current invoice status. paid and credited close the current balance and can
-             * reopen to open or partially_paid after a payment or credit allocation reversal;
-             * invoice.reopened reports that change. An uncollectible invoice accepts manual
-             * recovery payments and becomes paid when fully recovered; reversals restore the
-             * write-off. voided is final. Refunds change refund_status without reopening the
-             * balance. A lost dispute leaves paid_money, the balance, and status unchanged;
-             * collecting it again requires a new invoice. Value enum: "draft", "open",
-             * "partially_paid", "paid", "voided", "uncollectible", "credited". anyOf[2] (Value):
-             * null.
+             * balance. An ACH bank return reverses paid_money and reopens the balance. A lost card
+             * chargeback leaves paid_money, the balance, and status unchanged; collecting it again
+             * requires a new invoice. Value enum: "draft", "open", "partially_paid", "paid",
+             * "voided", "uncollectible", "credited". anyOf[1] (Value): string. Current invoice
+             * status. paid and credited close the current balance and can reopen to open or
+             * partially_paid after a payment or credit allocation reversal; invoice.reopened
+             * reports that change. An uncollectible invoice accepts manual recovery payments and
+             * becomes paid when fully recovered; reversals restore the write-off. voided is final.
+             * Refunds change refund_status without reopening the balance. An ACH bank return
+             * reverses paid_money and reopens the balance. A lost card chargeback leaves
+             * paid_money, the balance, and status unchanged; collecting it again requires a new
+             * invoice. Value enum: "draft", "open", "partially_paid", "paid", "voided",
+             * "uncollectible", "credited". anyOf[2] (Value): null.
              */
             "status"?: (("draft"
                 | "open"
@@ -2121,8 +6082,9 @@ export type InvoicePartiallyRefundedInstalledMerchantsEvent = (Exclude<PartnerWe
      * allocated credit notes, late fees, and the remaining invoice balance. What is still owed:
      * pricing_amounts.total_money + late_fee_money - paid_money - credited_money -
      * written_off_money, never below zero. 0 on paid, credited, uncollectible, and voided
-     * invoices; equal to pricing_amounts.total_money on a draft. Refunds and dispute losses don't
-     * change it. previous_attributes.settlement_amounts.anyOf[1] (Value): {@link
+     * invoices; equal to pricing_amounts.total_money on a draft. Refunds and card chargebacks
+     * don't change it. Lost bank returns reopen the balance.
+     * previous_attributes.settlement_amounts.anyOf[1] (Value): {@link
      * InvoiceSettlementAmountsPreviousAttributes}. previous_attributes.settlement_amounts.anyOf[2]
      * (Value): null. previous_attributes.snapshot (Optional): {@link
      * InvoiceSnapshotPreviousAttributes} or null. The billing content of the invoice: line items,
@@ -2134,27 +6096,29 @@ export type InvoicePartiallyRefundedInstalledMerchantsEvent = (Exclude<PartnerWe
      * after a payment or credit allocation reversal; invoice.reopened reports that change. An
      * uncollectible invoice accepts manual recovery payments and becomes paid when fully
      * recovered; reversals restore the write-off. voided is final. Refunds change refund_status
-     * without reopening the balance. A lost dispute leaves paid_money, the balance, and status
+     * without reopening the balance. An ACH bank return reverses paid_money and reopens the
+     * balance. A lost card chargeback leaves paid_money, the balance, and status unchanged;
+     * collecting it again requires a new invoice. Value enum: "draft", "open", "partially_paid",
+     * "paid", "voided", "uncollectible", "credited". previous_attributes.status.anyOf[1] (Value):
+     * string. Current invoice status. paid and credited close the current balance and can reopen
+     * to open or partially_paid after a payment or credit allocation reversal; invoice.reopened
+     * reports that change. An uncollectible invoice accepts manual recovery payments and becomes
+     * paid when fully recovered; reversals restore the write-off. voided is final. Refunds change
+     * refund_status without reopening the balance. An ACH bank return reverses paid_money and
+     * reopens the balance. A lost card chargeback leaves paid_money, the balance, and status
      * unchanged; collecting it again requires a new invoice. Value enum: "draft", "open",
      * "partially_paid", "paid", "voided", "uncollectible", "credited".
-     * previous_attributes.status.anyOf[1] (Value): string. Current invoice status. paid and
-     * credited close the current balance and can reopen to open or partially_paid after a payment
-     * or credit allocation reversal; invoice.reopened reports that change. An uncollectible
-     * invoice accepts manual recovery payments and becomes paid when fully recovered; reversals
-     * restore the write-off. voided is final. Refunds change refund_status without reopening the
-     * balance. A lost dispute leaves paid_money, the balance, and status unchanged; collecting it
-     * again requires a new invoice. Value enum: "draft", "open", "partially_paid", "paid",
-     * "voided", "uncollectible", "credited". previous_attributes.status.anyOf[2] (Value): null.
-     * previous_attributes.subscription_id (Optional): string or null. The subscription the backing
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.subscription_id
+     * (Optional): string or null. The subscription the backing order belongs to, copied when the
+     * draft is created and never changed. `null` when the order isn't part of a subscription.
+     * previous_attributes.subscription_id.anyOf[1] (Value): string. The subscription the backing
      * order belongs to, copied when the draft is created and never changed. `null` when the order
-     * isn't part of a subscription. previous_attributes.subscription_id.anyOf[1] (Value): string.
-     * The subscription the backing order belongs to, copied when the draft is created and never
-     * changed. `null` when the order isn't part of a subscription. Example:
-     * "sub_01KEZF7C00BVRE8YDBXQB74BBM". previous_attributes.subscription_id.anyOf[2] (Value):
-     * null. previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle
-     * actions Flint accepts for this resource now, based on stored state. Independent of the
-     * caller's permissions; each action still requires its route's scope. Always [] when no action
-     * is available. [] enum: "collect", "issue", "mark_uncollectible", "void".
+     * isn't part of a subscription. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+     * previous_attributes.subscription_id.anyOf[2] (Value): null.
+     * previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle actions
+     * Flint accepts for this resource now, based on stored state. Independent of the caller's
+     * permissions; each action still requires its route's scope. Always [] when no action is
+     * available. [] enum: "collect", "issue", "mark_uncollectible", "void".
      * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions
      * Flint accepts for this resource now, based on stored state. Independent of the caller's
      * permissions; each action still requires its route's scope. Always [] when no action is
@@ -2361,34 +6325,35 @@ export type InvoicePartiallyRefundedInstalledMerchantsEvent = (Exclude<PartnerWe
          * allocated credit notes, late fees, and the remaining invoice balance. What is still
          * owed: pricing_amounts.total_money + late_fee_money - paid_money - credited_money -
          * written_off_money, never below zero. 0 on paid, credited, uncollectible, and voided
-         * invoices; equal to pricing_amounts.total_money on a draft. Refunds and dispute losses
-         * don't change it. settlement_amounts.anyOf[1] (Value): {@link
-         * InvoiceSettlementAmountsPreviousAttributes}. settlement_amounts.anyOf[2] (Value): null.
-         * snapshot (Optional): {@link InvoiceSnapshotPreviousAttributes} or null. The billing
-         * content of the invoice: line items, discounts, charges, tip, and tax. A draft previews
-         * the backing order; issue freezes it, and later order changes don't reach an issued
-         * invoice. snapshot.anyOf[1] (Value): {@link InvoiceSnapshotPreviousAttributes}.
+         * invoices; equal to pricing_amounts.total_money on a draft. Refunds and card chargebacks
+         * don't change it. Lost bank returns reopen the balance. settlement_amounts.anyOf[1]
+         * (Value): {@link InvoiceSettlementAmountsPreviousAttributes}. settlement_amounts.anyOf[2]
+         * (Value): null. snapshot (Optional): {@link InvoiceSnapshotPreviousAttributes} or null.
+         * The billing content of the invoice: line items, discounts, charges, tip, and tax. A
+         * draft previews the backing order; issue freezes it, and later order changes don't reach
+         * an issued invoice. snapshot.anyOf[1] (Value): {@link InvoiceSnapshotPreviousAttributes}.
          * snapshot.anyOf[2] (Value): null. status (Optional): string or null. Current invoice
          * status. paid and credited close the current balance and can reopen to open or
          * partially_paid after a payment or credit allocation reversal; invoice.reopened reports
          * that change. An uncollectible invoice accepts manual recovery payments and becomes paid
          * when fully recovered; reversals restore the write-off. voided is final. Refunds change
-         * refund_status without reopening the balance. A lost dispute leaves paid_money, the
-         * balance, and status unchanged; collecting it again requires a new invoice. Value enum:
-         * "draft", "open", "partially_paid", "paid", "voided", "uncollectible", "credited".
-         * status.anyOf[1] (Value): string. Current invoice status. paid and credited close the
-         * current balance and can reopen to open or partially_paid after a payment or credit
-         * allocation reversal; invoice.reopened reports that change. An uncollectible invoice
-         * accepts manual recovery payments and becomes paid when fully recovered; reversals
-         * restore the write-off. voided is final. Refunds change refund_status without reopening
-         * the balance. A lost dispute leaves paid_money, the balance, and status unchanged;
-         * collecting it again requires a new invoice. Value enum: "draft", "open",
-         * "partially_paid", "paid", "voided", "uncollectible", "credited". status.anyOf[2]
-         * (Value): null. subscription_id (Optional): string or null. The subscription the backing
-         * order belongs to, copied when the draft is created and never changed. `null` when the
-         * order isn't part of a subscription. subscription_id.anyOf[1] (Value): string. The
+         * refund_status without reopening the balance. An ACH bank return reverses paid_money and
+         * reopens the balance. A lost card chargeback leaves paid_money, the balance, and status
+         * unchanged; collecting it again requires a new invoice. Value enum: "draft", "open",
+         * "partially_paid", "paid", "voided", "uncollectible", "credited". status.anyOf[1]
+         * (Value): string. Current invoice status. paid and credited close the current balance and
+         * can reopen to open or partially_paid after a payment or credit allocation reversal;
+         * invoice.reopened reports that change. An uncollectible invoice accepts manual recovery
+         * payments and becomes paid when fully recovered; reversals restore the write-off. voided
+         * is final. Refunds change refund_status without reopening the balance. An ACH bank return
+         * reverses paid_money and reopens the balance. A lost card chargeback leaves paid_money,
+         * the balance, and status unchanged; collecting it again requires a new invoice. Value
+         * enum: "draft", "open", "partially_paid", "paid", "voided", "uncollectible", "credited".
+         * status.anyOf[2] (Value): null. subscription_id (Optional): string or null. The
          * subscription the backing order belongs to, copied when the draft is created and never
-         * changed. `null` when the order isn't part of a subscription. Example:
+         * changed. `null` when the order isn't part of a subscription. subscription_id.anyOf[1]
+         * (Value): string. The subscription the backing order belongs to, copied when the draft is
+         * created and never changed. `null` when the order isn't part of a subscription. Example:
          * "sub_01KEZF7C00BVRE8YDBXQB74BBM". subscription_id.anyOf[2] (Value): null.
          * supported_actions (Optional): Array of string or null. Lifecycle actions Flint accepts
          * for this resource now, based on stored state. Independent of the caller's permissions;
@@ -2681,8 +6646,9 @@ export type InvoicePartiallyRefundedInstalledMerchantsEvent = (Exclude<PartnerWe
              * invoice balance. What is still owed: pricing_amounts.total_money + late_fee_money -
              * paid_money - credited_money - written_off_money, never below zero. 0 on paid,
              * credited, uncollectible, and voided invoices; equal to pricing_amounts.total_money
-             * on a draft. Refunds and dispute losses don't change it. anyOf[1] (Value): {@link
-             * InvoiceSettlementAmountsPreviousAttributes}. anyOf[2] (Value): null.
+             * on a draft. Refunds and card chargebacks don't change it. Lost bank returns reopen
+             * the balance. anyOf[1] (Value): {@link InvoiceSettlementAmountsPreviousAttributes}.
+             * anyOf[2] (Value): null.
              */
             "settlement_amounts"?: ((InvoiceSettlementAmountsPreviousAttributes) | (null));
             /**
@@ -2698,18 +6664,19 @@ export type InvoicePartiallyRefundedInstalledMerchantsEvent = (Exclude<PartnerWe
              * invoice.reopened reports that change. An uncollectible invoice accepts manual
              * recovery payments and becomes paid when fully recovered; reversals restore the
              * write-off. voided is final. Refunds change refund_status without reopening the
-             * balance. A lost dispute leaves paid_money, the balance, and status unchanged;
-             * collecting it again requires a new invoice. Value enum: "draft", "open",
-             * "partially_paid", "paid", "voided", "uncollectible", "credited". anyOf[1] (Value):
-             * string. Current invoice status. paid and credited close the current balance and can
-             * reopen to open or partially_paid after a payment or credit allocation reversal;
-             * invoice.reopened reports that change. An uncollectible invoice accepts manual
-             * recovery payments and becomes paid when fully recovered; reversals restore the
-             * write-off. voided is final. Refunds change refund_status without reopening the
-             * balance. A lost dispute leaves paid_money, the balance, and status unchanged;
-             * collecting it again requires a new invoice. Value enum: "draft", "open",
-             * "partially_paid", "paid", "voided", "uncollectible", "credited". anyOf[2] (Value):
-             * null.
+             * balance. An ACH bank return reverses paid_money and reopens the balance. A lost card
+             * chargeback leaves paid_money, the balance, and status unchanged; collecting it again
+             * requires a new invoice. Value enum: "draft", "open", "partially_paid", "paid",
+             * "voided", "uncollectible", "credited". anyOf[1] (Value): string. Current invoice
+             * status. paid and credited close the current balance and can reopen to open or
+             * partially_paid after a payment or credit allocation reversal; invoice.reopened
+             * reports that change. An uncollectible invoice accepts manual recovery payments and
+             * becomes paid when fully recovered; reversals restore the write-off. voided is final.
+             * Refunds change refund_status without reopening the balance. An ACH bank return
+             * reverses paid_money and reopens the balance. A lost card chargeback leaves
+             * paid_money, the balance, and status unchanged; collecting it again requires a new
+             * invoice. Value enum: "draft", "open", "partially_paid", "paid", "voided",
+             * "uncollectible", "credited". anyOf[2] (Value): null.
              */
             "status"?: (("draft"
                 | "open"
@@ -3021,8 +6988,9 @@ export type InvoicePartiallyRefundedMerchantEvent = (Exclude<MerchantWebhookEnve
      * allocated credit notes, late fees, and the remaining invoice balance. What is still owed:
      * pricing_amounts.total_money + late_fee_money - paid_money - credited_money -
      * written_off_money, never below zero. 0 on paid, credited, uncollectible, and voided
-     * invoices; equal to pricing_amounts.total_money on a draft. Refunds and dispute losses don't
-     * change it. previous_attributes.settlement_amounts.anyOf[1] (Value): {@link
+     * invoices; equal to pricing_amounts.total_money on a draft. Refunds and card chargebacks
+     * don't change it. Lost bank returns reopen the balance.
+     * previous_attributes.settlement_amounts.anyOf[1] (Value): {@link
      * InvoiceSettlementAmountsPreviousAttributes}. previous_attributes.settlement_amounts.anyOf[2]
      * (Value): null. previous_attributes.snapshot (Optional): {@link
      * InvoiceSnapshotPreviousAttributes} or null. The billing content of the invoice: line items,
@@ -3034,27 +7002,29 @@ export type InvoicePartiallyRefundedMerchantEvent = (Exclude<MerchantWebhookEnve
      * after a payment or credit allocation reversal; invoice.reopened reports that change. An
      * uncollectible invoice accepts manual recovery payments and becomes paid when fully
      * recovered; reversals restore the write-off. voided is final. Refunds change refund_status
-     * without reopening the balance. A lost dispute leaves paid_money, the balance, and status
+     * without reopening the balance. An ACH bank return reverses paid_money and reopens the
+     * balance. A lost card chargeback leaves paid_money, the balance, and status unchanged;
+     * collecting it again requires a new invoice. Value enum: "draft", "open", "partially_paid",
+     * "paid", "voided", "uncollectible", "credited". previous_attributes.status.anyOf[1] (Value):
+     * string. Current invoice status. paid and credited close the current balance and can reopen
+     * to open or partially_paid after a payment or credit allocation reversal; invoice.reopened
+     * reports that change. An uncollectible invoice accepts manual recovery payments and becomes
+     * paid when fully recovered; reversals restore the write-off. voided is final. Refunds change
+     * refund_status without reopening the balance. An ACH bank return reverses paid_money and
+     * reopens the balance. A lost card chargeback leaves paid_money, the balance, and status
      * unchanged; collecting it again requires a new invoice. Value enum: "draft", "open",
      * "partially_paid", "paid", "voided", "uncollectible", "credited".
-     * previous_attributes.status.anyOf[1] (Value): string. Current invoice status. paid and
-     * credited close the current balance and can reopen to open or partially_paid after a payment
-     * or credit allocation reversal; invoice.reopened reports that change. An uncollectible
-     * invoice accepts manual recovery payments and becomes paid when fully recovered; reversals
-     * restore the write-off. voided is final. Refunds change refund_status without reopening the
-     * balance. A lost dispute leaves paid_money, the balance, and status unchanged; collecting it
-     * again requires a new invoice. Value enum: "draft", "open", "partially_paid", "paid",
-     * "voided", "uncollectible", "credited". previous_attributes.status.anyOf[2] (Value): null.
-     * previous_attributes.subscription_id (Optional): string or null. The subscription the backing
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.subscription_id
+     * (Optional): string or null. The subscription the backing order belongs to, copied when the
+     * draft is created and never changed. `null` when the order isn't part of a subscription.
+     * previous_attributes.subscription_id.anyOf[1] (Value): string. The subscription the backing
      * order belongs to, copied when the draft is created and never changed. `null` when the order
-     * isn't part of a subscription. previous_attributes.subscription_id.anyOf[1] (Value): string.
-     * The subscription the backing order belongs to, copied when the draft is created and never
-     * changed. `null` when the order isn't part of a subscription. Example:
-     * "sub_01KEZF7C00BVRE8YDBXQB74BBM". previous_attributes.subscription_id.anyOf[2] (Value):
-     * null. previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle
-     * actions Flint accepts for this resource now, based on stored state. Independent of the
-     * caller's permissions; each action still requires its route's scope. Always [] when no action
-     * is available. [] enum: "collect", "issue", "mark_uncollectible", "void".
+     * isn't part of a subscription. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+     * previous_attributes.subscription_id.anyOf[2] (Value): null.
+     * previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle actions
+     * Flint accepts for this resource now, based on stored state. Independent of the caller's
+     * permissions; each action still requires its route's scope. Always [] when no action is
+     * available. [] enum: "collect", "issue", "mark_uncollectible", "void".
      * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions
      * Flint accepts for this resource now, based on stored state. Independent of the caller's
      * permissions; each action still requires its route's scope. Always [] when no action is
@@ -3261,34 +7231,35 @@ export type InvoicePartiallyRefundedMerchantEvent = (Exclude<MerchantWebhookEnve
          * allocated credit notes, late fees, and the remaining invoice balance. What is still
          * owed: pricing_amounts.total_money + late_fee_money - paid_money - credited_money -
          * written_off_money, never below zero. 0 on paid, credited, uncollectible, and voided
-         * invoices; equal to pricing_amounts.total_money on a draft. Refunds and dispute losses
-         * don't change it. settlement_amounts.anyOf[1] (Value): {@link
-         * InvoiceSettlementAmountsPreviousAttributes}. settlement_amounts.anyOf[2] (Value): null.
-         * snapshot (Optional): {@link InvoiceSnapshotPreviousAttributes} or null. The billing
-         * content of the invoice: line items, discounts, charges, tip, and tax. A draft previews
-         * the backing order; issue freezes it, and later order changes don't reach an issued
-         * invoice. snapshot.anyOf[1] (Value): {@link InvoiceSnapshotPreviousAttributes}.
+         * invoices; equal to pricing_amounts.total_money on a draft. Refunds and card chargebacks
+         * don't change it. Lost bank returns reopen the balance. settlement_amounts.anyOf[1]
+         * (Value): {@link InvoiceSettlementAmountsPreviousAttributes}. settlement_amounts.anyOf[2]
+         * (Value): null. snapshot (Optional): {@link InvoiceSnapshotPreviousAttributes} or null.
+         * The billing content of the invoice: line items, discounts, charges, tip, and tax. A
+         * draft previews the backing order; issue freezes it, and later order changes don't reach
+         * an issued invoice. snapshot.anyOf[1] (Value): {@link InvoiceSnapshotPreviousAttributes}.
          * snapshot.anyOf[2] (Value): null. status (Optional): string or null. Current invoice
          * status. paid and credited close the current balance and can reopen to open or
          * partially_paid after a payment or credit allocation reversal; invoice.reopened reports
          * that change. An uncollectible invoice accepts manual recovery payments and becomes paid
          * when fully recovered; reversals restore the write-off. voided is final. Refunds change
-         * refund_status without reopening the balance. A lost dispute leaves paid_money, the
-         * balance, and status unchanged; collecting it again requires a new invoice. Value enum:
-         * "draft", "open", "partially_paid", "paid", "voided", "uncollectible", "credited".
-         * status.anyOf[1] (Value): string. Current invoice status. paid and credited close the
-         * current balance and can reopen to open or partially_paid after a payment or credit
-         * allocation reversal; invoice.reopened reports that change. An uncollectible invoice
-         * accepts manual recovery payments and becomes paid when fully recovered; reversals
-         * restore the write-off. voided is final. Refunds change refund_status without reopening
-         * the balance. A lost dispute leaves paid_money, the balance, and status unchanged;
-         * collecting it again requires a new invoice. Value enum: "draft", "open",
-         * "partially_paid", "paid", "voided", "uncollectible", "credited". status.anyOf[2]
-         * (Value): null. subscription_id (Optional): string or null. The subscription the backing
-         * order belongs to, copied when the draft is created and never changed. `null` when the
-         * order isn't part of a subscription. subscription_id.anyOf[1] (Value): string. The
+         * refund_status without reopening the balance. An ACH bank return reverses paid_money and
+         * reopens the balance. A lost card chargeback leaves paid_money, the balance, and status
+         * unchanged; collecting it again requires a new invoice. Value enum: "draft", "open",
+         * "partially_paid", "paid", "voided", "uncollectible", "credited". status.anyOf[1]
+         * (Value): string. Current invoice status. paid and credited close the current balance and
+         * can reopen to open or partially_paid after a payment or credit allocation reversal;
+         * invoice.reopened reports that change. An uncollectible invoice accepts manual recovery
+         * payments and becomes paid when fully recovered; reversals restore the write-off. voided
+         * is final. Refunds change refund_status without reopening the balance. An ACH bank return
+         * reverses paid_money and reopens the balance. A lost card chargeback leaves paid_money,
+         * the balance, and status unchanged; collecting it again requires a new invoice. Value
+         * enum: "draft", "open", "partially_paid", "paid", "voided", "uncollectible", "credited".
+         * status.anyOf[2] (Value): null. subscription_id (Optional): string or null. The
          * subscription the backing order belongs to, copied when the draft is created and never
-         * changed. `null` when the order isn't part of a subscription. Example:
+         * changed. `null` when the order isn't part of a subscription. subscription_id.anyOf[1]
+         * (Value): string. The subscription the backing order belongs to, copied when the draft is
+         * created and never changed. `null` when the order isn't part of a subscription. Example:
          * "sub_01KEZF7C00BVRE8YDBXQB74BBM". subscription_id.anyOf[2] (Value): null.
          * supported_actions (Optional): Array of string or null. Lifecycle actions Flint accepts
          * for this resource now, based on stored state. Independent of the caller's permissions;
@@ -3581,8 +7552,9 @@ export type InvoicePartiallyRefundedMerchantEvent = (Exclude<MerchantWebhookEnve
              * invoice balance. What is still owed: pricing_amounts.total_money + late_fee_money -
              * paid_money - credited_money - written_off_money, never below zero. 0 on paid,
              * credited, uncollectible, and voided invoices; equal to pricing_amounts.total_money
-             * on a draft. Refunds and dispute losses don't change it. anyOf[1] (Value): {@link
-             * InvoiceSettlementAmountsPreviousAttributes}. anyOf[2] (Value): null.
+             * on a draft. Refunds and card chargebacks don't change it. Lost bank returns reopen
+             * the balance. anyOf[1] (Value): {@link InvoiceSettlementAmountsPreviousAttributes}.
+             * anyOf[2] (Value): null.
              */
             "settlement_amounts"?: ((InvoiceSettlementAmountsPreviousAttributes) | (null));
             /**
@@ -3598,18 +7570,19 @@ export type InvoicePartiallyRefundedMerchantEvent = (Exclude<MerchantWebhookEnve
              * invoice.reopened reports that change. An uncollectible invoice accepts manual
              * recovery payments and becomes paid when fully recovered; reversals restore the
              * write-off. voided is final. Refunds change refund_status without reopening the
-             * balance. A lost dispute leaves paid_money, the balance, and status unchanged;
-             * collecting it again requires a new invoice. Value enum: "draft", "open",
-             * "partially_paid", "paid", "voided", "uncollectible", "credited". anyOf[1] (Value):
-             * string. Current invoice status. paid and credited close the current balance and can
-             * reopen to open or partially_paid after a payment or credit allocation reversal;
-             * invoice.reopened reports that change. An uncollectible invoice accepts manual
-             * recovery payments and becomes paid when fully recovered; reversals restore the
-             * write-off. voided is final. Refunds change refund_status without reopening the
-             * balance. A lost dispute leaves paid_money, the balance, and status unchanged;
-             * collecting it again requires a new invoice. Value enum: "draft", "open",
-             * "partially_paid", "paid", "voided", "uncollectible", "credited". anyOf[2] (Value):
-             * null.
+             * balance. An ACH bank return reverses paid_money and reopens the balance. A lost card
+             * chargeback leaves paid_money, the balance, and status unchanged; collecting it again
+             * requires a new invoice. Value enum: "draft", "open", "partially_paid", "paid",
+             * "voided", "uncollectible", "credited". anyOf[1] (Value): string. Current invoice
+             * status. paid and credited close the current balance and can reopen to open or
+             * partially_paid after a payment or credit allocation reversal; invoice.reopened
+             * reports that change. An uncollectible invoice accepts manual recovery payments and
+             * becomes paid when fully recovered; reversals restore the write-off. voided is final.
+             * Refunds change refund_status without reopening the balance. An ACH bank return
+             * reverses paid_money and reopens the balance. A lost card chargeback leaves
+             * paid_money, the balance, and status unchanged; collecting it again requires a new
+             * invoice. Value enum: "draft", "open", "partially_paid", "paid", "voided",
+             * "uncollectible", "credited". anyOf[2] (Value): null.
              */
             "status"?: (("draft"
                 | "open"
@@ -9926,280 +13899,3 @@ export type InvoicePaymentTermCalculationDayOfNextMonthRequestInput = ({
     & ({
     "days"?: never;
 }));
-/** The `days_after_month_end` variant of `InvoicePaymentTermCalculation`. */
-export type InvoicePaymentTermCalculationDaysAfterMonthEnd = ({
-    /**
-     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
-     * maximum: 31.
-     */
-    "day"?: number;
-    /**
-     * Calendar days after issue for net_days, or after the issue month's last day for
-     * days_after_month_end. Required only for those types. Format: int32. minimum: 0. maximum:
-     * 365.
-     */
-    "days": number;
-    /**
-     * How issue calculates the invoice's due date in the invoice timezone. Value enum:
-     * "days_after_month_end".
-     */
-    "type": "days_after_month_end" | (string & {});
-})
-    & (({
-    /**
-     * How issue calculates the invoice's due date in the invoice timezone. Value enum:
-     * "days_after_month_end".
-     */
-    "type": "days_after_month_end" | (string & {});
-    /**
-     * Calendar days after issue for net_days, or after the issue month's last day for
-     * days_after_month_end. Required only for those types. Format: int32. minimum: 0. maximum:
-     * 365.
-     */
-    "days": number;
-}));
-export type InvoicePaymentTermCalculationDaysAfterMonthEndPreviousAttributes = ({
-    /**
-     * Day of the month. Later days clamp to the last day of the month. anyOf[1] (Value): integer.
-     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
-     * maximum: 31. anyOf[2] (Value): null.
-     */
-    "day"?: ((number) | (null));
-    /**
-     * Calendar days after issue for net_days, or after the issue month's last day for
-     * days_after_month_end. Required only for those types. anyOf[1] (Value): integer. Calendar
-     * days after issue for net_days, or after the issue month's last day for days_after_month_end.
-     * Required only for those types. Format: int32. minimum: 0. maximum: 365. anyOf[2] (Value):
-     * null.
-     */
-    "days"?: ((number) | (null));
-    /**
-     * How issue calculates the invoice's due date in the invoice timezone. Value enum:
-     * "days_after_month_end". anyOf[1] (Value): string. How issue calculates the invoice's due
-     * date in the invoice timezone. Value enum: "days_after_month_end". anyOf[2] (Value): null.
-     */
-    "type"?: (("days_after_month_end" | (string & {})) | (null));
-})
-    & ({
-    /**
-     * How issue calculates the invoice's due date in the invoice timezone. Value enum:
-     * "days_after_month_end". anyOf[1] (Value): string. How issue calculates the invoice's due
-     * date in the invoice timezone. Value enum: "days_after_month_end". anyOf[2] (Value): null.
-     */
-    "type"?: (("days_after_month_end" | (string & {})) | (null));
-});
-/** The `days_after_month_end` variant of `InvoicePaymentTermCalculation`. */
-export type InvoicePaymentTermCalculationDaysAfterMonthEndRequestInput = ({
-    /**
-     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
-     * maximum: 31.
-     */
-    "day"?: number;
-    /**
-     * Calendar days after issue for net_days, or after the issue month's last day for
-     * days_after_month_end. Required only for those types. Format: int32. minimum: 0. maximum:
-     * 365.
-     */
-    "days": number;
-    /**
-     * How issue calculates the invoice's due date in the invoice timezone. Value enum:
-     * "days_after_month_end".
-     */
-    "type": "days_after_month_end";
-})
-    & (({
-    /**
-     * How issue calculates the invoice's due date in the invoice timezone. Value enum:
-     * "days_after_month_end".
-     */
-    "type": "days_after_month_end";
-    /**
-     * Calendar days after issue for net_days, or after the issue month's last day for
-     * days_after_month_end. Required only for those types. Format: int32. minimum: 0. maximum:
-     * 365.
-     */
-    "days": number;
-})
-    & ({
-    "day"?: never;
-}));
-/** The `net_days` variant of `InvoicePaymentTermCalculation`. */
-export type InvoicePaymentTermCalculationNetDays = ({
-    /**
-     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
-     * maximum: 31.
-     */
-    "day"?: number;
-    /**
-     * Calendar days after issue for net_days, or after the issue month's last day for
-     * days_after_month_end. Required only for those types. Format: int32. minimum: 0. maximum:
-     * 365.
-     */
-    "days": number;
-    /**
-     * How issue calculates the invoice's due date in the invoice timezone. Value enum: "net_days".
-     */
-    "type": "net_days" | (string & {});
-})
-    & (({
-    /**
-     * How issue calculates the invoice's due date in the invoice timezone. Value enum: "net_days".
-     */
-    "type": "net_days" | (string & {});
-    /**
-     * Calendar days after issue for net_days, or after the issue month's last day for
-     * days_after_month_end. Required only for those types. Format: int32. minimum: 0. maximum:
-     * 365.
-     */
-    "days": number;
-}));
-export type InvoicePaymentTermCalculationNetDaysPreviousAttributes = ({
-    /**
-     * Day of the month. Later days clamp to the last day of the month. anyOf[1] (Value): integer.
-     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
-     * maximum: 31. anyOf[2] (Value): null.
-     */
-    "day"?: ((number) | (null));
-    /**
-     * Calendar days after issue for net_days, or after the issue month's last day for
-     * days_after_month_end. Required only for those types. anyOf[1] (Value): integer. Calendar
-     * days after issue for net_days, or after the issue month's last day for days_after_month_end.
-     * Required only for those types. Format: int32. minimum: 0. maximum: 365. anyOf[2] (Value):
-     * null.
-     */
-    "days"?: ((number) | (null));
-    /**
-     * How issue calculates the invoice's due date in the invoice timezone. Value enum: "net_days".
-     * anyOf[1] (Value): string. How issue calculates the invoice's due date in the invoice
-     * timezone. Value enum: "net_days". anyOf[2] (Value): null.
-     */
-    "type"?: (("net_days" | (string & {})) | (null));
-})
-    & ({
-    /**
-     * How issue calculates the invoice's due date in the invoice timezone. Value enum: "net_days".
-     * anyOf[1] (Value): string. How issue calculates the invoice's due date in the invoice
-     * timezone. Value enum: "net_days". anyOf[2] (Value): null.
-     */
-    "type"?: (("net_days" | (string & {})) | (null));
-});
-/** The `net_days` variant of `InvoicePaymentTermCalculation`. */
-export type InvoicePaymentTermCalculationNetDaysRequestInput = ({
-    /**
-     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
-     * maximum: 31.
-     */
-    "day"?: number;
-    /**
-     * Calendar days after issue for net_days, or after the issue month's last day for
-     * days_after_month_end. Required only for those types. Format: int32. minimum: 0. maximum:
-     * 365.
-     */
-    "days": number;
-    /**
-     * How issue calculates the invoice's due date in the invoice timezone. Value enum: "net_days".
-     */
-    "type": "net_days";
-})
-    & (({
-    /**
-     * How issue calculates the invoice's due date in the invoice timezone. Value enum: "net_days".
-     */
-    "type": "net_days";
-    /**
-     * Calendar days after issue for net_days, or after the issue month's last day for
-     * days_after_month_end. Required only for those types. Format: int32. minimum: 0. maximum:
-     * 365.
-     */
-    "days": number;
-})
-    & ({
-    "day"?: never;
-}));
-/** The `on_receipt` variant of `InvoicePaymentTermCalculation`. */
-export type InvoicePaymentTermCalculationOnReceipt = ({
-    /**
-     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
-     * maximum: 31.
-     */
-    "day"?: number;
-    /**
-     * Calendar days after issue for net_days, or after the issue month's last day for
-     * days_after_month_end. Required only for those types. Format: int32. minimum: 0. maximum:
-     * 365.
-     */
-    "days"?: number;
-    /**
-     * How issue calculates the invoice's due date in the invoice timezone. Value enum:
-     * "on_receipt".
-     */
-    "type": "on_receipt" | (string & {});
-})
-    & (({
-    /**
-     * How issue calculates the invoice's due date in the invoice timezone. Value enum:
-     * "on_receipt".
-     */
-    "type": "on_receipt" | (string & {});
-}));
-export type InvoicePaymentTermCalculationOnReceiptPreviousAttributes = ({
-    /**
-     * Day of the month. Later days clamp to the last day of the month. anyOf[1] (Value): integer.
-     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
-     * maximum: 31. anyOf[2] (Value): null.
-     */
-    "day"?: ((number) | (null));
-    /**
-     * Calendar days after issue for net_days, or after the issue month's last day for
-     * days_after_month_end. Required only for those types. anyOf[1] (Value): integer. Calendar
-     * days after issue for net_days, or after the issue month's last day for days_after_month_end.
-     * Required only for those types. Format: int32. minimum: 0. maximum: 365. anyOf[2] (Value):
-     * null.
-     */
-    "days"?: ((number) | (null));
-    /**
-     * How issue calculates the invoice's due date in the invoice timezone. Value enum:
-     * "on_receipt". anyOf[1] (Value): string. How issue calculates the invoice's due date in the
-     * invoice timezone. Value enum: "on_receipt". anyOf[2] (Value): null.
-     */
-    "type"?: (("on_receipt" | (string & {})) | (null));
-})
-    & ({
-    /**
-     * How issue calculates the invoice's due date in the invoice timezone. Value enum:
-     * "on_receipt". anyOf[1] (Value): string. How issue calculates the invoice's due date in the
-     * invoice timezone. Value enum: "on_receipt". anyOf[2] (Value): null.
-     */
-    "type"?: (("on_receipt" | (string & {})) | (null));
-});
-/** The `on_receipt` variant of `InvoicePaymentTermCalculation`. */
-export type InvoicePaymentTermCalculationOnReceiptRequestInput = ({
-    /**
-     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
-     * maximum: 31.
-     */
-    "day"?: number;
-    /**
-     * Calendar days after issue for net_days, or after the issue month's last day for
-     * days_after_month_end. Required only for those types. Format: int32. minimum: 0. maximum:
-     * 365.
-     */
-    "days"?: number;
-    /**
-     * How issue calculates the invoice's due date in the invoice timezone. Value enum:
-     * "on_receipt".
-     */
-    "type": "on_receipt";
-})
-    & (({
-    /**
-     * How issue calculates the invoice's due date in the invoice timezone. Value enum:
-     * "on_receipt".
-     */
-    "type": "on_receipt";
-})
-    & (({
-    "days"?: never;
-}) & ({
-    "day"?: never;
-})));

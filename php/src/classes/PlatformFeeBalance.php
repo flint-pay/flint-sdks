@@ -16,7 +16,7 @@ namespace Flint;
 final class PlatformFeeBalance extends Model {
     /** @param array{'available_money': mixed, 'currency': string, 'next_payout_at'?: string, 'partner_app_id': string, 'payouts_disabled_reason'?: string, 'payouts_enabled': bool, 'pending_money': mixed, 'platform_fee_balance_id': string, 'reserve_money': mixed, 'updated_at': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PlatformFeeBalance')); }
-    /** Fees Flint holds as available funds, net of the reserve. It can be negative: a fee returned after payout is owed back from your next fees. available_money plus pending_money equals the sum of amount_money over the app's balance transactions in this currency. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Fees Flint holds as available funds, net of the reserve. It can be negative after a refund when the fee was paid out or its reserve was spent covering losses. Your next fees repay it. available_money plus pending_money equals the sum of amount_money over the app's balance transactions in this currency. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getAvailableMoney(): MoneyValue { return $this->get('available_money'); }

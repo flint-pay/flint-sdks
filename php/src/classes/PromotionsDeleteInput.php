@@ -10,7 +10,7 @@ namespace Flint;
 final class PromotionsDeleteInput extends Model {
     /** @param array{'promotion_id': string, 'expected_version'?: int, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PromotionsDeleteInput')); }
-    /** Flint promotion ID. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
+    /** Flint promotion ID. Must be a valid ID with prefix promo_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
      * @return string
      * @throws SdkError When promotion_id is omitted; use hasPromotionId() or valueOrDefault().
      */

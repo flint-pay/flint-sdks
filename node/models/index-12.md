@@ -1,7 +1,19 @@
 [Model index](../MODELS.md)
 
-# DeliveryLocationSetUpdatedMerchantEvent to DeliveryPricingStrategyCreateRequestInput
+# DeliveryInventoryReservationSummary to DeliveryPricingStrategyCreateInputCalculatedInput
 
+- [DeliveryInventoryReservationSummary](DeliveryInventoryReservationSummary.md)
+- [DeliveryLocationSet](DeliveryLocationSet.md)
+- [DeliveryLocationSetArchivedInstalledMerchantsEvent](DeliveryLocationSetArchivedInstalledMerchantsEvent.md)
+- [DeliveryLocationSetArchivedMerchantEvent](DeliveryLocationSetArchivedMerchantEvent.md)
+- [DeliveryLocationSetConfiguration](DeliveryLocationSetConfiguration.md)
+- [DeliveryLocationSetConfigurationInput](DeliveryLocationSetConfigurationInput.md)
+- [DeliveryLocationSetConfigurationPreviousAttributes](DeliveryLocationSetConfigurationPreviousAttributes.md)
+- [DeliveryLocationSetCreatedInstalledMerchantsEvent](DeliveryLocationSetCreatedInstalledMerchantsEvent.md)
+- [DeliveryLocationSetCreatedMerchantEvent](DeliveryLocationSetCreatedMerchantEvent.md)
+- [DeliveryLocationSetListResponse](DeliveryLocationSetListResponse.md)
+- [DeliveryLocationSetResponse](DeliveryLocationSetResponse.md)
+- [DeliveryLocationSetUpdatedInstalledMerchantsEvent](DeliveryLocationSetUpdatedInstalledMerchantsEvent.md)
 - [DeliveryLocationSetUpdatedMerchantEvent](DeliveryLocationSetUpdatedMerchantEvent.md)
 - [DeliveryLocationSummaryResource](DeliveryLocationSummaryResource.md)
 - [DeliveryLocationSummaryResourcePreviousAttributes](DeliveryLocationSummaryResourcePreviousAttributes.md)
@@ -90,16 +102,4 @@
 - [DeliveryPricingStrategyCallerSuppliedPreviousAttributes](DeliveryPricingStrategyCallerSuppliedPreviousAttributes.md)
 - [DeliveryPricingStrategyCreateInputCalculated](DeliveryPricingStrategyCreateInputCalculated.md)
 - [DeliveryPricingStrategyCreateInputCalculatedInput](DeliveryPricingStrategyCreateInputCalculatedInput.md)
-- [DeliveryPricingStrategyCreateInputCallback](DeliveryPricingStrategyCreateInputCallback.md)
-- [DeliveryPricingStrategyCreateInputCallbackInput](DeliveryPricingStrategyCreateInputCallbackInput.md)
-- [DeliveryPricingStrategyCreateInputCallerSupplied](DeliveryPricingStrategyCreateInputCallerSupplied.md)
-- [DeliveryPricingStrategyCreateInputCallerSuppliedInput](DeliveryPricingStrategyCreateInputCallerSuppliedInput.md)
-- [DeliveryPricingStrategyCreateInputFixed](DeliveryPricingStrategyCreateInputFixed.md)
-- [DeliveryPricingStrategyCreateInputFixedInput](DeliveryPricingStrategyCreateInputFixedInput.md)
-- [DeliveryPricingStrategyCreateInputRateTable](DeliveryPricingStrategyCreateInputRateTable.md)
-- [DeliveryPricingStrategyCreateInputRateTableInput](DeliveryPricingStrategyCreateInputRateTableInput.md)
-- [DeliveryPricingStrategyCreateInputTiered](DeliveryPricingStrategyCreateInputTiered.md)
-- [DeliveryPricingStrategyCreateInputTieredInput](DeliveryPricingStrategyCreateInputTieredInput.md)
-- [DeliveryPricingStrategyCreateRequest](DeliveryPricingStrategyCreateRequest.md)
-- [DeliveryPricingStrategyCreateRequestInput](DeliveryPricingStrategyCreateRequestInput.md)
 

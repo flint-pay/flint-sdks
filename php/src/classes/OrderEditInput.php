@@ -20,13 +20,14 @@ namespace Flint;
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $refund_money
  * @property-read list<OrderEditLineRemovalInput|array<array-key, mixed>|\stdClass> $remove_line_items
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $removed_total_money
+ * @property-read SignedMoneyInput|array<array-key, mixed>|\stdClass $small_balance_adjustment_money
  * @property-read string $status
  * @property-read list<string> $supported_actions
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $unrefunded_money
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrderEditInput extends Model {
-    /** @param array{'add_line_items': list<OrderEditLineAdditionInput|array<array-key, mixed>|\stdClass>, 'added_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'amount_due_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'canceled_at': string|\DateTimeInterface|null, 'cancellation_reason': string|null, 'charge_refunds': list<OrderEditChargeRefundInput|array<array-key, mixed>|\stdClass>, 'completed_at': string|\DateTimeInterface|null, 'created_at': string|\DateTimeInterface, 'expires_at': string|\DateTimeInterface|null, 'note'?: string, 'order_edit_id': string, 'order_id': string, 'payment_intent_id': string|null, 'reason'?: string, 'refund_ids': list<string>, 'refund_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'remove_line_items': list<OrderEditLineRemovalInput|array<array-key, mixed>|\stdClass>, 'removed_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'unrefunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'version': int, ...}|object $values */
+    /** @param array{'add_line_items': list<OrderEditLineAdditionInput|array<array-key, mixed>|\stdClass>, 'added_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'amount_due_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'canceled_at': string|\DateTimeInterface|null, 'cancellation_reason': string|null, 'charge_refunds': list<OrderEditChargeRefundInput|array<array-key, mixed>|\stdClass>, 'completed_at': string|\DateTimeInterface|null, 'created_at': string|\DateTimeInterface, 'expires_at': string|\DateTimeInterface|null, 'note'?: string, 'order_edit_id': string, 'order_id': string, 'payment_intent_id': string|null, 'reason'?: string, 'refund_ids': list<string>, 'refund_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'remove_line_items': list<OrderEditLineRemovalInput|array<array-key, mixed>|\stdClass>, 'removed_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'small_balance_adjustment_money': SignedMoneyInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'unrefunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderEditInput')); }
     /** Added order lines, in request order, with their quantities and values frozen at creation. Empty when the edit added nothing. [] (Value): {@see OrderEditLineAdditionInput}. An order line added by the enclosing edit, with its value frozen at creation.
      * @return list<OrderEditLineAdditionInput|array<array-key, mixed>|\stdClass>
@@ -136,6 +137,12 @@ final class OrderEditInput extends Model {
      */
     public function getRemovedTotalMoney(): mixed { return $this->get('removed_total_money'); }
     public function hasRemovedTotalMoney(): bool { return $this->has('removed_total_money'); }
+    /** Signed noncash adjustment: positive for an edit balance below the payment minimum, negative when removing previously absorbed value. Included in settlement_amounts.written_off_money, never paid or refundable. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return SignedMoneyInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When small_balance_adjustment_money is omitted; use hasSmallBalanceAdjustmentMoney() or valueOrDefault().
+     */
+    public function getSmallBalanceAdjustmentMoney(): mixed { return $this->get('small_balance_adjustment_money'); }
+    public function hasSmallBalanceAdjustmentMoney(): bool { return $this->has('small_balance_adjustment_money'); }
     /** Pending while waiting for a balance payment, completed once the item changes are applied, or canceled when it ends without changing the order. Refund processing has its own status on each refund. Value enum: "pending", "completed", "canceled".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().

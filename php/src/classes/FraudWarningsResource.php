@@ -4,7 +4,7 @@ namespace Flint;
 final class FraudWarningsResource {
     public function __construct(private readonly Runtime $runtime) {}
     /** Retrieves an early fraud warning. Expand `payment_intent` or `dispute` to include them.
-     * @param string|Model $fraud_warning_id Flint fraud warning ID.
+     * @param string|Model $fraud_warning_id Flint fraud warning ID. Must be a valid ID with prefix frw_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND.
      * @param FraudWarningsGetParams|array<array-key, mixed>|Model|null $params Flat body fields and query/header parameters; path arguments follow URL order.
      * @return FraudWarning
      */

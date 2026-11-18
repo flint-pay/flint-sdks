@@ -5,13 +5,11 @@ import type {
     CustomDomainListResponse,
     CustomDomainResponse,
     CustomDomainsCreateParams,
-    CustomDomainsDeleteParams,
-    CustomDomainsGetParams,
-    CustomDomainsListParams,
-    CustomDomainsValidateParams
+    CustomDomainsDeleteParams
 } from '../declarations/types-15.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+import type { CustomDomainsGetParams, CustomDomainsListParams, CustomDomainsValidateParams } from '../declarations/types-16.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -31,23 +29,22 @@ export type {
     CustomDomain,
     CustomDomainResponse,
     CustomDomainsDeleteParams,
-    CustomDomainsGetParams,
-    CustomDomainsListParams,
     CustomDomainListResponse,
-    CustomDomainsValidateParams,
     CustomDomainDNSRecord
 } from '../declarations/types-15.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { RequestOptions } from '../declarations/types-61.js';
+export type { CustomDomainsGetParams, CustomDomainsListParams, CustomDomainsValidateParams } from '../declarations/types-16.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type { CreateCustomDomainRequestInput } from '../declarations/types-8.js';
+export type { CreateCustomDomainRequestInput } from '../declarations/types-9.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
-export { makeCreateCustomDomainRequest } from '../declarations/types-79.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { DisputesAcceptParams } from '../declarations/types-26.js';
+export { makeCreateCustomDomainRequest } from '../declarations/types-81.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export interface CustomDomainsResource {
     /**
  * Configures a checkout or customer account hostname in this environment. Remove an existing
@@ -75,7 +72,9 @@ export interface CustomDomainsResource {
  * the archived domain unchanged.
  *
  * `DELETE /v1/custom-domains/{custom_domain_id}`
- * @param custom_domain_id Flint custom domain ID.
+ * @param custom_domain_id Flint custom domain ID. Must be a valid ID with prefix cdom_. Malformed
+ * IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist
+ * return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/custom-domains#deleteCustomDomain
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -89,7 +88,9 @@ export interface CustomDomainsResource {
  * Returns a custom domain, including archived domains.
  *
  * `GET /v1/custom-domains/{custom_domain_id}`
- * @param custom_domain_id Flint custom domain ID.
+ * @param custom_domain_id Flint custom domain ID. Must be a valid ID with prefix cdom_. Malformed
+ * IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist
+ * return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/custom-domains#getCustomDomain
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -121,7 +122,9 @@ export interface CustomDomainsResource {
  * `RATE_LIMIT_EXCEEDED`, so wait before validating again.
  *
  * `POST /v1/custom-domains/{custom_domain_id}/validate`
- * @param custom_domain_id Flint custom domain ID.
+ * @param custom_domain_id Flint custom domain ID. Must be a valid ID with prefix cdom_. Malformed
+ * IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist
+ * return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/custom-domains#validateCustomDomain
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

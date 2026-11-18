@@ -34,7 +34,7 @@ final class PromotionCodesListInput extends Model {
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** Exact match that ignores case and accents: CAFÉ matches cafe. This is the same rule that makes promotion codes unique. Codes preserve their original spelling. Leading and trailing whitespace are rejected, not trimmed. minLength: 1. maxLength: 100.
+    /** Exact match that ignores case but distinguishes accents: CAFÉ matches café, but not CAFE. This is the same rule that makes promotion codes unique. Codes preserve their original spelling. Leading and trailing whitespace are rejected, not trimmed. minLength: 1. maxLength: 100.
      * @return string
      * @throws SdkError When code is omitted; use hasCode() or valueOrDefault().
      */

@@ -9,12 +9,13 @@ namespace Flint;
  * @property-read int $quantity
  * @property-read string $return_replacement_line_item_id
  * @property-read string $sku
+ * @property-read ReturnReplacementTaxRequestInput|array<array-key, mixed>|\stdClass $tax
  * @property-read string $type
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $unit_price_money
  * @property-read string $variant_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdateReturnReplacementLineItemInputCustomInput extends Model {
-    /** @param array{'bundle_id'?: string, 'description'?: string, 'fulfillment': LineItemFulfillmentRequestModelInput|array<array-key, mixed>|\stdClass, 'name': string, 'quantity': int, 'return_replacement_line_item_id'?: string, 'sku'?: string, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string}|object $values */
+    /** @param array{'bundle_id'?: string, 'description'?: string, 'fulfillment': LineItemFulfillmentRequestModelInput|array<array-key, mixed>|\stdClass, 'name': string, 'quantity': int, 'return_replacement_line_item_id'?: string, 'sku'?: string, 'tax'?: ReturnReplacementTaxRequestInput|array<array-key, mixed>|\stdClass, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateReturnReplacementLineItemInputCustomInput')); }
     /** ID of the bundle to send. Used when `type` is `bundle`. minLength: 1. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
      * @return string
@@ -34,7 +35,7 @@ final class UpdateReturnReplacementLineItemInputCustomInput extends Model {
      */
     public function getFulfillment(): mixed { return $this->get('fulfillment'); }
     public function hasFulfillment(): bool { return $this->has('fulfillment'); }
-    /** Name of the replacement item. Required when `type` is `custom`. minLength: 1.
+    /** Name of the replacement item. Required when `type` is `custom`. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
@@ -58,6 +59,12 @@ final class UpdateReturnReplacementLineItemInputCustomInput extends Model {
      */
     public function getSku(): string { return $this->get('sku'); }
     public function hasSku(): bool { return $this->has('sku'); }
+    /** Merchant-supplied external tax. Omit to keep a proposed line's frozen calculation or reuse an unambiguous original calculation for matching returned merchandise at the original destination. Automatic and callback orders calculate their own tax. External tax for replacement merchandise. Allowed only on merchant requests for external-tax orders.
+     * @return ReturnReplacementTaxRequestInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When tax is omitted; use hasTax() or valueOrDefault().
+     */
+    public function getTax(): mixed { return $this->get('tax'); }
+    public function hasTax(): bool { return $this->has('tax'); }
     /** The source of the replacement merchandise: variant, bundle, or custom. Value enum: "custom".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().

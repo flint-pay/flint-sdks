@@ -1,7 +1,19 @@
 [Model index](../MODELS.md)
 
-# DeliveryPricingStrategyFixed to DeliveryRateCallbackWithSecretResponse
+# DeliveryPricingStrategyCreateInputCallback to DeliveryRateCallbackConnectionCheckResponse
 
+- [DeliveryPricingStrategyCreateInputCallback](DeliveryPricingStrategyCreateInputCallback.md)
+- [DeliveryPricingStrategyCreateInputCallbackInput](DeliveryPricingStrategyCreateInputCallbackInput.md)
+- [DeliveryPricingStrategyCreateInputCallerSupplied](DeliveryPricingStrategyCreateInputCallerSupplied.md)
+- [DeliveryPricingStrategyCreateInputCallerSuppliedInput](DeliveryPricingStrategyCreateInputCallerSuppliedInput.md)
+- [DeliveryPricingStrategyCreateInputFixed](DeliveryPricingStrategyCreateInputFixed.md)
+- [DeliveryPricingStrategyCreateInputFixedInput](DeliveryPricingStrategyCreateInputFixedInput.md)
+- [DeliveryPricingStrategyCreateInputRateTable](DeliveryPricingStrategyCreateInputRateTable.md)
+- [DeliveryPricingStrategyCreateInputRateTableInput](DeliveryPricingStrategyCreateInputRateTableInput.md)
+- [DeliveryPricingStrategyCreateInputTiered](DeliveryPricingStrategyCreateInputTiered.md)
+- [DeliveryPricingStrategyCreateInputTieredInput](DeliveryPricingStrategyCreateInputTieredInput.md)
+- [DeliveryPricingStrategyCreateRequest](DeliveryPricingStrategyCreateRequest.md)
+- [DeliveryPricingStrategyCreateRequestInput](DeliveryPricingStrategyCreateRequestInput.md)
 - [DeliveryPricingStrategyFixed](DeliveryPricingStrategyFixed.md)
 - [DeliveryPricingStrategyFixedPreviousAttributes](DeliveryPricingStrategyFixedPreviousAttributes.md)
 - [DeliveryPricingStrategyInputCalculated](DeliveryPricingStrategyInputCalculated.md)
@@ -90,16 +102,4 @@
 - [DeliveryRateCallbackConnectionCheck](DeliveryRateCallbackConnectionCheck.md)
 - [DeliveryRateCallbackConnectionCheckRequest](DeliveryRateCallbackConnectionCheckRequest.md)
 - [DeliveryRateCallbackConnectionCheckResponse](DeliveryRateCallbackConnectionCheckResponse.md)
-- [DeliveryRateCallbackCreatedInstalledMerchantsEvent](DeliveryRateCallbackCreatedInstalledMerchantsEvent.md)
-- [DeliveryRateCallbackCreatedMerchantEvent](DeliveryRateCallbackCreatedMerchantEvent.md)
-- [DeliveryRateCallbackDeactivatedInstalledMerchantsEvent](DeliveryRateCallbackDeactivatedInstalledMerchantsEvent.md)
-- [DeliveryRateCallbackDeactivatedMerchantEvent](DeliveryRateCallbackDeactivatedMerchantEvent.md)
-- [DeliveryRateCallbackListResponse](DeliveryRateCallbackListResponse.md)
-- [DeliveryRateCallbackResponse](DeliveryRateCallbackResponse.md)
-- [DeliveryRateCallbackTestDelivery](DeliveryRateCallbackTestDelivery.md)
-- [DeliveryRateCallbackTestDeliveryResponse](DeliveryRateCallbackTestDeliveryResponse.md)
-- [DeliveryRateCallbackUpdatedInstalledMerchantsEvent](DeliveryRateCallbackUpdatedInstalledMerchantsEvent.md)
-- [DeliveryRateCallbackUpdatedMerchantEvent](DeliveryRateCallbackUpdatedMerchantEvent.md)
-- [DeliveryRateCallbackWithSecret](DeliveryRateCallbackWithSecret.md)
-- [DeliveryRateCallbackWithSecretResponse](DeliveryRateCallbackWithSecretResponse.md)
 

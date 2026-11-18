@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/paymentIntents.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
+import r0 from '../descriptors/resources/paymentIntents.js?sdk=22459f40165c8f83629c1309c0555e659f12bdc99933459ef8de8ac0e4796ba2';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
+import settings from '../descriptors/settings.js?sdk=22459f40165c8f83629c1309c0555e659f12bdc99933459ef8de8ac0e4796ba2';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["cancelPaymentIntent"]:r0,["capturePaymentIntent"]:r0,["confirmPaymentIntent"]:r0,["createPaymentIntent"]:r0,["getPaymentIntent"]:r0,["listPaymentIntentActivities"]:r0,["listPaymentIntents"]:r0,["sendPaymentIntentReceipt"]:r0,["updatePaymentIntent"]:r0});
 export class Client {
@@ -117,8 +117,16 @@ this.paymentIntents = Object.freeze({
   "page_token",
   "order_id",
   "customer_id",
+  "email",
   "invoice_id",
   "is_action_required",
+  "has_failed_attempts",
+  "payment_link_id",
+  "decline_code",
+  "card_fingerprint",
+  "buyer_ip_address",
+  "card_last4",
+  "card_brand",
   "status",
   "risk_level",
   "payment_flow",
@@ -151,8 +159,16 @@ this.paymentIntents = Object.freeze({
   "page_token",
   "order_id",
   "customer_id",
+  "email",
   "invoice_id",
   "is_action_required",
+  "has_failed_attempts",
+  "payment_link_id",
+  "decline_code",
+  "card_fingerprint",
+  "buyer_ip_address",
+  "card_last4",
+  "card_brand",
   "status",
   "risk_level",
   "payment_flow",
@@ -185,8 +201,16 @@ this.paymentIntents = Object.freeze({
   "page_token",
   "order_id",
   "customer_id",
+  "email",
   "invoice_id",
   "is_action_required",
+  "has_failed_attempts",
+  "payment_link_id",
+  "decline_code",
+  "card_fingerprint",
+  "buyer_ip_address",
+  "card_last4",
+  "card_brand",
   "status",
   "risk_level",
   "payment_flow",
@@ -256,6 +280,7 @@ export { makePaymentSourceCredentialReader } from '../models/PaymentSourceCreden
 export { makePaymentSourceCredentialStripeConfirmationToken } from '../models/PaymentSourceCredentialStripeConfirmationToken.js';
 export { makePaymentSourceCredentialStripePaymentMethod } from '../models/PaymentSourceCredentialStripePaymentMethod.js';
 export { makePaymentSplitRequest } from '../models/PaymentSplitRequest.js';
+export { makePlatformFeeMoney } from '../models/PlatformFeeMoney.js';
 export { makePlatformFeeRequest } from '../models/PlatformFeeRequest.js';
 export { makeReaderPaymentSourceTip } from '../models/ReaderPaymentSourceTip.js';
 export { makeSendPaymentIntentReceiptRequest } from '../models/SendPaymentIntentReceiptRequest.js';

@@ -14,7 +14,7 @@ namespace Flint;
 final class CheckoutDerivedDeliveryResourcePreviousAttributesInput extends Model {
     /** @param array{'buyer_reasons'?: list<string>|null, 'choice_groups'?: list<DeliveryQuoteChoiceGroupResourcePreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'delivery_quote_id'?: string|null, 'delivery_selection_id'?: string|null, 'evaluation_status'?: string|null, 'expires_at'?: string|\DateTimeInterface|null, 'input_requirements'?: list<DeliveryInputRequirementPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'merchant_diagnostics'?: list<DeliveryMerchantDiagnosticPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutDerivedDeliveryResourcePreviousAttributesInput')); }
-    /** Buyer-safe reasons candidate methods did not produce an option. These can be present even when another method is available. anyOf[1] (Value): Array of string. Buyer-safe reasons candidate methods did not produce an option. These can be present even when another method is available. anyOf[1][] (Value): string. anyOf[2] (Value): null.
+    /** Buyer-safe reasons a choice group has no available option. Groups with an available option contribute no reasons. anyOf[1] (Value): Array of string. Buyer-safe reasons a choice group has no available option. Groups with an available option contribute no reasons. anyOf[1][] (Value): string. anyOf[2] (Value): null.
      * @return list<string>|null
      * @throws SdkError When buyer_reasons is omitted; use hasBuyerReasons() or valueOrDefault().
      */

@@ -15,7 +15,7 @@ namespace Flint;
 final class CreateInvoiceQuickPayRequestInput extends Model {
     /** @param array{'buyer_note'?: string, 'customer_id'?: string, 'delivery_destination'?: OrderDeliveryDestinationRequestInput|array<array-key, mixed>|\stdClass, 'discounts'?: list<CreateOrderDiscountInput|array<array-key, mixed>|\stdClass>, 'internal_note'?: string, 'inventory_routing_source'?: InventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass, 'line_items': list<CreateOrderLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'requested_tip'?: CreateOrderTipInput|array<array-key, mixed>|\stdClass, 'tax'?: OrderTaxRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateInvoiceQuickPayRequestInput')); }
-    /** A note to the buyer on the backing order, captured in snapshot.buyer_note. minLength: 1.
+    /** A note to the buyer on the backing order, captured in snapshot.buyer_note. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1.
      * @return string
      * @throws SdkError When buyer_note is omitted; use hasBuyerNote() or valueOrDefault().
      */
@@ -39,7 +39,7 @@ final class CreateInvoiceQuickPayRequestInput extends Model {
      */
     public function getDiscounts(): array { return $this->get('discounts'); }
     public function hasDiscounts(): bool { return $this->has('discounts'); }
-    /** A note for your team on the backing order. Buyer reads leave it out. minLength: 1.
+    /** A note for your team on the backing order. Buyer reads leave it out. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1.
      * @return string
      * @throws SdkError When internal_note is omitted; use hasInternalNote() or valueOrDefault().
      */

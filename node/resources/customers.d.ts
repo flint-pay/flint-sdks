@@ -10,12 +10,12 @@ import type {
     CustomerEmailPreferences,
     CustomerEmailPreferencesResponse,
     CustomerListResponse,
-    CustomerResponse,
-    CustomerSessionsRevocation,
-    CustomerSessionsRevocationResponse,
-    CustomerTaxExemption
+    CustomerResponse
 } from '../declarations/types-16.js';
 import type {
+    CustomerSessionsRevocation,
+    CustomerSessionsRevocationResponse,
+    CustomerTaxExemption,
     CustomerTaxExemptionListResponse,
     CustomerTaxExemptionResponse,
     CustomersCancelEmailChangeRequestParams,
@@ -42,9 +42,10 @@ import type {
     CustomersUpdateTaxExemptionParams
 } from '../declarations/types-17.js';
 import type { EmailChangeRequest, EmailChangeRequestListResponse, EmailChangeRequestResponse } from '../declarations/types-26.js';
-import type { GuestPurchaseLink, GuestPurchaseLinkResponse } from '../declarations/types-30.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+import type { GuestPurchaseLink } from '../declarations/types-30.js';
+import type { GuestPurchaseLinkResponse } from '../declarations/types-31.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -66,6 +67,7 @@ export type {
     CustomersCreateAddressParams,
     CustomersCreateEmailChangeRequestParams,
     CustomersCreateTaxExemptionParams,
+    CustomerTaxExemption,
     CustomerTaxExemptionResponse,
     CustomersDeleteAddressParams,
     CustomersDeleteTaxExemptionParams,
@@ -81,19 +83,27 @@ export type {
     CustomersListTaxExemptionsParams,
     CustomerTaxExemptionListResponse,
     CustomersRevokeSessionsParams,
+    CustomerSessionsRevocation,
+    CustomerSessionsRevocationResponse,
     CustomersUpdateParams,
     CustomersUpdateAddressParams,
     CustomersUpdateTaxExemptionParams,
-    CustomerTaxExemptionCoverageStatesRequestInput
+    CustomerTaxExemptionCoverageRequestInput,
+    CustomerTaxExemptionCoverageAllStatesRequestInput,
+    CustomerTaxExemptionCoverageStatesRequestInput,
+    CustomerTaxExemptionCoverage,
+    CustomerTaxExemptionCoverageAllStates,
+    CustomerTaxExemptionCoverageStates
 } from '../declarations/types-17.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
+export type { RequestOptions } from '../declarations/types-61.js';
 export type {
     EmailChangeRequest,
     EmailChangeRequestResponse,
     EmailChangeRequestListResponse,
     DocumentTaxIDRequestInput,
     ExpandedPaymentMethodSummary,
-    DocumentTaxID
+    DocumentTaxID,
+    DisputesAcceptParams
 } from '../declarations/types-26.js';
 export type {
     Customer,
@@ -102,78 +112,76 @@ export type {
     CustomerAccessLinkResponse,
     CustomerAddress,
     CustomerAddressResponse,
-    CustomerTaxExemption,
     CustomerEmailPreferences,
     CustomerEmailPreferencesResponse,
     CustomerAddressListResponse,
     CustomerListResponse,
-    CustomerSessionsRevocation,
-    CustomerSessionsRevocationResponse,
     CustomerReceivables,
     CustomerReceivableBalance,
     CustomerAccessLinkReturned,
-    CustomerAccessLinkEmailed,
-    CustomerTaxExemptionCoverageRequestInput,
-    CustomerTaxExemptionCoverageAllStatesRequestInput,
-    CustomerTaxExemptionCoverage,
-    CustomerTaxExemptionCoverageAllStates,
-    CustomerTaxExemptionCoverageStates
+    CustomerAccessLinkEmailed
 } from '../declarations/types-16.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
-export type { GuestPurchaseLink, GuestPurchaseLinkResponse } from '../declarations/types-30.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { GuestPurchaseLink } from '../declarations/types-30.js';
+export type { GuestPurchaseLinkResponse } from '../declarations/types-31.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type {
     CreateCustomerRequestInput,
     CreateCustomerAddressRequestInput,
-    CreateCustomerAccessLinkRequestInput
-} from '../declarations/types-8.js';
+    CreateCustomerAccessLinkRequestInput,
+    CreateEmailChangeRequestInput,
+    CreateCustomerTaxExemptionRequestInput,
+    CreateEmailChangeRequest
+} from '../declarations/types-9.js';
 export type { AddressRequestInput, Address, AddressRequest } from '../declarations/types-0.js';
-export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-41.js';
-export type { TaxIdentityRequestInput, TaxIdentity, TaxIdentityPatchInput } from '../declarations/types-72.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
+export type { TaxIdentityRequestInput, TaxIdentity, TaxIdentityPatchInput } from '../declarations/types-74.js';
 export type { CardDetails } from '../declarations/types-5.js';
-export type { CreateEmailChangeRequestInput, CreateCustomerTaxExemptionRequestInput, CreateEmailChangeRequest } from '../declarations/types-9.js';
-export type { LinkCustomerGuestPurchasesRequestInput, LinkCustomerGuestPurchasesRequest } from '../declarations/types-38.js';
+export type { LinkCustomerGuestPurchasesRequestInput, LinkCustomerGuestPurchasesRequest } from '../declarations/types-40.js';
 export type {
     UpdateCustomerRequestInput,
     UpdateCustomerAddressRequestInput,
     UpdateCustomerTaxExemptionRequestInput
-} from '../declarations/types-73.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
-export { makeAddressRequest } from '../declarations/types-77.js';
+} from '../declarations/types-75.js';
+export { makeAddressRequest } from '../declarations/types-79.js';
 export {
     makeCreateCustomerAccessLinkRequest,
     makeCreateCustomerAddressRequest,
     makeCreateCustomerRequest,
-    makeCreateCustomerTaxExemptionRequest,
-    makeCreateEmailChangeRequest
-} from '../declarations/types-79.js';
+    makeCreateCustomerTaxExemptionRequest
+} from '../declarations/types-81.js';
+export { makeCreateEmailChangeRequest } from '../declarations/types-82.js';
 export {
     makeCustomerTaxExemptionCoverageAllStatesRequest,
     makeCustomerTaxExemptionCoverageRequest,
     makeCustomerTaxExemptionCoverageStatesRequest
-} from '../declarations/types-82.js';
-export { makeDocumentTaxIDRequest } from '../declarations/types-84.js';
-export { makeLinkCustomerGuestPurchasesRequest, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
+} from '../declarations/types-84.js';
+export { makeDocumentTaxIDRequest } from '../declarations/types-86.js';
+export { makeLinkCustomerGuestPurchasesRequest } from '../declarations/types-87.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeTaxIdentityPatch, makeTaxIdentityRequest } from '../declarations/types-92.js';
 export {
-    makeTaxIdentityPatch,
-    makeTaxIdentityRequest,
     makeUpdateCustomerAddressRequest,
     makeUpdateCustomerRequest,
     makeUpdateCustomerTaxExemptionRequest
-} from '../declarations/types-90.js';
+} from '../declarations/types-93.js';
 export interface CustomersResource {
     /**
  * Cancels a pending request and invalidates its link or codes. The customer's email stays
  * unchanged. A terminal request refuses cancellation. Send no body or an empty JSON object.
  *
  * `POST /v1/customers/{customer_id}/email-change-requests/{email_change_request_id}/cancel`
- * @param customer_id Flint customer ID.
- * @param email_change_request_id Flint email change request ID.
+ * @param customer_id Flint customer ID. Must be a valid ID with prefix cus_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
+ * @param email_change_request_id Flint email change request ID. Must be a valid ID with prefix
+ * cecr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customers#cancelCustomerEmailChangeRequest
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -214,7 +222,9 @@ export interface CustomersResource {
  * ID before sending a new request.
  *
  * `POST /v1/customers/{customer_id}/access-links`
- * @param customer_id Flint customer ID.
+ * @param customer_id Flint customer ID. Must be a valid ID with prefix cus_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customers#createCustomerAccessLink
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -231,7 +241,9 @@ export interface CustomersResource {
  * corresponding role.
  *
  * `POST /v1/customers/{customer_id}/addresses`
- * @param customer_id Flint customer ID.
+ * @param customer_id Flint customer ID. Must be a valid ID with prefix cus_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customers#createCustomerAddress
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -251,7 +263,9 @@ export interface CustomersResource {
  * hour.
  *
  * `POST /v1/customers/{customer_id}/email-change-requests`
- * @param customer_id Flint customer ID.
+ * @param customer_id Flint customer ID. Must be a valid ID with prefix cus_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customers#createCustomerEmailChangeRequest
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -273,7 +287,9 @@ export interface CustomersResource {
  * pages; contact support with the original key and request ID if its outcome is unclear.
  *
  * `POST /v1/customers/{customer_id}/tax-exemptions`
- * @param customer_id Flint ID of the customer that owns this nested child.
+ * @param customer_id Flint ID of the customer that owns this nested child. Must be a valid ID with
+ * prefix cus_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs
+ * that do not exist return 404 RESOURCE_NOT_FOUND.
  * @see
  * https://developers.withflintpay.com/docs/api/customer-tax-exemptions#createCustomerTaxExemption
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
@@ -290,8 +306,12 @@ export interface CustomersResource {
  * Flint doesn't pick another address.
  *
  * `DELETE /v1/customers/{customer_id}/addresses/{customer_address_id}`
- * @param customer_id Flint customer ID.
- * @param customer_address_id Flint customer address ID.
+ * @param customer_id Flint customer ID. Must be a valid ID with prefix cus_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
+ * @param customer_address_id Flint customer address ID. Must be a valid ID with prefix caddr_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customers#deleteCustomerAddress
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -311,8 +331,12 @@ export interface CustomersResource {
  * support with the original key and request ID if its outcome is unclear.
  *
  * `DELETE /v1/customers/{customer_id}/tax-exemptions/{customer_tax_exemption_id}`
- * @param customer_id Flint ID of the customer that owns this nested child.
- * @param customer_tax_exemption_id Flint customer tax exemption ID, prefixed ctex_.
+ * @param customer_id Flint ID of the customer that owns this nested child. Must be a valid ID with
+ * prefix cus_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs
+ * that do not exist return 404 RESOURCE_NOT_FOUND.
+ * @param customer_tax_exemption_id Flint customer tax exemption ID, prefixed ctex_. Must be a
+ * valid ID with prefix ctex_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE;
+ * well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND.
  * @see
  * https://developers.withflintpay.com/docs/api/customer-tax-exemptions#deleteCustomerTaxExemption
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
@@ -327,7 +351,9 @@ export interface CustomersResource {
  * Returns a single customer by ID.
  *
  * `GET /v1/customers/{customer_id}`
- * @param customer_id Flint customer ID.
+ * @param customer_id Flint customer ID. Must be a valid ID with prefix cus_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customers#getCustomer
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -338,8 +364,12 @@ export interface CustomersResource {
  * Returns one saved address owned by the customer.
  *
  * `GET /v1/customers/{customer_id}/addresses/{customer_address_id}`
- * @param customer_id Flint customer ID.
- * @param customer_address_id Flint customer address ID.
+ * @param customer_id Flint customer ID. Must be a valid ID with prefix cus_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
+ * @param customer_address_id Flint customer address ID. Must be a valid ID with prefix caddr_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customers#getCustomerAddress
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -351,8 +381,12 @@ export interface CustomersResource {
  * have no new_email.
  *
  * `GET /v1/customers/{customer_id}/email-change-requests/{email_change_request_id}`
- * @param customer_id Flint customer ID.
- * @param email_change_request_id Flint email change request ID.
+ * @param customer_id Flint customer ID. Must be a valid ID with prefix cus_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
+ * @param email_change_request_id Flint email change request ID. Must be a valid ID with prefix
+ * cecr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customers#getCustomerEmailChangeRequest
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -367,7 +401,9 @@ export interface CustomersResource {
  * customer has no email address. Merchants cannot change these preferences.
  *
  * `GET /v1/customers/{customer_id}/email-preferences`
- * @param customer_id Flint customer ID.
+ * @param customer_id Flint customer ID. Must be a valid ID with prefix cus_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customers#getCustomerEmailPreferences
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -380,8 +416,12 @@ export interface CustomersResource {
  * customer and checkout sessions cannot access this route.
  *
  * `GET /v1/customers/{customer_id}/tax-exemptions/{customer_tax_exemption_id}`
- * @param customer_id Flint ID of the customer that owns this nested child.
- * @param customer_tax_exemption_id Flint customer tax exemption ID, prefixed ctex_.
+ * @param customer_id Flint ID of the customer that owns this nested child. Must be a valid ID with
+ * prefix cus_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs
+ * that do not exist return 404 RESOURCE_NOT_FOUND.
+ * @param customer_tax_exemption_id Flint customer tax exemption ID, prefixed ctex_. Must be a
+ * valid ID with prefix ctex_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE;
+ * well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-tax-exemptions#getCustomerTaxExemption
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -395,7 +435,9 @@ export interface CustomersResource {
  * verification is single use; use the same idempotency key to retry an uncertain result.
  *
  * `POST /v1/customers/{customer_id}/link-guest-purchases`
- * @param customer_id Flint customer ID.
+ * @param customer_id Flint customer ID. Must be a valid ID with prefix cus_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customers#linkCustomerGuestPurchases
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -410,7 +452,9 @@ export interface CustomersResource {
  * created_at descending, then customer_address_id descending.
  *
  * `GET /v1/customers/{customer_id}/addresses`
- * @param customer_id Flint customer ID.
+ * @param customer_id Flint customer ID. Must be a valid ID with prefix cus_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customers#listCustomerAddresses
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -431,7 +475,9 @@ export interface CustomersResource {
  * descending, then email_change_request_id descending.
  *
  * `GET /v1/customers/{customer_id}/email-change-requests`
- * @param customer_id Flint customer ID.
+ * @param customer_id Flint customer ID. Must be a valid ID with prefix cus_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customers#listCustomerEmailChangeRequests
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -473,7 +519,9 @@ export interface CustomersResource {
  * created_at descending, then customer_tax_exemption_id descending.
  *
  * `GET /v1/customers/{customer_id}/tax-exemptions`
- * @param customer_id Flint ID of the customer that owns this nested child.
+ * @param customer_id Flint ID of the customer that owns this nested child. Must be a valid ID with
+ * prefix cus_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs
+ * that do not exist return 404 RESOURCE_NOT_FOUND.
  * @see
  * https://developers.withflintpay.com/docs/api/customer-tax-exemptions#listCustomerTaxExemptions
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
@@ -496,7 +544,9 @@ export interface CustomersResource {
  * Account buyer sessions remain independent.
  *
  * `POST /v1/customers/{customer_id}/sessions/revoke`
- * @param customer_id Flint customer ID.
+ * @param customer_id Flint customer ID. Must be a valid ID with prefix cus_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-sessions#revokeCustomerSessions
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -517,7 +567,9 @@ export interface CustomersResource {
  * with a retryable `SERVICE_UNAVAILABLE` and the customer is unchanged.
  *
  * `PATCH /v1/customers/{customer_id}`
- * @param customer_id Flint customer ID.
+ * @param customer_id Flint customer ID. Must be a valid ID with prefix cus_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customers#updateCustomer
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -533,8 +585,12 @@ export interface CustomersResource {
  * address also updates the customer's effective address for that role.
  *
  * `PATCH /v1/customers/{customer_id}/addresses/{customer_address_id}`
- * @param customer_id Flint customer ID.
- * @param customer_address_id Flint customer address ID.
+ * @param customer_id Flint customer ID. Must be a valid ID with prefix cus_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
+ * @param customer_address_id Flint customer address ID. Must be a valid ID with prefix caddr_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customers#updateCustomerAddress
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -556,8 +612,12 @@ export interface CustomersResource {
  * outcome is unclear.
  *
  * `PATCH /v1/customers/{customer_id}/tax-exemptions/{customer_tax_exemption_id}`
- * @param customer_id Flint ID of the customer that owns this nested child.
- * @param customer_tax_exemption_id Flint customer tax exemption ID, prefixed ctex_.
+ * @param customer_id Flint ID of the customer that owns this nested child. Must be a valid ID with
+ * prefix cus_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs
+ * that do not exist return 404 RESOURCE_NOT_FOUND.
+ * @param customer_tax_exemption_id Flint customer tax exemption ID, prefixed ctex_. Must be a
+ * valid ID with prefix ctex_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE;
+ * well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND.
  * @see
  * https://developers.withflintpay.com/docs/api/customer-tax-exemptions#updateCustomerTaxExemption
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.

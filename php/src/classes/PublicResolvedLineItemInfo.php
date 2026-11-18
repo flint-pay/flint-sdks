@@ -7,6 +7,7 @@ namespace Flint;
  * @property-read ?list<PublicResolvedBundleComponent> $bundle_components
  * @property-read ?string $bundle_id
  * @property-read ?string $catalog_object_type
+ * @property-read MoneyValue|null $compare_at_price_money
  * @property-read ?Image $image
  * @property-read ?bool $is_inventory_tracked
  * @property-read bool $is_sold_out
@@ -21,7 +22,7 @@ namespace Flint;
  * @property-read ?string $variant_id
  * Presence-aware response; omitted optional fields return null. */
 final class PublicResolvedLineItemInfo extends Model {
-    /** @param array{'available_modifiers'?: list<mixed>, 'available_variants'?: list<mixed>, 'bundle_components'?: list<mixed>, 'bundle_id'?: string, 'catalog_object_type'?: string, 'image'?: mixed, 'is_inventory_tracked'?: bool, 'is_sold_out': bool, 'key': string, 'product_id'?: string, 'product_options'?: list<mixed>, 'quantity_price_breaks': list<mixed>, 'resolved_description'?: string, 'resolved_name'?: string, 'resolved_unit_price_money'?: mixed, 'selected_options'?: list<mixed>, 'variant_id'?: string, ...}|object $values */
+    /** @param array{'available_modifiers'?: list<mixed>, 'available_variants'?: list<mixed>, 'bundle_components'?: list<mixed>, 'bundle_id'?: string, 'catalog_object_type'?: string, 'compare_at_price_money': mixed, 'image'?: mixed, 'is_inventory_tracked'?: bool, 'is_sold_out': bool, 'key': string, 'product_id'?: string, 'product_options'?: list<mixed>, 'quantity_price_breaks': list<mixed>, 'resolved_description'?: string, 'resolved_name'?: string, 'resolved_unit_price_money'?: mixed, 'selected_options'?: list<mixed>, 'variant_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PublicResolvedLineItemInfo')); }
     /** Modifier groups the buyer can choose from for this item. [] (Value): {@see PublicResolvedModifierGroup}. A modifier group as resolved for a payment link line item, with its selection limits, display flags, and options or text settings.
      * @return ?list<PublicResolvedModifierGroup>
@@ -48,6 +49,11 @@ final class PublicResolvedLineItemInfo extends Model {
      */
     public function getCatalogObjectType(): ?string { return $this->get('catalog_object_type'); }
     public function hasCatalogObjectType(): bool { return $this->has('catalog_object_type'); }
+    /** Current catalog reference unit price for sale display. Null when no variant compare-at price is set. Does not affect the amount charged. anyOf[1] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
+     * @return MoneyValue|null
+     */
+    public function getCompareAtPriceMoney(): MoneyValue|null { return $this->get('compare_at_price_money'); }
+    public function hasCompareAtPriceMoney(): bool { return $this->has('compare_at_price_money'); }
     /** Image of the variant or bundle. An image with its URL, size, and alt text.
      * @return ?Image
      */

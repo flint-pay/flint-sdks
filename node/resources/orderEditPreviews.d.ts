@@ -1,8 +1,8 @@
 import type { WithResponseInfo } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { OrderEditPreview, OrderEditPreviewResponse, OrderEditPreviewsCreateParams } from '../declarations/types-44.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+import type { OrderEditPreview, OrderEditPreviewResponse, OrderEditPreviewsCreateParams } from '../declarations/types-46.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -22,20 +22,16 @@ export type {
     OrderEditPreview,
     OrderEditPreviewResponse,
     OrderEditPreviewRequestInput,
-    OrderDraftLineItemInventoryDemandRequestInput,
-    OrderDraftLineItemTaxRequestModelInput,
-    OrderDraftLineItemTaxCalculationRequestModelInput,
-    OrderDraftTaxComponentRequestModelInput,
-    OrderDraftTaxJurisdictionRequestModelInput,
+    OrderLineItemModifierRequestModelInput,
+    OrderLineItemModifierInputCatalogRequestInput,
+    OrderLineItemModifierInputTextRequestInput,
     OrderEditRemovalRequestInput,
     OrderEditPreviewAddition,
-    OrderEditChargeRefund,
     OrderEditRemoval,
-    OrderDraftLineItemInventoryDemandRequest,
     OrderEditRemovalRequest
-} from '../declarations/types-44.js';
-export type { _SdkWithoutIdempotency, WeightRequestInput } from '../declarations/types-77.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
+} from '../declarations/types-46.js';
+export type { _SdkWithoutIdempotency, WeightRequestInput } from '../declarations/types-79.js';
+export type { RequestOptions } from '../declarations/types-61.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type {
     CreateOrderLineItemRequestInput,
@@ -43,40 +39,42 @@ export type {
     CreateOrderLineItemInputBundleInput,
     CreateOrderLineItemInputCustomInput
 } from '../declarations/types-11.js';
-export type { LineItemFulfillmentRequestModelInput, LineItemFulfillmentOriginRequestModelInput } from '../declarations/types-38.js';
-export type { GiftCardPurchaseDetailsRequestInput, GiftCardPurchaseRecipientRequestInput } from '../declarations/types-29.js';
-export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-42.js';
+export type { LineItemFulfillmentRequestModelInput, LineItemFulfillmentOriginRequestModelInput } from '../declarations/types-40.js';
+export type { GiftCardPurchaseDetailsRequestInput, GiftCardPurchaseRecipientRequestInput } from '../declarations/types-30.js';
+export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { ImageReferenceRequestInput, ImageReferenceRequest } from '../declarations/types-31.js';
-export type { MetadataRequestInput, MetadataMap } from '../declarations/types-41.js';
 export type {
-    OrderLineItemModifierRequestModelInput,
-    OrderLineItemModifierInputCatalogRequestInput,
-    OrderLineItemModifierInputTextRequestInput
+    OrderDraftLineItemInventoryDemandRequestInput,
+    OrderDraftLineItemTaxRequestModelInput,
+    OrderDraftLineItemTaxCalculationRequestModelInput,
+    OrderDraftTaxComponentRequestModelInput,
+    OrderDraftTaxJurisdictionRequestModelInput,
+    OrderEditChargeRefund,
+    OrderDraftLineItemInventoryDemandRequest
 } from '../declarations/types-45.js';
-export type { TextModifierRequestInput, TextModifierRequest } from '../declarations/types-72.js';
-export type { SubscribedLineRequestModelInput } from '../declarations/types-66.js';
+export type { MetadataRequestInput, MetadataMap } from '../declarations/types-43.js';
+export type { TextModifierRequestInput, TextModifierRequest } from '../declarations/types-74.js';
+export type { SubscribedLineRequestModelInput } from '../declarations/types-68.js';
 export type { DimensionsRequestInput } from '../declarations/types-25.js';
-export type { RefundChargeInput, RefundDestinationsInput, ReadinessMerchantAccountSession } from '../declarations/types-58.js';
+export type { RefundChargeInput, RefundDestinationsInput, ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export {
     makeCreateOrderLineItemInputBundle,
     makeCreateOrderLineItemInputCustom,
     makeCreateOrderLineItemInputVariant,
     makeCreateOrderLineItemRequest
-} from '../declarations/types-80.js';
-export { makeDimensionsRequest } from '../declarations/types-83.js';
+} from '../declarations/types-83.js';
 export {
+    makeDimensionsRequest,
     makeGiftCardPurchaseDetailsRequest,
     makeGiftCardPurchaseRecipientRequest,
     makeImageReferenceRequest
-} from '../declarations/types-84.js';
+} from '../declarations/types-86.js';
+export { makeLineItemFulfillmentOriginRequestModel, makeLineItemFulfillmentRequestModel } from '../declarations/types-87.js';
 export {
-    makeLineItemFulfillmentOriginRequestModel,
-    makeLineItemFulfillmentRequestModel,
-    makeMetadataRequest
-} from '../declarations/types-85.js';
-export {
+    makeMetadataRequest,
     makeMoneyValue,
     makeOrderDraftLineItemInventoryDemandRequest,
     makeOrderDraftLineItemTaxCalculationRequestModel,
@@ -88,11 +86,11 @@ export {
     makeOrderLineItemModifierInputCatalogRequest,
     makeOrderLineItemModifierInputTextRequest,
     makeOrderLineItemModifierRequestModel
-} from '../declarations/types-86.js';
-export { makeRefundCharge, makeRefundDestinations } from '../declarations/types-88.js';
-export { makeSubscribedLineRequestModel } from '../declarations/types-89.js';
-export { makeTextModifierRequest } from '../declarations/types-90.js';
-export { makeWeightRequest } from '../declarations/types-92.js';
+} from '../declarations/types-88.js';
+export { makeRefundCharge, makeRefundDestinations } from '../declarations/types-90.js';
+export { makeSubscribedLineRequestModel } from '../declarations/types-92.js';
+export { makeTextModifierRequest } from '../declarations/types-93.js';
+export { makeWeightRequest } from '../declarations/types-94.js';
 export interface OrderEditPreviewsResource {
     /**
  * Calculates removing items from a paid order, adding items to it, or both, without changing it.

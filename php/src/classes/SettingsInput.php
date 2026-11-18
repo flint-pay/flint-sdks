@@ -16,6 +16,7 @@ namespace Flint;
  * @property-read PaymentLimitSettingsInput|array<array-key, mixed>|\stdClass $payment_limits
  * @property-read PaymentSettingsInput|array<array-key, mixed>|\stdClass $payments
  * @property-read PromotionSettingsInput|array<array-key, mixed>|\stdClass $promotions
+ * @property-read ReceiptSettingsInput|array<array-key, mixed>|\stdClass $receipts
  * @property-read string $settings_id
  * @property-read SubscriptionSettingsInput|array<array-key, mixed>|\stdClass $subscriptions
  * @property-read TaxSettingsInput|array<array-key, mixed>|\stdClass $tax
@@ -25,7 +26,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class SettingsInput extends Model {
-    /** @param array{'branding'?: BrandingSettingsInput|array<array-key, mixed>|\stdClass, 'checkout'?: CheckoutSettingsInput|array<array-key, mixed>|\stdClass, 'created_at': string|\DateTimeInterface, 'customer_account'?: CustomerAccountSettingsInput|array<array-key, mixed>|\stdClass, 'customer_email_delivery'?: CustomerEmailDeliverySettingsInput|array<array-key, mixed>|\stdClass, 'fulfillment'?: FulfillmentSettingsInput|array<array-key, mixed>|\stdClass, 'inventory'?: InventorySettingsInput|array<array-key, mixed>|\stdClass, 'invoices'?: InvoiceSettingsInput|array<array-key, mixed>|\stdClass, 'legal'?: LegalSettingsInput|array<array-key, mixed>|\stdClass, 'merchant_id': string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'payment_limits'?: PaymentLimitSettingsInput|array<array-key, mixed>|\stdClass, 'payments'?: PaymentSettingsInput|array<array-key, mixed>|\stdClass, 'promotions'?: PromotionSettingsInput|array<array-key, mixed>|\stdClass, 'settings_id': string, 'subscriptions'?: SubscriptionSettingsInput|array<array-key, mixed>|\stdClass, 'tax'?: TaxSettingsInput|array<array-key, mixed>|\stdClass, 'tax_identity': array{'legal_name': string|null, 'registered_address': array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null, 'tax_ids': list<DocumentTaxIDInput|array<array-key, mixed>|\stdClass>, ...}|object|null, 'tipping'?: TippingSettingsInput|array<array-key, mixed>|\stdClass, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
+    /** @param array{'branding'?: BrandingSettingsInput|array<array-key, mixed>|\stdClass, 'checkout'?: CheckoutSettingsInput|array<array-key, mixed>|\stdClass, 'created_at': string|\DateTimeInterface, 'customer_account'?: CustomerAccountSettingsInput|array<array-key, mixed>|\stdClass, 'customer_email_delivery'?: CustomerEmailDeliverySettingsInput|array<array-key, mixed>|\stdClass, 'fulfillment'?: FulfillmentSettingsInput|array<array-key, mixed>|\stdClass, 'inventory'?: InventorySettingsInput|array<array-key, mixed>|\stdClass, 'invoices'?: InvoiceSettingsInput|array<array-key, mixed>|\stdClass, 'legal'?: LegalSettingsInput|array<array-key, mixed>|\stdClass, 'merchant_id': string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'payment_limits'?: PaymentLimitSettingsInput|array<array-key, mixed>|\stdClass, 'payments'?: PaymentSettingsInput|array<array-key, mixed>|\stdClass, 'promotions'?: PromotionSettingsInput|array<array-key, mixed>|\stdClass, 'receipts'?: ReceiptSettingsInput|array<array-key, mixed>|\stdClass, 'settings_id': string, 'subscriptions'?: SubscriptionSettingsInput|array<array-key, mixed>|\stdClass, 'tax'?: TaxSettingsInput|array<array-key, mixed>|\stdClass, 'tax_identity': array{'legal_name': string|null, 'registered_address': array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null, 'tax_ids': list<DocumentTaxIDInput|array<array-key, mixed>|\stdClass>, ...}|object|null, 'tipping'?: TippingSettingsInput|array<array-key, mixed>|\stdClass, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SettingsInput')); }
     /** Colors, font, and corner radius of hosted checkout, receipts, and links. Omitted until you save a value in this section; effective settings fill in Flint's defaults. A merchant's branding settings: colors, corner radius, and font family. Checkout uses them as its default theme.
      * @return BrandingSettingsInput|array<array-key, mixed>|\stdClass
@@ -99,7 +100,7 @@ final class SettingsInput extends Model {
      */
     public function getPaymentLimits(): mixed { return $this->get('payment_limits'); }
     public function hasPaymentLimits(): bool { return $this->has('payment_limits'); }
-    /** Statement text for new payments. Omitted until you save a value in this section; effective settings fill in Flint's defaults. Settings for the statement text on new payments.
+    /** Statement text for new payments and Stripe's current decision about the card statement name. Settings for the statement text on new payments.
      * @return PaymentSettingsInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When payments is omitted; use hasPayments() or valueOrDefault().
      */
@@ -111,6 +112,12 @@ final class SettingsInput extends Model {
      */
     public function getPromotions(): mixed { return $this->get('promotions'); }
     public function hasPromotions(): bool { return $this->has('promotions'); }
+    /** Merchant-provided text on payment receipt emails and PDFs. Omitted until you save a value in this section; effective settings fill in Flint's defaults. Merchant-provided text on payment receipt emails and PDFs.
+     * @return ReceiptSettingsInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When receipts is omitted; use hasReceipts() or valueOrDefault().
+     */
+    public function getReceipts(): mixed { return $this->get('receipts'); }
+    public function hasReceipts(): bool { return $this->has('receipts'); }
     /** Unique identifier for this settings, prefixed `set_`. Example: "set_01KEZF7C00SA6XKHH6GVZ1JMC2".
      * @return string
      * @throws SdkError When settings_id is omitted; use hasSettingsId() or valueOrDefault().
@@ -129,7 +136,7 @@ final class SettingsInput extends Model {
      */
     public function getTax(): mixed { return $this->get('tax'); }
     public function hasTax(): bool { return $this->has('tax'); }
-    /** The merchant's legal identity, printed on invoices and credit notes. `null` when none is set. anyOf[1] (Value): {@see TaxIdentityInput}. Merchant-provided legal identity displayed on invoices and credit notes. Flint does not verify IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider, which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one. anyOf[2] (Value): null.
+    /** The merchant's legal identity, printed on invoices, credit notes, and receipts. `null` when none is set. anyOf[1] (Value): {@see TaxIdentityInput}. Merchant-provided legal identity displayed on invoices and credit notes. Flint does not verify IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider, which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one. anyOf[2] (Value): null.
      * @return array{'legal_name': string|null, 'registered_address': array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null, 'tax_ids': list<DocumentTaxIDInput|array<array-key, mixed>|\stdClass>, ...}|object|null
      * @throws SdkError When tax_identity is omitted; use hasTaxIdentity() or valueOrDefault().
      */

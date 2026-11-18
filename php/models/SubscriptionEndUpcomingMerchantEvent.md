@@ -33,3 +33,7 @@ Field definitions: [shared fields](SubscriptionCreatedMerchantEvent.md#subscript
 
 Field definitions: [SubscriptionActivatedMerchantEvent.data fields 1.object](../models/SubscriptionActivatedMerchantEvent.md#subscriptionactivatedmerchanteventdata-fields-1object).
 
+### SubscriptionEndUpcomingMerchantEvent.data fields 1.actor
+
+Field definitions: [ReturnCanceledMerchantEventData.actor](../models/ReturnCanceledMerchantEventData.md#returncanceledmerchanteventdataactor).
+

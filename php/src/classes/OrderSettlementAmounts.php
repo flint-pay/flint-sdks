@@ -4,18 +4,18 @@ namespace Flint;
 /**
  * @property-read MoneyValue $dispute_lost_money
  * @property-read MoneyValue $disputed_money
+ * @property-read SignedMoney $net_collected_money
  * @property-read MoneyValue $overpaid_money
  * @property-read MoneyValue $released_money
  * @property-read MoneyValue $removed_money
  * @property-read MoneyValue $settled_tip_money
- * @property-read MoneyValue $net_collected_money
  * @property-read MoneyValue $outstanding_money
  * @property-read MoneyValue $paid_money
  * @property-read MoneyValue $refunded_money
  * @property-read MoneyValue $written_off_money
  * Presence-aware response; omitted optional fields return null. */
 final class OrderSettlementAmounts extends Model {
-    /** @param array{'dispute_lost_money': mixed, 'disputed_money': mixed, 'overpaid_money': mixed, 'released_money': mixed, 'removed_money': mixed, 'settled_tip_money': mixed, 'net_collected_money': mixed, 'outstanding_money': mixed, 'paid_money': mixed, 'refunded_money': mixed, 'written_off_money': mixed, ...}|object $values */
+    /** @param array{'dispute_lost_money': mixed, 'disputed_money': mixed, 'net_collected_money': mixed, 'overpaid_money': mixed, 'released_money': mixed, 'removed_money': mixed, 'settled_tip_money': mixed, 'outstanding_money': mixed, 'paid_money': mixed, 'refunded_money': mixed, 'written_off_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderSettlementAmounts')); }
     /** Principal lost to chargebacks on counted order payments. A later win removes that dispute from this amount. Excludes dispute fees and does not reopen outstanding_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
@@ -27,6 +27,11 @@ final class OrderSettlementAmounts extends Model {
      */
     public function getDisputedMoney(): MoneyValue { return $this->get('disputed_money'); }
     public function hasDisputedMoney(): bool { return $this->has('disputed_money'); }
+    /** Collected principal: paid_money minus refunded_money minus dispute_lost_money. Can be negative when refunds and lost disputes exceed payments. Excludes processing and dispute fees; open disputes do not reduce this amount. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return SignedMoney
+     */
+    public function getNetCollectedMoney(): SignedMoney { return $this->get('net_collected_money'); }
+    public function hasNetCollectedMoney(): bool { return $this->has('net_collected_money'); }
     /** Money collected beyond what the order is owed and not yet refunded. Write-offs do not create overpayments, and neither does value order edits removed: an edit's unrefunded_money reports what it still owes the buyer. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
@@ -47,11 +52,6 @@ final class OrderSettlementAmounts extends Model {
      */
     public function getSettledTipMoney(): MoneyValue { return $this->get('settled_tip_money'); }
     public function hasSettledTipMoney(): bool { return $this->has('settled_tip_money'); }
-    /** paid_money minus refunded_money and, on orders, dispute_lost_money, never below zero. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return MoneyValue
-     */
-    public function getNetCollectedMoney(): MoneyValue { return $this->get('net_collected_money'); }
-    public function hasNetCollectedMoney(): bool { return $this->has('net_collected_money'); }
     /** Money still owed on the bill, never below zero. Refunds return money already collected and do not add to it. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */

@@ -11,6 +11,6 @@ The buyer asked to use details saved at this merchant. By auto, the default, Fli
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `channel` | Optional | string | How Flint delivers the code. Default: `"auto"`. Values: `"email"`, `"sms"`, `"auto"`. |
-| `email` | Required | string | Email the buyer typed, with no surrounding spaces. Customers are matched by email without regard to case. Format: `email`. minLength: `1`. maxLength: `255`. Example: `"buyer@example.com"`. |
+| `email` | Required | string | Email the buyer typed, with no surrounding spaces. Customers are matched by email without regard to case. The local part before @ must be at most 64 octets (UTF-8 bytes). Format: `email`. minLength: `1`. maxLength: `255`. Example: `"buyer@example.com"`. |
 | `purpose` | Required | string | What the buyer is confirming their email or number for. Values: `"use_saved_payment_methods"`. |
 

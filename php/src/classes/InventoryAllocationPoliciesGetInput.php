@@ -9,7 +9,7 @@ namespace Flint;
 final class InventoryAllocationPoliciesGetInput extends Model {
     /** @param array{'inventory_allocation_policy_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryAllocationPoliciesGetInput')); }
-    /** Flint inventory allocation policy ID. Example: "invp_01KEZF7C0076BZX855WAGC5SQK".
+    /** Flint inventory allocation policy ID. Must be a valid ID with prefix invp_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "invp_01KEZF7C0076BZX855WAGC5SQK".
      * @return string
      * @throws SdkError When inventory_allocation_policy_id is omitted; use hasInventoryAllocationPolicyId() or valueOrDefault().
      */

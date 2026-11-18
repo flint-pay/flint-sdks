@@ -9,6 +9,7 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `barcode` | Optional | string or null | Barcode assigned to this sellable item. `barcode`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributesbarcode). |
+| `compare_at_price_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Reference unit price for sale display, in the same currency and strictly greater than unit_price_money. Null when no compare-at price is set. Does not affect charges or quantity price breaks. |
 | `created_at` | Optional | string or null | When this resource was created, as an RFC3339 timestamp. `created_at`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributescreated_at). |
 | `delivery_configuration_reason` | Optional | string or null | Reason the variant's delivery configuration needs attention. Values: `"delivery_profile_missing"`, `"delivery_profile_inactive"`. `delivery_configuration_reason`: [declared alternatives](../models/ProductVariantPreviousAttributes.md#productvariantpreviousattributesdelivery_configuration_reason). |
 | `delivery_configuration_status` | Optional | string or null | Whether the variant's delivery configuration is ready, needs attention, or does not apply. Values: `"configured"`, `"action_required"`, `"not_applicable"`. `delivery_configuration_status`: [declared alternatives](../models/ProductVariantPreviousAttributes.md#productvariantpreviousattributesdelivery_configuration_status). |
@@ -22,6 +23,7 @@ Response model.
 | `inventory_tracking` | Optional | string or null | Whether sales of this variant consume an inventory item. Values: `"not_tracked"`, `"tracked"`. `inventory_tracking`: [declared alternatives](../models/ProductVariantPreviousAttributes.md#productvariantpreviousattributesinventory_tracking). |
 | `is_available_for_sale` | Optional | boolean or null | Whether the variant and its product are both active. Stock isn't considered; `inventory_availability` reports it on reads. `is_available_for_sale`: [declared alternatives](../models/ProductVariantPreviousAttributes.md#productvariantpreviousattributesis_available_for_sale). |
 | `is_inheriting_product_images` | Optional | boolean or null | Whether effective_images comes from the product's gallery because this variant's gallery is empty. `is_inheriting_product_images`: [declared alternatives](../models/ProductVariantPreviousAttributes.md#productvariantpreviousattributesis_inheriting_product_images). |
+| `license_key_configuration` | Optional | (object and Alternative shapes (see declared variants) or null) or null | License key terms. Null when the variant has no license key setting. Replaced as a whole: send every field you want to keep. Only product_type digital supports this setting. It adds no delivery requirement and is independent of the delivery profile. Send null to remove every value you set in this section. Omission preserves it on update. `license_key_configuration`: [declared alternatives](../models/ProductVariantPreviousAttributes.md#productvariantpreviousattributeslicense_key_configuration). |
 | `line_item_tax_category` | Optional | string or null | Stored Flint line-item tax category. New digital-product variants default to digital_goods when omitted. The stored value remains editable. Unset uses the merchant default. Values: [12 declared values](#productvariantpreviousattributes-line_item_tax_category-values). `line_item_tax_category`: [declared alternatives](../models/ProductVariantPreviousAttributes.md#productvariantpreviousattributesline_item_tax_category). |
 | `merchant_id` | Optional | string or null | Identifier of the merchant that owns this resource. `merchant_id`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributesmerchant_id). |
 | `metadata` | Optional | Map of string or null | Caller-owned metadata stored on this resource. `metadata`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributesmetadata). |
@@ -203,6 +205,170 @@ anyOf variant 1: Whether effective_images comes from the product's gallery becau
 anyOf variant 2.
 
 - Value shape: null. Whether effective_images comes from the product's gallery because this variant's gallery is empty. 
+
+### ProductVariantPreviousAttributes.license_key_configuration
+
+License key terms. Null when the variant has no license key setting. Replaced as a whole: send every field you want to keep. Only product_type digital supports this setting. It adds no delivery requirement and is independent of the delivery profile. Send null to remove every value you set in this section. Omission preserves it on update.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `activation_limit` | Conditional | integer or null | Maximum active devices per key. Null when activations are unlimited. `activation_limit`: [declared alternatives](../models/ProductVariantPreviousAttributes.md#productvariantpreviousattributeslicense_key_configuration-variant-1activation_limit). |
+| `email_delivery_enabled` | Conditional | boolean or null | Whether Flint emails keys to the buyer. Defaults to true. `email_delivery_enabled`: [declared alternatives](../models/ProductVariantPreviousAttributes.md#productvariantpreviousattributeslicense_key_configuration-variant-1email_delivery_enabled). |
+| `key_prefix` | Conditional | string or null | Prefix shown before each generated key. Null when no prefix is configured. `key_prefix`: [declared alternatives](../models/ProductVariantPreviousAttributes.md#productvariantpreviousattributeslicense_key_configuration-variant-1key_prefix). |
+| `license_key_pool_id` | Conditional | string or null | Active pool in this merchant and environment. Required when source is pool. `license_key_pool_id`: [declared alternatives](../models/ProductVariantPreviousAttributes.md#productvariantpreviousattributeslicense_key_configuration-variant-1license_key_pool_id). |
+| `source` | Conditional | (string or null) | Source of the license keys. Values: `"generated"`, `"pool"`. `source`: [declared alternatives](../models/ProductVariantPreviousAttributes.md#productvariantpreviousattributeslicense_key_configuration-variant-1source), [declared alternatives](../models/ProductVariantPreviousAttributes.md#productvariantpreviousattributeslicense_key_configuration-variant-2source). |
+| `validity_period_days` | Conditional | integer or null | Days from issuance until expiry. Null when keys do not expire. `validity_period_days`: [declared alternatives](../models/ProductVariantPreviousAttributes.md#productvariantpreviousattributeslicense_key_configuration-variant-1validity_period_days). |
+
+### ProductVariantPreviousAttributes.license_key_configuration variant 1: `source` = `"generated"`
+
+anyOf variant 1: License key terms. Null when the variant has no license key setting. Replaced as a whole: send every field you want to keep. Only product_type digital supports this setting. It adds no delivery requirement and is independent of the delivery profile. Send null to remove every value you set in this section. Omission preserves it on update.; anyOf LicenseKeyConfigurationPreviousAttributes; anyOf GeneratedLicenseKeyConfigurationPreviousAttributes.
+
+- Optional: `activation_limit`, `email_delivery_enabled`, `key_prefix`, `license_key_pool_id`, `source`, `validity_period_days`.
+- Constraints for `source`: Values: `"generated"`.
+
+### ProductVariantPreviousAttributes.license_key_configuration variant 2: `source` = `"pool"`
+
+anyOf variant 1: License key terms. Null when the variant has no license key setting. Replaced as a whole: send every field you want to keep. Only product_type digital supports this setting. It adds no delivery requirement and is independent of the delivery profile. Send null to remove every value you set in this section. Omission preserves it on update.; anyOf LicenseKeyConfigurationPreviousAttributes; anyOf PoolLicenseKeyConfigurationPreviousAttributes.
+
+- Optional: `activation_limit`, `email_delivery_enabled`, `key_prefix`, `license_key_pool_id`, `source`, `validity_period_days`.
+- Constraints for `source`: Values: `"pool"`.
+
+### ProductVariantPreviousAttributes.license_key_configuration variant 3, 4
+
+anyOf variant 1: License key terms. Null when the variant has no license key setting. Replaced as a whole: send every field you want to keep. Only product_type digital supports this setting. It adds no delivery requirement and is independent of the delivery profile. Send null to remove every value you set in this section. Omission preserves it on update.; anyOf variant 2; anyOf variant 2.
+
+- Undeclared: `activation_limit`, `email_delivery_enabled`, `key_prefix`, `license_key_pool_id`, `source`, `validity_period_days`.
+- Value shape: null. License key terms. Null when the variant has no license key setting. Replaced as a whole: send every field you want to keep. Only product_type digital supports this setting. It adds no delivery requirement and is independent of the delivery profile. Send null to remove every value you set in this section. Omission preserves it on update. 
+
+### ProductVariantPreviousAttributes.license_key_configuration variant 1.activation_limit
+
+### ProductVariantPreviousAttributes.license_key_configuration variant 1.activation_limit variant 1
+
+anyOf variant 1: Maximum active devices per key. Null when activations are unlimited..
+
+- Value shape: integer. Maximum active devices per key. Null when activations are unlimited. Maximum active devices per key. Null when activations are unlimited. Format: `int32`. minimum: `1`. maximum: `10000`. 
+
+### ProductVariantPreviousAttributes.license_key_configuration variant 1.activation_limit variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Maximum active devices per key. Null when activations are unlimited. 
+
+### ProductVariantPreviousAttributes.license_key_configuration variant 1.email_delivery_enabled
+
+### ProductVariantPreviousAttributes.license_key_configuration variant 1.email_delivery_enabled variant 1
+
+anyOf variant 1: Whether Flint emails keys to the buyer. Defaults to true..
+
+- Value shape: boolean. Whether Flint emails keys to the buyer. Defaults to true. Whether Flint emails keys to the buyer. Defaults to true. Default: `true`. 
+
+### ProductVariantPreviousAttributes.license_key_configuration variant 1.email_delivery_enabled variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Whether Flint emails keys to the buyer. Defaults to true. 
+
+### ProductVariantPreviousAttributes.license_key_configuration variant 1.key_prefix
+
+### ProductVariantPreviousAttributes.license_key_configuration variant 1.key_prefix variant 1
+
+anyOf variant 1: Prefix shown before each generated key. Null when no prefix is configured..
+
+- Value shape: string. Prefix shown before each generated key. Null when no prefix is configured. Prefix shown before each generated key. Null when no prefix is configured. minLength: `2`. maxLength: `8`. pattern: `^[A-Z0-9]{2,8}$`. 
+
+### ProductVariantPreviousAttributes.license_key_configuration variant 1.key_prefix variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Prefix shown before each generated key. Null when no prefix is configured. 
+
+### ProductVariantPreviousAttributes.license_key_configuration variant 1.license_key_pool_id
+
+### ProductVariantPreviousAttributes.license_key_configuration variant 1.license_key_pool_id variant 1
+
+anyOf variant 1: Active pool in this merchant and environment. Required when source is pool..
+
+- Value shape: string. Active pool in this merchant and environment. Required when source is pool. Active pool in this merchant and environment. Required when source is pool. pattern: `^lkp_[0-9A-HJKMNP-TV-Z]{26}$`. Example: `"lkp_01KEZF7C00AQV1X2DPWG2NXS7H"`. 
+
+### ProductVariantPreviousAttributes.license_key_configuration variant 1.license_key_pool_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Active pool in this merchant and environment. Required when source is pool. 
+
+### ProductVariantPreviousAttributes.license_key_configuration variant 1.source
+
+### ProductVariantPreviousAttributes.license_key_configuration variant 1.source variant 1
+
+anyOf group 1 variant 1: Source of the license keys..
+
+- Value shape: string. Source of the license keys. Values: `"generated"`, `"pool"`.
+
+### ProductVariantPreviousAttributes.license_key_configuration variant 1.source variant 2, 4
+
+anyOf group 1 variant 2; anyOf group 2 variant 2.
+
+- Value shape: null. Source of the license keys. 
+
+### ProductVariantPreviousAttributes.license_key_configuration variant 1.source variant 3
+
+anyOf group 2 variant 1: Source of the license keys..
+
+- Value shape: string. Source of the license keys. Values: `"generated"`.
+
+### ProductVariantPreviousAttributes.license_key_configuration variant 1.validity_period_days
+
+### ProductVariantPreviousAttributes.license_key_configuration variant 1.validity_period_days variant 1
+
+anyOf variant 1: Days from issuance until expiry. Null when keys do not expire..
+
+- Value shape: integer. Days from issuance until expiry. Null when keys do not expire. Days from issuance until expiry. Null when keys do not expire. Format: `int32`. minimum: `1`. maximum: `36500`. 
+
+### ProductVariantPreviousAttributes.license_key_configuration variant 1.validity_period_days variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Days from issuance until expiry. Null when keys do not expire. 
+
+### ProductVariantPreviousAttributes.license_key_configuration variant 2.activation_limit
+
+Declared alternatives: [ProductVariantPreviousAttributes.license_key_configuration variant 1.activation_limit](../models/ProductVariantPreviousAttributes.md#productvariantpreviousattributeslicense_key_configuration-variant-1activation_limit).
+
+### ProductVariantPreviousAttributes.license_key_configuration variant 2.email_delivery_enabled
+
+Declared alternatives: [ProductVariantPreviousAttributes.license_key_configuration variant 1.email_delivery_enabled](../models/ProductVariantPreviousAttributes.md#productvariantpreviousattributeslicense_key_configuration-variant-1email_delivery_enabled).
+
+### ProductVariantPreviousAttributes.license_key_configuration variant 2.key_prefix
+
+Declared alternatives: [ProductVariantPreviousAttributes.license_key_configuration variant 1.key_prefix](../models/ProductVariantPreviousAttributes.md#productvariantpreviousattributeslicense_key_configuration-variant-1key_prefix).
+
+### ProductVariantPreviousAttributes.license_key_configuration variant 2.license_key_pool_id
+
+Declared alternatives: [ProductVariantPreviousAttributes.license_key_configuration variant 1.license_key_pool_id](../models/ProductVariantPreviousAttributes.md#productvariantpreviousattributeslicense_key_configuration-variant-1license_key_pool_id).
+
+### ProductVariantPreviousAttributes.license_key_configuration variant 2.source
+
+### ProductVariantPreviousAttributes.license_key_configuration variant 2.source variant 1
+
+anyOf group 1 variant 1: Source of the license keys..
+
+- Value shape: string. Source of the license keys. Values: `"generated"`, `"pool"`.
+
+### ProductVariantPreviousAttributes.license_key_configuration variant 2.source variant 2, 4
+
+anyOf group 1 variant 2; anyOf group 2 variant 2.
+
+- Value shape: null. Source of the license keys. 
+
+### ProductVariantPreviousAttributes.license_key_configuration variant 2.source variant 3
+
+anyOf group 2 variant 1: Source of the license keys..
+
+- Value shape: string. Source of the license keys. Values: `"pool"`.
+
+### ProductVariantPreviousAttributes.license_key_configuration variant 2.validity_period_days
+
+Declared alternatives: [ProductVariantPreviousAttributes.license_key_configuration variant 1.validity_period_days](../models/ProductVariantPreviousAttributes.md#productvariantpreviousattributeslicense_key_configuration-variant-1validity_period_days).
 
 ### ProductVariantPreviousAttributes.line_item_tax_category
 

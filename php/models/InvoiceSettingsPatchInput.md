@@ -20,5 +20,5 @@ Request input.
 | `payment_policy` | Optional | [InvoicePaymentPolicyRequestInput](../models/InvoicePaymentPolicyRequestInput.md#invoicepaymentpolicyrequestinput) or null | Replaced as a whole: send every field you want to keep. |
 | `reminder_policy` | Optional | [InvoiceReminderPolicyInput](../models/InvoiceReminderPolicyInput.md#invoicereminderpolicyinput) or null | Replaced as a whole: send every field you want to keep. |
 | `remit_to_address` | Optional | [AddressRequestInput](../models/AddressRequestInput.md#addressrequestinput) or null | Replaced as a whole: send every field you want to keep. |
-| `reply_to_email` | Optional | string or null | Limited to 255 characters (Unicode code points), counted before normalization. Send null to clear it. Format: `email`. minLength: `1`. maxLength: `255`. Example: `"buyer@example.com"`. |
+| `reply_to_email` | Optional | string or null | Limited to 255 characters (Unicode code points), counted before normalization. Send null to clear it. The local part before @ must be at most 64 octets (UTF-8 bytes). Format: `email`. minLength: `1`. maxLength: `255`. Example: `"buyer@example.com"`. |
 

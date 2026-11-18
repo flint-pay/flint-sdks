@@ -16,6 +16,7 @@ Response model.
 | `partner_app_id` | Required | string | ID of the partner app the merchant installed. |
 | `partner_app_install_id` | Required | string | Unique identifier for this partner app install, prefixed `pinst_`. |
 | `partner_app_name` | Required | string | The app’s current name. |
+| `platform_contact` | Optional | [PartnerAppPlatformContact](../models/PartnerAppPlatformContact.md#partnerappplatformcontact) | The platform's current support contact, read live from platform_profile. Absent when the app has no platform profile, and in webhook event payloads. The platform's support contact shown to merchants. `platform_contact`: [field definitions](../models/PartnerAppInstallResponse.md#partnerappinstallresponsedataplatform_contact). |
 | `revoked_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `revoked_by` | Optional | string | Who ended the install. Omitted while the install isn't revoked, and cleared when the merchant authorizes the app again. Values: `"merchant"`, `"partner_app"`. |
 | `revoked_by_user_id` | Optional | string | ID of the user who revoked the install. Omitted when the install isn't revoked or no user performed the revoke, as when the app's deletion ended it. |
@@ -26,4 +27,8 @@ Response model.
 ### PartnerAppInstall.environment_grants[]
 
 Field definitions: [PartnerAppInstallResponse.data.environment_grants[]](../models/PartnerAppInstallResponse.md#partnerappinstallresponsedataenvironment_grants).
+
+### PartnerAppInstall.platform_contact
+
+Field definitions: [PartnerAppInstallResponse.data.platform_contact](../models/PartnerAppInstallResponse.md#partnerappinstallresponsedataplatform_contact).
 

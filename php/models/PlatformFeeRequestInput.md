@@ -8,5 +8,5 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | The fee in minor units, in the payment's currency. A fixed amount: compute any percentage yourself. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `amount_money` | Required | [PlatformFeeMoneyInput](../models/PlatformFeeMoneyInput.md#platformfeemoneyinput) | The fee, at least 1 minor unit, in the payment's currency. A fixed amount: compute any percentage yourself. Omit platform_fee when creating a payment without a fee. A positive platform fee in integer minor units plus an ISO 4217 currency code. |
 

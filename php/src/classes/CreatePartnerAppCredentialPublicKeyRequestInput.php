@@ -16,7 +16,7 @@ final class CreatePartnerAppCredentialPublicKeyRequestInput extends Model {
      */
     public function getModes(): array { return $this->get('modes'); }
     public function hasModes(): bool { return $this->has('modes'); }
-    /** Optional name to identify this credential. minLength: 1. maxLength: 100.
+    /** Optional name to identify this credential. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1. maxLength: 100.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */

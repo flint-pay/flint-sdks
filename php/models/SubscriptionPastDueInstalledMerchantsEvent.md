@@ -35,6 +35,10 @@ Field definitions: [SubscriptionActivatedMerchantEvent.data fields 1.object](../
 
 Field definitions: [SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes](../models/SubscriptionActivatedMerchantEvent.md#subscriptionactivatedmerchanteventdata-fields-1previous_attributes).
 
+### SubscriptionPastDueInstalledMerchantsEvent.data fields 1.actor
+
+Field definitions: [ReturnCanceledMerchantEventData.actor](../models/ReturnCanceledMerchantEventData.md#returncanceledmerchanteventdataactor).
+
 ### SubscriptionPastDueInstalledMerchantsEvent.source fields 1
 
 The merchant and partner app install this event concerns, with environment details for installed-merchant events. The merchant and partner app install the event concerns. Environment fields are present for installed-merchant events.

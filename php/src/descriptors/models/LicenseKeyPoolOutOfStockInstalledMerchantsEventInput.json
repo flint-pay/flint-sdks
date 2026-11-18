@@ -1,0 +1,1 @@
+{"shared":"LicenseKeyPoolOutOfStockInstalledMerchantsEvent","dependencies":["LicenseKeyPool","LicenseKeyPoolOutOfStockInstalledMerchantsEvent","MetadataMap","SharedCodec12","SharedCodec1765","SharedCodec1769","SharedCodec2068","SharedCodec43","SharedCodec44","SharedCodec47","SharedCodec9","WebhookEventSource"]}

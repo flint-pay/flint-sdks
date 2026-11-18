@@ -32,7 +32,7 @@ final class InvoiceSettlementAmountsInput extends Model {
      */
     public function getLateFeeMoney(): mixed { return $this->get('late_fee_money'); }
     public function hasLateFeeMoney(): bool { return $this->has('late_fee_money'); }
-    /** paid_money minus refunded_money and, on orders, dispute_lost_money, never below zero. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** paid_money minus refunded_money, never below zero. Dispute losses do not reduce this invoice amount. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When net_collected_money is omitted; use hasNetCollectedMoney() or valueOrDefault().
      */

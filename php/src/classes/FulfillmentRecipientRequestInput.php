@@ -29,7 +29,7 @@ final class FulfillmentRecipientRequestInput extends Model {
      */
     public function getInstructions(): string { return $this->get('instructions'); }
     public function hasInstructions(): bool { return $this->has('instructions'); }
-    /** Recipient's name for delivery or pickup. minLength: 1.
+    /** Recipient's name for delivery or pickup. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */

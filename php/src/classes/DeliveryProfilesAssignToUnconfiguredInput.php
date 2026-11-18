@@ -10,7 +10,7 @@ namespace Flint;
 final class DeliveryProfilesAssignToUnconfiguredInput extends Model {
     /** @param array{'delivery_profile_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body'?: array{'expected_version'?: int}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryProfilesAssignToUnconfiguredInput')); }
-    /** Flint delivery profile ID. Example: "dprof_01KEZF7C0020J13FQYNY9854R0".
+    /** Flint delivery profile ID. Must be a valid ID with prefix dprof_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "dprof_01KEZF7C0020J13FQYNY9854R0".
      * @return string
      * @throws SdkError When delivery_profile_id is omitted; use hasDeliveryProfileId() or valueOrDefault().
      */

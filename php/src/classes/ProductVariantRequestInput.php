@@ -3,12 +3,14 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $barcode
+ * @property-read array{'amount': string, 'currency': string}|object|null $compare_at_price_money
  * @property-read string $delivery_profile_id
  * @property-read string $external_reference_id
  * @property-read GiftCardProductConfigurationRequestInput|array<array-key, mixed>|\stdClass $gift_card_configuration
  * @property-read list<ImageRequestInput|array<array-key, mixed>|\stdClass> $images
  * @property-read InventoryItemCreateRequestInput|array<array-key, mixed>|\stdClass $inventory_item
  * @property-read string $inventory_item_id
+ * @property-read array{'activation_limit'?: int|null, 'email_delivery_enabled'?: bool, 'key_prefix'?: string, 'source': string, 'validity_period_days'?: int|null}|object|array{'activation_limit'?: int|null, 'email_delivery_enabled'?: bool, 'license_key_pool_id': string, 'source': string, 'validity_period_days'?: int|null}|object|null $license_key_configuration
  * @property-read string $line_item_tax_category
  * @property-read MetadataRequestInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read string|null $modifier_set_id
@@ -21,11 +23,11 @@ namespace Flint;
  * @property-read string $status
  * @property-read bool $taxable
  * @property-read DimensionsRequestInput|array<array-key, mixed>|\stdClass $unit_dimensions
- * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $unit_price_money
+ * @property-read array{'amount': string, 'currency': string}|object $unit_price_money
  * @property-read WeightRequestInput|array<array-key, mixed>|\stdClass $unit_weight
  * Presence-aware input; omitted fields throw when accessed. */
 final class ProductVariantRequestInput extends Model {
-    /** @param array{'barcode'?: string, 'delivery_profile_id'?: string, 'external_reference_id'?: string, 'gift_card_configuration'?: GiftCardProductConfigurationRequestInput|array<array-key, mixed>|\stdClass, 'images'?: list<ImageRequestInput|array<array-key, mixed>|\stdClass>, 'inventory_item'?: InventoryItemCreateRequestInput|array<array-key, mixed>|\stdClass, 'inventory_item_id'?: string, 'line_item_tax_category'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'modifier_set_id'?: string|null, 'name'?: string, 'position'?: int, 'quantity_price_breaks'?: list<QuantityPriceBreakRequestInput|array<array-key, mixed>|\stdClass>, 'release_date'?: string|null, 'selected_options'?: list<ProductVariantSelectedOptionRequestInput|array<array-key, mixed>|\stdClass>, 'sku'?: string, 'status'?: string, 'taxable'?: bool, 'unit_dimensions'?: DimensionsRequestInput|array<array-key, mixed>|\stdClass, 'unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'unit_weight'?: WeightRequestInput|array<array-key, mixed>|\stdClass}|object $values */
+    /** @param array{'barcode'?: string, 'compare_at_price_money'?: array{'amount': string, 'currency': string}|object|null, 'delivery_profile_id'?: string, 'external_reference_id'?: string, 'gift_card_configuration'?: GiftCardProductConfigurationRequestInput|array<array-key, mixed>|\stdClass, 'images'?: list<ImageRequestInput|array<array-key, mixed>|\stdClass>, 'inventory_item'?: InventoryItemCreateRequestInput|array<array-key, mixed>|\stdClass, 'inventory_item_id'?: string, 'license_key_configuration'?: array{'activation_limit'?: int|null, 'email_delivery_enabled'?: bool, 'key_prefix'?: string, 'source': string, 'validity_period_days'?: int|null}|object|array{'activation_limit'?: int|null, 'email_delivery_enabled'?: bool, 'license_key_pool_id': string, 'source': string, 'validity_period_days'?: int|null}|object|null, 'line_item_tax_category'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'modifier_set_id'?: string|null, 'name'?: string, 'position'?: int, 'quantity_price_breaks'?: list<QuantityPriceBreakRequestInput|array<array-key, mixed>|\stdClass>, 'release_date'?: string|null, 'selected_options'?: list<ProductVariantSelectedOptionRequestInput|array<array-key, mixed>|\stdClass>, 'sku'?: string, 'status'?: string, 'taxable'?: bool, 'unit_dimensions'?: DimensionsRequestInput|array<array-key, mixed>|\stdClass, 'unit_price_money': array{'amount': string, 'currency': string}|object, 'unit_weight'?: WeightRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ProductVariantRequestInput')); }
     /** Barcode assigned to this sellable item. minLength: 1. maxLength: 100.
      * @return string
@@ -33,6 +35,12 @@ final class ProductVariantRequestInput extends Model {
      */
     public function getBarcode(): string { return $this->get('barcode'); }
     public function hasBarcode(): bool { return $this->has('barcode'); }
+    /** Optional reference unit price for sale display. Must use the same currency and be strictly greater than unit_price_money. Omit or send null for none. anyOf[1] (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
+     * @return array{'amount': string, 'currency': string}|object|null
+     * @throws SdkError When compare_at_price_money is omitted; use hasCompareAtPriceMoney() or valueOrDefault().
+     */
+    public function getCompareAtPriceMoney(): mixed { return $this->get('compare_at_price_money'); }
+    public function hasCompareAtPriceMoney(): bool { return $this->has('compare_at_price_money'); }
     /** Delivery profile to assign. Digital and service products require requirement required, resolution_mode manual, and allowed_types exactly [digital] or [service], matching the product type. Omit it to leave delivery not_applicable with no delivery requirement; digital and service products never use a default. Physical products retain their default profile behavior. Fees and gift cards reject profiles. minLength: 1. Example: "dprof_01KEZF7C0020J13FQYNY9854R0".
      * @return string
      * @throws SdkError When delivery_profile_id is omitted; use hasDeliveryProfileId() or valueOrDefault().
@@ -69,6 +77,12 @@ final class ProductVariantRequestInput extends Model {
      */
     public function getInventoryItemId(): string { return $this->get('inventory_item_id'); }
     public function hasInventoryItemId(): bool { return $this->has('inventory_item_id'); }
+    /** Replaced as a whole: send every field you want to keep. Only product_type digital supports this setting. It adds no delivery requirement and is independent of the delivery profile. Send null to remove every value you set in this section. Omission preserves it on update. anyOf[1] (Value): {@see LicenseKeyConfigurationRequestInput}. Replaced as a whole: send every field you want to keep. Only product_type digital supports this setting. It adds no delivery requirement and is independent of the delivery profile. Send null to remove every value you set in this section. Omission preserves it on update. anyOf[2] (Value): null.
+     * @return array{'activation_limit'?: int|null, 'email_delivery_enabled'?: bool, 'key_prefix'?: string, 'source': string, 'validity_period_days'?: int|null}|object|array{'activation_limit'?: int|null, 'email_delivery_enabled'?: bool, 'license_key_pool_id': string, 'source': string, 'validity_period_days'?: int|null}|object|null
+     * @throws SdkError When license_key_configuration is omitted; use hasLicenseKeyConfiguration() or valueOrDefault().
+     */
+    public function getLicenseKeyConfiguration(): mixed { return $this->get('license_key_configuration'); }
+    public function hasLicenseKeyConfiguration(): bool { return $this->has('license_key_configuration'); }
     /** Flint line-item tax category to store. Omit for a digital product to store digital_goods; explicit categories are preserved. For other product types, omission uses the merchant default. Value enum: "general", "physical_goods", "digital_goods", "software", "saas", "services", "professional_services", "food", "prepared_food", "clothing", "medical_goods", "admission".
      * @return string
      * @throws SdkError When line_item_tax_category is omitted; use hasLineItemTaxCategory() or valueOrDefault().
@@ -87,7 +101,7 @@ final class ProductVariantRequestInput extends Model {
      */
     public function getModifierSetId(): string|null { return $this->get('modifier_set_id'); }
     public function hasModifierSetId(): bool { return $this->has('modifier_set_id'); }
-    /** Variant name that distinguishes it from the product's other variants. minLength: 1. maxLength: 255.
+    /** Variant name that distinguishes it from the product's other variants. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
@@ -141,11 +155,11 @@ final class ProductVariantRequestInput extends Model {
      */
     public function getUnitDimensions(): mixed { return $this->get('unit_dimensions'); }
     public function hasUnitDimensions(): bool { return $this->has('unit_dimensions'); }
-    /** Base unit price in the currency's smallest unit. It applies below the first quantity price break. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
+    /** Base unit price in the currency's smallest unit. It applies below the first quantity price break. amount (Required): integer string. Positive amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1. currency (Required): string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     * @return array{'amount': string, 'currency': string}|object
      * @throws SdkError When unit_price_money is omitted; use hasUnitPriceMoney() or valueOrDefault().
      */
-    public function getUnitPriceMoney(): mixed { return $this->get('unit_price_money'); }
+    public function getUnitPriceMoney(): array|object { return $this->get('unit_price_money'); }
     public function hasUnitPriceMoney(): bool { return $this->has('unit_price_money'); }
     /** Per-unit measurement. Omitted when unknown. A weight value in grams, kilograms, ounces, or pounds, used in delivery profile configuration.
      * @return WeightRequestInput|array<array-key, mixed>|\stdClass

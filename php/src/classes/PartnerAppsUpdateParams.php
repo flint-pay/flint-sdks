@@ -54,7 +54,7 @@ final class PartnerAppsUpdateParams extends Model {
      */
     public function getMerchantActionUrl(): string|null { return $this->get('merchant_action_url'); }
     public function hasMerchantActionUrl(): bool { return $this->has('merchant_action_url'); }
-    /** The app's name, shown to merchants on the consent screen and in Flint's emails, at most 100 characters, without links or email addresses. minLength: 1. maxLength: 100.
+    /** The app's name, shown to merchants on the consent screen and in Flint's emails, at most 100 characters, without links or email addresses. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1. maxLength: 100.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
@@ -78,7 +78,7 @@ final class PartnerAppsUpdateParams extends Model {
      */
     public function getPlatformFeeCap(): mixed { return $this->get('platform_fee_cap'); }
     public function hasPlatformFeeCap(): bool { return $this->has('platform_fee_cap'); }
-    /** Replaces the whole platform profile, which Flint reviews before it approves the app as a platform. Every field is validated together. Send null to remove it while platform.status is not_started; afterwards null returns 400 INVALID_REQUEST with detail NOT_ALLOWED, and edits are recorded for Flint's review without changing platform.status. An unchanged profile changes nothing. anyOf[1] (Value): {@see PartnerAppPlatformProfileRequestInput}. The whole platform profile. Every field is required except support_phone, and a write replaces the profile whole. anyOf[2] (Value): null.
+    /** Replaces the whole platform profile, which Flint reviews before it approves the app as a platform. support_email, website_url and support_phone are shown to merchants on the consent screen and install resource. Every field is validated together. Send null to remove it while platform.status is not_started; afterwards null returns 400 INVALID_REQUEST with detail NOT_ALLOWED, and edits are recorded for Flint's review without changing platform.status. An unchanged profile changes nothing. anyOf[1] (Value): {@see PartnerAppPlatformProfileRequestInput}. The whole platform profile. support_email, website_url and support_phone are shown to merchants on the consent screen and install resource. Every field is required except support_phone, and a write replaces the profile whole. anyOf[2] (Value): null.
      * @return array{'estimated_merchant_count': int, 'estimated_monthly_volume_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'merchant_description': string, 'merchant_onboarding_description': string, 'product_description': string, 'support_email': string, 'support_phone'?: string, 'website_url': string}|object|null
      * @throws SdkError When platform_profile is omitted; use hasPlatformProfile() or valueOrDefault().
      */

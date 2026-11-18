@@ -1,14 +1,9 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type {
-    PlatformFee,
-    PlatformFeeListResponse,
-    PlatformFeeResponse,
-    PlatformFeesGetParams,
-    PlatformFeesListParams
-} from '../declarations/types-54.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+import type { PlatformFee, PlatformFeeListResponse } from '../declarations/types-55.js';
+import type { PlatformFeeResponse, PlatformFeesGetParams, PlatformFeesListParams } from '../declarations/types-56.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -23,21 +18,17 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type {
-    PlatformFeesGetParams,
-    PlatformFee,
-    PlatformFeeResponse,
-    PlatformFeesListParams,
-    PlatformFeeListResponse
-} from '../declarations/types-54.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
+export type { PlatformFeesGetParams, PlatformFeeResponse, PlatformFeesListParams } from '../declarations/types-56.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { RequestOptions } from '../declarations/types-61.js';
+export type { PlatformFee, PlatformFeeListResponse } from '../declarations/types-55.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { MoneyValue, NextAction } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
+export type { MoneyValue, NextAction } from '../declarations/types-44.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export interface PlatformFeesResource {
     /**
  * Returns one platform fee. Reads the merchant that owns the partner app, with its own credentials
@@ -46,7 +37,9 @@ export interface PlatformFeesResource {
  * merchant that owns no partner app gets an empty list.
  *
  * `GET /v1/platform-fees/{platform_fee_id}`
- * @param platform_fee_id Flint platform fee ID.
+ * @param platform_fee_id Flint platform fee ID. Must be a valid ID with prefix pfee_. Malformed
+ * IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist
+ * return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/platform-fees#getPlatformFee
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

@@ -1,7 +1,7 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { AddRiskListItemsResponse, AddRiskListItemsResult } from '../declarations/types-0.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { RequestOptions } from '../declarations/types-60.js';
+import type { RequestOptions } from '../declarations/types-61.js';
 import type {
     RiskList,
     RiskListItem,
@@ -18,8 +18,8 @@ import type {
     RiskListsListParams,
     RiskListsListRiskListItemsParams,
     RiskListsUpdateParams
-} from '../declarations/types-64.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-66.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -51,27 +51,28 @@ export type {
     RiskListListResponse,
     RiskListsUpdateParams,
     RiskListItemAddition
-} from '../declarations/types-64.js';
-export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-60.js';
+} from '../declarations/types-66.js';
+export type { RequestOptions } from '../declarations/types-61.js';
 export type {
     AddRiskListItemsResult,
     AddRiskListItemsResponse,
     AddRiskListItemsRequestInput,
     AddRiskListItemsRequest
 } from '../declarations/types-0.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateRiskListRequestInput } from '../declarations/types-13.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { UpdateRiskListRequestInput, UpdateRiskListRequest } from '../declarations/types-75.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
-export { makeAddRiskListItemsRequest } from '../declarations/types-77.js';
-export { makeCreateRiskListRequest } from '../declarations/types-81.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeUpdateRiskListRequest } from '../declarations/types-91.js';
+export type { ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-62.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { UpdateRiskListRequestInput, UpdateRiskListRequest } from '../declarations/types-77.js';
+export type { DisputesAcceptParams } from '../declarations/types-26.js';
+export { makeAddRiskListItemsRequest } from '../declarations/types-79.js';
+export { makeCreateRiskListRequest } from '../declarations/types-83.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeUpdateRiskListRequest } from '../declarations/types-94.js';
 export interface RiskListsResource {
     /**
  * Creates an empty list. Rules refer to it by alias, which can't be changed or reused, even after
@@ -94,7 +95,9 @@ export interface RiskListsResource {
  * were. Payments see the change from the next attempt.
  *
  * `POST /v1/risk-lists/{risk_list_id}/items`
- * @param risk_list_id Flint risk list ID.
+ * @param risk_list_id Flint risk list ID. Must be a valid ID with prefix rl_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/risk-controls#createRiskListItems
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -111,7 +114,9 @@ export interface RiskListsResource {
  * Flint-managed lists.
  *
  * `DELETE /v1/risk-lists/{risk_list_id}`
- * @param risk_list_id Flint risk list ID.
+ * @param risk_list_id Flint risk list ID. Must be a valid ID with prefix rl_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/risk-controls#deleteRiskList
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -124,8 +129,12 @@ export interface RiskListsResource {
  * Removes a value from a list permanently. Payments see the change from the next attempt.
  *
  * `DELETE /v1/risk-lists/{risk_list_id}/items/{risk_list_item_id}`
- * @param risk_list_id Flint risk list ID.
- * @param risk_list_item_id Flint risk list item ID.
+ * @param risk_list_id Flint risk list ID. Must be a valid ID with prefix rl_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
+ * @param risk_list_item_id Flint risk list item ID. Must be a valid ID with prefix rli_. Malformed
+ * IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist
+ * return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/risk-controls#deleteRiskListItem
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -139,7 +148,9 @@ export interface RiskListsResource {
  * Retrieves a risk list. item_count is its current number of values.
  *
  * `GET /v1/risk-lists/{risk_list_id}`
- * @param risk_list_id Flint risk list ID.
+ * @param risk_list_id Flint risk list ID. Must be a valid ID with prefix rl_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/risk-controls#getRiskList
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -150,8 +161,12 @@ export interface RiskListsResource {
  * Retrieves one value on a list.
  *
  * `GET /v1/risk-lists/{risk_list_id}/items/{risk_list_item_id}`
- * @param risk_list_id Flint risk list ID.
- * @param risk_list_item_id Flint risk list item ID.
+ * @param risk_list_id Flint risk list ID. Must be a valid ID with prefix rl_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
+ * @param risk_list_item_id Flint risk list item ID. Must be a valid ID with prefix rli_. Malformed
+ * IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist
+ * return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/risk-controls#getRiskListItem
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -163,7 +178,9 @@ export interface RiskListsResource {
  * risk_list_item_id descending.
  *
  * `GET /v1/risk-lists/{risk_list_id}/items`
- * @param risk_list_id Flint risk list ID.
+ * @param risk_list_id Flint risk list ID. Must be a valid ID with prefix rl_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/risk-controls#listRiskListItems
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -203,7 +220,9 @@ export interface RiskListsResource {
  * `managed_externally`. Items can still be added to and removed from active Flint-managed lists.
  *
  * `PATCH /v1/risk-lists/{risk_list_id}`
- * @param risk_list_id Flint risk list ID.
+ * @param risk_list_id Flint risk list ID. Must be a valid ID with prefix rl_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/risk-controls#updateRiskList
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

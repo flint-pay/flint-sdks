@@ -11,6 +11,6 @@ By email, the default, Flint emails a code to any valid address while the sessio
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `channel` | Optional | string | How Flint delivers the code. Default: `"email"`. Values: `"email"`, `"auto"`. |
-| `email` | Required | string | Email the buyer typed, with no surrounding spaces. Customers are matched by email without regard to case. Format: `email`. minLength: `1`. maxLength: `255`. Example: `"buyer@example.com"`. |
+| `email` | Required | string | Email the buyer typed, with no surrounding spaces. Customers are matched by email without regard to case. The local part before @ must be at most 64 octets (UTF-8 bytes). Format: `email`. minLength: `1`. maxLength: `255`. Example: `"buyer@example.com"`. |
 | `purpose` | Required | string | What the buyer is confirming their email or number for. Values: `"save_payment_method"`. |
 

@@ -22,11 +22,12 @@ namespace Flint;
  * @property-read string $status
  * @property-read list<string> $supported_actions
  * @property-read ?MerchantSignupTermsAcceptance $terms_acceptance
+ * @property-read ?string $timezone
  * @property-read string $updated_at
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class MerchantSignup extends Model {
-    /** @param array{'business_name'?: string, 'canceled_at'?: string, 'code_expires_at'?: string, 'completed_at'?: string, 'created_at': string, 'expires_at': string, 'external_reference_id'?: string, 'merchant_id'?: string, 'merchant_signup_id': string, 'merchant_terms': mixed, 'modes': list<string>, 'owner': mixed, 'partner_app_id': string, 'partner_app_install_id'?: string, 'platform_fee_cap'?: mixed, 'requested_permissions': list<mixed>, 'sandbox_initial_onboarding': string, 'status': string, 'supported_actions': list<string>, 'terms_acceptance'?: mixed, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'business_name'?: string, 'canceled_at'?: string, 'code_expires_at'?: string, 'completed_at'?: string, 'created_at': string, 'expires_at': string, 'external_reference_id'?: string, 'merchant_id'?: string, 'merchant_signup_id': string, 'merchant_terms': mixed, 'modes': list<string>, 'owner': mixed, 'partner_app_id': string, 'partner_app_install_id'?: string, 'platform_fee_cap'?: mixed, 'requested_permissions': list<mixed>, 'sandbox_initial_onboarding': string, 'status': string, 'supported_actions': list<string>, 'terms_acceptance'?: mixed, 'timezone'?: string, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MerchantSignup')); }
     /** The new merchant's display name until onboarding sets its legal name. Absent when the request didn't send one: Flint then names the merchant from the owner's email.
      * @return ?string
@@ -128,6 +129,11 @@ final class MerchantSignup extends Model {
      */
     public function getTermsAcceptance(): ?MerchantSignupTermsAcceptance { return $this->get('terms_acceptance'); }
     public function hasTermsAcceptance(): bool { return $this->has('terms_acceptance'); }
+    /** Business time zone set on the new merchant. Absent when signup did not include one. Uses an IANA time zone name.
+     * @return ?string
+     */
+    public function getTimezone(): ?string { return $this->get('timezone'); }
+    public function hasTimezone(): bool { return $this->has('timezone'); }
     /** When the signup last changed. Format: date-time.
      * @return string
      */

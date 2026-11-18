@@ -50,6 +50,10 @@ Declared alternatives: [DisputeInquiryClosedMerchantEventDataPreviousAttributes.
 
 Declared alternatives: [DisputeInquiryClosedMerchantEventDataPreviousAttributes.case_type](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributescase_type).
 
+### DisputeInquiryClosedMerchantEvent.data fields 1.previous_attributes.closed_reason
+
+Declared alternatives: [DisputeInquiryClosedMerchantEventDataPreviousAttributes.closed_reason](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributesclosed_reason).
+
 ### DisputeInquiryClosedMerchantEvent.data fields 1.previous_attributes.created_at
 
 Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).

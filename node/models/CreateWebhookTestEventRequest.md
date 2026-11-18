@@ -10,7 +10,7 @@ The request body for: Create webhook test event.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `event_type` | Required | string | Current event type to send. merchant delivers merchant events; partner_app delivers partner lifecycle events; installed_merchants delivers merchant events permitted by the install read scopes. The event catalog lists event_sources for each type. Values: [294 declared values](#createwebhooktesteventrequest-event_type-values). |
+| `event_type` | Required | string | Current event type to send. merchant delivers merchant events; partner_app delivers partner lifecycle events; installed_merchants delivers merchant events permitted by the install read scopes. The event catalog lists event_sources for each type. Values: [305 declared values](#createwebhooktesteventrequest-event_type-values). |
 
 #### CreateWebhookTestEventRequest event_type values
 
@@ -148,6 +148,17 @@ The request body for: Create webhook test event.
 - `"invoice_payment_attempt.failed"`
 - `"invoice_payment_attempt.processing"`
 - `"invoice_payment_attempt.succeeded"`
+- `"license_key.created"`
+- `"license_key.disabled"`
+- `"license_key.expired"`
+- `"license_key.updated"`
+- `"license_key_activation.created"`
+- `"license_key_activation.released"`
+- `"license_key_pool.archived"`
+- `"license_key_pool.created"`
+- `"license_key_pool.low_stock"`
+- `"license_key_pool.out_of_stock"`
+- `"license_key_pool.updated"`
 - `"merchant.readiness_updated"`
 - `"merchant.updated"`
 - `"merchant_billing_balance.updated"`

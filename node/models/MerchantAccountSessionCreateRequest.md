@@ -13,7 +13,7 @@ Creates an embedded account session for a non-empty unique set of Flint componen
 | `collection_strategy` | Optional | string | Which requirements the session collects. If omitted, `incremental` for an account that hasn't finished onboarding, otherwise `upfront`. Only `account_onboarding` and `account_management` take it. Values: `"upfront"`, `"incremental"`. |
 | `components` | Required | Array of string | The embedded components the session opens, such as `account_onboarding`. Send each component once. A partner app install token can open only `account_onboarding` and `notification_banner`; another component returns `400 INVALID_REQUEST` with detail `NOT_ALLOWED`. With an API key or CLI login, `payments` also requires `payments.payment_intents.read` and `payments.disputes.write`; without them the request returns `403 INSUFFICIENT_SCOPE`. minItems: `1`. maxItems: `7`. uniqueItems: `true`. Items values: `"account_onboarding"`, `"account_management"`, `"payouts"`, `"balances"`, `"tax_documents"`, `"notification_banner"`, `"payments"`. |
 | `future_requirements` | Optional | string | Whether the session also collects requirements that will apply later. If omitted, `omit` while onboarding isn't finished or while something is due, otherwise `include`. Only `account_onboarding` and `account_management` take it. Values: `"omit"`, `"include"`. |
-| `targeted_requirements` | Optional | Array of string | Flint requirement codes. New codes can appear; treat an unknown code as additional_account_information. At most 100 codes, each up to 255 UTF-8 bytes after trimming surrounding whitespace. Only `account_onboarding` takes them. maxItems: `100`. Items values: [32 declared values](#merchantaccountsessioncreaterequest-targeted_requirements--values). |
+| `targeted_requirements` | Optional | Array of string | Flint requirement codes. New codes can appear; treat an unknown code as additional_account_information. At most 100 codes, each up to 255 UTF-8 bytes after trimming surrounding whitespace. Only `account_onboarding` takes them. maxItems: `100`. Items values: [36 declared values](#merchantaccountsessioncreaterequest-targeted_requirements--values). |
 
 #### MerchantAccountSessionCreateRequest targeted_requirements [] values
 
@@ -25,6 +25,7 @@ Creates an embedded account session for a non-empty unique set of Flint componen
 - `"business_name"`
 - `"business_owners"`
 - `"business_phone"`
+- `"business_support_email"`
 - `"business_support_phone"`
 - `"business_support_url"`
 - `"business_tax_id"`
@@ -39,6 +40,7 @@ Creates an embedded account session for a non-empty unique set of Flint componen
 - `"owner_last_name"`
 - `"owner_tax_id_last_four"`
 - `"payout_destination"`
+- `"payout_destination_ownership_document"`
 - `"representative_address"`
 - `"representative_additional_identity_document"`
 - `"representative_date_of_birth"`
@@ -49,4 +51,6 @@ Creates an embedded account session for a non-empty unique set of Flint componen
 - `"representative_phone"`
 - `"representative_tax_id"`
 - `"representative_tax_id_last_four"`
+- `"terms_acceptance"`
+- `"statement_descriptor"`
 

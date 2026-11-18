@@ -7,7 +7,7 @@ Generated with [Flint's SDK generator](https://github.com/flint-pay/sdk-generato
 ## Install
 
 ```sh
-composer require flintpay/flint:8.0.0-beta.6
+composer require flintpay/flint:8.0.0-beta.7
 ```
 
 Requires PHP 8.2+ with ext-json and ext-curl. PHPDoc types target PHPStan 2.2+.
@@ -122,9 +122,10 @@ Selected methods use positional path arguments; check their signatures. Request 
 - [Models](MODELS.md): model index, fields and descriptions
 - [Runtime guide](RUNTIME.md): request options, errors, retries, pagination and webhooks
 - [default-credentials](guides/default-credentials.md)
+- [license-keys](guides/license-keys.md)
 - [pagination-and-retries](guides/pagination-and-retries.md)
 - [partner-oauth](guides/partner-oauth.md)
 - [Agent index](llms.txt): a small documentation entry point
 - `examples/`: a runnable script per operation. Run `composer install`, then `php examples/RESOURCE-METHOD.php`.
 
-Package 8.0.0-beta.6, generated for API 2026-09-07.
+Package 8.0.0-beta.7, generated for API 2026-09-07.

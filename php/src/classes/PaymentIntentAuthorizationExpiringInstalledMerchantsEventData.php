@@ -8,7 +8,7 @@ namespace Flint;
 final class PaymentIntentAuthorizationExpiringInstalledMerchantsEventData extends Model {
     /** @param array{'object': \stdClass, 'previous_attributes'?: \stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentIntentAuthorizationExpiringInstalledMerchantsEventData')); }
-    /** The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `processing_fee_money`, `add_on_fees`, `merchant_net_money`, `payment_collection`.
+    /** The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `processing_fee_money`, `processing_fee_details`, `add_on_fees`, `merchant_net_money`, `payment_collection`.
      * @return PaymentIntentAuthorizationExpiringInstalledMerchantsEventDataObject
      */
     public function getObject(): PaymentIntentAuthorizationExpiringInstalledMerchantsEventDataObject { return $this->get('object'); }

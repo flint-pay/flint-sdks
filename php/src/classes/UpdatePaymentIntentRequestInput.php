@@ -43,7 +43,7 @@ final class UpdatePaymentIntentRequestInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Send null to clear it. Omit it to keep the current value. Format: email. minLength: 1. maxLength: 255. Example: "buyer@example.com".
+    /** Send null to clear it. Omit it to keep the current value. The local part before @ must be at most 64 octets (UTF-8 bytes). Format: email. minLength: 1. maxLength: 255. Example: "buyer@example.com".
      * @return string|null
      * @throws SdkError When receipt_email is omitted; use hasReceiptEmail() or valueOrDefault().
      */

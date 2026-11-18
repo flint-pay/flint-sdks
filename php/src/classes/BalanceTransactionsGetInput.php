@@ -10,7 +10,7 @@ namespace Flint;
 final class BalanceTransactionsGetInput extends Model {
     /** @param array{'balance_transaction_id': string, 'expand'?: list<string>|string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BalanceTransactionsGetInput')); }
-    /** Flint balance transaction ID. Example: "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ".
+    /** Flint balance transaction ID. Must be a valid ID with prefix btxn_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ".
      * @return string
      * @throws SdkError When balance_transaction_id is omitted; use hasBalanceTransactionId() or valueOrDefault().
      */

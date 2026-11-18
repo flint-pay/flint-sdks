@@ -13,7 +13,7 @@ Response model.
 | `delivery_input_requirement_id` | Required | string | Unique ID of this requirement. |
 | `delivery_method_ids` | Optional | Array of string | Delivery methods that need this input. |
 | `delivery_option_ids` | Optional | Array of string | Delivery options that need this input. Omitted when the requirement applies to the choice group or method as a whole. |
-| `field_path` | Required | string | Request property to fill in, using the same path as error params. Array templates use [] in place of an index. Values: [20 declared values](DeliveryInputRequirementInput.md#deliveryinputrequirementinput-field_path-values). |
+| `field_path` | Required | string | Request property to fill in, using the same path as error params. Array templates use [] in place of an index. Values: [21 declared values](DeliveryInputRequirementInput.md#deliveryinputrequirementinput-field_path-values). |
 | `purpose` | Required | string | When the input is needed. Values: `"quote"`, `"selection"`, `"pickup_availability"`. |
 
 ### DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueAvailableInputRequirementsItem.constraint fields 1

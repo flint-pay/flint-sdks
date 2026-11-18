@@ -51,7 +51,7 @@ final class CreateLocationRequestInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Merchant-facing Location name, from 1 to 255 characters. minLength: 1. maxLength: 255.
+    /** Merchant-facing Location name, from 1 to 255 characters. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */

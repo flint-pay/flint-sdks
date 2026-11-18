@@ -3,8 +3,8 @@ import type { ClientOptions } from '../declarations/types-7.js';
 import type { CreateReturnReasonResponse } from '../declarations/types-13.js';
 import type { DeleteReturnReasonResponse } from '../declarations/types-17.js';
 import type { GetReturnReasonResponse } from '../declarations/types-28.js';
-import type { ListReturnReasonsResponse } from '../declarations/types-39.js';
-import type { RequestOptions } from '../declarations/types-60.js';
+import type { ListReturnReasonsResponse } from '../declarations/types-40.js';
+import type { RequestOptions } from '../declarations/types-61.js';
 import type {
     ReturnReason,
     ReturnReasonsCreateParams,
@@ -12,9 +12,9 @@ import type {
     ReturnReasonsGetParams,
     ReturnReasonsListParams,
     ReturnReasonsUpdateParams
-} from '../declarations/types-62.js';
-import type { UpdateReturnReasonResponse } from '../declarations/types-75.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-64.js';
+import type { UpdateReturnReasonResponse } from '../declarations/types-77.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -36,23 +36,24 @@ export type {
     ReturnReasonsGetParams,
     ReturnReasonsListParams,
     ReturnReasonsUpdateParams
-} from '../declarations/types-62.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
+} from '../declarations/types-64.js';
+export type { RequestOptions } from '../declarations/types-61.js';
 export type { CreateReturnReasonResponse, CreateReturnReasonRequestInput, CreateReturnReasonRequest } from '../declarations/types-13.js';
 export type { DeleteReturnReasonResponse } from '../declarations/types-17.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { GetReturnReasonResponse } from '../declarations/types-28.js';
-export type { ListReturnReasonsResponse } from '../declarations/types-39.js';
-export type { UpdateReturnReasonResponse, UpdateReturnReasonRequestInput } from '../declarations/types-75.js';
+export type { ListReturnReasonsResponse } from '../declarations/types-40.js';
+export type { UpdateReturnReasonResponse, UpdateReturnReasonRequestInput } from '../declarations/types-77.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
-export { makeCreateReturnReasonRequest } from '../declarations/types-81.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeUpdateReturnReasonRequest } from '../declarations/types-91.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { DisputesAcceptParams } from '../declarations/types-26.js';
+export { makeCreateReturnReasonRequest } from '../declarations/types-83.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeUpdateReturnReasonRequest } from '../declarations/types-94.js';
 export interface ReturnReasonsResource {
     /**
  * Create a merchant Return reason buyers can select. Buyer reasons are distinct from inspection
@@ -75,7 +76,9 @@ export interface ReturnReasonsResource {
  * archived reason's handle stays reserved.
  *
  * `DELETE /v1/return-reasons/{return_reason_id}`
- * @param return_reason_id Flint return reason id.
+ * @param return_reason_id Flint return reason id. Must be a valid ID with prefix rrsn_. Malformed
+ * IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist
+ * return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/return-reasons#deleteReturnReason
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -89,7 +92,9 @@ export interface ReturnReasonsResource {
  * Retrieve one Return reason with its handle, category handles, and status.
  *
  * `GET /v1/return-reasons/{return_reason_id}`
- * @param return_reason_id Flint return reason id.
+ * @param return_reason_id Flint return reason id. Must be a valid ID with prefix rrsn_. Malformed
+ * IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist
+ * return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/return-reasons#getReturnReason
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -123,7 +128,9 @@ export interface ReturnReasonsResource {
  * wording. Use DELETE to archive a merchant reason.
  *
  * `PATCH /v1/return-reasons/{return_reason_id}`
- * @param return_reason_id Flint return reason id.
+ * @param return_reason_id Flint return reason id. Must be a valid ID with prefix rrsn_. Malformed
+ * IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist
+ * return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/return-reasons#updateReturnReason
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

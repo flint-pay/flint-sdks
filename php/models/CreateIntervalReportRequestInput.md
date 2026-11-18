@@ -2,7 +2,7 @@
 
 ## CreateIntervalReportRequestInput
 
-The `balance_transactions_itemized_v1` variant of `CreateReportRequest`. The `gift_card_liability_v1` variant of `CreateReportRequest`. The `invoices_itemized_v1` variant of `CreateReportRequest`. The `merchant_billing_itemized_v1` variant of `CreateReportRequest`. The `orders_itemized_v1` variant of `CreateReportRequest`. The `orders_itemized_v2` variant of `CreateReportRequest`. The `payments_itemized_v1` variant of `CreateReportRequest`. The `payouts_itemized_v1` variant of `CreateReportRequest`. The `tax_itemized_v1` variant of `CreateReportRequest`. The `tax_summarized_v1` variant of `CreateReportRequest`. The `tax_transactions_itemized_v1` variant of `CreateReportRequest`. The `tax_transactions_itemized_v2` variant of `CreateReportRequest`.
+The `balance_transactions_itemized_v1` variant of `CreateReportRequest`. The `gift_card_liability_v1` variant of `CreateReportRequest`. The `invoices_itemized_v1` variant of `CreateReportRequest`. The `merchant_billing_itemized_v1` variant of `CreateReportRequest`. The `orders_itemized_v1` variant of `CreateReportRequest`. The `orders_itemized_v2` variant of `CreateReportRequest`. The `payments_itemized_v1` variant of `CreateReportRequest`. The `payouts_itemized_v1` variant of `CreateReportRequest`. The `tax_itemized_v1` variant of `CreateReportRequest`. The `tax_summarized_v1` variant of `CreateReportRequest`. The `tax_transactions_itemized_v1` variant of `CreateReportRequest`. The `tax_transactions_itemized_v2` variant of `CreateReportRequest`. The `tax_transactions_summarized_v2` variant of `CreateReportRequest`.
 
 Request input.
 
@@ -12,7 +12,7 @@ Request input.
 | `currency` | Required | string | Three-letter ISO 4217 currency. Reports never combine currencies. gift_card_liability_v1 supports USD only; other currencies return INVALID_REQUEST on currency. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Example: `"USD"`. |
 | `interval_end_at` | Required | string | Exclusive report interval end instant. Each report type matches its own occurrence time. At most the same local time 366 calendar days after interval_start_at in timezone. Must not be in the future. Format: `date-time`. minLength: `1`. Example: `"2026-08-02T16:00:00Z"`. |
 | `interval_start_at` | Required | string | Inclusive report interval start instant. Each report type matches its own occurrence time. Format: `date-time`. minLength: `1`. Example: `"2026-08-02T16:00:00Z"`. |
-| `report_type` | Required | string | Which report to generate. The value names the row and the column version, such as payments_itemized_v1. The Reports guide lists each type's rows, interval matching, and columns. Values: [12 declared values](#createintervalreportrequestinput-report_type-values). |
+| `report_type` | Required | string | Which report to generate. The value names the row and the column version, such as payments_itemized_v1. The Reports guide lists each type's rows, interval matching, and columns. Values: [13 declared values](#createintervalreportrequestinput-report_type-values). |
 | `timezone` | Optional | string | IANA timezone used for timestamps and date bucketing. A payout occurs at the start of its arrival_date in this timezone. Defaults to the merchant's timezone, then UTC, and is saved on the report at creation. minLength: `1`. |
 
 #### CreateIntervalReportRequestInput report_type values
@@ -29,4 +29,5 @@ Request input.
 - `"merchant_billing_itemized_v1"`
 - `"tax_transactions_itemized_v1"`
 - `"tax_transactions_itemized_v2"`
+- `"tax_transactions_summarized_v2"`
 

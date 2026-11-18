@@ -1,4 +1,24 @@
-import type { MetadataMap, MetadataRequestInput } from './types-41.js';
+import type { MetadataMap, MetadataRequestInput } from './types-43.js';
+import type { MoneyValue, MoneyValueInput } from './types-44.js';
+import type {
+    RefundDestinations,
+    RefundDestinationsInput,
+    RefundChargeInput,
+    RefundLineItemInput,
+    RefundTaxBreakdownRefundInInput,
+    RefundCharge,
+    RefundLineItem,
+    RefundTaxBreakdownRefundIn
+} from './types-60.js';
+import type { SplitReversalRequest, SplitReversalRequestInput } from './types-68.js';
+import type {
+    CreateRefundRequestAmountInput,
+    CreateReceivablesAgingReportRequest,
+    CreateReceivablesAgingReportRequestInput
+} from './types-12.js';
+import type { RefundTenderAllocationRequestInput, RefundWithGiftCardCodes } from './types-61.js';
+import type { ResponseMeta } from './types-62.js';
+import type { CreateIntervalReportRequest, CreateIntervalReportRequestInput } from './types-10.js';
 import type {
     GetReturnDispositionResponse,
     GetReturnInspectionResponse,
@@ -16,7 +36,7 @@ import type {
     ReturnEligibilityPreview,
     ReturnLineItemRequest,
     ReturnLineItemRequestInput
-} from './types-61.js';
+} from './types-63.js';
 import type {
     ReturnSourceSystemRequest,
     ReturnSourceSystemRequestInput,
@@ -26,19 +46,1425 @@ import type {
     ReturnResolutionLineItemRequest,
     ReturnResolutionAdjustmentRequestInput,
     ReturnReplacementLineItemRequestInput,
-    ReturnResolutionLineItemRequestInput,
-    ReturnShipmentLineItemAllocationRequestInput
-} from './types-63.js';
+    ReturnResolutionLineItemRequestInput
+} from './types-65.js';
 import type {
     ReturnPolicyRevisionRequest,
     ReturnPolicyRevisionRequestInput,
     ReturnReceiptLineItemRequest,
     ReturnReceiptLineItemRequestInput
-} from './types-62.js';
-import type { ResponseMeta } from './types-60.js';
-import type { RiskPredicateNodeRequest, RiskPredicateNodeRequestInput } from './types-64.js';
-import type { PackageCreateRequest, PackageCreateRequestInput } from './types-47.js';
-import type { CreateShipmentRequestReturnInput } from './types-14.js';
+} from './types-64.js';
+import type { RiskPredicateNodeRequest, RiskPredicateNodeRequestInput } from './types-67.js';
+import type { CreateRiskPreviewRequestStoredRuleInput } from './types-14.js';
+/** The `credit_note` variant of `CreateRefundRequest`. */
+export type CreateRefundRequestCreditNote = ({
+    /**
+     * Required for refund_type amount and optional for credit_note; omit it on credit_note to
+     * refund all available credit, resolved once when Flint accepts the request. With processed_by
+     * merchant, the default is capped by the invoice's manually recorded money not already
+     * returned. Forbidden for full and targets. Total to refund, including named targets and any
+     * value Flint allocates to the remaining components. Tender allocations must sum to this
+     * amount. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money"?: MoneyValue;
+    /**
+     * Issued credit note on a paid invoice whose credit is returned to the buyer. Required only
+     * for refund_type credit_note. minLength: 1. pattern: ^cn_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "cn_01KEZF7C00N1TRRCVDNY8S471H".
+     */
+    "credit_note_id": string;
+    /**
+     * Credit note version last read. Optional; a stale version returns VERSION_CONFLICT with the
+     * current_version. Format: int64. minimum: 1.
+     */
+    "expected_credit_note_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Who moves the money for this refund. Allowed only for refund_type credit_note. Omit or use
+     * flint for Flint to return the money to the invoice's payments. Use merchant to record money
+     * you already returned outside Flint, for example by check or wire; Flint moves no money.
+     * Default: "flint". Value enum: "flint", "merchant".
+     */
+    "processed_by"?: "flint" | "merchant" | (string & {});
+    /**
+     * Optional. When omitted, no reason is recorded or sent to the processor, and the buyer's
+     * refund email has no reason line. Value enum: "duplicate", "fraudulent",
+     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
+     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
+     * "accidental_order", "other", "out_of_stock".
+     */
+    "reason"?: "duplicate"
+        | "fraudulent"
+        | "requested_by_customer"
+        | "defective_product"
+        | "wrong_item_shipped"
+        | "never_received"
+        | "not_as_described"
+        | "arrived_too_late"
+        | "customer_changed_mind"
+        | "better_price_found"
+        | "accidental_order"
+        | "other"
+        | "out_of_stock"
+        | (string & {});
+    /**
+     * Optional note explaining the refund, up to 1,024 characters. minLength: 1. maxLength: 1024.
+     */
+    "reason_message"?: string;
+    /**
+     * Optional check, wire, or other reference for the money you returned outside Flint. Opaque, 1
+     * to 255 characters, and preserved exactly. Use external_reference_id for your own refund ID.
+     * Accepted only when `processed_by` is `merchant`; otherwise the request fails with `400
+     * INVALID_REQUEST` (`NOT_ALLOWED`). minLength: 1. maxLength: 255.
+     */
+    "refund_reference"?: string;
+    /**
+     * What to refund and how much: credit_note returns a credit note's available credit; full
+     * refunds the full remaining amount; amount requires amount_money and permits named targets
+     * and tender_allocations within that amount; targets refunds named line_items, charges, or
+     * tax_breakdown_refunds without amount_money. Full and targets do not accept
+     * tender_allocations. Gift card loads support full and amount only. Value enum: "credit_note".
+     */
+    "refund_type": "credit_note" | (string & {});
+    /**
+     * When you report returning the money outside Flint. Omit to use the current time. Must be an
+     * RFC 3339 timestamp at or before now; offsets are normalized to UTC and fractional seconds
+     * are truncated. Accepted only when `processed_by` is `merchant`; otherwise the request fails
+     * with `400 INVALID_REQUEST` (`NOT_ALLOWED`). Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "refunded_at"?: string;
+})
+    & ((({
+    "order_id": unknown;
+})
+    | ({
+    "payment_intent_id": unknown;
+})
+    | ({
+    "tender_allocations": unknown;
+})
+    | ({
+    "gift_card_load_id": unknown;
+})
+    | ({
+    /**
+     * Issued credit note on a paid invoice whose credit is returned to the buyer. Required only
+     * for refund_type credit_note. minLength: 1. pattern: ^cn_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "cn_01KEZF7C00N1TRRCVDNY8S471H".
+     */
+    "credit_note_id": string;
+})
+    | (Record<string, unknown>)));
+/** The `credit_note` variant of `CreateRefundRequest`. */
+export type CreateRefundRequestCreditNoteInput = ({
+    /**
+     * Required for refund_type amount and optional for credit_note; omit it on credit_note to
+     * refund all available credit, resolved once when Flint accepts the request. With processed_by
+     * merchant, the default is capped by the invoice's manually recorded money not already
+     * returned. Forbidden for full and targets. Total to refund, including named targets and any
+     * value Flint allocates to the remaining components. Tender allocations must sum to this
+     * amount. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money"?: MoneyValueInput;
+    /**
+     * Issued credit note on a paid invoice whose credit is returned to the buyer. Required only
+     * for refund_type credit_note. minLength: 1. pattern: ^cn_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "cn_01KEZF7C00N1TRRCVDNY8S471H".
+     */
+    "credit_note_id": string;
+    /**
+     * Credit note version last read. Optional; a stale version returns VERSION_CONFLICT with the
+     * current_version. Format: int64. minimum: 1.
+     */
+    "expected_credit_note_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Who moves the money for this refund. Allowed only for refund_type credit_note. Omit or use
+     * flint for Flint to return the money to the invoice's payments. Use merchant to record money
+     * you already returned outside Flint, for example by check or wire; Flint moves no money.
+     * Default: "flint". Value enum: "flint", "merchant".
+     */
+    "processed_by"?: "flint" | "merchant";
+    /**
+     * Optional. When omitted, no reason is recorded or sent to the processor, and the buyer's
+     * refund email has no reason line. Value enum: "duplicate", "fraudulent",
+     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
+     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
+     * "accidental_order", "other", "out_of_stock".
+     */
+    "reason"?: "duplicate"
+        | "fraudulent"
+        | "requested_by_customer"
+        | "defective_product"
+        | "wrong_item_shipped"
+        | "never_received"
+        | "not_as_described"
+        | "arrived_too_late"
+        | "customer_changed_mind"
+        | "better_price_found"
+        | "accidental_order"
+        | "other"
+        | "out_of_stock";
+    /**
+     * Optional note explaining the refund, up to 1,024 characters. minLength: 1. maxLength: 1024.
+     */
+    "reason_message"?: string;
+    /**
+     * Optional check, wire, or other reference for the money you returned outside Flint. Opaque, 1
+     * to 255 characters, and preserved exactly. Use external_reference_id for your own refund ID.
+     * Accepted only when `processed_by` is `merchant`; otherwise the request fails with `400
+     * INVALID_REQUEST` (`NOT_ALLOWED`). minLength: 1. maxLength: 255.
+     */
+    "refund_reference"?: string;
+    /**
+     * What to refund and how much: credit_note returns a credit note's available credit; full
+     * refunds the full remaining amount; amount requires amount_money and permits named targets
+     * and tender_allocations within that amount; targets refunds named line_items, charges, or
+     * tax_breakdown_refunds without amount_money. Full and targets do not accept
+     * tender_allocations. Gift card loads support full and amount only. Value enum: "credit_note".
+     */
+    "refund_type": ("credit_note") & ("credit_note");
+    /**
+     * When you report returning the money outside Flint. Omit to use the current time. Must be an
+     * RFC 3339 timestamp at or before now; offsets are normalized to UTC and fractional seconds
+     * are truncated. Accepted only when `processed_by` is `merchant`; otherwise the request fails
+     * with `400 INVALID_REQUEST` (`NOT_ALLOWED`). Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "refunded_at"?: string | globalThis.Date;
+})
+    & ((({
+    "order_id": unknown;
+})
+    | ({
+    "payment_intent_id": unknown;
+})
+    | ({
+    "tender_allocations": unknown;
+})
+    | ({
+    "gift_card_load_id": unknown;
+})
+    | ({
+    /**
+     * Issued credit note on a paid invoice whose credit is returned to the buyer. Required only
+     * for refund_type credit_note. minLength: 1. pattern: ^cn_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "cn_01KEZF7C00N1TRRCVDNY8S471H".
+     */
+    "credit_note_id": string;
+})))
+    & ((({
+    "destinations"?: never;
+} | {
+    "tender_allocations"?: never;
+}))
+    & (({
+    "destinations"?: never;
+} | {
+    "gift_card_load_id"?: never;
+})));
+/** The `full` variant of `CreateRefundRequest`. */
+export type CreateRefundRequestFull = ({
+    /**
+     * Default destinations for allocations Flint plans. Allowed with full, amount without
+     * tender_allocations, and targets. Each key defaults to original, and a key for a tender
+     * absent from the refund has no effect. Not allowed with tender_allocations or
+     * gift_card_load_id; use destination on each explicit allocation. new_gift_card on a payment
+     * intent is store credit and requires a payment belonging to an order. Payments without an
+     * order return 400 INVALID_REQUEST with a NOT_ALLOWED detail at destinations.payment_intent.
+     * The merchant keeps the cash and the original processing fee is not returned; no processor
+     * refund is made. New gift card codes are returned for 24 hours. The refund reports each
+     * result in tender_allocations, without echoing destinations. Default refund destinations for
+     * payment intent and gift card redemption allocations planned by Flint. Each tender type
+     * defaults to original when omitted.
+     */
+    "destinations"?: RefundDestinations;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Allowed with refund_type full or amount. Original standalone gift card funding load paid by
+     * a Flint payment. Refunds its paid consideration and removes the corresponding eligible
+     * unspent face value. Requires Idempotency-Key; cannot be combined with order, line item,
+     * charge, tax or tender targets. minLength: 1. pattern: ^gcl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "gcl_01KEZF7C00YJED2857SE0J6KWC".
+     */
+    "gift_card_load_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Order to refund. May be combined with payment_intent_id to select a payment on that order.
+     * Required for named targets unless payment_intent_id belongs to an order. minLength: 1.
+     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: string;
+    /**
+     * Payment to refund. May be combined with its order_id. Named targets require a payment on an
+     * order. minLength: 1. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id"?: string;
+    /**
+     * Optional. When omitted, no reason is recorded or sent to the processor, and the buyer's
+     * refund email has no reason line. Value enum: "duplicate", "fraudulent",
+     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
+     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
+     * "accidental_order", "other", "out_of_stock".
+     */
+    "reason"?: "duplicate"
+        | "fraudulent"
+        | "requested_by_customer"
+        | "defective_product"
+        | "wrong_item_shipped"
+        | "never_received"
+        | "not_as_described"
+        | "arrived_too_late"
+        | "customer_changed_mind"
+        | "better_price_found"
+        | "accidental_order"
+        | "other"
+        | "out_of_stock"
+        | (string & {});
+    /**
+     * Optional note explaining the refund, up to 1,024 characters. minLength: 1. maxLength: 1024.
+     */
+    "reason_message"?: string;
+    /**
+     * Return the partner app's platform fee to the merchant as part of this refund. By default the
+     * partner app keeps its fee. With true, each refunded payment that carries the partner app's
+     * collected platform fee returns all of the fee's unreturned amount when this refund returns
+     * the whole captured amount, and otherwise a proportional share, rounded half up; the refund
+     * that completes the payment returns what rounding left, when every earlier refund of it also
+     * returned the fee. Each payment refund reports its share in refunded_platform_fee_money, and
+     * Flint returns it to the merchant once that payment refund succeeds. Payments without a
+     * platform fee are refunded normally. Only the partner app install token whose app charged the
+     * fee can send true; from any other credential, or when a refunded payment carries another
+     * app's fee, it is INVALID_REQUEST with NOT_ALLOWED on refund_platform_fee. Not accepted with
+     * refund_type credit_note. Part of the request fingerprint. See [Platform
+     * fees](/docs/guides/platform-fees). Default: false.
+     */
+    "refund_platform_fee"?: boolean;
+    /**
+     * What to refund and how much: credit_note returns a credit note's available credit; full
+     * refunds the full remaining amount; amount requires amount_money and permits named targets
+     * and tender_allocations within that amount; targets refunds named line_items, charges, or
+     * tax_breakdown_refunds without amount_money. Full and targets do not accept
+     * tender_allocations. Gift card loads support full and amount only. Value enum: "full".
+     */
+    "refund_type": "full" | (string & {});
+    /**
+     * Exhaustive seller amounts to take back from the payments this refund covers. Omit for
+     * cumulative allocation; send [] to fund the whole refund yourself. Splits not named give back
+     * nothing. Each split must be eligible and belong to a refunded payment. Each positive amount
+     * uses the payment's currency and is at most its unreversed amount; otherwise LIMIT_EXCEEDED
+     * reports maximum_money. Entries for each payment total at most that payment's refund;
+     * otherwise INVALID_REQUEST reports maximum_money at split_reversals. [] (Value): {@link
+     * SplitReversalRequest}. The seller amount to take back from one eligible payment split when
+     * creating a refund.
+     */
+    "split_reversals"?: Array<SplitReversalRequest>;
+})
+    & ((({
+    /**
+     * Order to refund. May be combined with payment_intent_id to select a payment on that order.
+     * Required for named targets unless payment_intent_id belongs to an order. minLength: 1.
+     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id": string;
+})
+    | ({
+    /**
+     * Payment to refund. May be combined with its order_id. Named targets require a payment on an
+     * order. minLength: 1. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id": string;
+})
+    | ({
+    "tender_allocations": unknown;
+})
+    | ({
+    /**
+     * Allowed with refund_type full or amount. Original standalone gift card funding load paid by
+     * a Flint payment. Refunds its paid consideration and removes the corresponding eligible
+     * unspent face value. Requires Idempotency-Key; cannot be combined with order, line item,
+     * charge, tax or tender targets. minLength: 1. pattern: ^gcl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "gcl_01KEZF7C00YJED2857SE0J6KWC".
+     */
+    "gift_card_load_id": string;
+})
+    | ({
+    "credit_note_id": unknown;
+})
+    | (Record<string, unknown>)));
+/** The `full` variant of `CreateRefundRequest`. */
+export type CreateRefundRequestFullInput = ({
+    /**
+     * Default destinations for allocations Flint plans. Allowed with full, amount without
+     * tender_allocations, and targets. Each key defaults to original, and a key for a tender
+     * absent from the refund has no effect. Not allowed with tender_allocations or
+     * gift_card_load_id; use destination on each explicit allocation. new_gift_card on a payment
+     * intent is store credit and requires a payment belonging to an order. Payments without an
+     * order return 400 INVALID_REQUEST with a NOT_ALLOWED detail at destinations.payment_intent.
+     * The merchant keeps the cash and the original processing fee is not returned; no processor
+     * refund is made. New gift card codes are returned for 24 hours. The refund reports each
+     * result in tender_allocations, without echoing destinations. Default refund destinations for
+     * payment intent and gift card redemption allocations planned by Flint. Each tender type
+     * defaults to original when omitted.
+     */
+    "destinations"?: RefundDestinationsInput;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Allowed with refund_type full or amount. Original standalone gift card funding load paid by
+     * a Flint payment. Refunds its paid consideration and removes the corresponding eligible
+     * unspent face value. Requires Idempotency-Key; cannot be combined with order, line item,
+     * charge, tax or tender targets. minLength: 1. pattern: ^gcl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "gcl_01KEZF7C00YJED2857SE0J6KWC".
+     */
+    "gift_card_load_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Order to refund. May be combined with payment_intent_id to select a payment on that order.
+     * Required for named targets unless payment_intent_id belongs to an order. minLength: 1.
+     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: string;
+    /**
+     * Payment to refund. May be combined with its order_id. Named targets require a payment on an
+     * order. minLength: 1. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id"?: string;
+    /**
+     * Optional. When omitted, no reason is recorded or sent to the processor, and the buyer's
+     * refund email has no reason line. Value enum: "duplicate", "fraudulent",
+     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
+     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
+     * "accidental_order", "other", "out_of_stock".
+     */
+    "reason"?: "duplicate"
+        | "fraudulent"
+        | "requested_by_customer"
+        | "defective_product"
+        | "wrong_item_shipped"
+        | "never_received"
+        | "not_as_described"
+        | "arrived_too_late"
+        | "customer_changed_mind"
+        | "better_price_found"
+        | "accidental_order"
+        | "other"
+        | "out_of_stock";
+    /**
+     * Optional note explaining the refund, up to 1,024 characters. minLength: 1. maxLength: 1024.
+     */
+    "reason_message"?: string;
+    /**
+     * Return the partner app's platform fee to the merchant as part of this refund. By default the
+     * partner app keeps its fee. With true, each refunded payment that carries the partner app's
+     * collected platform fee returns all of the fee's unreturned amount when this refund returns
+     * the whole captured amount, and otherwise a proportional share, rounded half up; the refund
+     * that completes the payment returns what rounding left, when every earlier refund of it also
+     * returned the fee. Each payment refund reports its share in refunded_platform_fee_money, and
+     * Flint returns it to the merchant once that payment refund succeeds. Payments without a
+     * platform fee are refunded normally. Only the partner app install token whose app charged the
+     * fee can send true; from any other credential, or when a refunded payment carries another
+     * app's fee, it is INVALID_REQUEST with NOT_ALLOWED on refund_platform_fee. Not accepted with
+     * refund_type credit_note. Part of the request fingerprint. See [Platform
+     * fees](/docs/guides/platform-fees). Default: false.
+     */
+    "refund_platform_fee"?: boolean;
+    /**
+     * What to refund and how much: credit_note returns a credit note's available credit; full
+     * refunds the full remaining amount; amount requires amount_money and permits named targets
+     * and tender_allocations within that amount; targets refunds named line_items, charges, or
+     * tax_breakdown_refunds without amount_money. Full and targets do not accept
+     * tender_allocations. Gift card loads support full and amount only. Value enum: "full".
+     */
+    "refund_type": ("full") & ("full");
+    /**
+     * Exhaustive seller amounts to take back from the payments this refund covers. Omit for
+     * cumulative allocation; send [] to fund the whole refund yourself. Splits not named give back
+     * nothing. Each split must be eligible and belong to a refunded payment. Each positive amount
+     * uses the payment's currency and is at most its unreversed amount; otherwise LIMIT_EXCEEDED
+     * reports maximum_money. Entries for each payment total at most that payment's refund;
+     * otherwise INVALID_REQUEST reports maximum_money at split_reversals. [] (Value): {@link
+     * SplitReversalRequestInput}. The seller amount to take back from one eligible payment split
+     * when creating a refund.
+     */
+    "split_reversals"?: Array<SplitReversalRequestInput>;
+})
+    & ((({
+    /**
+     * Order to refund. May be combined with payment_intent_id to select a payment on that order.
+     * Required for named targets unless payment_intent_id belongs to an order. minLength: 1.
+     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id": string;
+})
+    | ({
+    /**
+     * Payment to refund. May be combined with its order_id. Named targets require a payment on an
+     * order. minLength: 1. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id": string;
+})
+    | ({
+    "tender_allocations": unknown;
+})
+    | ({
+    /**
+     * Allowed with refund_type full or amount. Original standalone gift card funding load paid by
+     * a Flint payment. Refunds its paid consideration and removes the corresponding eligible
+     * unspent face value. Requires Idempotency-Key; cannot be combined with order, line item,
+     * charge, tax or tender targets. minLength: 1. pattern: ^gcl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "gcl_01KEZF7C00YJED2857SE0J6KWC".
+     */
+    "gift_card_load_id": string;
+})
+    | ({
+    "credit_note_id": unknown;
+})))
+    & ((({
+    "destinations"?: never;
+} | {
+    "tender_allocations"?: never;
+}))
+    & (({
+    "destinations"?: never;
+} | {
+    "gift_card_load_id"?: never;
+})))
+    & (({
+    "amount_money"?: never;
+})
+    & ({
+    "line_items"?: never;
+})
+    & ({
+    "charges"?: never;
+})
+    & ({
+    "tax_breakdown_refunds"?: never;
+})
+    & ({
+    "tender_allocations"?: never;
+}));
+/** The request body for: Create refund. */
+export type CreateRefundRequestInput = ({
+    /**
+     * Required for refund_type amount and optional for credit_note; omit it on credit_note to
+     * refund all available credit, resolved once when Flint accepts the request. With processed_by
+     * merchant, the default is capped by the invoice's manually recorded money not already
+     * returned. Forbidden for full and targets. Total to refund, including named targets and any
+     * value Flint allocates to the remaining components. Tender allocations must sum to this
+     * amount. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money"?: MoneyValueInput;
+    /**
+     * Named order charges to refund. Allowed with refund_type amount or targets. In amount mode
+     * their value must fit within amount_money; Flint allocates the rest. [] (Value): {@link
+     * RefundChargeInput}. An order charge to refund when creating a refund, with an optional
+     * amount to refund.
+     */
+    "charges"?: Array<RefundChargeInput>;
+    /**
+     * Issued credit note on a paid invoice whose credit is returned to the buyer. Required only
+     * for refund_type credit_note. minLength: 1. pattern: ^cn_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "cn_01KEZF7C00N1TRRCVDNY8S471H".
+     */
+    "credit_note_id"?: string;
+    /**
+     * Default destinations for allocations Flint plans. Allowed with full, amount without
+     * tender_allocations, and targets. Each key defaults to original, and a key for a tender
+     * absent from the refund has no effect. Not allowed with tender_allocations or
+     * gift_card_load_id; use destination on each explicit allocation. new_gift_card on a payment
+     * intent is store credit and requires a payment belonging to an order. Payments without an
+     * order return 400 INVALID_REQUEST with a NOT_ALLOWED detail at destinations.payment_intent.
+     * The merchant keeps the cash and the original processing fee is not returned; no processor
+     * refund is made. New gift card codes are returned for 24 hours. The refund reports each
+     * result in tender_allocations, without echoing destinations. Default refund destinations for
+     * payment intent and gift card redemption allocations planned by Flint. Each tender type
+     * defaults to original when omitted.
+     */
+    "destinations"?: RefundDestinationsInput;
+    /**
+     * Credit note version last read. Optional; a stale version returns VERSION_CONFLICT with the
+     * current_version. Format: int64. minimum: 1.
+     */
+    "expected_credit_note_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Allowed with refund_type full or amount. Original standalone gift card funding load paid by
+     * a Flint payment. Refunds its paid consideration and removes the corresponding eligible
+     * unspent face value. Requires Idempotency-Key; cannot be combined with order, line item,
+     * charge, tax or tender targets. minLength: 1. pattern: ^gcl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "gcl_01KEZF7C00YJED2857SE0J6KWC".
+     */
+    "gift_card_load_id"?: string;
+    /**
+     * Named order line items to refund. Allowed with refund_type amount or targets. In amount mode
+     * their resolved value must fit within amount_money; Flint allocates the rest. [] (Value):
+     * {@link RefundLineItemInput}. An order line item to refund, with the quantity or amount, tax
+     * handling, and any adjustments such as a restocking fee.
+     */
+    "line_items"?: Array<RefundLineItemInput>;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Order to refund. May be combined with payment_intent_id to select a payment on that order.
+     * Required for named targets unless payment_intent_id belongs to an order. minLength: 1.
+     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: string;
+    /**
+     * Payment to refund. May be combined with its order_id. Named targets require a payment on an
+     * order. minLength: 1. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id"?: string;
+    /**
+     * Who moves the money for this refund. Allowed only for refund_type credit_note. Omit or use
+     * flint for Flint to return the money to the invoice's payments. Use merchant to record money
+     * you already returned outside Flint, for example by check or wire; Flint moves no money.
+     * Default: "flint". Value enum: "flint", "merchant".
+     */
+    "processed_by"?: "flint" | "merchant";
+    /**
+     * Optional. When omitted, no reason is recorded or sent to the processor, and the buyer's
+     * refund email has no reason line. Value enum: "duplicate", "fraudulent",
+     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
+     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
+     * "accidental_order", "other", "out_of_stock".
+     */
+    "reason"?: "duplicate"
+        | "fraudulent"
+        | "requested_by_customer"
+        | "defective_product"
+        | "wrong_item_shipped"
+        | "never_received"
+        | "not_as_described"
+        | "arrived_too_late"
+        | "customer_changed_mind"
+        | "better_price_found"
+        | "accidental_order"
+        | "other"
+        | "out_of_stock";
+    /**
+     * Optional note explaining the refund, up to 1,024 characters. minLength: 1. maxLength: 1024.
+     */
+    "reason_message"?: string;
+    /**
+     * Return the partner app's platform fee to the merchant as part of this refund. By default the
+     * partner app keeps its fee. With true, each refunded payment that carries the partner app's
+     * collected platform fee returns all of the fee's unreturned amount when this refund returns
+     * the whole captured amount, and otherwise a proportional share, rounded half up; the refund
+     * that completes the payment returns what rounding left, when every earlier refund of it also
+     * returned the fee. Each payment refund reports its share in refunded_platform_fee_money, and
+     * Flint returns it to the merchant once that payment refund succeeds. Payments without a
+     * platform fee are refunded normally. Only the partner app install token whose app charged the
+     * fee can send true; from any other credential, or when a refunded payment carries another
+     * app's fee, it is INVALID_REQUEST with NOT_ALLOWED on refund_platform_fee. Not accepted with
+     * refund_type credit_note. Part of the request fingerprint. See [Platform
+     * fees](/docs/guides/platform-fees). Default: false.
+     */
+    "refund_platform_fee"?: boolean;
+    /**
+     * Optional check, wire, or other reference for the money you returned outside Flint. Opaque, 1
+     * to 255 characters, and preserved exactly. Use external_reference_id for your own refund ID.
+     * Accepted only when `processed_by` is `merchant`; otherwise the request fails with `400
+     * INVALID_REQUEST` (`NOT_ALLOWED`). minLength: 1. maxLength: 255.
+     */
+    "refund_reference"?: string;
+    /**
+     * What to refund and how much: credit_note returns a credit note's available credit; full
+     * refunds the full remaining amount; amount requires amount_money and permits named targets
+     * and tender_allocations within that amount; targets refunds named line_items, charges, or
+     * tax_breakdown_refunds without amount_money. Full and targets do not accept
+     * tender_allocations. Gift card loads support full and amount only. Value enum: "full",
+     * "amount", "targets", "credit_note".
+     */
+    "refund_type": "full" | "amount" | "targets" | "credit_note";
+    /**
+     * When you report returning the money outside Flint. Omit to use the current time. Must be an
+     * RFC 3339 timestamp at or before now; offsets are normalized to UTC and fractional seconds
+     * are truncated. Accepted only when `processed_by` is `merchant`; otherwise the request fails
+     * with `400 INVALID_REQUEST` (`NOT_ALLOWED`). Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "refunded_at"?: string | globalThis.Date;
+    /**
+     * Exhaustive seller amounts to take back from the payments this refund covers. Omit for
+     * cumulative allocation; send [] to fund the whole refund yourself. Splits not named give back
+     * nothing. Each split must be eligible and belong to a refunded payment. Each positive amount
+     * uses the payment's currency and is at most its unreversed amount; otherwise LIMIT_EXCEEDED
+     * reports maximum_money. Entries for each payment total at most that payment's refund;
+     * otherwise INVALID_REQUEST reports maximum_money at split_reversals. [] (Value): {@link
+     * SplitReversalRequestInput}. The seller amount to take back from one eligible payment split
+     * when creating a refund.
+     */
+    "split_reversals"?: Array<SplitReversalRequestInput>;
+    /**
+     * Named order tax breakdowns to refund. Allowed with refund_type amount or targets. In amount
+     * mode their value must fit within amount_money; Flint allocates the rest. Requires
+     * commerce.refunds.tax_overrides.write. [] (Value): {@link RefundTaxBreakdownRefundInInput}.
+     * The tax to refund for one tax breakdown, identified by `tax_breakdown_id`, when setting tax
+     * refunds explicitly.
+     */
+    "tax_breakdown_refunds"?: Array<RefundTaxBreakdownRefundInInput>;
+    /**
+     * Exhaustive allocations to original tenders. Allowed only with refund_type amount. Amounts
+     * must sum to the required amount_money. Selected line-item, charge and flat-tax components
+     * must be covered by their original tenders. Additional untargeted value follows the default
+     * tender order. Destinations default to original. Select new_gift_card when the original card
+     * is closed or cannot accept the full credit within its balance cap. For gift card redemptions
+     * made outside a Flint order, send the allocations without order_id. minItems: 1. maxItems:
+     * 21. [] (Value): {@link RefundTenderAllocationRequestInput}. Where part of a refund goes:
+     * back to a payment intent or to a gift card redemption, with the amount.
+     */
+    "tender_allocations"?: Array<RefundTenderAllocationRequestInput>;
+})
+    & (({
+    "destinations"?: never;
+} | {
+    "tender_allocations"?: never;
+}))
+    & (({
+    "destinations"?: never;
+} | {
+    "gift_card_load_id"?: never;
+}))
+    & ((Exclude<CreateRefundRequestCreditNoteInput & object, readonly unknown[]>)
+    | (Exclude<CreateRefundRequestFullInput & object, readonly unknown[]>)
+    | (Exclude<CreateRefundRequestAmountInput & object, readonly unknown[]>)
+    | (Exclude<CreateRefundRequestTargetsInput & object, readonly unknown[]>))
+    & (({
+    /**
+     * Order to refund. May be combined with payment_intent_id to select a payment on that order.
+     * Required for named targets unless payment_intent_id belongs to an order. minLength: 1.
+     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id": string;
+})
+    | ({
+    /**
+     * Payment to refund. May be combined with its order_id. Named targets require a payment on an
+     * order. minLength: 1. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id": string;
+})
+    | ({
+    /**
+     * Exhaustive allocations to original tenders. Allowed only with refund_type amount. Amounts
+     * must sum to the required amount_money. Selected line-item, charge and flat-tax components
+     * must be covered by their original tenders. Additional untargeted value follows the default
+     * tender order. Destinations default to original. Select new_gift_card when the original card
+     * is closed or cannot accept the full credit within its balance cap. For gift card redemptions
+     * made outside a Flint order, send the allocations without order_id. minItems: 1. maxItems:
+     * 21. [] (Value): {@link RefundTenderAllocationRequestInput}. Where part of a refund goes:
+     * back to a payment intent or to a gift card redemption, with the amount.
+     */
+    "tender_allocations": Array<RefundTenderAllocationRequestInput>;
+})
+    | ({
+    /**
+     * Allowed with refund_type full or amount. Original standalone gift card funding load paid by
+     * a Flint payment. Refunds its paid consideration and removes the corresponding eligible
+     * unspent face value. Requires Idempotency-Key; cannot be combined with order, line item,
+     * charge, tax or tender targets. minLength: 1. pattern: ^gcl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "gcl_01KEZF7C00YJED2857SE0J6KWC".
+     */
+    "gift_card_load_id": string;
+})
+    | ({
+    /**
+     * Issued credit note on a paid invoice whose credit is returned to the buyer. Required only
+     * for refund_type credit_note. minLength: 1. pattern: ^cn_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "cn_01KEZF7C00N1TRRCVDNY8S471H".
+     */
+    "credit_note_id": string;
+}));
+/** The `targets` variant of `CreateRefundRequest`. */
+export type CreateRefundRequestTargets = ({
+    /**
+     * Named order charges to refund. Allowed with refund_type amount or targets. In amount mode
+     * their value must fit within amount_money; Flint allocates the rest. [] (Value): {@link
+     * RefundCharge}. An order charge to refund when creating a refund, with an optional amount to
+     * refund.
+     */
+    "charges"?: Array<RefundCharge>;
+    /**
+     * Default destinations for allocations Flint plans. Allowed with full, amount without
+     * tender_allocations, and targets. Each key defaults to original, and a key for a tender
+     * absent from the refund has no effect. Not allowed with tender_allocations or
+     * gift_card_load_id; use destination on each explicit allocation. new_gift_card on a payment
+     * intent is store credit and requires a payment belonging to an order. Payments without an
+     * order return 400 INVALID_REQUEST with a NOT_ALLOWED detail at destinations.payment_intent.
+     * The merchant keeps the cash and the original processing fee is not returned; no processor
+     * refund is made. New gift card codes are returned for 24 hours. The refund reports each
+     * result in tender_allocations, without echoing destinations. Default refund destinations for
+     * payment intent and gift card redemption allocations planned by Flint. Each tender type
+     * defaults to original when omitted.
+     */
+    "destinations"?: RefundDestinations;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Named order line items to refund. Allowed with refund_type amount or targets. In amount mode
+     * their resolved value must fit within amount_money; Flint allocates the rest. [] (Value):
+     * {@link RefundLineItem}. An order line item to refund, with the quantity or amount, tax
+     * handling, and any adjustments such as a restocking fee.
+     */
+    "line_items"?: Array<RefundLineItem>;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Order to refund. May be combined with payment_intent_id to select a payment on that order.
+     * Required for named targets unless payment_intent_id belongs to an order. minLength: 1.
+     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: string;
+    /**
+     * Payment to refund. May be combined with its order_id. Named targets require a payment on an
+     * order. minLength: 1. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id"?: string;
+    /**
+     * Optional. When omitted, no reason is recorded or sent to the processor, and the buyer's
+     * refund email has no reason line. Value enum: "duplicate", "fraudulent",
+     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
+     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
+     * "accidental_order", "other", "out_of_stock".
+     */
+    "reason"?: "duplicate"
+        | "fraudulent"
+        | "requested_by_customer"
+        | "defective_product"
+        | "wrong_item_shipped"
+        | "never_received"
+        | "not_as_described"
+        | "arrived_too_late"
+        | "customer_changed_mind"
+        | "better_price_found"
+        | "accidental_order"
+        | "other"
+        | "out_of_stock"
+        | (string & {});
+    /**
+     * Optional note explaining the refund, up to 1,024 characters. minLength: 1. maxLength: 1024.
+     */
+    "reason_message"?: string;
+    /**
+     * Return the partner app's platform fee to the merchant as part of this refund. By default the
+     * partner app keeps its fee. With true, each refunded payment that carries the partner app's
+     * collected platform fee returns all of the fee's unreturned amount when this refund returns
+     * the whole captured amount, and otherwise a proportional share, rounded half up; the refund
+     * that completes the payment returns what rounding left, when every earlier refund of it also
+     * returned the fee. Each payment refund reports its share in refunded_platform_fee_money, and
+     * Flint returns it to the merchant once that payment refund succeeds. Payments without a
+     * platform fee are refunded normally. Only the partner app install token whose app charged the
+     * fee can send true; from any other credential, or when a refunded payment carries another
+     * app's fee, it is INVALID_REQUEST with NOT_ALLOWED on refund_platform_fee. Not accepted with
+     * refund_type credit_note. Part of the request fingerprint. See [Platform
+     * fees](/docs/guides/platform-fees). Default: false.
+     */
+    "refund_platform_fee"?: boolean;
+    /**
+     * What to refund and how much: credit_note returns a credit note's available credit; full
+     * refunds the full remaining amount; amount requires amount_money and permits named targets
+     * and tender_allocations within that amount; targets refunds named line_items, charges, or
+     * tax_breakdown_refunds without amount_money. Full and targets do not accept
+     * tender_allocations. Gift card loads support full and amount only. Value enum: "targets".
+     */
+    "refund_type": "targets" | (string & {});
+    /**
+     * Exhaustive seller amounts to take back from the payments this refund covers. Omit for
+     * cumulative allocation; send [] to fund the whole refund yourself. Splits not named give back
+     * nothing. Each split must be eligible and belong to a refunded payment. Each positive amount
+     * uses the payment's currency and is at most its unreversed amount; otherwise LIMIT_EXCEEDED
+     * reports maximum_money. Entries for each payment total at most that payment's refund;
+     * otherwise INVALID_REQUEST reports maximum_money at split_reversals. [] (Value): {@link
+     * SplitReversalRequest}. The seller amount to take back from one eligible payment split when
+     * creating a refund.
+     */
+    "split_reversals"?: Array<SplitReversalRequest>;
+    /**
+     * Named order tax breakdowns to refund. Allowed with refund_type amount or targets. In amount
+     * mode their value must fit within amount_money; Flint allocates the rest. Requires
+     * commerce.refunds.tax_overrides.write. [] (Value): {@link RefundTaxBreakdownRefundIn}. The
+     * tax to refund for one tax breakdown, identified by `tax_breakdown_id`, when setting tax
+     * refunds explicitly.
+     */
+    "tax_breakdown_refunds"?: Array<RefundTaxBreakdownRefundIn>;
+})
+    & ((({
+    /**
+     * Order to refund. May be combined with payment_intent_id to select a payment on that order.
+     * Required for named targets unless payment_intent_id belongs to an order. minLength: 1.
+     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id": string;
+})
+    | ({
+    /**
+     * Payment to refund. May be combined with its order_id. Named targets require a payment on an
+     * order. minLength: 1. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id": string;
+})
+    | ({
+    "tender_allocations": unknown;
+})
+    | ({
+    "gift_card_load_id": unknown;
+})
+    | ({
+    "credit_note_id": unknown;
+})
+    | (Record<string, unknown>)))
+    & (({
+    /** minItems: 1. */
+    "line_items": unknown;
+})
+    | ({
+    /** minItems: 1. */
+    "charges": unknown;
+})
+    | ({
+    /** minItems: 1. */
+    "tax_breakdown_refunds": unknown;
+})
+    | (Record<string, unknown>));
+/** The `targets` variant of `CreateRefundRequest`. */
+export type CreateRefundRequestTargetsInput = ({
+    /**
+     * Named order charges to refund. Allowed with refund_type amount or targets. In amount mode
+     * their value must fit within amount_money; Flint allocates the rest. [] (Value): {@link
+     * RefundChargeInput}. An order charge to refund when creating a refund, with an optional
+     * amount to refund.
+     */
+    "charges"?: Array<RefundChargeInput>;
+    /**
+     * Default destinations for allocations Flint plans. Allowed with full, amount without
+     * tender_allocations, and targets. Each key defaults to original, and a key for a tender
+     * absent from the refund has no effect. Not allowed with tender_allocations or
+     * gift_card_load_id; use destination on each explicit allocation. new_gift_card on a payment
+     * intent is store credit and requires a payment belonging to an order. Payments without an
+     * order return 400 INVALID_REQUEST with a NOT_ALLOWED detail at destinations.payment_intent.
+     * The merchant keeps the cash and the original processing fee is not returned; no processor
+     * refund is made. New gift card codes are returned for 24 hours. The refund reports each
+     * result in tender_allocations, without echoing destinations. Default refund destinations for
+     * payment intent and gift card redemption allocations planned by Flint. Each tender type
+     * defaults to original when omitted.
+     */
+    "destinations"?: RefundDestinationsInput;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Named order line items to refund. Allowed with refund_type amount or targets. In amount mode
+     * their resolved value must fit within amount_money; Flint allocates the rest. [] (Value):
+     * {@link RefundLineItemInput}. An order line item to refund, with the quantity or amount, tax
+     * handling, and any adjustments such as a restocking fee.
+     */
+    "line_items"?: Array<RefundLineItemInput>;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Order to refund. May be combined with payment_intent_id to select a payment on that order.
+     * Required for named targets unless payment_intent_id belongs to an order. minLength: 1.
+     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: string;
+    /**
+     * Payment to refund. May be combined with its order_id. Named targets require a payment on an
+     * order. minLength: 1. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id"?: string;
+    /**
+     * Optional. When omitted, no reason is recorded or sent to the processor, and the buyer's
+     * refund email has no reason line. Value enum: "duplicate", "fraudulent",
+     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
+     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
+     * "accidental_order", "other", "out_of_stock".
+     */
+    "reason"?: "duplicate"
+        | "fraudulent"
+        | "requested_by_customer"
+        | "defective_product"
+        | "wrong_item_shipped"
+        | "never_received"
+        | "not_as_described"
+        | "arrived_too_late"
+        | "customer_changed_mind"
+        | "better_price_found"
+        | "accidental_order"
+        | "other"
+        | "out_of_stock";
+    /**
+     * Optional note explaining the refund, up to 1,024 characters. minLength: 1. maxLength: 1024.
+     */
+    "reason_message"?: string;
+    /**
+     * Return the partner app's platform fee to the merchant as part of this refund. By default the
+     * partner app keeps its fee. With true, each refunded payment that carries the partner app's
+     * collected platform fee returns all of the fee's unreturned amount when this refund returns
+     * the whole captured amount, and otherwise a proportional share, rounded half up; the refund
+     * that completes the payment returns what rounding left, when every earlier refund of it also
+     * returned the fee. Each payment refund reports its share in refunded_platform_fee_money, and
+     * Flint returns it to the merchant once that payment refund succeeds. Payments without a
+     * platform fee are refunded normally. Only the partner app install token whose app charged the
+     * fee can send true; from any other credential, or when a refunded payment carries another
+     * app's fee, it is INVALID_REQUEST with NOT_ALLOWED on refund_platform_fee. Not accepted with
+     * refund_type credit_note. Part of the request fingerprint. See [Platform
+     * fees](/docs/guides/platform-fees). Default: false.
+     */
+    "refund_platform_fee"?: boolean;
+    /**
+     * What to refund and how much: credit_note returns a credit note's available credit; full
+     * refunds the full remaining amount; amount requires amount_money and permits named targets
+     * and tender_allocations within that amount; targets refunds named line_items, charges, or
+     * tax_breakdown_refunds without amount_money. Full and targets do not accept
+     * tender_allocations. Gift card loads support full and amount only. Value enum: "targets".
+     */
+    "refund_type": ("targets") & ("targets");
+    /**
+     * Exhaustive seller amounts to take back from the payments this refund covers. Omit for
+     * cumulative allocation; send [] to fund the whole refund yourself. Splits not named give back
+     * nothing. Each split must be eligible and belong to a refunded payment. Each positive amount
+     * uses the payment's currency and is at most its unreversed amount; otherwise LIMIT_EXCEEDED
+     * reports maximum_money. Entries for each payment total at most that payment's refund;
+     * otherwise INVALID_REQUEST reports maximum_money at split_reversals. [] (Value): {@link
+     * SplitReversalRequestInput}. The seller amount to take back from one eligible payment split
+     * when creating a refund.
+     */
+    "split_reversals"?: Array<SplitReversalRequestInput>;
+    /**
+     * Named order tax breakdowns to refund. Allowed with refund_type amount or targets. In amount
+     * mode their value must fit within amount_money; Flint allocates the rest. Requires
+     * commerce.refunds.tax_overrides.write. [] (Value): {@link RefundTaxBreakdownRefundInInput}.
+     * The tax to refund for one tax breakdown, identified by `tax_breakdown_id`, when setting tax
+     * refunds explicitly.
+     */
+    "tax_breakdown_refunds"?: Array<RefundTaxBreakdownRefundInInput>;
+})
+    & ((({
+    /**
+     * Order to refund. May be combined with payment_intent_id to select a payment on that order.
+     * Required for named targets unless payment_intent_id belongs to an order. minLength: 1.
+     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id": string;
+})
+    | ({
+    /**
+     * Payment to refund. May be combined with its order_id. Named targets require a payment on an
+     * order. minLength: 1. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id": string;
+})
+    | ({
+    "tender_allocations": unknown;
+})
+    | ({
+    "gift_card_load_id": unknown;
+})
+    | ({
+    "credit_note_id": unknown;
+})))
+    & ((({
+    "destinations"?: never;
+} | {
+    "tender_allocations"?: never;
+}))
+    & (({
+    "destinations"?: never;
+} | {
+    "gift_card_load_id"?: never;
+})))
+    & (({
+    /** minItems: 1. */
+    "line_items": unknown;
+})
+    | ({
+    /** minItems: 1. */
+    "charges": unknown;
+})
+    | ({
+    /** minItems: 1. */
+    "tax_breakdown_refunds": unknown;
+}))
+    & (({
+    "amount_money"?: never;
+})
+    & ({
+    "tender_allocations"?: never;
+})
+    & ({
+    "gift_card_load_id"?: never;
+}));
+/** A response containing `RefundWithGiftCardCodes` data. */
+export type CreateRefundResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A refund with newly
+     * issued gift card codes available during the command recovery window. Money returned against
+     * a collected payment.
+     */
+    "data": RefundWithGiftCardCodes;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** The request body for: Create a report. */
+export type CreateReportRequest = ({
+    /**
+     * Required only for receivables_aging_v1. Calendar date in timezone, YYYY-MM-DD, no later than
+     * today. Balances are measured at the earlier of the end of that day and report creation.
+     * Format: date. minLength: 1. Example: "2026-08-02".
+     */
+    "as_of_date"?: string;
+    /**
+     * Three-letter ISO 4217 currency. Reports never combine currencies. gift_card_liability_v1
+     * supports USD only; other currencies return INVALID_REQUEST on currency. minLength: 3.
+     * maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     */
+    "currency": string;
+    /**
+     * Exclusive report interval end instant. Each report type matches its own occurrence time. At
+     * most the same local time 366 calendar days after interval_start_at in timezone. Must not be
+     * in the future. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "interval_end_at"?: string;
+    /**
+     * Inclusive report interval start instant. Each report type matches its own occurrence time.
+     * Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "interval_start_at"?: string;
+    /**
+     * Which report to generate. The value names the row and the column version, such as
+     * payments_itemized_v1. The Reports guide lists each type's rows, interval matching, and
+     * columns. Value enum: "receivables_aging_v1", "invoices_itemized_v1",
+     * "gift_card_liability_v1", "orders_itemized_v1", "orders_itemized_v2",
+     * "payments_itemized_v1", "balance_transactions_itemized_v1", "payouts_itemized_v1",
+     * "tax_itemized_v1", "tax_summarized_v1", "merchant_billing_itemized_v1",
+     * "tax_transactions_itemized_v1", "tax_transactions_itemized_v2",
+     * "tax_transactions_summarized_v2".
+     */
+    "report_type": "receivables_aging_v1"
+        | "invoices_itemized_v1"
+        | "gift_card_liability_v1"
+        | "orders_itemized_v1"
+        | "orders_itemized_v2"
+        | "payments_itemized_v1"
+        | "balance_transactions_itemized_v1"
+        | "payouts_itemized_v1"
+        | "tax_itemized_v1"
+        | "tax_summarized_v1"
+        | "merchant_billing_itemized_v1"
+        | "tax_transactions_itemized_v1"
+        | "tax_transactions_itemized_v2"
+        | "tax_transactions_summarized_v2"
+        | (string & {});
+    /**
+     * IANA timezone used for timestamps and date bucketing. A payout occurs at the start of its
+     * arrival_date in this timezone. Defaults to the merchant's timezone, then UTC, and is saved
+     * on the report at creation. minLength: 1.
+     */
+    "timezone"?: string;
+})
+    & ((Exclude<CreateIntervalReportRequest & object, readonly unknown[]>)
+    | (Exclude<CreateReceivablesAgingReportRequest & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** The request body for: Create a report. */
+export type CreateReportRequestInput = ({
+    /**
+     * Required only for receivables_aging_v1. Calendar date in timezone, YYYY-MM-DD, no later than
+     * today. Balances are measured at the earlier of the end of that day and report creation.
+     * Format: date. minLength: 1. Example: "2026-08-02".
+     */
+    "as_of_date"?: string;
+    /**
+     * Three-letter ISO 4217 currency. Reports never combine currencies. gift_card_liability_v1
+     * supports USD only; other currencies return INVALID_REQUEST on currency. minLength: 3.
+     * maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     */
+    "currency": string;
+    /**
+     * Exclusive report interval end instant. Each report type matches its own occurrence time. At
+     * most the same local time 366 calendar days after interval_start_at in timezone. Must not be
+     * in the future. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "interval_end_at"?: string | globalThis.Date;
+    /**
+     * Inclusive report interval start instant. Each report type matches its own occurrence time.
+     * Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "interval_start_at"?: string | globalThis.Date;
+    /**
+     * Which report to generate. The value names the row and the column version, such as
+     * payments_itemized_v1. The Reports guide lists each type's rows, interval matching, and
+     * columns. Value enum: "receivables_aging_v1", "invoices_itemized_v1",
+     * "gift_card_liability_v1", "orders_itemized_v1", "orders_itemized_v2",
+     * "payments_itemized_v1", "balance_transactions_itemized_v1", "payouts_itemized_v1",
+     * "tax_itemized_v1", "tax_summarized_v1", "merchant_billing_itemized_v1",
+     * "tax_transactions_itemized_v1", "tax_transactions_itemized_v2",
+     * "tax_transactions_summarized_v2".
+     */
+    "report_type": "receivables_aging_v1"
+        | "invoices_itemized_v1"
+        | "gift_card_liability_v1"
+        | "orders_itemized_v1"
+        | "orders_itemized_v2"
+        | "payments_itemized_v1"
+        | "balance_transactions_itemized_v1"
+        | "payouts_itemized_v1"
+        | "tax_itemized_v1"
+        | "tax_summarized_v1"
+        | "merchant_billing_itemized_v1"
+        | "tax_transactions_itemized_v1"
+        | "tax_transactions_itemized_v2"
+        | "tax_transactions_summarized_v2";
+    /**
+     * IANA timezone used for timestamps and date bucketing. A payout occurs at the start of its
+     * arrival_date in this timezone. Defaults to the merchant's timezone, then UTC, and is saved
+     * on the report at creation. minLength: 1.
+     */
+    "timezone"?: string;
+})
+    & ((Exclude<CreateIntervalReportRequestInput & object, readonly unknown[]>)
+    | (Exclude<CreateReceivablesAgingReportRequestInput & object, readonly unknown[]>));
+/** The request body for: Create return disposition. */
+export type CreateReturnDispositionRequest = ({
+    /**
+     * What happens to the received units. Value enum: "sellable", "quality_control", "damaged",
+     * "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer",
+     * "lost".
+     */
+    "disposition_type": "sellable"
+        | "quality_control"
+        | "damaged"
+        | "quarantined"
+        | "repair"
+        | "refurbish"
+        | "liquidate"
+        | "donate"
+        | "discard"
+        | "return_to_buyer"
+        | "lost"
+        | (string & {});
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * ID of the Location whose stock the disposition changes. Required for `sellable`,
+     * `quality_control`, `damaged`, `quarantined`, and `lost`; rejected for the other types.
+     * minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "inventory_location_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "occurred_at": string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * Why the disposition was made. Value enum: "inspection_result", "return_policy",
+     * "warehouse_override", "safety_requirement", "other".
+     */
+    "reason": "inspection_result"
+        | "return_policy"
+        | "warehouse_override"
+        | "safety_requirement"
+        | "other"
+        | (string & {});
+    /** Optional detail about `reason`, kept with the record. minLength: 1. */
+    "reason_message"?: string;
+    /**
+     * ID of the `failed` or `canceled` disposition this one replaces. It takes over that
+     * disposition's unused capacity. minLength: 1. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+     */
+    "replaces_return_disposition_id"?: string;
+    /**
+     * ID of the Return the disposition belongs to. minLength: 1. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id": string;
+    /**
+     * ID of the inspection line the disposition covers. Absent when it covers a receipt line.
+     * minLength: 1. Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
+     */
+    "return_inspection_line_item_id"?: string;
+    /**
+     * ID of the receipt line the disposition covers. Absent when it covers an inspection line.
+     * minLength: 1. Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
+     */
+    "return_receipt_line_item_id"?: string;
+})
+    & ((Exclude<CreateReturnDispositionRequestReceiptLine & object, readonly unknown[]>)
+    | (Exclude<CreateReturnDispositionRequestInspectionLine & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** The request body for: Create return disposition. */
+export type CreateReturnDispositionRequestInput = ({
+    /**
+     * What happens to the received units. Value enum: "sellable", "quality_control", "damaged",
+     * "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer",
+     * "lost".
+     */
+    "disposition_type": "sellable"
+        | "quality_control"
+        | "damaged"
+        | "quarantined"
+        | "repair"
+        | "refurbish"
+        | "liquidate"
+        | "donate"
+        | "discard"
+        | "return_to_buyer"
+        | "lost";
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * ID of the Location whose stock the disposition changes. Required for `sellable`,
+     * `quality_control`, `damaged`, `quarantined`, and `lost`; rejected for the other types.
+     * minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "inventory_location_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "occurred_at": string | globalThis.Date;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * Why the disposition was made. Value enum: "inspection_result", "return_policy",
+     * "warehouse_override", "safety_requirement", "other".
+     */
+    "reason": "inspection_result" | "return_policy" | "warehouse_override" | "safety_requirement" | "other";
+    /** Optional detail about `reason`, kept with the record. minLength: 1. */
+    "reason_message"?: string;
+    /**
+     * ID of the `failed` or `canceled` disposition this one replaces. It takes over that
+     * disposition's unused capacity. minLength: 1. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+     */
+    "replaces_return_disposition_id"?: string;
+    /**
+     * ID of the Return the disposition belongs to. minLength: 1. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id": string;
+    /**
+     * ID of the inspection line the disposition covers. Absent when it covers a receipt line.
+     * minLength: 1. Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
+     */
+    "return_inspection_line_item_id"?: string;
+    /**
+     * ID of the receipt line the disposition covers. Absent when it covers an inspection line.
+     * minLength: 1. Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
+     */
+    "return_receipt_line_item_id"?: string;
+})
+    & ((Exclude<CreateReturnDispositionRequestReceiptLineInput & object, readonly unknown[]>)
+    | (Exclude<CreateReturnDispositionRequestInspectionLineInput & object, readonly unknown[]>));
 /** The `Inspection line` variant of `CreateReturnDispositionRequest`. */
 export type CreateReturnDispositionRequestInspectionLine = ({
     /**
@@ -507,7 +1933,8 @@ export type CreateReturnPolicyRequest = {
     "metadata"?: MetadataMap;
     /**
      * Name of the policy, limited to 1 through 255 bytes after trimming surrounding whitespace.
-     * minLength: 1.
+     * Surrounding whitespace is trimmed before length validation. A supplied value cannot be
+     * blank; use null where clearing is supported. minLength: 1.
      */
     "name": string;
     /**
@@ -541,7 +1968,8 @@ export type CreateReturnPolicyRequestInput = {
     "metadata"?: MetadataRequestInput;
     /**
      * Name of the policy, limited to 1 through 255 bytes after trimming surrounding whitespace.
-     * minLength: 1.
+     * Surrounding whitespace is trimmed before length validation. A supplied value cannot be
+     * blank; use null where clearing is supported. minLength: 1.
      */
     "name": string;
     /**
@@ -829,7 +2257,8 @@ export type CreateReturnReasonRequest = {
     "is_note_required"?: boolean;
     /**
      * Display name, limited to 1 through 255 bytes after trimming surrounding whitespace.
-     * minLength: 1.
+     * Surrounding whitespace is trimmed before length validation. A supplied value cannot be
+     * blank; use null where clearing is supported. minLength: 1.
      */
     "name": string;
 };
@@ -1844,7 +3273,10 @@ export type CreateRiskListRequest = {
         | "string"
         | "case_sensitive_string"
         | (string & {});
-    /** Display name of the list. minLength: 1. */
+    /**
+     * Display name of the list. Surrounding whitespace is trimmed before length validation. A
+     * supplied value cannot be blank; use null where clearing is supported. minLength: 1.
+     */
     "name": string;
 };
 /** The request body for: Create a risk list. */
@@ -1876,7 +3308,10 @@ export type CreateRiskListRequestInput = {
         | "customer_id"
         | "string"
         | "case_sensitive_string";
-    /** Display name of the list. minLength: 1. */
+    /**
+     * Display name of the list. Surrounding whitespace is trimmed before length validation. A
+     * supplied value cannot be blank; use null where clearing is supported. minLength: 1.
+     */
     "name": string;
 };
 /** The request body for: Create a risk preview. */
@@ -2053,1251 +3488,4 @@ export type CreateRiskPreviewRequestStoredRule = ({
     "mode": "stored_rule" | (string & {});
     /** ID of the saved rule to check. minLength: 1. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319". */
     "risk_rule_id": string;
-});
-/** The `stored_rule` variant of `CreateRiskPreviewRequest`. */
-export type CreateRiskPreviewRequestStoredRuleInput = ({
-    /**
-     * Action to preview. In stored_rule mode, omitted or null keeps the saved action. Value enum:
-     * "allow", "block", "review", "require_3ds", null.
-     */
-    "action"?: "allow" | "block" | "review" | "require_3ds" | null;
-    /** What to check: a rule in this request, or a saved rule. Value enum: "stored_rule". */
-    "mode": "stored_rule";
-    /**
-     * Predicate to preview. In stored_rule mode, omitted or null keeps the saved predicate.
-     * anyOf[1] (Value): {@link RiskPredicateNodeRequestInput}. A node in a risk rule condition: a
-     * comparison of an attribute, or an `all`, `any`, or `not` group of other nodes. anyOf[2]
-     * (Value): null.
-     */
-    "predicate"?: ((RiskPredicateNodeRequestInput) | (null));
-    /** ID of the saved rule to check. minLength: 1. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319". */
-    "risk_rule_id": string;
-})
-    & ({
-    /** What to check: a rule in this request, or a saved rule. Value enum: "stored_rule". */
-    "mode": ("stored_rule") & ("stored_rule");
-    /** ID of the saved rule to check. minLength: 1. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319". */
-    "risk_rule_id": string;
-});
-/** The request body for: Create a risk rule. */
-export type CreateRiskRuleRequest = {
-    /**
-     * What Flint does with a payment the rule matches. Value enum: "allow", "block", "review",
-     * "require_3ds".
-     */
-    "action": "allow" | "block" | "review" | "require_3ds" | (string & {});
-    /**
-     * Your note on what the rule is for. Limited to 512 characters (Unicode code points). Leading
-     * and trailing whitespace is trimmed. minLength: 1. maxLength: 512.
-     */
-    "description": string;
-    /**
-     * The condition a payment must meet for the rule to match. A node in a risk rule condition: a
-     * comparison of an attribute, or an `all`, `any`, or `not` group of other nodes.
-     */
-    "predicate": RiskPredicateNodeRequest;
-    /** Whether the rule runs. Default: "active". Value enum: "active", "inactive". */
-    "status"?: "active" | "inactive" | (string & {});
-};
-/** The request body for: Create a risk rule. */
-export type CreateRiskRuleRequestInput = {
-    /**
-     * What Flint does with a payment the rule matches. Value enum: "allow", "block", "review",
-     * "require_3ds".
-     */
-    "action": "allow" | "block" | "review" | "require_3ds";
-    /**
-     * Your note on what the rule is for. Limited to 512 characters (Unicode code points). Leading
-     * and trailing whitespace is trimmed. minLength: 1. maxLength: 512.
-     */
-    "description": string;
-    /**
-     * The condition a payment must meet for the rule to match. A node in a risk rule condition: a
-     * comparison of an attribute, or an `all`, `any`, or `not` group of other nodes.
-     */
-    "predicate": RiskPredicateNodeRequestInput;
-    /** Whether the rule runs. Default: "active". Value enum: "active", "inactive". */
-    "status"?: "active" | "inactive";
-};
-/** The request body for: Create sandbox. */
-export type CreateSandboxRequest = ({
-    /**
-     * Key access. Full and read_only resolve from the current scope catalog for the key's mode;
-     * restricted holds only its listed scopes. Granting full or read_only requires a freshly
-     * verified authorized user session, or a full-access API key in the key's mode or a live
-     * full-access key granting a test key. Value enum: "full", "read_only", "restricted".
-     */
-    "access"?: "full" | "read_only" | "restricted" | (string & {});
-    /**
-     * The onboarding state the sandbox starts in, and returns to when you reset it. `complete`
-     * prefills a verified test identity; `not_started` leaves requirements due so you can rehearse
-     * onboarding. Default: "complete". Value enum: "complete", "not_started".
-     */
-    "initial_onboarding"?: "complete" | "not_started" | (string & {});
-    /**
-     * Whether to issue a test API key for the new sandbox. Defaults to `false`. When `true`, the
-     * response includes the key and its one-time `secret_key`, and `access`, `scopes`,
-     * `test_key_name`, and `test_key_expires_at` apply. When `false`, sending any of them returns
-     * 400 NOT_ALLOWED.
-     */
-    "issue_test_key"?: boolean;
-    /** Name of the new sandbox. Required. minLength: 1. */
-    "name": string;
-    /**
-     * The scopes to grant. Required only with access restricted; forbidden with full or read_only.
-     * For a test key, use only scopes whose key_modes includes test in x-flint-scopes. The
-     * developer.sandboxes.read and developer.sandboxes.write scopes are valid on test keys;
-     * developer.partner_apps.read and developer.partner_apps.write are live-only. minItems: 1.
-     * uniqueItems: true. [] enum: "accounts.api_keys.read", "accounts.api_keys.write",
-     * "accounts.devices.read", "accounts.devices.write", "accounts.workload_identities.read",
-     * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
-     * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
-     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
-     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
-     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
-     * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
-     * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
-     * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
-     * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
-     * "commerce.invoices.read", "commerce.invoices.write", "commerce.orders.read",
-     * "commerce.orders.write", "commerce.products.read", "commerce.products.write",
-     * "commerce.promotions.read", "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
-     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
-     * "developer.feedback_reports.read", "developer.feedback_reports.write",
-     * "developer.merchant_signups.read", "developer.merchant_signups.write",
-     * "developer.partner_apps.read", "developer.partner_apps.write",
-     * "developer.request_logs.read", "developer.request_logs.self.read",
-     * "developer.resource_timelines.read", "developer.sandboxes.read",
-     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
-     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
-     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
-     * "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payment_splits.read", "money_movement.payout_settings.read",
-     * "money_movement.payout_settings.write", "money_movement.payouts.read",
-     * "money_movement.payouts.write", "money_movement.platform_fees.read",
-     * "payments.disputes.read", "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "payments.readers.read", "payments.readers.write",
-     * "reports.read", "reports.write", "risk.controls.write", "risk.read", "risk.reviews.write",
-     * "settings.read", "settings.write", "webhooks.read", "webhooks.write". [] (Value): string.
-     * Value enum: "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read",
-     * "accounts.devices.write", "accounts.workload_identities.read",
-     * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
-     * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
-     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
-     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
-     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
-     * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
-     * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
-     * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
-     * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
-     * "commerce.invoices.read", "commerce.invoices.write", "commerce.orders.read",
-     * "commerce.orders.write", "commerce.products.read", "commerce.products.write",
-     * "commerce.promotions.read", "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
-     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
-     * "developer.feedback_reports.read", "developer.feedback_reports.write",
-     * "developer.merchant_signups.read", "developer.merchant_signups.write",
-     * "developer.partner_apps.read", "developer.partner_apps.write",
-     * "developer.request_logs.read", "developer.request_logs.self.read",
-     * "developer.resource_timelines.read", "developer.sandboxes.read",
-     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
-     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
-     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
-     * "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payment_splits.read", "money_movement.payout_settings.read",
-     * "money_movement.payout_settings.write", "money_movement.payouts.read",
-     * "money_movement.payouts.write", "money_movement.platform_fees.read",
-     * "payments.disputes.read", "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "payments.readers.read", "payments.readers.write",
-     * "reports.read", "reports.write", "risk.controls.write", "risk.read", "risk.reviews.write",
-     * "settings.read", "settings.write", "webhooks.read", "webhooks.write".
-     */
-    "scopes"?: Array<"accounts.api_keys.read"
-        | "accounts.api_keys.write"
-        | "accounts.devices.read"
-        | "accounts.devices.write"
-        | "accounts.workload_identities.read"
-        | "accounts.workload_identities.write"
-        | "analytics.read"
-        | "checkouts.checkout_sessions.read"
-        | "checkouts.checkout_sessions.write"
-        | "checkouts.payment_links.read"
-        | "checkouts.payment_links.write"
-        | "commerce.bundles.read"
-        | "commerce.bundles.write"
-        | "commerce.catalog.read"
-        | "commerce.catalog.write"
-        | "commerce.credit_notes.read"
-        | "commerce.credit_notes.write"
-        | "commerce.delivery.read"
-        | "commerce.delivery.write"
-        | "commerce.gift_cards.adjustments.write"
-        | "commerce.gift_cards.read"
-        | "commerce.gift_cards.redemptions.write"
-        | "commerce.gift_cards.secrets.write"
-        | "commerce.gift_cards.write"
-        | "commerce.inventory.allocation.write"
-        | "commerce.inventory.policies.write"
-        | "commerce.inventory.read"
-        | "commerce.inventory.write"
-        | "commerce.invoices.read"
-        | "commerce.invoices.write"
-        | "commerce.orders.read"
-        | "commerce.orders.write"
-        | "commerce.products.read"
-        | "commerce.products.write"
-        | "commerce.promotions.read"
-        | "commerce.promotions.write"
-        | "commerce.refunds.read"
-        | "commerce.refunds.tax_overrides.write"
-        | "commerce.refunds.write"
-        | "commerce.returns.operations.write"
-        | "commerce.returns.policies.write"
-        | "commerce.returns.read"
-        | "commerce.returns.reasons.write"
-        | "commerce.returns.resolutions.write"
-        | "commerce.returns.write"
-        | "commerce.subscription_plans.read"
-        | "commerce.subscription_plans.write"
-        | "commerce.subscriptions.read"
-        | "commerce.subscriptions.write"
-        | "commerce.tickets.read"
-        | "commerce.tickets.write"
-        | "customers.read"
-        | "customers.sessions.write"
-        | "customers.write"
-        | "developer.feedback_reports.read"
-        | "developer.feedback_reports.write"
-        | "developer.merchant_signups.read"
-        | "developer.merchant_signups.write"
-        | "developer.partner_apps.read"
-        | "developer.partner_apps.write"
-        | "developer.request_logs.read"
-        | "developer.request_logs.self.read"
-        | "developer.resource_timelines.read"
-        | "developer.sandboxes.read"
-        | "developer.sandboxes.write"
-        | "developer.test_clocks.read"
-        | "developer.test_clocks.write"
-        | "merchant_billing.read"
-        | "merchants.account_sessions.write"
-        | "merchants.locations.read"
-        | "merchants.locations.write"
-        | "merchants.onboarding.read"
-        | "merchants.onboarding.write"
-        | "merchants.profile.read"
-        | "merchants.profile.write"
-        | "money_movement.balance_transactions.read"
-        | "money_movement.balances.read"
-        | "money_movement.payment_splits.read"
-        | "money_movement.payout_settings.read"
-        | "money_movement.payout_settings.write"
-        | "money_movement.payouts.read"
-        | "money_movement.payouts.write"
-        | "money_movement.platform_fees.read"
-        | "payments.disputes.read"
-        | "payments.disputes.write"
-        | "payments.payment_intents.read"
-        | "payments.payment_intents.write"
-        | "payments.payment_method_domains.read"
-        | "payments.payment_method_domains.write"
-        | "payments.payment_methods.read"
-        | "payments.payment_methods.write"
-        | "payments.readers.read"
-        | "payments.readers.write"
-        | "reports.read"
-        | "reports.write"
-        | "risk.controls.write"
-        | "risk.read"
-        | "risk.reviews.write"
-        | "settings.read"
-        | "settings.write"
-        | "webhooks.read"
-        | "webhooks.write"
-        | (string & {})>;
-    /**
-     * Future RFC 3339 timestamp when the issued test key expires. Allowed only with issue_test_key
-     * true. Omit for a key that doesn't expire. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "test_key_expires_at"?: string;
-    /**
-     * Name for the issued test key, 1 to 100 characters. Allowed only with issue_test_key true.
-     * Defaults to the sandbox name followed by `Test Key`. minLength: 1. maxLength: 100.
-     */
-    "test_key_name"?: string;
-})
-    & ((({
-    /** Value enum: true. */
-    "issue_test_key": boolean;
-})
-    & ((({
-    /** Value enum: "full". */
-    "access": unknown;
-}))
-    | (({
-    /** Value enum: "read_only". */
-    "access": unknown;
-}))
-    | ({
-    /** Value enum: "restricted". */
-    "access": unknown;
-    /**
-     * The scopes to grant. Required only with access restricted; forbidden with full or read_only.
-     * For a test key, use only scopes whose key_modes includes test in x-flint-scopes. The
-     * developer.sandboxes.read and developer.sandboxes.write scopes are valid on test keys;
-     * developer.partner_apps.read and developer.partner_apps.write are live-only. minItems: 1.
-     * uniqueItems: true. [] enum: "accounts.api_keys.read", "accounts.api_keys.write",
-     * "accounts.devices.read", "accounts.devices.write", "accounts.workload_identities.read",
-     * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
-     * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
-     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
-     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
-     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
-     * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
-     * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
-     * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
-     * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
-     * "commerce.invoices.read", "commerce.invoices.write", "commerce.orders.read",
-     * "commerce.orders.write", "commerce.products.read", "commerce.products.write",
-     * "commerce.promotions.read", "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
-     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
-     * "developer.feedback_reports.read", "developer.feedback_reports.write",
-     * "developer.merchant_signups.read", "developer.merchant_signups.write",
-     * "developer.partner_apps.read", "developer.partner_apps.write",
-     * "developer.request_logs.read", "developer.request_logs.self.read",
-     * "developer.resource_timelines.read", "developer.sandboxes.read",
-     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
-     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
-     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
-     * "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payment_splits.read", "money_movement.payout_settings.read",
-     * "money_movement.payout_settings.write", "money_movement.payouts.read",
-     * "money_movement.payouts.write", "money_movement.platform_fees.read",
-     * "payments.disputes.read", "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "payments.readers.read", "payments.readers.write",
-     * "reports.read", "reports.write", "risk.controls.write", "risk.read", "risk.reviews.write",
-     * "settings.read", "settings.write", "webhooks.read", "webhooks.write". [] (Value): string.
-     * Value enum: "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read",
-     * "accounts.devices.write", "accounts.workload_identities.read",
-     * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
-     * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
-     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
-     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
-     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
-     * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
-     * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
-     * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
-     * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
-     * "commerce.invoices.read", "commerce.invoices.write", "commerce.orders.read",
-     * "commerce.orders.write", "commerce.products.read", "commerce.products.write",
-     * "commerce.promotions.read", "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
-     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
-     * "developer.feedback_reports.read", "developer.feedback_reports.write",
-     * "developer.merchant_signups.read", "developer.merchant_signups.write",
-     * "developer.partner_apps.read", "developer.partner_apps.write",
-     * "developer.request_logs.read", "developer.request_logs.self.read",
-     * "developer.resource_timelines.read", "developer.sandboxes.read",
-     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
-     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
-     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
-     * "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payment_splits.read", "money_movement.payout_settings.read",
-     * "money_movement.payout_settings.write", "money_movement.payouts.read",
-     * "money_movement.payouts.write", "money_movement.platform_fees.read",
-     * "payments.disputes.read", "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "payments.readers.read", "payments.readers.write",
-     * "reports.read", "reports.write", "risk.controls.write", "risk.read", "risk.reviews.write",
-     * "settings.read", "settings.write", "webhooks.read", "webhooks.write".
-     */
-    "scopes": Array<"accounts.api_keys.read"
-        | "accounts.api_keys.write"
-        | "accounts.devices.read"
-        | "accounts.devices.write"
-        | "accounts.workload_identities.read"
-        | "accounts.workload_identities.write"
-        | "analytics.read"
-        | "checkouts.checkout_sessions.read"
-        | "checkouts.checkout_sessions.write"
-        | "checkouts.payment_links.read"
-        | "checkouts.payment_links.write"
-        | "commerce.bundles.read"
-        | "commerce.bundles.write"
-        | "commerce.catalog.read"
-        | "commerce.catalog.write"
-        | "commerce.credit_notes.read"
-        | "commerce.credit_notes.write"
-        | "commerce.delivery.read"
-        | "commerce.delivery.write"
-        | "commerce.gift_cards.adjustments.write"
-        | "commerce.gift_cards.read"
-        | "commerce.gift_cards.redemptions.write"
-        | "commerce.gift_cards.secrets.write"
-        | "commerce.gift_cards.write"
-        | "commerce.inventory.allocation.write"
-        | "commerce.inventory.policies.write"
-        | "commerce.inventory.read"
-        | "commerce.inventory.write"
-        | "commerce.invoices.read"
-        | "commerce.invoices.write"
-        | "commerce.orders.read"
-        | "commerce.orders.write"
-        | "commerce.products.read"
-        | "commerce.products.write"
-        | "commerce.promotions.read"
-        | "commerce.promotions.write"
-        | "commerce.refunds.read"
-        | "commerce.refunds.tax_overrides.write"
-        | "commerce.refunds.write"
-        | "commerce.returns.operations.write"
-        | "commerce.returns.policies.write"
-        | "commerce.returns.read"
-        | "commerce.returns.reasons.write"
-        | "commerce.returns.resolutions.write"
-        | "commerce.returns.write"
-        | "commerce.subscription_plans.read"
-        | "commerce.subscription_plans.write"
-        | "commerce.subscriptions.read"
-        | "commerce.subscriptions.write"
-        | "commerce.tickets.read"
-        | "commerce.tickets.write"
-        | "customers.read"
-        | "customers.sessions.write"
-        | "customers.write"
-        | "developer.feedback_reports.read"
-        | "developer.feedback_reports.write"
-        | "developer.merchant_signups.read"
-        | "developer.merchant_signups.write"
-        | "developer.partner_apps.read"
-        | "developer.partner_apps.write"
-        | "developer.request_logs.read"
-        | "developer.request_logs.self.read"
-        | "developer.resource_timelines.read"
-        | "developer.sandboxes.read"
-        | "developer.sandboxes.write"
-        | "developer.test_clocks.read"
-        | "developer.test_clocks.write"
-        | "merchant_billing.read"
-        | "merchants.account_sessions.write"
-        | "merchants.locations.read"
-        | "merchants.locations.write"
-        | "merchants.onboarding.read"
-        | "merchants.onboarding.write"
-        | "merchants.profile.read"
-        | "merchants.profile.write"
-        | "money_movement.balance_transactions.read"
-        | "money_movement.balances.read"
-        | "money_movement.payment_splits.read"
-        | "money_movement.payout_settings.read"
-        | "money_movement.payout_settings.write"
-        | "money_movement.payouts.read"
-        | "money_movement.payouts.write"
-        | "money_movement.platform_fees.read"
-        | "payments.disputes.read"
-        | "payments.disputes.write"
-        | "payments.payment_intents.read"
-        | "payments.payment_intents.write"
-        | "payments.payment_method_domains.read"
-        | "payments.payment_method_domains.write"
-        | "payments.payment_methods.read"
-        | "payments.payment_methods.write"
-        | "payments.readers.read"
-        | "payments.readers.write"
-        | "reports.read"
-        | "reports.write"
-        | "risk.controls.write"
-        | "risk.read"
-        | "risk.reviews.write"
-        | "settings.read"
-        | "settings.write"
-        | "webhooks.read"
-        | "webhooks.write"
-        | (string & {})>;
-})
-    | (Record<string, unknown>)))
-    | (({
-    /** Value enum: false. */
-    "issue_test_key"?: boolean;
-}))
-    | (Record<string, unknown>));
-/** The request body for: Create sandbox. */
-export type CreateSandboxRequestInput = ({
-    /**
-     * Key access. Full and read_only resolve from the current scope catalog for the key's mode;
-     * restricted holds only its listed scopes. Granting full or read_only requires a freshly
-     * verified authorized user session, or a full-access API key in the key's mode or a live
-     * full-access key granting a test key. Value enum: "full", "read_only", "restricted".
-     */
-    "access"?: "full" | "read_only" | "restricted";
-    /**
-     * The onboarding state the sandbox starts in, and returns to when you reset it. `complete`
-     * prefills a verified test identity; `not_started` leaves requirements due so you can rehearse
-     * onboarding. Default: "complete". Value enum: "complete", "not_started".
-     */
-    "initial_onboarding"?: "complete" | "not_started";
-    /**
-     * Whether to issue a test API key for the new sandbox. Defaults to `false`. When `true`, the
-     * response includes the key and its one-time `secret_key`, and `access`, `scopes`,
-     * `test_key_name`, and `test_key_expires_at` apply. When `false`, sending any of them returns
-     * 400 NOT_ALLOWED.
-     */
-    "issue_test_key"?: boolean;
-    /** Name of the new sandbox. Required. minLength: 1. */
-    "name": string;
-    /**
-     * The scopes to grant. Required only with access restricted; forbidden with full or read_only.
-     * For a test key, use only scopes whose key_modes includes test in x-flint-scopes. The
-     * developer.sandboxes.read and developer.sandboxes.write scopes are valid on test keys;
-     * developer.partner_apps.read and developer.partner_apps.write are live-only. minItems: 1.
-     * uniqueItems: true. [] enum: "accounts.api_keys.read", "accounts.api_keys.write",
-     * "accounts.devices.read", "accounts.devices.write", "accounts.workload_identities.read",
-     * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
-     * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
-     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
-     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
-     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
-     * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
-     * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
-     * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
-     * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
-     * "commerce.invoices.read", "commerce.invoices.write", "commerce.orders.read",
-     * "commerce.orders.write", "commerce.products.read", "commerce.products.write",
-     * "commerce.promotions.read", "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
-     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
-     * "developer.feedback_reports.read", "developer.feedback_reports.write",
-     * "developer.merchant_signups.read", "developer.merchant_signups.write",
-     * "developer.partner_apps.read", "developer.partner_apps.write",
-     * "developer.request_logs.read", "developer.request_logs.self.read",
-     * "developer.resource_timelines.read", "developer.sandboxes.read",
-     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
-     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
-     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
-     * "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payment_splits.read", "money_movement.payout_settings.read",
-     * "money_movement.payout_settings.write", "money_movement.payouts.read",
-     * "money_movement.payouts.write", "money_movement.platform_fees.read",
-     * "payments.disputes.read", "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "payments.readers.read", "payments.readers.write",
-     * "reports.read", "reports.write", "risk.controls.write", "risk.read", "risk.reviews.write",
-     * "settings.read", "settings.write", "webhooks.read", "webhooks.write". [] (Value): string.
-     * Value enum: "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read",
-     * "accounts.devices.write", "accounts.workload_identities.read",
-     * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
-     * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
-     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
-     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
-     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
-     * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
-     * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
-     * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
-     * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
-     * "commerce.invoices.read", "commerce.invoices.write", "commerce.orders.read",
-     * "commerce.orders.write", "commerce.products.read", "commerce.products.write",
-     * "commerce.promotions.read", "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
-     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
-     * "developer.feedback_reports.read", "developer.feedback_reports.write",
-     * "developer.merchant_signups.read", "developer.merchant_signups.write",
-     * "developer.partner_apps.read", "developer.partner_apps.write",
-     * "developer.request_logs.read", "developer.request_logs.self.read",
-     * "developer.resource_timelines.read", "developer.sandboxes.read",
-     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
-     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
-     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
-     * "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payment_splits.read", "money_movement.payout_settings.read",
-     * "money_movement.payout_settings.write", "money_movement.payouts.read",
-     * "money_movement.payouts.write", "money_movement.platform_fees.read",
-     * "payments.disputes.read", "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "payments.readers.read", "payments.readers.write",
-     * "reports.read", "reports.write", "risk.controls.write", "risk.read", "risk.reviews.write",
-     * "settings.read", "settings.write", "webhooks.read", "webhooks.write".
-     */
-    "scopes"?: Array<"accounts.api_keys.read"
-        | "accounts.api_keys.write"
-        | "accounts.devices.read"
-        | "accounts.devices.write"
-        | "accounts.workload_identities.read"
-        | "accounts.workload_identities.write"
-        | "analytics.read"
-        | "checkouts.checkout_sessions.read"
-        | "checkouts.checkout_sessions.write"
-        | "checkouts.payment_links.read"
-        | "checkouts.payment_links.write"
-        | "commerce.bundles.read"
-        | "commerce.bundles.write"
-        | "commerce.catalog.read"
-        | "commerce.catalog.write"
-        | "commerce.credit_notes.read"
-        | "commerce.credit_notes.write"
-        | "commerce.delivery.read"
-        | "commerce.delivery.write"
-        | "commerce.gift_cards.adjustments.write"
-        | "commerce.gift_cards.read"
-        | "commerce.gift_cards.redemptions.write"
-        | "commerce.gift_cards.secrets.write"
-        | "commerce.gift_cards.write"
-        | "commerce.inventory.allocation.write"
-        | "commerce.inventory.policies.write"
-        | "commerce.inventory.read"
-        | "commerce.inventory.write"
-        | "commerce.invoices.read"
-        | "commerce.invoices.write"
-        | "commerce.orders.read"
-        | "commerce.orders.write"
-        | "commerce.products.read"
-        | "commerce.products.write"
-        | "commerce.promotions.read"
-        | "commerce.promotions.write"
-        | "commerce.refunds.read"
-        | "commerce.refunds.tax_overrides.write"
-        | "commerce.refunds.write"
-        | "commerce.returns.operations.write"
-        | "commerce.returns.policies.write"
-        | "commerce.returns.read"
-        | "commerce.returns.reasons.write"
-        | "commerce.returns.resolutions.write"
-        | "commerce.returns.write"
-        | "commerce.subscription_plans.read"
-        | "commerce.subscription_plans.write"
-        | "commerce.subscriptions.read"
-        | "commerce.subscriptions.write"
-        | "commerce.tickets.read"
-        | "commerce.tickets.write"
-        | "customers.read"
-        | "customers.sessions.write"
-        | "customers.write"
-        | "developer.feedback_reports.read"
-        | "developer.feedback_reports.write"
-        | "developer.merchant_signups.read"
-        | "developer.merchant_signups.write"
-        | "developer.partner_apps.read"
-        | "developer.partner_apps.write"
-        | "developer.request_logs.read"
-        | "developer.request_logs.self.read"
-        | "developer.resource_timelines.read"
-        | "developer.sandboxes.read"
-        | "developer.sandboxes.write"
-        | "developer.test_clocks.read"
-        | "developer.test_clocks.write"
-        | "merchant_billing.read"
-        | "merchants.account_sessions.write"
-        | "merchants.locations.read"
-        | "merchants.locations.write"
-        | "merchants.onboarding.read"
-        | "merchants.onboarding.write"
-        | "merchants.profile.read"
-        | "merchants.profile.write"
-        | "money_movement.balance_transactions.read"
-        | "money_movement.balances.read"
-        | "money_movement.payment_splits.read"
-        | "money_movement.payout_settings.read"
-        | "money_movement.payout_settings.write"
-        | "money_movement.payouts.read"
-        | "money_movement.payouts.write"
-        | "money_movement.platform_fees.read"
-        | "payments.disputes.read"
-        | "payments.disputes.write"
-        | "payments.payment_intents.read"
-        | "payments.payment_intents.write"
-        | "payments.payment_method_domains.read"
-        | "payments.payment_method_domains.write"
-        | "payments.payment_methods.read"
-        | "payments.payment_methods.write"
-        | "payments.readers.read"
-        | "payments.readers.write"
-        | "reports.read"
-        | "reports.write"
-        | "risk.controls.write"
-        | "risk.read"
-        | "risk.reviews.write"
-        | "settings.read"
-        | "settings.write"
-        | "webhooks.read"
-        | "webhooks.write">;
-    /**
-     * Future RFC 3339 timestamp when the issued test key expires. Allowed only with issue_test_key
-     * true. Omit for a key that doesn't expire. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "test_key_expires_at"?: string | globalThis.Date;
-    /**
-     * Name for the issued test key, 1 to 100 characters. Allowed only with issue_test_key true.
-     * Defaults to the sandbox name followed by `Test Key`. minLength: 1. maxLength: 100.
-     */
-    "test_key_name"?: string;
-})
-    & ((({
-    /** Value enum: true. */
-    "issue_test_key": true;
-})
-    & ((({
-    /** Value enum: "full". */
-    "access": ("full") & ("full");
-})
-    & ({
-    "scopes"?: never;
-}))
-    | (({
-    /** Value enum: "read_only". */
-    "access": ("read_only") & ("read_only");
-})
-    & ({
-    "scopes"?: never;
-}))
-    | ({
-    /** Value enum: "restricted". */
-    "access": ("restricted") & ("restricted");
-    /**
-     * The scopes to grant. Required only with access restricted; forbidden with full or read_only.
-     * For a test key, use only scopes whose key_modes includes test in x-flint-scopes. The
-     * developer.sandboxes.read and developer.sandboxes.write scopes are valid on test keys;
-     * developer.partner_apps.read and developer.partner_apps.write are live-only. minItems: 1.
-     * uniqueItems: true. [] enum: "accounts.api_keys.read", "accounts.api_keys.write",
-     * "accounts.devices.read", "accounts.devices.write", "accounts.workload_identities.read",
-     * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
-     * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
-     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
-     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
-     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
-     * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
-     * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
-     * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
-     * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
-     * "commerce.invoices.read", "commerce.invoices.write", "commerce.orders.read",
-     * "commerce.orders.write", "commerce.products.read", "commerce.products.write",
-     * "commerce.promotions.read", "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
-     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
-     * "developer.feedback_reports.read", "developer.feedback_reports.write",
-     * "developer.merchant_signups.read", "developer.merchant_signups.write",
-     * "developer.partner_apps.read", "developer.partner_apps.write",
-     * "developer.request_logs.read", "developer.request_logs.self.read",
-     * "developer.resource_timelines.read", "developer.sandboxes.read",
-     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
-     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
-     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
-     * "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payment_splits.read", "money_movement.payout_settings.read",
-     * "money_movement.payout_settings.write", "money_movement.payouts.read",
-     * "money_movement.payouts.write", "money_movement.platform_fees.read",
-     * "payments.disputes.read", "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "payments.readers.read", "payments.readers.write",
-     * "reports.read", "reports.write", "risk.controls.write", "risk.read", "risk.reviews.write",
-     * "settings.read", "settings.write", "webhooks.read", "webhooks.write". [] (Value): string.
-     * Value enum: "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read",
-     * "accounts.devices.write", "accounts.workload_identities.read",
-     * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
-     * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
-     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
-     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
-     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
-     * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
-     * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
-     * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
-     * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
-     * "commerce.invoices.read", "commerce.invoices.write", "commerce.orders.read",
-     * "commerce.orders.write", "commerce.products.read", "commerce.products.write",
-     * "commerce.promotions.read", "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
-     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
-     * "developer.feedback_reports.read", "developer.feedback_reports.write",
-     * "developer.merchant_signups.read", "developer.merchant_signups.write",
-     * "developer.partner_apps.read", "developer.partner_apps.write",
-     * "developer.request_logs.read", "developer.request_logs.self.read",
-     * "developer.resource_timelines.read", "developer.sandboxes.read",
-     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
-     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
-     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
-     * "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payment_splits.read", "money_movement.payout_settings.read",
-     * "money_movement.payout_settings.write", "money_movement.payouts.read",
-     * "money_movement.payouts.write", "money_movement.platform_fees.read",
-     * "payments.disputes.read", "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "payments.readers.read", "payments.readers.write",
-     * "reports.read", "reports.write", "risk.controls.write", "risk.read", "risk.reviews.write",
-     * "settings.read", "settings.write", "webhooks.read", "webhooks.write".
-     */
-    "scopes": Array<"accounts.api_keys.read"
-        | "accounts.api_keys.write"
-        | "accounts.devices.read"
-        | "accounts.devices.write"
-        | "accounts.workload_identities.read"
-        | "accounts.workload_identities.write"
-        | "analytics.read"
-        | "checkouts.checkout_sessions.read"
-        | "checkouts.checkout_sessions.write"
-        | "checkouts.payment_links.read"
-        | "checkouts.payment_links.write"
-        | "commerce.bundles.read"
-        | "commerce.bundles.write"
-        | "commerce.catalog.read"
-        | "commerce.catalog.write"
-        | "commerce.credit_notes.read"
-        | "commerce.credit_notes.write"
-        | "commerce.delivery.read"
-        | "commerce.delivery.write"
-        | "commerce.gift_cards.adjustments.write"
-        | "commerce.gift_cards.read"
-        | "commerce.gift_cards.redemptions.write"
-        | "commerce.gift_cards.secrets.write"
-        | "commerce.gift_cards.write"
-        | "commerce.inventory.allocation.write"
-        | "commerce.inventory.policies.write"
-        | "commerce.inventory.read"
-        | "commerce.inventory.write"
-        | "commerce.invoices.read"
-        | "commerce.invoices.write"
-        | "commerce.orders.read"
-        | "commerce.orders.write"
-        | "commerce.products.read"
-        | "commerce.products.write"
-        | "commerce.promotions.read"
-        | "commerce.promotions.write"
-        | "commerce.refunds.read"
-        | "commerce.refunds.tax_overrides.write"
-        | "commerce.refunds.write"
-        | "commerce.returns.operations.write"
-        | "commerce.returns.policies.write"
-        | "commerce.returns.read"
-        | "commerce.returns.reasons.write"
-        | "commerce.returns.resolutions.write"
-        | "commerce.returns.write"
-        | "commerce.subscription_plans.read"
-        | "commerce.subscription_plans.write"
-        | "commerce.subscriptions.read"
-        | "commerce.subscriptions.write"
-        | "commerce.tickets.read"
-        | "commerce.tickets.write"
-        | "customers.read"
-        | "customers.sessions.write"
-        | "customers.write"
-        | "developer.feedback_reports.read"
-        | "developer.feedback_reports.write"
-        | "developer.merchant_signups.read"
-        | "developer.merchant_signups.write"
-        | "developer.partner_apps.read"
-        | "developer.partner_apps.write"
-        | "developer.request_logs.read"
-        | "developer.request_logs.self.read"
-        | "developer.resource_timelines.read"
-        | "developer.sandboxes.read"
-        | "developer.sandboxes.write"
-        | "developer.test_clocks.read"
-        | "developer.test_clocks.write"
-        | "merchant_billing.read"
-        | "merchants.account_sessions.write"
-        | "merchants.locations.read"
-        | "merchants.locations.write"
-        | "merchants.onboarding.read"
-        | "merchants.onboarding.write"
-        | "merchants.profile.read"
-        | "merchants.profile.write"
-        | "money_movement.balance_transactions.read"
-        | "money_movement.balances.read"
-        | "money_movement.payment_splits.read"
-        | "money_movement.payout_settings.read"
-        | "money_movement.payout_settings.write"
-        | "money_movement.payouts.read"
-        | "money_movement.payouts.write"
-        | "money_movement.platform_fees.read"
-        | "payments.disputes.read"
-        | "payments.disputes.write"
-        | "payments.payment_intents.read"
-        | "payments.payment_intents.write"
-        | "payments.payment_method_domains.read"
-        | "payments.payment_method_domains.write"
-        | "payments.payment_methods.read"
-        | "payments.payment_methods.write"
-        | "payments.readers.read"
-        | "payments.readers.write"
-        | "reports.read"
-        | "reports.write"
-        | "risk.controls.write"
-        | "risk.read"
-        | "risk.reviews.write"
-        | "settings.read"
-        | "settings.write"
-        | "webhooks.read"
-        | "webhooks.write">;
-})))
-    | (({
-    /** Value enum: false. */
-    "issue_test_key"?: false;
-})
-    & (({
-    "access"?: never;
-})
-    & ({
-    "scopes"?: never;
-})
-    & ({
-    "test_key_name"?: never;
-})
-    & ({
-    "test_key_expires_at"?: never;
-}))));
-/**
- * Service details you supply when creating a fulfillment: the scheduled start and end, timezone,
- * and notes.
- */
-export type CreateServiceFulfillmentDetails = {
-    /** Additional instructions or notes for performing the service. minLength: 1. */
-    "notes"?: string;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "scheduled_end_at"?: string;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "scheduled_start_at"?: string;
-    /** Uses an IANA time zone name. minLength: 1. */
-    "timezone"?: string;
-};
-/**
- * Service details you supply when creating a fulfillment: the scheduled start and end, timezone,
- * and notes.
- */
-export type CreateServiceFulfillmentDetailsInput = {
-    /** Additional instructions or notes for performing the service. minLength: 1. */
-    "notes"?: string;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "scheduled_end_at"?: string | globalThis.Date;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "scheduled_start_at"?: string | globalThis.Date;
-    /** Uses an IANA time zone name. minLength: 1. */
-    "timezone"?: string;
-};
-/** The request body for: Create shipment. */
-export type CreateShipmentRequest = ({
-    /**
-     * Whether the shipment sends items to the buyer or returns items to the merchant. Value enum:
-     * "outbound", "return".
-     */
-    "direction": "outbound" | "return" | (string & {});
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * Shipment fulfillment that owns an outbound shipment. Required when direction is outbound;
-     * forbidden when direction is return. minLength: 1. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-     */
-    "fulfillment_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Creates packages atomically with an outbound shipment. Items are optional per package.
-     * Created packages are included in the response. minItems: 1. maxItems: 20. [] (Value): {@link
-     * PackageCreateRequest}. Package to create inline with its enclosing shipment or fulfillment.
-     * Set status to created before handoff, or shipped to report handoff during creation.
-     */
-    "packages"?: Array<PackageCreateRequest>;
-    /**
-     * Return associated with this shipment, when its direction is return. minLength: 1. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id"?: string;
-    /**
-     * Return lines and quantities the shipment carries. minItems: 1. [] (Value): {@link
-     * ReturnResolutionLineItemRequest}. A Return line and the quantity to place in a return
-     * shipment or package. The enclosing Return or shipment determines its parent.
-     */
-    "return_line_items"?: Array<ReturnResolutionLineItemRequest>;
-})
-    & ((Exclude<CreateShipmentRequestOutbound & object, readonly unknown[]>)
-    | (Exclude<CreateShipmentRequestReturn & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/** The request body for: Create shipment. */
-export type CreateShipmentRequestInput = ({
-    /**
-     * Whether the shipment sends items to the buyer or returns items to the merchant. Value enum:
-     * "outbound", "return".
-     */
-    "direction": "outbound" | "return";
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * Shipment fulfillment that owns an outbound shipment. Required when direction is outbound;
-     * forbidden when direction is return. minLength: 1. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-     */
-    "fulfillment_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Creates packages atomically with an outbound shipment. Items are optional per package.
-     * Created packages are included in the response. minItems: 1. maxItems: 20. [] (Value): {@link
-     * PackageCreateRequestInput}. Package to create inline with its enclosing shipment or
-     * fulfillment. Set status to created before handoff, or shipped to report handoff during
-     * creation.
-     */
-    "packages"?: Array<PackageCreateRequestInput>;
-    /**
-     * Return associated with this shipment, when its direction is return. minLength: 1. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id"?: string;
-    /**
-     * Return lines and quantities the shipment carries. minItems: 1. [] (Value): {@link
-     * ReturnShipmentLineItemAllocationRequestInput}. A Return line and the quantity to place in a
-     * return shipment or package. The enclosing Return or shipment determines its parent.
-     */
-    "return_line_items"?: Array<ReturnShipmentLineItemAllocationRequestInput>;
-})
-    & ((Exclude<CreateShipmentRequestOutboundInput & object, readonly unknown[]>)
-    | (Exclude<CreateShipmentRequestReturnInput & object, readonly unknown[]>));
-/** The `outbound` variant of `CreateShipmentRequest`. */
-export type CreateShipmentRequestOutbound = ({
-    /**
-     * Whether the shipment sends items to the buyer or returns items to the merchant. Value enum:
-     * "outbound".
-     */
-    "direction": "outbound" | (string & {});
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * Shipment fulfillment that owns an outbound shipment. Required when direction is outbound;
-     * forbidden when direction is return. minLength: 1. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-     */
-    "fulfillment_id": string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Creates packages atomically with an outbound shipment. Items are optional per package.
-     * Created packages are included in the response. minItems: 1. maxItems: 20. [] (Value): {@link
-     * PackageCreateRequest}. Package to create inline with its enclosing shipment or fulfillment.
-     * Set status to created before handoff, or shipped to report handoff during creation.
-     */
-    "packages"?: Array<PackageCreateRequest>;
-    /**
-     * Return associated with this shipment, when its direction is return. minLength: 1. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id"?: string;
-    /**
-     * Return lines and quantities the shipment carries. minItems: 1. [] (Value): {@link
-     * ReturnResolutionLineItemRequest}. A Return line and the quantity to place in a return
-     * shipment or package. The enclosing Return or shipment determines its parent.
-     */
-    "return_line_items"?: Array<ReturnResolutionLineItemRequest>;
-});
-/** The `outbound` variant of `CreateShipmentRequest`. */
-export type CreateShipmentRequestOutboundInput = ({
-    /**
-     * Whether the shipment sends items to the buyer or returns items to the merchant. Value enum:
-     * "outbound".
-     */
-    "direction": "outbound";
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * Shipment fulfillment that owns an outbound shipment. Required when direction is outbound;
-     * forbidden when direction is return. minLength: 1. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-     */
-    "fulfillment_id": string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Creates packages atomically with an outbound shipment. Items are optional per package.
-     * Created packages are included in the response. minItems: 1. maxItems: 20. [] (Value): {@link
-     * PackageCreateRequestInput}. Package to create inline with its enclosing shipment or
-     * fulfillment. Set status to created before handoff, or shipped to report handoff during
-     * creation.
-     */
-    "packages"?: Array<PackageCreateRequestInput>;
-    /**
-     * Return associated with this shipment, when its direction is return. minLength: 1. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id"?: string;
-    /**
-     * Return lines and quantities the shipment carries. minItems: 1. [] (Value): {@link
-     * ReturnShipmentLineItemAllocationRequestInput}. A Return line and the quantity to place in a
-     * return shipment or package. The enclosing Return or shipment determines its parent.
-     */
-    "return_line_items"?: Array<ReturnShipmentLineItemAllocationRequestInput>;
-})
-    & (({
-    "return_id"?: never;
-}))
-    & (({
-    "return_line_items"?: never;
-}));
-/** The `return` variant of `CreateShipmentRequest`. */
-export type CreateShipmentRequestReturn = ({
-    /**
-     * Whether the shipment sends items to the buyer or returns items to the merchant. Value enum:
-     * "return".
-     */
-    "direction": "return" | (string & {});
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * Shipment fulfillment that owns an outbound shipment. Required when direction is outbound;
-     * forbidden when direction is return. minLength: 1. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-     */
-    "fulfillment_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Creates packages atomically with an outbound shipment. Items are optional per package.
-     * Created packages are included in the response. minItems: 1. maxItems: 20. [] (Value): {@link
-     * PackageCreateRequest}. Package to create inline with its enclosing shipment or fulfillment.
-     * Set status to created before handoff, or shipped to report handoff during creation.
-     */
-    "packages"?: Array<PackageCreateRequest>;
-    /**
-     * Return associated with this shipment, when its direction is return. minLength: 1. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id": string;
-    /**
-     * Return lines and quantities the shipment carries. minItems: 1. [] (Value): {@link
-     * ReturnResolutionLineItemRequest}. A Return line and the quantity to place in a return
-     * shipment or package. The enclosing Return or shipment determines its parent.
-     */
-    "return_line_items": Array<ReturnResolutionLineItemRequest>;
 });

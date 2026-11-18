@@ -3,7 +3,9 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $amount_money
+ * @property-read list<RefundChargeAllocationPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null $charge_allocations
  * @property-read string|\DateTimeInterface|null $created_at
+ * @property-read MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $credit_adjustment_money
  * @property-read string|null $credit_note_id
  * @property-read ExpandedCustomerSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $customer
  * @property-read string|null $customer_id
@@ -42,7 +44,7 @@ namespace Flint;
  * @property-read int|null $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class RefundPreviousAttributesInput extends Model {
-    /** @param array{'amount_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'created_at'?: string|\DateTimeInterface|null, 'credit_note_id'?: string|null, 'customer'?: ExpandedCustomerSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'customer_id'?: string|null, 'external_reference_id'?: string|null, 'failure_reason'?: string|null, 'idempotency_key'?: string|null, 'initiated_by'?: string|null, 'invoice_id'?: string|null, 'line_item_allocations'?: list<RefundLineItemAllocationPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'merchant_id'?: string|null, 'metadata'?: MetadataMapPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'order'?: ExpandedOrderSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'order_edit_id'?: string|null, 'order_id'?: string|null, 'payment_intent'?: ExpandedPaymentIntentSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'payment_intent_id'?: string|null, 'payment_refunds'?: list<PaymentRefundPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'payment_review_id'?: string|null, 'pending_reason'?: string|null, 'processed_by'?: string|null, 'reason'?: string|null, 'reason_message'?: string|null, 'refund_id'?: string|null, 'refund_platform_fee'?: bool|null, 'refund_reference'?: string|null, 'refunded_at'?: string|\DateTimeInterface|null, 'refunded_tip_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'return_id'?: string|null, 'return_resolution_id'?: string|null, 'status'?: string|null, 'succeeded_at'?: string|\DateTimeInterface|null, 'tax_breakdown_refunds'?: list<RefundTaxBreakdownRefundPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'tender_allocations'?: list<RefundTenderAllocationPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'unissued_gift_card_recoveries'?: list<RefundUnissuedGiftCardRecoveryPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'updated_at'?: string|\DateTimeInterface|null, 'version'?: int|null, ...}|object $values */
+    /** @param array{'amount_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'charge_allocations'?: list<RefundChargeAllocationPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'created_at'?: string|\DateTimeInterface|null, 'credit_adjustment_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'credit_note_id'?: string|null, 'customer'?: ExpandedCustomerSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'customer_id'?: string|null, 'external_reference_id'?: string|null, 'failure_reason'?: string|null, 'idempotency_key'?: string|null, 'initiated_by'?: string|null, 'invoice_id'?: string|null, 'line_item_allocations'?: list<RefundLineItemAllocationPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'merchant_id'?: string|null, 'metadata'?: MetadataMapPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'order'?: ExpandedOrderSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'order_edit_id'?: string|null, 'order_id'?: string|null, 'payment_intent'?: ExpandedPaymentIntentSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'payment_intent_id'?: string|null, 'payment_refunds'?: list<PaymentRefundPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'payment_review_id'?: string|null, 'pending_reason'?: string|null, 'processed_by'?: string|null, 'reason'?: string|null, 'reason_message'?: string|null, 'refund_id'?: string|null, 'refund_platform_fee'?: bool|null, 'refund_reference'?: string|null, 'refunded_at'?: string|\DateTimeInterface|null, 'refunded_tip_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'return_id'?: string|null, 'return_resolution_id'?: string|null, 'status'?: string|null, 'succeeded_at'?: string|\DateTimeInterface|null, 'tax_breakdown_refunds'?: list<RefundTaxBreakdownRefundPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'tender_allocations'?: list<RefundTenderAllocationPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'unissued_gift_card_recoveries'?: list<RefundUnissuedGiftCardRecoveryPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'updated_at'?: string|\DateTimeInterface|null, 'version'?: int|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RefundPreviousAttributesInput')); }
     /** Total refunded across all tenders, including `refunded_tip_money`. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
      * @return MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null
@@ -50,12 +52,24 @@ final class RefundPreviousAttributesInput extends Model {
      */
     public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
+    /** Money returned for each order charge, including subtotal, discount, and tax, combined across payment refunds. anyOf[1] (Value): Array of {@see RefundChargeAllocationPreviousAttributesInput}. Money returned for each order charge, including subtotal, discount, and tax, combined across payment refunds. anyOf[1][] (Value): {@see RefundChargeAllocationPreviousAttributesInput}. anyOf[2] (Value): null.
+     * @return list<RefundChargeAllocationPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null
+     * @throws SdkError When charge_allocations is omitted; use hasChargeAllocations() or valueOrDefault().
+     */
+    public function getChargeAllocations(): mixed { return $this->get('charge_allocations'); }
+    public function hasChargeAllocations(): bool { return $this->has('charge_allocations'); }
     /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
      * @return string|\DateTimeInterface|null
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): mixed { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
+    /** Money paid for Return resolution credits, included in amount_money. It carries no merchandise, shipping, tax, or tip allocation. Zero for refunds without credits. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
+     * @return MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null
+     * @throws SdkError When credit_adjustment_money is omitted; use hasCreditAdjustmentMoney() or valueOrDefault().
+     */
+    public function getCreditAdjustmentMoney(): mixed { return $this->get('credit_adjustment_money'); }
+    public function hasCreditAdjustmentMoney(): bool { return $this->has('credit_adjustment_money'); }
     /** ID of the credit note this refund paid out. Present only on refunds issued through a credit note. anyOf[1] (Value): string. ID of the credit note this refund paid out. Present only on refunds issued through a credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". anyOf[2] (Value): null.
      * @return string|null
      * @throws SdkError When credit_note_id is omitted; use hasCreditNoteId() or valueOrDefault().

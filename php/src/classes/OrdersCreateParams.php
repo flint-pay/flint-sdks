@@ -19,7 +19,7 @@ namespace Flint;
 final class OrdersCreateParams extends Model {
     /** @param array{'buyer_note'?: string, 'customer_id'?: string, 'delivery'?: OrderDeliveryRequestInput|array<array-key, mixed>|\stdClass, 'delivery_destination'?: OrderDeliveryDestinationRequestInput|array<array-key, mixed>|\stdClass, 'discounts'?: list<CreateOrderDiscountInput|array<array-key, mixed>|\stdClass>, 'external_reference_id'?: string, 'handover'?: OrderHandoverRequestInput|array<array-key, mixed>|\stdClass, 'internal_note'?: string, 'inventory_routing_source'?: InventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass, 'line_items': list<CreateOrderLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'requested_tip'?: CreateOrderTipInput|array<array-key, mixed>|\stdClass, 'tax'?: OrderTaxRequestInput|array<array-key, mixed>|\stdClass, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrdersCreateParams')); }
-    /** A note to the buyer. minLength: 1. maxLength: 1000.
+    /** A note to the buyer. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1. maxLength: 1000.
      * @return string
      * @throws SdkError When buyer_note is omitted; use hasBuyerNote() or valueOrDefault().
      */
@@ -61,7 +61,7 @@ final class OrdersCreateParams extends Model {
      */
     public function getHandover(): mixed { return $this->get('handover'); }
     public function hasHandover(): bool { return $this->has('handover'); }
-    /** A note for your team. Buyer reads leave it out. minLength: 1. maxLength: 1000.
+    /** A note for your team. Buyer reads leave it out. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1. maxLength: 1000.
      * @return string
      * @throws SdkError When internal_note is omitted; use hasInternalNote() or valueOrDefault().
      */

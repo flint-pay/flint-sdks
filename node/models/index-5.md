@@ -1,7 +1,19 @@
 [Model index](../MODELS.md)
 
-# CheckoutSubscriptionTermsRequestInput to CreateCreditNoteRequest
+# CheckoutSessionUpdatedInstalledMerchantsEvent to CreateCheckoutSessionSavePaymentMethodVerificationRequest
 
+- [CheckoutSessionUpdatedInstalledMerchantsEvent](CheckoutSessionUpdatedInstalledMerchantsEvent.md)
+- [CheckoutSessionUpdatedMerchantEvent](CheckoutSessionUpdatedMerchantEvent.md)
+- [CheckoutSessionWithSecret](CheckoutSessionWithSecret.md)
+- [CheckoutSettings](CheckoutSettings.md)
+- [CheckoutSettingsRequestInput](CheckoutSettingsRequestInput.md)
+- [CheckoutSubscriptionPricePhase](CheckoutSubscriptionPricePhase.md)
+- [CheckoutSubscriptionPricePhasePreviousAttributes](CheckoutSubscriptionPricePhasePreviousAttributes.md)
+- [CheckoutSubscriptionRecurringShipping](CheckoutSubscriptionRecurringShipping.md)
+- [CheckoutSubscriptionRecurringShippingPreviousAttributes](CheckoutSubscriptionRecurringShippingPreviousAttributes.md)
+- [CheckoutSubscriptionTerms](CheckoutSubscriptionTerms.md)
+- [CheckoutSubscriptionTermsPreviousAttributes](CheckoutSubscriptionTermsPreviousAttributes.md)
+- [CheckoutSubscriptionTermsRequest](CheckoutSubscriptionTermsRequest.md)
 - [CheckoutSubscriptionTermsRequestInput](CheckoutSubscriptionTermsRequestInput.md)
 - [CheckoutTaxCalculation](CheckoutTaxCalculation.md)
 - [CheckoutTaxCalculationPreviousAttributes](CheckoutTaxCalculationPreviousAttributes.md)
@@ -90,16 +102,4 @@
 - [CreateCheckoutSessionReturnResolution](CreateCheckoutSessionReturnResolution.md)
 - [CreateCheckoutSessionReturnResolutionInput](CreateCheckoutSessionReturnResolutionInput.md)
 - [CreateCheckoutSessionSavePaymentMethodVerificationRequest](CreateCheckoutSessionSavePaymentMethodVerificationRequest.md)
-- [CreateCheckoutSessionSavePaymentMethodVerificationRequestInput](CreateCheckoutSessionSavePaymentMethodVerificationRequestInput.md)
-- [CreateCheckoutSessionSubscriptionPlan](CreateCheckoutSessionSubscriptionPlan.md)
-- [CreateCheckoutSessionSubscriptionPlanInput](CreateCheckoutSessionSubscriptionPlanInput.md)
-- [CreateCheckoutSessionUseSavedPaymentMethodsByEmailRequest](CreateCheckoutSessionUseSavedPaymentMethodsByEmailRequest.md)
-- [CreateCheckoutSessionUseSavedPaymentMethodsByEmailRequestInput](CreateCheckoutSessionUseSavedPaymentMethodsByEmailRequestInput.md)
-- [CreateCheckoutSessionUseSavedPaymentMethodsByRememberedBuyerRequest](CreateCheckoutSessionUseSavedPaymentMethodsByRememberedBuyerRequest.md)
-- [CreateCheckoutSessionUseSavedPaymentMethodsByRememberedBuyerRequestInput](CreateCheckoutSessionUseSavedPaymentMethodsByRememberedBuyerRequestInput.md)
-- [CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequest](CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequest.md)
-- [CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequestInput](CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequestInput.md)
-- [CreateCreditNoteAllocationRequest](CreateCreditNoteAllocationRequest.md)
-- [CreateCreditNoteAllocationRequestInput](CreateCreditNoteAllocationRequestInput.md)
-- [CreateCreditNoteRequest](CreateCreditNoteRequest.md)
 

@@ -10,7 +10,7 @@ namespace Flint;
 final class DevicesDeleteInput extends Model {
     /** @param array{'device_id': string, 'expected_version'?: int}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DevicesDeleteInput')); }
-    /** Flint device ID. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6".
+    /** Flint device ID. Must be a valid ID with prefix dev_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6".
      * @return string
      * @throws SdkError When device_id is omitted; use hasDeviceId() or valueOrDefault().
      */

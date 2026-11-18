@@ -28,7 +28,7 @@ final class InvoicePaymentTermsCreateParams extends Model {
      */
     public function getLateFeePolicy(): mixed { return $this->get('late_fee_policy'); }
     public function hasLateFeePolicy(): bool { return $this->has('late_fee_policy'); }
-    /** Name of the payment term shown on invoices. Required on create; omit it on update to preserve the current name. minLength: 1.
+    /** Name of the payment term shown on invoices. Required on create; omit it on update to preserve the current name. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */

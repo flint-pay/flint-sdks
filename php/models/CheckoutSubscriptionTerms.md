@@ -21,9 +21,14 @@ Response model.
 | `gifts_enabled` | Required | boolean | Whether the buyer can name a gift recipient, frozen from the plan's gifts_enabled when the session was created. |
 | `line_items` | Required | Array of [CheckoutSubscriptionTermsLineItemsItem](../models/CheckoutSubscriptionTermsLineItemsItem.md#checkoutsubscriptiontermslineitemsitem) | Identified frozen plan lines with buyer quantity permissions and bounds. |
 | `plan_name` | Required | string | Plan name shown to the buyer. |
+| `recurring_price_phases` | Required | Array of [CheckoutSubscriptionPricePhase](../models/CheckoutSubscriptionPricePhase.md#checkoutsubscriptionpricephase) | Ordered recurring merchandise prices from the first paid billing period, after any trial, with frozen signup promotions applied. Each finite phase is followed by the next phase; the final phase has a null billing_period_count and continues until cancellation. Tax and shipping are additional. Always contains at least one phase. `recurring_price_phases[]`: [field definitions](../models/CheckoutSessionResponse.md#checkoutsessionresponsedatasubscription_termsrecurring_price_phases). |
 | `recurring_shipping` | Optional | [CheckoutSubscriptionRecurringShipping](../models/CheckoutSubscriptionRecurringShipping.md#checkoutsubscriptionrecurringshipping) | Shipping that renews with each charge, for the delivery method the buyer chose. Omitted when no delivery method applies to the plan's lines. Recurring shipping charged on a checkout's subscription: the delivery method name, whether the price is fixed or quoted, and the amount. |
 | `recurring_total_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Charge for one billing period before tax and shipping, including prepaid deliveries and modifiers. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `setup_fee_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | One-time fee charged with the first payment, when the plan has one. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `subscription_plan_id` | Required | string | Flint subscription plan ID the terms come from. |
 | `trial_period_days` | Optional | integer | Days before the first recurring charge, when the plan has a trial. Format: `int32`. |
+
+### CheckoutSubscriptionTerms.recurring_price_phases[]
+
+Field definitions: [CheckoutSessionResponse.data.subscription_terms.recurring_price_phases[]](../models/CheckoutSessionResponse.md#checkoutsessionresponsedatasubscription_termsrecurring_price_phases).
 

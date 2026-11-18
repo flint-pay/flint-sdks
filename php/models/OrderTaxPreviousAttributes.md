@@ -8,6 +8,7 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `attention` | Optional | [OrderTaxAttentionPreviousAttributes](../models/OrderTaxAttentionPreviousAttributes.md#ordertaxattentionpreviousattributes) or null | Tax information that needs merchant attention. Null when no tax attention is outstanding. Captured payments and refunds remain recorded; contact Flint support before changing tax. Omitted from buyer responses. Always present with merchant credentials. `attention`: [declared alternatives](../models/OrderTaxPreviousAttributes.md#ordertaxpreviousattributesattention). |
 | `automatic_profile` | Optional | string or null | Identifies which automatic tax behavior applies to this order. connected means the account's tax connection calculated it. standard marks an order calculated before automatic tax required a tax connection. Values: `"standard"`, `"connected"`. `automatic_profile`: [declared alternatives](../models/OrderTaxPreviousAttributes.md#ordertaxpreviousattributesautomatic_profile). |
 | `available_location_inputs` | Optional | Array of string or null | How you can give Flint a tax location while `status` is `requires_location`. `provided` means send `tax.location`. `available_location_inputs`: [declared alternatives](../models/OrderTaxPreviousAttributes.md#ordertaxpreviousattributesavailable_location_inputs). |
 | `callback_evaluation` | Optional | [OrderTaxCallbackEvaluationPreviousAttributes](../models/OrderTaxCallbackEvaluationPreviousAttributes.md#ordertaxcallbackevaluationpreviousattributes) or null | The tax calculation callback evaluation whose components the order's tax uses. Returned only on a `callback` order after your callback has answered; absent while tax is `requires_location` or `incomplete`, and on orders with nothing to tax. `callback_evaluation`: [declared alternatives](../models/OrderTaxPreviousAttributes.md#ordertaxpreviousattributescallback_evaluation). |
@@ -22,6 +23,51 @@ Response model.
 | `status` | Optional | string or null | Whether the order's tax is ready. Payment requires `calculated`, `exempt`, or `not_required`. Values: `"not_required"`, `"requires_location"`, `"calculated"`, `"exempt"`, `"incomplete"`. `status`: [declared alternatives](../models/OrderTaxPreviousAttributes.md#ordertaxpreviousattributesstatus). |
 | `supported_countries` | Optional | Array of string or null | Read-only, sorted ISO 3166-1 alpha-2 destination countries where automatic tax can calculate every taxable line. Present only when tax is enabled in automatic mode. US destinations are covered for every category. In Canada, EU member states, GB, AU and NZ, only digital_goods, software and saas are covered; services, professional_services, physical goods and taxable charges are unsupported there. Read tax-connection.coverage for category scopes. Intersect with delivery supported_countries when collecting a shipping address. `supported_countries`: [declared alternatives](../models/OrderTaxPreviousAttributes.md#ordertaxpreviousattributessupported_countries). |
 | `tax_breakdowns` | Optional | Array of (object and Alternative shapes (see declared variants)) or null | One row per jurisdiction for each line item and charge, plus any flat order taxes. External tax always produces rows. Automatic tax produces rows outside the US, one per national or provincial tax; US automatic tax doesn't produce rows. `tax_breakdowns`: [declared alternatives](../models/OrderTaxPreviousAttributes.md#ordertaxpreviousattributestax_breakdowns). |
+
+### OrderTaxPreviousAttributes.attention
+
+Tax information that needs merchant attention. Null when no tax attention is outstanding. Captured payments and refunds remain recorded; contact Flint support before changing tax. Omitted from buyer responses. Always present with merchant credentials.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `code` | Conditional | string or null | tax_commitment_failed means Flint could not verify the order's recorded tax information. New codes may be added. Values: `"tax_commitment_failed"`. `code`: [declared alternatives](../models/OrderTaxAttentionPreviousAttributes.md#ordertaxattentionpreviousattributescode). |
+| `message` | Conditional | string or null | Merchant-facing explanation and next step. `message`: [declared alternatives](../models/OrderTaxAttentionPreviousAttributes.md#ordertaxattentionpreviousattributesmessage). |
+| `started_at` | Conditional | string or null | When this outstanding tax issue was first recorded, in UTC. `started_at`: [declared alternatives](../models/OrderTaxPreviousAttributes.md#ordertaxpreviousattributesattention-variant-1started_at). |
+
+### OrderTaxPreviousAttributes.attention variant 1: `code` = `"tax_commitment_failed"`
+
+anyOf OrderTaxAttentionPreviousAttributes.
+
+- Optional: `code`, `message`, `started_at`.
+
+### OrderTaxPreviousAttributes.attention variant 2
+
+anyOf variant 2.
+
+- Undeclared: `code`, `message`, `started_at`.
+- Value shape: null. Tax information that needs merchant attention. Null when no tax attention is outstanding. Captured payments and refunds remain recorded; contact Flint support before changing tax. Omitted from buyer responses. Always present with merchant credentials. 
+
+### OrderTaxPreviousAttributes.attention variant 1.code
+
+Declared alternatives: [OrderTaxAttentionPreviousAttributes.code](../models/OrderTaxAttentionPreviousAttributes.md#ordertaxattentionpreviousattributescode).
+
+### OrderTaxPreviousAttributes.attention variant 1.message
+
+Declared alternatives: [OrderTaxAttentionPreviousAttributes.message](../models/OrderTaxAttentionPreviousAttributes.md#ordertaxattentionpreviousattributesmessage).
+
+### OrderTaxPreviousAttributes.attention variant 1.started_at
+
+### OrderTaxPreviousAttributes.attention variant 1.started_at variant 1
+
+anyOf variant 1: When this outstanding tax issue was first recorded, in UTC..
+
+- Value shape: string. When this outstanding tax issue was first recorded, in UTC. When this outstanding tax issue was first recorded, in UTC. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+
+### OrderTaxPreviousAttributes.attention variant 1.started_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. When this outstanding tax issue was first recorded, in UTC. 
 
 ### OrderTaxPreviousAttributes.automatic_profile
 

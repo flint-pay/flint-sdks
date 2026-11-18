@@ -1,17 +1,16 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { Promotion } from '../declarations/types-55.js';
-import type { PromotionListResponse } from '../declarations/types-56.js';
+import type { Promotion } from '../declarations/types-57.js';
+import type { PromotionListResponse, PromotionResponse } from '../declarations/types-58.js';
 import type {
-    PromotionResponse,
     PromotionsCreateParams,
     PromotionsDeleteParams,
     PromotionsGetParams,
     PromotionsListParams,
     PromotionsUpdateParams
-} from '../declarations/types-57.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-59.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -28,67 +27,71 @@ export type {
 } from '../runtime.js';
 export type {
     PromotionsCreateParams,
-    PromotionResponse,
     PromotionsDeleteParams,
     PromotionsGetParams,
     PromotionsListParams,
     PromotionsUpdateParams,
-    PromotionRuleGroupRequestInput,
-    PromotionRuleRequestInput,
     PromotionRuleValueRequestInput,
-    PromotionRecurrenceRequestInput,
-    PromotionRecurrenceRepeatingRequestInput,
     PromotionScheduleRequestInput,
-    PromotionRuleGroup,
-    PromotionRule,
-    PromotionRuleValue,
     PromotionSchedule,
     PromotionSchedulePatchInput
-} from '../declarations/types-57.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type { Promotion, PromotionAmountOffMethodRequestInput, PromotionAmountOffMethod } from '../declarations/types-55.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-59.js';
+export type { RequestOptions } from '../declarations/types-61.js';
 export type {
-    PromotionListResponse,
+    Promotion,
     PromotionApplicationMethodRequestInput,
-    PromotionPercentOffMethodRequestInput,
-    PromotionRecurrenceOnceRequestInput,
-    PromotionRecurrenceForeverRequestInput,
+    PromotionAmountOffMethodRequestInput,
     PromotionBuyXGetYMethodRequestInput,
+    PromotionApplicationMethod,
+    PromotionAmountOffMethod,
+    PromotionBuyXGetYMethod,
+    PromotionCode,
+    PromotionApplicationMethodPatchInput
+} from '../declarations/types-57.js';
+export type {
+    PromotionResponse,
+    PromotionListResponse,
+    PromotionPercentOffMethodRequestInput,
+    PromotionRuleGroupRequestInput,
+    PromotionRuleRequestInput,
+    PromotionRecurrenceRequestInput,
+    PromotionRecurrenceOnceRequestInput,
+    PromotionRecurrenceRepeatingRequestInput,
+    PromotionRecurrenceForeverRequestInput,
     PromotionCodeRequestInput,
     PromotionCombinesWithRequestInput,
     PromotionExclusivityRequestInput,
-    PromotionApplicationMethod,
     PromotionPercentOffMethod,
+    PromotionRuleGroup,
+    PromotionRule,
+    PromotionRuleValue,
     PromotionRecurrence,
     PromotionRecurrenceOnce,
     PromotionRecurrenceRepeating,
     PromotionRecurrenceForever,
-    PromotionBuyXGetYMethod,
-    PromotionCode,
     PromotionCodesSummary,
     PromotionCombinesWith,
     PromotionExclusivity,
-    PromotionApplicationMethodPatchInput,
     PromotionCombinesWithPatchInput,
     PromotionExclusivityPatchInput,
     PromotionCombinesWithPatch,
     PromotionExclusivityRequest,
     PromotionExclusivityPatch
-} from '../declarations/types-56.js';
+} from '../declarations/types-58.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreatePromotionRequestInput } from '../declarations/types-12.js';
-export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-42.js';
-export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-41.js';
+export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-44.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { UpdatePromotionRequestInput } from '../declarations/types-75.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { UpdatePromotionRequestInput } from '../declarations/types-77.js';
 export type { CategoriesDeleteParams } from '../declarations/types-5.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
-export { makeCreatePromotionRequest } from '../declarations/types-81.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
+export type { DisputesAcceptParams } from '../declarations/types-26.js';
+export { makeCreatePromotionRequest } from '../declarations/types-83.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
 export {
     makePromotionAmountOffMethodRequest,
     makePromotionApplicationMethodPatch,
@@ -104,15 +107,13 @@ export {
     makePromotionRecurrenceOnceRequest,
     makePromotionRecurrenceRepeatingRequest,
     makePromotionRecurrenceRequest,
-    makePromotionRuleGroupRequest
-} from '../declarations/types-87.js';
-export {
+    makePromotionRuleGroupRequest,
     makePromotionRuleRequest,
     makePromotionRuleValueRequest,
     makePromotionSchedulePatch,
     makePromotionScheduleRequest
-} from '../declarations/types-88.js';
-export { makeUpdatePromotionRequest } from '../declarations/types-91.js';
+} from '../declarations/types-90.js';
+export { makeUpdatePromotionRequest } from '../declarations/types-93.js';
 export interface PromotionsResource {
     /**
  * Creates a promotion: a discount that applies to qualifying orders automatically or when the
@@ -138,7 +139,9 @@ export interface PromotionsResource {
  * references.
  *
  * `DELETE /v1/promotions/{promotion_id}`
- * @param promotion_id Flint promotion ID.
+ * @param promotion_id Flint promotion ID. Must be a valid ID with prefix promo_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/promotions#deletePromotion
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -152,7 +155,9 @@ export interface PromotionsResource {
  * Returns a single promotion by ID.
  *
  * `GET /v1/promotions/{promotion_id}`
- * @param promotion_id Flint promotion ID.
+ * @param promotion_id Flint promotion ID. Must be a valid ID with prefix promo_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/promotions#getPromotion
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -189,7 +194,9 @@ export interface PromotionsResource {
  * is archived. The error names the archived resource and its `current_status`.
  *
  * `PATCH /v1/promotions/{promotion_id}`
- * @param promotion_id Flint promotion ID.
+ * @param promotion_id Flint promotion ID. Must be a valid ID with prefix promo_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/promotions#updatePromotion
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

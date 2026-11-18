@@ -8,7 +8,7 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `available_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Fees Flint holds as available funds, net of the reserve. It can be negative: a fee returned after payout is owed back from your next fees. available_money plus pending_money equals the sum of amount_money over the app's balance transactions in this currency. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `available_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Fees Flint holds as available funds, net of the reserve. It can be negative after a refund when the fee was paid out or its reserve was spent covering losses. Your next fees repay it. available_money plus pending_money equals the sum of amount_money over the app's balance transactions in this currency. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `currency` | Required | string | ISO 4217 currency code of every amount on the balance. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. |
 | `next_payout_at` | Optional | string | The next scheduled payout run. Absent until scheduled. Format: `date-time`. |
 | `partner_app_id` | Required | string | The partner app the balance belongs to. |

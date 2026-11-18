@@ -10,6 +10,7 @@ namespace Flint;
  * @property-read string $external_reference_id
  * @property-read string $sku
  * @property-read string $variant_external_reference_id
+ * @property-read string $barcode
  * @property-read string $inventory_item_id
  * @property-read string $query
  * @property-read string $delivery_profile_id
@@ -23,7 +24,7 @@ namespace Flint;
  * @property-read list<string>|string $expand
  * Presence-aware input; omitted fields throw when accessed. */
 final class ProductsListParams extends Model {
-    /** @param array{'page_size'?: int, 'page_token'?: string, 'product_type'?: list<string>|string, 'status'?: list<string>|string, 'category_handle'?: string, 'external_reference_id'?: string, 'sku'?: string, 'variant_external_reference_id'?: string, 'inventory_item_id'?: string, 'query'?: string, 'delivery_profile_id'?: string, 'delivery_configuration_status'?: list<string>|string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'expand'?: list<string>|string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
+    /** @param array{'page_size'?: int, 'page_token'?: string, 'product_type'?: list<string>|string, 'status'?: list<string>|string, 'category_handle'?: string, 'external_reference_id'?: string, 'sku'?: string, 'variant_external_reference_id'?: string, 'barcode'?: string, 'inventory_item_id'?: string, 'query'?: string, 'delivery_profile_id'?: string, 'delivery_configuration_status'?: list<string>|string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'expand'?: list<string>|string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ProductsListParams')); }
     /** Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum: 100. Default: 20.
      * @return int
@@ -61,7 +62,7 @@ final class ProductsListParams extends Model {
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Full-value match on ProductVariant.sku, case- and accent-insensitive, with no trimming. All exact variant filters must match the same non-archived variant, including inactive variants. matched_variant is the first matching variant by position, then variant_id; exact predicates take precedence over query for this witness. minLength: 1. maxLength: 100.
+    /** Full-value match on ProductVariant.sku, ignoring surrounding whitespace, case, and accents. All exact variant filters must match the same non-archived variant, including inactive variants. matched_variant is the first matching variant by position, then variant_id; exact predicates take precedence over query for this witness. minLength: 1. maxLength: 100.
      * @return string
      * @throws SdkError When sku is omitted; use hasSku() or valueOrDefault().
      */
@@ -73,13 +74,19 @@ final class ProductsListParams extends Model {
      */
     public function getVariantExternalReferenceId(): string { return $this->get('variant_external_reference_id'); }
     public function hasVariantExternalReferenceId(): bool { return $this->has('variant_external_reference_id'); }
+    /** Full-value match on ProductVariant.barcode, ignoring surrounding whitespace, case, and accents. All exact variant filters must match the same non-archived variant. Does not search the inventory item barcode. minLength: 1. maxLength: 100.
+     * @return string
+     * @throws SdkError When barcode is omitted; use hasBarcode() or valueOrDefault().
+     */
+    public function getBarcode(): string { return $this->get('barcode'); }
+    public function hasBarcode(): bool { return $this->has('barcode'); }
     /** Exact match on ProductVariant.inventory_item_id. Multiple variants may share one inventory item; this does not match or synchronize the inventory item's SKU. On products, all exact variant filters must match the same non-archived variant. pattern: ^invi_[0-9A-HJKMNP-TV-Z]{26}$. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
      * @return string
      * @throws SdkError When inventory_item_id is omitted; use hasInventoryItemId() or valueOrDefault().
      */
     public function getInventoryItemId(): string { return $this->get('inventory_item_id'); }
     public function hasInventoryItemId(): bool { return $this->has('inventory_item_id'); }
-    /** Search across product ID, external reference ID, name, description, and SKU. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as prod_01.
+    /** Search across product ID, external reference ID, name, description, SKU, and barcode. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as prod_01.
      * @return string
      * @throws SdkError When query is omitted; use hasQuery() or valueOrDefault().
      */

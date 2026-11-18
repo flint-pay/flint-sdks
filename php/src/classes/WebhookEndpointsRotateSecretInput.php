@@ -10,7 +10,7 @@ namespace Flint;
 final class WebhookEndpointsRotateSecretInput extends Model {
     /** @param array{'webhook_endpoint_id': string, 'body'?: array{'expected_version'?: int, 'expire_previous_secret_at'?: string|\DateTimeInterface}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookEndpointsRotateSecretInput')); }
-    /** Flint webhook endpoint ID. Example: "whep_01KEZF7C006FXYTAJRZCGCBJTN".
+    /** Flint webhook endpoint ID. Must be a valid ID with prefix whep_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "whep_01KEZF7C006FXYTAJRZCGCBJTN".
      * @return string
      * @throws SdkError When webhook_endpoint_id is omitted; use hasWebhookEndpointId() or valueOrDefault().
      */

@@ -4,7 +4,7 @@
 
 ### inventoryCounts.apply
 
-Sets inventory levels to the counted quantities of an open physical count. Every line needs an observation. VERSION_CONFLICT also covers a stale saved physical observation with no corresponding field in this request; these details omit param. Recount affected items and save the complete observations before applying again. Physical changes after observation require recounts, including at a trading location; holds and commitments alone do not invalidate observations. Call it only when apply is in supported_actions. Returns a result with inventory_count as its primary resource and inventory_levels for the levels changed. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, read the inventory count by ID.
+Sets inventory levels to the counted quantities of an open physical count. Every line needs an observation. VERSION_CONFLICT also covers a stale saved physical observation with no corresponding field in this request; these details omit param. Recount affected items and save the complete observations before applying again. Physical changes after observation require recounts, including at a trading location; holds and commitments alone do not invalidate observations. Call it only when apply is in supported_actions. Returns a result with inventory_count as its primary resource and inventory_levels for the levels changed. Idempotency is scoped to the authenticated merchant, environment, caller namespace, and operation. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, read the inventory count by ID.
 
 `POST /v1/inventory-counts/{inventory_count_id}/apply`
 
@@ -14,7 +14,7 @@ Signature: `apply(inventory_count_id: InputValue<string>, params?: InventoryCoun
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `inventory_count_id` | Required | string | Flint inventory count ID. |
+| `inventory_count_id` | Required | string | Flint inventory count ID. Must be a valid ID with prefix invc_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -72,7 +72,7 @@ const result = await client.inventoryCounts.apply("invc_01KEZF7C00B47NXRE3ET37QQ
 
 ### inventoryCounts.cancel
 
-Closes an open physical count without changing stock. Call it only when cancel is in supported_actions. Returns a result with inventory_count as its primary resource and inventory_levels for the levels changed. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, read the inventory count by ID.
+Closes an open physical count without changing stock. Call it only when cancel is in supported_actions. Returns a result with inventory_count as its primary resource and inventory_levels for the levels changed. Idempotency is scoped to the authenticated merchant, environment, caller namespace, and operation. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, read the inventory count by ID.
 
 `POST /v1/inventory-counts/{inventory_count_id}/cancel`
 
@@ -82,7 +82,7 @@ Signature: `cancel(inventory_count_id: InputValue<string>, params?: InventoryCou
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `inventory_count_id` | Required | string | Flint inventory count ID. |
+| `inventory_count_id` | Required | string | Flint inventory count ID. Must be a valid ID with prefix invc_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -140,7 +140,7 @@ const result = await client.inventoryCounts.cancel("invc_01KEZF7C00B47NXRE3ET37Q
 
 ### inventoryCounts.create
 
-Open a physical count for selected inventory items at one Location. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, list inventory counts with the same idempotency_key.
+Open a physical count for selected inventory items at one Location. Idempotency is scoped to the authenticated merchant, environment, caller namespace, and operation. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, list inventory counts with the same idempotency_key.
 
 `POST /v1/inventory-counts`
 
@@ -218,7 +218,7 @@ Signature: `get(inventory_count_id: InputValue<string>, params?: InventoryCounts
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `inventory_count_id` | Required | string | Flint inventory count ID. |
+| `inventory_count_id` | Required | string | Flint inventory count ID. Must be a valid ID with prefix invc_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -275,7 +275,7 @@ Signature: `list(params?: InventoryCountsListParams, options?: _SdkWithoutIdempo
 | `inventory_item_id` | Optional | string | Filter by a counted inventory item. pattern: `^invi_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `location_id` | Optional | string | Filter by Location. pattern: `^loc_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `status` | Optional | Array of string or string | Filter by count status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"draft"`, `"applied"`, `"canceled"`. Values: `"draft"`, `"applied"`, `"canceled"`. |
-| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. pattern: `^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$`. |
+| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns only resources created in your caller namespace, plus resources created before caller scoping under the original key. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. pattern: `^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$`. |
 | `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
 | `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
 | `applied_after` | Optional | string | Inclusive lower bound on applied_at. Format: `date-time`. |
@@ -323,7 +323,7 @@ const result = await client.inventoryCounts.list({}, {  });
 
 ### inventoryCounts.update
 
-Replace a count's complete observation set atomically. expected_version is required when replacing observations. Send every item exactly once with the count's current expected_version and each observation's required expected_physical_version. Read the level before physically counting; zero is valid for a missing level. Every assertion must match locked current stock or the whole save is refused. Preserve saved quantities and fences for unchanged lines. Recount affected items before supplying fresh fences, even when quantities are unchanged. Omitted condition quantities retain the matching level snapshot's values. occurred_at records provenance and does not reconstruct historical stock. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, read the inventory count by ID.
+Replace a count's complete observation set atomically. expected_version is required when replacing observations. Send every item exactly once with the count's current expected_version and each observation's required expected_physical_version. Read the level before physically counting; zero is valid for a missing level. Every assertion must match locked current stock or the whole save is refused. Preserve saved quantities and fences for unchanged lines. Recount affected items before supplying fresh fences, even when quantities are unchanged. Omitted condition quantities retain the matching level snapshot's values. occurred_at records provenance and does not reconstruct historical stock. Idempotency is scoped to the authenticated merchant, environment, caller namespace, and operation. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, read the inventory count by ID.
 
 `PATCH /v1/inventory-counts/{inventory_count_id}`
 
@@ -333,7 +333,7 @@ Signature: `update(inventory_count_id: InputValue<string>, params: InventoryCoun
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `inventory_count_id` | Required | string | Flint inventory count ID. |
+| `inventory_count_id` | Required | string | Flint inventory count ID. Must be a valid ID with prefix invc_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
