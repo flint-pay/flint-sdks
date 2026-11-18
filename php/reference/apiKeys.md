@@ -24,10 +24,10 @@ Body model: [CreateAPIKeyRequestInput](../models/CreateAPIKeyRequestInput.md#cre
 | --- | --- | --- | --- |
 | `access` | Required | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session, or a full-access API key in the key's mode or a live full-access key granting a test key. Values: `"full"`, `"read_only"`, `"restricted"`. |
 | `expires_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. minLength: `1`. |
-| `name` | Required | string | A label that helps you tell keys apart, 1 to 100 characters. minLength: `1`. maxLength: `100`. |
+| `name` | Required | string | A label that helps you tell keys apart, 1 to 100 characters. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `100`. |
 | `partner_app_install_id` | Optional | string | Links this key to a connected app's install. Revoking the install or its grant for this key's environment revokes the key. The install must be active and authorized for that environment. Set only at creation; it never changes. Omit for an unlinked key. Keys created by a linked key inherit its link. Each install can have up to 25 linked keys that have not been revoked per environment. minLength: `1`. pattern: `^pinst_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `sandbox_id` | Optional | string | Public ID of the sandbox the new test key is bound to. A live credential or a user session sends it to create a test key in that sandbox, and omits it for a live key. A sandbox-bound credential, such as a test key, may name only its own sandbox and gets a test key there either way; any other sandbox returns 404. A Dashboard or onboarding session may name any of the merchant's active sandboxes, and an onboarding session must send it: its first key goes to default_sandbox_id. Storage generation IDs are never accepted. minLength: `1`. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. For a test key, use only scopes whose key_modes includes test in x-flint-scopes. The developer.sandboxes.read and developer.sandboxes.write scopes are valid on test keys; developer.partner_apps.read and developer.partner_apps.write are live-only. minItems: `1`. uniqueItems: `true`. Items values: [102 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
+| `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. For a test key, use only scopes whose key_modes includes test in x-flint-scopes. The developer.sandboxes.read and developer.sandboxes.write scopes are valid on test keys; developer.partner_apps.read and developer.partner_apps.write are live-only. minItems: `1`. uniqueItems: `true`. Items values: [103 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
 
 #### apiKeys.create with `access: "full"`
 
@@ -110,7 +110,7 @@ Signature: `get(string|Model $api_key_id, array|Model|null $params = null, ?Requ
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `api_key_id` | Required | string | Flint API key ID. |
+| `api_key_id` | Required | string | Flint API key ID. Must be a valid ID with prefix key_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 
@@ -163,6 +163,7 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 | `status` | Optional | Array of string or string | Optional API key status filter. Active keys have no expiration or a future expires_at. Expired keys are not revoked and have expires_at at or before the current time. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"expired"`, `"revoked"`. Values: `"active"`, `"expired"`, `"revoked"`. |
 | `created_by_type` | Optional | Array of string or string | Filter by created_by.resource_type. A user filter matches keys a user created directly, not keys their other keys created. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"api_key"`, `"user"`, `"workload_identity"`. Values: `"api_key"`, `"user"`, `"workload_identity"`. |
 | `created_by_id` | Optional | string | Filter by created_by.resource_id. The ID prefix (key_, usr_, or wid_) sets the creator type, so created_by_type is optional; when sent, it must be that one type. pattern: `^(key\|usr\|wid)_[0-7][0-9A-HJKMNP-TV-Z]{25}$`. |
+| `created_by_user_id` | Optional | string | Filter by the exact ID of the user accountable for the key, including keys their API keys or workload identities created. Combines with created_by_type and created_by_id. pattern: `^usr_[0-7][0-9A-HJKMNP-TV-Z]{25}$`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `sort_by` | Optional | string | Field to sort by. Defaults to created_at; ties are broken by api_key_id. Default: `"created_at"`. Values: `"created_at"`, `"last_used_at"`, `"name"`. |
@@ -220,7 +221,7 @@ Signature: `revoke(string|Model $api_key_id, array|Model|null $params = null, ?R
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `api_key_id` | Required | string | Flint API key ID. |
+| `api_key_id` | Required | string | Flint API key ID. Must be a valid ID with prefix key_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Optional | [ConfigurationVersionRequestInput](../models/SkipMeSubscriptionCycleRequestInput.md#skipmesubscriptioncyclerequestinput) | The request body for: Revoke an API key. |
 
 Body model: [ConfigurationVersionRequestInput](../models/SkipMeSubscriptionCycleRequestInput.md#skipmesubscriptioncyclerequestinput).
@@ -283,7 +284,7 @@ Signature: `update(string|Model $api_key_id, array|Model $params, ?RequestOption
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `api_key_id` | Required | string | Flint API key ID. |
+| `api_key_id` | Required | string | Flint API key ID. Must be a valid ID with prefix key_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Required | [UpdateAPIKeyRequestInput](../models/UpdateAPIKeyRequestInput.md#updateapikeyrequestinput) | The request body for: Update an API key. minProperties: `1`. |
 
 Body model: [UpdateAPIKeyRequestInput](../models/UpdateAPIKeyRequestInput.md#updateapikeyrequestinput).
@@ -295,8 +296,8 @@ Body model: [UpdateAPIKeyRequestInput](../models/UpdateAPIKeyRequestInput.md#upd
 | `access` | Optional | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session, or a full-access API key in the key's mode or a live full-access key granting a test key. Values: `"full"`, `"read_only"`, `"restricted"`. |
 | `expected_version` | Optional | integer | Resource version last read by the caller. Required when access or scopes is present. Optional for scalar updates. Format: `uint64`. minimum: `1`. |
 | `expires_at` | Optional | string or null | Future RFC3339 timestamp. Send null to clear an existing API-key expiration. Format: `date-time`. minLength: `1`. |
-| `name` | Optional | string | A label that helps you tell keys apart, 1 to 100 characters. Omit to keep the current name; `null` is rejected. minLength: `1`. maxLength: `100`. |
-| `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [102 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
+| `name` | Optional | string | A label that helps you tell keys apart, 1 to 100 characters. Omit to keep the current name; `null` is rejected. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `100`. |
+| `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [103 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
 
 #### apiKeys.update: Full
 
@@ -307,8 +308,8 @@ Body model: [UpdateAPIKeyRequestInput](../models/UpdateAPIKeyRequestInput.md#upd
 | `access` | Required | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session, or a full-access API key in the key's mode or a live full-access key granting a test key. Values: `"full"`. |
 | `expected_version` | Optional | integer | Resource version last read by the caller. Required when access or scopes is present. Optional for scalar updates. Format: `uint64`. minimum: `1`. |
 | `expires_at` | Optional | string or null | Future RFC3339 timestamp. Send null to clear an existing API-key expiration. Format: `date-time`. minLength: `1`. |
-| `name` | Optional | string | A label that helps you tell keys apart, 1 to 100 characters. Omit to keep the current name; `null` is rejected. minLength: `1`. maxLength: `100`. |
-| `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [102 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
+| `name` | Optional | string | A label that helps you tell keys apart, 1 to 100 characters. Omit to keep the current name; `null` is rejected. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `100`. |
+| `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [103 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
 
 #### apiKeys.update: Read only
 
@@ -319,8 +320,8 @@ Body model: [UpdateAPIKeyRequestInput](../models/UpdateAPIKeyRequestInput.md#upd
 | `access` | Required | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session, or a full-access API key in the key's mode or a live full-access key granting a test key. Values: `"read_only"`. |
 | `expected_version` | Optional | integer | Resource version last read by the caller. Required when access or scopes is present. Optional for scalar updates. Format: `uint64`. minimum: `1`. |
 | `expires_at` | Optional | string or null | Future RFC3339 timestamp. Send null to clear an existing API-key expiration. Format: `date-time`. minLength: `1`. |
-| `name` | Optional | string | A label that helps you tell keys apart, 1 to 100 characters. Omit to keep the current name; `null` is rejected. minLength: `1`. maxLength: `100`. |
-| `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [102 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
+| `name` | Optional | string | A label that helps you tell keys apart, 1 to 100 characters. Omit to keep the current name; `null` is rejected. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `100`. |
+| `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [103 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
 
 #### apiKeys.update: Restricted
 
@@ -331,8 +332,8 @@ Body model: [UpdateAPIKeyRequestInput](../models/UpdateAPIKeyRequestInput.md#upd
 | `access` | Required | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session, or a full-access API key in the key's mode or a live full-access key granting a test key. Values: `"restricted"`. |
 | `expected_version` | Optional | integer | Resource version last read by the caller. Required when access or scopes is present. Optional for scalar updates. Format: `uint64`. minimum: `1`. |
 | `expires_at` | Optional | string or null | Future RFC3339 timestamp. Send null to clear an existing API-key expiration. Format: `date-time`. minLength: `1`. |
-| `name` | Optional | string | A label that helps you tell keys apart, 1 to 100 characters. Omit to keep the current name; `null` is rejected. minLength: `1`. maxLength: `100`. |
-| `scopes` | Required | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [102 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
+| `name` | Optional | string | A label that helps you tell keys apart, 1 to 100 characters. Omit to keep the current name; `null` is rejected. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `100`. |
+| `scopes` | Required | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [103 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
 
 #### apiKeys.update: No access change
 

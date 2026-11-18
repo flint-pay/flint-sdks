@@ -43,6 +43,7 @@ Present only when `expand` includes `dispute`; `null` when expanded and there is
 | `amount_money` | Conditional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Amount in dispute. For a chargeback, this amount left your balance when the case opened; an inquiry moves no money. |
 | `can_respond_with_evidence` | Conditional | boolean or null | Whether this dispute has an evidence response window. It stays true after the window closes or a decision is made. Use is_action_required to know whether a response is needed now. `can_respond_with_evidence`: [declared alternatives](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributescan_respond_with_evidence). |
 | `case_type` | Conditional | string or null | Kind of case the card network or bank opened. `status` and `is_action_required` say whether a response is needed. Values: `"inquiry"`, `"chargeback"`, `"compliance"`, `"resolution"`, `"block"`, `"other"`, `"bank_return"`. `case_type`: [declared alternatives](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributescase_type). |
+| `closed_reason` | Conditional | string or null | Why the dispute closed, when Flint recorded the cause. Absent when Flint has no confirmed closure reason. Values: `"merchant_accepted"`. `closed_reason`: [declared alternatives](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributesclosed_reason). |
 | `created_at` | Conditional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/PartnerAppInstallPermissionsUpdatedEvent.md#partnerappinstallpermissionsupdatedeventdata-fields-1previous_attributesenvironment_grants-variant-1-fields-1created_at). |
 | `customer` | Conditional | [ExpandedCustomerSummaryPreviousAttributes](../models/ExpandedCustomerSummaryPreviousAttributes.md#expandedcustomersummarypreviousattributes) or null | Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. `customer`: [declared alternatives](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributescustomer). |
 | `customer_id` | Conditional | string or null | The customer on the disputed payment. Absent when the payment has none. `customer_id`: [declared alternatives](../models/FraudWarningUpdatedMerchantEventDataPreviousAttributes.md#fraudwarningupdatedmerchanteventdatapreviousattributesdispute-variant-1customer_id). |
@@ -69,17 +70,17 @@ Present only when `expand` includes `dispute`; `null` when expanded and there is
 | `supported_actions` | Conditional | Array of string or null | Lifecycle actions Flint accepts now. Evaluated when the dispute is read; in a webhook payload, as of when Flint recorded the change. It turns empty once evidence_due_at has passed, with no event. Items values: `"accept"`. `supported_actions`: [declared alternatives](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributessupported_actions). |
 | `updated_at` | Conditional | string or null | RFC3339 timestamp. `updated_at`: [declared alternatives](../models/PartnerAppInstallPermissionsUpdatedEvent.md#partnerappinstallpermissionsupdatedeventdata-fields-1previous_attributesenvironment_grants-variant-1-fields-1created_at). |
 
-### FraudWarningUpdatedMerchantEventDataPreviousAttributes.dispute variant 1
+### FraudWarningUpdatedMerchantEventDataPreviousAttributes.dispute variant 1: `closed_reason` = `"merchant_accepted"`
 
 anyOf DisputePreviousAttributes.
 
-- Optional: `amount_money`, `can_respond_with_evidence`, `case_type`, `created_at`, `customer`, `customer_id`, `dispute_id`, `evidence_due_at`, `evidence_submission_count`, `fraud_warning_id`, `has_evidence`, `is_action_required`, `is_evidence_deadline_passed`, `merchant_id`, `network_reason_code`, `order`, `order_id`, `payment_intent`, `payment_intent_id`, `payment_option`, `reason`, `recommended_evidence_types`, `response_unavailable_reason`, `split_reversals`, `status`, `status_changed_at`, `supported_actions`, `updated_at`.
+- Optional: `amount_money`, `can_respond_with_evidence`, `case_type`, `closed_reason`, `created_at`, `customer`, `customer_id`, `dispute_id`, `evidence_due_at`, `evidence_submission_count`, `fraud_warning_id`, `has_evidence`, `is_action_required`, `is_evidence_deadline_passed`, `merchant_id`, `network_reason_code`, `order`, `order_id`, `payment_intent`, `payment_intent_id`, `payment_option`, `reason`, `recommended_evidence_types`, `response_unavailable_reason`, `split_reversals`, `status`, `status_changed_at`, `supported_actions`, `updated_at`.
 
 ### FraudWarningUpdatedMerchantEventDataPreviousAttributes.dispute variant 2
 
 anyOf variant 2.
 
-- Undeclared: `amount_money`, `can_respond_with_evidence`, `case_type`, `created_at`, `customer`, `customer_id`, `dispute_id`, `evidence_due_at`, `evidence_submission_count`, `fraud_warning_id`, `has_evidence`, `is_action_required`, `is_evidence_deadline_passed`, `merchant_id`, `network_reason_code`, `order`, `order_id`, `payment_intent`, `payment_intent_id`, `payment_option`, `reason`, `recommended_evidence_types`, `response_unavailable_reason`, `split_reversals`, `status`, `status_changed_at`, `supported_actions`, `updated_at`.
+- Undeclared: `amount_money`, `can_respond_with_evidence`, `case_type`, `closed_reason`, `created_at`, `customer`, `customer_id`, `dispute_id`, `evidence_due_at`, `evidence_submission_count`, `fraud_warning_id`, `has_evidence`, `is_action_required`, `is_evidence_deadline_passed`, `merchant_id`, `network_reason_code`, `order`, `order_id`, `payment_intent`, `payment_intent_id`, `payment_option`, `reason`, `recommended_evidence_types`, `response_unavailable_reason`, `split_reversals`, `status`, `status_changed_at`, `supported_actions`, `updated_at`.
 - Value shape: null. Present only when `expand` includes `dispute`; `null` when expanded and there is no related dispute. 
 
 ### FraudWarningUpdatedMerchantEventDataPreviousAttributes.dispute variant 1.can_respond_with_evidence
@@ -89,6 +90,10 @@ Declared alternatives: [DisputeInquiryClosedMerchantEventDataPreviousAttributes.
 ### FraudWarningUpdatedMerchantEventDataPreviousAttributes.dispute variant 1.case_type
 
 Declared alternatives: [DisputeInquiryClosedMerchantEventDataPreviousAttributes.case_type](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributescase_type).
+
+### FraudWarningUpdatedMerchantEventDataPreviousAttributes.dispute variant 1.closed_reason
+
+Declared alternatives: [DisputeInquiryClosedMerchantEventDataPreviousAttributes.closed_reason](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributesclosed_reason).
 
 ### FraudWarningUpdatedMerchantEventDataPreviousAttributes.dispute variant 1.created_at
 

@@ -2,7 +2,7 @@
 
 ## PartnerAppPlatformProfileInput
 
-What the platform tells Flint for its review. It is one value: a write replaces it whole.
+What the platform tells Flint for its review. support_email, website_url and support_phone are shown to merchants on the consent screen and install resource. It is one value: a write replaces it whole.
 
 Request input.
 

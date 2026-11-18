@@ -9,7 +9,7 @@ namespace Flint;
 final class ReadersCreateConnectionSessionInput extends Model {
     /** @param array{'reader_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReadersCreateConnectionSessionInput')); }
-    /** Flint reader ID. Example: "rdr_01KEZF7C007JA0G24M7SD6P46C".
+    /** Flint reader ID. Must be a valid ID with prefix rdr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "rdr_01KEZF7C007JA0G24M7SD6P46C".
      * @return string
      * @throws SdkError When reader_id is omitted; use hasReaderId() or valueOrDefault().
      */

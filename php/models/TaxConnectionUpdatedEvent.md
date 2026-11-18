@@ -113,7 +113,7 @@ anyOf variant 2.
 
 ### TaxConnectionUpdatedEvent.data fields 1.previous_attributes.legal_address
 
-Legal business address used as the tax origin. In live mode, comes from processor-verified onboarding details before connect and the tax account snapshot once connected. In sandboxes, comes from the merchant profile. `null` when no legal address is available or the sandbox profile address is incomplete.
+Legal business address used as the tax origin. In live mode, comes from processor-verified onboarding details before connect and the tax account snapshot once connected. In sandboxes, uses an explicit legal_address supplied at connect, otherwise verified live details or the merchant profile, and retains the attested snapshot for retries and reconnects. `null` when no legal address is available.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
@@ -135,7 +135,7 @@ anyOf AddressPreviousAttributes.
 anyOf variant 2.
 
 - Undeclared: `city`, `country`, `line1`, `line2`, `postal_code`, `state`.
-- Value shape: null. Legal business address used as the tax origin. In live mode, comes from processor-verified onboarding details before connect and the tax account snapshot once connected. In sandboxes, comes from the merchant profile. `null` when no legal address is available or the sandbox profile address is incomplete. 
+- Value shape: null. Legal business address used as the tax origin. In live mode, comes from processor-verified onboarding details before connect and the tax account snapshot once connected. In sandboxes, uses an explicit legal_address supplied at connect, otherwise verified live details or the merchant profile, and retains the attested snapshot for retries and reconnects. `null` when no legal address is available. 
 
 ### TaxConnectionUpdatedEvent.data fields 1.previous_attributes.legal_address variant 1.city
 
@@ -225,15 +225,15 @@ anyOf variant 2.
 
 ### TaxConnectionUpdatedEvent.data fields 1.previous_attributes.legal_business_name variant 1
 
-anyOf variant 1: Legal business name verified by the payment processor, which can differ from the merchant-entered Merchant.business_name. Before connect, comes from verified onboarding details; once connected, comes from the tax account snapshot. In sandboxes, comes from the merchant profile. Omitted when no name is available..
+anyOf variant 1: Legal business name verified by the payment processor, which can differ from the merchant-entered Merchant.business_name. Before connect, comes from verified onboarding details; once connected, comes from the tax account snapshot. In sandboxes, uses verified live details when available, otherwise the merchant profile, and retains the connected snapshot. Omitted when no name is available..
 
-- Value shape: string. Legal business name verified by the payment processor, which can differ from the merchant-entered Merchant.business_name. Before connect, comes from verified onboarding details; once connected, comes from the tax account snapshot. In sandboxes, comes from the merchant profile. Omitted when no name is available. 
+- Value shape: string. Legal business name verified by the payment processor, which can differ from the merchant-entered Merchant.business_name. Before connect, comes from verified onboarding details; once connected, comes from the tax account snapshot. In sandboxes, uses verified live details when available, otherwise the merchant profile, and retains the connected snapshot. Omitted when no name is available. 
 
 ### TaxConnectionUpdatedEvent.data fields 1.previous_attributes.legal_business_name variant 2
 
 anyOf variant 2.
 
-- Value shape: null. Legal business name verified by the payment processor, which can differ from the merchant-entered Merchant.business_name. Before connect, comes from verified onboarding details; once connected, comes from the tax account snapshot. In sandboxes, comes from the merchant profile. Omitted when no name is available. 
+- Value shape: null. Legal business name verified by the payment processor, which can differ from the merchant-entered Merchant.business_name. Before connect, comes from verified onboarding details; once connected, comes from the tax account snapshot. In sandboxes, uses verified live details when available, otherwise the merchant profile, and retains the connected snapshot. Omitted when no name is available. 
 
 ### TaxConnectionUpdatedEvent.data fields 1.previous_attributes.seller_attestation
 
@@ -305,7 +305,7 @@ anyOf variant 2.
 
 anyOf variant 1: Machine-readable detail for `not_connected` or `attention_required`. `null` when no reason applies. Unknown reasons normalize to `other`..
 
-- Value shape: string. Machine-readable detail for `not_connected` or `attention_required`. `null` when no reason applies. Unknown reasons normalize to `other`. Values: `"not_offered"`, `"onboarding_required"`, `"tax_category_required"`, `"registration_required"`, `"temporarily_unavailable"`, `"setup_incomplete"`, `"registration_rejected"`, `"business_details_changed"`, `"support_required"`, `"disconnected"`, `"other"`, `null`.
+- Value shape: string. Machine-readable detail for `not_connected` or `attention_required`. `null` when no reason applies. Unknown reasons normalize to `other`. Values: `"not_offered"`, `"business_address_required"`, `"onboarding_required"`, `"tax_category_required"`, `"registration_required"`, `"temporarily_unavailable"`, `"setup_incomplete"`, `"registration_rejected"`, `"business_details_changed"`, `"support_required"`, `"disconnected"`, `"other"`, `null`.
 
 ### TaxConnectionUpdatedEvent.data fields 1.previous_attributes.status_reason variant 2
 
@@ -317,15 +317,15 @@ anyOf variant 2.
 
 ### TaxConnectionUpdatedEvent.data fields 1.previous_attributes.supported_actions variant 1
 
-anyOf variant 1: Lists connect when setup can complete and disconnect when automatic tax can be turned off, based on the connection state for every credential. An empty array means neither action is available. Performing either action requires settings.write..
+anyOf variant 1: Lists connect when setup can complete, including by supplying legal_address in test mode and disconnect when automatic tax can be turned off, based on the connection state for every credential. An empty array means neither action is available. Performing either action requires settings.write..
 
-- Value shape: Array of string. Lists connect when setup can complete and disconnect when automatic tax can be turned off, based on the connection state for every credential. An empty array means neither action is available. Performing either action requires settings.write. Items values: `"connect"`, `"disconnect"`.
+- Value shape: Array of string. Lists connect when setup can complete, including by supplying legal_address in test mode and disconnect when automatic tax can be turned off, based on the connection state for every credential. An empty array means neither action is available. Performing either action requires settings.write. Items values: `"connect"`, `"disconnect"`.
 
 ### TaxConnectionUpdatedEvent.data fields 1.previous_attributes.supported_actions variant 2
 
 anyOf variant 2.
 
-- Value shape: null. Lists connect when setup can complete and disconnect when automatic tax can be turned off, based on the connection state for every credential. An empty array means neither action is available. Performing either action requires settings.write. 
+- Value shape: null. Lists connect when setup can complete, including by supplying legal_address in test mode and disconnect when automatic tax can be turned off, based on the connection state for every credential. An empty array means neither action is available. Performing either action requires settings.write. 
 
 ### TaxConnectionUpdatedEvent.data fields 1.previous_attributes.tax_connection_id
 

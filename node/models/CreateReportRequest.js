@@ -1,11 +1,10 @@
-import { d368 as c0 } from '../descriptors/data/22.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
-import { d10163 as c1 } from '../descriptors/data/474.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
-import { d10164 as c2 } from '../descriptors/data/475.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
-import { d368 as d368 } from '../descriptors/data/22.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
+import { d375 as c0 } from '../descriptors/data/23.js?sdk=2fdad7cfcd1c92049468fb02e68ab24a81da669c248e8713cf6a7575952568a5';
+import { d10481 as c1, d10482 as c2 } from '../descriptors/data/488.js?sdk=2fdad7cfcd1c92049468fb02e68ab24a81da669c248e8713cf6a7575952568a5';
+import { d375 as d375 } from '../descriptors/data/23.js?sdk=2fdad7cfcd1c92049468fb02e68ab24a81da669c248e8713cf6a7575952568a5';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d368;
+const read = d375;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CreateReportRequest"]:c0(),["SharedCodec539"]:c1(),["SharedCodec540"]:c2()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["CreateReportRequest"]:c0(),["SharedCodec545"]:c1(),["SharedCodec546"]:c2()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeCreateReportRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

@@ -47,11 +47,12 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `customer` | Optional | [ExpandedCustomerSummaryPreviousAttributesInput](../models/ExpandedCustomerSummaryPreviousAttributesInput.md#expandedcustomersummarypreviousattributesinput) or null | Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. |
 | `customer_id` | Optional | string or null | Customer this payment method belongs to. `customer_id`: [declared alternatives](../models/ExpandedPaymentMethodSummaryPreviousAttributesInput.md#expandedpaymentmethodsummarypreviousattributesinputcustomer_id). |
 | `fingerprint` | Optional | string or null | A value that is the same for every saved copy of one card number at this merchant and environment, so you can spot duplicates. It doesn't identify the card anywhere else. A card added through Apple Pay or Google Pay can have a different fingerprint from the same card typed in. `fingerprint`: [declared alternatives](../models/PaymentMethodActivatedInstalledMerchantsEventInput.md#paymentmethodactivatedinstalledmerchantseventinputdataprevious_attributesfingerprint). |
-| `is_default` | Optional | boolean or null | Whether this is the customer's default payment method, the one Customer.default_payment_method_id names. Change the default with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method event. `is_default`: [declared alternatives](../models/PaymentMethodActivatedInstalledMerchantsEventInput.md#paymentmethodactivatedinstalledmerchantseventinputdataprevious_attributesis_default). |
+| `is_default` | Optional | boolean or null | Whether this is the customer's default payment method, the one Customer.default_payment_method_id names. Change the default with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method event. Existing subscriptions keep their payment_method_id. `is_default`: [declared alternatives](../models/PaymentMethodActivatedInstalledMerchantsEventInput.md#paymentmethodactivatedinstalledmerchantseventinputdataprevious_attributesis_default). |
+| `is_removing` | Optional | boolean or null | Removal is in progress. Show this card as Removing and offer retry with DELETE /v1/payment-methods/{payment_method_id}, or DELETE /v1/me/payment-methods/{payment_method_id} for buyers. Do not offer it for a new payment, subscription, or default. Flint retries abandoned removals automatically. `is_removing`: [declared alternatives](../models/PaymentMethodActivatedInstalledMerchantsEventInput.md#paymentmethodactivatedinstalledmerchantseventinputdataprevious_attributesis_removing). |
 | `merchant_id` | Optional | string or null | ID of the merchant this resource belongs to. `merchant_id`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributesmerchant_id). |
 | `payment_method_id` | Optional | string or null | Unique identifier for this payment method, prefixed `pm_`. `payment_method_id`: [declared alternatives](../models/ExpandedPaymentMethodSummaryPreviousAttributesInput.md#expandedpaymentmethodsummarypreviousattributesinputpayment_method_id). |
 | `saved_with` | Optional | string or null | Where the buyer saved this payment method. Returned on /v1/me/payment-methods responses when Flint wallet support is enabled. Accept future values. Values: `"flint"`, `"store"`. `saved_with`: [declared alternatives](../models/PaymentMethodActivatedInstalledMerchantsEventInput.md#paymentmethodactivatedinstalledmerchantseventinputdataprevious_attributessaved_with). |
-| `status` | Optional | string or null | Whether the payment method can be charged. Treat any value other than active as not chargeable, including values added later. Values: `"pending"`, `"active"`, `"expired"`, `"archived"`, `"failed"`. `status`: [declared alternatives](../models/ExpandedPaymentMethodSummaryPreviousAttributesInput.md#expandedpaymentmethodsummarypreviousattributesinputstatus). |
+| `status` | Optional | string or null | The saved card lifecycle. Offer the card for a new payment only when status is active and is_removing is false. Treat any other status as not chargeable, including values added later. Values: `"pending"`, `"active"`, `"expired"`, `"archived"`, `"failed"`. `status`: [declared alternatives](../models/PaymentMethodActivatedInstalledMerchantsEventInput.md#paymentmethodactivatedinstalledmerchantseventinputdataprevious_attributesstatus). |
 | `type` | Optional | string or null | Kind of payment method. Values: `"card"`. `type`: [declared alternatives](../models/ExpandedPaymentMethodSummaryPreviousAttributesInput.md#expandedpaymentmethodsummarypreviousattributesinputtype). |
 | `updated_at` | Optional | string or null | RFC3339 timestamp. `updated_at`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at). |
 | `usage` | Optional | string or null | When Flint may charge the payment method. off_session payment methods can pay subscriptions, automatic invoices, and other charges without the buyer, and can be a customer's default. on_session payment methods were saved by the buyer in checkout for faster checkout at this merchant; Flint charges them only in checkouts the buyer completes and refuses them for any charge without the buyer and as a default. Payment methods saved before usage existed are off_session. Values: `"on_session"`, `"off_session"`. `usage`: [declared alternatives](../models/PaymentMethodActivatedInstalledMerchantsEventInput.md#paymentmethodactivatedinstalledmerchantseventinputdataprevious_attributesusage). |
@@ -82,15 +83,29 @@ anyOf variant 2.
 
 ### PaymentMethodActivatedInstalledMerchantsEventInput.data.previous_attributes.is_default variant 1
 
-anyOf variant 1: Whether this is the customer's default payment method, the one Customer.default_payment_method_id names. Change the default with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method event..
+anyOf variant 1: Whether this is the customer's default payment method, the one Customer.default_payment_method_id names. Change the default with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method event. Existing subscriptions keep their payment_method_id..
 
-- Value shape: boolean. Whether this is the customer's default payment method, the one Customer.default_payment_method_id names. Change the default with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method event. 
+- Value shape: boolean. Whether this is the customer's default payment method, the one Customer.default_payment_method_id names. Change the default with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method event. Existing subscriptions keep their payment_method_id. 
 
 ### PaymentMethodActivatedInstalledMerchantsEventInput.data.previous_attributes.is_default variant 2
 
 anyOf variant 2.
 
-- Value shape: null. Whether this is the customer's default payment method, the one Customer.default_payment_method_id names. Change the default with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method event. 
+- Value shape: null. Whether this is the customer's default payment method, the one Customer.default_payment_method_id names. Change the default with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method event. Existing subscriptions keep their payment_method_id. 
+
+### PaymentMethodActivatedInstalledMerchantsEventInput.data.previous_attributes.is_removing
+
+### PaymentMethodActivatedInstalledMerchantsEventInput.data.previous_attributes.is_removing variant 1
+
+anyOf variant 1: Removal is in progress. Show this card as Removing and offer retry with DELETE /v1/payment-methods/{payment_method_id}, or DELETE /v1/me/payment-methods/{payment_method_id} for buyers. Do not offer it for a new payment, subscription, or default. Flint retries abandoned removals automatically..
+
+- Value shape: boolean. Removal is in progress. Show this card as Removing and offer retry with DELETE /v1/payment-methods/{payment_method_id}, or DELETE /v1/me/payment-methods/{payment_method_id} for buyers. Do not offer it for a new payment, subscription, or default. Flint retries abandoned removals automatically. 
+
+### PaymentMethodActivatedInstalledMerchantsEventInput.data.previous_attributes.is_removing variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Removal is in progress. Show this card as Removing and offer retry with DELETE /v1/payment-methods/{payment_method_id}, or DELETE /v1/me/payment-methods/{payment_method_id} for buyers. Do not offer it for a new payment, subscription, or default. Flint retries abandoned removals automatically. 
 
 ### PaymentMethodActivatedInstalledMerchantsEventInput.data.previous_attributes.merchant_id
 
@@ -116,7 +131,17 @@ anyOf variant 2.
 
 ### PaymentMethodActivatedInstalledMerchantsEventInput.data.previous_attributes.status
 
-Declared alternatives: [ExpandedPaymentMethodSummaryPreviousAttributesInput.status](../models/ExpandedPaymentMethodSummaryPreviousAttributesInput.md#expandedpaymentmethodsummarypreviousattributesinputstatus).
+### PaymentMethodActivatedInstalledMerchantsEventInput.data.previous_attributes.status variant 1
+
+anyOf variant 1: The saved card lifecycle. Offer the card for a new payment only when status is active and is_removing is false. Treat any other status as not chargeable, including values added later..
+
+- Value shape: string. The saved card lifecycle. Offer the card for a new payment only when status is active and is_removing is false. Treat any other status as not chargeable, including values added later. Values: `"pending"`, `"active"`, `"expired"`, `"archived"`, `"failed"`.
+
+### PaymentMethodActivatedInstalledMerchantsEventInput.data.previous_attributes.status variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The saved card lifecycle. Offer the card for a new payment only when status is active and is_removing is false. Treat any other status as not chargeable, including values added later. 
 
 ### PaymentMethodActivatedInstalledMerchantsEventInput.data.previous_attributes.type
 

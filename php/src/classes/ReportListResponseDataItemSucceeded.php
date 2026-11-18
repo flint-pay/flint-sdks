@@ -57,7 +57,7 @@ final class ReportListResponseDataItemSucceeded extends Model {
      */
     public function getReportId(): string { return $this->get('report_id'); }
     public function hasReportId(): bool { return $this->has('report_id'); }
-    /** The report's type and column version. See the Reports guide for its columns. Value enum: "receivables_aging_v1", "invoices_itemized_v1", "gift_card_liability_v1", "orders_itemized_v1", "orders_itemized_v2", "payments_itemized_v1", "balance_transactions_itemized_v1", "payouts_itemized_v1", "tax_itemized_v1", "tax_summarized_v1", "merchant_billing_itemized_v1", "tax_transactions_itemized_v1", "tax_transactions_itemized_v2".
+    /** The report's type and column version. See the Reports guide for its columns. Value enum: "receivables_aging_v1", "invoices_itemized_v1", "gift_card_liability_v1", "orders_itemized_v1", "orders_itemized_v2", "payments_itemized_v1", "balance_transactions_itemized_v1", "payouts_itemized_v1", "tax_itemized_v1", "tax_summarized_v1", "merchant_billing_itemized_v1", "tax_transactions_itemized_v1", "tax_transactions_itemized_v2", "tax_transactions_summarized_v2".
      * @return string
      */
     public function getReportType(): string { return $this->get('report_type'); }

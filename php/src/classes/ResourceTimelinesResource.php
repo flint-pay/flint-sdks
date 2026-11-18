@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 final class ResourceTimelinesResource {
     public function __construct(private readonly Runtime $runtime) {}
-    /** Returns summary-only API request, webhook event, webhook delivery attempt, and image mutation entries for a single public API resource. The caller must have developer.resource_timelines.read and the matching read scope for the requested resource type. Default order: occurred_at descending, then resource_timeline_entry_id descending.
+    /** Returns summary-only API request, webhook event, webhook delivery attempt, image mutation, and license key pool authorization entries for a single public API resource. The caller must have developer.resource_timelines.read and the matching read scope for the requested resource type. Default order: occurred_at descending, then resource_timeline_entry_id descending.
      * @param string|Model $resource_id Flint public API resource ID.
      * @param ResourceTimelinesGetParams|array<array-key, mixed>|Model|null $params Flat body fields and query/header parameters; path arguments follow URL order.
      * @return ResourceTimeline

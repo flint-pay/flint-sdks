@@ -21,8 +21,8 @@ cancelEmailChangeRequest(customer_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_id` | Required | string | Flint customer ID. |
-| `email_change_request_id` | Required | string | Flint email change request ID. |
+| `customer_id` | Required | string | Flint customer ID. Must be a valid ID with prefix cus_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
+| `email_change_request_id` | Required | string | Flint email change request ID. Must be a valid ID with prefix cecr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -92,14 +92,14 @@ Body model: [CreateCustomerRequestInput](../models/CreateCustomerRequest.md#crea
 | --- | --- | --- | --- |
 | `addresses` | Optional | Array of [CreateCustomerAddressRequestInput](../models/CreateCustomerAddressRequest.md#createcustomeraddressrequest) | Initial saved addresses, created atomically with the customer. Each entry uses the address-book create shape. At most one entry may be the billing default and one the shipping default. Defaults populate billing_address and shipping_address. Omit or send [] for none. When on_email_conflict is return_existing, an existing customer and its addresses stay unchanged. |
 | `default_invoice_payment_term_id` | Optional | string | ID of the invoice payment term that applies to this customer's invoices created with `payment_due.type` set to `customer_default`. minLength: `1`. |
-| `email` | Optional | string | Customer email, unique among the environment's customers. Required when `on_email_conflict` is `return_existing`. Format: `email`. minLength: `1`. maxLength: `320`. |
+| `email` | Optional | string | Customer email, unique among the environment's customers. Required when `on_email_conflict` is `return_existing`. The local part before @ must be at most 64 octets (UTF-8 bytes). Format: `email`. minLength: `1`. maxLength: `320`. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
-| `internal_note` | Optional | string | Internal note about this customer. Not returned to customer sessions. minLength: `1`. |
+| `internal_note` | Optional | string | Internal note about this customer. Not returned to customer sessions. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `1000`. |
 | `is_merchant_verified` | Optional | boolean | Flag you set on the customer, for example after checking ID in store. Promotion and delivery rules can match it. Flint does not set it; it is unrelated to customer verifications, which prove a buyer controls an email address. |
 | `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
-| `name` | Optional | string | Customer name, up to 255 characters (Unicode code points) after trimming surrounding whitespace. minLength: `1`. |
+| `name` | Optional | string | Customer name, up to 255 characters (Unicode code points) after trimming surrounding whitespace. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. |
 | `on_email_conflict` | Optional | string | What to do when an active customer in this environment already has `email`. `error` returns `409 ALREADY_EXISTS` naming that customer. `return_existing` returns that customer unchanged with `200` instead of creating one; it requires `email`. Emails match case-insensitively. Default: `"error"`. Values: `"error"`, `"return_existing"`. |
-| `phone` | Optional | string | Customer phone number. minLength: `1`. |
+| `phone` | Optional | string | Customer phone number in E.164 format: a leading `+`, then the country code and number as digits only, such as `+14155551234`, matching `^\+[1-9][0-9]{1,14}$`. Flint trims surrounding whitespace but rejects spaces, hyphens, dots, and parentheses inside the number, so send `+14155550100`, not `+1 (415) 555-0100`. Leave out a national trunk prefix: send `+442079460958`, not `+4402079460958`. minLength: `1`. |
 | `price_list_id` | Optional | string or null | ID of a wholesale price list in this merchant environment. An inactive list can be assigned but does not apply. An archived list returns 409 ACTION_NOT_ALLOWED; a missing list returns 404 RESOURCE_NOT_FOUND. Omit or send null for no direct list. minLength: `1`. pattern: `^prl_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `segment` | Optional | string | Free-form label you assign, such as wholesale, so promotion and delivery rules can match groups of customers. It is not an ID; Flint does not check it against any resource. minLength: `1`. |
 | `tax_exempt` | Optional | boolean | Whether Flint treats this customer as exempt from tax on their orders, so it skips tax calculation for them. Defaults to `false`. |
@@ -160,7 +160,7 @@ Signature: `createAccessLink(customer_id: InputValue<string>, params?: Customers
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_id` | Required | string | Flint customer ID. |
+| `customer_id` | Required | string | Flint customer ID. Must be a valid ID with prefix cus_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Optional | [CreateCustomerAccessLinkRequestInput](../models/CreateCustomerAccessLinkRequest.md#createcustomeraccesslinkrequest) | Delivery mode, link lifetime, and return destination for a customer account link. |
 
 Body model: [CreateCustomerAccessLinkRequestInput](../models/CreateCustomerAccessLinkRequest.md#createcustomeraccesslinkrequest).
@@ -227,7 +227,7 @@ Signature: `createAddress(customer_id: InputValue<string>, params: CustomersCrea
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_id` | Required | string | Flint customer ID. |
+| `customer_id` | Required | string | Flint customer ID. Must be a valid ID with prefix cus_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -293,7 +293,7 @@ createEmailChangeRequest(customer_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_id` | Required | string | Flint customer ID. |
+| `customer_id` | Required | string | Flint customer ID. Must be a valid ID with prefix cus_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -353,7 +353,7 @@ Signature: `createTaxExemption(customer_id: InputValue<string>, params: Customer
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_id` | Required | string | Flint ID of the customer that owns this nested child. |
+| `customer_id` | Required | string | Flint ID of the customer that owns this nested child. Must be a valid ID with prefix cus_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Required | [CreateCustomerTaxExemptionRequestInput](../models/CreateCustomerTaxExemptionRequest.md#createcustomertaxexemptionrequest) | The request body for: Create a customer tax exemption. |
 
 Body model: [CreateCustomerTaxExemptionRequestInput](../models/CreateCustomerTaxExemptionRequest.md#createcustomertaxexemptionrequest).
@@ -432,8 +432,8 @@ deleteAddress(customer_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_id` | Required | string | Flint customer ID. |
-| `customer_address_id` | Required | string | Flint customer address ID. |
+| `customer_id` | Required | string | Flint customer ID. Must be a valid ID with prefix cus_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
+| `customer_address_id` | Required | string | Flint customer address ID. Must be a valid ID with prefix caddr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `expected_version` | Optional | integer | Optional address version last read by the caller. Format: `uint64`. minimum: `1`. maximum: `9007199254740991`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
@@ -498,8 +498,8 @@ deleteTaxExemption(customer_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_id` | Required | string | Flint ID of the customer that owns this nested child. |
-| `customer_tax_exemption_id` | Required | string | Flint customer tax exemption ID, prefixed ctex_. |
+| `customer_id` | Required | string | Flint ID of the customer that owns this nested child. Must be a valid ID with prefix cus_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
+| `customer_tax_exemption_id` | Required | string | Flint customer tax exemption ID, prefixed ctex_. Must be a valid ID with prefix ctex_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `expected_version` | Optional | integer | Resource version last read by the caller. Omit to archive the current record. Format: `uint64`. minimum: `1`. maximum: `9007199254740991`. |
 
 #### Response
@@ -554,7 +554,7 @@ Signature: `get(customer_id: InputValue<string>, params?: CustomersGetParams, op
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_id` | Required | string | Flint customer ID. |
+| `customer_id` | Required | string | Flint customer ID. Must be a valid ID with prefix cus_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: default_payment_method, receivables. Expanding the default payment method requires customers.read plus payments.payment_methods.read. Limits: at most 10 unique expand paths per request. Items values: `"default_payment_method"`, `"receivables"`. Values: `"default_payment_method"`, `"receivables"`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
@@ -614,8 +614,8 @@ getAddress(customer_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_id` | Required | string | Flint customer ID. |
-| `customer_address_id` | Required | string | Flint customer address ID. |
+| `customer_id` | Required | string | Flint customer ID. Must be a valid ID with prefix cus_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
+| `customer_address_id` | Required | string | Flint customer address ID. Must be a valid ID with prefix caddr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -727,7 +727,7 @@ getEmailPreferences(customer_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_id` | Required | string | Flint customer ID. |
+| `customer_id` | Required | string | Flint customer ID. Must be a valid ID with prefix cus_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -786,8 +786,8 @@ getTaxExemption(customer_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_id` | Required | string | Flint ID of the customer that owns this nested child. |
-| `customer_tax_exemption_id` | Required | string | Flint customer tax exemption ID, prefixed ctex_. |
+| `customer_id` | Required | string | Flint ID of the customer that owns this nested child. Must be a valid ID with prefix cus_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
+| `customer_tax_exemption_id` | Required | string | Flint customer tax exemption ID, prefixed ctex_. Must be a valid ID with prefix ctex_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 
@@ -836,7 +836,7 @@ Signature: `linkGuestPurchases(customer_id: InputValue<string>, params: Customer
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_id` | Required | string | Flint customer ID. |
+| `customer_id` | Required | string | Flint customer ID. Must be a valid ID with prefix cus_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Required | [LinkCustomerGuestPurchasesRequestInput](../models/LinkCustomerGuestPurchasesRequest.md#linkcustomerguestpurchasesrequest) | The request body for: Link guest purchases to a customer. |
 
 Body model: [LinkCustomerGuestPurchasesRequestInput](../models/LinkCustomerGuestPurchasesRequest.md#linkcustomerguestpurchasesrequest).
@@ -977,7 +977,7 @@ listAddresses(customer_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_id` | Required | string | Flint customer ID. |
+| `customer_id` | Required | string | Flint customer ID. Must be a valid ID with prefix cus_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -1039,7 +1039,7 @@ listEmailChangeRequests(customer_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_id` | Required | string | Flint customer ID. |
+| `customer_id` | Required | string | Flint customer ID. Must be a valid ID with prefix cus_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `status` | Optional | Array of string or string | Only return requests in these statuses. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending"`, `"confirmed"`, `"canceled"`, `"expired"`. Values: `"pending"`, `"confirmed"`, `"canceled"`, `"expired"`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
@@ -1102,7 +1102,7 @@ listTaxExemptions(customer_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_id` | Required | string | Flint ID of the customer that owns this nested child. |
+| `customer_id` | Required | string | Flint ID of the customer that owns this nested child. Must be a valid ID with prefix cus_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `status` | Optional | Array of string or string | Filter by status. Omitted, the list leaves out archived rows; name archived to include them. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"scheduled"`, `"active"`, `"expired"`, `"archived"`. Values: `"scheduled"`, `"active"`, `"expired"`, `"archived"`. |
@@ -1156,7 +1156,7 @@ Signature: `revokeSessions(customer_id: InputValue<string>, params?: CustomersRe
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_id` | Required | string | Flint customer ID. |
+| `customer_id` | Required | string | Flint customer ID. Must be a valid ID with prefix cus_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 
@@ -1210,7 +1210,7 @@ Signature: `update(customer_id: InputValue<string>, params: CustomersUpdateParam
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_id` | Required | string | Flint customer ID. |
+| `customer_id` | Required | string | Flint customer ID. Must be a valid ID with prefix cus_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -1223,15 +1223,15 @@ Body model: [UpdateCustomerRequestInput](../models/UpdateCustomerRequest.md#upda
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `default_invoice_payment_term_id` | Optional | string or null | Default payment term for this customer's invoices. Send null to clear it. minLength: `1`. |
-| `default_payment_method_id` | Optional | string or null | The active off_session payment method to use by default. Omit to leave unchanged; null clears it. A change sends customer.updated. minLength: `1`. |
-| `email` | Optional | string or null | The customer's email. Omit to leave unchanged; null clears it. In `flint_hosted` mode, you can set, correct, or clear the email until the buyer authenticates or verifies ownership of it. Existing identities with unknown sign-in history remain protected and require a buyer-confirmed change. In `merchant_hosted` mode, you can set, change, or clear it. An email change ends customer sessions and access links for the old address. Format: `email`. minLength: `1`. maxLength: `320`. |
+| `default_payment_method_id` | Optional | string or null | The active off_session payment method to use by default. Existing subscriptions keep their payment_method_id. Omit to leave unchanged; null clears it. A change sends customer.updated. minLength: `1`. |
+| `email` | Optional | string or null | The customer's email. Omit to leave unchanged; null clears it. In `flint_hosted` mode, you can set, correct, or clear the email until the buyer authenticates or verifies ownership of it. Existing identities with unknown sign-in history remain protected and require a buyer-confirmed change. In `merchant_hosted` mode, you can set, change, or clear it. An email change ends customer sessions and access links for the old address. The local part before @ must be at most 64 octets (UTF-8 bytes). Format: `email`. minLength: `1`. maxLength: `320`. |
 | `expected_version` | Optional | integer | Required when tax_identity is null or tax_identity.tax_ids is present. Stale versions return a conflict. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Omit to leave unchanged; null clears it. minLength: `1`. maxLength: `255`. |
-| `internal_note` | Optional | string or null | Internal note about this customer. Omit to leave unchanged; null clears it. minLength: `1`. |
+| `internal_note` | Optional | string or null | Internal note about this customer. Omit to leave unchanged; null clears it. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `1000`. |
 | `is_merchant_verified` | Optional | boolean | Flag you set on the customer, for example after checking ID in store. Promotion and delivery rules can match it. Flint does not set it; it is unrelated to customer verifications, which prove a buyer controls an email address. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequest.md#metadatapatchrequest) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. This operation also limits the metadata object you send, before merging: at most 50 keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768 UTF-8 bytes of keys plus values. |
-| `name` | Optional | string or null | Customer name, up to 255 characters (Unicode code points) after trimming surrounding whitespace. Omit to leave unchanged; null clears it. minLength: `1`. |
-| `phone` | Optional | string or null | Customer phone number. Omit to leave unchanged; null clears it. minLength: `1`. |
+| `name` | Optional | string or null | Customer name, up to 255 characters (Unicode code points) after trimming surrounding whitespace. Omit to leave unchanged; null clears it. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. |
+| `phone` | Optional | string or null | Customer phone number in E.164 format: a leading `+`, then the country code and number as digits only, such as `+14155551234`, matching `^\+[1-9][0-9]{1,14}$`. Flint trims surrounding whitespace but rejects spaces, hyphens, dots, and parentheses inside the number, so send `+14155550100`, not `+1 (415) 555-0100`. Leave out a national trunk prefix: send `+442079460958`, not `+4402079460958`. Omit to leave unchanged; null clears it. minLength: `1`. |
 | `price_list_id` | Optional | string or null | ID of a wholesale price list in this merchant environment. Omit to leave unchanged; null clears it. An inactive list can be assigned but does not apply. An archived list returns 409 ACTION_NOT_ALLOWED; a missing list returns 404 RESOURCE_NOT_FOUND. minLength: `1`. pattern: `^prl_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `segment` | Optional | string or null | Free-form label you assign, such as wholesale, so promotion and delivery rules can match groups of customers. It is not an ID; Flint does not check it against any resource. Omit to leave unchanged; null clears it. minLength: `1`. |
 | `tax_exempt` | Optional | boolean | Whether Flint treats this customer as exempt from tax on their orders, so it skips tax calculation for them. Omit to leave unchanged; `null` is not accepted. |
@@ -1298,8 +1298,8 @@ updateAddress(customer_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_id` | Required | string | Flint customer ID. |
-| `customer_address_id` | Required | string | Flint customer address ID. |
+| `customer_id` | Required | string | Flint customer ID. Must be a valid ID with prefix cus_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
+| `customer_address_id` | Required | string | Flint customer address ID. Must be a valid ID with prefix caddr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -1366,8 +1366,8 @@ updateTaxExemption(customer_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_id` | Required | string | Flint ID of the customer that owns this nested child. |
-| `customer_tax_exemption_id` | Required | string | Flint customer tax exemption ID, prefixed ctex_. |
+| `customer_id` | Required | string | Flint ID of the customer that owns this nested child. Must be a valid ID with prefix cus_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
+| `customer_tax_exemption_id` | Required | string | Flint customer tax exemption ID, prefixed ctex_. Must be a valid ID with prefix ctex_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Required | [UpdateCustomerTaxExemptionRequestInput](../models/UpdateCustomerTaxExemptionRequest.md#updatecustomertaxexemptionrequest) | Sparse patch. Omitted fields stay unchanged. Expired and archived records cannot be edited. A version fence alone is not a change. minProperties: `1`. |
 
 Body model: [UpdateCustomerTaxExemptionRequestInput](../models/UpdateCustomerTaxExemptionRequest.md#updatecustomertaxexemptionrequest).

@@ -10,7 +10,7 @@ namespace Flint;
 final class PriceListsCreatePricesInput extends Model {
     /** @param array{'price_list_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'expected_price_list_version'?: int, 'on_variant_conflict'?: string, 'prices': list<mixed>}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PriceListsCreatePricesInput')); }
-    /** Flint price list id. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+    /** Flint price list id. Must be a valid ID with prefix prl_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
      * @return string
      * @throws SdkError When price_list_id is omitted; use hasPriceListId() or valueOrDefault().
      */

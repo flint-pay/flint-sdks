@@ -10,7 +10,7 @@ namespace Flint;
 final class PaymentMethodsGetInput extends Model {
     /** @param array{'payment_method_id': string, 'expand'?: list<string>|string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentMethodsGetInput')); }
-    /** Flint payment method ID. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
+    /** Flint payment method ID. Must be a valid ID with prefix pm_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
      * @return string
      * @throws SdkError When payment_method_id is omitted; use hasPaymentMethodId() or valueOrDefault().
      */

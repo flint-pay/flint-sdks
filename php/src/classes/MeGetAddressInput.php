@@ -9,7 +9,7 @@ namespace Flint;
 final class MeGetAddressInput extends Model {
     /** @param array{'customer_address_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeGetAddressInput')); }
-    /** Flint customer address ID. Example: "caddr_01KEZF7C00K2Q127FBJAXWB0FP".
+    /** Flint customer address ID. Must be a valid ID with prefix caddr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "caddr_01KEZF7C00K2Q127FBJAXWB0FP".
      * @return string
      * @throws SdkError When customer_address_id is omitted; use hasCustomerAddressId() or valueOrDefault().
      */

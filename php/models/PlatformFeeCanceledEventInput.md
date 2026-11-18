@@ -45,7 +45,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `amount_money` | Optional | [MoneyValuePreviousAttributesInput](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinput) or null | The fee Flint will charge until the payment succeeds, then the fee charged. Flint lowers it at confirm and capture to fit the merchant's cap and Flint's own fees; 0 once canceled. |
-| `canceled_reason` | Optional | string or null | Why Flint collected no fee. Present only when status is canceled. Can gain values. Values: `"payment_not_completed"`, `"install_revoked"`, `"platform_capability_inactive"`, `"uncollectible"`. `canceled_reason`: [declared alternatives](../models/PlatformFeeCanceledEventInput.md#platformfeecanceledeventinputdataprevious_attributescanceled_reason). |
+| `canceled_reason` | Optional | string or null | Why Flint collected no fee. Present only when status is canceled. Can gain values. Values: `"payment_not_completed"`, `"install_revoked"`, `"install_revoked_by_app"`, `"platform_capability_inactive"`, `"uncollectible"`. `canceled_reason`: [declared alternatives](../models/PlatformFeeCanceledEventInput.md#platformfeecanceledeventinputdataprevious_attributescanceled_reason). |
 | `checkout_session_id` | Optional | string or null | The checkout session the payment came from. Absent when the fee was sent with the payment itself. `checkout_session_id`: [declared alternatives](../models/PlatformFeeCanceledEventInput.md#platformfeecanceledeventinputdataprevious_attributescheckout_session_id). |
 | `collected_at` | Optional | string or null | When Flint collected the fee with the payment. Absent unless status is succeeded. `collected_at`: [declared alternatives](../models/PlatformFeeCanceledEventInput.md#platformfeecanceledeventinputdataprevious_attributescollected_at). |
 | `created_at` | Optional | string or null | When the payment's create recorded the fee. `created_at`: [declared alternatives](../models/PlatformFeeCanceledEventInput.md#platformfeecanceledeventinputdataprevious_attributescreated_at). |
@@ -56,8 +56,8 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `platform_fee_id` | Optional | string or null | Unique identifier for the platform fee, the payment intent's platform_fee.platform_fee_id. `platform_fee_id`: [declared alternatives](../models/PlatformFeeCanceledEventInput.md#platformfeecanceledeventinputdataprevious_attributesplatform_fee_id). |
 | `refunded_money` | Optional | [MoneyValuePreviousAttributesInput](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinput) or null | The fee debited from the platform for returns so far, including opted-in payment refunds and returns of the whole application fee. Matches the platform ledger, including returns awaiting completion; reversals reduce the total. 0 when nothing has been debited. |
 | `requested_amount_money` | Optional | [MoneyValuePreviousAttributesInput](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinput) or null | The fee the request asked for. |
-| `reserve_available_at` | Optional | string or null | When the held share is due to return to your available balance. Absent until the fee posts, and when nothing was held. Setting it sends no event. `reserve_available_at`: [declared alternatives](../models/PlatformFeeCanceledEventInput.md#platformfeecanceledeventinputdataprevious_attributesreserve_available_at). |
-| `reserve_hold_money` | Optional | [MoneyValuePreviousAttributesInput](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinput) or null | The share of the fee Flint held in your reserve when it posted the fee to your ledger. Absent until then. A snapshot: loss coverage draws on the reserve as a whole, so read PlatformFeeBalance.reserve_money for what is held now. Setting it sends no event. |
+| `reserve_available_at` | Optional | string or null | The original scheduled release date of the held share. Refunds can release their proportional share early. Absent until the fee posts, and when nothing was held. Setting it sends no event. `reserve_available_at`: [declared alternatives](../models/PlatformFeeCanceledEventInput.md#platformfeecanceledeventinputdataprevious_attributesreserve_available_at). |
+| `reserve_hold_money` | Optional | [MoneyValuePreviousAttributesInput](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinput) or null | The share of the fee Flint held in your reserve when it posted the fee to your ledger. Absent until then. The original collection snapshot: refunds release their proportional share early, and loss coverage draws on the reserve as a whole. Read PlatformFeeBalance.reserve_money for what is held now. Setting it sends no event. |
 | `status` | Optional | string or null | Where the fee stands. canceled is final. Values: `"pending"`, `"succeeded"`, `"canceled"`. `status`: [declared alternatives](../models/PlatformFeeCanceledEventInput.md#platformfeecanceledeventinputdataprevious_attributesstatus). |
 | `updated_at` | Optional | string or null | When the fee last changed. `updated_at`: [declared alternatives](../models/PlatformFeeCanceledEventInput.md#platformfeecanceledeventinputdataprevious_attributesupdated_at). |
 | `version` | Optional | integer or null | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. `version`: [declared alternatives](../models/BuyerExpandedPaymentIntentSummaryPreviousAttributesInput.md#buyerexpandedpaymentintentsummarypreviousattributesinputversion). |
@@ -68,7 +68,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 anyOf variant 1: Why Flint collected no fee. Present only when status is canceled. Can gain values..
 
-- Value shape: string. Why Flint collected no fee. Present only when status is canceled. Can gain values. Values: `"payment_not_completed"`, `"install_revoked"`, `"platform_capability_inactive"`, `"uncollectible"`.
+- Value shape: string. Why Flint collected no fee. Present only when status is canceled. Can gain values. Values: `"payment_not_completed"`, `"install_revoked"`, `"install_revoked_by_app"`, `"platform_capability_inactive"`, `"uncollectible"`.
 
 ### PlatformFeeCanceledEventInput.data.previous_attributes.canceled_reason variant 2
 
@@ -192,15 +192,15 @@ anyOf variant 2.
 
 ### PlatformFeeCanceledEventInput.data.previous_attributes.reserve_available_at variant 1
 
-anyOf variant 1: When the held share is due to return to your available balance. Absent until the fee posts, and when nothing was held. Setting it sends no event..
+anyOf variant 1: The original scheduled release date of the held share. Refunds can release their proportional share early. Absent until the fee posts, and when nothing was held. Setting it sends no event..
 
-- Value shape: string. When the held share is due to return to your available balance. Absent until the fee posts, and when nothing was held. Setting it sends no event. When the held share is due to return to your available balance. Absent until the fee posts, and when nothing was held. Setting it sends no event. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+- Value shape: string. The original scheduled release date of the held share. Refunds can release their proportional share early. Absent until the fee posts, and when nothing was held. Setting it sends no event. The original scheduled release date of the held share. Refunds can release their proportional share early. Absent until the fee posts, and when nothing was held. Setting it sends no event. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
 
 ### PlatformFeeCanceledEventInput.data.previous_attributes.reserve_available_at variant 2
 
 anyOf variant 2.
 
-- Value shape: null. When the held share is due to return to your available balance. Absent until the fee posts, and when nothing was held. Setting it sends no event. 
+- Value shape: null. The original scheduled release date of the held share. Refunds can release their proportional share early. Absent until the fee posts, and when nothing was held. Setting it sends no event. 
 
 ### PlatformFeeCanceledEventInput.data.previous_attributes.status
 

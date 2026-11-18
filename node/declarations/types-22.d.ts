@@ -1,17 +1,13 @@
 import type {
-    DeliveryProfileOriginPolicyInputFixedLocation,
-    DeliveryProfileOriginPolicyInputInventoryRouting,
-    DeliveryProfileOriginPolicyInputMethodOrigin,
-    DeliveryProfileOriginPolicyInputFixedLocationInput,
-    DeliveryProfileOriginPolicyInputInventoryRoutingInput,
-    DeliveryProfileOriginPolicyInputMethodOriginInput,
+    DeliveryProfileConfigurationInputNoneInput,
+    DeliveryProfileConfigurationInputRequiredInput,
     DeliveryProfile,
     DeliveryProfileConfigurationPreviousAttributes
 } from './types-21.js';
-import type { ResponseMeta } from './types-60.js';
-import type { MerchantWebhookEnvelope, MetadataMap } from './types-41.js';
-import type { PartnerWebhookEnvelope } from './types-49.js';
-import type { WebhookDeliveryProfile } from './types-76.js';
+import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
+import type { PartnerWebhookEnvelope } from './types-50.js';
+import type { WebhookDeliveryProfile } from './types-78.js';
+import type { ResponseMeta } from './types-62.js';
 import type { InputValue } from '../runtime.js';
 import type { AssignToUnconfiguredDeliveryProfileRequestInput } from './types-1.js';
 import type { CreateDeliveryProfileRequestInput } from './types-9.js';
@@ -21,11 +17,12 @@ import type {
     DeliveryMerchantDiagnostic,
     DeliveryInputRequirementPreviousAttributes
 } from './types-19.js';
-import type { UpdateDeliveryProfileRequestInput } from './types-73.js';
+import type { UpdateDeliveryProfileRequestInput } from './types-75.js';
 import type { Address } from './types-0.js';
 import type {
     DeliveryBuyerLocationResource,
     DeliveryCandidateOutcomeResource,
+    DeliveryAddressAdvisoryResourcePreviousAttributes,
     DeliveryCandidateOutcomeResourcePreviousAttributes,
     DeliveryDistance,
     DeliveryDistancePreviousAttributes,
@@ -38,10 +35,330 @@ import type {
     DeliveryOptionProjectionPreviousAttributes
 } from './types-20.js';
 import type { BuyerInstructionsConfig } from './types-2.js';
-import type { DeliveryAddressAdvisoryResource, DeliveryAddressAdvisoryResourcePreviousAttributes } from './types-17.js';
-import type { MoneyValue } from './types-42.js';
+import type { DeliveryAddressAdvisoryResource } from './types-17.js';
+import type { MoneyValue } from './types-44.js';
 import type { CreateCheckoutDeliveryQuoteRequestInput } from './types-8.js';
-import type { DisputesAcceptParams } from './types-25.js';
+import type { DisputesAcceptParams } from './types-26.js';
+/**
+ * Delivery planning settings you supply when creating or updating a delivery profile. Which fields
+ * are allowed depends on `requirement` and `resolution_mode`.
+ */
+export type DeliveryProfileConfigurationRequestInput = ({
+    /**
+     * Required as a non-empty unique list when requirement is required. quote accepts shipment,
+     * pickup, and local_delivery. manual accepts digital and service. minItems: 1. uniqueItems:
+     * true. [] enum: "shipment", "pickup", "local_delivery", "digital", "service". [] (Value):
+     * string. Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
+     */
+    "allowed_types"?: Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service">;
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls which delivery obligations can share a choice group. Value enum:
+     * "combine_when_compatible", "separate_profile", "separate_line_item", "fulfill_alone".
+     */
+    "combination_policy"?: "combine_when_compatible" | "separate_profile" | "separate_line_item" | "fulfill_alone";
+    /**
+     * Required for quote resolution and forbidden for none or manual resolution. fixed_location
+     * requires location_id. inventory_routing forbids location_id and applies only to tracked
+     * inventory. method_origin forbids location_id. Origin policy you supply for a delivery
+     * profile: a fixed Location (`location_id`), inventory routing, or the origin set on the
+     * delivery method.
+     */
+    "origin_policy"?: DeliveryProfileOriginPolicyRequestInput;
+    /**
+     * Whether delivery planning applies. none forbids every other configuration field. required
+     * also requires resolution_mode and allowed_types, plus the fields required by that resolution
+     * mode. Value enum: "none", "required".
+     */
+    "requirement"?: "none" | "required";
+    /**
+     * Required when requirement is required. quote plans physical delivery and requires
+     * origin_policy, combination_policy, and splitting_policy. manual supports digital and service
+     * items and forbids physical planning fields. Value enum: "quote", "manual".
+     */
+    "resolution_mode"?: "quote" | "manual";
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls whether a line item quantity can be split across delivery assignments.
+     * Value enum: "whole_line_item", "quantity_split_allowed".
+     */
+    "splitting_policy"?: "whole_line_item" | "quantity_split_allowed";
+})
+    & ((Exclude<DeliveryProfileConfigurationInputNoneInput & object, readonly unknown[]>)
+    | (Exclude<DeliveryProfileConfigurationInputRequiredInput & object, readonly unknown[]>));
+export type DeliveryProfileCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookDeliveryProfile;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "delivery_profile.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookDeliveryProfile;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "delivery_profile.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "delivery_profile.created";
+});
+/**
+ * The `delivery_profile.created` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type DeliveryProfileCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link WebhookDeliveryProfile}. The resource snapshot, without
+     * expansions. Webhooks omit these fields: `diagnostics`, `unconfigured_assignment`.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit these fields: `diagnostics`,
+         * `unconfigured_assignment`.
+         */
+        "object": WebhookDeliveryProfile;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "delivery_profile.created". */
+    "event_type"?: "delivery_profile.created";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `delivery_profile.created` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type DeliveryProfileCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link WebhookDeliveryProfile}. The resource snapshot, without
+     * expansions. Webhooks omit these fields: `diagnostics`, `unconfigured_assignment`.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit these fields: `diagnostics`,
+         * `unconfigured_assignment`.
+         */
+        "object": WebhookDeliveryProfile;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "delivery_profile.created". */
+    "event_type"?: "delivery_profile.created";
+});
+/**
+ * Read-only coverage checks for a delivery profile, such as how many active Locations have no
+ * compatible delivery method and how many countries its zones name.
+ */
+export type DeliveryProfileDiagnostics = {
+    /** Number of active delivery methods whose type is allowed by this profile. minimum: 0. */
+    "active_method_definitions_count": number;
+    /**
+     * True when this is the physical catalog default and every active physical catalog obligation
+     * uses it.
+     */
+    "covers_all_items": boolean;
+    /**
+     * Number of active Locations that no active delivery method compatible with this profile can
+     * use as an origin. minimum: 0.
+     */
+    "locations_without_rates_count": number;
+    /**
+     * Up to 20 active Location IDs that no compatible active delivery method can use as an origin.
+     * Use locations_without_rates_count for the complete count. [] (Value): string.
+     */
+    "unassigned_locations": Array<string>;
+    /** True when more matching Locations exist than are returned in unassigned_locations. */
+    "unassigned_locations_truncated": boolean;
+    /**
+     * Number of distinct countries explicitly named by zones referenced from compatible active
+     * delivery methods. minimum: 0.
+     */
+    "zone_country_count": number;
+};
+/** A page of `DeliveryProfile` objects. */
+export type DeliveryProfileListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * DeliveryProfile}. Reusable delivery rules assigned to catalog items.
+     */
+    "data": Array<DeliveryProfile>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * Where items under a delivery profile ship or leave from: a fixed Location (`location_id`),
+ * inventory routing, or the origin set on the delivery method.
+ */
+export type DeliveryProfileOriginPolicy = {
+    /**
+     * ID of the Location items leave from. Required for `fixed_location` and not allowed
+     * otherwise. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id"?: string;
+    /**
+     * Where items under the profile leave from. Value enum: "fixed_location", "inventory_routing",
+     * "method_origin".
+     */
+    "type": "fixed_location" | "inventory_routing" | "method_origin" | (string & {});
+};
+/** The `fixed_location` variant of `DeliveryProfileOriginPolicyInput`. */
+export type DeliveryProfileOriginPolicyInputFixedLocation = ({
+    /**
+     * ID of the Location items leave from. Required for `fixed_location` and not allowed
+     * otherwise. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id": string;
+    /** Where items under the profile leave from. Value enum: "fixed_location". */
+    "type": "fixed_location" | (string & {});
+})
+    & ({
+    /** Where items under the profile leave from. Value enum: "fixed_location". */
+    "type": unknown;
+    /**
+     * ID of the Location items leave from. Required for `fixed_location` and not allowed
+     * otherwise. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id": string;
+});
+/** The `fixed_location` variant of `DeliveryProfileOriginPolicyInput`. */
+export type DeliveryProfileOriginPolicyInputFixedLocationInput = ({
+    /**
+     * ID of the Location items leave from. Required for `fixed_location` and not allowed
+     * otherwise. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id": string;
+    /** Where items under the profile leave from. Value enum: "fixed_location". */
+    "type": "fixed_location";
+})
+    & ({
+    /** Where items under the profile leave from. Value enum: "fixed_location". */
+    "type": "fixed_location";
+    /**
+     * ID of the Location items leave from. Required for `fixed_location` and not allowed
+     * otherwise. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id": string;
+});
+/** The `inventory_routing` variant of `DeliveryProfileOriginPolicyInput`. */
+export type DeliveryProfileOriginPolicyInputInventoryRouting = ({
+    /**
+     * ID of the Location items leave from. Required for `fixed_location` and not allowed
+     * otherwise. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id"?: string;
+    /** Where items under the profile leave from. Value enum: "inventory_routing". */
+    "type": "inventory_routing" | (string & {});
+})
+    & (({
+    /** Where items under the profile leave from. Value enum: "inventory_routing". */
+    "type": unknown;
+}));
+/** The `inventory_routing` variant of `DeliveryProfileOriginPolicyInput`. */
+export type DeliveryProfileOriginPolicyInputInventoryRoutingInput = ({
+    /**
+     * ID of the Location items leave from. Required for `fixed_location` and not allowed
+     * otherwise. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id"?: string;
+    /** Where items under the profile leave from. Value enum: "inventory_routing". */
+    "type": "inventory_routing";
+})
+    & (({
+    /** Where items under the profile leave from. Value enum: "inventory_routing". */
+    "type": "inventory_routing";
+})
+    & (({
+    "location_id"?: never;
+})));
+/** The `method_origin` variant of `DeliveryProfileOriginPolicyInput`. */
+export type DeliveryProfileOriginPolicyInputMethodOrigin = ({
+    /**
+     * ID of the Location items leave from. Required for `fixed_location` and not allowed
+     * otherwise. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id"?: string;
+    /** Where items under the profile leave from. Value enum: "method_origin". */
+    "type": "method_origin" | (string & {});
+})
+    & (({
+    /** Where items under the profile leave from. Value enum: "method_origin". */
+    "type": unknown;
+}));
+/** The `method_origin` variant of `DeliveryProfileOriginPolicyInput`. */
+export type DeliveryProfileOriginPolicyInputMethodOriginInput = ({
+    /**
+     * ID of the Location items leave from. Required for `fixed_location` and not allowed
+     * otherwise. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id"?: string;
+    /** Where items under the profile leave from. Value enum: "method_origin". */
+    "type": "method_origin";
+})
+    & (({
+    /** Where items under the profile leave from. Value enum: "method_origin". */
+    "type": "method_origin";
+})
+    & (({
+    "location_id"?: never;
+})));
 export type DeliveryProfileOriginPolicyPreviousAttributes = {
     /**
      * ID of the Location items leave from. Required for `fixed_location` and not allowed
@@ -770,9 +1087,9 @@ export type DeliveryQuote = {
      */
     "buyer_location"?: DeliveryBuyerLocationResource;
     /**
-     * Buyer-safe reasons candidate methods did not produce an option. These may be present even
-     * when another method is available. Merchant configuration details are never included. []
-     * enum: "address_required", "address_incomplete", "outside_delivery_area",
+     * Buyer-safe reasons a choice group has no available option. Groups with an available option
+     * contribute no reasons. Merchant configuration details are never included. [] enum:
+     * "address_required", "address_incomplete", "outside_delivery_area",
      * "no_pickup_location_nearby", "unavailable_for_these_items", "temporarily_unavailable". []
      * (Value): string. Value enum: "address_required", "address_incomplete",
      * "outside_delivery_area", "no_pickup_location_nearby", "unavailable_for_these_items",
@@ -4101,1888 +4418,3 @@ export type DeliveryRateCallbackCreatedMerchantEvent = (Exclude<MerchantWebhookE
     /** Value enum: "delivery_rate_callback.created". */
     "event_type"?: "delivery_rate_callback.created";
 });
-export type DeliveryRateCallbackDeactivatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "circuit_failure_count": number;
-            "circuit_state": "closed" | "open" | "half_open" | (string & {});
-            "configuration": DeliveryRateCallbackConfiguration;
-            "created_at": string;
-            "current_delivery_rate_callback_revision_id": string;
-            "delivery_rate_callback_id": string;
-            "delivery_revocation_id": string | null;
-            "external_reference_id"?: string;
-            "name": string;
-            "signing_methods": Array<"jwt" | "hmac" | (string & {})>;
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "circuit_failure_count"?: ((number) | (null));
-            "circuit_state"?: (("closed" | "open" | "half_open" | (string & {})) | (null));
-            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null));
-            "created_at"?: ((string) | (null));
-            "current_delivery_rate_callback_revision_id"?: ((string) | (null));
-            "delivery_rate_callback_id"?: ((string) | (null));
-            "delivery_revocation_id"?: ((string) | (null));
-            "external_reference_id"?: ((string) | (null));
-            "name"?: ((string) | (null));
-            "signing_methods"?: ((Array<"jwt" | "hmac" | (string & {})>) | (null));
-            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "delivery_rate_callback.deactivated";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "circuit_failure_count": number;
-            "circuit_state": "closed" | "open" | "half_open" | (string & {});
-            "configuration": DeliveryRateCallbackConfiguration;
-            "created_at": string;
-            "current_delivery_rate_callback_revision_id": string;
-            "delivery_rate_callback_id": string;
-            "delivery_revocation_id": string | null;
-            "external_reference_id"?: string;
-            "name": string;
-            "signing_methods": Array<"jwt" | "hmac" | (string & {})>;
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "circuit_failure_count"?: ((number) | (null));
-            "circuit_state"?: (("closed" | "open" | "half_open" | (string & {})) | (null));
-            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null));
-            "created_at"?: ((string) | (null));
-            "current_delivery_rate_callback_revision_id"?: ((string) | (null));
-            "delivery_rate_callback_id"?: ((string) | (null));
-            "delivery_revocation_id"?: ((string) | (null));
-            "external_reference_id"?: ((string) | (null));
-            "name"?: ((string) | (null));
-            "signing_methods"?: ((Array<"jwt" | "hmac" | (string & {})>) | (null));
-            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "delivery_rate_callback.deactivated";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "delivery_rate_callback.deactivated";
-});
-/**
- * The `delivery_rate_callback.deactivated` webhook payload for the `installed_merchants` event
- * source. Fields shared by partner webhook payloads.
- */
-export type DeliveryRateCallbackDeactivatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.circuit_failure_count (Required): integer. Consecutive callback
-     * failures since the last successful response. minimum: 0. object.circuit_state (Required):
-     * string. Whether Flint is currently calling the callback, based on recent failures. Value
-     * enum: "closed", "open", "half_open". object.configuration (Required): {@link
-     * DeliveryRateCallbackConfiguration}. Current settings of the rate callback. Settings for a
-     * delivery rate callback: the endpoint `url` Flint calls, request timeout, request and
-     * response size limits, redirect policy, and whether previews can use it. object.created_at
-     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.current_delivery_rate_callback_revision_id (Required): string. ID of the current
-     * revision. New quotes use it. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
-     * object.delivery_rate_callback_id (Required): string. Unique identifier for this delivery
-     * rate callback, prefixed `dcb_`. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
-     * object.delivery_revocation_id (Required): string or null. The revocation fencing this
-     * resource's own current revision. `null` when the current revision isn't revoked. It doesn't
-     * cover dependencies: a method can be unusable while this is `null` because its rate callback
-     * revision, signing key, or a Location's address is revoked. A revocation doesn't change
-     * `status`; publish a new revision to clear it. Example: "drev_01KEZF7C007Q141XJ28YAAC87B".
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. maxLength: 255. Example: "warehouse-1842". object.name (Required):
-     * string. Merchant-facing name of the rate callback. object.signing_methods (Required): Array
-     * of string. Signing methods enabled for callback HTTP requests. jwt sends Authorization:
-     * Bearer with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends
-     * webhook-signature and signing key IDs. minItems: 1. uniqueItems: true. Example: ["jwt"]. []
-     * enum: "jwt", "hmac". object.signing_methods[] (Value): string. How Flint signs requests to
-     * this endpoint. Value enum: "jwt", "hmac". object.status (Required): string. Whether the rate
-     * callback is in use. Value enum: "active", "inactive", "archived". object.updated_at
-     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.version (Required): integer. Current version of this resource's owned state. Send it
-     * as `expected_version` when changing the resource to reject a stale write. Format: uint64.
-     * minimum: 1. previous_attributes (Optional): object. Previous values of changed top-level
-     * fields in data.object, at this delivery's API version. Nested changes include the whole
-     * previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
-     * previous_attributes.circuit_failure_count (Optional): integer or null. Consecutive callback
-     * failures since the last successful response.
-     * previous_attributes.circuit_failure_count.anyOf[1] (Value): integer. Consecutive callback
-     * failures since the last successful response. minimum: 0.
-     * previous_attributes.circuit_failure_count.anyOf[2] (Value): null.
-     * previous_attributes.circuit_state (Optional): string or null. Whether Flint is currently
-     * calling the callback, based on recent failures. Value enum: "closed", "open", "half_open".
-     * previous_attributes.circuit_state.anyOf[1] (Value): string. Whether Flint is currently
-     * calling the callback, based on recent failures. Value enum: "closed", "open", "half_open".
-     * previous_attributes.circuit_state.anyOf[2] (Value): null. previous_attributes.configuration
-     * (Optional): {@link DeliveryRateCallbackConfigurationPreviousAttributes} or null. Current
-     * settings of the rate callback. previous_attributes.configuration.anyOf[1] (Value): {@link
-     * DeliveryRateCallbackConfigurationPreviousAttributes}.
-     * previous_attributes.configuration.anyOf[2] (Value): null. previous_attributes.created_at
-     * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
-     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.created_at.anyOf[2] (Value): null.
-     * previous_attributes.current_delivery_rate_callback_revision_id (Optional): string or null.
-     * ID of the current revision. New quotes use it.
-     * previous_attributes.current_delivery_rate_callback_revision_id.anyOf[1] (Value): string. ID
-     * of the current revision. New quotes use it. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
-     * previous_attributes.current_delivery_rate_callback_revision_id.anyOf[2] (Value): null.
-     * previous_attributes.delivery_rate_callback_id (Optional): string or null. Unique identifier
-     * for this delivery rate callback, prefixed `dcb_`.
-     * previous_attributes.delivery_rate_callback_id.anyOf[1] (Value): string. Unique identifier
-     * for this delivery rate callback, prefixed `dcb_`. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
-     * previous_attributes.delivery_rate_callback_id.anyOf[2] (Value): null.
-     * previous_attributes.delivery_revocation_id (Optional): string or null. The revocation
-     * fencing this resource's own current revision. `null` when the current revision isn't
-     * revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
-     * because its rate callback revision, signing key, or a Location's address is revoked. A
-     * revocation doesn't change `status`; publish a new revision to clear it.
-     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing
-     * this resource's own current revision. `null` when the current revision isn't revoked. It
-     * doesn't cover dependencies: a method can be unusable while this is `null` because its rate
-     * callback revision, signing key, or a Location's address is revoked. A revocation doesn't
-     * change `status`; publish a new revision to clear it. Example:
-     * "drev_01KEZF7C007Q141XJ28YAAC87B". previous_attributes.delivery_revocation_id.anyOf[2]
-     * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
-     * Caller-owned identifier for this resource in an external system.
-     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
-     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
-     * previous_attributes.external_reference_id.anyOf[2] (Value): null. previous_attributes.name
-     * (Optional): string or null. Merchant-facing name of the rate callback.
-     * previous_attributes.name.anyOf[1] (Value): string. Merchant-facing name of the rate
-     * callback. previous_attributes.name.anyOf[2] (Value): null.
-     * previous_attributes.signing_methods (Optional): Array of string or null. Signing methods
-     * enabled for callback HTTP requests. jwt sends Authorization: Bearer with a Flint-signed
-     * token whose aud is this delivery_rate_callback_id; hmac sends webhook-signature and signing
-     * key IDs. [] enum: "jwt", "hmac". previous_attributes.signing_methods.anyOf[1] (Value): Array
-     * of string. Signing methods enabled for callback HTTP requests. jwt sends Authorization:
-     * Bearer with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends
-     * webhook-signature and signing key IDs. minItems: 1. uniqueItems: true. Example: ["jwt"]. []
-     * enum: "jwt", "hmac". previous_attributes.signing_methods.anyOf[1][] (Value): string. How
-     * Flint signs requests to this endpoint. Value enum: "jwt", "hmac".
-     * previous_attributes.signing_methods.anyOf[2] (Value): null. previous_attributes.status
-     * (Optional): string or null. Whether the rate callback is in use. Value enum: "active",
-     * "inactive", "archived". previous_attributes.status.anyOf[1] (Value): string. Whether the
-     * rate callback is in use. Value enum: "active", "inactive", "archived".
-     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.updated_at
-     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
-     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
-     * (Optional): integer or null. Current version of this resource's owned state. Send it as
-     * `expected_version` when changing the resource to reject a stale write.
-     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
-     * owned state. Send it as `expected_version` when changing the resource to reject a stale
-     * write. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * circuit_failure_count (Required): integer. Consecutive callback failures since the last
-         * successful response. minimum: 0. circuit_state (Required): string. Whether Flint is
-         * currently calling the callback, based on recent failures. Value enum: "closed", "open",
-         * "half_open". configuration (Required): {@link DeliveryRateCallbackConfiguration}.
-         * Current settings of the rate callback. Settings for a delivery rate callback: the
-         * endpoint `url` Flint calls, request timeout, request and response size limits, redirect
-         * policy, and whether previews can use it. created_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * current_delivery_rate_callback_revision_id (Required): string. ID of the current
-         * revision. New quotes use it. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
-         * delivery_rate_callback_id (Required): string. Unique identifier for this delivery rate
-         * callback, prefixed `dcb_`. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
-         * delivery_revocation_id (Required): string or null. The revocation fencing this
-         * resource's own current revision. `null` when the current revision isn't revoked. It
-         * doesn't cover dependencies: a method can be unusable while this is `null` because its
-         * rate callback revision, signing key, or a Location's address is revoked. A revocation
-         * doesn't change `status`; publish a new revision to clear it. Example:
-         * "drev_01KEZF7C007Q141XJ28YAAC87B". external_reference_id (Optional): string.
-         * Caller-owned identifier for this resource in an external system. maxLength: 255.
-         * Example: "warehouse-1842". name (Required): string. Merchant-facing name of the rate
-         * callback. signing_methods (Required): Array of string. Signing methods enabled for
-         * callback HTTP requests. jwt sends Authorization: Bearer with a Flint-signed token whose
-         * aud is this delivery_rate_callback_id; hmac sends webhook-signature and signing key IDs.
-         * minItems: 1. uniqueItems: true. Example: ["jwt"]. [] enum: "jwt", "hmac".
-         * signing_methods[] (Value): string. How Flint signs requests to this endpoint. Value
-         * enum: "jwt", "hmac". status (Required): string. Whether the rate callback is in use.
-         * Value enum: "active", "inactive", "archived". updated_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
-         * integer. Current version of this resource's owned state. Send it as `expected_version`
-         * when changing the resource to reject a stale write. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /** Consecutive callback failures since the last successful response. minimum: 0. */
-            "circuit_failure_count": number;
-            /**
-             * Whether Flint is currently calling the callback, based on recent failures. Value
-             * enum: "closed", "open", "half_open".
-             */
-            "circuit_state": "closed" | "open" | "half_open" | (string & {});
-            /**
-             * Current settings of the rate callback. Settings for a delivery rate callback: the
-             * endpoint `url` Flint calls, request timeout, request and response size limits,
-             * redirect policy, and whether previews can use it.
-             */
-            "configuration": DeliveryRateCallbackConfiguration;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * ID of the current revision. New quotes use it. Example:
-             * "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
-             */
-            "current_delivery_rate_callback_revision_id": string;
-            /**
-             * Unique identifier for this delivery rate callback, prefixed `dcb_`. Example:
-             * "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
-             */
-            "delivery_rate_callback_id": string;
-            /**
-             * The revocation fencing this resource's own current revision. `null` when the current
-             * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
-             * while this is `null` because its rate callback revision, signing key, or a
-             * Location's address is revoked. A revocation doesn't change `status`; publish a new
-             * revision to clear it. Example: "drev_01KEZF7C007Q141XJ28YAAC87B".
-             */
-            "delivery_revocation_id": string | null;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /** Merchant-facing name of the rate callback. */
-            "name": string;
-            /**
-             * Signing methods enabled for callback HTTP requests. jwt sends Authorization: Bearer
-             * with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends
-             * webhook-signature and signing key IDs. minItems: 1. uniqueItems: true. Example:
-             * ["jwt"]. [] enum: "jwt", "hmac". [] (Value): string. How Flint signs requests to
-             * this endpoint. Value enum: "jwt", "hmac".
-             */
-            "signing_methods": Array<"jwt" | "hmac" | (string & {})>;
-            /**
-             * Whether the rate callback is in use. Value enum: "active", "inactive", "archived".
-             */
-            "status": "active" | "inactive" | "archived" | (string & {});
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. circuit_failure_count (Optional): integer or
-         * null. Consecutive callback failures since the last successful response.
-         * circuit_failure_count.anyOf[1] (Value): integer. Consecutive callback failures since the
-         * last successful response. minimum: 0. circuit_failure_count.anyOf[2] (Value): null.
-         * circuit_state (Optional): string or null. Whether Flint is currently calling the
-         * callback, based on recent failures. Value enum: "closed", "open", "half_open".
-         * circuit_state.anyOf[1] (Value): string. Whether Flint is currently calling the callback,
-         * based on recent failures. Value enum: "closed", "open", "half_open".
-         * circuit_state.anyOf[2] (Value): null. configuration (Optional): {@link
-         * DeliveryRateCallbackConfigurationPreviousAttributes} or null. Current settings of the
-         * rate callback. configuration.anyOf[1] (Value): {@link
-         * DeliveryRateCallbackConfigurationPreviousAttributes}. configuration.anyOf[2] (Value):
-         * null. created_at (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1]
-         * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. current_delivery_rate_callback_revision_id
-         * (Optional): string or null. ID of the current revision. New quotes use it.
-         * current_delivery_rate_callback_revision_id.anyOf[1] (Value): string. ID of the current
-         * revision. New quotes use it. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
-         * current_delivery_rate_callback_revision_id.anyOf[2] (Value): null.
-         * delivery_rate_callback_id (Optional): string or null. Unique identifier for this
-         * delivery rate callback, prefixed `dcb_`. delivery_rate_callback_id.anyOf[1] (Value):
-         * string. Unique identifier for this delivery rate callback, prefixed `dcb_`. Example:
-         * "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1". delivery_rate_callback_id.anyOf[2] (Value): null.
-         * delivery_revocation_id (Optional): string or null. The revocation fencing this
-         * resource's own current revision. `null` when the current revision isn't revoked. It
-         * doesn't cover dependencies: a method can be unusable while this is `null` because its
-         * rate callback revision, signing key, or a Location's address is revoked. A revocation
-         * doesn't change `status`; publish a new revision to clear it.
-         * delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing this resource's
-         * own current revision. `null` when the current revision isn't revoked. It doesn't cover
-         * dependencies: a method can be unusable while this is `null` because its rate callback
-         * revision, signing key, or a Location's address is revoked. A revocation doesn't change
-         * `status`; publish a new revision to clear it. Example:
-         * "drev_01KEZF7C007Q141XJ28YAAC87B". delivery_revocation_id.anyOf[2] (Value): null.
-         * external_reference_id (Optional): string or null. Caller-owned identifier for this
-         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
-         * Caller-owned identifier for this resource in an external system. maxLength: 255.
-         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. name
-         * (Optional): string or null. Merchant-facing name of the rate callback. name.anyOf[1]
-         * (Value): string. Merchant-facing name of the rate callback. name.anyOf[2] (Value): null.
-         * signing_methods (Optional): Array of string or null. Signing methods enabled for
-         * callback HTTP requests. jwt sends Authorization: Bearer with a Flint-signed token whose
-         * aud is this delivery_rate_callback_id; hmac sends webhook-signature and signing key IDs.
-         * [] enum: "jwt", "hmac". signing_methods.anyOf[1] (Value): Array of string. Signing
-         * methods enabled for callback HTTP requests. jwt sends Authorization: Bearer with a
-         * Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends
-         * webhook-signature and signing key IDs. minItems: 1. uniqueItems: true. Example: ["jwt"].
-         * [] enum: "jwt", "hmac". signing_methods.anyOf[1][] (Value): string. How Flint signs
-         * requests to this endpoint. Value enum: "jwt", "hmac". signing_methods.anyOf[2] (Value):
-         * null. status (Optional): string or null. Whether the rate callback is in use. Value
-         * enum: "active", "inactive", "archived". status.anyOf[1] (Value): string. Whether the
-         * rate callback is in use. Value enum: "active", "inactive", "archived". status.anyOf[2]
-         * (Value): null. updated_at (Optional): string or null. RFC3339 timestamp.
-         * updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
-         * or null. Current version of this resource's owned state. Send it as `expected_version`
-         * when changing the resource to reject a stale write. version.anyOf[1] (Value): integer.
-         * Current version of this resource's owned state. Send it as `expected_version` when
-         * changing the resource to reject a stale write. Format: uint64. minimum: 1.
-         * version.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * Consecutive callback failures since the last successful response. anyOf[1] (Value):
-             * integer. Consecutive callback failures since the last successful response. minimum:
-             * 0. anyOf[2] (Value): null.
-             */
-            "circuit_failure_count"?: ((number) | (null));
-            /**
-             * Whether Flint is currently calling the callback, based on recent failures. Value
-             * enum: "closed", "open", "half_open". anyOf[1] (Value): string. Whether Flint is
-             * currently calling the callback, based on recent failures. Value enum: "closed",
-             * "open", "half_open". anyOf[2] (Value): null.
-             */
-            "circuit_state"?: (("closed" | "open" | "half_open" | (string & {})) | (null));
-            /**
-             * Current settings of the rate callback. anyOf[1] (Value): {@link
-             * DeliveryRateCallbackConfigurationPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * ID of the current revision. New quotes use it. anyOf[1] (Value): string. ID of the
-             * current revision. New quotes use it. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
-             * anyOf[2] (Value): null.
-             */
-            "current_delivery_rate_callback_revision_id"?: ((string) | (null));
-            /**
-             * Unique identifier for this delivery rate callback, prefixed `dcb_`. anyOf[1]
-             * (Value): string. Unique identifier for this delivery rate callback, prefixed `dcb_`.
-             * Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1". anyOf[2] (Value): null.
-             */
-            "delivery_rate_callback_id"?: ((string) | (null));
-            /**
-             * The revocation fencing this resource's own current revision. `null` when the current
-             * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
-             * while this is `null` because its rate callback revision, signing key, or a
-             * Location's address is revoked. A revocation doesn't change `status`; publish a new
-             * revision to clear it. anyOf[1] (Value): string. The revocation fencing this
-             * resource's own current revision. `null` when the current revision isn't revoked. It
-             * doesn't cover dependencies: a method can be unusable while this is `null` because
-             * its rate callback revision, signing key, or a Location's address is revoked. A
-             * revocation doesn't change `status`; publish a new revision to clear it. Example:
-             * "drev_01KEZF7C007Q141XJ28YAAC87B". anyOf[2] (Value): null.
-             */
-            "delivery_revocation_id"?: ((string) | (null));
-            /**
-             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
-             * string. Caller-owned identifier for this resource in an external system. maxLength:
-             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
-             */
-            "external_reference_id"?: ((string) | (null));
-            /**
-             * Merchant-facing name of the rate callback. anyOf[1] (Value): string. Merchant-facing
-             * name of the rate callback. anyOf[2] (Value): null.
-             */
-            "name"?: ((string) | (null));
-            /**
-             * Signing methods enabled for callback HTTP requests. jwt sends Authorization: Bearer
-             * with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends
-             * webhook-signature and signing key IDs. [] enum: "jwt", "hmac". anyOf[1] (Value):
-             * Array of string. Signing methods enabled for callback HTTP requests. jwt sends
-             * Authorization: Bearer with a Flint-signed token whose aud is this
-             * delivery_rate_callback_id; hmac sends webhook-signature and signing key IDs.
-             * minItems: 1. uniqueItems: true. Example: ["jwt"]. [] enum: "jwt", "hmac". anyOf[1][]
-             * (Value): string. How Flint signs requests to this endpoint. Value enum: "jwt",
-             * "hmac". anyOf[2] (Value): null.
-             */
-            "signing_methods"?: ((Array<"jwt" | "hmac" | (string & {})>) | (null));
-            /**
-             * Whether the rate callback is in use. Value enum: "active", "inactive", "archived".
-             * anyOf[1] (Value): string. Whether the rate callback is in use. Value enum: "active",
-             * "inactive", "archived". anyOf[2] (Value): null.
-             */
-            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
-             * version of this resource's owned state. Send it as `expected_version` when changing
-             * the resource to reject a stale write. Format: uint64. minimum: 1. anyOf[2] (Value):
-             * null.
-             */
-            "version"?: ((number) | (null));
-        });
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "delivery_rate_callback.deactivated". */
-    "event_type"?: "delivery_rate_callback.deactivated";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `delivery_rate_callback.deactivated` webhook payload for the `merchant` event source. Fields
- * shared by merchant webhook payloads.
- */
-export type DeliveryRateCallbackDeactivatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.circuit_failure_count (Required): integer. Consecutive callback
-     * failures since the last successful response. minimum: 0. object.circuit_state (Required):
-     * string. Whether Flint is currently calling the callback, based on recent failures. Value
-     * enum: "closed", "open", "half_open". object.configuration (Required): {@link
-     * DeliveryRateCallbackConfiguration}. Current settings of the rate callback. Settings for a
-     * delivery rate callback: the endpoint `url` Flint calls, request timeout, request and
-     * response size limits, redirect policy, and whether previews can use it. object.created_at
-     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.current_delivery_rate_callback_revision_id (Required): string. ID of the current
-     * revision. New quotes use it. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
-     * object.delivery_rate_callback_id (Required): string. Unique identifier for this delivery
-     * rate callback, prefixed `dcb_`. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
-     * object.delivery_revocation_id (Required): string or null. The revocation fencing this
-     * resource's own current revision. `null` when the current revision isn't revoked. It doesn't
-     * cover dependencies: a method can be unusable while this is `null` because its rate callback
-     * revision, signing key, or a Location's address is revoked. A revocation doesn't change
-     * `status`; publish a new revision to clear it. Example: "drev_01KEZF7C007Q141XJ28YAAC87B".
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. maxLength: 255. Example: "warehouse-1842". object.name (Required):
-     * string. Merchant-facing name of the rate callback. object.signing_methods (Required): Array
-     * of string. Signing methods enabled for callback HTTP requests. jwt sends Authorization:
-     * Bearer with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends
-     * webhook-signature and signing key IDs. minItems: 1. uniqueItems: true. Example: ["jwt"]. []
-     * enum: "jwt", "hmac". object.signing_methods[] (Value): string. How Flint signs requests to
-     * this endpoint. Value enum: "jwt", "hmac". object.status (Required): string. Whether the rate
-     * callback is in use. Value enum: "active", "inactive", "archived". object.updated_at
-     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.version (Required): integer. Current version of this resource's owned state. Send it
-     * as `expected_version` when changing the resource to reject a stale write. Format: uint64.
-     * minimum: 1. previous_attributes (Optional): object. Previous values of changed top-level
-     * fields in data.object, at this delivery's API version. Nested changes include the whole
-     * previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
-     * previous_attributes.circuit_failure_count (Optional): integer or null. Consecutive callback
-     * failures since the last successful response.
-     * previous_attributes.circuit_failure_count.anyOf[1] (Value): integer. Consecutive callback
-     * failures since the last successful response. minimum: 0.
-     * previous_attributes.circuit_failure_count.anyOf[2] (Value): null.
-     * previous_attributes.circuit_state (Optional): string or null. Whether Flint is currently
-     * calling the callback, based on recent failures. Value enum: "closed", "open", "half_open".
-     * previous_attributes.circuit_state.anyOf[1] (Value): string. Whether Flint is currently
-     * calling the callback, based on recent failures. Value enum: "closed", "open", "half_open".
-     * previous_attributes.circuit_state.anyOf[2] (Value): null. previous_attributes.configuration
-     * (Optional): {@link DeliveryRateCallbackConfigurationPreviousAttributes} or null. Current
-     * settings of the rate callback. previous_attributes.configuration.anyOf[1] (Value): {@link
-     * DeliveryRateCallbackConfigurationPreviousAttributes}.
-     * previous_attributes.configuration.anyOf[2] (Value): null. previous_attributes.created_at
-     * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
-     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.created_at.anyOf[2] (Value): null.
-     * previous_attributes.current_delivery_rate_callback_revision_id (Optional): string or null.
-     * ID of the current revision. New quotes use it.
-     * previous_attributes.current_delivery_rate_callback_revision_id.anyOf[1] (Value): string. ID
-     * of the current revision. New quotes use it. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
-     * previous_attributes.current_delivery_rate_callback_revision_id.anyOf[2] (Value): null.
-     * previous_attributes.delivery_rate_callback_id (Optional): string or null. Unique identifier
-     * for this delivery rate callback, prefixed `dcb_`.
-     * previous_attributes.delivery_rate_callback_id.anyOf[1] (Value): string. Unique identifier
-     * for this delivery rate callback, prefixed `dcb_`. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
-     * previous_attributes.delivery_rate_callback_id.anyOf[2] (Value): null.
-     * previous_attributes.delivery_revocation_id (Optional): string or null. The revocation
-     * fencing this resource's own current revision. `null` when the current revision isn't
-     * revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
-     * because its rate callback revision, signing key, or a Location's address is revoked. A
-     * revocation doesn't change `status`; publish a new revision to clear it.
-     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing
-     * this resource's own current revision. `null` when the current revision isn't revoked. It
-     * doesn't cover dependencies: a method can be unusable while this is `null` because its rate
-     * callback revision, signing key, or a Location's address is revoked. A revocation doesn't
-     * change `status`; publish a new revision to clear it. Example:
-     * "drev_01KEZF7C007Q141XJ28YAAC87B". previous_attributes.delivery_revocation_id.anyOf[2]
-     * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
-     * Caller-owned identifier for this resource in an external system.
-     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
-     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
-     * previous_attributes.external_reference_id.anyOf[2] (Value): null. previous_attributes.name
-     * (Optional): string or null. Merchant-facing name of the rate callback.
-     * previous_attributes.name.anyOf[1] (Value): string. Merchant-facing name of the rate
-     * callback. previous_attributes.name.anyOf[2] (Value): null.
-     * previous_attributes.signing_methods (Optional): Array of string or null. Signing methods
-     * enabled for callback HTTP requests. jwt sends Authorization: Bearer with a Flint-signed
-     * token whose aud is this delivery_rate_callback_id; hmac sends webhook-signature and signing
-     * key IDs. [] enum: "jwt", "hmac". previous_attributes.signing_methods.anyOf[1] (Value): Array
-     * of string. Signing methods enabled for callback HTTP requests. jwt sends Authorization:
-     * Bearer with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends
-     * webhook-signature and signing key IDs. minItems: 1. uniqueItems: true. Example: ["jwt"]. []
-     * enum: "jwt", "hmac". previous_attributes.signing_methods.anyOf[1][] (Value): string. How
-     * Flint signs requests to this endpoint. Value enum: "jwt", "hmac".
-     * previous_attributes.signing_methods.anyOf[2] (Value): null. previous_attributes.status
-     * (Optional): string or null. Whether the rate callback is in use. Value enum: "active",
-     * "inactive", "archived". previous_attributes.status.anyOf[1] (Value): string. Whether the
-     * rate callback is in use. Value enum: "active", "inactive", "archived".
-     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.updated_at
-     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
-     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
-     * (Optional): integer or null. Current version of this resource's owned state. Send it as
-     * `expected_version` when changing the resource to reject a stale write.
-     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
-     * owned state. Send it as `expected_version` when changing the resource to reject a stale
-     * write. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * circuit_failure_count (Required): integer. Consecutive callback failures since the last
-         * successful response. minimum: 0. circuit_state (Required): string. Whether Flint is
-         * currently calling the callback, based on recent failures. Value enum: "closed", "open",
-         * "half_open". configuration (Required): {@link DeliveryRateCallbackConfiguration}.
-         * Current settings of the rate callback. Settings for a delivery rate callback: the
-         * endpoint `url` Flint calls, request timeout, request and response size limits, redirect
-         * policy, and whether previews can use it. created_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * current_delivery_rate_callback_revision_id (Required): string. ID of the current
-         * revision. New quotes use it. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
-         * delivery_rate_callback_id (Required): string. Unique identifier for this delivery rate
-         * callback, prefixed `dcb_`. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
-         * delivery_revocation_id (Required): string or null. The revocation fencing this
-         * resource's own current revision. `null` when the current revision isn't revoked. It
-         * doesn't cover dependencies: a method can be unusable while this is `null` because its
-         * rate callback revision, signing key, or a Location's address is revoked. A revocation
-         * doesn't change `status`; publish a new revision to clear it. Example:
-         * "drev_01KEZF7C007Q141XJ28YAAC87B". external_reference_id (Optional): string.
-         * Caller-owned identifier for this resource in an external system. maxLength: 255.
-         * Example: "warehouse-1842". name (Required): string. Merchant-facing name of the rate
-         * callback. signing_methods (Required): Array of string. Signing methods enabled for
-         * callback HTTP requests. jwt sends Authorization: Bearer with a Flint-signed token whose
-         * aud is this delivery_rate_callback_id; hmac sends webhook-signature and signing key IDs.
-         * minItems: 1. uniqueItems: true. Example: ["jwt"]. [] enum: "jwt", "hmac".
-         * signing_methods[] (Value): string. How Flint signs requests to this endpoint. Value
-         * enum: "jwt", "hmac". status (Required): string. Whether the rate callback is in use.
-         * Value enum: "active", "inactive", "archived". updated_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
-         * integer. Current version of this resource's owned state. Send it as `expected_version`
-         * when changing the resource to reject a stale write. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /** Consecutive callback failures since the last successful response. minimum: 0. */
-            "circuit_failure_count": number;
-            /**
-             * Whether Flint is currently calling the callback, based on recent failures. Value
-             * enum: "closed", "open", "half_open".
-             */
-            "circuit_state": "closed" | "open" | "half_open" | (string & {});
-            /**
-             * Current settings of the rate callback. Settings for a delivery rate callback: the
-             * endpoint `url` Flint calls, request timeout, request and response size limits,
-             * redirect policy, and whether previews can use it.
-             */
-            "configuration": DeliveryRateCallbackConfiguration;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * ID of the current revision. New quotes use it. Example:
-             * "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
-             */
-            "current_delivery_rate_callback_revision_id": string;
-            /**
-             * Unique identifier for this delivery rate callback, prefixed `dcb_`. Example:
-             * "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
-             */
-            "delivery_rate_callback_id": string;
-            /**
-             * The revocation fencing this resource's own current revision. `null` when the current
-             * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
-             * while this is `null` because its rate callback revision, signing key, or a
-             * Location's address is revoked. A revocation doesn't change `status`; publish a new
-             * revision to clear it. Example: "drev_01KEZF7C007Q141XJ28YAAC87B".
-             */
-            "delivery_revocation_id": string | null;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /** Merchant-facing name of the rate callback. */
-            "name": string;
-            /**
-             * Signing methods enabled for callback HTTP requests. jwt sends Authorization: Bearer
-             * with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends
-             * webhook-signature and signing key IDs. minItems: 1. uniqueItems: true. Example:
-             * ["jwt"]. [] enum: "jwt", "hmac". [] (Value): string. How Flint signs requests to
-             * this endpoint. Value enum: "jwt", "hmac".
-             */
-            "signing_methods": Array<"jwt" | "hmac" | (string & {})>;
-            /**
-             * Whether the rate callback is in use. Value enum: "active", "inactive", "archived".
-             */
-            "status": "active" | "inactive" | "archived" | (string & {});
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. circuit_failure_count (Optional): integer or
-         * null. Consecutive callback failures since the last successful response.
-         * circuit_failure_count.anyOf[1] (Value): integer. Consecutive callback failures since the
-         * last successful response. minimum: 0. circuit_failure_count.anyOf[2] (Value): null.
-         * circuit_state (Optional): string or null. Whether Flint is currently calling the
-         * callback, based on recent failures. Value enum: "closed", "open", "half_open".
-         * circuit_state.anyOf[1] (Value): string. Whether Flint is currently calling the callback,
-         * based on recent failures. Value enum: "closed", "open", "half_open".
-         * circuit_state.anyOf[2] (Value): null. configuration (Optional): {@link
-         * DeliveryRateCallbackConfigurationPreviousAttributes} or null. Current settings of the
-         * rate callback. configuration.anyOf[1] (Value): {@link
-         * DeliveryRateCallbackConfigurationPreviousAttributes}. configuration.anyOf[2] (Value):
-         * null. created_at (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1]
-         * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. current_delivery_rate_callback_revision_id
-         * (Optional): string or null. ID of the current revision. New quotes use it.
-         * current_delivery_rate_callback_revision_id.anyOf[1] (Value): string. ID of the current
-         * revision. New quotes use it. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
-         * current_delivery_rate_callback_revision_id.anyOf[2] (Value): null.
-         * delivery_rate_callback_id (Optional): string or null. Unique identifier for this
-         * delivery rate callback, prefixed `dcb_`. delivery_rate_callback_id.anyOf[1] (Value):
-         * string. Unique identifier for this delivery rate callback, prefixed `dcb_`. Example:
-         * "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1". delivery_rate_callback_id.anyOf[2] (Value): null.
-         * delivery_revocation_id (Optional): string or null. The revocation fencing this
-         * resource's own current revision. `null` when the current revision isn't revoked. It
-         * doesn't cover dependencies: a method can be unusable while this is `null` because its
-         * rate callback revision, signing key, or a Location's address is revoked. A revocation
-         * doesn't change `status`; publish a new revision to clear it.
-         * delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing this resource's
-         * own current revision. `null` when the current revision isn't revoked. It doesn't cover
-         * dependencies: a method can be unusable while this is `null` because its rate callback
-         * revision, signing key, or a Location's address is revoked. A revocation doesn't change
-         * `status`; publish a new revision to clear it. Example:
-         * "drev_01KEZF7C007Q141XJ28YAAC87B". delivery_revocation_id.anyOf[2] (Value): null.
-         * external_reference_id (Optional): string or null. Caller-owned identifier for this
-         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
-         * Caller-owned identifier for this resource in an external system. maxLength: 255.
-         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. name
-         * (Optional): string or null. Merchant-facing name of the rate callback. name.anyOf[1]
-         * (Value): string. Merchant-facing name of the rate callback. name.anyOf[2] (Value): null.
-         * signing_methods (Optional): Array of string or null. Signing methods enabled for
-         * callback HTTP requests. jwt sends Authorization: Bearer with a Flint-signed token whose
-         * aud is this delivery_rate_callback_id; hmac sends webhook-signature and signing key IDs.
-         * [] enum: "jwt", "hmac". signing_methods.anyOf[1] (Value): Array of string. Signing
-         * methods enabled for callback HTTP requests. jwt sends Authorization: Bearer with a
-         * Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends
-         * webhook-signature and signing key IDs. minItems: 1. uniqueItems: true. Example: ["jwt"].
-         * [] enum: "jwt", "hmac". signing_methods.anyOf[1][] (Value): string. How Flint signs
-         * requests to this endpoint. Value enum: "jwt", "hmac". signing_methods.anyOf[2] (Value):
-         * null. status (Optional): string or null. Whether the rate callback is in use. Value
-         * enum: "active", "inactive", "archived". status.anyOf[1] (Value): string. Whether the
-         * rate callback is in use. Value enum: "active", "inactive", "archived". status.anyOf[2]
-         * (Value): null. updated_at (Optional): string or null. RFC3339 timestamp.
-         * updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
-         * or null. Current version of this resource's owned state. Send it as `expected_version`
-         * when changing the resource to reject a stale write. version.anyOf[1] (Value): integer.
-         * Current version of this resource's owned state. Send it as `expected_version` when
-         * changing the resource to reject a stale write. Format: uint64. minimum: 1.
-         * version.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * Consecutive callback failures since the last successful response. anyOf[1] (Value):
-             * integer. Consecutive callback failures since the last successful response. minimum:
-             * 0. anyOf[2] (Value): null.
-             */
-            "circuit_failure_count"?: ((number) | (null));
-            /**
-             * Whether Flint is currently calling the callback, based on recent failures. Value
-             * enum: "closed", "open", "half_open". anyOf[1] (Value): string. Whether Flint is
-             * currently calling the callback, based on recent failures. Value enum: "closed",
-             * "open", "half_open". anyOf[2] (Value): null.
-             */
-            "circuit_state"?: (("closed" | "open" | "half_open" | (string & {})) | (null));
-            /**
-             * Current settings of the rate callback. anyOf[1] (Value): {@link
-             * DeliveryRateCallbackConfigurationPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * ID of the current revision. New quotes use it. anyOf[1] (Value): string. ID of the
-             * current revision. New quotes use it. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
-             * anyOf[2] (Value): null.
-             */
-            "current_delivery_rate_callback_revision_id"?: ((string) | (null));
-            /**
-             * Unique identifier for this delivery rate callback, prefixed `dcb_`. anyOf[1]
-             * (Value): string. Unique identifier for this delivery rate callback, prefixed `dcb_`.
-             * Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1". anyOf[2] (Value): null.
-             */
-            "delivery_rate_callback_id"?: ((string) | (null));
-            /**
-             * The revocation fencing this resource's own current revision. `null` when the current
-             * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
-             * while this is `null` because its rate callback revision, signing key, or a
-             * Location's address is revoked. A revocation doesn't change `status`; publish a new
-             * revision to clear it. anyOf[1] (Value): string. The revocation fencing this
-             * resource's own current revision. `null` when the current revision isn't revoked. It
-             * doesn't cover dependencies: a method can be unusable while this is `null` because
-             * its rate callback revision, signing key, or a Location's address is revoked. A
-             * revocation doesn't change `status`; publish a new revision to clear it. Example:
-             * "drev_01KEZF7C007Q141XJ28YAAC87B". anyOf[2] (Value): null.
-             */
-            "delivery_revocation_id"?: ((string) | (null));
-            /**
-             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
-             * string. Caller-owned identifier for this resource in an external system. maxLength:
-             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
-             */
-            "external_reference_id"?: ((string) | (null));
-            /**
-             * Merchant-facing name of the rate callback. anyOf[1] (Value): string. Merchant-facing
-             * name of the rate callback. anyOf[2] (Value): null.
-             */
-            "name"?: ((string) | (null));
-            /**
-             * Signing methods enabled for callback HTTP requests. jwt sends Authorization: Bearer
-             * with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends
-             * webhook-signature and signing key IDs. [] enum: "jwt", "hmac". anyOf[1] (Value):
-             * Array of string. Signing methods enabled for callback HTTP requests. jwt sends
-             * Authorization: Bearer with a Flint-signed token whose aud is this
-             * delivery_rate_callback_id; hmac sends webhook-signature and signing key IDs.
-             * minItems: 1. uniqueItems: true. Example: ["jwt"]. [] enum: "jwt", "hmac". anyOf[1][]
-             * (Value): string. How Flint signs requests to this endpoint. Value enum: "jwt",
-             * "hmac". anyOf[2] (Value): null.
-             */
-            "signing_methods"?: ((Array<"jwt" | "hmac" | (string & {})>) | (null));
-            /**
-             * Whether the rate callback is in use. Value enum: "active", "inactive", "archived".
-             * anyOf[1] (Value): string. Whether the rate callback is in use. Value enum: "active",
-             * "inactive", "archived". anyOf[2] (Value): null.
-             */
-            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
-             * version of this resource's owned state. Send it as `expected_version` when changing
-             * the resource to reject a stale write. Format: uint64. minimum: 1. anyOf[2] (Value):
-             * null.
-             */
-            "version"?: ((number) | (null));
-        });
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "delivery_rate_callback.deactivated". */
-    "event_type"?: "delivery_rate_callback.deactivated";
-});
-/** A page of `DeliveryRateCallback` objects. */
-export type DeliveryRateCallbackListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * DeliveryRateCallback}. An endpoint that supplies delivery rates.
-     */
-    "data": Array<DeliveryRateCallback>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `DeliveryRateCallback` data. */
-export type DeliveryRateCallbackResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. An endpoint that
-     * supplies delivery rates.
-     */
-    "data": DeliveryRateCallback;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * Result of sending a test request to a delivery rate callback, with its status, latency, HTTP
- * status code, and failure category if it failed.
- */
-export type DeliveryRateCallbackTestDelivery = {
-    /**
-     * ID of the delivery rate callback that was called. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
-     */
-    "delivery_rate_callback_id": string;
-    /** ID of the callback revision that was called. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J". */
-    "delivery_rate_callback_revision_id": string;
-    /**
-     * ID of the HMAC signing key that signed this request, as sent in the Flint-Signing-Key-Ids
-     * header. Empty for a JWT-only callback, which has no shared secret. Example:
-     * "cbkey_00112233445566778899aabb".
-     */
-    "delivery_rate_callback_signing_key_id": string;
-    /**
-     * Why the callback test failed and the action that can make the next test succeed. -
-     * `authentication_or_http_error`: Return a 2xx status after verifying the enabled signing
-     * methods. For a 401, check JWT verification with Flint's JWKS, issuer,
-     * delivery_rate_callback_id audience, expiration, and body_sha256 of the exact request bytes.
-     * For HMAC, check the shared secret and verify the raw body before parsing it. -
-     * `blocked_target`: Use a public HTTPS callback target allowed by Flint's outbound network
-     * policy. - `connection_error`: Restore network connectivity to the callback host, then test
-     * again. - `dns_error`: Fix the callback hostname or its DNS records, then test again. -
-     * `invalid_response`: Return a 2xx application/json response within maximum_response_bytes.
-     * For a test delivery, the body must also follow the callback response rules. Then test again.
-     * - `request_error`: Flint couldn't complete the request for another reason. Check the URL and
-     * your server logs, then test again. - `timeout`: Acknowledge the callback within its
-     * configured timeout, then test again. - `tls_error`: Fix the callback certificate and TLS
-     * configuration, then test again. Value enum: "authentication_or_http_error",
-     * "blocked_target", "connection_error", "dns_error", "invalid_response", "request_error",
-     * "timeout", "tls_error".
-     */
-    "failure_category"?: "authentication_or_http_error"
-        | "blocked_target"
-        | "connection_error"
-        | "dns_error"
-        | "invalid_response"
-        | "request_error"
-        | "timeout"
-        | "tls_error"
-        | (string & {});
-    /** HTTP status code the callback returned. Omitted when it returned none. */
-    "http_status_code"?: number;
-    /** Time the callback took to answer, in milliseconds. Format: int64. */
-    "latency_milliseconds": number;
-    /**
-     * Whether the callback answered the request successfully. Value enum: "succeeded", "failed".
-     */
-    "status": "succeeded" | "failed" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "tested_at": string;
-};
-/** A response containing `DeliveryRateCallbackTestDelivery` data. */
-export type DeliveryRateCallbackTestDeliveryResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. Result of sending a test
-     * request to a delivery rate callback, with its status, latency, HTTP status code, and failure
-     * category if it failed.
-     */
-    "data": DeliveryRateCallbackTestDelivery;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type DeliveryRateCallbackUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "circuit_failure_count": number;
-            "circuit_state": "closed" | "open" | "half_open" | (string & {});
-            "configuration": DeliveryRateCallbackConfiguration;
-            "created_at": string;
-            "current_delivery_rate_callback_revision_id": string;
-            "delivery_rate_callback_id": string;
-            "delivery_revocation_id": string | null;
-            "external_reference_id"?: string;
-            "name": string;
-            "signing_methods": Array<"jwt" | "hmac" | (string & {})>;
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "circuit_failure_count"?: ((number) | (null));
-            "circuit_state"?: (("closed" | "open" | "half_open" | (string & {})) | (null));
-            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null));
-            "created_at"?: ((string) | (null));
-            "current_delivery_rate_callback_revision_id"?: ((string) | (null));
-            "delivery_rate_callback_id"?: ((string) | (null));
-            "delivery_revocation_id"?: ((string) | (null));
-            "external_reference_id"?: ((string) | (null));
-            "name"?: ((string) | (null));
-            "signing_methods"?: ((Array<"jwt" | "hmac" | (string & {})>) | (null));
-            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "delivery_rate_callback.updated";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "circuit_failure_count": number;
-            "circuit_state": "closed" | "open" | "half_open" | (string & {});
-            "configuration": DeliveryRateCallbackConfiguration;
-            "created_at": string;
-            "current_delivery_rate_callback_revision_id": string;
-            "delivery_rate_callback_id": string;
-            "delivery_revocation_id": string | null;
-            "external_reference_id"?: string;
-            "name": string;
-            "signing_methods": Array<"jwt" | "hmac" | (string & {})>;
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "circuit_failure_count"?: ((number) | (null));
-            "circuit_state"?: (("closed" | "open" | "half_open" | (string & {})) | (null));
-            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null));
-            "created_at"?: ((string) | (null));
-            "current_delivery_rate_callback_revision_id"?: ((string) | (null));
-            "delivery_rate_callback_id"?: ((string) | (null));
-            "delivery_revocation_id"?: ((string) | (null));
-            "external_reference_id"?: ((string) | (null));
-            "name"?: ((string) | (null));
-            "signing_methods"?: ((Array<"jwt" | "hmac" | (string & {})>) | (null));
-            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "delivery_rate_callback.updated";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "delivery_rate_callback.updated";
-});
-/**
- * The `delivery_rate_callback.updated` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type DeliveryRateCallbackUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.circuit_failure_count (Required): integer. Consecutive callback
-     * failures since the last successful response. minimum: 0. object.circuit_state (Required):
-     * string. Whether Flint is currently calling the callback, based on recent failures. Value
-     * enum: "closed", "open", "half_open". object.configuration (Required): {@link
-     * DeliveryRateCallbackConfiguration}. Current settings of the rate callback. Settings for a
-     * delivery rate callback: the endpoint `url` Flint calls, request timeout, request and
-     * response size limits, redirect policy, and whether previews can use it. object.created_at
-     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.current_delivery_rate_callback_revision_id (Required): string. ID of the current
-     * revision. New quotes use it. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
-     * object.delivery_rate_callback_id (Required): string. Unique identifier for this delivery
-     * rate callback, prefixed `dcb_`. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
-     * object.delivery_revocation_id (Required): string or null. The revocation fencing this
-     * resource's own current revision. `null` when the current revision isn't revoked. It doesn't
-     * cover dependencies: a method can be unusable while this is `null` because its rate callback
-     * revision, signing key, or a Location's address is revoked. A revocation doesn't change
-     * `status`; publish a new revision to clear it. Example: "drev_01KEZF7C007Q141XJ28YAAC87B".
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. maxLength: 255. Example: "warehouse-1842". object.name (Required):
-     * string. Merchant-facing name of the rate callback. object.signing_methods (Required): Array
-     * of string. Signing methods enabled for callback HTTP requests. jwt sends Authorization:
-     * Bearer with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends
-     * webhook-signature and signing key IDs. minItems: 1. uniqueItems: true. Example: ["jwt"]. []
-     * enum: "jwt", "hmac". object.signing_methods[] (Value): string. How Flint signs requests to
-     * this endpoint. Value enum: "jwt", "hmac". object.status (Required): string. Whether the rate
-     * callback is in use. Value enum: "active", "inactive", "archived". object.updated_at
-     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.version (Required): integer. Current version of this resource's owned state. Send it
-     * as `expected_version` when changing the resource to reject a stale write. Format: uint64.
-     * minimum: 1. previous_attributes (Optional): object. Previous values of changed top-level
-     * fields in data.object, at this delivery's API version. Nested changes include the whole
-     * previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
-     * previous_attributes.circuit_failure_count (Optional): integer or null. Consecutive callback
-     * failures since the last successful response.
-     * previous_attributes.circuit_failure_count.anyOf[1] (Value): integer. Consecutive callback
-     * failures since the last successful response. minimum: 0.
-     * previous_attributes.circuit_failure_count.anyOf[2] (Value): null.
-     * previous_attributes.circuit_state (Optional): string or null. Whether Flint is currently
-     * calling the callback, based on recent failures. Value enum: "closed", "open", "half_open".
-     * previous_attributes.circuit_state.anyOf[1] (Value): string. Whether Flint is currently
-     * calling the callback, based on recent failures. Value enum: "closed", "open", "half_open".
-     * previous_attributes.circuit_state.anyOf[2] (Value): null. previous_attributes.configuration
-     * (Optional): {@link DeliveryRateCallbackConfigurationPreviousAttributes} or null. Current
-     * settings of the rate callback. previous_attributes.configuration.anyOf[1] (Value): {@link
-     * DeliveryRateCallbackConfigurationPreviousAttributes}.
-     * previous_attributes.configuration.anyOf[2] (Value): null. previous_attributes.created_at
-     * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
-     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.created_at.anyOf[2] (Value): null.
-     * previous_attributes.current_delivery_rate_callback_revision_id (Optional): string or null.
-     * ID of the current revision. New quotes use it.
-     * previous_attributes.current_delivery_rate_callback_revision_id.anyOf[1] (Value): string. ID
-     * of the current revision. New quotes use it. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
-     * previous_attributes.current_delivery_rate_callback_revision_id.anyOf[2] (Value): null.
-     * previous_attributes.delivery_rate_callback_id (Optional): string or null. Unique identifier
-     * for this delivery rate callback, prefixed `dcb_`.
-     * previous_attributes.delivery_rate_callback_id.anyOf[1] (Value): string. Unique identifier
-     * for this delivery rate callback, prefixed `dcb_`. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
-     * previous_attributes.delivery_rate_callback_id.anyOf[2] (Value): null.
-     * previous_attributes.delivery_revocation_id (Optional): string or null. The revocation
-     * fencing this resource's own current revision. `null` when the current revision isn't
-     * revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
-     * because its rate callback revision, signing key, or a Location's address is revoked. A
-     * revocation doesn't change `status`; publish a new revision to clear it.
-     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing
-     * this resource's own current revision. `null` when the current revision isn't revoked. It
-     * doesn't cover dependencies: a method can be unusable while this is `null` because its rate
-     * callback revision, signing key, or a Location's address is revoked. A revocation doesn't
-     * change `status`; publish a new revision to clear it. Example:
-     * "drev_01KEZF7C007Q141XJ28YAAC87B". previous_attributes.delivery_revocation_id.anyOf[2]
-     * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
-     * Caller-owned identifier for this resource in an external system.
-     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
-     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
-     * previous_attributes.external_reference_id.anyOf[2] (Value): null. previous_attributes.name
-     * (Optional): string or null. Merchant-facing name of the rate callback.
-     * previous_attributes.name.anyOf[1] (Value): string. Merchant-facing name of the rate
-     * callback. previous_attributes.name.anyOf[2] (Value): null.
-     * previous_attributes.signing_methods (Optional): Array of string or null. Signing methods
-     * enabled for callback HTTP requests. jwt sends Authorization: Bearer with a Flint-signed
-     * token whose aud is this delivery_rate_callback_id; hmac sends webhook-signature and signing
-     * key IDs. [] enum: "jwt", "hmac". previous_attributes.signing_methods.anyOf[1] (Value): Array
-     * of string. Signing methods enabled for callback HTTP requests. jwt sends Authorization:
-     * Bearer with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends
-     * webhook-signature and signing key IDs. minItems: 1. uniqueItems: true. Example: ["jwt"]. []
-     * enum: "jwt", "hmac". previous_attributes.signing_methods.anyOf[1][] (Value): string. How
-     * Flint signs requests to this endpoint. Value enum: "jwt", "hmac".
-     * previous_attributes.signing_methods.anyOf[2] (Value): null. previous_attributes.status
-     * (Optional): string or null. Whether the rate callback is in use. Value enum: "active",
-     * "inactive", "archived". previous_attributes.status.anyOf[1] (Value): string. Whether the
-     * rate callback is in use. Value enum: "active", "inactive", "archived".
-     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.updated_at
-     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
-     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
-     * (Optional): integer or null. Current version of this resource's owned state. Send it as
-     * `expected_version` when changing the resource to reject a stale write.
-     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
-     * owned state. Send it as `expected_version` when changing the resource to reject a stale
-     * write. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * circuit_failure_count (Required): integer. Consecutive callback failures since the last
-         * successful response. minimum: 0. circuit_state (Required): string. Whether Flint is
-         * currently calling the callback, based on recent failures. Value enum: "closed", "open",
-         * "half_open". configuration (Required): {@link DeliveryRateCallbackConfiguration}.
-         * Current settings of the rate callback. Settings for a delivery rate callback: the
-         * endpoint `url` Flint calls, request timeout, request and response size limits, redirect
-         * policy, and whether previews can use it. created_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * current_delivery_rate_callback_revision_id (Required): string. ID of the current
-         * revision. New quotes use it. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
-         * delivery_rate_callback_id (Required): string. Unique identifier for this delivery rate
-         * callback, prefixed `dcb_`. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
-         * delivery_revocation_id (Required): string or null. The revocation fencing this
-         * resource's own current revision. `null` when the current revision isn't revoked. It
-         * doesn't cover dependencies: a method can be unusable while this is `null` because its
-         * rate callback revision, signing key, or a Location's address is revoked. A revocation
-         * doesn't change `status`; publish a new revision to clear it. Example:
-         * "drev_01KEZF7C007Q141XJ28YAAC87B". external_reference_id (Optional): string.
-         * Caller-owned identifier for this resource in an external system. maxLength: 255.
-         * Example: "warehouse-1842". name (Required): string. Merchant-facing name of the rate
-         * callback. signing_methods (Required): Array of string. Signing methods enabled for
-         * callback HTTP requests. jwt sends Authorization: Bearer with a Flint-signed token whose
-         * aud is this delivery_rate_callback_id; hmac sends webhook-signature and signing key IDs.
-         * minItems: 1. uniqueItems: true. Example: ["jwt"]. [] enum: "jwt", "hmac".
-         * signing_methods[] (Value): string. How Flint signs requests to this endpoint. Value
-         * enum: "jwt", "hmac". status (Required): string. Whether the rate callback is in use.
-         * Value enum: "active", "inactive", "archived". updated_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
-         * integer. Current version of this resource's owned state. Send it as `expected_version`
-         * when changing the resource to reject a stale write. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /** Consecutive callback failures since the last successful response. minimum: 0. */
-            "circuit_failure_count": number;
-            /**
-             * Whether Flint is currently calling the callback, based on recent failures. Value
-             * enum: "closed", "open", "half_open".
-             */
-            "circuit_state": "closed" | "open" | "half_open" | (string & {});
-            /**
-             * Current settings of the rate callback. Settings for a delivery rate callback: the
-             * endpoint `url` Flint calls, request timeout, request and response size limits,
-             * redirect policy, and whether previews can use it.
-             */
-            "configuration": DeliveryRateCallbackConfiguration;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * ID of the current revision. New quotes use it. Example:
-             * "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
-             */
-            "current_delivery_rate_callback_revision_id": string;
-            /**
-             * Unique identifier for this delivery rate callback, prefixed `dcb_`. Example:
-             * "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
-             */
-            "delivery_rate_callback_id": string;
-            /**
-             * The revocation fencing this resource's own current revision. `null` when the current
-             * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
-             * while this is `null` because its rate callback revision, signing key, or a
-             * Location's address is revoked. A revocation doesn't change `status`; publish a new
-             * revision to clear it. Example: "drev_01KEZF7C007Q141XJ28YAAC87B".
-             */
-            "delivery_revocation_id": string | null;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /** Merchant-facing name of the rate callback. */
-            "name": string;
-            /**
-             * Signing methods enabled for callback HTTP requests. jwt sends Authorization: Bearer
-             * with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends
-             * webhook-signature and signing key IDs. minItems: 1. uniqueItems: true. Example:
-             * ["jwt"]. [] enum: "jwt", "hmac". [] (Value): string. How Flint signs requests to
-             * this endpoint. Value enum: "jwt", "hmac".
-             */
-            "signing_methods": Array<"jwt" | "hmac" | (string & {})>;
-            /**
-             * Whether the rate callback is in use. Value enum: "active", "inactive", "archived".
-             */
-            "status": "active" | "inactive" | "archived" | (string & {});
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. circuit_failure_count (Optional): integer or
-         * null. Consecutive callback failures since the last successful response.
-         * circuit_failure_count.anyOf[1] (Value): integer. Consecutive callback failures since the
-         * last successful response. minimum: 0. circuit_failure_count.anyOf[2] (Value): null.
-         * circuit_state (Optional): string or null. Whether Flint is currently calling the
-         * callback, based on recent failures. Value enum: "closed", "open", "half_open".
-         * circuit_state.anyOf[1] (Value): string. Whether Flint is currently calling the callback,
-         * based on recent failures. Value enum: "closed", "open", "half_open".
-         * circuit_state.anyOf[2] (Value): null. configuration (Optional): {@link
-         * DeliveryRateCallbackConfigurationPreviousAttributes} or null. Current settings of the
-         * rate callback. configuration.anyOf[1] (Value): {@link
-         * DeliveryRateCallbackConfigurationPreviousAttributes}. configuration.anyOf[2] (Value):
-         * null. created_at (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1]
-         * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. current_delivery_rate_callback_revision_id
-         * (Optional): string or null. ID of the current revision. New quotes use it.
-         * current_delivery_rate_callback_revision_id.anyOf[1] (Value): string. ID of the current
-         * revision. New quotes use it. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
-         * current_delivery_rate_callback_revision_id.anyOf[2] (Value): null.
-         * delivery_rate_callback_id (Optional): string or null. Unique identifier for this
-         * delivery rate callback, prefixed `dcb_`. delivery_rate_callback_id.anyOf[1] (Value):
-         * string. Unique identifier for this delivery rate callback, prefixed `dcb_`. Example:
-         * "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1". delivery_rate_callback_id.anyOf[2] (Value): null.
-         * delivery_revocation_id (Optional): string or null. The revocation fencing this
-         * resource's own current revision. `null` when the current revision isn't revoked. It
-         * doesn't cover dependencies: a method can be unusable while this is `null` because its
-         * rate callback revision, signing key, or a Location's address is revoked. A revocation
-         * doesn't change `status`; publish a new revision to clear it.
-         * delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing this resource's
-         * own current revision. `null` when the current revision isn't revoked. It doesn't cover
-         * dependencies: a method can be unusable while this is `null` because its rate callback
-         * revision, signing key, or a Location's address is revoked. A revocation doesn't change
-         * `status`; publish a new revision to clear it. Example:
-         * "drev_01KEZF7C007Q141XJ28YAAC87B". delivery_revocation_id.anyOf[2] (Value): null.
-         * external_reference_id (Optional): string or null. Caller-owned identifier for this
-         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
-         * Caller-owned identifier for this resource in an external system. maxLength: 255.
-         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. name
-         * (Optional): string or null. Merchant-facing name of the rate callback. name.anyOf[1]
-         * (Value): string. Merchant-facing name of the rate callback. name.anyOf[2] (Value): null.
-         * signing_methods (Optional): Array of string or null. Signing methods enabled for
-         * callback HTTP requests. jwt sends Authorization: Bearer with a Flint-signed token whose
-         * aud is this delivery_rate_callback_id; hmac sends webhook-signature and signing key IDs.
-         * [] enum: "jwt", "hmac". signing_methods.anyOf[1] (Value): Array of string. Signing
-         * methods enabled for callback HTTP requests. jwt sends Authorization: Bearer with a
-         * Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends
-         * webhook-signature and signing key IDs. minItems: 1. uniqueItems: true. Example: ["jwt"].
-         * [] enum: "jwt", "hmac". signing_methods.anyOf[1][] (Value): string. How Flint signs
-         * requests to this endpoint. Value enum: "jwt", "hmac". signing_methods.anyOf[2] (Value):
-         * null. status (Optional): string or null. Whether the rate callback is in use. Value
-         * enum: "active", "inactive", "archived". status.anyOf[1] (Value): string. Whether the
-         * rate callback is in use. Value enum: "active", "inactive", "archived". status.anyOf[2]
-         * (Value): null. updated_at (Optional): string or null. RFC3339 timestamp.
-         * updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
-         * or null. Current version of this resource's owned state. Send it as `expected_version`
-         * when changing the resource to reject a stale write. version.anyOf[1] (Value): integer.
-         * Current version of this resource's owned state. Send it as `expected_version` when
-         * changing the resource to reject a stale write. Format: uint64. minimum: 1.
-         * version.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * Consecutive callback failures since the last successful response. anyOf[1] (Value):
-             * integer. Consecutive callback failures since the last successful response. minimum:
-             * 0. anyOf[2] (Value): null.
-             */
-            "circuit_failure_count"?: ((number) | (null));
-            /**
-             * Whether Flint is currently calling the callback, based on recent failures. Value
-             * enum: "closed", "open", "half_open". anyOf[1] (Value): string. Whether Flint is
-             * currently calling the callback, based on recent failures. Value enum: "closed",
-             * "open", "half_open". anyOf[2] (Value): null.
-             */
-            "circuit_state"?: (("closed" | "open" | "half_open" | (string & {})) | (null));
-            /**
-             * Current settings of the rate callback. anyOf[1] (Value): {@link
-             * DeliveryRateCallbackConfigurationPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * ID of the current revision. New quotes use it. anyOf[1] (Value): string. ID of the
-             * current revision. New quotes use it. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
-             * anyOf[2] (Value): null.
-             */
-            "current_delivery_rate_callback_revision_id"?: ((string) | (null));
-            /**
-             * Unique identifier for this delivery rate callback, prefixed `dcb_`. anyOf[1]
-             * (Value): string. Unique identifier for this delivery rate callback, prefixed `dcb_`.
-             * Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1". anyOf[2] (Value): null.
-             */
-            "delivery_rate_callback_id"?: ((string) | (null));
-            /**
-             * The revocation fencing this resource's own current revision. `null` when the current
-             * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
-             * while this is `null` because its rate callback revision, signing key, or a
-             * Location's address is revoked. A revocation doesn't change `status`; publish a new
-             * revision to clear it. anyOf[1] (Value): string. The revocation fencing this
-             * resource's own current revision. `null` when the current revision isn't revoked. It
-             * doesn't cover dependencies: a method can be unusable while this is `null` because
-             * its rate callback revision, signing key, or a Location's address is revoked. A
-             * revocation doesn't change `status`; publish a new revision to clear it. Example:
-             * "drev_01KEZF7C007Q141XJ28YAAC87B". anyOf[2] (Value): null.
-             */
-            "delivery_revocation_id"?: ((string) | (null));
-            /**
-             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
-             * string. Caller-owned identifier for this resource in an external system. maxLength:
-             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
-             */
-            "external_reference_id"?: ((string) | (null));
-            /**
-             * Merchant-facing name of the rate callback. anyOf[1] (Value): string. Merchant-facing
-             * name of the rate callback. anyOf[2] (Value): null.
-             */
-            "name"?: ((string) | (null));
-            /**
-             * Signing methods enabled for callback HTTP requests. jwt sends Authorization: Bearer
-             * with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends
-             * webhook-signature and signing key IDs. [] enum: "jwt", "hmac". anyOf[1] (Value):
-             * Array of string. Signing methods enabled for callback HTTP requests. jwt sends
-             * Authorization: Bearer with a Flint-signed token whose aud is this
-             * delivery_rate_callback_id; hmac sends webhook-signature and signing key IDs.
-             * minItems: 1. uniqueItems: true. Example: ["jwt"]. [] enum: "jwt", "hmac". anyOf[1][]
-             * (Value): string. How Flint signs requests to this endpoint. Value enum: "jwt",
-             * "hmac". anyOf[2] (Value): null.
-             */
-            "signing_methods"?: ((Array<"jwt" | "hmac" | (string & {})>) | (null));
-            /**
-             * Whether the rate callback is in use. Value enum: "active", "inactive", "archived".
-             * anyOf[1] (Value): string. Whether the rate callback is in use. Value enum: "active",
-             * "inactive", "archived". anyOf[2] (Value): null.
-             */
-            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
-             * version of this resource's owned state. Send it as `expected_version` when changing
-             * the resource to reject a stale write. Format: uint64. minimum: 1. anyOf[2] (Value):
-             * null.
-             */
-            "version"?: ((number) | (null));
-        });
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "delivery_rate_callback.updated". */
-    "event_type"?: "delivery_rate_callback.updated";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `delivery_rate_callback.updated` webhook payload for the `merchant` event source. Fields
- * shared by merchant webhook payloads.
- */
-export type DeliveryRateCallbackUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.circuit_failure_count (Required): integer. Consecutive callback
-     * failures since the last successful response. minimum: 0. object.circuit_state (Required):
-     * string. Whether Flint is currently calling the callback, based on recent failures. Value
-     * enum: "closed", "open", "half_open". object.configuration (Required): {@link
-     * DeliveryRateCallbackConfiguration}. Current settings of the rate callback. Settings for a
-     * delivery rate callback: the endpoint `url` Flint calls, request timeout, request and
-     * response size limits, redirect policy, and whether previews can use it. object.created_at
-     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.current_delivery_rate_callback_revision_id (Required): string. ID of the current
-     * revision. New quotes use it. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
-     * object.delivery_rate_callback_id (Required): string. Unique identifier for this delivery
-     * rate callback, prefixed `dcb_`. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
-     * object.delivery_revocation_id (Required): string or null. The revocation fencing this
-     * resource's own current revision. `null` when the current revision isn't revoked. It doesn't
-     * cover dependencies: a method can be unusable while this is `null` because its rate callback
-     * revision, signing key, or a Location's address is revoked. A revocation doesn't change
-     * `status`; publish a new revision to clear it. Example: "drev_01KEZF7C007Q141XJ28YAAC87B".
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. maxLength: 255. Example: "warehouse-1842". object.name (Required):
-     * string. Merchant-facing name of the rate callback. object.signing_methods (Required): Array
-     * of string. Signing methods enabled for callback HTTP requests. jwt sends Authorization:
-     * Bearer with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends
-     * webhook-signature and signing key IDs. minItems: 1. uniqueItems: true. Example: ["jwt"]. []
-     * enum: "jwt", "hmac". object.signing_methods[] (Value): string. How Flint signs requests to
-     * this endpoint. Value enum: "jwt", "hmac". object.status (Required): string. Whether the rate
-     * callback is in use. Value enum: "active", "inactive", "archived". object.updated_at
-     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.version (Required): integer. Current version of this resource's owned state. Send it
-     * as `expected_version` when changing the resource to reject a stale write. Format: uint64.
-     * minimum: 1. previous_attributes (Optional): object. Previous values of changed top-level
-     * fields in data.object, at this delivery's API version. Nested changes include the whole
-     * previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
-     * previous_attributes.circuit_failure_count (Optional): integer or null. Consecutive callback
-     * failures since the last successful response.
-     * previous_attributes.circuit_failure_count.anyOf[1] (Value): integer. Consecutive callback
-     * failures since the last successful response. minimum: 0.
-     * previous_attributes.circuit_failure_count.anyOf[2] (Value): null.
-     * previous_attributes.circuit_state (Optional): string or null. Whether Flint is currently
-     * calling the callback, based on recent failures. Value enum: "closed", "open", "half_open".
-     * previous_attributes.circuit_state.anyOf[1] (Value): string. Whether Flint is currently
-     * calling the callback, based on recent failures. Value enum: "closed", "open", "half_open".
-     * previous_attributes.circuit_state.anyOf[2] (Value): null. previous_attributes.configuration
-     * (Optional): {@link DeliveryRateCallbackConfigurationPreviousAttributes} or null. Current
-     * settings of the rate callback. previous_attributes.configuration.anyOf[1] (Value): {@link
-     * DeliveryRateCallbackConfigurationPreviousAttributes}.
-     * previous_attributes.configuration.anyOf[2] (Value): null. previous_attributes.created_at
-     * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
-     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.created_at.anyOf[2] (Value): null.
-     * previous_attributes.current_delivery_rate_callback_revision_id (Optional): string or null.
-     * ID of the current revision. New quotes use it.
-     * previous_attributes.current_delivery_rate_callback_revision_id.anyOf[1] (Value): string. ID
-     * of the current revision. New quotes use it. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
-     * previous_attributes.current_delivery_rate_callback_revision_id.anyOf[2] (Value): null.
-     * previous_attributes.delivery_rate_callback_id (Optional): string or null. Unique identifier
-     * for this delivery rate callback, prefixed `dcb_`.
-     * previous_attributes.delivery_rate_callback_id.anyOf[1] (Value): string. Unique identifier
-     * for this delivery rate callback, prefixed `dcb_`. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
-     * previous_attributes.delivery_rate_callback_id.anyOf[2] (Value): null.
-     * previous_attributes.delivery_revocation_id (Optional): string or null. The revocation
-     * fencing this resource's own current revision. `null` when the current revision isn't
-     * revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
-     * because its rate callback revision, signing key, or a Location's address is revoked. A
-     * revocation doesn't change `status`; publish a new revision to clear it.
-     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing
-     * this resource's own current revision. `null` when the current revision isn't revoked. It
-     * doesn't cover dependencies: a method can be unusable while this is `null` because its rate
-     * callback revision, signing key, or a Location's address is revoked. A revocation doesn't
-     * change `status`; publish a new revision to clear it. Example:
-     * "drev_01KEZF7C007Q141XJ28YAAC87B". previous_attributes.delivery_revocation_id.anyOf[2]
-     * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
-     * Caller-owned identifier for this resource in an external system.
-     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
-     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
-     * previous_attributes.external_reference_id.anyOf[2] (Value): null. previous_attributes.name
-     * (Optional): string or null. Merchant-facing name of the rate callback.
-     * previous_attributes.name.anyOf[1] (Value): string. Merchant-facing name of the rate
-     * callback. previous_attributes.name.anyOf[2] (Value): null.
-     * previous_attributes.signing_methods (Optional): Array of string or null. Signing methods
-     * enabled for callback HTTP requests. jwt sends Authorization: Bearer with a Flint-signed
-     * token whose aud is this delivery_rate_callback_id; hmac sends webhook-signature and signing
-     * key IDs. [] enum: "jwt", "hmac". previous_attributes.signing_methods.anyOf[1] (Value): Array
-     * of string. Signing methods enabled for callback HTTP requests. jwt sends Authorization:
-     * Bearer with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends
-     * webhook-signature and signing key IDs. minItems: 1. uniqueItems: true. Example: ["jwt"]. []
-     * enum: "jwt", "hmac". previous_attributes.signing_methods.anyOf[1][] (Value): string. How
-     * Flint signs requests to this endpoint. Value enum: "jwt", "hmac".
-     * previous_attributes.signing_methods.anyOf[2] (Value): null. previous_attributes.status
-     * (Optional): string or null. Whether the rate callback is in use. Value enum: "active",
-     * "inactive", "archived". previous_attributes.status.anyOf[1] (Value): string. Whether the
-     * rate callback is in use. Value enum: "active", "inactive", "archived".
-     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.updated_at
-     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
-     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
-     * (Optional): integer or null. Current version of this resource's owned state. Send it as
-     * `expected_version` when changing the resource to reject a stale write.
-     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
-     * owned state. Send it as `expected_version` when changing the resource to reject a stale
-     * write. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * circuit_failure_count (Required): integer. Consecutive callback failures since the last
-         * successful response. minimum: 0. circuit_state (Required): string. Whether Flint is
-         * currently calling the callback, based on recent failures. Value enum: "closed", "open",
-         * "half_open". configuration (Required): {@link DeliveryRateCallbackConfiguration}.
-         * Current settings of the rate callback. Settings for a delivery rate callback: the
-         * endpoint `url` Flint calls, request timeout, request and response size limits, redirect
-         * policy, and whether previews can use it. created_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * current_delivery_rate_callback_revision_id (Required): string. ID of the current
-         * revision. New quotes use it. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
-         * delivery_rate_callback_id (Required): string. Unique identifier for this delivery rate
-         * callback, prefixed `dcb_`. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
-         * delivery_revocation_id (Required): string or null. The revocation fencing this
-         * resource's own current revision. `null` when the current revision isn't revoked. It
-         * doesn't cover dependencies: a method can be unusable while this is `null` because its
-         * rate callback revision, signing key, or a Location's address is revoked. A revocation
-         * doesn't change `status`; publish a new revision to clear it. Example:
-         * "drev_01KEZF7C007Q141XJ28YAAC87B". external_reference_id (Optional): string.
-         * Caller-owned identifier for this resource in an external system. maxLength: 255.
-         * Example: "warehouse-1842". name (Required): string. Merchant-facing name of the rate
-         * callback. signing_methods (Required): Array of string. Signing methods enabled for
-         * callback HTTP requests. jwt sends Authorization: Bearer with a Flint-signed token whose
-         * aud is this delivery_rate_callback_id; hmac sends webhook-signature and signing key IDs.
-         * minItems: 1. uniqueItems: true. Example: ["jwt"]. [] enum: "jwt", "hmac".
-         * signing_methods[] (Value): string. How Flint signs requests to this endpoint. Value
-         * enum: "jwt", "hmac". status (Required): string. Whether the rate callback is in use.
-         * Value enum: "active", "inactive", "archived". updated_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
-         * integer. Current version of this resource's owned state. Send it as `expected_version`
-         * when changing the resource to reject a stale write. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /** Consecutive callback failures since the last successful response. minimum: 0. */
-            "circuit_failure_count": number;
-            /**
-             * Whether Flint is currently calling the callback, based on recent failures. Value
-             * enum: "closed", "open", "half_open".
-             */
-            "circuit_state": "closed" | "open" | "half_open" | (string & {});
-            /**
-             * Current settings of the rate callback. Settings for a delivery rate callback: the
-             * endpoint `url` Flint calls, request timeout, request and response size limits,
-             * redirect policy, and whether previews can use it.
-             */
-            "configuration": DeliveryRateCallbackConfiguration;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * ID of the current revision. New quotes use it. Example:
-             * "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
-             */
-            "current_delivery_rate_callback_revision_id": string;
-            /**
-             * Unique identifier for this delivery rate callback, prefixed `dcb_`. Example:
-             * "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
-             */
-            "delivery_rate_callback_id": string;
-            /**
-             * The revocation fencing this resource's own current revision. `null` when the current
-             * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
-             * while this is `null` because its rate callback revision, signing key, or a
-             * Location's address is revoked. A revocation doesn't change `status`; publish a new
-             * revision to clear it. Example: "drev_01KEZF7C007Q141XJ28YAAC87B".
-             */
-            "delivery_revocation_id": string | null;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /** Merchant-facing name of the rate callback. */
-            "name": string;
-            /**
-             * Signing methods enabled for callback HTTP requests. jwt sends Authorization: Bearer
-             * with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends
-             * webhook-signature and signing key IDs. minItems: 1. uniqueItems: true. Example:
-             * ["jwt"]. [] enum: "jwt", "hmac". [] (Value): string. How Flint signs requests to
-             * this endpoint. Value enum: "jwt", "hmac".
-             */
-            "signing_methods": Array<"jwt" | "hmac" | (string & {})>;
-            /**
-             * Whether the rate callback is in use. Value enum: "active", "inactive", "archived".
-             */
-            "status": "active" | "inactive" | "archived" | (string & {});
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. circuit_failure_count (Optional): integer or
-         * null. Consecutive callback failures since the last successful response.
-         * circuit_failure_count.anyOf[1] (Value): integer. Consecutive callback failures since the
-         * last successful response. minimum: 0. circuit_failure_count.anyOf[2] (Value): null.
-         * circuit_state (Optional): string or null. Whether Flint is currently calling the
-         * callback, based on recent failures. Value enum: "closed", "open", "half_open".
-         * circuit_state.anyOf[1] (Value): string. Whether Flint is currently calling the callback,
-         * based on recent failures. Value enum: "closed", "open", "half_open".
-         * circuit_state.anyOf[2] (Value): null. configuration (Optional): {@link
-         * DeliveryRateCallbackConfigurationPreviousAttributes} or null. Current settings of the
-         * rate callback. configuration.anyOf[1] (Value): {@link
-         * DeliveryRateCallbackConfigurationPreviousAttributes}. configuration.anyOf[2] (Value):
-         * null. created_at (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1]
-         * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. current_delivery_rate_callback_revision_id
-         * (Optional): string or null. ID of the current revision. New quotes use it.
-         * current_delivery_rate_callback_revision_id.anyOf[1] (Value): string. ID of the current
-         * revision. New quotes use it. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
-         * current_delivery_rate_callback_revision_id.anyOf[2] (Value): null.
-         * delivery_rate_callback_id (Optional): string or null. Unique identifier for this
-         * delivery rate callback, prefixed `dcb_`. delivery_rate_callback_id.anyOf[1] (Value):
-         * string. Unique identifier for this delivery rate callback, prefixed `dcb_`. Example:
-         * "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1". delivery_rate_callback_id.anyOf[2] (Value): null.
-         * delivery_revocation_id (Optional): string or null. The revocation fencing this
-         * resource's own current revision. `null` when the current revision isn't revoked. It
-         * doesn't cover dependencies: a method can be unusable while this is `null` because its
-         * rate callback revision, signing key, or a Location's address is revoked. A revocation
-         * doesn't change `status`; publish a new revision to clear it.
-         * delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing this resource's
-         * own current revision. `null` when the current revision isn't revoked. It doesn't cover
-         * dependencies: a method can be unusable while this is `null` because its rate callback
-         * revision, signing key, or a Location's address is revoked. A revocation doesn't change
-         * `status`; publish a new revision to clear it. Example:
-         * "drev_01KEZF7C007Q141XJ28YAAC87B". delivery_revocation_id.anyOf[2] (Value): null.
-         * external_reference_id (Optional): string or null. Caller-owned identifier for this
-         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
-         * Caller-owned identifier for this resource in an external system. maxLength: 255.
-         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. name
-         * (Optional): string or null. Merchant-facing name of the rate callback. name.anyOf[1]
-         * (Value): string. Merchant-facing name of the rate callback. name.anyOf[2] (Value): null.
-         * signing_methods (Optional): Array of string or null. Signing methods enabled for
-         * callback HTTP requests. jwt sends Authorization: Bearer with a Flint-signed token whose
-         * aud is this delivery_rate_callback_id; hmac sends webhook-signature and signing key IDs.
-         * [] enum: "jwt", "hmac". signing_methods.anyOf[1] (Value): Array of string. Signing
-         * methods enabled for callback HTTP requests. jwt sends Authorization: Bearer with a
-         * Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends
-         * webhook-signature and signing key IDs. minItems: 1. uniqueItems: true. Example: ["jwt"].
-         * [] enum: "jwt", "hmac". signing_methods.anyOf[1][] (Value): string. How Flint signs
-         * requests to this endpoint. Value enum: "jwt", "hmac". signing_methods.anyOf[2] (Value):
-         * null. status (Optional): string or null. Whether the rate callback is in use. Value
-         * enum: "active", "inactive", "archived". status.anyOf[1] (Value): string. Whether the
-         * rate callback is in use. Value enum: "active", "inactive", "archived". status.anyOf[2]
-         * (Value): null. updated_at (Optional): string or null. RFC3339 timestamp.
-         * updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
-         * or null. Current version of this resource's owned state. Send it as `expected_version`
-         * when changing the resource to reject a stale write. version.anyOf[1] (Value): integer.
-         * Current version of this resource's owned state. Send it as `expected_version` when
-         * changing the resource to reject a stale write. Format: uint64. minimum: 1.
-         * version.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * Consecutive callback failures since the last successful response. anyOf[1] (Value):
-             * integer. Consecutive callback failures since the last successful response. minimum:
-             * 0. anyOf[2] (Value): null.
-             */
-            "circuit_failure_count"?: ((number) | (null));
-            /**
-             * Whether Flint is currently calling the callback, based on recent failures. Value
-             * enum: "closed", "open", "half_open". anyOf[1] (Value): string. Whether Flint is
-             * currently calling the callback, based on recent failures. Value enum: "closed",
-             * "open", "half_open". anyOf[2] (Value): null.
-             */
-            "circuit_state"?: (("closed" | "open" | "half_open" | (string & {})) | (null));
-            /**
-             * Current settings of the rate callback. anyOf[1] (Value): {@link
-             * DeliveryRateCallbackConfigurationPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * ID of the current revision. New quotes use it. anyOf[1] (Value): string. ID of the
-             * current revision. New quotes use it. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
-             * anyOf[2] (Value): null.
-             */
-            "current_delivery_rate_callback_revision_id"?: ((string) | (null));
-            /**
-             * Unique identifier for this delivery rate callback, prefixed `dcb_`. anyOf[1]
-             * (Value): string. Unique identifier for this delivery rate callback, prefixed `dcb_`.
-             * Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1". anyOf[2] (Value): null.
-             */
-            "delivery_rate_callback_id"?: ((string) | (null));
-            /**
-             * The revocation fencing this resource's own current revision. `null` when the current
-             * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
-             * while this is `null` because its rate callback revision, signing key, or a
-             * Location's address is revoked. A revocation doesn't change `status`; publish a new
-             * revision to clear it. anyOf[1] (Value): string. The revocation fencing this
-             * resource's own current revision. `null` when the current revision isn't revoked. It
-             * doesn't cover dependencies: a method can be unusable while this is `null` because
-             * its rate callback revision, signing key, or a Location's address is revoked. A
-             * revocation doesn't change `status`; publish a new revision to clear it. Example:
-             * "drev_01KEZF7C007Q141XJ28YAAC87B". anyOf[2] (Value): null.
-             */
-            "delivery_revocation_id"?: ((string) | (null));
-            /**
-             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
-             * string. Caller-owned identifier for this resource in an external system. maxLength:
-             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
-             */
-            "external_reference_id"?: ((string) | (null));
-            /**
-             * Merchant-facing name of the rate callback. anyOf[1] (Value): string. Merchant-facing
-             * name of the rate callback. anyOf[2] (Value): null.
-             */
-            "name"?: ((string) | (null));
-            /**
-             * Signing methods enabled for callback HTTP requests. jwt sends Authorization: Bearer
-             * with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends
-             * webhook-signature and signing key IDs. [] enum: "jwt", "hmac". anyOf[1] (Value):
-             * Array of string. Signing methods enabled for callback HTTP requests. jwt sends
-             * Authorization: Bearer with a Flint-signed token whose aud is this
-             * delivery_rate_callback_id; hmac sends webhook-signature and signing key IDs.
-             * minItems: 1. uniqueItems: true. Example: ["jwt"]. [] enum: "jwt", "hmac". anyOf[1][]
-             * (Value): string. How Flint signs requests to this endpoint. Value enum: "jwt",
-             * "hmac". anyOf[2] (Value): null.
-             */
-            "signing_methods"?: ((Array<"jwt" | "hmac" | (string & {})>) | (null));
-            /**
-             * Whether the rate callback is in use. Value enum: "active", "inactive", "archived".
-             * anyOf[1] (Value): string. Whether the rate callback is in use. Value enum: "active",
-             * "inactive", "archived". anyOf[2] (Value): null.
-             */
-            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
-             * version of this resource's owned state. Send it as `expected_version` when changing
-             * the resource to reject a stale write. Format: uint64. minimum: 1. anyOf[2] (Value):
-             * null.
-             */
-            "version"?: ((number) | (null));
-        });
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "delivery_rate_callback.updated". */
-    "event_type"?: "delivery_rate_callback.updated";
-});
-/**
- * A delivery rate callback with its one-time HMAC shared secret, returned on create with hmac, by
- * the PATCH that first adds hmac, and by rotate-secret. An endpoint that supplies delivery rates.
- */
-export type DeliveryRateCallbackWithSecret = (Exclude<DeliveryRateCallback & object, readonly unknown[]>)
-    & ({
-    /**
-     * ID of the HMAC signing key for secret, sent in the Flint-Signing-Key-Ids request header.
-     * Present exactly when secret is present. Example: "cbkey_00112233445566778899aabb".
-     */
-    "delivery_rate_callback_signing_key_id"?: string;
-    /**
-     * One-time HMAC shared secret. Present on create when signing_methods includes hmac, on the
-     * PATCH that first adds hmac, and on rotate-secret; omitted on an idempotent replay after the
-     * secret retention period and on every other response. Flint never returns it again.
-     */
-    "secret"?: string;
-});
-/** A response containing `DeliveryRateCallbackWithSecret` data. */
-export type DeliveryRateCallbackWithSecretResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A delivery rate callback
-     * with its one-time HMAC shared secret, returned on create with hmac, by the PATCH that first
-     * adds hmac, and by rotate-secret. An endpoint that supplies delivery rates.
-     */
-    "data": DeliveryRateCallbackWithSecret;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type DeliveryRateCallbacksCheckConnectionParams = DisputesAcceptParams;

@@ -10,7 +10,7 @@ namespace Flint;
 final class DeliveryMethodsDeleteInput extends Model {
     /** @param array{'delivery_method_id': string, 'expected_version'?: int, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodsDeleteInput')); }
-    /** Flint delivery method ID. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+    /** Flint delivery method ID. Must be a valid ID with prefix dmet_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * @return string
      * @throws SdkError When delivery_method_id is omitted; use hasDeliveryMethodId() or valueOrDefault().
      */

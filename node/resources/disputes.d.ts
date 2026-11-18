@@ -1,17 +1,18 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
+import type { Dispute, DisputeListResponse } from '../declarations/types-25.js';
 import type {
-    Dispute,
-    DisputeListResponse,
     DisputeResponse,
     DisputeResponseSession,
     DisputeResponseSessionResponse,
     DisputesAcceptParams,
-    DisputesCreateResponseSessionParams
-} from '../declarations/types-25.js';
-import type { DisputesGetParams, DisputesListParams, DisputesSimulateParams } from '../declarations/types-26.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+    DisputesCreateResponseSessionParams,
+    DisputesGetParams,
+    DisputesListParams,
+    DisputesSimulateParams
+} from '../declarations/types-26.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -28,46 +29,43 @@ export type {
 } from '../runtime.js';
 export type {
     DisputesAcceptParams,
-    Dispute,
     DisputeResponse,
     DisputesCreateResponseSessionParams,
     DisputeResponseSession,
     DisputeResponseSessionResponse,
-    DisputeListResponse,
-    DisputeResponseSessionClientSession,
-    DisputeResponseSessionStripe,
-    DisputeResponseSessionStripeAccountSession,
-    DisputeResponseSessionStripeComponent
-} from '../declarations/types-25.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type {
     DisputesGetParams,
     DisputesListParams,
     DisputesSimulateParams,
     ExpandedCustomerSummary,
     ExpandedOrderSummary,
-    ExpandedPaymentIntentSummary
+    ExpandedPaymentIntentSummary,
+    DisputeResponseSessionClientSession,
+    DisputeResponseSessionStripe,
+    DisputeResponseSessionStripeAccountSession,
+    DisputeResponseSessionStripeComponent
 } from '../declarations/types-26.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { RequestOptions } from '../declarations/types-61.js';
+export type { Dispute, DisputeListResponse } from '../declarations/types-25.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
-export type { MoneyValue, NextAction } from '../declarations/types-42.js';
-export type { CheckoutBuyerContact } from '../declarations/types-5.js';
+export type { Credentials } from '../declarations/types-15.js';
+export type { MoneyValue, NextAction } from '../declarations/types-44.js';
+export type { CheckoutBuyerContact } from '../declarations/types-6.js';
 export type { DeferredPromotion } from '../declarations/types-17.js';
-export type { PricingAmounts } from '../declarations/types-55.js';
-export type { OrderSettlementAmounts } from '../declarations/types-45.js';
-export type { SettlementAmounts } from '../declarations/types-65.js';
+export type { PricingAmounts } from '../declarations/types-56.js';
+export type { OrderSettlementAmounts } from '../declarations/types-47.js';
+export type { SettlementAmounts, SplitReversalReference, SimulateDisputeRequestInput } from '../declarations/types-68.js';
 export type {
     PaymentSourceSummary,
     PaymentSourceAchDebitSummary,
     PaymentSourceCardSummary,
     PaymentSourceCardPresentDetails
-} from '../declarations/types-52.js';
-export type { SplitReversalReference, SimulateDisputeRequestInput } from '../declarations/types-66.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeSimulateDisputeRequest } from '../declarations/types-89.js';
+} from '../declarations/types-54.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeSimulateDisputeRequest } from '../declarations/types-92.js';
 export interface DisputesResource {
     /**
  * Accepts a chargeback: you won't contest it, and the disputed amount stays with the buyer. The
@@ -75,10 +73,13 @@ export interface DisputesResource {
  * `needs_response` and `is_action_required` is `true`. An inquiry can't be accepted; refund the
  * payment or respond with evidence instead. Accepting can't be undone. Requires
  * `payments.disputes.write`. Send no body or `{}`. If you don't receive a response, retry with the
- * same idempotency key, or read the dispute: `status: lost` means it was accepted.
+ * same idempotency key, or read the dispute. A `closed_reason` of `merchant_accepted` confirms
+ * acceptance.
  *
  * `POST /v1/disputes/{dispute_id}/accept`
- * @param dispute_id Flint dispute ID.
+ * @param dispute_id Flint dispute ID. Must be a valid ID with prefix du_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/disputes#acceptDispute
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -94,7 +95,9 @@ export interface DisputesResource {
  * single-use client secret. Keep your API key on your server.
  *
  * `POST /v1/disputes/{dispute_id}/response-sessions`
- * @param dispute_id Flint dispute ID.
+ * @param dispute_id Flint dispute ID. Must be a valid ID with prefix du_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/disputes#createDisputeResponseSession
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -108,7 +111,9 @@ export interface DisputesResource {
  * Returns one dispute by ID, with optional customer, order, and payment intent expansions.
  *
  * `GET /v1/disputes/{dispute_id}`
- * @param dispute_id Flint dispute ID.
+ * @param dispute_id Flint dispute ID. Must be a valid ID with prefix du_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/disputes#getDispute
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -148,7 +153,9 @@ export interface DisputesResource {
  * idempotency key, or read the dispute.
  *
  * `POST /v1/disputes/{dispute_id}/simulate`
- * @param dispute_id Flint dispute ID.
+ * @param dispute_id Flint dispute ID. Must be a valid ID with prefix du_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/disputes#simulateDispute
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

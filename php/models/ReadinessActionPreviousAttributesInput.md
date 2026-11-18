@@ -8,7 +8,7 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `action_type` | Optional | string or null | The kind of step to take. Each value says what the step is and who carries it out. Values: [7 declared values](#readinessactionpreviousattributesinput-action_type-values). `action_type`: [declared alternatives](../models/ReadinessActionPreviousAttributesInput.md#readinessactionpreviousattributesinputaction_type). |
+| `action_type` | Optional | string or null | The kind of step to take. Each value says what the step is and who carries it out. Values: [8 declared values](#readinessactionpreviousattributesinput-action_type-values). `action_type`: [declared alternatives](../models/ReadinessActionPreviousAttributesInput.md#readinessactionpreviousattributesinputaction_type). |
 | `merchant_account_session` | Optional | [ReadinessMerchantAccountSessionPreviousAttributesInput](../models/ReadinessMerchantAccountSessionPreviousAttributesInput.md#readinessmerchantaccountsessionpreviousattributesinput) or null | Request body for `POST /v1/merchant-account-sessions`, on a `create_merchant_account_session` action. Send it unchanged. |
 | `owner` | Optional | string or null | Who has to act on this step. Values: `"integrator"`, `"merchant"`, `"flint"`. `owner`: [declared alternatives](../models/ReadinessActionPreviousAttributesInput.md#readinessactionpreviousattributesinputowner). |
 | `required_fields` | Optional | Array of string or null | Paths in the action's target request body, using dotted JSON paths from the request root. For advance_onboarding, profile fields use profile.website_url, profile.support_email, profile.support_phone and profile.support_url. Top-level inputs such as country, requested_capabilities and name stay bare. `required_fields`: [declared alternatives](../models/ReadinessActionPreviousAttributesInput.md#readinessactionpreviousattributesinputrequired_fields). |
@@ -20,6 +20,7 @@ Request input.
 - `"wait_for_review"`
 - `"settle_flint_balance"`
 - `"set_tax_category"`
+- `"update_payment_settings"`
 - `"contact_support"`
 - `"other"`
 
@@ -29,7 +30,7 @@ Request input.
 
 anyOf variant 1: The kind of step to take. Each value says what the step is and who carries it out..
 
-- Value shape: string. The kind of step to take. Each value says what the step is and who carries it out. Values: `"advance_onboarding"`, `"create_merchant_account_session"`, `"wait_for_review"`, `"settle_flint_balance"`, `"set_tax_category"`, `"contact_support"`, `"other"`.
+- Value shape: string. The kind of step to take. Each value says what the step is and who carries it out. Values: `"advance_onboarding"`, `"create_merchant_account_session"`, `"wait_for_review"`, `"settle_flint_balance"`, `"set_tax_category"`, `"update_payment_settings"`, `"contact_support"`, `"other"`.
 
 ### ReadinessActionPreviousAttributesInput.action_type variant 2
 

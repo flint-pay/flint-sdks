@@ -45,6 +45,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `balance_transaction_id` | Optional | string or null | Stable identifier of this balance transaction. `balance_transaction_id`: [declared alternatives](../models/BalanceTransactionUpdatedInstalledMerchantsEventInput.md#balancetransactionupdatedinstalledmerchantseventinputdataprevious_attributesbalance_transaction_id). |
 | `currency` | Optional | string or null | ISO 4217 currency code. `currency`: [declared alternatives](../models/BalanceTransactionUpdatedInstalledMerchantsEventInput.md#balancetransactionupdatedinstalledmerchantseventinputdataprevious_attributescurrency). |
 | `description` | Optional | string or null | Short text describing the movement, from Flint or your processor. Use it for display, not for matching. `description`: [declared alternatives](../models/BalanceTransactionUpdatedInstalledMerchantsEventInput.md#balancetransactionupdatedinstalledmerchantseventinputdataprevious_attributesdescription). |
+| `fee_details` | Optional | Array of [BalanceTransactionFeeDetailPreviousAttributesInput](../models/BalanceTransactionFeeDetailPreviousAttributesInput.md#balancetransactionfeedetailpreviousattributesinput) or null | Fee sources on a payment charged a platform fee. Amounts are zero or positive and sum to the magnitude of fee_money. These are the original charges; later refunds do not reduce them. Absent on movements without a platform fee or without a payment Flint accepted. `fee_details`: [declared alternatives](../models/BalanceTransactionUpdatedInstalledMerchantsEventInput.md#balancetransactionupdatedinstalledmerchantseventinputdataprevious_attributesfee_details). |
 | `fee_money` | Optional | [SignedMoneyPreviousAttributesInput](../models/SignedMoneyPreviousAttributesInput.md#signedmoneypreviousattributesinput) or null | Fee deducted from this balance movement. On payments, this is processing_fee_money plus every add-on fee in add_on_fees plus platform_fee.amount_money when a partner app charged a platform fee; the payment intent carries the breakdown. On disputes and dispute reversals, this includes the processor's dispute fee charged to your balance or actually returned to it. Charges are positive; returned fees are negative. A dispute of -4200 with a fee of 1500 has a net amount of -5700. A won dispute does not by itself return the fee. |
 | `merchant_id` | Optional | string or null | Merchant whose balance this transaction moved. `merchant_id`: [declared alternatives](../models/BalanceTransactionUpdatedInstalledMerchantsEventInput.md#balancetransactionupdatedinstalledmerchantseventinputdataprevious_attributesmerchant_id). |
 | `net_money` | Optional | [SignedMoneyPreviousAttributesInput](../models/SignedMoneyPreviousAttributesInput.md#signedmoneypreviousattributesinput) or null | Signed net effect on your Flint balance: amount_money minus fee_money in the same currency. |
@@ -55,7 +56,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `related_balance_transaction_ids` | Optional | Array of string or null | Earlier balance transactions this one is linked to, including the exact payment principal a refund returns, the payout transaction that a payout_failure, payout_cancellation, or payout_reversal returns, or the collection a merchant_billing_collection_reversal reverses. Empty when there are none. `related_balance_transaction_ids`: [declared alternatives](../models/BalanceTransactionUpdatedInstalledMerchantsEventInput.md#balancetransactionupdatedinstalledmerchantseventinputdataprevious_attributesrelated_balance_transaction_ids). |
 | `related_resource` | Optional | [ResourceReferencePreviousAttributesInput](../models/ResourceReferencePreviousAttributesInput.md#resourcereferencepreviousattributesinput) or null | The Flint resource behind this movement: a payment_intent, payment_split, refund, dispute, payout, payout_destination, merchant_billing_invoice, or platform_fee_payout. Absent when the movement has none. |
 | `status` | Optional | string or null | Whether the funds can be paid out yet: pending until they become available, then available. Only these two values appear, and the change to available sends balance_transaction.updated. Values: `"pending"`, `"available"`. `status`: [declared alternatives](../models/BalanceTransactionUpdatedInstalledMerchantsEventInput.md#balancetransactionupdatedinstalledmerchantseventinputdataprevious_attributesstatus). |
-| `type` | Optional | string or null | Kind of balance movement. Unmapped movement types are returned as other. Values: [27 declared values](BalanceTransactionInput.md#balancetransactioninput-type-values). `type`: [declared alternatives](../models/BalanceTransactionUpdatedInstalledMerchantsEventInput.md#balancetransactionupdatedinstalledmerchantseventinputdataprevious_attributestype). |
+| `type` | Optional | string or null | Kind of balance movement. Unmapped movement types are returned as other. Values: [29 declared values](BalanceTransactionInput.md#balancetransactioninput-type-values). `type`: [declared alternatives](../models/BalanceTransactionUpdatedInstalledMerchantsEventInput.md#balancetransactionupdatedinstalledmerchantseventinputdataprevious_attributestype). |
 
 ### BalanceTransactionUpdatedInstalledMerchantsEventInput.data.previous_attributes.available_at
 
@@ -112,6 +113,20 @@ anyOf variant 1: Short text describing the movement, from Flint or your processo
 anyOf variant 2.
 
 - Value shape: null. Short text describing the movement, from Flint or your processor. Use it for display, not for matching. 
+
+### BalanceTransactionUpdatedInstalledMerchantsEventInput.data.previous_attributes.fee_details
+
+### BalanceTransactionUpdatedInstalledMerchantsEventInput.data.previous_attributes.fee_details variant 1
+
+anyOf variant 1: Fee sources on a payment charged a platform fee. Amounts are zero or positive and sum to the magnitude of fee_money. These are the original charges; later refunds do not reduce them. Absent on movements without a platform fee or without a payment Flint accepted..
+
+- Value shape: Array of [BalanceTransactionFeeDetailPreviousAttributesInput](../models/BalanceTransactionFeeDetailPreviousAttributesInput.md#balancetransactionfeedetailpreviousattributesinput). Fee sources on a payment charged a platform fee. Amounts are zero or positive and sum to the magnitude of fee_money. These are the original charges; later refunds do not reduce them. Absent on movements without a platform fee or without a payment Flint accepted. 
+
+### BalanceTransactionUpdatedInstalledMerchantsEventInput.data.previous_attributes.fee_details variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Fee sources on a payment charged a platform fee. Amounts are zero or positive and sum to the magnitude of fee_money. These are the original charges; later refunds do not reduce them. Absent on movements without a platform fee or without a payment Flint accepted. 
 
 ### BalanceTransactionUpdatedInstalledMerchantsEventInput.data.previous_attributes.merchant_id
 
@@ -203,7 +218,7 @@ anyOf variant 2.
 
 anyOf variant 1: Kind of balance movement. Unmapped movement types are returned as other..
 
-- Value shape: string. Kind of balance movement. Unmapped movement types are returned as other. Values: `"payment"`, `"refund"`, `"dispute"`, `"dispute_reversal"`, `"return"`, `"recovery"`, `"payout"`, `"payout_failure"`, `"payout_cancellation"`, `"payout_reversal"`, `"payout_advance"`, `"payout_advance_funding"`, `"reserve_hold"`, `"reserve_release"`, `"adjustment"`, `"merchant_billing_collection"`, `"merchant_billing_collection_reversal"`, `"platform_fee_refund"`, `"platform_fee_payout"`, `"platform_fee_payout_reversal"`, `"payment_split"`, `"payment_split_reversal"`, `"payment_split_reinstatement"`, `"payment_split_failure"`, `"seller_shortfall_coverage"`, `"seller_shortfall_coverage_reversal"`, `"other"`.
+- Value shape: string. Kind of balance movement. Unmapped movement types are returned as other. Values: `"inbound_payout"`, `"inbound_payout_failure"`, `"payment"`, `"refund"`, `"dispute"`, `"dispute_reversal"`, `"return"`, `"recovery"`, `"payout"`, `"payout_failure"`, `"payout_cancellation"`, `"payout_reversal"`, `"payout_advance"`, `"payout_advance_funding"`, `"reserve_hold"`, `"reserve_release"`, `"adjustment"`, `"merchant_billing_collection"`, `"merchant_billing_collection_reversal"`, `"platform_fee_refund"`, `"platform_fee_payout"`, `"platform_fee_payout_reversal"`, `"payment_split"`, `"payment_split_reversal"`, `"payment_split_reinstatement"`, `"payment_split_failure"`, `"seller_shortfall_coverage"`, `"seller_shortfall_coverage_reversal"`, `"other"`.
 
 ### BalanceTransactionUpdatedInstalledMerchantsEventInput.data.previous_attributes.type variant 2
 

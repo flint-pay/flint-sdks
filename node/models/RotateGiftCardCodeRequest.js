@@ -1,8 +1,8 @@
-import { d8802 as c0 } from '../descriptors/data/396.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
-import { d1827 as c1 } from '../descriptors/data/91.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
-import { d1827 as d1827 } from '../descriptors/data/91.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
+import { d9042 as c0 } from '../descriptors/data/404.js?sdk=2fdad7cfcd1c92049468fb02e68ab24a81da669c248e8713cf6a7575952568a5';
+import { d1889 as c1 } from '../descriptors/data/94.js?sdk=2fdad7cfcd1c92049468fb02e68ab24a81da669c248e8713cf6a7575952568a5';
+import { d1889 as d1889 } from '../descriptors/data/94.js?sdk=2fdad7cfcd1c92049468fb02e68ab24a81da669c248e8713cf6a7575952568a5';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1827;
+const read = d1889;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["GiftCardNotificationRecipient"]:c0(),["RotateGiftCardCodeRequest"]:c1()}); }
 export { codec as _validate };

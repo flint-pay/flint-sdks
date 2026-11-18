@@ -3,16 +3,17 @@ import type { CancelReturnDispositionResponse } from '../declarations/types-5.js
 import type { ClientOptions } from '../declarations/types-7.js';
 import type { CreateReturnDispositionResponse } from '../declarations/types-13.js';
 import type { GetReturnDispositionResponse } from '../declarations/types-28.js';
-import type { ListReturnDispositionsResponse } from '../declarations/types-38.js';
-import type { RequestOptions, RetryReturnDispositionResponse, ReturnDisposition } from '../declarations/types-60.js';
+import type { ListReturnDispositionsResponse } from '../declarations/types-40.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { RetryReturnDispositionResponse, ReturnDisposition } from '../declarations/types-62.js';
 import type {
     ReturnDispositionsCancelParams,
     ReturnDispositionsCreateParams,
     ReturnDispositionsGetParams,
     ReturnDispositionsListParams,
     ReturnDispositionsRetryParams
-} from '../declarations/types-61.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-63.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -33,9 +34,9 @@ export type {
     ReturnDispositionsGetParams,
     ReturnDispositionsListParams,
     ReturnDispositionsRetryParams
-} from '../declarations/types-61.js';
+} from '../declarations/types-63.js';
+export type { RequestOptions } from '../declarations/types-61.js';
 export type {
-    RequestOptions,
     ReturnDisposition,
     RetryReturnDispositionResponse,
     ReturnActor,
@@ -43,40 +44,41 @@ export type {
     ResponseWarning,
     ResourceReference,
     RetryReturnDispositionRequestInput
-} from '../declarations/types-60.js';
+} from '../declarations/types-62.js';
 export type { CancelReturnDispositionResponse, CancelReturnDispositionRequestInput } from '../declarations/types-5.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type {
     CreateReturnDispositionResponse,
+    CreateReturnDispositionRequestInput,
     CreateReturnDispositionRequestReceiptLineInput,
     CreateReturnDispositionRequestInspectionLineInput
 } from '../declarations/types-13.js';
 export type { GetReturnDispositionResponse } from '../declarations/types-28.js';
-export type { ListReturnDispositionsResponse } from '../declarations/types-38.js';
+export type { ListReturnDispositionsResponse } from '../declarations/types-40.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
-export type { MetadataMap, MetadataRequestInput } from '../declarations/types-41.js';
-export type { CreateReturnDispositionRequestInput } from '../declarations/types-12.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
-export { makeCancelReturnDispositionRequest } from '../declarations/types-78.js';
+export type { Credentials } from '../declarations/types-15.js';
+export type { MetadataMap, MetadataRequestInput } from '../declarations/types-43.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { DisputesAcceptParams } from '../declarations/types-26.js';
+export { makeCancelReturnDispositionRequest } from '../declarations/types-80.js';
 export {
     makeCreateReturnDispositionRequest,
     makeCreateReturnDispositionRequestInspectionLine,
     makeCreateReturnDispositionRequestReceiptLine
-} from '../declarations/types-81.js';
-export { makeMetadataRequest } from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeRetryReturnDispositionRequest } from '../declarations/types-88.js';
+} from '../declarations/types-83.js';
+export { makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeRetryReturnDispositionRequest } from '../declarations/types-91.js';
 export interface ReturnDispositionsResource {
     /**
  * Cancel a disposition that has not started its inventory effect. Cancellation is refused once the
  * effect is processing.
  *
  * `POST /v1/return-dispositions/{return_disposition_id}/cancel`
- * @param return_disposition_id Flint return disposition id.
+ * @param return_disposition_id Flint return disposition id. Must be a valid ID with prefix
+ * retdsp_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs
+ * that do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/return-dispositions#cancelReturnDisposition
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -108,7 +110,9 @@ export interface ReturnDispositionsResource {
  * effect.
  *
  * `GET /v1/return-dispositions/{return_disposition_id}`
- * @param return_disposition_id Flint return disposition id.
+ * @param return_disposition_id Flint return disposition id. Must be a valid ID with prefix
+ * retdsp_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs
+ * that do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/return-dispositions#getReturnDisposition
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -139,7 +143,9 @@ export interface ReturnDispositionsResource {
  * preserved, so a retry does not move stock twice.
  *
  * `POST /v1/return-dispositions/{return_disposition_id}/retry`
- * @param return_disposition_id Flint return disposition id.
+ * @param return_disposition_id Flint return disposition id. Must be a valid ID with prefix
+ * retdsp_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs
+ * that do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/return-dispositions#retryReturnDisposition
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

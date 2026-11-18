@@ -22,8 +22,8 @@ import type {
     FulfillmentsStartParams,
     FulfillmentsUpdateParams
 } from '../declarations/types-28.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-77.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -58,100 +58,97 @@ export type {
     FulfillmentsScheduleParams,
     FulfillmentsStartParams,
     FulfillmentsUpdateParams,
+    FulfillmentOutcome,
+    FulfillmentRecipient,
     FulfillmentRecipientRequestInput,
+    FulfillmentPackagingRequestInput,
     FulfillmentSinglePackageRequestInput
 } from '../declarations/types-28.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
+export type { RequestOptions, ReleaseFulfillmentHoldRequestInput } from '../declarations/types-61.js';
 export type {
     Fulfillment,
     FulfillmentListResponse,
     FulfillmentHold,
     FulfillmentChargeLink,
     FulfillmentLineItem,
-    FulfillmentOutcome,
-    FulfillmentRecipient,
     FulfillmentLineItemRequestInput,
-    FulfillmentPackagingRequestInput,
     FulfillmentItemizedPackagesRequestInput,
+    FailFulfillmentRequestInput,
     FulfillmentLineItemRequest
 } from '../declarations/types-27.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency, WeightRequestInput } from '../declarations/types-77.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency, WeightRequestInput } from '../declarations/types-79.js';
 export type { ClientOptions, CompleteFulfillmentRequestInput } from '../declarations/types-7.js';
 export type { AcceptFulfillmentRequestInput, Address, AddressRequestInput, AddressRequest } from '../declarations/types-0.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { DigitalFulfillmentDetails, DimensionsRequestInput, DispatchFulfillmentRequestInput } from '../declarations/types-25.js';
-export type { OrderLineItemModifier, OrderSettlementAmounts } from '../declarations/types-45.js';
-export type { MetadataMap, MetadataRequestInput, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-41.js';
-export type { TextModifierRequest } from '../declarations/types-72.js';
-export type { MoneyValue, NextAction } from '../declarations/types-42.js';
-export type { DeliveryFulfillmentDetails } from '../declarations/types-18.js';
-export type {
-    ExpandedOrderSummary,
-    ExpandedPackageSummary,
-    ExpandedShipmentSummary,
-    FailFulfillmentRequestInput
-} from '../declarations/types-26.js';
-export type { CheckoutBuyerContact } from '../declarations/types-5.js';
+export type { OrderLineItemModifier } from '../declarations/types-46.js';
+export type { MetadataMap, MetadataRequestInput, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
+export type { TextModifierRequest } from '../declarations/types-74.js';
+export type { MoneyValue, NextAction } from '../declarations/types-44.js';
+export type { DeliveryFulfillmentDetails } from '../declarations/types-19.js';
+export type { ExpandedOrderSummary, ExpandedPackageSummary, ExpandedShipmentSummary } from '../declarations/types-26.js';
+export type { CheckoutBuyerContact } from '../declarations/types-6.js';
 export type { DeferredPromotion } from '../declarations/types-17.js';
-export type { PricingAmounts } from '../declarations/types-55.js';
-export type { SettlementAmounts, ServiceFulfillmentDetails, ScheduleFulfillmentRequestInput } from '../declarations/types-65.js';
-export type { PickupFulfillmentDetails } from '../declarations/types-54.js';
+export type { PricingAmounts } from '../declarations/types-56.js';
+export type { OrderSettlementAmounts } from '../declarations/types-47.js';
 export type {
+    SettlementAmounts,
     ShipmentFulfillmentDetails,
     SinglePackageCreateRequestInput,
     SinglePackageCreateInputCreatedInput,
     SinglePackageCreateInputShippedInput,
     StartFulfillmentRequestInput
-} from '../declarations/types-66.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
+} from '../declarations/types-68.js';
+export type { PickupFulfillmentDetails } from '../declarations/types-55.js';
+export type { ServiceFulfillmentDetails, ScheduleFulfillmentRequestInput } from '../declarations/types-67.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { CancelFulfillmentRequestInput } from '../declarations/types-4.js';
 export type {
     CreateFulfillmentRequestInput,
-    CreateDigitalFulfillmentDetailsInput,
-    CreateDeliveryFulfillmentDetailsInput,
+    CreateFulfillmentRequestShipmentInput,
     CreateFulfillmentRequestPickupInput,
     CreateFulfillmentRequestLocalDeliveryInput,
     CreateFulfillmentRequestDigitalInput,
+    CreateFulfillmentRequestServiceInput
+} from '../declarations/types-10.js';
+export type {
+    CreateDigitalFulfillmentDetailsInput,
+    CreateDeliveryFulfillmentDetailsInput,
     CreateDigitalFulfillmentDetails
 } from '../declarations/types-9.js';
-export type { CreatePickupFulfillmentDetailsInput } from '../declarations/types-12.js';
-export type { CreateServiceFulfillmentDetailsInput } from '../declarations/types-13.js';
-export type { CreatePackageItemRequestInput } from '../declarations/types-11.js';
-export type { PackageCreateRequestInput, PackageCreateInputCreatedInput, PackageCreateInputShippedInput } from '../declarations/types-47.js';
-export type { ReturnShipmentLineItemAllocationRequestInput } from '../declarations/types-63.js';
-export type { CreateFulfillmentRequestShipmentInput, CreateFulfillmentRequestServiceInput } from '../declarations/types-10.js';
-export type { HoldFulfillmentRequestInput } from '../declarations/types-30.js';
+export type { CreatePickupFulfillmentDetailsInput, CreatePackageItemRequestInput } from '../declarations/types-12.js';
+export type { CreateServiceFulfillmentDetailsInput } from '../declarations/types-14.js';
+export type { PackageCreateRequestInput, PackageCreateInputCreatedInput, PackageCreateInputShippedInput } from '../declarations/types-48.js';
+export type { ReturnShipmentLineItemAllocationRequestInput } from '../declarations/types-65.js';
+export type { HoldFulfillmentRequestInput } from '../declarations/types-31.js';
 export type {
     MarkFulfillmentNoShowRequestInput,
     MarkFulfillmentPackedRequestInput,
     MarkFulfillmentPickedRequestInput,
     MarkFulfillmentPreparingRequestInput,
     MarkFulfillmentReadyRequestInput
-} from '../declarations/types-39.js';
-export type { ReleaseFulfillmentHoldRequestInput } from '../declarations/types-59.js';
-export type {
-    UpdateFulfillmentRequestInput,
-    UpdateDigitalFulfillmentDetailsInput,
-    UpdateDeliveryFulfillmentDetailsInput
-} from '../declarations/types-73.js';
-export type { UpdatePickupFulfillmentDetailsInput } from '../declarations/types-74.js';
-export type { UpdateServiceFulfillmentDetailsInput } from '../declarations/types-75.js';
-export { makeAcceptFulfillmentRequest, makeAddressRequest } from '../declarations/types-77.js';
-export { makeCancelFulfillmentRequest, makeCompleteFulfillmentRequest } from '../declarations/types-78.js';
-export { makeCreateDeliveryFulfillmentDetails, makeCreateDigitalFulfillmentDetails } from '../declarations/types-79.js';
+} from '../declarations/types-40.js';
+export type { UpdateFulfillmentRequestInput, UpdateDigitalFulfillmentDetailsInput } from '../declarations/types-76.js';
+export type { UpdateDeliveryFulfillmentDetailsInput } from '../declarations/types-75.js';
+export type { UpdatePickupFulfillmentDetailsInput, UpdateServiceFulfillmentDetailsInput } from '../declarations/types-77.js';
+export { makeAcceptFulfillmentRequest, makeAddressRequest } from '../declarations/types-79.js';
+export { makeCancelFulfillmentRequest } from '../declarations/types-80.js';
+export { makeCompleteFulfillmentRequest, makeCreateDeliveryFulfillmentDetails } from '../declarations/types-81.js';
 export {
+    makeCreateDigitalFulfillmentDetails,
     makeCreateFulfillmentRequest,
     makeCreateFulfillmentRequestDigital,
     makeCreateFulfillmentRequestLocalDelivery,
     makeCreateFulfillmentRequestPickup,
     makeCreateFulfillmentRequestService,
-    makeCreateFulfillmentRequestShipment,
-    makeCreatePackageItemRequest
-} from '../declarations/types-80.js';
-export { makeCreatePickupFulfillmentDetails, makeCreateServiceFulfillmentDetails } from '../declarations/types-81.js';
-export { makeDimensionsRequest } from '../declarations/types-83.js';
+    makeCreateFulfillmentRequestShipment
+} from '../declarations/types-82.js';
+export { makeCreatePackageItemRequest, makeCreatePickupFulfillmentDetails } from '../declarations/types-83.js';
+export { makeCreateServiceFulfillmentDetails } from '../declarations/types-84.js';
 export {
+    makeDimensionsRequest,
     makeDispatchFulfillmentRequest,
     makeFailFulfillmentRequest,
     makeFulfillmentItemizedPackagesRequest,
@@ -160,39 +157,31 @@ export {
     makeFulfillmentRecipientRequest,
     makeFulfillmentSinglePackageRequest,
     makeHoldFulfillmentRequest
-} from '../declarations/types-84.js';
+} from '../declarations/types-86.js';
 export {
     makeMarkFulfillmentNoShowRequest,
     makeMarkFulfillmentPackedRequest,
     makeMarkFulfillmentPickedRequest,
-    makeMarkFulfillmentPreparingRequest,
-    makeMarkFulfillmentReadyRequest,
-    makeMetadataPatchRequest,
-    makeMetadataRequest
-} from '../declarations/types-85.js';
+    makeMarkFulfillmentPreparingRequest
+} from '../declarations/types-87.js';
+export { makeMarkFulfillmentReadyRequest, makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makePackageCreateInputCreated, makePackageCreateInputShipped, makePackageCreateRequest } from '../declarations/types-89.js';
+export { makeReleaseFulfillmentHoldRequest } from '../declarations/types-90.js';
+export { makeReturnShipmentLineItemAllocationRequest, makeScheduleFulfillmentRequest } from '../declarations/types-91.js';
 export {
-    makeMoneyValue,
-    makePackageCreateInputCreated,
-    makePackageCreateInputShipped,
-    makePackageCreateRequest
-} from '../declarations/types-86.js';
-export { makeReleaseFulfillmentHoldRequest } from '../declarations/types-88.js';
-export {
-    makeReturnShipmentLineItemAllocationRequest,
-    makeScheduleFulfillmentRequest,
     makeSinglePackageCreateInputCreated,
     makeSinglePackageCreateInputShipped,
     makeSinglePackageCreateRequest,
     makeStartFulfillmentRequest
-} from '../declarations/types-89.js';
+} from '../declarations/types-92.js';
 export {
     makeTextModifierRequest,
     makeUpdateDeliveryFulfillmentDetails,
     makeUpdateDigitalFulfillmentDetails,
-    makeUpdateFulfillmentRequest
-} from '../declarations/types-90.js';
-export { makeUpdatePickupFulfillmentDetails, makeUpdateServiceFulfillmentDetails } from '../declarations/types-91.js';
-export { makeWeightRequest } from '../declarations/types-92.js';
+    makeUpdateFulfillmentRequest,
+    makeUpdatePickupFulfillmentDetails
+} from '../declarations/types-93.js';
+export { makeUpdateServiceFulfillmentDetails, makeWeightRequest } from '../declarations/types-94.js';
 export interface FulfillmentsResource {
     /**
  * Accepts pending fulfillment work so preparation can begin. Read supported_actions for actions
@@ -203,7 +192,9 @@ export interface FulfillmentsResource {
  * fulfillment_event_id or fulfillment_id.
  *
  * `POST /v1/fulfillments/{fulfillment_id}/accept`
- * @param fulfillment_id Flint fulfillment ID.
+ * @param fulfillment_id Flint fulfillment ID. Must be a valid ID with prefix ful_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/fulfillment#acceptFulfillment
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -222,7 +213,9 @@ export interface FulfillmentsResource {
  * fulfillment_id.
  *
  * `POST /v1/fulfillments/{fulfillment_id}/cancel`
- * @param fulfillment_id Flint fulfillment ID.
+ * @param fulfillment_id Flint fulfillment ID. Must be a valid ID with prefix ful_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/fulfillment#cancelFulfillment
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -241,7 +234,9 @@ export interface FulfillmentsResource {
  * fulfillment_event_id or fulfillment_id.
  *
  * `POST /v1/fulfillments/{fulfillment_id}/complete`
- * @param fulfillment_id Flint fulfillment ID.
+ * @param fulfillment_id Flint fulfillment ID. Must be a valid ID with prefix ful_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/fulfillment#completeFulfillment
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -288,7 +283,9 @@ export interface FulfillmentsResource {
  * `client.fulfillmentNotifications.list` filtered by fulfillment_event_id or fulfillment_id.
  *
  * `POST /v1/fulfillments/{fulfillment_id}/dispatch`
- * @param fulfillment_id Flint fulfillment ID.
+ * @param fulfillment_id Flint fulfillment ID. Must be a valid ID with prefix ful_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/fulfillment#dispatchFulfillment
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -307,7 +304,9 @@ export interface FulfillmentsResource {
  * `client.fulfillmentNotifications.list` filtered by fulfillment_event_id or fulfillment_id.
  *
  * `POST /v1/fulfillments/{fulfillment_id}/fail`
- * @param fulfillment_id Flint fulfillment ID.
+ * @param fulfillment_id Flint fulfillment ID. Must be a valid ID with prefix ful_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/fulfillment#failFulfillment
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -321,7 +320,9 @@ export interface FulfillmentsResource {
  * Retrieves a single fulfillment by ID.
  *
  * `GET /v1/fulfillments/{fulfillment_id}`
- * @param fulfillment_id Flint fulfillment ID.
+ * @param fulfillment_id Flint fulfillment ID. Must be a valid ID with prefix ful_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/fulfillment#getFulfillment
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -337,7 +338,9 @@ export interface FulfillmentsResource {
  * fulfillment_event_id or fulfillment_id.
  *
  * `POST /v1/fulfillments/{fulfillment_id}/hold`
- * @param fulfillment_id Flint fulfillment ID.
+ * @param fulfillment_id Flint fulfillment ID. Must be a valid ID with prefix ful_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/fulfillment#holdFulfillment
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -377,7 +380,9 @@ export interface FulfillmentsResource {
  * fulfillment_event_id or fulfillment_id.
  *
  * `POST /v1/fulfillments/{fulfillment_id}/mark-no-show`
- * @param fulfillment_id Flint fulfillment ID.
+ * @param fulfillment_id Flint fulfillment ID. Must be a valid ID with prefix ful_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/fulfillment#markFulfillmentNoShow
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -397,7 +402,9 @@ export interface FulfillmentsResource {
  * fulfillment_event_id or fulfillment_id.
  *
  * `POST /v1/fulfillments/{fulfillment_id}/mark-packed`
- * @param fulfillment_id Flint fulfillment ID.
+ * @param fulfillment_id Flint fulfillment ID. Must be a valid ID with prefix ful_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/fulfillment#markFulfillmentPacked
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -416,7 +423,9 @@ export interface FulfillmentsResource {
  * fulfillment_event_id or fulfillment_id.
  *
  * `POST /v1/fulfillments/{fulfillment_id}/mark-picked`
- * @param fulfillment_id Flint fulfillment ID.
+ * @param fulfillment_id Flint fulfillment ID. Must be a valid ID with prefix ful_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/fulfillment#markFulfillmentPicked
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -435,7 +444,9 @@ export interface FulfillmentsResource {
  * fulfillment_event_id or fulfillment_id.
  *
  * `POST /v1/fulfillments/{fulfillment_id}/mark-preparing`
- * @param fulfillment_id Flint fulfillment ID.
+ * @param fulfillment_id Flint fulfillment ID. Must be a valid ID with prefix ful_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/fulfillment#markFulfillmentPreparing
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -454,7 +465,9 @@ export interface FulfillmentsResource {
  * `client.fulfillmentNotifications.list` filtered by fulfillment_event_id or fulfillment_id.
  *
  * `POST /v1/fulfillments/{fulfillment_id}/mark-ready`
- * @param fulfillment_id Flint fulfillment ID.
+ * @param fulfillment_id Flint fulfillment ID. Must be a valid ID with prefix ful_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/fulfillment#markFulfillmentReady
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -474,7 +487,9 @@ export interface FulfillmentsResource {
  * `client.fulfillmentNotifications.list` filtered by fulfillment_event_id or fulfillment_id.
  *
  * `POST /v1/fulfillments/{fulfillment_id}/release-hold`
- * @param fulfillment_id Flint fulfillment ID.
+ * @param fulfillment_id Flint fulfillment ID. Must be a valid ID with prefix ful_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/fulfillment#releaseFulfillmentHold
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -493,7 +508,9 @@ export interface FulfillmentsResource {
  * fulfillment_event_id or fulfillment_id.
  *
  * `POST /v1/fulfillments/{fulfillment_id}/schedule`
- * @param fulfillment_id Flint fulfillment ID.
+ * @param fulfillment_id Flint fulfillment ID. Must be a valid ID with prefix ful_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/fulfillment#scheduleFulfillment
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -514,7 +531,9 @@ export interface FulfillmentsResource {
  * fulfillment_id.
  *
  * `POST /v1/fulfillments/{fulfillment_id}/start`
- * @param fulfillment_id Flint fulfillment ID.
+ * @param fulfillment_id Flint fulfillment ID. Must be a valid ID with prefix ful_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/fulfillment#startFulfillment
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -530,7 +549,9 @@ export interface FulfillmentsResource {
  * stale resource version when supplied.
  *
  * `PATCH /v1/fulfillments/{fulfillment_id}`
- * @param fulfillment_id Flint fulfillment ID.
+ * @param fulfillment_id Flint fulfillment ID. Must be a valid ID with prefix ful_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/fulfillment#updateFulfillment
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

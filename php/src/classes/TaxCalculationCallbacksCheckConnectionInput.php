@@ -9,7 +9,7 @@ namespace Flint;
 final class TaxCalculationCallbacksCheckConnectionInput extends Model {
     /** @param array{'tax_calculation_callback_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TaxCalculationCallbacksCheckConnectionInput')); }
-    /** Tax calculation callback ID. Example: "tcb_01KEZF7C00N7SER74Y2E6D1ZGT".
+    /** Tax calculation callback ID. Must be a valid ID with prefix tcb_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "tcb_01KEZF7C00N7SER74Y2E6D1ZGT".
      * @return string
      * @throws SdkError When tax_calculation_callback_id is omitted; use hasTaxCalculationCallbackId() or valueOrDefault().
      */

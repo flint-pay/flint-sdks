@@ -68,6 +68,10 @@ Declared alternatives: [MerchantBillingBalanceUpdatedEvent.data fields 1.previou
 
 Declared alternatives: [PayoutCanceledMerchantEventDataPreviousAttributes.description](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributesdescription).
 
+### PayoutCanceledMerchantEvent.data fields 1.previous_attributes.direction
+
+Declared alternatives: [PayoutCanceledMerchantEventDataPreviousAttributes.direction](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributesdirection).
+
 ### PayoutCanceledMerchantEvent.data fields 1.previous_attributes.external_reference_id
 
 Declared alternatives: [TaxCalculationCallbackActivatedEvent.data fields 1.previous_attributes.external_reference_id](../models/TaxCalculationCallbackActivatedEvent.md#taxcalculationcallbackactivatedeventdata-fields-1previous_attributesexternal_reference_id).
@@ -138,7 +142,7 @@ Declared alternatives: [PayoutCanceledMerchantEventDataPreviousAttributes.statem
 
 ### PayoutCanceledMerchantEvent.data fields 1.previous_attributes.status
 
-Declared alternatives: [ExpandedPayoutSummaryPreviousAttributes.status](../models/ExpandedPayoutSummaryPreviousAttributes.md#expandedpayoutsummarypreviousattributesstatus).
+Declared alternatives: [PayoutCanceledMerchantEventDataPreviousAttributes.status](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributesstatus).
 
 ### PayoutCanceledMerchantEvent.data fields 1.previous_attributes.supported_actions
 

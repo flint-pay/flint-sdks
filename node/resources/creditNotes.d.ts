@@ -6,9 +6,7 @@ import type {
     CreditNoteAllocationListResponse,
     CreditNoteAllocationResponse,
     CreditNoteAllocationResult,
-    CreditNoteAllocationResultResponse
-} from '../declarations/types-14.js';
-import type {
+    CreditNoteAllocationResultResponse,
     CreditNoteListResponse,
     CreditNoteResponse,
     CreditNotesCreateAllocationParams,
@@ -25,8 +23,8 @@ import type {
     CreditNotesVoidParams
 } from '../declarations/types-15.js';
 import type { IssueCreditNoteResponse, IssueCreditNoteResult } from '../declarations/types-38.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-77.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -43,14 +41,20 @@ export type {
 } from '../runtime.js';
 export type {
     CreditNotesCreateParams,
+    CreditNote,
     CreditNoteResponse,
     CreditNotesCreateAllocationParams,
+    CreditNoteAllocationResult,
+    CreditNoteAllocationResultResponse,
     CreditNotesGetParams,
     CreditNotesGetAllocationParams,
+    CreditNoteAllocation,
+    CreditNoteAllocationResponse,
     CreditNotesGetPDFParams,
     CreditNotesGetPDFResponse,
     CreditNotesIssueParams,
     CreditNotesListAllocationsParams,
+    CreditNoteAllocationListResponse,
     CreditNotesListParams,
     CreditNoteListResponse,
     CreditNotesReverseAllocationParams,
@@ -60,6 +64,7 @@ export type {
     CreditNoteCorrectionRequestModelInput,
     CreditNoteCorrectionRequestQuantityRequestInput,
     CreditNoteCorrectionRequestAmountRequestInput,
+    Credentials,
     CreditNoteLineItem,
     CreditNoteCorrectionRequest,
     CreditNoteCorrectionRequestQuantity,
@@ -67,17 +72,8 @@ export type {
     CreditNoteIssueAllocationRequestInput,
     CreditNoteRefundRequestInput
 } from '../declarations/types-15.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference, ResourceVersionRequestInput } from '../declarations/types-60.js';
-export type {
-    CreditNote,
-    CreditNoteAllocationResult,
-    CreditNoteAllocationResultResponse,
-    CreditNoteAllocation,
-    CreditNoteAllocationResponse,
-    CreditNoteAllocationListResponse,
-    Credentials
-} from '../declarations/types-14.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { RequestOptions, RefundUnissuedGiftCardRecovery } from '../declarations/types-61.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type {
     IssueCreditNoteResult,
     IssueCreditNoteResponse,
@@ -87,31 +83,40 @@ export type {
     IssueCreditNoteRequestInput,
     InvoicesMarkUncollectibleParams
 } from '../declarations/types-38.js';
-export type { ClientOptions, ConfirmReturnResolutionRequestInput } from '../declarations/types-7.js';
-export type { CreateCreditNoteRequestInput, CreateCreditNoteAllocationRequestInput } from '../declarations/types-8.js';
-export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-42.js';
+export type { ClientOptions } from '../declarations/types-7.js';
+export type {
+    CreateCreditNoteRequestInput,
+    CreateCreditNoteAllocationRequestInput,
+    ConfirmReturnResolutionRequestInput
+} from '../declarations/types-8.js';
+export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { AuthMode, BundleComponent, BundleComponentVariantSummary } from '../declarations/types-1.js';
-export type { TaxIdentity, TaxCurrencyConversion, TextModifierRequest, TaxJurisdiction, TaxReverseCharge } from '../declarations/types-72.js';
+export type { TaxIdentity, TaxCurrencyConversion, TextModifierRequest, TaxJurisdiction, TaxReverseCharge } from '../declarations/types-74.js';
 export type { Address } from '../declarations/types-0.js';
 export type {
     DocumentTaxID,
     ExpandedInvoiceSummary,
     ExpandedCustomerSummary,
     ExpandedOrderSummary,
-    ExpandedPaymentIntentSummary
+    ExpandedPaymentIntentSummary,
+    DisputesAcceptParams
 } from '../declarations/types-26.js';
-export type { PricingAmounts } from '../declarations/types-55.js';
-export type { SettlementAmounts, SelectedProductOption } from '../declarations/types-65.js';
+export type { PricingAmounts } from '../declarations/types-56.js';
+export type { SettlementAmounts, SplitReversalReference } from '../declarations/types-68.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference, ResourceVersionRequestInput } from '../declarations/types-62.js';
 export type {
     ReadinessMerchantAccountSession,
     Refund,
+    RefundChargeAllocation,
     RefundLineItemAllocation,
     RefundLineItemAdjustmentRefund,
     RefundLineItemAdjustment,
     RefundAdjustmentReason,
     RefundLineItemAutomaticRefund,
-    RefundLineItemModifierAllocation
-} from '../declarations/types-58.js';
+    RefundLineItemModifierAllocation,
+    RefundTaxBreakdownRefund,
+    RefundTenderAllocation
+} from '../declarations/types-60.js';
 export type {
     Invoice,
     InvoiceCollection,
@@ -127,9 +132,6 @@ export type {
     InvoicePaymentDueDate,
     InvoicePaymentDuePaymentTerms,
     InvoicePaymentTermCalculation,
-    InvoicePaymentTermCalculationOnReceipt,
-    InvoicePaymentTermCalculationNetDays,
-    InvoicePaymentTermCalculationDaysAfterMonthEnd,
     InvoicePaymentTermCalculationDayOfMonth,
     InvoicePaymentTermCalculationDayOfNextMonth
 } from '../declarations/types-36.js';
@@ -141,12 +143,21 @@ export type {
     InvoiceDiscount,
     InvoiceLineItem
 } from '../declarations/types-35.js';
-export type { MetadataMap } from '../declarations/types-41.js';
-export type { CheckoutBuyerContact, CategoryReference } from '../declarations/types-5.js';
-export type { DeferredPromotion, CustomerTaxID } from '../declarations/types-17.js';
-export type { OrderSettlementAmounts, OrderLineItemModifier } from '../declarations/types-45.js';
+export type { MetadataMap } from '../declarations/types-43.js';
+export type { CheckoutBuyerContact } from '../declarations/types-6.js';
+export type {
+    DeferredPromotion,
+    CustomerTaxExemptionCoverage,
+    CustomerTaxExemptionCoverageAllStates,
+    CustomerTaxExemptionCoverageStates,
+    CustomerTaxID
+} from '../declarations/types-17.js';
+export type { OrderSettlementAmounts, OrderTaxExemption } from '../declarations/types-47.js';
 export type {
     InvoicePaymentTermsSnapshot,
+    InvoicePaymentTermCalculationOnReceipt,
+    InvoicePaymentTermCalculationNetDays,
+    InvoicePaymentTermCalculationDaysAfterMonthEnd,
     InvoiceScheduleEntry,
     InvoiceScheduleAmountSpecification,
     InvoiceScheduleAmountSpecificationFixed,
@@ -157,29 +168,25 @@ export type {
     InvoiceScheduleDueDate,
     InvoiceScheduleDueInvoiceDueDate
 } from '../declarations/types-37.js';
-export type { OrderCharge, OrderCalculatedChargeTax } from '../declarations/types-43.js';
-export type { Image } from '../declarations/types-30.js';
-export type { TaxBreakdown, TaxBreakdownPercentage, TaxBreakdownFlatAmount } from '../declarations/types-71.js';
-export type { OrderTaxExemption } from '../declarations/types-46.js';
-export type {
-    CustomerTaxExemptionCoverage,
-    CustomerTaxExemptionCoverageAllStates,
-    CustomerTaxExemptionCoverageStates
-} from '../declarations/types-16.js';
-export type { RefundTaxBreakdownRefund, RefundTenderAllocation, RefundUnissuedGiftCardRecovery } from '../declarations/types-59.js';
+export type { OrderCharge, OrderCalculatedChargeTax } from '../declarations/types-45.js';
+export type { SelectedProductOption } from '../declarations/types-67.js';
+export type { CategoryReference } from '../declarations/types-5.js';
+export type { Image } from '../declarations/types-31.js';
+export type { OrderLineItemModifier, OrderGiftCardAllocation } from '../declarations/types-46.js';
+export type { TaxBreakdown, TaxBreakdownPercentage, TaxBreakdownFlatAmount } from '../declarations/types-73.js';
 export type {
     PaymentSourceSummary,
     PaymentSourceAchDebitSummary,
     PaymentSourceCardSummary,
-    PaymentSourceCardPresentDetails,
-    PaymentRefund
-} from '../declarations/types-52.js';
-export type { SplitReversalReference } from '../declarations/types-66.js';
-export type { OrderGiftCardAllocation } from '../declarations/types-44.js';
-export type { UpdateCreditNoteRequestInput } from '../declarations/types-73.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
-export { makeConfirmReturnResolutionRequest } from '../declarations/types-78.js';
-export { makeCreateCreditNoteAllocationRequest, makeCreateCreditNoteRequest } from '../declarations/types-79.js';
+    PaymentSourceCardPresentDetails
+} from '../declarations/types-54.js';
+export type { PaymentRefund } from '../declarations/types-53.js';
+export type { UpdateCreditNoteRequestInput } from '../declarations/types-75.js';
+export {
+    makeConfirmReturnResolutionRequest,
+    makeCreateCreditNoteAllocationRequest,
+    makeCreateCreditNoteRequest
+} from '../declarations/types-81.js';
 export {
     makeCreditNoteCorrectionRequestAmountRequest,
     makeCreditNoteCorrectionRequestModel,
@@ -187,11 +194,11 @@ export {
     makeCreditNoteIssueAllocationRequest,
     makeCreditNoteLineItemRequest,
     makeCreditNoteRefundRequest
-} from '../declarations/types-82.js';
-export { makeIssueCreditNoteRequest } from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeResourceVersionRequest } from '../declarations/types-88.js';
-export { makeTextModifierRequest, makeUpdateCreditNoteRequest } from '../declarations/types-90.js';
+} from '../declarations/types-84.js';
+export { makeIssueCreditNoteRequest } from '../declarations/types-87.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeResourceVersionRequest } from '../declarations/types-91.js';
+export { makeTextModifierRequest, makeUpdateCreditNoteRequest } from '../declarations/types-93.js';
 export interface CreditNotesResource {
     /**
  * Creates a draft credit note against an invoice that has been issued and not voided. Include
@@ -218,7 +225,9 @@ export interface CreditNotesResource {
  * identity.
  *
  * `POST /v1/credit-notes/{credit_note_id}/allocations`
- * @param credit_note_id Flint credit note ID.
+ * @param credit_note_id Flint credit note ID. Must be a valid ID with prefix cn_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/credit-notes#createCreditNoteAllocation
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -232,7 +241,9 @@ export interface CreditNotesResource {
  * Returns one credit note with its lines, total, and the credit still available to allocate.
  *
  * `GET /v1/credit-notes/{credit_note_id}`
- * @param credit_note_id Flint credit note ID.
+ * @param credit_note_id Flint credit note ID. Must be a valid ID with prefix cn_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/credit-notes#getCreditNote
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -244,8 +255,12 @@ export interface CreditNotesResource {
  * and the invoice balance reopened.
  *
  * `GET /v1/credit-notes/{credit_note_id}/allocations/{credit_note_allocation_id}`
- * @param credit_note_id Flint credit note ID.
- * @param credit_note_allocation_id Flint credit note allocation ID.
+ * @param credit_note_id Flint credit note ID. Must be a valid ID with prefix cn_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
+ * @param credit_note_allocation_id Flint credit note allocation ID. Must be a valid ID with prefix
+ * cna_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/credit-notes#getCreditNoteAllocation
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -259,7 +274,9 @@ export interface CreditNotesResource {
  * your current branding, so a later download can differ in logo or colors, but not in content.
  *
  * `GET /v1/credit-notes/{credit_note_id}/pdf`
- * @param credit_note_id Flint credit note ID.
+ * @param credit_note_id Flint credit note ID. Must be a valid ID with prefix cn_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/credit-notes#getCreditNotePDF
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -287,7 +304,9 @@ export interface CreditNotesResource {
  * `credit_note_tax_reconciliation_required`.
  *
  * `POST /v1/credit-notes/{credit_note_id}/issue`
- * @param credit_note_id Flint credit note ID.
+ * @param credit_note_id Flint credit note ID. Must be a valid ID with prefix cn_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/credit-notes#issueCreditNote
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -303,7 +322,9 @@ export interface CreditNotesResource {
  * descending, then credit_note_allocation_id descending.
  *
  * `GET /v1/credit-notes/{credit_note_id}/allocations`
- * @param credit_note_id Flint credit note ID.
+ * @param credit_note_id Flint credit note ID. Must be a valid ID with prefix cn_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/credit-notes#listCreditNoteAllocations
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -345,8 +366,12 @@ export interface CreditNotesResource {
  * on a paid invoice that also has collected payments moves it to partially_paid.
  *
  * `POST /v1/credit-notes/{credit_note_id}/allocations/{credit_note_allocation_id}/reverse`
- * @param credit_note_id Flint credit note ID.
- * @param credit_note_allocation_id Flint credit note allocation ID.
+ * @param credit_note_id Flint credit note ID. Must be a valid ID with prefix cn_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
+ * @param credit_note_allocation_id Flint credit note allocation ID. Must be a valid ID with prefix
+ * cna_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/credit-notes#reverseCreditNoteAllocation
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -363,7 +388,9 @@ export interface CreditNotesResource {
  * Issued and void credit notes are frozen.
  *
  * `PATCH /v1/credit-notes/{credit_note_id}`
- * @param credit_note_id Flint credit note ID.
+ * @param credit_note_id Flint credit note ID. Must be a valid ID with prefix cn_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/credit-notes#updateCreditNote
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -380,7 +407,9 @@ export interface CreditNotesResource {
  * invoice cannot be voided while an issued credit note stands against it.
  *
  * `POST /v1/credit-notes/{credit_note_id}/void`
- * @param credit_note_id Flint credit note ID.
+ * @param credit_note_id Flint credit note ID. Must be a valid ID with prefix cn_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/credit-notes#voidCreditNote
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

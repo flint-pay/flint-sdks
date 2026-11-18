@@ -1,7 +1,7 @@
-import { d7537 as c0 } from '../descriptors/data/318.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
-import { d7537 as d7537 } from '../descriptors/data/318.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
+import { d7780 as c0 } from '../descriptors/data/328.js?sdk=2fdad7cfcd1c92049468fb02e68ab24a81da669c248e8713cf6a7575952568a5';
+import { d7780 as d7780 } from '../descriptors/data/328.js?sdk=2fdad7cfcd1c92049468fb02e68ab24a81da669c248e8713cf6a7575952568a5';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d7537;
+const read = d7780;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["UpdateReturnLineItemRequest"]:c0()}); }
 export { codec as _validate };

@@ -22,7 +22,7 @@ final class TaxCalculationCallbacksCreateParams extends Model {
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Your label for the callback, from 1 to 255 characters. minLength: 1. maxLength: 255.
+    /** Your label for the callback, from 1 to 255 characters. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */

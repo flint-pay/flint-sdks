@@ -10,7 +10,7 @@ namespace Flint;
 final class MeCancelSubscriptionInput extends Model {
     /** @param array{'subscription_id': string, 'body'?: array{'cancel_immediately'?: bool, 'cancellation_comment'?: string, 'cancellation_reason_code'?: string, 'expected_version'?: int}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeCancelSubscriptionInput')); }
-    /** Flint subscription ID. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+    /** Flint subscription ID. Must be a valid ID with prefix sub_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
      * @return string
      * @throws SdkError When subscription_id is omitted; use hasSubscriptionId() or valueOrDefault().
      */

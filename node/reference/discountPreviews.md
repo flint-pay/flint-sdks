@@ -25,7 +25,7 @@ Body model: [DiscountPreviewRequestInput](../models/DiscountPreviewRequest.md#di
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `discount` | Optional | [CreateOrderDiscountInput](../models/CreateOrderDiscount.md#createorderdiscount) | A discount to evaluate as if it were applied to the order. A discount to apply when creating an order: either a manual discount or a reference to a promotion. |
+| `discount` | Optional | object | Promotion to preview. Manual discounts are not supported. |
 | `order_id` | Required | string | The order to evaluate. Checkout session credentials can use only their own order. minLength: `1`. |
 
 #### Response
@@ -60,7 +60,7 @@ Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#a
 #### Example
 
 ```typescript
-const result = await client.discountPreviews.create({order_id: "ord_01KEZF7C0054GQKJ142A8X367A"}, {  });
+const result = await client.discountPreviews.create({discount: {promotion: {promotion_code: "SPRING15"}}, order_id: "ord_01HZYV7Q9Y0Y4H8Q3H9F6R7T8J"}, {  });
 ```
 
 [Complete runnable example](../examples/discountPreviews-create.mjs)

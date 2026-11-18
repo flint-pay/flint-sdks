@@ -21,6 +21,7 @@ Response model.
 | `gifts_enabled` | Optional | boolean or null | Whether the buyer can name a gift recipient, frozen from the plan's gifts_enabled when the session was created. `gifts_enabled`: [declared alternatives](../models/CheckoutSubscriptionTermsPreviousAttributes.md#checkoutsubscriptiontermspreviousattributesgifts_enabled). |
 | `line_items` | Optional | Array of [CheckoutSubscriptionTermsPreviousAttributesLineItemsItem](../models/CheckoutSubscriptionTermsPreviousAttributesLineItemsItem.md#checkoutsubscriptiontermspreviousattributeslineitemsitem) or null | Identified frozen plan lines with buyer quantity permissions and bounds. `line_items`: [declared alternatives](../models/CheckoutSubscriptionTermsPreviousAttributes.md#checkoutsubscriptiontermspreviousattributesline_items). |
 | `plan_name` | Optional | string or null | Plan name shown to the buyer. `plan_name`: [declared alternatives](../models/CheckoutSubscriptionTermsPreviousAttributes.md#checkoutsubscriptiontermspreviousattributesplan_name). |
+| `recurring_price_phases` | Optional | Array of [CheckoutSubscriptionPricePhasePreviousAttributes](../models/CheckoutSubscriptionPricePhasePreviousAttributes.md#checkoutsubscriptionpricephasepreviousattributes) or null | Ordered recurring merchandise prices from the first paid billing period, after any trial, with frozen signup promotions applied. Each finite phase is followed by the next phase; the final phase has a null billing_period_count and continues until cancellation. Tax and shipping are additional. Always contains at least one phase. `recurring_price_phases`: [declared alternatives](../models/CheckoutSubscriptionTermsPreviousAttributes.md#checkoutsubscriptiontermspreviousattributesrecurring_price_phases). |
 | `recurring_shipping` | Optional | [CheckoutSubscriptionRecurringShippingPreviousAttributes](../models/CheckoutSubscriptionRecurringShippingPreviousAttributes.md#checkoutsubscriptionrecurringshippingpreviousattributes) or null | Shipping that renews with each charge, for the delivery method the buyer chose. Omitted when no delivery method applies to the plan's lines. |
 | `recurring_total_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Charge for one billing period before tax and shipping, including prepaid deliveries and modifiers. |
 | `setup_fee_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | One-time fee charged with the first payment, when the plan has one. |
@@ -225,6 +226,46 @@ anyOf variant 1: Plan name shown to the buyer..
 anyOf variant 2.
 
 - Value shape: null. Plan name shown to the buyer. 
+
+### CheckoutSubscriptionTermsPreviousAttributes.recurring_price_phases
+
+### CheckoutSubscriptionTermsPreviousAttributes.recurring_price_phases variant 1
+
+anyOf variant 1: Ordered recurring merchandise prices from the first paid billing period, after any trial, with frozen signup promotions applied. Each finite phase is followed by the next phase; the final phase has a null billing_period_count and continues until cancellation. Tax and shipping are additional. Always contains at least one phase..
+
+- Value shape: Array of [CheckoutSubscriptionPricePhasePreviousAttributes](../models/CheckoutSubscriptionPricePhasePreviousAttributes.md#checkoutsubscriptionpricephasepreviousattributes). Ordered recurring merchandise prices from the first paid billing period, after any trial, with frozen signup promotions applied. Each finite phase is followed by the next phase; the final phase has a null billing_period_count and continues until cancellation. Tax and shipping are additional. Always contains at least one phase. 
+
+### CheckoutSubscriptionTermsPreviousAttributes.recurring_price_phases variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Ordered recurring merchandise prices from the first paid billing period, after any trial, with frozen signup promotions applied. Each finite phase is followed by the next phase; the final phase has a null billing_period_count and continues until cancellation. Tax and shipping are additional. Always contains at least one phase. 
+
+### CheckoutSubscriptionTermsPreviousAttributes.recurring_price_phases variant 1.[] fields 1
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `billing_period_count` | Optional | integer or null | Number of paid billing periods at this price. Null when the price continues until cancellation. `billing_period_count`: [declared alternatives](../models/CheckoutSubscriptionPricePhasePreviousAttributes.md#checkoutsubscriptionpricephasepreviousattributesbilling_period_count). |
+| `recurring_total_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Recurring merchandise charge per billing period after discounts, before tax and shipping. |
+| `starts_at` | Optional | string or null | Fixed start of this phase, when known. Null when the buyer has not paid and the billing start depends on when they pay. `starts_at`: [declared alternatives](../models/CheckoutSubscriptionTermsPreviousAttributes.md#checkoutsubscriptiontermspreviousattributesrecurring_price_phases-variant-1-fields-1starts_at). |
+
+### CheckoutSubscriptionTermsPreviousAttributes.recurring_price_phases variant 1.[] fields 1.billing_period_count
+
+Declared alternatives: [CheckoutSubscriptionPricePhasePreviousAttributes.billing_period_count](../models/CheckoutSubscriptionPricePhasePreviousAttributes.md#checkoutsubscriptionpricephasepreviousattributesbilling_period_count).
+
+### CheckoutSubscriptionTermsPreviousAttributes.recurring_price_phases variant 1.[] fields 1.starts_at
+
+### CheckoutSubscriptionTermsPreviousAttributes.recurring_price_phases variant 1.[] fields 1.starts_at variant 1
+
+anyOf variant 1: Fixed start of this phase, when known. Null when the buyer has not paid and the billing start depends on when they pay..
+
+- Value shape: string. Fixed start of this phase, when known. Null when the buyer has not paid and the billing start depends on when they pay. Fixed start of this phase, when known. Null when the buyer has not paid and the billing start depends on when they pay. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+
+### CheckoutSubscriptionTermsPreviousAttributes.recurring_price_phases variant 1.[] fields 1.starts_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Fixed start of this phase, when known. Null when the buyer has not paid and the billing start depends on when they pay. 
 
 ### CheckoutSubscriptionTermsPreviousAttributes.subscription_plan_id
 

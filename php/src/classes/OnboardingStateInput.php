@@ -13,7 +13,7 @@ namespace Flint;
 final class OnboardingStateInput extends Model {
     /** @param array{'country'?: string, 'default_sandbox_id'?: string, 'merchant_id': string, 'next_step'?: ReadinessActionInput|array<array-key, mixed>|\stdClass, 'profile': OnboardingProfileInput|array<array-key, mixed>|\stdClass, 'requested_capabilities'?: list<string>, 'status': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OnboardingStateInput')); }
-    /** Immutable business country for the selected stable provider-account target. Omitted until the target has selected an effective country. Uses ISO 3166-1 alpha-2 country codes. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example: "US". Value enum: "US".
+    /** Business country Flint uses in the selected environment. Before account setup, this is the selected country or the country Flint would use if advance omits it. Omitted when Flint cannot determine a country. Once account setup selects a country, it cannot change. Uses ISO 3166-1 alpha-2 country codes. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example: "US". Value enum: "US".
      * @return string
      * @throws SdkError When country is omitted; use hasCountry() or valueOrDefault().
      */

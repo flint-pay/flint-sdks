@@ -4,7 +4,7 @@
 
 ### packages.create
 
-Creates a package record under a shipment. Change package status through its lifecycle action routes, such as POST /v1/packages/{package_id}/mark-shipped; this endpoint records package-level carrier, tracking, label, measurement, and external correlation fields. Read timeline events with GET /v1/fulfillment-events filtered by package_id, shipment_id, or fulfillment_id, and notifications with GET /v1/fulfillment-notifications filtered by fulfillment_event_id or fulfillment_id.
+Creates a package record under a shipment. An outbound package created with status shipped requires at least one item. If items is omitted, the API returns 400 INVALID_REQUEST with detail REQUIRED at items. Change package status after creation through its lifecycle action routes. Read timeline events with GET /v1/fulfillment-events filtered by package_id, shipment_id, or fulfillment_id, and notifications with GET /v1/fulfillment-notifications filtered by fulfillment_event_id or fulfillment_id.
 
 `POST /v1/packages`
 
@@ -31,7 +31,7 @@ Body model: [CreatePackageRequestInput](../models/CreatePackageRequest.md#create
 | `expected_delivery_at` | Optional | string or null | When the carrier or merchant expects this package to arrive. Past dates are allowed. Send null to clear it; omit to leave it unchanged on updates and transitions. Format: `date-time`. minLength: `1`. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. Requires external_system. External references are not unique. Use Idempotency-Key for retries. minLength: `1`. maxLength: `255`. |
 | `external_system` | Optional | string | Name of the external system that external_reference_id belongs to. External references are not unique. Use Idempotency-Key for retries. minLength: `1`. |
-| `items` | Optional | Array of [CreatePackageItemRequestInput](../models/CreatePackageItemRequest.md#createpackageitemrequest) | Independent package-item collection. Inline creation uses the child-create shape and commits atomically; edit items through the package item routes after creation. Each order line and bundle component pair may appear once. minItems: `1`. maxItems: `100`. |
+| `items` | Optional | Array of [CreatePackageItemRequestInput](../models/CreatePackageItemRequest.md#createpackageitemrequest) | Independent package-item collection. Required when status is shipped. Inline creation uses the child-create shape and commits atomically; edit items through the package item routes after creation. Each order line and bundle component pair may appear once. minItems: `1`. maxItems: `100`. |
 | `label_url` | Optional | string | HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require external_system for provenance. Flint does not host the label file. minLength: `1`. |
 | `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
 | `return_line_items` | Optional | Array of [ReturnShipmentLineItemAllocationRequestInput](../models/ReturnShipmentLineItemAllocationRequestInput.md#returnshipmentlineitemallocationrequestinput) | Required for a package on a return shipment: allocates quantities from the shipment's return_line_items to this parcel. Rejected on outbound shipments. |
@@ -93,7 +93,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.packages.create({carrier: "ups", dimensions: {height: 4, length: 8, unit: "inch", width: 6}, expected_delivery_at: "2026-05-15T18:00:00Z", external_reference_id: "pkg_789", external_system: "merchant_wms", metadata: {box: "small"}, service_code: "ground", shipment_id: "shp_01KEZF7C006DZPA7FGH42HTBY8", status: "shipped", tracking_number: "1Z999AA10123456784", tracking_url: "https://track.example.com/1Z999AA10123456784", weight: {unit: "pound", value: 1.2}}, { idempotencyKey: idempotencyKey });
+const result = await client.packages.create({carrier: "ups", dimensions: {height: 4, length: 8, unit: "inch", width: 6}, expected_delivery_at: "2026-05-15T18:00:00Z", external_reference_id: "pkg_789", external_system: "merchant_wms", items: [{order_line_item_id: "li_01KEZF7C0003GP5Y88KW1687AP", quantity: 1}], metadata: {box: "small"}, service_code: "ground", shipment_id: "shp_01KEZF7C006DZPA7FGH42HTBY8", status: "shipped", tracking_number: "1Z999AA10123456784", tracking_url: "https://track.example.com/1Z999AA10123456784", weight: {unit: "pound", value: 1.2}}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/packages-create.mjs)
@@ -110,7 +110,7 @@ Signature: `createItem(package_id: InputValue<string>, params: PackagesCreateIte
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `package_id` | Required | string | Flint package ID. |
+| `package_id` | Required | string | Flint package ID. Must be a valid ID with prefix pkg_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -188,8 +188,8 @@ deleteItem(package_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `package_id` | Required | string | Flint package ID. |
-| `package_item_id` | Required | string | Flint package item ID. |
+| `package_id` | Required | string | Flint package ID. Must be a valid ID with prefix pkg_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
+| `package_item_id` | Required | string | Flint package item ID. Must be a valid ID with prefix pki_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `expected_version` | Optional | integer | Optional item version last read by the caller. Format: `uint64`. minimum: `1`. maximum: `9007199254740991`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
@@ -247,7 +247,7 @@ Signature: `get(package_id: InputValue<string>, params?: PackagesGetParams, opti
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `package_id` | Required | string | Flint package ID. |
+| `package_id` | Required | string | Flint package ID. Must be a valid ID with prefix pkg_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: order. Expansion requires commerce.orders.read. Limits: at most 10 unique expand paths per request. Items values: `"order"`. Values: `"order"`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
@@ -307,8 +307,8 @@ getItem(package_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `package_id` | Required | string | Flint package ID. |
-| `package_item_id` | Required | string | Flint package item ID. |
+| `package_id` | Required | string | Flint package ID. Must be a valid ID with prefix pkg_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
+| `package_item_id` | Required | string | Flint package item ID. Must be a valid ID with prefix pki_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: order. Expansion requires commerce.orders.read. Limits: at most 10 unique expand paths per request. Items values: `"order"`. Values: `"order"`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
@@ -435,7 +435,7 @@ listPackageItems(package_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `package_id` | Required | string | Flint package ID. |
+| `package_id` | Required | string | Flint package ID. Must be a valid ID with prefix pkg_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: order. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. Items values: `"order"`. Values: `"order"`. |
@@ -482,7 +482,7 @@ const result = await client.packages.listPackageItems("pkg_01KEZF7C00ZZA16BJCEJB
 
 ### packages.markDelivered
 
-Performs one action from the package's supported_actions. mark_shipped accepts carrier, service_code, tracking_number, and tracking_url; present fields replace tracking before the status change and shipped email in one transaction. Omitted tracking is unchanged and null is invalid. Other actions reject tracking fields. mark_shipped, mark_in_transit, and mark_out_for_delivery optionally set expected_delivery_at; send null to clear it. Delivery preserves the estimate as history. expected_version is optional and rejects a stale resource version when supplied. Read timeline events with GET /v1/fulfillment-events filtered by package_id, shipment_id, or fulfillment_id, and notifications with GET /v1/fulfillment-notifications filtered by fulfillment_event_id or fulfillment_id.
+Performs one action from the package's supported_actions. mark_shipped accepts carrier, service_code, tracking_number, and tracking_url; present fields replace tracking before the status change and shipped email in one transaction. Omitted tracking is unchanged and null is invalid. Other actions reject tracking fields. mark_shipped, mark_in_transit, and mark_out_for_delivery optionally set expected_delivery_at; send null to clear it. Delivery preserves the estimate as history. expected_version is optional and rejects a stale resource version when supplied. Recording carrier progress on a created or packed package requires contents. An empty package returns 409 ACTION_NOT_ALLOWED with reason package_empty. Add an item before retrying. Read timeline events with GET /v1/fulfillment-events filtered by package_id, shipment_id, or fulfillment_id, and notifications with GET /v1/fulfillment-notifications filtered by fulfillment_event_id or fulfillment_id.
 
 `POST /v1/packages/{package_id}/mark-delivered`
 
@@ -492,7 +492,7 @@ Signature: `markDelivered(package_id: InputValue<string>, params?: PackagesMarkD
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `package_id` | Required | string | Flint package ID. |
+| `package_id` | Required | string | Flint package ID. Must be a valid ID with prefix pkg_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -507,7 +507,7 @@ Body model: [MarkPackageDeliveredRequestInput](../models/MarkPackageDeliveryAtte
 | `buyer_notification_behavior` | Optional | string | Whether to send or suppress the buyer notification for this action. Values: `"send"`, `"suppress"`. |
 | `expected_version` | Optional | integer | Resource version the caller last read. Format: `uint64`. minimum: `1`. |
 | `occurred_at` | Optional | string | When the carrier scan or package action occurred, as an RFC 3339 timestamp. Format: `date-time`. minLength: `1`. |
-| `reason_message` | Optional | string | Your note explaining this transition. minLength: `1`. maxLength: `500`. |
+| `reason_message` | Optional | string | Your internal note explaining this transition. Not included in buyer emails. minLength: `1`. maxLength: `500`. |
 
 #### Response
 
@@ -553,7 +553,7 @@ const result = await client.packages.markDelivered("pkg_01KEZF7C00ZZA16BJCEJBWKJ
 
 ### packages.markDeliveryAttempted
 
-Performs one action from the package's supported_actions. mark_shipped accepts carrier, service_code, tracking_number, and tracking_url; present fields replace tracking before the status change and shipped email in one transaction. Omitted tracking is unchanged and null is invalid. Other actions reject tracking fields. mark_shipped, mark_in_transit, and mark_out_for_delivery optionally set expected_delivery_at; send null to clear it. Delivery preserves the estimate as history. expected_version is optional and rejects a stale resource version when supplied. Read timeline events with GET /v1/fulfillment-events filtered by package_id, shipment_id, or fulfillment_id, and notifications with GET /v1/fulfillment-notifications filtered by fulfillment_event_id or fulfillment_id.
+Performs one action from the package's supported_actions. mark_shipped accepts carrier, service_code, tracking_number, and tracking_url; present fields replace tracking before the status change and shipped email in one transaction. Omitted tracking is unchanged and null is invalid. Other actions reject tracking fields. mark_shipped, mark_in_transit, and mark_out_for_delivery optionally set expected_delivery_at; send null to clear it. Delivery preserves the estimate as history. expected_version is optional and rejects a stale resource version when supplied. Recording carrier progress on a created or packed package requires contents. An empty package returns 409 ACTION_NOT_ALLOWED with reason package_empty. Add an item before retrying. Read timeline events with GET /v1/fulfillment-events filtered by package_id, shipment_id, or fulfillment_id, and notifications with GET /v1/fulfillment-notifications filtered by fulfillment_event_id or fulfillment_id.
 
 `POST /v1/packages/{package_id}/mark-delivery-attempted`
 
@@ -563,7 +563,7 @@ Signature: `markDeliveryAttempted(package_id: InputValue<string>, params?: Packa
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `package_id` | Required | string | Flint package ID. |
+| `package_id` | Required | string | Flint package ID. Must be a valid ID with prefix pkg_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -619,7 +619,7 @@ const result = await client.packages.markDeliveryAttempted("pkg_01KEZF7C00ZZA16B
 
 ### packages.markException
 
-Performs one action from the package's supported_actions. mark_shipped accepts carrier, service_code, tracking_number, and tracking_url; present fields replace tracking before the status change and shipped email in one transaction. Omitted tracking is unchanged and null is invalid. Other actions reject tracking fields. mark_shipped, mark_in_transit, and mark_out_for_delivery optionally set expected_delivery_at; send null to clear it. Delivery preserves the estimate as history. expected_version is optional and rejects a stale resource version when supplied. Read timeline events with GET /v1/fulfillment-events filtered by package_id, shipment_id, or fulfillment_id, and notifications with GET /v1/fulfillment-notifications filtered by fulfillment_event_id or fulfillment_id.
+Performs one action from the package's supported_actions. mark_shipped accepts carrier, service_code, tracking_number, and tracking_url; present fields replace tracking before the status change and shipped email in one transaction. Omitted tracking is unchanged and null is invalid. Other actions reject tracking fields. mark_shipped, mark_in_transit, and mark_out_for_delivery optionally set expected_delivery_at; send null to clear it. Delivery preserves the estimate as history. expected_version is optional and rejects a stale resource version when supplied. Recording carrier progress on a created or packed package requires contents. An empty package returns 409 ACTION_NOT_ALLOWED with reason package_empty. Add an item before retrying. Read timeline events with GET /v1/fulfillment-events filtered by package_id, shipment_id, or fulfillment_id, and notifications with GET /v1/fulfillment-notifications filtered by fulfillment_event_id or fulfillment_id.
 
 `POST /v1/packages/{package_id}/mark-exception`
 
@@ -629,7 +629,7 @@ Signature: `markException(package_id: InputValue<string>, params?: PackagesMarkE
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `package_id` | Required | string | Flint package ID. |
+| `package_id` | Required | string | Flint package ID. Must be a valid ID with prefix pkg_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -685,7 +685,7 @@ const result = await client.packages.markException("pkg_01KEZF7C00ZZA16BJCEJBWKJ
 
 ### packages.markInTransit
 
-Performs one action from the package's supported_actions. mark_shipped accepts carrier, service_code, tracking_number, and tracking_url; present fields replace tracking before the status change and shipped email in one transaction. Omitted tracking is unchanged and null is invalid. Other actions reject tracking fields. mark_shipped, mark_in_transit, and mark_out_for_delivery optionally set expected_delivery_at; send null to clear it. Delivery preserves the estimate as history. expected_version is optional and rejects a stale resource version when supplied. Reroutes from out_for_delivery or delivery_attempted require occurred_at at or after the package's latest recorded status time. An older scan is refused before any write with 409 ACTION_NOT_ALLOWED, reason out_of_order, param occurred_at, current_status, and latest_status_occurred_at. Discard it or send an occurred_at at or after that time; equal timestamps are accepted. Read timeline events with GET /v1/fulfillment-events filtered by package_id, shipment_id, or fulfillment_id, and notifications with GET /v1/fulfillment-notifications filtered by fulfillment_event_id or fulfillment_id.
+Performs one action from the package's supported_actions. mark_shipped accepts carrier, service_code, tracking_number, and tracking_url; present fields replace tracking before the status change and shipped email in one transaction. Omitted tracking is unchanged and null is invalid. Other actions reject tracking fields. mark_shipped, mark_in_transit, and mark_out_for_delivery optionally set expected_delivery_at; send null to clear it. Delivery preserves the estimate as history. expected_version is optional and rejects a stale resource version when supplied. Recording carrier progress on a created or packed package requires contents. An empty package returns 409 ACTION_NOT_ALLOWED with reason package_empty. Add an item before retrying. Reroutes from out_for_delivery or delivery_attempted require occurred_at at or after the package's latest recorded status time. An older scan is refused before any write with 409 ACTION_NOT_ALLOWED, reason out_of_order, param occurred_at, current_status, and latest_status_occurred_at. Discard it or send an occurred_at at or after that time; equal timestamps are accepted. Read timeline events with GET /v1/fulfillment-events filtered by package_id, shipment_id, or fulfillment_id, and notifications with GET /v1/fulfillment-notifications filtered by fulfillment_event_id or fulfillment_id.
 
 `POST /v1/packages/{package_id}/mark-in-transit`
 
@@ -695,7 +695,7 @@ Signature: `markInTransit(package_id: InputValue<string>, params?: PackagesMarkI
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `package_id` | Required | string | Flint package ID. |
+| `package_id` | Required | string | Flint package ID. Must be a valid ID with prefix pkg_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -711,7 +711,7 @@ Body model: [MarkPackageInTransitRequestInput](../models/MarkPackageInTransitReq
 | `expected_delivery_at` | Optional | string or null | When the carrier or merchant expects this package to arrive. Past dates are allowed. Send null to clear it; omit to leave it unchanged on updates and transitions. Format: `date-time`. minLength: `1`. |
 | `expected_version` | Optional | integer | Resource version the caller last read. Format: `uint64`. minimum: `1`. |
 | `occurred_at` | Optional | string | When the carrier scan or package action occurred, as an RFC 3339 timestamp. Format: `date-time`. minLength: `1`. |
-| `reason_message` | Optional | string | Your note explaining this transition. minLength: `1`. maxLength: `500`. |
+| `reason_message` | Optional | string | Your internal note explaining this transition. Not included in buyer emails. minLength: `1`. maxLength: `500`. |
 
 #### Response
 
@@ -757,7 +757,7 @@ const result = await client.packages.markInTransit("pkg_01KEZF7C00ZZA16BJCEJBWKJ
 
 ### packages.markOutForDelivery
 
-Performs one action from the package's supported_actions. mark_shipped accepts carrier, service_code, tracking_number, and tracking_url; present fields replace tracking before the status change and shipped email in one transaction. Omitted tracking is unchanged and null is invalid. Other actions reject tracking fields. mark_shipped, mark_in_transit, and mark_out_for_delivery optionally set expected_delivery_at; send null to clear it. Delivery preserves the estimate as history. expected_version is optional and rejects a stale resource version when supplied. Read timeline events with GET /v1/fulfillment-events filtered by package_id, shipment_id, or fulfillment_id, and notifications with GET /v1/fulfillment-notifications filtered by fulfillment_event_id or fulfillment_id.
+Performs one action from the package's supported_actions. mark_shipped accepts carrier, service_code, tracking_number, and tracking_url; present fields replace tracking before the status change and shipped email in one transaction. Omitted tracking is unchanged and null is invalid. Other actions reject tracking fields. mark_shipped, mark_in_transit, and mark_out_for_delivery optionally set expected_delivery_at; send null to clear it. Delivery preserves the estimate as history. expected_version is optional and rejects a stale resource version when supplied. Recording carrier progress on a created or packed package requires contents. An empty package returns 409 ACTION_NOT_ALLOWED with reason package_empty. Add an item before retrying. Read timeline events with GET /v1/fulfillment-events filtered by package_id, shipment_id, or fulfillment_id, and notifications with GET /v1/fulfillment-notifications filtered by fulfillment_event_id or fulfillment_id.
 
 `POST /v1/packages/{package_id}/mark-out-for-delivery`
 
@@ -767,7 +767,7 @@ Signature: `markOutForDelivery(package_id: InputValue<string>, params?: Packages
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `package_id` | Required | string | Flint package ID. |
+| `package_id` | Required | string | Flint package ID. Must be a valid ID with prefix pkg_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -833,7 +833,7 @@ Signature: `markPacked(package_id: InputValue<string>, params?: PackagesMarkPack
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `package_id` | Required | string | Flint package ID. |
+| `package_id` | Required | string | Flint package ID. Must be a valid ID with prefix pkg_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -899,7 +899,7 @@ Signature: `markReturned(package_id: InputValue<string>, params?: PackagesMarkRe
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `package_id` | Required | string | Flint package ID. |
+| `package_id` | Required | string | Flint package ID. Must be a valid ID with prefix pkg_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -955,7 +955,7 @@ const result = await client.packages.markReturned("pkg_01KEZF7C00ZZA16BJCEJBWKJ5
 
 ### packages.markShipped
 
-Performs one action from the package's supported_actions. mark_shipped accepts carrier, service_code, tracking_number, and tracking_url; present fields replace tracking before the status change and shipped email in one transaction. Omitted tracking is unchanged and null is invalid. Other actions reject tracking fields. mark_shipped, mark_in_transit, and mark_out_for_delivery optionally set expected_delivery_at; send null to clear it. Delivery preserves the estimate as history. expected_version is optional and rejects a stale resource version when supplied. Read timeline events with GET /v1/fulfillment-events filtered by package_id, shipment_id, or fulfillment_id, and notifications with GET /v1/fulfillment-notifications filtered by fulfillment_event_id or fulfillment_id.
+Performs one action from the package's supported_actions. mark_shipped accepts carrier, service_code, tracking_number, and tracking_url; present fields replace tracking before the status change and shipped email in one transaction. Omitted tracking is unchanged and null is invalid. Other actions reject tracking fields. mark_shipped, mark_in_transit, and mark_out_for_delivery optionally set expected_delivery_at; send null to clear it. Delivery preserves the estimate as history. expected_version is optional and rejects a stale resource version when supplied. Recording carrier progress on a created or packed package requires contents. An empty package returns 409 ACTION_NOT_ALLOWED with reason package_empty. Add an item before retrying. Read timeline events with GET /v1/fulfillment-events filtered by package_id, shipment_id, or fulfillment_id, and notifications with GET /v1/fulfillment-notifications filtered by fulfillment_event_id or fulfillment_id.
 
 `POST /v1/packages/{package_id}/mark-shipped`
 
@@ -965,7 +965,7 @@ Signature: `markShipped(package_id: InputValue<string>, params?: PackagesMarkShi
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `package_id` | Required | string | Flint package ID. |
+| `package_id` | Required | string | Flint package ID. Must be a valid ID with prefix pkg_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -982,7 +982,7 @@ Body model: [MarkPackageShippedRequestInput](../models/MarkPackageShippedRequest
 | `expected_delivery_at` | Optional | string or null | When the carrier or merchant expects this package to arrive. Past dates are allowed. Send null to clear it; omit to leave it unchanged on updates and transitions. Format: `date-time`. minLength: `1`. |
 | `expected_version` | Optional | integer | Resource version the caller last read. Format: `uint64`. minimum: `1`. |
 | `occurred_at` | Optional | string | When the carrier scan or package action occurred, as an RFC 3339 timestamp. Format: `date-time`. minLength: `1`. |
-| `reason_message` | Optional | string | Your note explaining this transition. minLength: `1`. maxLength: `500`. |
+| `reason_message` | Optional | string | Your internal note explaining this transition. Not included in buyer emails. minLength: `1`. maxLength: `500`. |
 | `service_code` | Optional | string | Carrier service used for this package. minLength: `1`. maxLength: `100`. |
 | `tracking_number` | Optional | string | Carrier tracking number for this package. minLength: `1`. maxLength: `255`. |
 | `tracking_url` | Optional | string | Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: `1`. maxLength: `2048`. |
@@ -1041,7 +1041,7 @@ Signature: `update(package_id: InputValue<string>, params: PackagesUpdateParams,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `package_id` | Required | string | Flint package ID. |
+| `package_id` | Required | string | Flint package ID. Must be a valid ID with prefix pkg_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -1128,8 +1128,8 @@ updateItem(package_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `package_id` | Required | string | Flint package ID. |
-| `package_item_id` | Required | string | Flint package item ID. |
+| `package_id` | Required | string | Flint package ID. Must be a valid ID with prefix pkg_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
+| `package_item_id` | Required | string | Flint package item ID. Must be a valid ID with prefix pki_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -1200,7 +1200,7 @@ Signature: `void(package_id: InputValue<string>, params?: PackagesVoidParams, op
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `package_id` | Required | string | Flint package ID. |
+| `package_id` | Required | string | Flint package ID. Must be a valid ID with prefix pkg_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -1215,7 +1215,7 @@ Body model: [VoidPackageRequestInput](../models/VoidShipmentRequestInput.md#void
 | `buyer_notification_behavior` | Optional | string | Controls buyer email handling. Omit or use send to send when recipient, template, and deduplication rules allow it. Use suppress when another system owns buyer messaging. Values: `"send"`, `"suppress"`. |
 | `expected_version` | Optional | integer | Optional resource version last read by the caller. Format: `uint64`. minimum: `1`. |
 | `occurred_at` | Optional | string | Void event timestamp. Format: `date-time`. minLength: `1`. |
-| `reason_message` | Optional | string | Your note explaining this action. minLength: `1`. |
+| `reason_message` | Optional | string | Your internal note explaining this action. Not included in buyer emails. minLength: `1`. |
 
 #### Response
 

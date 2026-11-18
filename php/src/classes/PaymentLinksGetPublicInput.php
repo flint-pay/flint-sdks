@@ -9,7 +9,7 @@ namespace Flint;
 final class PaymentLinksGetPublicInput extends Model {
     /** @param array{'payment_link_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinksGetPublicInput')); }
-    /** Flint payment link ID. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+    /** Flint payment link ID. Must be a valid ID with prefix pl_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
      * @return string
      * @throws SdkError When payment_link_id is omitted; use hasPaymentLinkId() or valueOrDefault().
      */

@@ -1,10 +1,7 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
+import type { Product, ProductListResponse, ProductOption, ProductOptionListResponse } from '../declarations/types-56.js';
 import type {
-    Product,
-    ProductListResponse,
-    ProductOption,
-    ProductOptionListResponse,
     ProductOptionResponse,
     ProductResponse,
     ProductVariant,
@@ -22,9 +19,9 @@ import type {
     ProductsListVariantsParams,
     ProductsUpdateParams,
     ProductsUpdateVariantParams
-} from '../declarations/types-55.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-57.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -41,7 +38,6 @@ export type {
 } from '../runtime.js';
 export type {
     ProductsCreateParams,
-    Product,
     ProductResponse,
     ProductsCreateVariantParams,
     ProductVariant,
@@ -50,13 +46,10 @@ export type {
     ProductsDeleteVariantParams,
     ProductsGetParams,
     ProductsGetOptionParams,
-    ProductOption,
     ProductOptionResponse,
     ProductsGetVariantParams,
     ProductsListOptionsParams,
-    ProductOptionListResponse,
     ProductsListParams,
-    ProductListResponse,
     ProductsListVariantsParams,
     ProductVariantListResponse,
     ProductsUpdateParams,
@@ -68,9 +61,17 @@ export type {
     ProductVariantInventoryAvailability,
     ProductOptionValue,
     ProductVariantSelectedOptionRequest
-} from '../declarations/types-55.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type { _SdkWithoutIdempotency, WeightRequestInput, Weight } from '../declarations/types-77.js';
+} from '../declarations/types-57.js';
+export type { RequestOptions } from '../declarations/types-61.js';
+export type {
+    Product,
+    ProductOption,
+    ProductOptionListResponse,
+    ProductListResponse,
+    PoolLicenseKeyConfigurationRequestInput,
+    PoolLicenseKeyConfiguration
+} from '../declarations/types-56.js';
+export type { _SdkWithoutIdempotency, WeightRequestInput, Weight } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type {
     CreateProductRequestInput,
@@ -79,58 +80,78 @@ export type {
     CreateProductRequestSimpleInput,
     CreateProductRequestOptionedInput
 } from '../declarations/types-12.js';
-export type { GiftCardProductConfigurationRequestInput, GiftCardProductConfiguration } from '../declarations/types-29.js';
-export type { GiftCardCustomAmountBoundsRequestInput, GiftCardCustomAmountBounds } from '../declarations/types-28.js';
-export type { MoneyValueInput, ModifierSet, ModifierSetGroup, MoneyValue, ModifierOverride, NextAction } from '../declarations/types-42.js';
-export type { ImageRequestInput } from '../declarations/types-31.js';
-export type { ImageInputSourceURLInput, ImageInputFileInput, ImageAttachment } from '../declarations/types-30.js';
+export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-44.js';
+export type { GiftCardProductConfigurationRequestInput } from '../declarations/types-30.js';
+export type {
+    GiftCardCustomAmountBoundsRequestInput,
+    GeneratedLicenseKeyConfigurationRequestInput,
+    GiftCardCustomAmountBounds,
+    GeneratedLicenseKeyConfiguration
+} from '../declarations/types-28.js';
+export type { ImageRequestInput, ImageInputSourceURLInput, ImageInputFileInput, ImageAttachment } from '../declarations/types-31.js';
 export type { InventoryItemCreateRequestInput } from '../declarations/types-32.js';
 export type {
     MetadataRequestInput,
     MetadataMap,
+    ModifierSet,
+    ModifierSetGroup,
     ModifierGroup,
     Modifier,
+    ModifierOverride,
     MetadataPatchRequestInput,
     MetadataPatchRequest
-} from '../declarations/types-41.js';
-export type { QuantityPriceBreakRequestInput, QuantityPriceBreak } from '../declarations/types-57.js';
-export type { DimensionsRequestInput, Dimensions, DisputesAcceptParams } from '../declarations/types-25.js';
+} from '../declarations/types-43.js';
+export type { LicenseKeyConfigurationRequestInput, LicenseKeyConfiguration } from '../declarations/types-39.js';
+export type { QuantityPriceBreakRequestInput, QuantityPriceBreak } from '../declarations/types-59.js';
+export type { DimensionsRequestInput, Dimensions } from '../declarations/types-25.js';
 export type { AuthMode, BundlesGetParams } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { CategoryReference } from '../declarations/types-5.js';
-export type { TextModifierConfig } from '../declarations/types-72.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
+export type { TextModifierConfig } from '../declarations/types-74.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { GiftCardProductConfiguration } from '../declarations/types-29.js';
 export type { InventoryRoutingSource } from '../declarations/types-33.js';
-export type { SelectedProductOption } from '../declarations/types-65.js';
-export type { UpdateProductRequestInput, UpdateProductVariantRequestInput } from '../declarations/types-75.js';
-export type { UpdateProductOptionRequestInput, UpdateProductOptionValueRequestInput } from '../declarations/types-74.js';
+export type { SelectedProductOption } from '../declarations/types-67.js';
+export type {
+    UpdateProductRequestInput,
+    UpdateProductOptionRequestInput,
+    UpdateProductOptionValueRequestInput,
+    UpdateProductVariantRequestInput
+} from '../declarations/types-77.js';
+export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export {
     makeCreateProductOptionRequest,
     makeCreateProductOptionValueRequest,
     makeCreateProductRequest,
     makeCreateProductRequestOptioned,
     makeCreateProductRequestSimple
-} from '../declarations/types-81.js';
-export { makeDimensionsRequest } from '../declarations/types-83.js';
+} from '../declarations/types-83.js';
 export {
+    makeDimensionsRequest,
+    makeGeneratedLicenseKeyConfigurationRequest,
     makeGiftCardCustomAmountBoundsRequest,
     makeGiftCardProductConfigurationRequest,
     makeImageInputFile,
     makeImageInputSourceURL,
     makeImageRequest,
     makeInventoryItemCreateRequest
-} from '../declarations/types-84.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeProductVariantRequest, makeProductVariantSelectedOptionRequest } from '../declarations/types-87.js';
-export { makeQuantityPriceBreakRequest } from '../declarations/types-88.js';
+} from '../declarations/types-86.js';
+export { makeLicenseKeyConfigurationRequest } from '../declarations/types-87.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makePoolLicenseKeyConfigurationRequest } from '../declarations/types-89.js';
+export {
+    makeProductVariantRequest,
+    makeProductVariantSelectedOptionRequest,
+    makeQuantityPriceBreakRequest
+} from '../declarations/types-90.js';
 export {
     makeUpdateProductOptionRequest,
     makeUpdateProductOptionValueRequest,
     makeUpdateProductRequest,
     makeUpdateProductVariantRequest
-} from '../declarations/types-91.js';
-export { makeWeightRequest } from '../declarations/types-92.js';
+} from '../declarations/types-93.js';
+export { makeWeightRequest } from '../declarations/types-94.js';
 export interface ProductsResource {
     /**
  * Creates a product, the catalog item buyers purchase through orders, checkout, payment links, and
@@ -161,7 +182,9 @@ export interface ProductsResource {
  * archived resource and its `current_status`.
  *
  * `POST /v1/products/{product_id}/variants`
- * @param product_id Flint product ID.
+ * @param product_id Flint product ID. Must be a valid ID with prefix prod_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/products#createProductVariant
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -178,7 +201,9 @@ export interface ProductsResource {
  * `VERSION_CONFLICT` and the `current_version`, even when the resource is already archived.
  *
  * `DELETE /v1/products/{product_id}`
- * @param product_id Flint product ID.
+ * @param product_id Flint product ID. Must be a valid ID with prefix prod_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/products#deleteProduct
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -194,7 +219,9 @@ export interface ProductsResource {
  * `VERSION_CONFLICT` and the `current_version`, even when the resource is already archived.
  *
  * `DELETE /v1/products/{product_id}/variants/{variant_id}`
- * @param product_id Flint product ID.
+ * @param product_id Flint product ID. Must be a valid ID with prefix prod_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @param variant_id Flint product variant ID.
  * @see https://developers.withflintpay.com/docs/api/products#deleteProductVariant
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
@@ -209,7 +236,9 @@ export interface ProductsResource {
  * Returns a single product by ID.
  *
  * `GET /v1/products/{product_id}`
- * @param product_id Flint product ID.
+ * @param product_id Flint product ID. Must be a valid ID with prefix prod_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/products#getProduct
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -220,7 +249,9 @@ export interface ProductsResource {
  * Returns one option of a product, such as size or color, with its values and position.
  *
  * `GET /v1/products/{product_id}/options/{option_id}`
- * @param product_id Flint product ID.
+ * @param product_id Flint product ID. Must be a valid ID with prefix prod_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @param option_id Flint product option ID.
  * @see https://developers.withflintpay.com/docs/api/products#getProductOption
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
@@ -233,7 +264,9 @@ export interface ProductsResource {
  * settings, and delivery configuration status.
  *
  * `GET /v1/products/{product_id}/variants/{variant_id}`
- * @param product_id Flint product ID.
+ * @param product_id Flint product ID. Must be a valid ID with prefix prod_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @param variant_id Flint product variant ID.
  * @see https://developers.withflintpay.com/docs/api/products#getProductVariant
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
@@ -245,7 +278,9 @@ export interface ProductsResource {
  * List product options. Default order: position ascending, then option_id ascending.
  *
  * `GET /v1/products/{product_id}/options`
- * @param product_id Flint product ID.
+ * @param product_id Flint product ID. Must be a valid ID with prefix prod_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/products#listProductOptions
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -283,7 +318,9 @@ export interface ProductsResource {
  * List product variants. Default order: position ascending, then variant_id ascending.
  *
  * `GET /v1/products/{product_id}/variants`
- * @param product_id Flint product ID.
+ * @param product_id Flint product ID. Must be a valid ID with prefix prod_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/products#listProductVariants
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -305,7 +342,9 @@ export interface ProductsResource {
  * it belongs to, is archived. The error names the archived resource and its `current_status`.
  *
  * `PATCH /v1/products/{product_id}`
- * @param product_id Flint product ID.
+ * @param product_id Flint product ID. Must be a valid ID with prefix prod_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/products#updateProduct
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -327,7 +366,9 @@ export interface ProductsResource {
  * belongs to, is archived. The error names the archived resource and its `current_status`.
  *
  * `PATCH /v1/products/{product_id}/variants/{variant_id}`
- * @param product_id Flint product ID.
+ * @param product_id Flint product ID. Must be a valid ID with prefix prod_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @param variant_id Flint product variant ID.
  * @see https://developers.withflintpay.com/docs/api/products#updateProductVariant
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.

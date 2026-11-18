@@ -8,6 +8,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $created_at
  * @property-read string $currency
  * @property-read string $description
+ * @property-read string $direction
  * @property-read string $external_reference_id
  * @property-read string $failure_code
  * @property-read string $failure_message
@@ -18,13 +19,13 @@ namespace Flint;
  * @property-read MetadataMapInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read string $method
  * @property-read array{'amount': string, 'currency': string, ...}|object|null $net_money
- * @property-read array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'arrival_date'?: string, 'balance_source_type': string, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'method': string, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null $original_payout
+ * @property-read array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'arrival_date'?: string, 'balance_source_type': string, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'direction': string, 'method': string, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null $original_payout
  * @property-read string $original_payout_id
  * @property-read array{'available_payout_methods': list<string>, 'bank_name'?: string, 'country'?: string, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'is_default_for_currency': bool, 'last4'?: string, 'payout_destination_id': string, 'status': string, 'type': string, 'updated_at'?: string|\DateTimeInterface, 'version': int, ...}|object|null $payout_destination
  * @property-read string $payout_destination_id
  * @property-read string $payout_id
  * @property-read string $reversal_status
- * @property-read array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'arrival_date'?: string, 'balance_source_type': string, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'method': string, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null $reversed_by_payout
+ * @property-read array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'arrival_date'?: string, 'balance_source_type': string, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'direction': string, 'method': string, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null $reversed_by_payout
  * @property-read string $reversed_by_payout_id
  * @property-read string $statement_descriptor
  * @property-read string $status
@@ -33,15 +34,15 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $updated_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class PayoutInput extends Model {
-    /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'arrival_date'?: string, 'balance_source_type': string, 'created_at': string|\DateTimeInterface, 'currency': string, 'description'?: string, 'external_reference_id'?: string, 'failure_code'?: string, 'failure_message'?: string, 'fee_amount_status': string, 'fee_money': array{'amount': string, 'currency': string}|object|null, 'initiated_by': string, 'merchant_id': string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'method': string, 'net_money': array{'amount': string, 'currency': string, ...}|object|null, 'original_payout'?: array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'arrival_date'?: string, 'balance_source_type': string, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'method': string, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'original_payout_id'?: string, 'payout_destination'?: array{'available_payout_methods': list<string>, 'bank_name'?: string, 'country'?: string, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'is_default_for_currency': bool, 'last4'?: string, 'payout_destination_id': string, 'status': string, 'type': string, 'updated_at'?: string|\DateTimeInterface, 'version': int, ...}|object|null, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'reversed_by_payout'?: array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'arrival_date'?: string, 'balance_source_type': string, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'method': string, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'reversed_by_payout_id'?: string, 'statement_descriptor'?: string, 'status': string, 'supported_actions': list<string>, 'trace_id'?: PayoutTraceIDInput|array<array-key, mixed>|\stdClass, 'updated_at': string|\DateTimeInterface, ...}|object $values */
+    /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'arrival_date'?: string, 'balance_source_type': string, 'created_at': string|\DateTimeInterface, 'currency': string, 'description'?: string, 'direction': string, 'external_reference_id'?: string, 'failure_code'?: string, 'failure_message'?: string, 'fee_amount_status': string, 'fee_money': array{'amount': string, 'currency': string}|object|null, 'initiated_by': string, 'merchant_id': string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'method': string, 'net_money': array{'amount': string, 'currency': string, ...}|object|null, 'original_payout'?: array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'arrival_date'?: string, 'balance_source_type': string, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'direction': string, 'method': string, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'original_payout_id'?: string, 'payout_destination'?: array{'available_payout_methods': list<string>, 'bank_name'?: string, 'country'?: string, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'is_default_for_currency': bool, 'last4'?: string, 'payout_destination_id': string, 'status': string, 'type': string, 'updated_at'?: string|\DateTimeInterface, 'version': int, ...}|object|null, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'reversed_by_payout'?: array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'arrival_date'?: string, 'balance_source_type': string, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'direction': string, 'method': string, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'reversed_by_payout_id'?: string, 'statement_descriptor'?: string, 'status': string, 'supported_actions': list<string>, 'trace_id'?: PayoutTraceIDInput|array<array-key, mixed>|\stdClass, 'updated_at': string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PayoutInput')); }
-    /** Amount sent to your bank. Always positive. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Amount moved between your bank and Flint. Always positive. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */
     public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** Calendar date the bank is expected to receive the funds, in YYYY-MM-DD format using the UTC date of the expected arrival. Format: date. Example: "2026-08-02".
+    /** Expected settlement date of the transfer, in YYYY-MM-DD format using the UTC date of the expected arrival. Format: date. Example: "2026-08-02".
      * @return string
      * @throws SdkError When arrival_date is omitted; use hasArrivalDate() or valueOrDefault().
      */
@@ -71,6 +72,12 @@ final class PayoutInput extends Model {
      */
     public function getDescription(): string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
+    /** Direction of the money movement. Outbound payouts deposit funds in your bank; inbound payouts withdraw funds to cover a negative Flint balance. Value enum: "outbound", "inbound".
+     * @return string
+     * @throws SdkError When direction is omitted; use hasDirection() or valueOrDefault().
+     */
+    public function getDirection(): string { return $this->get('direction'); }
+    public function hasDirection(): bool { return $this->has('direction'); }
     /** Caller-owned identifier for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
@@ -101,13 +108,13 @@ final class PayoutInput extends Model {
      */
     public function getFeeMoney(): mixed { return $this->get('fee_money'); }
     public function hasFeeMoney(): bool { return $this->has('fee_money'); }
-    /** What started the payout. A payout imported from your processor follows the processor: scheduled when it sent the payout automatically, otherwise manual. Only scheduled payouts list their balance transactions through GET /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized. Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform", "other".
+    /** What started the payout. Inbound payouts are always platform initiated. An outbound payout imported from your processor follows the processor: scheduled when it sent the payout automatically, otherwise manual. Only scheduled outbound payouts list their balance transactions through GET /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized. Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform", "other".
      * @return string
      * @throws SdkError When initiated_by is omitted; use hasInitiatedBy() or valueOrDefault().
      */
     public function getInitiatedBy(): string { return $this->get('initiated_by'); }
     public function hasInitiatedBy(): bool { return $this->has('initiated_by'); }
-    /** Merchant receiving the payout. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+    /** Merchant whose balance the payout changes. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * @return string
      * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
      */
@@ -125,14 +132,14 @@ final class PayoutInput extends Model {
      */
     public function getMethod(): string { return $this->get('method'); }
     public function hasMethod(): bool { return $this->has('method'); }
-    /** Signed effect of this payout on your Flint balance. It is negative because the payout takes money out: a 25000 payout with no fee has net_money -25000. `null` when your processor hasn't recorded the payout yet. anyOf[1] (Value): {@see SignedMoneyInput}. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
+    /** Signed effect of this payout on your Flint balance. Negative for outbound payouts and positive for inbound payouts. `null` when your processor hasn't recorded the payout yet. anyOf[1] (Value): {@see SignedMoneyInput}. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
      * @return array{'amount': string, 'currency': string, ...}|object|null
      * @throws SdkError When net_money is omitted; use hasNetMoney() or valueOrDefault().
      */
     public function getNetMoney(): mixed { return $this->get('net_money'); }
     public function hasNetMoney(): bool { return $this->has('net_money'); }
     /** The payout this one reverses, inlined when you request expand=original_payout. null when expanded and original_payout_id is absent. Present only when `expand` includes `original_payout`; `null` when expanded and there is no related payout. anyOf[1] (Value): {@see ExpandedPayoutSummaryInput}. A payout's summary fields, including amount, method, status, and arrival date, returned when the payout is expanded. anyOf[2] (Value): null.
-     * @return array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'arrival_date'?: string, 'balance_source_type': string, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'method': string, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null
+     * @return array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'arrival_date'?: string, 'balance_source_type': string, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'direction': string, 'method': string, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null
      * @throws SdkError When original_payout is omitted; use hasOriginalPayout() or valueOrDefault().
      */
     public function getOriginalPayout(): mixed { return $this->get('original_payout'); }
@@ -149,7 +156,7 @@ final class PayoutInput extends Model {
      */
     public function getPayoutDestination(): mixed { return $this->get('payout_destination'); }
     public function hasPayoutDestination(): bool { return $this->has('payout_destination'); }
-    /** Bank account or debit card receiving the payout. Absent when Flint can't match your processor's destination to a payout destination. Example: "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
+    /** Bank account or debit card used for the payout. Absent when Flint can't match your processor's destination to a payout destination. Example: "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
      * @return string
      * @throws SdkError When payout_destination_id is omitted; use hasPayoutDestinationId() or valueOrDefault().
      */
@@ -168,7 +175,7 @@ final class PayoutInput extends Model {
     public function getReversalStatus(): string { return $this->get('reversal_status'); }
     public function hasReversalStatus(): bool { return $this->has('reversal_status'); }
     /** The payout reversing this one, inlined when you request expand=reversed_by_payout. null when expanded and reversed_by_payout_id is absent. Present only when `expand` includes `reversed_by_payout`; `null` when expanded and there is no related payout. anyOf[1] (Value): {@see ExpandedPayoutSummaryInput}. A payout's summary fields, including amount, method, status, and arrival date, returned when the payout is expanded. anyOf[2] (Value): null.
-     * @return array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'arrival_date'?: string, 'balance_source_type': string, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'method': string, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null
+     * @return array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'arrival_date'?: string, 'balance_source_type': string, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'direction': string, 'method': string, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null
      * @throws SdkError When reversed_by_payout is omitted; use hasReversedByPayout() or valueOrDefault().
      */
     public function getReversedByPayout(): mixed { return $this->get('reversed_by_payout'); }
@@ -179,25 +186,25 @@ final class PayoutInput extends Model {
      */
     public function getReversedByPayoutId(): string { return $this->get('reversed_by_payout_id'); }
     public function hasReversedByPayoutId(): bool { return $this->has('reversed_by_payout_id'); }
-    /** Text shown on your bank statement for the deposit, when one was set.
+    /** Text shown on your bank statement for the transfer, when one was set.
      * @return string
      * @throws SdkError When statement_descriptor is omitted; use hasStatementDescriptor() or valueOrDefault().
      */
     public function getStatementDescriptor(): string { return $this->get('statement_descriptor'); }
     public function hasStatementDescriptor(): bool { return $this->has('statement_descriptor'); }
-    /** Where the payout is: pending until it is sent, in_transit on its way to your bank, then succeeded or failed. A succeeded payout can still become failed if the bank returns the deposit, and canceled means a manual payout was canceled while pending. Value enum: "pending", "in_transit", "succeeded", "failed", "canceled".
+    /** Where the payout is: pending until it is sent, in_transit moving between Flint and your bank, then succeeded or failed. A succeeded payout can still become failed if the bank returns the transfer, and canceled means a manual payout was canceled while pending. Value enum: "pending", "in_transit", "succeeded", "failed", "canceled".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Lifecycle actions Flint accepts now. cancel is offered while a payout is pending unless it was scheduled automatically. [] enum: "cancel". [] (Value): string.  Value enum: "cancel".
+    /** Lifecycle actions Flint accepts now. cancel is offered while an outbound payout is pending unless it was scheduled automatically. Inbound payouts offer no actions. [] enum: "cancel". [] (Value): string.  Value enum: "cancel".
      * @return list<string>
      * @throws SdkError When supported_actions is omitted; use hasSupportedActions() or valueOrDefault().
      */
     public function getSupportedActions(): array { return $this->get('supported_actions'); }
     public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
-    /** The bank's trace number for the deposit, which your bank can use to locate a late deposit. Its status says whether the number is pending, available, or unsupported, and value holds the number when Flint has it. Absent when Flint has no trace information. A payout's bank trace ID, with whether it is pending, available, or unsupported.
+    /** The bank's trace number for the transfer, which your bank can use to locate it. Its status says whether the number is pending, available, or unsupported, and value holds the number when Flint has it. Absent when Flint has no trace information. A payout's bank trace ID, with whether it is pending, available, or unsupported.
      * @return PayoutTraceIDInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When trace_id is omitted; use hasTraceId() or valueOrDefault().
      */

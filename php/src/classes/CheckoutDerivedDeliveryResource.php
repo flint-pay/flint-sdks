@@ -14,7 +14,7 @@ namespace Flint;
 final class CheckoutDerivedDeliveryResource extends Model {
     /** @param array{'buyer_reasons': list<string>, 'choice_groups': list<mixed>, 'delivery_quote_id'?: string, 'delivery_selection_id': string|null, 'evaluation_status': string, 'expires_at'?: string, 'input_requirements': list<mixed>, 'merchant_diagnostics'?: list<mixed>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutDerivedDeliveryResource')); }
-    /** Buyer-safe reasons candidate methods did not produce an option. These can be present even when another method is available. [] (Value): string.
+    /** Buyer-safe reasons a choice group has no available option. Groups with an available option contribute no reasons. [] (Value): string.
      * @return list<string>
      */
     public function getBuyerReasons(): array { return $this->get('buyer_reasons'); }

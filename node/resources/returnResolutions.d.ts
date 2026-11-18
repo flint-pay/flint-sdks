@@ -1,11 +1,12 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { CancelReturnResolutionResponse } from '../declarations/types-5.js';
-import type { ClientOptions, ConfirmReturnResolutionResponse } from '../declarations/types-7.js';
+import type { ClientOptions } from '../declarations/types-7.js';
+import type { ConfirmReturnResolutionResponse } from '../declarations/types-8.js';
 import type { CreateReturnResolutionResponse } from '../declarations/types-13.js';
 import type { GetReturnResolutionResponse } from '../declarations/types-28.js';
-import type { ListReturnResolutionsResponse } from '../declarations/types-39.js';
-import type { ReleaseReturnResolutionResponse } from '../declarations/types-59.js';
-import type { RequestOptions, RetryReturnResolutionResponse } from '../declarations/types-60.js';
+import type { ListReturnResolutionsResponse } from '../declarations/types-40.js';
+import type { ReleaseReturnResolutionResponse, RequestOptions } from '../declarations/types-61.js';
+import type { RetryReturnResolutionResponse } from '../declarations/types-62.js';
 import type {
     ReturnResolution,
     ReturnResolutionsCancelParams,
@@ -16,9 +17,9 @@ import type {
     ReturnResolutionsReleaseParams,
     ReturnResolutionsRetryParams,
     ReturnResolutionsUpdateParams
-} from '../declarations/types-63.js';
-import type { UpdateReturnResolutionResponse } from '../declarations/types-75.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-65.js';
+import type { UpdateReturnResolutionResponse } from '../declarations/types-77.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -50,44 +51,46 @@ export type {
     ReturnResolutionAdjustmentRequestInput,
     ReturnResolutionLineItemRequestInput,
     ReturnReplacementLineItemRequestInput,
+    ReturnReplacementTaxRequestInput,
     ReturnReplacementLineItemInputVariantInput,
     ReturnReplacementLineItemInputBundleInput,
     ReturnReplacementLineItemInputCustomInput,
     ReturnResolutionLineItemRequest
-} from '../declarations/types-63.js';
+} from '../declarations/types-65.js';
 export type {
     RequestOptions,
-    RetryReturnResolutionResponse,
-    ReturnActor,
-    ResourceReference,
-    ResponseMeta,
-    ResponseWarning,
-    RetryReturnResolutionRequestInput
-} from '../declarations/types-60.js';
+    ReleaseReturnResolutionResponse,
+    RefundUnissuedGiftCardRecovery,
+    ReleaseReturnResolutionRequestInput
+} from '../declarations/types-61.js';
 export type {
     CancelReturnResolutionResponse,
     CancelReturnResolutionRequestInput,
     CategoryReference,
-    CheckoutBuyerContact,
     CancelReturnRequestInput
 } from '../declarations/types-5.js';
-export type { ConfirmReturnResolutionResponse, ClientOptions, ConfirmReturnResolutionRequestInput } from '../declarations/types-7.js';
+export type { ConfirmReturnResolutionResponse, ConfirmReturnResolutionRequestInput } from '../declarations/types-8.js';
 export type {
     CreateReturnResolutionResponse,
     CreateReturnResolutionRequestInput,
     CreateReturnResolutionRequestStandardInput,
     CreateReturnResolutionRequestCorrectionInput
 } from '../declarations/types-13.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { GetReturnResolutionResponse } from '../declarations/types-28.js';
-export type { ListReturnResolutionsResponse } from '../declarations/types-39.js';
 export type {
-    ReleaseReturnResolutionResponse,
-    RefundTaxBreakdownRefund,
-    RefundTenderAllocation,
-    RefundUnissuedGiftCardRecovery,
-    ReleaseReturnResolutionRequestInput
-} from '../declarations/types-59.js';
+    ListReturnResolutionsResponse,
+    LineItemFulfillmentRequestModelInput,
+    LineItemFulfillmentOriginRequestModelInput
+} from '../declarations/types-40.js';
+export type {
+    RetryReturnResolutionResponse,
+    ReturnActor,
+    ResourceReference,
+    ResponseMeta,
+    ResponseWarning,
+    RetryReturnResolutionRequestInput
+} from '../declarations/types-62.js';
 export type {
     UpdateReturnResolutionResponse,
     UpdateReturnResolutionRequestInput,
@@ -98,58 +101,72 @@ export type {
     UpdateReturnReplacementLineItemInputBundleInput,
     UpdateReturnReplacementLineItemInputCustomInput,
     UpdateReturnResolutionLineItemRequest
-} from '../declarations/types-75.js';
+} from '../declarations/types-77.js';
+export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
-export type { MoneyValue, MoneyValueInput, NextAction } from '../declarations/types-42.js';
-export type { MetadataMap, MetadataRequestInput, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-41.js';
+export type { Credentials } from '../declarations/types-15.js';
+export type { MoneyValue, MoneyValueInput, NextAction } from '../declarations/types-44.js';
+export type { MetadataMap, MetadataRequestInput, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { ExpandedPaymentIntentSummary, ExpandedCustomerSummary, ExpandedOrderSummary } from '../declarations/types-26.js';
 export type {
     PaymentSourceSummary,
     PaymentSourceAchDebitSummary,
     PaymentSourceCardSummary,
-    PaymentSourceCardPresentDetails,
-    PaymentRefund
-} from '../declarations/types-52.js';
+    PaymentSourceCardPresentDetails
+} from '../declarations/types-54.js';
 export type {
     Refund,
+    RefundChargeAllocation,
     RefundLineItemAllocation,
     RefundLineItemAdjustmentRefund,
     RefundLineItemAdjustment,
     RefundAdjustmentReason,
     RefundLineItemAutomaticRefund,
     RefundLineItemModifierAllocation,
+    RefundTaxBreakdownRefund,
+    RefundTenderAllocation,
     ReadinessMerchantAccountSession
-} from '../declarations/types-58.js';
-export type { SelectedProductOption, SettlementAmounts } from '../declarations/types-65.js';
+} from '../declarations/types-60.js';
+export type { SelectedProductOption } from '../declarations/types-67.js';
+export type { CheckoutBuyerContact } from '../declarations/types-6.js';
 export type { DeferredPromotion } from '../declarations/types-17.js';
-export type { PricingAmounts } from '../declarations/types-55.js';
-export type { OrderSettlementAmounts } from '../declarations/types-45.js';
-export type { SplitReversalReference } from '../declarations/types-66.js';
-export type { OrderGiftCardAllocation } from '../declarations/types-44.js';
-export type { LineItemFulfillmentRequestModelInput, LineItemFulfillmentOriginRequestModelInput } from '../declarations/types-38.js';
-export { makeCancelReturnRequest, makeCancelReturnResolutionRequest, makeConfirmReturnResolutionRequest } from '../declarations/types-78.js';
+export type { PricingAmounts } from '../declarations/types-56.js';
+export type { OrderSettlementAmounts } from '../declarations/types-47.js';
+export type { SettlementAmounts, SplitReversalReference } from '../declarations/types-68.js';
+export type { PaymentRefund } from '../declarations/types-53.js';
+export type { OrderGiftCardAllocation } from '../declarations/types-46.js';
+export type {
+    OrderDraftLineItemTaxCalculationRequestModelInput,
+    OrderDraftTaxComponentRequestModelInput,
+    OrderDraftTaxJurisdictionRequestModelInput
+} from '../declarations/types-45.js';
+export { makeCancelReturnRequest, makeCancelReturnResolutionRequest } from '../declarations/types-80.js';
+export { makeConfirmReturnResolutionRequest } from '../declarations/types-81.js';
 export {
     makeCreateReturnResolutionRequest,
     makeCreateReturnResolutionRequestCorrection,
     makeCreateReturnResolutionRequestStandard
-} from '../declarations/types-81.js';
+} from '../declarations/types-83.js';
+export { makeLineItemFulfillmentOriginRequestModel, makeLineItemFulfillmentRequestModel } from '../declarations/types-87.js';
 export {
-    makeLineItemFulfillmentOriginRequestModel,
-    makeLineItemFulfillmentRequestModel,
     makeMetadataPatchRequest,
-    makeMetadataRequest
-} from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeReleaseReturnResolutionRequest, makeRetryReturnResolutionRequest } from '../declarations/types-88.js';
+    makeMetadataRequest,
+    makeMoneyValue,
+    makeOrderDraftLineItemTaxCalculationRequestModel,
+    makeOrderDraftTaxComponentRequestModel,
+    makeOrderDraftTaxJurisdictionRequestModel
+} from '../declarations/types-88.js';
+export { makeReleaseReturnResolutionRequest } from '../declarations/types-90.js';
 export {
+    makeRetryReturnResolutionRequest,
     makeReturnReplacementLineItemInputBundle,
     makeReturnReplacementLineItemInputCustom,
     makeReturnReplacementLineItemInputVariant,
     makeReturnReplacementLineItemRequest,
+    makeReturnReplacementTaxRequest,
     makeReturnResolutionAdjustmentRequest,
     makeReturnResolutionLineItemRequest
-} from '../declarations/types-89.js';
+} from '../declarations/types-91.js';
 export {
     makeUpdateReturnReplacementLineItemInputBundle,
     makeUpdateReturnReplacementLineItemInputCustom,
@@ -158,7 +175,7 @@ export {
     makeUpdateReturnResolutionAdjustmentRequest,
     makeUpdateReturnResolutionLineItemRequest,
     makeUpdateReturnResolutionRequest
-} from '../declarations/types-91.js';
+} from '../declarations/types-94.js';
 export interface ReturnResolutionsResource {
     /**
  * Cancel a resolution and release the line value it reserved. A failed resolution can be canceled
@@ -167,7 +184,9 @@ export interface ReturnResolutionsResource {
  * instead.
  *
  * `POST /v1/return-resolutions/{return_resolution_id}/cancel`
- * @param return_resolution_id Flint return resolution id.
+ * @param return_resolution_id Flint return resolution id. Must be a valid ID with prefix retres_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/return-resolutions#cancelReturnResolution
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -182,7 +201,9 @@ export interface ReturnResolutionsResource {
  * line-qualified execution blockers.
  *
  * `POST /v1/return-resolutions/{return_resolution_id}/confirm`
- * @param return_resolution_id Flint return resolution id.
+ * @param return_resolution_id Flint return resolution id. Must be a valid ID with prefix retres_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/return-resolutions#confirmReturnResolution
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -213,7 +234,9 @@ export interface ReturnResolutionsResource {
  * payments, and replacement order. Supports expand for those links.
  *
  * `GET /v1/return-resolutions/{return_resolution_id}`
- * @param return_resolution_id Flint return resolution id.
+ * @param return_resolution_id Flint return resolution id. Must be a valid ID with prefix retres_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/return-resolutions#getReturnResolution
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -245,7 +268,9 @@ export interface ReturnResolutionsResource {
  * action_reason is manual_release.
  *
  * `POST /v1/return-resolutions/{return_resolution_id}/release`
- * @param return_resolution_id Flint return resolution id.
+ * @param return_resolution_id Flint return resolution id. Must be a valid ID with prefix retres_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/return-resolutions#releaseReturnResolution
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -268,7 +293,9 @@ export interface ReturnResolutionsResource {
  * fails with `ACTION_NOT_ALLOWED`; cancel the resolution instead.
  *
  * `POST /v1/return-resolutions/{return_resolution_id}/retry`
- * @param return_resolution_id Flint return resolution id.
+ * @param return_resolution_id Flint return resolution id. Must be a valid ID with prefix retres_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/return-resolutions#retryReturnResolution
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -283,7 +310,9 @@ export interface ReturnResolutionsResource {
  * or adjustments array replaces that collection and requires expected_version.
  *
  * `PATCH /v1/return-resolutions/{return_resolution_id}`
- * @param return_resolution_id Flint return resolution id.
+ * @param return_resolution_id Flint return resolution id. Must be a valid ID with prefix retres_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/return-resolutions#updateReturnResolution
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

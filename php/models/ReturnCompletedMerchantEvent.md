@@ -37,3 +37,7 @@ Field definitions: [ReturnCanceledMerchantEvent.data fields 1.object](../models/
 
 Field definitions: [ReturnCanceledMerchantEvent.data fields 1.previous_attributes](../models/ReturnCanceledMerchantEvent.md#returncanceledmerchanteventdata-fields-1previous_attributes).
 
+### ReturnCompletedMerchantEvent.data fields 1.actor
+
+Field definitions: [ReturnCanceledMerchantEventData.actor](../models/ReturnCanceledMerchantEventData.md#returncanceledmerchanteventdataactor).
+

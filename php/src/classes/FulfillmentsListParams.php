@@ -59,7 +59,7 @@ final class FulfillmentsListParams extends Model {
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
+    /** Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns only resources created in your caller namespace, plus resources created before caller scoping under the original key. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
      * @return string
      * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */
@@ -113,7 +113,7 @@ final class FulfillmentsListParams extends Model {
      */
     public function getUpdatedBefore(): string|\DateTimeInterface { return $this->get('updated_before'); }
     public function hasUpdatedBefore(): bool { return $this->has('updated_before'); }
-    /** Field to sort by. Defaults to created_at; ties are broken by fulfillment_id. Default: "created_at". Value enum: "created_at", "scheduled_start_at", "terminal_at".
+    /** Field to sort by. Defaults to created_at; ties are broken by fulfillment_id. due_at compares scheduled_start_at, the booked service start or pickup, delivery, or shipment window start, with nulls last ascending and first descending. scheduled_start_at and terminal_at put nulls first ascending and last descending. Ties use fulfillment_id in the same direction. Default: "created_at". Value enum: "created_at", "scheduled_start_at", "terminal_at", "due_at".
      * @return string
      * @throws SdkError When sort_by is omitted; use hasSortBy() or valueOrDefault().
      */

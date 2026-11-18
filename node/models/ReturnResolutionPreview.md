@@ -19,6 +19,7 @@ A preview of a return resolution before it is created: returned and replacement 
 | `credit_adjustment_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Credits the proposed resolution's adjustments would add to the value returned to the buyer. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `credit_adjustment_money`: [field definitions](../models/BuyerReturnResolutionPreview.md#buyerreturnresolutionpreviewcredit_adjustment_money). |
 | `deduction_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Deductions the proposed resolution's adjustments would take, such as a restocking fee. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `deduction_money`: [field definitions](../models/BuyerReturnResolutionPreview.md#buyerreturnresolutionpreviewdeduction_money). |
 | `line_items` | Required | Array of [ReturnResolutionLineItem](../models/ReturnResolutionLineItem.md#returnresolutionlineitem) | Return lines and quantities to cover, up to 100. Not allowed on a correction. |
+| `refund_shortfall_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Buyer refund value that the original payments cannot fund. Zero when fully payable. buyer_refund_amount_money remains the full entitlement. Create and confirm refuse a shortfall with 409 LIMIT_EXCEEDED and maximum_money. Merchant only. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `refund_shortfall_money`: [field definitions](../models/ReturnResolutionPreview.md#returnresolutionpreviewrefund_shortfall_money). |
 | `replacement_line_items` | Required | Array of [ReturnReplacementLineItem](../models/ReturnReplacementLineItem.md#returnreplacementlineitem) | Merchandise the buyer receives instead, up to 100. Send with `exchange` or `replacement`. |
 | `replacement_total_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Total of the replacement items the buyer would receive. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `replacement_total_money`: [field definitions](../models/BuyerReturnResolutionPreview.md#buyerreturnresolutionpreviewreplacement_total_money). |
 | `resolution_type` | Required | string | What the buyer gets for the approved quantity. Values: `"refund"`, `"exchange"`, `"replacement"`, `"store_credit"`, `"no_monetary_action"`, `"correction"`. |
@@ -40,6 +41,12 @@ Field definitions: [BuyerReturnResolutionPreview.credit_adjustment_money](../mod
 ### ReturnResolutionPreview.deduction_money
 
 Field definitions: [BuyerReturnResolutionPreview.deduction_money](../models/BuyerReturnResolutionPreview.md#buyerreturnresolutionpreviewdeduction_money).
+
+### ReturnResolutionPreview.refund_shortfall_money
+
+Buyer refund value that the original payments cannot fund. Zero when fully payable. buyer_refund_amount_money remains the full entitlement. Create and confirm refuse a shortfall with 409 LIMIT_EXCEEDED and maximum_money. Merchant only. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+
+Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
 
 ### ReturnResolutionPreview.replacement_total_money
 

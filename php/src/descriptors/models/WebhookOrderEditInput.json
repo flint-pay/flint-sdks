@@ -1,1 +1,1 @@
-{"shared":"WebhookOrderEdit","dependencies":["MoneyValue","OrderEditChargeRefund","OrderEditLineAddition","OrderEditLineRemoval","WebhookOrderEdit"]}
+{"shared":"WebhookOrderEdit","dependencies":["MoneyValue","OrderEditChargeRefund","OrderEditLineAddition","OrderEditLineRemoval","SignedMoney","WebhookOrderEdit"]}

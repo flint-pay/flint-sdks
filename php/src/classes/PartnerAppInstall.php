@@ -10,6 +10,7 @@ namespace Flint;
  * @property-read string $partner_app_id
  * @property-read string $partner_app_install_id
  * @property-read string $partner_app_name
+ * @property-read ?PartnerAppPlatformContact $platform_contact
  * @property-read ?string $revoked_at
  * @property-read ?string $revoked_by
  * @property-read ?string $revoked_by_user_id
@@ -18,7 +19,7 @@ namespace Flint;
  * @property-read string $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class PartnerAppInstall extends Model {
-    /** @param array{'created_at': string, 'environment_grants'?: list<mixed>, 'installed_by_user_id'?: string, 'merchant_id': string, 'merchant_signup_id'?: string, 'partner_app_id': string, 'partner_app_install_id': string, 'partner_app_name': string, 'revoked_at'?: string, 'revoked_by'?: string, 'revoked_by_user_id'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at': string, ...}|object $values */
+    /** @param array{'created_at': string, 'environment_grants'?: list<mixed>, 'installed_by_user_id'?: string, 'merchant_id': string, 'merchant_signup_id'?: string, 'partner_app_id': string, 'partner_app_install_id': string, 'partner_app_name': string, 'platform_contact'?: mixed, 'revoked_at'?: string, 'revoked_by'?: string, 'revoked_by_user_id'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAppInstall')); }
     /** RFC3339 timestamp. Format: date-time.
      * @return string
@@ -60,6 +61,11 @@ final class PartnerAppInstall extends Model {
      */
     public function getPartnerAppName(): string { return $this->get('partner_app_name'); }
     public function hasPartnerAppName(): bool { return $this->has('partner_app_name'); }
+    /** The platform's current support contact, read live from platform_profile. Absent when the app has no platform profile, and in webhook event payloads. The platform's support contact shown to merchants.
+     * @return ?PartnerAppPlatformContact
+     */
+    public function getPlatformContact(): ?PartnerAppPlatformContact { return $this->get('platform_contact'); }
+    public function hasPlatformContact(): bool { return $this->has('platform_contact'); }
     /** RFC3339 timestamp. Format: date-time.
      * @return ?string
      */

@@ -4,10 +4,10 @@ namespace Flint;
 /**
  * @internal
  *
- * @property-read array{'discount'?: mixed, 'order_id': string}|object $body
+ * @property-read array{'discount'?: array{'promotion': mixed}|object, 'order_id': string}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class DiscountPreviewsCreateInput extends Model {
-    /** @param array{'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'discount'?: mixed, 'order_id': string}|object}|object $values */
+    /** @param array{'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'discount'?: array{'promotion': mixed}|object, 'order_id': string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DiscountPreviewsCreateInput')); }
     /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
      * @return string
@@ -27,8 +27,8 @@ final class DiscountPreviewsCreateInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** The request body for: Create discount preview.
-     * @return array{'discount'?: mixed, 'order_id': string}|object
+    /** The request body for: Create discount preview. Example: {"discount":{"promotion":{"promotion_code":"SPRING15"}},"order_id":"ord_01HZYV7Q9Y0Y4H8Q3H9F6R7T8J"}.
+     * @return array{'discount'?: array{'promotion': mixed}|object, 'order_id': string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): array|object { return $this->get('body'); }

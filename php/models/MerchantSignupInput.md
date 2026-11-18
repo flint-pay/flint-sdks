@@ -28,6 +28,7 @@ Request input.
 | `status` | Required | string | Where the signup is. `completed`, `expired` and `canceled` are final. `expired` follows from `expires_at`, so it doesn't advance `version`. Values: `"pending"`, `"completed"`, `"expired"`, `"canceled"`. |
 | `supported_actions` | Required | Array of string | Lifecycle actions Flint accepts now: `verify` and `cancel` while `pending`, only `verify` while Flint is completing it after verify, `[]` otherwise. resend-code and rotate-authorization-codes are operations, not lifecycle actions, so they are never listed. Items values: `"cancel"`, `"verify"`. |
 | `terms_acceptance` | Optional | [MerchantSignupTermsAcceptanceInput](../models/MerchantSignupTermsAcceptanceInput.md#merchantsignuptermsacceptanceinput) | The owner's acceptance, present once the signup is `completed`. The owner's acceptance of Flint's merchant terms, recorded at verify. Flint also stores the IP address and user agent you reported; they aren't returned. |
+| `timezone` | Optional | string | Business time zone set on the new merchant. Absent when signup did not include one. Uses an IANA time zone name. |
 | `updated_at` | Required | string | When the signup last changed. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `version` | Required | integer | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. Format: `uint64`. minimum: `1`. |
 

@@ -49,7 +49,7 @@ final class MerchantBillingBalance extends Model {
      */
     public function getPastDueMoney(): MoneyValue { return $this->get('past_due_money'); }
     public function hasPastDueMoney(): bool { return $this->has('past_due_money'); }
-    /** Time at which Flint holds payouts if the past-due amount is still unpaid, as an RFC 3339 UTC timestamp. The hold can begin later than this while a collection is in progress. Payouts are actually held when `readiness.payouts.status_reason` on the Merchant is `billing_suspended`. Omitted when no hold is scheduled, for example when the only past-due amounts never hold payouts. Format: date-time.
+    /** Time at which Flint holds payouts if the suspendable past-due amount is still unpaid and totals at least 25 major currency units in this currency (25 USD for USD billing), as an RFC 3339 UTC timestamp. Flint attempts collection from the available balance before holding payouts. The hold can begin later than this while a collection is in progress. Payouts are actually held when `readiness.payouts.status_reason` on the Merchant is `billing_suspended`. Omitted when no hold is scheduled, including when suspendable past-due amounts in this currency are below that floor or the only past-due amounts never hold payouts. Format: date-time.
      * @return ?string
      */
     public function getPayoutHoldAt(): ?string { return $this->get('payout_hold_at'); }

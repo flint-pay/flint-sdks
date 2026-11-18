@@ -24,7 +24,7 @@ final class ManualDiscountRequestInput extends Model {
      */
     public function getDiscountClass(): string { return $this->get('discount_class'); }
     public function hasDiscountClass(): bool { return $this->has('discount_class'); }
-    /** Name of the discount. minLength: 1.
+    /** Name of the discount. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */

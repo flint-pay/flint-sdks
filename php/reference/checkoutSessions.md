@@ -14,7 +14,7 @@ Signature: `close(string|Model $checkout_session_id, array|Model|null $params = 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `checkout_session_id` | Required | string | Flint checkout session ID. |
+| `checkout_session_id` | Required | string | Flint checkout session ID. Must be a valid ID with prefix cs_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -91,8 +91,8 @@ confirmCustomerVerification(string|
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `checkout_session_id` | Required | string | Flint checkout session ID. |
-| `checkout_session_customer_verification_id` | Required | string | The checkout_session_customer_verification_id the code request returned. |
+| `checkout_session_id` | Required | string | Flint checkout session ID. Must be a valid ID with prefix cs_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
+| `checkout_session_customer_verification_id` | Required | string | The checkout_session_customer_verification_id the code request returned. Must be a valid ID with prefix cscv_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Required | [ConfirmCheckoutSessionCustomerVerificationRequestInput](../models/ConfirmCheckoutSessionCustomerVerificationRequestInput.md#confirmcheckoutsessioncustomerverificationrequestinput) | The code the buyer typed. |
 
 Body model: [ConfirmCheckoutSessionCustomerVerificationRequestInput](../models/ConfirmCheckoutSessionCustomerVerificationRequestInput.md#confirmcheckoutsessioncustomerverificationrequestinput).
@@ -184,7 +184,7 @@ Body model: [CreateCheckoutSessionRequestInput](../models/CreateCheckoutSessionR
 | `page_origin` | Optional | string | Origin of the page where you render this headless checkout, such as https://shop.example.com. Only this origin can show the checkout's gift card challenge and receive its result. It does not let the browser call the Flint API. Accepted only when surface is headless. Use HTTPS and a lowercase DNS hostname. Do not include a path, query, fragment, or default port. In test mode, localhost, names ending in .localhost, and 127.0.0.1 also work over HTTP or HTTPS. minLength: `1`. maxLength: `255`. |
 | `payment_return_url` | Optional | string | Headless sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a redirect payment such as Affirm, whatever the outcome; read the session there to show the result. Required when the session offers affirm. It can't contain credentials, a query string, or a fragment. Query strings are deliberately excluded so credentials and provider state cannot cross Flint's payment relay. Put merchant identifiers in the URL path, such as https://shop.example/return/sub_123. Test mode also accepts http loopback URLs. Up to 2,048 characters. Format: `uri`. minLength: `1`. maxLength: `2048`. |
 | `payments` | Optional | [CheckoutPaymentConfigRequestInput](../models/CheckoutPaymentConfigRequestInput.md#checkoutpaymentconfigrequestinput) | Payment settings for this session: the payment options it offers and a note shown with them. Omit `enabled_payment_options` to use the merchant's `settings.checkout.enabled_payment_options`. Not allowed when `type` is `return_resolution` or `invoice`. Payment settings you supply when creating a checkout session: the enabled payment options and a note shown with payment. |
-| `platform_fee` | Optional | [PlatformFeeRequestInput](../models/PlatformFeeRequestInput.md#platformfeerequestinput) | A platform fee your partner app charges on the payment the session collects, checked once against the order total when the session is created. Each payment the session creates carries its own fee, lowered to the cap for its amount. Only a partner app install token can send it; from any other credential it is INVALID_REQUEST with NOT_ALLOWED on platform_fee. A subscription_plan checkout session, or an order whose payment starts or renews a subscription, refuses it with INVALID_REQUEST and NOT_ALLOWED on platform_fee, because Flint's billing creates the renewals. amount_money must be above zero, in the payment's currency, at most the platform fee cap the merchant approved for this amount, and below the amount; otherwise INVALID_REQUEST with INVALID_VALUE on platform_fee.amount_money, with maximum_money when the cap or the amount bounds it. Without an approved cap in this currency it is ACTION_NOT_ALLOWED with reason platform_fee_consent_required. In live mode the partner app's platform_fees capability must be active; otherwise ACTION_NOT_ALLOWED with capability platform_fees and the reason the app's platform status gives. Test mode never checks the capability. Flint lowers the fee, or cancels it, when the cap or Flint's own fees leave less at confirm or capture, so the payment never fails because of it. Part of the request fingerprint. See Platform fees. A platform fee the partner app charges on the payment, beside Flint's fees. The installed merchant pays it, and Flint takes no share of it. |
+| `platform_fee` | Optional | [PlatformFeeRequestInput](../models/PlatformFeeRequestInput.md#platformfeerequestinput) | A platform fee your partner app charges on the payment the session collects, checked once against the order total when the session is created. Each payment the session creates carries its own fee, lowered to the cap for its amount. Only a partner app install token can send it; from any other credential it is INVALID_REQUEST with NOT_ALLOWED on platform_fee. A subscription_plan checkout session, or an order whose payment starts or renews a subscription, refuses it with INVALID_REQUEST and NOT_ALLOWED on platform_fee, because Flint's billing creates the renewals. amount_money.amount must be at least 1 minor unit; otherwise INVALID_REQUEST with INVALID_VALUE on platform_fee.amount_money.amount. Omit platform_fee to charge no fee. The fee must be in the payment's currency, at most the platform fee cap the merchant approved for this amount, and below the amount; otherwise INVALID_REQUEST with INVALID_VALUE on platform_fee.amount_money, with maximum_money when the cap or the amount bounds it. Without an approved cap in this currency it is ACTION_NOT_ALLOWED with reason platform_fee_consent_required. In live mode the partner app's platform_fees capability must be active; otherwise ACTION_NOT_ALLOWED with capability platform_fees and the reason the app's platform status gives. Test mode never checks the capability. Flint lowers the fee, or cancels it, when the cap or Flint's own fees leave less at confirm or capture, so the payment never fails because of it. Part of the request fingerprint. See Platform fees. A platform fee the partner app charges on the payment, beside Flint's fees. The installed merchant pays it, and Flint takes no share of it. |
 | `prefill` | Optional | [CheckoutPrefillRequestInput](../models/CheckoutPrefillRequestInput.md#checkoutprefillrequestinput) | Contact details and addresses to fill in for the buyer, who can change them. For a customer with saved addresses, Flint fills in any address you leave out, and reads include it. With quick_pay or subscription_plan and automatic tax on, a prefilled address sets the order's tax location. Not changed by what the buyer types; for that, read buyer_contact. customer_prefill is what the checkout credential reads from the customer record. |
 | `promotion_config` | Optional | [CheckoutPromotionConfigRequestInput](../models/CheckoutPromotionConfigRequestInput.md#checkoutpromotionconfigrequestinput) | Whether automatic promotions apply to this session and whether the buyer can enter promotion codes. Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes. |
 | `quick_pay_item` | Optional | [CheckoutQuickPayItemRequestInput](../models/CheckoutQuickPayItemRequestInput.md#checkoutquickpayitemrequestinput) | The one named amount to collect. Flint creates the order from it. Required when `type` is `quick_pay`. A single custom item to charge on a checkout session, supplied as `quick_pay_item`: a name, an amount, and optional tax settings. |
@@ -289,7 +289,7 @@ Signature: `createCustomerVerification(string|Model $checkout_session_id, array|
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `checkout_session_id` | Required | string | Flint checkout session ID. |
+| `checkout_session_id` | Required | string | Flint checkout session ID. Must be a valid ID with prefix cs_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Required | [CreateCheckoutSessionCustomerVerificationRequestInput](../models/CreateCheckoutSessionCustomerVerificationRequestInput.md#createcheckoutsessioncustomerverificationrequestinput) | A checkout verification request selected by purpose. |
 
 Body model: [CreateCheckoutSessionCustomerVerificationRequestInput](../models/CreateCheckoutSessionCustomerVerificationRequestInput.md#createcheckoutsessioncustomerverificationrequestinput).
@@ -381,7 +381,7 @@ Signature: `get(string|Model $checkout_session_id, array|Model|null $params = nu
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `checkout_session_id` | Required | string | Flint checkout session ID. |
+| `checkout_session_id` | Required | string | Flint checkout session ID. Must be a valid ID with prefix cs_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: customer, invoice, order, payment_intents, payment_link. Expansion requires checkouts.checkout_sessions.read plus the read scope for each expanded resource. Limits: at most 10 unique expand paths per request. To-many expansions are capped at 20 related objects per path. Items values: `"customer"`, `"invoice"`, `"order"`, `"payment_intents"`, `"payment_link"`. Values: `"customer"`, `"invoice"`, `"order"`, `"payment_intents"`, `"payment_link"`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
@@ -445,8 +445,8 @@ getCustomerVerification(string|
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `checkout_session_id` | Required | string | Flint checkout session ID. |
-| `checkout_session_customer_verification_id` | Required | string | Flint checkout verification code request ID. |
+| `checkout_session_id` | Required | string | Flint checkout session ID. Must be a valid ID with prefix cs_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
+| `checkout_session_customer_verification_id` | Required | string | Flint checkout verification code request ID. Must be a valid ID with prefix cscv_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 
@@ -568,7 +568,7 @@ Signature: `listCustomerVerifications(string|Model $checkout_session_id, array|M
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `checkout_session_id` | Required | string | Flint checkout session ID. |
+| `checkout_session_id` | Required | string | Flint checkout session ID. Must be a valid ID with prefix cs_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 
@@ -621,7 +621,7 @@ Signature: `update(string|Model $checkout_session_id, array|Model $params, ?Requ
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `checkout_session_id` | Required | string | Flint checkout session ID. |
+| `checkout_session_id` | Required | string | Flint checkout session ID. Must be a valid ID with prefix cs_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |

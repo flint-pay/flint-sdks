@@ -9,7 +9,7 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `description` | Optional | string or null | Description of the unidentified item. `description`: [declared alternatives](../models/ReturnUnverifiedItemPreviousAttributesInput.md#returnunverifieditempreviousattributesinputdescription). |
-| `name` | Optional | string or null | Name of the unidentified item. `name`: [declared alternatives](../models/ReturnUnverifiedItemPreviousAttributesInput.md#returnunverifieditempreviousattributesinputname). |
+| `name` | Optional | string or null | Name of the unidentified item. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. `name`: [declared alternatives](../models/ReturnUnverifiedItemPreviousAttributesInput.md#returnunverifieditempreviousattributesinputname). |
 | `sku` | Optional | string or null | SKU of the unidentified item. `sku`: [declared alternatives](../models/ReturnUnverifiedItemPreviousAttributesInput.md#returnunverifieditempreviousattributesinputsku). |
 
 ### ReturnUnverifiedItemPreviousAttributesInput.description
@@ -30,15 +30,15 @@ anyOf variant 2.
 
 ### ReturnUnverifiedItemPreviousAttributesInput.name variant 1
 
-anyOf variant 1: Name of the unidentified item..
+anyOf variant 1: Name of the unidentified item. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported..
 
-- Value shape: string. Name of the unidentified item. Name of the unidentified item. minLength: `1`. 
+- Value shape: string. Name of the unidentified item. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. Name of the unidentified item. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. 
 
 ### ReturnUnverifiedItemPreviousAttributesInput.name variant 2
 
 anyOf variant 2.
 
-- Value shape: null. Name of the unidentified item. 
+- Value shape: null. Name of the unidentified item. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. 
 
 ### ReturnUnverifiedItemPreviousAttributesInput.sku
 

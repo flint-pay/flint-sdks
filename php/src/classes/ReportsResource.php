@@ -9,7 +9,7 @@ final class ReportsResource {
      */
     public function create(array|Model $params, ?RequestOptions $options = null): ReportResponseDataPending|ReportResponseDataSucceeded|ReportResponseDataFailed|Model { $input = []; $params = $params instanceof Model ? $params->toInputArray() : $params; $rest = $params ?? []; if ($rest && array_is_list($rest)) throw SdkError::create('validation', 'body must be an object', 'not_sent', errorCode: 'INVALID_REQUEST', details: [['code' => 'INVALID_VALUE', 'param' => 'body']]); foreach (array_keys($rest) as $name) { foreach (['Idempotency-Key', 'Flint-Version', 'X-Request-Id'] as $header) { if (strtolower((string)$name) === strtolower($header)) throw SdkError::create('validation', $header . " can't be sent: supply this header through request options", errorCode: 'INVALID_REQUEST', details: [['code' => 'NOT_ALLOWED', 'param' => $header]]); } } if (true) $input['body'] = (object) $rest; return Runtime::responsePayload($this->runtime->request('createReport', $input, $options), ['data']); }
     /** Returns one report and its terminal download or failure details when available.
-     * @param string|Model $report_id Flint report ID.
+     * @param string|Model $report_id Flint report ID. Must be a valid ID with prefix rep_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND.
      * @param ReportsGetParams|array<array-key, mixed>|Model|null $params Flat body fields and query/header parameters; path arguments follow URL order.
      * @return ReportResponseDataPending|ReportResponseDataSucceeded|ReportResponseDataFailed|Model
      */

@@ -2,15 +2,22 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read int $attempted_payment_count
  * @property-read int $checked_in_ticket_count
  * @property-read string $computed_at
+ * @property-read int $failed_payment_count
  * @property-read int $paid_order_count
  * @property-read list<MoneyValue> $paid_totals
  * @property-read list<MoneyValue> $refunded_totals
  * Presence-aware response; omitted optional fields return null. */
 final class PaymentLinkSalesSummary extends Model {
-    /** @param array{'checked_in_ticket_count': int, 'computed_at': string, 'paid_order_count': int, 'paid_totals': list<mixed>, 'refunded_totals': list<mixed>, ...}|object $values */
+    /** @param array{'attempted_payment_count': int, 'checked_in_ticket_count': int, 'computed_at': string, 'failed_payment_count': int, 'paid_order_count': int, 'paid_totals': list<mixed>, 'refunded_totals': list<mixed>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinkSalesSummary')); }
+    /** All recorded card attempts from this link, including pending attempts and retries. Format: int64.
+     * @return int
+     */
+    public function getAttemptedPaymentCount(): int { return $this->get('attempted_payment_count'); }
+    public function hasAttemptedPaymentCount(): bool { return $this->has('attempted_payment_count'); }
     /** Tickets for this payment link that are checked in now, counted when the summary is read. Undoing a check-in or voiding a ticket lowers it. 0 for links that have issued no tickets. Format: int32. minimum: 0.
      * @return int
      */
@@ -21,6 +28,11 @@ final class PaymentLinkSalesSummary extends Model {
      */
     public function getComputedAt(): string { return $this->get('computed_at'); }
     public function hasComputedAt(): bool { return $this->has('computed_at'); }
+    /** Recorded failed card attempts from this link. A successful retry does not erase previous failures. Format: int64.
+     * @return int
+     */
+    public function getFailedPaymentCount(): int { return $this->get('failed_payment_count'); }
+    public function hasFailedPaymentCount(): bool { return $this->has('failed_payment_count'); }
     /** Number of orders whose collection has completed, across all currencies, including fully and partially refunded orders. Format: int64.
      * @return int
      */

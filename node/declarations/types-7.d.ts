@@ -1,6 +1,6 @@
-import type { BuyerRefundPreviousAttributes } from './types-3.js';
-import type { CheckoutBuyerContactPreviousAttributes } from './types-5.js';
 import type {
+    CheckoutSession,
+    CheckoutBuyerContactPreviousAttributes,
     CheckoutBuyerFieldsPreviousAttributes,
     CheckoutCustomTextConfigPreviousAttributes,
     CheckoutDerivedDeliveryResourcePreviousAttributes,
@@ -11,14 +11,14 @@ import type {
     CheckoutProblemResourcePreviousAttributes,
     CheckoutPromotionConfigPreviousAttributes,
     CheckoutRedirectsPreviousAttributes,
-    CheckoutSessionTaxPreviousAttributes,
-    CheckoutSession,
     CheckoutRecoveryEmailSettings,
     CheckoutSavedPaymentDetailsSettings,
     CheckoutRecoveryEmailSettingsRequestInput,
     CheckoutSavedPaymentDetailsSettingsRequestInput
 } from './types-6.js';
-import type { CustomFieldAnswerPreviousAttributes } from './types-15.js';
+import type { ResponseMeta } from './types-62.js';
+import type { BuyerRefundPreviousAttributes } from './types-3.js';
+import type { CustomFieldAnswerPreviousAttributes } from './types-16.js';
 import type {
     ExpandedCustomerSummaryPreviousAttributes,
     ExpandedInvoiceSummaryPreviousAttributes,
@@ -26,15 +26,16 @@ import type {
     ExpandedPaymentIntentSummaryPreviousAttributes,
     ExpandedPaymentLinkSummaryPreviousAttributes
 } from './types-26.js';
-import type { MerchantWebhookEnvelope, MetadataMap } from './types-41.js';
-import type { OrderPaymentAttemptPreviousAttributes } from './types-45.js';
-import type { PartnerWebhookEnvelope } from './types-49.js';
-import type { SetupCollectionPreviousAttributes } from './types-66.js';
-import type { WebhookCheckoutSession } from './types-76.js';
+import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
+import type { OrderPaymentAttemptPreviousAttributes } from './types-47.js';
+import type { PartnerWebhookEnvelope } from './types-50.js';
+import type { SetupCollectionPreviousAttributes } from './types-68.js';
+import type { WebhookCheckoutSession } from './types-78.js';
+import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
+import type { Address, AddressPreviousAttributes, AcceptFulfillmentRequestInput } from './types-0.js';
 import type { InputValue, ClientOptions as RuntimeClientOptions, CredentialProvider } from '../runtime.js';
 import type { CreateCheckoutSessionCustomerVerificationRequestInput, CreateCheckoutSessionRequestInput } from './types-8.js';
-import type { UpdateCheckoutSessionRequestInput } from './types-73.js';
-import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-42.js';
+import type { UpdateCheckoutSessionRequestInput } from './types-75.js';
 import type {
     SubscriptionGiftRecipient,
     SubscriptionIntervalOption,
@@ -42,20 +43,37 @@ import type {
     SubscriptionIntervalOptionPreviousAttributes,
     SubscriptionGiftRecipientRequest,
     SubscriptionGiftRecipientRequestInput
-} from './types-68.js';
-import type { SubscriptionPlanChangeLineItemRequest, SubscriptionPlanChangeLineItemRequestInput } from './types-69.js';
+} from './types-70.js';
+import type { SubscriptionPlanChangeLineItemRequest, SubscriptionPlanChangeLineItemRequestInput } from './types-71.js';
 import type { AuthMode } from './types-1.js';
-import type { Credentials } from './types-14.js';
-import type { ResponseMeta } from './types-60.js';
+import type { Credentials } from './types-15.js';
 import type { Invoice } from './types-34.js';
 import type { InvoicePaymentAttempt } from './types-36.js';
-import type { AcceptFulfillmentRequestInput } from './types-0.js';
-import type { GetReturnResponse, GetReturnResolutionResponse } from './types-28.js';
-import type { PaymentSourceCredential, PaymentSourceCredentialInput } from './types-52.js';
-import type { PaymentIntentWithAction } from './types-50.js';
-import type { SellerTaxAttestationRequest, SellerTaxAttestationRequestInput } from './types-65.js';
-import type { InventoryProvenanceRequest, InventoryProvenanceRequestInput } from './types-32.js';
-export type CheckoutSessionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+import type { GetReturnResponse } from './types-28.js';
+/** A page of `CheckoutSession` objects. */
+export type CheckoutSessionListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * CheckoutSession}. A session in which a buyer completes an order's payment.
+     */
+    "data": Array<CheckoutSession>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type CheckoutSessionPaidEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
         "object": WebhookCheckoutSession;
@@ -133,7 +151,7 @@ export type CheckoutSessionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & 
         });
     };
     "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "checkout_session.updated";
+    "event_type"?: "checkout_session.paid";
 }))
     | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
@@ -213,7 +231,7 @@ export type CheckoutSessionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & 
         });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "checkout_session.updated";
+    "event_type"?: "checkout_session.paid";
     "source"?: ({
         "environment_grant_id": string;
         "merchant_id": string;
@@ -223,13 +241,13 @@ export type CheckoutSessionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & 
     });
 })))
     & {
-    "event_type": "checkout_session.updated";
+    "event_type": "checkout_session.paid";
 });
 /**
- * The `checkout_session.updated` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
+ * The `checkout_session.paid` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
  */
-export type CheckoutSessionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+export type CheckoutSessionPaidInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
      *  object (Required): {@link WebhookCheckoutSession}. The resource snapshot, without
@@ -238,25 +256,25 @@ export type CheckoutSessionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebh
      * `save_payment_method_requires_verification`, `pay_to_new_address_requires_verification`,
      * `can_save_payment_method_with_phone`, `payment_method_save`, `customer_prefill`,
      * `merchant_support`, `merchant_name`, `show_flint_mark`, `merchant_logo`, `merchant_icon`,
-     * `payment_link_image`, `platform_fee`. previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events. previous_attributes.active_payment_attempt (Optional): {@link
-     * OrderPaymentAttemptPreviousAttributes} or null. The payment attempt now collecting this
-     * checkout's order, the same attempt as the order's active_payment_attempt. Read it to recover
-     * after losing a pay response, and resume it only when is_resumable is true. Omitted when no
-     * attempt is active. Pending actions that open a URL are left out; the pay response carries
-     * them. previous_attributes.active_payment_attempt.anyOf[1] (Value): {@link
-     * OrderPaymentAttemptPreviousAttributes}. previous_attributes.active_payment_attempt.anyOf[2]
-     * (Value): null. previous_attributes.buyer_contact (Optional): {@link
-     * CheckoutBuyerContactPreviousAttributes} or null. Contact the buyer entered in checkout
-     * before paying, saved with the session's checkout credential. Separate from merchant-supplied
-     * prefill and customer_prefill from the customer record. Omitted until the buyer saves or
-     * clears a field. When a checkout session payment omits buyer_contact.email or
-     * buyer_contact.phone, Flint uses these values. Flint clears the contact 30 days after the
-     * session ends, and when a customer linked to the session is deleted.
-     * previous_attributes.buyer_contact.anyOf[1] (Value): {@link
+     * `payment_link_image`, `platform_fee`, `customer_account_url`. previous_attributes
+     * (Optional): object. Previous values of changed top-level fields in data.object, at this
+     * delivery's API version. Nested changes include the whole previous top-level value. A value
+     * is null when the field was absent before the change. Omitted when Flint did not record the
+     * previous state, including synthetic test events. previous_attributes.active_payment_attempt
+     * (Optional): {@link OrderPaymentAttemptPreviousAttributes} or null. The payment attempt now
+     * collecting this checkout's order, the same attempt as the order's active_payment_attempt.
+     * Read it to recover after losing a pay response, and resume it only when is_resumable is
+     * true. Omitted when no attempt is active. Pending actions that open a URL are left out; the
+     * pay response carries them. previous_attributes.active_payment_attempt.anyOf[1] (Value):
+     * {@link OrderPaymentAttemptPreviousAttributes}.
+     * previous_attributes.active_payment_attempt.anyOf[2] (Value): null.
+     * previous_attributes.buyer_contact (Optional): {@link CheckoutBuyerContactPreviousAttributes}
+     * or null. Contact the buyer entered in checkout before paying, saved with the session's
+     * checkout credential. Separate from merchant-supplied prefill and customer_prefill from the
+     * customer record. Omitted until the buyer saves or clears a field. When a checkout session
+     * payment omits buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint
+     * clears the contact 30 days after the session ends, and when a customer linked to the session
+     * is deleted. previous_attributes.buyer_contact.anyOf[1] (Value): {@link
      * CheckoutBuyerContactPreviousAttributes}. previous_attributes.buyer_contact.anyOf[2] (Value):
      * null. previous_attributes.buyer_fields (Optional): {@link
      * CheckoutBuyerFieldsPreviousAttributes} or null. What checkout asks the buyer for. Each field
@@ -619,7 +637,5355 @@ export type CheckoutSessionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebh
          * `pay_to_new_address_requires_verification`, `can_save_payment_method_with_phone`,
          * `payment_method_save`, `customer_prefill`, `merchant_support`, `merchant_name`,
          * `show_flint_mark`, `merchant_logo`, `merchant_icon`, `payment_link_image`,
-         * `platform_fee`.
+         * `platform_fee`, `customer_account_url`.
+         */
+        "object": WebhookCheckoutSession;
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. active_payment_attempt (Optional): {@link
+         * OrderPaymentAttemptPreviousAttributes} or null. The payment attempt now collecting this
+         * checkout's order, the same attempt as the order's active_payment_attempt. Read it to
+         * recover after losing a pay response, and resume it only when is_resumable is true.
+         * Omitted when no attempt is active. Pending actions that open a URL are left out; the pay
+         * response carries them. active_payment_attempt.anyOf[1] (Value): {@link
+         * OrderPaymentAttemptPreviousAttributes}. active_payment_attempt.anyOf[2] (Value): null.
+         * buyer_contact (Optional): {@link CheckoutBuyerContactPreviousAttributes} or null.
+         * Contact the buyer entered in checkout before paying, saved with the session's checkout
+         * credential. Separate from merchant-supplied prefill and customer_prefill from the
+         * customer record. Omitted until the buyer saves or clears a field. When a checkout
+         * session payment omits buyer_contact.email or buyer_contact.phone, Flint uses these
+         * values. Flint clears the contact 30 days after the session ends, and when a customer
+         * linked to the session is deleted. buyer_contact.anyOf[1] (Value): {@link
+         * CheckoutBuyerContactPreviousAttributes}. buyer_contact.anyOf[2] (Value): null.
+         * buyer_fields (Optional): {@link CheckoutBuyerFieldsPreviousAttributes} or null. What
+         * checkout asks the buyer for. Each field you leave out uses your checkout settings.
+         * buyer_fields.anyOf[1] (Value): {@link CheckoutBuyerFieldsPreviousAttributes}.
+         * buyer_fields.anyOf[2] (Value): null. can_apply_promotion_code (Optional): boolean or
+         * null. Whether to offer promotion-code entry now. True only while the session is open, is
+         * not in recovery, and merchant promotion policy allows codes. An explicit
+         * promotion_config.codes_enabled wins; null offers entry only when this merchant has an
+         * active code promotion whose schedule includes now, in the session's environment.
+         * Recomputed on each read. This hint does not change code admission: checkout lifecycle,
+         * promotion_config, and merchant policy still apply. can_apply_promotion_code.anyOf[1]
+         * (Value): boolean. Whether to offer promotion-code entry now. True only while the session
+         * is open, is not in recovery, and merchant promotion policy allows codes. An explicit
+         * promotion_config.codes_enabled wins; null offers entry only when this merchant has an
+         * active code promotion whose schedule includes now, in the session's environment.
+         * Recomputed on each read. This hint does not change code admission: checkout lifecycle,
+         * promotion_config, and merchant policy still apply. can_apply_promotion_code.anyOf[2]
+         * (Value): null. checkout_session_id (Optional): string or null. Unique identifier for
+         * this checkout session, prefixed `cs_`. checkout_session_id.anyOf[1] (Value): string.
+         * Unique identifier for this checkout session, prefixed `cs_`. Example:
+         * "cs_01KEZF7C004JRWFW43H037MQRN". checkout_session_id.anyOf[2] (Value): null.
+         * client_reference (Optional): string or null. The reference the payment link URL or
+         * resolve request carried, such as your user ID. `null` when none was sent or checkout did
+         * not start from a payment link. Returned only to merchant credentials; omitted for buyer
+         * credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity.
+         * Always present with merchant credentials. client_reference.anyOf[1] (Value): string. The
+         * reference the payment link URL or resolve request carried, such as your user ID. `null`
+         * when none was sent or checkout did not start from a payment link. Returned only to
+         * merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so
+         * treat it as a claim, not proof of identity. Always present with merchant credentials.
+         * minLength: 1. maxLength: 255. client_reference.anyOf[2] (Value): null.
+         * closed_reason_message (Optional): string or null. The note supplied when the checkout
+         * session was closed. closed_reason_message.anyOf[1] (Value): string. The note supplied
+         * when the checkout session was closed. closed_reason_message.anyOf[2] (Value): null.
+         * created_at (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. custom_field_answers (Optional): Array of {@link
+         * CustomFieldAnswerPreviousAttributes} or null. The buyer's answers to the payment link's
+         * custom fields, the same as the `custom_field_answers` of the session's order. Read-only.
+         * Empty when the session didn't start from a payment link, the buyer answered no custom
+         * fields, or the order was created before Flint recorded answers here. Returned only to
+         * merchant credentials; omitted for buyer credentials. Always present with merchant
+         * credentials. custom_field_answers.anyOf[1] (Value): Array of {@link
+         * CustomFieldAnswerPreviousAttributes}. The buyer's answers to the payment link's custom
+         * fields, the same as the `custom_field_answers` of the session's order. Read-only. Empty
+         * when the session didn't start from a payment link, the buyer answered no custom fields,
+         * or the order was created before Flint recorded answers here. Returned only to merchant
+         * credentials; omitted for buyer credentials. Always present with merchant credentials.
+         * maxItems: 20. custom_field_answers.anyOf[1][] (Value): {@link
+         * CustomFieldAnswerPreviousAttributes}. custom_field_answers.anyOf[2] (Value): null.
+         * custom_text (Optional): {@link CheckoutCustomTextConfigPreviousAttributes} or null. The
+         * custom text this session shows in checkout. custom_text.anyOf[1] (Value): {@link
+         * CheckoutCustomTextConfigPreviousAttributes}. custom_text.anyOf[2] (Value): null.
+         * customer (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present
+         * only when `expand` includes `customer`; `null` when expanded and there is no related
+         * customer. customer.anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
+         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. The customer of
+         * the session's order. Omitted when the order has none. A checkout credential issued for
+         * this session acts for this customer. Add expand=customer to include the customer.
+         * customer_id.anyOf[1] (Value): string. The customer of the session's order. Omitted when
+         * the order has none. A checkout credential issued for this session acts for this
+         * customer. Add expand=customer to include the customer. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. delivery
+         * (Optional): {@link CheckoutDerivedDeliveryResourcePreviousAttributes} or null. Current
+         * delivery choices for Flint-owned pricing. External pricing reports
+         * requires_explicit_quote; reading this field does not request a delivery quote. Omitted
+         * when the session is not open, has no order, or Flint cannot read its delivery.
+         * delivery.anyOf[1] (Value): {@link CheckoutDerivedDeliveryResourcePreviousAttributes}.
+         * delivery.anyOf[2] (Value): null. delivery_method_ids (Optional): Array of string or
+         * null. Immutable delivery method assignment captured when the checkout was created.
+         * delivery_method_ids.anyOf[1] (Value): Array of string. Immutable delivery method
+         * assignment captured when the checkout was created. delivery_method_ids.anyOf[1][]
+         * (Value): string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+         * delivery_method_ids.anyOf[2] (Value): null. delivery_selection_required (Optional):
+         * boolean or null. Whether the order has at least one remaining quote-resolved fulfillment
+         * choice that must be selected before payment. delivery_selection_required.anyOf[1]
+         * (Value): boolean. Whether the order has at least one remaining quote-resolved
+         * fulfillment choice that must be selected before payment.
+         * delivery_selection_required.anyOf[2] (Value): null. expires_at (Optional): string or
+         * null. RFC3339 timestamp. expires_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". expires_at.anyOf[2] (Value): null.
+         * expires_in_seconds (Optional): integer or null. The lifetime the session got. expires_at
+         * is its deadline. Omitted for invoice sessions, which take their deadline from the
+         * invoice. expires_in_seconds.anyOf[1] (Value): integer. The lifetime the session got.
+         * expires_at is its deadline. Omitted for invoice sessions, which take their deadline from
+         * the invoice. Format: int64. expires_in_seconds.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
+         * gift_card_challenge (Optional): {@link CheckoutGiftCardChallengePreviousAttributes} or
+         * null. Where the buyer completes a gift card challenge for this checkout. Returned on
+         * single-session reads, session create and update responses, checkout launch results, and
+         * customer verification confirmation results while the session is open and can show the
+         * challenge. Omitted from lists, webhooks, expanded resources, and delivery selection
+         * results. gift_card_challenge.anyOf[1] (Value): {@link
+         * CheckoutGiftCardChallengePreviousAttributes}. gift_card_challenge.anyOf[2] (Value):
+         * null. inventory_reservation_ids (Optional): Array of string or null. Immutable cart hold
+         * IDs authorized by the merchant at session creation. Omitted when empty and from
+         * checkout-credential responses. Buyer and merchant delivery requests that omit IDs use
+         * eligible bound holds; explicit merchant IDs replace the binding for that request. First
+         * adopter wins when sessions share a hold. Invalidated or otherwise ended sessions cannot
+         * adopt stock, and replacements never inherit the binding. Unused cart units retain their
+         * own release and expiration lifecycle. inventory_reservation_ids.anyOf[1] (Value): Array
+         * of string. Immutable cart hold IDs authorized by the merchant at session creation.
+         * Omitted when empty and from checkout-credential responses. Buyer and merchant delivery
+         * requests that omit IDs use eligible bound holds; explicit merchant IDs replace the
+         * binding for that request. First adopter wins when sessions share a hold. Invalidated or
+         * otherwise ended sessions cannot adopt stock, and replacements never inherit the binding.
+         * Unused cart units retain their own release and expiration lifecycle.
+         * inventory_reservation_ids.anyOf[1][] (Value): string. Example:
+         * "invr_01KEZF7C0041ENRR0C2NF3AP12". inventory_reservation_ids.anyOf[2] (Value): null.
+         * invoice (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. Present
+         * only when `expand` includes `invoice`; `null` when expanded and there is no related
+         * invoice. invoice.anyOf[1] (Value): {@link ExpandedInvoiceSummaryPreviousAttributes}.
+         * invoice.anyOf[2] (Value): null. invoice_id (Optional): string or null. ID of the invoice
+         * a session of type `invoice` collects payment for. Absent for other types.
+         * invoice_id.anyOf[1] (Value): string. ID of the invoice a session of type `invoice`
+         * collects payment for. Absent for other types. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+         * invoice_id.anyOf[2] (Value): null. is_in_recovery (Optional): boolean or null. Whether
+         * this terminal session credential is temporarily restricted to recovering its owning
+         * payment attempt. is_in_recovery.anyOf[1] (Value): boolean. Whether this terminal session
+         * credential is temporarily restricted to recovering its owning payment attempt.
+         * is_in_recovery.anyOf[2] (Value): null. legal (Optional): {@link
+         * CheckoutLegalConfigPreviousAttributes} or null. The terms and policy links this session
+         * shows the buyer, and whether the buyer must accept the terms. legal.anyOf[1] (Value):
+         * {@link CheckoutLegalConfigPreviousAttributes}. legal.anyOf[2] (Value): null. merchant_id
+         * (Optional): string or null. ID of the merchant this resource belongs to.
+         * merchant_id.anyOf[1] (Value): string. ID of the merchant this resource belongs to.
+         * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
+         * `MetadataInput` for key, value, and size rules. metadata.anyOf[1] (Value): {@link
+         * MetadataMap}. metadata.anyOf[2] (Value): null. order (Optional): {@link
+         * ExpandedOrderSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `order`; `null` when expanded and there is no related order. order.anyOf[1] (Value):
+         * {@link ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2] (Value): null. order_id
+         * (Optional): string or null. ID of the order the session collects payment for, fixed at
+         * creation. Absent when the session has no order. order_id.anyOf[1] (Value): string. ID of
+         * the order the session collects payment for, fixed at creation. Absent when the session
+         * has no order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value):
+         * null. page_origin (Optional): string or null. Origin of the page that renders this
+         * headless checkout. Omitted when not set. page_origin.anyOf[1] (Value): string. Origin of
+         * the page that renders this headless checkout. Omitted when not set. page_origin.anyOf[2]
+         * (Value): null. payment_collection (Optional): {@link SetupCollectionPreviousAttributes}
+         * or null. Guidance for collecting a payment source. Checkout-credential reads include it
+         * only while the session is open. Returned only to the checkout credential; never in
+         * webhook payloads. payment_collection.anyOf[1] (Value): {@link
+         * SetupCollectionPreviousAttributes}. payment_collection.anyOf[2] (Value): null.
+         * payment_intent_ids (Optional): Array of string or null. IDs of the payment intents for
+         * the session's order. Absent when the order has none. payment_intent_ids.anyOf[1]
+         * (Value): Array of string. IDs of the payment intents for the session's order. Absent
+         * when the order has none. payment_intent_ids.anyOf[1][] (Value): string. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intent_ids.anyOf[2] (Value): null.
+         * payment_intents (Optional): Array of {@link
+         * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Present only when `expand`
+         * includes `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
+         * payment_intents.anyOf[1] (Value): Array of {@link
+         * ExpandedPaymentIntentSummaryPreviousAttributes}. Present only when `expand` includes
+         * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
+         * payment_intents.anyOf[1][] (Value): {@link
+         * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intents.anyOf[2] (Value): null.
+         * payment_link (Optional): {@link ExpandedPaymentLinkSummaryPreviousAttributes} or null.
+         * Present only when `expand` includes `payment_link`; `null` when expanded and there is no
+         * related payment link. payment_link.anyOf[1] (Value): {@link
+         * ExpandedPaymentLinkSummaryPreviousAttributes}. payment_link.anyOf[2] (Value): null.
+         * payment_link_id (Optional): string or null. ID of the payment link the session was
+         * started from. Absent when it was not started from a payment link.
+         * payment_link_id.anyOf[1] (Value): string. ID of the payment link the session was started
+         * from. Absent when it was not started from a payment link. Example:
+         * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null.
+         * payment_return_url (Optional): string or null. Headless sessions only. Absolute HTTPS
+         * URL on your site where Flint sends the buyer after a redirect payment such as Affirm,
+         * whatever the outcome; read the session there to show the result. Required when the
+         * session offers affirm. It can't contain credentials, a query string, or a fragment.
+         * Query strings are deliberately excluded so credentials and provider state cannot cross
+         * Flint's payment relay. Put merchant identifiers in the URL path, such as
+         * https://shop.example/return/sub_123. Test mode also accepts http loopback URLs. Up to
+         * 2,048 characters. payment_return_url.anyOf[1] (Value): string. Headless sessions only.
+         * Absolute HTTPS URL on your site where Flint sends the buyer after a redirect payment
+         * such as Affirm, whatever the outcome; read the session there to show the result.
+         * Required when the session offers affirm. It can't contain credentials, a query string,
+         * or a fragment. Query strings are deliberately excluded so credentials and provider state
+         * cannot cross Flint's payment relay. Put merchant identifiers in the URL path, such as
+         * https://shop.example/return/sub_123. Test mode also accepts http loopback URLs. Up to
+         * 2,048 characters. Format: uri. maxLength: 2048. Example: "https://example.com/receipt".
+         * payment_return_url.anyOf[2] (Value): null. payments (Optional): {@link
+         * CheckoutPaymentConfigPreviousAttributes} or null. Configured payment options for
+         * merchant credentials; currently available payment options for the checkout credential.
+         * payments.anyOf[1] (Value): {@link CheckoutPaymentConfigPreviousAttributes}.
+         * payments.anyOf[2] (Value): null. prefill (Optional): {@link
+         * CheckoutPrefillPreviousAttributes} or null. Contact details and addresses to fill in for
+         * the buyer, who can change them. For a customer with saved addresses, Flint fills in any
+         * address you leave out, and reads include it. With quick_pay or subscription_plan and
+         * automatic tax on, a prefilled address sets the order's tax location. Not changed by what
+         * the buyer types; for that, read buyer_contact. customer_prefill is what the checkout
+         * credential reads from the customer record. prefill.anyOf[1] (Value): {@link
+         * CheckoutPrefillPreviousAttributes}. prefill.anyOf[2] (Value): null. problems (Optional):
+         * Array of {@link CheckoutProblemResourcePreviousAttributes} or null. Named conditions
+         * that affect checkout completion. Follow each problem's remediation action instead of
+         * reconstructing delivery lifecycle rules in the client. payment_in_progress means another
+         * payment for the order must finish before this checkout can complete. When Flint cannot
+         * read the checkout's delivery, the read still succeeds and reports delivery_unreadable;
+         * its remediation says whether reading the session again can succeed, and its next
+         * action's reason_code names the error. problems.anyOf[1] (Value): Array of {@link
+         * CheckoutProblemResourcePreviousAttributes}. Named conditions that affect checkout
+         * completion. Follow each problem's remediation action instead of reconstructing delivery
+         * lifecycle rules in the client. payment_in_progress means another payment for the order
+         * must finish before this checkout can complete. When Flint cannot read the checkout's
+         * delivery, the read still succeeds and reports delivery_unreadable; its remediation says
+         * whether reading the session again can succeed, and its next action's reason_code names
+         * the error. problems.anyOf[1][] (Value): {@link
+         * CheckoutProblemResourcePreviousAttributes}. problems.anyOf[2] (Value): null.
+         * promotion_config (Optional): {@link CheckoutPromotionConfigPreviousAttributes} or null.
+         * Whether automatic promotions apply to this session and whether the buyer can enter
+         * promotion codes. promotion_config.anyOf[1] (Value): {@link
+         * CheckoutPromotionConfigPreviousAttributes}. promotion_config.anyOf[2] (Value): null.
+         * redirects (Optional): {@link CheckoutRedirectsPreviousAttributes} or null. Where hosted
+         * checkout sends the buyer. Not allowed when surface is headless; use payment_return_url.
+         * redirects.anyOf[1] (Value): {@link CheckoutRedirectsPreviousAttributes}.
+         * redirects.anyOf[2] (Value): null. refunds (Optional): Array of {@link
+         * BuyerRefundPreviousAttributes} or null. All buyer-visible refunds on this session’s
+         * order, including refunds made by the store. Uses the same buyer projection as
+         * /v1/me/refunds. Included on GET single-session reads as an array, with [] when there are
+         * none, and omitted from other responses and webhooks. A failed refund with failure_reason
+         * refund_abandoned could not be completed: tell the buyer to contact the store to get
+         * their money back. refunds.anyOf[1] (Value): Array of {@link
+         * BuyerRefundPreviousAttributes}. All buyer-visible refunds on this session’s order,
+         * including refunds made by the store. Uses the same buyer projection as /v1/me/refunds.
+         * Included on GET single-session reads as an array, with [] when there are none, and
+         * omitted from other responses and webhooks. A failed refund with failure_reason
+         * refund_abandoned could not be completed: tell the buyer to contact the store to get
+         * their money back. refunds.anyOf[1][] (Value): {@link BuyerRefundPreviousAttributes}.
+         * refunds.anyOf[2] (Value): null. setup_collection (Optional): {@link
+         * SetupCollectionPreviousAttributes} or null. Guidance for collecting a payment method to
+         * save. Checkout-credential reads include it only while the session is open. Returned only
+         * to the checkout credential; never in webhook payloads. setup_collection.anyOf[1]
+         * (Value): {@link SetupCollectionPreviousAttributes}. setup_collection.anyOf[2] (Value):
+         * null. status (Optional): string or null. Where the session is in its lifecycle. Only an
+         * `open` session accepts payment. `terminal_reason` says why a session that is not open
+         * ended. Value enum: "open", "paid", "partially_paid", "expired", "closed", "invalidated".
+         * status.anyOf[1] (Value): string. Where the session is in its lifecycle. Only an `open`
+         * session accepts payment. `terminal_reason` says why a session that is not open ended.
+         * Value enum: "open", "paid", "partially_paid", "expired", "closed", "invalidated".
+         * status.anyOf[2] (Value): null. subscription_plan_id (Optional): string or null. ID of
+         * the subscription plan a session of type `subscription_plan` signs the buyer up for.
+         * Absent for other types. subscription_plan_id.anyOf[1] (Value): string. ID of the
+         * subscription plan a session of type `subscription_plan` signs the buyer up for. Absent
+         * for other types. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
+         * subscription_plan_id.anyOf[2] (Value): null. subscription_terms (Optional): {@link
+         * CheckoutSubscriptionTermsPreviousAttributes} or null. Renewal terms a subscription
+         * checkout commits the buyer to. Frozen when the session's order was created, so later
+         * plan changes do not alter them. Absent when the checkout starts no subscription.
+         * subscription_terms.anyOf[1] (Value): {@link
+         * CheckoutSubscriptionTermsPreviousAttributes}. subscription_terms.anyOf[2] (Value): null.
+         * superseding_checkout_session_id (Optional): string or null. ID of the session that
+         * replaced this one. Present when `terminal_reason` is `superseded`.
+         * superseding_checkout_session_id.anyOf[1] (Value): string. ID of the session that
+         * replaced this one. Present when `terminal_reason` is `superseded`. Example:
+         * "cs_01KEZF7C004JRWFW43H037MQRN". superseding_checkout_session_id.anyOf[2] (Value): null.
+         * supported_actions (Optional): Array of string or null. Lifecycle actions Flint accepts
+         * now, computed from stored checkout state without checking the caller's permissions.
+         * Contains close while open; empty after payment, closure, or expiry. Always present with
+         * merchant credentials. [] enum: "close". supported_actions.anyOf[1] (Value): Array of
+         * string. Lifecycle actions Flint accepts now, computed from stored checkout state without
+         * checking the caller's permissions. Contains close while open; empty after payment,
+         * closure, or expiry. Always present with merchant credentials. [] enum: "close".
+         * supported_actions.anyOf[1][] (Value): string. Value enum: "close".
+         * supported_actions.anyOf[2] (Value): null. surface (Optional): string or null. How the
+         * session is presented to the buyer. A hosted session has a `url` on Flint's checkout
+         * page; a headless one is rendered on your own page. Value enum: "hosted", "headless".
+         * surface.anyOf[1] (Value): string. How the session is presented to the buyer. A hosted
+         * session has a `url` on Flint's checkout page; a headless one is rendered on your own
+         * page. Value enum: "hosted", "headless". surface.anyOf[2] (Value): null. tax (Optional):
+         * {@link CheckoutSessionTaxPreviousAttributes} or null. The session's tax settings.
+         * Omitted when the session sets none. tax.anyOf[1] (Value): {@link
+         * CheckoutSessionTaxPreviousAttributes}. tax.anyOf[2] (Value): null. terminal_reason
+         * (Optional): string or null. Why the session ended. The checkout credential can still
+         * read its own closed or expired session; every other call is refused because the session
+         * is not open. order_paid_elsewhere applies only to invalidated sessions when payment
+         * succeeds or partially succeeds outside the session. order_mutated applies when an edit
+         * closes or completes its order, or ends an invoice, return-resolution, or
+         * subscription-plan session. Other merchant edits keep hosted and headless sessions open.
+         * A session already past expires_at ends with expired before the edit is applied. Value
+         * enum: "payment_succeeded", "payment_partially_succeeded", "expired",
+         * "closed_by_merchant", "order_mutated", "superseded", "order_paid_elsewhere",
+         * "invoice_paid_elsewhere", "invoice_voided", "invoice_uncollectible",
+         * "invoice_balance_changed". terminal_reason.anyOf[1] (Value): string. Why the session
+         * ended. The checkout credential can still read its own closed or expired session; every
+         * other call is refused because the session is not open. order_paid_elsewhere applies only
+         * to invalidated sessions when payment succeeds or partially succeeds outside the session.
+         * order_mutated applies when an edit closes or completes its order, or ends an invoice,
+         * return-resolution, or subscription-plan session. Other merchant edits keep hosted and
+         * headless sessions open. A session already past expires_at ends with expired before the
+         * edit is applied. Value enum: "payment_succeeded", "payment_partially_succeeded",
+         * "expired", "closed_by_merchant", "order_mutated", "superseded", "order_paid_elsewhere",
+         * "invoice_paid_elsewhere", "invoice_voided", "invoice_uncollectible",
+         * "invoice_balance_changed". terminal_reason.anyOf[2] (Value): null. theme (Optional):
+         * {@link CheckoutThemePreviousAttributes} or null. The theme checkout renders with: your
+         * branding settings, with the session's `title`, `primary_color`, and `accent_color` over
+         * them. A session sets only those three; the other fields come from branding settings.
+         * Omitted when neither sets a value. theme.anyOf[1] (Value): {@link
+         * CheckoutThemePreviousAttributes}. theme.anyOf[2] (Value): null. tip (Optional): {@link
+         * CheckoutTipConfigPreviousAttributes} or null. The tip options this session offers the
+         * buyer. tip.anyOf[1] (Value): {@link CheckoutTipConfigPreviousAttributes}. tip.anyOf[2]
+         * (Value): null. type (Optional): string or null. What the session collects payment for,
+         * fixed at creation. Value enum: "order", "quick_pay", "subscription_plan", "invoice",
+         * "payment_link". type.anyOf[1] (Value): string. What the session collects payment for,
+         * fixed at creation. Value enum: "order", "quick_pay", "subscription_plan", "invoice",
+         * "payment_link". type.anyOf[2] (Value): null. updated_at (Optional): string or null.
+         * RFC3339 timestamp. updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version
+         * (Optional): integer or null. Persisted version of this resource's owned state. Expanded
+         * resources and external observations can change independently. version.anyOf[1] (Value):
+         * integer. Persisted version of this resource's owned state. Expanded resources and
+         * external observations can change independently. Format: uint64. minimum: 1.
+         * version.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * The payment attempt now collecting this checkout's order, the same attempt as the
+             * order's active_payment_attempt. Read it to recover after losing a pay response, and
+             * resume it only when is_resumable is true. Omitted when no attempt is active. Pending
+             * actions that open a URL are left out; the pay response carries them. anyOf[1]
+             * (Value): {@link OrderPaymentAttemptPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "active_payment_attempt"?: ((OrderPaymentAttemptPreviousAttributes) | (null));
+            /**
+             * Contact the buyer entered in checkout before paying, saved with the session's
+             * checkout credential. Separate from merchant-supplied prefill and customer_prefill
+             * from the customer record. Omitted until the buyer saves or clears a field. When a
+             * checkout session payment omits buyer_contact.email or buyer_contact.phone, Flint
+             * uses these values. Flint clears the contact 30 days after the session ends, and when
+             * a customer linked to the session is deleted. anyOf[1] (Value): {@link
+             * CheckoutBuyerContactPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "buyer_contact"?: ((CheckoutBuyerContactPreviousAttributes) | (null));
+            /**
+             * What checkout asks the buyer for. Each field you leave out uses your checkout
+             * settings. anyOf[1] (Value): {@link CheckoutBuyerFieldsPreviousAttributes}. anyOf[2]
+             * (Value): null.
+             */
+            "buyer_fields"?: ((CheckoutBuyerFieldsPreviousAttributes) | (null));
+            /**
+             * Whether to offer promotion-code entry now. True only while the session is open, is
+             * not in recovery, and merchant promotion policy allows codes. An explicit
+             * promotion_config.codes_enabled wins; null offers entry only when this merchant has
+             * an active code promotion whose schedule includes now, in the session's environment.
+             * Recomputed on each read. This hint does not change code admission: checkout
+             * lifecycle, promotion_config, and merchant policy still apply. anyOf[1] (Value):
+             * boolean. Whether to offer promotion-code entry now. True only while the session is
+             * open, is not in recovery, and merchant promotion policy allows codes. An explicit
+             * promotion_config.codes_enabled wins; null offers entry only when this merchant has
+             * an active code promotion whose schedule includes now, in the session's environment.
+             * Recomputed on each read. This hint does not change code admission: checkout
+             * lifecycle, promotion_config, and merchant policy still apply. anyOf[2] (Value):
+             * null.
+             */
+            "can_apply_promotion_code"?: ((boolean) | (null));
+            /**
+             * Unique identifier for this checkout session, prefixed `cs_`. anyOf[1] (Value):
+             * string. Unique identifier for this checkout session, prefixed `cs_`. Example:
+             * "cs_01KEZF7C004JRWFW43H037MQRN". anyOf[2] (Value): null.
+             */
+            "checkout_session_id"?: ((string) | (null));
+            /**
+             * The reference the payment link URL or resolve request carried, such as your user ID.
+             * `null` when none was sent or checkout did not start from a payment link. Returned
+             * only to merchant credentials; omitted for buyer credentials. Set by the buyer's
+             * browser, so treat it as a claim, not proof of identity. Always present with merchant
+             * credentials. anyOf[1] (Value): string. The reference the payment link URL or resolve
+             * request carried, such as your user ID. `null` when none was sent or checkout did not
+             * start from a payment link. Returned only to merchant credentials; omitted for buyer
+             * credentials. Set by the buyer's browser, so treat it as a claim, not proof of
+             * identity. Always present with merchant credentials. minLength: 1. maxLength: 255.
+             * anyOf[2] (Value): null.
+             */
+            "client_reference"?: ((string) | (null));
+            /**
+             * The note supplied when the checkout session was closed. anyOf[1] (Value): string.
+             * The note supplied when the checkout session was closed. anyOf[2] (Value): null.
+             */
+            "closed_reason_message"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * The buyer's answers to the payment link's custom fields, the same as the
+             * `custom_field_answers` of the session's order. Read-only. Empty when the session
+             * didn't start from a payment link, the buyer answered no custom fields, or the order
+             * was created before Flint recorded answers here. Returned only to merchant
+             * credentials; omitted for buyer credentials. Always present with merchant
+             * credentials. anyOf[1] (Value): Array of {@link CustomFieldAnswerPreviousAttributes}.
+             * The buyer's answers to the payment link's custom fields, the same as the
+             * `custom_field_answers` of the session's order. Read-only. Empty when the session
+             * didn't start from a payment link, the buyer answered no custom fields, or the order
+             * was created before Flint recorded answers here. Returned only to merchant
+             * credentials; omitted for buyer credentials. Always present with merchant
+             * credentials. maxItems: 20. anyOf[1][] (Value): {@link
+             * CustomFieldAnswerPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "custom_field_answers"?: ((Array<CustomFieldAnswerPreviousAttributes>) | (null));
+            /**
+             * The custom text this session shows in checkout. anyOf[1] (Value): {@link
+             * CheckoutCustomTextConfigPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "custom_text"?: ((CheckoutCustomTextConfigPreviousAttributes) | (null));
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            /**
+             * The customer of the session's order. Omitted when the order has none. A checkout
+             * credential issued for this session acts for this customer. Add expand=customer to
+             * include the customer. anyOf[1] (Value): string. The customer of the session's order.
+             * Omitted when the order has none. A checkout credential issued for this session acts
+             * for this customer. Add expand=customer to include the customer. Example:
+             * "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * Current delivery choices for Flint-owned pricing. External pricing reports
+             * requires_explicit_quote; reading this field does not request a delivery quote.
+             * Omitted when the session is not open, has no order, or Flint cannot read its
+             * delivery. anyOf[1] (Value): {@link
+             * CheckoutDerivedDeliveryResourcePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "delivery"?: ((CheckoutDerivedDeliveryResourcePreviousAttributes) | (null));
+            /**
+             * Immutable delivery method assignment captured when the checkout was created.
+             * anyOf[1] (Value): Array of string. Immutable delivery method assignment captured
+             * when the checkout was created. anyOf[1][] (Value): string. Example:
+             * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". anyOf[2] (Value): null.
+             */
+            "delivery_method_ids"?: ((Array<string>) | (null));
+            /**
+             * Whether the order has at least one remaining quote-resolved fulfillment choice that
+             * must be selected before payment. anyOf[1] (Value): boolean. Whether the order has at
+             * least one remaining quote-resolved fulfillment choice that must be selected before
+             * payment. anyOf[2] (Value): null.
+             */
+            "delivery_selection_required"?: ((boolean) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "expires_at"?: ((string) | (null));
+            /**
+             * The lifetime the session got. expires_at is its deadline. Omitted for invoice
+             * sessions, which take their deadline from the invoice. anyOf[1] (Value): integer. The
+             * lifetime the session got. expires_at is its deadline. Omitted for invoice sessions,
+             * which take their deadline from the invoice. Format: int64. anyOf[2] (Value): null.
+             */
+            "expires_in_seconds"?: ((number) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Where the buyer completes a gift card challenge for this checkout. Returned on
+             * single-session reads, session create and update responses, checkout launch results,
+             * and customer verification confirmation results while the session is open and can
+             * show the challenge. Omitted from lists, webhooks, expanded resources, and delivery
+             * selection results. anyOf[1] (Value): {@link
+             * CheckoutGiftCardChallengePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "gift_card_challenge"?: ((CheckoutGiftCardChallengePreviousAttributes) | (null));
+            /**
+             * Immutable cart hold IDs authorized by the merchant at session creation. Omitted when
+             * empty and from checkout-credential responses. Buyer and merchant delivery requests
+             * that omit IDs use eligible bound holds; explicit merchant IDs replace the binding
+             * for that request. First adopter wins when sessions share a hold. Invalidated or
+             * otherwise ended sessions cannot adopt stock, and replacements never inherit the
+             * binding. Unused cart units retain their own release and expiration lifecycle.
+             * anyOf[1] (Value): Array of string. Immutable cart hold IDs authorized by the
+             * merchant at session creation. Omitted when empty and from checkout-credential
+             * responses. Buyer and merchant delivery requests that omit IDs use eligible bound
+             * holds; explicit merchant IDs replace the binding for that request. First adopter
+             * wins when sessions share a hold. Invalidated or otherwise ended sessions cannot
+             * adopt stock, and replacements never inherit the binding. Unused cart units retain
+             * their own release and expiration lifecycle. anyOf[1][] (Value): string. Example:
+             * "invr_01KEZF7C0041ENRR0C2NF3AP12". anyOf[2] (Value): null.
+             */
+            "inventory_reservation_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `invoice`; `null` when expanded and there is no
+             * related invoice. anyOf[1] (Value): {@link ExpandedInvoiceSummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "invoice"?: ((ExpandedInvoiceSummaryPreviousAttributes) | (null));
+            /**
+             * ID of the invoice a session of type `invoice` collects payment for. Absent for other
+             * types. anyOf[1] (Value): string. ID of the invoice a session of type `invoice`
+             * collects payment for. Absent for other types. Example:
+             * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
+             */
+            "invoice_id"?: ((string) | (null));
+            /**
+             * Whether this terminal session credential is temporarily restricted to recovering its
+             * owning payment attempt. anyOf[1] (Value): boolean. Whether this terminal session
+             * credential is temporarily restricted to recovering its owning payment attempt.
+             * anyOf[2] (Value): null.
+             */
+            "is_in_recovery"?: ((boolean) | (null));
+            /**
+             * The terms and policy links this session shows the buyer, and whether the buyer must
+             * accept the terms. anyOf[1] (Value): {@link CheckoutLegalConfigPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "legal"?: ((CheckoutLegalConfigPreviousAttributes) | (null));
+            /**
+             * ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the
+             * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             * anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Present only when `expand` includes `order`; `null` when expanded and there is no
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
+            /**
+             * ID of the order the session collects payment for, fixed at creation. Absent when the
+             * session has no order. anyOf[1] (Value): string. ID of the order the session collects
+             * payment for, fixed at creation. Absent when the session has no order. Example:
+             * "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * Origin of the page that renders this headless checkout. Omitted when not set.
+             * anyOf[1] (Value): string. Origin of the page that renders this headless checkout.
+             * Omitted when not set. anyOf[2] (Value): null.
+             */
+            "page_origin"?: ((string) | (null));
+            /**
+             * Guidance for collecting a payment source. Checkout-credential reads include it only
+             * while the session is open. Returned only to the checkout credential; never in
+             * webhook payloads. anyOf[1] (Value): {@link SetupCollectionPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "payment_collection"?: ((SetupCollectionPreviousAttributes) | (null));
+            /**
+             * IDs of the payment intents for the session's order. Absent when the order has none.
+             * anyOf[1] (Value): Array of string. IDs of the payment intents for the session's
+             * order. Absent when the order has none. anyOf[1][] (Value): string. Example:
+             * "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2] (Value): null.
+             */
+            "payment_intent_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `payment_intents`: summaries of the payment
+             * intents in `payment_intent_ids`. anyOf[1] (Value): Array of {@link
+             * ExpandedPaymentIntentSummaryPreviousAttributes}. Present only when `expand` includes
+             * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
+             * anyOf[1][] (Value): {@link ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[2]
+             * (Value): null.
+             */
+            "payment_intents"?: ((Array<ExpandedPaymentIntentSummaryPreviousAttributes>) | (null));
+            /**
+             * Present only when `expand` includes `payment_link`; `null` when expanded and there
+             * is no related payment link. anyOf[1] (Value): {@link
+             * ExpandedPaymentLinkSummaryPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "payment_link"?: ((ExpandedPaymentLinkSummaryPreviousAttributes) | (null));
+            /**
+             * ID of the payment link the session was started from. Absent when it was not started
+             * from a payment link. anyOf[1] (Value): string. ID of the payment link the session
+             * was started from. Absent when it was not started from a payment link. Example:
+             * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". anyOf[2] (Value): null.
+             */
+            "payment_link_id"?: ((string) | (null));
+            /**
+             * Headless sessions only. Absolute HTTPS URL on your site where Flint sends the buyer
+             * after a redirect payment such as Affirm, whatever the outcome; read the session
+             * there to show the result. Required when the session offers affirm. It can't contain
+             * credentials, a query string, or a fragment. Query strings are deliberately excluded
+             * so credentials and provider state cannot cross Flint's payment relay. Put merchant
+             * identifiers in the URL path, such as https://shop.example/return/sub_123. Test mode
+             * also accepts http loopback URLs. Up to 2,048 characters. anyOf[1] (Value): string.
+             * Headless sessions only. Absolute HTTPS URL on your site where Flint sends the buyer
+             * after a redirect payment such as Affirm, whatever the outcome; read the session
+             * there to show the result. Required when the session offers affirm. It can't contain
+             * credentials, a query string, or a fragment. Query strings are deliberately excluded
+             * so credentials and provider state cannot cross Flint's payment relay. Put merchant
+             * identifiers in the URL path, such as https://shop.example/return/sub_123. Test mode
+             * also accepts http loopback URLs. Up to 2,048 characters. Format: uri. maxLength:
+             * 2048. Example: "https://example.com/receipt". anyOf[2] (Value): null.
+             */
+            "payment_return_url"?: ((string) | (null));
+            /**
+             * Configured payment options for merchant credentials; currently available payment
+             * options for the checkout credential. anyOf[1] (Value): {@link
+             * CheckoutPaymentConfigPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "payments"?: ((CheckoutPaymentConfigPreviousAttributes) | (null));
+            /**
+             * Contact details and addresses to fill in for the buyer, who can change them. For a
+             * customer with saved addresses, Flint fills in any address you leave out, and reads
+             * include it. With quick_pay or subscription_plan and automatic tax on, a prefilled
+             * address sets the order's tax location. Not changed by what the buyer types; for
+             * that, read buyer_contact. customer_prefill is what the checkout credential reads
+             * from the customer record. anyOf[1] (Value): {@link
+             * CheckoutPrefillPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "prefill"?: ((CheckoutPrefillPreviousAttributes) | (null));
+            /**
+             * Named conditions that affect checkout completion. Follow each problem's remediation
+             * action instead of reconstructing delivery lifecycle rules in the client.
+             * payment_in_progress means another payment for the order must finish before this
+             * checkout can complete. When Flint cannot read the checkout's delivery, the read
+             * still succeeds and reports delivery_unreadable; its remediation says whether reading
+             * the session again can succeed, and its next action's reason_code names the error.
+             * anyOf[1] (Value): Array of {@link CheckoutProblemResourcePreviousAttributes}. Named
+             * conditions that affect checkout completion. Follow each problem's remediation action
+             * instead of reconstructing delivery lifecycle rules in the client.
+             * payment_in_progress means another payment for the order must finish before this
+             * checkout can complete. When Flint cannot read the checkout's delivery, the read
+             * still succeeds and reports delivery_unreadable; its remediation says whether reading
+             * the session again can succeed, and its next action's reason_code names the error.
+             * anyOf[1][] (Value): {@link CheckoutProblemResourcePreviousAttributes}. anyOf[2]
+             * (Value): null.
+             */
+            "problems"?: ((Array<CheckoutProblemResourcePreviousAttributes>) | (null));
+            /**
+             * Whether automatic promotions apply to this session and whether the buyer can enter
+             * promotion codes. anyOf[1] (Value): {@link
+             * CheckoutPromotionConfigPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "promotion_config"?: ((CheckoutPromotionConfigPreviousAttributes) | (null));
+            /**
+             * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
+             * payment_return_url. anyOf[1] (Value): {@link CheckoutRedirectsPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "redirects"?: ((CheckoutRedirectsPreviousAttributes) | (null));
+            /**
+             * All buyer-visible refunds on this session’s order, including refunds made by the
+             * store. Uses the same buyer projection as /v1/me/refunds. Included on GET
+             * single-session reads as an array, with [] when there are none, and omitted from
+             * other responses and webhooks. A failed refund with failure_reason refund_abandoned
+             * could not be completed: tell the buyer to contact the store to get their money back.
+             * anyOf[1] (Value): Array of {@link BuyerRefundPreviousAttributes}. All buyer-visible
+             * refunds on this session’s order, including refunds made by the store. Uses the same
+             * buyer projection as /v1/me/refunds. Included on GET single-session reads as an
+             * array, with [] when there are none, and omitted from other responses and webhooks. A
+             * failed refund with failure_reason refund_abandoned could not be completed: tell the
+             * buyer to contact the store to get their money back. anyOf[1][] (Value): {@link
+             * BuyerRefundPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "refunds"?: ((Array<BuyerRefundPreviousAttributes>) | (null));
+            /**
+             * Guidance for collecting a payment method to save. Checkout-credential reads include
+             * it only while the session is open. Returned only to the checkout credential; never
+             * in webhook payloads. anyOf[1] (Value): {@link SetupCollectionPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "setup_collection"?: ((SetupCollectionPreviousAttributes) | (null));
+            /**
+             * Where the session is in its lifecycle. Only an `open` session accepts payment.
+             * `terminal_reason` says why a session that is not open ended. Value enum: "open",
+             * "paid", "partially_paid", "expired", "closed", "invalidated". anyOf[1] (Value):
+             * string. Where the session is in its lifecycle. Only an `open` session accepts
+             * payment. `terminal_reason` says why a session that is not open ended. Value enum:
+             * "open", "paid", "partially_paid", "expired", "closed", "invalidated". anyOf[2]
+             * (Value): null.
+             */
+            "status"?: (("open" | "paid" | "partially_paid" | "expired" | "closed" | "invalidated" | (string & {})) | (null));
+            /**
+             * ID of the subscription plan a session of type `subscription_plan` signs the buyer up
+             * for. Absent for other types. anyOf[1] (Value): string. ID of the subscription plan a
+             * session of type `subscription_plan` signs the buyer up for. Absent for other types.
+             * Example: "plan_01KEZF7C004CY5ZR33XST2AASV". anyOf[2] (Value): null.
+             */
+            "subscription_plan_id"?: ((string) | (null));
+            /**
+             * Renewal terms a subscription checkout commits the buyer to. Frozen when the
+             * session's order was created, so later plan changes do not alter them. Absent when
+             * the checkout starts no subscription. anyOf[1] (Value): {@link
+             * CheckoutSubscriptionTermsPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "subscription_terms"?: ((CheckoutSubscriptionTermsPreviousAttributes) | (null));
+            /**
+             * ID of the session that replaced this one. Present when `terminal_reason` is
+             * `superseded`. anyOf[1] (Value): string. ID of the session that replaced this one.
+             * Present when `terminal_reason` is `superseded`. Example:
+             * "cs_01KEZF7C004JRWFW43H037MQRN". anyOf[2] (Value): null.
+             */
+            "superseding_checkout_session_id"?: ((string) | (null));
+            /**
+             * Lifecycle actions Flint accepts now, computed from stored checkout state without
+             * checking the caller's permissions. Contains close while open; empty after payment,
+             * closure, or expiry. Always present with merchant credentials. [] enum: "close".
+             * anyOf[1] (Value): Array of string. Lifecycle actions Flint accepts now, computed
+             * from stored checkout state without checking the caller's permissions. Contains close
+             * while open; empty after payment, closure, or expiry. Always present with merchant
+             * credentials. [] enum: "close". anyOf[1][] (Value): string. Value enum: "close".
+             * anyOf[2] (Value): null.
+             */
+            "supported_actions"?: ((Array<"close" | (string & {})>) | (null));
+            /**
+             * How the session is presented to the buyer. A hosted session has a `url` on Flint's
+             * checkout page; a headless one is rendered on your own page. Value enum: "hosted",
+             * "headless". anyOf[1] (Value): string. How the session is presented to the buyer. A
+             * hosted session has a `url` on Flint's checkout page; a headless one is rendered on
+             * your own page. Value enum: "hosted", "headless". anyOf[2] (Value): null.
+             */
+            "surface"?: (("hosted" | "headless" | (string & {})) | (null));
+            /**
+             * The session's tax settings. Omitted when the session sets none. anyOf[1] (Value):
+             * {@link CheckoutSessionTaxPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "tax"?: ((CheckoutSessionTaxPreviousAttributes) | (null));
+            /**
+             * Why the session ended. The checkout credential can still read its own closed or
+             * expired session; every other call is refused because the session is not open.
+             * order_paid_elsewhere applies only to invalidated sessions when payment succeeds or
+             * partially succeeds outside the session. order_mutated applies when an edit closes or
+             * completes its order, or ends an invoice, return-resolution, or subscription-plan
+             * session. Other merchant edits keep hosted and headless sessions open. A session
+             * already past expires_at ends with expired before the edit is applied. Value enum:
+             * "payment_succeeded", "payment_partially_succeeded", "expired", "closed_by_merchant",
+             * "order_mutated", "superseded", "order_paid_elsewhere", "invoice_paid_elsewhere",
+             * "invoice_voided", "invoice_uncollectible", "invoice_balance_changed". anyOf[1]
+             * (Value): string. Why the session ended. The checkout credential can still read its
+             * own closed or expired session; every other call is refused because the session is
+             * not open. order_paid_elsewhere applies only to invalidated sessions when payment
+             * succeeds or partially succeeds outside the session. order_mutated applies when an
+             * edit closes or completes its order, or ends an invoice, return-resolution, or
+             * subscription-plan session. Other merchant edits keep hosted and headless sessions
+             * open. A session already past expires_at ends with expired before the edit is
+             * applied. Value enum: "payment_succeeded", "payment_partially_succeeded", "expired",
+             * "closed_by_merchant", "order_mutated", "superseded", "order_paid_elsewhere",
+             * "invoice_paid_elsewhere", "invoice_voided", "invoice_uncollectible",
+             * "invoice_balance_changed". anyOf[2] (Value): null.
+             */
+            "terminal_reason"?: (("payment_succeeded"
+                | "payment_partially_succeeded"
+                | "expired"
+                | "closed_by_merchant"
+                | "order_mutated"
+                | "superseded"
+                | "order_paid_elsewhere"
+                | "invoice_paid_elsewhere"
+                | "invoice_voided"
+                | "invoice_uncollectible"
+                | "invoice_balance_changed"
+                | (string & {}))
+                | (null));
+            /**
+             * The theme checkout renders with: your branding settings, with the session's `title`,
+             * `primary_color`, and `accent_color` over them. A session sets only those three; the
+             * other fields come from branding settings. Omitted when neither sets a value.
+             * anyOf[1] (Value): {@link CheckoutThemePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "theme"?: ((CheckoutThemePreviousAttributes) | (null));
+            /**
+             * The tip options this session offers the buyer. anyOf[1] (Value): {@link
+             * CheckoutTipConfigPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "tip"?: ((CheckoutTipConfigPreviousAttributes) | (null));
+            /**
+             * What the session collects payment for, fixed at creation. Value enum: "order",
+             * "quick_pay", "subscription_plan", "invoice", "payment_link". anyOf[1] (Value):
+             * string. What the session collects payment for, fixed at creation. Value enum:
+             * "order", "quick_pay", "subscription_plan", "invoice", "payment_link". anyOf[2]
+             * (Value): null.
+             */
+            "type"?: (("order" | "quick_pay" | "subscription_plan" | "invoice" | "payment_link" | (string & {})) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. anyOf[1] (Value): integer. Persisted version
+             * of this resource's owned state. Expanded resources and external observations can
+             * change independently. Format: uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "checkout_session.paid". */
+    "event_type"?: "checkout_session.paid";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `checkout_session.paid` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type CheckoutSessionPaidMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link WebhookCheckoutSession}. The resource snapshot, without
+     * expansions. Webhooks omit these fields: `url`, `recovery_payment_attempt_id`,
+     * `recovery_expires_at`, `can_save_payment_method`, `save_payment_method_types`,
+     * `save_payment_method_requires_verification`, `pay_to_new_address_requires_verification`,
+     * `can_save_payment_method_with_phone`, `payment_method_save`, `customer_prefill`,
+     * `merchant_support`, `merchant_name`, `show_flint_mark`, `merchant_logo`, `merchant_icon`,
+     * `payment_link_image`, `platform_fee`, `customer_account_url`. previous_attributes
+     * (Optional): object. Previous values of changed top-level fields in data.object, at this
+     * delivery's API version. Nested changes include the whole previous top-level value. A value
+     * is null when the field was absent before the change. Omitted when Flint did not record the
+     * previous state, including synthetic test events. previous_attributes.active_payment_attempt
+     * (Optional): {@link OrderPaymentAttemptPreviousAttributes} or null. The payment attempt now
+     * collecting this checkout's order, the same attempt as the order's active_payment_attempt.
+     * Read it to recover after losing a pay response, and resume it only when is_resumable is
+     * true. Omitted when no attempt is active. Pending actions that open a URL are left out; the
+     * pay response carries them. previous_attributes.active_payment_attempt.anyOf[1] (Value):
+     * {@link OrderPaymentAttemptPreviousAttributes}.
+     * previous_attributes.active_payment_attempt.anyOf[2] (Value): null.
+     * previous_attributes.buyer_contact (Optional): {@link CheckoutBuyerContactPreviousAttributes}
+     * or null. Contact the buyer entered in checkout before paying, saved with the session's
+     * checkout credential. Separate from merchant-supplied prefill and customer_prefill from the
+     * customer record. Omitted until the buyer saves or clears a field. When a checkout session
+     * payment omits buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint
+     * clears the contact 30 days after the session ends, and when a customer linked to the session
+     * is deleted. previous_attributes.buyer_contact.anyOf[1] (Value): {@link
+     * CheckoutBuyerContactPreviousAttributes}. previous_attributes.buyer_contact.anyOf[2] (Value):
+     * null. previous_attributes.buyer_fields (Optional): {@link
+     * CheckoutBuyerFieldsPreviousAttributes} or null. What checkout asks the buyer for. Each field
+     * you leave out uses your checkout settings. previous_attributes.buyer_fields.anyOf[1]
+     * (Value): {@link CheckoutBuyerFieldsPreviousAttributes}.
+     * previous_attributes.buyer_fields.anyOf[2] (Value): null.
+     * previous_attributes.can_apply_promotion_code (Optional): boolean or null. Whether to offer
+     * promotion-code entry now. True only while the session is open, is not in recovery, and
+     * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
+     * null offers entry only when this merchant has an active code promotion whose schedule
+     * includes now, in the session's environment. Recomputed on each read. This hint does not
+     * change code admission: checkout lifecycle, promotion_config, and merchant policy still
+     * apply. previous_attributes.can_apply_promotion_code.anyOf[1] (Value): boolean. Whether to
+     * offer promotion-code entry now. True only while the session is open, is not in recovery, and
+     * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
+     * null offers entry only when this merchant has an active code promotion whose schedule
+     * includes now, in the session's environment. Recomputed on each read. This hint does not
+     * change code admission: checkout lifecycle, promotion_config, and merchant policy still
+     * apply. previous_attributes.can_apply_promotion_code.anyOf[2] (Value): null.
+     * previous_attributes.checkout_session_id (Optional): string or null. Unique identifier for
+     * this checkout session, prefixed `cs_`. previous_attributes.checkout_session_id.anyOf[1]
+     * (Value): string. Unique identifier for this checkout session, prefixed `cs_`. Example:
+     * "cs_01KEZF7C004JRWFW43H037MQRN". previous_attributes.checkout_session_id.anyOf[2] (Value):
+     * null. previous_attributes.client_reference (Optional): string or null. The reference the
+     * payment link URL or resolve request carried, such as your user ID. `null` when none was sent
+     * or checkout did not start from a payment link. Returned only to merchant credentials;
+     * omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof
+     * of identity. Always present with merchant credentials.
+     * previous_attributes.client_reference.anyOf[1] (Value): string. The reference the payment
+     * link URL or resolve request carried, such as your user ID. `null` when none was sent or
+     * checkout did not start from a payment link. Returned only to merchant credentials; omitted
+     * for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof of
+     * identity. Always present with merchant credentials. minLength: 1. maxLength: 255.
+     * previous_attributes.client_reference.anyOf[2] (Value): null.
+     * previous_attributes.closed_reason_message (Optional): string or null. The note supplied when
+     * the checkout session was closed. previous_attributes.closed_reason_message.anyOf[1] (Value):
+     * string. The note supplied when the checkout session was closed.
+     * previous_attributes.closed_reason_message.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.custom_field_answers (Optional): Array of {@link
+     * CustomFieldAnswerPreviousAttributes} or null. The buyer's answers to the payment link's
+     * custom fields, the same as the `custom_field_answers` of the session's order. Read-only.
+     * Empty when the session didn't start from a payment link, the buyer answered no custom
+     * fields, or the order was created before Flint recorded answers here. Returned only to
+     * merchant credentials; omitted for buyer credentials. Always present with merchant
+     * credentials. previous_attributes.custom_field_answers.anyOf[1] (Value): Array of {@link
+     * CustomFieldAnswerPreviousAttributes}. The buyer's answers to the payment link's custom
+     * fields, the same as the `custom_field_answers` of the session's order. Read-only. Empty when
+     * the session didn't start from a payment link, the buyer answered no custom fields, or the
+     * order was created before Flint recorded answers here. Returned only to merchant credentials;
+     * omitted for buyer credentials. Always present with merchant credentials. maxItems: 20.
+     * previous_attributes.custom_field_answers.anyOf[1][] (Value): {@link
+     * CustomFieldAnswerPreviousAttributes}. previous_attributes.custom_field_answers.anyOf[2]
+     * (Value): null. previous_attributes.custom_text (Optional): {@link
+     * CheckoutCustomTextConfigPreviousAttributes} or null. The custom text this session shows in
+     * checkout. previous_attributes.custom_text.anyOf[1] (Value): {@link
+     * CheckoutCustomTextConfigPreviousAttributes}. previous_attributes.custom_text.anyOf[2]
+     * (Value): null. previous_attributes.customer (Optional): {@link
+     * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+     * `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. The customer of the
+     * session's order. Omitted when the order has none. A checkout credential issued for this
+     * session acts for this customer. Add expand=customer to include the customer.
+     * previous_attributes.customer_id.anyOf[1] (Value): string. The customer of the session's
+     * order. Omitted when the order has none. A checkout credential issued for this session acts
+     * for this customer. Add expand=customer to include the customer. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery (Optional): {@link
+     * CheckoutDerivedDeliveryResourcePreviousAttributes} or null. Current delivery choices for
+     * Flint-owned pricing. External pricing reports requires_explicit_quote; reading this field
+     * does not request a delivery quote. Omitted when the session is not open, has no order, or
+     * Flint cannot read its delivery. previous_attributes.delivery.anyOf[1] (Value): {@link
+     * CheckoutDerivedDeliveryResourcePreviousAttributes}. previous_attributes.delivery.anyOf[2]
+     * (Value): null. previous_attributes.delivery_method_ids (Optional): Array of string or null.
+     * Immutable delivery method assignment captured when the checkout was created.
+     * previous_attributes.delivery_method_ids.anyOf[1] (Value): Array of string. Immutable
+     * delivery method assignment captured when the checkout was created.
+     * previous_attributes.delivery_method_ids.anyOf[1][] (Value): string. Example:
+     * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". previous_attributes.delivery_method_ids.anyOf[2] (Value):
+     * null. previous_attributes.delivery_selection_required (Optional): boolean or null. Whether
+     * the order has at least one remaining quote-resolved fulfillment choice that must be selected
+     * before payment. previous_attributes.delivery_selection_required.anyOf[1] (Value): boolean.
+     * Whether the order has at least one remaining quote-resolved fulfillment choice that must be
+     * selected before payment. previous_attributes.delivery_selection_required.anyOf[2] (Value):
+     * null. previous_attributes.expires_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.expires_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.expires_at.anyOf[2] (Value):
+     * null. previous_attributes.expires_in_seconds (Optional): integer or null. The lifetime the
+     * session got. expires_at is its deadline. Omitted for invoice sessions, which take their
+     * deadline from the invoice. previous_attributes.expires_in_seconds.anyOf[1] (Value): integer.
+     * The lifetime the session got. expires_at is its deadline. Omitted for invoice sessions,
+     * which take their deadline from the invoice. Format: int64.
+     * previous_attributes.expires_in_seconds.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.gift_card_challenge (Optional): {@link
+     * CheckoutGiftCardChallengePreviousAttributes} or null. Where the buyer completes a gift card
+     * challenge for this checkout. Returned on single-session reads, session create and update
+     * responses, checkout launch results, and customer verification confirmation results while the
+     * session is open and can show the challenge. Omitted from lists, webhooks, expanded
+     * resources, and delivery selection results. previous_attributes.gift_card_challenge.anyOf[1]
+     * (Value): {@link CheckoutGiftCardChallengePreviousAttributes}.
+     * previous_attributes.gift_card_challenge.anyOf[2] (Value): null.
+     * previous_attributes.inventory_reservation_ids (Optional): Array of string or null. Immutable
+     * cart hold IDs authorized by the merchant at session creation. Omitted when empty and from
+     * checkout-credential responses. Buyer and merchant delivery requests that omit IDs use
+     * eligible bound holds; explicit merchant IDs replace the binding for that request. First
+     * adopter wins when sessions share a hold. Invalidated or otherwise ended sessions cannot
+     * adopt stock, and replacements never inherit the binding. Unused cart units retain their own
+     * release and expiration lifecycle. previous_attributes.inventory_reservation_ids.anyOf[1]
+     * (Value): Array of string. Immutable cart hold IDs authorized by the merchant at session
+     * creation. Omitted when empty and from checkout-credential responses. Buyer and merchant
+     * delivery requests that omit IDs use eligible bound holds; explicit merchant IDs replace the
+     * binding for that request. First adopter wins when sessions share a hold. Invalidated or
+     * otherwise ended sessions cannot adopt stock, and replacements never inherit the binding.
+     * Unused cart units retain their own release and expiration lifecycle.
+     * previous_attributes.inventory_reservation_ids.anyOf[1][] (Value): string. Example:
+     * "invr_01KEZF7C0041ENRR0C2NF3AP12". previous_attributes.inventory_reservation_ids.anyOf[2]
+     * (Value): null. previous_attributes.invoice (Optional): {@link
+     * ExpandedInvoiceSummaryPreviousAttributes} or null. Present only when `expand` includes
+     * `invoice`; `null` when expanded and there is no related invoice.
+     * previous_attributes.invoice.anyOf[1] (Value): {@link
+     * ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2] (Value):
+     * null. previous_attributes.invoice_id (Optional): string or null. ID of the invoice a session
+     * of type `invoice` collects payment for. Absent for other types.
+     * previous_attributes.invoice_id.anyOf[1] (Value): string. ID of the invoice a session of type
+     * `invoice` collects payment for. Absent for other types. Example:
+     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
+     * previous_attributes.is_in_recovery (Optional): boolean or null. Whether this terminal
+     * session credential is temporarily restricted to recovering its owning payment attempt.
+     * previous_attributes.is_in_recovery.anyOf[1] (Value): boolean. Whether this terminal session
+     * credential is temporarily restricted to recovering its owning payment attempt.
+     * previous_attributes.is_in_recovery.anyOf[2] (Value): null. previous_attributes.legal
+     * (Optional): {@link CheckoutLegalConfigPreviousAttributes} or null. The terms and policy
+     * links this session shows the buyer, and whether the buyer must accept the terms.
+     * previous_attributes.legal.anyOf[1] (Value): {@link CheckoutLegalConfigPreviousAttributes}.
+     * previous_attributes.legal.anyOf[2] (Value): null. previous_attributes.merchant_id
+     * (Optional): string or null. ID of the merchant this resource belongs to.
+     * previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the merchant this resource
+     * belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
+     * (Value): {@link MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.order (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or
+     * null. Present only when `expand` includes `order`; `null` when expanded and there is no
+     * related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value): null.
+     * previous_attributes.order_id (Optional): string or null. ID of the order the session
+     * collects payment for, fixed at creation. Absent when the session has no order.
+     * previous_attributes.order_id.anyOf[1] (Value): string. ID of the order the session collects
+     * payment for, fixed at creation. Absent when the session has no order. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
+     * previous_attributes.page_origin (Optional): string or null. Origin of the page that renders
+     * this headless checkout. Omitted when not set. previous_attributes.page_origin.anyOf[1]
+     * (Value): string. Origin of the page that renders this headless checkout. Omitted when not
+     * set. previous_attributes.page_origin.anyOf[2] (Value): null.
+     * previous_attributes.payment_collection (Optional): {@link SetupCollectionPreviousAttributes}
+     * or null. Guidance for collecting a payment source. Checkout-credential reads include it only
+     * while the session is open. Returned only to the checkout credential; never in webhook
+     * payloads. previous_attributes.payment_collection.anyOf[1] (Value): {@link
+     * SetupCollectionPreviousAttributes}. previous_attributes.payment_collection.anyOf[2] (Value):
+     * null. previous_attributes.payment_intent_ids (Optional): Array of string or null. IDs of the
+     * payment intents for the session's order. Absent when the order has none.
+     * previous_attributes.payment_intent_ids.anyOf[1] (Value): Array of string. IDs of the payment
+     * intents for the session's order. Absent when the order has none.
+     * previous_attributes.payment_intent_ids.anyOf[1][] (Value): string. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R". previous_attributes.payment_intent_ids.anyOf[2] (Value):
+     * null. previous_attributes.payment_intents (Optional): Array of {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Present only when `expand` includes
+     * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
+     * previous_attributes.payment_intents.anyOf[1] (Value): Array of {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes}. Present only when `expand` includes
+     * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
+     * previous_attributes.payment_intents.anyOf[1][] (Value): {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes}.
+     * previous_attributes.payment_intents.anyOf[2] (Value): null. previous_attributes.payment_link
+     * (Optional): {@link ExpandedPaymentLinkSummaryPreviousAttributes} or null. Present only when
+     * `expand` includes `payment_link`; `null` when expanded and there is no related payment link.
+     * previous_attributes.payment_link.anyOf[1] (Value): {@link
+     * ExpandedPaymentLinkSummaryPreviousAttributes}. previous_attributes.payment_link.anyOf[2]
+     * (Value): null. previous_attributes.payment_link_id (Optional): string or null. ID of the
+     * payment link the session was started from. Absent when it was not started from a payment
+     * link. previous_attributes.payment_link_id.anyOf[1] (Value): string. ID of the payment link
+     * the session was started from. Absent when it was not started from a payment link. Example:
+     * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". previous_attributes.payment_link_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_return_url (Optional): string or null. Headless sessions only.
+     * Absolute HTTPS URL on your site where Flint sends the buyer after a redirect payment such as
+     * Affirm, whatever the outcome; read the session there to show the result. Required when the
+     * session offers affirm. It can't contain credentials, a query string, or a fragment. Query
+     * strings are deliberately excluded so credentials and provider state cannot cross Flint's
+     * payment relay. Put merchant identifiers in the URL path, such as
+     * https://shop.example/return/sub_123. Test mode also accepts http loopback URLs. Up to 2,048
+     * characters. previous_attributes.payment_return_url.anyOf[1] (Value): string. Headless
+     * sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a redirect
+     * payment such as Affirm, whatever the outcome; read the session there to show the result.
+     * Required when the session offers affirm. It can't contain credentials, a query string, or a
+     * fragment. Query strings are deliberately excluded so credentials and provider state cannot
+     * cross Flint's payment relay. Put merchant identifiers in the URL path, such as
+     * https://shop.example/return/sub_123. Test mode also accepts http loopback URLs. Up to 2,048
+     * characters. Format: uri. maxLength: 2048. Example: "https://example.com/receipt".
+     * previous_attributes.payment_return_url.anyOf[2] (Value): null. previous_attributes.payments
+     * (Optional): {@link CheckoutPaymentConfigPreviousAttributes} or null. Configured payment
+     * options for merchant credentials; currently available payment options for the checkout
+     * credential. previous_attributes.payments.anyOf[1] (Value): {@link
+     * CheckoutPaymentConfigPreviousAttributes}. previous_attributes.payments.anyOf[2] (Value):
+     * null. previous_attributes.prefill (Optional): {@link CheckoutPrefillPreviousAttributes} or
+     * null. Contact details and addresses to fill in for the buyer, who can change them. For a
+     * customer with saved addresses, Flint fills in any address you leave out, and reads include
+     * it. With quick_pay or subscription_plan and automatic tax on, a prefilled address sets the
+     * order's tax location. Not changed by what the buyer types; for that, read buyer_contact.
+     * customer_prefill is what the checkout credential reads from the customer record.
+     * previous_attributes.prefill.anyOf[1] (Value): {@link CheckoutPrefillPreviousAttributes}.
+     * previous_attributes.prefill.anyOf[2] (Value): null. previous_attributes.problems (Optional):
+     * Array of {@link CheckoutProblemResourcePreviousAttributes} or null. Named conditions that
+     * affect checkout completion. Follow each problem's remediation action instead of
+     * reconstructing delivery lifecycle rules in the client. payment_in_progress means another
+     * payment for the order must finish before this checkout can complete. When Flint cannot read
+     * the checkout's delivery, the read still succeeds and reports delivery_unreadable; its
+     * remediation says whether reading the session again can succeed, and its next action's
+     * reason_code names the error. previous_attributes.problems.anyOf[1] (Value): Array of {@link
+     * CheckoutProblemResourcePreviousAttributes}. Named conditions that affect checkout
+     * completion. Follow each problem's remediation action instead of reconstructing delivery
+     * lifecycle rules in the client. payment_in_progress means another payment for the order must
+     * finish before this checkout can complete. When Flint cannot read the checkout's delivery,
+     * the read still succeeds and reports delivery_unreadable; its remediation says whether
+     * reading the session again can succeed, and its next action's reason_code names the error.
+     * previous_attributes.problems.anyOf[1][] (Value): {@link
+     * CheckoutProblemResourcePreviousAttributes}. previous_attributes.problems.anyOf[2] (Value):
+     * null. previous_attributes.promotion_config (Optional): {@link
+     * CheckoutPromotionConfigPreviousAttributes} or null. Whether automatic promotions apply to
+     * this session and whether the buyer can enter promotion codes.
+     * previous_attributes.promotion_config.anyOf[1] (Value): {@link
+     * CheckoutPromotionConfigPreviousAttributes}. previous_attributes.promotion_config.anyOf[2]
+     * (Value): null. previous_attributes.redirects (Optional): {@link
+     * CheckoutRedirectsPreviousAttributes} or null. Where hosted checkout sends the buyer. Not
+     * allowed when surface is headless; use payment_return_url.
+     * previous_attributes.redirects.anyOf[1] (Value): {@link CheckoutRedirectsPreviousAttributes}.
+     * previous_attributes.redirects.anyOf[2] (Value): null. previous_attributes.refunds
+     * (Optional): Array of {@link BuyerRefundPreviousAttributes} or null. All buyer-visible
+     * refunds on this session’s order, including refunds made by the store. Uses the same buyer
+     * projection as /v1/me/refunds. Included on GET single-session reads as an array, with [] when
+     * there are none, and omitted from other responses and webhooks. A failed refund with
+     * failure_reason refund_abandoned could not be completed: tell the buyer to contact the store
+     * to get their money back. previous_attributes.refunds.anyOf[1] (Value): Array of {@link
+     * BuyerRefundPreviousAttributes}. All buyer-visible refunds on this session’s order, including
+     * refunds made by the store. Uses the same buyer projection as /v1/me/refunds. Included on GET
+     * single-session reads as an array, with [] when there are none, and omitted from other
+     * responses and webhooks. A failed refund with failure_reason refund_abandoned could not be
+     * completed: tell the buyer to contact the store to get their money back.
+     * previous_attributes.refunds.anyOf[1][] (Value): {@link BuyerRefundPreviousAttributes}.
+     * previous_attributes.refunds.anyOf[2] (Value): null. previous_attributes.setup_collection
+     * (Optional): {@link SetupCollectionPreviousAttributes} or null. Guidance for collecting a
+     * payment method to save. Checkout-credential reads include it only while the session is open.
+     * Returned only to the checkout credential; never in webhook payloads.
+     * previous_attributes.setup_collection.anyOf[1] (Value): {@link
+     * SetupCollectionPreviousAttributes}. previous_attributes.setup_collection.anyOf[2] (Value):
+     * null. previous_attributes.status (Optional): string or null. Where the session is in its
+     * lifecycle. Only an `open` session accepts payment. `terminal_reason` says why a session that
+     * is not open ended. Value enum: "open", "paid", "partially_paid", "expired", "closed",
+     * "invalidated". previous_attributes.status.anyOf[1] (Value): string. Where the session is in
+     * its lifecycle. Only an `open` session accepts payment. `terminal_reason` says why a session
+     * that is not open ended. Value enum: "open", "paid", "partially_paid", "expired", "closed",
+     * "invalidated". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.subscription_plan_id (Optional): string or null. ID of the subscription
+     * plan a session of type `subscription_plan` signs the buyer up for. Absent for other types.
+     * previous_attributes.subscription_plan_id.anyOf[1] (Value): string. ID of the subscription
+     * plan a session of type `subscription_plan` signs the buyer up for. Absent for other types.
+     * Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
+     * previous_attributes.subscription_plan_id.anyOf[2] (Value): null.
+     * previous_attributes.subscription_terms (Optional): {@link
+     * CheckoutSubscriptionTermsPreviousAttributes} or null. Renewal terms a subscription checkout
+     * commits the buyer to. Frozen when the session's order was created, so later plan changes do
+     * not alter them. Absent when the checkout starts no subscription.
+     * previous_attributes.subscription_terms.anyOf[1] (Value): {@link
+     * CheckoutSubscriptionTermsPreviousAttributes}.
+     * previous_attributes.subscription_terms.anyOf[2] (Value): null.
+     * previous_attributes.superseding_checkout_session_id (Optional): string or null. ID of the
+     * session that replaced this one. Present when `terminal_reason` is `superseded`.
+     * previous_attributes.superseding_checkout_session_id.anyOf[1] (Value): string. ID of the
+     * session that replaced this one. Present when `terminal_reason` is `superseded`. Example:
+     * "cs_01KEZF7C004JRWFW43H037MQRN".
+     * previous_attributes.superseding_checkout_session_id.anyOf[2] (Value): null.
+     * previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle actions
+     * Flint accepts now, computed from stored checkout state without checking the caller's
+     * permissions. Contains close while open; empty after payment, closure, or expiry. Always
+     * present with merchant credentials. [] enum: "close".
+     * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions
+     * Flint accepts now, computed from stored checkout state without checking the caller's
+     * permissions. Contains close while open; empty after payment, closure, or expiry. Always
+     * present with merchant credentials. [] enum: "close".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "close".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.surface
+     * (Optional): string or null. How the session is presented to the buyer. A hosted session has
+     * a `url` on Flint's checkout page; a headless one is rendered on your own page. Value enum:
+     * "hosted", "headless". previous_attributes.surface.anyOf[1] (Value): string. How the session
+     * is presented to the buyer. A hosted session has a `url` on Flint's checkout page; a headless
+     * one is rendered on your own page. Value enum: "hosted", "headless".
+     * previous_attributes.surface.anyOf[2] (Value): null. previous_attributes.tax (Optional):
+     * {@link CheckoutSessionTaxPreviousAttributes} or null. The session's tax settings. Omitted
+     * when the session sets none. previous_attributes.tax.anyOf[1] (Value): {@link
+     * CheckoutSessionTaxPreviousAttributes}. previous_attributes.tax.anyOf[2] (Value): null.
+     * previous_attributes.terminal_reason (Optional): string or null. Why the session ended. The
+     * checkout credential can still read its own closed or expired session; every other call is
+     * refused because the session is not open. order_paid_elsewhere applies only to invalidated
+     * sessions when payment succeeds or partially succeeds outside the session. order_mutated
+     * applies when an edit closes or completes its order, or ends an invoice, return-resolution,
+     * or subscription-plan session. Other merchant edits keep hosted and headless sessions open. A
+     * session already past expires_at ends with expired before the edit is applied. Value enum:
+     * "payment_succeeded", "payment_partially_succeeded", "expired", "closed_by_merchant",
+     * "order_mutated", "superseded", "order_paid_elsewhere", "invoice_paid_elsewhere",
+     * "invoice_voided", "invoice_uncollectible", "invoice_balance_changed".
+     * previous_attributes.terminal_reason.anyOf[1] (Value): string. Why the session ended. The
+     * checkout credential can still read its own closed or expired session; every other call is
+     * refused because the session is not open. order_paid_elsewhere applies only to invalidated
+     * sessions when payment succeeds or partially succeeds outside the session. order_mutated
+     * applies when an edit closes or completes its order, or ends an invoice, return-resolution,
+     * or subscription-plan session. Other merchant edits keep hosted and headless sessions open. A
+     * session already past expires_at ends with expired before the edit is applied. Value enum:
+     * "payment_succeeded", "payment_partially_succeeded", "expired", "closed_by_merchant",
+     * "order_mutated", "superseded", "order_paid_elsewhere", "invoice_paid_elsewhere",
+     * "invoice_voided", "invoice_uncollectible", "invoice_balance_changed".
+     * previous_attributes.terminal_reason.anyOf[2] (Value): null. previous_attributes.theme
+     * (Optional): {@link CheckoutThemePreviousAttributes} or null. The theme checkout renders
+     * with: your branding settings, with the session's `title`, `primary_color`, and
+     * `accent_color` over them. A session sets only those three; the other fields come from
+     * branding settings. Omitted when neither sets a value. previous_attributes.theme.anyOf[1]
+     * (Value): {@link CheckoutThemePreviousAttributes}. previous_attributes.theme.anyOf[2]
+     * (Value): null. previous_attributes.tip (Optional): {@link
+     * CheckoutTipConfigPreviousAttributes} or null. The tip options this session offers the buyer.
+     * previous_attributes.tip.anyOf[1] (Value): {@link CheckoutTipConfigPreviousAttributes}.
+     * previous_attributes.tip.anyOf[2] (Value): null. previous_attributes.type (Optional): string
+     * or null. What the session collects payment for, fixed at creation. Value enum: "order",
+     * "quick_pay", "subscription_plan", "invoice", "payment_link".
+     * previous_attributes.type.anyOf[1] (Value): string. What the session collects payment for,
+     * fixed at creation. Value enum: "order", "quick_pay", "subscription_plan", "invoice",
+     * "payment_link". previous_attributes.type.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Persisted version of this
+     * resource's owned state. Expanded resources and external observations can change
+     * independently. previous_attributes.version.anyOf[1] (Value): integer. Persisted version of
+     * this resource's owned state. Expanded resources and external observations can change
+     * independently. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value):
+     * null.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit these fields: `url`,
+         * `recovery_payment_attempt_id`, `recovery_expires_at`, `can_save_payment_method`,
+         * `save_payment_method_types`, `save_payment_method_requires_verification`,
+         * `pay_to_new_address_requires_verification`, `can_save_payment_method_with_phone`,
+         * `payment_method_save`, `customer_prefill`, `merchant_support`, `merchant_name`,
+         * `show_flint_mark`, `merchant_logo`, `merchant_icon`, `payment_link_image`,
+         * `platform_fee`, `customer_account_url`.
+         */
+        "object": WebhookCheckoutSession;
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. active_payment_attempt (Optional): {@link
+         * OrderPaymentAttemptPreviousAttributes} or null. The payment attempt now collecting this
+         * checkout's order, the same attempt as the order's active_payment_attempt. Read it to
+         * recover after losing a pay response, and resume it only when is_resumable is true.
+         * Omitted when no attempt is active. Pending actions that open a URL are left out; the pay
+         * response carries them. active_payment_attempt.anyOf[1] (Value): {@link
+         * OrderPaymentAttemptPreviousAttributes}. active_payment_attempt.anyOf[2] (Value): null.
+         * buyer_contact (Optional): {@link CheckoutBuyerContactPreviousAttributes} or null.
+         * Contact the buyer entered in checkout before paying, saved with the session's checkout
+         * credential. Separate from merchant-supplied prefill and customer_prefill from the
+         * customer record. Omitted until the buyer saves or clears a field. When a checkout
+         * session payment omits buyer_contact.email or buyer_contact.phone, Flint uses these
+         * values. Flint clears the contact 30 days after the session ends, and when a customer
+         * linked to the session is deleted. buyer_contact.anyOf[1] (Value): {@link
+         * CheckoutBuyerContactPreviousAttributes}. buyer_contact.anyOf[2] (Value): null.
+         * buyer_fields (Optional): {@link CheckoutBuyerFieldsPreviousAttributes} or null. What
+         * checkout asks the buyer for. Each field you leave out uses your checkout settings.
+         * buyer_fields.anyOf[1] (Value): {@link CheckoutBuyerFieldsPreviousAttributes}.
+         * buyer_fields.anyOf[2] (Value): null. can_apply_promotion_code (Optional): boolean or
+         * null. Whether to offer promotion-code entry now. True only while the session is open, is
+         * not in recovery, and merchant promotion policy allows codes. An explicit
+         * promotion_config.codes_enabled wins; null offers entry only when this merchant has an
+         * active code promotion whose schedule includes now, in the session's environment.
+         * Recomputed on each read. This hint does not change code admission: checkout lifecycle,
+         * promotion_config, and merchant policy still apply. can_apply_promotion_code.anyOf[1]
+         * (Value): boolean. Whether to offer promotion-code entry now. True only while the session
+         * is open, is not in recovery, and merchant promotion policy allows codes. An explicit
+         * promotion_config.codes_enabled wins; null offers entry only when this merchant has an
+         * active code promotion whose schedule includes now, in the session's environment.
+         * Recomputed on each read. This hint does not change code admission: checkout lifecycle,
+         * promotion_config, and merchant policy still apply. can_apply_promotion_code.anyOf[2]
+         * (Value): null. checkout_session_id (Optional): string or null. Unique identifier for
+         * this checkout session, prefixed `cs_`. checkout_session_id.anyOf[1] (Value): string.
+         * Unique identifier for this checkout session, prefixed `cs_`. Example:
+         * "cs_01KEZF7C004JRWFW43H037MQRN". checkout_session_id.anyOf[2] (Value): null.
+         * client_reference (Optional): string or null. The reference the payment link URL or
+         * resolve request carried, such as your user ID. `null` when none was sent or checkout did
+         * not start from a payment link. Returned only to merchant credentials; omitted for buyer
+         * credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity.
+         * Always present with merchant credentials. client_reference.anyOf[1] (Value): string. The
+         * reference the payment link URL or resolve request carried, such as your user ID. `null`
+         * when none was sent or checkout did not start from a payment link. Returned only to
+         * merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so
+         * treat it as a claim, not proof of identity. Always present with merchant credentials.
+         * minLength: 1. maxLength: 255. client_reference.anyOf[2] (Value): null.
+         * closed_reason_message (Optional): string or null. The note supplied when the checkout
+         * session was closed. closed_reason_message.anyOf[1] (Value): string. The note supplied
+         * when the checkout session was closed. closed_reason_message.anyOf[2] (Value): null.
+         * created_at (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. custom_field_answers (Optional): Array of {@link
+         * CustomFieldAnswerPreviousAttributes} or null. The buyer's answers to the payment link's
+         * custom fields, the same as the `custom_field_answers` of the session's order. Read-only.
+         * Empty when the session didn't start from a payment link, the buyer answered no custom
+         * fields, or the order was created before Flint recorded answers here. Returned only to
+         * merchant credentials; omitted for buyer credentials. Always present with merchant
+         * credentials. custom_field_answers.anyOf[1] (Value): Array of {@link
+         * CustomFieldAnswerPreviousAttributes}. The buyer's answers to the payment link's custom
+         * fields, the same as the `custom_field_answers` of the session's order. Read-only. Empty
+         * when the session didn't start from a payment link, the buyer answered no custom fields,
+         * or the order was created before Flint recorded answers here. Returned only to merchant
+         * credentials; omitted for buyer credentials. Always present with merchant credentials.
+         * maxItems: 20. custom_field_answers.anyOf[1][] (Value): {@link
+         * CustomFieldAnswerPreviousAttributes}. custom_field_answers.anyOf[2] (Value): null.
+         * custom_text (Optional): {@link CheckoutCustomTextConfigPreviousAttributes} or null. The
+         * custom text this session shows in checkout. custom_text.anyOf[1] (Value): {@link
+         * CheckoutCustomTextConfigPreviousAttributes}. custom_text.anyOf[2] (Value): null.
+         * customer (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present
+         * only when `expand` includes `customer`; `null` when expanded and there is no related
+         * customer. customer.anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
+         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. The customer of
+         * the session's order. Omitted when the order has none. A checkout credential issued for
+         * this session acts for this customer. Add expand=customer to include the customer.
+         * customer_id.anyOf[1] (Value): string. The customer of the session's order. Omitted when
+         * the order has none. A checkout credential issued for this session acts for this
+         * customer. Add expand=customer to include the customer. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. delivery
+         * (Optional): {@link CheckoutDerivedDeliveryResourcePreviousAttributes} or null. Current
+         * delivery choices for Flint-owned pricing. External pricing reports
+         * requires_explicit_quote; reading this field does not request a delivery quote. Omitted
+         * when the session is not open, has no order, or Flint cannot read its delivery.
+         * delivery.anyOf[1] (Value): {@link CheckoutDerivedDeliveryResourcePreviousAttributes}.
+         * delivery.anyOf[2] (Value): null. delivery_method_ids (Optional): Array of string or
+         * null. Immutable delivery method assignment captured when the checkout was created.
+         * delivery_method_ids.anyOf[1] (Value): Array of string. Immutable delivery method
+         * assignment captured when the checkout was created. delivery_method_ids.anyOf[1][]
+         * (Value): string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+         * delivery_method_ids.anyOf[2] (Value): null. delivery_selection_required (Optional):
+         * boolean or null. Whether the order has at least one remaining quote-resolved fulfillment
+         * choice that must be selected before payment. delivery_selection_required.anyOf[1]
+         * (Value): boolean. Whether the order has at least one remaining quote-resolved
+         * fulfillment choice that must be selected before payment.
+         * delivery_selection_required.anyOf[2] (Value): null. expires_at (Optional): string or
+         * null. RFC3339 timestamp. expires_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". expires_at.anyOf[2] (Value): null.
+         * expires_in_seconds (Optional): integer or null. The lifetime the session got. expires_at
+         * is its deadline. Omitted for invoice sessions, which take their deadline from the
+         * invoice. expires_in_seconds.anyOf[1] (Value): integer. The lifetime the session got.
+         * expires_at is its deadline. Omitted for invoice sessions, which take their deadline from
+         * the invoice. Format: int64. expires_in_seconds.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
+         * gift_card_challenge (Optional): {@link CheckoutGiftCardChallengePreviousAttributes} or
+         * null. Where the buyer completes a gift card challenge for this checkout. Returned on
+         * single-session reads, session create and update responses, checkout launch results, and
+         * customer verification confirmation results while the session is open and can show the
+         * challenge. Omitted from lists, webhooks, expanded resources, and delivery selection
+         * results. gift_card_challenge.anyOf[1] (Value): {@link
+         * CheckoutGiftCardChallengePreviousAttributes}. gift_card_challenge.anyOf[2] (Value):
+         * null. inventory_reservation_ids (Optional): Array of string or null. Immutable cart hold
+         * IDs authorized by the merchant at session creation. Omitted when empty and from
+         * checkout-credential responses. Buyer and merchant delivery requests that omit IDs use
+         * eligible bound holds; explicit merchant IDs replace the binding for that request. First
+         * adopter wins when sessions share a hold. Invalidated or otherwise ended sessions cannot
+         * adopt stock, and replacements never inherit the binding. Unused cart units retain their
+         * own release and expiration lifecycle. inventory_reservation_ids.anyOf[1] (Value): Array
+         * of string. Immutable cart hold IDs authorized by the merchant at session creation.
+         * Omitted when empty and from checkout-credential responses. Buyer and merchant delivery
+         * requests that omit IDs use eligible bound holds; explicit merchant IDs replace the
+         * binding for that request. First adopter wins when sessions share a hold. Invalidated or
+         * otherwise ended sessions cannot adopt stock, and replacements never inherit the binding.
+         * Unused cart units retain their own release and expiration lifecycle.
+         * inventory_reservation_ids.anyOf[1][] (Value): string. Example:
+         * "invr_01KEZF7C0041ENRR0C2NF3AP12". inventory_reservation_ids.anyOf[2] (Value): null.
+         * invoice (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. Present
+         * only when `expand` includes `invoice`; `null` when expanded and there is no related
+         * invoice. invoice.anyOf[1] (Value): {@link ExpandedInvoiceSummaryPreviousAttributes}.
+         * invoice.anyOf[2] (Value): null. invoice_id (Optional): string or null. ID of the invoice
+         * a session of type `invoice` collects payment for. Absent for other types.
+         * invoice_id.anyOf[1] (Value): string. ID of the invoice a session of type `invoice`
+         * collects payment for. Absent for other types. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+         * invoice_id.anyOf[2] (Value): null. is_in_recovery (Optional): boolean or null. Whether
+         * this terminal session credential is temporarily restricted to recovering its owning
+         * payment attempt. is_in_recovery.anyOf[1] (Value): boolean. Whether this terminal session
+         * credential is temporarily restricted to recovering its owning payment attempt.
+         * is_in_recovery.anyOf[2] (Value): null. legal (Optional): {@link
+         * CheckoutLegalConfigPreviousAttributes} or null. The terms and policy links this session
+         * shows the buyer, and whether the buyer must accept the terms. legal.anyOf[1] (Value):
+         * {@link CheckoutLegalConfigPreviousAttributes}. legal.anyOf[2] (Value): null. merchant_id
+         * (Optional): string or null. ID of the merchant this resource belongs to.
+         * merchant_id.anyOf[1] (Value): string. ID of the merchant this resource belongs to.
+         * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
+         * `MetadataInput` for key, value, and size rules. metadata.anyOf[1] (Value): {@link
+         * MetadataMap}. metadata.anyOf[2] (Value): null. order (Optional): {@link
+         * ExpandedOrderSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `order`; `null` when expanded and there is no related order. order.anyOf[1] (Value):
+         * {@link ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2] (Value): null. order_id
+         * (Optional): string or null. ID of the order the session collects payment for, fixed at
+         * creation. Absent when the session has no order. order_id.anyOf[1] (Value): string. ID of
+         * the order the session collects payment for, fixed at creation. Absent when the session
+         * has no order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value):
+         * null. page_origin (Optional): string or null. Origin of the page that renders this
+         * headless checkout. Omitted when not set. page_origin.anyOf[1] (Value): string. Origin of
+         * the page that renders this headless checkout. Omitted when not set. page_origin.anyOf[2]
+         * (Value): null. payment_collection (Optional): {@link SetupCollectionPreviousAttributes}
+         * or null. Guidance for collecting a payment source. Checkout-credential reads include it
+         * only while the session is open. Returned only to the checkout credential; never in
+         * webhook payloads. payment_collection.anyOf[1] (Value): {@link
+         * SetupCollectionPreviousAttributes}. payment_collection.anyOf[2] (Value): null.
+         * payment_intent_ids (Optional): Array of string or null. IDs of the payment intents for
+         * the session's order. Absent when the order has none. payment_intent_ids.anyOf[1]
+         * (Value): Array of string. IDs of the payment intents for the session's order. Absent
+         * when the order has none. payment_intent_ids.anyOf[1][] (Value): string. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intent_ids.anyOf[2] (Value): null.
+         * payment_intents (Optional): Array of {@link
+         * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Present only when `expand`
+         * includes `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
+         * payment_intents.anyOf[1] (Value): Array of {@link
+         * ExpandedPaymentIntentSummaryPreviousAttributes}. Present only when `expand` includes
+         * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
+         * payment_intents.anyOf[1][] (Value): {@link
+         * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intents.anyOf[2] (Value): null.
+         * payment_link (Optional): {@link ExpandedPaymentLinkSummaryPreviousAttributes} or null.
+         * Present only when `expand` includes `payment_link`; `null` when expanded and there is no
+         * related payment link. payment_link.anyOf[1] (Value): {@link
+         * ExpandedPaymentLinkSummaryPreviousAttributes}. payment_link.anyOf[2] (Value): null.
+         * payment_link_id (Optional): string or null. ID of the payment link the session was
+         * started from. Absent when it was not started from a payment link.
+         * payment_link_id.anyOf[1] (Value): string. ID of the payment link the session was started
+         * from. Absent when it was not started from a payment link. Example:
+         * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null.
+         * payment_return_url (Optional): string or null. Headless sessions only. Absolute HTTPS
+         * URL on your site where Flint sends the buyer after a redirect payment such as Affirm,
+         * whatever the outcome; read the session there to show the result. Required when the
+         * session offers affirm. It can't contain credentials, a query string, or a fragment.
+         * Query strings are deliberately excluded so credentials and provider state cannot cross
+         * Flint's payment relay. Put merchant identifiers in the URL path, such as
+         * https://shop.example/return/sub_123. Test mode also accepts http loopback URLs. Up to
+         * 2,048 characters. payment_return_url.anyOf[1] (Value): string. Headless sessions only.
+         * Absolute HTTPS URL on your site where Flint sends the buyer after a redirect payment
+         * such as Affirm, whatever the outcome; read the session there to show the result.
+         * Required when the session offers affirm. It can't contain credentials, a query string,
+         * or a fragment. Query strings are deliberately excluded so credentials and provider state
+         * cannot cross Flint's payment relay. Put merchant identifiers in the URL path, such as
+         * https://shop.example/return/sub_123. Test mode also accepts http loopback URLs. Up to
+         * 2,048 characters. Format: uri. maxLength: 2048. Example: "https://example.com/receipt".
+         * payment_return_url.anyOf[2] (Value): null. payments (Optional): {@link
+         * CheckoutPaymentConfigPreviousAttributes} or null. Configured payment options for
+         * merchant credentials; currently available payment options for the checkout credential.
+         * payments.anyOf[1] (Value): {@link CheckoutPaymentConfigPreviousAttributes}.
+         * payments.anyOf[2] (Value): null. prefill (Optional): {@link
+         * CheckoutPrefillPreviousAttributes} or null. Contact details and addresses to fill in for
+         * the buyer, who can change them. For a customer with saved addresses, Flint fills in any
+         * address you leave out, and reads include it. With quick_pay or subscription_plan and
+         * automatic tax on, a prefilled address sets the order's tax location. Not changed by what
+         * the buyer types; for that, read buyer_contact. customer_prefill is what the checkout
+         * credential reads from the customer record. prefill.anyOf[1] (Value): {@link
+         * CheckoutPrefillPreviousAttributes}. prefill.anyOf[2] (Value): null. problems (Optional):
+         * Array of {@link CheckoutProblemResourcePreviousAttributes} or null. Named conditions
+         * that affect checkout completion. Follow each problem's remediation action instead of
+         * reconstructing delivery lifecycle rules in the client. payment_in_progress means another
+         * payment for the order must finish before this checkout can complete. When Flint cannot
+         * read the checkout's delivery, the read still succeeds and reports delivery_unreadable;
+         * its remediation says whether reading the session again can succeed, and its next
+         * action's reason_code names the error. problems.anyOf[1] (Value): Array of {@link
+         * CheckoutProblemResourcePreviousAttributes}. Named conditions that affect checkout
+         * completion. Follow each problem's remediation action instead of reconstructing delivery
+         * lifecycle rules in the client. payment_in_progress means another payment for the order
+         * must finish before this checkout can complete. When Flint cannot read the checkout's
+         * delivery, the read still succeeds and reports delivery_unreadable; its remediation says
+         * whether reading the session again can succeed, and its next action's reason_code names
+         * the error. problems.anyOf[1][] (Value): {@link
+         * CheckoutProblemResourcePreviousAttributes}. problems.anyOf[2] (Value): null.
+         * promotion_config (Optional): {@link CheckoutPromotionConfigPreviousAttributes} or null.
+         * Whether automatic promotions apply to this session and whether the buyer can enter
+         * promotion codes. promotion_config.anyOf[1] (Value): {@link
+         * CheckoutPromotionConfigPreviousAttributes}. promotion_config.anyOf[2] (Value): null.
+         * redirects (Optional): {@link CheckoutRedirectsPreviousAttributes} or null. Where hosted
+         * checkout sends the buyer. Not allowed when surface is headless; use payment_return_url.
+         * redirects.anyOf[1] (Value): {@link CheckoutRedirectsPreviousAttributes}.
+         * redirects.anyOf[2] (Value): null. refunds (Optional): Array of {@link
+         * BuyerRefundPreviousAttributes} or null. All buyer-visible refunds on this session’s
+         * order, including refunds made by the store. Uses the same buyer projection as
+         * /v1/me/refunds. Included on GET single-session reads as an array, with [] when there are
+         * none, and omitted from other responses and webhooks. A failed refund with failure_reason
+         * refund_abandoned could not be completed: tell the buyer to contact the store to get
+         * their money back. refunds.anyOf[1] (Value): Array of {@link
+         * BuyerRefundPreviousAttributes}. All buyer-visible refunds on this session’s order,
+         * including refunds made by the store. Uses the same buyer projection as /v1/me/refunds.
+         * Included on GET single-session reads as an array, with [] when there are none, and
+         * omitted from other responses and webhooks. A failed refund with failure_reason
+         * refund_abandoned could not be completed: tell the buyer to contact the store to get
+         * their money back. refunds.anyOf[1][] (Value): {@link BuyerRefundPreviousAttributes}.
+         * refunds.anyOf[2] (Value): null. setup_collection (Optional): {@link
+         * SetupCollectionPreviousAttributes} or null. Guidance for collecting a payment method to
+         * save. Checkout-credential reads include it only while the session is open. Returned only
+         * to the checkout credential; never in webhook payloads. setup_collection.anyOf[1]
+         * (Value): {@link SetupCollectionPreviousAttributes}. setup_collection.anyOf[2] (Value):
+         * null. status (Optional): string or null. Where the session is in its lifecycle. Only an
+         * `open` session accepts payment. `terminal_reason` says why a session that is not open
+         * ended. Value enum: "open", "paid", "partially_paid", "expired", "closed", "invalidated".
+         * status.anyOf[1] (Value): string. Where the session is in its lifecycle. Only an `open`
+         * session accepts payment. `terminal_reason` says why a session that is not open ended.
+         * Value enum: "open", "paid", "partially_paid", "expired", "closed", "invalidated".
+         * status.anyOf[2] (Value): null. subscription_plan_id (Optional): string or null. ID of
+         * the subscription plan a session of type `subscription_plan` signs the buyer up for.
+         * Absent for other types. subscription_plan_id.anyOf[1] (Value): string. ID of the
+         * subscription plan a session of type `subscription_plan` signs the buyer up for. Absent
+         * for other types. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
+         * subscription_plan_id.anyOf[2] (Value): null. subscription_terms (Optional): {@link
+         * CheckoutSubscriptionTermsPreviousAttributes} or null. Renewal terms a subscription
+         * checkout commits the buyer to. Frozen when the session's order was created, so later
+         * plan changes do not alter them. Absent when the checkout starts no subscription.
+         * subscription_terms.anyOf[1] (Value): {@link
+         * CheckoutSubscriptionTermsPreviousAttributes}. subscription_terms.anyOf[2] (Value): null.
+         * superseding_checkout_session_id (Optional): string or null. ID of the session that
+         * replaced this one. Present when `terminal_reason` is `superseded`.
+         * superseding_checkout_session_id.anyOf[1] (Value): string. ID of the session that
+         * replaced this one. Present when `terminal_reason` is `superseded`. Example:
+         * "cs_01KEZF7C004JRWFW43H037MQRN". superseding_checkout_session_id.anyOf[2] (Value): null.
+         * supported_actions (Optional): Array of string or null. Lifecycle actions Flint accepts
+         * now, computed from stored checkout state without checking the caller's permissions.
+         * Contains close while open; empty after payment, closure, or expiry. Always present with
+         * merchant credentials. [] enum: "close". supported_actions.anyOf[1] (Value): Array of
+         * string. Lifecycle actions Flint accepts now, computed from stored checkout state without
+         * checking the caller's permissions. Contains close while open; empty after payment,
+         * closure, or expiry. Always present with merchant credentials. [] enum: "close".
+         * supported_actions.anyOf[1][] (Value): string. Value enum: "close".
+         * supported_actions.anyOf[2] (Value): null. surface (Optional): string or null. How the
+         * session is presented to the buyer. A hosted session has a `url` on Flint's checkout
+         * page; a headless one is rendered on your own page. Value enum: "hosted", "headless".
+         * surface.anyOf[1] (Value): string. How the session is presented to the buyer. A hosted
+         * session has a `url` on Flint's checkout page; a headless one is rendered on your own
+         * page. Value enum: "hosted", "headless". surface.anyOf[2] (Value): null. tax (Optional):
+         * {@link CheckoutSessionTaxPreviousAttributes} or null. The session's tax settings.
+         * Omitted when the session sets none. tax.anyOf[1] (Value): {@link
+         * CheckoutSessionTaxPreviousAttributes}. tax.anyOf[2] (Value): null. terminal_reason
+         * (Optional): string or null. Why the session ended. The checkout credential can still
+         * read its own closed or expired session; every other call is refused because the session
+         * is not open. order_paid_elsewhere applies only to invalidated sessions when payment
+         * succeeds or partially succeeds outside the session. order_mutated applies when an edit
+         * closes or completes its order, or ends an invoice, return-resolution, or
+         * subscription-plan session. Other merchant edits keep hosted and headless sessions open.
+         * A session already past expires_at ends with expired before the edit is applied. Value
+         * enum: "payment_succeeded", "payment_partially_succeeded", "expired",
+         * "closed_by_merchant", "order_mutated", "superseded", "order_paid_elsewhere",
+         * "invoice_paid_elsewhere", "invoice_voided", "invoice_uncollectible",
+         * "invoice_balance_changed". terminal_reason.anyOf[1] (Value): string. Why the session
+         * ended. The checkout credential can still read its own closed or expired session; every
+         * other call is refused because the session is not open. order_paid_elsewhere applies only
+         * to invalidated sessions when payment succeeds or partially succeeds outside the session.
+         * order_mutated applies when an edit closes or completes its order, or ends an invoice,
+         * return-resolution, or subscription-plan session. Other merchant edits keep hosted and
+         * headless sessions open. A session already past expires_at ends with expired before the
+         * edit is applied. Value enum: "payment_succeeded", "payment_partially_succeeded",
+         * "expired", "closed_by_merchant", "order_mutated", "superseded", "order_paid_elsewhere",
+         * "invoice_paid_elsewhere", "invoice_voided", "invoice_uncollectible",
+         * "invoice_balance_changed". terminal_reason.anyOf[2] (Value): null. theme (Optional):
+         * {@link CheckoutThemePreviousAttributes} or null. The theme checkout renders with: your
+         * branding settings, with the session's `title`, `primary_color`, and `accent_color` over
+         * them. A session sets only those three; the other fields come from branding settings.
+         * Omitted when neither sets a value. theme.anyOf[1] (Value): {@link
+         * CheckoutThemePreviousAttributes}. theme.anyOf[2] (Value): null. tip (Optional): {@link
+         * CheckoutTipConfigPreviousAttributes} or null. The tip options this session offers the
+         * buyer. tip.anyOf[1] (Value): {@link CheckoutTipConfigPreviousAttributes}. tip.anyOf[2]
+         * (Value): null. type (Optional): string or null. What the session collects payment for,
+         * fixed at creation. Value enum: "order", "quick_pay", "subscription_plan", "invoice",
+         * "payment_link". type.anyOf[1] (Value): string. What the session collects payment for,
+         * fixed at creation. Value enum: "order", "quick_pay", "subscription_plan", "invoice",
+         * "payment_link". type.anyOf[2] (Value): null. updated_at (Optional): string or null.
+         * RFC3339 timestamp. updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version
+         * (Optional): integer or null. Persisted version of this resource's owned state. Expanded
+         * resources and external observations can change independently. version.anyOf[1] (Value):
+         * integer. Persisted version of this resource's owned state. Expanded resources and
+         * external observations can change independently. Format: uint64. minimum: 1.
+         * version.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * The payment attempt now collecting this checkout's order, the same attempt as the
+             * order's active_payment_attempt. Read it to recover after losing a pay response, and
+             * resume it only when is_resumable is true. Omitted when no attempt is active. Pending
+             * actions that open a URL are left out; the pay response carries them. anyOf[1]
+             * (Value): {@link OrderPaymentAttemptPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "active_payment_attempt"?: ((OrderPaymentAttemptPreviousAttributes) | (null));
+            /**
+             * Contact the buyer entered in checkout before paying, saved with the session's
+             * checkout credential. Separate from merchant-supplied prefill and customer_prefill
+             * from the customer record. Omitted until the buyer saves or clears a field. When a
+             * checkout session payment omits buyer_contact.email or buyer_contact.phone, Flint
+             * uses these values. Flint clears the contact 30 days after the session ends, and when
+             * a customer linked to the session is deleted. anyOf[1] (Value): {@link
+             * CheckoutBuyerContactPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "buyer_contact"?: ((CheckoutBuyerContactPreviousAttributes) | (null));
+            /**
+             * What checkout asks the buyer for. Each field you leave out uses your checkout
+             * settings. anyOf[1] (Value): {@link CheckoutBuyerFieldsPreviousAttributes}. anyOf[2]
+             * (Value): null.
+             */
+            "buyer_fields"?: ((CheckoutBuyerFieldsPreviousAttributes) | (null));
+            /**
+             * Whether to offer promotion-code entry now. True only while the session is open, is
+             * not in recovery, and merchant promotion policy allows codes. An explicit
+             * promotion_config.codes_enabled wins; null offers entry only when this merchant has
+             * an active code promotion whose schedule includes now, in the session's environment.
+             * Recomputed on each read. This hint does not change code admission: checkout
+             * lifecycle, promotion_config, and merchant policy still apply. anyOf[1] (Value):
+             * boolean. Whether to offer promotion-code entry now. True only while the session is
+             * open, is not in recovery, and merchant promotion policy allows codes. An explicit
+             * promotion_config.codes_enabled wins; null offers entry only when this merchant has
+             * an active code promotion whose schedule includes now, in the session's environment.
+             * Recomputed on each read. This hint does not change code admission: checkout
+             * lifecycle, promotion_config, and merchant policy still apply. anyOf[2] (Value):
+             * null.
+             */
+            "can_apply_promotion_code"?: ((boolean) | (null));
+            /**
+             * Unique identifier for this checkout session, prefixed `cs_`. anyOf[1] (Value):
+             * string. Unique identifier for this checkout session, prefixed `cs_`. Example:
+             * "cs_01KEZF7C004JRWFW43H037MQRN". anyOf[2] (Value): null.
+             */
+            "checkout_session_id"?: ((string) | (null));
+            /**
+             * The reference the payment link URL or resolve request carried, such as your user ID.
+             * `null` when none was sent or checkout did not start from a payment link. Returned
+             * only to merchant credentials; omitted for buyer credentials. Set by the buyer's
+             * browser, so treat it as a claim, not proof of identity. Always present with merchant
+             * credentials. anyOf[1] (Value): string. The reference the payment link URL or resolve
+             * request carried, such as your user ID. `null` when none was sent or checkout did not
+             * start from a payment link. Returned only to merchant credentials; omitted for buyer
+             * credentials. Set by the buyer's browser, so treat it as a claim, not proof of
+             * identity. Always present with merchant credentials. minLength: 1. maxLength: 255.
+             * anyOf[2] (Value): null.
+             */
+            "client_reference"?: ((string) | (null));
+            /**
+             * The note supplied when the checkout session was closed. anyOf[1] (Value): string.
+             * The note supplied when the checkout session was closed. anyOf[2] (Value): null.
+             */
+            "closed_reason_message"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * The buyer's answers to the payment link's custom fields, the same as the
+             * `custom_field_answers` of the session's order. Read-only. Empty when the session
+             * didn't start from a payment link, the buyer answered no custom fields, or the order
+             * was created before Flint recorded answers here. Returned only to merchant
+             * credentials; omitted for buyer credentials. Always present with merchant
+             * credentials. anyOf[1] (Value): Array of {@link CustomFieldAnswerPreviousAttributes}.
+             * The buyer's answers to the payment link's custom fields, the same as the
+             * `custom_field_answers` of the session's order. Read-only. Empty when the session
+             * didn't start from a payment link, the buyer answered no custom fields, or the order
+             * was created before Flint recorded answers here. Returned only to merchant
+             * credentials; omitted for buyer credentials. Always present with merchant
+             * credentials. maxItems: 20. anyOf[1][] (Value): {@link
+             * CustomFieldAnswerPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "custom_field_answers"?: ((Array<CustomFieldAnswerPreviousAttributes>) | (null));
+            /**
+             * The custom text this session shows in checkout. anyOf[1] (Value): {@link
+             * CheckoutCustomTextConfigPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "custom_text"?: ((CheckoutCustomTextConfigPreviousAttributes) | (null));
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            /**
+             * The customer of the session's order. Omitted when the order has none. A checkout
+             * credential issued for this session acts for this customer. Add expand=customer to
+             * include the customer. anyOf[1] (Value): string. The customer of the session's order.
+             * Omitted when the order has none. A checkout credential issued for this session acts
+             * for this customer. Add expand=customer to include the customer. Example:
+             * "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * Current delivery choices for Flint-owned pricing. External pricing reports
+             * requires_explicit_quote; reading this field does not request a delivery quote.
+             * Omitted when the session is not open, has no order, or Flint cannot read its
+             * delivery. anyOf[1] (Value): {@link
+             * CheckoutDerivedDeliveryResourcePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "delivery"?: ((CheckoutDerivedDeliveryResourcePreviousAttributes) | (null));
+            /**
+             * Immutable delivery method assignment captured when the checkout was created.
+             * anyOf[1] (Value): Array of string. Immutable delivery method assignment captured
+             * when the checkout was created. anyOf[1][] (Value): string. Example:
+             * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". anyOf[2] (Value): null.
+             */
+            "delivery_method_ids"?: ((Array<string>) | (null));
+            /**
+             * Whether the order has at least one remaining quote-resolved fulfillment choice that
+             * must be selected before payment. anyOf[1] (Value): boolean. Whether the order has at
+             * least one remaining quote-resolved fulfillment choice that must be selected before
+             * payment. anyOf[2] (Value): null.
+             */
+            "delivery_selection_required"?: ((boolean) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "expires_at"?: ((string) | (null));
+            /**
+             * The lifetime the session got. expires_at is its deadline. Omitted for invoice
+             * sessions, which take their deadline from the invoice. anyOf[1] (Value): integer. The
+             * lifetime the session got. expires_at is its deadline. Omitted for invoice sessions,
+             * which take their deadline from the invoice. Format: int64. anyOf[2] (Value): null.
+             */
+            "expires_in_seconds"?: ((number) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Where the buyer completes a gift card challenge for this checkout. Returned on
+             * single-session reads, session create and update responses, checkout launch results,
+             * and customer verification confirmation results while the session is open and can
+             * show the challenge. Omitted from lists, webhooks, expanded resources, and delivery
+             * selection results. anyOf[1] (Value): {@link
+             * CheckoutGiftCardChallengePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "gift_card_challenge"?: ((CheckoutGiftCardChallengePreviousAttributes) | (null));
+            /**
+             * Immutable cart hold IDs authorized by the merchant at session creation. Omitted when
+             * empty and from checkout-credential responses. Buyer and merchant delivery requests
+             * that omit IDs use eligible bound holds; explicit merchant IDs replace the binding
+             * for that request. First adopter wins when sessions share a hold. Invalidated or
+             * otherwise ended sessions cannot adopt stock, and replacements never inherit the
+             * binding. Unused cart units retain their own release and expiration lifecycle.
+             * anyOf[1] (Value): Array of string. Immutable cart hold IDs authorized by the
+             * merchant at session creation. Omitted when empty and from checkout-credential
+             * responses. Buyer and merchant delivery requests that omit IDs use eligible bound
+             * holds; explicit merchant IDs replace the binding for that request. First adopter
+             * wins when sessions share a hold. Invalidated or otherwise ended sessions cannot
+             * adopt stock, and replacements never inherit the binding. Unused cart units retain
+             * their own release and expiration lifecycle. anyOf[1][] (Value): string. Example:
+             * "invr_01KEZF7C0041ENRR0C2NF3AP12". anyOf[2] (Value): null.
+             */
+            "inventory_reservation_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `invoice`; `null` when expanded and there is no
+             * related invoice. anyOf[1] (Value): {@link ExpandedInvoiceSummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "invoice"?: ((ExpandedInvoiceSummaryPreviousAttributes) | (null));
+            /**
+             * ID of the invoice a session of type `invoice` collects payment for. Absent for other
+             * types. anyOf[1] (Value): string. ID of the invoice a session of type `invoice`
+             * collects payment for. Absent for other types. Example:
+             * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
+             */
+            "invoice_id"?: ((string) | (null));
+            /**
+             * Whether this terminal session credential is temporarily restricted to recovering its
+             * owning payment attempt. anyOf[1] (Value): boolean. Whether this terminal session
+             * credential is temporarily restricted to recovering its owning payment attempt.
+             * anyOf[2] (Value): null.
+             */
+            "is_in_recovery"?: ((boolean) | (null));
+            /**
+             * The terms and policy links this session shows the buyer, and whether the buyer must
+             * accept the terms. anyOf[1] (Value): {@link CheckoutLegalConfigPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "legal"?: ((CheckoutLegalConfigPreviousAttributes) | (null));
+            /**
+             * ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the
+             * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             * anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Present only when `expand` includes `order`; `null` when expanded and there is no
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
+            /**
+             * ID of the order the session collects payment for, fixed at creation. Absent when the
+             * session has no order. anyOf[1] (Value): string. ID of the order the session collects
+             * payment for, fixed at creation. Absent when the session has no order. Example:
+             * "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * Origin of the page that renders this headless checkout. Omitted when not set.
+             * anyOf[1] (Value): string. Origin of the page that renders this headless checkout.
+             * Omitted when not set. anyOf[2] (Value): null.
+             */
+            "page_origin"?: ((string) | (null));
+            /**
+             * Guidance for collecting a payment source. Checkout-credential reads include it only
+             * while the session is open. Returned only to the checkout credential; never in
+             * webhook payloads. anyOf[1] (Value): {@link SetupCollectionPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "payment_collection"?: ((SetupCollectionPreviousAttributes) | (null));
+            /**
+             * IDs of the payment intents for the session's order. Absent when the order has none.
+             * anyOf[1] (Value): Array of string. IDs of the payment intents for the session's
+             * order. Absent when the order has none. anyOf[1][] (Value): string. Example:
+             * "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2] (Value): null.
+             */
+            "payment_intent_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `payment_intents`: summaries of the payment
+             * intents in `payment_intent_ids`. anyOf[1] (Value): Array of {@link
+             * ExpandedPaymentIntentSummaryPreviousAttributes}. Present only when `expand` includes
+             * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
+             * anyOf[1][] (Value): {@link ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[2]
+             * (Value): null.
+             */
+            "payment_intents"?: ((Array<ExpandedPaymentIntentSummaryPreviousAttributes>) | (null));
+            /**
+             * Present only when `expand` includes `payment_link`; `null` when expanded and there
+             * is no related payment link. anyOf[1] (Value): {@link
+             * ExpandedPaymentLinkSummaryPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "payment_link"?: ((ExpandedPaymentLinkSummaryPreviousAttributes) | (null));
+            /**
+             * ID of the payment link the session was started from. Absent when it was not started
+             * from a payment link. anyOf[1] (Value): string. ID of the payment link the session
+             * was started from. Absent when it was not started from a payment link. Example:
+             * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". anyOf[2] (Value): null.
+             */
+            "payment_link_id"?: ((string) | (null));
+            /**
+             * Headless sessions only. Absolute HTTPS URL on your site where Flint sends the buyer
+             * after a redirect payment such as Affirm, whatever the outcome; read the session
+             * there to show the result. Required when the session offers affirm. It can't contain
+             * credentials, a query string, or a fragment. Query strings are deliberately excluded
+             * so credentials and provider state cannot cross Flint's payment relay. Put merchant
+             * identifiers in the URL path, such as https://shop.example/return/sub_123. Test mode
+             * also accepts http loopback URLs. Up to 2,048 characters. anyOf[1] (Value): string.
+             * Headless sessions only. Absolute HTTPS URL on your site where Flint sends the buyer
+             * after a redirect payment such as Affirm, whatever the outcome; read the session
+             * there to show the result. Required when the session offers affirm. It can't contain
+             * credentials, a query string, or a fragment. Query strings are deliberately excluded
+             * so credentials and provider state cannot cross Flint's payment relay. Put merchant
+             * identifiers in the URL path, such as https://shop.example/return/sub_123. Test mode
+             * also accepts http loopback URLs. Up to 2,048 characters. Format: uri. maxLength:
+             * 2048. Example: "https://example.com/receipt". anyOf[2] (Value): null.
+             */
+            "payment_return_url"?: ((string) | (null));
+            /**
+             * Configured payment options for merchant credentials; currently available payment
+             * options for the checkout credential. anyOf[1] (Value): {@link
+             * CheckoutPaymentConfigPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "payments"?: ((CheckoutPaymentConfigPreviousAttributes) | (null));
+            /**
+             * Contact details and addresses to fill in for the buyer, who can change them. For a
+             * customer with saved addresses, Flint fills in any address you leave out, and reads
+             * include it. With quick_pay or subscription_plan and automatic tax on, a prefilled
+             * address sets the order's tax location. Not changed by what the buyer types; for
+             * that, read buyer_contact. customer_prefill is what the checkout credential reads
+             * from the customer record. anyOf[1] (Value): {@link
+             * CheckoutPrefillPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "prefill"?: ((CheckoutPrefillPreviousAttributes) | (null));
+            /**
+             * Named conditions that affect checkout completion. Follow each problem's remediation
+             * action instead of reconstructing delivery lifecycle rules in the client.
+             * payment_in_progress means another payment for the order must finish before this
+             * checkout can complete. When Flint cannot read the checkout's delivery, the read
+             * still succeeds and reports delivery_unreadable; its remediation says whether reading
+             * the session again can succeed, and its next action's reason_code names the error.
+             * anyOf[1] (Value): Array of {@link CheckoutProblemResourcePreviousAttributes}. Named
+             * conditions that affect checkout completion. Follow each problem's remediation action
+             * instead of reconstructing delivery lifecycle rules in the client.
+             * payment_in_progress means another payment for the order must finish before this
+             * checkout can complete. When Flint cannot read the checkout's delivery, the read
+             * still succeeds and reports delivery_unreadable; its remediation says whether reading
+             * the session again can succeed, and its next action's reason_code names the error.
+             * anyOf[1][] (Value): {@link CheckoutProblemResourcePreviousAttributes}. anyOf[2]
+             * (Value): null.
+             */
+            "problems"?: ((Array<CheckoutProblemResourcePreviousAttributes>) | (null));
+            /**
+             * Whether automatic promotions apply to this session and whether the buyer can enter
+             * promotion codes. anyOf[1] (Value): {@link
+             * CheckoutPromotionConfigPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "promotion_config"?: ((CheckoutPromotionConfigPreviousAttributes) | (null));
+            /**
+             * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
+             * payment_return_url. anyOf[1] (Value): {@link CheckoutRedirectsPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "redirects"?: ((CheckoutRedirectsPreviousAttributes) | (null));
+            /**
+             * All buyer-visible refunds on this session’s order, including refunds made by the
+             * store. Uses the same buyer projection as /v1/me/refunds. Included on GET
+             * single-session reads as an array, with [] when there are none, and omitted from
+             * other responses and webhooks. A failed refund with failure_reason refund_abandoned
+             * could not be completed: tell the buyer to contact the store to get their money back.
+             * anyOf[1] (Value): Array of {@link BuyerRefundPreviousAttributes}. All buyer-visible
+             * refunds on this session’s order, including refunds made by the store. Uses the same
+             * buyer projection as /v1/me/refunds. Included on GET single-session reads as an
+             * array, with [] when there are none, and omitted from other responses and webhooks. A
+             * failed refund with failure_reason refund_abandoned could not be completed: tell the
+             * buyer to contact the store to get their money back. anyOf[1][] (Value): {@link
+             * BuyerRefundPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "refunds"?: ((Array<BuyerRefundPreviousAttributes>) | (null));
+            /**
+             * Guidance for collecting a payment method to save. Checkout-credential reads include
+             * it only while the session is open. Returned only to the checkout credential; never
+             * in webhook payloads. anyOf[1] (Value): {@link SetupCollectionPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "setup_collection"?: ((SetupCollectionPreviousAttributes) | (null));
+            /**
+             * Where the session is in its lifecycle. Only an `open` session accepts payment.
+             * `terminal_reason` says why a session that is not open ended. Value enum: "open",
+             * "paid", "partially_paid", "expired", "closed", "invalidated". anyOf[1] (Value):
+             * string. Where the session is in its lifecycle. Only an `open` session accepts
+             * payment. `terminal_reason` says why a session that is not open ended. Value enum:
+             * "open", "paid", "partially_paid", "expired", "closed", "invalidated". anyOf[2]
+             * (Value): null.
+             */
+            "status"?: (("open" | "paid" | "partially_paid" | "expired" | "closed" | "invalidated" | (string & {})) | (null));
+            /**
+             * ID of the subscription plan a session of type `subscription_plan` signs the buyer up
+             * for. Absent for other types. anyOf[1] (Value): string. ID of the subscription plan a
+             * session of type `subscription_plan` signs the buyer up for. Absent for other types.
+             * Example: "plan_01KEZF7C004CY5ZR33XST2AASV". anyOf[2] (Value): null.
+             */
+            "subscription_plan_id"?: ((string) | (null));
+            /**
+             * Renewal terms a subscription checkout commits the buyer to. Frozen when the
+             * session's order was created, so later plan changes do not alter them. Absent when
+             * the checkout starts no subscription. anyOf[1] (Value): {@link
+             * CheckoutSubscriptionTermsPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "subscription_terms"?: ((CheckoutSubscriptionTermsPreviousAttributes) | (null));
+            /**
+             * ID of the session that replaced this one. Present when `terminal_reason` is
+             * `superseded`. anyOf[1] (Value): string. ID of the session that replaced this one.
+             * Present when `terminal_reason` is `superseded`. Example:
+             * "cs_01KEZF7C004JRWFW43H037MQRN". anyOf[2] (Value): null.
+             */
+            "superseding_checkout_session_id"?: ((string) | (null));
+            /**
+             * Lifecycle actions Flint accepts now, computed from stored checkout state without
+             * checking the caller's permissions. Contains close while open; empty after payment,
+             * closure, or expiry. Always present with merchant credentials. [] enum: "close".
+             * anyOf[1] (Value): Array of string. Lifecycle actions Flint accepts now, computed
+             * from stored checkout state without checking the caller's permissions. Contains close
+             * while open; empty after payment, closure, or expiry. Always present with merchant
+             * credentials. [] enum: "close". anyOf[1][] (Value): string. Value enum: "close".
+             * anyOf[2] (Value): null.
+             */
+            "supported_actions"?: ((Array<"close" | (string & {})>) | (null));
+            /**
+             * How the session is presented to the buyer. A hosted session has a `url` on Flint's
+             * checkout page; a headless one is rendered on your own page. Value enum: "hosted",
+             * "headless". anyOf[1] (Value): string. How the session is presented to the buyer. A
+             * hosted session has a `url` on Flint's checkout page; a headless one is rendered on
+             * your own page. Value enum: "hosted", "headless". anyOf[2] (Value): null.
+             */
+            "surface"?: (("hosted" | "headless" | (string & {})) | (null));
+            /**
+             * The session's tax settings. Omitted when the session sets none. anyOf[1] (Value):
+             * {@link CheckoutSessionTaxPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "tax"?: ((CheckoutSessionTaxPreviousAttributes) | (null));
+            /**
+             * Why the session ended. The checkout credential can still read its own closed or
+             * expired session; every other call is refused because the session is not open.
+             * order_paid_elsewhere applies only to invalidated sessions when payment succeeds or
+             * partially succeeds outside the session. order_mutated applies when an edit closes or
+             * completes its order, or ends an invoice, return-resolution, or subscription-plan
+             * session. Other merchant edits keep hosted and headless sessions open. A session
+             * already past expires_at ends with expired before the edit is applied. Value enum:
+             * "payment_succeeded", "payment_partially_succeeded", "expired", "closed_by_merchant",
+             * "order_mutated", "superseded", "order_paid_elsewhere", "invoice_paid_elsewhere",
+             * "invoice_voided", "invoice_uncollectible", "invoice_balance_changed". anyOf[1]
+             * (Value): string. Why the session ended. The checkout credential can still read its
+             * own closed or expired session; every other call is refused because the session is
+             * not open. order_paid_elsewhere applies only to invalidated sessions when payment
+             * succeeds or partially succeeds outside the session. order_mutated applies when an
+             * edit closes or completes its order, or ends an invoice, return-resolution, or
+             * subscription-plan session. Other merchant edits keep hosted and headless sessions
+             * open. A session already past expires_at ends with expired before the edit is
+             * applied. Value enum: "payment_succeeded", "payment_partially_succeeded", "expired",
+             * "closed_by_merchant", "order_mutated", "superseded", "order_paid_elsewhere",
+             * "invoice_paid_elsewhere", "invoice_voided", "invoice_uncollectible",
+             * "invoice_balance_changed". anyOf[2] (Value): null.
+             */
+            "terminal_reason"?: (("payment_succeeded"
+                | "payment_partially_succeeded"
+                | "expired"
+                | "closed_by_merchant"
+                | "order_mutated"
+                | "superseded"
+                | "order_paid_elsewhere"
+                | "invoice_paid_elsewhere"
+                | "invoice_voided"
+                | "invoice_uncollectible"
+                | "invoice_balance_changed"
+                | (string & {}))
+                | (null));
+            /**
+             * The theme checkout renders with: your branding settings, with the session's `title`,
+             * `primary_color`, and `accent_color` over them. A session sets only those three; the
+             * other fields come from branding settings. Omitted when neither sets a value.
+             * anyOf[1] (Value): {@link CheckoutThemePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "theme"?: ((CheckoutThemePreviousAttributes) | (null));
+            /**
+             * The tip options this session offers the buyer. anyOf[1] (Value): {@link
+             * CheckoutTipConfigPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "tip"?: ((CheckoutTipConfigPreviousAttributes) | (null));
+            /**
+             * What the session collects payment for, fixed at creation. Value enum: "order",
+             * "quick_pay", "subscription_plan", "invoice", "payment_link". anyOf[1] (Value):
+             * string. What the session collects payment for, fixed at creation. Value enum:
+             * "order", "quick_pay", "subscription_plan", "invoice", "payment_link". anyOf[2]
+             * (Value): null.
+             */
+            "type"?: (("order" | "quick_pay" | "subscription_plan" | "invoice" | "payment_link" | (string & {})) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. anyOf[1] (Value): integer. Persisted version
+             * of this resource's owned state. Expanded resources and external observations can
+             * change independently. Format: uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "checkout_session.paid". */
+    "event_type"?: "checkout_session.paid";
+});
+export type CheckoutSessionPartiallyPaidEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookCheckoutSession;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "active_payment_attempt"?: ((OrderPaymentAttemptPreviousAttributes) | (null));
+            "buyer_contact"?: ((CheckoutBuyerContactPreviousAttributes) | (null));
+            "buyer_fields"?: ((CheckoutBuyerFieldsPreviousAttributes) | (null));
+            "can_apply_promotion_code"?: ((boolean) | (null));
+            "checkout_session_id"?: ((string) | (null));
+            "client_reference"?: ((string) | (null));
+            "closed_reason_message"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "custom_field_answers"?: ((Array<CustomFieldAnswerPreviousAttributes>) | (null));
+            "custom_text"?: ((CheckoutCustomTextConfigPreviousAttributes) | (null));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            "customer_id"?: ((string) | (null));
+            "delivery"?: ((CheckoutDerivedDeliveryResourcePreviousAttributes) | (null));
+            "delivery_method_ids"?: ((Array<string>) | (null));
+            "delivery_selection_required"?: ((boolean) | (null));
+            "expires_at"?: ((string) | (null));
+            "expires_in_seconds"?: ((number) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "gift_card_challenge"?: ((CheckoutGiftCardChallengePreviousAttributes) | (null));
+            "inventory_reservation_ids"?: ((Array<string>) | (null));
+            "invoice"?: ((ExpandedInvoiceSummaryPreviousAttributes) | (null));
+            "invoice_id"?: ((string) | (null));
+            "is_in_recovery"?: ((boolean) | (null));
+            "legal"?: ((CheckoutLegalConfigPreviousAttributes) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
+            "order_id"?: ((string) | (null));
+            "page_origin"?: ((string) | (null));
+            "payment_collection"?: ((SetupCollectionPreviousAttributes) | (null));
+            "payment_intent_ids"?: ((Array<string>) | (null));
+            "payment_intents"?: ((Array<ExpandedPaymentIntentSummaryPreviousAttributes>) | (null));
+            "payment_link"?: ((ExpandedPaymentLinkSummaryPreviousAttributes) | (null));
+            "payment_link_id"?: ((string) | (null));
+            "payment_return_url"?: ((string) | (null));
+            "payments"?: ((CheckoutPaymentConfigPreviousAttributes) | (null));
+            "prefill"?: ((CheckoutPrefillPreviousAttributes) | (null));
+            "problems"?: ((Array<CheckoutProblemResourcePreviousAttributes>) | (null));
+            "promotion_config"?: ((CheckoutPromotionConfigPreviousAttributes) | (null));
+            "redirects"?: ((CheckoutRedirectsPreviousAttributes) | (null));
+            "refunds"?: ((Array<BuyerRefundPreviousAttributes>) | (null));
+            "setup_collection"?: ((SetupCollectionPreviousAttributes) | (null));
+            "status"?: (("open" | "paid" | "partially_paid" | "expired" | "closed" | "invalidated" | (string & {})) | (null));
+            "subscription_plan_id"?: ((string) | (null));
+            "subscription_terms"?: ((CheckoutSubscriptionTermsPreviousAttributes) | (null));
+            "superseding_checkout_session_id"?: ((string) | (null));
+            "supported_actions"?: ((Array<"close" | (string & {})>) | (null));
+            "surface"?: (("hosted" | "headless" | (string & {})) | (null));
+            "tax"?: ((CheckoutSessionTaxPreviousAttributes) | (null));
+            "terminal_reason"?: (("payment_succeeded"
+                | "payment_partially_succeeded"
+                | "expired"
+                | "closed_by_merchant"
+                | "order_mutated"
+                | "superseded"
+                | "order_paid_elsewhere"
+                | "invoice_paid_elsewhere"
+                | "invoice_voided"
+                | "invoice_uncollectible"
+                | "invoice_balance_changed"
+                | (string & {}))
+                | (null));
+            "theme"?: ((CheckoutThemePreviousAttributes) | (null));
+            "tip"?: ((CheckoutTipConfigPreviousAttributes) | (null));
+            "type"?: (("order" | "quick_pay" | "subscription_plan" | "invoice" | "payment_link" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "checkout_session.partially_paid";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookCheckoutSession;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "active_payment_attempt"?: ((OrderPaymentAttemptPreviousAttributes) | (null));
+            "buyer_contact"?: ((CheckoutBuyerContactPreviousAttributes) | (null));
+            "buyer_fields"?: ((CheckoutBuyerFieldsPreviousAttributes) | (null));
+            "can_apply_promotion_code"?: ((boolean) | (null));
+            "checkout_session_id"?: ((string) | (null));
+            "client_reference"?: ((string) | (null));
+            "closed_reason_message"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "custom_field_answers"?: ((Array<CustomFieldAnswerPreviousAttributes>) | (null));
+            "custom_text"?: ((CheckoutCustomTextConfigPreviousAttributes) | (null));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            "customer_id"?: ((string) | (null));
+            "delivery"?: ((CheckoutDerivedDeliveryResourcePreviousAttributes) | (null));
+            "delivery_method_ids"?: ((Array<string>) | (null));
+            "delivery_selection_required"?: ((boolean) | (null));
+            "expires_at"?: ((string) | (null));
+            "expires_in_seconds"?: ((number) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "gift_card_challenge"?: ((CheckoutGiftCardChallengePreviousAttributes) | (null));
+            "inventory_reservation_ids"?: ((Array<string>) | (null));
+            "invoice"?: ((ExpandedInvoiceSummaryPreviousAttributes) | (null));
+            "invoice_id"?: ((string) | (null));
+            "is_in_recovery"?: ((boolean) | (null));
+            "legal"?: ((CheckoutLegalConfigPreviousAttributes) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
+            "order_id"?: ((string) | (null));
+            "page_origin"?: ((string) | (null));
+            "payment_collection"?: ((SetupCollectionPreviousAttributes) | (null));
+            "payment_intent_ids"?: ((Array<string>) | (null));
+            "payment_intents"?: ((Array<ExpandedPaymentIntentSummaryPreviousAttributes>) | (null));
+            "payment_link"?: ((ExpandedPaymentLinkSummaryPreviousAttributes) | (null));
+            "payment_link_id"?: ((string) | (null));
+            "payment_return_url"?: ((string) | (null));
+            "payments"?: ((CheckoutPaymentConfigPreviousAttributes) | (null));
+            "prefill"?: ((CheckoutPrefillPreviousAttributes) | (null));
+            "problems"?: ((Array<CheckoutProblemResourcePreviousAttributes>) | (null));
+            "promotion_config"?: ((CheckoutPromotionConfigPreviousAttributes) | (null));
+            "redirects"?: ((CheckoutRedirectsPreviousAttributes) | (null));
+            "refunds"?: ((Array<BuyerRefundPreviousAttributes>) | (null));
+            "setup_collection"?: ((SetupCollectionPreviousAttributes) | (null));
+            "status"?: (("open" | "paid" | "partially_paid" | "expired" | "closed" | "invalidated" | (string & {})) | (null));
+            "subscription_plan_id"?: ((string) | (null));
+            "subscription_terms"?: ((CheckoutSubscriptionTermsPreviousAttributes) | (null));
+            "superseding_checkout_session_id"?: ((string) | (null));
+            "supported_actions"?: ((Array<"close" | (string & {})>) | (null));
+            "surface"?: (("hosted" | "headless" | (string & {})) | (null));
+            "tax"?: ((CheckoutSessionTaxPreviousAttributes) | (null));
+            "terminal_reason"?: (("payment_succeeded"
+                | "payment_partially_succeeded"
+                | "expired"
+                | "closed_by_merchant"
+                | "order_mutated"
+                | "superseded"
+                | "order_paid_elsewhere"
+                | "invoice_paid_elsewhere"
+                | "invoice_voided"
+                | "invoice_uncollectible"
+                | "invoice_balance_changed"
+                | (string & {}))
+                | (null));
+            "theme"?: ((CheckoutThemePreviousAttributes) | (null));
+            "tip"?: ((CheckoutTipConfigPreviousAttributes) | (null));
+            "type"?: (("order" | "quick_pay" | "subscription_plan" | "invoice" | "payment_link" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "checkout_session.partially_paid";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "checkout_session.partially_paid";
+});
+/**
+ * The `checkout_session.partially_paid` webhook payload for the `installed_merchants` event
+ * source. Fields shared by partner webhook payloads.
+ */
+export type CheckoutSessionPartiallyPaidInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link WebhookCheckoutSession}. The resource snapshot, without
+     * expansions. Webhooks omit these fields: `url`, `recovery_payment_attempt_id`,
+     * `recovery_expires_at`, `can_save_payment_method`, `save_payment_method_types`,
+     * `save_payment_method_requires_verification`, `pay_to_new_address_requires_verification`,
+     * `can_save_payment_method_with_phone`, `payment_method_save`, `customer_prefill`,
+     * `merchant_support`, `merchant_name`, `show_flint_mark`, `merchant_logo`, `merchant_icon`,
+     * `payment_link_image`, `platform_fee`, `customer_account_url`. previous_attributes
+     * (Optional): object. Previous values of changed top-level fields in data.object, at this
+     * delivery's API version. Nested changes include the whole previous top-level value. A value
+     * is null when the field was absent before the change. Omitted when Flint did not record the
+     * previous state, including synthetic test events. previous_attributes.active_payment_attempt
+     * (Optional): {@link OrderPaymentAttemptPreviousAttributes} or null. The payment attempt now
+     * collecting this checkout's order, the same attempt as the order's active_payment_attempt.
+     * Read it to recover after losing a pay response, and resume it only when is_resumable is
+     * true. Omitted when no attempt is active. Pending actions that open a URL are left out; the
+     * pay response carries them. previous_attributes.active_payment_attempt.anyOf[1] (Value):
+     * {@link OrderPaymentAttemptPreviousAttributes}.
+     * previous_attributes.active_payment_attempt.anyOf[2] (Value): null.
+     * previous_attributes.buyer_contact (Optional): {@link CheckoutBuyerContactPreviousAttributes}
+     * or null. Contact the buyer entered in checkout before paying, saved with the session's
+     * checkout credential. Separate from merchant-supplied prefill and customer_prefill from the
+     * customer record. Omitted until the buyer saves or clears a field. When a checkout session
+     * payment omits buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint
+     * clears the contact 30 days after the session ends, and when a customer linked to the session
+     * is deleted. previous_attributes.buyer_contact.anyOf[1] (Value): {@link
+     * CheckoutBuyerContactPreviousAttributes}. previous_attributes.buyer_contact.anyOf[2] (Value):
+     * null. previous_attributes.buyer_fields (Optional): {@link
+     * CheckoutBuyerFieldsPreviousAttributes} or null. What checkout asks the buyer for. Each field
+     * you leave out uses your checkout settings. previous_attributes.buyer_fields.anyOf[1]
+     * (Value): {@link CheckoutBuyerFieldsPreviousAttributes}.
+     * previous_attributes.buyer_fields.anyOf[2] (Value): null.
+     * previous_attributes.can_apply_promotion_code (Optional): boolean or null. Whether to offer
+     * promotion-code entry now. True only while the session is open, is not in recovery, and
+     * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
+     * null offers entry only when this merchant has an active code promotion whose schedule
+     * includes now, in the session's environment. Recomputed on each read. This hint does not
+     * change code admission: checkout lifecycle, promotion_config, and merchant policy still
+     * apply. previous_attributes.can_apply_promotion_code.anyOf[1] (Value): boolean. Whether to
+     * offer promotion-code entry now. True only while the session is open, is not in recovery, and
+     * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
+     * null offers entry only when this merchant has an active code promotion whose schedule
+     * includes now, in the session's environment. Recomputed on each read. This hint does not
+     * change code admission: checkout lifecycle, promotion_config, and merchant policy still
+     * apply. previous_attributes.can_apply_promotion_code.anyOf[2] (Value): null.
+     * previous_attributes.checkout_session_id (Optional): string or null. Unique identifier for
+     * this checkout session, prefixed `cs_`. previous_attributes.checkout_session_id.anyOf[1]
+     * (Value): string. Unique identifier for this checkout session, prefixed `cs_`. Example:
+     * "cs_01KEZF7C004JRWFW43H037MQRN". previous_attributes.checkout_session_id.anyOf[2] (Value):
+     * null. previous_attributes.client_reference (Optional): string or null. The reference the
+     * payment link URL or resolve request carried, such as your user ID. `null` when none was sent
+     * or checkout did not start from a payment link. Returned only to merchant credentials;
+     * omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof
+     * of identity. Always present with merchant credentials.
+     * previous_attributes.client_reference.anyOf[1] (Value): string. The reference the payment
+     * link URL or resolve request carried, such as your user ID. `null` when none was sent or
+     * checkout did not start from a payment link. Returned only to merchant credentials; omitted
+     * for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof of
+     * identity. Always present with merchant credentials. minLength: 1. maxLength: 255.
+     * previous_attributes.client_reference.anyOf[2] (Value): null.
+     * previous_attributes.closed_reason_message (Optional): string or null. The note supplied when
+     * the checkout session was closed. previous_attributes.closed_reason_message.anyOf[1] (Value):
+     * string. The note supplied when the checkout session was closed.
+     * previous_attributes.closed_reason_message.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.custom_field_answers (Optional): Array of {@link
+     * CustomFieldAnswerPreviousAttributes} or null. The buyer's answers to the payment link's
+     * custom fields, the same as the `custom_field_answers` of the session's order. Read-only.
+     * Empty when the session didn't start from a payment link, the buyer answered no custom
+     * fields, or the order was created before Flint recorded answers here. Returned only to
+     * merchant credentials; omitted for buyer credentials. Always present with merchant
+     * credentials. previous_attributes.custom_field_answers.anyOf[1] (Value): Array of {@link
+     * CustomFieldAnswerPreviousAttributes}. The buyer's answers to the payment link's custom
+     * fields, the same as the `custom_field_answers` of the session's order. Read-only. Empty when
+     * the session didn't start from a payment link, the buyer answered no custom fields, or the
+     * order was created before Flint recorded answers here. Returned only to merchant credentials;
+     * omitted for buyer credentials. Always present with merchant credentials. maxItems: 20.
+     * previous_attributes.custom_field_answers.anyOf[1][] (Value): {@link
+     * CustomFieldAnswerPreviousAttributes}. previous_attributes.custom_field_answers.anyOf[2]
+     * (Value): null. previous_attributes.custom_text (Optional): {@link
+     * CheckoutCustomTextConfigPreviousAttributes} or null. The custom text this session shows in
+     * checkout. previous_attributes.custom_text.anyOf[1] (Value): {@link
+     * CheckoutCustomTextConfigPreviousAttributes}. previous_attributes.custom_text.anyOf[2]
+     * (Value): null. previous_attributes.customer (Optional): {@link
+     * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+     * `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. The customer of the
+     * session's order. Omitted when the order has none. A checkout credential issued for this
+     * session acts for this customer. Add expand=customer to include the customer.
+     * previous_attributes.customer_id.anyOf[1] (Value): string. The customer of the session's
+     * order. Omitted when the order has none. A checkout credential issued for this session acts
+     * for this customer. Add expand=customer to include the customer. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery (Optional): {@link
+     * CheckoutDerivedDeliveryResourcePreviousAttributes} or null. Current delivery choices for
+     * Flint-owned pricing. External pricing reports requires_explicit_quote; reading this field
+     * does not request a delivery quote. Omitted when the session is not open, has no order, or
+     * Flint cannot read its delivery. previous_attributes.delivery.anyOf[1] (Value): {@link
+     * CheckoutDerivedDeliveryResourcePreviousAttributes}. previous_attributes.delivery.anyOf[2]
+     * (Value): null. previous_attributes.delivery_method_ids (Optional): Array of string or null.
+     * Immutable delivery method assignment captured when the checkout was created.
+     * previous_attributes.delivery_method_ids.anyOf[1] (Value): Array of string. Immutable
+     * delivery method assignment captured when the checkout was created.
+     * previous_attributes.delivery_method_ids.anyOf[1][] (Value): string. Example:
+     * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". previous_attributes.delivery_method_ids.anyOf[2] (Value):
+     * null. previous_attributes.delivery_selection_required (Optional): boolean or null. Whether
+     * the order has at least one remaining quote-resolved fulfillment choice that must be selected
+     * before payment. previous_attributes.delivery_selection_required.anyOf[1] (Value): boolean.
+     * Whether the order has at least one remaining quote-resolved fulfillment choice that must be
+     * selected before payment. previous_attributes.delivery_selection_required.anyOf[2] (Value):
+     * null. previous_attributes.expires_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.expires_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.expires_at.anyOf[2] (Value):
+     * null. previous_attributes.expires_in_seconds (Optional): integer or null. The lifetime the
+     * session got. expires_at is its deadline. Omitted for invoice sessions, which take their
+     * deadline from the invoice. previous_attributes.expires_in_seconds.anyOf[1] (Value): integer.
+     * The lifetime the session got. expires_at is its deadline. Omitted for invoice sessions,
+     * which take their deadline from the invoice. Format: int64.
+     * previous_attributes.expires_in_seconds.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.gift_card_challenge (Optional): {@link
+     * CheckoutGiftCardChallengePreviousAttributes} or null. Where the buyer completes a gift card
+     * challenge for this checkout. Returned on single-session reads, session create and update
+     * responses, checkout launch results, and customer verification confirmation results while the
+     * session is open and can show the challenge. Omitted from lists, webhooks, expanded
+     * resources, and delivery selection results. previous_attributes.gift_card_challenge.anyOf[1]
+     * (Value): {@link CheckoutGiftCardChallengePreviousAttributes}.
+     * previous_attributes.gift_card_challenge.anyOf[2] (Value): null.
+     * previous_attributes.inventory_reservation_ids (Optional): Array of string or null. Immutable
+     * cart hold IDs authorized by the merchant at session creation. Omitted when empty and from
+     * checkout-credential responses. Buyer and merchant delivery requests that omit IDs use
+     * eligible bound holds; explicit merchant IDs replace the binding for that request. First
+     * adopter wins when sessions share a hold. Invalidated or otherwise ended sessions cannot
+     * adopt stock, and replacements never inherit the binding. Unused cart units retain their own
+     * release and expiration lifecycle. previous_attributes.inventory_reservation_ids.anyOf[1]
+     * (Value): Array of string. Immutable cart hold IDs authorized by the merchant at session
+     * creation. Omitted when empty and from checkout-credential responses. Buyer and merchant
+     * delivery requests that omit IDs use eligible bound holds; explicit merchant IDs replace the
+     * binding for that request. First adopter wins when sessions share a hold. Invalidated or
+     * otherwise ended sessions cannot adopt stock, and replacements never inherit the binding.
+     * Unused cart units retain their own release and expiration lifecycle.
+     * previous_attributes.inventory_reservation_ids.anyOf[1][] (Value): string. Example:
+     * "invr_01KEZF7C0041ENRR0C2NF3AP12". previous_attributes.inventory_reservation_ids.anyOf[2]
+     * (Value): null. previous_attributes.invoice (Optional): {@link
+     * ExpandedInvoiceSummaryPreviousAttributes} or null. Present only when `expand` includes
+     * `invoice`; `null` when expanded and there is no related invoice.
+     * previous_attributes.invoice.anyOf[1] (Value): {@link
+     * ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2] (Value):
+     * null. previous_attributes.invoice_id (Optional): string or null. ID of the invoice a session
+     * of type `invoice` collects payment for. Absent for other types.
+     * previous_attributes.invoice_id.anyOf[1] (Value): string. ID of the invoice a session of type
+     * `invoice` collects payment for. Absent for other types. Example:
+     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
+     * previous_attributes.is_in_recovery (Optional): boolean or null. Whether this terminal
+     * session credential is temporarily restricted to recovering its owning payment attempt.
+     * previous_attributes.is_in_recovery.anyOf[1] (Value): boolean. Whether this terminal session
+     * credential is temporarily restricted to recovering its owning payment attempt.
+     * previous_attributes.is_in_recovery.anyOf[2] (Value): null. previous_attributes.legal
+     * (Optional): {@link CheckoutLegalConfigPreviousAttributes} or null. The terms and policy
+     * links this session shows the buyer, and whether the buyer must accept the terms.
+     * previous_attributes.legal.anyOf[1] (Value): {@link CheckoutLegalConfigPreviousAttributes}.
+     * previous_attributes.legal.anyOf[2] (Value): null. previous_attributes.merchant_id
+     * (Optional): string or null. ID of the merchant this resource belongs to.
+     * previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the merchant this resource
+     * belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
+     * (Value): {@link MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.order (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or
+     * null. Present only when `expand` includes `order`; `null` when expanded and there is no
+     * related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value): null.
+     * previous_attributes.order_id (Optional): string or null. ID of the order the session
+     * collects payment for, fixed at creation. Absent when the session has no order.
+     * previous_attributes.order_id.anyOf[1] (Value): string. ID of the order the session collects
+     * payment for, fixed at creation. Absent when the session has no order. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
+     * previous_attributes.page_origin (Optional): string or null. Origin of the page that renders
+     * this headless checkout. Omitted when not set. previous_attributes.page_origin.anyOf[1]
+     * (Value): string. Origin of the page that renders this headless checkout. Omitted when not
+     * set. previous_attributes.page_origin.anyOf[2] (Value): null.
+     * previous_attributes.payment_collection (Optional): {@link SetupCollectionPreviousAttributes}
+     * or null. Guidance for collecting a payment source. Checkout-credential reads include it only
+     * while the session is open. Returned only to the checkout credential; never in webhook
+     * payloads. previous_attributes.payment_collection.anyOf[1] (Value): {@link
+     * SetupCollectionPreviousAttributes}. previous_attributes.payment_collection.anyOf[2] (Value):
+     * null. previous_attributes.payment_intent_ids (Optional): Array of string or null. IDs of the
+     * payment intents for the session's order. Absent when the order has none.
+     * previous_attributes.payment_intent_ids.anyOf[1] (Value): Array of string. IDs of the payment
+     * intents for the session's order. Absent when the order has none.
+     * previous_attributes.payment_intent_ids.anyOf[1][] (Value): string. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R". previous_attributes.payment_intent_ids.anyOf[2] (Value):
+     * null. previous_attributes.payment_intents (Optional): Array of {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Present only when `expand` includes
+     * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
+     * previous_attributes.payment_intents.anyOf[1] (Value): Array of {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes}. Present only when `expand` includes
+     * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
+     * previous_attributes.payment_intents.anyOf[1][] (Value): {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes}.
+     * previous_attributes.payment_intents.anyOf[2] (Value): null. previous_attributes.payment_link
+     * (Optional): {@link ExpandedPaymentLinkSummaryPreviousAttributes} or null. Present only when
+     * `expand` includes `payment_link`; `null` when expanded and there is no related payment link.
+     * previous_attributes.payment_link.anyOf[1] (Value): {@link
+     * ExpandedPaymentLinkSummaryPreviousAttributes}. previous_attributes.payment_link.anyOf[2]
+     * (Value): null. previous_attributes.payment_link_id (Optional): string or null. ID of the
+     * payment link the session was started from. Absent when it was not started from a payment
+     * link. previous_attributes.payment_link_id.anyOf[1] (Value): string. ID of the payment link
+     * the session was started from. Absent when it was not started from a payment link. Example:
+     * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". previous_attributes.payment_link_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_return_url (Optional): string or null. Headless sessions only.
+     * Absolute HTTPS URL on your site where Flint sends the buyer after a redirect payment such as
+     * Affirm, whatever the outcome; read the session there to show the result. Required when the
+     * session offers affirm. It can't contain credentials, a query string, or a fragment. Query
+     * strings are deliberately excluded so credentials and provider state cannot cross Flint's
+     * payment relay. Put merchant identifiers in the URL path, such as
+     * https://shop.example/return/sub_123. Test mode also accepts http loopback URLs. Up to 2,048
+     * characters. previous_attributes.payment_return_url.anyOf[1] (Value): string. Headless
+     * sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a redirect
+     * payment such as Affirm, whatever the outcome; read the session there to show the result.
+     * Required when the session offers affirm. It can't contain credentials, a query string, or a
+     * fragment. Query strings are deliberately excluded so credentials and provider state cannot
+     * cross Flint's payment relay. Put merchant identifiers in the URL path, such as
+     * https://shop.example/return/sub_123. Test mode also accepts http loopback URLs. Up to 2,048
+     * characters. Format: uri. maxLength: 2048. Example: "https://example.com/receipt".
+     * previous_attributes.payment_return_url.anyOf[2] (Value): null. previous_attributes.payments
+     * (Optional): {@link CheckoutPaymentConfigPreviousAttributes} or null. Configured payment
+     * options for merchant credentials; currently available payment options for the checkout
+     * credential. previous_attributes.payments.anyOf[1] (Value): {@link
+     * CheckoutPaymentConfigPreviousAttributes}. previous_attributes.payments.anyOf[2] (Value):
+     * null. previous_attributes.prefill (Optional): {@link CheckoutPrefillPreviousAttributes} or
+     * null. Contact details and addresses to fill in for the buyer, who can change them. For a
+     * customer with saved addresses, Flint fills in any address you leave out, and reads include
+     * it. With quick_pay or subscription_plan and automatic tax on, a prefilled address sets the
+     * order's tax location. Not changed by what the buyer types; for that, read buyer_contact.
+     * customer_prefill is what the checkout credential reads from the customer record.
+     * previous_attributes.prefill.anyOf[1] (Value): {@link CheckoutPrefillPreviousAttributes}.
+     * previous_attributes.prefill.anyOf[2] (Value): null. previous_attributes.problems (Optional):
+     * Array of {@link CheckoutProblemResourcePreviousAttributes} or null. Named conditions that
+     * affect checkout completion. Follow each problem's remediation action instead of
+     * reconstructing delivery lifecycle rules in the client. payment_in_progress means another
+     * payment for the order must finish before this checkout can complete. When Flint cannot read
+     * the checkout's delivery, the read still succeeds and reports delivery_unreadable; its
+     * remediation says whether reading the session again can succeed, and its next action's
+     * reason_code names the error. previous_attributes.problems.anyOf[1] (Value): Array of {@link
+     * CheckoutProblemResourcePreviousAttributes}. Named conditions that affect checkout
+     * completion. Follow each problem's remediation action instead of reconstructing delivery
+     * lifecycle rules in the client. payment_in_progress means another payment for the order must
+     * finish before this checkout can complete. When Flint cannot read the checkout's delivery,
+     * the read still succeeds and reports delivery_unreadable; its remediation says whether
+     * reading the session again can succeed, and its next action's reason_code names the error.
+     * previous_attributes.problems.anyOf[1][] (Value): {@link
+     * CheckoutProblemResourcePreviousAttributes}. previous_attributes.problems.anyOf[2] (Value):
+     * null. previous_attributes.promotion_config (Optional): {@link
+     * CheckoutPromotionConfigPreviousAttributes} or null. Whether automatic promotions apply to
+     * this session and whether the buyer can enter promotion codes.
+     * previous_attributes.promotion_config.anyOf[1] (Value): {@link
+     * CheckoutPromotionConfigPreviousAttributes}. previous_attributes.promotion_config.anyOf[2]
+     * (Value): null. previous_attributes.redirects (Optional): {@link
+     * CheckoutRedirectsPreviousAttributes} or null. Where hosted checkout sends the buyer. Not
+     * allowed when surface is headless; use payment_return_url.
+     * previous_attributes.redirects.anyOf[1] (Value): {@link CheckoutRedirectsPreviousAttributes}.
+     * previous_attributes.redirects.anyOf[2] (Value): null. previous_attributes.refunds
+     * (Optional): Array of {@link BuyerRefundPreviousAttributes} or null. All buyer-visible
+     * refunds on this session’s order, including refunds made by the store. Uses the same buyer
+     * projection as /v1/me/refunds. Included on GET single-session reads as an array, with [] when
+     * there are none, and omitted from other responses and webhooks. A failed refund with
+     * failure_reason refund_abandoned could not be completed: tell the buyer to contact the store
+     * to get their money back. previous_attributes.refunds.anyOf[1] (Value): Array of {@link
+     * BuyerRefundPreviousAttributes}. All buyer-visible refunds on this session’s order, including
+     * refunds made by the store. Uses the same buyer projection as /v1/me/refunds. Included on GET
+     * single-session reads as an array, with [] when there are none, and omitted from other
+     * responses and webhooks. A failed refund with failure_reason refund_abandoned could not be
+     * completed: tell the buyer to contact the store to get their money back.
+     * previous_attributes.refunds.anyOf[1][] (Value): {@link BuyerRefundPreviousAttributes}.
+     * previous_attributes.refunds.anyOf[2] (Value): null. previous_attributes.setup_collection
+     * (Optional): {@link SetupCollectionPreviousAttributes} or null. Guidance for collecting a
+     * payment method to save. Checkout-credential reads include it only while the session is open.
+     * Returned only to the checkout credential; never in webhook payloads.
+     * previous_attributes.setup_collection.anyOf[1] (Value): {@link
+     * SetupCollectionPreviousAttributes}. previous_attributes.setup_collection.anyOf[2] (Value):
+     * null. previous_attributes.status (Optional): string or null. Where the session is in its
+     * lifecycle. Only an `open` session accepts payment. `terminal_reason` says why a session that
+     * is not open ended. Value enum: "open", "paid", "partially_paid", "expired", "closed",
+     * "invalidated". previous_attributes.status.anyOf[1] (Value): string. Where the session is in
+     * its lifecycle. Only an `open` session accepts payment. `terminal_reason` says why a session
+     * that is not open ended. Value enum: "open", "paid", "partially_paid", "expired", "closed",
+     * "invalidated". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.subscription_plan_id (Optional): string or null. ID of the subscription
+     * plan a session of type `subscription_plan` signs the buyer up for. Absent for other types.
+     * previous_attributes.subscription_plan_id.anyOf[1] (Value): string. ID of the subscription
+     * plan a session of type `subscription_plan` signs the buyer up for. Absent for other types.
+     * Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
+     * previous_attributes.subscription_plan_id.anyOf[2] (Value): null.
+     * previous_attributes.subscription_terms (Optional): {@link
+     * CheckoutSubscriptionTermsPreviousAttributes} or null. Renewal terms a subscription checkout
+     * commits the buyer to. Frozen when the session's order was created, so later plan changes do
+     * not alter them. Absent when the checkout starts no subscription.
+     * previous_attributes.subscription_terms.anyOf[1] (Value): {@link
+     * CheckoutSubscriptionTermsPreviousAttributes}.
+     * previous_attributes.subscription_terms.anyOf[2] (Value): null.
+     * previous_attributes.superseding_checkout_session_id (Optional): string or null. ID of the
+     * session that replaced this one. Present when `terminal_reason` is `superseded`.
+     * previous_attributes.superseding_checkout_session_id.anyOf[1] (Value): string. ID of the
+     * session that replaced this one. Present when `terminal_reason` is `superseded`. Example:
+     * "cs_01KEZF7C004JRWFW43H037MQRN".
+     * previous_attributes.superseding_checkout_session_id.anyOf[2] (Value): null.
+     * previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle actions
+     * Flint accepts now, computed from stored checkout state without checking the caller's
+     * permissions. Contains close while open; empty after payment, closure, or expiry. Always
+     * present with merchant credentials. [] enum: "close".
+     * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions
+     * Flint accepts now, computed from stored checkout state without checking the caller's
+     * permissions. Contains close while open; empty after payment, closure, or expiry. Always
+     * present with merchant credentials. [] enum: "close".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "close".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.surface
+     * (Optional): string or null. How the session is presented to the buyer. A hosted session has
+     * a `url` on Flint's checkout page; a headless one is rendered on your own page. Value enum:
+     * "hosted", "headless". previous_attributes.surface.anyOf[1] (Value): string. How the session
+     * is presented to the buyer. A hosted session has a `url` on Flint's checkout page; a headless
+     * one is rendered on your own page. Value enum: "hosted", "headless".
+     * previous_attributes.surface.anyOf[2] (Value): null. previous_attributes.tax (Optional):
+     * {@link CheckoutSessionTaxPreviousAttributes} or null. The session's tax settings. Omitted
+     * when the session sets none. previous_attributes.tax.anyOf[1] (Value): {@link
+     * CheckoutSessionTaxPreviousAttributes}. previous_attributes.tax.anyOf[2] (Value): null.
+     * previous_attributes.terminal_reason (Optional): string or null. Why the session ended. The
+     * checkout credential can still read its own closed or expired session; every other call is
+     * refused because the session is not open. order_paid_elsewhere applies only to invalidated
+     * sessions when payment succeeds or partially succeeds outside the session. order_mutated
+     * applies when an edit closes or completes its order, or ends an invoice, return-resolution,
+     * or subscription-plan session. Other merchant edits keep hosted and headless sessions open. A
+     * session already past expires_at ends with expired before the edit is applied. Value enum:
+     * "payment_succeeded", "payment_partially_succeeded", "expired", "closed_by_merchant",
+     * "order_mutated", "superseded", "order_paid_elsewhere", "invoice_paid_elsewhere",
+     * "invoice_voided", "invoice_uncollectible", "invoice_balance_changed".
+     * previous_attributes.terminal_reason.anyOf[1] (Value): string. Why the session ended. The
+     * checkout credential can still read its own closed or expired session; every other call is
+     * refused because the session is not open. order_paid_elsewhere applies only to invalidated
+     * sessions when payment succeeds or partially succeeds outside the session. order_mutated
+     * applies when an edit closes or completes its order, or ends an invoice, return-resolution,
+     * or subscription-plan session. Other merchant edits keep hosted and headless sessions open. A
+     * session already past expires_at ends with expired before the edit is applied. Value enum:
+     * "payment_succeeded", "payment_partially_succeeded", "expired", "closed_by_merchant",
+     * "order_mutated", "superseded", "order_paid_elsewhere", "invoice_paid_elsewhere",
+     * "invoice_voided", "invoice_uncollectible", "invoice_balance_changed".
+     * previous_attributes.terminal_reason.anyOf[2] (Value): null. previous_attributes.theme
+     * (Optional): {@link CheckoutThemePreviousAttributes} or null. The theme checkout renders
+     * with: your branding settings, with the session's `title`, `primary_color`, and
+     * `accent_color` over them. A session sets only those three; the other fields come from
+     * branding settings. Omitted when neither sets a value. previous_attributes.theme.anyOf[1]
+     * (Value): {@link CheckoutThemePreviousAttributes}. previous_attributes.theme.anyOf[2]
+     * (Value): null. previous_attributes.tip (Optional): {@link
+     * CheckoutTipConfigPreviousAttributes} or null. The tip options this session offers the buyer.
+     * previous_attributes.tip.anyOf[1] (Value): {@link CheckoutTipConfigPreviousAttributes}.
+     * previous_attributes.tip.anyOf[2] (Value): null. previous_attributes.type (Optional): string
+     * or null. What the session collects payment for, fixed at creation. Value enum: "order",
+     * "quick_pay", "subscription_plan", "invoice", "payment_link".
+     * previous_attributes.type.anyOf[1] (Value): string. What the session collects payment for,
+     * fixed at creation. Value enum: "order", "quick_pay", "subscription_plan", "invoice",
+     * "payment_link". previous_attributes.type.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Persisted version of this
+     * resource's owned state. Expanded resources and external observations can change
+     * independently. previous_attributes.version.anyOf[1] (Value): integer. Persisted version of
+     * this resource's owned state. Expanded resources and external observations can change
+     * independently. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value):
+     * null.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit these fields: `url`,
+         * `recovery_payment_attempt_id`, `recovery_expires_at`, `can_save_payment_method`,
+         * `save_payment_method_types`, `save_payment_method_requires_verification`,
+         * `pay_to_new_address_requires_verification`, `can_save_payment_method_with_phone`,
+         * `payment_method_save`, `customer_prefill`, `merchant_support`, `merchant_name`,
+         * `show_flint_mark`, `merchant_logo`, `merchant_icon`, `payment_link_image`,
+         * `platform_fee`, `customer_account_url`.
+         */
+        "object": WebhookCheckoutSession;
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. active_payment_attempt (Optional): {@link
+         * OrderPaymentAttemptPreviousAttributes} or null. The payment attempt now collecting this
+         * checkout's order, the same attempt as the order's active_payment_attempt. Read it to
+         * recover after losing a pay response, and resume it only when is_resumable is true.
+         * Omitted when no attempt is active. Pending actions that open a URL are left out; the pay
+         * response carries them. active_payment_attempt.anyOf[1] (Value): {@link
+         * OrderPaymentAttemptPreviousAttributes}. active_payment_attempt.anyOf[2] (Value): null.
+         * buyer_contact (Optional): {@link CheckoutBuyerContactPreviousAttributes} or null.
+         * Contact the buyer entered in checkout before paying, saved with the session's checkout
+         * credential. Separate from merchant-supplied prefill and customer_prefill from the
+         * customer record. Omitted until the buyer saves or clears a field. When a checkout
+         * session payment omits buyer_contact.email or buyer_contact.phone, Flint uses these
+         * values. Flint clears the contact 30 days after the session ends, and when a customer
+         * linked to the session is deleted. buyer_contact.anyOf[1] (Value): {@link
+         * CheckoutBuyerContactPreviousAttributes}. buyer_contact.anyOf[2] (Value): null.
+         * buyer_fields (Optional): {@link CheckoutBuyerFieldsPreviousAttributes} or null. What
+         * checkout asks the buyer for. Each field you leave out uses your checkout settings.
+         * buyer_fields.anyOf[1] (Value): {@link CheckoutBuyerFieldsPreviousAttributes}.
+         * buyer_fields.anyOf[2] (Value): null. can_apply_promotion_code (Optional): boolean or
+         * null. Whether to offer promotion-code entry now. True only while the session is open, is
+         * not in recovery, and merchant promotion policy allows codes. An explicit
+         * promotion_config.codes_enabled wins; null offers entry only when this merchant has an
+         * active code promotion whose schedule includes now, in the session's environment.
+         * Recomputed on each read. This hint does not change code admission: checkout lifecycle,
+         * promotion_config, and merchant policy still apply. can_apply_promotion_code.anyOf[1]
+         * (Value): boolean. Whether to offer promotion-code entry now. True only while the session
+         * is open, is not in recovery, and merchant promotion policy allows codes. An explicit
+         * promotion_config.codes_enabled wins; null offers entry only when this merchant has an
+         * active code promotion whose schedule includes now, in the session's environment.
+         * Recomputed on each read. This hint does not change code admission: checkout lifecycle,
+         * promotion_config, and merchant policy still apply. can_apply_promotion_code.anyOf[2]
+         * (Value): null. checkout_session_id (Optional): string or null. Unique identifier for
+         * this checkout session, prefixed `cs_`. checkout_session_id.anyOf[1] (Value): string.
+         * Unique identifier for this checkout session, prefixed `cs_`. Example:
+         * "cs_01KEZF7C004JRWFW43H037MQRN". checkout_session_id.anyOf[2] (Value): null.
+         * client_reference (Optional): string or null. The reference the payment link URL or
+         * resolve request carried, such as your user ID. `null` when none was sent or checkout did
+         * not start from a payment link. Returned only to merchant credentials; omitted for buyer
+         * credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity.
+         * Always present with merchant credentials. client_reference.anyOf[1] (Value): string. The
+         * reference the payment link URL or resolve request carried, such as your user ID. `null`
+         * when none was sent or checkout did not start from a payment link. Returned only to
+         * merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so
+         * treat it as a claim, not proof of identity. Always present with merchant credentials.
+         * minLength: 1. maxLength: 255. client_reference.anyOf[2] (Value): null.
+         * closed_reason_message (Optional): string or null. The note supplied when the checkout
+         * session was closed. closed_reason_message.anyOf[1] (Value): string. The note supplied
+         * when the checkout session was closed. closed_reason_message.anyOf[2] (Value): null.
+         * created_at (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. custom_field_answers (Optional): Array of {@link
+         * CustomFieldAnswerPreviousAttributes} or null. The buyer's answers to the payment link's
+         * custom fields, the same as the `custom_field_answers` of the session's order. Read-only.
+         * Empty when the session didn't start from a payment link, the buyer answered no custom
+         * fields, or the order was created before Flint recorded answers here. Returned only to
+         * merchant credentials; omitted for buyer credentials. Always present with merchant
+         * credentials. custom_field_answers.anyOf[1] (Value): Array of {@link
+         * CustomFieldAnswerPreviousAttributes}. The buyer's answers to the payment link's custom
+         * fields, the same as the `custom_field_answers` of the session's order. Read-only. Empty
+         * when the session didn't start from a payment link, the buyer answered no custom fields,
+         * or the order was created before Flint recorded answers here. Returned only to merchant
+         * credentials; omitted for buyer credentials. Always present with merchant credentials.
+         * maxItems: 20. custom_field_answers.anyOf[1][] (Value): {@link
+         * CustomFieldAnswerPreviousAttributes}. custom_field_answers.anyOf[2] (Value): null.
+         * custom_text (Optional): {@link CheckoutCustomTextConfigPreviousAttributes} or null. The
+         * custom text this session shows in checkout. custom_text.anyOf[1] (Value): {@link
+         * CheckoutCustomTextConfigPreviousAttributes}. custom_text.anyOf[2] (Value): null.
+         * customer (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present
+         * only when `expand` includes `customer`; `null` when expanded and there is no related
+         * customer. customer.anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
+         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. The customer of
+         * the session's order. Omitted when the order has none. A checkout credential issued for
+         * this session acts for this customer. Add expand=customer to include the customer.
+         * customer_id.anyOf[1] (Value): string. The customer of the session's order. Omitted when
+         * the order has none. A checkout credential issued for this session acts for this
+         * customer. Add expand=customer to include the customer. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. delivery
+         * (Optional): {@link CheckoutDerivedDeliveryResourcePreviousAttributes} or null. Current
+         * delivery choices for Flint-owned pricing. External pricing reports
+         * requires_explicit_quote; reading this field does not request a delivery quote. Omitted
+         * when the session is not open, has no order, or Flint cannot read its delivery.
+         * delivery.anyOf[1] (Value): {@link CheckoutDerivedDeliveryResourcePreviousAttributes}.
+         * delivery.anyOf[2] (Value): null. delivery_method_ids (Optional): Array of string or
+         * null. Immutable delivery method assignment captured when the checkout was created.
+         * delivery_method_ids.anyOf[1] (Value): Array of string. Immutable delivery method
+         * assignment captured when the checkout was created. delivery_method_ids.anyOf[1][]
+         * (Value): string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+         * delivery_method_ids.anyOf[2] (Value): null. delivery_selection_required (Optional):
+         * boolean or null. Whether the order has at least one remaining quote-resolved fulfillment
+         * choice that must be selected before payment. delivery_selection_required.anyOf[1]
+         * (Value): boolean. Whether the order has at least one remaining quote-resolved
+         * fulfillment choice that must be selected before payment.
+         * delivery_selection_required.anyOf[2] (Value): null. expires_at (Optional): string or
+         * null. RFC3339 timestamp. expires_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". expires_at.anyOf[2] (Value): null.
+         * expires_in_seconds (Optional): integer or null. The lifetime the session got. expires_at
+         * is its deadline. Omitted for invoice sessions, which take their deadline from the
+         * invoice. expires_in_seconds.anyOf[1] (Value): integer. The lifetime the session got.
+         * expires_at is its deadline. Omitted for invoice sessions, which take their deadline from
+         * the invoice. Format: int64. expires_in_seconds.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
+         * gift_card_challenge (Optional): {@link CheckoutGiftCardChallengePreviousAttributes} or
+         * null. Where the buyer completes a gift card challenge for this checkout. Returned on
+         * single-session reads, session create and update responses, checkout launch results, and
+         * customer verification confirmation results while the session is open and can show the
+         * challenge. Omitted from lists, webhooks, expanded resources, and delivery selection
+         * results. gift_card_challenge.anyOf[1] (Value): {@link
+         * CheckoutGiftCardChallengePreviousAttributes}. gift_card_challenge.anyOf[2] (Value):
+         * null. inventory_reservation_ids (Optional): Array of string or null. Immutable cart hold
+         * IDs authorized by the merchant at session creation. Omitted when empty and from
+         * checkout-credential responses. Buyer and merchant delivery requests that omit IDs use
+         * eligible bound holds; explicit merchant IDs replace the binding for that request. First
+         * adopter wins when sessions share a hold. Invalidated or otherwise ended sessions cannot
+         * adopt stock, and replacements never inherit the binding. Unused cart units retain their
+         * own release and expiration lifecycle. inventory_reservation_ids.anyOf[1] (Value): Array
+         * of string. Immutable cart hold IDs authorized by the merchant at session creation.
+         * Omitted when empty and from checkout-credential responses. Buyer and merchant delivery
+         * requests that omit IDs use eligible bound holds; explicit merchant IDs replace the
+         * binding for that request. First adopter wins when sessions share a hold. Invalidated or
+         * otherwise ended sessions cannot adopt stock, and replacements never inherit the binding.
+         * Unused cart units retain their own release and expiration lifecycle.
+         * inventory_reservation_ids.anyOf[1][] (Value): string. Example:
+         * "invr_01KEZF7C0041ENRR0C2NF3AP12". inventory_reservation_ids.anyOf[2] (Value): null.
+         * invoice (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. Present
+         * only when `expand` includes `invoice`; `null` when expanded and there is no related
+         * invoice. invoice.anyOf[1] (Value): {@link ExpandedInvoiceSummaryPreviousAttributes}.
+         * invoice.anyOf[2] (Value): null. invoice_id (Optional): string or null. ID of the invoice
+         * a session of type `invoice` collects payment for. Absent for other types.
+         * invoice_id.anyOf[1] (Value): string. ID of the invoice a session of type `invoice`
+         * collects payment for. Absent for other types. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+         * invoice_id.anyOf[2] (Value): null. is_in_recovery (Optional): boolean or null. Whether
+         * this terminal session credential is temporarily restricted to recovering its owning
+         * payment attempt. is_in_recovery.anyOf[1] (Value): boolean. Whether this terminal session
+         * credential is temporarily restricted to recovering its owning payment attempt.
+         * is_in_recovery.anyOf[2] (Value): null. legal (Optional): {@link
+         * CheckoutLegalConfigPreviousAttributes} or null. The terms and policy links this session
+         * shows the buyer, and whether the buyer must accept the terms. legal.anyOf[1] (Value):
+         * {@link CheckoutLegalConfigPreviousAttributes}. legal.anyOf[2] (Value): null. merchant_id
+         * (Optional): string or null. ID of the merchant this resource belongs to.
+         * merchant_id.anyOf[1] (Value): string. ID of the merchant this resource belongs to.
+         * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
+         * `MetadataInput` for key, value, and size rules. metadata.anyOf[1] (Value): {@link
+         * MetadataMap}. metadata.anyOf[2] (Value): null. order (Optional): {@link
+         * ExpandedOrderSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `order`; `null` when expanded and there is no related order. order.anyOf[1] (Value):
+         * {@link ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2] (Value): null. order_id
+         * (Optional): string or null. ID of the order the session collects payment for, fixed at
+         * creation. Absent when the session has no order. order_id.anyOf[1] (Value): string. ID of
+         * the order the session collects payment for, fixed at creation. Absent when the session
+         * has no order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value):
+         * null. page_origin (Optional): string or null. Origin of the page that renders this
+         * headless checkout. Omitted when not set. page_origin.anyOf[1] (Value): string. Origin of
+         * the page that renders this headless checkout. Omitted when not set. page_origin.anyOf[2]
+         * (Value): null. payment_collection (Optional): {@link SetupCollectionPreviousAttributes}
+         * or null. Guidance for collecting a payment source. Checkout-credential reads include it
+         * only while the session is open. Returned only to the checkout credential; never in
+         * webhook payloads. payment_collection.anyOf[1] (Value): {@link
+         * SetupCollectionPreviousAttributes}. payment_collection.anyOf[2] (Value): null.
+         * payment_intent_ids (Optional): Array of string or null. IDs of the payment intents for
+         * the session's order. Absent when the order has none. payment_intent_ids.anyOf[1]
+         * (Value): Array of string. IDs of the payment intents for the session's order. Absent
+         * when the order has none. payment_intent_ids.anyOf[1][] (Value): string. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intent_ids.anyOf[2] (Value): null.
+         * payment_intents (Optional): Array of {@link
+         * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Present only when `expand`
+         * includes `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
+         * payment_intents.anyOf[1] (Value): Array of {@link
+         * ExpandedPaymentIntentSummaryPreviousAttributes}. Present only when `expand` includes
+         * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
+         * payment_intents.anyOf[1][] (Value): {@link
+         * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intents.anyOf[2] (Value): null.
+         * payment_link (Optional): {@link ExpandedPaymentLinkSummaryPreviousAttributes} or null.
+         * Present only when `expand` includes `payment_link`; `null` when expanded and there is no
+         * related payment link. payment_link.anyOf[1] (Value): {@link
+         * ExpandedPaymentLinkSummaryPreviousAttributes}. payment_link.anyOf[2] (Value): null.
+         * payment_link_id (Optional): string or null. ID of the payment link the session was
+         * started from. Absent when it was not started from a payment link.
+         * payment_link_id.anyOf[1] (Value): string. ID of the payment link the session was started
+         * from. Absent when it was not started from a payment link. Example:
+         * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null.
+         * payment_return_url (Optional): string or null. Headless sessions only. Absolute HTTPS
+         * URL on your site where Flint sends the buyer after a redirect payment such as Affirm,
+         * whatever the outcome; read the session there to show the result. Required when the
+         * session offers affirm. It can't contain credentials, a query string, or a fragment.
+         * Query strings are deliberately excluded so credentials and provider state cannot cross
+         * Flint's payment relay. Put merchant identifiers in the URL path, such as
+         * https://shop.example/return/sub_123. Test mode also accepts http loopback URLs. Up to
+         * 2,048 characters. payment_return_url.anyOf[1] (Value): string. Headless sessions only.
+         * Absolute HTTPS URL on your site where Flint sends the buyer after a redirect payment
+         * such as Affirm, whatever the outcome; read the session there to show the result.
+         * Required when the session offers affirm. It can't contain credentials, a query string,
+         * or a fragment. Query strings are deliberately excluded so credentials and provider state
+         * cannot cross Flint's payment relay. Put merchant identifiers in the URL path, such as
+         * https://shop.example/return/sub_123. Test mode also accepts http loopback URLs. Up to
+         * 2,048 characters. Format: uri. maxLength: 2048. Example: "https://example.com/receipt".
+         * payment_return_url.anyOf[2] (Value): null. payments (Optional): {@link
+         * CheckoutPaymentConfigPreviousAttributes} or null. Configured payment options for
+         * merchant credentials; currently available payment options for the checkout credential.
+         * payments.anyOf[1] (Value): {@link CheckoutPaymentConfigPreviousAttributes}.
+         * payments.anyOf[2] (Value): null. prefill (Optional): {@link
+         * CheckoutPrefillPreviousAttributes} or null. Contact details and addresses to fill in for
+         * the buyer, who can change them. For a customer with saved addresses, Flint fills in any
+         * address you leave out, and reads include it. With quick_pay or subscription_plan and
+         * automatic tax on, a prefilled address sets the order's tax location. Not changed by what
+         * the buyer types; for that, read buyer_contact. customer_prefill is what the checkout
+         * credential reads from the customer record. prefill.anyOf[1] (Value): {@link
+         * CheckoutPrefillPreviousAttributes}. prefill.anyOf[2] (Value): null. problems (Optional):
+         * Array of {@link CheckoutProblemResourcePreviousAttributes} or null. Named conditions
+         * that affect checkout completion. Follow each problem's remediation action instead of
+         * reconstructing delivery lifecycle rules in the client. payment_in_progress means another
+         * payment for the order must finish before this checkout can complete. When Flint cannot
+         * read the checkout's delivery, the read still succeeds and reports delivery_unreadable;
+         * its remediation says whether reading the session again can succeed, and its next
+         * action's reason_code names the error. problems.anyOf[1] (Value): Array of {@link
+         * CheckoutProblemResourcePreviousAttributes}. Named conditions that affect checkout
+         * completion. Follow each problem's remediation action instead of reconstructing delivery
+         * lifecycle rules in the client. payment_in_progress means another payment for the order
+         * must finish before this checkout can complete. When Flint cannot read the checkout's
+         * delivery, the read still succeeds and reports delivery_unreadable; its remediation says
+         * whether reading the session again can succeed, and its next action's reason_code names
+         * the error. problems.anyOf[1][] (Value): {@link
+         * CheckoutProblemResourcePreviousAttributes}. problems.anyOf[2] (Value): null.
+         * promotion_config (Optional): {@link CheckoutPromotionConfigPreviousAttributes} or null.
+         * Whether automatic promotions apply to this session and whether the buyer can enter
+         * promotion codes. promotion_config.anyOf[1] (Value): {@link
+         * CheckoutPromotionConfigPreviousAttributes}. promotion_config.anyOf[2] (Value): null.
+         * redirects (Optional): {@link CheckoutRedirectsPreviousAttributes} or null. Where hosted
+         * checkout sends the buyer. Not allowed when surface is headless; use payment_return_url.
+         * redirects.anyOf[1] (Value): {@link CheckoutRedirectsPreviousAttributes}.
+         * redirects.anyOf[2] (Value): null. refunds (Optional): Array of {@link
+         * BuyerRefundPreviousAttributes} or null. All buyer-visible refunds on this session’s
+         * order, including refunds made by the store. Uses the same buyer projection as
+         * /v1/me/refunds. Included on GET single-session reads as an array, with [] when there are
+         * none, and omitted from other responses and webhooks. A failed refund with failure_reason
+         * refund_abandoned could not be completed: tell the buyer to contact the store to get
+         * their money back. refunds.anyOf[1] (Value): Array of {@link
+         * BuyerRefundPreviousAttributes}. All buyer-visible refunds on this session’s order,
+         * including refunds made by the store. Uses the same buyer projection as /v1/me/refunds.
+         * Included on GET single-session reads as an array, with [] when there are none, and
+         * omitted from other responses and webhooks. A failed refund with failure_reason
+         * refund_abandoned could not be completed: tell the buyer to contact the store to get
+         * their money back. refunds.anyOf[1][] (Value): {@link BuyerRefundPreviousAttributes}.
+         * refunds.anyOf[2] (Value): null. setup_collection (Optional): {@link
+         * SetupCollectionPreviousAttributes} or null. Guidance for collecting a payment method to
+         * save. Checkout-credential reads include it only while the session is open. Returned only
+         * to the checkout credential; never in webhook payloads. setup_collection.anyOf[1]
+         * (Value): {@link SetupCollectionPreviousAttributes}. setup_collection.anyOf[2] (Value):
+         * null. status (Optional): string or null. Where the session is in its lifecycle. Only an
+         * `open` session accepts payment. `terminal_reason` says why a session that is not open
+         * ended. Value enum: "open", "paid", "partially_paid", "expired", "closed", "invalidated".
+         * status.anyOf[1] (Value): string. Where the session is in its lifecycle. Only an `open`
+         * session accepts payment. `terminal_reason` says why a session that is not open ended.
+         * Value enum: "open", "paid", "partially_paid", "expired", "closed", "invalidated".
+         * status.anyOf[2] (Value): null. subscription_plan_id (Optional): string or null. ID of
+         * the subscription plan a session of type `subscription_plan` signs the buyer up for.
+         * Absent for other types. subscription_plan_id.anyOf[1] (Value): string. ID of the
+         * subscription plan a session of type `subscription_plan` signs the buyer up for. Absent
+         * for other types. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
+         * subscription_plan_id.anyOf[2] (Value): null. subscription_terms (Optional): {@link
+         * CheckoutSubscriptionTermsPreviousAttributes} or null. Renewal terms a subscription
+         * checkout commits the buyer to. Frozen when the session's order was created, so later
+         * plan changes do not alter them. Absent when the checkout starts no subscription.
+         * subscription_terms.anyOf[1] (Value): {@link
+         * CheckoutSubscriptionTermsPreviousAttributes}. subscription_terms.anyOf[2] (Value): null.
+         * superseding_checkout_session_id (Optional): string or null. ID of the session that
+         * replaced this one. Present when `terminal_reason` is `superseded`.
+         * superseding_checkout_session_id.anyOf[1] (Value): string. ID of the session that
+         * replaced this one. Present when `terminal_reason` is `superseded`. Example:
+         * "cs_01KEZF7C004JRWFW43H037MQRN". superseding_checkout_session_id.anyOf[2] (Value): null.
+         * supported_actions (Optional): Array of string or null. Lifecycle actions Flint accepts
+         * now, computed from stored checkout state without checking the caller's permissions.
+         * Contains close while open; empty after payment, closure, or expiry. Always present with
+         * merchant credentials. [] enum: "close". supported_actions.anyOf[1] (Value): Array of
+         * string. Lifecycle actions Flint accepts now, computed from stored checkout state without
+         * checking the caller's permissions. Contains close while open; empty after payment,
+         * closure, or expiry. Always present with merchant credentials. [] enum: "close".
+         * supported_actions.anyOf[1][] (Value): string. Value enum: "close".
+         * supported_actions.anyOf[2] (Value): null. surface (Optional): string or null. How the
+         * session is presented to the buyer. A hosted session has a `url` on Flint's checkout
+         * page; a headless one is rendered on your own page. Value enum: "hosted", "headless".
+         * surface.anyOf[1] (Value): string. How the session is presented to the buyer. A hosted
+         * session has a `url` on Flint's checkout page; a headless one is rendered on your own
+         * page. Value enum: "hosted", "headless". surface.anyOf[2] (Value): null. tax (Optional):
+         * {@link CheckoutSessionTaxPreviousAttributes} or null. The session's tax settings.
+         * Omitted when the session sets none. tax.anyOf[1] (Value): {@link
+         * CheckoutSessionTaxPreviousAttributes}. tax.anyOf[2] (Value): null. terminal_reason
+         * (Optional): string or null. Why the session ended. The checkout credential can still
+         * read its own closed or expired session; every other call is refused because the session
+         * is not open. order_paid_elsewhere applies only to invalidated sessions when payment
+         * succeeds or partially succeeds outside the session. order_mutated applies when an edit
+         * closes or completes its order, or ends an invoice, return-resolution, or
+         * subscription-plan session. Other merchant edits keep hosted and headless sessions open.
+         * A session already past expires_at ends with expired before the edit is applied. Value
+         * enum: "payment_succeeded", "payment_partially_succeeded", "expired",
+         * "closed_by_merchant", "order_mutated", "superseded", "order_paid_elsewhere",
+         * "invoice_paid_elsewhere", "invoice_voided", "invoice_uncollectible",
+         * "invoice_balance_changed". terminal_reason.anyOf[1] (Value): string. Why the session
+         * ended. The checkout credential can still read its own closed or expired session; every
+         * other call is refused because the session is not open. order_paid_elsewhere applies only
+         * to invalidated sessions when payment succeeds or partially succeeds outside the session.
+         * order_mutated applies when an edit closes or completes its order, or ends an invoice,
+         * return-resolution, or subscription-plan session. Other merchant edits keep hosted and
+         * headless sessions open. A session already past expires_at ends with expired before the
+         * edit is applied. Value enum: "payment_succeeded", "payment_partially_succeeded",
+         * "expired", "closed_by_merchant", "order_mutated", "superseded", "order_paid_elsewhere",
+         * "invoice_paid_elsewhere", "invoice_voided", "invoice_uncollectible",
+         * "invoice_balance_changed". terminal_reason.anyOf[2] (Value): null. theme (Optional):
+         * {@link CheckoutThemePreviousAttributes} or null. The theme checkout renders with: your
+         * branding settings, with the session's `title`, `primary_color`, and `accent_color` over
+         * them. A session sets only those three; the other fields come from branding settings.
+         * Omitted when neither sets a value. theme.anyOf[1] (Value): {@link
+         * CheckoutThemePreviousAttributes}. theme.anyOf[2] (Value): null. tip (Optional): {@link
+         * CheckoutTipConfigPreviousAttributes} or null. The tip options this session offers the
+         * buyer. tip.anyOf[1] (Value): {@link CheckoutTipConfigPreviousAttributes}. tip.anyOf[2]
+         * (Value): null. type (Optional): string or null. What the session collects payment for,
+         * fixed at creation. Value enum: "order", "quick_pay", "subscription_plan", "invoice",
+         * "payment_link". type.anyOf[1] (Value): string. What the session collects payment for,
+         * fixed at creation. Value enum: "order", "quick_pay", "subscription_plan", "invoice",
+         * "payment_link". type.anyOf[2] (Value): null. updated_at (Optional): string or null.
+         * RFC3339 timestamp. updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version
+         * (Optional): integer or null. Persisted version of this resource's owned state. Expanded
+         * resources and external observations can change independently. version.anyOf[1] (Value):
+         * integer. Persisted version of this resource's owned state. Expanded resources and
+         * external observations can change independently. Format: uint64. minimum: 1.
+         * version.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * The payment attempt now collecting this checkout's order, the same attempt as the
+             * order's active_payment_attempt. Read it to recover after losing a pay response, and
+             * resume it only when is_resumable is true. Omitted when no attempt is active. Pending
+             * actions that open a URL are left out; the pay response carries them. anyOf[1]
+             * (Value): {@link OrderPaymentAttemptPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "active_payment_attempt"?: ((OrderPaymentAttemptPreviousAttributes) | (null));
+            /**
+             * Contact the buyer entered in checkout before paying, saved with the session's
+             * checkout credential. Separate from merchant-supplied prefill and customer_prefill
+             * from the customer record. Omitted until the buyer saves or clears a field. When a
+             * checkout session payment omits buyer_contact.email or buyer_contact.phone, Flint
+             * uses these values. Flint clears the contact 30 days after the session ends, and when
+             * a customer linked to the session is deleted. anyOf[1] (Value): {@link
+             * CheckoutBuyerContactPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "buyer_contact"?: ((CheckoutBuyerContactPreviousAttributes) | (null));
+            /**
+             * What checkout asks the buyer for. Each field you leave out uses your checkout
+             * settings. anyOf[1] (Value): {@link CheckoutBuyerFieldsPreviousAttributes}. anyOf[2]
+             * (Value): null.
+             */
+            "buyer_fields"?: ((CheckoutBuyerFieldsPreviousAttributes) | (null));
+            /**
+             * Whether to offer promotion-code entry now. True only while the session is open, is
+             * not in recovery, and merchant promotion policy allows codes. An explicit
+             * promotion_config.codes_enabled wins; null offers entry only when this merchant has
+             * an active code promotion whose schedule includes now, in the session's environment.
+             * Recomputed on each read. This hint does not change code admission: checkout
+             * lifecycle, promotion_config, and merchant policy still apply. anyOf[1] (Value):
+             * boolean. Whether to offer promotion-code entry now. True only while the session is
+             * open, is not in recovery, and merchant promotion policy allows codes. An explicit
+             * promotion_config.codes_enabled wins; null offers entry only when this merchant has
+             * an active code promotion whose schedule includes now, in the session's environment.
+             * Recomputed on each read. This hint does not change code admission: checkout
+             * lifecycle, promotion_config, and merchant policy still apply. anyOf[2] (Value):
+             * null.
+             */
+            "can_apply_promotion_code"?: ((boolean) | (null));
+            /**
+             * Unique identifier for this checkout session, prefixed `cs_`. anyOf[1] (Value):
+             * string. Unique identifier for this checkout session, prefixed `cs_`. Example:
+             * "cs_01KEZF7C004JRWFW43H037MQRN". anyOf[2] (Value): null.
+             */
+            "checkout_session_id"?: ((string) | (null));
+            /**
+             * The reference the payment link URL or resolve request carried, such as your user ID.
+             * `null` when none was sent or checkout did not start from a payment link. Returned
+             * only to merchant credentials; omitted for buyer credentials. Set by the buyer's
+             * browser, so treat it as a claim, not proof of identity. Always present with merchant
+             * credentials. anyOf[1] (Value): string. The reference the payment link URL or resolve
+             * request carried, such as your user ID. `null` when none was sent or checkout did not
+             * start from a payment link. Returned only to merchant credentials; omitted for buyer
+             * credentials. Set by the buyer's browser, so treat it as a claim, not proof of
+             * identity. Always present with merchant credentials. minLength: 1. maxLength: 255.
+             * anyOf[2] (Value): null.
+             */
+            "client_reference"?: ((string) | (null));
+            /**
+             * The note supplied when the checkout session was closed. anyOf[1] (Value): string.
+             * The note supplied when the checkout session was closed. anyOf[2] (Value): null.
+             */
+            "closed_reason_message"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * The buyer's answers to the payment link's custom fields, the same as the
+             * `custom_field_answers` of the session's order. Read-only. Empty when the session
+             * didn't start from a payment link, the buyer answered no custom fields, or the order
+             * was created before Flint recorded answers here. Returned only to merchant
+             * credentials; omitted for buyer credentials. Always present with merchant
+             * credentials. anyOf[1] (Value): Array of {@link CustomFieldAnswerPreviousAttributes}.
+             * The buyer's answers to the payment link's custom fields, the same as the
+             * `custom_field_answers` of the session's order. Read-only. Empty when the session
+             * didn't start from a payment link, the buyer answered no custom fields, or the order
+             * was created before Flint recorded answers here. Returned only to merchant
+             * credentials; omitted for buyer credentials. Always present with merchant
+             * credentials. maxItems: 20. anyOf[1][] (Value): {@link
+             * CustomFieldAnswerPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "custom_field_answers"?: ((Array<CustomFieldAnswerPreviousAttributes>) | (null));
+            /**
+             * The custom text this session shows in checkout. anyOf[1] (Value): {@link
+             * CheckoutCustomTextConfigPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "custom_text"?: ((CheckoutCustomTextConfigPreviousAttributes) | (null));
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            /**
+             * The customer of the session's order. Omitted when the order has none. A checkout
+             * credential issued for this session acts for this customer. Add expand=customer to
+             * include the customer. anyOf[1] (Value): string. The customer of the session's order.
+             * Omitted when the order has none. A checkout credential issued for this session acts
+             * for this customer. Add expand=customer to include the customer. Example:
+             * "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * Current delivery choices for Flint-owned pricing. External pricing reports
+             * requires_explicit_quote; reading this field does not request a delivery quote.
+             * Omitted when the session is not open, has no order, or Flint cannot read its
+             * delivery. anyOf[1] (Value): {@link
+             * CheckoutDerivedDeliveryResourcePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "delivery"?: ((CheckoutDerivedDeliveryResourcePreviousAttributes) | (null));
+            /**
+             * Immutable delivery method assignment captured when the checkout was created.
+             * anyOf[1] (Value): Array of string. Immutable delivery method assignment captured
+             * when the checkout was created. anyOf[1][] (Value): string. Example:
+             * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". anyOf[2] (Value): null.
+             */
+            "delivery_method_ids"?: ((Array<string>) | (null));
+            /**
+             * Whether the order has at least one remaining quote-resolved fulfillment choice that
+             * must be selected before payment. anyOf[1] (Value): boolean. Whether the order has at
+             * least one remaining quote-resolved fulfillment choice that must be selected before
+             * payment. anyOf[2] (Value): null.
+             */
+            "delivery_selection_required"?: ((boolean) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "expires_at"?: ((string) | (null));
+            /**
+             * The lifetime the session got. expires_at is its deadline. Omitted for invoice
+             * sessions, which take their deadline from the invoice. anyOf[1] (Value): integer. The
+             * lifetime the session got. expires_at is its deadline. Omitted for invoice sessions,
+             * which take their deadline from the invoice. Format: int64. anyOf[2] (Value): null.
+             */
+            "expires_in_seconds"?: ((number) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Where the buyer completes a gift card challenge for this checkout. Returned on
+             * single-session reads, session create and update responses, checkout launch results,
+             * and customer verification confirmation results while the session is open and can
+             * show the challenge. Omitted from lists, webhooks, expanded resources, and delivery
+             * selection results. anyOf[1] (Value): {@link
+             * CheckoutGiftCardChallengePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "gift_card_challenge"?: ((CheckoutGiftCardChallengePreviousAttributes) | (null));
+            /**
+             * Immutable cart hold IDs authorized by the merchant at session creation. Omitted when
+             * empty and from checkout-credential responses. Buyer and merchant delivery requests
+             * that omit IDs use eligible bound holds; explicit merchant IDs replace the binding
+             * for that request. First adopter wins when sessions share a hold. Invalidated or
+             * otherwise ended sessions cannot adopt stock, and replacements never inherit the
+             * binding. Unused cart units retain their own release and expiration lifecycle.
+             * anyOf[1] (Value): Array of string. Immutable cart hold IDs authorized by the
+             * merchant at session creation. Omitted when empty and from checkout-credential
+             * responses. Buyer and merchant delivery requests that omit IDs use eligible bound
+             * holds; explicit merchant IDs replace the binding for that request. First adopter
+             * wins when sessions share a hold. Invalidated or otherwise ended sessions cannot
+             * adopt stock, and replacements never inherit the binding. Unused cart units retain
+             * their own release and expiration lifecycle. anyOf[1][] (Value): string. Example:
+             * "invr_01KEZF7C0041ENRR0C2NF3AP12". anyOf[2] (Value): null.
+             */
+            "inventory_reservation_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `invoice`; `null` when expanded and there is no
+             * related invoice. anyOf[1] (Value): {@link ExpandedInvoiceSummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "invoice"?: ((ExpandedInvoiceSummaryPreviousAttributes) | (null));
+            /**
+             * ID of the invoice a session of type `invoice` collects payment for. Absent for other
+             * types. anyOf[1] (Value): string. ID of the invoice a session of type `invoice`
+             * collects payment for. Absent for other types. Example:
+             * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
+             */
+            "invoice_id"?: ((string) | (null));
+            /**
+             * Whether this terminal session credential is temporarily restricted to recovering its
+             * owning payment attempt. anyOf[1] (Value): boolean. Whether this terminal session
+             * credential is temporarily restricted to recovering its owning payment attempt.
+             * anyOf[2] (Value): null.
+             */
+            "is_in_recovery"?: ((boolean) | (null));
+            /**
+             * The terms and policy links this session shows the buyer, and whether the buyer must
+             * accept the terms. anyOf[1] (Value): {@link CheckoutLegalConfigPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "legal"?: ((CheckoutLegalConfigPreviousAttributes) | (null));
+            /**
+             * ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the
+             * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             * anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Present only when `expand` includes `order`; `null` when expanded and there is no
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
+            /**
+             * ID of the order the session collects payment for, fixed at creation. Absent when the
+             * session has no order. anyOf[1] (Value): string. ID of the order the session collects
+             * payment for, fixed at creation. Absent when the session has no order. Example:
+             * "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * Origin of the page that renders this headless checkout. Omitted when not set.
+             * anyOf[1] (Value): string. Origin of the page that renders this headless checkout.
+             * Omitted when not set. anyOf[2] (Value): null.
+             */
+            "page_origin"?: ((string) | (null));
+            /**
+             * Guidance for collecting a payment source. Checkout-credential reads include it only
+             * while the session is open. Returned only to the checkout credential; never in
+             * webhook payloads. anyOf[1] (Value): {@link SetupCollectionPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "payment_collection"?: ((SetupCollectionPreviousAttributes) | (null));
+            /**
+             * IDs of the payment intents for the session's order. Absent when the order has none.
+             * anyOf[1] (Value): Array of string. IDs of the payment intents for the session's
+             * order. Absent when the order has none. anyOf[1][] (Value): string. Example:
+             * "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2] (Value): null.
+             */
+            "payment_intent_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `payment_intents`: summaries of the payment
+             * intents in `payment_intent_ids`. anyOf[1] (Value): Array of {@link
+             * ExpandedPaymentIntentSummaryPreviousAttributes}. Present only when `expand` includes
+             * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
+             * anyOf[1][] (Value): {@link ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[2]
+             * (Value): null.
+             */
+            "payment_intents"?: ((Array<ExpandedPaymentIntentSummaryPreviousAttributes>) | (null));
+            /**
+             * Present only when `expand` includes `payment_link`; `null` when expanded and there
+             * is no related payment link. anyOf[1] (Value): {@link
+             * ExpandedPaymentLinkSummaryPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "payment_link"?: ((ExpandedPaymentLinkSummaryPreviousAttributes) | (null));
+            /**
+             * ID of the payment link the session was started from. Absent when it was not started
+             * from a payment link. anyOf[1] (Value): string. ID of the payment link the session
+             * was started from. Absent when it was not started from a payment link. Example:
+             * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". anyOf[2] (Value): null.
+             */
+            "payment_link_id"?: ((string) | (null));
+            /**
+             * Headless sessions only. Absolute HTTPS URL on your site where Flint sends the buyer
+             * after a redirect payment such as Affirm, whatever the outcome; read the session
+             * there to show the result. Required when the session offers affirm. It can't contain
+             * credentials, a query string, or a fragment. Query strings are deliberately excluded
+             * so credentials and provider state cannot cross Flint's payment relay. Put merchant
+             * identifiers in the URL path, such as https://shop.example/return/sub_123. Test mode
+             * also accepts http loopback URLs. Up to 2,048 characters. anyOf[1] (Value): string.
+             * Headless sessions only. Absolute HTTPS URL on your site where Flint sends the buyer
+             * after a redirect payment such as Affirm, whatever the outcome; read the session
+             * there to show the result. Required when the session offers affirm. It can't contain
+             * credentials, a query string, or a fragment. Query strings are deliberately excluded
+             * so credentials and provider state cannot cross Flint's payment relay. Put merchant
+             * identifiers in the URL path, such as https://shop.example/return/sub_123. Test mode
+             * also accepts http loopback URLs. Up to 2,048 characters. Format: uri. maxLength:
+             * 2048. Example: "https://example.com/receipt". anyOf[2] (Value): null.
+             */
+            "payment_return_url"?: ((string) | (null));
+            /**
+             * Configured payment options for merchant credentials; currently available payment
+             * options for the checkout credential. anyOf[1] (Value): {@link
+             * CheckoutPaymentConfigPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "payments"?: ((CheckoutPaymentConfigPreviousAttributes) | (null));
+            /**
+             * Contact details and addresses to fill in for the buyer, who can change them. For a
+             * customer with saved addresses, Flint fills in any address you leave out, and reads
+             * include it. With quick_pay or subscription_plan and automatic tax on, a prefilled
+             * address sets the order's tax location. Not changed by what the buyer types; for
+             * that, read buyer_contact. customer_prefill is what the checkout credential reads
+             * from the customer record. anyOf[1] (Value): {@link
+             * CheckoutPrefillPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "prefill"?: ((CheckoutPrefillPreviousAttributes) | (null));
+            /**
+             * Named conditions that affect checkout completion. Follow each problem's remediation
+             * action instead of reconstructing delivery lifecycle rules in the client.
+             * payment_in_progress means another payment for the order must finish before this
+             * checkout can complete. When Flint cannot read the checkout's delivery, the read
+             * still succeeds and reports delivery_unreadable; its remediation says whether reading
+             * the session again can succeed, and its next action's reason_code names the error.
+             * anyOf[1] (Value): Array of {@link CheckoutProblemResourcePreviousAttributes}. Named
+             * conditions that affect checkout completion. Follow each problem's remediation action
+             * instead of reconstructing delivery lifecycle rules in the client.
+             * payment_in_progress means another payment for the order must finish before this
+             * checkout can complete. When Flint cannot read the checkout's delivery, the read
+             * still succeeds and reports delivery_unreadable; its remediation says whether reading
+             * the session again can succeed, and its next action's reason_code names the error.
+             * anyOf[1][] (Value): {@link CheckoutProblemResourcePreviousAttributes}. anyOf[2]
+             * (Value): null.
+             */
+            "problems"?: ((Array<CheckoutProblemResourcePreviousAttributes>) | (null));
+            /**
+             * Whether automatic promotions apply to this session and whether the buyer can enter
+             * promotion codes. anyOf[1] (Value): {@link
+             * CheckoutPromotionConfigPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "promotion_config"?: ((CheckoutPromotionConfigPreviousAttributes) | (null));
+            /**
+             * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
+             * payment_return_url. anyOf[1] (Value): {@link CheckoutRedirectsPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "redirects"?: ((CheckoutRedirectsPreviousAttributes) | (null));
+            /**
+             * All buyer-visible refunds on this session’s order, including refunds made by the
+             * store. Uses the same buyer projection as /v1/me/refunds. Included on GET
+             * single-session reads as an array, with [] when there are none, and omitted from
+             * other responses and webhooks. A failed refund with failure_reason refund_abandoned
+             * could not be completed: tell the buyer to contact the store to get their money back.
+             * anyOf[1] (Value): Array of {@link BuyerRefundPreviousAttributes}. All buyer-visible
+             * refunds on this session’s order, including refunds made by the store. Uses the same
+             * buyer projection as /v1/me/refunds. Included on GET single-session reads as an
+             * array, with [] when there are none, and omitted from other responses and webhooks. A
+             * failed refund with failure_reason refund_abandoned could not be completed: tell the
+             * buyer to contact the store to get their money back. anyOf[1][] (Value): {@link
+             * BuyerRefundPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "refunds"?: ((Array<BuyerRefundPreviousAttributes>) | (null));
+            /**
+             * Guidance for collecting a payment method to save. Checkout-credential reads include
+             * it only while the session is open. Returned only to the checkout credential; never
+             * in webhook payloads. anyOf[1] (Value): {@link SetupCollectionPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "setup_collection"?: ((SetupCollectionPreviousAttributes) | (null));
+            /**
+             * Where the session is in its lifecycle. Only an `open` session accepts payment.
+             * `terminal_reason` says why a session that is not open ended. Value enum: "open",
+             * "paid", "partially_paid", "expired", "closed", "invalidated". anyOf[1] (Value):
+             * string. Where the session is in its lifecycle. Only an `open` session accepts
+             * payment. `terminal_reason` says why a session that is not open ended. Value enum:
+             * "open", "paid", "partially_paid", "expired", "closed", "invalidated". anyOf[2]
+             * (Value): null.
+             */
+            "status"?: (("open" | "paid" | "partially_paid" | "expired" | "closed" | "invalidated" | (string & {})) | (null));
+            /**
+             * ID of the subscription plan a session of type `subscription_plan` signs the buyer up
+             * for. Absent for other types. anyOf[1] (Value): string. ID of the subscription plan a
+             * session of type `subscription_plan` signs the buyer up for. Absent for other types.
+             * Example: "plan_01KEZF7C004CY5ZR33XST2AASV". anyOf[2] (Value): null.
+             */
+            "subscription_plan_id"?: ((string) | (null));
+            /**
+             * Renewal terms a subscription checkout commits the buyer to. Frozen when the
+             * session's order was created, so later plan changes do not alter them. Absent when
+             * the checkout starts no subscription. anyOf[1] (Value): {@link
+             * CheckoutSubscriptionTermsPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "subscription_terms"?: ((CheckoutSubscriptionTermsPreviousAttributes) | (null));
+            /**
+             * ID of the session that replaced this one. Present when `terminal_reason` is
+             * `superseded`. anyOf[1] (Value): string. ID of the session that replaced this one.
+             * Present when `terminal_reason` is `superseded`. Example:
+             * "cs_01KEZF7C004JRWFW43H037MQRN". anyOf[2] (Value): null.
+             */
+            "superseding_checkout_session_id"?: ((string) | (null));
+            /**
+             * Lifecycle actions Flint accepts now, computed from stored checkout state without
+             * checking the caller's permissions. Contains close while open; empty after payment,
+             * closure, or expiry. Always present with merchant credentials. [] enum: "close".
+             * anyOf[1] (Value): Array of string. Lifecycle actions Flint accepts now, computed
+             * from stored checkout state without checking the caller's permissions. Contains close
+             * while open; empty after payment, closure, or expiry. Always present with merchant
+             * credentials. [] enum: "close". anyOf[1][] (Value): string. Value enum: "close".
+             * anyOf[2] (Value): null.
+             */
+            "supported_actions"?: ((Array<"close" | (string & {})>) | (null));
+            /**
+             * How the session is presented to the buyer. A hosted session has a `url` on Flint's
+             * checkout page; a headless one is rendered on your own page. Value enum: "hosted",
+             * "headless". anyOf[1] (Value): string. How the session is presented to the buyer. A
+             * hosted session has a `url` on Flint's checkout page; a headless one is rendered on
+             * your own page. Value enum: "hosted", "headless". anyOf[2] (Value): null.
+             */
+            "surface"?: (("hosted" | "headless" | (string & {})) | (null));
+            /**
+             * The session's tax settings. Omitted when the session sets none. anyOf[1] (Value):
+             * {@link CheckoutSessionTaxPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "tax"?: ((CheckoutSessionTaxPreviousAttributes) | (null));
+            /**
+             * Why the session ended. The checkout credential can still read its own closed or
+             * expired session; every other call is refused because the session is not open.
+             * order_paid_elsewhere applies only to invalidated sessions when payment succeeds or
+             * partially succeeds outside the session. order_mutated applies when an edit closes or
+             * completes its order, or ends an invoice, return-resolution, or subscription-plan
+             * session. Other merchant edits keep hosted and headless sessions open. A session
+             * already past expires_at ends with expired before the edit is applied. Value enum:
+             * "payment_succeeded", "payment_partially_succeeded", "expired", "closed_by_merchant",
+             * "order_mutated", "superseded", "order_paid_elsewhere", "invoice_paid_elsewhere",
+             * "invoice_voided", "invoice_uncollectible", "invoice_balance_changed". anyOf[1]
+             * (Value): string. Why the session ended. The checkout credential can still read its
+             * own closed or expired session; every other call is refused because the session is
+             * not open. order_paid_elsewhere applies only to invalidated sessions when payment
+             * succeeds or partially succeeds outside the session. order_mutated applies when an
+             * edit closes or completes its order, or ends an invoice, return-resolution, or
+             * subscription-plan session. Other merchant edits keep hosted and headless sessions
+             * open. A session already past expires_at ends with expired before the edit is
+             * applied. Value enum: "payment_succeeded", "payment_partially_succeeded", "expired",
+             * "closed_by_merchant", "order_mutated", "superseded", "order_paid_elsewhere",
+             * "invoice_paid_elsewhere", "invoice_voided", "invoice_uncollectible",
+             * "invoice_balance_changed". anyOf[2] (Value): null.
+             */
+            "terminal_reason"?: (("payment_succeeded"
+                | "payment_partially_succeeded"
+                | "expired"
+                | "closed_by_merchant"
+                | "order_mutated"
+                | "superseded"
+                | "order_paid_elsewhere"
+                | "invoice_paid_elsewhere"
+                | "invoice_voided"
+                | "invoice_uncollectible"
+                | "invoice_balance_changed"
+                | (string & {}))
+                | (null));
+            /**
+             * The theme checkout renders with: your branding settings, with the session's `title`,
+             * `primary_color`, and `accent_color` over them. A session sets only those three; the
+             * other fields come from branding settings. Omitted when neither sets a value.
+             * anyOf[1] (Value): {@link CheckoutThemePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "theme"?: ((CheckoutThemePreviousAttributes) | (null));
+            /**
+             * The tip options this session offers the buyer. anyOf[1] (Value): {@link
+             * CheckoutTipConfigPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "tip"?: ((CheckoutTipConfigPreviousAttributes) | (null));
+            /**
+             * What the session collects payment for, fixed at creation. Value enum: "order",
+             * "quick_pay", "subscription_plan", "invoice", "payment_link". anyOf[1] (Value):
+             * string. What the session collects payment for, fixed at creation. Value enum:
+             * "order", "quick_pay", "subscription_plan", "invoice", "payment_link". anyOf[2]
+             * (Value): null.
+             */
+            "type"?: (("order" | "quick_pay" | "subscription_plan" | "invoice" | "payment_link" | (string & {})) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. anyOf[1] (Value): integer. Persisted version
+             * of this resource's owned state. Expanded resources and external observations can
+             * change independently. Format: uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "checkout_session.partially_paid". */
+    "event_type"?: "checkout_session.partially_paid";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `checkout_session.partially_paid` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type CheckoutSessionPartiallyPaidMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link WebhookCheckoutSession}. The resource snapshot, without
+     * expansions. Webhooks omit these fields: `url`, `recovery_payment_attempt_id`,
+     * `recovery_expires_at`, `can_save_payment_method`, `save_payment_method_types`,
+     * `save_payment_method_requires_verification`, `pay_to_new_address_requires_verification`,
+     * `can_save_payment_method_with_phone`, `payment_method_save`, `customer_prefill`,
+     * `merchant_support`, `merchant_name`, `show_flint_mark`, `merchant_logo`, `merchant_icon`,
+     * `payment_link_image`, `platform_fee`, `customer_account_url`. previous_attributes
+     * (Optional): object. Previous values of changed top-level fields in data.object, at this
+     * delivery's API version. Nested changes include the whole previous top-level value. A value
+     * is null when the field was absent before the change. Omitted when Flint did not record the
+     * previous state, including synthetic test events. previous_attributes.active_payment_attempt
+     * (Optional): {@link OrderPaymentAttemptPreviousAttributes} or null. The payment attempt now
+     * collecting this checkout's order, the same attempt as the order's active_payment_attempt.
+     * Read it to recover after losing a pay response, and resume it only when is_resumable is
+     * true. Omitted when no attempt is active. Pending actions that open a URL are left out; the
+     * pay response carries them. previous_attributes.active_payment_attempt.anyOf[1] (Value):
+     * {@link OrderPaymentAttemptPreviousAttributes}.
+     * previous_attributes.active_payment_attempt.anyOf[2] (Value): null.
+     * previous_attributes.buyer_contact (Optional): {@link CheckoutBuyerContactPreviousAttributes}
+     * or null. Contact the buyer entered in checkout before paying, saved with the session's
+     * checkout credential. Separate from merchant-supplied prefill and customer_prefill from the
+     * customer record. Omitted until the buyer saves or clears a field. When a checkout session
+     * payment omits buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint
+     * clears the contact 30 days after the session ends, and when a customer linked to the session
+     * is deleted. previous_attributes.buyer_contact.anyOf[1] (Value): {@link
+     * CheckoutBuyerContactPreviousAttributes}. previous_attributes.buyer_contact.anyOf[2] (Value):
+     * null. previous_attributes.buyer_fields (Optional): {@link
+     * CheckoutBuyerFieldsPreviousAttributes} or null. What checkout asks the buyer for. Each field
+     * you leave out uses your checkout settings. previous_attributes.buyer_fields.anyOf[1]
+     * (Value): {@link CheckoutBuyerFieldsPreviousAttributes}.
+     * previous_attributes.buyer_fields.anyOf[2] (Value): null.
+     * previous_attributes.can_apply_promotion_code (Optional): boolean or null. Whether to offer
+     * promotion-code entry now. True only while the session is open, is not in recovery, and
+     * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
+     * null offers entry only when this merchant has an active code promotion whose schedule
+     * includes now, in the session's environment. Recomputed on each read. This hint does not
+     * change code admission: checkout lifecycle, promotion_config, and merchant policy still
+     * apply. previous_attributes.can_apply_promotion_code.anyOf[1] (Value): boolean. Whether to
+     * offer promotion-code entry now. True only while the session is open, is not in recovery, and
+     * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
+     * null offers entry only when this merchant has an active code promotion whose schedule
+     * includes now, in the session's environment. Recomputed on each read. This hint does not
+     * change code admission: checkout lifecycle, promotion_config, and merchant policy still
+     * apply. previous_attributes.can_apply_promotion_code.anyOf[2] (Value): null.
+     * previous_attributes.checkout_session_id (Optional): string or null. Unique identifier for
+     * this checkout session, prefixed `cs_`. previous_attributes.checkout_session_id.anyOf[1]
+     * (Value): string. Unique identifier for this checkout session, prefixed `cs_`. Example:
+     * "cs_01KEZF7C004JRWFW43H037MQRN". previous_attributes.checkout_session_id.anyOf[2] (Value):
+     * null. previous_attributes.client_reference (Optional): string or null. The reference the
+     * payment link URL or resolve request carried, such as your user ID. `null` when none was sent
+     * or checkout did not start from a payment link. Returned only to merchant credentials;
+     * omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof
+     * of identity. Always present with merchant credentials.
+     * previous_attributes.client_reference.anyOf[1] (Value): string. The reference the payment
+     * link URL or resolve request carried, such as your user ID. `null` when none was sent or
+     * checkout did not start from a payment link. Returned only to merchant credentials; omitted
+     * for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof of
+     * identity. Always present with merchant credentials. minLength: 1. maxLength: 255.
+     * previous_attributes.client_reference.anyOf[2] (Value): null.
+     * previous_attributes.closed_reason_message (Optional): string or null. The note supplied when
+     * the checkout session was closed. previous_attributes.closed_reason_message.anyOf[1] (Value):
+     * string. The note supplied when the checkout session was closed.
+     * previous_attributes.closed_reason_message.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.custom_field_answers (Optional): Array of {@link
+     * CustomFieldAnswerPreviousAttributes} or null. The buyer's answers to the payment link's
+     * custom fields, the same as the `custom_field_answers` of the session's order. Read-only.
+     * Empty when the session didn't start from a payment link, the buyer answered no custom
+     * fields, or the order was created before Flint recorded answers here. Returned only to
+     * merchant credentials; omitted for buyer credentials. Always present with merchant
+     * credentials. previous_attributes.custom_field_answers.anyOf[1] (Value): Array of {@link
+     * CustomFieldAnswerPreviousAttributes}. The buyer's answers to the payment link's custom
+     * fields, the same as the `custom_field_answers` of the session's order. Read-only. Empty when
+     * the session didn't start from a payment link, the buyer answered no custom fields, or the
+     * order was created before Flint recorded answers here. Returned only to merchant credentials;
+     * omitted for buyer credentials. Always present with merchant credentials. maxItems: 20.
+     * previous_attributes.custom_field_answers.anyOf[1][] (Value): {@link
+     * CustomFieldAnswerPreviousAttributes}. previous_attributes.custom_field_answers.anyOf[2]
+     * (Value): null. previous_attributes.custom_text (Optional): {@link
+     * CheckoutCustomTextConfigPreviousAttributes} or null. The custom text this session shows in
+     * checkout. previous_attributes.custom_text.anyOf[1] (Value): {@link
+     * CheckoutCustomTextConfigPreviousAttributes}. previous_attributes.custom_text.anyOf[2]
+     * (Value): null. previous_attributes.customer (Optional): {@link
+     * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+     * `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. The customer of the
+     * session's order. Omitted when the order has none. A checkout credential issued for this
+     * session acts for this customer. Add expand=customer to include the customer.
+     * previous_attributes.customer_id.anyOf[1] (Value): string. The customer of the session's
+     * order. Omitted when the order has none. A checkout credential issued for this session acts
+     * for this customer. Add expand=customer to include the customer. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery (Optional): {@link
+     * CheckoutDerivedDeliveryResourcePreviousAttributes} or null. Current delivery choices for
+     * Flint-owned pricing. External pricing reports requires_explicit_quote; reading this field
+     * does not request a delivery quote. Omitted when the session is not open, has no order, or
+     * Flint cannot read its delivery. previous_attributes.delivery.anyOf[1] (Value): {@link
+     * CheckoutDerivedDeliveryResourcePreviousAttributes}. previous_attributes.delivery.anyOf[2]
+     * (Value): null. previous_attributes.delivery_method_ids (Optional): Array of string or null.
+     * Immutable delivery method assignment captured when the checkout was created.
+     * previous_attributes.delivery_method_ids.anyOf[1] (Value): Array of string. Immutable
+     * delivery method assignment captured when the checkout was created.
+     * previous_attributes.delivery_method_ids.anyOf[1][] (Value): string. Example:
+     * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". previous_attributes.delivery_method_ids.anyOf[2] (Value):
+     * null. previous_attributes.delivery_selection_required (Optional): boolean or null. Whether
+     * the order has at least one remaining quote-resolved fulfillment choice that must be selected
+     * before payment. previous_attributes.delivery_selection_required.anyOf[1] (Value): boolean.
+     * Whether the order has at least one remaining quote-resolved fulfillment choice that must be
+     * selected before payment. previous_attributes.delivery_selection_required.anyOf[2] (Value):
+     * null. previous_attributes.expires_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.expires_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.expires_at.anyOf[2] (Value):
+     * null. previous_attributes.expires_in_seconds (Optional): integer or null. The lifetime the
+     * session got. expires_at is its deadline. Omitted for invoice sessions, which take their
+     * deadline from the invoice. previous_attributes.expires_in_seconds.anyOf[1] (Value): integer.
+     * The lifetime the session got. expires_at is its deadline. Omitted for invoice sessions,
+     * which take their deadline from the invoice. Format: int64.
+     * previous_attributes.expires_in_seconds.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.gift_card_challenge (Optional): {@link
+     * CheckoutGiftCardChallengePreviousAttributes} or null. Where the buyer completes a gift card
+     * challenge for this checkout. Returned on single-session reads, session create and update
+     * responses, checkout launch results, and customer verification confirmation results while the
+     * session is open and can show the challenge. Omitted from lists, webhooks, expanded
+     * resources, and delivery selection results. previous_attributes.gift_card_challenge.anyOf[1]
+     * (Value): {@link CheckoutGiftCardChallengePreviousAttributes}.
+     * previous_attributes.gift_card_challenge.anyOf[2] (Value): null.
+     * previous_attributes.inventory_reservation_ids (Optional): Array of string or null. Immutable
+     * cart hold IDs authorized by the merchant at session creation. Omitted when empty and from
+     * checkout-credential responses. Buyer and merchant delivery requests that omit IDs use
+     * eligible bound holds; explicit merchant IDs replace the binding for that request. First
+     * adopter wins when sessions share a hold. Invalidated or otherwise ended sessions cannot
+     * adopt stock, and replacements never inherit the binding. Unused cart units retain their own
+     * release and expiration lifecycle. previous_attributes.inventory_reservation_ids.anyOf[1]
+     * (Value): Array of string. Immutable cart hold IDs authorized by the merchant at session
+     * creation. Omitted when empty and from checkout-credential responses. Buyer and merchant
+     * delivery requests that omit IDs use eligible bound holds; explicit merchant IDs replace the
+     * binding for that request. First adopter wins when sessions share a hold. Invalidated or
+     * otherwise ended sessions cannot adopt stock, and replacements never inherit the binding.
+     * Unused cart units retain their own release and expiration lifecycle.
+     * previous_attributes.inventory_reservation_ids.anyOf[1][] (Value): string. Example:
+     * "invr_01KEZF7C0041ENRR0C2NF3AP12". previous_attributes.inventory_reservation_ids.anyOf[2]
+     * (Value): null. previous_attributes.invoice (Optional): {@link
+     * ExpandedInvoiceSummaryPreviousAttributes} or null. Present only when `expand` includes
+     * `invoice`; `null` when expanded and there is no related invoice.
+     * previous_attributes.invoice.anyOf[1] (Value): {@link
+     * ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2] (Value):
+     * null. previous_attributes.invoice_id (Optional): string or null. ID of the invoice a session
+     * of type `invoice` collects payment for. Absent for other types.
+     * previous_attributes.invoice_id.anyOf[1] (Value): string. ID of the invoice a session of type
+     * `invoice` collects payment for. Absent for other types. Example:
+     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
+     * previous_attributes.is_in_recovery (Optional): boolean or null. Whether this terminal
+     * session credential is temporarily restricted to recovering its owning payment attempt.
+     * previous_attributes.is_in_recovery.anyOf[1] (Value): boolean. Whether this terminal session
+     * credential is temporarily restricted to recovering its owning payment attempt.
+     * previous_attributes.is_in_recovery.anyOf[2] (Value): null. previous_attributes.legal
+     * (Optional): {@link CheckoutLegalConfigPreviousAttributes} or null. The terms and policy
+     * links this session shows the buyer, and whether the buyer must accept the terms.
+     * previous_attributes.legal.anyOf[1] (Value): {@link CheckoutLegalConfigPreviousAttributes}.
+     * previous_attributes.legal.anyOf[2] (Value): null. previous_attributes.merchant_id
+     * (Optional): string or null. ID of the merchant this resource belongs to.
+     * previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the merchant this resource
+     * belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
+     * (Value): {@link MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.order (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or
+     * null. Present only when `expand` includes `order`; `null` when expanded and there is no
+     * related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value): null.
+     * previous_attributes.order_id (Optional): string or null. ID of the order the session
+     * collects payment for, fixed at creation. Absent when the session has no order.
+     * previous_attributes.order_id.anyOf[1] (Value): string. ID of the order the session collects
+     * payment for, fixed at creation. Absent when the session has no order. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
+     * previous_attributes.page_origin (Optional): string or null. Origin of the page that renders
+     * this headless checkout. Omitted when not set. previous_attributes.page_origin.anyOf[1]
+     * (Value): string. Origin of the page that renders this headless checkout. Omitted when not
+     * set. previous_attributes.page_origin.anyOf[2] (Value): null.
+     * previous_attributes.payment_collection (Optional): {@link SetupCollectionPreviousAttributes}
+     * or null. Guidance for collecting a payment source. Checkout-credential reads include it only
+     * while the session is open. Returned only to the checkout credential; never in webhook
+     * payloads. previous_attributes.payment_collection.anyOf[1] (Value): {@link
+     * SetupCollectionPreviousAttributes}. previous_attributes.payment_collection.anyOf[2] (Value):
+     * null. previous_attributes.payment_intent_ids (Optional): Array of string or null. IDs of the
+     * payment intents for the session's order. Absent when the order has none.
+     * previous_attributes.payment_intent_ids.anyOf[1] (Value): Array of string. IDs of the payment
+     * intents for the session's order. Absent when the order has none.
+     * previous_attributes.payment_intent_ids.anyOf[1][] (Value): string. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R". previous_attributes.payment_intent_ids.anyOf[2] (Value):
+     * null. previous_attributes.payment_intents (Optional): Array of {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Present only when `expand` includes
+     * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
+     * previous_attributes.payment_intents.anyOf[1] (Value): Array of {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes}. Present only when `expand` includes
+     * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
+     * previous_attributes.payment_intents.anyOf[1][] (Value): {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes}.
+     * previous_attributes.payment_intents.anyOf[2] (Value): null. previous_attributes.payment_link
+     * (Optional): {@link ExpandedPaymentLinkSummaryPreviousAttributes} or null. Present only when
+     * `expand` includes `payment_link`; `null` when expanded and there is no related payment link.
+     * previous_attributes.payment_link.anyOf[1] (Value): {@link
+     * ExpandedPaymentLinkSummaryPreviousAttributes}. previous_attributes.payment_link.anyOf[2]
+     * (Value): null. previous_attributes.payment_link_id (Optional): string or null. ID of the
+     * payment link the session was started from. Absent when it was not started from a payment
+     * link. previous_attributes.payment_link_id.anyOf[1] (Value): string. ID of the payment link
+     * the session was started from. Absent when it was not started from a payment link. Example:
+     * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". previous_attributes.payment_link_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_return_url (Optional): string or null. Headless sessions only.
+     * Absolute HTTPS URL on your site where Flint sends the buyer after a redirect payment such as
+     * Affirm, whatever the outcome; read the session there to show the result. Required when the
+     * session offers affirm. It can't contain credentials, a query string, or a fragment. Query
+     * strings are deliberately excluded so credentials and provider state cannot cross Flint's
+     * payment relay. Put merchant identifiers in the URL path, such as
+     * https://shop.example/return/sub_123. Test mode also accepts http loopback URLs. Up to 2,048
+     * characters. previous_attributes.payment_return_url.anyOf[1] (Value): string. Headless
+     * sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a redirect
+     * payment such as Affirm, whatever the outcome; read the session there to show the result.
+     * Required when the session offers affirm. It can't contain credentials, a query string, or a
+     * fragment. Query strings are deliberately excluded so credentials and provider state cannot
+     * cross Flint's payment relay. Put merchant identifiers in the URL path, such as
+     * https://shop.example/return/sub_123. Test mode also accepts http loopback URLs. Up to 2,048
+     * characters. Format: uri. maxLength: 2048. Example: "https://example.com/receipt".
+     * previous_attributes.payment_return_url.anyOf[2] (Value): null. previous_attributes.payments
+     * (Optional): {@link CheckoutPaymentConfigPreviousAttributes} or null. Configured payment
+     * options for merchant credentials; currently available payment options for the checkout
+     * credential. previous_attributes.payments.anyOf[1] (Value): {@link
+     * CheckoutPaymentConfigPreviousAttributes}. previous_attributes.payments.anyOf[2] (Value):
+     * null. previous_attributes.prefill (Optional): {@link CheckoutPrefillPreviousAttributes} or
+     * null. Contact details and addresses to fill in for the buyer, who can change them. For a
+     * customer with saved addresses, Flint fills in any address you leave out, and reads include
+     * it. With quick_pay or subscription_plan and automatic tax on, a prefilled address sets the
+     * order's tax location. Not changed by what the buyer types; for that, read buyer_contact.
+     * customer_prefill is what the checkout credential reads from the customer record.
+     * previous_attributes.prefill.anyOf[1] (Value): {@link CheckoutPrefillPreviousAttributes}.
+     * previous_attributes.prefill.anyOf[2] (Value): null. previous_attributes.problems (Optional):
+     * Array of {@link CheckoutProblemResourcePreviousAttributes} or null. Named conditions that
+     * affect checkout completion. Follow each problem's remediation action instead of
+     * reconstructing delivery lifecycle rules in the client. payment_in_progress means another
+     * payment for the order must finish before this checkout can complete. When Flint cannot read
+     * the checkout's delivery, the read still succeeds and reports delivery_unreadable; its
+     * remediation says whether reading the session again can succeed, and its next action's
+     * reason_code names the error. previous_attributes.problems.anyOf[1] (Value): Array of {@link
+     * CheckoutProblemResourcePreviousAttributes}. Named conditions that affect checkout
+     * completion. Follow each problem's remediation action instead of reconstructing delivery
+     * lifecycle rules in the client. payment_in_progress means another payment for the order must
+     * finish before this checkout can complete. When Flint cannot read the checkout's delivery,
+     * the read still succeeds and reports delivery_unreadable; its remediation says whether
+     * reading the session again can succeed, and its next action's reason_code names the error.
+     * previous_attributes.problems.anyOf[1][] (Value): {@link
+     * CheckoutProblemResourcePreviousAttributes}. previous_attributes.problems.anyOf[2] (Value):
+     * null. previous_attributes.promotion_config (Optional): {@link
+     * CheckoutPromotionConfigPreviousAttributes} or null. Whether automatic promotions apply to
+     * this session and whether the buyer can enter promotion codes.
+     * previous_attributes.promotion_config.anyOf[1] (Value): {@link
+     * CheckoutPromotionConfigPreviousAttributes}. previous_attributes.promotion_config.anyOf[2]
+     * (Value): null. previous_attributes.redirects (Optional): {@link
+     * CheckoutRedirectsPreviousAttributes} or null. Where hosted checkout sends the buyer. Not
+     * allowed when surface is headless; use payment_return_url.
+     * previous_attributes.redirects.anyOf[1] (Value): {@link CheckoutRedirectsPreviousAttributes}.
+     * previous_attributes.redirects.anyOf[2] (Value): null. previous_attributes.refunds
+     * (Optional): Array of {@link BuyerRefundPreviousAttributes} or null. All buyer-visible
+     * refunds on this session’s order, including refunds made by the store. Uses the same buyer
+     * projection as /v1/me/refunds. Included on GET single-session reads as an array, with [] when
+     * there are none, and omitted from other responses and webhooks. A failed refund with
+     * failure_reason refund_abandoned could not be completed: tell the buyer to contact the store
+     * to get their money back. previous_attributes.refunds.anyOf[1] (Value): Array of {@link
+     * BuyerRefundPreviousAttributes}. All buyer-visible refunds on this session’s order, including
+     * refunds made by the store. Uses the same buyer projection as /v1/me/refunds. Included on GET
+     * single-session reads as an array, with [] when there are none, and omitted from other
+     * responses and webhooks. A failed refund with failure_reason refund_abandoned could not be
+     * completed: tell the buyer to contact the store to get their money back.
+     * previous_attributes.refunds.anyOf[1][] (Value): {@link BuyerRefundPreviousAttributes}.
+     * previous_attributes.refunds.anyOf[2] (Value): null. previous_attributes.setup_collection
+     * (Optional): {@link SetupCollectionPreviousAttributes} or null. Guidance for collecting a
+     * payment method to save. Checkout-credential reads include it only while the session is open.
+     * Returned only to the checkout credential; never in webhook payloads.
+     * previous_attributes.setup_collection.anyOf[1] (Value): {@link
+     * SetupCollectionPreviousAttributes}. previous_attributes.setup_collection.anyOf[2] (Value):
+     * null. previous_attributes.status (Optional): string or null. Where the session is in its
+     * lifecycle. Only an `open` session accepts payment. `terminal_reason` says why a session that
+     * is not open ended. Value enum: "open", "paid", "partially_paid", "expired", "closed",
+     * "invalidated". previous_attributes.status.anyOf[1] (Value): string. Where the session is in
+     * its lifecycle. Only an `open` session accepts payment. `terminal_reason` says why a session
+     * that is not open ended. Value enum: "open", "paid", "partially_paid", "expired", "closed",
+     * "invalidated". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.subscription_plan_id (Optional): string or null. ID of the subscription
+     * plan a session of type `subscription_plan` signs the buyer up for. Absent for other types.
+     * previous_attributes.subscription_plan_id.anyOf[1] (Value): string. ID of the subscription
+     * plan a session of type `subscription_plan` signs the buyer up for. Absent for other types.
+     * Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
+     * previous_attributes.subscription_plan_id.anyOf[2] (Value): null.
+     * previous_attributes.subscription_terms (Optional): {@link
+     * CheckoutSubscriptionTermsPreviousAttributes} or null. Renewal terms a subscription checkout
+     * commits the buyer to. Frozen when the session's order was created, so later plan changes do
+     * not alter them. Absent when the checkout starts no subscription.
+     * previous_attributes.subscription_terms.anyOf[1] (Value): {@link
+     * CheckoutSubscriptionTermsPreviousAttributes}.
+     * previous_attributes.subscription_terms.anyOf[2] (Value): null.
+     * previous_attributes.superseding_checkout_session_id (Optional): string or null. ID of the
+     * session that replaced this one. Present when `terminal_reason` is `superseded`.
+     * previous_attributes.superseding_checkout_session_id.anyOf[1] (Value): string. ID of the
+     * session that replaced this one. Present when `terminal_reason` is `superseded`. Example:
+     * "cs_01KEZF7C004JRWFW43H037MQRN".
+     * previous_attributes.superseding_checkout_session_id.anyOf[2] (Value): null.
+     * previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle actions
+     * Flint accepts now, computed from stored checkout state without checking the caller's
+     * permissions. Contains close while open; empty after payment, closure, or expiry. Always
+     * present with merchant credentials. [] enum: "close".
+     * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions
+     * Flint accepts now, computed from stored checkout state without checking the caller's
+     * permissions. Contains close while open; empty after payment, closure, or expiry. Always
+     * present with merchant credentials. [] enum: "close".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "close".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.surface
+     * (Optional): string or null. How the session is presented to the buyer. A hosted session has
+     * a `url` on Flint's checkout page; a headless one is rendered on your own page. Value enum:
+     * "hosted", "headless". previous_attributes.surface.anyOf[1] (Value): string. How the session
+     * is presented to the buyer. A hosted session has a `url` on Flint's checkout page; a headless
+     * one is rendered on your own page. Value enum: "hosted", "headless".
+     * previous_attributes.surface.anyOf[2] (Value): null. previous_attributes.tax (Optional):
+     * {@link CheckoutSessionTaxPreviousAttributes} or null. The session's tax settings. Omitted
+     * when the session sets none. previous_attributes.tax.anyOf[1] (Value): {@link
+     * CheckoutSessionTaxPreviousAttributes}. previous_attributes.tax.anyOf[2] (Value): null.
+     * previous_attributes.terminal_reason (Optional): string or null. Why the session ended. The
+     * checkout credential can still read its own closed or expired session; every other call is
+     * refused because the session is not open. order_paid_elsewhere applies only to invalidated
+     * sessions when payment succeeds or partially succeeds outside the session. order_mutated
+     * applies when an edit closes or completes its order, or ends an invoice, return-resolution,
+     * or subscription-plan session. Other merchant edits keep hosted and headless sessions open. A
+     * session already past expires_at ends with expired before the edit is applied. Value enum:
+     * "payment_succeeded", "payment_partially_succeeded", "expired", "closed_by_merchant",
+     * "order_mutated", "superseded", "order_paid_elsewhere", "invoice_paid_elsewhere",
+     * "invoice_voided", "invoice_uncollectible", "invoice_balance_changed".
+     * previous_attributes.terminal_reason.anyOf[1] (Value): string. Why the session ended. The
+     * checkout credential can still read its own closed or expired session; every other call is
+     * refused because the session is not open. order_paid_elsewhere applies only to invalidated
+     * sessions when payment succeeds or partially succeeds outside the session. order_mutated
+     * applies when an edit closes or completes its order, or ends an invoice, return-resolution,
+     * or subscription-plan session. Other merchant edits keep hosted and headless sessions open. A
+     * session already past expires_at ends with expired before the edit is applied. Value enum:
+     * "payment_succeeded", "payment_partially_succeeded", "expired", "closed_by_merchant",
+     * "order_mutated", "superseded", "order_paid_elsewhere", "invoice_paid_elsewhere",
+     * "invoice_voided", "invoice_uncollectible", "invoice_balance_changed".
+     * previous_attributes.terminal_reason.anyOf[2] (Value): null. previous_attributes.theme
+     * (Optional): {@link CheckoutThemePreviousAttributes} or null. The theme checkout renders
+     * with: your branding settings, with the session's `title`, `primary_color`, and
+     * `accent_color` over them. A session sets only those three; the other fields come from
+     * branding settings. Omitted when neither sets a value. previous_attributes.theme.anyOf[1]
+     * (Value): {@link CheckoutThemePreviousAttributes}. previous_attributes.theme.anyOf[2]
+     * (Value): null. previous_attributes.tip (Optional): {@link
+     * CheckoutTipConfigPreviousAttributes} or null. The tip options this session offers the buyer.
+     * previous_attributes.tip.anyOf[1] (Value): {@link CheckoutTipConfigPreviousAttributes}.
+     * previous_attributes.tip.anyOf[2] (Value): null. previous_attributes.type (Optional): string
+     * or null. What the session collects payment for, fixed at creation. Value enum: "order",
+     * "quick_pay", "subscription_plan", "invoice", "payment_link".
+     * previous_attributes.type.anyOf[1] (Value): string. What the session collects payment for,
+     * fixed at creation. Value enum: "order", "quick_pay", "subscription_plan", "invoice",
+     * "payment_link". previous_attributes.type.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Persisted version of this
+     * resource's owned state. Expanded resources and external observations can change
+     * independently. previous_attributes.version.anyOf[1] (Value): integer. Persisted version of
+     * this resource's owned state. Expanded resources and external observations can change
+     * independently. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value):
+     * null.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit these fields: `url`,
+         * `recovery_payment_attempt_id`, `recovery_expires_at`, `can_save_payment_method`,
+         * `save_payment_method_types`, `save_payment_method_requires_verification`,
+         * `pay_to_new_address_requires_verification`, `can_save_payment_method_with_phone`,
+         * `payment_method_save`, `customer_prefill`, `merchant_support`, `merchant_name`,
+         * `show_flint_mark`, `merchant_logo`, `merchant_icon`, `payment_link_image`,
+         * `platform_fee`, `customer_account_url`.
+         */
+        "object": WebhookCheckoutSession;
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. active_payment_attempt (Optional): {@link
+         * OrderPaymentAttemptPreviousAttributes} or null. The payment attempt now collecting this
+         * checkout's order, the same attempt as the order's active_payment_attempt. Read it to
+         * recover after losing a pay response, and resume it only when is_resumable is true.
+         * Omitted when no attempt is active. Pending actions that open a URL are left out; the pay
+         * response carries them. active_payment_attempt.anyOf[1] (Value): {@link
+         * OrderPaymentAttemptPreviousAttributes}. active_payment_attempt.anyOf[2] (Value): null.
+         * buyer_contact (Optional): {@link CheckoutBuyerContactPreviousAttributes} or null.
+         * Contact the buyer entered in checkout before paying, saved with the session's checkout
+         * credential. Separate from merchant-supplied prefill and customer_prefill from the
+         * customer record. Omitted until the buyer saves or clears a field. When a checkout
+         * session payment omits buyer_contact.email or buyer_contact.phone, Flint uses these
+         * values. Flint clears the contact 30 days after the session ends, and when a customer
+         * linked to the session is deleted. buyer_contact.anyOf[1] (Value): {@link
+         * CheckoutBuyerContactPreviousAttributes}. buyer_contact.anyOf[2] (Value): null.
+         * buyer_fields (Optional): {@link CheckoutBuyerFieldsPreviousAttributes} or null. What
+         * checkout asks the buyer for. Each field you leave out uses your checkout settings.
+         * buyer_fields.anyOf[1] (Value): {@link CheckoutBuyerFieldsPreviousAttributes}.
+         * buyer_fields.anyOf[2] (Value): null. can_apply_promotion_code (Optional): boolean or
+         * null. Whether to offer promotion-code entry now. True only while the session is open, is
+         * not in recovery, and merchant promotion policy allows codes. An explicit
+         * promotion_config.codes_enabled wins; null offers entry only when this merchant has an
+         * active code promotion whose schedule includes now, in the session's environment.
+         * Recomputed on each read. This hint does not change code admission: checkout lifecycle,
+         * promotion_config, and merchant policy still apply. can_apply_promotion_code.anyOf[1]
+         * (Value): boolean. Whether to offer promotion-code entry now. True only while the session
+         * is open, is not in recovery, and merchant promotion policy allows codes. An explicit
+         * promotion_config.codes_enabled wins; null offers entry only when this merchant has an
+         * active code promotion whose schedule includes now, in the session's environment.
+         * Recomputed on each read. This hint does not change code admission: checkout lifecycle,
+         * promotion_config, and merchant policy still apply. can_apply_promotion_code.anyOf[2]
+         * (Value): null. checkout_session_id (Optional): string or null. Unique identifier for
+         * this checkout session, prefixed `cs_`. checkout_session_id.anyOf[1] (Value): string.
+         * Unique identifier for this checkout session, prefixed `cs_`. Example:
+         * "cs_01KEZF7C004JRWFW43H037MQRN". checkout_session_id.anyOf[2] (Value): null.
+         * client_reference (Optional): string or null. The reference the payment link URL or
+         * resolve request carried, such as your user ID. `null` when none was sent or checkout did
+         * not start from a payment link. Returned only to merchant credentials; omitted for buyer
+         * credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity.
+         * Always present with merchant credentials. client_reference.anyOf[1] (Value): string. The
+         * reference the payment link URL or resolve request carried, such as your user ID. `null`
+         * when none was sent or checkout did not start from a payment link. Returned only to
+         * merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so
+         * treat it as a claim, not proof of identity. Always present with merchant credentials.
+         * minLength: 1. maxLength: 255. client_reference.anyOf[2] (Value): null.
+         * closed_reason_message (Optional): string or null. The note supplied when the checkout
+         * session was closed. closed_reason_message.anyOf[1] (Value): string. The note supplied
+         * when the checkout session was closed. closed_reason_message.anyOf[2] (Value): null.
+         * created_at (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. custom_field_answers (Optional): Array of {@link
+         * CustomFieldAnswerPreviousAttributes} or null. The buyer's answers to the payment link's
+         * custom fields, the same as the `custom_field_answers` of the session's order. Read-only.
+         * Empty when the session didn't start from a payment link, the buyer answered no custom
+         * fields, or the order was created before Flint recorded answers here. Returned only to
+         * merchant credentials; omitted for buyer credentials. Always present with merchant
+         * credentials. custom_field_answers.anyOf[1] (Value): Array of {@link
+         * CustomFieldAnswerPreviousAttributes}. The buyer's answers to the payment link's custom
+         * fields, the same as the `custom_field_answers` of the session's order. Read-only. Empty
+         * when the session didn't start from a payment link, the buyer answered no custom fields,
+         * or the order was created before Flint recorded answers here. Returned only to merchant
+         * credentials; omitted for buyer credentials. Always present with merchant credentials.
+         * maxItems: 20. custom_field_answers.anyOf[1][] (Value): {@link
+         * CustomFieldAnswerPreviousAttributes}. custom_field_answers.anyOf[2] (Value): null.
+         * custom_text (Optional): {@link CheckoutCustomTextConfigPreviousAttributes} or null. The
+         * custom text this session shows in checkout. custom_text.anyOf[1] (Value): {@link
+         * CheckoutCustomTextConfigPreviousAttributes}. custom_text.anyOf[2] (Value): null.
+         * customer (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present
+         * only when `expand` includes `customer`; `null` when expanded and there is no related
+         * customer. customer.anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
+         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. The customer of
+         * the session's order. Omitted when the order has none. A checkout credential issued for
+         * this session acts for this customer. Add expand=customer to include the customer.
+         * customer_id.anyOf[1] (Value): string. The customer of the session's order. Omitted when
+         * the order has none. A checkout credential issued for this session acts for this
+         * customer. Add expand=customer to include the customer. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. delivery
+         * (Optional): {@link CheckoutDerivedDeliveryResourcePreviousAttributes} or null. Current
+         * delivery choices for Flint-owned pricing. External pricing reports
+         * requires_explicit_quote; reading this field does not request a delivery quote. Omitted
+         * when the session is not open, has no order, or Flint cannot read its delivery.
+         * delivery.anyOf[1] (Value): {@link CheckoutDerivedDeliveryResourcePreviousAttributes}.
+         * delivery.anyOf[2] (Value): null. delivery_method_ids (Optional): Array of string or
+         * null. Immutable delivery method assignment captured when the checkout was created.
+         * delivery_method_ids.anyOf[1] (Value): Array of string. Immutable delivery method
+         * assignment captured when the checkout was created. delivery_method_ids.anyOf[1][]
+         * (Value): string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+         * delivery_method_ids.anyOf[2] (Value): null. delivery_selection_required (Optional):
+         * boolean or null. Whether the order has at least one remaining quote-resolved fulfillment
+         * choice that must be selected before payment. delivery_selection_required.anyOf[1]
+         * (Value): boolean. Whether the order has at least one remaining quote-resolved
+         * fulfillment choice that must be selected before payment.
+         * delivery_selection_required.anyOf[2] (Value): null. expires_at (Optional): string or
+         * null. RFC3339 timestamp. expires_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". expires_at.anyOf[2] (Value): null.
+         * expires_in_seconds (Optional): integer or null. The lifetime the session got. expires_at
+         * is its deadline. Omitted for invoice sessions, which take their deadline from the
+         * invoice. expires_in_seconds.anyOf[1] (Value): integer. The lifetime the session got.
+         * expires_at is its deadline. Omitted for invoice sessions, which take their deadline from
+         * the invoice. Format: int64. expires_in_seconds.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
+         * gift_card_challenge (Optional): {@link CheckoutGiftCardChallengePreviousAttributes} or
+         * null. Where the buyer completes a gift card challenge for this checkout. Returned on
+         * single-session reads, session create and update responses, checkout launch results, and
+         * customer verification confirmation results while the session is open and can show the
+         * challenge. Omitted from lists, webhooks, expanded resources, and delivery selection
+         * results. gift_card_challenge.anyOf[1] (Value): {@link
+         * CheckoutGiftCardChallengePreviousAttributes}. gift_card_challenge.anyOf[2] (Value):
+         * null. inventory_reservation_ids (Optional): Array of string or null. Immutable cart hold
+         * IDs authorized by the merchant at session creation. Omitted when empty and from
+         * checkout-credential responses. Buyer and merchant delivery requests that omit IDs use
+         * eligible bound holds; explicit merchant IDs replace the binding for that request. First
+         * adopter wins when sessions share a hold. Invalidated or otherwise ended sessions cannot
+         * adopt stock, and replacements never inherit the binding. Unused cart units retain their
+         * own release and expiration lifecycle. inventory_reservation_ids.anyOf[1] (Value): Array
+         * of string. Immutable cart hold IDs authorized by the merchant at session creation.
+         * Omitted when empty and from checkout-credential responses. Buyer and merchant delivery
+         * requests that omit IDs use eligible bound holds; explicit merchant IDs replace the
+         * binding for that request. First adopter wins when sessions share a hold. Invalidated or
+         * otherwise ended sessions cannot adopt stock, and replacements never inherit the binding.
+         * Unused cart units retain their own release and expiration lifecycle.
+         * inventory_reservation_ids.anyOf[1][] (Value): string. Example:
+         * "invr_01KEZF7C0041ENRR0C2NF3AP12". inventory_reservation_ids.anyOf[2] (Value): null.
+         * invoice (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. Present
+         * only when `expand` includes `invoice`; `null` when expanded and there is no related
+         * invoice. invoice.anyOf[1] (Value): {@link ExpandedInvoiceSummaryPreviousAttributes}.
+         * invoice.anyOf[2] (Value): null. invoice_id (Optional): string or null. ID of the invoice
+         * a session of type `invoice` collects payment for. Absent for other types.
+         * invoice_id.anyOf[1] (Value): string. ID of the invoice a session of type `invoice`
+         * collects payment for. Absent for other types. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+         * invoice_id.anyOf[2] (Value): null. is_in_recovery (Optional): boolean or null. Whether
+         * this terminal session credential is temporarily restricted to recovering its owning
+         * payment attempt. is_in_recovery.anyOf[1] (Value): boolean. Whether this terminal session
+         * credential is temporarily restricted to recovering its owning payment attempt.
+         * is_in_recovery.anyOf[2] (Value): null. legal (Optional): {@link
+         * CheckoutLegalConfigPreviousAttributes} or null. The terms and policy links this session
+         * shows the buyer, and whether the buyer must accept the terms. legal.anyOf[1] (Value):
+         * {@link CheckoutLegalConfigPreviousAttributes}. legal.anyOf[2] (Value): null. merchant_id
+         * (Optional): string or null. ID of the merchant this resource belongs to.
+         * merchant_id.anyOf[1] (Value): string. ID of the merchant this resource belongs to.
+         * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
+         * `MetadataInput` for key, value, and size rules. metadata.anyOf[1] (Value): {@link
+         * MetadataMap}. metadata.anyOf[2] (Value): null. order (Optional): {@link
+         * ExpandedOrderSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `order`; `null` when expanded and there is no related order. order.anyOf[1] (Value):
+         * {@link ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2] (Value): null. order_id
+         * (Optional): string or null. ID of the order the session collects payment for, fixed at
+         * creation. Absent when the session has no order. order_id.anyOf[1] (Value): string. ID of
+         * the order the session collects payment for, fixed at creation. Absent when the session
+         * has no order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value):
+         * null. page_origin (Optional): string or null. Origin of the page that renders this
+         * headless checkout. Omitted when not set. page_origin.anyOf[1] (Value): string. Origin of
+         * the page that renders this headless checkout. Omitted when not set. page_origin.anyOf[2]
+         * (Value): null. payment_collection (Optional): {@link SetupCollectionPreviousAttributes}
+         * or null. Guidance for collecting a payment source. Checkout-credential reads include it
+         * only while the session is open. Returned only to the checkout credential; never in
+         * webhook payloads. payment_collection.anyOf[1] (Value): {@link
+         * SetupCollectionPreviousAttributes}. payment_collection.anyOf[2] (Value): null.
+         * payment_intent_ids (Optional): Array of string or null. IDs of the payment intents for
+         * the session's order. Absent when the order has none. payment_intent_ids.anyOf[1]
+         * (Value): Array of string. IDs of the payment intents for the session's order. Absent
+         * when the order has none. payment_intent_ids.anyOf[1][] (Value): string. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intent_ids.anyOf[2] (Value): null.
+         * payment_intents (Optional): Array of {@link
+         * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Present only when `expand`
+         * includes `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
+         * payment_intents.anyOf[1] (Value): Array of {@link
+         * ExpandedPaymentIntentSummaryPreviousAttributes}. Present only when `expand` includes
+         * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
+         * payment_intents.anyOf[1][] (Value): {@link
+         * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intents.anyOf[2] (Value): null.
+         * payment_link (Optional): {@link ExpandedPaymentLinkSummaryPreviousAttributes} or null.
+         * Present only when `expand` includes `payment_link`; `null` when expanded and there is no
+         * related payment link. payment_link.anyOf[1] (Value): {@link
+         * ExpandedPaymentLinkSummaryPreviousAttributes}. payment_link.anyOf[2] (Value): null.
+         * payment_link_id (Optional): string or null. ID of the payment link the session was
+         * started from. Absent when it was not started from a payment link.
+         * payment_link_id.anyOf[1] (Value): string. ID of the payment link the session was started
+         * from. Absent when it was not started from a payment link. Example:
+         * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null.
+         * payment_return_url (Optional): string or null. Headless sessions only. Absolute HTTPS
+         * URL on your site where Flint sends the buyer after a redirect payment such as Affirm,
+         * whatever the outcome; read the session there to show the result. Required when the
+         * session offers affirm. It can't contain credentials, a query string, or a fragment.
+         * Query strings are deliberately excluded so credentials and provider state cannot cross
+         * Flint's payment relay. Put merchant identifiers in the URL path, such as
+         * https://shop.example/return/sub_123. Test mode also accepts http loopback URLs. Up to
+         * 2,048 characters. payment_return_url.anyOf[1] (Value): string. Headless sessions only.
+         * Absolute HTTPS URL on your site where Flint sends the buyer after a redirect payment
+         * such as Affirm, whatever the outcome; read the session there to show the result.
+         * Required when the session offers affirm. It can't contain credentials, a query string,
+         * or a fragment. Query strings are deliberately excluded so credentials and provider state
+         * cannot cross Flint's payment relay. Put merchant identifiers in the URL path, such as
+         * https://shop.example/return/sub_123. Test mode also accepts http loopback URLs. Up to
+         * 2,048 characters. Format: uri. maxLength: 2048. Example: "https://example.com/receipt".
+         * payment_return_url.anyOf[2] (Value): null. payments (Optional): {@link
+         * CheckoutPaymentConfigPreviousAttributes} or null. Configured payment options for
+         * merchant credentials; currently available payment options for the checkout credential.
+         * payments.anyOf[1] (Value): {@link CheckoutPaymentConfigPreviousAttributes}.
+         * payments.anyOf[2] (Value): null. prefill (Optional): {@link
+         * CheckoutPrefillPreviousAttributes} or null. Contact details and addresses to fill in for
+         * the buyer, who can change them. For a customer with saved addresses, Flint fills in any
+         * address you leave out, and reads include it. With quick_pay or subscription_plan and
+         * automatic tax on, a prefilled address sets the order's tax location. Not changed by what
+         * the buyer types; for that, read buyer_contact. customer_prefill is what the checkout
+         * credential reads from the customer record. prefill.anyOf[1] (Value): {@link
+         * CheckoutPrefillPreviousAttributes}. prefill.anyOf[2] (Value): null. problems (Optional):
+         * Array of {@link CheckoutProblemResourcePreviousAttributes} or null. Named conditions
+         * that affect checkout completion. Follow each problem's remediation action instead of
+         * reconstructing delivery lifecycle rules in the client. payment_in_progress means another
+         * payment for the order must finish before this checkout can complete. When Flint cannot
+         * read the checkout's delivery, the read still succeeds and reports delivery_unreadable;
+         * its remediation says whether reading the session again can succeed, and its next
+         * action's reason_code names the error. problems.anyOf[1] (Value): Array of {@link
+         * CheckoutProblemResourcePreviousAttributes}. Named conditions that affect checkout
+         * completion. Follow each problem's remediation action instead of reconstructing delivery
+         * lifecycle rules in the client. payment_in_progress means another payment for the order
+         * must finish before this checkout can complete. When Flint cannot read the checkout's
+         * delivery, the read still succeeds and reports delivery_unreadable; its remediation says
+         * whether reading the session again can succeed, and its next action's reason_code names
+         * the error. problems.anyOf[1][] (Value): {@link
+         * CheckoutProblemResourcePreviousAttributes}. problems.anyOf[2] (Value): null.
+         * promotion_config (Optional): {@link CheckoutPromotionConfigPreviousAttributes} or null.
+         * Whether automatic promotions apply to this session and whether the buyer can enter
+         * promotion codes. promotion_config.anyOf[1] (Value): {@link
+         * CheckoutPromotionConfigPreviousAttributes}. promotion_config.anyOf[2] (Value): null.
+         * redirects (Optional): {@link CheckoutRedirectsPreviousAttributes} or null. Where hosted
+         * checkout sends the buyer. Not allowed when surface is headless; use payment_return_url.
+         * redirects.anyOf[1] (Value): {@link CheckoutRedirectsPreviousAttributes}.
+         * redirects.anyOf[2] (Value): null. refunds (Optional): Array of {@link
+         * BuyerRefundPreviousAttributes} or null. All buyer-visible refunds on this session’s
+         * order, including refunds made by the store. Uses the same buyer projection as
+         * /v1/me/refunds. Included on GET single-session reads as an array, with [] when there are
+         * none, and omitted from other responses and webhooks. A failed refund with failure_reason
+         * refund_abandoned could not be completed: tell the buyer to contact the store to get
+         * their money back. refunds.anyOf[1] (Value): Array of {@link
+         * BuyerRefundPreviousAttributes}. All buyer-visible refunds on this session’s order,
+         * including refunds made by the store. Uses the same buyer projection as /v1/me/refunds.
+         * Included on GET single-session reads as an array, with [] when there are none, and
+         * omitted from other responses and webhooks. A failed refund with failure_reason
+         * refund_abandoned could not be completed: tell the buyer to contact the store to get
+         * their money back. refunds.anyOf[1][] (Value): {@link BuyerRefundPreviousAttributes}.
+         * refunds.anyOf[2] (Value): null. setup_collection (Optional): {@link
+         * SetupCollectionPreviousAttributes} or null. Guidance for collecting a payment method to
+         * save. Checkout-credential reads include it only while the session is open. Returned only
+         * to the checkout credential; never in webhook payloads. setup_collection.anyOf[1]
+         * (Value): {@link SetupCollectionPreviousAttributes}. setup_collection.anyOf[2] (Value):
+         * null. status (Optional): string or null. Where the session is in its lifecycle. Only an
+         * `open` session accepts payment. `terminal_reason` says why a session that is not open
+         * ended. Value enum: "open", "paid", "partially_paid", "expired", "closed", "invalidated".
+         * status.anyOf[1] (Value): string. Where the session is in its lifecycle. Only an `open`
+         * session accepts payment. `terminal_reason` says why a session that is not open ended.
+         * Value enum: "open", "paid", "partially_paid", "expired", "closed", "invalidated".
+         * status.anyOf[2] (Value): null. subscription_plan_id (Optional): string or null. ID of
+         * the subscription plan a session of type `subscription_plan` signs the buyer up for.
+         * Absent for other types. subscription_plan_id.anyOf[1] (Value): string. ID of the
+         * subscription plan a session of type `subscription_plan` signs the buyer up for. Absent
+         * for other types. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
+         * subscription_plan_id.anyOf[2] (Value): null. subscription_terms (Optional): {@link
+         * CheckoutSubscriptionTermsPreviousAttributes} or null. Renewal terms a subscription
+         * checkout commits the buyer to. Frozen when the session's order was created, so later
+         * plan changes do not alter them. Absent when the checkout starts no subscription.
+         * subscription_terms.anyOf[1] (Value): {@link
+         * CheckoutSubscriptionTermsPreviousAttributes}. subscription_terms.anyOf[2] (Value): null.
+         * superseding_checkout_session_id (Optional): string or null. ID of the session that
+         * replaced this one. Present when `terminal_reason` is `superseded`.
+         * superseding_checkout_session_id.anyOf[1] (Value): string. ID of the session that
+         * replaced this one. Present when `terminal_reason` is `superseded`. Example:
+         * "cs_01KEZF7C004JRWFW43H037MQRN". superseding_checkout_session_id.anyOf[2] (Value): null.
+         * supported_actions (Optional): Array of string or null. Lifecycle actions Flint accepts
+         * now, computed from stored checkout state without checking the caller's permissions.
+         * Contains close while open; empty after payment, closure, or expiry. Always present with
+         * merchant credentials. [] enum: "close". supported_actions.anyOf[1] (Value): Array of
+         * string. Lifecycle actions Flint accepts now, computed from stored checkout state without
+         * checking the caller's permissions. Contains close while open; empty after payment,
+         * closure, or expiry. Always present with merchant credentials. [] enum: "close".
+         * supported_actions.anyOf[1][] (Value): string. Value enum: "close".
+         * supported_actions.anyOf[2] (Value): null. surface (Optional): string or null. How the
+         * session is presented to the buyer. A hosted session has a `url` on Flint's checkout
+         * page; a headless one is rendered on your own page. Value enum: "hosted", "headless".
+         * surface.anyOf[1] (Value): string. How the session is presented to the buyer. A hosted
+         * session has a `url` on Flint's checkout page; a headless one is rendered on your own
+         * page. Value enum: "hosted", "headless". surface.anyOf[2] (Value): null. tax (Optional):
+         * {@link CheckoutSessionTaxPreviousAttributes} or null. The session's tax settings.
+         * Omitted when the session sets none. tax.anyOf[1] (Value): {@link
+         * CheckoutSessionTaxPreviousAttributes}. tax.anyOf[2] (Value): null. terminal_reason
+         * (Optional): string or null. Why the session ended. The checkout credential can still
+         * read its own closed or expired session; every other call is refused because the session
+         * is not open. order_paid_elsewhere applies only to invalidated sessions when payment
+         * succeeds or partially succeeds outside the session. order_mutated applies when an edit
+         * closes or completes its order, or ends an invoice, return-resolution, or
+         * subscription-plan session. Other merchant edits keep hosted and headless sessions open.
+         * A session already past expires_at ends with expired before the edit is applied. Value
+         * enum: "payment_succeeded", "payment_partially_succeeded", "expired",
+         * "closed_by_merchant", "order_mutated", "superseded", "order_paid_elsewhere",
+         * "invoice_paid_elsewhere", "invoice_voided", "invoice_uncollectible",
+         * "invoice_balance_changed". terminal_reason.anyOf[1] (Value): string. Why the session
+         * ended. The checkout credential can still read its own closed or expired session; every
+         * other call is refused because the session is not open. order_paid_elsewhere applies only
+         * to invalidated sessions when payment succeeds or partially succeeds outside the session.
+         * order_mutated applies when an edit closes or completes its order, or ends an invoice,
+         * return-resolution, or subscription-plan session. Other merchant edits keep hosted and
+         * headless sessions open. A session already past expires_at ends with expired before the
+         * edit is applied. Value enum: "payment_succeeded", "payment_partially_succeeded",
+         * "expired", "closed_by_merchant", "order_mutated", "superseded", "order_paid_elsewhere",
+         * "invoice_paid_elsewhere", "invoice_voided", "invoice_uncollectible",
+         * "invoice_balance_changed". terminal_reason.anyOf[2] (Value): null. theme (Optional):
+         * {@link CheckoutThemePreviousAttributes} or null. The theme checkout renders with: your
+         * branding settings, with the session's `title`, `primary_color`, and `accent_color` over
+         * them. A session sets only those three; the other fields come from branding settings.
+         * Omitted when neither sets a value. theme.anyOf[1] (Value): {@link
+         * CheckoutThemePreviousAttributes}. theme.anyOf[2] (Value): null. tip (Optional): {@link
+         * CheckoutTipConfigPreviousAttributes} or null. The tip options this session offers the
+         * buyer. tip.anyOf[1] (Value): {@link CheckoutTipConfigPreviousAttributes}. tip.anyOf[2]
+         * (Value): null. type (Optional): string or null. What the session collects payment for,
+         * fixed at creation. Value enum: "order", "quick_pay", "subscription_plan", "invoice",
+         * "payment_link". type.anyOf[1] (Value): string. What the session collects payment for,
+         * fixed at creation. Value enum: "order", "quick_pay", "subscription_plan", "invoice",
+         * "payment_link". type.anyOf[2] (Value): null. updated_at (Optional): string or null.
+         * RFC3339 timestamp. updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version
+         * (Optional): integer or null. Persisted version of this resource's owned state. Expanded
+         * resources and external observations can change independently. version.anyOf[1] (Value):
+         * integer. Persisted version of this resource's owned state. Expanded resources and
+         * external observations can change independently. Format: uint64. minimum: 1.
+         * version.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * The payment attempt now collecting this checkout's order, the same attempt as the
+             * order's active_payment_attempt. Read it to recover after losing a pay response, and
+             * resume it only when is_resumable is true. Omitted when no attempt is active. Pending
+             * actions that open a URL are left out; the pay response carries them. anyOf[1]
+             * (Value): {@link OrderPaymentAttemptPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "active_payment_attempt"?: ((OrderPaymentAttemptPreviousAttributes) | (null));
+            /**
+             * Contact the buyer entered in checkout before paying, saved with the session's
+             * checkout credential. Separate from merchant-supplied prefill and customer_prefill
+             * from the customer record. Omitted until the buyer saves or clears a field. When a
+             * checkout session payment omits buyer_contact.email or buyer_contact.phone, Flint
+             * uses these values. Flint clears the contact 30 days after the session ends, and when
+             * a customer linked to the session is deleted. anyOf[1] (Value): {@link
+             * CheckoutBuyerContactPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "buyer_contact"?: ((CheckoutBuyerContactPreviousAttributes) | (null));
+            /**
+             * What checkout asks the buyer for. Each field you leave out uses your checkout
+             * settings. anyOf[1] (Value): {@link CheckoutBuyerFieldsPreviousAttributes}. anyOf[2]
+             * (Value): null.
+             */
+            "buyer_fields"?: ((CheckoutBuyerFieldsPreviousAttributes) | (null));
+            /**
+             * Whether to offer promotion-code entry now. True only while the session is open, is
+             * not in recovery, and merchant promotion policy allows codes. An explicit
+             * promotion_config.codes_enabled wins; null offers entry only when this merchant has
+             * an active code promotion whose schedule includes now, in the session's environment.
+             * Recomputed on each read. This hint does not change code admission: checkout
+             * lifecycle, promotion_config, and merchant policy still apply. anyOf[1] (Value):
+             * boolean. Whether to offer promotion-code entry now. True only while the session is
+             * open, is not in recovery, and merchant promotion policy allows codes. An explicit
+             * promotion_config.codes_enabled wins; null offers entry only when this merchant has
+             * an active code promotion whose schedule includes now, in the session's environment.
+             * Recomputed on each read. This hint does not change code admission: checkout
+             * lifecycle, promotion_config, and merchant policy still apply. anyOf[2] (Value):
+             * null.
+             */
+            "can_apply_promotion_code"?: ((boolean) | (null));
+            /**
+             * Unique identifier for this checkout session, prefixed `cs_`. anyOf[1] (Value):
+             * string. Unique identifier for this checkout session, prefixed `cs_`. Example:
+             * "cs_01KEZF7C004JRWFW43H037MQRN". anyOf[2] (Value): null.
+             */
+            "checkout_session_id"?: ((string) | (null));
+            /**
+             * The reference the payment link URL or resolve request carried, such as your user ID.
+             * `null` when none was sent or checkout did not start from a payment link. Returned
+             * only to merchant credentials; omitted for buyer credentials. Set by the buyer's
+             * browser, so treat it as a claim, not proof of identity. Always present with merchant
+             * credentials. anyOf[1] (Value): string. The reference the payment link URL or resolve
+             * request carried, such as your user ID. `null` when none was sent or checkout did not
+             * start from a payment link. Returned only to merchant credentials; omitted for buyer
+             * credentials. Set by the buyer's browser, so treat it as a claim, not proof of
+             * identity. Always present with merchant credentials. minLength: 1. maxLength: 255.
+             * anyOf[2] (Value): null.
+             */
+            "client_reference"?: ((string) | (null));
+            /**
+             * The note supplied when the checkout session was closed. anyOf[1] (Value): string.
+             * The note supplied when the checkout session was closed. anyOf[2] (Value): null.
+             */
+            "closed_reason_message"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * The buyer's answers to the payment link's custom fields, the same as the
+             * `custom_field_answers` of the session's order. Read-only. Empty when the session
+             * didn't start from a payment link, the buyer answered no custom fields, or the order
+             * was created before Flint recorded answers here. Returned only to merchant
+             * credentials; omitted for buyer credentials. Always present with merchant
+             * credentials. anyOf[1] (Value): Array of {@link CustomFieldAnswerPreviousAttributes}.
+             * The buyer's answers to the payment link's custom fields, the same as the
+             * `custom_field_answers` of the session's order. Read-only. Empty when the session
+             * didn't start from a payment link, the buyer answered no custom fields, or the order
+             * was created before Flint recorded answers here. Returned only to merchant
+             * credentials; omitted for buyer credentials. Always present with merchant
+             * credentials. maxItems: 20. anyOf[1][] (Value): {@link
+             * CustomFieldAnswerPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "custom_field_answers"?: ((Array<CustomFieldAnswerPreviousAttributes>) | (null));
+            /**
+             * The custom text this session shows in checkout. anyOf[1] (Value): {@link
+             * CheckoutCustomTextConfigPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "custom_text"?: ((CheckoutCustomTextConfigPreviousAttributes) | (null));
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            /**
+             * The customer of the session's order. Omitted when the order has none. A checkout
+             * credential issued for this session acts for this customer. Add expand=customer to
+             * include the customer. anyOf[1] (Value): string. The customer of the session's order.
+             * Omitted when the order has none. A checkout credential issued for this session acts
+             * for this customer. Add expand=customer to include the customer. Example:
+             * "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * Current delivery choices for Flint-owned pricing. External pricing reports
+             * requires_explicit_quote; reading this field does not request a delivery quote.
+             * Omitted when the session is not open, has no order, or Flint cannot read its
+             * delivery. anyOf[1] (Value): {@link
+             * CheckoutDerivedDeliveryResourcePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "delivery"?: ((CheckoutDerivedDeliveryResourcePreviousAttributes) | (null));
+            /**
+             * Immutable delivery method assignment captured when the checkout was created.
+             * anyOf[1] (Value): Array of string. Immutable delivery method assignment captured
+             * when the checkout was created. anyOf[1][] (Value): string. Example:
+             * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". anyOf[2] (Value): null.
+             */
+            "delivery_method_ids"?: ((Array<string>) | (null));
+            /**
+             * Whether the order has at least one remaining quote-resolved fulfillment choice that
+             * must be selected before payment. anyOf[1] (Value): boolean. Whether the order has at
+             * least one remaining quote-resolved fulfillment choice that must be selected before
+             * payment. anyOf[2] (Value): null.
+             */
+            "delivery_selection_required"?: ((boolean) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "expires_at"?: ((string) | (null));
+            /**
+             * The lifetime the session got. expires_at is its deadline. Omitted for invoice
+             * sessions, which take their deadline from the invoice. anyOf[1] (Value): integer. The
+             * lifetime the session got. expires_at is its deadline. Omitted for invoice sessions,
+             * which take their deadline from the invoice. Format: int64. anyOf[2] (Value): null.
+             */
+            "expires_in_seconds"?: ((number) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Where the buyer completes a gift card challenge for this checkout. Returned on
+             * single-session reads, session create and update responses, checkout launch results,
+             * and customer verification confirmation results while the session is open and can
+             * show the challenge. Omitted from lists, webhooks, expanded resources, and delivery
+             * selection results. anyOf[1] (Value): {@link
+             * CheckoutGiftCardChallengePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "gift_card_challenge"?: ((CheckoutGiftCardChallengePreviousAttributes) | (null));
+            /**
+             * Immutable cart hold IDs authorized by the merchant at session creation. Omitted when
+             * empty and from checkout-credential responses. Buyer and merchant delivery requests
+             * that omit IDs use eligible bound holds; explicit merchant IDs replace the binding
+             * for that request. First adopter wins when sessions share a hold. Invalidated or
+             * otherwise ended sessions cannot adopt stock, and replacements never inherit the
+             * binding. Unused cart units retain their own release and expiration lifecycle.
+             * anyOf[1] (Value): Array of string. Immutable cart hold IDs authorized by the
+             * merchant at session creation. Omitted when empty and from checkout-credential
+             * responses. Buyer and merchant delivery requests that omit IDs use eligible bound
+             * holds; explicit merchant IDs replace the binding for that request. First adopter
+             * wins when sessions share a hold. Invalidated or otherwise ended sessions cannot
+             * adopt stock, and replacements never inherit the binding. Unused cart units retain
+             * their own release and expiration lifecycle. anyOf[1][] (Value): string. Example:
+             * "invr_01KEZF7C0041ENRR0C2NF3AP12". anyOf[2] (Value): null.
+             */
+            "inventory_reservation_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `invoice`; `null` when expanded and there is no
+             * related invoice. anyOf[1] (Value): {@link ExpandedInvoiceSummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "invoice"?: ((ExpandedInvoiceSummaryPreviousAttributes) | (null));
+            /**
+             * ID of the invoice a session of type `invoice` collects payment for. Absent for other
+             * types. anyOf[1] (Value): string. ID of the invoice a session of type `invoice`
+             * collects payment for. Absent for other types. Example:
+             * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
+             */
+            "invoice_id"?: ((string) | (null));
+            /**
+             * Whether this terminal session credential is temporarily restricted to recovering its
+             * owning payment attempt. anyOf[1] (Value): boolean. Whether this terminal session
+             * credential is temporarily restricted to recovering its owning payment attempt.
+             * anyOf[2] (Value): null.
+             */
+            "is_in_recovery"?: ((boolean) | (null));
+            /**
+             * The terms and policy links this session shows the buyer, and whether the buyer must
+             * accept the terms. anyOf[1] (Value): {@link CheckoutLegalConfigPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "legal"?: ((CheckoutLegalConfigPreviousAttributes) | (null));
+            /**
+             * ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the
+             * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             * anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Present only when `expand` includes `order`; `null` when expanded and there is no
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
+            /**
+             * ID of the order the session collects payment for, fixed at creation. Absent when the
+             * session has no order. anyOf[1] (Value): string. ID of the order the session collects
+             * payment for, fixed at creation. Absent when the session has no order. Example:
+             * "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * Origin of the page that renders this headless checkout. Omitted when not set.
+             * anyOf[1] (Value): string. Origin of the page that renders this headless checkout.
+             * Omitted when not set. anyOf[2] (Value): null.
+             */
+            "page_origin"?: ((string) | (null));
+            /**
+             * Guidance for collecting a payment source. Checkout-credential reads include it only
+             * while the session is open. Returned only to the checkout credential; never in
+             * webhook payloads. anyOf[1] (Value): {@link SetupCollectionPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "payment_collection"?: ((SetupCollectionPreviousAttributes) | (null));
+            /**
+             * IDs of the payment intents for the session's order. Absent when the order has none.
+             * anyOf[1] (Value): Array of string. IDs of the payment intents for the session's
+             * order. Absent when the order has none. anyOf[1][] (Value): string. Example:
+             * "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2] (Value): null.
+             */
+            "payment_intent_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `payment_intents`: summaries of the payment
+             * intents in `payment_intent_ids`. anyOf[1] (Value): Array of {@link
+             * ExpandedPaymentIntentSummaryPreviousAttributes}. Present only when `expand` includes
+             * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
+             * anyOf[1][] (Value): {@link ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[2]
+             * (Value): null.
+             */
+            "payment_intents"?: ((Array<ExpandedPaymentIntentSummaryPreviousAttributes>) | (null));
+            /**
+             * Present only when `expand` includes `payment_link`; `null` when expanded and there
+             * is no related payment link. anyOf[1] (Value): {@link
+             * ExpandedPaymentLinkSummaryPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "payment_link"?: ((ExpandedPaymentLinkSummaryPreviousAttributes) | (null));
+            /**
+             * ID of the payment link the session was started from. Absent when it was not started
+             * from a payment link. anyOf[1] (Value): string. ID of the payment link the session
+             * was started from. Absent when it was not started from a payment link. Example:
+             * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". anyOf[2] (Value): null.
+             */
+            "payment_link_id"?: ((string) | (null));
+            /**
+             * Headless sessions only. Absolute HTTPS URL on your site where Flint sends the buyer
+             * after a redirect payment such as Affirm, whatever the outcome; read the session
+             * there to show the result. Required when the session offers affirm. It can't contain
+             * credentials, a query string, or a fragment. Query strings are deliberately excluded
+             * so credentials and provider state cannot cross Flint's payment relay. Put merchant
+             * identifiers in the URL path, such as https://shop.example/return/sub_123. Test mode
+             * also accepts http loopback URLs. Up to 2,048 characters. anyOf[1] (Value): string.
+             * Headless sessions only. Absolute HTTPS URL on your site where Flint sends the buyer
+             * after a redirect payment such as Affirm, whatever the outcome; read the session
+             * there to show the result. Required when the session offers affirm. It can't contain
+             * credentials, a query string, or a fragment. Query strings are deliberately excluded
+             * so credentials and provider state cannot cross Flint's payment relay. Put merchant
+             * identifiers in the URL path, such as https://shop.example/return/sub_123. Test mode
+             * also accepts http loopback URLs. Up to 2,048 characters. Format: uri. maxLength:
+             * 2048. Example: "https://example.com/receipt". anyOf[2] (Value): null.
+             */
+            "payment_return_url"?: ((string) | (null));
+            /**
+             * Configured payment options for merchant credentials; currently available payment
+             * options for the checkout credential. anyOf[1] (Value): {@link
+             * CheckoutPaymentConfigPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "payments"?: ((CheckoutPaymentConfigPreviousAttributes) | (null));
+            /**
+             * Contact details and addresses to fill in for the buyer, who can change them. For a
+             * customer with saved addresses, Flint fills in any address you leave out, and reads
+             * include it. With quick_pay or subscription_plan and automatic tax on, a prefilled
+             * address sets the order's tax location. Not changed by what the buyer types; for
+             * that, read buyer_contact. customer_prefill is what the checkout credential reads
+             * from the customer record. anyOf[1] (Value): {@link
+             * CheckoutPrefillPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "prefill"?: ((CheckoutPrefillPreviousAttributes) | (null));
+            /**
+             * Named conditions that affect checkout completion. Follow each problem's remediation
+             * action instead of reconstructing delivery lifecycle rules in the client.
+             * payment_in_progress means another payment for the order must finish before this
+             * checkout can complete. When Flint cannot read the checkout's delivery, the read
+             * still succeeds and reports delivery_unreadable; its remediation says whether reading
+             * the session again can succeed, and its next action's reason_code names the error.
+             * anyOf[1] (Value): Array of {@link CheckoutProblemResourcePreviousAttributes}. Named
+             * conditions that affect checkout completion. Follow each problem's remediation action
+             * instead of reconstructing delivery lifecycle rules in the client.
+             * payment_in_progress means another payment for the order must finish before this
+             * checkout can complete. When Flint cannot read the checkout's delivery, the read
+             * still succeeds and reports delivery_unreadable; its remediation says whether reading
+             * the session again can succeed, and its next action's reason_code names the error.
+             * anyOf[1][] (Value): {@link CheckoutProblemResourcePreviousAttributes}. anyOf[2]
+             * (Value): null.
+             */
+            "problems"?: ((Array<CheckoutProblemResourcePreviousAttributes>) | (null));
+            /**
+             * Whether automatic promotions apply to this session and whether the buyer can enter
+             * promotion codes. anyOf[1] (Value): {@link
+             * CheckoutPromotionConfigPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "promotion_config"?: ((CheckoutPromotionConfigPreviousAttributes) | (null));
+            /**
+             * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
+             * payment_return_url. anyOf[1] (Value): {@link CheckoutRedirectsPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "redirects"?: ((CheckoutRedirectsPreviousAttributes) | (null));
+            /**
+             * All buyer-visible refunds on this session’s order, including refunds made by the
+             * store. Uses the same buyer projection as /v1/me/refunds. Included on GET
+             * single-session reads as an array, with [] when there are none, and omitted from
+             * other responses and webhooks. A failed refund with failure_reason refund_abandoned
+             * could not be completed: tell the buyer to contact the store to get their money back.
+             * anyOf[1] (Value): Array of {@link BuyerRefundPreviousAttributes}. All buyer-visible
+             * refunds on this session’s order, including refunds made by the store. Uses the same
+             * buyer projection as /v1/me/refunds. Included on GET single-session reads as an
+             * array, with [] when there are none, and omitted from other responses and webhooks. A
+             * failed refund with failure_reason refund_abandoned could not be completed: tell the
+             * buyer to contact the store to get their money back. anyOf[1][] (Value): {@link
+             * BuyerRefundPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "refunds"?: ((Array<BuyerRefundPreviousAttributes>) | (null));
+            /**
+             * Guidance for collecting a payment method to save. Checkout-credential reads include
+             * it only while the session is open. Returned only to the checkout credential; never
+             * in webhook payloads. anyOf[1] (Value): {@link SetupCollectionPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "setup_collection"?: ((SetupCollectionPreviousAttributes) | (null));
+            /**
+             * Where the session is in its lifecycle. Only an `open` session accepts payment.
+             * `terminal_reason` says why a session that is not open ended. Value enum: "open",
+             * "paid", "partially_paid", "expired", "closed", "invalidated". anyOf[1] (Value):
+             * string. Where the session is in its lifecycle. Only an `open` session accepts
+             * payment. `terminal_reason` says why a session that is not open ended. Value enum:
+             * "open", "paid", "partially_paid", "expired", "closed", "invalidated". anyOf[2]
+             * (Value): null.
+             */
+            "status"?: (("open" | "paid" | "partially_paid" | "expired" | "closed" | "invalidated" | (string & {})) | (null));
+            /**
+             * ID of the subscription plan a session of type `subscription_plan` signs the buyer up
+             * for. Absent for other types. anyOf[1] (Value): string. ID of the subscription plan a
+             * session of type `subscription_plan` signs the buyer up for. Absent for other types.
+             * Example: "plan_01KEZF7C004CY5ZR33XST2AASV". anyOf[2] (Value): null.
+             */
+            "subscription_plan_id"?: ((string) | (null));
+            /**
+             * Renewal terms a subscription checkout commits the buyer to. Frozen when the
+             * session's order was created, so later plan changes do not alter them. Absent when
+             * the checkout starts no subscription. anyOf[1] (Value): {@link
+             * CheckoutSubscriptionTermsPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "subscription_terms"?: ((CheckoutSubscriptionTermsPreviousAttributes) | (null));
+            /**
+             * ID of the session that replaced this one. Present when `terminal_reason` is
+             * `superseded`. anyOf[1] (Value): string. ID of the session that replaced this one.
+             * Present when `terminal_reason` is `superseded`. Example:
+             * "cs_01KEZF7C004JRWFW43H037MQRN". anyOf[2] (Value): null.
+             */
+            "superseding_checkout_session_id"?: ((string) | (null));
+            /**
+             * Lifecycle actions Flint accepts now, computed from stored checkout state without
+             * checking the caller's permissions. Contains close while open; empty after payment,
+             * closure, or expiry. Always present with merchant credentials. [] enum: "close".
+             * anyOf[1] (Value): Array of string. Lifecycle actions Flint accepts now, computed
+             * from stored checkout state without checking the caller's permissions. Contains close
+             * while open; empty after payment, closure, or expiry. Always present with merchant
+             * credentials. [] enum: "close". anyOf[1][] (Value): string. Value enum: "close".
+             * anyOf[2] (Value): null.
+             */
+            "supported_actions"?: ((Array<"close" | (string & {})>) | (null));
+            /**
+             * How the session is presented to the buyer. A hosted session has a `url` on Flint's
+             * checkout page; a headless one is rendered on your own page. Value enum: "hosted",
+             * "headless". anyOf[1] (Value): string. How the session is presented to the buyer. A
+             * hosted session has a `url` on Flint's checkout page; a headless one is rendered on
+             * your own page. Value enum: "hosted", "headless". anyOf[2] (Value): null.
+             */
+            "surface"?: (("hosted" | "headless" | (string & {})) | (null));
+            /**
+             * The session's tax settings. Omitted when the session sets none. anyOf[1] (Value):
+             * {@link CheckoutSessionTaxPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "tax"?: ((CheckoutSessionTaxPreviousAttributes) | (null));
+            /**
+             * Why the session ended. The checkout credential can still read its own closed or
+             * expired session; every other call is refused because the session is not open.
+             * order_paid_elsewhere applies only to invalidated sessions when payment succeeds or
+             * partially succeeds outside the session. order_mutated applies when an edit closes or
+             * completes its order, or ends an invoice, return-resolution, or subscription-plan
+             * session. Other merchant edits keep hosted and headless sessions open. A session
+             * already past expires_at ends with expired before the edit is applied. Value enum:
+             * "payment_succeeded", "payment_partially_succeeded", "expired", "closed_by_merchant",
+             * "order_mutated", "superseded", "order_paid_elsewhere", "invoice_paid_elsewhere",
+             * "invoice_voided", "invoice_uncollectible", "invoice_balance_changed". anyOf[1]
+             * (Value): string. Why the session ended. The checkout credential can still read its
+             * own closed or expired session; every other call is refused because the session is
+             * not open. order_paid_elsewhere applies only to invalidated sessions when payment
+             * succeeds or partially succeeds outside the session. order_mutated applies when an
+             * edit closes or completes its order, or ends an invoice, return-resolution, or
+             * subscription-plan session. Other merchant edits keep hosted and headless sessions
+             * open. A session already past expires_at ends with expired before the edit is
+             * applied. Value enum: "payment_succeeded", "payment_partially_succeeded", "expired",
+             * "closed_by_merchant", "order_mutated", "superseded", "order_paid_elsewhere",
+             * "invoice_paid_elsewhere", "invoice_voided", "invoice_uncollectible",
+             * "invoice_balance_changed". anyOf[2] (Value): null.
+             */
+            "terminal_reason"?: (("payment_succeeded"
+                | "payment_partially_succeeded"
+                | "expired"
+                | "closed_by_merchant"
+                | "order_mutated"
+                | "superseded"
+                | "order_paid_elsewhere"
+                | "invoice_paid_elsewhere"
+                | "invoice_voided"
+                | "invoice_uncollectible"
+                | "invoice_balance_changed"
+                | (string & {}))
+                | (null));
+            /**
+             * The theme checkout renders with: your branding settings, with the session's `title`,
+             * `primary_color`, and `accent_color` over them. A session sets only those three; the
+             * other fields come from branding settings. Omitted when neither sets a value.
+             * anyOf[1] (Value): {@link CheckoutThemePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "theme"?: ((CheckoutThemePreviousAttributes) | (null));
+            /**
+             * The tip options this session offers the buyer. anyOf[1] (Value): {@link
+             * CheckoutTipConfigPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "tip"?: ((CheckoutTipConfigPreviousAttributes) | (null));
+            /**
+             * What the session collects payment for, fixed at creation. Value enum: "order",
+             * "quick_pay", "subscription_plan", "invoice", "payment_link". anyOf[1] (Value):
+             * string. What the session collects payment for, fixed at creation. Value enum:
+             * "order", "quick_pay", "subscription_plan", "invoice", "payment_link". anyOf[2]
+             * (Value): null.
+             */
+            "type"?: (("order" | "quick_pay" | "subscription_plan" | "invoice" | "payment_link" | (string & {})) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. anyOf[1] (Value): integer. Persisted version
+             * of this resource's owned state. Expanded resources and external observations can
+             * change independently. Format: uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "checkout_session.partially_paid". */
+    "event_type"?: "checkout_session.partially_paid";
+});
+/**
+ * The platform fee the partner app requested when it created the session. Each payment the session
+ * creates carries its own platform_fee, lowered to fit that payment.
+ */
+export type CheckoutSessionPlatformFee = {
+    /**
+     * The fee the partner app requested. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /** The partner app that requested the fee. Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV". */
+    "partner_app_id": string;
+};
+/** A response containing `CheckoutSession` data. */
+export type CheckoutSessionResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A session in which a
+     * buyer completes an order's payment.
+     */
+    "data": CheckoutSession;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * Tax settings of a checkout session: whether it collects tax and any tax location the merchant
+ * fixed.
+ */
+export type CheckoutSessionTax = {
+    /**
+     * The calculation the session's order uses, as set when the session was created. Omitted when
+     * the session followed `tax.default_calculation` from your settings; read `tax` on the order
+     * for what it uses. The calculation the order Flint creates uses while tax is enabled.
+     * Replaced as a whole: send every field you want to keep. Omit it to use
+     * `tax.default_calculation` from your settings; a `provided` default applies only to orders
+     * you create, so it means automatic here.
+     */
+    "calculation"?: CheckoutTaxCalculation;
+    /** Whether the session collects tax, as set when it was created. */
+    "enabled"?: boolean;
+    /**
+     * The tax location your order already held when this session was created over it. Hosted
+     * checkout shows it and does not ask the buyer for another. Omitted when the buyer may give or
+     * change the location. A postal address. Every address has country. Addresses Flint checked as
+     * complete (customer and saved addresses, merchant, location, invoice, order delivery
+     * destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and
+     * city, and US ones always have state and postal_code. Delivery quote destinations, buyer
+     * locations and postal-code tax locations hold only what was provided, such as postal_code and
+     * country.
+     */
+    "location_fixed_by_merchant"?: Address;
+};
+export type CheckoutSessionTaxPreviousAttributes = {
+    /**
+     * The calculation the session's order uses, as set when the session was created. Omitted when
+     * the session followed `tax.default_calculation` from your settings; read `tax` on the order
+     * for what it uses. anyOf[1] (Value): {@link CheckoutTaxCalculationPreviousAttributes}.
+     * anyOf[2] (Value): null.
+     */
+    "calculation"?: ((CheckoutTaxCalculationPreviousAttributes) | (null));
+    /**
+     * Whether the session collects tax, as set when it was created. anyOf[1] (Value): boolean.
+     * Whether the session collects tax, as set when it was created. anyOf[2] (Value): null.
+     */
+    "enabled"?: ((boolean) | (null));
+    /**
+     * The tax location your order already held when this session was created over it. Hosted
+     * checkout shows it and does not ask the buyer for another. Omitted when the buyer may give or
+     * change the location. anyOf[1] (Value): {@link AddressPreviousAttributes}. anyOf[2] (Value):
+     * null.
+     */
+    "location_fixed_by_merchant"?: ((AddressPreviousAttributes) | (null));
+};
+export type CheckoutSessionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookCheckoutSession;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "active_payment_attempt"?: ((OrderPaymentAttemptPreviousAttributes) | (null));
+            "buyer_contact"?: ((CheckoutBuyerContactPreviousAttributes) | (null));
+            "buyer_fields"?: ((CheckoutBuyerFieldsPreviousAttributes) | (null));
+            "can_apply_promotion_code"?: ((boolean) | (null));
+            "checkout_session_id"?: ((string) | (null));
+            "client_reference"?: ((string) | (null));
+            "closed_reason_message"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "custom_field_answers"?: ((Array<CustomFieldAnswerPreviousAttributes>) | (null));
+            "custom_text"?: ((CheckoutCustomTextConfigPreviousAttributes) | (null));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            "customer_id"?: ((string) | (null));
+            "delivery"?: ((CheckoutDerivedDeliveryResourcePreviousAttributes) | (null));
+            "delivery_method_ids"?: ((Array<string>) | (null));
+            "delivery_selection_required"?: ((boolean) | (null));
+            "expires_at"?: ((string) | (null));
+            "expires_in_seconds"?: ((number) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "gift_card_challenge"?: ((CheckoutGiftCardChallengePreviousAttributes) | (null));
+            "inventory_reservation_ids"?: ((Array<string>) | (null));
+            "invoice"?: ((ExpandedInvoiceSummaryPreviousAttributes) | (null));
+            "invoice_id"?: ((string) | (null));
+            "is_in_recovery"?: ((boolean) | (null));
+            "legal"?: ((CheckoutLegalConfigPreviousAttributes) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
+            "order_id"?: ((string) | (null));
+            "page_origin"?: ((string) | (null));
+            "payment_collection"?: ((SetupCollectionPreviousAttributes) | (null));
+            "payment_intent_ids"?: ((Array<string>) | (null));
+            "payment_intents"?: ((Array<ExpandedPaymentIntentSummaryPreviousAttributes>) | (null));
+            "payment_link"?: ((ExpandedPaymentLinkSummaryPreviousAttributes) | (null));
+            "payment_link_id"?: ((string) | (null));
+            "payment_return_url"?: ((string) | (null));
+            "payments"?: ((CheckoutPaymentConfigPreviousAttributes) | (null));
+            "prefill"?: ((CheckoutPrefillPreviousAttributes) | (null));
+            "problems"?: ((Array<CheckoutProblemResourcePreviousAttributes>) | (null));
+            "promotion_config"?: ((CheckoutPromotionConfigPreviousAttributes) | (null));
+            "redirects"?: ((CheckoutRedirectsPreviousAttributes) | (null));
+            "refunds"?: ((Array<BuyerRefundPreviousAttributes>) | (null));
+            "setup_collection"?: ((SetupCollectionPreviousAttributes) | (null));
+            "status"?: (("open" | "paid" | "partially_paid" | "expired" | "closed" | "invalidated" | (string & {})) | (null));
+            "subscription_plan_id"?: ((string) | (null));
+            "subscription_terms"?: ((CheckoutSubscriptionTermsPreviousAttributes) | (null));
+            "superseding_checkout_session_id"?: ((string) | (null));
+            "supported_actions"?: ((Array<"close" | (string & {})>) | (null));
+            "surface"?: (("hosted" | "headless" | (string & {})) | (null));
+            "tax"?: ((CheckoutSessionTaxPreviousAttributes) | (null));
+            "terminal_reason"?: (("payment_succeeded"
+                | "payment_partially_succeeded"
+                | "expired"
+                | "closed_by_merchant"
+                | "order_mutated"
+                | "superseded"
+                | "order_paid_elsewhere"
+                | "invoice_paid_elsewhere"
+                | "invoice_voided"
+                | "invoice_uncollectible"
+                | "invoice_balance_changed"
+                | (string & {}))
+                | (null));
+            "theme"?: ((CheckoutThemePreviousAttributes) | (null));
+            "tip"?: ((CheckoutTipConfigPreviousAttributes) | (null));
+            "type"?: (("order" | "quick_pay" | "subscription_plan" | "invoice" | "payment_link" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "checkout_session.updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookCheckoutSession;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "active_payment_attempt"?: ((OrderPaymentAttemptPreviousAttributes) | (null));
+            "buyer_contact"?: ((CheckoutBuyerContactPreviousAttributes) | (null));
+            "buyer_fields"?: ((CheckoutBuyerFieldsPreviousAttributes) | (null));
+            "can_apply_promotion_code"?: ((boolean) | (null));
+            "checkout_session_id"?: ((string) | (null));
+            "client_reference"?: ((string) | (null));
+            "closed_reason_message"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "custom_field_answers"?: ((Array<CustomFieldAnswerPreviousAttributes>) | (null));
+            "custom_text"?: ((CheckoutCustomTextConfigPreviousAttributes) | (null));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            "customer_id"?: ((string) | (null));
+            "delivery"?: ((CheckoutDerivedDeliveryResourcePreviousAttributes) | (null));
+            "delivery_method_ids"?: ((Array<string>) | (null));
+            "delivery_selection_required"?: ((boolean) | (null));
+            "expires_at"?: ((string) | (null));
+            "expires_in_seconds"?: ((number) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "gift_card_challenge"?: ((CheckoutGiftCardChallengePreviousAttributes) | (null));
+            "inventory_reservation_ids"?: ((Array<string>) | (null));
+            "invoice"?: ((ExpandedInvoiceSummaryPreviousAttributes) | (null));
+            "invoice_id"?: ((string) | (null));
+            "is_in_recovery"?: ((boolean) | (null));
+            "legal"?: ((CheckoutLegalConfigPreviousAttributes) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
+            "order_id"?: ((string) | (null));
+            "page_origin"?: ((string) | (null));
+            "payment_collection"?: ((SetupCollectionPreviousAttributes) | (null));
+            "payment_intent_ids"?: ((Array<string>) | (null));
+            "payment_intents"?: ((Array<ExpandedPaymentIntentSummaryPreviousAttributes>) | (null));
+            "payment_link"?: ((ExpandedPaymentLinkSummaryPreviousAttributes) | (null));
+            "payment_link_id"?: ((string) | (null));
+            "payment_return_url"?: ((string) | (null));
+            "payments"?: ((CheckoutPaymentConfigPreviousAttributes) | (null));
+            "prefill"?: ((CheckoutPrefillPreviousAttributes) | (null));
+            "problems"?: ((Array<CheckoutProblemResourcePreviousAttributes>) | (null));
+            "promotion_config"?: ((CheckoutPromotionConfigPreviousAttributes) | (null));
+            "redirects"?: ((CheckoutRedirectsPreviousAttributes) | (null));
+            "refunds"?: ((Array<BuyerRefundPreviousAttributes>) | (null));
+            "setup_collection"?: ((SetupCollectionPreviousAttributes) | (null));
+            "status"?: (("open" | "paid" | "partially_paid" | "expired" | "closed" | "invalidated" | (string & {})) | (null));
+            "subscription_plan_id"?: ((string) | (null));
+            "subscription_terms"?: ((CheckoutSubscriptionTermsPreviousAttributes) | (null));
+            "superseding_checkout_session_id"?: ((string) | (null));
+            "supported_actions"?: ((Array<"close" | (string & {})>) | (null));
+            "surface"?: (("hosted" | "headless" | (string & {})) | (null));
+            "tax"?: ((CheckoutSessionTaxPreviousAttributes) | (null));
+            "terminal_reason"?: (("payment_succeeded"
+                | "payment_partially_succeeded"
+                | "expired"
+                | "closed_by_merchant"
+                | "order_mutated"
+                | "superseded"
+                | "order_paid_elsewhere"
+                | "invoice_paid_elsewhere"
+                | "invoice_voided"
+                | "invoice_uncollectible"
+                | "invoice_balance_changed"
+                | (string & {}))
+                | (null));
+            "theme"?: ((CheckoutThemePreviousAttributes) | (null));
+            "tip"?: ((CheckoutTipConfigPreviousAttributes) | (null));
+            "type"?: (("order" | "quick_pay" | "subscription_plan" | "invoice" | "payment_link" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "checkout_session.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "checkout_session.updated";
+});
+/**
+ * The `checkout_session.updated` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type CheckoutSessionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link WebhookCheckoutSession}. The resource snapshot, without
+     * expansions. Webhooks omit these fields: `url`, `recovery_payment_attempt_id`,
+     * `recovery_expires_at`, `can_save_payment_method`, `save_payment_method_types`,
+     * `save_payment_method_requires_verification`, `pay_to_new_address_requires_verification`,
+     * `can_save_payment_method_with_phone`, `payment_method_save`, `customer_prefill`,
+     * `merchant_support`, `merchant_name`, `show_flint_mark`, `merchant_logo`, `merchant_icon`,
+     * `payment_link_image`, `platform_fee`, `customer_account_url`. previous_attributes
+     * (Optional): object. Previous values of changed top-level fields in data.object, at this
+     * delivery's API version. Nested changes include the whole previous top-level value. A value
+     * is null when the field was absent before the change. Omitted when Flint did not record the
+     * previous state, including synthetic test events. previous_attributes.active_payment_attempt
+     * (Optional): {@link OrderPaymentAttemptPreviousAttributes} or null. The payment attempt now
+     * collecting this checkout's order, the same attempt as the order's active_payment_attempt.
+     * Read it to recover after losing a pay response, and resume it only when is_resumable is
+     * true. Omitted when no attempt is active. Pending actions that open a URL are left out; the
+     * pay response carries them. previous_attributes.active_payment_attempt.anyOf[1] (Value):
+     * {@link OrderPaymentAttemptPreviousAttributes}.
+     * previous_attributes.active_payment_attempt.anyOf[2] (Value): null.
+     * previous_attributes.buyer_contact (Optional): {@link CheckoutBuyerContactPreviousAttributes}
+     * or null. Contact the buyer entered in checkout before paying, saved with the session's
+     * checkout credential. Separate from merchant-supplied prefill and customer_prefill from the
+     * customer record. Omitted until the buyer saves or clears a field. When a checkout session
+     * payment omits buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint
+     * clears the contact 30 days after the session ends, and when a customer linked to the session
+     * is deleted. previous_attributes.buyer_contact.anyOf[1] (Value): {@link
+     * CheckoutBuyerContactPreviousAttributes}. previous_attributes.buyer_contact.anyOf[2] (Value):
+     * null. previous_attributes.buyer_fields (Optional): {@link
+     * CheckoutBuyerFieldsPreviousAttributes} or null. What checkout asks the buyer for. Each field
+     * you leave out uses your checkout settings. previous_attributes.buyer_fields.anyOf[1]
+     * (Value): {@link CheckoutBuyerFieldsPreviousAttributes}.
+     * previous_attributes.buyer_fields.anyOf[2] (Value): null.
+     * previous_attributes.can_apply_promotion_code (Optional): boolean or null. Whether to offer
+     * promotion-code entry now. True only while the session is open, is not in recovery, and
+     * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
+     * null offers entry only when this merchant has an active code promotion whose schedule
+     * includes now, in the session's environment. Recomputed on each read. This hint does not
+     * change code admission: checkout lifecycle, promotion_config, and merchant policy still
+     * apply. previous_attributes.can_apply_promotion_code.anyOf[1] (Value): boolean. Whether to
+     * offer promotion-code entry now. True only while the session is open, is not in recovery, and
+     * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
+     * null offers entry only when this merchant has an active code promotion whose schedule
+     * includes now, in the session's environment. Recomputed on each read. This hint does not
+     * change code admission: checkout lifecycle, promotion_config, and merchant policy still
+     * apply. previous_attributes.can_apply_promotion_code.anyOf[2] (Value): null.
+     * previous_attributes.checkout_session_id (Optional): string or null. Unique identifier for
+     * this checkout session, prefixed `cs_`. previous_attributes.checkout_session_id.anyOf[1]
+     * (Value): string. Unique identifier for this checkout session, prefixed `cs_`. Example:
+     * "cs_01KEZF7C004JRWFW43H037MQRN". previous_attributes.checkout_session_id.anyOf[2] (Value):
+     * null. previous_attributes.client_reference (Optional): string or null. The reference the
+     * payment link URL or resolve request carried, such as your user ID. `null` when none was sent
+     * or checkout did not start from a payment link. Returned only to merchant credentials;
+     * omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof
+     * of identity. Always present with merchant credentials.
+     * previous_attributes.client_reference.anyOf[1] (Value): string. The reference the payment
+     * link URL or resolve request carried, such as your user ID. `null` when none was sent or
+     * checkout did not start from a payment link. Returned only to merchant credentials; omitted
+     * for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof of
+     * identity. Always present with merchant credentials. minLength: 1. maxLength: 255.
+     * previous_attributes.client_reference.anyOf[2] (Value): null.
+     * previous_attributes.closed_reason_message (Optional): string or null. The note supplied when
+     * the checkout session was closed. previous_attributes.closed_reason_message.anyOf[1] (Value):
+     * string. The note supplied when the checkout session was closed.
+     * previous_attributes.closed_reason_message.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.custom_field_answers (Optional): Array of {@link
+     * CustomFieldAnswerPreviousAttributes} or null. The buyer's answers to the payment link's
+     * custom fields, the same as the `custom_field_answers` of the session's order. Read-only.
+     * Empty when the session didn't start from a payment link, the buyer answered no custom
+     * fields, or the order was created before Flint recorded answers here. Returned only to
+     * merchant credentials; omitted for buyer credentials. Always present with merchant
+     * credentials. previous_attributes.custom_field_answers.anyOf[1] (Value): Array of {@link
+     * CustomFieldAnswerPreviousAttributes}. The buyer's answers to the payment link's custom
+     * fields, the same as the `custom_field_answers` of the session's order. Read-only. Empty when
+     * the session didn't start from a payment link, the buyer answered no custom fields, or the
+     * order was created before Flint recorded answers here. Returned only to merchant credentials;
+     * omitted for buyer credentials. Always present with merchant credentials. maxItems: 20.
+     * previous_attributes.custom_field_answers.anyOf[1][] (Value): {@link
+     * CustomFieldAnswerPreviousAttributes}. previous_attributes.custom_field_answers.anyOf[2]
+     * (Value): null. previous_attributes.custom_text (Optional): {@link
+     * CheckoutCustomTextConfigPreviousAttributes} or null. The custom text this session shows in
+     * checkout. previous_attributes.custom_text.anyOf[1] (Value): {@link
+     * CheckoutCustomTextConfigPreviousAttributes}. previous_attributes.custom_text.anyOf[2]
+     * (Value): null. previous_attributes.customer (Optional): {@link
+     * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+     * `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. The customer of the
+     * session's order. Omitted when the order has none. A checkout credential issued for this
+     * session acts for this customer. Add expand=customer to include the customer.
+     * previous_attributes.customer_id.anyOf[1] (Value): string. The customer of the session's
+     * order. Omitted when the order has none. A checkout credential issued for this session acts
+     * for this customer. Add expand=customer to include the customer. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery (Optional): {@link
+     * CheckoutDerivedDeliveryResourcePreviousAttributes} or null. Current delivery choices for
+     * Flint-owned pricing. External pricing reports requires_explicit_quote; reading this field
+     * does not request a delivery quote. Omitted when the session is not open, has no order, or
+     * Flint cannot read its delivery. previous_attributes.delivery.anyOf[1] (Value): {@link
+     * CheckoutDerivedDeliveryResourcePreviousAttributes}. previous_attributes.delivery.anyOf[2]
+     * (Value): null. previous_attributes.delivery_method_ids (Optional): Array of string or null.
+     * Immutable delivery method assignment captured when the checkout was created.
+     * previous_attributes.delivery_method_ids.anyOf[1] (Value): Array of string. Immutable
+     * delivery method assignment captured when the checkout was created.
+     * previous_attributes.delivery_method_ids.anyOf[1][] (Value): string. Example:
+     * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". previous_attributes.delivery_method_ids.anyOf[2] (Value):
+     * null. previous_attributes.delivery_selection_required (Optional): boolean or null. Whether
+     * the order has at least one remaining quote-resolved fulfillment choice that must be selected
+     * before payment. previous_attributes.delivery_selection_required.anyOf[1] (Value): boolean.
+     * Whether the order has at least one remaining quote-resolved fulfillment choice that must be
+     * selected before payment. previous_attributes.delivery_selection_required.anyOf[2] (Value):
+     * null. previous_attributes.expires_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.expires_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.expires_at.anyOf[2] (Value):
+     * null. previous_attributes.expires_in_seconds (Optional): integer or null. The lifetime the
+     * session got. expires_at is its deadline. Omitted for invoice sessions, which take their
+     * deadline from the invoice. previous_attributes.expires_in_seconds.anyOf[1] (Value): integer.
+     * The lifetime the session got. expires_at is its deadline. Omitted for invoice sessions,
+     * which take their deadline from the invoice. Format: int64.
+     * previous_attributes.expires_in_seconds.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.gift_card_challenge (Optional): {@link
+     * CheckoutGiftCardChallengePreviousAttributes} or null. Where the buyer completes a gift card
+     * challenge for this checkout. Returned on single-session reads, session create and update
+     * responses, checkout launch results, and customer verification confirmation results while the
+     * session is open and can show the challenge. Omitted from lists, webhooks, expanded
+     * resources, and delivery selection results. previous_attributes.gift_card_challenge.anyOf[1]
+     * (Value): {@link CheckoutGiftCardChallengePreviousAttributes}.
+     * previous_attributes.gift_card_challenge.anyOf[2] (Value): null.
+     * previous_attributes.inventory_reservation_ids (Optional): Array of string or null. Immutable
+     * cart hold IDs authorized by the merchant at session creation. Omitted when empty and from
+     * checkout-credential responses. Buyer and merchant delivery requests that omit IDs use
+     * eligible bound holds; explicit merchant IDs replace the binding for that request. First
+     * adopter wins when sessions share a hold. Invalidated or otherwise ended sessions cannot
+     * adopt stock, and replacements never inherit the binding. Unused cart units retain their own
+     * release and expiration lifecycle. previous_attributes.inventory_reservation_ids.anyOf[1]
+     * (Value): Array of string. Immutable cart hold IDs authorized by the merchant at session
+     * creation. Omitted when empty and from checkout-credential responses. Buyer and merchant
+     * delivery requests that omit IDs use eligible bound holds; explicit merchant IDs replace the
+     * binding for that request. First adopter wins when sessions share a hold. Invalidated or
+     * otherwise ended sessions cannot adopt stock, and replacements never inherit the binding.
+     * Unused cart units retain their own release and expiration lifecycle.
+     * previous_attributes.inventory_reservation_ids.anyOf[1][] (Value): string. Example:
+     * "invr_01KEZF7C0041ENRR0C2NF3AP12". previous_attributes.inventory_reservation_ids.anyOf[2]
+     * (Value): null. previous_attributes.invoice (Optional): {@link
+     * ExpandedInvoiceSummaryPreviousAttributes} or null. Present only when `expand` includes
+     * `invoice`; `null` when expanded and there is no related invoice.
+     * previous_attributes.invoice.anyOf[1] (Value): {@link
+     * ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2] (Value):
+     * null. previous_attributes.invoice_id (Optional): string or null. ID of the invoice a session
+     * of type `invoice` collects payment for. Absent for other types.
+     * previous_attributes.invoice_id.anyOf[1] (Value): string. ID of the invoice a session of type
+     * `invoice` collects payment for. Absent for other types. Example:
+     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
+     * previous_attributes.is_in_recovery (Optional): boolean or null. Whether this terminal
+     * session credential is temporarily restricted to recovering its owning payment attempt.
+     * previous_attributes.is_in_recovery.anyOf[1] (Value): boolean. Whether this terminal session
+     * credential is temporarily restricted to recovering its owning payment attempt.
+     * previous_attributes.is_in_recovery.anyOf[2] (Value): null. previous_attributes.legal
+     * (Optional): {@link CheckoutLegalConfigPreviousAttributes} or null. The terms and policy
+     * links this session shows the buyer, and whether the buyer must accept the terms.
+     * previous_attributes.legal.anyOf[1] (Value): {@link CheckoutLegalConfigPreviousAttributes}.
+     * previous_attributes.legal.anyOf[2] (Value): null. previous_attributes.merchant_id
+     * (Optional): string or null. ID of the merchant this resource belongs to.
+     * previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the merchant this resource
+     * belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
+     * (Value): {@link MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.order (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or
+     * null. Present only when `expand` includes `order`; `null` when expanded and there is no
+     * related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value): null.
+     * previous_attributes.order_id (Optional): string or null. ID of the order the session
+     * collects payment for, fixed at creation. Absent when the session has no order.
+     * previous_attributes.order_id.anyOf[1] (Value): string. ID of the order the session collects
+     * payment for, fixed at creation. Absent when the session has no order. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
+     * previous_attributes.page_origin (Optional): string or null. Origin of the page that renders
+     * this headless checkout. Omitted when not set. previous_attributes.page_origin.anyOf[1]
+     * (Value): string. Origin of the page that renders this headless checkout. Omitted when not
+     * set. previous_attributes.page_origin.anyOf[2] (Value): null.
+     * previous_attributes.payment_collection (Optional): {@link SetupCollectionPreviousAttributes}
+     * or null. Guidance for collecting a payment source. Checkout-credential reads include it only
+     * while the session is open. Returned only to the checkout credential; never in webhook
+     * payloads. previous_attributes.payment_collection.anyOf[1] (Value): {@link
+     * SetupCollectionPreviousAttributes}. previous_attributes.payment_collection.anyOf[2] (Value):
+     * null. previous_attributes.payment_intent_ids (Optional): Array of string or null. IDs of the
+     * payment intents for the session's order. Absent when the order has none.
+     * previous_attributes.payment_intent_ids.anyOf[1] (Value): Array of string. IDs of the payment
+     * intents for the session's order. Absent when the order has none.
+     * previous_attributes.payment_intent_ids.anyOf[1][] (Value): string. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R". previous_attributes.payment_intent_ids.anyOf[2] (Value):
+     * null. previous_attributes.payment_intents (Optional): Array of {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Present only when `expand` includes
+     * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
+     * previous_attributes.payment_intents.anyOf[1] (Value): Array of {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes}. Present only when `expand` includes
+     * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
+     * previous_attributes.payment_intents.anyOf[1][] (Value): {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes}.
+     * previous_attributes.payment_intents.anyOf[2] (Value): null. previous_attributes.payment_link
+     * (Optional): {@link ExpandedPaymentLinkSummaryPreviousAttributes} or null. Present only when
+     * `expand` includes `payment_link`; `null` when expanded and there is no related payment link.
+     * previous_attributes.payment_link.anyOf[1] (Value): {@link
+     * ExpandedPaymentLinkSummaryPreviousAttributes}. previous_attributes.payment_link.anyOf[2]
+     * (Value): null. previous_attributes.payment_link_id (Optional): string or null. ID of the
+     * payment link the session was started from. Absent when it was not started from a payment
+     * link. previous_attributes.payment_link_id.anyOf[1] (Value): string. ID of the payment link
+     * the session was started from. Absent when it was not started from a payment link. Example:
+     * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". previous_attributes.payment_link_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_return_url (Optional): string or null. Headless sessions only.
+     * Absolute HTTPS URL on your site where Flint sends the buyer after a redirect payment such as
+     * Affirm, whatever the outcome; read the session there to show the result. Required when the
+     * session offers affirm. It can't contain credentials, a query string, or a fragment. Query
+     * strings are deliberately excluded so credentials and provider state cannot cross Flint's
+     * payment relay. Put merchant identifiers in the URL path, such as
+     * https://shop.example/return/sub_123. Test mode also accepts http loopback URLs. Up to 2,048
+     * characters. previous_attributes.payment_return_url.anyOf[1] (Value): string. Headless
+     * sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a redirect
+     * payment such as Affirm, whatever the outcome; read the session there to show the result.
+     * Required when the session offers affirm. It can't contain credentials, a query string, or a
+     * fragment. Query strings are deliberately excluded so credentials and provider state cannot
+     * cross Flint's payment relay. Put merchant identifiers in the URL path, such as
+     * https://shop.example/return/sub_123. Test mode also accepts http loopback URLs. Up to 2,048
+     * characters. Format: uri. maxLength: 2048. Example: "https://example.com/receipt".
+     * previous_attributes.payment_return_url.anyOf[2] (Value): null. previous_attributes.payments
+     * (Optional): {@link CheckoutPaymentConfigPreviousAttributes} or null. Configured payment
+     * options for merchant credentials; currently available payment options for the checkout
+     * credential. previous_attributes.payments.anyOf[1] (Value): {@link
+     * CheckoutPaymentConfigPreviousAttributes}. previous_attributes.payments.anyOf[2] (Value):
+     * null. previous_attributes.prefill (Optional): {@link CheckoutPrefillPreviousAttributes} or
+     * null. Contact details and addresses to fill in for the buyer, who can change them. For a
+     * customer with saved addresses, Flint fills in any address you leave out, and reads include
+     * it. With quick_pay or subscription_plan and automatic tax on, a prefilled address sets the
+     * order's tax location. Not changed by what the buyer types; for that, read buyer_contact.
+     * customer_prefill is what the checkout credential reads from the customer record.
+     * previous_attributes.prefill.anyOf[1] (Value): {@link CheckoutPrefillPreviousAttributes}.
+     * previous_attributes.prefill.anyOf[2] (Value): null. previous_attributes.problems (Optional):
+     * Array of {@link CheckoutProblemResourcePreviousAttributes} or null. Named conditions that
+     * affect checkout completion. Follow each problem's remediation action instead of
+     * reconstructing delivery lifecycle rules in the client. payment_in_progress means another
+     * payment for the order must finish before this checkout can complete. When Flint cannot read
+     * the checkout's delivery, the read still succeeds and reports delivery_unreadable; its
+     * remediation says whether reading the session again can succeed, and its next action's
+     * reason_code names the error. previous_attributes.problems.anyOf[1] (Value): Array of {@link
+     * CheckoutProblemResourcePreviousAttributes}. Named conditions that affect checkout
+     * completion. Follow each problem's remediation action instead of reconstructing delivery
+     * lifecycle rules in the client. payment_in_progress means another payment for the order must
+     * finish before this checkout can complete. When Flint cannot read the checkout's delivery,
+     * the read still succeeds and reports delivery_unreadable; its remediation says whether
+     * reading the session again can succeed, and its next action's reason_code names the error.
+     * previous_attributes.problems.anyOf[1][] (Value): {@link
+     * CheckoutProblemResourcePreviousAttributes}. previous_attributes.problems.anyOf[2] (Value):
+     * null. previous_attributes.promotion_config (Optional): {@link
+     * CheckoutPromotionConfigPreviousAttributes} or null. Whether automatic promotions apply to
+     * this session and whether the buyer can enter promotion codes.
+     * previous_attributes.promotion_config.anyOf[1] (Value): {@link
+     * CheckoutPromotionConfigPreviousAttributes}. previous_attributes.promotion_config.anyOf[2]
+     * (Value): null. previous_attributes.redirects (Optional): {@link
+     * CheckoutRedirectsPreviousAttributes} or null. Where hosted checkout sends the buyer. Not
+     * allowed when surface is headless; use payment_return_url.
+     * previous_attributes.redirects.anyOf[1] (Value): {@link CheckoutRedirectsPreviousAttributes}.
+     * previous_attributes.redirects.anyOf[2] (Value): null. previous_attributes.refunds
+     * (Optional): Array of {@link BuyerRefundPreviousAttributes} or null. All buyer-visible
+     * refunds on this session’s order, including refunds made by the store. Uses the same buyer
+     * projection as /v1/me/refunds. Included on GET single-session reads as an array, with [] when
+     * there are none, and omitted from other responses and webhooks. A failed refund with
+     * failure_reason refund_abandoned could not be completed: tell the buyer to contact the store
+     * to get their money back. previous_attributes.refunds.anyOf[1] (Value): Array of {@link
+     * BuyerRefundPreviousAttributes}. All buyer-visible refunds on this session’s order, including
+     * refunds made by the store. Uses the same buyer projection as /v1/me/refunds. Included on GET
+     * single-session reads as an array, with [] when there are none, and omitted from other
+     * responses and webhooks. A failed refund with failure_reason refund_abandoned could not be
+     * completed: tell the buyer to contact the store to get their money back.
+     * previous_attributes.refunds.anyOf[1][] (Value): {@link BuyerRefundPreviousAttributes}.
+     * previous_attributes.refunds.anyOf[2] (Value): null. previous_attributes.setup_collection
+     * (Optional): {@link SetupCollectionPreviousAttributes} or null. Guidance for collecting a
+     * payment method to save. Checkout-credential reads include it only while the session is open.
+     * Returned only to the checkout credential; never in webhook payloads.
+     * previous_attributes.setup_collection.anyOf[1] (Value): {@link
+     * SetupCollectionPreviousAttributes}. previous_attributes.setup_collection.anyOf[2] (Value):
+     * null. previous_attributes.status (Optional): string or null. Where the session is in its
+     * lifecycle. Only an `open` session accepts payment. `terminal_reason` says why a session that
+     * is not open ended. Value enum: "open", "paid", "partially_paid", "expired", "closed",
+     * "invalidated". previous_attributes.status.anyOf[1] (Value): string. Where the session is in
+     * its lifecycle. Only an `open` session accepts payment. `terminal_reason` says why a session
+     * that is not open ended. Value enum: "open", "paid", "partially_paid", "expired", "closed",
+     * "invalidated". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.subscription_plan_id (Optional): string or null. ID of the subscription
+     * plan a session of type `subscription_plan` signs the buyer up for. Absent for other types.
+     * previous_attributes.subscription_plan_id.anyOf[1] (Value): string. ID of the subscription
+     * plan a session of type `subscription_plan` signs the buyer up for. Absent for other types.
+     * Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
+     * previous_attributes.subscription_plan_id.anyOf[2] (Value): null.
+     * previous_attributes.subscription_terms (Optional): {@link
+     * CheckoutSubscriptionTermsPreviousAttributes} or null. Renewal terms a subscription checkout
+     * commits the buyer to. Frozen when the session's order was created, so later plan changes do
+     * not alter them. Absent when the checkout starts no subscription.
+     * previous_attributes.subscription_terms.anyOf[1] (Value): {@link
+     * CheckoutSubscriptionTermsPreviousAttributes}.
+     * previous_attributes.subscription_terms.anyOf[2] (Value): null.
+     * previous_attributes.superseding_checkout_session_id (Optional): string or null. ID of the
+     * session that replaced this one. Present when `terminal_reason` is `superseded`.
+     * previous_attributes.superseding_checkout_session_id.anyOf[1] (Value): string. ID of the
+     * session that replaced this one. Present when `terminal_reason` is `superseded`. Example:
+     * "cs_01KEZF7C004JRWFW43H037MQRN".
+     * previous_attributes.superseding_checkout_session_id.anyOf[2] (Value): null.
+     * previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle actions
+     * Flint accepts now, computed from stored checkout state without checking the caller's
+     * permissions. Contains close while open; empty after payment, closure, or expiry. Always
+     * present with merchant credentials. [] enum: "close".
+     * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions
+     * Flint accepts now, computed from stored checkout state without checking the caller's
+     * permissions. Contains close while open; empty after payment, closure, or expiry. Always
+     * present with merchant credentials. [] enum: "close".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "close".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.surface
+     * (Optional): string or null. How the session is presented to the buyer. A hosted session has
+     * a `url` on Flint's checkout page; a headless one is rendered on your own page. Value enum:
+     * "hosted", "headless". previous_attributes.surface.anyOf[1] (Value): string. How the session
+     * is presented to the buyer. A hosted session has a `url` on Flint's checkout page; a headless
+     * one is rendered on your own page. Value enum: "hosted", "headless".
+     * previous_attributes.surface.anyOf[2] (Value): null. previous_attributes.tax (Optional):
+     * {@link CheckoutSessionTaxPreviousAttributes} or null. The session's tax settings. Omitted
+     * when the session sets none. previous_attributes.tax.anyOf[1] (Value): {@link
+     * CheckoutSessionTaxPreviousAttributes}. previous_attributes.tax.anyOf[2] (Value): null.
+     * previous_attributes.terminal_reason (Optional): string or null. Why the session ended. The
+     * checkout credential can still read its own closed or expired session; every other call is
+     * refused because the session is not open. order_paid_elsewhere applies only to invalidated
+     * sessions when payment succeeds or partially succeeds outside the session. order_mutated
+     * applies when an edit closes or completes its order, or ends an invoice, return-resolution,
+     * or subscription-plan session. Other merchant edits keep hosted and headless sessions open. A
+     * session already past expires_at ends with expired before the edit is applied. Value enum:
+     * "payment_succeeded", "payment_partially_succeeded", "expired", "closed_by_merchant",
+     * "order_mutated", "superseded", "order_paid_elsewhere", "invoice_paid_elsewhere",
+     * "invoice_voided", "invoice_uncollectible", "invoice_balance_changed".
+     * previous_attributes.terminal_reason.anyOf[1] (Value): string. Why the session ended. The
+     * checkout credential can still read its own closed or expired session; every other call is
+     * refused because the session is not open. order_paid_elsewhere applies only to invalidated
+     * sessions when payment succeeds or partially succeeds outside the session. order_mutated
+     * applies when an edit closes or completes its order, or ends an invoice, return-resolution,
+     * or subscription-plan session. Other merchant edits keep hosted and headless sessions open. A
+     * session already past expires_at ends with expired before the edit is applied. Value enum:
+     * "payment_succeeded", "payment_partially_succeeded", "expired", "closed_by_merchant",
+     * "order_mutated", "superseded", "order_paid_elsewhere", "invoice_paid_elsewhere",
+     * "invoice_voided", "invoice_uncollectible", "invoice_balance_changed".
+     * previous_attributes.terminal_reason.anyOf[2] (Value): null. previous_attributes.theme
+     * (Optional): {@link CheckoutThemePreviousAttributes} or null. The theme checkout renders
+     * with: your branding settings, with the session's `title`, `primary_color`, and
+     * `accent_color` over them. A session sets only those three; the other fields come from
+     * branding settings. Omitted when neither sets a value. previous_attributes.theme.anyOf[1]
+     * (Value): {@link CheckoutThemePreviousAttributes}. previous_attributes.theme.anyOf[2]
+     * (Value): null. previous_attributes.tip (Optional): {@link
+     * CheckoutTipConfigPreviousAttributes} or null. The tip options this session offers the buyer.
+     * previous_attributes.tip.anyOf[1] (Value): {@link CheckoutTipConfigPreviousAttributes}.
+     * previous_attributes.tip.anyOf[2] (Value): null. previous_attributes.type (Optional): string
+     * or null. What the session collects payment for, fixed at creation. Value enum: "order",
+     * "quick_pay", "subscription_plan", "invoice", "payment_link".
+     * previous_attributes.type.anyOf[1] (Value): string. What the session collects payment for,
+     * fixed at creation. Value enum: "order", "quick_pay", "subscription_plan", "invoice",
+     * "payment_link". previous_attributes.type.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Persisted version of this
+     * resource's owned state. Expanded resources and external observations can change
+     * independently. previous_attributes.version.anyOf[1] (Value): integer. Persisted version of
+     * this resource's owned state. Expanded resources and external observations can change
+     * independently. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value):
+     * null.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit these fields: `url`,
+         * `recovery_payment_attempt_id`, `recovery_expires_at`, `can_save_payment_method`,
+         * `save_payment_method_types`, `save_payment_method_requires_verification`,
+         * `pay_to_new_address_requires_verification`, `can_save_payment_method_with_phone`,
+         * `payment_method_save`, `customer_prefill`, `merchant_support`, `merchant_name`,
+         * `show_flint_mark`, `merchant_logo`, `merchant_icon`, `payment_link_image`,
+         * `platform_fee`, `customer_account_url`.
          */
         "object": WebhookCheckoutSession;
         /**
@@ -1487,25 +6853,25 @@ export type CheckoutSessionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelo
      * `save_payment_method_requires_verification`, `pay_to_new_address_requires_verification`,
      * `can_save_payment_method_with_phone`, `payment_method_save`, `customer_prefill`,
      * `merchant_support`, `merchant_name`, `show_flint_mark`, `merchant_logo`, `merchant_icon`,
-     * `payment_link_image`, `platform_fee`. previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events. previous_attributes.active_payment_attempt (Optional): {@link
-     * OrderPaymentAttemptPreviousAttributes} or null. The payment attempt now collecting this
-     * checkout's order, the same attempt as the order's active_payment_attempt. Read it to recover
-     * after losing a pay response, and resume it only when is_resumable is true. Omitted when no
-     * attempt is active. Pending actions that open a URL are left out; the pay response carries
-     * them. previous_attributes.active_payment_attempt.anyOf[1] (Value): {@link
-     * OrderPaymentAttemptPreviousAttributes}. previous_attributes.active_payment_attempt.anyOf[2]
-     * (Value): null. previous_attributes.buyer_contact (Optional): {@link
-     * CheckoutBuyerContactPreviousAttributes} or null. Contact the buyer entered in checkout
-     * before paying, saved with the session's checkout credential. Separate from merchant-supplied
-     * prefill and customer_prefill from the customer record. Omitted until the buyer saves or
-     * clears a field. When a checkout session payment omits buyer_contact.email or
-     * buyer_contact.phone, Flint uses these values. Flint clears the contact 30 days after the
-     * session ends, and when a customer linked to the session is deleted.
-     * previous_attributes.buyer_contact.anyOf[1] (Value): {@link
+     * `payment_link_image`, `platform_fee`, `customer_account_url`. previous_attributes
+     * (Optional): object. Previous values of changed top-level fields in data.object, at this
+     * delivery's API version. Nested changes include the whole previous top-level value. A value
+     * is null when the field was absent before the change. Omitted when Flint did not record the
+     * previous state, including synthetic test events. previous_attributes.active_payment_attempt
+     * (Optional): {@link OrderPaymentAttemptPreviousAttributes} or null. The payment attempt now
+     * collecting this checkout's order, the same attempt as the order's active_payment_attempt.
+     * Read it to recover after losing a pay response, and resume it only when is_resumable is
+     * true. Omitted when no attempt is active. Pending actions that open a URL are left out; the
+     * pay response carries them. previous_attributes.active_payment_attempt.anyOf[1] (Value):
+     * {@link OrderPaymentAttemptPreviousAttributes}.
+     * previous_attributes.active_payment_attempt.anyOf[2] (Value): null.
+     * previous_attributes.buyer_contact (Optional): {@link CheckoutBuyerContactPreviousAttributes}
+     * or null. Contact the buyer entered in checkout before paying, saved with the session's
+     * checkout credential. Separate from merchant-supplied prefill and customer_prefill from the
+     * customer record. Omitted until the buyer saves or clears a field. When a checkout session
+     * payment omits buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint
+     * clears the contact 30 days after the session ends, and when a customer linked to the session
+     * is deleted. previous_attributes.buyer_contact.anyOf[1] (Value): {@link
      * CheckoutBuyerContactPreviousAttributes}. previous_attributes.buyer_contact.anyOf[2] (Value):
      * null. previous_attributes.buyer_fields (Optional): {@link
      * CheckoutBuyerFieldsPreviousAttributes} or null. What checkout asks the buyer for. Each field
@@ -1868,7 +7234,7 @@ export type CheckoutSessionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelo
          * `pay_to_new_address_requires_verification`, `can_save_payment_method_with_phone`,
          * `payment_method_save`, `customer_prefill`, `merchant_support`, `merchant_name`,
          * `show_flint_mark`, `merchant_logo`, `merchant_icon`, `payment_link_image`,
-         * `platform_fee`.
+         * `platform_fee`, `customer_account_url`.
          */
         "object": WebhookCheckoutSession;
         /**
@@ -3102,6 +8468,45 @@ export type CheckoutSettingsRequestInput = {
      */
     "saved_payment_details"?: CheckoutSavedPaymentDetailsSettingsRequestInput;
 };
+/** One consecutive price window in a checkout subscription's paid billing periods. */
+export type CheckoutSubscriptionPricePhase = {
+    /**
+     * Number of paid billing periods at this price. Null when the price continues until
+     * cancellation. Format: int32. minimum: 1.
+     */
+    "billing_period_count": number | null;
+    /**
+     * Recurring merchandise charge per billing period after discounts, before tax and shipping.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "recurring_total_money": MoneyValue;
+    /**
+     * Fixed start of this phase, when known. Null when the buyer has not paid and the billing
+     * start depends on when they pay. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "starts_at": string | null;
+};
+export type CheckoutSubscriptionPricePhasePreviousAttributes = {
+    /**
+     * Number of paid billing periods at this price. Null when the price continues until
+     * cancellation. anyOf[1] (Value): integer. Number of paid billing periods at this price. Null
+     * when the price continues until cancellation. Format: int32. minimum: 1. anyOf[2] (Value):
+     * null.
+     */
+    "billing_period_count"?: ((number) | (null));
+    /**
+     * Recurring merchandise charge per billing period after discounts, before tax and shipping.
+     * anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "recurring_total_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Fixed start of this phase, when known. Null when the buyer has not paid and the billing
+     * start depends on when they pay. anyOf[1] (Value): string. Fixed start of this phase, when
+     * known. Null when the buyer has not paid and the billing start depends on when they pay.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "starts_at"?: ((string) | (null));
+};
 /**
  * Recurring shipping charged on a checkout's subscription: the delivery method name, whether the
  * price is fixed or quoted, and the amount.
@@ -3262,6 +8667,15 @@ export type CheckoutSubscriptionTerms = {
     }>;
     /** Plan name shown to the buyer. */
     "plan_name": string;
+    /**
+     * Ordered recurring merchandise prices from the first paid billing period, after any trial,
+     * with frozen signup promotions applied. Each finite phase is followed by the next phase; the
+     * final phase has a null billing_period_count and continues until cancellation. Tax and
+     * shipping are additional. Always contains at least one phase. [] (Value): {@link
+     * CheckoutSubscriptionPricePhase}. One consecutive price window in a checkout subscription's
+     * paid billing periods.
+     */
+    "recurring_price_phases": Array<CheckoutSubscriptionPricePhase>;
     /**
      * Shipping that renews with each charge, for the delivery method the buyer chose. Omitted when
      * no delivery method applies to the plan's lines. Recurring shipping charged on a checkout's
@@ -3454,6 +8868,19 @@ export type CheckoutSubscriptionTermsPreviousAttributes = {
      * anyOf[2] (Value): null.
      */
     "plan_name"?: ((string) | (null));
+    /**
+     * Ordered recurring merchandise prices from the first paid billing period, after any trial,
+     * with frozen signup promotions applied. Each finite phase is followed by the next phase; the
+     * final phase has a null billing_period_count and continues until cancellation. Tax and
+     * shipping are additional. Always contains at least one phase. anyOf[1] (Value): Array of
+     * {@link CheckoutSubscriptionPricePhasePreviousAttributes}. Ordered recurring merchandise
+     * prices from the first paid billing period, after any trial, with frozen signup promotions
+     * applied. Each finite phase is followed by the next phase; the final phase has a null
+     * billing_period_count and continues until cancellation. Tax and shipping are additional.
+     * Always contains at least one phase. anyOf[1][] (Value): {@link
+     * CheckoutSubscriptionPricePhasePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "recurring_price_phases"?: ((Array<CheckoutSubscriptionPricePhasePreviousAttributes>) | (null));
     /**
      * Shipping that renews with each charge, for the delivery method the buyer chose. Omitted when
      * no delivery method applies to the plan's lines. anyOf[1] (Value): {@link
@@ -4100,310 +9527,3 @@ export type ConfirmCheckoutSessionCustomerVerificationRequest = {
 };
 /** The code the buyer typed. */
 export type ConfirmCheckoutSessionCustomerVerificationRequestInput = ConfirmCheckoutSessionCustomerVerificationRequest;
-/** The request body for: Confirm a customer email verification. */
-export type ConfirmCustomerVerificationRequestInput = {
-    /** The six-digit code Flint sent to the customer's email. minLength: 1. pattern: ^[0-9]{6}$. */
-    "code": string;
-};
-/** The request body for: Confirm an email change. */
-export type ConfirmEmailChangeRequest = {
-    /**
-     * The six-digit code emailed to the current address. Required when
-     * `current_email_confirmation_required` is `true`. minLength: 1. pattern: ^[0-9]{6}$.
-     */
-    "current_email_code"?: string;
-    /**
-     * Also move cards saved with Flint from the previous email to the new email. Defaults to
-     * false. Accepted only from customer sessions that can access GET /v1/me/flint-wallet/cards: a
-     * live email-code sign-in at a Flint-hosted account. Other sessions may not send this field,
-     * even as false. Default: false.
-     */
-    "move_flint_wallet"?: boolean;
-    /** The six-digit code emailed to the new address. minLength: 1. pattern: ^[0-9]{6}$. */
-    "new_email_code": string;
-};
-/** The request body for: Confirm an email change. */
-export type ConfirmEmailChangeRequestInput = ConfirmEmailChangeRequest;
-/** The request body for: Confirm payment intent. */
-export type ConfirmPaymentIntentRequest = ({
-    /**
-     * How to complete the authentication step. Flint's API returns a Stripe client secret only for
-     * client_action_type stripe. A url action opens in a redirect, popup, or iframe; Stripe's
-     * authentication page receives what it needs to run the challenge, including the client secret
-     * for hosted 3DS2. If a payment is confirmed with a payment method Flint didn't approve, Flint
-     * doesn't count the charge, returns it to the buyer, and the payment intent ends canceled with
-     * cancellation_reason payment_returned. The Stripe secret can also confirm the payment with
-     * another card, so use it only with handleNextAction. Reader credentials do not support url;
-     * omit client_action_type or send stripe for reader payments. Defaults to url for a new
-     * confirmation; omission on a continuation keeps the existing type. Default: "url". Value
-     * enum: "url", "stripe".
-     */
-    "client_action_type"?: "url" | "stripe" | (string & {});
-    /**
-     * Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with
-     * the current version. Retrieve the resource and rebuild the request before retrying. Format:
-     * uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Where Flint sends the buyer after a redirect or authentication step, adding only
-     * payment_intent_id for a payment, or payment_method_id for a setup. The completion message
-     * uses type flint.payment_action.completed and exactly that one subject key. Without it, the
-     * step ends on a Flint page that tells the parent or opener the step completed. Accepts an
-     * absolute HTTPS URL or an app return URL with a custom scheme other than http, javascript,
-     * data, file, blob, or about. Cannot contain credentials, a query, or a fragment. Query
-     * strings are deliberately excluded so credentials and provider state cannot cross Flint's
-     * payment relay. Put merchant identifiers in the URL path, such as
-     * https://shop.example/return/sub_123. Test mode also accepts HTTP loopback URLs. With a
-     * checkout credential on order pay, omit payment_return_url; checkout sessions use their own
-     * configured return URL. minLength: 1. maxLength: 2048.
-     */
-    "payment_return_url"?: string;
-    /**
-     * Credential to confirm this payment. Omit it to continue with the attached source: confirm
-     * requires_confirmation, or refresh requires_action without starting another payment. Required
-     * when no source is attached. The credential you provide to pay an order: a payment source
-     * token, a saved payment method ID, or a Stripe confirmation token.
-     */
-    "payment_source"?: PaymentSourceCredential;
-    /**
-     * Saves the card this confirmation collects for the standalone payment intent's customer or
-     * the owning order's customer, with usage off_session, so you can charge it later without the
-     * buyer: subscriptions, automatic invoices, or the customer's default. Send true only when the
-     * buyer agreed to that on your page. Requires customer_id on the standalone payment intent or
-     * owning order (otherwise configuration_required names that resource), a card, Apple Pay, or
-     * Google Pay credential in payment_source.stripe.confirmation_token (created with
-     * setup_future_usage off_session) or payment_source.stripe.payment_method, and
-     * payments.payment_methods.write. Flint saves the card once the payment is approved, sends
-     * payment_method.activated, and sets payment_source.card.payment_method_id. If the bank asks
-     * the buyer to authenticate, current_payment_action carries it; that one authentication also
-     * covers the saved card. A continuation keeps the original save choice. Checkout credentials
-     * cannot send this field, even as false. To save a card with order pay, send
-     * save_payment_method on POST /v1/orders/{order_id}/pay, which supports merchant off_session
-     * saves and checkout on_session saves; the credential determines which rules apply. Default:
-     * false.
-     */
-    "save_payment_method"?: boolean;
-});
-/** The request body for: Confirm payment intent. */
-export type ConfirmPaymentIntentRequestInput = ({
-    /**
-     * The buyer's IP address, for risk screening, when your server pays on the buyer's behalf.
-     * Write-only. minLength: 1. maxLength: 64.
-     */
-    "buyer_ip_address"?: string;
-    /**
-     * How to complete the authentication step. Flint's API returns a Stripe client secret only for
-     * client_action_type stripe. A url action opens in a redirect, popup, or iframe; Stripe's
-     * authentication page receives what it needs to run the challenge, including the client secret
-     * for hosted 3DS2. If a payment is confirmed with a payment method Flint didn't approve, Flint
-     * doesn't count the charge, returns it to the buyer, and the payment intent ends canceled with
-     * cancellation_reason payment_returned. The Stripe secret can also confirm the payment with
-     * another card, so use it only with handleNextAction. Reader credentials do not support url;
-     * omit client_action_type or send stripe for reader payments. Defaults to url for a new
-     * confirmation; omission on a continuation keeps the existing type. Default: "url". Value
-     * enum: "url", "stripe".
-     */
-    "client_action_type"?: "url" | "stripe";
-    /**
-     * Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with
-     * the current version. Retrieve the resource and rebuild the request before retrying. Format:
-     * uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Where Flint sends the buyer after a redirect or authentication step, adding only
-     * payment_intent_id for a payment, or payment_method_id for a setup. The completion message
-     * uses type flint.payment_action.completed and exactly that one subject key. Without it, the
-     * step ends on a Flint page that tells the parent or opener the step completed. Accepts an
-     * absolute HTTPS URL or an app return URL with a custom scheme other than http, javascript,
-     * data, file, blob, or about. Cannot contain credentials, a query, or a fragment. Query
-     * strings are deliberately excluded so credentials and provider state cannot cross Flint's
-     * payment relay. Put merchant identifiers in the URL path, such as
-     * https://shop.example/return/sub_123. Test mode also accepts HTTP loopback URLs. With a
-     * checkout credential on order pay, omit payment_return_url; checkout sessions use their own
-     * configured return URL. minLength: 1. maxLength: 2048.
-     */
-    "payment_return_url"?: string;
-    /**
-     * Credential to confirm this payment. Omit it to continue with the attached source: confirm
-     * requires_confirmation, or refresh requires_action without starting another payment. Required
-     * when no source is attached. The credential you provide to pay an order: a payment source
-     * token, a saved payment method ID, or a Stripe confirmation token.
-     */
-    "payment_source"?: PaymentSourceCredentialInput;
-    /**
-     * Saves the card this confirmation collects for the standalone payment intent's customer or
-     * the owning order's customer, with usage off_session, so you can charge it later without the
-     * buyer: subscriptions, automatic invoices, or the customer's default. Send true only when the
-     * buyer agreed to that on your page. Requires customer_id on the standalone payment intent or
-     * owning order (otherwise configuration_required names that resource), a card, Apple Pay, or
-     * Google Pay credential in payment_source.stripe.confirmation_token (created with
-     * setup_future_usage off_session) or payment_source.stripe.payment_method, and
-     * payments.payment_methods.write. Flint saves the card once the payment is approved, sends
-     * payment_method.activated, and sets payment_source.card.payment_method_id. If the bank asks
-     * the buyer to authenticate, current_payment_action carries it; that one authentication also
-     * covers the saved card. A continuation keeps the original save choice. Checkout credentials
-     * cannot send this field, even as false. To save a card with order pay, send
-     * save_payment_method on POST /v1/orders/{order_id}/pay, which supports merchant off_session
-     * saves and checkout on_session saves; the credential determines which rules apply. Default:
-     * false.
-     */
-    "save_payment_method"?: boolean;
-});
-/** A response containing `PaymentIntentWithAction` data. */
-export type ConfirmPaymentIntentResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. One payment from a
-     * buyer, standalone or as a leg of an order. amount_money is the amount requested. Once the
-     * payment is authorized, authorized_money equals amount_money (on a payment intent canceled
-     * with cancellation_reason payment_returned, the authorization Flint released) and splits into
-     * captured_money (collected), capturable_money (still on hold), and released_money (returned
-     * without being charged), so authorized_money equals the sum of those three whenever the
-     * capture is at most the authorization. An overcapture (see request_overcapture) has
-     * capturable_money and released_money zero and captured_money above authorized_money.
-     * Reconcile revenue from captured_money.
-     */
-    "data": PaymentIntentWithAction;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** The request body for: Confirm return resolution. */
-export type ConfirmReturnResolutionRequestInput = {
-    /**
-     * Version last read from the resource returned in `data` (the primary resource for a result
-     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
-     * the operation and fields being changed. Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-};
-export type ConfirmReturnResolutionResponse = GetReturnResolutionResponse;
-/** The request body for: Connect automatic tax. */
-export type ConnectTaxConnectionRequest = {
-    /**
-     * Resource version last read by the caller. Omit to apply the change to the current resource.
-     * Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Presence records the seller's agreement to the named disclosure version. The seller's
-     * agreement to the current automatic sales tax disclosure, recorded when connect succeeds.
-     */
-    "seller_attestation": SellerTaxAttestationRequest;
-};
-/** The request body for: Connect automatic tax. */
-export type ConnectTaxConnectionRequestInput = {
-    /**
-     * Resource version last read by the caller. Omit to apply the change to the current resource.
-     * Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Presence records the seller's agreement to the named disclosure version. The seller's
-     * agreement to the current automatic sales tax disclosure, recorded when connect succeeds.
-     */
-    "seller_attestation": SellerTaxAttestationRequestInput;
-};
-/**
- * Consumes committed quantity when you hand the goods off, removing it from on-hand stock. Accepts
- * provenance describing the handoff.
- */
-export type ConsumeInventoryReservationRequest = {
-    /**
-     * Optional resource version the caller last read. Enforced when sent. Format: uint64. minimum:
-     * 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Reservation lines this action changes, each with a cumulative target. 1 to 100 lines.
-     * minItems: 1. maxItems: 100. [] (Value): object. [].inventory_reservation_line_id (Required):
-     * string. Reservation line this action changes. minLength: 1. Example:
-     * "invrln_01KEZF7C002JCDA729XDSNWGY5". [].target_consumed_quantity (Required): integer.
-     * Cumulative whole-number quantity that should have reached this target. Format: int64.
-     * minimum: 0.
-     */
-    "lines": Array<{
-        /**
-         * Reservation line this action changes. minLength: 1. Example:
-         * "invrln_01KEZF7C002JCDA729XDSNWGY5".
-         */
-        "inventory_reservation_line_id": string;
-        /**
-         * Cumulative whole-number quantity that should have reached this target. Format: int64.
-         * minimum: 0.
-         */
-        "target_consumed_quantity": number;
-    }>;
-    /**
-     * When and where the physical handoff happened. When omitted, occurred_at is the command
-     * receipt time and source_system is null. Where and when an inventory event happened: the
-     * source system, external actor, and time.
-     */
-    "provenance"?: InventoryProvenanceRequest;
-};
-/**
- * Consumes committed quantity when you hand the goods off, removing it from on-hand stock. Accepts
- * provenance describing the handoff.
- */
-export type ConsumeInventoryReservationRequestInput = {
-    /**
-     * Optional resource version the caller last read. Enforced when sent. Format: uint64. minimum:
-     * 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Reservation lines this action changes, each with a cumulative target. 1 to 100 lines.
-     * minItems: 1. maxItems: 100. [] (Value): object. [].inventory_reservation_line_id (Required):
-     * string. Reservation line this action changes. minLength: 1. Example:
-     * "invrln_01KEZF7C002JCDA729XDSNWGY5". [].target_consumed_quantity (Required): integer.
-     * Cumulative whole-number quantity that should have reached this target. Format: int64.
-     * minimum: 0.
-     */
-    "lines": Array<{
-        /**
-         * Reservation line this action changes. minLength: 1. Example:
-         * "invrln_01KEZF7C002JCDA729XDSNWGY5".
-         */
-        "inventory_reservation_line_id": string;
-        /**
-         * Cumulative whole-number quantity that should have reached this target. Format: int64.
-         * minimum: 0.
-         */
-        "target_consumed_quantity": number;
-    }>;
-    /**
-     * When and where the physical handoff happened. When omitted, occurred_at is the command
-     * receipt time and source_system is null. Where and when an inventory event happened: the
-     * source system, external actor, and time.
-     */
-    "provenance"?: InventoryProvenanceRequestInput;
-};
-/**
- * A context the CLI is authorized to use: a sandbox or live account, with its ID, merchant ID, and
- * name.
- */
-export type ContextSummary = ({
-    /**
-     * Deprecated: use mode. sandbox corresponds to test, and live corresponds to live. Value enum:
-     * "sandbox", "live".
-     */
-    "environment": "sandbox" | "live" | (string & {});
-    /** ID of the context. Name it as `context_id` when you refresh a token. */
-    "id": string;
-    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-    "merchant_id": string;
-    /** Whether this context uses test or live data. Value enum: "test", "live". */
-    "mode": "test" | "live" | (string & {});
-    /** Name of the context. */
-    "name": string;
-    /** ID of the sandbox this resource belongs to. Example: "test_01KEZF7C00JC77HTMTB2XHNPE0". */
-    "sandbox_id"?: string;
-});

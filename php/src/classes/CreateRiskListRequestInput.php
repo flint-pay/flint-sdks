@@ -21,7 +21,7 @@ final class CreateRiskListRequestInput extends Model {
      */
     public function getItemType(): string { return $this->get('item_type'); }
     public function hasItemType(): bool { return $this->has('item_type'); }
-    /** Display name of the list. minLength: 1.
+    /** Display name of the list. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */

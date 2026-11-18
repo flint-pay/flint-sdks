@@ -42,6 +42,10 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 Field definitions: [shared fields](RefundFailedMerchantEventDataPreviousAttributes.md#refundfailedmerchanteventdatapreviousattributes).
 
+### RefundFailedMerchantEvent.data fields 1.previous_attributes.charge_allocations
+
+Declared alternatives: [RefundFailedMerchantEventDataPreviousAttributes.charge_allocations](../models/RefundFailedMerchantEventDataPreviousAttributes.md#refundfailedmerchanteventdatapreviousattributescharge_allocations).
+
 ### RefundFailedMerchantEvent.data fields 1.previous_attributes.created_at
 
 Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).

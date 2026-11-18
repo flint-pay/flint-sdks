@@ -10,13 +10,13 @@ namespace Flint;
 final class CreditNotesGetAllocationInput extends Model {
     /** @param array{'credit_note_id': string, 'credit_note_allocation_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreditNotesGetAllocationInput')); }
-    /** Flint credit note ID. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
+    /** Flint credit note ID. Must be a valid ID with prefix cn_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
      * @return string
      * @throws SdkError When credit_note_id is omitted; use hasCreditNoteId() or valueOrDefault().
      */
     public function getCreditNoteId(): string { return $this->get('credit_note_id'); }
     public function hasCreditNoteId(): bool { return $this->has('credit_note_id'); }
-    /** Flint credit note allocation ID. Example: "cna_01KEZF7C00EH6DMS9BD8F72CMA".
+    /** Flint credit note allocation ID. Must be a valid ID with prefix cna_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "cna_01KEZF7C00EH6DMS9BD8F72CMA".
      * @return string
      * @throws SdkError When credit_note_allocation_id is omitted; use hasCreditNoteAllocationId() or valueOrDefault().
      */

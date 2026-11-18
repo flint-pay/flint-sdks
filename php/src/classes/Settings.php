@@ -16,6 +16,7 @@ namespace Flint;
  * @property-read ?PaymentLimitSettings $payment_limits
  * @property-read ?PaymentSettings $payments
  * @property-read ?PromotionSettings $promotions
+ * @property-read ?ReceiptSettings $receipts
  * @property-read string $settings_id
  * @property-read ?SubscriptionSettings $subscriptions
  * @property-read ?TaxSettings $tax
@@ -25,7 +26,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class Settings extends Model {
-    /** @param array{'branding'?: mixed, 'checkout'?: mixed, 'created_at': string, 'customer_account'?: mixed, 'customer_email_delivery'?: mixed, 'fulfillment'?: mixed, 'inventory'?: mixed, 'invoices'?: mixed, 'legal'?: mixed, 'merchant_id': string, 'metadata'?: mixed, 'payment_limits'?: mixed, 'payments'?: mixed, 'promotions'?: mixed, 'settings_id': string, 'subscriptions'?: mixed, 'tax'?: mixed, 'tax_identity': mixed, 'tipping'?: mixed, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'branding'?: mixed, 'checkout'?: mixed, 'created_at': string, 'customer_account'?: mixed, 'customer_email_delivery'?: mixed, 'fulfillment'?: mixed, 'inventory'?: mixed, 'invoices'?: mixed, 'legal'?: mixed, 'merchant_id': string, 'metadata'?: mixed, 'payment_limits'?: mixed, 'payments'?: mixed, 'promotions'?: mixed, 'receipts'?: mixed, 'settings_id': string, 'subscriptions'?: mixed, 'tax'?: mixed, 'tax_identity': mixed, 'tipping'?: mixed, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Settings')); }
     /** Colors, font, and corner radius of hosted checkout, receipts, and links. Omitted until you save a value in this section; effective settings fill in Flint's defaults. A merchant's branding settings: colors, corner radius, and font family. Checkout uses them as its default theme.
      * @return ?BrandingSettings
@@ -87,7 +88,7 @@ final class Settings extends Model {
      */
     public function getPaymentLimits(): ?PaymentLimitSettings { return $this->get('payment_limits'); }
     public function hasPaymentLimits(): bool { return $this->has('payment_limits'); }
-    /** Statement text for new payments. Omitted until you save a value in this section; effective settings fill in Flint's defaults. Settings for the statement text on new payments.
+    /** Statement text for new payments and Stripe's current decision about the card statement name. Settings for the statement text on new payments.
      * @return ?PaymentSettings
      */
     public function getPayments(): ?PaymentSettings { return $this->get('payments'); }
@@ -97,6 +98,11 @@ final class Settings extends Model {
      */
     public function getPromotions(): ?PromotionSettings { return $this->get('promotions'); }
     public function hasPromotions(): bool { return $this->has('promotions'); }
+    /** Merchant-provided text on payment receipt emails and PDFs. Omitted until you save a value in this section; effective settings fill in Flint's defaults. Merchant-provided text on payment receipt emails and PDFs.
+     * @return ?ReceiptSettings
+     */
+    public function getReceipts(): ?ReceiptSettings { return $this->get('receipts'); }
+    public function hasReceipts(): bool { return $this->has('receipts'); }
     /** Unique identifier for this settings, prefixed `set_`.
      * @return string
      */
@@ -112,7 +118,7 @@ final class Settings extends Model {
      */
     public function getTax(): ?TaxSettings { return $this->get('tax'); }
     public function hasTax(): bool { return $this->has('tax'); }
-    /** The merchant's legal identity, printed on invoices and credit notes. `null` when none is set. anyOf[1] (Value): {@see TaxIdentity}. Merchant-provided legal identity displayed on invoices and credit notes. Flint does not verify IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider, which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one. anyOf[2] (Value): null.
+    /** The merchant's legal identity, printed on invoices, credit notes, and receipts. `null` when none is set. anyOf[1] (Value): {@see TaxIdentity}. Merchant-provided legal identity displayed on invoices and credit notes. Flint does not verify IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider, which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one. anyOf[2] (Value): null.
      * @return TaxIdentity|null
      */
     public function getTaxIdentity(): TaxIdentity|null { return $this->get('tax_identity'); }

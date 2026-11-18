@@ -5,6 +5,7 @@ namespace Flint;
  * @property-read MoneyValuePreviousAttributes|null $amount_money
  * @property-read bool|null $can_respond_with_evidence
  * @property-read string|null $case_type
+ * @property-read string|null $closed_reason
  * @property-read string|null $created_at
  * @property-read ExpandedCustomerSummaryPreviousAttributes|null $customer
  * @property-read string|null $customer_id
@@ -32,7 +33,7 @@ namespace Flint;
  * @property-read string|null $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class DisputeLostInstalledMerchantsEventDataPreviousAttributes extends Model {
-    /** @param array{'amount_money'?: mixed, 'can_respond_with_evidence'?: mixed, 'case_type'?: mixed, 'created_at'?: mixed, 'customer'?: mixed, 'customer_id'?: mixed, 'dispute_id'?: mixed, 'evidence_due_at'?: mixed, 'evidence_submission_count'?: mixed, 'fraud_warning_id'?: mixed, 'has_evidence'?: mixed, 'is_action_required'?: mixed, 'is_evidence_deadline_passed'?: mixed, 'merchant_id'?: mixed, 'network_reason_code'?: mixed, 'order'?: mixed, 'order_id'?: mixed, 'payment_intent'?: mixed, 'payment_intent_id'?: mixed, 'payment_option'?: mixed, 'reason'?: mixed, 'recommended_evidence_types'?: mixed, 'response_unavailable_reason'?: mixed, 'split_reversals'?: mixed, 'status'?: mixed, 'status_changed_at'?: mixed, 'supported_actions'?: mixed, 'updated_at'?: mixed, ...}|object $values */
+    /** @param array{'amount_money'?: mixed, 'can_respond_with_evidence'?: mixed, 'case_type'?: mixed, 'closed_reason'?: mixed, 'created_at'?: mixed, 'customer'?: mixed, 'customer_id'?: mixed, 'dispute_id'?: mixed, 'evidence_due_at'?: mixed, 'evidence_submission_count'?: mixed, 'fraud_warning_id'?: mixed, 'has_evidence'?: mixed, 'is_action_required'?: mixed, 'is_evidence_deadline_passed'?: mixed, 'merchant_id'?: mixed, 'network_reason_code'?: mixed, 'order'?: mixed, 'order_id'?: mixed, 'payment_intent'?: mixed, 'payment_intent_id'?: mixed, 'payment_option'?: mixed, 'reason'?: mixed, 'recommended_evidence_types'?: mixed, 'response_unavailable_reason'?: mixed, 'split_reversals'?: mixed, 'status'?: mixed, 'status_changed_at'?: mixed, 'supported_actions'?: mixed, 'updated_at'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DisputeLostInstalledMerchantsEventDataPreviousAttributes')); }
     /** Amount in dispute. For a chargeback, this amount left your balance when the case opened; an inquiry moves no money. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      * @return MoneyValuePreviousAttributes|null
@@ -49,6 +50,11 @@ final class DisputeLostInstalledMerchantsEventDataPreviousAttributes extends Mod
      */
     public function getCaseType(): string|null { return $this->get('case_type'); }
     public function hasCaseType(): bool { return $this->has('case_type'); }
+    /** Why the dispute closed, when Flint recorded the cause. Absent when Flint has no confirmed closure reason. Value enum: "merchant_accepted". anyOf[1] (Value): string. Why the dispute closed, when Flint recorded the cause. Absent when Flint has no confirmed closure reason. Value enum: "merchant_accepted". anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getClosedReason(): string|null { return $this->get('closed_reason'); }
+    public function hasClosedReason(): bool { return $this->has('closed_reason'); }
     /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
      */

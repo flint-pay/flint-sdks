@@ -4,7 +4,7 @@
 
 ### inventoryTransfers.cancel
 
-Cancels requested quantity that hasn't departed. Call it only when cancel is in supported_actions. Lines carry cumulative targets, not deltas. Returns a result with inventory_transfer as its primary resource and inventory_levels for the levels changed. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, read the inventory transfer by ID.
+Cancels requested quantity that hasn't departed. Call it only when cancel is in supported_actions. Lines carry cumulative targets, not deltas. Returns a result with inventory_transfer as its primary resource and inventory_levels for the levels changed. Idempotency is scoped to the authenticated merchant, environment, caller namespace, and operation. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, read the inventory transfer by ID.
 
 `POST /v1/inventory-transfers/{inventory_transfer_id}/cancel`
 
@@ -14,7 +14,7 @@ Signature: `cancel(string|Model $inventory_transfer_id, array|Model $params, ?Re
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `inventory_transfer_id` | Required | string | Flint inventory transfer ID. |
+| `inventory_transfer_id` | Required | string | Flint inventory transfer ID. Must be a valid ID with prefix invtr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -87,7 +87,7 @@ $result = $client->inventoryTransfers->cancel('invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP'
 
 ### inventoryTransfers.create
 
-Create a planned stock transfer between two Locations. Creates a draft and moves no stock, so an idempotency key is optional: each request without a key creates a separate draft. With a key, a retry must send the same request body, and idempotency is scoped to the authenticated merchant, environment, and endpoint. To recover a keyed create after a lost response, list inventory transfers with idempotency_key.
+Create a planned stock transfer between two Locations. Creates a draft and moves no stock, so an idempotency key is optional: each request without a key creates a separate draft. With a key, a retry must send the same request body, and idempotency is scoped to the authenticated merchant, environment, caller namespace, and operation. To recover a keyed create after a lost response, list inventory transfers with idempotency_key.
 
 `POST /v1/inventory-transfers`
 
@@ -167,7 +167,7 @@ $result = $client->inventoryTransfers->create([
 
 ### inventoryTransfers.depart
 
-Takes stock off the origin location and puts it in transit. Call it only when depart is in supported_actions. Lines carry cumulative targets, not deltas. Returns a result with inventory_transfer as its primary resource and inventory_levels for the levels changed. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, read the inventory transfer by ID.
+Takes stock off the origin location and puts it in transit. Call it only when depart is in supported_actions. Lines carry cumulative targets, not deltas. Returns a result with inventory_transfer as its primary resource and inventory_levels for the levels changed. Idempotency is scoped to the authenticated merchant, environment, caller namespace, and operation. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, read the inventory transfer by ID.
 
 `POST /v1/inventory-transfers/{inventory_transfer_id}/depart`
 
@@ -177,7 +177,7 @@ Signature: `depart(string|Model $inventory_transfer_id, array|Model $params, ?Re
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `inventory_transfer_id` | Required | string | Flint inventory transfer ID. |
+| `inventory_transfer_id` | Required | string | Flint inventory transfer ID. Must be a valid ID with prefix invtr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -256,7 +256,7 @@ Signature: `get(string|Model $inventory_transfer_id, array|Model|null $params = 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `inventory_transfer_id` | Required | string | Flint inventory transfer ID. |
+| `inventory_transfer_id` | Required | string | Flint inventory transfer ID. Must be a valid ID with prefix invtr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -314,7 +314,7 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 | `origin_location_id` | Optional | string | Filter by origin Location. pattern: `^loc_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `destination_location_id` | Optional | string | Filter by destination Location. pattern: `^loc_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `status` | Optional | Array of string or string | Filter by transfer status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"draft"`, `"in_transit"`, `"partially_resolved"`, `"closed"`. Values: `"draft"`, `"in_transit"`, `"partially_resolved"`, `"closed"`. |
-| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. pattern: `^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$`. |
+| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns only resources created in your caller namespace, plus resources created before caller scoping under the original key. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. pattern: `^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$`. |
 | `external_reference_id` | Optional | string | Exact, case-sensitive match on the caller-owned external reference ID. Must contain 1 to 255 characters. minLength: `1`. maxLength: `255`. |
 | `query` | Optional | string | Search by inventory_transfer_id, external_reference_id, or note. maxLength: `255`. |
 | `closed_reason` | Optional | Array of string or string | Filter by how the transfer ended. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"received"`, `"canceled"`, `"received_with_cancellation"`, `"returned"`, `"lost"`, `"mixed"`. Values: `"received"`, `"canceled"`, `"received_with_cancellation"`, `"returned"`, `"lost"`, `"mixed"`. |
@@ -367,7 +367,7 @@ $result = $client->inventoryTransfers->list([], new RequestOptions());
 
 ### inventoryTransfers.receive
 
-Adds in-transit stock to the destination location. Optional condition targets split the received quantity by condition. Call it only when receive is in supported_actions. Lines carry cumulative targets, not deltas. Returns a result with inventory_transfer as its primary resource and inventory_levels for the levels changed. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, read the inventory transfer by ID.
+Adds in-transit stock to the destination location. Optional condition targets split the received quantity by condition. Call it only when receive is in supported_actions. Lines carry cumulative targets, not deltas. Returns a result with inventory_transfer as its primary resource and inventory_levels for the levels changed. Idempotency is scoped to the authenticated merchant, environment, caller namespace, and operation. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, read the inventory transfer by ID.
 
 `POST /v1/inventory-transfers/{inventory_transfer_id}/receive`
 
@@ -377,7 +377,7 @@ Signature: `receive(string|Model $inventory_transfer_id, array|Model $params, ?R
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `inventory_transfer_id` | Required | string | Flint inventory transfer ID. |
+| `inventory_transfer_id` | Required | string | Flint inventory transfer ID. Must be a valid ID with prefix invtr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -446,7 +446,7 @@ $result = $client->inventoryTransfers->receive('invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP
 
 ### inventoryTransfers.reportLoss
 
-Records in-transit stock as lost. Call it only when report_loss is in supported_actions. Lines carry cumulative targets, not deltas. Returns a result with inventory_transfer as its primary resource and inventory_levels for the levels changed. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, read the inventory transfer by ID.
+Records in-transit stock as lost. Call it only when report_loss is in supported_actions. Lines carry cumulative targets, not deltas. Returns a result with inventory_transfer as its primary resource and inventory_levels for the levels changed. Idempotency is scoped to the authenticated merchant, environment, caller namespace, and operation. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, read the inventory transfer by ID.
 
 `POST /v1/inventory-transfers/{inventory_transfer_id}/report-loss`
 
@@ -456,7 +456,7 @@ Signature: `reportLoss(string|Model $inventory_transfer_id, array|Model $params,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `inventory_transfer_id` | Required | string | Flint inventory transfer ID. |
+| `inventory_transfer_id` | Required | string | Flint inventory transfer ID. Must be a valid ID with prefix invtr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -525,7 +525,7 @@ $result = $client->inventoryTransfers->reportLoss('invtr_01KEZF7C00HKPTX1QRZ8Y1M
 
 ### inventoryTransfers.returnToOrigin
 
-Puts in-transit stock back at the origin location. Call it only when return_to_origin is in supported_actions. Lines carry cumulative targets, not deltas. Returns a result with inventory_transfer as its primary resource and inventory_levels for the levels changed. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, read the inventory transfer by ID.
+Puts in-transit stock back at the origin location. Call it only when return_to_origin is in supported_actions. Lines carry cumulative targets, not deltas. Returns a result with inventory_transfer as its primary resource and inventory_levels for the levels changed. Idempotency is scoped to the authenticated merchant, environment, caller namespace, and operation. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, read the inventory transfer by ID.
 
 `POST /v1/inventory-transfers/{inventory_transfer_id}/return-to-origin`
 
@@ -535,7 +535,7 @@ Signature: `returnToOrigin(string|Model $inventory_transfer_id, array|Model $par
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `inventory_transfer_id` | Required | string | Flint inventory transfer ID. |
+| `inventory_transfer_id` | Required | string | Flint inventory transfer ID. Must be a valid ID with prefix invtr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -614,7 +614,7 @@ Signature: `update(string|Model $inventory_transfer_id, array|Model $params, ?Re
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `inventory_transfer_id` | Required | string | Flint inventory transfer ID. |
+| `inventory_transfer_id` | Required | string | Flint inventory transfer ID. Must be a valid ID with prefix invtr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |

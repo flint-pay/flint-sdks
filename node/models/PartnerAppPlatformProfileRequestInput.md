@@ -4,7 +4,7 @@
 
 Request input. Response: [PartnerAppPlatformProfile](../models/PartnerAppPlatformProfile.md#partnerappplatformprofile).
 
-The whole platform profile. Every field is required except support_phone, and a write replaces the profile whole.
+The whole platform profile. support_email, website_url and support_phone are shown to merchants on the consent screen and install resource. Every field is required except support_phone, and a write replaces the profile whole.
 
 
 
@@ -17,7 +17,7 @@ The whole platform profile. Every field is required except support_phone, and a 
 | `merchant_description` | Required | string | The kinds of merchants the platform serves, in 1 to 500 characters. minLength: `1`. maxLength: `500`. |
 | `merchant_onboarding_description` | Required | string | How the platform onboards and monitors its merchants, in 1 to 2,000 characters. minLength: `1`. maxLength: `2000`. |
 | `product_description` | Required | string | What the platform's product does, in 1 to 1,000 characters. minLength: `1`. maxLength: `1000`. |
-| `support_email` | Required | string | Where the platform's merchants get support. Format: `email`. minLength: `1`. maxLength: `320`. Example: `"buyer@example.com"`. |
+| `support_email` | Required | string | Where the platform's merchants get support. The local part before @ must be at most 64 octets (UTF-8 bytes). Format: `email`. minLength: `1`. maxLength: `320`. Example: `"buyer@example.com"`. |
 | `support_phone` | Optional | string | Support phone number in E.164 format, such as +14155550123. Optional. minLength: `1`. pattern: `^\+[1-9][0-9]{1,14}$`. |
 | `website_url` | Required | string | The platform's website, as an https URL. Format: `uri`. minLength: `1`. maxLength: `2048`. Example: `"https://example.com/receipt"`. |
 

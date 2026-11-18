@@ -12,6 +12,7 @@ Request input.
 | `api_key_id` | Required | string | Unique identifier for this api key, prefixed `key_`. Example: `"key_01KEZF7C008CTC2G5V6J08M6S7"`. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `created_by` | Optional | [ResourceReferenceInput](../models/ResourceReferenceInput.md#resourcereferenceinput) | Who created this key: the API key or workload identity whose credential made the request, or else the user, including through the Dashboard, a CLI login, or an onboarding session. An API key creator can belong to another mode, such as a live key that creates a sandbox key. Keys a workload token created before Flint recorded workload identity creators name the user who set up that workload identity. Filter the list with `created_by_type` and `created_by_id`. Absent when the creator is unavailable. A reference to another resource by `resource_type` and `resource_id`. |
+| `created_by_user_id` | Optional | string | The user accountable for this key: the user who created it, or who created the API key or workload identity that did. `created_by` names the credential that made the request. pattern: `^usr_[0-7][0-9A-HJKMNP-TV-Z]{25}$`. Example: `"usr_01KEZF7C00YC8757ZYP9727JM0"`. |
 | `expires_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `key_prefix` | Required | string | The start of the secret key: its `flint_` mode prefix and the first 8 characters of the random part. It identifies the key in a list without revealing the secret, which only the create response returns. |
 | `last_used_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
@@ -20,7 +21,7 @@ Request input.
 | `partner_app_install_id` | Required | string or null | The connected app install this key is linked to. The key is revoked when that install is revoked or loses its grant for this key's environment. Null when the key is unlinked. Never changes. pattern: `^pinst_[0-9A-HJKMNP-TV-Z]{26}$`. Example: `"pinst_01KEZF7C003HVKZR3GZAW6AFAZ"`. |
 | `revoked_at` | Optional | string | When this key was revoked, in RFC 3339 format. Present only for revoked keys. For keys revoked before revocation timestamps were recorded, this is the last update time. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `sandbox_id` | Optional | string | ID of the sandbox this resource belongs to. Example: `"test_01KEZF7C00JC77HTMTB2XHNPE0"`. |
-| `scopes` | Required | Array of string | The scopes the key holds now. For full and read_only keys this list grows when Flint adds scopes. Items values: [102 declared values](#apikeyinput-scopes--values). |
+| `scopes` | Required | Array of string | The scopes the key holds now. For full and read_only keys this list grows when Flint adds scopes. Items values: [103 declared values](#apikeyinput-scopes--values). |
 | `status` | Required | string | Current key status. A non-revoked key is expired when expires_at is at or before the current time; otherwise it is active. Revoked keys remain revoked regardless of expires_at. Values: `"active"`, `"expired"`, `"revoked"`. |
 | `supported_actions` | Required | Array of string | Lifecycle actions Flint accepts now. Active and expired keys can be revoked; revoked keys accept none. Items values: `"revoke"`. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
@@ -58,6 +59,9 @@ Request input.
 - `"commerce.inventory.write"`
 - `"commerce.invoices.read"`
 - `"commerce.invoices.write"`
+- `"commerce.license_keys.read"`
+- `"commerce.license_keys.secrets.write"`
+- `"commerce.license_keys.write"`
 - `"commerce.orders.read"`
 - `"commerce.orders.write"`
 - `"commerce.products.read"`
@@ -82,8 +86,6 @@ Request input.
 - `"customers.read"`
 - `"customers.sessions.write"`
 - `"customers.write"`
-- `"developer.feedback_reports.read"`
-- `"developer.feedback_reports.write"`
 - `"developer.merchant_signups.read"`
 - `"developer.merchant_signups.write"`
 - `"developer.partner_apps.read"`

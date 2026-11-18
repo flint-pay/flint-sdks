@@ -9,7 +9,7 @@ namespace Flint;
 final class MeRemoveGiftCardInput extends Model {
     /** @param array{'gift_card_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeRemoveGiftCardInput')); }
-    /** Flint gift card ID. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+    /** Flint gift card ID. Must be a valid ID with prefix gc_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
      * @return string
      * @throws SdkError When gift_card_id is omitted; use hasGiftCardId() or valueOrDefault().
      */

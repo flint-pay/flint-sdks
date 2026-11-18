@@ -4,7 +4,7 @@
 
 ### inventoryAdjustments.create
 
-Record a stock change by what happened: stock received, returned, sold, stolen, lost, or moved between conditions, or an absolute count or correction. Flint computes the change against the current level. Returns the adjustment, its movement IDs, and the resulting level for every level touched. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, list inventory adjustments with the same idempotency_key, or list inventory movements with that idempotency_key.
+Record a stock change by what happened: stock received, returned, sold, stolen, lost, or moved between conditions, or an absolute count or correction. Flint computes the change against the current level. Returns the adjustment, its movement IDs, and the resulting level for every level touched. Idempotency is scoped to the authenticated merchant, environment, caller namespace, and operation. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, list inventory adjustments with the same idempotency_key, or list inventory movements with that idempotency_key.
 
 `POST /v1/inventory-adjustments`
 
@@ -105,7 +105,7 @@ get(inventory_adjustment_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `inventory_adjustment_id` | Required | string | Flint inventory adjustment ID. |
+| `inventory_adjustment_id` | Required | string | Flint inventory adjustment ID. Must be a valid ID with prefix invadj_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -162,7 +162,7 @@ Signature: `list(params?: InventoryAdjustmentsListParams, options?: _SdkWithoutI
 | `inventory_item_id` | Optional | string | Filter by inventory item. pattern: `^invi_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `location_id` | Optional | string | Filter by Location. pattern: `^loc_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `reason` | Optional | Array of string or string | Filter by adjustment reason. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"received"`, `"returned"`, `"sold"`, `"theft"`, `"loss"`, `"condition_changed"`, `"counted"`, `"correction"`. Values: `"received"`, `"returned"`, `"sold"`, `"theft"`, `"loss"`, `"condition_changed"`, `"counted"`, `"correction"`. |
-| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. pattern: `^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$`. |
+| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns only resources created in your caller namespace, plus resources created before caller scoping under the original key. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. pattern: `^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$`. |
 | `source_system_type` | Optional | Array of string or string | Filter by source-system type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"manual"`, `"pos"`, `"wms"`, `"erp"`, `"flint"`, `"other"`. Values: `"manual"`, `"pos"`, `"wms"`, `"erp"`, `"flint"`, `"other"`. |
 | `external_source_id` | Optional | string | Filter by external source ID. |
 | `external_actor_id` | Optional | string | Filter by external actor ID. |

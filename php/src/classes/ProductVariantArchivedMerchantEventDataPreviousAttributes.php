@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string|null $barcode
+ * @property-read MoneyValuePreviousAttributes|null $compare_at_price_money
  * @property-read string|null $created_at
  * @property-read string|null $delivery_configuration_reason
  * @property-read string|null $delivery_configuration_status
@@ -15,6 +16,7 @@ namespace Flint;
  * @property-read string|null $inventory_tracking
  * @property-read bool|null $is_available_for_sale
  * @property-read bool|null $is_inheriting_product_images
+ * @property-read mixed $license_key_configuration
  * @property-read string|null $line_item_tax_category
  * @property-read string|null $merchant_id
  * @property-read array<array-key, string>|null $metadata
@@ -36,13 +38,18 @@ namespace Flint;
  * @property-read int|null $version
  * Presence-aware response; omitted optional fields return null. */
 final class ProductVariantArchivedMerchantEventDataPreviousAttributes extends Model {
-    /** @param array{'barcode'?: mixed, 'created_at'?: mixed, 'delivery_configuration_reason'?: mixed, 'delivery_configuration_status'?: mixed, 'delivery_profile_id'?: mixed, 'effective_images'?: mixed, 'external_reference_id'?: mixed, 'gift_card_configuration'?: mixed, 'images'?: mixed, 'inventory_item_id'?: mixed, 'inventory_tracking'?: mixed, 'is_available_for_sale'?: mixed, 'is_inheriting_product_images'?: mixed, 'line_item_tax_category'?: mixed, 'merchant_id'?: mixed, 'metadata'?: mixed, 'modifier_set_id'?: mixed, 'name'?: mixed, 'position'?: mixed, 'product_id'?: mixed, 'quantity_price_breaks'?: mixed, 'release_date'?: mixed, 'selected_options'?: mixed, 'sku'?: mixed, 'status'?: mixed, 'taxable'?: mixed, 'unit_dimensions'?: mixed, 'unit_price_money'?: mixed, 'unit_weight'?: mixed, 'updated_at'?: mixed, 'variant_id'?: mixed, 'version'?: mixed, ...}|object $values */
+    /** @param array{'barcode'?: mixed, 'compare_at_price_money'?: mixed, 'created_at'?: mixed, 'delivery_configuration_reason'?: mixed, 'delivery_configuration_status'?: mixed, 'delivery_profile_id'?: mixed, 'effective_images'?: mixed, 'external_reference_id'?: mixed, 'gift_card_configuration'?: mixed, 'images'?: mixed, 'inventory_item_id'?: mixed, 'inventory_tracking'?: mixed, 'is_available_for_sale'?: mixed, 'is_inheriting_product_images'?: mixed, 'license_key_configuration'?: mixed, 'line_item_tax_category'?: mixed, 'merchant_id'?: mixed, 'metadata'?: mixed, 'modifier_set_id'?: mixed, 'name'?: mixed, 'position'?: mixed, 'product_id'?: mixed, 'quantity_price_breaks'?: mixed, 'release_date'?: mixed, 'selected_options'?: mixed, 'sku'?: mixed, 'status'?: mixed, 'taxable'?: mixed, 'unit_dimensions'?: mixed, 'unit_price_money'?: mixed, 'unit_weight'?: mixed, 'updated_at'?: mixed, 'variant_id'?: mixed, 'version'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ProductVariantArchivedMerchantEventDataPreviousAttributes')); }
     /** Barcode assigned to this sellable item. anyOf[1] (Value): string. Barcode assigned to this sellable item. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getBarcode(): string|null { return $this->get('barcode'); }
     public function hasBarcode(): bool { return $this->has('barcode'); }
+    /** Reference unit price for sale display, in the same currency and strictly greater than unit_price_money. Null when no compare-at price is set. Does not affect charges or quantity price breaks. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return MoneyValuePreviousAttributes|null
+     */
+    public function getCompareAtPriceMoney(): MoneyValuePreviousAttributes|null { return $this->get('compare_at_price_money'); }
+    public function hasCompareAtPriceMoney(): bool { return $this->has('compare_at_price_money'); }
     /** When this resource was created, as an RFC3339 timestamp. anyOf[1] (Value): string. When this resource was created, as an RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
      */
@@ -103,6 +110,11 @@ final class ProductVariantArchivedMerchantEventDataPreviousAttributes extends Mo
      */
     public function getIsInheritingProductImages(): bool|null { return $this->get('is_inheriting_product_images'); }
     public function hasIsInheritingProductImages(): bool { return $this->has('is_inheriting_product_images'); }
+    /** License key terms. Null when the variant has no license key setting. Replaced as a whole: send every field you want to keep. Only product_type digital supports this setting. It adds no delivery requirement and is independent of the delivery profile. Send null to remove every value you set in this section. Omission preserves it on update. anyOf[1] (Value): ({@see LicenseKeyConfigurationPreviousAttributes} or null). License key terms. Null when the variant has no license key setting. Replaced as a whole: send every field you want to keep. Only product_type digital supports this setting. It adds no delivery requirement and is independent of the delivery profile. Send null to remove every value you set in this section. Omission preserves it on update. anyOf[1].anyOf[1] (Value): {@see LicenseKeyConfigurationPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+     * @return mixed
+     */
+    public function getLicenseKeyConfiguration(): mixed { return $this->get('license_key_configuration'); }
+    public function hasLicenseKeyConfiguration(): bool { return $this->has('license_key_configuration'); }
     /** Stored Flint line-item tax category. New digital-product variants default to digital_goods when omitted. The stored value remains editable. Unset uses the merchant default. Value enum: "general", "physical_goods", "digital_goods", "software", "saas", "services", "professional_services", "food", "prepared_food", "clothing", "medical_goods", "admission". anyOf[1] (Value): string. Stored Flint line-item tax category. New digital-product variants default to digital_goods when omitted. The stored value remains editable. Unset uses the merchant default. Value enum: "general", "physical_goods", "digital_goods", "software", "saas", "services", "professional_services", "food", "prepared_food", "clothing", "medical_goods", "admission". anyOf[2] (Value): null.
      * @return string|null
      */

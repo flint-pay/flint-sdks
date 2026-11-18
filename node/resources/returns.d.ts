@@ -5,14 +5,13 @@ import type { ClientOptions, CompleteReturnResponse } from '../declarations/type
 import type { CreateReturnResponse } from '../declarations/types-13.js';
 import type { DecideReturnResponse, DeleteReturnLineItemResponse } from '../declarations/types-17.js';
 import type { GetReturnLineItemResponse, GetReturnResponse } from '../declarations/types-28.js';
-import type { ListReturnActivitiesResponse, ListReturnLineItemsResponse } from '../declarations/types-38.js';
-import type { ListReturnsResponse } from '../declarations/types-39.js';
-import type { ProcessExistingReturnResponse } from '../declarations/types-55.js';
-import type { ReopenReturnResponse } from '../declarations/types-59.js';
-import type { RequestOptions, ReturnActivity } from '../declarations/types-60.js';
-import type { ReturnLineItem } from '../declarations/types-61.js';
-import type { ReturnProcessResult } from '../declarations/types-62.js';
-import type { ReturnResource } from '../declarations/types-63.js';
+import type { ListReturnActivitiesResponse, ListReturnLineItemsResponse, ListReturnsResponse } from '../declarations/types-40.js';
+import type { ProcessExistingReturnResponse } from '../declarations/types-56.js';
+import type { ReopenReturnResponse, RequestOptions } from '../declarations/types-61.js';
+import type { ReturnActivity } from '../declarations/types-62.js';
+import type { ReturnLineItem } from '../declarations/types-63.js';
+import type { ReturnProcessResult } from '../declarations/types-64.js';
+import type { ReturnResource } from '../declarations/types-65.js';
 import type {
     ReturnsCancelLineItemParams,
     ReturnsCancelParams,
@@ -32,10 +31,10 @@ import type {
     ReturnsUpdateLineItemParams,
     ReturnsUpdateParams,
     ReturnsWaiveLineItemInspectionParams
-} from '../declarations/types-64.js';
-import type { UpdateReturnLineItemResponse, UpdateReturnResponse } from '../declarations/types-75.js';
-import type { WaiveReturnLineInspectionResponse } from '../declarations/types-76.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-66.js';
+import type { UpdateReturnLineItemResponse, UpdateReturnResponse } from '../declarations/types-77.js';
+import type { WaiveReturnLineInspectionResponse } from '../declarations/types-78.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -69,17 +68,8 @@ export type {
     ReturnsUpdateParams,
     ReturnsUpdateLineItemParams,
     ReturnsWaiveLineItemInspectionParams
-} from '../declarations/types-64.js';
-export type {
-    RequestOptions,
-    ReturnActivity,
-    ReturnActor,
-    ReturnCompletionBlocker,
-    ReturnDisposition,
-    ResourceReference,
-    ResponseMeta,
-    ResponseWarning
-} from '../declarations/types-60.js';
+} from '../declarations/types-66.js';
+export type { RequestOptions, ReopenReturnResponse, RefundUnissuedGiftCardRecovery, ReopenReturnRequestInput } from '../declarations/types-61.js';
 export type {
     ReturnResource,
     ReturnSourceSystem,
@@ -90,21 +80,21 @@ export type {
     ReturnResolutionLineItem,
     ReturnReplacementLineItem,
     ReturnReplacementLineItemRequestInput,
+    ReturnReplacementTaxRequestInput,
     ReturnReplacementLineItemInputVariantInput,
     ReturnReplacementLineItemInputBundleInput,
     ReturnReplacementLineItemInputCustomInput,
     ReturnSourceSystemRequestInput
-} from '../declarations/types-63.js';
+} from '../declarations/types-65.js';
 export type {
     CancelReturnResponse,
     CancelReturnLineItemResponse,
     CancelReturnRequestInput,
-    CheckoutBuyerContact,
     CategoryReference,
     CancelReturnLineItemRequestInput
 } from '../declarations/types-5.js';
 export type { CompleteReturnResponse, ClientOptions, CompleteReturnRequestInput } from '../declarations/types-7.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { CreateReturnResponse, CreateReturnRequestInput } from '../declarations/types-13.js';
 export type {
     AccessLink,
@@ -114,7 +104,7 @@ export type {
     AddReturnLineItemRequestInput
 } from '../declarations/types-0.js';
 export type { DecideReturnResponse, DeleteReturnLineItemResponse, DeferredPromotion, DecideReturnRequestInput } from '../declarations/types-17.js';
-export type { GetReturnResponse, GetReturnLineItemResponse } from '../declarations/types-28.js';
+export type { GetReturnResponse, GetReturnLineItemResponse, FulfillmentOutcome, FulfillmentRecipient } from '../declarations/types-28.js';
 export type {
     ReturnLineItem,
     ReturnFinancialSummary,
@@ -128,14 +118,23 @@ export type {
     ReturnLineItemEligibility,
     ReturnLineItemDecisionProposal,
     ReturnLineItemValue
-} from '../declarations/types-61.js';
+} from '../declarations/types-63.js';
 export type {
     ListReturnActivitiesResponse,
     ListReturnLineItemsResponse,
+    ListReturnsResponse,
     LineItemFulfillmentRequestModelInput,
     LineItemFulfillmentOriginRequestModelInput
-} from '../declarations/types-38.js';
-export type { ListReturnsResponse } from '../declarations/types-39.js';
+} from '../declarations/types-40.js';
+export type {
+    ReturnActivity,
+    ReturnActor,
+    ReturnCompletionBlocker,
+    ReturnDisposition,
+    ResourceReference,
+    ResponseMeta,
+    ResponseWarning
+} from '../declarations/types-62.js';
 export type {
     ReturnProcessResult,
     ReturnPolicyEvaluation,
@@ -149,113 +148,111 @@ export type {
     ReturnProcessInspectionRequestInput,
     ReturnProcessResolutionRequestInput,
     ReturnProcessReceiptRequestInput
-} from '../declarations/types-62.js';
+} from '../declarations/types-64.js';
 export type {
     ProcessExistingReturnResponse,
     PricingAmounts,
     ProcessExistingReturnRequestInput,
     ProcessExistingReturnLineItemRequestInput
-} from '../declarations/types-55.js';
-export type {
-    ReopenReturnResponse,
-    RefundTaxBreakdownRefund,
-    RefundTenderAllocation,
-    RefundUnissuedGiftCardRecovery,
-    ReopenReturnRequestInput
-} from '../declarations/types-59.js';
+} from '../declarations/types-56.js';
 export type {
     UpdateReturnResponse,
     UpdateReturnLineItemResponse,
     UpdateReturnRequestInput,
     UpdateReturnLineItemRequestInput
-} from '../declarations/types-75.js';
-export type { WaiveReturnLineInspectionResponse, WaiveReturnLineInspectionRequestInput } from '../declarations/types-76.js';
+} from '../declarations/types-77.js';
+export type { WaiveReturnLineInspectionResponse, WaiveReturnLineInspectionRequestInput } from '../declarations/types-78.js';
 export type { AuthMode, BundleComponent, BundleComponentVariantSummary } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type {
     ExpandedCustomerSummary,
     ExpandedOrderSummary,
     ExpandedPaymentIntentSummary,
     ExpandedShipmentSummary,
-    ExpandedPackageSummary
+    ExpandedPackageSummary,
+    DisputesAcceptParams
 } from '../declarations/types-26.js';
-export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-42.js';
-export type { MetadataMap, MetadataRequestInput, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-41.js';
-export type { OrderSettlementAmounts, OrderLineItemModifier } from '../declarations/types-45.js';
-export type { SettlementAmounts, SelectedProductOption, ServiceFulfillmentDetails } from '../declarations/types-65.js';
-export type { Image } from '../declarations/types-30.js';
-export type { TextModifierRequest } from '../declarations/types-72.js';
+export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-44.js';
+export type { MetadataMap, MetadataRequestInput, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
+export type { CheckoutBuyerContact } from '../declarations/types-6.js';
+export type { OrderSettlementAmounts } from '../declarations/types-47.js';
+export type { SettlementAmounts, SplitReversalReference, ShipmentFulfillmentDetails } from '../declarations/types-68.js';
+export type { SelectedProductOption, ServiceFulfillmentDetails } from '../declarations/types-67.js';
+export type { Image } from '../declarations/types-31.js';
+export type { OrderLineItemModifier, OrderGiftCardAllocation } from '../declarations/types-46.js';
+export type { TextModifierRequest } from '../declarations/types-74.js';
 export type {
     PaymentSourceSummary,
     PaymentSourceAchDebitSummary,
     PaymentSourceCardSummary,
-    PaymentSourceCardPresentDetails,
-    PaymentRefund
-} from '../declarations/types-52.js';
+    PaymentSourceCardPresentDetails
+} from '../declarations/types-54.js';
 export type {
     Refund,
+    RefundChargeAllocation,
     RefundLineItemAllocation,
     RefundLineItemAdjustmentRefund,
     RefundLineItemAdjustment,
     RefundAdjustmentReason,
     RefundLineItemAutomaticRefund,
     RefundLineItemModifierAllocation,
+    RefundTaxBreakdownRefund,
+    RefundTenderAllocation,
     ReadinessMerchantAccountSession
-} from '../declarations/types-58.js';
-export type { SplitReversalReference, ShipmentFulfillmentDetails } from '../declarations/types-66.js';
-export type { OrderGiftCardAllocation } from '../declarations/types-44.js';
+} from '../declarations/types-60.js';
+export type { PaymentRefund } from '../declarations/types-53.js';
+export type { Fulfillment, FulfillmentHold, FulfillmentChargeLink, FulfillmentLineItem, FilesCompleteParams } from '../declarations/types-27.js';
+export type { DigitalFulfillmentDetails } from '../declarations/types-25.js';
+export type { DeliveryFulfillmentDetails } from '../declarations/types-19.js';
+export type { PickupFulfillmentDetails } from '../declarations/types-55.js';
 export type {
-    Fulfillment,
-    FulfillmentHold,
-    FulfillmentChargeLink,
-    FulfillmentLineItem,
-    FulfillmentOutcome,
-    FulfillmentRecipient,
-    FilesCompleteParams
-} from '../declarations/types-27.js';
-export type { DigitalFulfillmentDetails, DisputesAcceptParams } from '../declarations/types-25.js';
-export type { DeliveryFulfillmentDetails } from '../declarations/types-18.js';
-export type { PickupFulfillmentDetails } from '../declarations/types-54.js';
-export { makeAddReturnLineItemRequest } from '../declarations/types-77.js';
-export { makeCancelReturnLineItemRequest, makeCancelReturnRequest, makeCompleteReturnRequest } from '../declarations/types-78.js';
-export { makeCreateReturnRequest } from '../declarations/types-81.js';
-export { makeDecideReturnRequest } from '../declarations/types-82.js';
+    OrderDraftLineItemTaxCalculationRequestModelInput,
+    OrderDraftTaxComponentRequestModelInput,
+    OrderDraftTaxJurisdictionRequestModelInput
+} from '../declarations/types-45.js';
+export { makeAddReturnLineItemRequest } from '../declarations/types-79.js';
+export { makeCancelReturnLineItemRequest, makeCancelReturnRequest } from '../declarations/types-80.js';
+export { makeCompleteReturnRequest } from '../declarations/types-81.js';
+export { makeCreateReturnRequest } from '../declarations/types-83.js';
+export { makeDecideReturnRequest } from '../declarations/types-84.js';
+export { makeLineItemFulfillmentOriginRequestModel, makeLineItemFulfillmentRequestModel } from '../declarations/types-87.js';
 export {
-    makeLineItemFulfillmentOriginRequestModel,
-    makeLineItemFulfillmentRequestModel,
     makeMetadataPatchRequest,
-    makeMetadataRequest
-} from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeProcessExistingReturnLineItemRequest, makeProcessExistingReturnRequest } from '../declarations/types-87.js';
+    makeMetadataRequest,
+    makeMoneyValue,
+    makeOrderDraftLineItemTaxCalculationRequestModel,
+    makeOrderDraftTaxComponentRequestModel,
+    makeOrderDraftTaxJurisdictionRequestModel
+} from '../declarations/types-88.js';
+export { makeProcessExistingReturnLineItemRequest } from '../declarations/types-89.js';
+export { makeProcessExistingReturnRequest, makeReopenReturnRequest } from '../declarations/types-90.js';
 export {
-    makeReopenReturnRequest,
     makeReturnLineDecision,
     makeReturnLineItemRequest,
     makeReturnProcessDecision,
     makeReturnProcessDispositionRequest,
     makeReturnProcessInspectionRequest,
     makeReturnProcessReceiptRequest,
-    makeReturnProcessResolutionRequest
-} from '../declarations/types-88.js';
-export {
+    makeReturnProcessResolutionRequest,
     makeReturnReplacementLineItemInputBundle,
     makeReturnReplacementLineItemInputCustom,
     makeReturnReplacementLineItemInputVariant,
     makeReturnReplacementLineItemRequest,
+    makeReturnReplacementTaxRequest,
     makeReturnSourceSystemRequest,
     makeReturnUnverifiedItem
-} from '../declarations/types-89.js';
-export { makeTextModifierRequest } from '../declarations/types-90.js';
-export { makeUpdateReturnLineItemRequest, makeUpdateReturnRequest } from '../declarations/types-91.js';
-export { makeWaiveReturnLineInspectionRequest } from '../declarations/types-92.js';
+} from '../declarations/types-91.js';
+export { makeTextModifierRequest } from '../declarations/types-93.js';
+export { makeUpdateReturnLineItemRequest, makeUpdateReturnRequest, makeWaiveReturnLineInspectionRequest } from '../declarations/types-94.js';
 export interface ReturnsResource {
     /**
  * Cancel a Return before any merchandise or value work commits. Cancellation is refused once a
  * receipt, inspection, disposition, or resolution exists.
  *
  * `POST /v1/returns/{return_id}/cancel`
- * @param return_id Flint return id.
+ * @param return_id Flint return id. Must be a valid ID with prefix ret_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/returns#cancelReturn
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -273,8 +270,12 @@ export interface ReturnsResource {
  * merchandise expected than the remaining approved quantity.
  *
  * `POST /v1/returns/{return_id}/line-items/{return_line_item_id}/cancel`
- * @param return_id Flint return id.
- * @param return_line_item_id Flint return line item id.
+ * @param return_id Flint return id. Must be a valid ID with prefix ret_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
+ * @param return_line_item_id Flint return line item id. Must be a valid ID with prefix retli_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/returns#cancelReturnLineItem
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -290,7 +291,9 @@ export interface ReturnsResource {
  * non-empty. Automatic Returns complete themselves when the final blocker clears.
  *
  * `POST /v1/returns/{return_id}/complete`
- * @param return_id Flint return id.
+ * @param return_id Flint return id. Must be a valid ID with prefix ret_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/returns#completeReturn
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -334,7 +337,9 @@ export interface ReturnsResource {
  * contact support with the request ID before sending a new request.
  *
  * `POST /v1/returns/{return_id}/access-links`
- * @param return_id Flint return ID.
+ * @param return_id Flint return ID. Must be a valid ID with prefix ret_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/returns#createReturnAccessLink
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -348,7 +353,9 @@ export interface ReturnsResource {
  * Add a line item to a requested Return. The response is the updated Return, not the new line.
  *
  * `POST /v1/returns/{return_id}/line-items`
- * @param return_id Flint return id.
+ * @param return_id Flint return id. Must be a valid ID with prefix ret_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/returns#createReturnLineItem
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -373,7 +380,9 @@ export interface ReturnsResource {
  * no_monetary_action.
  *
  * `POST /v1/returns/{return_id}/decide`
- * @param return_id Flint return id.
+ * @param return_id Flint return id. Must be a valid ID with prefix ret_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/returns#decideReturn
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -389,8 +398,12 @@ export interface ReturnsResource {
  * parameter to fence against the parent Return version. The response is the updated Return.
  *
  * `DELETE /v1/returns/{return_id}/line-items/{return_line_item_id}`
- * @param return_id Flint return id.
- * @param return_line_item_id Flint return line item id.
+ * @param return_id Flint return id. Must be a valid ID with prefix ret_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
+ * @param return_line_item_id Flint return line item id. Must be a valid ID with prefix retli_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/returns#deleteReturnLineItem
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -406,7 +419,9 @@ export interface ReturnsResource {
  * resolutions, shipments, and each line item's reason and fulfillment.
  *
  * `GET /v1/returns/{return_id}`
- * @param return_id Flint return id.
+ * @param return_id Flint return id. Must be a valid ID with prefix ret_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/returns#getReturn
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -417,8 +432,12 @@ export interface ReturnsResource {
  * Retrieve one Return line item, including its quantity counters and the reason the buyer selected.
  *
  * `GET /v1/returns/{return_id}/line-items/{return_line_item_id}`
- * @param return_id Flint return id.
- * @param return_line_item_id Flint return line item id.
+ * @param return_id Flint return id. Must be a valid ID with prefix ret_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
+ * @param return_line_item_id Flint return line item id. Must be a valid ID with prefix retli_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/returns#getReturnLineItem
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -431,7 +450,9 @@ export interface ReturnsResource {
  * order. Default order: created_at descending, then return_activity_id descending.
  *
  * `GET /v1/returns/{return_id}/activities`
- * @param return_id Flint return id.
+ * @param return_id Flint return id. Must be a valid ID with prefix ret_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/returns#listReturnActivities
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -452,7 +473,9 @@ export interface ReturnsResource {
  * descending.
  *
  * `GET /v1/returns/{return_id}/line-items`
- * @param return_id Flint return id.
+ * @param return_id Flint return id. Must be a valid ID with prefix ret_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/returns#listReturnLineItems
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -514,7 +537,9 @@ export interface ReturnsResource {
  * commerce.returns.operations.write, and commerce.returns.resolutions.write.
  *
  * `POST /v1/returns/{return_id}/process`
- * @param return_id Flint return id.
+ * @param return_id Flint return id. Must be a valid ID with prefix ret_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/returns#processReturn
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -530,7 +555,9 @@ export interface ReturnsResource {
  * money movements are never edited backward, so a monetary fix is a new correction resolution.
  *
  * `POST /v1/returns/{return_id}/reopen`
- * @param return_id Flint return id.
+ * @param return_id Flint return id. Must be a valid ID with prefix ret_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/returns#reopenReturn
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -546,7 +573,9 @@ export interface ReturnsResource {
  * a decision, operation, or resolution command.
  *
  * `PATCH /v1/returns/{return_id}`
- * @param return_id Flint return id.
+ * @param return_id Flint return id. Must be a valid ID with prefix ret_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/returns#updateReturn
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -561,8 +590,12 @@ export interface ReturnsResource {
  * The response is the updated Return.
  *
  * `PATCH /v1/returns/{return_id}/line-items/{return_line_item_id}`
- * @param return_id Flint return id.
- * @param return_line_item_id Flint return line item id.
+ * @param return_id Flint return id. Must be a valid ID with prefix ret_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
+ * @param return_line_item_id Flint return line item id. Must be a valid ID with prefix retli_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/returns#updateReturnLineItem
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -579,8 +612,12 @@ export interface ReturnsResource {
  * after_inspection release timing.
  *
  * `POST /v1/returns/{return_id}/line-items/{return_line_item_id}/waive-inspection`
- * @param return_id Flint return id.
- * @param return_line_item_id Flint return line item id.
+ * @param return_id Flint return id. Must be a valid ID with prefix ret_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
+ * @param return_line_item_id Flint return line item id. Must be a valid ID with prefix retli_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/returns#waiveReturnLineItemInspection
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

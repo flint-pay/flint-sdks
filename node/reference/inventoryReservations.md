@@ -4,7 +4,7 @@
 
 ### inventoryReservations.commit
 
-Commits held quantity, usually once the buyer pays. Commit before expires_at: after the deadline, commit returns 409 ACTION_NOT_ALLOWED with reason terminal_status. Call it only when commit is in supported_actions. Lines carry cumulative targets: resending targets already applied succeeds even after the reservation closes. Returns a result with inventory_reservation as its primary resource and inventory_levels for the levels changed. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, read the inventory reservation by ID.
+Commits held quantity, usually once the buyer pays. Commit before expires_at: after the deadline, commit returns 409 ACTION_NOT_ALLOWED with reason terminal_status. Call it only when commit is in supported_actions. Lines carry cumulative targets: resending targets already applied succeeds even after the reservation closes. Returns a result with inventory_reservation as its primary resource and inventory_levels for the levels changed. Idempotency is scoped to the authenticated merchant, environment, caller namespace, and operation. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, read the inventory reservation by ID.
 
 `POST /v1/inventory-reservations/{inventory_reservation_id}/commit`
 
@@ -14,7 +14,7 @@ Signature: `commit(inventory_reservation_id: InputValue<string>, params: Invento
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `inventory_reservation_id` | Required | string | Flint inventory reservation ID. |
+| `inventory_reservation_id` | Required | string | Flint inventory reservation ID. Must be a valid ID with prefix invr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -73,7 +73,7 @@ const result = await client.inventoryReservations.commit("invr_01KEZF7C0041ENRR0
 
 ### inventoryReservations.consume
 
-Consumes committed quantity when you hand the goods off, removing it from on-hand stock. Accepts provenance describing the handoff. Call it only when consume is in supported_actions. Lines carry cumulative targets: resending targets already applied succeeds even after the reservation closes. Returns a result with inventory_reservation as its primary resource and inventory_levels for the levels changed. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, read the inventory reservation by ID.
+Consumes committed quantity when you hand the goods off, removing it from on-hand stock. Accepts provenance describing the handoff. Call it only when consume is in supported_actions. Lines carry cumulative targets: resending targets already applied succeeds even after the reservation closes. Returns a result with inventory_reservation as its primary resource and inventory_levels for the levels changed. Idempotency is scoped to the authenticated merchant, environment, caller namespace, and operation. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, read the inventory reservation by ID.
 
 `POST /v1/inventory-reservations/{inventory_reservation_id}/consume`
 
@@ -83,7 +83,7 @@ Signature: `consume(inventory_reservation_id: InputValue<string>, params: Invent
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `inventory_reservation_id` | Required | string | Flint inventory reservation ID. |
+| `inventory_reservation_id` | Required | string | Flint inventory reservation ID. Must be a valid ID with prefix invr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -143,7 +143,7 @@ const result = await client.inventoryReservations.consume("invr_01KEZF7C0041ENRR
 
 ### inventoryReservations.create
 
-Route standalone merchant demand and hold stock in one atomic command. A hold defaults to 15 minutes and can last up to 24 hours. Set expires_at when creating it or PATCH the reservation to change its deadline. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, list inventory reservations with the same idempotency_key.
+Route standalone merchant demand and hold stock in one atomic command. A hold defaults to 15 minutes and can last up to 24 hours. Set expires_at when creating it or PATCH the reservation to change its deadline. Idempotency is scoped to the authenticated merchant, environment, caller namespace, and operation. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, list inventory reservations with the same idempotency_key.
 
 `POST /v1/inventory-reservations`
 
@@ -167,7 +167,7 @@ Body model: [CreateInventoryReservationRequestInput](../models/CreateInventoryRe
 | `demands` | Required | Array of [InventoryRoutingDemandInput](../models/InventoryRoutingDemand.md#inventoryroutingdemand) | Items and quantities to reserve. minItems: `1`. maxItems: `100`. Items: Stock you ask to reserve for one item: the item and quantity, plus optional Location limits and splitting behavior. |
 | `expires_at` | Optional | string | Hold deadline, after now and at most 24 hours from now. Defaults to 15 minutes after creation. Format: `date-time`. minLength: `1`. |
 | `inventory_routing_source` | Optional | [InventoryRoutingSourceRequestInput](../models/InventoryRoutingSourceRequest.md#inventoryroutingsourcerequest) | How Flint chooses the Locations that serve the reservation: one fixed Location, an allocation policy, or a specific policy revision. When omitted, the reservation uses and stores `settings.inventory.default_routing_source`; without that default the request returns `400 INVALID_REQUEST` at `inventory_routing_source`. Where you want inventory routed from: a fixed Location, an inventory allocation policy, or one policy revision, selected by `type`. |
-| `owner` | Required | [InventoryReservationOwnerRequestInput](../models/InventoryReservationOwnerRequest.md#inventoryreservationownerrequest) | Who holds the reservation: a `key` you choose, or an order Flint holds the stock for. The owner of a merchant inventory reservation you create: your `key` for what holds the stock. |
+| `owner` | Required | [InventoryReservationOwnerRequestInput](../models/InventoryReservationOwnerRequestInput.md#inventoryreservationownerrequestinput) | Who holds the reservation: a `key` you choose, or an order Flint holds the stock for. The owner of a merchant inventory reservation you create: your `key` for what holds the stock. |
 
 #### Response
 
@@ -229,7 +229,7 @@ get(inventory_reservation_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `inventory_reservation_id` | Required | string | Flint inventory reservation ID. |
+| `inventory_reservation_id` | Required | string | Flint inventory reservation ID. Must be a valid ID with prefix invr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -289,7 +289,7 @@ Signature: `list(params?: InventoryReservationsListParams, options?: _SdkWithout
 | `status` | Optional | Array of string or string | Filter by reservation status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"closed"`. Values: `"active"`, `"closed"`. |
 | `owner_type` | Optional | Array of string or string | Filter by merchant or order ownership. Omit to return every owner type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"merchant"`, `"order"`. Values: `"merchant"`, `"order"`. |
 | `owner_key` | Optional | string | Filter merchant-owned reservations by exact owner key. Combined with owner_type=order, returns an empty page. |
-| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. pattern: `^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$`. |
+| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns only resources created in your caller namespace, plus resources created before caller scoping under the original key. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. pattern: `^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$`. |
 | `has_at_risk_quantity` | Optional | boolean | True selects reservations with at-risk quantity; false selects reservations with none on any line. Omit for all reservations. |
 | `closed_reason` | Optional | Array of string or string | Filter by how the reservation ended. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"consumed"`, `"released"`, `"expired"`, `"reallocated"`, `"mixed"`, `"adopted"`. Values: `"consumed"`, `"released"`, `"expired"`, `"reallocated"`, `"mixed"`, `"adopted"`. |
 | `expires_after` | Optional | string | Inclusive lower bound on expires_at. Format: `date-time`. |
@@ -341,7 +341,7 @@ const result = await client.inventoryReservations.list({}, {  });
 
 ### inventoryReservations.release
 
-Releases held or committed quantity back to available stock, for example when the buyer leaves or you cancel after payment. Call it only when release is in supported_actions. Lines carry cumulative targets: resending targets already applied succeeds even after the reservation closes. Returns a result with inventory_reservation as its primary resource and inventory_levels for the levels changed. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, read the inventory reservation by ID.
+Releases held or committed quantity back to available stock, for example when the buyer leaves or you cancel after payment. Call it only when release is in supported_actions. Lines carry cumulative targets: resending targets already applied succeeds even after the reservation closes. Returns a result with inventory_reservation as its primary resource and inventory_levels for the levels changed. Idempotency is scoped to the authenticated merchant, environment, caller namespace, and operation. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, read the inventory reservation by ID.
 
 `POST /v1/inventory-reservations/{inventory_reservation_id}/release`
 
@@ -351,7 +351,7 @@ Signature: `release(inventory_reservation_id: InputValue<string>, params: Invent
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `inventory_reservation_id` | Required | string | Flint inventory reservation ID. |
+| `inventory_reservation_id` | Required | string | Flint inventory reservation ID. Must be a valid ID with prefix invr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -420,7 +420,7 @@ Signature: `update(inventory_reservation_id: InputValue<string>, params: Invento
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `inventory_reservation_id` | Required | string | Flint inventory reservation ID. |
+| `inventory_reservation_id` | Required | string | Flint inventory reservation ID. Must be a valid ID with prefix invr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |

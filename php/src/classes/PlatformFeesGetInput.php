@@ -9,7 +9,7 @@ namespace Flint;
 final class PlatformFeesGetInput extends Model {
     /** @param array{'platform_fee_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PlatformFeesGetInput')); }
-    /** Flint platform fee ID. Example: "pfee_01KEZF7C00JHAZN19B3MMW0R3A".
+    /** Flint platform fee ID. Must be a valid ID with prefix pfee_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "pfee_01KEZF7C00JHAZN19B3MMW0R3A".
      * @return string
      * @throws SdkError When platform_fee_id is omitted; use hasPlatformFeeId() or valueOrDefault().
      */

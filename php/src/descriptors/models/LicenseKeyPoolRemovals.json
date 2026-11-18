@@ -1,0 +1,1 @@
+{"shared":"LicenseKeyPoolRemovals","phpRepresentation":{"kind":"record","fields":{"removals":{"kind":"list","value":{"kind":"entity","name":"LicenseKeyPoolKeyRemoval"}}}},"dependencies":["LicenseKeyPoolKey","LicenseKeyPoolKeyRemoval","LicenseKeyPoolRemovals"]}

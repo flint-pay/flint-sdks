@@ -4,13 +4,13 @@ namespace Flint;
 /**
  * @internal
  *
- * @property-read array{'customer_id': string, 'expires_in_seconds'?: int, 'refresh_expires_in_seconds'?: int}|object $body
+ * @property-read array{'capabilities'?: list<string>, 'customer_id': string, 'expires_in_seconds'?: int, 'refresh_expires_in_seconds'?: int}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class CustomerSessionsCreateInput extends Model {
-    /** @param array{'body': array{'customer_id': string, 'expires_in_seconds'?: int, 'refresh_expires_in_seconds'?: int}|object}|object $values */
+    /** @param array{'body': array{'capabilities'?: list<string>, 'customer_id': string, 'expires_in_seconds'?: int, 'refresh_expires_in_seconds'?: int}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerSessionsCreateInput')); }
     /** The request body for: Create a customer session. Example: {"customer_id":"cus_01KEZF7C003ACYXT6Q5EQZ78EE","expires_in_seconds":3600,"refresh_expires_in_seconds":604800}.
-     * @return array{'customer_id': string, 'expires_in_seconds'?: int, 'refresh_expires_in_seconds'?: int}|object
+     * @return array{'capabilities'?: list<string>, 'customer_id': string, 'expires_in_seconds'?: int, 'refresh_expires_in_seconds'?: int}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): array|object { return $this->get('body'); }

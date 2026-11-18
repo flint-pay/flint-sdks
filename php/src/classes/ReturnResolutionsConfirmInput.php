@@ -10,7 +10,7 @@ namespace Flint;
 final class ReturnResolutionsConfirmInput extends Model {
     /** @param array{'return_resolution_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body'?: array{'expected_version'?: int}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnResolutionsConfirmInput')); }
-    /** Flint return resolution id. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+    /** Flint return resolution id. Must be a valid ID with prefix retres_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
      * @return string
      * @throws SdkError When return_resolution_id is omitted; use hasReturnResolutionId() or valueOrDefault().
      */

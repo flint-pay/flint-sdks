@@ -33,7 +33,7 @@ final class CreateCustomerRequestInput extends Model {
      */
     public function getDefaultInvoicePaymentTermId(): string { return $this->get('default_invoice_payment_term_id'); }
     public function hasDefaultInvoicePaymentTermId(): bool { return $this->has('default_invoice_payment_term_id'); }
-    /** Customer email, unique among the environment's customers. Required when `on_email_conflict` is `return_existing`. Format: email. minLength: 1. maxLength: 320. Example: "buyer@example.com".
+    /** Customer email, unique among the environment's customers. Required when `on_email_conflict` is `return_existing`. The local part before @ must be at most 64 octets (UTF-8 bytes). Format: email. minLength: 1. maxLength: 320. Example: "buyer@example.com".
      * @return string
      * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
      */
@@ -45,7 +45,7 @@ final class CreateCustomerRequestInput extends Model {
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Internal note about this customer. Not returned to customer sessions. minLength: 1.
+    /** Internal note about this customer. Not returned to customer sessions. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1. maxLength: 1000.
      * @return string
      * @throws SdkError When internal_note is omitted; use hasInternalNote() or valueOrDefault().
      */
@@ -63,7 +63,7 @@ final class CreateCustomerRequestInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Customer name, up to 255 characters (Unicode code points) after trimming surrounding whitespace. minLength: 1.
+    /** Customer name, up to 255 characters (Unicode code points) after trimming surrounding whitespace. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
@@ -75,7 +75,7 @@ final class CreateCustomerRequestInput extends Model {
      */
     public function getOnEmailConflict(): string { return $this->get('on_email_conflict'); }
     public function hasOnEmailConflict(): bool { return $this->has('on_email_conflict'); }
-    /** Customer phone number. minLength: 1.
+    /** Customer phone number in E.164 format: a leading `+`, then the country code and number as digits only, such as `+14155551234`, matching `^\+[1-9][0-9]{1,14}$`. Flint trims surrounding whitespace but rejects spaces, hyphens, dots, and parentheses inside the number, so send `+14155550100`, not `+1 (415) 555-0100`. Leave out a national trunk prefix: send `+442079460958`, not `+4402079460958`. minLength: 1. Example: "+14155551234".
      * @return string
      * @throws SdkError When phone is omitted; use hasPhone() or valueOrDefault().
      */

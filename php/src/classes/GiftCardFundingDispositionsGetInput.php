@@ -9,7 +9,7 @@ namespace Flint;
 final class GiftCardFundingDispositionsGetInput extends Model {
     /** @param array{'gift_card_funding_disposition_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardFundingDispositionsGetInput')); }
-    /** Flint resource ID. Example: "gfd_01KEZF7C0077Q8RK3Q4FD2DTW8".
+    /** Flint resource ID. Must be a valid ID with prefix gfd_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "gfd_01KEZF7C0077Q8RK3Q4FD2DTW8".
      * @return string
      * @throws SdkError When gift_card_funding_disposition_id is omitted; use hasGiftCardFundingDispositionId() or valueOrDefault().
      */

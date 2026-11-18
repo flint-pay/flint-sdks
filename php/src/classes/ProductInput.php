@@ -92,7 +92,7 @@ final class ProductInput extends Model {
      */
     public function getIsAvailableForSale(): bool { return $this->get('is_available_for_sale'); }
     public function hasIsAvailableForSale(): bool { return $this->has('is_available_for_sale'); }
-    /** On product list rows, the first non-archived variant by position, then variant_id, that matches all exact variant filters. Without exact variant filters, identifies the first variant whose SKU matches query. Omitted when no variant matches; a product name or description match alone does not set it. Page the product's variants to find all matches. A single variant witness on product list rows only. With exact variant filters, the first variant by position, then variant_id, satisfying every exact predicate. Otherwise, the first variant in that order whose SKU matches query. Use the paginated nested variant list to enumerate every match.
+    /** On product list rows, the first non-archived variant by position, then variant_id, that matches all exact variant filters. Without exact variant filters, identifies the first variant whose SKU or barcode matches query. Omitted when no variant matches; a product name or description match alone does not set it. Page the product's variants to find all matches. A single variant witness on product list rows only. With exact variant filters, the first variant by position, then variant_id, satisfying every exact predicate. Otherwise, the first variant in that order whose SKU matches query. Use the paginated nested variant list to enumerate every match.
      * @return ProductVariantMatchInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When matched_variant is omitted; use hasMatchedVariant() or valueOrDefault().
      */

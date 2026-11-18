@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read OrderTaxAttentionPreviousAttributes|null $attention
  * @property-read string|null $automatic_profile
  * @property-read list<string>|null $available_location_inputs
  * @property-read OrderTaxCallbackEvaluationPreviousAttributes|null $callback_evaluation
@@ -18,8 +19,13 @@ namespace Flint;
  * @property-read list<\stdClass>|null $tax_breakdowns
  * Presence-aware response; omitted optional fields return null. */
 final class OrderTaxPreviousAttributes extends Model {
-    /** @param array{'automatic_profile'?: mixed, 'available_location_inputs'?: mixed, 'callback_evaluation'?: mixed, 'components_source'?: mixed, 'delivery_charge_calculation'?: mixed, 'enabled'?: mixed, 'exemption'?: mixed, 'location'?: mixed, 'mode'?: mixed, 'price_mode'?: mixed, 'reverse_charge'?: mixed, 'status'?: mixed, 'supported_countries'?: mixed, 'tax_breakdowns'?: mixed, ...}|object $values */
+    /** @param array{'attention'?: mixed, 'automatic_profile'?: mixed, 'available_location_inputs'?: mixed, 'callback_evaluation'?: mixed, 'components_source'?: mixed, 'delivery_charge_calculation'?: mixed, 'enabled'?: mixed, 'exemption'?: mixed, 'location'?: mixed, 'mode'?: mixed, 'price_mode'?: mixed, 'reverse_charge'?: mixed, 'status'?: mixed, 'supported_countries'?: mixed, 'tax_breakdowns'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderTaxPreviousAttributes')); }
+    /** Tax information that needs merchant attention. Null when no tax attention is outstanding. Captured payments and refunds remain recorded; contact Flint support before changing tax. Omitted from buyer responses. Always present with merchant credentials. anyOf[1] (Value): {@see OrderTaxAttentionPreviousAttributes}. anyOf[2] (Value): null.
+     * @return OrderTaxAttentionPreviousAttributes|null
+     */
+    public function getAttention(): OrderTaxAttentionPreviousAttributes|null { return $this->get('attention'); }
+    public function hasAttention(): bool { return $this->has('attention'); }
     /** Identifies which automatic tax behavior applies to this order. connected means the account's tax connection calculated it. standard marks an order calculated before automatic tax required a tax connection. Value enum: "standard", "connected". anyOf[1] (Value): string. Identifies which automatic tax behavior applies to this order. connected means the account's tax connection calculated it. standard marks an order calculated before automatic tax required a tax connection. Value enum: "standard", "connected". anyOf[2] (Value): null.
      * @return string|null
      */

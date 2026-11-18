@@ -1,1 +1,1 @@
-{"shared":"RiskListItemAddition","phpRepresentation":{"kind":"record","fields":{"outcome":{"kind":"value","type":"string"},"risk_list_item":{"kind":"entity","name":"RiskListItem"}}},"dependencies":["ResourceType","RiskListItem","RiskListItemAddition","SharedCodec1354","SharedCodec1355"]}
+{"shared":"RiskListItemAddition","phpRepresentation":{"kind":"record","fields":{"outcome":{"kind":"value","type":"string"},"risk_list_item":{"kind":"entity","name":"RiskListItem"}}},"dependencies":["ResourceType","RiskListItem","RiskListItemAddition","SharedCodec1365","SharedCodec1366"]}

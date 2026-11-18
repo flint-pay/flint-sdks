@@ -25,7 +25,7 @@ The affected public resource without expansions, client authority fields, or fie
 | `interval_end_at` | Required | string | Exclusive interval end instant. Each report type matches its own occurrence time. Format: `date-time`. |
 | `interval_start_at` | Required | string | Inclusive interval start instant. Each report type matches its own occurrence time. Format: `date-time`. |
 | `report_id` | Required | string | Stable identifier of the report. pattern: `^rep_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `report_type` | Required | string | The report's type and column version. See the Reports guide for its columns. Values: [13 declared values](CreateReportRequestInput.md#createreportrequestinput-report_type-values). |
+| `report_type` | Required | string | The report's type and column version. See the Reports guide for its columns. Values: [14 declared values](CreateReportRequestInput.md#createreportrequestinput-report_type-values). |
 | `status` | Required | string | pending while Flint generates the report, then succeeded with a download or failed with a failure_reason. Flint sends report.succeeded or report.failed when it finishes. Values: `"pending"`, `"succeeded"`, `"failed"`. |
 | `timezone` | Required | string | IANA timezone used for timestamps and date bucketing. A payout occurs at the start of its arrival_date in this timezone. |
 
@@ -73,7 +73,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `interval_end_at` | Optional | (string or null) | Exclusive interval end instant. Each report type matches its own occurrence time. `interval_end_at`: [declared alternatives](../models/ReportFailedEventData.md#reportfailedeventdataprevious_attributesinterval_end_at). |
 | `interval_start_at` | Optional | (string or null) | Inclusive interval start instant. Each report type matches its own occurrence time. `interval_start_at`: [declared alternatives](../models/ReportFailedEventData.md#reportfailedeventdataprevious_attributesinterval_start_at). |
 | `report_id` | Optional | (string or null) | Stable identifier of the report. `report_id`: [declared alternatives](../models/ReportFailedEventData.md#reportfailedeventdataprevious_attributesreport_id). |
-| `report_type` | Optional | string or null | The report's type and column version. See the Reports guide for its columns. Values: [13 declared values](CreateReportRequestInput.md#createreportrequestinput-report_type-values). `report_type`: [declared alternatives](../models/ReportFailedEventData.md#reportfailedeventdataprevious_attributesreport_type). |
+| `report_type` | Optional | string or null | The report's type and column version. See the Reports guide for its columns. Values: [14 declared values](CreateReportRequestInput.md#createreportrequestinput-report_type-values). `report_type`: [declared alternatives](../models/ReportFailedEventData.md#reportfailedeventdataprevious_attributesreport_type). |
 | `status` | Optional | (string or null) | pending while Flint generates the report, then succeeded with a download or failed with a failure_reason. Flint sends report.succeeded or report.failed when it finishes. Values: `"pending"`, `"succeeded"`, `"failed"`. `status`: [declared alternatives](../models/ReportFailedEventData.md#reportfailedeventdataprevious_attributes-variant-1status), [declared alternatives](../models/ReportFailedEventData.md#reportfailedeventdataprevious_attributes-variant-2status), [declared alternatives](../models/ReportFailedEventData.md#reportfailedeventdataprevious_attributes-variant-3status). |
 | `timezone` | Optional | string or null | IANA timezone used for timestamps and date bucketing. A payout occurs at the start of its arrival_date in this timezone. `timezone`: [declared alternatives](../models/ReportFailedEventData.md#reportfailedeventdataprevious_attributestimezone). |
 
@@ -300,7 +300,7 @@ anyOf group 2 variant 1: Stable identifier of the report..
 
 anyOf variant 1: The report's type and column version. See the Reports guide for its columns..
 
-- Value shape: string. The report's type and column version. See the Reports guide for its columns. Values: `"receivables_aging_v1"`, `"invoices_itemized_v1"`, `"gift_card_liability_v1"`, `"orders_itemized_v1"`, `"orders_itemized_v2"`, `"payments_itemized_v1"`, `"balance_transactions_itemized_v1"`, `"payouts_itemized_v1"`, `"tax_itemized_v1"`, `"tax_summarized_v1"`, `"merchant_billing_itemized_v1"`, `"tax_transactions_itemized_v1"`, `"tax_transactions_itemized_v2"`.
+- Value shape: string. The report's type and column version. See the Reports guide for its columns. Values: `"receivables_aging_v1"`, `"invoices_itemized_v1"`, `"gift_card_liability_v1"`, `"orders_itemized_v1"`, `"orders_itemized_v2"`, `"payments_itemized_v1"`, `"balance_transactions_itemized_v1"`, `"payouts_itemized_v1"`, `"tax_itemized_v1"`, `"tax_summarized_v1"`, `"merchant_billing_itemized_v1"`, `"tax_transactions_itemized_v1"`, `"tax_transactions_itemized_v2"`, `"tax_transactions_summarized_v2"`.
 
 ### ReportFailedEventData.previous_attributes.report_type variant 2
 

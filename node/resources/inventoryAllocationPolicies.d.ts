@@ -15,8 +15,8 @@ import type {
     InventoryAllocationPolicyRevisionListResponse,
     InventoryAllocationPolicyRevisionResponse
 } from '../declarations/types-31.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -50,28 +50,28 @@ export type {
     InventoryAllocationPolicyLocation,
     InventoryAllocationConfigurationValue
 } from '../declarations/types-31.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { RequestOptions } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateInventoryAllocationPolicyRequestInput } from '../declarations/types-10.js';
-export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-41.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { UpdateInventoryAllocationPolicyRequestInput } from '../declarations/types-74.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
-export { makeCreateInventoryAllocationPolicyRequest } from '../declarations/types-80.js';
-export { makeInventoryAllocationPolicyConfigurationRequest, makeInventoryAllocationPolicyLocation } from '../declarations/types-84.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeUpdateInventoryAllocationPolicyRequest } from '../declarations/types-90.js';
+export type { Credentials } from '../declarations/types-15.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { UpdateInventoryAllocationPolicyRequestInput } from '../declarations/types-76.js';
+export type { DisputesAcceptParams } from '../declarations/types-26.js';
+export { makeCreateInventoryAllocationPolicyRequest } from '../declarations/types-82.js';
+export { makeInventoryAllocationPolicyConfigurationRequest, makeInventoryAllocationPolicyLocation } from '../declarations/types-86.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeUpdateInventoryAllocationPolicyRequest } from '../declarations/types-93.js';
 export interface InventoryAllocationPoliciesResource {
     /**
  * Create an allocation policy with its routing configuration. Idempotency is scoped to the
- * authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical
- * request body. To recover the command's effects after a lost response, list inventory allocation
- * policies and identify the matching policy.
+ * authenticated merchant, environment, caller namespace, and operation. Its fingerprint includes
+ * the canonical request body. To recover the command's effects after a lost response, list
+ * inventory allocation policies and identify the matching policy.
  *
  * `POST /v1/inventory-allocation-policies`
  * @see https://developers.withflintpay.com/docs/api/inventory#createInventoryAllocationPolicy
@@ -90,7 +90,9 @@ export interface InventoryAllocationPoliciesResource {
  * lists only when you filter by status archived.
  *
  * `DELETE /v1/inventory-allocation-policies/{inventory_allocation_policy_id}`
- * @param inventory_allocation_policy_id Flint inventory allocation policy ID.
+ * @param inventory_allocation_policy_id Flint inventory allocation policy ID. Must be a valid ID
+ * with prefix invp_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE;
+ * well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/inventory#deleteInventoryAllocationPolicy
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -104,7 +106,9 @@ export interface InventoryAllocationPoliciesResource {
  * Retrieve an allocation policy by ID, including archived policies.
  *
  * `GET /v1/inventory-allocation-policies/{inventory_allocation_policy_id}`
- * @param inventory_allocation_policy_id Flint inventory allocation policy ID.
+ * @param inventory_allocation_policy_id Flint inventory allocation policy ID. Must be a valid ID
+ * with prefix invp_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE;
+ * well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/inventory#getInventoryAllocationPolicy
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -116,8 +120,12 @@ export interface InventoryAllocationPoliciesResource {
  *
  * `GET
  * /v1/inventory-allocation-policies/{inventory_allocation_policy_id}/revisions/{inventory_allocation_policy_revision_id}`
- * @param inventory_allocation_policy_id Flint inventory allocation policy ID.
+ * @param inventory_allocation_policy_id Flint inventory allocation policy ID. Must be a valid ID
+ * with prefix invp_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE;
+ * well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND.
  * @param inventory_allocation_policy_revision_id Flint inventory allocation policy revision ID.
+ * Must be a valid ID with prefix invpv_. Malformed IDs return 400 INVALID_REQUEST with detail
+ * INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/inventory#getInventoryAllocationPolicyRevision
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -149,7 +157,9 @@ export interface InventoryAllocationPoliciesResource {
  * inventory_allocation_policy_revision_id descending; this key uniquely orders the results.
  *
  * `GET /v1/inventory-allocation-policies/{inventory_allocation_policy_id}/revisions`
- * @param inventory_allocation_policy_id Flint inventory allocation policy ID.
+ * @param inventory_allocation_policy_id Flint inventory allocation policy ID. Must be a valid ID
+ * with prefix invp_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE;
+ * well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND.
  * @see
  * https://developers.withflintpay.com/docs/api/inventory#listInventoryAllocationPolicyRevisions
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
@@ -170,12 +180,14 @@ export interface InventoryAllocationPoliciesResource {
     /**
  * Update policy fields, availability, or atomically replace its routing configuration.
  * expected_version is optional and enforced when sent, and is required when replacing
- * configuration. Idempotency is scoped to the authenticated merchant, environment, and endpoint.
- * Its fingerprint includes the canonical request body. To recover the command's effects after a
- * lost response, read the inventory allocation policy by ID.
+ * configuration. Idempotency is scoped to the authenticated merchant, environment, caller
+ * namespace, and operation. Its fingerprint includes the canonical request body. To recover the
+ * command's effects after a lost response, read the inventory allocation policy by ID.
  *
  * `PATCH /v1/inventory-allocation-policies/{inventory_allocation_policy_id}`
- * @param inventory_allocation_policy_id Flint inventory allocation policy ID.
+ * @param inventory_allocation_policy_id Flint inventory allocation policy ID. Must be a valid ID
+ * with prefix invp_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE;
+ * well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/inventory#updateInventoryAllocationPolicy
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

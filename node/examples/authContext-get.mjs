@@ -5,4 +5,4 @@ const client = new Client({
   allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 const result = await client.authContext.get();
-console.log(result.merchant_id);
+console.log(result);

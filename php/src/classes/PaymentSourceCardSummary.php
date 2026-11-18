@@ -4,11 +4,13 @@ namespace Flint;
 /**
  * @property-read ?string $brand
  * @property-read ?PaymentSourceCardPresentDetails $card_present
+ * @property-read string|null $country
+ * @property-read string|null $funding
  * @property-read ?string $last4
  * @property-read ?string $payment_method_id
  * Presence-aware response; omitted optional fields return null. */
 final class PaymentSourceCardSummary extends Model {
-    /** @param array{'brand'?: string, 'card_present'?: mixed, 'last4'?: string, 'payment_method_id'?: string, ...}|object $values */
+    /** @param array{'brand'?: string, 'card_present'?: mixed, 'country': string|null, 'funding': string|null, 'last4'?: string, 'payment_method_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentSourceCardSummary')); }
     /** The card network. Value enum: "visa", "mastercard", "amex", "discover", "diners", "jcb", "unionpay".
      * @return ?string
@@ -20,6 +22,16 @@ final class PaymentSourceCardSummary extends Model {
      */
     public function getCardPresent(): ?PaymentSourceCardPresentDetails { return $this->get('card_present'); }
     public function hasCardPresent(): bool { return $this->has('card_present'); }
+    /** ISO 3166-1 alpha-2 issuing country. `null` when the issuing country was not recorded, including older payments. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$.
+     * @return string|null
+     */
+    public function getCountry(): string|null { return $this->get('country'); }
+    public function hasCountry(): bool { return $this->has('country'); }
+    /** How the card is funded. `null` when no recognized funding type was recorded. Value enum: "credit", "debit", "prepaid", null.
+     * @return string|null
+     */
+    public function getFunding(): string|null { return $this->get('funding'); }
+    public function hasFunding(): bool { return $this->has('funding'); }
     /** Last four digits of the card number.
      * @return ?string
      */

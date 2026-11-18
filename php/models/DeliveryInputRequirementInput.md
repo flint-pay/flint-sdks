@@ -13,7 +13,7 @@ Request input.
 | `delivery_input_requirement_id` | Required | string | Unique ID of this requirement. Example: `"req_24c2628d965d791d993ab70c2c9f77882cc189e3039ef9ef68bf935e59717580"`. |
 | `delivery_method_ids` | Optional | Array of string | Delivery methods that need this input. Items: Example: `"dmet_01KEZF7C00YSG3X2D1TZJ36TM0"`. |
 | `delivery_option_ids` | Optional | Array of string | Delivery options that need this input. Omitted when the requirement applies to the choice group or method as a whole. Items: Example: `"dopt_01KEZF7C00JM9TDZQZ5KQJ6923"`. |
-| `field_path` | Required | string | Request property to fill in, using the same path as error params. Array templates use [] in place of an index. Values: [20 declared values](#deliveryinputrequirementinput-field_path-values). |
+| `field_path` | Required | string | Request property to fill in, using the same path as error params. Array templates use [] in place of an index. Values: [21 declared values](#deliveryinputrequirementinput-field_path-values). |
 | `purpose` | Required | string | When the input is needed. Values: `"quote"`, `"selection"`, `"pickup_availability"`. |
 
 #### DeliveryInputRequirementInput field_path values
@@ -33,6 +33,7 @@ Request input.
 - `"buyer_location.address.state"`
 - `"buyer_location.address.postal_code"`
 - `"buyer_location.coordinate"`
+- `"pickup_location_id"`
 - `"recipient.name"`
 - `"recipient.email"`
 - `"recipient.phone"`

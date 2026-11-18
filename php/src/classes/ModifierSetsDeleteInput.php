@@ -10,7 +10,7 @@ namespace Flint;
 final class ModifierSetsDeleteInput extends Model {
     /** @param array{'modifier_set_id': string, 'expected_version'?: int, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ModifierSetsDeleteInput')); }
-    /** Flint modifier set ID. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+    /** Flint modifier set ID. Must be a valid ID with prefix ms_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
      * @return string
      * @throws SdkError When modifier_set_id is omitted; use hasModifierSetId() or valueOrDefault().
      */

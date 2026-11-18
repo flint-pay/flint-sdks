@@ -91,7 +91,7 @@ final class CustomerDeletionRequest extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Lifecycle actions Flint accepts now, independent of the caller's permissions. Contains resolve while awaiting review, when retrying a failed deletion, and after resolution because repeating the original decision succeeds. An opposite decision is refused with field_locked at decision. [] enum: "resolve". [] (Value): string.  Value enum: "resolve".
+    /** Lifecycle actions Flint accepts now, independent of the caller's permissions. Contains resolve while awaiting review, during processing, and when retrying a failed deletion. Empty for completed and rejected requests. Repeating the original decision still succeeds; an opposite decision is refused with field_locked at decision. [] enum: "resolve". [] (Value): string.  Value enum: "resolve".
      * @return list<string>
      */
     public function getSupportedActions(): array { return $this->get('supported_actions'); }

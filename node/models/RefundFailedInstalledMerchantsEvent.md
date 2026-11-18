@@ -44,9 +44,27 @@ Field definitions: [shared fields](RefundPreviousAttributes.md#refundpreviousatt
 
 Declared alternatives: [BuyerRefundPreviousAttributes.amount_money](../models/BuyerRefundPreviousAttributes.md#buyerrefundpreviousattributesamount_money).
 
+### RefundFailedInstalledMerchantsEvent.data.previous_attributes.charge_allocations
+
+### RefundFailedInstalledMerchantsEvent.data.previous_attributes.charge_allocations variant 1
+
+anyOf variant 1: Money returned for each order charge, including subtotal, discount, and tax, combined across payment refunds..
+
+- Value shape: Array of [RefundChargeAllocationPreviousAttributes](../models/RefundChargeAllocationPreviousAttributes.md#refundchargeallocationpreviousattributes). Money returned for each order charge, including subtotal, discount, and tax, combined across payment refunds. 
+
+### RefundFailedInstalledMerchantsEvent.data.previous_attributes.charge_allocations variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Money returned for each order charge, including subtotal, discount, and tax, combined across payment refunds. 
+
 ### RefundFailedInstalledMerchantsEvent.data.previous_attributes.created_at
 
 Declared alternatives: [ApiKeyRevokedEvent.data.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at).
+
+### RefundFailedInstalledMerchantsEvent.data.previous_attributes.credit_adjustment_money
+
+Declared alternatives: [BuyerRefundPreviousAttributes.credit_adjustment_money](../models/BuyerRefundPreviousAttributes.md#buyerrefundpreviousattributescredit_adjustment_money).
 
 ### RefundFailedInstalledMerchantsEvent.data.previous_attributes.credit_note_id
 

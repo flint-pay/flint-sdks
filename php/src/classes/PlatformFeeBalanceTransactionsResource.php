@@ -4,7 +4,7 @@ namespace Flint;
 final class PlatformFeeBalanceTransactionsResource {
     public function __construct(private readonly Runtime $runtime) {}
     /** Returns one entry of your partner apps' platform fee ledger. Reads the merchant that owns the partner app, with its own credentials and money_movement.platform_fees.read; partner app tokens can't. Live records are in your live environment. Test records are in your default sandbox at the time the payment was created. A merchant that owns no partner app gets an empty list.
-     * @param string|Model $platform_fee_balance_transaction_id Flint platform fee balance transaction ID.
+     * @param string|Model $platform_fee_balance_transaction_id Flint platform fee balance transaction ID. Must be a valid ID with prefix pfbt_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND.
      * @param PlatformFeeBalanceTransactionsGetParams|array<array-key, mixed>|Model|null $params Flat body fields and query/header parameters; path arguments follow URL order.
      * @return PlatformFeeBalanceTransaction
      */

@@ -10,6 +10,10 @@ Response model.
 
 Field definitions: [shared fields](Subscription.md#subscription).
 
+### SubscriptionActivatedMerchantEventDataObject.billing_hold
+
+Field definitions: [SubscriptionResponse.data.billing_hold](../models/SubscriptionResponse.md#subscriptionresponsedatabilling_hold).
+
 ### SubscriptionActivatedMerchantEventDataObject.cancellation_details
 
 Field definitions: [SubscriptionResponse.data.cancellation_details](../models/SubscriptionResponse.md#subscriptionresponsedatacancellation_details).

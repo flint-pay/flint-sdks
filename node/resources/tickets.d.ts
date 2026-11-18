@@ -1,8 +1,10 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { Ticket, TicketListResponse, TicketResponse } from '../declarations/types-72.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { Ticket } from '../declarations/types-74.js';
 import type {
+    TicketListResponse,
+    TicketResponse,
     TicketWithAdmissionCode,
     TicketWithAdmissionCodeResponse,
     TicketsCheckInParams,
@@ -13,8 +15,8 @@ import type {
     TicketsUndoCheckInParams,
     TicketsUpdateParams,
     TicketsVoidParams
-} from '../declarations/types-73.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-75.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -31,37 +33,41 @@ export type {
 } from '../runtime.js';
 export type {
     TicketsCheckInParams,
+    TicketResponse,
     TicketsGetParams,
     TicketsListParams,
+    TicketListResponse,
     TicketsLookupParams,
     TicketsRotateCodeParams,
     TicketWithAdmissionCode,
     TicketWithAdmissionCodeResponse,
     TicketsUndoCheckInParams,
     TicketsUpdateParams,
-    TicketsVoidParams
-} from '../declarations/types-73.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type { Ticket, TicketResponse, TicketListResponse, TicketVersionRequestInput } from '../declarations/types-72.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+    TicketsVoidParams,
+    TicketVersionRequestInput
+} from '../declarations/types-75.js';
+export type { RequestOptions } from '../declarations/types-61.js';
+export type { Ticket } from '../declarations/types-74.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type { CheckInTicketRequestInput, CheckoutBuyerContact, CheckInTicketRequest } from '../declarations/types-5.js';
+export type { CheckInTicketRequestInput, CheckoutBuyerContact, CheckInTicketRequest } from '../declarations/types-6.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { ExpandedOrderSummary } from '../declarations/types-26.js';
 export type { DeferredPromotion } from '../declarations/types-17.js';
-export type { PricingAmounts } from '../declarations/types-55.js';
-export type { MoneyValue, NextAction } from '../declarations/types-42.js';
-export type { OrderSettlementAmounts } from '../declarations/types-45.js';
-export type { SettlementAmounts } from '../declarations/types-65.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { LookupTicketRequestInput, LookupTicketRequest } from '../declarations/types-39.js';
-export type { UpdateTicketRequestInput, UpdateTicketRequest } from '../declarations/types-76.js';
-export { makeCheckInTicketRequest } from '../declarations/types-78.js';
-export { makeLookupTicketRequest } from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeTicketVersionRequest } from '../declarations/types-90.js';
-export { makeUpdateTicketRequest } from '../declarations/types-91.js';
+export type { PricingAmounts } from '../declarations/types-56.js';
+export type { MoneyValue, NextAction } from '../declarations/types-44.js';
+export type { OrderSettlementAmounts } from '../declarations/types-47.js';
+export type { SettlementAmounts } from '../declarations/types-68.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { LookupTicketRequestInput, LookupTicketRequest } from '../declarations/types-40.js';
+export type { UpdateTicketRequestInput, UpdateTicketRequest } from '../declarations/types-78.js';
+export { makeCheckInTicketRequest } from '../declarations/types-80.js';
+export { makeLookupTicketRequest } from '../declarations/types-87.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeTicketVersionRequest } from '../declarations/types-93.js';
+export { makeUpdateTicketRequest } from '../declarations/types-94.js';
 export interface TicketsResource {
     /**
  * Admits an issued ticket. Concurrent check-ins of one ticket admit it once: the others return 409
@@ -73,7 +79,9 @@ export interface TicketsResource {
  * code is never returned or logged.
  *
  * `POST /v1/tickets/{ticket_id}/check-in`
- * @param ticket_id The ticket ID.
+ * @param ticket_id The ticket ID. Must be a valid ID with prefix tkt_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/tickets#checkInTicket
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -91,7 +99,9 @@ export interface TicketsResource {
  * RESOURCE_NOT_FOUND.
  *
  * `GET /v1/tickets/{ticket_id}`
- * @param ticket_id The ticket ID.
+ * @param ticket_id The ticket ID. Must be a valid ID with prefix tkt_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/tickets#getTicket
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -124,8 +134,8 @@ export interface TicketsResource {
     /**
  * Looks up an admission code in the authenticated merchant and environment, including voided
  * tickets. ASCII lowercase, spaces and hyphens are accepted; O maps to 0 and I/L to 1. Malformed
- * codes return 400 INVALID_VALUE; an unknown or foreign code returns 404 RESOURCE_NOT_FOUND at
- * admission_code. The code is never returned.
+ * codes return 400 INVALID_REQUEST with detail INVALID_VALUE; an unknown or foreign code returns
+ * 404 RESOURCE_NOT_FOUND at admission_code. The code is never returned.
  *
  * `POST /v1/tickets/lookup`
  * @see https://developers.withflintpay.com/docs/api/tickets#lookupTicket
@@ -143,7 +153,9 @@ export interface TicketsResource {
  * with reason unsupported_state.
  *
  * `POST /v1/tickets/{ticket_id}/rotate-code`
- * @param ticket_id The ticket ID.
+ * @param ticket_id The ticket ID. Must be a valid ID with prefix tkt_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/tickets#rotateTicketCode
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -159,7 +171,9 @@ export interface TicketsResource {
  * reason unsupported_state.
  *
  * `POST /v1/tickets/{ticket_id}/undo-check-in`
- * @param ticket_id The ticket ID.
+ * @param ticket_id The ticket ID. Must be a valid ID with prefix tkt_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/tickets#undoTicketCheckIn
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -175,7 +189,9 @@ export interface TicketsResource {
  * ACTION_NOT_ALLOWED with reason unsupported_state.
  *
  * `PATCH /v1/tickets/{ticket_id}`
- * @param ticket_id The ticket ID.
+ * @param ticket_id The ticket ID. Must be a valid ID with prefix tkt_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/tickets#updateTicket
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -193,7 +209,9 @@ export interface TicketsResource {
  * valid tickets. A voided ticket returns 409 ACTION_NOT_ALLOWED with reason already_applied.
  *
  * `POST /v1/tickets/{ticket_id}/void`
- * @param ticket_id The ticket ID.
+ * @param ticket_id The ticket ID. Must be a valid ID with prefix tkt_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/tickets#voidTicket
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

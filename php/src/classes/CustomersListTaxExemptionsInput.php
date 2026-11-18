@@ -12,7 +12,7 @@ namespace Flint;
 final class CustomersListTaxExemptionsInput extends Model {
     /** @param array{'customer_id': string, 'page_size'?: int, 'page_token'?: string, 'status'?: list<string>|string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomersListTaxExemptionsInput')); }
-    /** Flint ID of the customer that owns this nested child. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+    /** Flint ID of the customer that owns this nested child. Must be a valid ID with prefix cus_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */

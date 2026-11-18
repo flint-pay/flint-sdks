@@ -14,7 +14,7 @@ Signature: `cancel(string|Model $payout_id, array|Model|null $params = null, ?Re
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `payout_id` | Required | string | Flint payout ID. |
+| `payout_id` | Required | string | Flint payout ID. Must be a valid ID with prefix po_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Optional | [CancelPayoutRequestInput](../models/CancelPayoutRequestInput.md#cancelpayoutrequestinput) | The request body for: Cancel a payout. |
 
 Body model: [CancelPayoutRequestInput](../models/CancelPayoutRequestInput.md#cancelpayoutrequestinput).
@@ -151,7 +151,7 @@ Signature: `get(string|Model $payout_id, array|Model|null $params = null, ?Reque
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `payout_id` | Required | string | Flint payout ID. |
+| `payout_id` | Required | string | Flint payout ID. Must be a valid ID with prefix po_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: original_payout, payout_destination, reversed_by_payout. Expansion requires money_movement.payouts.read plus the read scope for each expanded resource. Limits: at most 10 unique expand paths per request. Items values: `"original_payout"`, `"payout_destination"`, `"reversed_by_payout"`. Values: `"original_payout"`, `"payout_destination"`, `"reversed_by_payout"`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
@@ -204,10 +204,11 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. pattern: `^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$`. |
+| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key within the authenticated merchant and environment. Matching is exact and case-sensitive. Returns current authorized payouts, not the recorded response. Partner app installs cannot create payouts. minLength: `1`. maxLength: `255`. pattern: `^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$`. |
 | `currency` | Optional | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. |
 | `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: original_payout, payout_destination, reversed_by_payout. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. Items values: `"original_payout"`, `"payout_destination"`, `"reversed_by_payout"`. Values: `"original_payout"`, `"payout_destination"`, `"reversed_by_payout"`. |
 | `method` | Optional | Array of string or string | Filter recorded payouts by method. Flint sends only standard payouts. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"standard"`, `"instant"`, `"other"`. Values: `"standard"`, `"instant"`, `"other"`. |
+| `direction` | Optional | Array of string or string | Filter by money movement direction. Omit it to list both directions. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"outbound"`, `"inbound"`. Values: `"outbound"`, `"inbound"`. |
 | `balance_source_type` | Optional | Array of string or string | Optional Flint balance source type filter. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"card"`, `"bank_account"`. Values: `"card"`, `"bank_account"`. |
 | `payout_destination_id` | Optional | string | Optional payout destination ID filter. pattern: `^pdest_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `external_reference_id` | Optional | string | Exact-match filter on the caller-owned external reference ID. minLength: `1`. maxLength: `255`. |

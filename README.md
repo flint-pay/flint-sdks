@@ -26,6 +26,7 @@ Each package guide includes its own requirements, installation command and examp
 
 | SDK version (Node and PHP)  | API version  |
 | --------------------------- | ------------ |
+| `8.0.0-beta.7` (candidate)  | `2026-09-07` |
 | `8.0.0-beta.6`              | `2026-09-07` |
 | `8.0.0-beta.5`              | `2026-09-07` |
 | `8.0.0-beta.4`              | `2026-09-07` |
@@ -54,7 +55,7 @@ The API version identifies the pinned contract used to generate the SDK. The SDK
 
 ## Contract and authentication
 
-The pinned API version is `2026-09-07`. The packages expose 721 operations from the pinned export, including PDF downloads, redirects, an event stream, and the form-encoded OAuth token, revocation and CLI device operations. Only the browser-only OAuth consent redirect is excluded; build its URL with the partner OAuth helpers. Outbound methods are grouped by resource, such as `client.paymentIntents.create()`, `client.orders.get()` and `client.refunds.create()`. Namespaces follow the first API path segment after `/v1`; method names follow the operation ID without that namespace noun.
+The pinned API version is `2026-09-07`. The `8.0.0-beta.7` candidate exposes 744 operations from the pinned export, including PDF downloads, redirects, an event stream, and the form-encoded OAuth token, revocation and CLI device operations. Only the browser-only OAuth consent redirect is excluded; build its URL with the partner OAuth helpers. Outbound methods are grouped by resource, such as `client.paymentIntents.create()`, `client.orders.get()` and `client.refunds.create()`. Namespaces follow the first API path segment after `/v1`; method names follow the operation ID without that namespace noun.
 
 Named credential modes cover merchant API keys and bearer tokens, customer sessions, onboarding, checkout bearer tokens, and invoice tokens. Select the mode appropriate to the operation. Merchant default credentials support environment keys and tokens, GitHub Actions, GitLab CI, Kubernetes, GCP, Azure, AWS and saved CLI sessions. See the [default credentials guide](node/guides/default-credentials.md) for setup and optional AWS dependencies. Anonymous operations remain anonymous. Keep merchant secret keys server-side; customer and checkout credentials have their own scopes.
 

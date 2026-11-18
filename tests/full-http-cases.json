@@ -3450,5 +3450,75 @@
       "outcome": "not_sent"
     },
     "attempts": 0
+  },
+  {
+    "name": "Checkout lists licenses for the paying order",
+    "operation": "listLicenseKeys",
+    "baseUrl": "https://api.example.invalid",
+    "input": {
+      "order_id": "ord_01KEZF7C00AQV1X2DPWG2NXS7H"
+    },
+    "options": {
+      "authMode": "checkout",
+      "credentials": {
+        "CheckoutSessionBearer": "synthetic-checkout"
+      }
+    },
+    "expected": {
+      "method": "GET",
+      "path": "/v1/license-keys?order_id=ord_01KEZF7C00AQV1X2DPWG2NXS7H",
+      "headers": {
+        "authorization": "Bearer synthetic-checkout"
+      }
+    },
+    "responses": [
+      {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"data\":[],\"next_page_token\":\"example-page-token\",\"request_id\":\"req_01KWM6WAHG3N9Q8T2V5XRZ7C4D\"}"
+      }
+    ],
+    "data": {
+      "data": [],
+      "next_page_token": "example-page-token",
+      "request_id": "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D"
+    },
+    "status": 200
+  },
+  {
+    "name": "Buyer lists their licenses",
+    "operation": "listMeLicenseKeys",
+    "baseUrl": "https://api.example.invalid",
+    "input": {},
+    "options": {
+      "authMode": "customer",
+      "credentials": {
+        "CustomerSessionBearer": "synthetic-customer"
+      }
+    },
+    "expected": {
+      "method": "GET",
+      "path": "/v1/me/license-keys",
+      "headers": {
+        "authorization": "Bearer synthetic-customer"
+      }
+    },
+    "responses": [
+      {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"data\":[],\"next_page_token\":\"example-page-token\",\"request_id\":\"req_01KWM6WAHG3N9Q8T2V5XRZ7C4D\"}"
+      }
+    ],
+    "data": {
+      "data": [],
+      "next_page_token": "example-page-token",
+      "request_id": "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D"
+    },
+    "status": 200
   }
 ]

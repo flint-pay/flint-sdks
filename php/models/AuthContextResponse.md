@@ -33,7 +33,9 @@ oneOf with auth_type: "api_key": Non-secret metadata for the calling credential,
 - Required: `access`, `api_key_id`, `name`, `partner_app_install_id`, `scopes`.
 - Optional: `can_manage_api_keys`, `context_id`, `expires_at`, `fresh_verification_expires_at`, `oauth_grant_id`, `oauth_session_id`, `partner_app_id`, `sandbox_id`, `user_id`, `workload_identity_id`.
 - Constraints for `auth_type`: Values: `"api_key"`.
+- Constraints for `merchant_id`: (string or null) and string. Merchant the credential acts for.
 - Constraints for `partner_app_install_id`: string or null.
+- Constraints for `sandbox_id`: (string or null) and string. Sandbox the credential is bound to, present only in test mode.
 
 ### AuthContextResponse.data variant 2: `access` = `"restricted"`, `auth_type` = `"cli_login"`
 
@@ -51,7 +53,9 @@ oneOf with auth_type: "cli_login": Non-secret metadata for the calling credentia
 - Optional: `api_key_id`, `can_manage_api_keys`, `expires_at`, `fresh_verification_expires_at`, `partner_app_id`, `partner_app_install_id`, `sandbox_id`, `workload_identity_id`.
 - Constraints for `access`: Values: `"restricted"`.
 - Constraints for `auth_type`: Values: `"cli_login"`.
+- Constraints for `merchant_id`: (string or null) and string. Merchant the credential acts for.
 - Constraints for `partner_app_install_id`: string or null.
+- Constraints for `sandbox_id`: (string or null) and string. Sandbox the credential is bound to, present only in test mode.
 
 ### AuthContextResponse.data variant 3: `access` = `"restricted"`, `auth_type` = `"workload_identity"`
 
@@ -71,7 +75,9 @@ oneOf with auth_type: "workload_identity": Non-secret metadata for the calling c
 - Optional: `api_key_id`, `can_manage_api_keys`, `context_id`, `fresh_verification_expires_at`, `oauth_grant_id`, `oauth_session_id`, `partner_app_id`, `partner_app_install_id`, `sandbox_id`, `user_id`.
 - Constraints for `access`: Values: `"restricted"`.
 - Constraints for `auth_type`: Values: `"workload_identity"`.
+- Constraints for `merchant_id`: (string or null) and string. Merchant the credential acts for.
 - Constraints for `partner_app_install_id`: string or null.
+- Constraints for `sandbox_id`: (string or null) and string. Sandbox the credential is bound to, present only in test mode.
 
 ### AuthContextResponse.data variant 4: `access` = `"restricted"`, `auth_type` = `"partner_app"`
 
@@ -91,7 +97,9 @@ oneOf with auth_type: "partner_app": Non-secret metadata for the calling credent
 - Optional: `api_key_id`, `can_manage_api_keys`, `context_id`, `fresh_verification_expires_at`, `name`, `oauth_grant_id`, `oauth_session_id`, `sandbox_id`, `user_id`, `workload_identity_id`.
 - Constraints for `access`: Values: `"restricted"`.
 - Constraints for `auth_type`: Values: `"partner_app"`.
+- Constraints for `merchant_id`: (string or null) and string. Merchant the credential acts for.
 - Constraints for `partner_app_install_id`: (string or null) and string.
+- Constraints for `sandbox_id`: (string or null) and string. Sandbox the credential is bound to, present only in test mode.
 
 ### AuthContextResponse.data variant 5: `auth_type` = `"onboarding_session"`, `mode` = `"test"`
 
@@ -111,8 +119,10 @@ oneOf with auth_type: "onboarding_session": Non-secret metadata for the calling 
 - Required: `can_manage_api_keys`, `expires_at`, `fresh_verification_expires_at`, `sandbox_id`, `user_id`.
 - Optional: `access`, `api_key_id`, `context_id`, `name`, `oauth_grant_id`, `oauth_session_id`, `partner_app_id`, `partner_app_install_id`, `scopes`, `workload_identity_id`.
 - Constraints for `auth_type`: Values: `"onboarding_session"`.
+- Constraints for `merchant_id`: string or null.
 - Constraints for `mode`: Values: `"test"`.
 - Constraints for `partner_app_install_id`: string or null.
+- Constraints for `sandbox_id`: string or null.
 
 ### AuthContextResponse.meta
 

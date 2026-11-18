@@ -84,7 +84,7 @@ Signature: `delete(risk_rule_id: InputValue<string>, params?: RiskRulesDeletePar
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `risk_rule_id` | Required | string | Flint risk rule ID. |
+| `risk_rule_id` | Required | string | Flint risk rule ID. Must be a valid ID with prefix rule_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `expected_version` | Optional | integer | Optional risk rule version last read by the caller. Format: `int64`. minimum: `1`. maximum: `9007199254740991`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
@@ -142,7 +142,7 @@ Signature: `get(risk_rule_id: InputValue<string>, params?: RiskRulesGetParams, o
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `risk_rule_id` | Required | string | Flint risk rule ID. |
+| `risk_rule_id` | Required | string | Flint risk rule ID. Must be a valid ID with prefix rule_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -297,7 +297,7 @@ Signature: `update(risk_rule_id: InputValue<string>, params: RiskRulesUpdatePara
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `risk_rule_id` | Required | string | Flint risk rule ID. |
+| `risk_rule_id` | Required | string | Flint risk rule ID. Must be a valid ID with prefix rule_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |

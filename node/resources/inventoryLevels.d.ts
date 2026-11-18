@@ -8,8 +8,8 @@ import type {
     InventoryLevelsListParams,
     InventoryLevelsUpdateParams
 } from '../declarations/types-32.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -33,23 +33,26 @@ export type {
     InventoryLevelsUpdateParams,
     InventoryItem
 } from '../declarations/types-32.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { RequestOptions } from '../declarations/types-61.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode, BackorderPolicy } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
-export type { MetadataMap } from '../declarations/types-41.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { UpdateInventoryLevelRequestInput, UpdateInventoryLevelRequest } from '../declarations/types-74.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeUpdateInventoryLevelRequest } from '../declarations/types-91.js';
+export type { Credentials } from '../declarations/types-15.js';
+export type { MetadataMap } from '../declarations/types-43.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { UpdateInventoryLevelRequestInput, UpdateInventoryLevelRequest } from '../declarations/types-76.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeUpdateInventoryLevelRequest } from '../declarations/types-93.js';
 export interface InventoryLevelsResource {
     /**
  * Retrieve an inventory level's current quantities and version by ID.
  *
  * `GET /v1/inventory-levels/{inventory_level_id}`
- * @param inventory_level_id Flint inventory level ID.
+ * @param inventory_level_id Flint inventory level ID. Must be a valid ID with prefix invl_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/inventory#getInventoryLevel
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -82,12 +85,14 @@ export interface InventoryLevelsResource {
  * Set one inventory level's safety_stock_quantity. expected_version is optional and enforced when
  * sent. The version changes on every quantity or claim change, including holds and commits, so
  * read the level immediately before a PATCH. Returns the updated inventory level. Idempotency is
- * scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the
- * canonical request body. To recover the command's effects after a lost response, read the
- * inventory level by ID.
+ * scoped to the authenticated merchant, environment, caller namespace, and operation. Its
+ * fingerprint includes the canonical request body. To recover the command's effects after a lost
+ * response, read the inventory level by ID.
  *
  * `PATCH /v1/inventory-levels/{inventory_level_id}`
- * @param inventory_level_id Flint inventory level ID.
+ * @param inventory_level_id Flint inventory level ID. Must be a valid ID with prefix invl_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/inventory#updateInventoryLevel
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

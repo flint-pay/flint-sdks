@@ -1,7 +1,17 @@
 [Model index](../MODELS.md)
 
-# CardDetailsPreviousAttributes to CheckoutSubscriptionTermsRequest
+# CancelReturnRequestInput to CheckoutSessionTax
 
+- [CancelReturnRequestInput](CancelReturnRequestInput.md)
+- [CancelReturnResolutionRequestInput](CancelReturnResolutionRequestInput.md)
+- [CancelSubscriptionRequest](CancelSubscriptionRequest.md)
+- [CancelSubscriptionRequestInput](CancelSubscriptionRequestInput.md)
+- [CapabilityReadiness](CapabilityReadiness.md)
+- [CapabilityReadinessPreviousAttributes](CapabilityReadinessPreviousAttributes.md)
+- [CapturePaymentIntentRequest](CapturePaymentIntentRequest.md)
+- [CapturePaymentIntentRequestInput](CapturePaymentIntentRequestInput.md)
+- [CapturePaymentSplitRequestInput](CapturePaymentSplitRequestInput.md)
+- [CardDetails](CardDetails.md)
 - [CardDetailsPreviousAttributes](CardDetailsPreviousAttributes.md)
 - [CashOutGiftCardRequest](CashOutGiftCardRequest.md)
 - [CashOutGiftCardRequestInput](CashOutGiftCardRequestInput.md)
@@ -47,6 +57,7 @@
 - [CheckoutGiftCardChallengePreviousAttributes](CheckoutGiftCardChallengePreviousAttributes.md)
 - [CheckoutLegalConfigPreviousAttributes](CheckoutLegalConfigPreviousAttributes.md)
 - [CheckoutLegalConfigRequestInput](CheckoutLegalConfigRequestInput.md)
+- [CheckoutLicenseKey](CheckoutLicenseKey.md)
 - [CheckoutMerchantSupport](CheckoutMerchantSupport.md)
 - [CheckoutPaymentConfig](CheckoutPaymentConfig.md)
 - [CheckoutPaymentConfigPreviousAttributes](CheckoutPaymentConfigPreviousAttributes.md)
@@ -91,15 +102,4 @@
 - [CheckoutSessionPlatformFee](CheckoutSessionPlatformFee.md)
 - [CheckoutSessionResponse](CheckoutSessionResponse.md)
 - [CheckoutSessionTax](CheckoutSessionTax.md)
-- [CheckoutSessionTaxPreviousAttributes](CheckoutSessionTaxPreviousAttributes.md)
-- [CheckoutSessionUpdatedInstalledMerchantsEvent](CheckoutSessionUpdatedInstalledMerchantsEvent.md)
-- [CheckoutSessionUpdatedMerchantEvent](CheckoutSessionUpdatedMerchantEvent.md)
-- [CheckoutSessionWithSecret](CheckoutSessionWithSecret.md)
-- [CheckoutSettings](CheckoutSettings.md)
-- [CheckoutSettingsRequestInput](CheckoutSettingsRequestInput.md)
-- [CheckoutSubscriptionRecurringShipping](CheckoutSubscriptionRecurringShipping.md)
-- [CheckoutSubscriptionRecurringShippingPreviousAttributes](CheckoutSubscriptionRecurringShippingPreviousAttributes.md)
-- [CheckoutSubscriptionTerms](CheckoutSubscriptionTerms.md)
-- [CheckoutSubscriptionTermsPreviousAttributes](CheckoutSubscriptionTermsPreviousAttributes.md)
-- [CheckoutSubscriptionTermsRequest](CheckoutSubscriptionTermsRequest.md)
 

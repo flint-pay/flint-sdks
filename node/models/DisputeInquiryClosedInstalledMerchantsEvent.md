@@ -61,11 +61,11 @@ anyOf variant 2.
 
 ### DisputeInquiryClosedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.amount
 
-Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.amount](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1amount).
 
 ### DisputeInquiryClosedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency
 
-Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.currency](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1currency).
 
 ### DisputeInquiryClosedInstalledMerchantsEvent.data.previous_attributes.can_respond_with_evidence
 
@@ -94,6 +94,20 @@ anyOf variant 1: Kind of case the card network or bank opened. `status` and `is_
 anyOf variant 2.
 
 - Value shape: null. Kind of case the card network or bank opened. `status` and `is_action_required` say whether a response is needed. 
+
+### DisputeInquiryClosedInstalledMerchantsEvent.data.previous_attributes.closed_reason
+
+### DisputeInquiryClosedInstalledMerchantsEvent.data.previous_attributes.closed_reason variant 1
+
+anyOf variant 1: Why the dispute closed, when Flint recorded the cause. Absent when Flint has no confirmed closure reason..
+
+- Value shape: string. Why the dispute closed, when Flint recorded the cause. Absent when Flint has no confirmed closure reason. Values: `"merchant_accepted"`.
+
+### DisputeInquiryClosedInstalledMerchantsEvent.data.previous_attributes.closed_reason variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Why the dispute closed, when Flint recorded the cause. Absent when Flint has no confirmed closure reason. 
 
 ### DisputeInquiryClosedInstalledMerchantsEvent.data.previous_attributes.created_at
 

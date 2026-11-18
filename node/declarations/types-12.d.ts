@@ -1,10 +1,41 @@
-import type { CreatePackageItemRequest, CreatePackageItemRequestInput } from './types-11.js';
-import type { Dimensions, DimensionsRequestInput } from './types-25.js';
-import type { MetadataMap, MetadataRequestInput } from './types-41.js';
-import type { ReturnResolutionLineItemRequest, ReturnShipmentLineItemAllocationRequestInput } from './types-63.js';
-import type { Weight, WeightRequestInput } from './types-77.js';
+import type {
+    CreateOrderLineItemInputBundleInput,
+    CreateOrderLineItemInputCustomInput,
+    CreateOrderLineItemInputVariantInput,
+    CreateOrderDiscount,
+    CreateOrderLineItemRequest,
+    CreateOrderDiscountInput
+} from './types-11.js';
+import type { DimensionsRequestInput, Dimensions } from './types-25.js';
+import type { GiftCardPurchaseDetailsRequestInput, GiftCardPurchaseRequest } from './types-30.js';
+import type { ImageReferenceRequestInput, ImageReferenceRequest, ImageRequest, ImageRequestInput } from './types-31.js';
+import type { LineItemFulfillmentRequestModelInput, LineItemFulfillmentRequest } from './types-40.js';
+import type { MetadataRequestInput, MetadataMap } from './types-43.js';
+import type { MoneyValueInput, MoneyValue } from './types-44.js';
+import type {
+    OrderDraftLineItemInventoryDemandRequestInput,
+    OrderDraftLineItemTaxRequestModelInput,
+    OrderCalculatedLineItemTax,
+    OrderDraftLineItemInventoryDemandRequest,
+    OrderDeliveryDestinationRequest,
+    OrderDeliveryRequest,
+    OrderDeliveryDestinationRequestInput,
+    OrderDeliveryRequestInput
+} from './types-45.js';
+import type {
+    OrderLineItemModifierRequestModelInput,
+    OrderLineItemModifierRequest,
+    OrderHandover,
+    OrderHandoverRequestInput
+} from './types-46.js';
+import type { SubscribedLineRequestModelInput, SubscribedLineRequest, SplitReversalRequest } from './types-68.js';
+import type { WeightRequestInput, Weight } from './types-79.js';
+import type { InventoryRoutingSourceRequest, InventoryRoutingSourceRequestInput } from './types-33.js';
+import type { OrderTaxRequest, OrderTaxRequestInput } from './types-48.js';
+import type { ReturnResolutionLineItemRequest, ReturnShipmentLineItemAllocationRequestInput } from './types-65.js';
 import type {
     CheckoutGiftCardChallenge,
+    CheckoutBuyerFields,
     CheckoutCustomTextConfig,
     CheckoutPaymentConfig,
     CheckoutPromotionConfig,
@@ -18,102 +49,1079 @@ import type {
     PartnerAppCredentialPublicKeyRequest,
     PartnerAppCredentialPublicKeyRequestInput,
     PartnerAppCredentialWorkloadIdentityRequest,
-    PartnerAppCredentialWorkloadIdentityRequestInput
-} from './types-47.js';
-import type {
+    PartnerAppCredentialWorkloadIdentityRequestInput,
     PartnerAppPaymentSplits,
     PartnerAppPermissionManifestEntry,
-    PartnerAppPlatformProfile,
     PartnerAppPaymentSplitsRequestInput,
-    PartnerAppPermissionManifestEntryRequestInput,
-    PartnerAppPlatformProfileRequestInput
-} from './types-48.js';
+    PartnerAppPermissionManifestEntryRequestInput
+} from './types-49.js';
+import type { PartnerAppPlatformProfile, PartnerAppPlatformProfileRequestInput } from './types-50.js';
+import type { PlatformFeeCap, PlatformFeeCapRequestInput } from './types-55.js';
+import type { OrderPaymentSourceSelection, OrderPaymentSourceSelectionInput } from './types-47.js';
+import type { PaymentSplitRequest, PaymentSplitRequestInput } from './types-54.js';
 import type {
-    PlatformFeeCap,
-    PlatformFeeCapRequestInput,
     PlatformFeeRequest,
     PlatformFeeRequestInput,
     PriceListPriceRequest,
     PriceListPriceRequestInput,
     PriceList,
     PriceListPriceAddition
-} from './types-54.js';
-import type { MoneyValue, MoneyValueInput } from './types-42.js';
-import type { OrderPaymentSourceSelection, OrderPaymentSourceSelectionInput } from './types-45.js';
-import type { PaymentSplitRequest, PaymentSplitRequestInput } from './types-52.js';
-import type { CheckoutBuyerFields } from './types-5.js';
+} from './types-56.js';
 import type {
     CheckoutTaxConfig,
     CheckoutTipConfig,
     CheckoutTaxConfigRequestInput,
     CheckoutTipConfigRequestInput
 } from './types-7.js';
-import type { ImageRequest, ImageRequestInput } from './types-31.js';
-import type { InventoryRoutingSourceRequest, InventoryRoutingSourceRequestInput } from './types-33.js';
 import type { LegalSettings } from './types-38.js';
 import type {
     PaymentLinkCustomFieldRequest,
     PaymentLinkEventConfig,
+    PaymentLinkLineItemRequest,
     PaymentLinkCustomFieldRequestInput,
     PaymentLinkCustomTextConfigInput,
     PaymentLinkEventConfigRequestInput,
-    PaymentLinkLegalConfigInput
-} from './types-50.js';
-import type {
-    PaymentLinkLineItemRequest,
+    PaymentLinkLegalConfigInput,
     PaymentLinkLineItemRequestInput,
-    PaymentLinkPaymentConfigInput,
-    PaymentLinkThemeConfigInput
-} from './types-51.js';
-import type { ThemeConfig } from './types-72.js';
+    PaymentLinkPaymentConfigInput
+} from './types-52.js';
+import type { ThemeConfig } from './types-74.js';
+import type { PaymentLinkThemeConfigInput } from './types-53.js';
 import type { AddressRequest, AddressRequestInput } from './types-0.js';
-import type { ResponseMeta } from './types-60.js';
-import type { ProductVariantRequest, ProductVariantRequestInput } from './types-55.js';
+import type { ResponseMeta } from './types-62.js';
 import type {
+    ProductVariantRequest,
+    ProductVariantRequestInput,
     PromotionApplicationMethodRequest,
+    PromotionApplicationMethodRequestInput
+} from './types-57.js';
+import type {
     PromotionCodeRequest,
     PromotionCombinesWithPatch,
     PromotionExclusivityRequest,
-    PromotionApplicationMethodRequestInput,
+    PromotionRuleGroupRequest,
     PromotionCodeRequestInput,
     PromotionCombinesWithRequestInput,
-    PromotionExclusivityRequestInput
-} from './types-56.js';
-import type {
-    PromotionRuleGroupRequest,
-    PromotionSchedule,
-    PromotionRuleGroupRequestInput,
-    PromotionScheduleRequestInput
-} from './types-57.js';
+    PromotionExclusivityRequestInput,
+    PromotionRuleGroupRequestInput
+} from './types-58.js';
+import type { PromotionSchedule, PromotionScheduleRequestInput } from './types-59.js';
 import type {
     CreateSmartReaderRequest,
     CreateTapToPayReaderRequest,
     CreateSmartReaderRequestInput,
     CreateTapToPayReaderRequestInput
 } from './types-14.js';
-import type {
-    RefundCharge,
-    RefundDestinations,
-    RefundLineItem,
-    RefundChargeInput,
-    RefundDestinationsInput,
-    RefundLineItemInput
-} from './types-58.js';
-import type {
-    RefundTaxBreakdownRefundIn,
-    RefundTenderAllocationRequest,
-    RefundTaxBreakdownRefundInInput,
-    RefundTenderAllocationRequestInput,
-    RefundWithGiftCardCodes
-} from './types-59.js';
-import type { SplitReversalRequest, SplitReversalRequestInput } from './types-66.js';
-import type { CreateIntervalReportRequest, CreateIntervalReportRequestInput } from './types-10.js';
-import type {
-    CreateReturnDispositionRequestInspectionLine,
-    CreateReturnDispositionRequestReceiptLine,
-    CreateReturnDispositionRequestInspectionLineInput,
-    CreateReturnDispositionRequestReceiptLineInput
-} from './types-13.js';
+import type { CreateRefundRequestCreditNote, CreateRefundRequestFull, CreateRefundRequestTargets } from './types-13.js';
+import type { RefundCharge, RefundDestinations, RefundLineItem, RefundTaxBreakdownRefundIn } from './types-60.js';
+import type { RefundTenderAllocationRequest } from './types-61.js';
+/**
+ * A line item to add to an order: a catalog variant, a bundle, or a custom item with a name and
+ * unit price.
+ */
+export type CreateOrderLineItemRequestInput = ({
+    /**
+     * ID of the bundle to add. A catalog line item sends this or `variant_id`; a custom line item
+     * sends neither. minLength: 1. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /** Description of the item as it appears on the order. minLength: 1. */
+    "description"?: string;
+    /**
+     * Required on line items without variant_id or bundle_id, and rejected on catalog lines, which
+     * use the catalog's delivery settings. Send {"requirement": "none"} when nothing is delivered.
+     * For manual digital or service delivery, send requirement required, resolution_mode manual,
+     * and allowed_types containing digital or service. Fulfillment requirements you supply for an
+     * order line item, such as allowed fulfillment types, package size and weight, and origin.
+     */
+    "fulfillment"?: LineItemFulfillmentRequestModelInput;
+    /**
+     * Buyer-selected face value and recipient for a gift_card variant. The server freezes the
+     * offer and resolves consideration per unit. Omit to purchase the reference denomination
+     * without a recipient. Gift card details you supply for an order line item: the
+     * `face_value_money` and the `recipient` who receives the card.
+     */
+    "gift_card_purchase"?: GiftCardPurchaseDetailsRequestInput;
+    /**
+     * Image of the item as it appears on the order. A reference to an image by `url`, with
+     * optional `alt` text, used on an order line item.
+     */
+    "image"?: ImageReferenceRequestInput;
+    /**
+     * Inventory items and quantities each unit of the line takes from stock. [] (Value): {@link
+     * OrderDraftLineItemInventoryDemandRequestInput}. The quantity of one inventory item that each
+     * unit of a draft order line item uses, supplied when creating the line item.
+     */
+    "inventory_demands"?: Array<OrderDraftLineItemInventoryDemandRequestInput>;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Modifiers sold with the item, each chosen from the catalog or typed as text. [] (Value):
+     * {@link OrderLineItemModifierRequestModelInput}. A modifier selection you supply on a line
+     * item: a catalog modifier by ID or a text modifier, with a quantity. [].metadata (Optional):
+     * {@link MetadataRequestInput}. Caller-owned metadata for this selection, returned on the
+     * order line item's modifier. Values can't be empty strings. Keys starting with flint_ are
+     * reserved for Flint, are not returned, and cannot be written through the public API.
+     * Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings,
+     * and keys starting with flint_ are reserved for Flint. maxProperties: 50. [].modifier_id
+     * (Optional): string. ID of the existing modifier. Treated as an opaque resource reference;
+     * accepted spellings follow resource ID validation. Its resolved price and the resulting line
+     * subtotal must satisfy the order money ceiling. The amount and every computed order amount
+     * must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or
+     * calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the
+     * responsible input field. Lower payment option limits can apply. minLength: 1. Example:
+     * "mod_01KEZF7C00SAWDZBQJX5H0XW1S". [].order_line_item_modifier_id (Optional): string.
+     * Existing selection ID to retain during replacement. minLength: 1. pattern:
+     * ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Example: "olim_01KEZF7C00YP0WSZGRAD25EB1Z". [].quantity
+     * (Optional): integer. Whole-number quantity; fractional quantities are not supported. Format:
+     * int64. [].text (Optional): {@link TextModifierRequestInput}. The text to use. Send it with a
+     * `text` modifier. Text a buyer entered for a text modifier group on an order line item.
+     * [].type (Required): string. Selects the type branch. Value enum: "catalog", "text".
+     * [].oneOf[1] (Value): {@link OrderLineItemModifierInputCatalogRequestInput}. The `catalog`
+     * variant of `OrderLineItemModifierInput`. [].oneOf[2] (Value): {@link
+     * OrderLineItemModifierInputTextRequestInput}. The `text` variant of
+     * `OrderLineItemModifierInput`.
+     */
+    "modifiers"?: Array<(Exclude<OrderLineItemModifierRequestModelInput & object, readonly unknown[]>)
+        & (({
+        "order_line_item_modifier_id"?: never;
+    }))>;
+    /**
+     * Name of the item as it appears on the order. Surrounding whitespace is trimmed before length
+     * validation. A supplied value cannot be blank; use null where clearing is supported.
+     * minLength: 1. maxLength: 255.
+     */
+    "name"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital";
+    /**
+     * Number of units, from 1 through 9999. The extended line subtotal, including modifiers, must
+     * satisfy the order money ceiling. Format: int64. minimum: 1. maximum: 9999. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Selected recurring terms for this variant. Lines with the same cadence start one
+     * subscription after payment. Makes an order line a subscription purchase, with the
+     * subscription offer and billing interval.
+     */
+    "subscription"?: SubscribedLineRequestModelInput;
+    /**
+     * How tax applies to this line item. Tax settings you supply for a draft order line item: its
+     * tax category, whether it is taxable, and an optional tax calculation.
+     */
+    "tax"?: OrderDraftLineItemTaxRequestModelInput;
+    /** Selects the type branch. Value enum: "variant", "bundle", "custom". */
+    "type": "variant" | "bundle" | "custom";
+    /**
+     * Dimensions of one unit. Accepted only for custom lines without variant_id or bundle_id.
+     * Package or item dimensions as `length`, `width`, and `height` in the given `unit`.
+     */
+    "unit_dimensions"?: DimensionsRequestInput;
+    /**
+     * Price of one unit. The amount and every computed order amount must not exceed 99999999 minor
+     * units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with
+     * INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment
+     * option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "unit_price_money"?: MoneyValueInput;
+    /**
+     * Weight of one unit. Accepted only for custom lines without variant_id or bundle_id. A weight
+     * value in grams, kilograms, ounces, or pounds, used in delivery profile configuration.
+     */
+    "unit_weight"?: WeightRequestInput;
+    /**
+     * ID of the product variant to add. A catalog line item sends this or `bundle_id`; a custom
+     * line item sends neither. minLength: 1. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+})
+    & ((Exclude<CreateOrderLineItemInputVariantInput & object, readonly unknown[]>)
+    | (Exclude<CreateOrderLineItemInputBundleInput & object, readonly unknown[]>)
+    | (Exclude<CreateOrderLineItemInputCustomInput & object, readonly unknown[]>));
+/** The `variant` variant of `CreateOrderLineItem`. */
+export type CreateOrderLineItemVariant = ({
+    /**
+     * ID of the bundle to add. A catalog line item sends this or `variant_id`; a custom line item
+     * sends neither. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /** Description of the item as it appears on the order. */
+    "description"?: string;
+    /**
+     * Required on line items without variant_id or bundle_id, and rejected on catalog lines, which
+     * use the catalog's delivery settings. Send {"requirement": "none"} when nothing is delivered.
+     * For manual digital or service delivery, send requirement required, resolution_mode manual,
+     * and allowed_types containing digital or service. Fulfillment requirements you supply for an
+     * order line item, such as allowed fulfillment types, package size and weight, and origin.
+     */
+    "fulfillment"?: LineItemFulfillmentRequest;
+    /**
+     * Buyer-selected face value and recipient for a gift_card variant. The server freezes the
+     * offer and resolves consideration per unit. Omit to purchase the reference denomination
+     * without a recipient. Gift card details for an order line item: the `face_value_money` and
+     * the `recipient` who receives the card.
+     */
+    "gift_card_purchase"?: GiftCardPurchaseRequest;
+    /**
+     * Image of the item as it appears on the order. A reference to an image by `url`, with
+     * optional `alt` text, used on an order line item.
+     */
+    "image"?: ImageReferenceRequest;
+    /**
+     * Inventory items and quantities each unit of the line takes from stock. [] (Value): {@link
+     * OrderDraftLineItemInventoryDemandRequest}. The quantity of one inventory item that each unit
+     * of a draft order line item uses, supplied when creating the line item.
+     */
+    "inventory_demands"?: Array<OrderDraftLineItemInventoryDemandRequest>;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
+     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
+     * written before those limits may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Modifiers sold with the item, each chosen from the catalog or typed as text. [] (Value):
+     * {@link OrderLineItemModifierRequest}. A modifier selection you supply on a line item: a
+     * catalog modifier by ID or a text modifier, with a quantity. [].metadata (Optional): {@link
+     * MetadataMap}. Caller-owned metadata for this selection, returned on the order line item's
+     * modifier. Values can't be empty strings. Keys starting with flint_ are reserved for Flint,
+     * are not returned, and cannot be written through the public API. Caller-owned key-value data
+     * for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to
+     * 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values
+     * total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with
+     * flint_ are reserved for Flint. maxProperties: 50. [].modifier_id (Optional): string. ID of
+     * the existing modifier. Treated as an opaque resource reference; accepted spellings follow
+     * resource ID validation. Its resolved price and the resulting line subtotal must satisfy the
+     * order money ceiling. The amount and every computed order amount must not exceed 99999999
+     * minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with
+     * INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment
+     * option limits can apply. minLength: 1. Example: "mod_01KEZF7C00SAWDZBQJX5H0XW1S".
+     * [].order_line_item_modifier_id (Optional): string. Existing selection ID to retain during
+     * replacement. minLength: 1. pattern: ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "olim_01KEZF7C00YP0WSZGRAD25EB1Z". [].quantity (Optional): integer. Whole-number quantity;
+     * fractional quantities are not supported. Format: int64. [].text (Optional): {@link
+     * TextModifierRequest}. The text to use. Send it with a `text` modifier. Text a buyer entered
+     * for a text modifier group on an order line item. [].type (Required): string. Selects the
+     * type branch. Value enum: "catalog", "text". [].oneOf[1] (Value): {@link
+     * OrderLineItemModifierInputCatalog}. The `catalog` variant of `OrderLineItemModifierInput`.
+     * [].oneOf[2] (Value): {@link OrderLineItemModifierInputText}. The `text` variant of
+     * `OrderLineItemModifierInput`.
+     */
+    "modifiers"?: Array<(Exclude<OrderLineItemModifierRequest & object, readonly unknown[]>)>;
+    /** Name of the item as it appears on the order. maxLength: 255. */
+    "name"?: string;
+    /**
+     * Parent product of variant_id, resolved by the preview. Required for variant lines; absent on
+     * bundle and custom lines, which have no parent product. Example:
+     * "prod_01KEZF7C00BVSHCNWVH528HB66".
+     */
+    "product_id": string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | (string & {});
+    /**
+     * Number of units, from 1 through 9999. The extended line subtotal, including modifiers, must
+     * satisfy the order money ceiling. Format: int64. minimum: 1. maximum: 9999. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Selected recurring terms for this variant. Lines with the same cadence start one
+     * subscription after payment. Makes an order line a subscription purchase, with the
+     * subscription offer and billing interval.
+     */
+    "subscription"?: SubscribedLineRequest;
+    /**
+     * How tax applies to this line item. Tax settings you supply for a draft order line item: its
+     * tax category, whether it is taxable, and an optional tax calculation.
+     */
+    "tax"?: OrderCalculatedLineItemTax;
+    /** Selects the type branch. Value enum: "variant". */
+    "type": "variant" | (string & {});
+    /**
+     * Dimensions of one unit. Accepted only for custom lines without variant_id or bundle_id.
+     * Package or item dimensions as `length`, `width`, and `height` in the given `unit`.
+     */
+    "unit_dimensions"?: Dimensions;
+    /**
+     * Price of one unit. The amount and every computed order amount must not exceed 99999999 minor
+     * units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with
+     * INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment
+     * option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "unit_price_money"?: MoneyValue;
+    /**
+     * Weight of one unit. Accepted only for custom lines without variant_id or bundle_id. A weight
+     * value in grams, kilograms, ounces, or pounds, used in delivery profile configuration.
+     */
+    "unit_weight"?: Weight;
+    /**
+     * ID of the product variant to add. A catalog line item sends this or `bundle_id`; a custom
+     * line item sends neither. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id": string;
+})
+    & (({
+    /** How tax applies to this line item. */
+    "tax"?: unknown;
+    /** Selects the type branch. Value enum: "variant". */
+    "type": "variant" | (string & {});
+    /**
+     * ID of the product variant to add. A catalog line item sends this or `bundle_id`; a custom
+     * line item sends neither. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id": string;
+}));
+/** The request body for: Create order. */
+export type CreateOrderRequest = {
+    /**
+     * A note to the buyer. Surrounding whitespace is trimmed before length validation. A supplied
+     * value cannot be blank; use null where clearing is supported. minLength: 1. maxLength: 1000.
+     */
+    "buyer_note"?: string;
+    /**
+     * ID of the customer this order belongs to. minLength: 1. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Quotes the exact delivery method and atomically selects it with its charge and inventory
+     * hold. Requires orders-write and delivery-write. Shipment and local delivery with one choice
+     * group are supported. Cannot be combined with delivery_destination or handover. Complete
+     * delivery preference to quote and select together with the order's delivery charge and
+     * inventory hold.
+     */
+    "delivery"?: OrderDeliveryRequest;
+    /**
+     * Shipment or local-delivery destination for an order created without a delivery selection.
+     * The delivery destination you set when creating or updating an order, with an address and an
+     * optional recipient.
+     */
+    "delivery_destination"?: OrderDeliveryDestinationRequest;
+    /**
+     * Discounts applied to the order, each with its amount, status, and the line items and charges
+     * it covers. [] (Value): {@link CreateOrderDiscount}. A discount to apply when creating an
+     * order: either a manual discount or a reference to a promotion.
+     */
+    "discounts"?: Array<CreateOrderDiscount>;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Carry-out sale: every physical item is handed to the buyer at this location when the order
+     * is paid, so paying needs no delivery selection. Can't be combined with delivery_destination.
+     * Every physical item is handed to the buyer at this location when the order is paid. Replaces
+     * a delivery selection.
+     */
+    "handover"?: OrderHandover;
+    /**
+     * A note for your team. Buyer reads leave it out. Surrounding whitespace is trimmed before
+     * length validation. A supplied value cannot be blank; use null where clearing is supported.
+     * minLength: 1. maxLength: 1000.
+     */
+    "internal_note"?: string;
+    /**
+     * Where tracked demand is routed. When no source is stored or sent, Flint uses
+     * settings.inventory.default_routing_source, then the only active Location with
+     * inventory_allocation_enabled if exactly one exists in the current environment. Zero or
+     * multiple eligible Locations require an explicit source or merchant default. The order stores
+     * the resolved source. Where you want inventory routed from: a fixed Location, an inventory
+     * allocation policy, or one policy revision, selected by `type`.
+     */
+    "inventory_routing_source"?: InventoryRoutingSourceRequest;
+    /**
+     * Items the order sells, each with its pricing, tax, and fulfillment quantities. minItems: 1.
+     * [] (Value): {@link CreateOrderLineItemRequest}. A line item to add to an order: a catalog
+     * variant, a bundle, or a custom item with a name and unit price.
+     */
+    "line_items": Array<CreateOrderLineItemRequest>;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Optional requested tip. Its effective amount must satisfy the CreateOrderTip limit.
+     * Requested tip expressed as either a flat amount or a percentage. Send exactly one of
+     * amount_money or percent.
+     */
+    "requested_tip"?: CreateOrderTip;
+    /**
+     * Tax settings for the order. Tax settings for a new order: whether tax is enabled, its
+     * calculation, location, and exemption selection.
+     */
+    "tax"?: OrderTaxRequest;
+};
+/** The request body for: Create order. */
+export type CreateOrderRequestInput = {
+    /**
+     * A note to the buyer. Surrounding whitespace is trimmed before length validation. A supplied
+     * value cannot be blank; use null where clearing is supported. minLength: 1. maxLength: 1000.
+     */
+    "buyer_note"?: string;
+    /**
+     * ID of the customer this order belongs to. minLength: 1. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Quotes the exact delivery method and atomically selects it with its charge and inventory
+     * hold. Requires orders-write and delivery-write. Shipment and local delivery with one choice
+     * group are supported. Cannot be combined with delivery_destination or handover. Complete
+     * delivery preference to quote and select together with the order's delivery charge and
+     * inventory hold.
+     */
+    "delivery"?: OrderDeliveryRequestInput;
+    /**
+     * Shipment or local-delivery destination for an order created without a delivery selection.
+     * The delivery destination you set when creating or updating an order, with an address and an
+     * optional recipient.
+     */
+    "delivery_destination"?: OrderDeliveryDestinationRequestInput;
+    /**
+     * Discounts applied to the order, each with its amount, status, and the line items and charges
+     * it covers. [] (Value): {@link CreateOrderDiscountInput}. A discount to apply when creating
+     * an order: either a manual discount or a reference to a promotion.
+     */
+    "discounts"?: Array<CreateOrderDiscountInput>;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Carry-out sale: every physical item is handed to the buyer at this location when the order
+     * is paid, so paying needs no delivery selection. Can't be combined with delivery_destination.
+     * Every physical item is handed to the buyer at this location when the order is paid. Replaces
+     * a delivery selection.
+     */
+    "handover"?: OrderHandoverRequestInput;
+    /**
+     * A note for your team. Buyer reads leave it out. Surrounding whitespace is trimmed before
+     * length validation. A supplied value cannot be blank; use null where clearing is supported.
+     * minLength: 1. maxLength: 1000.
+     */
+    "internal_note"?: string;
+    /**
+     * Where tracked demand is routed. When no source is stored or sent, Flint uses
+     * settings.inventory.default_routing_source, then the only active Location with
+     * inventory_allocation_enabled if exactly one exists in the current environment. Zero or
+     * multiple eligible Locations require an explicit source or merchant default. The order stores
+     * the resolved source. Where you want inventory routed from: a fixed Location, an inventory
+     * allocation policy, or one policy revision, selected by `type`.
+     */
+    "inventory_routing_source"?: InventoryRoutingSourceRequestInput;
+    /**
+     * Items the order sells, each with its pricing, tax, and fulfillment quantities. minItems: 1.
+     * [] (Value): {@link CreateOrderLineItemRequestInput}. A line item to add to an order: a
+     * catalog variant, a bundle, or a custom item with a name and unit price.
+     */
+    "line_items": Array<CreateOrderLineItemRequestInput>;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Optional requested tip. Its effective amount must satisfy the CreateOrderTip limit.
+     * Requested tip expressed as either a flat amount or a percentage. Send exactly one of
+     * amount_money or percent.
+     */
+    "requested_tip"?: CreateOrderTipInput;
+    /**
+     * Tax settings for the order. Tax settings for a new order: whether tax is enabled, its
+     * calculation, location, and exemption selection.
+     */
+    "tax"?: OrderTaxRequestInput;
+};
+/**
+ * Requested tip expressed as either a flat amount or a percentage. Send exactly one of
+ * amount_money or percent.
+ */
+export type CreateOrderTip = ({
+    /**
+     * Flat requested tip in the order currency. The amount must be at least 1 minor unit;
+     * otherwise, Flint returns INVALID_REQUEST with param requested_tip.amount_money.amount. For
+     * USD orders, the tip also cannot exceed the larger of $1,000 or the post-discount merchandise
+     * subtotal. The amount and every computed order amount must not exceed 99999999 minor units
+     * ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with
+     * INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment
+     * option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code. amount (Required): integer string. Use an integer string (decimal digits),
+     * not a floating-point number. Format: int64. minimum: 1. Amount in the currency's minor unit,
+     * such as cents for USD. Use an integer string (decimal digits), not a floating-point number.
+     * Format: int64. minimum: 0. currency (Required): string. ISO 4217 currency code for this
+     * amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "amount_money"?: ({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}`;
+    })
+        & (Exclude<MoneyValue & object, readonly unknown[]>);
+    /** Selects the calculation type branch. Value enum: "amount", "percent". */
+    "calculation_type": "amount" | "percent" | (string & {});
+    /**
+     * Optional description that stays on the tip for your reporting. minLength: 1. maxLength: 255.
+     */
+    "description"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Optional name that stays on the tip for your reporting. Surrounding whitespace is trimmed
+     * before length validation. A supplied value cannot be blank; use null where clearing is
+     * supported. minLength: 1. maxLength: 255.
+     */
+    "name"?: string;
+    /**
+     * Requested tip percentage from 1 through 100, calculated from the post-discount merchandise
+     * subtotal. minimum: 1. maximum: 100. multipleOf: 0.0001.
+     */
+    "percent"?: number;
+})
+    & ((Exclude<CreateOrderTipAmount & object, readonly unknown[]>)
+    | (Exclude<CreateOrderTipPercent & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * Requested tip expressed as either a flat amount or a percentage. Send exactly one of
+ * amount_money or percent.
+ */
+export type CreateOrderTipAmount = ({
+    /**
+     * Flat requested tip in the order currency. The amount must be at least 1 minor unit;
+     * otherwise, Flint returns INVALID_REQUEST with param requested_tip.amount_money.amount. For
+     * USD orders, the tip also cannot exceed the larger of $1,000 or the post-discount merchandise
+     * subtotal. The amount and every computed order amount must not exceed 99999999 minor units
+     * ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with
+     * INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment
+     * option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code. amount (Required): integer string. Use an integer string (decimal digits),
+     * not a floating-point number. Format: int64. minimum: 1. Amount in the currency's minor unit,
+     * such as cents for USD. Use an integer string (decimal digits), not a floating-point number.
+     * Format: int64. minimum: 0. currency (Required): string. ISO 4217 currency code for this
+     * amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "amount_money": ({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}`;
+    })
+        & (Exclude<MoneyValue & object, readonly unknown[]>);
+    /** Selects the calculation type branch. Value enum: "amount". */
+    "calculation_type": "amount" | (string & {});
+    /**
+     * Optional description that stays on the tip for your reporting. minLength: 1. maxLength: 255.
+     */
+    "description"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Optional name that stays on the tip for your reporting. Surrounding whitespace is trimmed
+     * before length validation. A supplied value cannot be blank; use null where clearing is
+     * supported. minLength: 1. maxLength: 255.
+     */
+    "name"?: string;
+    /**
+     * Requested tip percentage from 1 through 100, calculated from the post-discount merchandise
+     * subtotal. minimum: 1. maximum: 100. multipleOf: 0.0001.
+     */
+    "percent"?: number;
+})
+    & (({
+    /** Selects the calculation type branch. Value enum: "amount". */
+    "calculation_type": "amount" | (string & {});
+    /**
+     * Flat requested tip in the order currency. The amount must be at least 1 minor unit;
+     * otherwise, Flint returns INVALID_REQUEST with param requested_tip.amount_money.amount. For
+     * USD orders, the tip also cannot exceed the larger of $1,000 or the post-discount merchandise
+     * subtotal. The amount and every computed order amount must not exceed 99999999 minor units
+     * ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with
+     * INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment
+     * option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code. amount (Required): integer string. Use an integer string (decimal digits),
+     * not a floating-point number. Format: int64. minimum: 1. Amount in the currency's minor unit,
+     * such as cents for USD. Use an integer string (decimal digits), not a floating-point number.
+     * Format: int64. minimum: 0. currency (Required): string. ISO 4217 currency code for this
+     * amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "amount_money": ({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}`;
+    })
+        & (Exclude<MoneyValue & object, readonly unknown[]>);
+}));
+/**
+ * Requested tip expressed as either a flat amount or a percentage. Send exactly one of
+ * amount_money or percent.
+ */
+export type CreateOrderTipAmountInput = ({
+    /**
+     * Flat requested tip in the order currency. The amount must be at least 1 minor unit;
+     * otherwise, Flint returns INVALID_REQUEST with param requested_tip.amount_money.amount. For
+     * USD orders, the tip also cannot exceed the larger of $1,000 or the post-discount merchandise
+     * subtotal. The amount and every computed order amount must not exceed 99999999 minor units
+     * ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with
+     * INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment
+     * option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code. amount (Required): integer string. Use an integer string (decimal digits),
+     * not a floating-point number. Format: int64. minimum: 1. Amount in the currency's minor unit,
+     * such as cents for USD. Use an integer string (decimal digits), not a floating-point number.
+     * Format: int64. minimum: 0. currency (Required): string. ISO 4217 currency code for this
+     * amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "amount_money": ({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}` | bigint;
+    })
+        & (Exclude<MoneyValueInput & object, readonly unknown[]>);
+    /** Selects the calculation type branch. Value enum: "amount". */
+    "calculation_type": "amount";
+    /**
+     * Optional description that stays on the tip for your reporting. minLength: 1. maxLength: 255.
+     */
+    "description"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Optional name that stays on the tip for your reporting. Surrounding whitespace is trimmed
+     * before length validation. A supplied value cannot be blank; use null where clearing is
+     * supported. minLength: 1. maxLength: 255.
+     */
+    "name"?: string;
+    /**
+     * Requested tip percentage from 1 through 100, calculated from the post-discount merchandise
+     * subtotal. minimum: 1. maximum: 100. multipleOf: 0.0001.
+     */
+    "percent"?: number;
+})
+    & (({
+    /** Selects the calculation type branch. Value enum: "amount". */
+    "calculation_type": ("amount") & ("amount");
+    /**
+     * Flat requested tip in the order currency. The amount must be at least 1 minor unit;
+     * otherwise, Flint returns INVALID_REQUEST with param requested_tip.amount_money.amount. For
+     * USD orders, the tip also cannot exceed the larger of $1,000 or the post-discount merchandise
+     * subtotal. The amount and every computed order amount must not exceed 99999999 minor units
+     * ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with
+     * INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment
+     * option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code. amount (Required): integer string. Use an integer string (decimal digits),
+     * not a floating-point number. Format: int64. minimum: 1. Amount in the currency's minor unit,
+     * such as cents for USD. Use an integer string (decimal digits), not a floating-point number.
+     * Format: int64. minimum: 0. currency (Required): string. ISO 4217 currency code for this
+     * amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "amount_money": ({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}` | bigint;
+    })
+        & (Exclude<MoneyValueInput & object, readonly unknown[]>);
+})
+    & (({
+    "percent"?: never;
+})));
+/**
+ * Requested tip expressed as either a flat amount or a percentage. Send exactly one of
+ * amount_money or percent.
+ */
+export type CreateOrderTipInput = ({
+    /**
+     * Flat requested tip in the order currency. The amount must be at least 1 minor unit;
+     * otherwise, Flint returns INVALID_REQUEST with param requested_tip.amount_money.amount. For
+     * USD orders, the tip also cannot exceed the larger of $1,000 or the post-discount merchandise
+     * subtotal. The amount and every computed order amount must not exceed 99999999 minor units
+     * ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with
+     * INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment
+     * option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code. amount (Required): integer string. Use an integer string (decimal digits),
+     * not a floating-point number. Format: int64. minimum: 1. Amount in the currency's minor unit,
+     * such as cents for USD. Use an integer string (decimal digits), not a floating-point number.
+     * Format: int64. minimum: 0. currency (Required): string. ISO 4217 currency code for this
+     * amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "amount_money"?: ({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}` | bigint;
+    })
+        & (Exclude<MoneyValueInput & object, readonly unknown[]>);
+    /** Selects the calculation type branch. Value enum: "amount", "percent". */
+    "calculation_type": "amount" | "percent";
+    /**
+     * Optional description that stays on the tip for your reporting. minLength: 1. maxLength: 255.
+     */
+    "description"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Optional name that stays on the tip for your reporting. Surrounding whitespace is trimmed
+     * before length validation. A supplied value cannot be blank; use null where clearing is
+     * supported. minLength: 1. maxLength: 255.
+     */
+    "name"?: string;
+    /**
+     * Requested tip percentage from 1 through 100, calculated from the post-discount merchandise
+     * subtotal. minimum: 1. maximum: 100. multipleOf: 0.0001.
+     */
+    "percent"?: number;
+})
+    & ((Exclude<CreateOrderTipAmountInput & object, readonly unknown[]>)
+    | (Exclude<CreateOrderTipPercentInput & object, readonly unknown[]>));
+/**
+ * Requested tip expressed as either a flat amount or a percentage. Send exactly one of
+ * amount_money or percent.
+ */
+export type CreateOrderTipPercent = ({
+    /**
+     * Flat requested tip in the order currency. The amount must be at least 1 minor unit;
+     * otherwise, Flint returns INVALID_REQUEST with param requested_tip.amount_money.amount. For
+     * USD orders, the tip also cannot exceed the larger of $1,000 or the post-discount merchandise
+     * subtotal. The amount and every computed order amount must not exceed 99999999 minor units
+     * ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with
+     * INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment
+     * option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code. amount (Required): integer string. Use an integer string (decimal digits),
+     * not a floating-point number. Format: int64. minimum: 1. Amount in the currency's minor unit,
+     * such as cents for USD. Use an integer string (decimal digits), not a floating-point number.
+     * Format: int64. minimum: 0. currency (Required): string. ISO 4217 currency code for this
+     * amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "amount_money"?: ({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}`;
+    })
+        & (Exclude<MoneyValue & object, readonly unknown[]>);
+    /** Selects the calculation type branch. Value enum: "percent". */
+    "calculation_type": "percent" | (string & {});
+    /**
+     * Optional description that stays on the tip for your reporting. minLength: 1. maxLength: 255.
+     */
+    "description"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Optional name that stays on the tip for your reporting. Surrounding whitespace is trimmed
+     * before length validation. A supplied value cannot be blank; use null where clearing is
+     * supported. minLength: 1. maxLength: 255.
+     */
+    "name"?: string;
+    /**
+     * Requested tip percentage from 1 through 100, calculated from the post-discount merchandise
+     * subtotal. minimum: 1. maximum: 100. multipleOf: 0.0001.
+     */
+    "percent": number;
+})
+    & (({
+    /** Selects the calculation type branch. Value enum: "percent". */
+    "calculation_type": "percent" | (string & {});
+    /**
+     * Requested tip percentage from 1 through 100, calculated from the post-discount merchandise
+     * subtotal. minimum: 1. maximum: 100. multipleOf: 0.0001.
+     */
+    "percent": number;
+}));
+/**
+ * Requested tip expressed as either a flat amount or a percentage. Send exactly one of
+ * amount_money or percent.
+ */
+export type CreateOrderTipPercentInput = ({
+    /**
+     * Flat requested tip in the order currency. The amount must be at least 1 minor unit;
+     * otherwise, Flint returns INVALID_REQUEST with param requested_tip.amount_money.amount. For
+     * USD orders, the tip also cannot exceed the larger of $1,000 or the post-discount merchandise
+     * subtotal. The amount and every computed order amount must not exceed 99999999 minor units
+     * ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with
+     * INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment
+     * option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code. amount (Required): integer string. Use an integer string (decimal digits),
+     * not a floating-point number. Format: int64. minimum: 1. Amount in the currency's minor unit,
+     * such as cents for USD. Use an integer string (decimal digits), not a floating-point number.
+     * Format: int64. minimum: 0. currency (Required): string. ISO 4217 currency code for this
+     * amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "amount_money"?: ({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}` | bigint;
+    })
+        & (Exclude<MoneyValueInput & object, readonly unknown[]>);
+    /** Selects the calculation type branch. Value enum: "percent". */
+    "calculation_type": "percent";
+    /**
+     * Optional description that stays on the tip for your reporting. minLength: 1. maxLength: 255.
+     */
+    "description"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Optional name that stays on the tip for your reporting. Surrounding whitespace is trimmed
+     * before length validation. A supplied value cannot be blank; use null where clearing is
+     * supported. minLength: 1. maxLength: 255.
+     */
+    "name"?: string;
+    /**
+     * Requested tip percentage from 1 through 100, calculated from the post-discount merchandise
+     * subtotal. minimum: 1. maximum: 100. multipleOf: 0.0001.
+     */
+    "percent": number;
+})
+    & (({
+    /** Selects the calculation type branch. Value enum: "percent". */
+    "calculation_type": ("percent") & ("percent");
+    /**
+     * Requested tip percentage from 1 through 100, calculated from the post-discount merchandise
+     * subtotal. minimum: 1. maximum: 100. multipleOf: 0.0001.
+     */
+    "percent": number;
+})
+    & (({
+    "amount_money"?: never;
+})));
+/** The request body for: Create package item. */
+export type CreatePackageItemRequest = {
+    /**
+     * Bundle component to pack, from the order line's bundle_components. Required for every bundle
+     * line, including a line with only one component in the fulfillment. Send null for a
+     * non-bundle line. minLength: 1. Example: "bunc_01KEZF7C00CQASEZGAPEANTGD1".
+     */
+    "bundle_component_id"?: string | null;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Order line whose quantity is allocated. minLength: 1. Example:
+     * "li_01KEZF7C008YPRCK7VDKTGWR31".
+     */
+    "order_line_item_id": string;
+    /**
+     * Whole-number quantity in component units for a bundle component, or line units otherwise;
+     * fractional quantities are not supported. Format: int64.
+     */
+    "quantity": number;
+};
+/** The request body for: Create package item. */
+export type CreatePackageItemRequestInput = {
+    /**
+     * Bundle component to pack, from the order line's bundle_components. Required for every bundle
+     * line, including a line with only one component in the fulfillment. Send null for a
+     * non-bundle line. minLength: 1. Example: "bunc_01KEZF7C00CQASEZGAPEANTGD1".
+     */
+    "bundle_component_id"?: string | null;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Order line whose quantity is allocated. minLength: 1. Example:
+     * "li_01KEZF7C008YPRCK7VDKTGWR31".
+     */
+    "order_line_item_id": string;
+    /**
+     * Whole-number quantity in component units for a bundle component, or line units otherwise;
+     * fractional quantities are not supported. Format: int64.
+     */
+    "quantity": number;
+};
+/**
+ * Creates one package belonging to shipment_id. Inline packages omit shipment_id because their
+ * enclosing create supplies the shipment.
+ */
+export type CreatePackageRequest = ({
+    /**
+     * Controls buyer email handling. Omit or use send to send when recipient, template, and
+     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
+     * enum: "send", "suppress".
+     */
+    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
+    /** Carrier that handles the package. minLength: 1. */
+    "carrier"?: string;
+    /**
+     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
+     * the given `unit`.
+     */
+    "dimensions"?: Dimensions;
+    /**
+     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
+     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
+     * minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "expected_delivery_at"?: string | null;
+    /**
+     * Caller-owned identifier for this resource in an external system. Requires external_system.
+     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
+     * maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Name of the external system that external_reference_id belongs to. External references are
+     * not unique. Use Idempotency-Key for retries. minLength: 1.
+     */
+    "external_system"?: string;
+    /**
+     * Independent package-item collection. Required when status is shipped. Inline creation uses
+     * the child-create shape and commits atomically; edit items through the package item routes
+     * after creation. Each order line and bundle component pair may appear once. minItems: 1.
+     * maxItems: 100. [] (Value): {@link CreatePackageItemRequest}. The request body for: Create
+     * package item.
+     */
+    "items"?: Array<CreatePackageItemRequest>;
+    /**
+     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
+     * external_system for provenance. Flint does not host the label file. minLength: 1.
+     */
+    "label_url"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Required for a package on a return shipment: allocates quantities from the shipment's
+     * return_line_items to this parcel. Rejected on outbound shipments. [] (Value): {@link
+     * ReturnResolutionLineItemRequest}. A Return line and the quantity to place in a return
+     * shipment or package. The enclosing Return or shipment determines its parent.
+     */
+    "return_line_items"?: Array<ReturnResolutionLineItemRequest>;
+    /** Carrier's code for the shipping service used. minLength: 1. */
+    "service_code"?: string;
+    /** Shipment that owns this package. minLength: 1. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". */
+    "shipment_id": string;
+    /**
+     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
+     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "shipped_at"?: string;
+    /**
+     * Outbound packages can start as created or shipped. Return packages must start as created,
+     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
+     * return package. Value enum: "created", "shipped".
+     */
+    "status": "created" | "shipped" | (string & {});
+    /** Additional explanation of the package's starting status. minLength: 1. */
+    "status_reason"?: string;
+    /** Carrier tracking number for the package. minLength: 1. */
+    "tracking_number"?: string;
+    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
+    "tracking_url"?: string;
+    /**
+     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
+     * delivery profile configuration.
+     */
+    "weight"?: Weight;
+})
+    & ((Exclude<CreatePackageRequestCreated & object, readonly unknown[]>)
+    | (Exclude<CreatePackageRequestShipped & object, readonly unknown[]>)
+    | (Record<string, unknown>));
 /**
  * Creates one package belonging to shipment_id. Inline packages omit shipment_id because their
  * enclosing create supplies the shipment.
@@ -150,10 +1158,11 @@ export type CreatePackageRequestCreated = ({
      */
     "external_system"?: string;
     /**
-     * Independent package-item collection. Inline creation uses the child-create shape and commits
-     * atomically; edit items through the package item routes after creation. Each order line and
-     * bundle component pair may appear once. minItems: 1. maxItems: 100. [] (Value): {@link
-     * CreatePackageItemRequest}. The request body for: Create package item.
+     * Independent package-item collection. Required when status is shipped. Inline creation uses
+     * the child-create shape and commits atomically; edit items through the package item routes
+     * after creation. Each order line and bundle component pair may appear once. minItems: 1.
+     * maxItems: 100. [] (Value): {@link CreatePackageItemRequest}. The request body for: Create
+     * package item.
      */
     "items"?: Array<CreatePackageItemRequest>;
     /**
@@ -240,10 +1249,11 @@ export type CreatePackageRequestCreatedInput = ({
      */
     "external_system"?: string;
     /**
-     * Independent package-item collection. Inline creation uses the child-create shape and commits
-     * atomically; edit items through the package item routes after creation. Each order line and
-     * bundle component pair may appear once. minItems: 1. maxItems: 100. [] (Value): {@link
-     * CreatePackageItemRequestInput}. The request body for: Create package item.
+     * Independent package-item collection. Required when status is shipped. Inline creation uses
+     * the child-create shape and commits atomically; edit items through the package item routes
+     * after creation. Each order line and bundle component pair may appear once. minItems: 1.
+     * maxItems: 100. [] (Value): {@link CreatePackageItemRequestInput}. The request body for:
+     * Create package item.
      */
     "items"?: Array<CreatePackageItemRequestInput>;
     /**
@@ -336,10 +1346,11 @@ export type CreatePackageRequestInput = ({
      */
     "external_system"?: string;
     /**
-     * Independent package-item collection. Inline creation uses the child-create shape and commits
-     * atomically; edit items through the package item routes after creation. Each order line and
-     * bundle component pair may appear once. minItems: 1. maxItems: 100. [] (Value): {@link
-     * CreatePackageItemRequestInput}. The request body for: Create package item.
+     * Independent package-item collection. Required when status is shipped. Inline creation uses
+     * the child-create shape and commits atomically; edit items through the package item routes
+     * after creation. Each order line and bundle component pair may appear once. minItems: 1.
+     * maxItems: 100. [] (Value): {@link CreatePackageItemRequestInput}. The request body for:
+     * Create package item.
      */
     "items"?: Array<CreatePackageItemRequestInput>;
     /**
@@ -428,12 +1439,13 @@ export type CreatePackageRequestShipped = ({
      */
     "external_system"?: string;
     /**
-     * Independent package-item collection. Inline creation uses the child-create shape and commits
-     * atomically; edit items through the package item routes after creation. Each order line and
-     * bundle component pair may appear once. minItems: 1. maxItems: 100. [] (Value): {@link
-     * CreatePackageItemRequest}. The request body for: Create package item.
+     * Independent package-item collection. Required when status is shipped. Inline creation uses
+     * the child-create shape and commits atomically; edit items through the package item routes
+     * after creation. Each order line and bundle component pair may appear once. minItems: 1.
+     * maxItems: 100. [] (Value): {@link CreatePackageItemRequest}. The request body for: Create
+     * package item.
      */
-    "items"?: Array<CreatePackageItemRequest>;
+    "items": Array<CreatePackageItemRequest>;
     /**
      * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
      * external_system for provenance. Flint does not host the label file. minLength: 1.
@@ -518,12 +1530,13 @@ export type CreatePackageRequestShippedInput = ({
      */
     "external_system"?: string;
     /**
-     * Independent package-item collection. Inline creation uses the child-create shape and commits
-     * atomically; edit items through the package item routes after creation. Each order line and
-     * bundle component pair may appear once. minItems: 1. maxItems: 100. [] (Value): {@link
-     * CreatePackageItemRequestInput}. The request body for: Create package item.
+     * Independent package-item collection. Required when status is shipped. Inline creation uses
+     * the child-create shape and commits atomically; edit items through the package item routes
+     * after creation. Each order line and bundle component pair may appear once. minItems: 1.
+     * maxItems: 100. [] (Value): {@link CreatePackageItemRequestInput}. The request body for:
+     * Create package item.
      */
-    "items"?: Array<CreatePackageItemRequestInput>;
+    "items": Array<CreatePackageItemRequestInput>;
     /**
      * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
      * external_system for provenance. Flint does not host the label file. minLength: 1.
@@ -591,7 +1604,11 @@ export type CreatePartnerAppCredentialJWKSURLRequest = {
      * true. [] enum: "live", "test". [] (Value): string. Value enum: "live", "test".
      */
     "modes"?: Array<"live" | "test" | (string & {})>;
-    /** Optional name to identify this credential. minLength: 1. maxLength: 100. */
+    /**
+     * Optional name to identify this credential. Surrounding whitespace is trimmed before length
+     * validation. A supplied value cannot be blank; use null where clearing is supported.
+     * minLength: 1. maxLength: 100.
+     */
     "name"?: string;
     /** Credential type. Value enum: "jwks_url". */
     "type": "jwks_url" | (string & {});
@@ -612,7 +1629,11 @@ export type CreatePartnerAppCredentialJWKSURLRequestInput = {
      * true. [] enum: "live", "test". [] (Value): string. Value enum: "live", "test".
      */
     "modes"?: Array<"live" | "test">;
-    /** Optional name to identify this credential. minLength: 1. maxLength: 100. */
+    /**
+     * Optional name to identify this credential. Surrounding whitespace is trimmed before length
+     * validation. A supplied value cannot be blank; use null where clearing is supported.
+     * minLength: 1. maxLength: 100.
+     */
     "name"?: string;
     /** Credential type. Value enum: "jwks_url". */
     "type": "jwks_url";
@@ -627,7 +1648,11 @@ export type CreatePartnerAppCredentialPublicKeyRequest = {
      * true. [] enum: "live", "test". [] (Value): string. Value enum: "live", "test".
      */
     "modes"?: Array<"live" | "test" | (string & {})>;
-    /** Optional name to identify this credential. minLength: 1. maxLength: 100. */
+    /**
+     * Optional name to identify this credential. Surrounding whitespace is trimmed before length
+     * validation. A supplied value cannot be blank; use null where clearing is supported.
+     * minLength: 1. maxLength: 100.
+     */
     "name"?: string;
     /**
      * The public JSON Web Key to register. Required when type is public_key and not accepted
@@ -647,7 +1672,11 @@ export type CreatePartnerAppCredentialPublicKeyRequestInput = {
      * true. [] enum: "live", "test". [] (Value): string. Value enum: "live", "test".
      */
     "modes"?: Array<"live" | "test">;
-    /** Optional name to identify this credential. minLength: 1. maxLength: 100. */
+    /**
+     * Optional name to identify this credential. Surrounding whitespace is trimmed before length
+     * validation. A supplied value cannot be blank; use null where clearing is supported.
+     * minLength: 1. maxLength: 100.
+     */
     "name"?: string;
     /**
      * The public JSON Web Key to register. Required when type is public_key and not accepted
@@ -682,7 +1711,11 @@ export type CreatePartnerAppCredentialWorkloadIdentityRequest = {
      * true. [] enum: "live", "test". [] (Value): string. Value enum: "live", "test".
      */
     "modes"?: Array<"live" | "test" | (string & {})>;
-    /** Optional name to identify this credential. minLength: 1. maxLength: 100. */
+    /**
+     * Optional name to identify this credential. Surrounding whitespace is trimmed before length
+     * validation. A supplied value cannot be blank; use null where clearing is supported.
+     * minLength: 1. maxLength: 100.
+     */
     "name"?: string;
     /** Credential type. Value enum: "workload_identity". */
     "type": "workload_identity" | (string & {});
@@ -703,7 +1736,11 @@ export type CreatePartnerAppCredentialWorkloadIdentityRequestInput = {
      * true. [] enum: "live", "test". [] (Value): string. Value enum: "live", "test".
      */
     "modes"?: Array<"live" | "test">;
-    /** Optional name to identify this credential. minLength: 1. maxLength: 100. */
+    /**
+     * Optional name to identify this credential. Surrounding whitespace is trimmed before length
+     * validation. A supplied value cannot be blank; use null where clearing is supported.
+     * minLength: 1. maxLength: 100.
+     */
     "name"?: string;
     /** Credential type. Value enum: "workload_identity". */
     "type": "workload_identity";
@@ -718,7 +1755,8 @@ export type CreatePartnerAppCredentialWorkloadIdentityRequestInput = {
 export type CreatePartnerAppRequest = {
     /**
      * API version for requests the app makes with its install tokens that send no Flint-Version
-     * header. Defaults to the version of this request and can't be newer than it. minLength: 1.
+     * header. Defaults to the version of this request. Any supported version is accepted.
+     * minLength: 1.
      */
     "api_version"?: string;
     /**
@@ -748,7 +1786,9 @@ export type CreatePartnerAppRequest = {
     "merchant_action_url"?: string;
     /**
      * The app's name, shown to merchants on the consent screen and in Flint's emails, at most 100
-     * characters, without links or email addresses. minLength: 1. maxLength: 100.
+     * characters, without links or email addresses. Surrounding whitespace is trimmed before
+     * length validation. A supplied value cannot be blank; use null where clearing is supported.
+     * minLength: 1. maxLength: 100.
      */
     "name": string;
     /**
@@ -781,8 +1821,11 @@ export type CreatePartnerAppRequest = {
     "platform_fee_cap"?: PlatformFeeCap;
     /**
      * The platform profile Flint reviews before it approves the app as a platform. Optional; set
-     * it now or later with PATCH. The whole platform profile. Every field is required except
-     * support_phone, and a write replaces the profile whole.
+     * it now or later with PATCH. support_email, website_url and support_phone are shown to
+     * merchants on the consent screen and install resource. The whole platform profile.
+     * support_email, website_url and support_phone are shown to merchants on the consent screen
+     * and install resource. Every field is required except support_phone, and a write replaces the
+     * profile whole.
      */
     "platform_profile"?: PartnerAppPlatformProfile;
     /**
@@ -796,7 +1839,8 @@ export type CreatePartnerAppRequest = {
 export type CreatePartnerAppRequestInput = {
     /**
      * API version for requests the app makes with its install tokens that send no Flint-Version
-     * header. Defaults to the version of this request and can't be newer than it. minLength: 1.
+     * header. Defaults to the version of this request. Any supported version is accepted.
+     * minLength: 1.
      */
     "api_version"?: string;
     /**
@@ -826,7 +1870,9 @@ export type CreatePartnerAppRequestInput = {
     "merchant_action_url"?: string;
     /**
      * The app's name, shown to merchants on the consent screen and in Flint's emails, at most 100
-     * characters, without links or email addresses. minLength: 1. maxLength: 100.
+     * characters, without links or email addresses. Surrounding whitespace is trimmed before
+     * length validation. A supplied value cannot be blank; use null where clearing is supported.
+     * minLength: 1. maxLength: 100.
      */
     "name": string;
     /**
@@ -859,8 +1905,11 @@ export type CreatePartnerAppRequestInput = {
     "platform_fee_cap"?: PlatformFeeCapRequestInput;
     /**
      * The platform profile Flint reviews before it approves the app as a platform. Optional; set
-     * it now or later with PATCH. The whole platform profile. Every field is required except
-     * support_phone, and a write replaces the profile whole.
+     * it now or later with PATCH. support_email, website_url and support_phone are shown to
+     * merchants on the consent screen and install resource. The whole platform profile.
+     * support_email, website_url and support_phone are shown to merchants on the consent screen
+     * and install resource. Every field is required except support_phone, and a write replaces the
+     * profile whole.
      */
     "platform_profile"?: PartnerAppPlatformProfileRequestInput;
     /**
@@ -952,23 +2001,26 @@ export type CreatePaymentIntentRequest = ({
      * a partner app install token can send it; from any other credential it is INVALID_REQUEST
      * with NOT_ALLOWED on platform_fee. A subscription_plan checkout session, or an order whose
      * payment starts or renews a subscription, refuses it with INVALID_REQUEST and NOT_ALLOWED on
-     * platform_fee, because Flint's billing creates the renewals. amount_money must be above zero,
-     * in the payment's currency, at most the platform fee cap the merchant approved for this
-     * amount, and below the amount; otherwise INVALID_REQUEST with INVALID_VALUE on
-     * platform_fee.amount_money, with maximum_money when the cap or the amount bounds it. Without
-     * an approved cap in this currency it is ACTION_NOT_ALLOWED with reason
-     * platform_fee_consent_required. In live mode the partner app's platform_fees capability must
-     * be active; otherwise ACTION_NOT_ALLOWED with capability platform_fees and the reason the
-     * app's platform status gives. Test mode never checks the capability. Flint lowers the fee, or
-     * cancels it, when the cap or Flint's own fees leave less at confirm or capture, so the
-     * payment never fails because of it. Part of the request fingerprint. See [Platform
-     * fees](/docs/guides/platform-fees). A platform fee the partner app charges on the payment,
-     * beside Flint's fees. The installed merchant pays it, and Flint takes no share of it.
+     * platform_fee, because Flint's billing creates the renewals. amount_money.amount must be at
+     * least 1 minor unit; otherwise INVALID_REQUEST with INVALID_VALUE on
+     * platform_fee.amount_money.amount. Omit platform_fee to charge no fee. The fee must be in the
+     * payment's currency, at most the platform fee cap the merchant approved for this amount, and
+     * below the amount; otherwise INVALID_REQUEST with INVALID_VALUE on platform_fee.amount_money,
+     * with maximum_money when the cap or the amount bounds it. Without an approved cap in this
+     * currency it is ACTION_NOT_ALLOWED with reason platform_fee_consent_required. In live mode
+     * the partner app's platform_fees capability must be active; otherwise ACTION_NOT_ALLOWED with
+     * capability platform_fees and the reason the app's platform status gives. Test mode never
+     * checks the capability. Flint lowers the fee, or cancels it, when the cap or Flint's own fees
+     * leave less at confirm or capture, so the payment never fails because of it. Part of the
+     * request fingerprint. See [Platform fees](/docs/guides/platform-fees). A platform fee the
+     * partner app charges on the payment, beside Flint's fees. The installed merchant pays it, and
+     * Flint takes no share of it.
      */
     "platform_fee"?: PlatformFeeRequest;
     /**
-     * Email address for this payment's receipt. When omitted, Flint uses the customer's email.
-     * Format: email. minLength: 1. maxLength: 255. Example: "buyer@example.com".
+     * Email address for this payment's receipt. When omitted, Flint uses the customer's email. The
+     * local part before @ must be at most 64 octets (UTF-8 bytes). Format: email. minLength: 1.
+     * maxLength: 255. Example: "buyer@example.com".
      */
     "receipt_email"?: string;
     /**
@@ -1092,23 +2144,26 @@ export type CreatePaymentIntentRequestInput = ({
      * a partner app install token can send it; from any other credential it is INVALID_REQUEST
      * with NOT_ALLOWED on platform_fee. A subscription_plan checkout session, or an order whose
      * payment starts or renews a subscription, refuses it with INVALID_REQUEST and NOT_ALLOWED on
-     * platform_fee, because Flint's billing creates the renewals. amount_money must be above zero,
-     * in the payment's currency, at most the platform fee cap the merchant approved for this
-     * amount, and below the amount; otherwise INVALID_REQUEST with INVALID_VALUE on
-     * platform_fee.amount_money, with maximum_money when the cap or the amount bounds it. Without
-     * an approved cap in this currency it is ACTION_NOT_ALLOWED with reason
-     * platform_fee_consent_required. In live mode the partner app's platform_fees capability must
-     * be active; otherwise ACTION_NOT_ALLOWED with capability platform_fees and the reason the
-     * app's platform status gives. Test mode never checks the capability. Flint lowers the fee, or
-     * cancels it, when the cap or Flint's own fees leave less at confirm or capture, so the
-     * payment never fails because of it. Part of the request fingerprint. See [Platform
-     * fees](/docs/guides/platform-fees). A platform fee the partner app charges on the payment,
-     * beside Flint's fees. The installed merchant pays it, and Flint takes no share of it.
+     * platform_fee, because Flint's billing creates the renewals. amount_money.amount must be at
+     * least 1 minor unit; otherwise INVALID_REQUEST with INVALID_VALUE on
+     * platform_fee.amount_money.amount. Omit platform_fee to charge no fee. The fee must be in the
+     * payment's currency, at most the platform fee cap the merchant approved for this amount, and
+     * below the amount; otherwise INVALID_REQUEST with INVALID_VALUE on platform_fee.amount_money,
+     * with maximum_money when the cap or the amount bounds it. Without an approved cap in this
+     * currency it is ACTION_NOT_ALLOWED with reason platform_fee_consent_required. In live mode
+     * the partner app's platform_fees capability must be active; otherwise ACTION_NOT_ALLOWED with
+     * capability platform_fees and the reason the app's platform status gives. Test mode never
+     * checks the capability. Flint lowers the fee, or cancels it, when the cap or Flint's own fees
+     * leave less at confirm or capture, so the payment never fails because of it. Part of the
+     * request fingerprint. See [Platform fees](/docs/guides/platform-fees). A platform fee the
+     * partner app charges on the payment, beside Flint's fees. The installed merchant pays it, and
+     * Flint takes no share of it.
      */
     "platform_fee"?: PlatformFeeRequestInput;
     /**
-     * Email address for this payment's receipt. When omitted, Flint uses the customer's email.
-     * Format: email. minLength: 1. maxLength: 255. Example: "buyer@example.com".
+     * Email address for this payment's receipt. When omitted, Flint uses the customer's email. The
+     * local part before @ must be at most 64 octets (UTF-8 bytes). Format: email. minLength: 1.
+     * maxLength: 255. Example: "buyer@example.com".
      */
     "receipt_email"?: string;
     /**
@@ -1193,8 +2248,9 @@ export type CreatePaymentLinkRequest = {
      */
     "description"?: string;
     /**
-     * Largest amount a buyer can give on a donation link. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code.
+     * Largest amount a buyer can give on a donation link. Must be greater than zero and greater
+     * than or equal to donation_min_amount_money. Omit on create for no maximum. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
      */
     "donation_max_amount_money"?: MoneyValue;
     /**
@@ -1267,7 +2323,11 @@ export type CreatePaymentLinkRequest = {
      * for Flint. maxProperties: 50. * (Value): string. minLength: 1. maxLength: 4096.
      */
     "metadata"?: (Exclude<MetadataMap & object, readonly unknown[]>);
-    /** Name of the payment link. minLength: 1. maxLength: 255. */
+    /**
+     * Name of the payment link. Surrounding whitespace is trimmed before length validation. A
+     * supplied value cannot be blank; use null where clearing is supported. minLength: 1.
+     * maxLength: 255.
+     */
     "name": string;
     /**
      * Payment link type. Omit to use standard. Explicit values must be standard, donation, or
@@ -1361,8 +2421,9 @@ export type CreatePaymentLinkRequestInput = {
      */
     "description"?: string;
     /**
-     * Largest amount a buyer can give on a donation link. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code.
+     * Largest amount a buyer can give on a donation link. Must be greater than zero and greater
+     * than or equal to donation_min_amount_money. Omit on create for no maximum. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
      */
     "donation_max_amount_money"?: MoneyValueInput;
     /**
@@ -1435,7 +2496,11 @@ export type CreatePaymentLinkRequestInput = {
      * for Flint. maxProperties: 50. * (Value): string. minLength: 1. maxLength: 4096.
      */
     "metadata"?: (Exclude<MetadataRequestInput & object, readonly unknown[]>);
-    /** Name of the payment link. minLength: 1. maxLength: 255. */
+    /**
+     * Name of the payment link. Surrounding whitespace is trimmed before length validation. A
+     * supplied value cannot be blank; use null where clearing is supported. minLength: 1.
+     * maxLength: 255.
+     */
     "name": string;
     /**
      * Payment link type. Omit to use standard. Explicit values must be standard, donation, or
@@ -1776,7 +2841,11 @@ export type CreatePriceListRequest = {
      * for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataMap;
-    /** Name used to identify the price list. minLength: 1. maxLength: 100. */
+    /**
+     * Name used to identify the price list. Surrounding whitespace is trimmed before length
+     * validation. A supplied value cannot be blank; use null where clearing is supported.
+     * minLength: 1. maxLength: 100.
+     */
     "name": string;
     /**
      * Initial availability. Inactive lists remain assignable but do not provide prices. Default:
@@ -1811,7 +2880,11 @@ export type CreatePriceListRequestInput = {
      * for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataRequestInput;
-    /** Name used to identify the price list. minLength: 1. maxLength: 100. */
+    /**
+     * Name used to identify the price list. Surrounding whitespace is trimmed before length
+     * validation. A supplied value cannot be blank; use null where clearing is supported.
+     * minLength: 1. maxLength: 100.
+     */
     "name": string;
     /**
      * Initial availability. Inactive lists remain assignable but do not provide prices. Default:
@@ -1839,7 +2912,11 @@ export type CreateProductOptionRequest = {
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataMap;
-    /** Option name, such as Size or Color. minLength: 1. maxLength: 255. */
+    /**
+     * Option name, such as Size or Color. Surrounding whitespace is trimmed before length
+     * validation. A supplied value cannot be blank; use null where clearing is supported.
+     * minLength: 1. maxLength: 255.
+     */
     "name": string;
     /**
      * Display order among the product's options, starting at zero. Defaults to the option's array
@@ -1878,7 +2955,11 @@ export type CreateProductOptionRequestInput = {
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataRequestInput;
-    /** Option name, such as Size or Color. minLength: 1. maxLength: 255. */
+    /**
+     * Option name, such as Size or Color. Surrounding whitespace is trimmed before length
+     * validation. A supplied value cannot be blank; use null where clearing is supported.
+     * minLength: 1. maxLength: 255.
+     */
     "name": string;
     /**
      * Display order among the product's options, starting at zero. Defaults to the option's array
@@ -1991,7 +3072,11 @@ export type CreateProductRequest = ({
      * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
      */
     "modifier_set_id"?: string | null;
-    /** Product name shown to buyers. minLength: 1. maxLength: 255. */
+    /**
+     * Product name shown to buyers. Surrounding whitespace is trimmed before length validation. A
+     * supplied value cannot be blank; use null where clearing is supported. minLength: 1.
+     * maxLength: 255.
+     */
     "name": string;
     /**
      * Options and values that distinguish this product's variants. Send with variants instead of
@@ -2065,7 +3150,11 @@ export type CreateProductRequestInput = ({
      * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
      */
     "modifier_set_id"?: string | null;
-    /** Product name shown to buyers. minLength: 1. maxLength: 255. */
+    /**
+     * Product name shown to buyers. Surrounding whitespace is trimmed before length validation. A
+     * supplied value cannot be blank; use null where clearing is supported. minLength: 1.
+     * maxLength: 255.
+     */
     "name": string;
     /**
      * Options and values that distinguish this product's variants. Send with variants instead of
@@ -2133,7 +3222,11 @@ export type CreateProductRequestOptioned = ({
      * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
      */
     "modifier_set_id"?: string | null;
-    /** Product name shown to buyers. minLength: 1. maxLength: 255. */
+    /**
+     * Product name shown to buyers. Surrounding whitespace is trimmed before length validation. A
+     * supplied value cannot be blank; use null where clearing is supported. minLength: 1.
+     * maxLength: 255.
+     */
     "name": string;
     /**
      * Options and values that distinguish this product's variants. Send with variants instead of
@@ -2216,7 +3309,11 @@ export type CreateProductRequestOptionedInput = ({
      * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
      */
     "modifier_set_id"?: string | null;
-    /** Product name shown to buyers. minLength: 1. maxLength: 255. */
+    /**
+     * Product name shown to buyers. Surrounding whitespace is trimmed before length validation. A
+     * supplied value cannot be blank; use null where clearing is supported. minLength: 1.
+     * maxLength: 255.
+     */
     "name": string;
     /**
      * Options and values that distinguish this product's variants. Send with variants instead of
@@ -2307,7 +3404,11 @@ export type CreateProductRequestSimple = ({
      * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
      */
     "modifier_set_id"?: string | null;
-    /** Product name shown to buyers. minLength: 1. maxLength: 255. */
+    /**
+     * Product name shown to buyers. Surrounding whitespace is trimmed before length validation. A
+     * supplied value cannot be blank; use null where clearing is supported. minLength: 1.
+     * maxLength: 255.
+     */
     "name": string;
     /**
      * Kind of goods or service this product represents. New variants of digital products store
@@ -2374,7 +3475,11 @@ export type CreateProductRequestSimpleInput = ({
      * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
      */
     "modifier_set_id"?: string | null;
-    /** Product name shown to buyers. minLength: 1. maxLength: 255. */
+    /**
+     * Product name shown to buyers. Surrounding whitespace is trimmed before length validation. A
+     * supplied value cannot be blank; use null where clearing is supported. minLength: 1.
+     * maxLength: 255.
+     */
     "name": string;
     /**
      * Kind of goods or service this product represents. New variants of digital products store
@@ -2575,7 +3680,9 @@ export type CreatePromotionRequest = {
     "metadata"?: MetadataMap;
     /**
      * Internal promotion name for dashboards, searching, and reporting. This is not intended for
-     * buyer-facing checkout or receipt copy. minLength: 1. maxLength: 255.
+     * buyer-facing checkout or receipt copy. Surrounding whitespace is trimmed before length
+     * validation. A supplied value cannot be blank; use null where clearing is supported.
+     * minLength: 1. maxLength: 255.
      */
     "name": string;
     /**
@@ -2675,7 +3782,9 @@ export type CreatePromotionRequestInput = {
     "metadata"?: MetadataRequestInput;
     /**
      * Internal promotion name for dashboards, searching, and reporting. This is not intended for
-     * buyer-facing checkout or receipt copy. minLength: 1. maxLength: 255.
+     * buyer-facing checkout or receipt copy. Surrounding whitespace is trimmed before length
+     * validation. A supplied value cannot be blank; use null where clearing is supported.
+     * minLength: 1. maxLength: 255.
      */
     "name": string;
     /**
@@ -2896,18 +4005,18 @@ export type CreateRefundRequest = ({
      */
     "reason_message"?: string;
     /**
-     * Return the platform fee on the payments this refund refunds, as Stripe's
-     * refund_application_fee does. By default the partner app keeps its fee. With true, each
-     * refunded payment that carries the partner app's collected platform fee returns all of the
-     * fee's unreturned amount when this refund returns the whole captured amount, and otherwise a
-     * proportional share, rounded half up; the refund that completes the payment returns what
-     * rounding left, when every earlier refund of it also returned the fee. Each payment refund
-     * reports its share in refunded_platform_fee_money, and Flint returns it to the merchant once
-     * that payment refund succeeds. Payments without a platform fee are refunded normally. Only
-     * the partner app install token whose app charged the fee can send true; from any other
-     * credential, or when a refunded payment carries another app's fee, it is INVALID_REQUEST with
-     * NOT_ALLOWED on refund_platform_fee. Not accepted with refund_type credit_note. Part of the
-     * request fingerprint. See [Platform fees](/docs/guides/platform-fees). Default: false.
+     * Return the partner app's platform fee to the merchant as part of this refund. By default the
+     * partner app keeps its fee. With true, each refunded payment that carries the partner app's
+     * collected platform fee returns all of the fee's unreturned amount when this refund returns
+     * the whole captured amount, and otherwise a proportional share, rounded half up; the refund
+     * that completes the payment returns what rounding left, when every earlier refund of it also
+     * returned the fee. Each payment refund reports its share in refunded_platform_fee_money, and
+     * Flint returns it to the merchant once that payment refund succeeds. Payments without a
+     * platform fee are refunded normally. Only the partner app install token whose app charged the
+     * fee can send true; from any other credential, or when a refunded payment carries another
+     * app's fee, it is INVALID_REQUEST with NOT_ALLOWED on refund_platform_fee. Not accepted with
+     * refund_type credit_note. Part of the request fingerprint. See [Platform
+     * fees](/docs/guides/platform-fees). Default: false.
      */
     "refund_platform_fee"?: boolean;
     /**
@@ -3115,18 +4224,18 @@ export type CreateRefundRequestAmount = ({
      */
     "reason_message"?: string;
     /**
-     * Return the platform fee on the payments this refund refunds, as Stripe's
-     * refund_application_fee does. By default the partner app keeps its fee. With true, each
-     * refunded payment that carries the partner app's collected platform fee returns all of the
-     * fee's unreturned amount when this refund returns the whole captured amount, and otherwise a
-     * proportional share, rounded half up; the refund that completes the payment returns what
-     * rounding left, when every earlier refund of it also returned the fee. Each payment refund
-     * reports its share in refunded_platform_fee_money, and Flint returns it to the merchant once
-     * that payment refund succeeds. Payments without a platform fee are refunded normally. Only
-     * the partner app install token whose app charged the fee can send true; from any other
-     * credential, or when a refunded payment carries another app's fee, it is INVALID_REQUEST with
-     * NOT_ALLOWED on refund_platform_fee. Not accepted with refund_type credit_note. Part of the
-     * request fingerprint. See [Platform fees](/docs/guides/platform-fees). Default: false.
+     * Return the partner app's platform fee to the merchant as part of this refund. By default the
+     * partner app keeps its fee. With true, each refunded payment that carries the partner app's
+     * collected platform fee returns all of the fee's unreturned amount when this refund returns
+     * the whole captured amount, and otherwise a proportional share, rounded half up; the refund
+     * that completes the payment returns what rounding left, when every earlier refund of it also
+     * returned the fee. Each payment refund reports its share in refunded_platform_fee_money, and
+     * Flint returns it to the merchant once that payment refund succeeds. Payments without a
+     * platform fee are refunded normally. Only the partner app install token whose app charged the
+     * fee can send true; from any other credential, or when a refunded payment carries another
+     * app's fee, it is INVALID_REQUEST with NOT_ALLOWED on refund_platform_fee. Not accepted with
+     * refund_type credit_note. Part of the request fingerprint. See [Platform
+     * fees](/docs/guides/platform-fees). Default: false.
      */
     "refund_platform_fee"?: boolean;
     /**
@@ -3210,1609 +4319,3 @@ export type CreateRefundRequestAmount = ({
     "credit_note_id": unknown;
 })
     | (Record<string, unknown>)));
-/** The `amount` variant of `CreateRefundRequest`. */
-export type CreateRefundRequestAmountInput = ({
-    /**
-     * Required for refund_type amount and optional for credit_note; omit it on credit_note to
-     * refund all available credit, resolved once when Flint accepts the request. With processed_by
-     * merchant, the default is capped by the invoice's manually recorded money not already
-     * returned. Forbidden for full and targets. Total to refund, including named targets and any
-     * value Flint allocates to the remaining components. Tender allocations must sum to this
-     * amount. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValueInput;
-    /**
-     * Named order charges to refund. Allowed with refund_type amount or targets. In amount mode
-     * their value must fit within amount_money; Flint allocates the rest. [] (Value): {@link
-     * RefundChargeInput}. An order charge to refund when creating a refund, with an optional
-     * amount to refund.
-     */
-    "charges"?: Array<RefundChargeInput>;
-    /**
-     * Default destinations for allocations Flint plans. Allowed with full, amount without
-     * tender_allocations, and targets. Each key defaults to original, and a key for a tender
-     * absent from the refund has no effect. Not allowed with tender_allocations or
-     * gift_card_load_id; use destination on each explicit allocation. new_gift_card on a payment
-     * intent is store credit and requires a payment belonging to an order. Payments without an
-     * order return 400 INVALID_REQUEST with a NOT_ALLOWED detail at destinations.payment_intent.
-     * The merchant keeps the cash and the original processing fee is not returned; no processor
-     * refund is made. New gift card codes are returned for 24 hours. The refund reports each
-     * result in tender_allocations, without echoing destinations. Default refund destinations for
-     * payment intent and gift card redemption allocations planned by Flint. Each tender type
-     * defaults to original when omitted.
-     */
-    "destinations"?: RefundDestinationsInput;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Allowed with refund_type full or amount. Original standalone gift card funding load paid by
-     * a Flint payment. Refunds its paid consideration and removes the corresponding eligible
-     * unspent face value. Requires Idempotency-Key; cannot be combined with order, line item,
-     * charge, tax or tender targets. minLength: 1. pattern: ^gcl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "gcl_01KEZF7C00YJED2857SE0J6KWC".
-     */
-    "gift_card_load_id"?: string;
-    /**
-     * Named order line items to refund. Allowed with refund_type amount or targets. In amount mode
-     * their resolved value must fit within amount_money; Flint allocates the rest. [] (Value):
-     * {@link RefundLineItemInput}. An order line item to refund, with the quantity or amount, tax
-     * handling, and any adjustments such as a restocking fee.
-     */
-    "line_items"?: Array<RefundLineItemInput>;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Order to refund. May be combined with payment_intent_id to select a payment on that order.
-     * Required for named targets unless payment_intent_id belongs to an order. minLength: 1.
-     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id"?: string;
-    /**
-     * Payment to refund. May be combined with its order_id. Named targets require a payment on an
-     * order. minLength: 1. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-     */
-    "payment_intent_id"?: string;
-    /**
-     * Optional. When omitted, no reason is recorded or sent to the processor, and the buyer's
-     * refund email has no reason line. Value enum: "duplicate", "fraudulent",
-     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
-     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
-     * "accidental_order", "other", "out_of_stock".
-     */
-    "reason"?: "duplicate"
-        | "fraudulent"
-        | "requested_by_customer"
-        | "defective_product"
-        | "wrong_item_shipped"
-        | "never_received"
-        | "not_as_described"
-        | "arrived_too_late"
-        | "customer_changed_mind"
-        | "better_price_found"
-        | "accidental_order"
-        | "other"
-        | "out_of_stock";
-    /**
-     * Optional note explaining the refund, up to 1,024 characters. minLength: 1. maxLength: 1024.
-     */
-    "reason_message"?: string;
-    /**
-     * Return the platform fee on the payments this refund refunds, as Stripe's
-     * refund_application_fee does. By default the partner app keeps its fee. With true, each
-     * refunded payment that carries the partner app's collected platform fee returns all of the
-     * fee's unreturned amount when this refund returns the whole captured amount, and otherwise a
-     * proportional share, rounded half up; the refund that completes the payment returns what
-     * rounding left, when every earlier refund of it also returned the fee. Each payment refund
-     * reports its share in refunded_platform_fee_money, and Flint returns it to the merchant once
-     * that payment refund succeeds. Payments without a platform fee are refunded normally. Only
-     * the partner app install token whose app charged the fee can send true; from any other
-     * credential, or when a refunded payment carries another app's fee, it is INVALID_REQUEST with
-     * NOT_ALLOWED on refund_platform_fee. Not accepted with refund_type credit_note. Part of the
-     * request fingerprint. See [Platform fees](/docs/guides/platform-fees). Default: false.
-     */
-    "refund_platform_fee"?: boolean;
-    /**
-     * What to refund and how much: credit_note returns a credit note's available credit; full
-     * refunds the full remaining amount; amount requires amount_money and permits named targets
-     * and tender_allocations within that amount; targets refunds named line_items, charges, or
-     * tax_breakdown_refunds without amount_money. Full and targets do not accept
-     * tender_allocations. Gift card loads support full and amount only. Value enum: "amount".
-     */
-    "refund_type": ("amount") & ("amount");
-    /**
-     * Exhaustive seller amounts to take back from the payments this refund covers. Omit for
-     * cumulative allocation; send [] to fund the whole refund yourself. Splits not named give back
-     * nothing. Each split must be eligible and belong to a refunded payment. Each positive amount
-     * uses the payment's currency and is at most its unreversed amount; otherwise LIMIT_EXCEEDED
-     * reports maximum_money. Entries for each payment total at most that payment's refund;
-     * otherwise INVALID_REQUEST reports maximum_money at split_reversals. [] (Value): {@link
-     * SplitReversalRequestInput}. The seller amount to take back from one eligible payment split
-     * when creating a refund.
-     */
-    "split_reversals"?: Array<SplitReversalRequestInput>;
-    /**
-     * Named order tax breakdowns to refund. Allowed with refund_type amount or targets. In amount
-     * mode their value must fit within amount_money; Flint allocates the rest. Requires
-     * commerce.refunds.tax_overrides.write. [] (Value): {@link RefundTaxBreakdownRefundInInput}.
-     * The tax to refund for one tax breakdown, identified by `tax_breakdown_id`, when setting tax
-     * refunds explicitly.
-     */
-    "tax_breakdown_refunds"?: Array<RefundTaxBreakdownRefundInInput>;
-    /**
-     * Exhaustive allocations to original tenders. Allowed only with refund_type amount. Amounts
-     * must sum to the required amount_money. Selected line-item, charge and flat-tax components
-     * must be covered by their original tenders. Additional untargeted value follows the default
-     * tender order. Destinations default to original. Select new_gift_card when the original card
-     * is closed or cannot accept the full credit within its balance cap. For gift card redemptions
-     * made outside a Flint order, send the allocations without order_id. minItems: 1. maxItems:
-     * 21. [] (Value): {@link RefundTenderAllocationRequestInput}. Where part of a refund goes:
-     * back to a payment intent or to a gift card redemption, with the amount.
-     */
-    "tender_allocations"?: Array<RefundTenderAllocationRequestInput>;
-})
-    & ((({
-    /**
-     * Order to refund. May be combined with payment_intent_id to select a payment on that order.
-     * Required for named targets unless payment_intent_id belongs to an order. minLength: 1.
-     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id": string;
-})
-    | ({
-    /**
-     * Payment to refund. May be combined with its order_id. Named targets require a payment on an
-     * order. minLength: 1. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-     */
-    "payment_intent_id": string;
-})
-    | ({
-    /**
-     * Exhaustive allocations to original tenders. Allowed only with refund_type amount. Amounts
-     * must sum to the required amount_money. Selected line-item, charge and flat-tax components
-     * must be covered by their original tenders. Additional untargeted value follows the default
-     * tender order. Destinations default to original. Select new_gift_card when the original card
-     * is closed or cannot accept the full credit within its balance cap. For gift card redemptions
-     * made outside a Flint order, send the allocations without order_id. minItems: 1. maxItems:
-     * 21. [] (Value): {@link RefundTenderAllocationRequestInput}. Where part of a refund goes:
-     * back to a payment intent or to a gift card redemption, with the amount.
-     */
-    "tender_allocations": Array<RefundTenderAllocationRequestInput>;
-})
-    | ({
-    /**
-     * Allowed with refund_type full or amount. Original standalone gift card funding load paid by
-     * a Flint payment. Refunds its paid consideration and removes the corresponding eligible
-     * unspent face value. Requires Idempotency-Key; cannot be combined with order, line item,
-     * charge, tax or tender targets. minLength: 1. pattern: ^gcl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "gcl_01KEZF7C00YJED2857SE0J6KWC".
-     */
-    "gift_card_load_id": string;
-})
-    | ({
-    "credit_note_id": unknown;
-})))
-    & ((({
-    "destinations"?: never;
-} | {
-    "tender_allocations"?: never;
-}))
-    & (({
-    "destinations"?: never;
-} | {
-    "gift_card_load_id"?: never;
-})));
-/** The `credit_note` variant of `CreateRefundRequest`. */
-export type CreateRefundRequestCreditNote = ({
-    /**
-     * Required for refund_type amount and optional for credit_note; omit it on credit_note to
-     * refund all available credit, resolved once when Flint accepts the request. With processed_by
-     * merchant, the default is capped by the invoice's manually recorded money not already
-     * returned. Forbidden for full and targets. Total to refund, including named targets and any
-     * value Flint allocates to the remaining components. Tender allocations must sum to this
-     * amount. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValue;
-    /**
-     * Issued credit note on a paid invoice whose credit is returned to the buyer. Required only
-     * for refund_type credit_note. minLength: 1. pattern: ^cn_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "cn_01KEZF7C00N1TRRCVDNY8S471H".
-     */
-    "credit_note_id": string;
-    /**
-     * Credit note version last read. Optional; a stale version returns VERSION_CONFLICT with the
-     * current_version. Format: int64. minimum: 1.
-     */
-    "expected_credit_note_version"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Who moves the money for this refund. Allowed only for refund_type credit_note. Omit or use
-     * flint for Flint to return the money to the invoice's payments. Use merchant to record money
-     * you already returned outside Flint, for example by check or wire; Flint moves no money.
-     * Default: "flint". Value enum: "flint", "merchant".
-     */
-    "processed_by"?: "flint" | "merchant" | (string & {});
-    /**
-     * Optional. When omitted, no reason is recorded or sent to the processor, and the buyer's
-     * refund email has no reason line. Value enum: "duplicate", "fraudulent",
-     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
-     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
-     * "accidental_order", "other", "out_of_stock".
-     */
-    "reason"?: "duplicate"
-        | "fraudulent"
-        | "requested_by_customer"
-        | "defective_product"
-        | "wrong_item_shipped"
-        | "never_received"
-        | "not_as_described"
-        | "arrived_too_late"
-        | "customer_changed_mind"
-        | "better_price_found"
-        | "accidental_order"
-        | "other"
-        | "out_of_stock"
-        | (string & {});
-    /**
-     * Optional note explaining the refund, up to 1,024 characters. minLength: 1. maxLength: 1024.
-     */
-    "reason_message"?: string;
-    /**
-     * Optional check, wire, or other reference for the money you returned outside Flint. Opaque, 1
-     * to 255 characters, and preserved exactly. Use external_reference_id for your own refund ID.
-     * Accepted only when `processed_by` is `merchant`; otherwise the request fails with `400
-     * INVALID_REQUEST` (`NOT_ALLOWED`). minLength: 1. maxLength: 255.
-     */
-    "refund_reference"?: string;
-    /**
-     * What to refund and how much: credit_note returns a credit note's available credit; full
-     * refunds the full remaining amount; amount requires amount_money and permits named targets
-     * and tender_allocations within that amount; targets refunds named line_items, charges, or
-     * tax_breakdown_refunds without amount_money. Full and targets do not accept
-     * tender_allocations. Gift card loads support full and amount only. Value enum: "credit_note".
-     */
-    "refund_type": "credit_note" | (string & {});
-    /**
-     * When you report returning the money outside Flint. Omit to use the current time. Must be an
-     * RFC 3339 timestamp at or before now; offsets are normalized to UTC and fractional seconds
-     * are truncated. Accepted only when `processed_by` is `merchant`; otherwise the request fails
-     * with `400 INVALID_REQUEST` (`NOT_ALLOWED`). Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "refunded_at"?: string;
-})
-    & ((({
-    "order_id": unknown;
-})
-    | ({
-    "payment_intent_id": unknown;
-})
-    | ({
-    "tender_allocations": unknown;
-})
-    | ({
-    "gift_card_load_id": unknown;
-})
-    | ({
-    /**
-     * Issued credit note on a paid invoice whose credit is returned to the buyer. Required only
-     * for refund_type credit_note. minLength: 1. pattern: ^cn_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "cn_01KEZF7C00N1TRRCVDNY8S471H".
-     */
-    "credit_note_id": string;
-})
-    | (Record<string, unknown>)));
-/** The `credit_note` variant of `CreateRefundRequest`. */
-export type CreateRefundRequestCreditNoteInput = ({
-    /**
-     * Required for refund_type amount and optional for credit_note; omit it on credit_note to
-     * refund all available credit, resolved once when Flint accepts the request. With processed_by
-     * merchant, the default is capped by the invoice's manually recorded money not already
-     * returned. Forbidden for full and targets. Total to refund, including named targets and any
-     * value Flint allocates to the remaining components. Tender allocations must sum to this
-     * amount. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValueInput;
-    /**
-     * Issued credit note on a paid invoice whose credit is returned to the buyer. Required only
-     * for refund_type credit_note. minLength: 1. pattern: ^cn_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "cn_01KEZF7C00N1TRRCVDNY8S471H".
-     */
-    "credit_note_id": string;
-    /**
-     * Credit note version last read. Optional; a stale version returns VERSION_CONFLICT with the
-     * current_version. Format: int64. minimum: 1.
-     */
-    "expected_credit_note_version"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Who moves the money for this refund. Allowed only for refund_type credit_note. Omit or use
-     * flint for Flint to return the money to the invoice's payments. Use merchant to record money
-     * you already returned outside Flint, for example by check or wire; Flint moves no money.
-     * Default: "flint". Value enum: "flint", "merchant".
-     */
-    "processed_by"?: "flint" | "merchant";
-    /**
-     * Optional. When omitted, no reason is recorded or sent to the processor, and the buyer's
-     * refund email has no reason line. Value enum: "duplicate", "fraudulent",
-     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
-     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
-     * "accidental_order", "other", "out_of_stock".
-     */
-    "reason"?: "duplicate"
-        | "fraudulent"
-        | "requested_by_customer"
-        | "defective_product"
-        | "wrong_item_shipped"
-        | "never_received"
-        | "not_as_described"
-        | "arrived_too_late"
-        | "customer_changed_mind"
-        | "better_price_found"
-        | "accidental_order"
-        | "other"
-        | "out_of_stock";
-    /**
-     * Optional note explaining the refund, up to 1,024 characters. minLength: 1. maxLength: 1024.
-     */
-    "reason_message"?: string;
-    /**
-     * Optional check, wire, or other reference for the money you returned outside Flint. Opaque, 1
-     * to 255 characters, and preserved exactly. Use external_reference_id for your own refund ID.
-     * Accepted only when `processed_by` is `merchant`; otherwise the request fails with `400
-     * INVALID_REQUEST` (`NOT_ALLOWED`). minLength: 1. maxLength: 255.
-     */
-    "refund_reference"?: string;
-    /**
-     * What to refund and how much: credit_note returns a credit note's available credit; full
-     * refunds the full remaining amount; amount requires amount_money and permits named targets
-     * and tender_allocations within that amount; targets refunds named line_items, charges, or
-     * tax_breakdown_refunds without amount_money. Full and targets do not accept
-     * tender_allocations. Gift card loads support full and amount only. Value enum: "credit_note".
-     */
-    "refund_type": ("credit_note") & ("credit_note");
-    /**
-     * When you report returning the money outside Flint. Omit to use the current time. Must be an
-     * RFC 3339 timestamp at or before now; offsets are normalized to UTC and fractional seconds
-     * are truncated. Accepted only when `processed_by` is `merchant`; otherwise the request fails
-     * with `400 INVALID_REQUEST` (`NOT_ALLOWED`). Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "refunded_at"?: string | globalThis.Date;
-})
-    & ((({
-    "order_id": unknown;
-})
-    | ({
-    "payment_intent_id": unknown;
-})
-    | ({
-    "tender_allocations": unknown;
-})
-    | ({
-    "gift_card_load_id": unknown;
-})
-    | ({
-    /**
-     * Issued credit note on a paid invoice whose credit is returned to the buyer. Required only
-     * for refund_type credit_note. minLength: 1. pattern: ^cn_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "cn_01KEZF7C00N1TRRCVDNY8S471H".
-     */
-    "credit_note_id": string;
-})))
-    & ((({
-    "destinations"?: never;
-} | {
-    "tender_allocations"?: never;
-}))
-    & (({
-    "destinations"?: never;
-} | {
-    "gift_card_load_id"?: never;
-})));
-/** The `full` variant of `CreateRefundRequest`. */
-export type CreateRefundRequestFull = ({
-    /**
-     * Default destinations for allocations Flint plans. Allowed with full, amount without
-     * tender_allocations, and targets. Each key defaults to original, and a key for a tender
-     * absent from the refund has no effect. Not allowed with tender_allocations or
-     * gift_card_load_id; use destination on each explicit allocation. new_gift_card on a payment
-     * intent is store credit and requires a payment belonging to an order. Payments without an
-     * order return 400 INVALID_REQUEST with a NOT_ALLOWED detail at destinations.payment_intent.
-     * The merchant keeps the cash and the original processing fee is not returned; no processor
-     * refund is made. New gift card codes are returned for 24 hours. The refund reports each
-     * result in tender_allocations, without echoing destinations. Default refund destinations for
-     * payment intent and gift card redemption allocations planned by Flint. Each tender type
-     * defaults to original when omitted.
-     */
-    "destinations"?: RefundDestinations;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Allowed with refund_type full or amount. Original standalone gift card funding load paid by
-     * a Flint payment. Refunds its paid consideration and removes the corresponding eligible
-     * unspent face value. Requires Idempotency-Key; cannot be combined with order, line item,
-     * charge, tax or tender targets. minLength: 1. pattern: ^gcl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "gcl_01KEZF7C00YJED2857SE0J6KWC".
-     */
-    "gift_card_load_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Order to refund. May be combined with payment_intent_id to select a payment on that order.
-     * Required for named targets unless payment_intent_id belongs to an order. minLength: 1.
-     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id"?: string;
-    /**
-     * Payment to refund. May be combined with its order_id. Named targets require a payment on an
-     * order. minLength: 1. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-     */
-    "payment_intent_id"?: string;
-    /**
-     * Optional. When omitted, no reason is recorded or sent to the processor, and the buyer's
-     * refund email has no reason line. Value enum: "duplicate", "fraudulent",
-     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
-     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
-     * "accidental_order", "other", "out_of_stock".
-     */
-    "reason"?: "duplicate"
-        | "fraudulent"
-        | "requested_by_customer"
-        | "defective_product"
-        | "wrong_item_shipped"
-        | "never_received"
-        | "not_as_described"
-        | "arrived_too_late"
-        | "customer_changed_mind"
-        | "better_price_found"
-        | "accidental_order"
-        | "other"
-        | "out_of_stock"
-        | (string & {});
-    /**
-     * Optional note explaining the refund, up to 1,024 characters. minLength: 1. maxLength: 1024.
-     */
-    "reason_message"?: string;
-    /**
-     * Return the platform fee on the payments this refund refunds, as Stripe's
-     * refund_application_fee does. By default the partner app keeps its fee. With true, each
-     * refunded payment that carries the partner app's collected platform fee returns all of the
-     * fee's unreturned amount when this refund returns the whole captured amount, and otherwise a
-     * proportional share, rounded half up; the refund that completes the payment returns what
-     * rounding left, when every earlier refund of it also returned the fee. Each payment refund
-     * reports its share in refunded_platform_fee_money, and Flint returns it to the merchant once
-     * that payment refund succeeds. Payments without a platform fee are refunded normally. Only
-     * the partner app install token whose app charged the fee can send true; from any other
-     * credential, or when a refunded payment carries another app's fee, it is INVALID_REQUEST with
-     * NOT_ALLOWED on refund_platform_fee. Not accepted with refund_type credit_note. Part of the
-     * request fingerprint. See [Platform fees](/docs/guides/platform-fees). Default: false.
-     */
-    "refund_platform_fee"?: boolean;
-    /**
-     * What to refund and how much: credit_note returns a credit note's available credit; full
-     * refunds the full remaining amount; amount requires amount_money and permits named targets
-     * and tender_allocations within that amount; targets refunds named line_items, charges, or
-     * tax_breakdown_refunds without amount_money. Full and targets do not accept
-     * tender_allocations. Gift card loads support full and amount only. Value enum: "full".
-     */
-    "refund_type": "full" | (string & {});
-    /**
-     * Exhaustive seller amounts to take back from the payments this refund covers. Omit for
-     * cumulative allocation; send [] to fund the whole refund yourself. Splits not named give back
-     * nothing. Each split must be eligible and belong to a refunded payment. Each positive amount
-     * uses the payment's currency and is at most its unreversed amount; otherwise LIMIT_EXCEEDED
-     * reports maximum_money. Entries for each payment total at most that payment's refund;
-     * otherwise INVALID_REQUEST reports maximum_money at split_reversals. [] (Value): {@link
-     * SplitReversalRequest}. The seller amount to take back from one eligible payment split when
-     * creating a refund.
-     */
-    "split_reversals"?: Array<SplitReversalRequest>;
-})
-    & ((({
-    /**
-     * Order to refund. May be combined with payment_intent_id to select a payment on that order.
-     * Required for named targets unless payment_intent_id belongs to an order. minLength: 1.
-     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id": string;
-})
-    | ({
-    /**
-     * Payment to refund. May be combined with its order_id. Named targets require a payment on an
-     * order. minLength: 1. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-     */
-    "payment_intent_id": string;
-})
-    | ({
-    "tender_allocations": unknown;
-})
-    | ({
-    /**
-     * Allowed with refund_type full or amount. Original standalone gift card funding load paid by
-     * a Flint payment. Refunds its paid consideration and removes the corresponding eligible
-     * unspent face value. Requires Idempotency-Key; cannot be combined with order, line item,
-     * charge, tax or tender targets. minLength: 1. pattern: ^gcl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "gcl_01KEZF7C00YJED2857SE0J6KWC".
-     */
-    "gift_card_load_id": string;
-})
-    | ({
-    "credit_note_id": unknown;
-})
-    | (Record<string, unknown>)));
-/** The `full` variant of `CreateRefundRequest`. */
-export type CreateRefundRequestFullInput = ({
-    /**
-     * Default destinations for allocations Flint plans. Allowed with full, amount without
-     * tender_allocations, and targets. Each key defaults to original, and a key for a tender
-     * absent from the refund has no effect. Not allowed with tender_allocations or
-     * gift_card_load_id; use destination on each explicit allocation. new_gift_card on a payment
-     * intent is store credit and requires a payment belonging to an order. Payments without an
-     * order return 400 INVALID_REQUEST with a NOT_ALLOWED detail at destinations.payment_intent.
-     * The merchant keeps the cash and the original processing fee is not returned; no processor
-     * refund is made. New gift card codes are returned for 24 hours. The refund reports each
-     * result in tender_allocations, without echoing destinations. Default refund destinations for
-     * payment intent and gift card redemption allocations planned by Flint. Each tender type
-     * defaults to original when omitted.
-     */
-    "destinations"?: RefundDestinationsInput;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Allowed with refund_type full or amount. Original standalone gift card funding load paid by
-     * a Flint payment. Refunds its paid consideration and removes the corresponding eligible
-     * unspent face value. Requires Idempotency-Key; cannot be combined with order, line item,
-     * charge, tax or tender targets. minLength: 1. pattern: ^gcl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "gcl_01KEZF7C00YJED2857SE0J6KWC".
-     */
-    "gift_card_load_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Order to refund. May be combined with payment_intent_id to select a payment on that order.
-     * Required for named targets unless payment_intent_id belongs to an order. minLength: 1.
-     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id"?: string;
-    /**
-     * Payment to refund. May be combined with its order_id. Named targets require a payment on an
-     * order. minLength: 1. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-     */
-    "payment_intent_id"?: string;
-    /**
-     * Optional. When omitted, no reason is recorded or sent to the processor, and the buyer's
-     * refund email has no reason line. Value enum: "duplicate", "fraudulent",
-     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
-     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
-     * "accidental_order", "other", "out_of_stock".
-     */
-    "reason"?: "duplicate"
-        | "fraudulent"
-        | "requested_by_customer"
-        | "defective_product"
-        | "wrong_item_shipped"
-        | "never_received"
-        | "not_as_described"
-        | "arrived_too_late"
-        | "customer_changed_mind"
-        | "better_price_found"
-        | "accidental_order"
-        | "other"
-        | "out_of_stock";
-    /**
-     * Optional note explaining the refund, up to 1,024 characters. minLength: 1. maxLength: 1024.
-     */
-    "reason_message"?: string;
-    /**
-     * Return the platform fee on the payments this refund refunds, as Stripe's
-     * refund_application_fee does. By default the partner app keeps its fee. With true, each
-     * refunded payment that carries the partner app's collected platform fee returns all of the
-     * fee's unreturned amount when this refund returns the whole captured amount, and otherwise a
-     * proportional share, rounded half up; the refund that completes the payment returns what
-     * rounding left, when every earlier refund of it also returned the fee. Each payment refund
-     * reports its share in refunded_platform_fee_money, and Flint returns it to the merchant once
-     * that payment refund succeeds. Payments without a platform fee are refunded normally. Only
-     * the partner app install token whose app charged the fee can send true; from any other
-     * credential, or when a refunded payment carries another app's fee, it is INVALID_REQUEST with
-     * NOT_ALLOWED on refund_platform_fee. Not accepted with refund_type credit_note. Part of the
-     * request fingerprint. See [Platform fees](/docs/guides/platform-fees). Default: false.
-     */
-    "refund_platform_fee"?: boolean;
-    /**
-     * What to refund and how much: credit_note returns a credit note's available credit; full
-     * refunds the full remaining amount; amount requires amount_money and permits named targets
-     * and tender_allocations within that amount; targets refunds named line_items, charges, or
-     * tax_breakdown_refunds without amount_money. Full and targets do not accept
-     * tender_allocations. Gift card loads support full and amount only. Value enum: "full".
-     */
-    "refund_type": ("full") & ("full");
-    /**
-     * Exhaustive seller amounts to take back from the payments this refund covers. Omit for
-     * cumulative allocation; send [] to fund the whole refund yourself. Splits not named give back
-     * nothing. Each split must be eligible and belong to a refunded payment. Each positive amount
-     * uses the payment's currency and is at most its unreversed amount; otherwise LIMIT_EXCEEDED
-     * reports maximum_money. Entries for each payment total at most that payment's refund;
-     * otherwise INVALID_REQUEST reports maximum_money at split_reversals. [] (Value): {@link
-     * SplitReversalRequestInput}. The seller amount to take back from one eligible payment split
-     * when creating a refund.
-     */
-    "split_reversals"?: Array<SplitReversalRequestInput>;
-})
-    & ((({
-    /**
-     * Order to refund. May be combined with payment_intent_id to select a payment on that order.
-     * Required for named targets unless payment_intent_id belongs to an order. minLength: 1.
-     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id": string;
-})
-    | ({
-    /**
-     * Payment to refund. May be combined with its order_id. Named targets require a payment on an
-     * order. minLength: 1. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-     */
-    "payment_intent_id": string;
-})
-    | ({
-    "tender_allocations": unknown;
-})
-    | ({
-    /**
-     * Allowed with refund_type full or amount. Original standalone gift card funding load paid by
-     * a Flint payment. Refunds its paid consideration and removes the corresponding eligible
-     * unspent face value. Requires Idempotency-Key; cannot be combined with order, line item,
-     * charge, tax or tender targets. minLength: 1. pattern: ^gcl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "gcl_01KEZF7C00YJED2857SE0J6KWC".
-     */
-    "gift_card_load_id": string;
-})
-    | ({
-    "credit_note_id": unknown;
-})))
-    & ((({
-    "destinations"?: never;
-} | {
-    "tender_allocations"?: never;
-}))
-    & (({
-    "destinations"?: never;
-} | {
-    "gift_card_load_id"?: never;
-})))
-    & (({
-    "amount_money"?: never;
-})
-    & ({
-    "line_items"?: never;
-})
-    & ({
-    "charges"?: never;
-})
-    & ({
-    "tax_breakdown_refunds"?: never;
-})
-    & ({
-    "tender_allocations"?: never;
-}));
-/** The request body for: Create refund. */
-export type CreateRefundRequestInput = ({
-    /**
-     * Required for refund_type amount and optional for credit_note; omit it on credit_note to
-     * refund all available credit, resolved once when Flint accepts the request. With processed_by
-     * merchant, the default is capped by the invoice's manually recorded money not already
-     * returned. Forbidden for full and targets. Total to refund, including named targets and any
-     * value Flint allocates to the remaining components. Tender allocations must sum to this
-     * amount. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValueInput;
-    /**
-     * Named order charges to refund. Allowed with refund_type amount or targets. In amount mode
-     * their value must fit within amount_money; Flint allocates the rest. [] (Value): {@link
-     * RefundChargeInput}. An order charge to refund when creating a refund, with an optional
-     * amount to refund.
-     */
-    "charges"?: Array<RefundChargeInput>;
-    /**
-     * Issued credit note on a paid invoice whose credit is returned to the buyer. Required only
-     * for refund_type credit_note. minLength: 1. pattern: ^cn_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "cn_01KEZF7C00N1TRRCVDNY8S471H".
-     */
-    "credit_note_id"?: string;
-    /**
-     * Default destinations for allocations Flint plans. Allowed with full, amount without
-     * tender_allocations, and targets. Each key defaults to original, and a key for a tender
-     * absent from the refund has no effect. Not allowed with tender_allocations or
-     * gift_card_load_id; use destination on each explicit allocation. new_gift_card on a payment
-     * intent is store credit and requires a payment belonging to an order. Payments without an
-     * order return 400 INVALID_REQUEST with a NOT_ALLOWED detail at destinations.payment_intent.
-     * The merchant keeps the cash and the original processing fee is not returned; no processor
-     * refund is made. New gift card codes are returned for 24 hours. The refund reports each
-     * result in tender_allocations, without echoing destinations. Default refund destinations for
-     * payment intent and gift card redemption allocations planned by Flint. Each tender type
-     * defaults to original when omitted.
-     */
-    "destinations"?: RefundDestinationsInput;
-    /**
-     * Credit note version last read. Optional; a stale version returns VERSION_CONFLICT with the
-     * current_version. Format: int64. minimum: 1.
-     */
-    "expected_credit_note_version"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Allowed with refund_type full or amount. Original standalone gift card funding load paid by
-     * a Flint payment. Refunds its paid consideration and removes the corresponding eligible
-     * unspent face value. Requires Idempotency-Key; cannot be combined with order, line item,
-     * charge, tax or tender targets. minLength: 1. pattern: ^gcl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "gcl_01KEZF7C00YJED2857SE0J6KWC".
-     */
-    "gift_card_load_id"?: string;
-    /**
-     * Named order line items to refund. Allowed with refund_type amount or targets. In amount mode
-     * their resolved value must fit within amount_money; Flint allocates the rest. [] (Value):
-     * {@link RefundLineItemInput}. An order line item to refund, with the quantity or amount, tax
-     * handling, and any adjustments such as a restocking fee.
-     */
-    "line_items"?: Array<RefundLineItemInput>;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Order to refund. May be combined with payment_intent_id to select a payment on that order.
-     * Required for named targets unless payment_intent_id belongs to an order. minLength: 1.
-     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id"?: string;
-    /**
-     * Payment to refund. May be combined with its order_id. Named targets require a payment on an
-     * order. minLength: 1. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-     */
-    "payment_intent_id"?: string;
-    /**
-     * Who moves the money for this refund. Allowed only for refund_type credit_note. Omit or use
-     * flint for Flint to return the money to the invoice's payments. Use merchant to record money
-     * you already returned outside Flint, for example by check or wire; Flint moves no money.
-     * Default: "flint". Value enum: "flint", "merchant".
-     */
-    "processed_by"?: "flint" | "merchant";
-    /**
-     * Optional. When omitted, no reason is recorded or sent to the processor, and the buyer's
-     * refund email has no reason line. Value enum: "duplicate", "fraudulent",
-     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
-     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
-     * "accidental_order", "other", "out_of_stock".
-     */
-    "reason"?: "duplicate"
-        | "fraudulent"
-        | "requested_by_customer"
-        | "defective_product"
-        | "wrong_item_shipped"
-        | "never_received"
-        | "not_as_described"
-        | "arrived_too_late"
-        | "customer_changed_mind"
-        | "better_price_found"
-        | "accidental_order"
-        | "other"
-        | "out_of_stock";
-    /**
-     * Optional note explaining the refund, up to 1,024 characters. minLength: 1. maxLength: 1024.
-     */
-    "reason_message"?: string;
-    /**
-     * Return the platform fee on the payments this refund refunds, as Stripe's
-     * refund_application_fee does. By default the partner app keeps its fee. With true, each
-     * refunded payment that carries the partner app's collected platform fee returns all of the
-     * fee's unreturned amount when this refund returns the whole captured amount, and otherwise a
-     * proportional share, rounded half up; the refund that completes the payment returns what
-     * rounding left, when every earlier refund of it also returned the fee. Each payment refund
-     * reports its share in refunded_platform_fee_money, and Flint returns it to the merchant once
-     * that payment refund succeeds. Payments without a platform fee are refunded normally. Only
-     * the partner app install token whose app charged the fee can send true; from any other
-     * credential, or when a refunded payment carries another app's fee, it is INVALID_REQUEST with
-     * NOT_ALLOWED on refund_platform_fee. Not accepted with refund_type credit_note. Part of the
-     * request fingerprint. See [Platform fees](/docs/guides/platform-fees). Default: false.
-     */
-    "refund_platform_fee"?: boolean;
-    /**
-     * Optional check, wire, or other reference for the money you returned outside Flint. Opaque, 1
-     * to 255 characters, and preserved exactly. Use external_reference_id for your own refund ID.
-     * Accepted only when `processed_by` is `merchant`; otherwise the request fails with `400
-     * INVALID_REQUEST` (`NOT_ALLOWED`). minLength: 1. maxLength: 255.
-     */
-    "refund_reference"?: string;
-    /**
-     * What to refund and how much: credit_note returns a credit note's available credit; full
-     * refunds the full remaining amount; amount requires amount_money and permits named targets
-     * and tender_allocations within that amount; targets refunds named line_items, charges, or
-     * tax_breakdown_refunds without amount_money. Full and targets do not accept
-     * tender_allocations. Gift card loads support full and amount only. Value enum: "full",
-     * "amount", "targets", "credit_note".
-     */
-    "refund_type": "full" | "amount" | "targets" | "credit_note";
-    /**
-     * When you report returning the money outside Flint. Omit to use the current time. Must be an
-     * RFC 3339 timestamp at or before now; offsets are normalized to UTC and fractional seconds
-     * are truncated. Accepted only when `processed_by` is `merchant`; otherwise the request fails
-     * with `400 INVALID_REQUEST` (`NOT_ALLOWED`). Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "refunded_at"?: string | globalThis.Date;
-    /**
-     * Exhaustive seller amounts to take back from the payments this refund covers. Omit for
-     * cumulative allocation; send [] to fund the whole refund yourself. Splits not named give back
-     * nothing. Each split must be eligible and belong to a refunded payment. Each positive amount
-     * uses the payment's currency and is at most its unreversed amount; otherwise LIMIT_EXCEEDED
-     * reports maximum_money. Entries for each payment total at most that payment's refund;
-     * otherwise INVALID_REQUEST reports maximum_money at split_reversals. [] (Value): {@link
-     * SplitReversalRequestInput}. The seller amount to take back from one eligible payment split
-     * when creating a refund.
-     */
-    "split_reversals"?: Array<SplitReversalRequestInput>;
-    /**
-     * Named order tax breakdowns to refund. Allowed with refund_type amount or targets. In amount
-     * mode their value must fit within amount_money; Flint allocates the rest. Requires
-     * commerce.refunds.tax_overrides.write. [] (Value): {@link RefundTaxBreakdownRefundInInput}.
-     * The tax to refund for one tax breakdown, identified by `tax_breakdown_id`, when setting tax
-     * refunds explicitly.
-     */
-    "tax_breakdown_refunds"?: Array<RefundTaxBreakdownRefundInInput>;
-    /**
-     * Exhaustive allocations to original tenders. Allowed only with refund_type amount. Amounts
-     * must sum to the required amount_money. Selected line-item, charge and flat-tax components
-     * must be covered by their original tenders. Additional untargeted value follows the default
-     * tender order. Destinations default to original. Select new_gift_card when the original card
-     * is closed or cannot accept the full credit within its balance cap. For gift card redemptions
-     * made outside a Flint order, send the allocations without order_id. minItems: 1. maxItems:
-     * 21. [] (Value): {@link RefundTenderAllocationRequestInput}. Where part of a refund goes:
-     * back to a payment intent or to a gift card redemption, with the amount.
-     */
-    "tender_allocations"?: Array<RefundTenderAllocationRequestInput>;
-})
-    & (({
-    "destinations"?: never;
-} | {
-    "tender_allocations"?: never;
-}))
-    & (({
-    "destinations"?: never;
-} | {
-    "gift_card_load_id"?: never;
-}))
-    & ((Exclude<CreateRefundRequestCreditNoteInput & object, readonly unknown[]>)
-    | (Exclude<CreateRefundRequestFullInput & object, readonly unknown[]>)
-    | (Exclude<CreateRefundRequestAmountInput & object, readonly unknown[]>)
-    | (Exclude<CreateRefundRequestTargetsInput & object, readonly unknown[]>))
-    & (({
-    /**
-     * Order to refund. May be combined with payment_intent_id to select a payment on that order.
-     * Required for named targets unless payment_intent_id belongs to an order. minLength: 1.
-     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id": string;
-})
-    | ({
-    /**
-     * Payment to refund. May be combined with its order_id. Named targets require a payment on an
-     * order. minLength: 1. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-     */
-    "payment_intent_id": string;
-})
-    | ({
-    /**
-     * Exhaustive allocations to original tenders. Allowed only with refund_type amount. Amounts
-     * must sum to the required amount_money. Selected line-item, charge and flat-tax components
-     * must be covered by their original tenders. Additional untargeted value follows the default
-     * tender order. Destinations default to original. Select new_gift_card when the original card
-     * is closed or cannot accept the full credit within its balance cap. For gift card redemptions
-     * made outside a Flint order, send the allocations without order_id. minItems: 1. maxItems:
-     * 21. [] (Value): {@link RefundTenderAllocationRequestInput}. Where part of a refund goes:
-     * back to a payment intent or to a gift card redemption, with the amount.
-     */
-    "tender_allocations": Array<RefundTenderAllocationRequestInput>;
-})
-    | ({
-    /**
-     * Allowed with refund_type full or amount. Original standalone gift card funding load paid by
-     * a Flint payment. Refunds its paid consideration and removes the corresponding eligible
-     * unspent face value. Requires Idempotency-Key; cannot be combined with order, line item,
-     * charge, tax or tender targets. minLength: 1. pattern: ^gcl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "gcl_01KEZF7C00YJED2857SE0J6KWC".
-     */
-    "gift_card_load_id": string;
-})
-    | ({
-    /**
-     * Issued credit note on a paid invoice whose credit is returned to the buyer. Required only
-     * for refund_type credit_note. minLength: 1. pattern: ^cn_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "cn_01KEZF7C00N1TRRCVDNY8S471H".
-     */
-    "credit_note_id": string;
-}));
-/** The `targets` variant of `CreateRefundRequest`. */
-export type CreateRefundRequestTargets = ({
-    /**
-     * Named order charges to refund. Allowed with refund_type amount or targets. In amount mode
-     * their value must fit within amount_money; Flint allocates the rest. [] (Value): {@link
-     * RefundCharge}. An order charge to refund when creating a refund, with an optional amount to
-     * refund.
-     */
-    "charges"?: Array<RefundCharge>;
-    /**
-     * Default destinations for allocations Flint plans. Allowed with full, amount without
-     * tender_allocations, and targets. Each key defaults to original, and a key for a tender
-     * absent from the refund has no effect. Not allowed with tender_allocations or
-     * gift_card_load_id; use destination on each explicit allocation. new_gift_card on a payment
-     * intent is store credit and requires a payment belonging to an order. Payments without an
-     * order return 400 INVALID_REQUEST with a NOT_ALLOWED detail at destinations.payment_intent.
-     * The merchant keeps the cash and the original processing fee is not returned; no processor
-     * refund is made. New gift card codes are returned for 24 hours. The refund reports each
-     * result in tender_allocations, without echoing destinations. Default refund destinations for
-     * payment intent and gift card redemption allocations planned by Flint. Each tender type
-     * defaults to original when omitted.
-     */
-    "destinations"?: RefundDestinations;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Named order line items to refund. Allowed with refund_type amount or targets. In amount mode
-     * their resolved value must fit within amount_money; Flint allocates the rest. [] (Value):
-     * {@link RefundLineItem}. An order line item to refund, with the quantity or amount, tax
-     * handling, and any adjustments such as a restocking fee.
-     */
-    "line_items"?: Array<RefundLineItem>;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Order to refund. May be combined with payment_intent_id to select a payment on that order.
-     * Required for named targets unless payment_intent_id belongs to an order. minLength: 1.
-     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id"?: string;
-    /**
-     * Payment to refund. May be combined with its order_id. Named targets require a payment on an
-     * order. minLength: 1. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-     */
-    "payment_intent_id"?: string;
-    /**
-     * Optional. When omitted, no reason is recorded or sent to the processor, and the buyer's
-     * refund email has no reason line. Value enum: "duplicate", "fraudulent",
-     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
-     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
-     * "accidental_order", "other", "out_of_stock".
-     */
-    "reason"?: "duplicate"
-        | "fraudulent"
-        | "requested_by_customer"
-        | "defective_product"
-        | "wrong_item_shipped"
-        | "never_received"
-        | "not_as_described"
-        | "arrived_too_late"
-        | "customer_changed_mind"
-        | "better_price_found"
-        | "accidental_order"
-        | "other"
-        | "out_of_stock"
-        | (string & {});
-    /**
-     * Optional note explaining the refund, up to 1,024 characters. minLength: 1. maxLength: 1024.
-     */
-    "reason_message"?: string;
-    /**
-     * Return the platform fee on the payments this refund refunds, as Stripe's
-     * refund_application_fee does. By default the partner app keeps its fee. With true, each
-     * refunded payment that carries the partner app's collected platform fee returns all of the
-     * fee's unreturned amount when this refund returns the whole captured amount, and otherwise a
-     * proportional share, rounded half up; the refund that completes the payment returns what
-     * rounding left, when every earlier refund of it also returned the fee. Each payment refund
-     * reports its share in refunded_platform_fee_money, and Flint returns it to the merchant once
-     * that payment refund succeeds. Payments without a platform fee are refunded normally. Only
-     * the partner app install token whose app charged the fee can send true; from any other
-     * credential, or when a refunded payment carries another app's fee, it is INVALID_REQUEST with
-     * NOT_ALLOWED on refund_platform_fee. Not accepted with refund_type credit_note. Part of the
-     * request fingerprint. See [Platform fees](/docs/guides/platform-fees). Default: false.
-     */
-    "refund_platform_fee"?: boolean;
-    /**
-     * What to refund and how much: credit_note returns a credit note's available credit; full
-     * refunds the full remaining amount; amount requires amount_money and permits named targets
-     * and tender_allocations within that amount; targets refunds named line_items, charges, or
-     * tax_breakdown_refunds without amount_money. Full and targets do not accept
-     * tender_allocations. Gift card loads support full and amount only. Value enum: "targets".
-     */
-    "refund_type": "targets" | (string & {});
-    /**
-     * Exhaustive seller amounts to take back from the payments this refund covers. Omit for
-     * cumulative allocation; send [] to fund the whole refund yourself. Splits not named give back
-     * nothing. Each split must be eligible and belong to a refunded payment. Each positive amount
-     * uses the payment's currency and is at most its unreversed amount; otherwise LIMIT_EXCEEDED
-     * reports maximum_money. Entries for each payment total at most that payment's refund;
-     * otherwise INVALID_REQUEST reports maximum_money at split_reversals. [] (Value): {@link
-     * SplitReversalRequest}. The seller amount to take back from one eligible payment split when
-     * creating a refund.
-     */
-    "split_reversals"?: Array<SplitReversalRequest>;
-    /**
-     * Named order tax breakdowns to refund. Allowed with refund_type amount or targets. In amount
-     * mode their value must fit within amount_money; Flint allocates the rest. Requires
-     * commerce.refunds.tax_overrides.write. [] (Value): {@link RefundTaxBreakdownRefundIn}. The
-     * tax to refund for one tax breakdown, identified by `tax_breakdown_id`, when setting tax
-     * refunds explicitly.
-     */
-    "tax_breakdown_refunds"?: Array<RefundTaxBreakdownRefundIn>;
-})
-    & ((({
-    /**
-     * Order to refund. May be combined with payment_intent_id to select a payment on that order.
-     * Required for named targets unless payment_intent_id belongs to an order. minLength: 1.
-     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id": string;
-})
-    | ({
-    /**
-     * Payment to refund. May be combined with its order_id. Named targets require a payment on an
-     * order. minLength: 1. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-     */
-    "payment_intent_id": string;
-})
-    | ({
-    "tender_allocations": unknown;
-})
-    | ({
-    "gift_card_load_id": unknown;
-})
-    | ({
-    "credit_note_id": unknown;
-})
-    | (Record<string, unknown>)))
-    & (({
-    /** minItems: 1. */
-    "line_items": unknown;
-})
-    | ({
-    /** minItems: 1. */
-    "charges": unknown;
-})
-    | ({
-    /** minItems: 1. */
-    "tax_breakdown_refunds": unknown;
-})
-    | (Record<string, unknown>));
-/** The `targets` variant of `CreateRefundRequest`. */
-export type CreateRefundRequestTargetsInput = ({
-    /**
-     * Named order charges to refund. Allowed with refund_type amount or targets. In amount mode
-     * their value must fit within amount_money; Flint allocates the rest. [] (Value): {@link
-     * RefundChargeInput}. An order charge to refund when creating a refund, with an optional
-     * amount to refund.
-     */
-    "charges"?: Array<RefundChargeInput>;
-    /**
-     * Default destinations for allocations Flint plans. Allowed with full, amount without
-     * tender_allocations, and targets. Each key defaults to original, and a key for a tender
-     * absent from the refund has no effect. Not allowed with tender_allocations or
-     * gift_card_load_id; use destination on each explicit allocation. new_gift_card on a payment
-     * intent is store credit and requires a payment belonging to an order. Payments without an
-     * order return 400 INVALID_REQUEST with a NOT_ALLOWED detail at destinations.payment_intent.
-     * The merchant keeps the cash and the original processing fee is not returned; no processor
-     * refund is made. New gift card codes are returned for 24 hours. The refund reports each
-     * result in tender_allocations, without echoing destinations. Default refund destinations for
-     * payment intent and gift card redemption allocations planned by Flint. Each tender type
-     * defaults to original when omitted.
-     */
-    "destinations"?: RefundDestinationsInput;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Named order line items to refund. Allowed with refund_type amount or targets. In amount mode
-     * their resolved value must fit within amount_money; Flint allocates the rest. [] (Value):
-     * {@link RefundLineItemInput}. An order line item to refund, with the quantity or amount, tax
-     * handling, and any adjustments such as a restocking fee.
-     */
-    "line_items"?: Array<RefundLineItemInput>;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Order to refund. May be combined with payment_intent_id to select a payment on that order.
-     * Required for named targets unless payment_intent_id belongs to an order. minLength: 1.
-     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id"?: string;
-    /**
-     * Payment to refund. May be combined with its order_id. Named targets require a payment on an
-     * order. minLength: 1. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-     */
-    "payment_intent_id"?: string;
-    /**
-     * Optional. When omitted, no reason is recorded or sent to the processor, and the buyer's
-     * refund email has no reason line. Value enum: "duplicate", "fraudulent",
-     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
-     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
-     * "accidental_order", "other", "out_of_stock".
-     */
-    "reason"?: "duplicate"
-        | "fraudulent"
-        | "requested_by_customer"
-        | "defective_product"
-        | "wrong_item_shipped"
-        | "never_received"
-        | "not_as_described"
-        | "arrived_too_late"
-        | "customer_changed_mind"
-        | "better_price_found"
-        | "accidental_order"
-        | "other"
-        | "out_of_stock";
-    /**
-     * Optional note explaining the refund, up to 1,024 characters. minLength: 1. maxLength: 1024.
-     */
-    "reason_message"?: string;
-    /**
-     * Return the platform fee on the payments this refund refunds, as Stripe's
-     * refund_application_fee does. By default the partner app keeps its fee. With true, each
-     * refunded payment that carries the partner app's collected platform fee returns all of the
-     * fee's unreturned amount when this refund returns the whole captured amount, and otherwise a
-     * proportional share, rounded half up; the refund that completes the payment returns what
-     * rounding left, when every earlier refund of it also returned the fee. Each payment refund
-     * reports its share in refunded_platform_fee_money, and Flint returns it to the merchant once
-     * that payment refund succeeds. Payments without a platform fee are refunded normally. Only
-     * the partner app install token whose app charged the fee can send true; from any other
-     * credential, or when a refunded payment carries another app's fee, it is INVALID_REQUEST with
-     * NOT_ALLOWED on refund_platform_fee. Not accepted with refund_type credit_note. Part of the
-     * request fingerprint. See [Platform fees](/docs/guides/platform-fees). Default: false.
-     */
-    "refund_platform_fee"?: boolean;
-    /**
-     * What to refund and how much: credit_note returns a credit note's available credit; full
-     * refunds the full remaining amount; amount requires amount_money and permits named targets
-     * and tender_allocations within that amount; targets refunds named line_items, charges, or
-     * tax_breakdown_refunds without amount_money. Full and targets do not accept
-     * tender_allocations. Gift card loads support full and amount only. Value enum: "targets".
-     */
-    "refund_type": ("targets") & ("targets");
-    /**
-     * Exhaustive seller amounts to take back from the payments this refund covers. Omit for
-     * cumulative allocation; send [] to fund the whole refund yourself. Splits not named give back
-     * nothing. Each split must be eligible and belong to a refunded payment. Each positive amount
-     * uses the payment's currency and is at most its unreversed amount; otherwise LIMIT_EXCEEDED
-     * reports maximum_money. Entries for each payment total at most that payment's refund;
-     * otherwise INVALID_REQUEST reports maximum_money at split_reversals. [] (Value): {@link
-     * SplitReversalRequestInput}. The seller amount to take back from one eligible payment split
-     * when creating a refund.
-     */
-    "split_reversals"?: Array<SplitReversalRequestInput>;
-    /**
-     * Named order tax breakdowns to refund. Allowed with refund_type amount or targets. In amount
-     * mode their value must fit within amount_money; Flint allocates the rest. Requires
-     * commerce.refunds.tax_overrides.write. [] (Value): {@link RefundTaxBreakdownRefundInInput}.
-     * The tax to refund for one tax breakdown, identified by `tax_breakdown_id`, when setting tax
-     * refunds explicitly.
-     */
-    "tax_breakdown_refunds"?: Array<RefundTaxBreakdownRefundInInput>;
-})
-    & ((({
-    /**
-     * Order to refund. May be combined with payment_intent_id to select a payment on that order.
-     * Required for named targets unless payment_intent_id belongs to an order. minLength: 1.
-     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id": string;
-})
-    | ({
-    /**
-     * Payment to refund. May be combined with its order_id. Named targets require a payment on an
-     * order. minLength: 1. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-     */
-    "payment_intent_id": string;
-})
-    | ({
-    "tender_allocations": unknown;
-})
-    | ({
-    "gift_card_load_id": unknown;
-})
-    | ({
-    "credit_note_id": unknown;
-})))
-    & ((({
-    "destinations"?: never;
-} | {
-    "tender_allocations"?: never;
-}))
-    & (({
-    "destinations"?: never;
-} | {
-    "gift_card_load_id"?: never;
-})))
-    & (({
-    /** minItems: 1. */
-    "line_items": unknown;
-})
-    | ({
-    /** minItems: 1. */
-    "charges": unknown;
-})
-    | ({
-    /** minItems: 1. */
-    "tax_breakdown_refunds": unknown;
-}))
-    & (({
-    "amount_money"?: never;
-})
-    & ({
-    "tender_allocations"?: never;
-})
-    & ({
-    "gift_card_load_id"?: never;
-}));
-/** A response containing `RefundWithGiftCardCodes` data. */
-export type CreateRefundResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A refund with newly
-     * issued gift card codes available during the command recovery window. Money returned against
-     * a collected payment.
-     */
-    "data": RefundWithGiftCardCodes;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** The request body for: Create a report. */
-export type CreateReportRequest = ({
-    /**
-     * Required only for receivables_aging_v1. Calendar date in timezone, YYYY-MM-DD, no later than
-     * today. Balances are measured at the earlier of the end of that day and report creation.
-     * Format: date. minLength: 1. Example: "2026-08-02".
-     */
-    "as_of_date"?: string;
-    /**
-     * Three-letter ISO 4217 currency. Reports never combine currencies. gift_card_liability_v1
-     * supports USD only; other currencies return INVALID_REQUEST on currency. minLength: 3.
-     * maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
-     */
-    "currency": string;
-    /**
-     * Exclusive report interval end instant. Each report type matches its own occurrence time. At
-     * most the same local time 366 calendar days after interval_start_at in timezone. Must not be
-     * in the future. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "interval_end_at"?: string;
-    /**
-     * Inclusive report interval start instant. Each report type matches its own occurrence time.
-     * Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "interval_start_at"?: string;
-    /**
-     * Which report to generate. The value names the row and the column version, such as
-     * payments_itemized_v1. The Reports guide lists each type's rows, interval matching, and
-     * columns. Value enum: "receivables_aging_v1", "invoices_itemized_v1",
-     * "gift_card_liability_v1", "orders_itemized_v1", "orders_itemized_v2",
-     * "payments_itemized_v1", "balance_transactions_itemized_v1", "payouts_itemized_v1",
-     * "tax_itemized_v1", "tax_summarized_v1", "merchant_billing_itemized_v1",
-     * "tax_transactions_itemized_v1", "tax_transactions_itemized_v2".
-     */
-    "report_type": "receivables_aging_v1"
-        | "invoices_itemized_v1"
-        | "gift_card_liability_v1"
-        | "orders_itemized_v1"
-        | "orders_itemized_v2"
-        | "payments_itemized_v1"
-        | "balance_transactions_itemized_v1"
-        | "payouts_itemized_v1"
-        | "tax_itemized_v1"
-        | "tax_summarized_v1"
-        | "merchant_billing_itemized_v1"
-        | "tax_transactions_itemized_v1"
-        | "tax_transactions_itemized_v2"
-        | (string & {});
-    /**
-     * IANA timezone used for timestamps and date bucketing. A payout occurs at the start of its
-     * arrival_date in this timezone. Defaults to the merchant's timezone, then UTC, and is saved
-     * on the report at creation. minLength: 1.
-     */
-    "timezone"?: string;
-})
-    & ((Exclude<CreateIntervalReportRequest & object, readonly unknown[]>)
-    | (Exclude<CreateReceivablesAgingReportRequest & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/** The request body for: Create a report. */
-export type CreateReportRequestInput = ({
-    /**
-     * Required only for receivables_aging_v1. Calendar date in timezone, YYYY-MM-DD, no later than
-     * today. Balances are measured at the earlier of the end of that day and report creation.
-     * Format: date. minLength: 1. Example: "2026-08-02".
-     */
-    "as_of_date"?: string;
-    /**
-     * Three-letter ISO 4217 currency. Reports never combine currencies. gift_card_liability_v1
-     * supports USD only; other currencies return INVALID_REQUEST on currency. minLength: 3.
-     * maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
-     */
-    "currency": string;
-    /**
-     * Exclusive report interval end instant. Each report type matches its own occurrence time. At
-     * most the same local time 366 calendar days after interval_start_at in timezone. Must not be
-     * in the future. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "interval_end_at"?: string | globalThis.Date;
-    /**
-     * Inclusive report interval start instant. Each report type matches its own occurrence time.
-     * Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "interval_start_at"?: string | globalThis.Date;
-    /**
-     * Which report to generate. The value names the row and the column version, such as
-     * payments_itemized_v1. The Reports guide lists each type's rows, interval matching, and
-     * columns. Value enum: "receivables_aging_v1", "invoices_itemized_v1",
-     * "gift_card_liability_v1", "orders_itemized_v1", "orders_itemized_v2",
-     * "payments_itemized_v1", "balance_transactions_itemized_v1", "payouts_itemized_v1",
-     * "tax_itemized_v1", "tax_summarized_v1", "merchant_billing_itemized_v1",
-     * "tax_transactions_itemized_v1", "tax_transactions_itemized_v2".
-     */
-    "report_type": "receivables_aging_v1"
-        | "invoices_itemized_v1"
-        | "gift_card_liability_v1"
-        | "orders_itemized_v1"
-        | "orders_itemized_v2"
-        | "payments_itemized_v1"
-        | "balance_transactions_itemized_v1"
-        | "payouts_itemized_v1"
-        | "tax_itemized_v1"
-        | "tax_summarized_v1"
-        | "merchant_billing_itemized_v1"
-        | "tax_transactions_itemized_v1"
-        | "tax_transactions_itemized_v2";
-    /**
-     * IANA timezone used for timestamps and date bucketing. A payout occurs at the start of its
-     * arrival_date in this timezone. Defaults to the merchant's timezone, then UTC, and is saved
-     * on the report at creation. minLength: 1.
-     */
-    "timezone"?: string;
-})
-    & ((Exclude<CreateIntervalReportRequestInput & object, readonly unknown[]>)
-    | (Exclude<CreateReceivablesAgingReportRequestInput & object, readonly unknown[]>));
-/** The request body for: Create return disposition. */
-export type CreateReturnDispositionRequest = ({
-    /**
-     * What happens to the received units. Value enum: "sellable", "quality_control", "damaged",
-     * "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer",
-     * "lost".
-     */
-    "disposition_type": "sellable"
-        | "quality_control"
-        | "damaged"
-        | "quarantined"
-        | "repair"
-        | "refurbish"
-        | "liquidate"
-        | "donate"
-        | "discard"
-        | "return_to_buyer"
-        | "lost"
-        | (string & {});
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * ID of the Location whose stock the disposition changes. Required for `sellable`,
-     * `quality_control`, `damaged`, `quarantined`, and `lost`; rejected for the other types.
-     * minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "inventory_location_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "occurred_at": string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
-    /**
-     * Why the disposition was made. Value enum: "inspection_result", "return_policy",
-     * "warehouse_override", "safety_requirement", "other".
-     */
-    "reason": "inspection_result"
-        | "return_policy"
-        | "warehouse_override"
-        | "safety_requirement"
-        | "other"
-        | (string & {});
-    /** Optional detail about `reason`, kept with the record. minLength: 1. */
-    "reason_message"?: string;
-    /**
-     * ID of the `failed` or `canceled` disposition this one replaces. It takes over that
-     * disposition's unused capacity. minLength: 1. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
-     */
-    "replaces_return_disposition_id"?: string;
-    /**
-     * ID of the Return the disposition belongs to. minLength: 1. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id": string;
-    /**
-     * ID of the inspection line the disposition covers. Absent when it covers a receipt line.
-     * minLength: 1. Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
-     */
-    "return_inspection_line_item_id"?: string;
-    /**
-     * ID of the receipt line the disposition covers. Absent when it covers an inspection line.
-     * minLength: 1. Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
-     */
-    "return_receipt_line_item_id"?: string;
-})
-    & ((Exclude<CreateReturnDispositionRequestReceiptLine & object, readonly unknown[]>)
-    | (Exclude<CreateReturnDispositionRequestInspectionLine & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/** The request body for: Create return disposition. */
-export type CreateReturnDispositionRequestInput = ({
-    /**
-     * What happens to the received units. Value enum: "sellable", "quality_control", "damaged",
-     * "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer",
-     * "lost".
-     */
-    "disposition_type": "sellable"
-        | "quality_control"
-        | "damaged"
-        | "quarantined"
-        | "repair"
-        | "refurbish"
-        | "liquidate"
-        | "donate"
-        | "discard"
-        | "return_to_buyer"
-        | "lost";
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * ID of the Location whose stock the disposition changes. Required for `sellable`,
-     * `quality_control`, `damaged`, `quarantined`, and `lost`; rejected for the other types.
-     * minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "inventory_location_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "occurred_at": string | globalThis.Date;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
-    /**
-     * Why the disposition was made. Value enum: "inspection_result", "return_policy",
-     * "warehouse_override", "safety_requirement", "other".
-     */
-    "reason": "inspection_result" | "return_policy" | "warehouse_override" | "safety_requirement" | "other";
-    /** Optional detail about `reason`, kept with the record. minLength: 1. */
-    "reason_message"?: string;
-    /**
-     * ID of the `failed` or `canceled` disposition this one replaces. It takes over that
-     * disposition's unused capacity. minLength: 1. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
-     */
-    "replaces_return_disposition_id"?: string;
-    /**
-     * ID of the Return the disposition belongs to. minLength: 1. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id": string;
-    /**
-     * ID of the inspection line the disposition covers. Absent when it covers a receipt line.
-     * minLength: 1. Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
-     */
-    "return_inspection_line_item_id"?: string;
-    /**
-     * ID of the receipt line the disposition covers. Absent when it covers an inspection line.
-     * minLength: 1. Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
-     */
-    "return_receipt_line_item_id"?: string;
-})
-    & ((Exclude<CreateReturnDispositionRequestReceiptLineInput & object, readonly unknown[]>)
-    | (Exclude<CreateReturnDispositionRequestInspectionLineInput & object, readonly unknown[]>));

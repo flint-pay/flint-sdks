@@ -11,6 +11,7 @@ A listed payment link variant that can be sold in the line currency, with its cu
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `available_modifiers` | Optional | Array of [PublicResolvedModifierGroup](../models/PublicResolvedModifierGroup.md#publicresolvedmodifiergroup) | Modifier groups available for this variant's effective modifier set. Omitted when the variant has none. |
+| `compare_at_price_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Current catalog reference unit price for sale display. Null when no variant compare-at price is set. Does not affect the amount charged. `compare_at_price_money`: [declared alternatives](../models/PaymentLinkAvailableVariant.md#paymentlinkavailablevariantcompare_at_price_money). |
 | `image` | Optional | [Image](../models/Image.md#image) | Effective primary variant image, inherited from the product when the variant has none. Omitted when neither has an image. An image with its URL, size, and alt text. |
 | `is_sold_out` | Required | boolean | True when tracked inventory cannot supply the line's starting quantity through the payment link's inventory_routing_source. Uses min_quantity when quantity is adjustable, otherwise quantity. Always false for untracked variants. Advisory only: no stock is held at read or resolve time, and no stock counts are published. |
 | `name` | Required | string | Order line name for this variant: the product name plus the variant label. |
@@ -19,6 +20,25 @@ A listed payment link variant that can be sold in the line currency, with its cu
 | `selected_options` | Required | Array of [SelectedProductOption](../models/SelectedProductOption.md#selectedproductoption) | The variant's product option values, in product option position order. Empty when the product has no options. |
 | `unit_price_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Current catalog base unit price in the line currency. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `unit_price_money`: [field definitions](../models/PaymentLinkAvailableVariant.md#paymentlinkavailablevariantunit_price_money). |
 | `variant_id` | Required | string | ID of the offered product variant. Example: `"var_01KEZF7C004GSH2KT8CNYVMHGX"`. |
+
+### PaymentLinkAvailableVariant.compare_at_price_money
+
+Current catalog reference unit price for sale display. Null when no variant compare-at price is set. Does not affect the amount charged.
+
+Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+
+### PaymentLinkAvailableVariant.compare_at_price_money variant 1
+
+anyOf MoneyValue: Monetary amount represented as integer minor units plus an ISO 4217 currency code..
+
+- Required: `amount`, `currency`.
+
+### PaymentLinkAvailableVariant.compare_at_price_money variant 2
+
+anyOf variant 2.
+
+- Undeclared: `amount`, `currency`.
+- Value shape: null. Current catalog reference unit price for sale display. Null when no variant compare-at price is set. Does not affect the amount charged. 
 
 ### PaymentLinkAvailableVariant.quantity_price_breaks[]
 

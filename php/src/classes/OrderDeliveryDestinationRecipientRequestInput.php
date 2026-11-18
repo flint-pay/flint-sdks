@@ -8,7 +8,7 @@ namespace Flint;
 final class OrderDeliveryDestinationRecipientRequestInput extends Model {
     /** @param array{'name'?: string|null, 'phone'?: string|null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderDeliveryDestinationRecipientRequestInput')); }
-    /** Send null to clear it. minLength: 1. maxLength: 255.
+    /** Send null to clear it. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1. maxLength: 255.
      * @return string|null
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */

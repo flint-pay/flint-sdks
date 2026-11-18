@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read ?int $billing_anchor_day
+ * @property-read ?SubscriptionBillingHold $billing_hold
  * @property-read string $billing_interval
  * @property-read int $billing_interval_count
  * @property-read ?list<SubscriptionIntervalOption> $billing_interval_options
@@ -44,6 +45,7 @@ namespace Flint;
  * @property-read ?MoneyValue $outstanding_money
  * @property-read ?string $pause_reason
  * @property-read ?string $paused_at
+ * @property-read SubscriptionPausedDeliveryHold|null $paused_delivery_hold
  * @property-read ExpandedPaymentMethodSummary|null $payment_method
  * @property-read string|null $payment_method_due_at
  * @property-read string|null $payment_method_id
@@ -73,13 +75,18 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class SubscriptionCreatedMerchantEventDataObject extends Model {
-    /** @param array{'billing_anchor_day'?: int, 'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options'?: list<mixed>, 'billing_schedule_owner': string, 'billing_schedule_waiting_started_at'?: string, 'cancel_at_period_end': bool, 'canceled_at'?: string, 'cancellation_details'?: mixed, 'cancellation_reason'?: string, 'completed_cycles': int, 'contract_end_at'?: string, 'contract_start_at'?: string, 'created_at': string, 'current_period_end_at'?: string, 'current_period_start_at'?: string, 'customer'?: mixed, 'customer_id': string, 'deliveries_per_period': int, 'delivery'?: mixed, 'delivery_hold'?: mixed, 'delivery_interval': string|null, 'delivery_interval_count': int|null, 'early_termination_fee_money'?: mixed, 'end_after': mixed, 'expires_at': string|null, 'external_reference_id'?: string, 'gift_recipient': mixed, 'inventory_wait'?: mixed, 'is_awaiting_billing_schedule'?: bool, 'last_payment_error'?: mixed, 'line_items': list<mixed>, 'merchant_id': string, 'metadata'?: mixed, 'missed_billing_at'?: string, 'next_billing_at'?: string, 'next_delivery_at': string|null, 'next_retry_at': string|null, 'open_renewal_order_id'?: string, 'outstanding_money'?: mixed, 'pause_reason'?: string, 'paused_at'?: string, 'payment_method'?: mixed, 'payment_method_due_at': string|null, 'payment_method_id': string|null, 'promotions': list<mixed>, 'prorate_first_period': bool, 'recurring_subtotal_money': mixed, 'remaining_cycles': int|null, 'remaining_prepaid_deliveries': int, 'resume_requested_at': string|null, 'scheduled_cancel_at': string|null, 'scheduled_plan_change': mixed, 'scheduled_promotions': list<mixed>, 'scheduled_resume_at': string|null, 'service_location'?: mixed, 'starts_at'?: string, 'status': string, 'subscription_id': string, 'subscription_plan'?: mixed, 'subscription_plan_id'?: string, 'supported_actions'?: list<string>, 'tax'?: mixed, 'terms_type': string, 'test_clock_id'?: string, 'trial_end_at'?: string, 'upcoming_delivery_hold'?: mixed, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'billing_anchor_day'?: int, 'billing_hold'?: mixed, 'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options'?: list<mixed>, 'billing_schedule_owner': string, 'billing_schedule_waiting_started_at'?: string, 'cancel_at_period_end': bool, 'canceled_at'?: string, 'cancellation_details'?: mixed, 'cancellation_reason'?: string, 'completed_cycles': int, 'contract_end_at'?: string, 'contract_start_at'?: string, 'created_at': string, 'current_period_end_at'?: string, 'current_period_start_at'?: string, 'customer'?: mixed, 'customer_id': string, 'deliveries_per_period': int, 'delivery'?: mixed, 'delivery_hold'?: mixed, 'delivery_interval': string|null, 'delivery_interval_count': int|null, 'early_termination_fee_money'?: mixed, 'end_after': mixed, 'expires_at': string|null, 'external_reference_id'?: string, 'gift_recipient': mixed, 'inventory_wait'?: mixed, 'is_awaiting_billing_schedule'?: bool, 'last_payment_error'?: mixed, 'line_items': list<mixed>, 'merchant_id': string, 'metadata'?: mixed, 'missed_billing_at'?: string, 'next_billing_at'?: string, 'next_delivery_at': string|null, 'next_retry_at': string|null, 'open_renewal_order_id'?: string, 'outstanding_money'?: mixed, 'pause_reason'?: string, 'paused_at'?: string, 'paused_delivery_hold': mixed, 'payment_method'?: mixed, 'payment_method_due_at': string|null, 'payment_method_id': string|null, 'promotions': list<mixed>, 'prorate_first_period': bool, 'recurring_subtotal_money': mixed, 'remaining_cycles': int|null, 'remaining_prepaid_deliveries': int, 'resume_requested_at': string|null, 'scheduled_cancel_at': string|null, 'scheduled_plan_change': mixed, 'scheduled_promotions': list<mixed>, 'scheduled_resume_at': string|null, 'service_location'?: mixed, 'starts_at'?: string, 'status': string, 'subscription_id': string, 'subscription_plan'?: mixed, 'subscription_plan_id'?: string, 'supported_actions'?: list<string>, 'tax'?: mixed, 'terms_type': string, 'test_clock_id'?: string, 'trial_end_at'?: string, 'upcoming_delivery_hold'?: mixed, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionCreatedMerchantEventDataObject')); }
     /** UTC day of the month used for monthly and yearly billing. Applies only to Flint-owned schedules. Format: int32. minimum: 1. maximum: 31.
      * @return ?int
      */
     public function getBillingAnchorDay(): ?int { return $this->get('billing_anchor_day'); }
     public function hasBillingAnchorDay(): bool { return $this->has('billing_anchor_day'); }
+    /** Configuration issue blocking billing, with the first detection time. Flint retries automatically without starting card dunning. Cleared when billing succeeds, the schedule is replaced, the subscription is paused or canceled, or a card decline starts payment recovery. Included only in merchant responses. A configuration issue preventing subscription billing, with the time Flint first detected it.
+     * @return ?SubscriptionBillingHold
+     */
+    public function getBillingHold(): ?SubscriptionBillingHold { return $this->get('billing_hold'); }
+    public function hasBillingHold(): bool { return $this->has('billing_hold'); }
     /** How often the subscription bills now. Read with billing_interval_count: monthly with a count of 3 bills quarterly. A change applies from the next renewal that has not been paid; next_billing_at does not move. Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
      */
@@ -285,6 +292,11 @@ final class SubscriptionCreatedMerchantEventDataObject extends Model {
      */
     public function getPausedAt(): ?string { return $this->get('paused_at'); }
     public function hasPausedAt(): bool { return $this->has('paused_at'); }
+    /** The delivery hold that expired and paused the subscription. Null when no stored expiry reason exists, including a manual pause during an active hold, or the subscription is no longer paused for delivery action. anyOf[1] (Value): {@see SubscriptionPausedDeliveryHold}. The delivery hold that expired and paused this subscription. A manual pause during an active hold is not an expiry. This field does not imply a refund. anyOf[2] (Value): null.
+     * @return SubscriptionPausedDeliveryHold|null
+     */
+    public function getPausedDeliveryHold(): SubscriptionPausedDeliveryHold|null { return $this->get('paused_delivery_hold'); }
+    public function hasPausedDeliveryHold(): bool { return $this->has('paused_delivery_hold'); }
     /** Present only when `expand` includes `payment_method`; `null` when expanded and there is no related payment method. anyOf[1] (Value): {@see ExpandedPaymentMethodSummary}. A payment method's summary fields, including type, status, and card details, returned when the payment method is expanded. anyOf[2] (Value): null.
      * @return ExpandedPaymentMethodSummary|null
      */

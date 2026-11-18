@@ -1,8 +1,12 @@
 import type { WithResponseInfo } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { MerchantAccountSession, MerchantAccountSessionResponse } from '../declarations/types-40.js';
-import type { MerchantAccountSessionsCreateParams, MerchantAccountSessionsRefreshParams } from '../declarations/types-41.js';
-import type { RequestOptions } from '../declarations/types-60.js';
+import type {
+    MerchantAccountSession,
+    MerchantAccountSessionResponse,
+    MerchantAccountSessionsCreateParams,
+    MerchantAccountSessionsRefreshParams
+} from '../declarations/types-42.js';
+import type { RequestOptions } from '../declarations/types-61.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -19,30 +23,32 @@ export type {
 } from '../runtime.js';
 export type {
     MerchantAccountSessionsCreateParams,
-    MerchantAccountSessionsRefreshParams,
-    MerchantAccountSessionStripeComponent,
-    MerchantAccountSessionStripeCollectionOptions,
-    MerchantAccountSessionStripeRequirements
-} from '../declarations/types-41.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type {
     MerchantAccountSession,
     MerchantAccountSessionResponse,
+    MerchantAccountSessionsRefreshParams,
     MerchantAccountSessionCreateRequestInput,
     MerchantAccountSessionClientSession,
     MerchantAccountSessionStripe,
+    MerchantAccountSessionStripeComponent,
+    MerchantAccountSessionStripeCollectionOptions,
+    MerchantAccountSessionStripeRequirements,
     MerchantAccountSessionEffectivePolicy,
     MerchantAccountSessionRefreshRequestInput,
     MerchantAccountSessionRefreshRequest
-} from '../declarations/types-40.js';
+} from '../declarations/types-42.js';
+export type { RequestOptions } from '../declarations/types-61.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
-export type { DisputeResponseSessionStripeAccountSession } from '../declarations/types-25.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export { makeMerchantAccountSessionCreateRequest, makeMerchantAccountSessionRefreshRequest } from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
+export type { Credentials } from '../declarations/types-15.js';
+export type { DisputeResponseSessionStripeAccountSession } from '../declarations/types-26.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export {
+    makeMerchantAccountSessionCreateRequest,
+    makeMerchantAccountSessionRefreshRequest,
+    makeMoneyValue
+} from '../declarations/types-88.js';
 export interface MerchantAccountSessionsResource {
     /**
  * Creates an embedded browser handoff for one or more allowlisted account components. The

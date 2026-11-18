@@ -4,7 +4,7 @@
 
 ### taxConnection.connect
 
-Records the seller's attestation and creates or completes the tax account from verified business details and the default line-item tax category in settings. Syncs registrations and removes tax-account copies of deleted registrations. Reconnect retains the tax account and does not turn the default tax setting back on. A rejected stored registration returns INVALID_REQUEST on registration_number and leaves the connection attention_required with registration_rejected. Successful configuration marks open calculated automatic-tax orders without an issued invoice incomplete and advances their versions. A same-key retry resumes setup without creating another account; unconfirmed account creation requires support. Retrieve the connection after a lost response.
+Records the seller's attestation and creates or completes the tax account from business details and the default line-item tax category in settings. In test mode, optional legal_address overrides the default tax origin on initial setup; otherwise verified live details or the merchant profile supply it. Sandbox retries and reconnects retain the attested address; an explicit address must match once the tax account exists. Live mode rejects legal_address and requires verified business details. Syncs registrations and removes tax-account copies of deleted registrations. Reconnect retains the tax account and does not turn the default tax setting back on. A rejected stored registration returns INVALID_REQUEST on registration_number and leaves the connection attention_required with registration_rejected. Successful configuration marks open calculated automatic-tax orders without an issued invoice incomplete and advances their versions. A same-key retry resumes setup without creating another account; unconfirmed account creation requires support. Retrieve the connection after a lost response.
 
 `POST /v1/tax-connection/connect`
 
@@ -23,6 +23,7 @@ Body model: [ConnectTaxConnectionRequestInput](../models/ConnectTaxConnectionReq
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `expected_version` | Optional | integer | Resource version last read by the caller. Omit to apply the change to the current resource. Format: `uint64`. minimum: `1`. |
+| `legal_address` | Optional | [AddressRequestInput](../models/AddressRequest.md#addressrequest) | Test mode only. Business address to use as the sandbox tax origin, overriding verified live details or the merchant profile on initial setup. Omit to use those defaults. Retries and reconnects retain the attested address; after the tax account exists, an explicit address must match it. Live mode rejects this field with INVALID_REQUEST. A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none. |
 | `seller_attestation` | Required | [SellerTaxAttestationRequestInput](../models/SellerTaxAttestationRequest.md#sellertaxattestationrequest) | Presence records the seller's agreement to the named disclosure version. The seller's agreement to the current automatic sales tax disclosure, recorded when connect succeeds. |
 
 #### Response
@@ -155,7 +156,7 @@ deleteRegistration(tax_registration_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `tax_registration_id` | Required | string | Flint tax registration ID. |
+| `tax_registration_id` | Required | string | Flint tax registration ID. Must be a valid ID with prefix trg_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `expected_version` | Optional | integer | Registration version last read by the caller. Omit to delete the current registration. Format: `uint64`. minimum: `1`. maximum: `9007199254740991`. |
 
 #### Response
@@ -325,7 +326,7 @@ getRegistration(tax_registration_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `tax_registration_id` | Required | string | Flint tax registration ID. |
+| `tax_registration_id` | Required | string | Flint tax registration ID. Must be a valid ID with prefix trg_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 
@@ -433,7 +434,7 @@ updateRegistration(tax_registration_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `tax_registration_id` | Required | string | Flint tax registration ID. |
+| `tax_registration_id` | Required | string | Flint tax registration ID. Must be a valid ID with prefix trg_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Required | [UpdateTaxRegistrationRequestInput](../models/UpdateTaxRegistrationRequestInput.md#updatetaxregistrationrequestinput) | Update at least one of registration_number, start_date or end_date. Pending and rejected registrations allow all three fields; registration_number and start_date require a connection that is not active. Scheduled and active registrations allow only end_date. A pending or rejected registration whose tax-account copy exists or may have been created cannot change start_date; delete it and create it again. Ended registrations cannot be changed. A version fence by itself is not a change. minProperties: `1`. |
 
 Body model: [UpdateTaxRegistrationRequestInput](../models/UpdateTaxRegistrationRequestInput.md#updatetaxregistrationrequestinput).

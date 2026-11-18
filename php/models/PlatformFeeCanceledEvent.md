@@ -50,7 +50,7 @@ Field definitions: [shared fields](PlatformFeeCanceledEventDataPreviousAttribute
 
 anyOf variant 1: Why Flint collected no fee. Present only when status is canceled. Can gain values..
 
-- Value shape: string. Why Flint collected no fee. Present only when status is canceled. Can gain values. Values: `"payment_not_completed"`, `"install_revoked"`, `"platform_capability_inactive"`, `"uncollectible"`.
+- Value shape: string. Why Flint collected no fee. Present only when status is canceled. Can gain values. Values: `"payment_not_completed"`, `"install_revoked"`, `"install_revoked_by_app"`, `"platform_capability_inactive"`, `"uncollectible"`.
 
 ### PlatformFeeCanceledEvent.data fields 1.previous_attributes.canceled_reason variant 2
 
@@ -174,15 +174,15 @@ anyOf variant 2.
 
 ### PlatformFeeCanceledEvent.data fields 1.previous_attributes.reserve_available_at variant 1
 
-anyOf variant 1: When the held share is due to return to your available balance. Absent until the fee posts, and when nothing was held. Setting it sends no event..
+anyOf variant 1: The original scheduled release date of the held share. Refunds can release their proportional share early. Absent until the fee posts, and when nothing was held. Setting it sends no event..
 
-- Value shape: string. When the held share is due to return to your available balance. Absent until the fee posts, and when nothing was held. Setting it sends no event. When the held share is due to return to your available balance. Absent until the fee posts, and when nothing was held. Setting it sends no event. Format: `date-time`. 
+- Value shape: string. The original scheduled release date of the held share. Refunds can release their proportional share early. Absent until the fee posts, and when nothing was held. Setting it sends no event. The original scheduled release date of the held share. Refunds can release their proportional share early. Absent until the fee posts, and when nothing was held. Setting it sends no event. Format: `date-time`. 
 
 ### PlatformFeeCanceledEvent.data fields 1.previous_attributes.reserve_available_at variant 2
 
 anyOf variant 2.
 
-- Value shape: null. When the held share is due to return to your available balance. Absent until the fee posts, and when nothing was held. Setting it sends no event. 
+- Value shape: null. The original scheduled release date of the held share. Refunds can release their proportional share early. Absent until the fee posts, and when nothing was held. Setting it sends no event. 
 
 ### PlatformFeeCanceledEvent.data fields 1.previous_attributes.status
 

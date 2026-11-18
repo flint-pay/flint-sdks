@@ -14,7 +14,7 @@ Signature: `checkIn(ticket_id: InputValue<string>, params?: TicketsCheckInParams
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `ticket_id` | Required | string | The ticket ID. |
+| `ticket_id` | Required | string | The ticket ID. Must be a valid ID with prefix tkt_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Optional | [CheckInTicketRequestInput](../models/CheckInTicketRequest.md#checkinticketrequest) | An optional admission code to verify and an optional version fence. |
 
 Body model: [CheckInTicketRequestInput](../models/CheckInTicketRequest.md#checkinticketrequest).
@@ -77,7 +77,7 @@ Signature: `get(ticket_id: InputValue<string>, params?: TicketsGetParams, option
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `ticket_id` | Required | string | The ticket ID. |
+| `ticket_id` | Required | string | The ticket ID. Must be a valid ID with prefix tkt_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: order. Include the order summary. Limits: at most 10 unique expand paths per request. Items values: `"order"`. Values: `"order"`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
@@ -184,7 +184,7 @@ const result = await client.tickets.list({}, {  });
 
 ### tickets.lookup
 
-Looks up an admission code in the authenticated merchant and environment, including voided tickets. ASCII lowercase, spaces and hyphens are accepted; O maps to 0 and I/L to 1. Malformed codes return 400 INVALID_VALUE; an unknown or foreign code returns 404 RESOURCE_NOT_FOUND at admission_code. The code is never returned.
+Looks up an admission code in the authenticated merchant and environment, including voided tickets. ASCII lowercase, spaces and hyphens are accepted; O maps to 0 and I/L to 1. Malformed codes return 400 INVALID_REQUEST with detail INVALID_VALUE; an unknown or foreign code returns 404 RESOURCE_NOT_FOUND at admission_code. The code is never returned.
 
 `POST /v1/tickets/lookup`
 
@@ -256,7 +256,7 @@ Signature: `rotateCode(ticket_id: InputValue<string>, params?: TicketsRotateCode
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `ticket_id` | Required | string | The ticket ID. |
+| `ticket_id` | Required | string | The ticket ID. Must be a valid ID with prefix tkt_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Optional | [TicketVersionRequestInput](../models/TicketVersionRequestInput.md#ticketversionrequestinput) | An optional version fence for the ticket. |
 
 #### Response
@@ -367,7 +367,7 @@ Signature: `update(ticket_id: InputValue<string>, params: TicketsUpdateParams, o
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `ticket_id` | Required | string | The ticket ID. |
+| `ticket_id` | Required | string | The ticket ID. Must be a valid ID with prefix tkt_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Required | [UpdateTicketRequestInput](../models/UpdateTicketRequest.md#updateticketrequest) | The attendee name to set or clear. minProperties: `1`. |
 
 Body model: [UpdateTicketRequestInput](../models/UpdateTicketRequest.md#updateticketrequest).

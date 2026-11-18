@@ -1,6 +1,6 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { RequestOptions } from '../declarations/types-60.js';
+import type { RequestOptions } from '../declarations/types-61.js';
 import type {
     Shipment,
     ShipmentListResponse,
@@ -10,9 +10,9 @@ import type {
     ShipmentsListParams,
     ShipmentsUpdateParams,
     ShipmentsVoidParams
-} from '../declarations/types-66.js';
-import type { VoidShipmentResponse, VoidShipmentResult } from '../declarations/types-76.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-68.js';
+import type { VoidShipmentResponse, VoidShipmentResult } from '../declarations/types-78.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -35,48 +35,43 @@ export type {
     ShipmentsListParams,
     ShipmentListResponse,
     ShipmentsUpdateParams,
-    ShipmentsVoidParams
-} from '../declarations/types-66.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type { _SdkWithoutIdempotency, WeightRequestInput, Weight } from '../declarations/types-77.js';
-export type { VoidShipmentResult, VoidShipmentResponse, VoidShipmentRequestInput, VoidPackageRequestInput } from '../declarations/types-76.js';
+    ShipmentsVoidParams,
+    SettlementAmounts
+} from '../declarations/types-68.js';
+export type { RequestOptions } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency, WeightRequestInput, Weight } from '../declarations/types-79.js';
+export type { VoidShipmentResult, VoidShipmentResponse, VoidShipmentRequestInput, VoidPackageRequestInput } from '../declarations/types-78.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type { CreateShipmentRequestInput, CreateShipmentRequestOutboundInput } from '../declarations/types-13.js';
-export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-41.js';
+export type { CreateShipmentRequestInput, CreateShipmentRequestOutboundInput, CreateShipmentRequestReturnInput } from '../declarations/types-14.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type {
     PackageCreateRequestInput,
     PackageCreateInputCreatedInput,
     PackageCreateInputShippedInput,
     Package
-} from '../declarations/types-47.js';
+} from '../declarations/types-48.js';
 export type { DimensionsRequestInput, Dimensions } from '../declarations/types-25.js';
-export type { CreatePackageItemRequestInput } from '../declarations/types-11.js';
-export type { ReturnShipmentLineItemAllocationRequestInput } from '../declarations/types-63.js';
-export type { CreateShipmentRequestReturnInput, Credentials } from '../declarations/types-14.js';
+export type { CreatePackageItemRequestInput } from '../declarations/types-12.js';
+export type { ReturnShipmentLineItemAllocationRequestInput } from '../declarations/types-65.js';
 export type { AuthMode } from '../declarations/types-1.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { ExpandedOrderSummary, ExpandedPackageSummary } from '../declarations/types-26.js';
-export type { CheckoutBuyerContact } from '../declarations/types-5.js';
+export type { CheckoutBuyerContact } from '../declarations/types-6.js';
 export type { DeferredPromotion } from '../declarations/types-17.js';
-export type { PricingAmounts } from '../declarations/types-55.js';
-export type { MoneyValue, NextAction } from '../declarations/types-42.js';
-export type { OrderSettlementAmounts } from '../declarations/types-45.js';
-export type { SettlementAmounts } from '../declarations/types-65.js';
-export type { ReturnHandoffRequirementLineItem } from '../declarations/types-61.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { UpdateShipmentRequestInput } from '../declarations/types-75.js';
-export { makeCreatePackageItemRequest } from '../declarations/types-80.js';
-export { makeCreateShipmentRequest, makeCreateShipmentRequestOutbound, makeCreateShipmentRequestReturn } from '../declarations/types-81.js';
-export { makeDimensionsRequest } from '../declarations/types-83.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
-export {
-    makeMoneyValue,
-    makePackageCreateInputCreated,
-    makePackageCreateInputShipped,
-    makePackageCreateRequest
-} from '../declarations/types-86.js';
-export { makeReturnShipmentLineItemAllocationRequest } from '../declarations/types-89.js';
-export { makeUpdateShipmentRequest } from '../declarations/types-91.js';
-export { makeVoidPackageRequest, makeVoidShipmentRequest, makeWeightRequest } from '../declarations/types-92.js';
+export type { PricingAmounts } from '../declarations/types-56.js';
+export type { MoneyValue, NextAction } from '../declarations/types-44.js';
+export type { OrderSettlementAmounts } from '../declarations/types-47.js';
+export type { ReturnHandoffRequirementLineItem } from '../declarations/types-63.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { UpdateShipmentRequestInput } from '../declarations/types-77.js';
+export { makeCreatePackageItemRequest } from '../declarations/types-83.js';
+export { makeCreateShipmentRequest, makeCreateShipmentRequestOutbound, makeCreateShipmentRequestReturn } from '../declarations/types-84.js';
+export { makeDimensionsRequest } from '../declarations/types-86.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makePackageCreateInputCreated, makePackageCreateInputShipped, makePackageCreateRequest } from '../declarations/types-89.js';
+export { makeReturnShipmentLineItemAllocationRequest } from '../declarations/types-91.js';
+export { makeUpdateShipmentRequest, makeVoidPackageRequest, makeVoidShipmentRequest, makeWeightRequest } from '../declarations/types-94.js';
 export interface ShipmentsResource {
     /**
  * Creates an outbound shipment for fulfillment_id or a return shipment for return_id. For outbound
@@ -99,7 +94,9 @@ export interface ShipmentsResource {
  * Retrieves one shipment execution record by ID.
  *
  * `GET /v1/shipments/{shipment_id}`
- * @param shipment_id Flint shipment ID.
+ * @param shipment_id Flint shipment ID. Must be a valid ID with prefix shp_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/fulfillment#getShipment
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -131,7 +128,9 @@ export interface ShipmentsResource {
  * stale resource version when supplied.
  *
  * `PATCH /v1/shipments/{shipment_id}`
- * @param shipment_id Flint shipment ID.
+ * @param shipment_id Flint shipment ID. Must be a valid ID with prefix shp_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/fulfillment#updateShipment
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -150,7 +149,9 @@ export interface ShipmentsResource {
  * fulfillment_id.
  *
  * `POST /v1/shipments/{shipment_id}/void`
- * @param shipment_id Flint shipment ID.
+ * @param shipment_id Flint shipment ID. Must be a valid ID with prefix shp_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/fulfillment#voidShipment
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

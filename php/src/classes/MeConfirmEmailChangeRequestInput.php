@@ -10,7 +10,7 @@ namespace Flint;
 final class MeConfirmEmailChangeRequestInput extends Model {
     /** @param array{'email_change_request_id': string, 'body': array{'current_email_code'?: string, 'move_flint_wallet'?: bool, 'new_email_code': string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeConfirmEmailChangeRequestInput')); }
-    /** Flint email change request ID. Example: "cecr_01KEZF7C00B8VJX4M828K0430H".
+    /** Flint email change request ID. Must be a valid ID with prefix cecr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "cecr_01KEZF7C00B8VJX4M828K0430H".
      * @return string
      * @throws SdkError When email_change_request_id is omitted; use hasEmailChangeRequestId() or valueOrDefault().
      */

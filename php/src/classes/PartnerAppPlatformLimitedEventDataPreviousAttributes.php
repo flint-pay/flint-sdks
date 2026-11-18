@@ -121,7 +121,7 @@ final class PartnerAppPlatformLimitedEventDataPreviousAttributes extends Model {
      */
     public function getPlatformFeeCap(): PlatformFeeCapPreviousAttributes|null { return $this->get('platform_fee_cap'); }
     public function hasPlatformFeeCap(): bool { return $this->has('platform_fee_cap'); }
-    /** What the app told Flint for its platform review. Absent until set. anyOf[1] (Value): {@see PartnerAppPlatformProfilePreviousAttributes}. anyOf[2] (Value): null.
+    /** What the app told Flint for its platform review. Absent until set. support_email, website_url and support_phone are shown to merchants on the consent screen and install resource. anyOf[1] (Value): {@see PartnerAppPlatformProfilePreviousAttributes}. anyOf[2] (Value): null.
      * @return PartnerAppPlatformProfilePreviousAttributes|null
      */
     public function getPlatformProfile(): PartnerAppPlatformProfilePreviousAttributes|null { return $this->get('platform_profile'); }

@@ -52,6 +52,10 @@ Field definitions: [OrderEdit.refund_money](../models/OrderEdit.md#ordereditrefu
 
 Field definitions: [OrderEdit.removed_total_money](../models/OrderEdit.md#ordereditremoved_total_money).
 
+### OrderEditCanceledInstalledMerchantsEvent.data.object.small_balance_adjustment_money
+
+Field definitions: [OrderEdit.small_balance_adjustment_money](../models/OrderEdit.md#ordereditsmall_balance_adjustment_money).
+
 ### OrderEditCanceledInstalledMerchantsEvent.data.object.unrefunded_money
 
 Field definitions: [OrderEdit.unrefunded_money](../models/OrderEdit.md#ordereditunrefunded_money).
@@ -79,6 +83,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `refund_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Money to refund after the removed value and released charges pay for added lines. May be zero; an edit with no refund money creates no refund. `refund_money`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributesrefund_money). |
 | `remove_line_items` | Optional | Array of [OrderEditLineRemovalPreviousAttributes](../models/OrderEditLineRemovalPreviousAttributes.md#ordereditlineremovalpreviousattributes) or null | Removed units and their refund amounts frozen at creation. `remove_line_items`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributesremove_line_items). |
 | `removed_total_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | The value of the removed units: the sum of remove_line_items[].total_money. `removed_total_money`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributesremoved_total_money). |
+| `small_balance_adjustment_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Signed noncash adjustment: positive for an edit balance below the payment minimum, negative when removing previously absorbed value. Included in settlement_amounts.written_off_money, never paid or refundable. `small_balance_adjustment_money`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributessmall_balance_adjustment_money). |
 | `status` | Optional | string or null | Pending while waiting for a balance payment, completed once the item changes are applied, or canceled when it ends without changing the order. Refund processing has its own status on each refund. Values: `"pending"`, `"completed"`, `"canceled"`. `status`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributesstatus). |
 | `supported_actions` | Optional | Array of string or null | Contains cancel while pending and the payment is neither processing nor succeeded. Contains retry when unrefunded_money is positive and no linked refund is pending. Empty while Flint is still processing the original refund before any linked refund exists; retry becomes available if that processing ends without a refund. Independent of caller permissions. Items values: `"cancel"`, `"retry"`. `supported_actions`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributessupported_actions). |
 | `unrefunded_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Frozen refund money not covered by pending or succeeded allocations from refunds linked to this edit. Failed allocations do not reduce it. `unrefunded_money`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributesunrefunded_money). |
@@ -119,11 +124,11 @@ anyOf variant 2.
 
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.added_total_money variant 1.amount
 
-Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.amount](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1amount).
 
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.added_total_money variant 1.currency
 
-Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.currency](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1currency).
 
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.amount_due_money
 
@@ -146,11 +151,11 @@ anyOf variant 2.
 
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.amount_due_money variant 1.amount
 
-Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.amount](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1amount).
 
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.amount_due_money variant 1.currency
 
-Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.currency](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1currency).
 
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.canceled_at
 
@@ -327,11 +332,11 @@ anyOf variant 2.
 
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.refund_money variant 1.amount
 
-Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.amount](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1amount).
 
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.refund_money variant 1.currency
 
-Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.currency](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1currency).
 
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.remove_line_items
 
@@ -368,11 +373,38 @@ anyOf variant 2.
 
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.removed_total_money variant 1.amount
 
-Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.amount](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1amount).
 
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.removed_total_money variant 1.currency
 
-Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.currency](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1currency).
+
+### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.small_balance_adjustment_money
+
+Signed noncash adjustment: positive for an edit balance below the payment minimum, negative when removing previously absorbed value. Included in settlement_amounts.written_off_money, never paid or refundable.
+
+Field definitions: [shared fields](BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money).
+
+### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.small_balance_adjustment_money variant 1
+
+anyOf SignedMoneyPreviousAttributes.
+
+- Optional: `amount`, `currency`.
+
+### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.small_balance_adjustment_money variant 2
+
+anyOf variant 2.
+
+- Undeclared: `amount`, `currency`.
+- Value shape: null. Signed noncash adjustment: positive for an edit balance below the payment minimum, negative when removing previously absorbed value. Included in settlement_amounts.written_off_money, never paid or refundable. 
+
+### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.small_balance_adjustment_money variant 1.amount
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.amount](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1amount).
+
+### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.small_balance_adjustment_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.currency](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1currency).
 
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.status
 
@@ -423,11 +455,11 @@ anyOf variant 2.
 
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.unrefunded_money variant 1.amount
 
-Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.amount](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1amount).
 
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.unrefunded_money variant 1.currency
 
-Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.currency](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1currency).
 
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.version
 

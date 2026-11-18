@@ -10,7 +10,7 @@ namespace Flint;
 final class OrdersResolveInventoryExceptionInput extends Model {
     /** @param array{'order_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body'?: array{'reason_message'?: string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrdersResolveInventoryExceptionInput')); }
-    /** Flint order ID. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+    /** Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */

@@ -18,7 +18,7 @@ A report generated from the merchant's activity.
 | `interval_end_at` | Required | string | Exclusive interval end instant. Each report type matches its own occurrence time. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `interval_start_at` | Required | string | Inclusive interval start instant. Each report type matches its own occurrence time. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `report_id` | Required | string | Stable identifier of the report. pattern: `^rep_[0-9A-HJKMNP-TV-Z]{26}$`. Example: `"rep_01KEZF7C00M947R0GYFMT8VXKJ"`. |
-| `report_type` | Required | string | The report's type and column version. See the Reports guide for its columns. Values: [13 declared values](CreateReportRequest.md#createreportrequest-report_type-values). |
+| `report_type` | Required | string | The report's type and column version. See the Reports guide for its columns. Values: [14 declared values](CreateReportRequest.md#createreportrequest-report_type-values). |
 | `status` | Required | string | pending while Flint generates the report, then succeeded with a download or failed with a failure_reason. Flint sends report.succeeded or report.failed when it finishes. Values: `"pending"`, `"succeeded"`, `"failed"`. |
 | `timezone` | Required | string | IANA timezone used for timestamps and date bucketing. A payout occurs at the start of its arrival_date in this timezone. |
 

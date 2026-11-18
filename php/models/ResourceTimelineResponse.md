@@ -20,8 +20,9 @@ Resource, collection, or operation result returned by this request. The activity
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `entries` | Required | Array of Alternative shapes (see declared variants) | Timeline entries for the resource, each tagged by `entry_type`. Narrowed by `include`, `occurred_after`, and `occurred_before`. `entries[]`: [declared alternatives](../models/ResourceTimelineResponse.md#resourcetimelineresponsedataentries). |
+| `license_key_pool_attestations` | Optional | Array of [ResourceTimelinePoolAttestationEntry](../models/ResourceTimelinePoolAttestationEntry.md#resourcetimelinepoolattestationentry) | Seller authorizations on this page, present for license key pools when any confirmations match the selected filters. `license_key_pool_attestations[]`: [field definitions](../models/ResourceTimelineResponse.md#resourcetimelineresponsedatalicense_key_pool_attestations). |
 | `resource_id` | Required | string | ID of the resource this timeline is for. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
-| `resource_type` | Required | string | Type of the resource this timeline is for. Example: `"order"`. Values: [154 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). |
+| `resource_type` | Required | string | Type of the resource this timeline is for. Example: `"order"`. Values: [157 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). |
 | `test` | Required | boolean | `true` when the timeline is for test mode data and `false` for live data. |
 
 ### ResourceTimelineResponse.data.entries[]
@@ -50,7 +51,8 @@ One entry in a resource timeline. The `entry_type` selects which of the request,
 | `retry` | Conditional | string | Whether sending this request again can succeed, and how. It depends only on code and details[0].reason; the errors reference lists the value for each. Values: `"same_request"`, `"after_refresh"`, `"none"`. |
 | `route_pattern` | Conditional | string | The matched route as a method and path template, such as `POST /v1/orders`. |
 | `status_code` | Conditional | integer | Format: `int32`. |
-| `event_type` | Conditional | string | Type of webhook event recorded for this resource. Values: [294 declared values](CreateWebhookTestEventRequestInput.md#createwebhooktesteventrequestinput-event_type-values). |
+| `actor` | Conditional | [ReturnActor](../models/ReturnActor.md#returnactor) or null | Who caused the change, captured with the event. Null when the event predates actor attribution, its payload has been redacted, its resource type does not record an actor, or attribution is unavailable. Uses the same actor model as returns. `actor`: [declared alternatives](../models/ResourceTimelineResponse.md#resourcetimelineresponsedataentries-variant-2actor). |
+| `event_type` | Conditional | string | Type of webhook event recorded for this resource. Values: [305 declared values](CreateWebhookTestEventRequestInput.md#createwebhooktesteventrequestinput-event_type-values). |
 | `webhook_event_id` | Conditional | string | ID of the event being delivered. Example: `"whev_01KEZF7C00362MS3HV970TRZGS"`. |
 | `attempt_number` | Conditional | integer | Which attempt this is for the delivery, starting at 1. Format: `int32`. |
 | `completed_at` | Conditional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
@@ -87,7 +89,7 @@ oneOf with entry_type: "api_request": An API request recorded in this resource's
 
 - Required: `api_request_log_id`, `attributed_resource`, `http_method`, `latency_milliseconds`, `path`, `request_id`, `route_pattern`, `status_code`.
 - Optional: `caller`, `client_request_id`, `client_trace_id`, `error_code`, `error_summary`, `error_type`, `recommended_action`, `reference_url`, `retry`.
-- Undeclared: `event_type`, `webhook_event_id`, `attempt_number`, `completed_at`, `delivery_trigger`, `duration_milliseconds`, `error_category`, `reason_message`, `retryable`, `started_at`, `status`, `webhook_delivery_attempt_id`, `webhook_delivery_id`, `webhook_endpoint_id`, `image_version`, `mutation_kind`.
+- Undeclared: `actor`, `event_type`, `webhook_event_id`, `attempt_number`, `completed_at`, `delivery_trigger`, `duration_milliseconds`, `error_category`, `reason_message`, `retryable`, `started_at`, `status`, `webhook_delivery_attempt_id`, `webhook_delivery_id`, `webhook_endpoint_id`, `image_version`, `mutation_kind`.
 - Constraints for `api_request_log_id`: Stable identifier of this log entry.
 - Constraints for `entry_type`: Always `api_request` for this kind of entry. Values: `"api_request"`.
 - Constraints for `error_summary`: A short explanation of why the request failed. Absent for successful requests.
@@ -99,7 +101,7 @@ oneOf with entry_type: "api_request": An API request recorded in this resource's
 
 oneOf with entry_type: "webhook_event": A webhook event recorded in this resource's timeline..
 
-- Required: `event_type`, `webhook_event_id`.
+- Required: `actor`, `event_type`, `webhook_event_id`.
 - Optional: `api_request_log_id`, `request_id`.
 - Undeclared: `attributed_resource`, `caller`, `client_request_id`, `client_trace_id`, `error_code`, `error_summary`, `error_type`, `http_method`, `latency_milliseconds`, `path`, `recommended_action`, `reference_url`, `retry`, `route_pattern`, `status_code`, `attempt_number`, `completed_at`, `delivery_trigger`, `duration_milliseconds`, `error_category`, `reason_message`, `retryable`, `started_at`, `status`, `webhook_delivery_attempt_id`, `webhook_delivery_id`, `webhook_endpoint_id`, `image_version`, `mutation_kind`.
 - Constraints for `api_request_log_id`: ID of the API request log associated with this event. Omitted when no request log is associated.
@@ -112,7 +114,7 @@ oneOf with entry_type: "webhook_delivery_attempt": A webhook delivery attempt re
 
 - Required: `attempt_number`, `delivery_trigger`, `status`, `webhook_delivery_attempt_id`, `webhook_delivery_id`, `webhook_endpoint_id`, `webhook_event_id`.
 - Optional: `api_request_log_id`, `completed_at`, `duration_milliseconds`, `error_category`, `error_summary`, `reason_message`, `recommended_action`, `request_id`, `retryable`, `started_at`, `status_code`.
-- Undeclared: `attributed_resource`, `caller`, `client_request_id`, `client_trace_id`, `error_code`, `error_type`, `http_method`, `latency_milliseconds`, `path`, `reference_url`, `retry`, `route_pattern`, `event_type`, `image_version`, `mutation_kind`.
+- Undeclared: `attributed_resource`, `caller`, `client_request_id`, `client_trace_id`, `error_code`, `error_type`, `http_method`, `latency_milliseconds`, `path`, `reference_url`, `retry`, `route_pattern`, `actor`, `event_type`, `image_version`, `mutation_kind`.
 - Constraints for `api_request_log_id`: ID of the API request log associated with this attempt. Omitted when no request log is associated.
 - Constraints for `entry_type`: Always `webhook_delivery_attempt` for this kind of entry. Values: `"webhook_delivery_attempt"`.
 - Constraints for `error_summary`: A concise explanation of the failure for this attempt. Present only when this attempt's `status` is `failed`.
@@ -126,7 +128,7 @@ oneOf with entry_type: "image_mutation": A change to this resource's image attac
 
 - Required: `image_version`, `mutation_kind`.
 - Optional: `request_id`.
-- Undeclared: `api_request_log_id`, `attributed_resource`, `caller`, `client_request_id`, `client_trace_id`, `error_code`, `error_summary`, `error_type`, `http_method`, `latency_milliseconds`, `path`, `recommended_action`, `reference_url`, `retry`, `route_pattern`, `status_code`, `event_type`, `webhook_event_id`, `attempt_number`, `completed_at`, `delivery_trigger`, `duration_milliseconds`, `error_category`, `reason_message`, `retryable`, `started_at`, `status`, `webhook_delivery_attempt_id`, `webhook_delivery_id`, `webhook_endpoint_id`.
+- Undeclared: `api_request_log_id`, `attributed_resource`, `caller`, `client_request_id`, `client_trace_id`, `error_code`, `error_summary`, `error_type`, `http_method`, `latency_milliseconds`, `path`, `recommended_action`, `reference_url`, `retry`, `route_pattern`, `status_code`, `actor`, `event_type`, `webhook_event_id`, `attempt_number`, `completed_at`, `delivery_trigger`, `duration_milliseconds`, `error_category`, `reason_message`, `retryable`, `started_at`, `status`, `webhook_delivery_attempt_id`, `webhook_delivery_id`, `webhook_endpoint_id`.
 - Constraints for `entry_type`: Always `image_mutation` for this kind of entry. Values: `"image_mutation"`.
 - Constraints for `resource_timeline_entry_id`: Example: `"iomevt_01KEZF7C00D4JSSDP6AB68EFF2"`.
 
@@ -139,6 +141,35 @@ Field definitions: [shared fields](ResourceReferenceInput.md#resourcereferencein
 ### ResourceTimelineResponse.data.entries[] variant 1.caller
 
 Field definitions: [APIRequestLogDetailResponse.data.caller](../models/APIRequestLogDetailResponse.md#apirequestlogdetailresponsedatacaller).
+
+### ResourceTimelineResponse.data.entries[] variant 2.actor
+
+Who caused the change, captured with the event. Null when the event predates actor attribution, its payload has been redacted, its resource type does not record an actor, or attribution is unavailable. Uses the same actor model as returns.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `actor_id` | Conditional | string | ID of the actor, when one exists. Merchant reads only. Example: `"usr_01KEZF7C00YC8757ZYP9727JM0"`. |
+| `actor_type` | Conditional | string | What kind of actor acted. Example: `"merchant"`. Values: `"buyer"`, `"merchant"`, `"integration"`, `"system"`. |
+
+### ResourceTimelineResponse.data.entries[] variant 2.actor variant 1
+
+anyOf ReturnActor: Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID..
+
+- Required: `actor_type`.
+- Optional: `actor_id`.
+
+### ResourceTimelineResponse.data.entries[] variant 2.actor variant 2
+
+anyOf variant 2.
+
+- Undeclared: `actor_id`, `actor_type`.
+- Value shape: null. Who caused the change, captured with the event. Null when the event predates actor attribution, its payload has been redacted, its resource type does not record an actor, or attribution is unavailable. Uses the same actor model as returns. 
+
+### ResourceTimelineResponse.data.license_key_pool_attestations[]
+
+A recorded confirmation of the seller's authorization to sell an uploaded batch of license keys.
+
+Field definitions: [shared fields](ResourceTimelinePoolAttestationEntryInput.md#resourcetimelinepoolattestationentryinput).
 
 ### ResourceTimelineResponse.meta
 

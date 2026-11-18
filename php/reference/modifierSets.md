@@ -28,7 +28,7 @@ Body model: [CreateModifierSetRequestInput](../models/CreateModifierSetRequestIn
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
 | `modifier_groups` | Optional | Array of [CreateModifierSetGroupRequestInput](../models/CreateModifierSetGroupRequestInput.md#createmodifiersetgrouprequestinput) | Ordered group entries in this set, including references to reusable groups and groups owned by the set. |
-| `name` | Required | string | Name used to identify this modifier set. minLength: `1`. maxLength: `255`. |
+| `name` | Required | string | Name used to identify this modifier set. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `255`. |
 | `status` | Optional | string | Lifecycle status of the modifier set. Only active sets can be offered to buyers; archived sets remain readable and cannot be edited. Default: `"active"`. Values: `"active"`, `"inactive"`. |
 
 #### Response
@@ -87,7 +87,7 @@ Signature: `delete(string|Model $modifier_set_id, array|Model|null $params = nul
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `modifier_set_id` | Required | string | Flint modifier set ID. |
+| `modifier_set_id` | Required | string | Flint modifier set ID. Must be a valid ID with prefix ms_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `expected_version` | Optional | integer | Optional modifier set version last read by the caller. Format: `uint64`. minimum: `1`. maximum: `9007199254740991`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
@@ -145,7 +145,7 @@ Signature: `get(string|Model $modifier_set_id, array|Model|null $params = null, 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `modifier_set_id` | Required | string | Flint modifier set ID. |
+| `modifier_set_id` | Required | string | Flint modifier set ID. Must be a valid ID with prefix ms_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -260,7 +260,7 @@ Signature: `update(string|Model $modifier_set_id, array|Model $params, ?RequestO
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `modifier_set_id` | Required | string | Flint modifier set ID. |
+| `modifier_set_id` | Required | string | Flint modifier set ID. Must be a valid ID with prefix ms_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -276,7 +276,7 @@ Body model: [UpdateModifierSetRequestInput](../models/UpdateModifierSetRequestIn
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput) or null | Omitted metadata is unchanged. Objects merge by key, null values delete keys, an empty object is a no-op, and null clears all metadata. The merged map can contain at most 50 keys. This operation also limits the metadata object you send, before merging: at most 50 keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768 UTF-8 bytes of keys plus values. |
 | `modifier_groups` | Optional | Array of [ModifierSetGroupRequestInput](../models/ModifierSetGroupRequestInput.md#modifiersetgrouprequestinput) | Replaces the set's group entries atomically. Include modifier_set_group_id to retain an entry or omit it to create one. Entries omitted from the array are removed. Omit the array to leave entries unchanged; send [] to clear them. |
-| `name` | Optional | string | Name used to identify this modifier set. minLength: `1`. maxLength: `255`. |
+| `name` | Optional | string | Name used to identify this modifier set. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `255`. |
 | `status` | Optional | string | Lifecycle status of the modifier set. Only active sets can be offered to buyers; archived sets remain readable and cannot be edited. Values: `"active"`, `"inactive"`. |
 
 #### Response

@@ -10,11 +10,11 @@ A platform fee the partner app charges on the payment, beside Flint's fees. The 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The fee in minor units, in the payment's currency. A fixed amount: compute any percentage yourself. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `amount_money`: [field definitions](../models/PlatformFeeRequest.md#platformfeerequestamount_money). |
+| `amount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The fee, at least 1 minor unit, in the payment's currency. A fixed amount: compute any percentage yourself. Omit platform_fee when creating a payment without a fee. A positive platform fee in integer minor units plus an ISO 4217 currency code. `amount_money`: [field definitions](../models/PlatformFeeRequest.md#platformfeerequestamount_money). |
 
 ### PlatformFeeRequest.amount_money
 
-The fee in minor units, in the payment's currency. A fixed amount: compute any percentage yourself. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+The fee, at least 1 minor unit, in the payment's currency. A fixed amount: compute any percentage yourself. Omit platform_fee when creating a payment without a fee. A positive platform fee in integer minor units plus an ISO 4217 currency code.
 
-Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
+Field definitions: [shared fields](PlatformFeeMoneyInput.md#platformfeemoneyinput).
 

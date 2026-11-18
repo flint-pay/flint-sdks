@@ -12,7 +12,7 @@ Request input.
 | `due_at` | Optional | string | When the buyer needs to act by. Omitted when the action has no deadline, or when the resource's state or the store's policy doesn't allow it. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `is_available` | Required | boolean | Whether this session can take the action now. |
 | `is_required` | Required | boolean | Whether the store needs the buyer to take the action, such as paying a due invoice. It stays true when the only thing in the way is signing in. |
-| `kind` | Required | string | What the action is. Each resource lists its own kinds in a fixed order. New kinds may be added; ignore kinds you don't recognize. Values: [20 declared values](#buyeractioninput-kind-values). |
+| `kind` | Required | string | What the action is. Each resource lists its own kinds in a fixed order. New kinds may be added. Ignore kinds you don't recognize. Values: [22 declared values](#buyeractioninput-kind-values). |
 | `pause` | Optional | [BuyerPauseActionOptionsInput](../models/BuyerPauseActionOptionsInput.md#buyerpauseactionoptionsinput) | Present only on an available pause action. The pause lengths this subscription accepts from its buyer. |
 | `pay_balance` | Optional | [BuyerPayBalanceActionOptionsInput](../models/BuyerPayBalanceActionOptionsInput.md#buyerpaybalanceactionoptionsinput) | Present only on an available pay_balance action. The return resolutions the buyer can pay now. |
 | `retry_payment` | Optional | [BuyerRetryPaymentActionOptionsInput](../models/BuyerRetryPaymentActionOptionsInput.md#buyerretrypaymentactionoptionsinput) | How many payment retries the buyer has left this billing period, and the retry that is running. Present while the subscription is past due, including when the action is unavailable. How many payment retries the buyer has left this billing period, and the retry that is running. |
@@ -40,6 +40,8 @@ Request input.
 - `"renew"`
 - `"change_plan"`
 - `"cancel_plan_change"`
+- `"resend"`
+- `"release"`
 
 #### BuyerActionInput unavailable_reason values
 

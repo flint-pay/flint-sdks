@@ -7,12 +7,12 @@ import type {
     PartnerAppCredentialResponse,
     PartnerAppInstall,
     PartnerAppInstallListResponse,
-    PartnerAppInstallResponse
-} from '../declarations/types-47.js';
-import type {
+    PartnerAppInstallResponse,
     PartnerAppInstallWithEndedAccess,
     PartnerAppInstallWithEndedAccessResponse,
-    PartnerAppListResponse,
+    PartnerAppListResponse
+} from '../declarations/types-49.js';
+import type {
     PartnerAppResponse,
     PartnerAppWithRotatedSecret,
     PartnerAppWithSecret,
@@ -32,10 +32,10 @@ import type {
     PartnerAppsRevokeInstallParams,
     PartnerAppsRotateSecretParams,
     PartnerAppsUpdateParams
-} from '../declarations/types-48.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { RotatePartnerAppSecretResponse } from '../declarations/types-65.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-50.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { RotatePartnerAppSecretResponse } from '../declarations/types-67.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -65,34 +65,21 @@ export type {
     PartnerAppsListCredentialsParams,
     PartnerAppsListInstallsParams,
     PartnerAppsListParams,
-    PartnerAppListResponse,
     PartnerAppsRevokeEnvironmentGrantParams,
-    PartnerAppInstallWithEndedAccess,
-    PartnerAppInstallWithEndedAccessResponse,
     PartnerAppsRevokeInstallParams,
     PartnerAppsRotateSecretParams,
     PartnerAppWithRotatedSecret,
     PartnerAppsUpdateParams,
-    PartnerAppMerchantActionRouting,
-    PartnerAppPaymentSplits,
-    PartnerAppPermissionManifestEntry,
-    PartnerAppPlatform,
-    PartnerAppPlatformCapability,
-    PartnerAppPlatformCurrentTerms,
     PartnerAppPlatformLimits,
     PartnerAppPlatformUsage,
     PartnerAppPlatformReserve,
     PartnerAppPlatformTermsAcceptance,
     PartnerAppPlatformProfile,
-    PartnerAppPaymentSplitsRequestInput,
-    PartnerAppPermissionManifestEntryRequestInput,
     PartnerAppPlatformProfileRequestInput,
     PartnerEnvironmentGrant,
-    PartnerAppMerchantReadiness,
-    PartnerAppMerchantReadinessAxis,
     PartnerEnvironmentGrantPaymentSplits
-} from '../declarations/types-48.js';
-export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-60.js';
+} from '../declarations/types-50.js';
+export type { RequestOptions } from '../declarations/types-61.js';
 export type {
     PartnerApp,
     PartnerAppCredential,
@@ -101,27 +88,42 @@ export type {
     PartnerAppInstallResponse,
     PartnerAppCredentialListResponse,
     PartnerAppInstallListResponse,
+    PartnerAppListResponse,
+    PartnerAppInstallWithEndedAccess,
+    PartnerAppInstallWithEndedAccessResponse,
+    PartnerAppMerchantActionRouting,
+    PartnerAppPaymentSplits,
+    PartnerAppPermissionManifestEntry,
+    PartnerAppPlatform,
+    PartnerAppPlatformCapability,
+    PartnerAppPlatformCurrentTerms,
+    PartnerAppPaymentSplitsRequestInput,
+    PartnerAppPermissionManifestEntryRequestInput,
     PartnerAppCredentialPublicKeyRequestInput,
     PartnerAppCredentialJWKSURLRequestInput,
     PartnerAppCredentialWorkloadIdentityRequestInput,
     PartnerAppCredentialJWKSURL,
     PartnerAppCredentialPublicKey,
     PartnerAppCredentialWorkloadIdentity,
+    PartnerAppMerchantReadiness,
+    PartnerAppMerchantReadinessAxis,
+    PartnerAppPlatformContact,
     PartnerAppCredentialPublicKeyRequest
-} from '../declarations/types-47.js';
+} from '../declarations/types-49.js';
 export type {
     _SdkWithoutIdempotency,
     WorkloadIdentityClaimConditionRequestInput,
     WorkloadIdentityClaimCondition
-} from '../declarations/types-77.js';
-export type { RotatePartnerAppSecretResponse, RotatePartnerAppSecretRequestInput } from '../declarations/types-65.js';
+} from '../declarations/types-79.js';
+export type { RotatePartnerAppSecretResponse, RotatePartnerAppSecretRequestInput } from '../declarations/types-67.js';
 export type { ClientOptions, CheckoutSessionsListCustomerVerificationsParams } from '../declarations/types-7.js';
 export type { AcceptPartnerAppPlatformTermsRequestInput, AcceptPartnerAppPlatformTermsRequest } from '../declarations/types-0.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
-export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-42.js';
-export type { PlatformFeeCap, PlatformFeeCapRequestInput } from '../declarations/types-54.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
+export type { Credentials } from '../declarations/types-15.js';
+export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-44.js';
+export type { ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-62.js';
+export type { PlatformFeeCap, PlatformFeeCapRequestInput } from '../declarations/types-55.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type {
     CreatePartnerAppRequestInput,
     CreatePartnerAppCredentialRequestInput,
@@ -129,27 +131,28 @@ export type {
     CreatePartnerAppCredentialJWKSURLRequestInput,
     CreatePartnerAppCredentialWorkloadIdentityRequestInput
 } from '../declarations/types-12.js';
-export type { UpdatePartnerAppRequestInput } from '../declarations/types-74.js';
-export { makeAcceptPartnerAppPlatformTermsRequest } from '../declarations/types-77.js';
+export type { UpdatePartnerAppRequestInput } from '../declarations/types-76.js';
+export { makeAcceptPartnerAppPlatformTermsRequest } from '../declarations/types-79.js';
 export {
     makeCreatePartnerAppCredentialJWKSURLRequest,
     makeCreatePartnerAppCredentialPublicKeyRequest,
     makeCreatePartnerAppCredentialRequest,
     makeCreatePartnerAppCredentialWorkloadIdentityRequest,
     makeCreatePartnerAppRequest
-} from '../declarations/types-81.js';
+} from '../declarations/types-83.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export {
-    makeMoneyValue,
     makePartnerAppCredentialJWKSURLRequest,
     makePartnerAppCredentialPublicKeyRequest,
     makePartnerAppCredentialWorkloadIdentityRequest,
     makePartnerAppPaymentSplitsRequest,
-    makePartnerAppPermissionManifestEntryRequest
-} from '../declarations/types-86.js';
-export { makePartnerAppPlatformProfileRequest, makePlatformFeeCapRequest } from '../declarations/types-87.js';
-export { makeRotatePartnerAppSecretRequest } from '../declarations/types-89.js';
-export { makeUpdatePartnerAppRequest } from '../declarations/types-91.js';
-export { makeWorkloadIdentityClaimConditionRequest } from '../declarations/types-92.js';
+    makePartnerAppPermissionManifestEntryRequest,
+    makePartnerAppPlatformProfileRequest,
+    makePlatformFeeCapRequest
+} from '../declarations/types-89.js';
+export { makeRotatePartnerAppSecretRequest } from '../declarations/types-91.js';
+export { makeUpdatePartnerAppRequest } from '../declarations/types-93.js';
+export { makeWorkloadIdentityClaimConditionRequest } from '../declarations/types-94.js';
 export interface PartnerAppsResource {
     /**
  * Records that the authenticated credential accepted the current version of Flint's platform terms
@@ -161,14 +164,16 @@ export interface PartnerAppsResource {
  * partner_app.updated.
  *
  * `POST /v1/partner-apps/{partner_app_id}/accept-platform-terms`
- * @param partner_app_id Flint partner app ID.
+ * @param partner_app_id Flint partner app ID. Must be a valid ID with prefix papp_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/partner-apps#acceptPartnerAppPlatformTerms
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.partnerApps.acceptPlatformTerms("papp_01KEZF7C00Y8VMXYZ1GNPP3WHV", {expected_version: 1,
- * platform_terms_version: "2026-11-12"}, { idempotencyKey: idempotencyKey })
+ * platform_terms_version: "2026-11-16"}, { idempotencyKey: idempotencyKey })
  */
     acceptPlatformTerms(partner_app_id: InputValue<string>, params: PartnerAppsAcceptPlatformTermsParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<PartnerApp, PartnerAppResponse>>;
     /**
@@ -191,7 +196,9 @@ export interface PartnerAppsResource {
  * identity verification. Replace a credential by creating a new one, then removing the old one.
  *
  * `POST /v1/partner-apps/{partner_app_id}/credentials`
- * @param partner_app_id Flint partner app ID.
+ * @param partner_app_id Flint partner app ID. Must be a valid ID with prefix papp_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/partner-apps#createPartnerAppCredential
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -211,7 +218,9 @@ export interface PartnerAppsResource {
  * endpoints separately.
  *
  * `DELETE /v1/partner-apps/{partner_app_id}`
- * @param partner_app_id Flint partner app ID.
+ * @param partner_app_id Flint partner app ID. Must be a valid ID with prefix papp_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/partner-apps#deletePartnerApp
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -226,8 +235,12 @@ export interface PartnerAppsResource {
  * credential remains readable. Removing an already removed credential returns it unchanged.
  *
  * `DELETE /v1/partner-apps/{partner_app_id}/credentials/{partner_app_credential_id}`
- * @param partner_app_id Flint partner app ID.
- * @param partner_app_credential_id Flint partner app credential ID.
+ * @param partner_app_id Flint partner app ID. Must be a valid ID with prefix papp_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
+ * @param partner_app_credential_id Flint partner app credential ID. Must be a valid ID with prefix
+ * pacr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/partner-apps#deletePartnerAppCredential
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -243,7 +256,9 @@ export interface PartnerAppsResource {
  * an unknown ID does.
  *
  * `GET /v1/partner-apps/{partner_app_id}`
- * @param partner_app_id Flint partner app ID.
+ * @param partner_app_id Flint partner app ID. Must be a valid ID with prefix papp_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/partner-apps#getPartnerApp
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -254,8 +269,12 @@ export interface PartnerAppsResource {
  * Returns a credential, including a removed credential.
  *
  * `GET /v1/partner-apps/{partner_app_id}/credentials/{partner_app_credential_id}`
- * @param partner_app_id Flint partner app ID.
- * @param partner_app_credential_id Flint partner app credential ID.
+ * @param partner_app_id Flint partner app ID. Must be a valid ID with prefix papp_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
+ * @param partner_app_credential_id Flint partner app credential ID. Must be a valid ID with prefix
+ * pacr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/partner-apps#getPartnerAppCredential
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -271,8 +290,12 @@ export interface PartnerAppsResource {
  * that environment.
  *
  * `GET /v1/partner-apps/{partner_app_id}/installs/{partner_app_install_id}`
- * @param partner_app_id Flint partner app ID.
- * @param partner_app_install_id Flint partner app install ID.
+ * @param partner_app_id Flint partner app ID. Must be a valid ID with prefix papp_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
+ * @param partner_app_install_id Flint partner app install ID. Must be a valid ID with prefix
+ * pinst_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/partner-apps#getPartnerAppInstall
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -285,7 +308,9 @@ export interface PartnerAppsResource {
  * order: partner_app_credential_id ascending; this key uniquely orders the results.
  *
  * `GET /v1/partner-apps/{partner_app_id}/credentials`
- * @param partner_app_id Flint partner app ID.
+ * @param partner_app_id Flint partner app ID. Must be a valid ID with prefix papp_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/partner-apps#listPartnerAppCredentials
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -310,7 +335,9 @@ export interface PartnerAppsResource {
  * partner_app_install_id ascending; this key uniquely orders the results.
  *
  * `GET /v1/partner-apps/{partner_app_id}/installs`
- * @param partner_app_id Flint partner app ID.
+ * @param partner_app_id Flint partner app ID. Must be a valid ID with prefix papp_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/partner-apps#listPartnerAppInstalls
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -354,9 +381,15 @@ export interface PartnerAppsResource {
  *
  * `POST
  * /v1/partner-apps/{partner_app_id}/installs/{partner_app_install_id}/environment-grants/{environment_grant_id}/revoke`
- * @param partner_app_id Flint partner app ID.
- * @param partner_app_install_id Flint partner app install ID.
- * @param environment_grant_id Flint environment grant ID.
+ * @param partner_app_id Flint partner app ID. Must be a valid ID with prefix papp_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
+ * @param partner_app_install_id Flint partner app install ID. Must be a valid ID with prefix
+ * pinst_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
+ * @param environment_grant_id Flint environment grant ID. Must be a valid ID with prefix egrt_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/partner-apps#revokePartnerAppEnvironmentGrant
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -376,8 +409,12 @@ export interface PartnerAppsResource {
  * not restore ended access.
  *
  * `POST /v1/partner-apps/{partner_app_id}/installs/{partner_app_install_id}/revoke`
- * @param partner_app_id Flint partner app ID.
- * @param partner_app_install_id Flint partner app install ID.
+ * @param partner_app_id Flint partner app ID. Must be a valid ID with prefix papp_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
+ * @param partner_app_install_id Flint partner app install ID. Must be a valid ID with prefix
+ * pinst_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/partner-apps#revokePartnerAppInstall
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -396,7 +433,9 @@ export interface PartnerAppsResource {
  * when it leaked. Rotating again during an overlap ends the older secret at once.
  *
  * `POST /v1/partner-apps/{partner_app_id}/rotate-secret`
- * @param partner_app_id Flint partner app ID.
+ * @param partner_app_id Flint partner app ID. Must be a valid ID with prefix papp_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/partner-apps#rotatePartnerAppSecret
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -418,7 +457,9 @@ export interface PartnerAppsResource {
  * to enable secret authentication, including on replay.
  *
  * `PATCH /v1/partner-apps/{partner_app_id}`
- * @param partner_app_id Flint partner app ID.
+ * @param partner_app_id Flint partner app ID. Must be a valid ID with prefix papp_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/partner-apps#updatePartnerApp
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

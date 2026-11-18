@@ -8,6 +8,10 @@ Response model.
 
 Field definitions: [shared fields](RefundFailedMerchantEventDataPreviousAttributes.md#refundfailedmerchanteventdatapreviousattributes).
 
+### RefundPreviousAttributes.charge_allocations
+
+Declared alternatives: [RefundFailedMerchantEventDataPreviousAttributes.charge_allocations](../models/RefundFailedMerchantEventDataPreviousAttributes.md#refundfailedmerchanteventdatapreviousattributescharge_allocations).
+
 ### RefundPreviousAttributes.created_at
 
 Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).

@@ -1,8 +1,8 @@
 import type { Result, WithResponseInfo, InputValue, WebhookHeaders as _SdkWebhookHeaders } from '../runtime.js';
 import type { ClientOptions } from './types-7.js';
-import type { VerifiedWebhook } from './types-76.js';
-import type { WebhookVerificationOptions } from './types-77.js';
-import type { verifyWebhook, verifyWebhookAsync } from './types-92.js';
+import type { VerifiedWebhook } from './types-78.js';
+import type { WebhookVerificationOptions } from './types-79.js';
+import type { verifyWebhook, verifyWebhookAsync } from './types-94.js';
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {
     constructor(options?: ClientOptions);
@@ -41,7 +41,6 @@ export declare class Client {
     readonly disputes: import('../resources/disputes.js').DisputesResource;
     readonly emailPreferenceLinks: import('../resources/emailPreferenceLinks.js').EmailPreferenceLinksResource;
     readonly emailPreferences: import('../resources/emailPreferences.js').EmailPreferencesResource;
-    readonly feedbackReports: import('../resources/feedbackReports.js').FeedbackReportsResource;
     readonly files: import('../resources/files.js').FilesResource;
     readonly fraudWarnings: import('../resources/fraudWarnings.js').FraudWarningsResource;
     readonly fulfillmentEvents: import('../resources/fulfillmentEvents.js').FulfillmentEventsResource;
@@ -64,6 +63,9 @@ export declare class Client {
     readonly inventoryTransfers: import('../resources/inventoryTransfers.js').InventoryTransfersResource;
     readonly invoicePaymentTerms: import('../resources/invoicePaymentTerms.js').InvoicePaymentTermsResource;
     readonly invoices: import('../resources/invoices.js').InvoicesResource;
+    readonly licenseKeyActivations: import('../resources/licenseKeyActivations.js').LicenseKeyActivationsResource;
+    readonly licenseKeyPools: import('../resources/licenseKeyPools.js').LicenseKeyPoolsResource;
+    readonly licenseKeys: import('../resources/licenseKeys.js').LicenseKeysResource;
     readonly locations: import('../resources/locations.js').LocationsResource;
     readonly me: import('../resources/me.js').MeResource;
     readonly merchant: import('../resources/merchant.js').MerchantResource;

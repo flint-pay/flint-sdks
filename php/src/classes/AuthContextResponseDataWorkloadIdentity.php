@@ -60,7 +60,7 @@ final class AuthContextResponseDataWorkloadIdentity extends Model {
      */
     public function getFreshVerificationExpiresAt(): ?string { return $this->get('fresh_verification_expires_at'); }
     public function hasFreshVerificationExpiresAt(): bool { return $this->has('fresh_verification_expires_at'); }
-    /** Merchant the credential acts for.
+    /** Merchant the credential acts for. Null when an onboarding session has no merchant yet. Merchant the credential acts for.
      * @return string
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
@@ -100,7 +100,7 @@ final class AuthContextResponseDataWorkloadIdentity extends Model {
      */
     public function getPartnerAppInstallId(): string|null { return $this->get('partner_app_install_id'); }
     public function hasPartnerAppInstallId(): bool { return $this->has('partner_app_install_id'); }
-    /** Sandbox the credential is bound to, present only in test mode.
+    /** Public sandbox ID in test mode. Null when an onboarding session has no sandbox yet. Omitted when mode is live. Sandbox the credential is bound to, present only in test mode.
      * @return ?string
      */
     public function getSandboxId(): ?string { return $this->get('sandbox_id'); }

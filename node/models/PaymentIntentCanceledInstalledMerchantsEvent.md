@@ -27,7 +27,7 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `object` | Required | object and [WebhookPaymentIntent](../models/WebhookPaymentIntent.md#webhookpaymentintent) | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `processing_fee_money`, `add_on_fees`, `merchant_net_money`, `payment_collection`. `object`: [field definitions](../models/PaymentIntentAuthorizationExpiringInstalledMerchantsEvent.md#paymentintentauthorizationexpiringinstalledmerchantseventdataobject). |
+| `object` | Required | object and [WebhookPaymentIntent](../models/WebhookPaymentIntent.md#webhookpaymentintent) | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `processing_fee_money`, `processing_fee_details`, `add_on_fees`, `merchant_net_money`, `payment_collection`. `object`: [field definitions](../models/PaymentIntentAuthorizationExpiringInstalledMerchantsEvent.md#paymentintentauthorizationexpiringinstalledmerchantseventdataobject). |
 | `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/PaymentIntentCanceledInstalledMerchantsEvent.md#paymentintentcanceledinstalledmerchantseventdataprevious_attributes). |
 
 ### PaymentIntentCanceledInstalledMerchantsEvent.data.object
@@ -44,7 +44,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `authorization_expires_at` | Optional | string or null | Effective Flint deadline to capture a manual-capture hold: the earlier of the provider capture deadline and any order resource guarantee. Order guarantees last at most 24 hours from the payment attempt start and may end earlier. Capture is refused at or after this time, even while status is requires_capture. Omitted until a hold is placed. `authorization_expires_at`: [declared alternatives](../models/PaymentIntentCanceledInstalledMerchantsEvent.md#paymentintentcanceledinstalledmerchantseventdataprevious_attributesauthorization_expires_at). |
 | `authorized_at` | Optional | string or null | When the processor authorized the payment. Absent until then. `authorized_at`: [declared alternatives](../models/PaymentIntentCanceledInstalledMerchantsEvent.md#paymentintentcanceledinstalledmerchantseventdataprevious_attributesauthorized_at). |
 | `authorized_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | The amount the processor authorized. It always equals amount_money and doesn't change once set, even when a capture collects more. On a payment intent canceled with cancellation_reason payment_returned, it equals the authorization Flint released instead. Absent until the payment is authorized, and on payments canceled before authorization. `authorized_money`: [declared alternatives](../models/PaymentIntentCanceledInstalledMerchantsEvent.md#paymentintentcanceledinstalledmerchantseventdataprevious_attributesauthorized_money). |
-| `cancellation_reason` | Optional | string or null | Flint-normalized reason the payment intent was canceled. Present only while status is canceled. Unknown processor values are returned as payment_canceled. Values: [9 declared values](#paymentintentcanceledinstalledmerchantseventdataprevious_attributes-cancellation_reason-values). `cancellation_reason`: [declared alternatives](../models/PaymentIntentCanceledInstalledMerchantsEvent.md#paymentintentcanceledinstalledmerchantseventdataprevious_attributescancellation_reason). |
+| `cancellation_reason` | Optional | string or null | Flint-normalized reason the payment intent was canceled. Present only while status is canceled. A cancellation without a specific reason returns payment_canceled. Absent while last_payment_error.code is payment_blocked and Flint has not identified money to return. Unknown processor values are returned as payment_canceled. Values: [9 declared values](#paymentintentcanceledinstalledmerchantseventdataprevious_attributes-cancellation_reason-values). `cancellation_reason`: [declared alternatives](../models/PaymentIntentCanceledInstalledMerchantsEvent.md#paymentintentcanceledinstalledmerchantseventdataprevious_attributescancellation_reason). |
 | `capturable_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | The part of the authorization you can still capture. Positive only while status is requires_capture, and zero after you capture or cancel or the authorization expires. The authorization lapses at authorization_expires_at, and a capture attempted after that fails even if this is positive. Absent until the payment is authorized. `capturable_money`: [declared alternatives](../models/PaymentIntentCanceledInstalledMerchantsEvent.md#paymentintentcanceledinstalledmerchantseventdataprevious_attributescapturable_money). |
 | `capture_method` | Optional | string or null | When money is collected. Defaults to automatic. Values: `"automatic"`, `"manual"`. `capture_method`: [declared alternatives](../models/BuyerExpandedPaymentIntentSummaryPreviousAttributes.md#buyerexpandedpaymentintentsummarypreviousattributescapture_method). |
 | `captured_at` | Optional | string or null | When money was captured. For automatic capture, this is when the payment succeeded. Absent until capture. `captured_at`: [declared alternatives](../models/PaymentIntentCanceledInstalledMerchantsEvent.md#paymentintentcanceledinstalledmerchantseventdataprevious_attributescaptured_at). |
@@ -57,6 +57,8 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `customer_presence` | Optional | string or null | Whether the customer was present for the most recent confirmation. absent means Flint charged a saved card without them, as a merchant-initiated payment on its stored credential. Subscription renewals and automatic invoice charges are absent, and other payments are absent only when confirmed or paid with customer_presence absent. A customer who pays any of them with a card they enter makes it present. Each confirmation sets it again. Values: `"present"`, `"absent"`. `customer_presence`: [declared alternatives](../models/PaymentIntentCanceledInstalledMerchantsEvent.md#paymentintentcanceledinstalledmerchantseventdataprevious_attributescustomer_presence). |
 | `dispute_status` | Optional | string or null | Dispute state of this payment. none means no dispute or inquiry is open or recorded. The inquiry_ values track an issuer inquiry or early warning that isn't a chargeback. Read the dispute with GET /v1/disputes for its deadline and evidence. Values: [10 declared values](#paymentintentcanceledinstalledmerchantseventdataprevious_attributes-dispute_status-values). `dispute_status`: [declared alternatives](../models/BuyerExpandedPaymentIntentSummaryPreviousAttributes.md#buyerexpandedpaymentintentsummarypreviousattributesdispute_status). |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. `null` when no external reference ID has been set on the payment intent. `external_reference_id`: [declared alternatives](../models/PaymentIntentCanceledInstalledMerchantsEvent.md#paymentintentcanceledinstalledmerchantseventdataprevious_attributesexternal_reference_id). |
+| `failed_attempt_count` | Optional | integer or null | All-time failed-attempt count. Present on merchant reads; omitted for buyer credentials. `failed_attempt_count`: [declared alternatives](../models/PaymentIntentCanceledInstalledMerchantsEvent.md#paymentintentcanceledinstalledmerchantseventdataprevious_attributesfailed_attempt_count). |
+| `failed_attempts` | Optional | Array of [FailedPaymentAttemptPreviousAttributes](../models/FailedPaymentAttemptPreviousAttributes.md#failedpaymentattemptpreviousattributes) or null | Newest 50 failed attempts, newest first, with merchant-only card and buyer evidence frozen at admission. Older attempts can be included in failed_attempt_count. `failed_attempts`: [declared alternatives](../models/PaymentIntentCanceledInstalledMerchantsEvent.md#paymentintentcanceledinstalledmerchantseventdataprevious_attributesfailed_attempts). |
 | `fulfillment_hold` | Optional | [PaymentFulfillmentHoldPreviousAttributes](../models/PaymentFulfillmentHoldPreviousAttributes.md#paymentfulfillmentholdpreviousattributes) or null | Present when a payment provider asked Flint to pause fulfillment for this payment. While its status is active, open fulfillments on the order are on hold with reason payment_review. payment_intent.fulfillment_hold_updated is sent when the hold starts and when it lifts. |
 | `invoice` | Optional | [ExpandedInvoiceSummaryPreviousAttributes](../models/ExpandedInvoiceSummaryPreviousAttributes.md#expandedinvoicesummarypreviousattributes) or null | The linked invoice. Returned only with expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded and there is no related invoice. |
 | `invoice_id` | Optional | string or null | Invoice this payment intent collects, when it pays an invoice. `invoice_id`: [declared alternatives](../models/PaymentIntentCanceledInstalledMerchantsEvent.md#paymentintentcanceledinstalledmerchantseventdataprevious_attributesinvoice_id). |
@@ -74,7 +76,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `payment_options` | Optional | Array of string or null | Payment options the buyer can use for this payment. Items values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`, `"card_present"`. `payment_options`: [declared alternatives](../models/PaymentIntentCanceledInstalledMerchantsEvent.md#paymentintentcanceledinstalledmerchantseventdataprevious_attributespayment_options). |
 | `payment_source` | Optional | [PaymentSourceSummaryPreviousAttributes](../models/PaymentSourceSummaryPreviousAttributes.md#paymentsourcesummarypreviousattributes) or null | Summary of the card or bank account used for the payment. Absent until a payment source is attached. |
 | `platform_fee` | Optional | [PaymentIntentPlatformFeePreviousAttributes](../models/PaymentIntentPlatformFeePreviousAttributes.md#paymentintentplatformfeepreviousattributes) or null | The platform fee a partner app charges on this payment, when it created the payment with an install token and a fee. Absent when the payment carries none. Returned only to merchant credentials; omitted for buyer and checkout credentials. |
-| `reader_id` | Optional | string or null | The reader the payment is or was last presented on. Set when Flint presents it and kept afterward. While processing or requires_action with a reader_id, the payment is on that reader now. `reader_id`: [declared alternatives](../models/PaymentAttemptPaymentIntentPreviousAttributes.md#paymentattemptpaymentintentpreviousattributesreader_id). |
+| `reader_id` | Optional | string or null | The reader the payment is or was last presented on. Set when Flint presents it and kept afterward. While processing or requires_action with a reader_id and no payment_source.card.card_present, the payment is on that reader now. After a card is read, the payment can stay processing while Flint captures it. `reader_id`: [declared alternatives](../models/PaymentAttemptPaymentIntentPreviousAttributes.md#paymentattemptpaymentintentpreviousattributesreader_id). |
 | `receipt_email` | Optional | string or null | Email address for this payment's receipt. When it isn't set, Flint uses the customer's email. `null` when no receipt email has been set on the payment intent. `receipt_email`: [declared alternatives](../models/PaymentIntentCanceledInstalledMerchantsEvent.md#paymentintentcanceledinstalledmerchantseventdataprevious_attributesreceipt_email). |
 | `refund_expires_at` | Optional | string or null | Last time Flint can refund this payment through the original payment method. A refund submitted at exactly this time is accepted; after it, refunds through the original payment method are refused. Today only Affirm has a refund window: 120 days after the payment settles. `null` when the method has no refund window, the payment has not succeeded with captured money, or its capture time is missing. Always present with merchant credentials. `refund_expires_at`: [declared alternatives](../models/PaymentIntentCanceledInstalledMerchantsEvent.md#paymentintentcanceledinstalledmerchantseventdataprevious_attributesrefund_expires_at). |
 | `refund_status` | Optional | string or null | How much of captured_money has been refunded, including value issued as store credit, based on refunded_money. Values: `"none"`, `"partially_refunded"`, `"refunded"`. `refund_status`: [declared alternatives](../models/BuyerExpandedPaymentIntentSummaryPreviousAttributes.md#buyerexpandedpaymentintentsummarypreviousattributesrefund_status). |
@@ -174,25 +176,25 @@ anyOf variant 2.
 
 ### PaymentIntentCanceledInstalledMerchantsEvent.data.previous_attributes.authorized_money variant 1.amount
 
-Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.amount](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1amount).
 
 ### PaymentIntentCanceledInstalledMerchantsEvent.data.previous_attributes.authorized_money variant 1.currency
 
-Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.currency](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1currency).
 
 ### PaymentIntentCanceledInstalledMerchantsEvent.data.previous_attributes.cancellation_reason
 
 ### PaymentIntentCanceledInstalledMerchantsEvent.data.previous_attributes.cancellation_reason variant 1
 
-anyOf variant 1: Flint-normalized reason the payment intent was canceled. Present only while status is canceled. Unknown processor values are returned as payment_canceled..
+anyOf variant 1: Flint-normalized reason the payment intent was canceled. Present only while status is canceled. A cancellation without a specific reason returns payment_canceled. Absent while last_payment_error.code is payment_blocked and Flint has not identified money to return. Unknown processor values are returned as payment_canceled..
 
-- Value shape: string. Flint-normalized reason the payment intent was canceled. Present only while status is canceled. Unknown processor values are returned as payment_canceled. Values: `"requested_by_customer"`, `"duplicate"`, `"fraudulent"`, `"abandoned"`, `"invoice_payment_failed"`, `"invoice_voided"`, `"order_closed"`, `"payment_canceled"`, `"payment_returned"`.
+- Value shape: string. Flint-normalized reason the payment intent was canceled. Present only while status is canceled. A cancellation without a specific reason returns payment_canceled. Absent while last_payment_error.code is payment_blocked and Flint has not identified money to return. Unknown processor values are returned as payment_canceled. Values: `"requested_by_customer"`, `"duplicate"`, `"fraudulent"`, `"abandoned"`, `"invoice_payment_failed"`, `"invoice_voided"`, `"order_closed"`, `"payment_canceled"`, `"payment_returned"`.
 
 ### PaymentIntentCanceledInstalledMerchantsEvent.data.previous_attributes.cancellation_reason variant 2
 
 anyOf variant 2.
 
-- Value shape: null. Flint-normalized reason the payment intent was canceled. Present only while status is canceled. Unknown processor values are returned as payment_canceled. 
+- Value shape: null. Flint-normalized reason the payment intent was canceled. Present only while status is canceled. A cancellation without a specific reason returns payment_canceled. Absent while last_payment_error.code is payment_blocked and Flint has not identified money to return. Unknown processor values are returned as payment_canceled. 
 
 ### PaymentIntentCanceledInstalledMerchantsEvent.data.previous_attributes.capturable_money
 
@@ -215,11 +217,11 @@ anyOf variant 2.
 
 ### PaymentIntentCanceledInstalledMerchantsEvent.data.previous_attributes.capturable_money variant 1.amount
 
-Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.amount](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1amount).
 
 ### PaymentIntentCanceledInstalledMerchantsEvent.data.previous_attributes.capturable_money variant 1.currency
 
-Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.currency](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1currency).
 
 ### PaymentIntentCanceledInstalledMerchantsEvent.data.previous_attributes.capture_method
 
@@ -260,11 +262,11 @@ anyOf variant 2.
 
 ### PaymentIntentCanceledInstalledMerchantsEvent.data.previous_attributes.captured_money variant 1.amount
 
-Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.amount](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1amount).
 
 ### PaymentIntentCanceledInstalledMerchantsEvent.data.previous_attributes.captured_money variant 1.currency
 
-Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.currency](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1currency).
 
 ### PaymentIntentCanceledInstalledMerchantsEvent.data.previous_attributes.captured_tip_money
 
@@ -287,11 +289,11 @@ anyOf variant 2.
 
 ### PaymentIntentCanceledInstalledMerchantsEvent.data.previous_attributes.captured_tip_money variant 1.amount
 
-Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.amount](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1amount).
 
 ### PaymentIntentCanceledInstalledMerchantsEvent.data.previous_attributes.captured_tip_money variant 1.currency
 
-Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.currency](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1currency).
 
 ### PaymentIntentCanceledInstalledMerchantsEvent.data.previous_attributes.checkout_session_id
 
@@ -346,6 +348,34 @@ anyOf variant 1: Caller-owned identifier for this resource in an external system
 anyOf variant 2.
 
 - Value shape: null. Caller-owned identifier for this resource in an external system. `null` when no external reference ID has been set on the payment intent. 
+
+### PaymentIntentCanceledInstalledMerchantsEvent.data.previous_attributes.failed_attempt_count
+
+### PaymentIntentCanceledInstalledMerchantsEvent.data.previous_attributes.failed_attempt_count variant 1
+
+anyOf variant 1: All-time failed-attempt count. Present on merchant reads; omitted for buyer credentials..
+
+- Value shape: integer. All-time failed-attempt count. Present on merchant reads; omitted for buyer credentials. All-time failed-attempt count. Present on merchant reads; omitted for buyer credentials. Format: `int64`. 
+
+### PaymentIntentCanceledInstalledMerchantsEvent.data.previous_attributes.failed_attempt_count variant 2
+
+anyOf variant 2.
+
+- Value shape: null. All-time failed-attempt count. Present on merchant reads; omitted for buyer credentials. 
+
+### PaymentIntentCanceledInstalledMerchantsEvent.data.previous_attributes.failed_attempts
+
+### PaymentIntentCanceledInstalledMerchantsEvent.data.previous_attributes.failed_attempts variant 1
+
+anyOf variant 1: Newest 50 failed attempts, newest first, with merchant-only card and buyer evidence frozen at admission. Older attempts can be included in failed_attempt_count..
+
+- Value shape: Array of [FailedPaymentAttemptPreviousAttributes](../models/FailedPaymentAttemptPreviousAttributes.md#failedpaymentattemptpreviousattributes). Newest 50 failed attempts, newest first, with merchant-only card and buyer evidence frozen at admission. Older attempts can be included in failed_attempt_count. 
+
+### PaymentIntentCanceledInstalledMerchantsEvent.data.previous_attributes.failed_attempts variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Newest 50 failed attempts, newest first, with merchant-only card and buyer evidence frozen at admission. Older attempts can be included in failed_attempt_count. 
 
 ### PaymentIntentCanceledInstalledMerchantsEvent.data.previous_attributes.invoice_id
 
@@ -524,11 +554,11 @@ anyOf variant 2.
 
 ### PaymentIntentCanceledInstalledMerchantsEvent.data.previous_attributes.refunded_money variant 1.amount
 
-Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.amount](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1amount).
 
 ### PaymentIntentCanceledInstalledMerchantsEvent.data.previous_attributes.refunded_money variant 1.currency
 
-Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.currency](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1currency).
 
 ### PaymentIntentCanceledInstalledMerchantsEvent.data.previous_attributes.released_money
 
@@ -551,11 +581,11 @@ anyOf variant 2.
 
 ### PaymentIntentCanceledInstalledMerchantsEvent.data.previous_attributes.released_money variant 1.amount
 
-Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.amount](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1amount).
 
 ### PaymentIntentCanceledInstalledMerchantsEvent.data.previous_attributes.released_money variant 1.currency
 
-Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.currency](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1currency).
 
 ### PaymentIntentCanceledInstalledMerchantsEvent.data.previous_attributes.request_overcapture
 
@@ -708,11 +738,11 @@ anyOf variant 2.
 
 ### PaymentIntentCanceledInstalledMerchantsEvent.data.previous_attributes.tip_money variant 1.amount
 
-Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.amount](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1amount).
 
 ### PaymentIntentCanceledInstalledMerchantsEvent.data.previous_attributes.tip_money variant 1.currency
 
-Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.currency](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1currency).
 
 ### PaymentIntentCanceledInstalledMerchantsEvent.data.previous_attributes.transaction_purpose
 

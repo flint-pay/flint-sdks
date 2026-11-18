@@ -7,8 +7,8 @@ import type {
     InventoryMovementsGetParams,
     InventoryMovementsListParams
 } from '../declarations/types-32.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -33,22 +33,25 @@ export type {
     InventoryLevel,
     InventoryLevelsGetParams
 } from '../declarations/types-32.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
-export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-60.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { RequestOptions } from '../declarations/types-61.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode, BackorderPolicy } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
-export type { MetadataMap } from '../declarations/types-41.js';
+export type { Credentials } from '../declarations/types-15.js';
+export type { ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-62.js';
+export type { MetadataMap } from '../declarations/types-43.js';
 export type { InventorySourceSystem } from '../declarations/types-33.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export interface InventoryMovementsResource {
     /**
  * Retrieve an inventory movement and its stock changes by ID.
  *
  * `GET /v1/inventory-movements/{inventory_movement_id}`
- * @param inventory_movement_id Flint inventory movement ID.
+ * @param inventory_movement_id Flint inventory movement ID. Must be a valid ID with prefix invm_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/inventory#getInventoryMovement
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

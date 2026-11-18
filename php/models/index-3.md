@@ -1,7 +1,17 @@
 [Model index](../MODELS.md)
 
-# BuyerReturnResponseInput to CheckoutCustomTextConfigPreviousAttributesInput
+# BuyerReturnPreviewResponseInput to ChangeSubscriptionQuantityRequestInput
 
+- [BuyerReturnPreviewResponseInput](BuyerReturnPreviewResponseInput.md)
+- [BuyerReturnRefundEstimateInput](BuyerReturnRefundEstimateInput.md)
+- [BuyerReturnReplacementLineItemInputBundleInput](BuyerReturnReplacementLineItemInputBundleInput.md)
+- [BuyerReturnReplacementLineItemInputVariantInput](BuyerReturnReplacementLineItemInputVariantInput.md)
+- [BuyerReturnReplacementLineItemRequestInput](BuyerReturnReplacementLineItemRequestInput.md)
+- [BuyerReturnResolutionInput](BuyerReturnResolutionInput.md)
+- [BuyerReturnResolutionAdjustmentInput](BuyerReturnResolutionAdjustmentInput.md)
+- [BuyerReturnResolutionExecutionBlockerInput](BuyerReturnResolutionExecutionBlockerInput.md)
+- [BuyerReturnResolutionPreviewInput](BuyerReturnResolutionPreviewInput.md)
+- [BuyerReturnResolutionResponseInput](BuyerReturnResolutionResponseInput.md)
 - [BuyerReturnResponseInput](BuyerReturnResponseInput.md)
 - [BuyerSavePaymentMethodResponseInput](BuyerSavePaymentMethodResponseInput.md)
 - [BuyerSelectableOrderPaymentIntentInput](BuyerSelectableOrderPaymentIntentInput.md)
@@ -92,14 +102,4 @@
 - [ChangeMeSubscriptionQuantityRequestInput](ChangeMeSubscriptionQuantityRequestInput.md)
 - [ChangeSubscriptionPlanRequestInput](ChangeSubscriptionPlanRequestInput.md)
 - [ChangeSubscriptionQuantityRequestInput](ChangeSubscriptionQuantityRequestInput.md)
-- [CheckInTicketRequestInput](CheckInTicketRequestInput.md)
-- [CheckoutBuyerContactInput](CheckoutBuyerContactInput.md)
-- [CheckoutBuyerContactPreviousAttributesInput](CheckoutBuyerContactPreviousAttributesInput.md)
-- [CheckoutBuyerContactRequestInput](CheckoutBuyerContactRequestInput.md)
-- [CheckoutBuyerFieldsInput](CheckoutBuyerFieldsInput.md)
-- [CheckoutBuyerFieldsPreviousAttributesInput](CheckoutBuyerFieldsPreviousAttributesInput.md)
-- [CheckoutBuyerFieldsRequestInput](CheckoutBuyerFieldsRequestInput.md)
-- [CheckoutCustomerPrefillInput](CheckoutCustomerPrefillInput.md)
-- [CheckoutCustomTextConfigInput](CheckoutCustomTextConfigInput.md)
-- [CheckoutCustomTextConfigPreviousAttributesInput](CheckoutCustomTextConfigPreviousAttributesInput.md)
 

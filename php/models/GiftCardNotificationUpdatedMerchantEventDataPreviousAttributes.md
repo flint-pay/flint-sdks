@@ -59,9 +59,9 @@ Who the notification is sent to.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `email` | Conditional | string or null | Email address the notification is sent to. `email`: [declared alternatives](../models/GiftCardNotificationUpdatedMerchantEventDataPreviousAttributes.md#giftcardnotificationupdatedmerchanteventdatapreviousattributesrecipient-variant-1email). |
+| `email` | Conditional | string or null | Email address the notification is sent to. The local part before @ must be at most 64 octets (UTF-8 bytes). `email`: [declared alternatives](../models/GiftCardNotificationUpdatedMerchantEventDataPreviousAttributes.md#giftcardnotificationupdatedmerchanteventdatapreviousattributesrecipient-variant-1email). |
 | `message` | Conditional | string or null | Message included in the notification. `message`: [declared alternatives](../models/GiftCardNotificationRecipientPreviousAttributes.md#giftcardnotificationrecipientpreviousattributesmessage). |
-| `name` | Conditional | string or null | Name of the person the notification is addressed to. `name`: [declared alternatives](../models/GiftCardNotificationRecipientPreviousAttributes.md#giftcardnotificationrecipientpreviousattributesname). |
+| `name` | Conditional | string or null | Name of the person the notification is addressed to. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. `name`: [declared alternatives](../models/GiftCardNotificationRecipientPreviousAttributes.md#giftcardnotificationrecipientpreviousattributesname). |
 | `send_at` | Conditional | string or null | Optional whole-second send time between now and 90 days from now. `send_at`: [declared alternatives](../models/GiftCardNotificationUpdatedMerchantEventDataPreviousAttributes.md#giftcardnotificationupdatedmerchanteventdatapreviousattributesrecipient-variant-1send_at). |
 
 ### GiftCardNotificationUpdatedMerchantEventDataPreviousAttributes.recipient variant 1
@@ -81,15 +81,15 @@ anyOf variant 2.
 
 ### GiftCardNotificationUpdatedMerchantEventDataPreviousAttributes.recipient variant 1.email variant 1
 
-anyOf variant 1: Email address the notification is sent to..
+anyOf variant 1: Email address the notification is sent to. The local part before @ must be at most 64 octets (UTF-8 bytes)..
 
-- Value shape: string. Email address the notification is sent to. Email address the notification is sent to. Format: `email`. minLength: `1`. maxLength: `254`. Example: `"buyer@example.com"`. 
+- Value shape: string. Email address the notification is sent to. The local part before @ must be at most 64 octets (UTF-8 bytes). Email address the notification is sent to. The local part before @ must be at most 64 octets (UTF-8 bytes). Format: `email`. minLength: `1`. maxLength: `254`. Example: `"buyer@example.com"`. 
 
 ### GiftCardNotificationUpdatedMerchantEventDataPreviousAttributes.recipient variant 1.email variant 2
 
 anyOf variant 2.
 
-- Value shape: null. Email address the notification is sent to. 
+- Value shape: null. Email address the notification is sent to. The local part before @ must be at most 64 octets (UTF-8 bytes). 
 
 ### GiftCardNotificationUpdatedMerchantEventDataPreviousAttributes.recipient variant 1.message
 

@@ -15,7 +15,7 @@ final class PaymentSourceSummaryInput extends Model {
      */
     public function getAchDebit(): mixed { return $this->get('ach_debit'); }
     public function hasAchDebit(): bool { return $this->has('ach_debit'); }
-    /** Card details. Present when type is card. Display details for a card payment source: brand, last four digits, and payment method ID.
+    /** Card details. Present when type is card. Display details for a card payment source: brand, last four digits, issuing country, funding type, and payment method ID.
      * @return PaymentSourceCardSummaryInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When card is omitted; use hasCard() or valueOrDefault().
      */

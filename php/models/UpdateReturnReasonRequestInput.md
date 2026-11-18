@@ -13,6 +13,6 @@ Request input.
 | `expected_version` | Optional | integer | Required when any of these fields is present: category_handles. Format: `int64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. Example: `"warehouse-1842"`. |
 | `is_note_required` | Optional | boolean | Whether a Return line with this reason needs a buyer_note. |
-| `name` | Optional | string | Display name, limited to 1 through 255 bytes after trimming surrounding whitespace. minLength: `1`. |
+| `name` | Optional | string | Display name, limited to 1 through 255 bytes after trimming surrounding whitespace. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. |
 | `status` | Optional | string | Set active to offer the reason or inactive to stop offering it. To archive a merchant reason, use DELETE. Values: `"active"`, `"inactive"`. |
 

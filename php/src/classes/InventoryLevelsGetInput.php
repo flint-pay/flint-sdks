@@ -16,7 +16,7 @@ final class InventoryLevelsGetInput extends Model {
      */
     public function getExpand(): mixed { return $this->get('expand'); }
     public function hasExpand(): bool { return $this->has('expand'); }
-    /** Flint inventory level ID. Example: "invl_01KEZF7C00H201XZXKRX5KMDDE".
+    /** Flint inventory level ID. Must be a valid ID with prefix invl_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "invl_01KEZF7C00H201XZXKRX5KMDDE".
      * @return string
      * @throws SdkError When inventory_level_id is omitted; use hasInventoryLevelId() or valueOrDefault().
      */

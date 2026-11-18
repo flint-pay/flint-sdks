@@ -58,7 +58,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `response_due_at` | Optional | string or null | Requested time plus one calendar month in UTC, clamped to the last day of that month. This is the deadline for responding to the buyer's request. `response_due_at`: [declared alternatives](../models/CustomerDeletionRequestCompletedEventInput.md#customerdeletionrequestcompletedeventinputdataprevious_attributesresponse_due_at). |
 | `retention_policy` | Optional | string or null | What deletion keeps. `retain_required_commerce_records`: orders, invoices, credit notes, payments, and refunds stay for accounting, tax, and disputes, without the customer's email address or phone number. Issued invoices and credit notes keep the buyer name, billing address, and tax ID they were issued with, because tax law requires them. Orders keep the delivery recipient's name and address. Contact copies created while deletion is finishing are erased within minutes, with another check about 24 hours later. Values: `"retain_required_commerce_records"`. `retention_policy`: [declared alternatives](../models/CustomerDeletionRequestCompletedEventInput.md#customerdeletionrequestcompletedeventinputdataprevious_attributesretention_policy). |
 | `status` | Optional | string or null | Where the request is in review and erasure. Values: `"pending_review"`, `"processing"`, `"completed"`, `"rejected"`, `"failed"`. `status`: [declared alternatives](../models/CustomerDeletionRequestCompletedEventInput.md#customerdeletionrequestcompletedeventinputdataprevious_attributesstatus). |
-| `supported_actions` | Optional | Array of string or null | Lifecycle actions Flint accepts now, independent of the caller's permissions. Contains resolve while awaiting review, when retrying a failed deletion, and after resolution because repeating the original decision succeeds. An opposite decision is refused with field_locked at decision. Items values: `"resolve"`. `supported_actions`: [declared alternatives](../models/CustomerDeletionRequestCompletedEventInput.md#customerdeletionrequestcompletedeventinputdataprevious_attributessupported_actions). |
+| `supported_actions` | Optional | Array of string or null | Lifecycle actions Flint accepts now, independent of the caller's permissions. Contains resolve while awaiting review, during processing, and when retrying a failed deletion. Empty for completed and rejected requests. Repeating the original decision still succeeds; an opposite decision is refused with field_locked at decision. Items values: `"resolve"`. `supported_actions`: [declared alternatives](../models/CustomerDeletionRequestCompletedEventInput.md#customerdeletionrequestcompletedeventinputdataprevious_attributessupported_actions). |
 
 ### CustomerDeletionRequestCompletedEventInput.data.previous_attributes.blocking_resource_count
 
@@ -250,15 +250,15 @@ anyOf variant 2.
 
 ### CustomerDeletionRequestCompletedEventInput.data.previous_attributes.supported_actions variant 1
 
-anyOf variant 1: Lifecycle actions Flint accepts now, independent of the caller's permissions. Contains resolve while awaiting review, when retrying a failed deletion, and after resolution because repeating the original decision succeeds. An opposite decision is refused with field_locked at decision..
+anyOf variant 1: Lifecycle actions Flint accepts now, independent of the caller's permissions. Contains resolve while awaiting review, during processing, and when retrying a failed deletion. Empty for completed and rejected requests. Repeating the original decision still succeeds; an opposite decision is refused with field_locked at decision..
 
-- Value shape: Array of string. Lifecycle actions Flint accepts now, independent of the caller's permissions. Contains resolve while awaiting review, when retrying a failed deletion, and after resolution because repeating the original decision succeeds. An opposite decision is refused with field_locked at decision. Items values: `"resolve"`.
+- Value shape: Array of string. Lifecycle actions Flint accepts now, independent of the caller's permissions. Contains resolve while awaiting review, during processing, and when retrying a failed deletion. Empty for completed and rejected requests. Repeating the original decision still succeeds; an opposite decision is refused with field_locked at decision. Items values: `"resolve"`.
 
 ### CustomerDeletionRequestCompletedEventInput.data.previous_attributes.supported_actions variant 2
 
 anyOf variant 2.
 
-- Value shape: null. Lifecycle actions Flint accepts now, independent of the caller's permissions. Contains resolve while awaiting review, when retrying a failed deletion, and after resolution because repeating the original decision succeeds. An opposite decision is refused with field_locked at decision. 
+- Value shape: null. Lifecycle actions Flint accepts now, independent of the caller's permissions. Contains resolve while awaiting review, during processing, and when retrying a failed deletion. Empty for completed and rejected requests. Repeating the original decision still succeeds; an opposite decision is refused with field_locked at decision. 
 
 ### CustomerDeletionRequestCompletedEventInput.request
 

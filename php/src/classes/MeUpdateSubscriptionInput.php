@@ -10,7 +10,7 @@ namespace Flint;
 final class MeUpdateSubscriptionInput extends Model {
     /** @param array{'subscription_id': string, 'body': array{'billing_interval'?: string, 'billing_interval_count'?: int, 'cancel_at_period_end'?: bool, 'delivery'?: mixed, 'expected_version'?: int, 'payment_method_id'?: string, 'scheduled_plan_change'?: null}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeUpdateSubscriptionInput')); }
-    /** Flint subscription ID. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+    /** Flint subscription ID. Must be a valid ID with prefix sub_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
      * @return string
      * @throws SdkError When subscription_id is omitted; use hasSubscriptionId() or valueOrDefault().
      */

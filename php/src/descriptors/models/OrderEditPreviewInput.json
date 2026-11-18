@@ -1,1 +1,1 @@
-{"shared":"OrderEditPreview","dependencies":["MoneyValue","OrderEditChargeRefund","OrderEditPreview","OrderEditPreviewAddition","OrderEditRemoval"]}
+{"shared":"OrderEditPreview","dependencies":["MoneyValue","OrderEditChargeRefund","OrderEditPreview","OrderEditPreviewAddition","OrderEditRemoval","SignedMoney"]}

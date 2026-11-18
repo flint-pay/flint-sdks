@@ -1,1 +1,1 @@
-{"shared":"ConnectTaxConnectionRequest","dependencies":["ConnectTaxConnectionRequest","SellerTaxAttestationRequest"]}
+{"shared":"ConnectTaxConnectionRequest","dependencies":["AddressRequest","ConnectTaxConnectionRequest","SellerTaxAttestationRequest","SharedCodec2","SharedCodec3"]}

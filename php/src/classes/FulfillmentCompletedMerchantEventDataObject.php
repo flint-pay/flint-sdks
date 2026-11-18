@@ -178,7 +178,7 @@ final class FulfillmentCompletedMerchantEventDataObject extends Model {
      */
     public function getRecipient(): ?FulfillmentRecipient { return $this->get('recipient'); }
     public function hasRecipient(): bool { return $this->has('recipient'); }
-    /** Derived start of the service schedule or pickup, local delivery, or shipment window. Null when no schedule is booked, including digital fulfillments. Details remain the authoritative schedule inputs. Nulls sort first ascending and last descending, then by fulfillment_id in the same direction. Format: date-time.
+    /** Derived start of the service schedule or pickup, local delivery, or shipment window. Null when no schedule is booked, including digital fulfillments. Details remain the authoritative schedule inputs. Sorting by scheduled_start_at puts nulls first ascending and last descending. Sorting by due_at compares this same value with nulls last ascending and first descending. Ties use fulfillment_id in the same direction. Format: date-time.
      * @return string|null
      */
     public function getScheduledStartAt(): string|null { return $this->get('scheduled_start_at'); }

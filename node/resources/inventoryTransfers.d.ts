@@ -1,7 +1,7 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { InventoryTransfer } from '../declarations/types-33.js';
 import type {
+    InventoryTransfer,
     InventoryTransferListResponse,
     InventoryTransferResponse,
     InventoryTransferResult,
@@ -16,8 +16,8 @@ import type {
     InventoryTransfersReturnToOriginParams,
     InventoryTransfersUpdateParams
 } from '../declarations/types-34.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -37,6 +37,7 @@ export type {
     InventoryTransferResult,
     InventoryTransferResultResponse,
     InventoryTransfersCreateParams,
+    InventoryTransfer,
     InventoryTransferResponse,
     InventoryTransfersDepartParams,
     InventoryTransfersGetParams,
@@ -49,48 +50,44 @@ export type {
     InventoryTransferLineRequestInput,
     InventoryTransferLine
 } from '../declarations/types-34.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type { InventoryTransfer, InventorySourceSystemRequestInput } from '../declarations/types-33.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { RequestOptions, ReportInventoryTransferLossRequestInput } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type { CancelInventoryTransferRequestInput } from '../declarations/types-4.js';
+export type { CancelInventoryTransferRequestInput } from '../declarations/types-5.js';
 export type { InventoryProvenanceRequestInput, InventoryLevel, InventoryItem } from '../declarations/types-32.js';
+export type { InventorySourceSystemRequestInput } from '../declarations/types-33.js';
 export type { AuthMode, BackorderPolicy } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
-export type { MetadataMap } from '../declarations/types-41.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession, ReceiveInventoryTransferRequestInput } from '../declarations/types-58.js';
+export type { Credentials } from '../declarations/types-15.js';
+export type { MetadataMap } from '../declarations/types-43.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession, ReceiveInventoryTransferRequestInput } from '../declarations/types-60.js';
 export type { CreateInventoryTransferRequestInput } from '../declarations/types-10.js';
-export type { DepartInventoryTransferRequestInput, DisputesAcceptParams } from '../declarations/types-25.js';
-export type { ReportInventoryTransferLossRequestInput } from '../declarations/types-59.js';
-export type { ReturnInventoryTransferToOriginRequestInput } from '../declarations/types-61.js';
-export type { UpdateInventoryTransferRequestInput } from '../declarations/types-74.js';
-export { makeCancelInventoryTransferRequest } from '../declarations/types-78.js';
-export { makeCreateInventoryTransferRequest } from '../declarations/types-80.js';
-export { makeDepartInventoryTransferRequest } from '../declarations/types-83.js';
-export {
-    makeInventoryProvenanceRequest,
-    makeInventorySourceSystemRequest,
-    makeInventoryTransferLineRequest
-} from '../declarations/types-84.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export {
-    makeReceiveInventoryTransferRequest,
-    makeReportInventoryTransferLossRequest,
-    makeReturnInventoryTransferToOriginRequest
-} from '../declarations/types-88.js';
-export { makeUpdateInventoryTransferRequest } from '../declarations/types-91.js';
+export type { DepartInventoryTransferRequestInput } from '../declarations/types-25.js';
+export type { ReturnInventoryTransferToOriginRequestInput } from '../declarations/types-63.js';
+export type { UpdateInventoryTransferRequestInput } from '../declarations/types-76.js';
+export type { DisputesAcceptParams } from '../declarations/types-26.js';
+export { makeCancelInventoryTransferRequest } from '../declarations/types-80.js';
+export { makeCreateInventoryTransferRequest } from '../declarations/types-82.js';
+export { makeDepartInventoryTransferRequest, makeInventoryProvenanceRequest } from '../declarations/types-86.js';
+export { makeInventorySourceSystemRequest, makeInventoryTransferLineRequest } from '../declarations/types-87.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeReceiveInventoryTransferRequest, makeReportInventoryTransferLossRequest } from '../declarations/types-90.js';
+export { makeReturnInventoryTransferToOriginRequest } from '../declarations/types-91.js';
+export { makeUpdateInventoryTransferRequest } from '../declarations/types-93.js';
 export interface InventoryTransfersResource {
     /**
  * Cancels requested quantity that hasn't departed. Call it only when cancel is in
  * supported_actions. Lines carry cumulative targets, not deltas. Returns a result with
  * inventory_transfer as its primary resource and inventory_levels for the levels changed.
- * Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint
- * includes the canonical request body. To recover the command's effects after a lost response,
- * read the inventory transfer by ID.
+ * Idempotency is scoped to the authenticated merchant, environment, caller namespace, and
+ * operation. Its fingerprint includes the canonical request body. To recover the command's effects
+ * after a lost response, read the inventory transfer by ID.
  *
  * `POST /v1/inventory-transfers/{inventory_transfer_id}/cancel`
- * @param inventory_transfer_id Flint inventory transfer ID.
+ * @param inventory_transfer_id Flint inventory transfer ID. Must be a valid ID with prefix invtr_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/inventory#cancelInventoryTransfer
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -106,8 +103,8 @@ export interface InventoryTransfersResource {
  * Create a planned stock transfer between two Locations. Creates a draft and moves no stock, so an
  * idempotency key is optional: each request without a key creates a separate draft. With a key, a
  * retry must send the same request body, and idempotency is scoped to the authenticated merchant,
- * environment, and endpoint. To recover a keyed create after a lost response, list inventory
- * transfers with idempotency_key.
+ * environment, caller namespace, and operation. To recover a keyed create after a lost response,
+ * list inventory transfers with idempotency_key.
  *
  * `POST /v1/inventory-transfers`
  * @see https://developers.withflintpay.com/docs/api/inventory#createInventoryTransfer
@@ -124,12 +121,14 @@ export interface InventoryTransfersResource {
  * Takes stock off the origin location and puts it in transit. Call it only when depart is in
  * supported_actions. Lines carry cumulative targets, not deltas. Returns a result with
  * inventory_transfer as its primary resource and inventory_levels for the levels changed.
- * Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint
- * includes the canonical request body. To recover the command's effects after a lost response,
- * read the inventory transfer by ID.
+ * Idempotency is scoped to the authenticated merchant, environment, caller namespace, and
+ * operation. Its fingerprint includes the canonical request body. To recover the command's effects
+ * after a lost response, read the inventory transfer by ID.
  *
  * `POST /v1/inventory-transfers/{inventory_transfer_id}/depart`
- * @param inventory_transfer_id Flint inventory transfer ID.
+ * @param inventory_transfer_id Flint inventory transfer ID. Must be a valid ID with prefix invtr_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/inventory#departInventoryTransfer
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -145,7 +144,9 @@ export interface InventoryTransfersResource {
  * Retrieve an inventory transfer, its lines, and supported_actions by ID.
  *
  * `GET /v1/inventory-transfers/{inventory_transfer_id}`
- * @param inventory_transfer_id Flint inventory transfer ID.
+ * @param inventory_transfer_id Flint inventory transfer ID. Must be a valid ID with prefix invtr_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/inventory#getInventoryTransfer
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -176,11 +177,13 @@ export interface InventoryTransfersResource {
  * quantity by condition. Call it only when receive is in supported_actions. Lines carry cumulative
  * targets, not deltas. Returns a result with inventory_transfer as its primary resource and
  * inventory_levels for the levels changed. Idempotency is scoped to the authenticated merchant,
- * environment, and endpoint. Its fingerprint includes the canonical request body. To recover the
- * command's effects after a lost response, read the inventory transfer by ID.
+ * environment, caller namespace, and operation. Its fingerprint includes the canonical request
+ * body. To recover the command's effects after a lost response, read the inventory transfer by ID.
  *
  * `POST /v1/inventory-transfers/{inventory_transfer_id}/receive`
- * @param inventory_transfer_id Flint inventory transfer ID.
+ * @param inventory_transfer_id Flint inventory transfer ID. Must be a valid ID with prefix invtr_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/inventory#receiveInventoryTransfer
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -196,11 +199,14 @@ export interface InventoryTransfersResource {
  * Records in-transit stock as lost. Call it only when report_loss is in supported_actions. Lines
  * carry cumulative targets, not deltas. Returns a result with inventory_transfer as its primary
  * resource and inventory_levels for the levels changed. Idempotency is scoped to the authenticated
- * merchant, environment, and endpoint. Its fingerprint includes the canonical request body. To
- * recover the command's effects after a lost response, read the inventory transfer by ID.
+ * merchant, environment, caller namespace, and operation. Its fingerprint includes the canonical
+ * request body. To recover the command's effects after a lost response, read the inventory
+ * transfer by ID.
  *
  * `POST /v1/inventory-transfers/{inventory_transfer_id}/report-loss`
- * @param inventory_transfer_id Flint inventory transfer ID.
+ * @param inventory_transfer_id Flint inventory transfer ID. Must be a valid ID with prefix invtr_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/inventory#reportInventoryTransferLoss
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -215,12 +221,14 @@ export interface InventoryTransfersResource {
  * Puts in-transit stock back at the origin location. Call it only when return_to_origin is in
  * supported_actions. Lines carry cumulative targets, not deltas. Returns a result with
  * inventory_transfer as its primary resource and inventory_levels for the levels changed.
- * Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint
- * includes the canonical request body. To recover the command's effects after a lost response,
- * read the inventory transfer by ID.
+ * Idempotency is scoped to the authenticated merchant, environment, caller namespace, and
+ * operation. Its fingerprint includes the canonical request body. To recover the command's effects
+ * after a lost response, read the inventory transfer by ID.
  *
  * `POST /v1/inventory-transfers/{inventory_transfer_id}/return-to-origin`
- * @param inventory_transfer_id Flint inventory transfer ID.
+ * @param inventory_transfer_id Flint inventory transfer ID. Must be a valid ID with prefix invtr_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/inventory#returnInventoryTransferToOrigin
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -239,7 +247,9 @@ export interface InventoryTransfersResource {
  * it.
  *
  * `PATCH /v1/inventory-transfers/{inventory_transfer_id}`
- * @param inventory_transfer_id Flint inventory transfer ID.
+ * @param inventory_transfer_id Flint inventory transfer ID. Must be a valid ID with prefix invtr_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/inventory#updateInventoryTransfer
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

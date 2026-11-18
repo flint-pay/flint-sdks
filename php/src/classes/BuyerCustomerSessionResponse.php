@@ -9,7 +9,7 @@ namespace Flint;
 final class BuyerCustomerSessionResponse extends Model {
     /** @param array{'data': mixed, 'meta'?: mixed, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerCustomerSessionResponse')); }
-    /** The customer session, including its status and credential expiry times. A credential for the /v1/me routes that acts as one customer. Unless it came from an access link, its secret can read and change that customer's orders, payments, subscriptions, saved payment methods, addresses, returns, and invoices, and request account deletion.
+    /** The customer session, including its status and credential expiry times. A credential for the /v1/me routes that acts as one customer. By default it can read and change the customer's account and commerce data, including saved payment methods and account deletion requests. Explicit capabilities or access-link resource grants narrow that authority.
      * @return BuyerCustomerSession
      */
     public function getData(): BuyerCustomerSession { return $this->get('data'); }

@@ -30,7 +30,8 @@ One entry in a resource timeline. The `entry_type` selects which of the request,
 | `retry` | Conditional | string | Whether sending this request again can succeed, and how. It depends only on code and details[0].reason; the errors reference lists the value for each. Values: `"same_request"`, `"after_refresh"`, `"none"`. |
 | `route_pattern` | Conditional | string | The matched route as a method and path template, such as `POST /v1/orders`. |
 | `status_code` | Conditional | integer | Format: `int32`. |
-| `event_type` | Conditional | string | Type of webhook event recorded for this resource. Values: [294 declared values](CreateWebhookTestEventRequest.md#createwebhooktesteventrequest-event_type-values). |
+| `actor` | Conditional | [ReturnActor](../models/ReturnActor.md#returnactor) or null | Who caused the change, captured with the event. Null when the event predates actor attribution, its payload has been redacted, its resource type does not record an actor, or attribution is unavailable. Uses the same actor model as returns. |
+| `event_type` | Conditional | string | Type of webhook event recorded for this resource. Values: [305 declared values](CreateWebhookTestEventRequest.md#createwebhooktesteventrequest-event_type-values). |
 | `webhook_event_id` | Conditional | string | ID of the event being delivered. Example: `"whev_01KEZF7C00362MS3HV970TRZGS"`. |
 | `attempt_number` | Conditional | integer | Which attempt this is for the delivery, starting at 1. Format: `int32`. |
 | `completed_at` | Conditional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
@@ -67,7 +68,7 @@ oneOf with entry_type: "api_request": An API request recorded in this resource's
 
 - Required: `api_request_log_id`, `attributed_resource`, `http_method`, `latency_milliseconds`, `path`, `request_id`, `route_pattern`, `status_code`.
 - Optional: `caller`, `client_request_id`, `client_trace_id`, `error_code`, `error_summary`, `error_type`, `recommended_action`, `reference_url`, `retry`.
-- Undeclared: `event_type`, `webhook_event_id`, `attempt_number`, `completed_at`, `delivery_trigger`, `duration_milliseconds`, `error_category`, `reason_message`, `retryable`, `started_at`, `status`, `webhook_delivery_attempt_id`, `webhook_delivery_id`, `webhook_endpoint_id`, `image_version`, `mutation_kind`.
+- Undeclared: `actor`, `event_type`, `webhook_event_id`, `attempt_number`, `completed_at`, `delivery_trigger`, `duration_milliseconds`, `error_category`, `reason_message`, `retryable`, `started_at`, `status`, `webhook_delivery_attempt_id`, `webhook_delivery_id`, `webhook_endpoint_id`, `image_version`, `mutation_kind`.
 - Constraints for `api_request_log_id`: Stable identifier of this log entry.
 - Constraints for `entry_type`: Always `api_request` for this kind of entry. Values: `"api_request"`.
 - Constraints for `error_summary`: A short explanation of why the request failed. Absent for successful requests.
@@ -79,7 +80,7 @@ oneOf with entry_type: "api_request": An API request recorded in this resource's
 
 oneOf with entry_type: "webhook_event": A webhook event recorded in this resource's timeline..
 
-- Required: `event_type`, `webhook_event_id`.
+- Required: `actor`, `event_type`, `webhook_event_id`.
 - Optional: `api_request_log_id`, `request_id`.
 - Undeclared: `attributed_resource`, `caller`, `client_request_id`, `client_trace_id`, `error_code`, `error_summary`, `error_type`, `http_method`, `latency_milliseconds`, `path`, `recommended_action`, `reference_url`, `retry`, `route_pattern`, `status_code`, `attempt_number`, `completed_at`, `delivery_trigger`, `duration_milliseconds`, `error_category`, `reason_message`, `retryable`, `started_at`, `status`, `webhook_delivery_attempt_id`, `webhook_delivery_id`, `webhook_endpoint_id`, `image_version`, `mutation_kind`.
 - Constraints for `api_request_log_id`: ID of the API request log associated with this event. Omitted when no request log is associated.
@@ -92,7 +93,7 @@ oneOf with entry_type: "webhook_delivery_attempt": A webhook delivery attempt re
 
 - Required: `attempt_number`, `delivery_trigger`, `status`, `webhook_delivery_attempt_id`, `webhook_delivery_id`, `webhook_endpoint_id`, `webhook_event_id`.
 - Optional: `api_request_log_id`, `completed_at`, `duration_milliseconds`, `error_category`, `error_summary`, `reason_message`, `recommended_action`, `request_id`, `retryable`, `started_at`, `status_code`.
-- Undeclared: `attributed_resource`, `caller`, `client_request_id`, `client_trace_id`, `error_code`, `error_type`, `http_method`, `latency_milliseconds`, `path`, `reference_url`, `retry`, `route_pattern`, `event_type`, `image_version`, `mutation_kind`.
+- Undeclared: `attributed_resource`, `caller`, `client_request_id`, `client_trace_id`, `error_code`, `error_type`, `http_method`, `latency_milliseconds`, `path`, `reference_url`, `retry`, `route_pattern`, `actor`, `event_type`, `image_version`, `mutation_kind`.
 - Constraints for `api_request_log_id`: ID of the API request log associated with this attempt. Omitted when no request log is associated.
 - Constraints for `entry_type`: Always `webhook_delivery_attempt` for this kind of entry. Values: `"webhook_delivery_attempt"`.
 - Constraints for `error_summary`: A concise explanation of the failure for this attempt. Present only when this attempt's `status` is `failed`.
@@ -106,7 +107,7 @@ oneOf with entry_type: "image_mutation": A change to this resource's image attac
 
 - Required: `image_version`, `mutation_kind`.
 - Optional: `request_id`.
-- Undeclared: `api_request_log_id`, `attributed_resource`, `caller`, `client_request_id`, `client_trace_id`, `error_code`, `error_summary`, `error_type`, `http_method`, `latency_milliseconds`, `path`, `recommended_action`, `reference_url`, `retry`, `route_pattern`, `status_code`, `event_type`, `webhook_event_id`, `attempt_number`, `completed_at`, `delivery_trigger`, `duration_milliseconds`, `error_category`, `reason_message`, `retryable`, `started_at`, `status`, `webhook_delivery_attempt_id`, `webhook_delivery_id`, `webhook_endpoint_id`.
+- Undeclared: `api_request_log_id`, `attributed_resource`, `caller`, `client_request_id`, `client_trace_id`, `error_code`, `error_summary`, `error_type`, `http_method`, `latency_milliseconds`, `path`, `recommended_action`, `reference_url`, `retry`, `route_pattern`, `status_code`, `actor`, `event_type`, `webhook_event_id`, `attempt_number`, `completed_at`, `delivery_trigger`, `duration_milliseconds`, `error_category`, `reason_message`, `retryable`, `started_at`, `status`, `webhook_delivery_attempt_id`, `webhook_delivery_id`, `webhook_endpoint_id`.
 - Constraints for `entry_type`: Always `image_mutation` for this kind of entry. Values: `"image_mutation"`.
 - Constraints for `resource_timeline_entry_id`: Example: `"iomevt_01KEZF7C00D4JSSDP6AB68EFF2"`.
 

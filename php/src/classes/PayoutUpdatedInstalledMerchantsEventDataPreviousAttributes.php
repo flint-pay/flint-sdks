@@ -8,6 +8,7 @@ namespace Flint;
  * @property-read string|null $created_at
  * @property-read string|null $currency
  * @property-read string|null $description
+ * @property-read string|null $direction
  * @property-read string|null $external_reference_id
  * @property-read string|null $failure_code
  * @property-read string|null $failure_message
@@ -33,14 +34,14 @@ namespace Flint;
  * @property-read string|null $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class PayoutUpdatedInstalledMerchantsEventDataPreviousAttributes extends Model {
-    /** @param array{'amount_money'?: mixed, 'arrival_date'?: mixed, 'balance_source_type'?: mixed, 'created_at'?: mixed, 'currency'?: mixed, 'description'?: mixed, 'external_reference_id'?: mixed, 'failure_code'?: mixed, 'failure_message'?: mixed, 'fee_amount_status'?: mixed, 'fee_money'?: mixed, 'initiated_by'?: mixed, 'merchant_id'?: mixed, 'metadata'?: mixed, 'method'?: mixed, 'net_money'?: mixed, 'original_payout'?: mixed, 'original_payout_id'?: mixed, 'payout_destination'?: mixed, 'payout_destination_id'?: mixed, 'payout_id'?: mixed, 'reversal_status'?: mixed, 'reversed_by_payout'?: mixed, 'reversed_by_payout_id'?: mixed, 'statement_descriptor'?: mixed, 'status'?: mixed, 'supported_actions'?: mixed, 'trace_id'?: mixed, 'updated_at'?: mixed, ...}|object $values */
+    /** @param array{'amount_money'?: mixed, 'arrival_date'?: mixed, 'balance_source_type'?: mixed, 'created_at'?: mixed, 'currency'?: mixed, 'description'?: mixed, 'direction'?: mixed, 'external_reference_id'?: mixed, 'failure_code'?: mixed, 'failure_message'?: mixed, 'fee_amount_status'?: mixed, 'fee_money'?: mixed, 'initiated_by'?: mixed, 'merchant_id'?: mixed, 'metadata'?: mixed, 'method'?: mixed, 'net_money'?: mixed, 'original_payout'?: mixed, 'original_payout_id'?: mixed, 'payout_destination'?: mixed, 'payout_destination_id'?: mixed, 'payout_id'?: mixed, 'reversal_status'?: mixed, 'reversed_by_payout'?: mixed, 'reversed_by_payout_id'?: mixed, 'statement_descriptor'?: mixed, 'status'?: mixed, 'supported_actions'?: mixed, 'trace_id'?: mixed, 'updated_at'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PayoutUpdatedInstalledMerchantsEventDataPreviousAttributes')); }
-    /** Amount sent to your bank. Always positive. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+    /** Amount moved between your bank and Flint. Always positive. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      * @return MoneyValuePreviousAttributes|null
      */
     public function getAmountMoney(): MoneyValuePreviousAttributes|null { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** Calendar date the bank is expected to receive the funds, in YYYY-MM-DD format using the UTC date of the expected arrival. anyOf[1] (Value): string. Calendar date the bank is expected to receive the funds, in YYYY-MM-DD format using the UTC date of the expected arrival. Format: date. anyOf[2] (Value): null.
+    /** Expected settlement date of the transfer, in YYYY-MM-DD format using the UTC date of the expected arrival. anyOf[1] (Value): string. Expected settlement date of the transfer, in YYYY-MM-DD format using the UTC date of the expected arrival. Format: date. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getArrivalDate(): string|null { return $this->get('arrival_date'); }
@@ -65,6 +66,11 @@ final class PayoutUpdatedInstalledMerchantsEventDataPreviousAttributes extends M
      */
     public function getDescription(): string|null { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
+    /** Direction of the money movement. Outbound payouts deposit funds in your bank; inbound payouts withdraw funds to cover a negative Flint balance. Value enum: "outbound", "inbound". anyOf[1] (Value): string. Direction of the money movement. Outbound payouts deposit funds in your bank; inbound payouts withdraw funds to cover a negative Flint balance. Value enum: "outbound", "inbound". anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getDirection(): string|null { return $this->get('direction'); }
+    public function hasDirection(): bool { return $this->has('direction'); }
     /** Caller-owned identifier for this resource in an external system. anyOf[1] (Value): string. Caller-owned identifier for this resource in an external system. maxLength: 255. anyOf[2] (Value): null.
      * @return string|null
      */
@@ -90,12 +96,12 @@ final class PayoutUpdatedInstalledMerchantsEventDataPreviousAttributes extends M
      */
     public function getFeeMoney(): MoneyValuePreviousAttributes|null { return $this->get('fee_money'); }
     public function hasFeeMoney(): bool { return $this->has('fee_money'); }
-    /** What started the payout. A payout imported from your processor follows the processor: scheduled when it sent the payout automatically, otherwise manual. Only scheduled payouts list their balance transactions through GET /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized. Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform", "other". anyOf[1] (Value): string. What started the payout. A payout imported from your processor follows the processor: scheduled when it sent the payout automatically, otherwise manual. Only scheduled payouts list their balance transactions through GET /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized. Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform", "other". anyOf[2] (Value): null.
+    /** What started the payout. Inbound payouts are always platform initiated. An outbound payout imported from your processor follows the processor: scheduled when it sent the payout automatically, otherwise manual. Only scheduled outbound payouts list their balance transactions through GET /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized. Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform", "other". anyOf[1] (Value): string. What started the payout. Inbound payouts are always platform initiated. An outbound payout imported from your processor follows the processor: scheduled when it sent the payout automatically, otherwise manual. Only scheduled outbound payouts list their balance transactions through GET /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized. Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform", "other". anyOf[2] (Value): null.
      * @return string|null
      */
     public function getInitiatedBy(): string|null { return $this->get('initiated_by'); }
     public function hasInitiatedBy(): bool { return $this->has('initiated_by'); }
-    /** Merchant receiving the payout. anyOf[1] (Value): string. Merchant receiving the payout. anyOf[2] (Value): null.
+    /** Merchant whose balance the payout changes. anyOf[1] (Value): string. Merchant whose balance the payout changes. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getMerchantId(): string|null { return $this->get('merchant_id'); }
@@ -110,7 +116,7 @@ final class PayoutUpdatedInstalledMerchantsEventDataPreviousAttributes extends M
      */
     public function getMethod(): string|null { return $this->get('method'); }
     public function hasMethod(): bool { return $this->has('method'); }
-    /** Signed effect of this payout on your Flint balance. It is negative because the payout takes money out: a 25000 payout with no fee has net_money -25000. `null` when your processor hasn't recorded the payout yet. anyOf[1] (Value): {@see SignedMoneyPreviousAttributes}. anyOf[2] (Value): null.
+    /** Signed effect of this payout on your Flint balance. Negative for outbound payouts and positive for inbound payouts. `null` when your processor hasn't recorded the payout yet. anyOf[1] (Value): {@see SignedMoneyPreviousAttributes}. anyOf[2] (Value): null.
      * @return SignedMoneyPreviousAttributes|null
      */
     public function getNetMoney(): SignedMoneyPreviousAttributes|null { return $this->get('net_money'); }
@@ -130,7 +136,7 @@ final class PayoutUpdatedInstalledMerchantsEventDataPreviousAttributes extends M
      */
     public function getPayoutDestination(): ExpandedPayoutDestinationSummaryPreviousAttributes|null { return $this->get('payout_destination'); }
     public function hasPayoutDestination(): bool { return $this->has('payout_destination'); }
-    /** Bank account or debit card receiving the payout. Absent when Flint can't match your processor's destination to a payout destination. anyOf[1] (Value): string. Bank account or debit card receiving the payout. Absent when Flint can't match your processor's destination to a payout destination. anyOf[2] (Value): null.
+    /** Bank account or debit card used for the payout. Absent when Flint can't match your processor's destination to a payout destination. anyOf[1] (Value): string. Bank account or debit card used for the payout. Absent when Flint can't match your processor's destination to a payout destination. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getPayoutDestinationId(): string|null { return $this->get('payout_destination_id'); }
@@ -155,22 +161,22 @@ final class PayoutUpdatedInstalledMerchantsEventDataPreviousAttributes extends M
      */
     public function getReversedByPayoutId(): string|null { return $this->get('reversed_by_payout_id'); }
     public function hasReversedByPayoutId(): bool { return $this->has('reversed_by_payout_id'); }
-    /** Text shown on your bank statement for the deposit, when one was set. anyOf[1] (Value): string. Text shown on your bank statement for the deposit, when one was set. anyOf[2] (Value): null.
+    /** Text shown on your bank statement for the transfer, when one was set. anyOf[1] (Value): string. Text shown on your bank statement for the transfer, when one was set. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getStatementDescriptor(): string|null { return $this->get('statement_descriptor'); }
     public function hasStatementDescriptor(): bool { return $this->has('statement_descriptor'); }
-    /** Where the payout is: pending until it is sent, in_transit on its way to your bank, then succeeded or failed. A succeeded payout can still become failed if the bank returns the deposit, and canceled means a manual payout was canceled while pending. Value enum: "pending", "in_transit", "succeeded", "failed", "canceled". anyOf[1] (Value): string. Where the payout is: pending until it is sent, in_transit on its way to your bank, then succeeded or failed. A succeeded payout can still become failed if the bank returns the deposit, and canceled means a manual payout was canceled while pending. Value enum: "pending", "in_transit", "succeeded", "failed", "canceled". anyOf[2] (Value): null.
+    /** Where the payout is: pending until it is sent, in_transit moving between Flint and your bank, then succeeded or failed. A succeeded payout can still become failed if the bank returns the transfer, and canceled means a manual payout was canceled while pending. Value enum: "pending", "in_transit", "succeeded", "failed", "canceled". anyOf[1] (Value): string. Where the payout is: pending until it is sent, in_transit moving between Flint and your bank, then succeeded or failed. A succeeded payout can still become failed if the bank returns the transfer, and canceled means a manual payout was canceled while pending. Value enum: "pending", "in_transit", "succeeded", "failed", "canceled". anyOf[2] (Value): null.
      * @return string|null
      */
     public function getStatus(): string|null { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Lifecycle actions Flint accepts now. cancel is offered while a payout is pending unless it was scheduled automatically. [] enum: "cancel". anyOf[1] (Value): Array of string. Lifecycle actions Flint accepts now. cancel is offered while a payout is pending unless it was scheduled automatically. [] enum: "cancel". anyOf[1][] (Value): string.  Value enum: "cancel". anyOf[2] (Value): null.
+    /** Lifecycle actions Flint accepts now. cancel is offered while an outbound payout is pending unless it was scheduled automatically. Inbound payouts offer no actions. [] enum: "cancel". anyOf[1] (Value): Array of string. Lifecycle actions Flint accepts now. cancel is offered while an outbound payout is pending unless it was scheduled automatically. Inbound payouts offer no actions. [] enum: "cancel". anyOf[1][] (Value): string.  Value enum: "cancel". anyOf[2] (Value): null.
      * @return list<string>|null
      */
     public function getSupportedActions(): array|null { return $this->get('supported_actions'); }
     public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
-    /** The bank's trace number for the deposit, which your bank can use to locate a late deposit. Its status says whether the number is pending, available, or unsupported, and value holds the number when Flint has it. Absent when Flint has no trace information. anyOf[1] (Value): {@see PayoutTraceIDPreviousAttributes}. anyOf[2] (Value): null.
+    /** The bank's trace number for the transfer, which your bank can use to locate it. Its status says whether the number is pending, available, or unsupported, and value holds the number when Flint has it. Absent when Flint has no trace information. anyOf[1] (Value): {@see PayoutTraceIDPreviousAttributes}. anyOf[2] (Value): null.
      * @return PayoutTraceIDPreviousAttributes|null
      */
     public function getTraceId(): PayoutTraceIDPreviousAttributes|null { return $this->get('trace_id'); }

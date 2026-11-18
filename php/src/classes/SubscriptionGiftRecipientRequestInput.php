@@ -9,7 +9,7 @@ namespace Flint;
 final class SubscriptionGiftRecipientRequestInput extends Model {
     /** @param array{'email': string, 'message'?: string|null, 'name'?: string|null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionGiftRecipientRequestInput')); }
-    /** The recipient's email address. Flint sends the recipient's gift and final notices here, and shipment notices when delivery.recipient has no email. Format: email. minLength: 1. maxLength: 254. Example: "buyer@example.com".
+    /** The recipient's email address. Flint sends the recipient's gift and final notices here, and shipment notices when delivery.recipient has no email. The local part before @ must be at most 64 octets (UTF-8 bytes). Format: email. minLength: 1. maxLength: 254. Example: "buyer@example.com".
      * @return string
      * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
      */
@@ -21,7 +21,7 @@ final class SubscriptionGiftRecipientRequestInput extends Model {
      */
     public function getMessage(): string|null { return $this->get('message'); }
     public function hasMessage(): bool { return $this->has('message'); }
-    /** The recipient's name, shown in their gift emails. Omit it or send null for none. minLength: 1. maxLength: 255.
+    /** The recipient's name, shown in their gift emails. Omit it or send null for none. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1. maxLength: 255.
      * @return string|null
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */

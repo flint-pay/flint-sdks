@@ -9,7 +9,7 @@ namespace Flint;
 final class MeGetReturnResolutionInput extends Model {
     /** @param array{'return_resolution_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeGetReturnResolutionInput')); }
-    /** Flint return resolution id. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+    /** Flint return resolution id. Must be a valid ID with prefix retres_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
      * @return string
      * @throws SdkError When return_resolution_id is omitted; use hasReturnResolutionId() or valueOrDefault().
      */

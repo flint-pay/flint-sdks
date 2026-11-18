@@ -1,13 +1,13 @@
-import { d7777 as c0, d7778 as c1, d7769 as c3, d7770 as c4, d7768 as c5 } from '../descriptors/data/336.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
-import { d7784 as c2, d7789 as c6 } from '../descriptors/data/337.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
-import { d10010 as c7, d10011 as c8 } from '../descriptors/data/466.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
-import { d10029 as c9, d10030 as c10 } from '../descriptors/data/467.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
-import { d7531 as c11 } from '../descriptors/data/318.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
-import { d7531 as d7531 } from '../descriptors/data/318.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
+import { d8024 as c0, d8025 as c1, d8016 as c3, d8017 as c4, d8015 as c5 } from '../descriptors/data/346.js?sdk=2fdad7cfcd1c92049468fb02e68ab24a81da669c248e8713cf6a7575952568a5';
+import { d8031 as c2, d8036 as c6 } from '../descriptors/data/347.js?sdk=2fdad7cfcd1c92049468fb02e68ab24a81da669c248e8713cf6a7575952568a5';
+import { d10326 as c7, d10327 as c8 } from '../descriptors/data/479.js?sdk=2fdad7cfcd1c92049468fb02e68ab24a81da669c248e8713cf6a7575952568a5';
+import { d10345 as c9, d10346 as c10 } from '../descriptors/data/480.js?sdk=2fdad7cfcd1c92049468fb02e68ab24a81da669c248e8713cf6a7575952568a5';
+import { d7774 as c11 } from '../descriptors/data/327.js?sdk=2fdad7cfcd1c92049468fb02e68ab24a81da669c248e8713cf6a7575952568a5';
+import { d7774 as d7774 } from '../descriptors/data/327.js?sdk=2fdad7cfcd1c92049468fb02e68ab24a81da669c248e8713cf6a7575952568a5';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d7531;
+const read = d7774;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["ImageInputFile"]:c0(),["ImageInputSourceURL"]:c1(),["ImageRequest"]:c2(),["SharedCodec2975"]:c3(),["SharedCodec2976"]:c4(),["SharedCodec2977"]:c5(),["SharedCodec2979"]:c6(),["SharedCodec3066"]:c7(),["SharedCodec3067"]:c8(),["UpdateProductOptionRequest"]:c9(),["UpdateProductOptionValueRequest"]:c10(),["UpdateProductRequest"]:c11()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["ImageInputFile"]:c0(),["ImageInputSourceURL"]:c1(),["ImageRequest"]:c2(),["SharedCodec3070"]:c3(),["SharedCodec3071"]:c4(),["SharedCodec3072"]:c5(),["SharedCodec3074"]:c6(),["SharedCodec3161"]:c7(),["SharedCodec3162"]:c8(),["UpdateProductOptionRequest"]:c9(),["UpdateProductOptionValueRequest"]:c10(),["UpdateProductRequest"]:c11()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeUpdateProductRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

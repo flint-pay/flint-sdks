@@ -10,6 +10,7 @@ Response model.
 | --- | --- | --- | --- |
 | `available_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The balance minus reserved value: what can be spent now. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `balance_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The posted balance, including value reserved for redemptions in progress. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `can_remove` | Required | boolean | Whether the buyer can remove the card from their account. True only for current saved access to a card the buyer does not own. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `currency` | Required | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. |
 | `gift_card_id` | Required | string | Unique identifier for this gift card, prefixed `gc_`. |

@@ -1,1 +1,1 @@
-{"shared":"InvoiceLineItem","dependencies":["BundleComponent","BundleComponentVariantSummary","CategoryReference","Image","InvoiceLineItem","MetadataMap","MoneyValue","OrderLineItemModifier","SelectedProductOption","SharedCodec126","TextModifierRequest"]}
+{"shared":"InvoiceLineItem","dependencies":["BundleComponent","BundleComponentVariantSummary","CategoryReference","Image","InvoiceLineItem","MetadataMap","MoneyValue","OrderLineItemModifier","SelectedProductOption","SharedCodec129","TextModifierRequest"]}

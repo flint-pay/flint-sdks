@@ -4,6 +4,7 @@ namespace Flint;
 /**
  * @property-read MoneyValue $available_money
  * @property-read MoneyValue $balance_money
+ * @property-read bool $can_remove
  * @property-read string $created_at
  * @property-read string $currency
  * @property-read string $gift_card_id
@@ -17,7 +18,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerGiftCard extends Model {
-    /** @param array{'available_money': mixed, 'balance_money': mixed, 'created_at': string, 'currency': string, 'gift_card_id': string, 'last_loaded_at': string|null, 'last_redeemed_at': string|null, 'last4': string, 'merchant_id': string, 'reserved_money': mixed, 'status': string, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'available_money': mixed, 'balance_money': mixed, 'can_remove': bool, 'created_at': string, 'currency': string, 'gift_card_id': string, 'last_loaded_at': string|null, 'last_redeemed_at': string|null, 'last4': string, 'merchant_id': string, 'reserved_money': mixed, 'status': string, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerGiftCard')); }
     /** The balance minus reserved value: what can be spent now. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
@@ -29,6 +30,11 @@ final class BuyerGiftCard extends Model {
      */
     public function getBalanceMoney(): MoneyValue { return $this->get('balance_money'); }
     public function hasBalanceMoney(): bool { return $this->has('balance_money'); }
+    /** Whether the buyer can remove the card from their account. True only for current saved access to a card the buyer does not own.
+     * @return bool
+     */
+    public function getCanRemove(): bool { return $this->get('can_remove'); }
+    public function hasCanRemove(): bool { return $this->has('can_remove'); }
     /** RFC3339 timestamp. Format: date-time.
      * @return string
      */

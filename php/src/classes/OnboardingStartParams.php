@@ -9,10 +9,11 @@ namespace Flint;
  * @property-read string $support_email
  * @property-read string $support_phone
  * @property-read string $support_url
+ * @property-read string $timezone
  * @property-read string $website_url
  * Presence-aware input; omitted fields throw when accessed. */
 final class OnboardingStartParams extends Model {
-    /** @param array{'business_name'?: string, 'email': string, 'first_name': string, 'last_name': string, 'support_email'?: string, 'support_phone'?: string, 'support_url'?: string, 'website_url'?: string}|object $values */
+    /** @param array{'business_name'?: string, 'email': string, 'first_name': string, 'last_name': string, 'support_email'?: string, 'support_phone'?: string, 'support_url'?: string, 'timezone'?: string, 'website_url'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OnboardingStartParams')); }
     /** Business name buyers see. Applied only when verification creates a merchant; existing merchants keep their profile. Surrounding whitespace is trimmed. minLength: 1. maxLength: 120.
      * @return string
@@ -56,6 +57,12 @@ final class OnboardingStartParams extends Model {
      */
     public function getSupportUrl(): string { return $this->get('support_url'); }
     public function hasSupportUrl(): bool { return $this->has('support_url'); }
+    /** IANA business time zone for a newly created merchant, such as America/Chicago. Used for reports and business dates. Omit to leave it unset. Existing merchants keep their time zone. minLength: 1.
+     * @return string
+     * @throws SdkError When timezone is omitted; use hasTimezone() or valueOrDefault().
+     */
+    public function getTimezone(): string { return $this->get('timezone'); }
+    public function hasTimezone(): bool { return $this->has('timezone'); }
     /** Public business website URL. Applied only to a newly created merchant. minLength: 1.
      * @return string
      * @throws SdkError When website_url is omitted; use hasWebsiteUrl() or valueOrDefault().

@@ -19,7 +19,7 @@ namespace Flint;
 final class OrdersUpdateParams extends Model {
     /** @param array{'buyer_note'?: string|null, 'catalog_price_behavior'?: string, 'customer_id'?: string, 'delivery'?: array{'delivery_method_id': string, 'destination': SubscriptionDeliveryDestinationRequestInput|array<array-key, mixed>|\stdClass, 'expected_amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'inventory_reservation_ids'?: list<string>, 'recipient'?: DeliverySelectionRecipientRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object|null, 'delivery_destination'?: array{'address': AddressRequestInput|array<array-key, mixed>|\stdClass, 'recipient'?: OrderDeliveryDestinationRecipientRequestInput|array<array-key, mixed>|\stdClass}|object|null, 'expected_version'?: int, 'external_reference_id'?: string|null, 'handover'?: array{'location_id': string}|object|null, 'internal_note'?: string|null, 'inventory_routing_source'?: InventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'requested_tip'?: array{'amount_money': array{'amount': string, 'currency': string}|object, 'calculation_type': string, 'description'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name'?: string, 'percent'?: int|float}|object|array{'amount_money'?: array{'amount': string, 'currency': string}|object, 'calculation_type': string, 'description'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name'?: string, 'percent': int|float}|object|null, 'tax'?: OrderTaxUpdateRequestInput|array<array-key, mixed>|\stdClass, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrdersUpdateParams')); }
-    /** Buyer-provided note about this order, such as a gift message or purchase preference. Send null to clear it. minLength: 1. maxLength: 1000.
+    /** Buyer-provided note about this order, such as a gift message or purchase preference. Send null to clear it. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1. maxLength: 1000.
      * @return string|null
      * @throws SdkError When buyer_note is omitted; use hasBuyerNote() or valueOrDefault().
      */
@@ -67,7 +67,7 @@ final class OrdersUpdateParams extends Model {
      */
     public function getHandover(): mixed { return $this->get('handover'); }
     public function hasHandover(): bool { return $this->has('handover'); }
-    /** Internal note about this order, visible only to the merchant. Send null to clear it. minLength: 1. maxLength: 1000.
+    /** Internal note about this order, visible only to the merchant. Send null to clear it. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1. maxLength: 1000.
      * @return string|null
      * @throws SdkError When internal_note is omitted; use hasInternalNote() or valueOrDefault().
      */

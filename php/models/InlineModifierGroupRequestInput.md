@@ -19,7 +19,7 @@ Request input.
 | `modifier_group_id` | Optional | string | Stable identifier of the modifier group. For a group a modifier set owns (`source: inline`), read it through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't return it. minLength: `1`. Example: `"mg_01KEZF7C00XKJJATARG7KDBYM9"`. |
 | `modifier_group_type` | Optional | string | Whether buyers choose from a list of modifiers or enter text. On create, inferred as text when text configuration is supplied, otherwise list. Values: `"list"`, `"text"`. |
 | `modifiers` | Optional | Array of [ModifierRequestInput](../models/ModifierRequestInput.md#modifierrequestinput) | Choices in a list group. Only active modifiers whose set override's available is not false are offered to buyers. Text groups do not have choices. |
-| `name` | Required | string | Name of the modifier group shown to buyers. minLength: `1`. maxLength: `255`. |
+| `name` | Required | string | Name of the modifier group shown to buyers. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `255`. |
 | `show_on_fulfillment` | Optional | boolean | Whether selections from this group appear in fulfillment details unless overridden for a modifier set. |
 | `show_on_receipt` | Optional | boolean | Whether selections from this group appear on buyer receipts unless overridden for a modifier set. |
 | `status` | Optional | string | Lifecycle status of the modifier group. Only active groups can be offered to buyers; archived groups remain readable and cannot be edited. Values: `"active"`, `"inactive"`. |

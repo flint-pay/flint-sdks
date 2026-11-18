@@ -30,11 +30,17 @@ import type {
     BuyerInvoice,
     BuyerInvoiceListResponse,
     BuyerInvoiceResponse,
-    BuyerOrder,
-    BuyerOrderListResponse,
-    BuyerOrderResponse
+    BuyerLicenseKey,
+    BuyerLicenseKeyActivation,
+    BuyerLicenseKeyActivationListResponse,
+    BuyerLicenseKeyActivationResponse,
+    BuyerLicenseKeyListResponse,
+    BuyerLicenseKeyResponse,
+    BuyerOrder
 } from '../declarations/types-2.js';
 import type {
+    BuyerOrderListResponse,
+    BuyerOrderResponse,
     BuyerPackage,
     BuyerPackageListResponse,
     BuyerPackageResponse,
@@ -54,13 +60,13 @@ import type {
     BuyerReturn,
     BuyerReturnListResponse,
     BuyerReturnPreview,
-    BuyerReturnPreviewResponse,
+    BuyerReturnPreviewResponse
+} from '../declarations/types-3.js';
+import type {
     BuyerReturnResolution,
     BuyerReturnResolutionResponse,
     BuyerReturnResponse,
-    BuyerSavePaymentMethodResponse
-} from '../declarations/types-3.js';
-import type {
+    BuyerSavePaymentMethodResponse,
     BuyerShipment,
     BuyerShipmentListResponse,
     BuyerShipmentResponse,
@@ -112,9 +118,7 @@ import type {
     MeGetCreditNoteParams,
     MeGetDeletionRequestParams,
     MeGetEmailChangeRequestParams,
-    MeGetEmailPreferencesParams
-} from '../declarations/types-39.js';
-import type {
+    MeGetEmailPreferencesParams,
     MeGetFulfillmentParams,
     MeGetGiftCardParams,
     MeGetInvoicePDFParams,
@@ -143,9 +147,13 @@ import type {
     MeListGiftCardTransactionsParams,
     MeListGiftCardsParams,
     MeListInvoicesParams,
+    MeListLicenseKeyActivationsParams,
+    MeListLicenseKeysParams,
     MeListOrderActivitiesParams,
     MeListOrdersParams,
-    MeListPackagesParams,
+    MeListPackagesParams
+} from '../declarations/types-41.js';
+import type {
     MeListPaymentIntentsParams,
     MeListPaymentMethodsParams,
     MeListRefundsParams,
@@ -156,8 +164,10 @@ import type {
     MeListSubscriptionsParams,
     MeListTicketsParams,
     MePauseSubscriptionParams,
+    MeReleaseLicenseKeyActivationParams,
     MeRemoveGiftCardParams,
     MeRenewSubscriptionParams,
+    MeResendLicenseKeyParams,
     MeResumeSubscriptionParams,
     MeRevokeRememberedBuyerParams,
     MeRevokeSessionParams,
@@ -178,9 +188,7 @@ import type {
     MerchantAccountSessionRefreshRequest,
     MerchantAccountSessionRefreshRequestInput,
     MerchantAccountSessionResponse,
-    MerchantAccountSessionStripe
-} from '../declarations/types-40.js';
-import type {
+    MerchantAccountSessionStripe,
     MerchantAccountSessionStripeCollectionOptions,
     MerchantAccountSessionStripeComponent,
     MerchantAccountSessionStripeRequirements,
@@ -205,7 +213,9 @@ import type {
     MerchantReadiness,
     MerchantReadinessPreviousAttributes,
     MerchantReadinessUpdatedInstalledMerchantsEvent,
-    MerchantReadinessUpdatedMerchantEvent,
+    MerchantReadinessUpdatedMerchantEvent
+} from '../declarations/types-42.js';
+import type {
     MerchantResponse,
     MerchantSignup,
     MerchantSignupListResponse,
@@ -235,12 +245,12 @@ import type {
     MetadataPatchRequest,
     MetadataPatchRequestInput,
     MetadataRequestInput
-} from '../declarations/types-41.js';
-import type { OrderActivity, OrderActivityListResponse } from '../declarations/types-43.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { SubscriptionPlanChangePreview, SubscriptionPreview } from '../declarations/types-69.js';
-import type { SubscriptionQuantityChangePreview, SubscriptionRenewalPreview } from '../declarations/types-70.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-43.js';
+import type { OrderActivity, OrderActivityListResponse } from '../declarations/types-45.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { SubscriptionPlanChangePreview, SubscriptionPreview } from '../declarations/types-71.js';
+import type { SubscriptionQuantityChangePreview, SubscriptionRenewalPreview } from '../declarations/types-72.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -273,215 +283,14 @@ export type {
     MeCreateSubscriptionPreviewParams,
     MeDeleteAddressParams,
     MeDeletePaymentMethodParams,
+    MeGetParams,
     MeGetAddressParams,
     MeGetCreditNoteParams,
     MeGetCreditNotePDFParams,
     MeGetCreditNotePDFResponse,
     MeGetDeletionRequestParams,
     MeGetEmailChangeRequestParams,
-    MeGetEmailPreferencesParams
-} from '../declarations/types-39.js';
-export type {
-    RequestOptions,
-    ResponseMeta,
-    ResponseWarning,
-    ResourceReference,
-    ResolvePaymentLinkResponse,
-    ResourceVersionRequestInput
-} from '../declarations/types-60.js';
-export type {
-    BuyerReturn,
-    BuyerReturnResponse,
-    BuyerPaymentMethodWithSetup,
-    BuyerSavePaymentMethodResponse,
-    BuyerReturnPreview,
-    BuyerReturnPreviewResponse,
-    BuyerPaymentMethod,
-    BuyerPaymentMethodResponse,
-    BuyerPackage,
-    BuyerPackageResponse,
-    BuyerPaymentIntent,
-    BuyerPaymentIntentResponse,
-    BuyerRefund,
-    BuyerRefundResponse,
-    BuyerReturnResolution,
-    BuyerReturnResolutionResponse,
-    BuyerPackageListResponse,
-    BuyerPaymentIntentListResponse,
-    BuyerPaymentMethodListResponse,
-    BuyerRefundListResponse,
-    BuyerRememberedBuyerListResponse,
-    BuyerReturnListResponse,
-    BuyerRememberedBuyer,
-    BuyerRememberedBuyerResponse,
-    BuyerPauseActionOptions,
-    BuyerPayBalanceActionOptions,
-    BuyerRetryPaymentActionOptions,
-    BuyerReturnCompletionBlocker,
-    BuyerReturnHandoffRequirement,
-    BuyerReturnHandoffDestination,
-    BuyerReturnLineItem,
-    BuyerReturnLineItemEligibility,
-    BuyerReturnLineItemModifier,
-    BuyerPaymentErrorSummary,
-    BuyerPaymentAttemptPaymentIntent,
-    BuyerPaymentCollection,
-    BuyerPaymentCollectionStripe,
-    BuyerPaymentCollectionStripeElements,
-    BuyerSelectableOrderPaymentIntent,
-    BuyerSetupCollection,
-    BuyerSetupCollectionStripe,
-    BuyerReturnReplacementLineItemRequestInput,
-    BuyerReturnReplacementLineItemInputVariantInput,
-    BuyerReturnReplacementLineItemInputBundleInput,
-    BuyerReturnEligibilityPreview,
-    BuyerReturnEligibilityPreviewLineItem,
-    BuyerReturnPolicyEvaluation,
-    BuyerReturnPolicyEvaluationLineItem,
-    BuyerReturnResolutionPreview,
-    BuyerReturnResolutionAdjustment,
-    BuyerReturnPreviewEligibility,
-    BuyerReturnPreviewResolution,
-    BuyerOrderTaxLocation,
-    BuyerPaymentRefund,
-    BuyerReturnResolutionExecutionBlocker
-} from '../declarations/types-3.js';
-export type {
-    BuyerSubscription,
-    BuyerSubscriptionResponse,
-    BuyerSubscriptionPlanChangeResult,
-    BuyerSubscriptionPlanChangeResultResponse,
-    BuyerSubscriptionQuantityChangeResult,
-    BuyerSubscriptionQuantityChangeResultResponse,
-    BuyerSubscriptionPaymentRetry,
-    BuyerSubscriptionPaymentRetryResponse,
-    BuyerSubscriptionPreviewResponse,
-    BuyerShipment,
-    BuyerShipmentResponse,
-    BuyerShipmentListResponse,
-    BuyerSubscriptionPaymentRetryListResponse,
-    BuyerSubscriptionListResponse,
-    BuyerTicketListResponse,
-    BuyerTicket,
-    BuyerSubscriptionRenewalResult,
-    BuyerSubscriptionRenewalResultResponse,
-    CancelMeSubscriptionRequestInput,
-    BuyerSubscriptionCancellationDetails,
-    BuyerSubscriptionInventoryWait,
-    BuyerSubscriptionLineItem,
-    BuyerSubscriptionPlanChangeOption,
-    BuyerSubscriptionPlanLineItem,
-    BuyerSubscriptionPlanLineItemVariant,
-    BuyerSubscriptionPlanLineItemBundle,
-    BuyerSubscriptionPlanLineItemCustom,
-    BuyerSubscriptionScheduledPlanChange,
-    BuyerSubscriptionServiceLocation,
-    BuyerTip,
-    BuyerTicketEvent
-} from '../declarations/types-4.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency, Weight, WebhookMerchant } from '../declarations/types-77.js';
-export type {
-    BuyerEmailChangeRequest,
-    BuyerEmailChangeRequestResponse,
-    BuyerCustomerDeletionRequest,
-    BuyerCustomerDeletionRequestResponse,
-    BuyerFlintWalletStoreSetup,
-    BuyerFlintWalletStoreSetupResponse,
-    BuyerCustomer,
-    BuyerCustomerResponse,
-    BuyerCreditNote,
-    BuyerCreditNoteResponse,
-    BuyerFulfillment,
-    BuyerFulfillmentResponse,
-    BuyerGiftCard,
-    BuyerGiftCardResponse,
-    BuyerInvoice,
-    BuyerInvoiceResponse,
-    BuyerOrder,
-    BuyerOrderResponse,
-    BuyerCreditNoteListResponse,
-    BuyerCustomerDeletionRequestListResponse,
-    BuyerEmailChangeRequestListResponse,
-    BuyerFlintWalletCardListResponse,
-    BuyerFulfillmentEventListResponse,
-    BuyerFulfillmentEvent,
-    BuyerFulfillmentListResponse,
-    BuyerGiftCardListResponse,
-    BuyerGiftCardTransactionListResponse,
-    BuyerGiftCardTransaction,
-    BuyerInvoiceListResponse,
-    BuyerOrderListResponse,
-    BuyerCustomerSession,
-    BuyerCustomerSessionResponse,
-    BuyerOrderLineItemModifier,
-    BuyerExpandedSubscriptionPlanSummary,
-    BuyerOrderPaymentAttempt,
-    BuyerErrorRemediation,
-    BuyerInstructionsConfig,
-    BuyerCreateReturnRequestInput,
-    BuyerCreateReturnPreviewRequestInput,
-    BuyerCreateReturnResolutionPreviewRequestInput,
-    BuyerCreateReturnPreviewRequestResolutionInput,
-    BuyerDigitalFulfillmentDetails,
-    BuyerFulfillmentLineItem,
-    BuyerDeliveryFulfillmentDetails,
-    BuyerFulfillmentOutcome,
-    BuyerExpandedPackageSummary,
-    BuyerExpandedShipmentSummary,
-    BuyerInvoicePaymentAttempt,
-    BuyerInvoiceLateFee,
-    BuyerInvoiceSnapshot,
-    BuyerOrderTaxExemption,
-    BuyerOrderCharge,
-    BuyerOrderLineItem,
-    BuyerOrderTax,
-    BuyerExpandedOrderSummary,
-    BuyerExpandedPaymentIntentSummary,
-    BuyerFlintWalletCard
-} from '../declarations/types-2.js';
-export type {
-    CustomerAddress,
-    CustomerAddressResponse,
-    CustomerEmailPreferences,
-    CustomerEmailPreferencesResponse,
-    CustomerAddressListResponse,
-    CustomerTaxExemptionCoverage,
-    CustomerTaxExemptionCoverageAllStates,
-    CustomerTaxExemptionCoverageStates
-} from '../declarations/types-16.js';
-export type {
-    BuyerCheckoutSessionWithSecret,
-    BuyerCheckoutSessionLaunchResponse,
-    BuyerCancelReturnRequestInput,
-    AuthMode,
-    BuyerAction,
-    BuyerCancelActionOptions,
-    BuyerCancelRetentionOffer,
-    BundleComponent,
-    BundleComponentVariantSummary,
-    BuyerCheckoutSession,
-    BuyerCheckoutProblemResource,
-    BuyerCreateReturnPreviewRequestEligibilityInput
-} from '../declarations/types-1.js';
-export type {
-    SubscriptionPreview,
-    SubscriptionPlanChangePreview,
-    SubscriptionPlanSwapVariant,
-    SubscriptionPromotion
-} from '../declarations/types-69.js';
-export type {
-    SubscriptionRenewalPreview,
-    SubscriptionQuantityChangePreview,
-    SubscriptionUpcomingDeliveryHold,
-    SubscriptionQuantityChangeLineItemRequestInput,
-    SubscriptionSwapPreviewRequestInput,
-    SubscriptionRenewalEstimateDiscount,
-    SubscriptionRenewalEstimateLineItem,
-    SubscriptionQuantityChangeLineItemRequest,
-    SubscriptionSwapPreviewRequest
-} from '../declarations/types-70.js';
-export type {
-    MeGetParams,
+    MeGetEmailPreferencesParams,
     MeGetFulfillmentParams,
     MeGetGiftCardParams,
     MeGetInvoiceParams,
@@ -509,9 +318,217 @@ export type {
     MeListGiftCardsParams,
     MeListGiftCardTransactionsParams,
     MeListInvoicesParams,
+    MeListLicenseKeyActivationsParams,
+    MeListLicenseKeysParams,
     MeListOrderActivitiesParams,
     MeListOrdersParams,
-    MeListPackagesParams,
+    MeListPackagesParams
+} from '../declarations/types-41.js';
+export type { RequestOptions, RenewSubscriptionRequestInput } from '../declarations/types-61.js';
+export type {
+    BuyerReturn,
+    BuyerPaymentMethodWithSetup,
+    BuyerReturnPreview,
+    BuyerReturnPreviewResponse,
+    BuyerPaymentMethod,
+    BuyerPaymentMethodResponse,
+    BuyerOrderResponse,
+    BuyerPackage,
+    BuyerPackageResponse,
+    BuyerPaymentIntent,
+    BuyerPaymentIntentResponse,
+    BuyerRefund,
+    BuyerRefundResponse,
+    BuyerOrderListResponse,
+    BuyerPackageListResponse,
+    BuyerPaymentIntentListResponse,
+    BuyerPaymentMethodListResponse,
+    BuyerRefundListResponse,
+    BuyerRememberedBuyerListResponse,
+    BuyerReturnListResponse,
+    BuyerRememberedBuyer,
+    BuyerRememberedBuyerResponse,
+    BuyerPauseActionOptions,
+    BuyerPayBalanceActionOptions,
+    BuyerRetryPaymentActionOptions,
+    BuyerReturnCompletionBlocker,
+    BuyerReturnHandoffRequirement,
+    BuyerReturnHandoffDestination,
+    BuyerReturnLineItem,
+    BuyerReturnLineItemEligibility,
+    BuyerReturnLineItemModifier,
+    BuyerOrderLineItemModifier,
+    BuyerOrderPaymentAttempt,
+    BuyerPaymentErrorSummary,
+    BuyerPaymentAttemptPaymentIntent,
+    BuyerPaymentCollection,
+    BuyerPaymentCollectionStripe,
+    BuyerPaymentCollectionStripeElements,
+    BuyerReturnReplacementLineItemRequestInput,
+    BuyerReturnReplacementLineItemInputVariantInput,
+    BuyerReturnReplacementLineItemInputBundleInput,
+    BuyerReturnEligibilityPreview,
+    BuyerReturnEligibilityPreviewLineItem,
+    BuyerReturnPolicyEvaluation,
+    BuyerReturnPolicyEvaluationLineItem,
+    BuyerReturnRefundEstimate,
+    BuyerReturnPreviewEligibility,
+    BuyerReturnPreviewResolution,
+    BuyerOrderTaxExemption,
+    BuyerOrderCharge,
+    BuyerOrderLineItem,
+    BuyerOrderTax,
+    BuyerOrderTaxLocation,
+    BuyerPackageItem,
+    BuyerPaymentRefund
+} from '../declarations/types-3.js';
+export type {
+    BuyerReturnResponse,
+    BuyerSubscription,
+    BuyerSubscriptionResponse,
+    BuyerSubscriptionPlanChangeResult,
+    BuyerSubscriptionPlanChangeResultResponse,
+    BuyerSubscriptionQuantityChangeResult,
+    BuyerSubscriptionQuantityChangeResultResponse,
+    BuyerSavePaymentMethodResponse,
+    BuyerSubscriptionPaymentRetry,
+    BuyerSubscriptionPaymentRetryResponse,
+    BuyerSubscriptionPreviewResponse,
+    BuyerReturnResolution,
+    BuyerReturnResolutionResponse,
+    BuyerShipment,
+    BuyerShipmentResponse,
+    BuyerShipmentListResponse,
+    BuyerSubscriptionPaymentRetryListResponse,
+    BuyerSubscriptionListResponse,
+    BuyerTicketListResponse,
+    BuyerTicket,
+    BuyerSubscriptionRenewalResult,
+    BuyerSubscriptionRenewalResultResponse,
+    BuyerSubscriptionCancellationDetails,
+    BuyerSubscriptionInventoryWait,
+    BuyerSubscriptionLineItem,
+    BuyerSubscriptionPlanChangeOption,
+    BuyerSubscriptionPlanLineItem,
+    BuyerSubscriptionPlanLineItemVariant,
+    BuyerSubscriptionPlanLineItemBundle,
+    BuyerSubscriptionPlanLineItemCustom,
+    BuyerSubscriptionScheduledPlanChange,
+    BuyerSubscriptionServiceLocation,
+    BuyerSelectableOrderPaymentIntent,
+    BuyerSetupCollection,
+    BuyerSetupCollectionStripe,
+    BuyerReturnResolutionPreview,
+    BuyerReturnResolutionAdjustment,
+    BuyerTip,
+    BuyerReturnResolutionExecutionBlocker,
+    BuyerTicketEvent
+} from '../declarations/types-4.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency, Weight, WebhookEventSource, WebhookMerchant } from '../declarations/types-79.js';
+export type {
+    BuyerEmailChangeRequest,
+    BuyerEmailChangeRequestResponse,
+    BuyerCustomerDeletionRequest,
+    BuyerCustomerDeletionRequestResponse,
+    BuyerFlintWalletStoreSetup,
+    BuyerFlintWalletStoreSetupResponse,
+    BuyerCustomer,
+    BuyerCustomerResponse,
+    BuyerCreditNote,
+    BuyerCreditNoteResponse,
+    BuyerFulfillment,
+    BuyerFulfillmentResponse,
+    BuyerGiftCard,
+    BuyerGiftCardResponse,
+    BuyerInvoice,
+    BuyerInvoiceResponse,
+    BuyerOrder,
+    BuyerCreditNoteListResponse,
+    BuyerCustomerDeletionRequestListResponse,
+    BuyerEmailChangeRequestListResponse,
+    BuyerFlintWalletCardListResponse,
+    BuyerFulfillmentEventListResponse,
+    BuyerFulfillmentEvent,
+    BuyerFulfillmentListResponse,
+    BuyerGiftCardListResponse,
+    BuyerGiftCardTransactionListResponse,
+    BuyerGiftCardTransaction,
+    BuyerInvoiceListResponse,
+    BuyerLicenseKeyActivationListResponse,
+    BuyerLicenseKeyActivation,
+    BuyerLicenseKeyListResponse,
+    BuyerLicenseKey,
+    BuyerLicenseKeyActivationResponse,
+    BuyerLicenseKeyResponse,
+    BuyerCustomerSession,
+    BuyerCustomerSessionResponse,
+    BuyerExpandedSubscriptionPlanSummary,
+    BuyerErrorRemediation,
+    BuyerInstructionsConfig,
+    BuyerCreateReturnRequestInput,
+    BuyerCreateReturnPreviewRequestInput,
+    BuyerCreateReturnResolutionPreviewRequestInput,
+    BuyerCreateReturnPreviewRequestEligibilityInput,
+    BuyerCreateReturnPreviewRequestResolutionInput,
+    BuyerDigitalFulfillmentDetails,
+    BuyerFulfillmentLineItem,
+    BuyerDeliveryFulfillmentDetails,
+    BuyerFulfillmentOutcome,
+    BuyerExpandedPackageSummary,
+    BuyerExpandedShipmentSummary,
+    BuyerInvoicePaymentAttempt,
+    BuyerInvoiceLateFee,
+    BuyerInvoiceSnapshot,
+    BuyerExpandedOrderSummary,
+    BuyerExpandedPaymentIntentSummary,
+    BuyerFlintWalletCard
+} from '../declarations/types-2.js';
+export type {
+    CustomerAddress,
+    CustomerAddressResponse,
+    CustomerEmailPreferences,
+    CustomerEmailPreferencesResponse,
+    CustomerAddressListResponse
+} from '../declarations/types-16.js';
+export type {
+    BuyerCheckoutSessionWithSecret,
+    BuyerCheckoutSessionLaunchResponse,
+    BuyerCancelReturnRequestInput,
+    AuthMode,
+    BuyerAction,
+    BuyerCancelActionOptions,
+    BuyerCancelRetentionOffer,
+    BundleComponent,
+    BundleComponentVariantSummary,
+    BuyerCheckoutSession,
+    BuyerCheckoutProblemResource
+} from '../declarations/types-1.js';
+export type { SubscriptionPreview, SubscriptionPlanChangePreview, SubscriptionPlanSwapVariant } from '../declarations/types-71.js';
+export type {
+    SubscriptionRenewalPreview,
+    SubscriptionQuantityChangePreview,
+    SubscriptionPromotion,
+    SubscriptionUpcomingDeliveryHold,
+    SubscriptionQuantityChangeLineItemRequestInput,
+    SubscriptionSwapPreviewRequestInput,
+    SubscriptionRenewalEstimateDiscount,
+    SubscriptionRenewalEstimateLineItem,
+    SubscriptionQuantityChangeLineItemRequest,
+    SubscriptionSwapPreviewRequest
+} from '../declarations/types-72.js';
+export type {
+    OrderActivityListResponse,
+    OrderActivity,
+    OrderCharge,
+    OrderCalculatedChargeTax,
+    OrderAuthorizationAmounts,
+    OrderDeliverySummary,
+    OrderDeliveryDestination,
+    OrderDeliveryDestinationRecipient,
+    OrderDiscount,
+    OrderCalculatedLineItemTax
+} from '../declarations/types-45.js';
+export type {
     MeListPaymentIntentsParams,
     MeListPaymentMethodsParams,
     MeListRefundsParams,
@@ -522,8 +539,10 @@ export type {
     MeListSubscriptionsParams,
     MeListTicketsParams,
     MePauseSubscriptionParams,
+    MeReleaseLicenseKeyActivationParams,
     MeRemoveGiftCardParams,
     MeRenewSubscriptionParams,
+    MeResendLicenseKeyParams,
     MeResumeSubscriptionParams,
     MeRevokeRememberedBuyerParams,
     MeRevokeSessionParams,
@@ -544,17 +563,7 @@ export type {
     MerchantAccountSessionRefreshRequest,
     MerchantAccountSessionRefreshRequestInput,
     MerchantAccountSessionResponse,
-    MerchantAccountSessionStripe
-} from '../declarations/types-40.js';
-export type {
-    OrderActivityListResponse,
-    OrderActivity,
-    OrderCharge,
-    OrderCalculatedChargeTax,
-    OrderAuthorizationAmounts,
-    OrderCalculatedLineItemTax
-} from '../declarations/types-43.js';
-export type {
+    MerchantAccountSessionStripe,
     MerchantAccountSessionStripeCollectionOptions,
     MerchantAccountSessionStripeComponent,
     MerchantAccountSessionStripeRequirements,
@@ -572,6 +581,16 @@ export type {
     MerchantReadinessPreviousAttributes,
     MerchantReadinessUpdatedInstalledMerchantsEvent,
     MerchantReadinessUpdatedMerchantEvent,
+    MerchantAccountSessionsCreateParams,
+    MerchantGetParams,
+    MerchantBillingBalancesGetParams,
+    MerchantBillingInvoicesGetParams,
+    MerchantBillingBalancesListParams,
+    MerchantBillingEntriesListParams,
+    MerchantBillingInvoicesListParams,
+    MerchantAccountSessionsRefreshParams
+} from '../declarations/types-42.js';
+export type {
     MerchantResponse,
     MerchantSignup,
     MerchantSignupListResponse,
@@ -594,36 +613,33 @@ export type {
     MetadataPatchRequestInput,
     MetadataRequestInput,
     MerchantSignupsCancelParams,
-    MerchantAccountSessionsCreateParams,
     MerchantSignupsCreateParams,
-    MerchantGetParams,
-    MerchantBillingBalancesGetParams,
-    MerchantBillingInvoicesGetParams,
     MerchantSignupsGetParams,
-    MerchantBillingBalancesListParams,
-    MerchantBillingEntriesListParams,
-    MerchantBillingInvoicesListParams,
     MerchantSignupsListParams,
-    MerchantAccountSessionsRefreshParams,
     MerchantSignupsResendCodeParams,
     MerchantSignupsRotateAuthorizationCodesParams,
     MerchantUpdateParams,
     MerchantSignupsVerifyParams
-} from '../declarations/types-41.js';
+} from '../declarations/types-43.js';
 export type {
     ClientOptions,
-    ConfirmEmailChangeRequestInput,
     CheckoutSubscriptionTerms,
+    CheckoutSubscriptionPricePhase,
     CheckoutSubscriptionRecurringShipping,
+    CheckoutSessionTax,
     CheckoutTaxCalculation,
     CheckoutTheme,
     CheckoutTipConfig,
     CheckoutSessionsListCustomerVerificationsParams,
-    ConfirmEmailChangeRequest,
-    ConfigurationVersionRequestInput,
-    ConfirmReturnResolutionRequestInput
+    ConfigurationVersionRequestInput
 } from '../declarations/types-7.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type {
+    Credentials,
+    CreditNoteLineItem,
+    CreditNoteCorrectionRequest,
+    CreditNoteCorrectionRequestQuantity,
+    CreditNoteCorrectionRequestAmount
+} from '../declarations/types-15.js';
 export type {
     ReturnFinancialSummary,
     ReturnHandoffRequirementLineItem,
@@ -638,27 +654,33 @@ export type {
     ReturnEligibilityLineItemRequest,
     ReturnEligibilitySelectionAllRemainingFulfilled,
     ReturnEligibilitySelectionLineItems
-} from '../declarations/types-61.js';
-export type { MoneyValue, NextAction, MoneyValuePreviousAttributes } from '../declarations/types-42.js';
+} from '../declarations/types-63.js';
+export type { MoneyValue, NextAction, MoneyValuePreviousAttributes } from '../declarations/types-44.js';
 export type { Address, AddressRequestInput, AddressPreviousAttributes, AddressRequest } from '../declarations/types-0.js';
 export type {
     SelectedProductOption,
     SaveMePaymentMethodRequestInput,
     ServiceFulfillmentDetails,
-    SettlementAmounts,
     SaveMeGiftCardRequestInput,
     SaveMeGiftCardRequestCodeInput,
     SaveMeGiftCardRequestRecipientAccessInput
-} from '../declarations/types-65.js';
-export type { ReturnPolicyAdjustmentProposal, ReturnReasonSummary } from '../declarations/types-62.js';
+} from '../declarations/types-67.js';
+export type { ReturnPolicyAdjustmentProposal, ReturnReasonSummary } from '../declarations/types-64.js';
 export type {
     Image,
-    GiftCardPurchaseSnapshot,
     ImageAttachment,
     ImageAttachmentPreviousAttributes,
+    ImageRequestInput,
     ImageInputSourceURLInput,
     ImageInputFileInput
-} from '../declarations/types-30.js';
+} from '../declarations/types-31.js';
+export type {
+    ResponseMeta,
+    ResponseWarning,
+    ResourceReference,
+    ResolvePaymentLinkResponse,
+    ResourceVersionRequestInput
+} from '../declarations/types-62.js';
 export type {
     ReadinessMerchantAccountSession,
     RefundLineItemAllocation,
@@ -667,25 +689,38 @@ export type {
     RefundAdjustmentReason,
     RefundLineItemAutomaticRefund,
     RefundLineItemModifierAllocation,
-    ReadinessAction,
+    RefundTaxBreakdownRefund,
+    RefundTenderAllocation,
     ReadinessRequirements,
+    ReadinessRequirementError,
     ReadinessAxis,
-    ReadinessActionPreviousAttributes,
     ReadinessMerchantAccountSessionPreviousAttributes,
     ReadinessRequirementsPreviousAttributes,
+    ReadinessRequirementErrorPreviousAttributes,
     ReadinessAxisPreviousAttributes
-} from '../declarations/types-58.js';
+} from '../declarations/types-60.js';
+export type {
+    CancelMeSubscriptionRequestInput,
+    CategoryReference,
+    ChangeMeSubscriptionPlanRequestInput,
+    ChangeMeSubscriptionQuantityRequestInput,
+    CardDetails,
+    CapabilityReadiness,
+    CapabilityReadinessPreviousAttributes
+} from '../declarations/types-5.js';
 export type {
     SubscriptionIntervalOption,
     SubscriptionEndAfter,
     SubscriptionEndAfterCycles,
     SubscriptionEndAfterDate,
     SubscriptionGiftRecipient,
+    SubscriptionPausedDeliveryHold,
     SubscriptionDeliveryRequestInput,
     SubscriptionDeliveryOption
-} from '../declarations/types-68.js';
+} from '../declarations/types-70.js';
 export type {
     SubscriptionDelivery,
+    SubscriptionAddressVerification,
     SubscriptionDeliveryMethodSummary,
     SubscriptionDeliveryDestination,
     SubscriptionDeliveryHold,
@@ -693,9 +728,52 @@ export type {
     SubscriptionDeliveryDestinationInputCustomerAddressInput,
     SubscriptionDeliveryDestinationInputAddressInput,
     SubscriptionChargeEstimate
-} from '../declarations/types-67.js';
+} from '../declarations/types-69.js';
+export type { DeliveryRecipientResource, DeliveryRecipientRequirement } from '../declarations/types-23.js';
+export type { TextModifierRequest, TaxIdentity, TaxCurrencyConversion, TaxJurisdiction, TaxReverseCharge } from '../declarations/types-74.js';
 export type {
-    SubscriptionAddressVerification,
+    OrderLineItemTax,
+    OrderLineItemModifier,
+    OrderGiftCardEstimate,
+    OrderGiftCardAllocation,
+    OrderGiftCardSettlement,
+    OrderGiftCardSelection,
+    OrderLineItemFulfillmentQuantities,
+    OrderLineItemFulfillmentRequirements,
+    OrderLineItemFulfillmentComponent,
+    OrderLineItemFulfillmentProfile,
+    OrderLineItemRefundable
+} from '../declarations/types-46.js';
+export type {
+    PromotionRecurrence,
+    PromotionRecurrenceOnce,
+    PromotionRecurrenceRepeating,
+    PromotionRecurrenceForever
+} from '../declarations/types-58.js';
+export type {
+    PaymentAttemptGiftCardRedemption,
+    PaymentClientAction,
+    PauseSubscriptionRequestInput,
+    PartnerWebhookEnvelope,
+    PauseSubscriptionRequest
+} from '../declarations/types-50.js';
+export type {
+    OrderPaymentAttemptPaymentMethodSave,
+    OrderLineSubscriptionOfferSummary,
+    OrderLineSubscriptionOfferDiscount,
+    OrderReturnCreditSettlement,
+    OrderSettlementAmounts
+} from '../declarations/types-47.js';
+export type {
+    PendingPaymentAction,
+    PendingPaymentActionSubject,
+    PendingPaymentActionPaymentIntentSubject,
+    PendingPaymentActionSetupPaymentSourceSubject,
+    PickupFulfillmentDetails,
+    PlatformFeeCap
+} from '../declarations/types-55.js';
+export type { PaymentClientActionURL, PaymentClientActionStripe, PaymentErrorSummary, PaymentFulfillmentHold } from '../declarations/types-51.js';
+export type {
     StripePaymentClientAction,
     StripeSetupIntentClientAction,
     StripeTerminalPaymentIntentClientAction,
@@ -703,59 +781,12 @@ export type {
     StripeClientSetupStripe,
     StripeClientAuthority,
     ShipmentFulfillmentDetails,
+    SettlementAmounts,
     SubscribedLine,
     SkipMeSubscriptionCycleRequestInput
-} from '../declarations/types-66.js';
-export type { DeliveryRecipientResource, DeliveryRecipientRequirement } from '../declarations/types-23.js';
-export type {
-    CategoryReference,
-    ChangeMeSubscriptionPlanRequestInput,
-    ChangeMeSubscriptionQuantityRequestInput,
-    CheckoutBuyerContact,
-    CheckoutBuyerFields,
-    CardDetails,
-    CapabilityReadiness,
-    CapabilityReadinessPreviousAttributes
-} from '../declarations/types-5.js';
-export type { TextModifierRequest, TaxIdentity, TaxCurrencyConversion, TaxJurisdiction, TaxReverseCharge } from '../declarations/types-72.js';
-export type {
-    OrderLineItemTax,
-    OrderPaymentAttemptPaymentMethodSave,
-    OrderLineItemModifier,
-    OrderLineItemFulfillmentQuantities,
-    OrderLineItemFulfillmentRequirements,
-    OrderLineItemFulfillmentComponent,
-    OrderLineItemFulfillmentProfile,
-    OrderLineSubscriptionOfferSummary,
-    OrderLineSubscriptionOfferDiscount,
-    OrderReturnCreditSettlement,
-    OrderSettlementAmounts
-} from '../declarations/types-45.js';
-export type {
-    PromotionRecurrence,
-    PromotionRecurrenceOnce,
-    PromotionRecurrenceRepeating,
-    PromotionRecurrenceForever
-} from '../declarations/types-56.js';
-export type {
-    PaymentAttemptGiftCardRedemption,
-    PaymentClientAction,
-    PaymentClientActionURL,
-    PaymentClientActionStripe,
-    PaymentErrorSummary,
-    PaymentFulfillmentHold,
-    PauseSubscriptionRequestInput,
-    PartnerWebhookEnvelope,
-    PauseSubscriptionRequest
-} from '../declarations/types-49.js';
-export type { PendingPaymentAction, PendingPaymentActionPaymentIntentSubject } from '../declarations/types-53.js';
-export type {
-    PendingPaymentActionSubject,
-    PendingPaymentActionSetupPaymentSourceSubject,
-    PickupFulfillmentDetails,
-    PlatformFeeCap
-} from '../declarations/types-54.js';
-export type { CreateCustomerAddressRequestInput } from '../declarations/types-8.js';
+} from '../declarations/types-68.js';
+export type { ConfirmEmailChangeRequestInput, ConfirmEmailChangeRequest, ConfirmReturnResolutionRequestInput } from '../declarations/types-8.js';
+export type { CreateCustomerAddressRequestInput, CreateEmailChangeRequestInput, CreateEmailChangeRequest } from '../declarations/types-9.js';
 export type {
     CreateMeCheckoutSessionRequestInput,
     CreateMeCheckoutSessionReturnResolutionInput,
@@ -769,6 +800,8 @@ export type {
 } from '../declarations/types-11.js';
 export type {
     CheckoutRedirectsRequestInput,
+    CheckoutBuyerContact,
+    CheckoutBuyerFields,
     CheckoutCustomTextConfig,
     CheckoutCustomerPrefill,
     CheckoutDerivedDeliveryResource,
@@ -778,30 +811,37 @@ export type {
     CheckoutPaymentConfig,
     CheckoutPrefill,
     CheckoutPromotionConfig,
-    CheckoutRedirects,
-    CheckoutSessionTax
+    CheckoutRedirects
 } from '../declarations/types-6.js';
 export type {
     DeliveryQuoteChoiceGroupResource,
     DeliveryQuoteExecutionLegResource,
     DeliveryQuoteLineItemResource
 } from '../declarations/types-22.js';
-export type { DeliveryAddressAdvisoryResource, DeliveryArrivalEstimate, CustomerTaxID, DeferredPromotion } from '../declarations/types-17.js';
+export type {
+    DeliveryAddressAdvisoryResource,
+    CustomerTaxExemptionCoverage,
+    CustomerTaxExemptionCoverageAllStates,
+    CustomerTaxExemptionCoverageStates,
+    CustomerTaxID,
+    DeferredPromotion
+} from '../declarations/types-17.js';
 export type {
     DeliveryCandidateOutcomeResource,
+    DeliveryArrivalEstimate,
     DeliveryCandidateOutcomeResourceAvailable,
     DeliveryCandidateOutcomeResourceUnavailable,
     DeliveryCandidateOutcomeResourceInputRequired,
     DeliveryCandidateOutcomeResourceCannotCalculate,
     DeliveryCandidateOutcomeResourceRequiresCheckoutContext,
-    DeliveryEligibilityMismatch,
     DeliveryChargeTaxCalculationRequest
 } from '../declarations/types-18.js';
 export type {
     DeliveryInputRequirement,
     DeliveryInputConstraint,
     DeliveryLocationSummaryResource,
-    DeliveryMerchantDiagnostic
+    DeliveryMerchantDiagnostic,
+    DeliveryEligibilityMismatch
 } from '../declarations/types-19.js';
 export type {
     DeliveryWindowRequest,
@@ -810,33 +850,27 @@ export type {
     DeliverySelectionRecipientRequest
 } from '../declarations/types-24.js';
 export type { DeliveryOptionProjection, DeliveryPlan, DeliveryPickupDetails } from '../declarations/types-20.js';
+export type { LegalSettings, InvoiceSettlementAmounts, InvoiceTip } from '../declarations/types-38.js';
 export type {
-    LegalSettings,
-    InvoiceSettlementAmounts,
-    InvoiceTip,
-    LineItemInventorySnapshot,
-    LineItemInventoryDemand
-} from '../declarations/types-38.js';
-export type { ErrorResourceReference, ErrorRemediation, DocumentTaxID, ExpandedCustomerSummary } from '../declarations/types-26.js';
-export type { CreateEmailChangeRequestInput, CreateEmailChangeRequest } from '../declarations/types-9.js';
+    ErrorResourceReference,
+    ErrorRemediation,
+    DocumentTaxID,
+    ExpandedCustomerSummary,
+    DisputeResponseSessionStripeAccountSession,
+    DisputesAcceptParams
+} from '../declarations/types-26.js';
 export type { CreateReturnEligibilityPreviewRequestInput } from '../declarations/types-13.js';
 export type {
     ReturnResolutionLineItemRequestInput,
-    ReturnRefundEstimate,
     ReturnRefundTenderEstimate,
     ReturnRefundTenderEstimatePaymentIntent,
     ReturnRefundTenderEstimateGiftCardRedemption,
     ReturnResolutionLineItem,
     ReturnReplacementLineItem,
     ReturnResolutionLineItemRequest
-} from '../declarations/types-63.js';
-export type {
-    CreditNoteLineItem,
-    CreditNoteCorrectionRequest,
-    CreditNoteCorrectionRequestQuantity,
-    CreditNoteCorrectionRequestAmount
-} from '../declarations/types-15.js';
-export type { FulfillmentChargeLink, FulfillmentRecipient } from '../declarations/types-27.js';
+} from '../declarations/types-65.js';
+export type { FulfillmentChargeLink } from '../declarations/types-27.js';
+export type { FulfillmentRecipient, GiftCardCustomAmountBounds } from '../declarations/types-28.js';
 export type {
     InvoiceDocumentRow,
     InvoiceLateFeePolicy,
@@ -848,14 +882,14 @@ export type {
 export type {
     InvoicePaymentOptionCostComparison,
     InvoicePaymentTermCalculation,
-    InvoicePaymentTermCalculationOnReceipt,
-    InvoicePaymentTermCalculationNetDays,
-    InvoicePaymentTermCalculationDaysAfterMonthEnd,
     InvoicePaymentTermCalculationDayOfMonth,
     InvoicePaymentTermCalculationDayOfNextMonth
 } from '../declarations/types-36.js';
 export type {
     InvoicePaymentTermsSnapshot,
+    InvoicePaymentTermCalculationOnReceipt,
+    InvoicePaymentTermCalculationNetDays,
+    InvoicePaymentTermCalculationDaysAfterMonthEnd,
     InvoiceScheduleEntry,
     InvoiceScheduleAmountSpecification,
     InvoiceScheduleAmountSpecificationFixed,
@@ -866,28 +900,19 @@ export type {
     InvoiceScheduleDueDate,
     InvoiceScheduleDueInvoiceDueDate
 } from '../declarations/types-37.js';
-export type { PricingAmounts } from '../declarations/types-55.js';
+export type { PricingAmounts } from '../declarations/types-56.js';
 export type {
     TaxBreakdown,
     TaxBreakdownPercentage,
     TaxBreakdownFlatAmount,
     TaxCalculationRequest,
     TaxComponentRequest
-} from '../declarations/types-71.js';
-export type {
-    OrderDeliverySummary,
-    OrderDeliveryDestination,
-    OrderDeliveryDestinationRecipient,
-    OrderDiscount,
-    OrderGiftCardEstimate,
-    OrderGiftCardAllocation,
-    OrderGiftCardSettlement,
-    OrderGiftCardSelection
-} from '../declarations/types-44.js';
-export type { GiftCardProductConfiguration, GiftCardPurchaseRecipient } from '../declarations/types-29.js';
-export type { GiftCardCustomAmountBounds } from '../declarations/types-28.js';
-export type { PurchasedGiftCard } from '../declarations/types-57.js';
-export type { Dimensions, DisputeResponseSessionStripeAccountSession, DisputesAcceptParams } from '../declarations/types-25.js';
+} from '../declarations/types-73.js';
+export type { GiftCardPurchaseSnapshot, GiftCardPurchaseRecipient } from '../declarations/types-30.js';
+export type { GiftCardProductConfiguration } from '../declarations/types-29.js';
+export type { LineItemInventorySnapshot, LineItemInventoryDemand, LicenseKeyVersionRequestInput } from '../declarations/types-40.js';
+export type { PurchasedGiftCard, ReadinessAction, ReadinessActionPreviousAttributes } from '../declarations/types-59.js';
+export type { Dimensions } from '../declarations/types-25.js';
 export type {
     TicketedEvent,
     TipPaymentIntentAllocation,
@@ -895,14 +920,13 @@ export type {
     UpdateCustomerAddressRequestInput,
     UpdateCustomerEmailPreferencesRequestInput,
     UpdateCustomerEmailPreferencesRequest
-} from '../declarations/types-73.js';
+} from '../declarations/types-75.js';
 export type {
     PaymentSourceSummary,
     PaymentSourceAchDebitSummary,
     PaymentSourceCardSummary,
     PaymentSourceCardPresentDetails
-} from '../declarations/types-52.js';
-export type { RefundTaxBreakdownRefund, RefundTenderAllocation, RenewSubscriptionRequestInput } from '../declarations/types-59.js';
+} from '../declarations/types-54.js';
 export type {
     UpdateMeRequestInput,
     UpdateMeSubscriptionRequestInput,
@@ -910,32 +934,32 @@ export type {
     UpdateMerchantRequestInput,
     UpdateMeRequest,
     UpdateMeSubscriptionLineItemRequest
-} from '../declarations/types-74.js';
-export type { WebhookEventSource, VerifyMerchantSignupRequestInput } from '../declarations/types-76.js';
-export type { ImageRequestInput } from '../declarations/types-31.js';
+} from '../declarations/types-76.js';
+export type { VerifyMerchantSignupRequestInput } from '../declarations/types-78.js';
+export { makeAddressRequest } from '../declarations/types-79.js';
 export {
-    makeAddressRequest,
     makeBuyerCancelReturnRequest,
     makeBuyerCreateReturnPreviewRequest,
     makeBuyerCreateReturnPreviewRequestEligibility,
     makeBuyerCreateReturnPreviewRequestResolution,
     makeBuyerCreateReturnRequest,
-    makeBuyerCreateReturnResolutionPreviewRequest
-} from '../declarations/types-77.js';
-export {
+    makeBuyerCreateReturnResolutionPreviewRequest,
     makeBuyerReturnReplacementLineItemInputBundle,
     makeBuyerReturnReplacementLineItemInputVariant,
     makeBuyerReturnReplacementLineItemRequest,
     makeCancelMeSubscriptionRequest,
     makeChangeMeSubscriptionPlanRequest,
     makeChangeMeSubscriptionQuantityRequest,
-    makeCheckoutRedirectsRequest,
+    makeCheckoutRedirectsRequest
+} from '../declarations/types-80.js';
+export {
     makeConfigurationVersionRequest,
     makeConfirmEmailChangeRequest,
-    makeConfirmReturnResolutionRequest
-} from '../declarations/types-78.js';
-export { makeCreateCustomerAddressRequest, makeCreateEmailChangeRequest } from '../declarations/types-79.js';
+    makeConfirmReturnResolutionRequest,
+    makeCreateCustomerAddressRequest
+} from '../declarations/types-81.js';
 export {
+    makeCreateEmailChangeRequest,
     makeCreateMeCheckoutSessionInvoice,
     makeCreateMeCheckoutSessionRequest,
     makeCreateMeCheckoutSessionReturnResolution,
@@ -945,10 +969,16 @@ export {
     makeCreateMeSubscriptionPreviewRequestNextRenewal,
     makeCreateMeSubscriptionPreviewRequestPlanChange,
     makeCreateMeSubscriptionPreviewRequestQuantityChange
-} from '../declarations/types-80.js';
-export { makeCreateReturnEligibilityPreviewRequest } from '../declarations/types-81.js';
-export { makeDeliverySelectionRecipientRequest, makeDeliveryWindowRequest } from '../declarations/types-83.js';
-export { makeImageInputFile, makeImageInputSourceURL, makeImageRequest } from '../declarations/types-84.js';
+} from '../declarations/types-82.js';
+export { makeCreateReturnEligibilityPreviewRequest } from '../declarations/types-83.js';
+export {
+    makeDeliverySelectionRecipientRequest,
+    makeDeliveryWindowRequest,
+    makeImageInputFile,
+    makeImageInputSourceURL,
+    makeImageRequest
+} from '../declarations/types-86.js';
+export { makeLicenseKeyVersionRequest } from '../declarations/types-87.js';
 export {
     makeMerchantAccountSessionCreateRequest,
     makeMerchantAccountSessionRefreshRequest,
@@ -956,45 +986,43 @@ export {
     makeMerchantSignupTermsAcceptanceRequest,
     makeMerchantSignupVersionRequest,
     makeMetadataPatchRequest,
-    makeMetadataRequest
-} from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makePauseSubscriptionRequest } from '../declarations/types-87.js';
+    makeMetadataRequest,
+    makeMoneyValue
+} from '../declarations/types-88.js';
+export { makePauseSubscriptionRequest } from '../declarations/types-89.js';
+export { makeRenewSubscriptionRequest } from '../declarations/types-90.js';
 export {
-    makeRenewSubscriptionRequest,
     makeResourceVersionRequest,
     makeReturnEligibilityLineItemRequestModel,
     makeReturnEligibilitySelectionAllRemainingFulfilledRequest,
     makeReturnEligibilitySelectionLineItemsRequest,
     makeReturnEligibilitySelectionRequest,
-    makeReturnLineItemRequest
-} from '../declarations/types-88.js';
-export {
+    makeReturnLineItemRequest,
     makeReturnResolutionLineItemRequest,
     makeSaveMeGiftCardRequest,
     makeSaveMeGiftCardRequestCode,
     makeSaveMeGiftCardRequestRecipientAccess,
-    makeSaveMePaymentMethodRequest,
+    makeSaveMePaymentMethodRequest
+} from '../declarations/types-91.js';
+export {
     makeSkipMeSubscriptionCycleRequest,
     makeSubscriptionDeliveryDestinationInputAddress,
     makeSubscriptionDeliveryDestinationInputCustomerAddress,
     makeSubscriptionDeliveryDestinationRequest,
-    makeSubscriptionDeliveryRequest
-} from '../declarations/types-89.js';
-export {
+    makeSubscriptionDeliveryRequest,
     makeSubscriptionQuantityChangeLineItemRequest,
-    makeSubscriptionSwapPreviewRequest,
+    makeSubscriptionSwapPreviewRequest
+} from '../declarations/types-92.js';
+export {
     makeTextModifierRequest,
     makeUpdateCustomerAddressRequest,
-    makeUpdateCustomerEmailPreferencesRequest
-} from '../declarations/types-90.js';
-export {
+    makeUpdateCustomerEmailPreferencesRequest,
     makeUpdateMerchantRequest,
     makeUpdateMeRequest,
     makeUpdateMeSubscriptionLineItemRequest,
-    makeUpdateMeSubscriptionRequest,
-    makeVerifyMerchantSignupRequest
-} from '../declarations/types-91.js';
+    makeUpdateMeSubscriptionRequest
+} from '../declarations/types-93.js';
+export { makeVerifyMerchantSignupRequest } from '../declarations/types-94.js';
 export interface MeResource {
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
@@ -1004,7 +1032,9 @@ export interface MeResource {
  * Receipts and order history remain readable.
  *
  * `POST /v1/me/returns/{return_id}/cancel`
- * @param return_id Flint return id.
+ * @param return_id Flint return id. Must be a valid ID with prefix ret_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#cancelMeReturn
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -1031,7 +1061,9 @@ export interface MeResource {
  * terminal_status. Receipts and order history remain readable.
  *
  * `POST /v1/me/subscriptions/{subscription_id}/cancel`
- * @param subscription_id Flint subscription ID.
+ * @param subscription_id Flint subscription ID. Must be a valid ID with prefix sub_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#cancelMeSubscription
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -1059,7 +1091,9 @@ export interface MeResource {
  * Receipts and order history remain readable.
  *
  * `POST /v1/me/subscriptions/{subscription_id}/change-plan`
- * @param subscription_id Subscription ID.
+ * @param subscription_id Subscription ID. Must be a valid ID with prefix sub_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#changeMeSubscriptionPlan
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -1085,7 +1119,9 @@ export interface MeResource {
  * ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
  *
  * `POST /v1/me/subscriptions/{subscription_id}/change-quantity`
- * @param subscription_id Subscription ID.
+ * @param subscription_id Subscription ID. Must be a valid ID with prefix sub_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#changeMeSubscriptionQuantity
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -1107,7 +1143,9 @@ export interface MeResource {
  * email had saved cards. Sign the buyer in again with the new email.
  *
  * `POST /v1/me/email-change-requests/{email_change_request_id}/confirm`
- * @param email_change_request_id Flint email change request ID.
+ * @param email_change_request_id Flint email change request ID. Must be a valid ID with prefix
+ * cecr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#confirmMeEmailChangeRequest
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -1214,7 +1252,9 @@ export interface MeResource {
  * ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
  *
  * `POST /v1/me/flint-wallet/cards/{flint_wallet_card_id}/store-setups`
- * @param flint_wallet_card_id The card's handle at this store.
+ * @param flint_wallet_card_id The card's handle at this store. Must be a valid ID with prefix
+ * fwc_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#createMeFlintWalletStoreSetup
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -1292,7 +1332,9 @@ export interface MeResource {
  * ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
  *
  * `POST /v1/me/subscriptions/{subscription_id}/payment-retries`
- * @param subscription_id Flint subscription ID.
+ * @param subscription_id Flint subscription ID. Must be a valid ID with prefix sub_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see
  * https://developers.withflintpay.com/docs/api/customer-account#createMeSubscriptionPaymentRetry
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
@@ -1341,7 +1383,9 @@ export interface MeResource {
  * Receipts and order history remain readable.
  *
  * `DELETE /v1/me/addresses/{customer_address_id}`
- * @param customer_address_id Flint customer address ID.
+ * @param customer_address_id Flint customer address ID. Must be a valid ID with prefix caddr_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#deleteMeAddress
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -1354,12 +1398,16 @@ export interface MeResource {
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Deletes a saved payment method so it can no longer be used for future payments.
- * Returns the payment method with status archived, including when it was already archived. A
- * closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason
- * terminal_status. Receipts and order history remain readable.
+ * Returns the payment method with status archived, including when it was already archived.
+ * Subscriptions block deletion until they have a scheduled cancellation and no remaining payment
+ * or retry. Paid prepaid deliveries can finish without the card. A closed store is read-only:
+ * commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order
+ * history remain readable.
  *
  * `DELETE /v1/me/payment-methods/{payment_method_id}`
- * @param payment_method_id Flint payment method ID.
+ * @param payment_method_id Flint payment method ID. Must be a valid ID with prefix pm_. Malformed
+ * IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist
+ * return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#deleteMePaymentMethod
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -1385,7 +1433,9 @@ export interface MeResource {
  * customer_id. Returns one of the buyer's saved addresses.
  *
  * `GET /v1/me/addresses/{customer_address_id}`
- * @param customer_address_id Flint customer address ID.
+ * @param customer_address_id Flint customer address ID. Must be a valid ID with prefix caddr_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#getMeAddress
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -1399,7 +1449,9 @@ export interface MeResource {
  * available to allocate.
  *
  * `GET /v1/me/credit-notes/{credit_note_id}`
- * @param credit_note_id Flint credit note ID.
+ * @param credit_note_id Flint credit note ID. Must be a valid ID with prefix cn_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#getMeCreditNote
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -1415,7 +1467,9 @@ export interface MeResource {
  * but not in content.
  *
  * `GET /v1/me/credit-notes/{credit_note_id}/pdf`
- * @param credit_note_id Flint credit note ID.
+ * @param credit_note_id Flint credit note ID. Must be a valid ID with prefix cn_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#getMeCreditNotePDF
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -1427,7 +1481,9 @@ export interface MeResource {
  * customer_id. Returns the status of one of the buyer's deletion requests.
  *
  * `GET /v1/me/deletion-requests/{customer_deletion_request_id}`
- * @param customer_deletion_request_id Flint customer deletion request ID.
+ * @param customer_deletion_request_id Flint customer deletion request ID. Must be a valid ID with
+ * prefix cdel_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed
+ * IDs that do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#getMeDeletionRequest
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -1442,7 +1498,9 @@ export interface MeResource {
  * request. Superseded requests are not found.
  *
  * `GET /v1/me/email-change-requests/{email_change_request_id}`
- * @param email_change_request_id The email change request ID.
+ * @param email_change_request_id The email change request ID. Must be a valid ID with prefix
+ * cecr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#getMeEmailChangeRequest
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -1468,7 +1526,9 @@ export interface MeResource {
  * customer_id. Returns one of the buyer's fulfillments.
  *
  * `GET /v1/me/fulfillments/{fulfillment_id}`
- * @param fulfillment_id Flint fulfillment ID.
+ * @param fulfillment_id Flint fulfillment ID. Must be a valid ID with prefix ful_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#getMeFulfillment
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -1476,13 +1536,16 @@ export interface MeResource {
  */
     getFulfillment(fulfillment_id: InputValue<string>, params?: MeGetFulfillmentParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<BuyerFulfillment, BuyerFulfillmentResponse>>;
     /**
- * Requires a full customer session. Saved access requires possession of a current code or
- * recipient link. Customer associations and purchase history do not authorize access. Replacing a
- * code invalidates saved access; save again with fresh proof. Saved access does not permit
- * spending or reveal a full code.
+ * Requires a full customer session. Cards assigned to the buyer by `customer_id`, including refund
+ * or Return store credit, appear automatically. Saving any other card requires its current code or
+ * private recipient link. Purchase and delivery alone do not grant access. Replacing a code
+ * invalidates saved access. Account access reveals only a masked code and grants no spending
+ * authority.
  *
  * `GET /v1/me/gift-cards/{gift_card_id}`
- * @param gift_card_id Flint gift card ID.
+ * @param gift_card_id Flint gift card ID. Must be a valid ID with prefix gc_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#getMeGiftCard
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -1496,7 +1559,9 @@ export interface MeResource {
  * `RESOURCE_NOT_FOUND`.
  *
  * `GET /v1/me/invoices/{invoice_id}`
- * @param invoice_id Flint invoice ID.
+ * @param invoice_id Flint invoice ID. Must be a valid ID with prefix inv_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#getMeInvoice
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -1510,7 +1575,9 @@ export interface MeResource {
  * envelope.
  *
  * `GET /v1/me/invoices/{invoice_id}/pdf`
- * @param invoice_id Flint invoice ID.
+ * @param invoice_id Flint invoice ID. Must be a valid ID with prefix inv_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#getMeInvoicePDF
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -1522,7 +1589,9 @@ export interface MeResource {
  * customer_id. Returns one of the buyer's orders.
  *
  * `GET /v1/me/orders/{order_id}`
- * @param order_id Flint order ID.
+ * @param order_id Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#getMeOrder
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -1539,7 +1608,9 @@ export interface MeResource {
  * are current.
  *
  * `GET /v1/me/orders/{order_id}/receipt-pdf`
- * @param order_id Flint order ID.
+ * @param order_id Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#getMeOrderReceiptPDF
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -1551,7 +1622,9 @@ export interface MeResource {
  * customer_id. Returns one of the buyer's packages.
  *
  * `GET /v1/me/packages/{package_id}`
- * @param package_id Flint package ID.
+ * @param package_id Flint package ID. Must be a valid ID with prefix pkg_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#getMePackage
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -1563,7 +1636,9 @@ export interface MeResource {
  * customer_id. Returns one of the buyer's payments.
  *
  * `GET /v1/me/payment-intents/{payment_intent_id}`
- * @param payment_intent_id Flint payment intent ID.
+ * @param payment_intent_id Flint payment intent ID. Must be a valid ID with prefix pi_. Malformed
+ * IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist
+ * return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#getMePaymentIntent
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -1575,7 +1650,9 @@ export interface MeResource {
  * customer_id. Returns one of the buyer's saved payment methods.
  *
  * `GET /v1/me/payment-methods/{payment_method_id}`
- * @param payment_method_id Flint payment method ID.
+ * @param payment_method_id Flint payment method ID. Must be a valid ID with prefix pm_. Malformed
+ * IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist
+ * return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#getMePaymentMethod
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -1587,7 +1664,9 @@ export interface MeResource {
  * customer_id. Returns one of the buyer's refunds.
  *
  * `GET /v1/me/refunds/{refund_id}`
- * @param refund_id Flint refund ID.
+ * @param refund_id Flint refund ID. Must be a valid ID with prefix ref_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#getMeRefund
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -1599,7 +1678,9 @@ export interface MeResource {
  * customer_id. Returns one of the buyer's Returns.
  *
  * `GET /v1/me/returns/{return_id}`
- * @param return_id Flint return id.
+ * @param return_id Flint return id. Must be a valid ID with prefix ret_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#getMeReturn
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -1612,7 +1693,9 @@ export interface MeResource {
  * pay. Use the checkout_session action to pay its balance.
  *
  * `GET /v1/me/return-resolutions/{return_resolution_id}`
- * @param return_resolution_id Flint return resolution id.
+ * @param return_resolution_id Flint return resolution id. Must be a valid ID with prefix retres_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#getMeReturnResolution
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -1624,7 +1707,9 @@ export interface MeResource {
  * customer_id. Returns one of the buyer's shipments.
  *
  * `GET /v1/me/shipments/{shipment_id}`
- * @param shipment_id Flint shipment ID.
+ * @param shipment_id Flint shipment ID. Must be a valid ID with prefix shp_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#getMeShipment
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -1637,7 +1722,9 @@ export interface MeResource {
  * without expand: the plan's current summary, or null when the subscription has no plan.
  *
  * `GET /v1/me/subscriptions/{subscription_id}`
- * @param subscription_id Flint subscription ID.
+ * @param subscription_id Flint subscription ID. Must be a valid ID with prefix sub_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#getMeSubscription
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -1649,8 +1736,12 @@ export interface MeResource {
  * subscription payment retry.
  *
  * `GET /v1/me/subscriptions/{subscription_id}/payment-retries/{subscription_payment_retry_id}`
- * @param subscription_id Flint subscription ID.
- * @param subscription_payment_retry_id Flint subscription payment retry ID.
+ * @param subscription_id Flint subscription ID. Must be a valid ID with prefix sub_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
+ * @param subscription_payment_retry_id Flint subscription payment retry ID. Must be a valid ID
+ * with prefix spr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE;
+ * well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#getMeSubscriptionPaymentRetry
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -1800,11 +1891,13 @@ export interface MeResource {
      */
     listFulfillmentsItems(params?: MeListFulfillmentsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerFulfillment>;
     /**
- * Requires a full customer session. Saved access requires possession of a current code or
- * recipient link. Customer associations and purchase history do not authorize access. Replacing a
- * code invalidates saved access; save again with fresh proof. Saved access does not permit
- * spending or reveal a full code. Lists valid saved cards by saved time then card ID, descending.
- * Default order: time the buyer saved the card (descending), then gift_card_id descending.
+ * Requires a full customer session. Cards assigned to the buyer by `customer_id`, including refund
+ * or Return store credit, appear automatically. Saving any other card requires its current code or
+ * private recipient link. Purchase and delivery alone do not grant access. Replacing a code
+ * invalidates saved access. Account access reveals only a masked code and grants no spending
+ * authority. Lists owned and currently saved cards once each. Default order: saved time or
+ * creation time for owned cards without current saved access (descending), then gift_card_id
+ * descending.
  *
  * `GET /v1/me/gift-cards`
  * @see https://developers.withflintpay.com/docs/api/customer-account#listMeGiftCards
@@ -1822,12 +1915,13 @@ export interface MeResource {
      */
     listGiftCardsItems(params?: MeListGiftCardsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerGiftCard>;
     /**
- * Requires a full customer session. Saved access requires possession of a current code or
- * recipient link. Customer associations and purchase history do not authorize access. Replacing a
- * code invalidates saved access; save again with fresh proof. Saved access does not permit
- * spending or reveal a full code. Lists the full anonymous balance-change history by per-card
- * sequence, descending. Other holders' identities and order references are omitted. Default order:
- * sequence descending; this key uniquely orders the results.
+ * Requires a full customer session. Cards assigned to the buyer by `customer_id`, including refund
+ * or Return store credit, appear automatically. Saving any other card requires its current code or
+ * private recipient link. Purchase and delivery alone do not grant access. Replacing a code
+ * invalidates saved access. Account access reveals only a masked code and grants no spending
+ * authority. Lists the full anonymous balance-change history by per-card sequence, descending.
+ * Other holders' identities and order references are omitted. Default order: sequence descending;
+ * this key uniquely orders the results.
  *
  * `GET /v1/me/gift-card-transactions`
  * @see https://developers.withflintpay.com/docs/api/customer-account#listMeGiftCardTransactions
@@ -1865,6 +1959,54 @@ export interface MeResource {
      */
     listInvoicesItems(params?: MeListInvoicesParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerInvoice>;
     /**
+ * Lists devices for one accessible license key, newest first. Supply license_key_id. Order and
+ * subscription links can list devices for keys on the resource they open. Released activations
+ * remain in the list. Default order: created_at descending, then license_key_activation_id
+ * descending.
+ *
+ * `GET /v1/me/license-key-activations`
+ * @see https://developers.withflintpay.com/docs/api/customer-account#listMeLicenseKeyActivations
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
+ * @example
+ * client.me.listLicenseKeyActivations({license_key_id: "lk_01KEZF7C000QD7VJ83G43V0NSN"})
+ */
+    listLicenseKeyActivations(params: MeListLicenseKeyActivationsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<BuyerLicenseKeyActivationListResponse, BuyerLicenseKeyActivationListResponse>>;
+    /** Iterate pages lazily.
+     * @see
+     * https://developers.withflintpay.com/docs/api/customer-account#listMeLicenseKeyActivations
+     */
+    listLicenseKeyActivationsPages(params: MeListLicenseKeyActivationsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<WithResponseInfo<BuyerLicenseKeyActivationListResponse, BuyerLicenseKeyActivationListResponse>>;
+    /** Iterate items lazily.
+     * @see
+     * https://developers.withflintpay.com/docs/api/customer-account#listMeLicenseKeyActivations
+     */
+    listLicenseKeyActivationsItems(params: MeListLicenseKeyActivationsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerLicenseKeyActivation>;
+    /**
+ * Lists the current buyer's issued license keys, newest first, including disabled keys. An order
+ * filter includes keys from the subscription that order started. An order or subscription link
+ * limits results to that resource. The full assigned key is present for verified Flint sign-ins
+ * when the verified email matches the order's buyer email, or the subscription customer's email
+ * for a subscription with no starting order. A paying checkout's order link or an uncopied link
+ * emailed to the order's buyer can show full keys for that order. Merchant-created sessions and
+ * links show only the key suffix. Default order: created_at descending, then license_key_id
+ * descending.
+ *
+ * `GET /v1/me/license-keys`
+ * @see https://developers.withflintpay.com/docs/api/customer-account#listMeLicenseKeys
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
+ * @example
+ * client.me.listLicenseKeys()
+ */
+    listLicenseKeys(params?: MeListLicenseKeysParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<BuyerLicenseKeyListResponse, BuyerLicenseKeyListResponse>>;
+    /** Iterate pages lazily.
+     * @see https://developers.withflintpay.com/docs/api/customer-account#listMeLicenseKeys
+     */
+    listLicenseKeysPages(params?: MeListLicenseKeysParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<WithResponseInfo<BuyerLicenseKeyListResponse, BuyerLicenseKeyListResponse>>;
+    /** Iterate items lazily.
+     * @see https://developers.withflintpay.com/docs/api/customer-account#listMeLicenseKeys
+     */
+    listLicenseKeysItems(params?: MeListLicenseKeysParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerLicenseKey>;
+    /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Returns a read-only, human-readable history log for an order. Use it to render
  * timelines and debug what happened, not as a source of truth, ledger, or webhook replacement.
@@ -1878,7 +2020,9 @@ export interface MeResource {
  * Default order: created_at descending, then order_activity_id descending.
  *
  * `GET /v1/me/orders/{order_id}/activities`
- * @param order_id Flint order ID.
+ * @param order_id Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#listMeOrderActivities
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -2055,7 +2199,9 @@ export interface MeResource {
  * descending, then subscription_payment_retry_id descending.
  *
  * `GET /v1/me/subscriptions/{subscription_id}/payment-retries`
- * @param subscription_id Flint subscription ID.
+ * @param subscription_id Flint subscription ID. Must be a valid ID with prefix sub_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see
  * https://developers.withflintpay.com/docs/api/customer-account#listMeSubscriptionPaymentRetries
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
@@ -2133,7 +2279,9 @@ export interface MeResource {
  * ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
  *
  * `POST /v1/me/subscriptions/{subscription_id}/pause`
- * @param subscription_id Flint subscription ID.
+ * @param subscription_id Flint subscription ID. Must be a valid ID with prefix sub_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#pauseMeSubscription
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -2144,19 +2292,40 @@ export interface MeResource {
  */
     pauseSubscription(subscription_id: InputValue<string>, params?: MePauseSubscriptionParams, options?: RequestOptions<"customer">): Promise<WithResponseInfo<BuyerSubscription, BuyerSubscriptionResponse>>;
     /**
- * Requires a full customer session. Saved access requires possession of a current code or
- * recipient link. Customer associations and purchase history do not authorize access. Replacing a
- * code invalidates saved access; save again with fresh proof. Saved access does not permit
- * spending or reveal a full code. Removes only this buyer's saved access without changing funds or
- * other holders' access. A repeated removal without an idempotency key fails with
- * `RESOURCE_NOT_FOUND` because saved access is already absent. Reusing the same idempotency key
+ * Deactivates a device and frees its slot. Requires a full customer session. Send an empty body or
+ * {}. An activation that has already been released returns 409 ACTION_NOT_ALLOWED with reason
+ * already_applied. A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED
+ * and reason terminal_status. Receipts and order history remain readable.
+ *
+ * `POST /v1/me/license-key-activations/{license_key_activation_id}/release`
+ * @param license_key_activation_id The activation ID. Must be a valid ID with prefix lka_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#releaseMeLicenseKeyActivation
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.me.releaseLicenseKeyActivation("lka_01KEZF7C00NZEZVCZW3SRDMHTZ", {}, { idempotencyKey:
+ * idempotencyKey })
+ */
+    releaseLicenseKeyActivation(license_key_activation_id: InputValue<string>, params?: MeReleaseLicenseKeyActivationParams, options?: RequestOptions<"customer">): Promise<WithResponseInfo<BuyerLicenseKeyActivation, BuyerLicenseKeyActivationResponse>>;
+    /**
+ * Requires a full customer session. Cards assigned to the buyer by `customer_id`, including refund
+ * or Return store credit, appear automatically. Saving any other card requires its current code or
+ * private recipient link. Purchase and delivery alone do not grant access. Replacing a code
+ * invalidates saved access. Account access reveals only a masked code and grants no spending
+ * authority. Removes this buyer's saved access without changing funds or other holders' access.
+ * Owned cards and cards without current saved access return 404. Reusing the same idempotency key
  * replays the original removal snapshot without restoring saved access. Idempotency keys are
  * scoped to the buyer, merchant, environment, and operation. A replay cannot restore removed or
  * revoked saved access. A closed store is read-only: commerce changes fail with 409
  * ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
  *
  * `DELETE /v1/me/gift-cards/{gift_card_id}`
- * @param gift_card_id Flint gift card ID.
+ * @param gift_card_id Flint gift card ID. Must be a valid ID with prefix gc_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#removeMeGiftCard
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -2181,7 +2350,9 @@ export interface MeResource {
  * remain readable.
  *
  * `POST /v1/me/subscriptions/{subscription_id}/renew`
- * @param subscription_id Subscription ID.
+ * @param subscription_id Subscription ID. Must be a valid ID with prefix sub_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#renewMeSubscription
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -2191,6 +2362,26 @@ export interface MeResource {
  * idempotencyKey })
  */
     renewSubscription(subscription_id: InputValue<string>, params: MeRenewSubscriptionParams | undefined, options: _SdkRequiredIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<BuyerSubscriptionRenewalResult, BuyerSubscriptionRenewalResultResponse>>;
+    /**
+ * Queues an email to the order's buyer email, or to the subscription customer when there is no
+ * starting order. Returns the key's details with its last four characters. Requires a full
+ * customer session. Send an empty body or {}. Pending and disabled keys cannot be resent. Email
+ * delivery must be enabled and an address must be on file. Flint accepts one resend per key every
+ * 60 seconds across buyer and merchant requests. A sooner request returns 429 with Retry-After.
+ *
+ * `POST /v1/me/license-keys/{license_key_id}/resend`
+ * @param license_key_id The license key ID. Must be a valid ID with prefix lk_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#resendMeLicenseKey
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.me.resendLicenseKey("lk_01KEZF7C000QD7VJ83G43V0NSN", {}, { idempotencyKey: idempotencyKey
+ * })
+ */
+    resendLicenseKey(license_key_id: InputValue<string>, params?: MeResendLicenseKeyParams, options?: RequestOptions<"customer">): Promise<WithResponseInfo<BuyerLicenseKey, BuyerLicenseKeyResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Asks Flint to resume a paused subscription. The request is accepted while the
@@ -2206,7 +2397,9 @@ export interface MeResource {
  * Receipts and order history remain readable.
  *
  * `POST /v1/me/subscriptions/{subscription_id}/resume`
- * @param subscription_id Flint subscription ID.
+ * @param subscription_id Flint subscription ID. Must be a valid ID with prefix sub_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#resumeMeSubscription
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -2224,7 +2417,9 @@ export interface MeResource {
  * body or {}.
  *
  * `POST /v1/me/remembered-buyers/{remembered_buyer_id}/revoke`
- * @param remembered_buyer_id Remembered buyer to forget.
+ * @param remembered_buyer_id Remembered buyer to forget. Must be a valid ID with prefix rbuy_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#revokeMeRememberedBuyer
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -2250,13 +2445,17 @@ export interface MeResource {
  */
     revokeSession(params?: MeRevokeSessionParams, options?: RequestOptions<"customer">): Promise<WithResponseInfo<BuyerCustomerSession, BuyerCustomerSessionResponse>>;
     /**
- * Requires a full customer session. Saved access requires possession of a current code or
- * recipient link. Customer associations and purchase history do not authorize access. Replacing a
- * code invalidates saved access; save again with fresh proof. Saved access does not permit
- * spending or reveal a full code. Idempotency keys are scoped to the buyer, merchant, environment,
- * and operation. A replay cannot restore removed or revoked saved access. A closed store is
- * read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status.
- * Receipts and order history remain readable.
+ * Requires a full customer session. Cards assigned to the buyer by `customer_id`, including refund
+ * or Return store credit, appear automatically. Saving any other card requires its current code or
+ * private recipient link. Purchase and delivery alone do not grant access. Replacing a code
+ * invalidates saved access. Account access reveals only a masked code and grants no spending
+ * authority. Idempotency keys are scoped to the buyer, merchant, environment, and operation. A
+ * replay cannot restore removed or revoked saved access. Generated and imported codes are
+ * accepted. Repeated incorrect codes share a one-hour failure budget per buyer, IP address, and
+ * merchant environment. A cooldown returns 429 RATE_LIMIT_EXCEEDED with Retry-After; starting a
+ * new customer session does not reset it. Private recipient links remain usable during a code
+ * cooldown. A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and
+ * reason terminal_status. Receipts and order history remain readable.
  *
  * `POST /v1/me/gift-cards`
  * @see https://developers.withflintpay.com/docs/api/customer-account#saveMeGiftCard
@@ -2274,7 +2473,9 @@ export interface MeResource {
  * recipient.
  *
  * `POST /v1/me/orders/{order_id}/send-receipt`
- * @param order_id Flint order ID.
+ * @param order_id Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#sendMeOrderReceipt
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -2296,7 +2497,9 @@ export interface MeResource {
  * terminal_status. Receipts and order history remain readable.
  *
  * `POST /v1/me/subscriptions/{subscription_id}/skip-cycle`
- * @param subscription_id Subscription ID.
+ * @param subscription_id Subscription ID. Must be a valid ID with prefix sub_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#skipMeSubscriptionCycle
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -2331,7 +2534,9 @@ export interface MeResource {
  * ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
  *
  * `PATCH /v1/me/addresses/{customer_address_id}`
- * @param customer_address_id Flint customer address ID.
+ * @param customer_address_id Flint customer address ID. Must be a valid ID with prefix caddr_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#updateMeAddress
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -2359,7 +2564,9 @@ export interface MeResource {
     updateEmailPreferences(params: MeUpdateEmailPreferencesParams, options?: RequestOptions<"customer">): Promise<WithResponseInfo<CustomerEmailPreferences, CustomerEmailPreferencesResponse>>;
     /**
  * Updates payment_method_id, cancel_at_period_end: false, scheduled_plan_change: null, delivery
- * and billing interval when the matching buyer action is available. Send billing_interval and
+ * and billing interval when the matching buyer action is available. If a retained card is
+ * unusable, undoing cancellation requires a usable replacement in payment_method_id; otherwise
+ * ACTION_NOT_ALLOWED has reason payment_method_required. Send billing_interval and
  * billing_interval_count together. Mixed changes commit atomically. A scoped card-update session
  * may send only payment_method_id and expected_version. Send expected_version to reject concurrent
  * changes. A card whose setup hasn't finished fails with `ACTION_NOT_ALLOWED` and reason
@@ -2368,7 +2575,9 @@ export interface MeResource {
  * terminal_status. Receipts and order history remain readable.
  *
  * `PATCH /v1/me/subscriptions/{subscription_id}`
- * @param subscription_id Flint subscription ID.
+ * @param subscription_id Flint subscription ID. Must be a valid ID with prefix sub_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#updateMeSubscription
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -2386,8 +2595,12 @@ export interface MeResource {
  * readable.
  *
  * `PATCH /v1/me/subscriptions/{subscription_id}/line-items/{subscription_line_item_id}`
- * @param subscription_id Subscription ID.
- * @param subscription_line_item_id Subscription line item ID.
+ * @param subscription_id Subscription ID. Must be a valid ID with prefix sub_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
+ * @param subscription_line_item_id Subscription line item ID. Must be a valid ID with prefix sli_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/customer-account#updateMeSubscriptionLineItem
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

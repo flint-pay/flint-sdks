@@ -14,7 +14,7 @@ Signature: `accept(string|Model $fulfillment_id, array|Model|null $params = null
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `fulfillment_id` | Required | string | Flint fulfillment ID. |
+| `fulfillment_id` | Required | string | Flint fulfillment ID. Must be a valid ID with prefix ful_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -29,7 +29,7 @@ Body model: [AcceptFulfillmentRequestInput](../models/DispatchFulfillmentRequest
 | `buyer_notification_behavior` | Optional | string | Whether to send or suppress the buyer notification for this action. Values: `"send"`, `"suppress"`. |
 | `expected_version` | Optional | integer | Resource version the caller last read. Format: `uint64`. minimum: `1`. |
 | `occurred_at` | Optional | string | When the action occurred, as an RFC 3339 timestamp. On complete, also records completion evidence. Format: `date-time`. minLength: `1`. |
-| `reason_message` | Optional | string | Your note explaining this transition. minLength: `1`. maxLength: `500`. |
+| `reason_message` | Optional | string | Your internal note explaining this transition. Not included in buyer emails. minLength: `1`. maxLength: `500`. |
 
 #### Response
 
@@ -85,7 +85,7 @@ Signature: `cancel(string|Model $fulfillment_id, array|Model|null $params = null
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `fulfillment_id` | Required | string | Flint fulfillment ID. |
+| `fulfillment_id` | Required | string | Flint fulfillment ID. Must be a valid ID with prefix ful_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -151,7 +151,7 @@ Signature: `complete(string|Model $fulfillment_id, array|Model|null $params = nu
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `fulfillment_id` | Required | string | Flint fulfillment ID. |
+| `fulfillment_id` | Required | string | Flint fulfillment ID. Must be a valid ID with prefix ful_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -348,7 +348,7 @@ Signature: `dispatch(string|Model $fulfillment_id, array|Model|null $params = nu
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `fulfillment_id` | Required | string | Flint fulfillment ID. |
+| `fulfillment_id` | Required | string | Flint fulfillment ID. Must be a valid ID with prefix ful_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -414,7 +414,7 @@ Signature: `fail(string|Model $fulfillment_id, array|Model $params, ?RequestOpti
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `fulfillment_id` | Required | string | Flint fulfillment ID. |
+| `fulfillment_id` | Required | string | Flint fulfillment ID. Must be a valid ID with prefix ful_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -429,7 +429,7 @@ Body model: [FailFulfillmentRequestInput](../models/FailFulfillmentRequestInput.
 | `buyer_notification_behavior` | Optional | string | Whether to send or suppress the buyer notification for this action. Values: `"send"`, `"suppress"`. |
 | `expected_version` | Optional | integer | Resource version the caller last read. Format: `uint64`. minimum: `1`. |
 | `occurred_at` | Optional | string | When the action occurred, as an RFC 3339 timestamp. On complete, also records completion evidence. Format: `date-time`. minLength: `1`. |
-| `reason_message` | Optional | string | Your note explaining this transition. minLength: `1`. maxLength: `500`. |
+| `reason_message` | Optional | string | Your internal note explaining this transition. Not included in buyer emails. minLength: `1`. maxLength: `500`. |
 | `release_quantity` | Required | boolean | Whether the failed fulfillment releases its quantities for another fulfillment. false preserves the allocation. |
 
 #### Response
@@ -490,7 +490,7 @@ Signature: `get(string|Model $fulfillment_id, array|Model|null $params = null, ?
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `fulfillment_id` | Required | string | Flint fulfillment ID. |
+| `fulfillment_id` | Required | string | Flint fulfillment ID. Must be a valid ID with prefix ful_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: order, packages, shipments. Expansion requires commerce.orders.read. Limits: at most 10 unique expand paths per request. To-many expansions are capped at 20 related objects per path. Items values: `"order"`, `"packages"`, `"shipments"`. Values: `"order"`, `"packages"`, `"shipments"`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
@@ -543,7 +543,7 @@ Signature: `hold(string|Model $fulfillment_id, array|Model $params, ?RequestOpti
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `fulfillment_id` | Required | string | Flint fulfillment ID. |
+| `fulfillment_id` | Required | string | Flint fulfillment ID. Must be a valid ID with prefix ful_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -559,7 +559,7 @@ Body model: [HoldFulfillmentRequestInput](../models/HoldFulfillmentRequestInput.
 | `expected_version` | Optional | integer | Resource version the caller last read. Format: `uint64`. minimum: `1`. |
 | `occurred_at` | Optional | string | When the action occurred, as an RFC 3339 timestamp. On complete, also records completion evidence. Format: `date-time`. minLength: `1`. |
 | `reason` | Required | string | Why fulfillment work is paused or the service appointment was missed. Values: `"inventory_issue"`, `"address_issue"`, `"customer_request"`, `"provider_issue"`, `"scheduling_issue"`, `"fraud_review"`, `"other"`. |
-| `reason_message` | Optional | string | Your note explaining this transition. minLength: `1`. maxLength: `500`. |
+| `reason_message` | Optional | string | Your internal note explaining this transition. Not included in buyer emails. minLength: `1`. maxLength: `500`. |
 
 #### Response
 
@@ -625,7 +625,7 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 | `order_id` | Optional | string | Filter by order ID. pattern: `^ord_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `customer_id` | Optional | string | Exact match on customer_id. pattern: `^cus_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `external_reference_id` | Optional | string | Exact-match filter on the caller-owned external reference ID. minLength: `1`. maxLength: `255`. |
-| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. pattern: `^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$`. |
+| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns only resources created in your caller namespace, plus resources created before caller scoping under the original key. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. pattern: `^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$`. |
 | `query` | Optional | string | Search across fulfillment_id and external_reference_id. Also matches an exact order number. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as ful_01. |
 | `status` | Optional | Array of string or string | Filter by exact fulfillment status. Values within this filter are ORed; combined with other filters using AND. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [14 declared values](#fulfillmentslist-input-status--values). Values: [14 declared values](#fulfillmentslist-input-status-values). |
 | `type` | Optional | Array of string or string | Filter by fulfillment type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"shipment"`, `"pickup"`, `"local_delivery"`, `"digital"`, `"service"`, `"handover"`. Values: `"shipment"`, `"pickup"`, `"local_delivery"`, `"digital"`, `"service"`, `"handover"`. |
@@ -634,7 +634,7 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 | `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
 | `updated_after` | Optional | string | Inclusive lower bound on updated_at. Format: `date-time`. |
 | `updated_before` | Optional | string | Exclusive upper bound on updated_at. Format: `date-time`. |
-| `sort_by` | Optional | string | Field to sort by. Defaults to created_at; ties are broken by fulfillment_id. Default: `"created_at"`. Values: `"created_at"`, `"scheduled_start_at"`, `"terminal_at"`. |
+| `sort_by` | Optional | string | Field to sort by. Defaults to created_at; ties are broken by fulfillment_id. due_at compares scheduled_start_at, the booked service start or pickup, delivery, or shipment window start, with nulls last ascending and first descending. scheduled_start_at and terminal_at put nulls first ascending and last descending. Ties use fulfillment_id in the same direction. Default: `"created_at"`. Values: `"created_at"`, `"scheduled_start_at"`, `"terminal_at"`, `"due_at"`. |
 | `sort_direction` | Optional | string | Sort direction. Defaults to desc. Default: `"desc"`. Values: `"asc"`, `"desc"`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
@@ -722,7 +722,7 @@ Signature: `markNoShow(string|Model $fulfillment_id, array|Model $params, ?Reque
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `fulfillment_id` | Required | string | Flint fulfillment ID. |
+| `fulfillment_id` | Required | string | Flint fulfillment ID. Must be a valid ID with prefix ful_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -738,7 +738,7 @@ Body model: [MarkFulfillmentNoShowRequestInput](../models/MarkFulfillmentNoShowR
 | `expected_version` | Optional | integer | Resource version the caller last read. Format: `uint64`. minimum: `1`. |
 | `occurred_at` | Optional | string | When the action occurred, as an RFC 3339 timestamp. On complete, also records completion evidence. Format: `date-time`. minLength: `1`. |
 | `reason` | Required | string | Why fulfillment work is paused or the service appointment was missed. Values: `"customer_no_show"`, `"provider_no_show"`, `"location_unavailable"`, `"scheduling_error"`, `"other"`. |
-| `reason_message` | Optional | string | Your note explaining this transition. minLength: `1`. maxLength: `500`. |
+| `reason_message` | Optional | string | Your internal note explaining this transition. Not included in buyer emails. minLength: `1`. maxLength: `500`. |
 
 #### Response
 
@@ -798,7 +798,7 @@ Signature: `markPacked(string|Model $fulfillment_id, array|Model|null $params = 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `fulfillment_id` | Required | string | Flint fulfillment ID. |
+| `fulfillment_id` | Required | string | Flint fulfillment ID. Must be a valid ID with prefix ful_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -864,7 +864,7 @@ Signature: `markPicked(string|Model $fulfillment_id, array|Model|null $params = 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `fulfillment_id` | Required | string | Flint fulfillment ID. |
+| `fulfillment_id` | Required | string | Flint fulfillment ID. Must be a valid ID with prefix ful_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -930,7 +930,7 @@ Signature: `markPreparing(string|Model $fulfillment_id, array|Model|null $params
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `fulfillment_id` | Required | string | Flint fulfillment ID. |
+| `fulfillment_id` | Required | string | Flint fulfillment ID. Must be a valid ID with prefix ful_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -996,7 +996,7 @@ Signature: `markReady(string|Model $fulfillment_id, array|Model|null $params = n
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `fulfillment_id` | Required | string | Flint fulfillment ID. |
+| `fulfillment_id` | Required | string | Flint fulfillment ID. Must be a valid ID with prefix ful_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -1062,7 +1062,7 @@ Signature: `releaseHold(string|Model $fulfillment_id, array|Model|null $params =
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `fulfillment_id` | Required | string | Flint fulfillment ID. |
+| `fulfillment_id` | Required | string | Flint fulfillment ID. Must be a valid ID with prefix ful_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -1076,7 +1076,7 @@ Body model: [ReleaseFulfillmentHoldRequestInput](../models/ReleaseFulfillmentHol
 | --- | --- | --- | --- |
 | `expected_version` | Optional | integer | Resource version the caller last read. Format: `uint64`. minimum: `1`. |
 | `occurred_at` | Optional | string | When the action occurred, as an RFC 3339 timestamp. On complete, also records completion evidence. Format: `date-time`. minLength: `1`. |
-| `reason_message` | Optional | string | Your note explaining this transition. minLength: `1`. maxLength: `500`. |
+| `reason_message` | Optional | string | Your internal note explaining this transition. Not included in buyer emails. minLength: `1`. maxLength: `500`. |
 
 #### Response
 
@@ -1132,7 +1132,7 @@ Signature: `schedule(string|Model $fulfillment_id, array|Model $params, ?Request
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `fulfillment_id` | Required | string | Flint fulfillment ID. |
+| `fulfillment_id` | Required | string | Flint fulfillment ID. Must be a valid ID with prefix ful_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -1147,7 +1147,7 @@ Body model: [ScheduleFulfillmentRequestInput](../models/ScheduleFulfillmentReque
 | `buyer_notification_behavior` | Optional | string | Whether to send or suppress the buyer notification for this action. Values: `"send"`, `"suppress"`. |
 | `expected_version` | Optional | integer | Resource version the caller last read. Format: `uint64`. minimum: `1`. |
 | `occurred_at` | Optional | string | When the action occurred, as an RFC 3339 timestamp. On complete, also records completion evidence. Format: `date-time`. minLength: `1`. |
-| `reason_message` | Optional | string | Your note explaining this transition. minLength: `1`. maxLength: `500`. |
+| `reason_message` | Optional | string | Your internal note explaining this transition. Not included in buyer emails. minLength: `1`. maxLength: `500`. |
 | `scheduled_end_at` | Required | string | End of the service appointment window, after scheduled_start_at, as an RFC 3339 timestamp. Format: `date-time`. minLength: `1`. |
 | `scheduled_start_at` | Required | string | Start of the service appointment window, as an RFC 3339 timestamp. Format: `date-time`. minLength: `1`. |
 | `timezone` | Optional | string | IANA timezone of the service appointment. minLength: `1`. |
@@ -1212,7 +1212,7 @@ Signature: `start(string|Model $fulfillment_id, array|Model|null $params = null,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `fulfillment_id` | Required | string | Flint fulfillment ID. |
+| `fulfillment_id` | Required | string | Flint fulfillment ID. Must be a valid ID with prefix ful_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -1278,7 +1278,7 @@ Signature: `update(string|Model $fulfillment_id, array|Model $params, ?RequestOp
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `fulfillment_id` | Required | string | Flint fulfillment ID. |
+| `fulfillment_id` | Required | string | Flint fulfillment ID. Must be a valid ID with prefix ful_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |

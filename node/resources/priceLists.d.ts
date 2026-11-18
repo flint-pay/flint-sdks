@@ -18,9 +18,9 @@ import type {
     PriceListsListPricesParams,
     PriceListsUpdateParams,
     PriceListsUpdatePriceParams
-} from '../declarations/types-54.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-56.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -54,30 +54,30 @@ export type {
     PriceListsUpdatePriceParams,
     PriceListPriceRequestInput,
     PriceListPriceAddition
-} from '../declarations/types-54.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
+} from '../declarations/types-56.js';
+export type { RequestOptions } from '../declarations/types-61.js';
 export type {
     CreatePriceListPricesResult,
     CreatePriceListPricesResponse,
     CreatePriceListRequestInput,
     CreatePriceListPricesRequestInput
 } from '../declarations/types-12.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-41.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
-export type { NextAction, MoneyValue, MoneyValueInput } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { QuantityPriceBreakRequestInput, QuantityPriceBreak } from '../declarations/types-57.js';
-export type { UpdatePriceListRequestInput, UpdatePriceListPriceRequestInput } from '../declarations/types-74.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
-export { makeCreatePriceListPricesRequest, makeCreatePriceListRequest } from '../declarations/types-81.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makePriceListPriceRequest } from '../declarations/types-87.js';
-export { makeQuantityPriceBreakRequest } from '../declarations/types-88.js';
-export { makeUpdatePriceListPriceRequest, makeUpdatePriceListRequest } from '../declarations/types-91.js';
+export type { Credentials } from '../declarations/types-15.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { NextAction, MoneyValue, MoneyValueInput } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { QuantityPriceBreakRequestInput, QuantityPriceBreak } from '../declarations/types-59.js';
+export type { UpdatePriceListRequestInput, UpdatePriceListPriceRequestInput } from '../declarations/types-77.js';
+export type { DisputesAcceptParams } from '../declarations/types-26.js';
+export { makeCreatePriceListPricesRequest, makeCreatePriceListRequest } from '../declarations/types-83.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makePriceListPriceRequest } from '../declarations/types-89.js';
+export { makeQuantityPriceBreakRequest } from '../declarations/types-90.js';
+export { makeUpdatePriceListPriceRequest, makeUpdatePriceListRequest } from '../declarations/types-93.js';
 export interface PriceListsResource {
     /**
  * Creates a merchant-only price list. Currency is immutable. A customer segment can belong to only
@@ -100,7 +100,9 @@ export interface PriceListsResource {
  * list version once. A list holds up to 10,000 prices.
  *
  * `POST /v1/price-lists/{price_list_id}/prices`
- * @param price_list_id Flint price list id.
+ * @param price_list_id Flint price list id. Must be a valid ID with prefix prl_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/price-lists#createPriceListPrices
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -117,7 +119,9 @@ export interface PriceListsResource {
  * returns the same archived snapshot; a stale expected_version still returns VERSION_CONFLICT.
  *
  * `DELETE /v1/price-lists/{price_list_id}`
- * @param price_list_id Flint price list id.
+ * @param price_list_id Flint price list id. Must be a valid ID with prefix prl_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/price-lists#deletePriceList
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -133,8 +137,12 @@ export interface PriceListsResource {
  * original Idempotency-Key returns RESOURCE_NOT_FOUND.
  *
  * `DELETE /v1/price-lists/{price_list_id}/prices/{price_list_price_id}`
- * @param price_list_id Flint price list id.
- * @param price_list_price_id Flint price list price id.
+ * @param price_list_id Flint price list id. Must be a valid ID with prefix prl_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
+ * @param price_list_price_id Flint price list price id. Must be a valid ID with prefix prlp_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/price-lists#deletePriceListPrice
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -149,7 +157,9 @@ export interface PriceListsResource {
  * are merchant-only.
  *
  * `GET /v1/price-lists/{price_list_id}`
- * @param price_list_id Flint price list id.
+ * @param price_list_id Flint price list id. Must be a valid ID with prefix prl_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/price-lists#getPriceList
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -160,8 +170,12 @@ export interface PriceListsResource {
  * Returns a variant price and its complete quantity schedule within this price list.
  *
  * `GET /v1/price-lists/{price_list_id}/prices/{price_list_price_id}`
- * @param price_list_id Flint price list id.
- * @param price_list_price_id Flint price list price id.
+ * @param price_list_id Flint price list id. Must be a valid ID with prefix prl_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
+ * @param price_list_price_id Flint price list price id. Must be a valid ID with prefix prlp_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/price-lists#getPriceListPrice
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -174,7 +188,9 @@ export interface PriceListsResource {
  * created_at descending, then price_list_price_id descending.
  *
  * `GET /v1/price-lists/{price_list_id}/prices`
- * @param price_list_id Flint price list id.
+ * @param price_list_id Flint price list id. Must be a valid ID with prefix prl_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/price-lists#listPriceListPrices
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -215,7 +231,9 @@ export interface PriceListsResource {
  * stale write. Archived lists cannot be changed.
  *
  * `PATCH /v1/price-lists/{price_list_id}`
- * @param price_list_id Flint price list id.
+ * @param price_list_id Flint price list id. Must be a valid ID with prefix prl_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/price-lists#updatePriceList
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -231,8 +249,12 @@ export interface PriceListsResource {
  * this child price; an actual change also advances the parent list version once.
  *
  * `PATCH /v1/price-lists/{price_list_id}/prices/{price_list_price_id}`
- * @param price_list_id Flint price list id.
- * @param price_list_price_id Flint price list price id.
+ * @param price_list_id Flint price list id. Must be a valid ID with prefix prl_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
+ * @param price_list_price_id Flint price list price id. Must be a valid ID with prefix prlp_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/price-lists#updatePriceListPrice
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

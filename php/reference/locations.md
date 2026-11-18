@@ -4,7 +4,7 @@
 
 ### locations.create
 
-Create a Location. Sending inventory_allocation_enabled also requires commerce.inventory.allocation.write. Omitted inventory_allocation_enabled defaults to false. Every Location can hold stock. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body.
+Create a Location. Sending inventory_allocation_enabled also requires commerce.inventory.allocation.write. Omitted inventory_allocation_enabled defaults to false. Every Location can hold stock. Idempotency is scoped to the authenticated merchant, environment, caller namespace, and operation. Its fingerprint includes the canonical request body.
 
 `POST /v1/locations`
 
@@ -31,7 +31,7 @@ Body model: [CreateLocationRequestInput](../models/CreateLocationRequestInput.md
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `inventory_allocation_enabled` | Optional | boolean | Whether this Location accepts inventory allocation. Sending this field requires commerce.inventory.allocation.write in addition to the route scope. Default: `false`. |
 | `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
-| `name` | Required | string | Merchant-facing Location name, from 1 to 255 characters. minLength: `1`. maxLength: `255`. |
+| `name` | Required | string | Merchant-facing Location name, from 1 to 255 characters. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `255`. |
 | `status` | Optional | string | Status the Location starts in. Defaults to `active`. Default: `"active"`. Values: `"active"`, `"inactive"`. |
 | `timezone` | Optional | string | IANA time zone for the Location's local schedules, such as `America/New_York`. Defaults to the merchant's timezone, then UTC, and is saved on the Location at creation. A live Location sets an unset merchant business time zone; sandbox Locations do not. minLength: `1`. |
 
@@ -99,7 +99,7 @@ Signature: `delete(string|Model $location_id, array|Model|null $params = null, ?
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `location_id` | Required | string | Flint Location ID. |
+| `location_id` | Required | string | Flint Location ID. Must be a valid ID with prefix loc_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `expected_version` | Optional | integer | Current resource version used as a concurrency fence. Format: `uint64`. minimum: `1`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
@@ -157,7 +157,7 @@ Signature: `get(string|Model $location_id, array|Model|null $params = null, ?Req
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `location_id` | Required | string | Flint Location ID. |
+| `location_id` | Required | string | Flint Location ID. Must be a valid ID with prefix loc_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -258,7 +258,7 @@ $result = $client->locations->list([], new RequestOptions());
 
 ### locations.update
 
-Update a Location's profile, availability, geography, and inventory allocation in one call. Sending inventory_allocation_enabled also requires commerce.inventory.allocation.write. The version advances on every change. expected_version is optional and compared with version when sent. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body. An archived Location cannot be changed: the request returns 409 ACTION_NOT_ALLOWED with reason archived and current_status archived.
+Update a Location's profile, availability, geography, and inventory allocation in one call. Sending inventory_allocation_enabled also requires commerce.inventory.allocation.write. The version advances on every change. expected_version is optional and compared with version when sent. Idempotency is scoped to the authenticated merchant, environment, caller namespace, and operation. Its fingerprint includes the canonical request body. An archived Location cannot be changed: the request returns 409 ACTION_NOT_ALLOWED with reason archived and current_status archived.
 
 `PATCH /v1/locations/{location_id}`
 
@@ -268,7 +268,7 @@ Signature: `update(string|Model $location_id, array|Model $params, ?RequestOptio
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `location_id` | Required | string | Flint Location ID. |
+| `location_id` | Required | string | Flint Location ID. Must be a valid ID with prefix loc_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -287,7 +287,7 @@ Body model: [UpdateLocationRequestInput](../models/UpdateLocationRequestInput.md
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
 | `inventory_allocation_enabled` | Optional | boolean | Whether this Location accepts inventory allocation. Sending this field requires commerce.inventory.allocation.write in addition to the route scope. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
-| `name` | Optional | string | Merchant-facing Location name, from 1 to 255 characters. minLength: `1`. maxLength: `255`. |
+| `name` | Optional | string | Merchant-facing Location name, from 1 to 255 characters. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `255`. |
 | `status` | Optional | string | New status for the Location. Omit it to leave the status unchanged. Values: `"active"`, `"inactive"`. |
 | `timezone` | Optional | string | IANA timezone for local schedules, validated as on create. Can be updated without address. minLength: `1`. |
 

@@ -33,7 +33,7 @@ final class CreateSubscriptionOfferRequestInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Name of the offer. Buyers see it on the order lines it covers, so write it for them. minLength: 1. maxLength: 255.
+    /** Name of the offer. Buyers see it on the order lines it covers, so write it for them. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */

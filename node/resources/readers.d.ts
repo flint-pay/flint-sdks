@@ -1,7 +1,9 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { Reader, ReaderConnectionSession, ReaderConnectionSessionResponse } from '../declarations/types-57.js';
 import type {
+    Reader,
+    ReaderConnectionSession,
+    ReaderConnectionSessionResponse,
     ReaderListResponse,
     ReaderResponse,
     ReadersCreateConnectionSessionParams,
@@ -11,9 +13,9 @@ import type {
     ReadersListParams,
     ReadersSimulateParams,
     ReadersUpdateParams
-} from '../declarations/types-58.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-59.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -30,41 +32,40 @@ export type {
 } from '../runtime.js';
 export type {
     ReadersCreateParams,
+    Reader,
     ReaderResponse,
     ReadersCreateConnectionSessionParams,
+    ReaderConnectionSession,
+    ReaderConnectionSessionResponse,
     ReadersDeleteParams,
     ReadersGetParams,
     ReadersListParams,
     ReaderListResponse,
     ReadersSimulateParams,
     ReadersUpdateParams,
-    ReadinessMerchantAccountSession
-} from '../declarations/types-58.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type {
-    Reader,
-    ReaderConnectionSession,
-    ReaderConnectionSessionResponse,
     ReaderConnectivity,
     ReaderConnectionSessionClientSession,
     ReaderConnectionSessionStripe
-} from '../declarations/types-57.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-59.js';
+export type { RequestOptions } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateReaderRequestInput } from '../declarations/types-12.js';
-export type { CreateSmartReaderRequestInput, CreateTapToPayReaderRequestInput, Credentials } from '../declarations/types-14.js';
-export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-41.js';
+export type { CreateSmartReaderRequestInput, CreateTapToPayReaderRequestInput } from '../declarations/types-14.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { NextAction, MoneyValue, MoneyValueInput } from '../declarations/types-42.js';
-export type { SimulateReaderRequestInput } from '../declarations/types-66.js';
-export type { UpdateReaderRequestInput } from '../declarations/types-75.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
-export { makeCreateReaderRequest, makeCreateSmartReaderRequest } from '../declarations/types-81.js';
-export { makeCreateTapToPayReaderRequest } from '../declarations/types-82.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeSimulateReaderRequest } from '../declarations/types-89.js';
-export { makeUpdateReaderRequest } from '../declarations/types-91.js';
+export type { Credentials } from '../declarations/types-15.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { NextAction, MoneyValue, MoneyValueInput } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { SimulateReaderRequestInput } from '../declarations/types-68.js';
+export type { UpdateReaderRequestInput } from '../declarations/types-77.js';
+export type { DisputesAcceptParams } from '../declarations/types-26.js';
+export { makeCreateReaderRequest } from '../declarations/types-83.js';
+export { makeCreateSmartReaderRequest, makeCreateTapToPayReaderRequest } from '../declarations/types-84.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeSimulateReaderRequest } from '../declarations/types-92.js';
+export { makeUpdateReaderRequest } from '../declarations/types-93.js';
 export interface ReadersResource {
     /**
  * Readers are payment hardware at a location: a Stripe Reader S710 or S700 your server sends
@@ -96,7 +97,9 @@ export interface ReadersResource {
  * server.
  *
  * `POST /v1/readers/{reader_id}/connection-sessions`
- * @param reader_id Flint reader ID.
+ * @param reader_id Flint reader ID. Must be a valid ID with prefix rdr_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/readers#createReaderConnectionSession
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -113,7 +116,9 @@ export interface ReadersResource {
  * reader. Archiving an archived reader returns it unchanged. Sends `reader.archived`.
  *
  * `DELETE /v1/readers/{reader_id}`
- * @param reader_id Flint reader ID.
+ * @param reader_id Flint reader ID. Must be a valid ID with prefix rdr_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/readers#deleteReader
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -127,7 +132,9 @@ export interface ReadersResource {
  * `active_payment_intent_id`.
  *
  * `GET /v1/readers/{reader_id}`
- * @param reader_id Flint reader ID.
+ * @param reader_id Flint reader ID. Must be a valid ID with prefix rdr_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/readers#getReader
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -161,7 +168,9 @@ export interface ReadersResource {
  * `test_mode_required`.
  *
  * `POST /v1/readers/{reader_id}/simulate`
- * @param reader_id Flint reader ID.
+ * @param reader_id Flint reader ID. Must be a valid ID with prefix rdr_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/readers#simulateReader
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -177,7 +186,9 @@ export interface ReadersResource {
  * again at the new location. An archived reader can't change. Sends `reader.updated`.
  *
  * `PATCH /v1/readers/{reader_id}`
- * @param reader_id Flint reader ID.
+ * @param reader_id Flint reader ID. Must be a valid ID with prefix rdr_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/readers#updateReader
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

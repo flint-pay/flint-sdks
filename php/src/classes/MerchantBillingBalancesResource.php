@@ -4,7 +4,7 @@ namespace Flint;
 final class MerchantBillingBalancesResource {
     public function __construct(private readonly Runtime $runtime) {}
     /** Returns what the merchant currently owes Flint and owns as account credit in one currency.
-     * @param string|Model $merchant_billing_balance_id Flint merchant billing balance ID.
+     * @param string|Model $merchant_billing_balance_id Flint merchant billing balance ID. Must be a valid ID with prefix mbbal_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND.
      * @param MerchantBillingBalancesGetParams|array<array-key, mixed>|Model|null $params Flat body fields and query/header parameters; path arguments follow URL order.
      * @return MerchantBillingBalance
      */

@@ -19,6 +19,7 @@ The request body for: Create a merchant signup.
 | `partner_app_id` | Required | string | Your partner app to install on the new merchant. It must be active and have a `merchant_action_url`. minLength: `1`. Example: `"papp_01KEZF7C00Y8VMXYZ1GNPP3WHV"`. |
 | `requested_permission_ids` | Optional | Array of string | Optional manifest permissions to request besides the required ones. Defaults to the app's `default_requested_permissions`. Send `[]` to request only the required permissions. uniqueItems: `true`. Items: minLength: `1`. Example: `"manage_orders"`. |
 | `sandbox_initial_onboarding` | Optional | string | The onboarding state of the new merchant's default sandbox, which the test grant points at. Send `not_started` to rehearse verification in test mode. Default: `"complete"`. Values: `"complete"`, `"not_started"`. |
+| `timezone` | Optional | string | IANA business time zone for the new merchant, such as America/Chicago. Used for reports and business dates. Omit to leave it unset until a live location or a merchant update sets it. minLength: `1`. |
 
 ### CreateMerchantSignupRequest.owner
 

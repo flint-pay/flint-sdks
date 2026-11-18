@@ -14,7 +14,7 @@ final class PaymentSourceSummary extends Model {
      */
     public function getAchDebit(): ?PaymentSourceAchDebitSummary { return $this->get('ach_debit'); }
     public function hasAchDebit(): bool { return $this->has('ach_debit'); }
-    /** Card details. Present when type is card. Display details for a card payment source: brand, last four digits, and payment method ID.
+    /** Card details. Present when type is card. Display details for a card payment source: brand, last four digits, issuing country, funding type, and payment method ID.
      * @return ?PaymentSourceCardSummary
      */
     public function getCard(): ?PaymentSourceCardSummary { return $this->get('card'); }

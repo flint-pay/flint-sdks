@@ -1,0 +1,1 @@
+{"shared":"PaymentProcessingFeeDetail","phpRepresentation":{"kind":"record","fields":{"amount_money":{"kind":"entity","name":"MoneyValue"},"type":{"kind":"value","type":"string"}}},"dependencies":["MoneyValue","PaymentProcessingFeeDetail"]}

@@ -1,7 +1,8 @@
 import type { Result, WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions, CollectInvoiceResponse, CollectInvoiceResult } from '../declarations/types-7.js';
-import type { Invoice, InvoiceActivity, InvoiceActivityListResponse, InvoiceDeliveryAttempt } from '../declarations/types-34.js';
+import type { Invoice, InvoiceActivity, InvoiceActivityListResponse } from '../declarations/types-34.js';
 import type {
+    InvoiceDeliveryAttempt,
     InvoiceDeliveryAttemptListResponse,
     InvoiceLateFee,
     InvoiceLateFeesListResponse,
@@ -40,8 +41,8 @@ import type {
     InvoicesVoidParams,
     InvoicesWaiveLateFeeParams
 } from '../declarations/types-38.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-77.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -81,14 +82,16 @@ export type {
     InvoicesUpdateParams,
     InvoicesVoidParams,
     InvoicesWaiveLateFeeParams,
-    LineItemFulfillmentRequestModelInput,
-    LineItemFulfillmentOriginRequestModelInput,
+    InvoiceScheduleEntryWriteInput,
+    InvoiceScheduleEntryWriteDepositInput,
+    InvoiceScheduleEntryWriteInstallmentInput,
+    InvoiceScheduleEntryWriteBalanceInput,
     InvoiceSettlementAmounts,
     InvoiceSnapshot,
     InvoiceTip,
     IssueInvoiceRequestInput
 } from '../declarations/types-38.js';
-export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning, ResourceVersionRequestInput } from '../declarations/types-60.js';
+export type { RequestOptions } from '../declarations/types-61.js';
 export type {
     InvoicePaymentAttempt,
     InvoicePaymentAttemptResponse,
@@ -108,27 +111,21 @@ export type {
     InvoicePaymentDueDate,
     InvoicePaymentDuePaymentTerms,
     InvoicePaymentTermCalculation,
-    InvoicePaymentTermCalculationOnReceipt,
-    InvoicePaymentTermCalculationNetDays,
-    InvoicePaymentTermCalculationDaysAfterMonthEnd,
     InvoicePaymentTermCalculationDayOfMonth,
     InvoicePaymentTermCalculationDayOfNextMonth
 } from '../declarations/types-36.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency, WeightRequestInput } from '../declarations/types-77.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency, WeightRequestInput } from '../declarations/types-79.js';
 export type {
     CollectInvoiceResult,
     CollectInvoiceResponse,
     ClientOptions,
     CollectInvoiceRequestInput,
-    CollectInvoiceRequest,
-    ConfirmReturnResolutionRequestInput
+    CollectInvoiceRequest
 } from '../declarations/types-7.js';
 export type {
     Invoice,
     InvoiceActivityListResponse,
     InvoiceActivity,
-    InvoiceDeliveryAttempt,
-    InvoiceCollectionRequestInput,
     InvoiceCollectionInputMerchantDefaultInput,
     InvoiceCollectionInputBuyerInitiatedInput,
     InvoiceCollectionInputAutomaticInput,
@@ -140,7 +137,6 @@ export type {
 } from '../declarations/types-34.js';
 export type {
     InvoiceResponse,
-    InvoiceScheduleEntryWriteInput,
     InvoiceScheduleAmountSpecificationRequestInput,
     InvoiceScheduleAmountSpecificationFixedRequestInput,
     InvoiceScheduleAmountSpecificationPercentageRequestInput,
@@ -149,10 +145,10 @@ export type {
     InvoiceScheduleDueWriteAtIssueInput,
     InvoiceScheduleDueWriteDateInput,
     InvoiceScheduleDueWriteInvoiceDueDateInput,
-    InvoiceScheduleEntryWriteDepositInput,
-    InvoiceScheduleEntryWriteInstallmentInput,
-    InvoiceScheduleEntryWriteBalanceInput,
     InvoicePaymentTermsSnapshot,
+    InvoicePaymentTermCalculationOnReceipt,
+    InvoicePaymentTermCalculationNetDays,
+    InvoicePaymentTermCalculationDaysAfterMonthEnd,
     InvoiceScheduleEntry,
     InvoiceScheduleAmountSpecification,
     InvoiceScheduleAmountSpecificationFixed,
@@ -169,10 +165,12 @@ export type {
     InvoiceManualPayment,
     InvoiceManualPaymentResponse,
     InvoiceDeliveryAttemptListResponse,
+    InvoiceDeliveryAttempt,
     InvoiceLateFeesListResponse,
     InvoiceLateFee,
     InvoiceManualPaymentListResponse,
     InvoiceListResponse,
+    InvoiceCollectionRequestInput,
     InvoiceLateFeePolicy,
     InvoiceLateFeePolicyFixed,
     InvoiceLateFeePolicyPercentage,
@@ -180,20 +178,35 @@ export type {
     InvoiceLineItem
 } from '../declarations/types-35.js';
 export type { AuthMode, BundleComponent, BundleComponentVariantSummary } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
-export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-42.js';
-export type { PaymentErrorSummary } from '../declarations/types-49.js';
-export type { ErrorRemediation, ExpandedCustomerSummary, ExpandedOrderSummary, DocumentTaxID } from '../declarations/types-26.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
+export type { Credentials, CreditNotesListAllocationsParams } from '../declarations/types-15.js';
+export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-44.js';
+export type { PaymentErrorSummary } from '../declarations/types-51.js';
+export type {
+    ErrorRemediation,
+    ExpandedCustomerSummary,
+    ExpandedOrderSummary,
+    DocumentTaxID,
+    DisputesAcceptParams
+} from '../declarations/types-26.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { ResourceReference, ResponseMeta, ResponseWarning, ResourceVersionRequestInput } from '../declarations/types-62.js';
 export type {
     CreateInvoiceRequestInput,
+    CreateOrderDiscountInput,
+    CreateOrderDiscountPromotionInput,
+    CreateOrderDiscountManualInput,
+    CreateOrderLineItemInputVariantInput,
+    CreateOrderLineItemInputBundleInput,
+    CreateOrderLineItemInputCustomInput,
+    CreateInvoiceRequestOrderInput,
+    CreateInvoiceRequestQuickPayInput
+} from '../declarations/types-11.js';
+export type {
     CreateInvoiceIssueRequestInput,
     CreateInvoiceQuickPayRequestInput,
-    CreateInvoiceRequestOrderInput,
-    CreateInvoiceRequestQuickPayInput,
     CreateInvoiceManualPaymentRequestInput
 } from '../declarations/types-10.js';
-export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-41.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type {
     OrderDeliveryDestinationRequestInput,
     OrderDeliveryDestinationRecipientRequestInput,
@@ -202,9 +215,11 @@ export type {
     OrderDraftLineItemTaxCalculationRequestModelInput,
     OrderDraftTaxComponentRequestModelInput,
     OrderDraftTaxJurisdictionRequestModelInput,
+    OrderCharge,
+    OrderCalculatedChargeTax,
     OrderDeliveryDestinationRecipientRequest,
     OrderDraftLineItemInventoryDemandRequest
-} from '../declarations/types-44.js';
+} from '../declarations/types-45.js';
 export type {
     AddressRequestInput,
     Address,
@@ -213,34 +228,31 @@ export type {
     AssessInvoiceLateFeeRequest
 } from '../declarations/types-0.js';
 export type {
-    CreateOrderDiscountInput,
-    CreateOrderDiscountPromotionInput,
-    CreateOrderDiscountManualInput,
-    CreateOrderLineItemRequestInput,
-    CreateOrderLineItemInputVariantInput,
-    CreateOrderLineItemInputBundleInput,
-    CreateOrderLineItemInputCustomInput,
-    CreateOrderTipInput,
-    CreateOrderTipAmountInput,
-    CreateOrderTipPercentInput
-} from '../declarations/types-11.js';
-export type { ManualDiscountRequestInput } from '../declarations/types-39.js';
-export type { PromotionRefRequestInput, PromotionRefInputPromotionIDInput, PromotionRefInputPromotionCodeInput } from '../declarations/types-57.js';
+    ManualDiscountRequestInput,
+    LineItemFulfillmentRequestModelInput,
+    LineItemFulfillmentOriginRequestModelInput
+} from '../declarations/types-40.js';
+export type { PromotionRefRequestInput, PromotionRefInputPromotionIDInput, PromotionRefInputPromotionCodeInput } from '../declarations/types-58.js';
 export type {
     InventoryRoutingSourceRequestInput,
     InventoryRoutingSourceInputFixedLocationInput,
     InventoryRoutingSourceInputPolicyInput,
     InventoryRoutingSourceInputPolicyRevisionInput
 } from '../declarations/types-33.js';
-export type { GiftCardPurchaseDetailsRequestInput, GiftCardPurchaseRecipientRequestInput } from '../declarations/types-29.js';
-export type { ImageReferenceRequestInput, ImageReferenceRequest } from '../declarations/types-31.js';
+export type {
+    CreateOrderLineItemRequestInput,
+    CreateOrderTipInput,
+    CreateOrderTipAmountInput,
+    CreateOrderTipPercentInput
+} from '../declarations/types-12.js';
+export type { GiftCardPurchaseDetailsRequestInput, GiftCardPurchaseRecipientRequestInput } from '../declarations/types-30.js';
+export type { ImageReferenceRequestInput, Image, ImageReferenceRequest } from '../declarations/types-31.js';
 export type {
     OrderLineItemModifierRequestModelInput,
     OrderLineItemModifierInputCatalogRequestInput,
     OrderLineItemModifierInputTextRequestInput,
-    OrderSettlementAmounts,
     OrderLineItemModifier
-} from '../declarations/types-45.js';
+} from '../declarations/types-46.js';
 export type {
     TextModifierRequestInput,
     TaxJurisdictionRequestModelInput,
@@ -249,11 +261,18 @@ export type {
     TaxJurisdiction,
     TaxCurrencyConversion,
     TaxReverseCharge
-} from '../declarations/types-72.js';
-export type { SubscribedLineRequestModelInput } from '../declarations/types-66.js';
-export type { DimensionsRequestInput, DisputesAcceptParams } from '../declarations/types-25.js';
+} from '../declarations/types-74.js';
+export type { SubscribedLineRequestModelInput, SettlementAmounts } from '../declarations/types-68.js';
+export type { DimensionsRequestInput } from '../declarations/types-25.js';
 export type {
     OrderTaxRequestInput,
+    OrderTaxLocationRequestInput,
+    OrderTaxLocationInputPostalCodeInput,
+    OrderTaxLocationPostalAddressRequestInput,
+    OrderTaxLocationInputFullAddressInput,
+    OrderTaxLocationPostalAddressRequest
+} from '../declarations/types-48.js';
+export type {
     OrderTaxCalculationRequestInput,
     OrderTaxComponentRequestInput,
     OrderTaxJurisdictionRequestInput,
@@ -263,48 +282,44 @@ export type {
     OrderTaxExemptionInputCustomerInput,
     OrderTaxExemptionInputNoneInput,
     OrderTaxExemptionInputOrderInput,
-    OrderTaxLocationRequestInput,
-    OrderTaxLocationInputPostalCodeInput,
-    OrderTaxLocationPostalAddressRequestInput,
-    OrderTaxLocationInputFullAddressInput,
     OrderTaxLocationFullAddressRequestInput,
+    OrderSettlementAmounts,
     OrderTaxExemption,
-    OrderTaxLocationPostalAddressRequest,
     OrderTaxLocationFullAddressRequest
-} from '../declarations/types-46.js';
+} from '../declarations/types-47.js';
 export type { DeliveryChargeTaxCalculationRequestModelInput } from '../declarations/types-18.js';
-export type { TaxComponentRequestModelInput, TaxBreakdown, TaxBreakdownPercentage, TaxBreakdownFlatAmount } from '../declarations/types-71.js';
+export type { TaxComponentRequestModelInput, TaxBreakdown, TaxBreakdownPercentage, TaxBreakdownFlatAmount } from '../declarations/types-73.js';
 export type {
     CustomerTaxExemptionCoverageRequestInput,
     CustomerTaxExemptionCoverageAllStatesRequestInput,
-    CustomerTaxExemptionCoverage,
-    CustomerTaxExemptionCoverageAllStates,
-    CustomerTaxExemptionCoverageStates
-} from '../declarations/types-16.js';
-export type {
     CustomerTaxExemptionCoverageStatesRequestInput,
     DeferredPromotion,
+    CustomerTaxExemptionCoverage,
+    CustomerTaxExemptionCoverageAllStates,
+    CustomerTaxExemptionCoverageStates,
     CustomerTaxID,
     CustomersListAddressesParams
 } from '../declarations/types-17.js';
-export type { CheckoutBuyerContact, CategoryReference } from '../declarations/types-5.js';
-export type { PricingAmounts } from '../declarations/types-55.js';
-export type { SettlementAmounts, SelectedProductOption } from '../declarations/types-65.js';
-export type { OrderCharge, OrderCalculatedChargeTax } from '../declarations/types-43.js';
-export type { Image } from '../declarations/types-30.js';
-export type { ReverseInvoiceManualPaymentRequestInput } from '../declarations/types-64.js';
-export type { UpdateInvoiceRequestInput } from '../declarations/types-74.js';
-export type { WaiveInvoiceLateFeeRequestInput, WaiveInvoiceLateFeeRequest } from '../declarations/types-76.js';
-export type { CreditNotesListAllocationsParams } from '../declarations/types-15.js';
-export { makeAddressRequest, makeAssessInvoiceLateFeeRequest } from '../declarations/types-77.js';
-export { makeCollectInvoiceRequest, makeConfirmReturnResolutionRequest } from '../declarations/types-78.js';
+export type { CheckoutBuyerContact } from '../declarations/types-6.js';
+export type { PricingAmounts } from '../declarations/types-56.js';
+export type { SelectedProductOption } from '../declarations/types-67.js';
+export type { CategoryReference } from '../declarations/types-5.js';
+export type { ReverseInvoiceManualPaymentRequestInput } from '../declarations/types-66.js';
+export type { UpdateInvoiceRequestInput } from '../declarations/types-76.js';
+export type { WaiveInvoiceLateFeeRequestInput, WaiveInvoiceLateFeeRequest } from '../declarations/types-78.js';
+export type { ConfirmReturnResolutionRequestInput } from '../declarations/types-8.js';
+export { makeAddressRequest } from '../declarations/types-79.js';
+export { makeAssessInvoiceLateFeeRequest } from '../declarations/types-80.js';
+export { makeCollectInvoiceRequest, makeConfirmReturnResolutionRequest } from '../declarations/types-81.js';
 export {
     makeCreateInvoiceIssueRequest,
     makeCreateInvoiceManualPaymentRequest,
     makeCreateInvoiceQuickPayRequest,
     makeCreateInvoiceRequest,
     makeCreateInvoiceRequestOrder,
-    makeCreateInvoiceRequestQuickPay,
+    makeCreateInvoiceRequestQuickPay
+} from '../declarations/types-82.js';
+export {
     makeCreateOrderDiscount,
     makeCreateOrderDiscountManual,
     makeCreateOrderDiscountPromotion,
@@ -315,18 +330,20 @@ export {
     makeCreateOrderTip,
     makeCreateOrderTipAmount,
     makeCreateOrderTipPercent
-} from '../declarations/types-80.js';
+} from '../declarations/types-83.js';
 export {
     makeCustomerTaxExemptionCoverageAllStatesRequest,
     makeCustomerTaxExemptionCoverageRequest,
     makeCustomerTaxExemptionCoverageStatesRequest,
     makeDeliveryChargeTaxCalculationRequestModel
-} from '../declarations/types-82.js';
-export { makeDimensionsRequest } from '../declarations/types-83.js';
+} from '../declarations/types-84.js';
 export {
+    makeDimensionsRequest,
     makeGiftCardPurchaseDetailsRequest,
     makeGiftCardPurchaseRecipientRequest,
-    makeImageReferenceRequest,
+    makeImageReferenceRequest
+} from '../declarations/types-86.js';
+export {
     makeInventoryRoutingSourceInputFixedLocation,
     makeInventoryRoutingSourceInputPolicy,
     makeInventoryRoutingSourceInputPolicyRevision,
@@ -335,9 +352,7 @@ export {
     makeInvoiceCollectionInputBuyerInitiated,
     makeInvoiceCollectionInputExternal,
     makeInvoiceCollectionInputMerchantDefault,
-    makeInvoiceCollectionRequest
-} from '../declarations/types-84.js';
-export {
+    makeInvoiceCollectionRequest,
     makeInvoicePaymentDueInputCustomerDefault,
     makeInvoicePaymentDueInputDate,
     makeInvoicePaymentDueInputMerchantDefault,
@@ -361,11 +376,11 @@ export {
     makeIssueInvoiceRequest,
     makeLineItemFulfillmentOriginRequestModel,
     makeLineItemFulfillmentRequestModel,
-    makeManualDiscountRequest,
-    makeMetadataPatchRequest,
-    makeMetadataRequest
-} from '../declarations/types-85.js';
+    makeManualDiscountRequest
+} from '../declarations/types-87.js';
 export {
+    makeMetadataPatchRequest,
+    makeMetadataRequest,
     makeMoneyValue,
     makeOrderDeliveryDestinationRecipientRequest,
     makeOrderDeliveryDestinationRequest,
@@ -381,7 +396,9 @@ export {
     makeOrderTaxCalculationInputExternal,
     makeOrderTaxCalculationRequest,
     makeOrderTaxComponentRequest,
-    makeOrderTaxExemptionInputCustomer,
+    makeOrderTaxExemptionInputCustomer
+} from '../declarations/types-88.js';
+export {
     makeOrderTaxExemptionInputNone,
     makeOrderTaxExemptionInputOrder,
     makeOrderTaxExemptionRequest,
@@ -392,23 +409,27 @@ export {
     makeOrderTaxLocationPostalAddressRequest,
     makeOrderTaxLocationRequest,
     makeOrderTaxRequest
-} from '../declarations/types-86.js';
-export { makePromotionRefInputPromotionCode, makePromotionRefInputPromotionID, makePromotionRefRequest } from '../declarations/types-87.js';
-export { makeResourceVersionRequest } from '../declarations/types-88.js';
-export { makeReverseInvoiceManualPaymentRequest, makeSubscribedLineRequestModel } from '../declarations/types-89.js';
-export { makeTaxComponentRequestModel, makeTaxJurisdictionRequestModel, makeTextModifierRequest } from '../declarations/types-90.js';
-export { makeUpdateInvoiceRequest } from '../declarations/types-91.js';
-export { makeWaiveInvoiceLateFeeRequest, makeWeightRequest } from '../declarations/types-92.js';
+} from '../declarations/types-89.js';
+export { makePromotionRefInputPromotionCode, makePromotionRefInputPromotionID, makePromotionRefRequest } from '../declarations/types-90.js';
+export { makeResourceVersionRequest, makeReverseInvoiceManualPaymentRequest } from '../declarations/types-91.js';
+export { makeSubscribedLineRequestModel, makeTaxComponentRequestModel, makeTaxJurisdictionRequestModel } from '../declarations/types-92.js';
+export { makeTextModifierRequest, makeUpdateInvoiceRequest } from '../declarations/types-93.js';
+export { makeWaiveInvoiceLateFeeRequest, makeWeightRequest } from '../declarations/types-94.js';
 export interface InvoicesResource {
     /**
- * Cancels an active invoice payment attempt and its payment intent. A processing ACH debit can be
- * canceled only until the payment processor sends it to the bank; after that the request returns
- * 409 ACTION_NOT_ALLOWED with reason in_progress and the attempt stays processing. Safe to retry
- * with the same idempotency key. Accepts an empty body or {}.
+ * Cancels an active invoice payment attempt and its payment intent before the payment is
+ * processing. A processing ACH debit returns 409 ACTION_NOT_ALLOWED with reason in_progress and
+ * the attempt stays processing, matching payment intent and order payment attempt cancellation.
+ * Read supported_actions before offering cancellation. Safe to retry with the same idempotency
+ * key. Accepts an empty body or {}.
  *
  * `POST /v1/invoices/{invoice_id}/payment-attempts/{invoice_payment_attempt_id}/cancel`
- * @param invoice_id Flint invoice ID.
- * @param invoice_payment_attempt_id Flint invoice payment attempt ID.
+ * @param invoice_id Flint invoice ID. Must be a valid ID with prefix inv_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
+ * @param invoice_payment_attempt_id Flint invoice payment attempt ID. Must be a valid ID with
+ * prefix invpa_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed
+ * IDs that do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/invoices#cancelInvoicePaymentAttempt
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -423,7 +444,9 @@ export interface InvoicesResource {
  * caller-chosen idempotency key, and reuse it when you retry the same collection.
  *
  * `POST /v1/invoices/{invoice_id}/collect`
- * @param invoice_id Flint invoice ID.
+ * @param invoice_id Flint invoice ID. Must be a valid ID with prefix inv_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/invoices#collectInvoice
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -459,7 +482,9 @@ export interface InvoicesResource {
  * document remains unchanged.
  *
  * `POST /v1/invoices/{invoice_id}/late-fees`
- * @param invoice_id Invoice ID.
+ * @param invoice_id Invoice ID. Must be a valid ID with prefix inv_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/invoices#createInvoiceLateFee
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -479,7 +504,9 @@ export interface InvoicesResource {
  * session. Safe to retry with the same idempotency key.
  *
  * `POST /v1/invoices/{invoice_id}/manual-payments`
- * @param invoice_id Flint invoice ID.
+ * @param invoice_id Flint invoice ID. Must be a valid ID with prefix inv_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/invoices#createInvoiceManualPayment
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -493,7 +520,9 @@ export interface InvoicesResource {
  * Returns a single invoice by ID.
  *
  * `GET /v1/invoices/{invoice_id}`
- * @param invoice_id Flint invoice ID.
+ * @param invoice_id Flint invoice ID. Must be a valid ID with prefix inv_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/invoices#getInvoice
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -504,8 +533,12 @@ export interface InvoicesResource {
  * Returns one recorded or reversed manual payment for the invoice.
  *
  * `GET /v1/invoices/{invoice_id}/manual-payments/{invoice_manual_payment_id}`
- * @param invoice_id Flint invoice ID.
- * @param invoice_manual_payment_id Flint invoice manual payment ID.
+ * @param invoice_id Flint invoice ID. Must be a valid ID with prefix inv_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
+ * @param invoice_manual_payment_id Flint invoice manual payment ID. Must be a valid ID with prefix
+ * omp_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/invoices#getInvoiceManualPayment
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -517,8 +550,12 @@ export interface InvoicesResource {
  * Returns one card or ACH collection attempt for the invoice.
  *
  * `GET /v1/invoices/{invoice_id}/payment-attempts/{invoice_payment_attempt_id}`
- * @param invoice_id Flint invoice ID.
- * @param invoice_payment_attempt_id Flint invoice payment attempt ID.
+ * @param invoice_id Flint invoice ID. Must be a valid ID with prefix inv_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
+ * @param invoice_payment_attempt_id Flint invoice payment attempt ID. Must be a valid ID with
+ * prefix invpa_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed
+ * IDs that do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/invoices#getInvoicePaymentAttempt
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -530,7 +567,9 @@ export interface InvoicesResource {
  * Downloads the merchant-authenticated PDF artifact generated from the invoice snapshot.
  *
  * `GET /v1/invoices/{invoice_id}/pdf`
- * @param invoice_id Flint invoice ID.
+ * @param invoice_id Flint invoice ID. Must be a valid ID with prefix inv_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/invoices#getInvoicePDF
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -542,7 +581,9 @@ export interface InvoicesResource {
  * retry with the same idempotency key.
  *
  * `POST /v1/invoices/{invoice_id}/issue`
- * @param invoice_id Flint invoice ID.
+ * @param invoice_id Flint invoice ID. Must be a valid ID with prefix inv_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/invoices#issueInvoice
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -559,7 +600,9 @@ export interface InvoicesResource {
  * invoice_activity_id descending.
  *
  * `GET /v1/invoices/{invoice_id}/activities`
- * @param invoice_id Flint invoice ID.
+ * @param invoice_id Flint invoice ID. Must be a valid ID with prefix inv_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/invoices#listInvoiceActivities
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -579,7 +622,9 @@ export interface InvoicesResource {
  * descending, then invoice_delivery_attempt_id ascending.
  *
  * `GET /v1/invoices/{invoice_id}/delivery-attempts`
- * @param invoice_id Flint invoice ID.
+ * @param invoice_id Flint invoice ID. Must be a valid ID with prefix inv_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/invoices#listInvoiceDeliveryAttempts
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -599,7 +644,9 @@ export interface InvoicesResource {
  * invoice_late_fee_id ascending.
  *
  * `GET /v1/invoices/{invoice_id}/late-fees`
- * @param invoice_id Flint invoice ID.
+ * @param invoice_id Flint invoice ID. Must be a valid ID with prefix inv_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/invoices#listInvoiceLateFees
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -619,7 +666,9 @@ export interface InvoicesResource {
  * then invoice_manual_payment_id descending.
  *
  * `GET /v1/invoices/{invoice_id}/manual-payments`
- * @param invoice_id Flint invoice ID.
+ * @param invoice_id Flint invoice ID. Must be a valid ID with prefix inv_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/invoices#listInvoiceManualPayments
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -639,7 +688,9 @@ export interface InvoicesResource {
  * order: started_at descending, then invoice_payment_attempt_id descending.
  *
  * `GET /v1/invoices/{invoice_id}/payment-attempts`
- * @param invoice_id Flint invoice ID.
+ * @param invoice_id Flint invoice ID. Must be a valid ID with prefix inv_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/invoices#listInvoicePaymentAttempts
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -678,7 +729,9 @@ export interface InvoicesResource {
  * authority. Safe to retry with the same idempotency key.
  *
  * `POST /v1/invoices/{invoice_id}/mark-uncollectible`
- * @param invoice_id Flint invoice ID.
+ * @param invoice_id Flint invoice ID. Must be a valid ID with prefix inv_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/invoices#markInvoiceUncollectible
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -695,7 +748,9 @@ export interface InvoicesResource {
  * has been deleted. Safe to retry with the same idempotency key.
  *
  * `POST /v1/invoices/{invoice_id}/regenerate-public-link`
- * @param invoice_id Flint invoice ID.
+ * @param invoice_id Flint invoice ID. Must be a valid ID with prefix inv_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/invoices#regenerateInvoicePublicLink
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -712,8 +767,12 @@ export interface InvoicesResource {
  * reversed.
  *
  * `POST /v1/invoices/{invoice_id}/manual-payments/{invoice_manual_payment_id}/reverse`
- * @param invoice_id Flint invoice ID.
- * @param invoice_manual_payment_id Flint invoice manual payment ID.
+ * @param invoice_id Flint invoice ID. Must be a valid ID with prefix inv_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
+ * @param invoice_manual_payment_id Flint invoice manual payment ID. Must be a valid ID with prefix
+ * omp_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/invoices#reverseInvoiceManualPayment
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -728,7 +787,9 @@ export interface InvoicesResource {
  * idempotency key. Accepts an empty body or {}.
  *
  * `POST /v1/invoices/{invoice_id}/send-reminder`
- * @param invoice_id Flint invoice ID.
+ * @param invoice_id Flint invoice ID. Must be a valid ID with prefix inv_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/invoices#sendInvoiceReminder
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -746,7 +807,9 @@ export interface InvoicesResource {
  * paid invoice.
  *
  * `PATCH /v1/invoices/{invoice_id}`
- * @param invoice_id Flint invoice ID.
+ * @param invoice_id Flint invoice ID. Must be a valid ID with prefix inv_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/invoices#updateInvoice
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -757,13 +820,16 @@ export interface InvoicesResource {
  */
     update(invoice_id: InputValue<string>, params: InvoicesUpdateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Invoice, InvoiceResponse>>;
     /**
- * Voids an unpaid invoice and releases its collection authority. For a Quick Pay invoice, also
- * closes the order with closed_reason invoice_voided only when it is open with no collected
- * payment and no fulfillment. Otherwise the order is unchanged. An invoice with an issued credit
- * note against it cannot be voided until that credit note is voided.
+ * Voids a draft, open, or fully refunded partially paid invoice and releases its collection
+ * authority, stopping future automatic collection and reminders. For a Quick Pay invoice, also
+ * closes the order with closed_reason invoice_voided only when it is open with no retained payment
+ * and no fulfillment. Otherwise the order is unchanged. An invoice with an issued credit note
+ * against it cannot be voided until that credit note is voided.
  *
  * `POST /v1/invoices/{invoice_id}/void`
- * @param invoice_id Flint invoice ID.
+ * @param invoice_id Flint invoice ID. Must be a valid ID with prefix inv_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/invoices#voidInvoice
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -778,8 +844,12 @@ export interface InvoicesResource {
  * is visible only to the merchant.
  *
  * `POST /v1/invoices/{invoice_id}/late-fees/{invoice_late_fee_id}/waive`
- * @param invoice_id Invoice ID.
- * @param invoice_late_fee_id Invoice late fee ID.
+ * @param invoice_id Invoice ID. Must be a valid ID with prefix inv_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
+ * @param invoice_late_fee_id Invoice late fee ID. Must be a valid ID with prefix inlf_. Malformed
+ * IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist
+ * return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/invoices#waiveInvoiceLateFee
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

@@ -9,6 +9,7 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `barcode` | Optional | string | Barcode assigned to this sellable item. |
+| `compare_at_price_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Reference unit price for sale display, in the same currency and strictly greater than unit_price_money. Null when no compare-at price is set. Does not affect charges or quantity price breaks. |
 | `created_at` | Optional | string | When this resource was created, as an RFC3339 timestamp. Format: `date-time`. |
 | `delivery_configuration_reason` | Optional | string | Reason the variant's delivery configuration needs attention. Values: `"delivery_profile_missing"`, `"delivery_profile_inactive"`. |
 | `delivery_configuration_status` | Required | string | Whether the variant's delivery configuration is ready, needs attention, or does not apply. Values: `"configured"`, `"action_required"`, `"not_applicable"`. |
@@ -22,6 +23,7 @@ Response model.
 | `inventory_tracking` | Required | string | Whether sales of this variant consume an inventory item. Values: `"not_tracked"`, `"tracked"`. |
 | `is_available_for_sale` | Required | boolean | Whether the variant and its product are both active. Stock isn't considered; `inventory_availability` reports it on reads. |
 | `is_inheriting_product_images` | Required | boolean | Whether effective_images comes from the product's gallery because this variant's gallery is empty. |
+| `license_key_configuration` | Required | object and Alternative shapes (see declared variants) or null | License key terms. Null when the variant has no license key setting. Replaced as a whole: send every field you want to keep. Only product_type digital supports this setting. It adds no delivery requirement and is independent of the delivery profile. Send null to remove every value you set in this section. Omission preserves it on update. `license_key_configuration`: [declared alternatives](../models/ProductVariant.md#productvariantlicense_key_configuration). |
 | `line_item_tax_category` | Optional | string | Stored Flint line-item tax category. New digital-product variants default to digital_goods when omitted. The stored value remains editable. Unset uses the merchant default. Values: [12 declared values](#productvariant-line_item_tax_category-values). |
 | `merchant_id` | Optional | string | Identifier of the merchant that owns this resource. |
 | `metadata` | Optional | Map of string | Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/BundleResponse.md#bundleresponsedatametadata). |
@@ -69,6 +71,42 @@ Field definitions: [BundleResponse.data.images[]](../models/BundleResponse.md#bu
 ### ProductVariant.inventory_availability
 
 Field definitions: [ProductResponse.data.default_variant.inventory_availability](../models/ProductResponse.md#productresponsedatadefault_variantinventory_availability).
+
+### ProductVariant.license_key_configuration
+
+License key terms. Null when the variant has no license key setting. Replaced as a whole: send every field you want to keep. Only product_type digital supports this setting. It adds no delivery requirement and is independent of the delivery profile. Send null to remove every value you set in this section. Omission preserves it on update.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `activation_limit` | Conditional | integer or null | Maximum active devices per key. Null when activations are unlimited. Format: `int32`. minimum: `1`. maximum: `10000`. |
+| `email_delivery_enabled` | Conditional | boolean | Whether Flint emails keys to the buyer. Defaults to true. Default: `true`. |
+| `key_prefix` | Conditional | string or null | Prefix shown before each generated key. Null when no prefix is configured. minLength: `2`. maxLength: `8`. pattern: `^[A-Z0-9]{2,8}$`. |
+| `license_key_pool_id` | Conditional | string | Active pool in this merchant and environment. Required when source is pool. pattern: `^lkp_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `source` | Conditional | string | Source of the license keys. Values: `"generated"`, `"pool"`. |
+| `validity_period_days` | Conditional | integer or null | Days from issuance until expiry. Null when keys do not expire. Format: `int32`. minimum: `1`. maximum: `36500`. |
+
+### ProductVariant.license_key_configuration variant 1: `source` = `"generated"`
+
+anyOf LicenseKeyConfiguration: License key terms. Null limits mean unlimited activations or no expiry. A null generated key prefix means no prefix.; oneOf with source: "generated": License key terms. Null limits mean unlimited activations or no expiry. A null generated key prefix means no prefix..
+
+- Required: `activation_limit`, `email_delivery_enabled`, `key_prefix`, `source`, `validity_period_days`.
+- Optional: `license_key_pool_id`.
+- Constraints for `source`: Values: `"generated"`.
+
+### ProductVariant.license_key_configuration variant 2: `source` = `"pool"`
+
+anyOf LicenseKeyConfiguration: License key terms. Null limits mean unlimited activations or no expiry. A null generated key prefix means no prefix.; oneOf with source: "pool": License key terms. Null limits mean unlimited activations or no expiry. A null generated key prefix means no prefix..
+
+- Required: `activation_limit`, `email_delivery_enabled`, `license_key_pool_id`, `source`, `validity_period_days`.
+- Optional: `key_prefix`.
+- Constraints for `source`: Values: `"pool"`.
+
+### ProductVariant.license_key_configuration variant 3
+
+anyOf variant 2.
+
+- Undeclared: `activation_limit`, `email_delivery_enabled`, `key_prefix`, `license_key_pool_id`, `source`, `validity_period_days`.
+- Value shape: null. License key terms. Null when the variant has no license key setting. Replaced as a whole: send every field you want to keep. Only product_type digital supports this setting. It adds no delivery requirement and is independent of the delivery profile. Send null to remove every value you set in this section. Omission preserves it on update. 
 
 ### ProductVariant.metadata
 

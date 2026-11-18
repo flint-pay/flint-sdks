@@ -7,6 +7,7 @@ namespace Flint;
  * @property-read string $balance_source_type
  * @property-read ?string $created_at
  * @property-read string $currency
+ * @property-read string $direction
  * @property-read string $method
  * @property-read ?string $payout_destination_id
  * @property-read string $payout_id
@@ -16,14 +17,14 @@ namespace Flint;
  * @property-read ?string $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class ExpandedPayoutSummary extends Model {
-    /** @param array{'amount_money': mixed, 'arrival_date'?: string, 'balance_source_type': string, 'created_at'?: string, 'currency': string, 'method': string, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string, ...}|object $values */
+    /** @param array{'amount_money': mixed, 'arrival_date'?: string, 'balance_source_type': string, 'created_at'?: string, 'currency': string, 'direction': string, 'method': string, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedPayoutSummary')); }
-    /** Amount sent to your bank. Always positive. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Amount moved between your bank and Flint. Always positive. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getAmountMoney(): MoneyValue { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** Calendar date the bank is expected to receive the funds, in YYYY-MM-DD format using the UTC date of the expected arrival. Format: date.
+    /** Expected settlement date of the transfer, in YYYY-MM-DD format using the UTC date of the expected arrival. Format: date.
      * @return ?string
      */
     public function getArrivalDate(): ?string { return $this->get('arrival_date'); }
@@ -43,12 +44,17 @@ final class ExpandedPayoutSummary extends Model {
      */
     public function getCurrency(): string { return $this->get('currency'); }
     public function hasCurrency(): bool { return $this->has('currency'); }
+    /** Direction of the money movement. Value enum: "outbound", "inbound".
+     * @return string
+     */
+    public function getDirection(): string { return $this->get('direction'); }
+    public function hasDirection(): bool { return $this->has('direction'); }
     /** Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant` appears only on a payout Flint recorded from the processor that was sent outside Flint. `other` is a method Flint doesn't map. Value enum: "standard", "instant", "other".
      * @return string
      */
     public function getMethod(): string { return $this->get('method'); }
     public function hasMethod(): bool { return $this->has('method'); }
-    /** Bank account or debit card receiving the payout. Absent when Flint can't match your processor's destination to a payout destination.
+    /** Bank account or debit card used for the payout. Absent when Flint can't match your processor's destination to a payout destination.
      * @return ?string
      */
     public function getPayoutDestinationId(): ?string { return $this->get('payout_destination_id'); }

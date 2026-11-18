@@ -11,6 +11,7 @@ A specific purchasable version of a product.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `barcode` | Optional | string | Barcode assigned to this sellable item. |
+| `compare_at_price_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Reference unit price for sale display, in the same currency and strictly greater than unit_price_money. Null when no compare-at price is set. Does not affect charges or quantity price breaks. `compare_at_price_money`: [declared alternatives](../models/ProductVariant.md#productvariantcompare_at_price_money). |
 | `created_at` | Optional | string | When this resource was created, as an RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `delivery_configuration_reason` | Optional | string | Reason the variant's delivery configuration needs attention. Values: `"delivery_profile_missing"`, `"delivery_profile_inactive"`. |
 | `delivery_configuration_status` | Required | string | Whether the variant's delivery configuration is ready, needs attention, or does not apply. Values: `"configured"`, `"action_required"`, `"not_applicable"`. |
@@ -24,6 +25,7 @@ A specific purchasable version of a product.
 | `inventory_tracking` | Required | string | Whether sales of this variant consume an inventory item. Values: `"not_tracked"`, `"tracked"`. |
 | `is_available_for_sale` | Required | boolean | Whether the variant and its product are both active. Stock isn't considered; `inventory_availability` reports it on reads. |
 | `is_inheriting_product_images` | Required | boolean | Whether effective_images comes from the product's gallery because this variant's gallery is empty. |
+| `license_key_configuration` | Required | [LicenseKeyConfiguration](../models/LicenseKeyConfiguration.md#licensekeyconfiguration) or null | License key terms. Null when the variant has no license key setting. Replaced as a whole: send every field you want to keep. Only product_type digital supports this setting. It adds no delivery requirement and is independent of the delivery profile. Send null to remove every value you set in this section. Omission preserves it on update. |
 | `line_item_tax_category` | Optional | string | Stored Flint line-item tax category. New digital-product variants default to digital_goods when omitted. The stored value remains editable. Unset uses the merchant default. Values: [12 declared values](#productvariant-line_item_tax_category-values). |
 | `merchant_id` | Optional | string | Identifier of the merchant that owns this resource. Example: `"mer_01KEZF7C00KPYH1DDFPCCX3B6E"`. |
 | `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) | Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/Bundle.md#bundlemetadata). |
@@ -59,6 +61,25 @@ A specific purchasable version of a product.
 - `"clothing"`
 - `"medical_goods"`
 - `"admission"`
+
+### ProductVariant.compare_at_price_money
+
+Reference unit price for sale display, in the same currency and strictly greater than unit_price_money. Null when no compare-at price is set. Does not affect charges or quantity price breaks.
+
+Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+
+### ProductVariant.compare_at_price_money variant 1
+
+anyOf MoneyValue: Monetary amount represented as integer minor units plus an ISO 4217 currency code..
+
+- Required: `amount`, `currency`.
+
+### ProductVariant.compare_at_price_money variant 2
+
+anyOf variant 2.
+
+- Undeclared: `amount`, `currency`.
+- Value shape: null. Reference unit price for sale display, in the same currency and strictly greater than unit_price_money. Null when no compare-at price is set. Does not affect charges or quantity price breaks. 
 
 ### ProductVariant.gift_card_configuration
 

@@ -19,6 +19,10 @@ A change to the merchant's balance.
 
 Field definitions: [shared fields](BalanceTransactionResponse.md#balancetransactionresponsedata).
 
+### BalanceTransactionListResponse.data[].fee_details[]
+
+Field definitions: [BalanceTransactionResponse.data.fee_details[]](../models/BalanceTransactionResponse.md#balancetransactionresponsedatafee_details).
+
 ### BalanceTransactionListResponse.data[].order
 
 Declared alternatives: [BalanceTransactionResponse.data.order](../models/BalanceTransactionResponse.md#balancetransactionresponsedataorder).

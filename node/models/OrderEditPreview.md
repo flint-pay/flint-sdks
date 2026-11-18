@@ -20,6 +20,7 @@ A calculation against an order version. Previewing does not create an order edit
 | `refund_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Money that would go back to the buyer. The removed value and released charges pay for added lines first, removals in request order and then charges, and the rest is refunded. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `refund_money`: [field definitions](../models/OrderEditPreview.md#ordereditpreviewrefund_money). |
 | `remove_line_items` | Required | Array of [OrderEditRemoval](../models/OrderEditRemoval.md#ordereditremoval) | The requested removals, in request order, each with its value and refund. |
 | `removed_total_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The value of the removed units: the sum of remove_line_items[].total_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `removed_total_money`: [field definitions](../models/OrderEdit.md#ordereditremoved_total_money). |
+| `small_balance_adjustment_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Signed noncash adjustment the edit would record: positive for a balance below the payment minimum, negative when removing previously absorbed value. Included in the order's written-off amount, never paid or refundable. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. `small_balance_adjustment_money`: [field definitions](../models/OrderEditPreview.md#ordereditpreviewsmall_balance_adjustment_money). |
 
 ### OrderEditPreview.added_total_money
 
@@ -42,4 +43,10 @@ Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
 ### OrderEditPreview.removed_total_money
 
 Field definitions: [OrderEdit.removed_total_money](../models/OrderEdit.md#ordereditremoved_total_money).
+
+### OrderEditPreview.small_balance_adjustment_money
+
+Signed noncash adjustment the edit would record: positive for a balance below the payment minimum, negative when removing previously absorbed value. Included in the order's written-off amount, never paid or refundable. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
+
+Field definitions: [shared fields](Balance.md#balanceavailable_by_source_type).
 

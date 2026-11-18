@@ -14,7 +14,7 @@ namespace Flint;
 final class CheckoutDerivedDeliveryResourceInput extends Model {
     /** @param array{'buyer_reasons': list<string>, 'choice_groups': list<DeliveryQuoteChoiceGroupResourceInput|array<array-key, mixed>|\stdClass>, 'delivery_quote_id'?: string, 'delivery_selection_id': string|null, 'evaluation_status': string, 'expires_at'?: string|\DateTimeInterface, 'input_requirements': list<DeliveryInputRequirementInput|array<array-key, mixed>|\stdClass>, 'merchant_diagnostics'?: list<DeliveryMerchantDiagnosticInput|array<array-key, mixed>|\stdClass>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutDerivedDeliveryResourceInput')); }
-    /** Buyer-safe reasons candidate methods did not produce an option. These can be present even when another method is available. [] (Value): string.
+    /** Buyer-safe reasons a choice group has no available option. Groups with an available option contribute no reasons. [] (Value): string.
      * @return list<string>
      * @throws SdkError When buyer_reasons is omitted; use hasBuyerReasons() or valueOrDefault().
      */

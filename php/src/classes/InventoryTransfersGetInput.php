@@ -9,7 +9,7 @@ namespace Flint;
 final class InventoryTransfersGetInput extends Model {
     /** @param array{'inventory_transfer_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryTransfersGetInput')); }
-    /** Flint inventory transfer ID. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+    /** Flint inventory transfer ID. Must be a valid ID with prefix invtr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
      * @return string
      * @throws SdkError When inventory_transfer_id is omitted; use hasInventoryTransferId() or valueOrDefault().
      */

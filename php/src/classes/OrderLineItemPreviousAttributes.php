@@ -16,6 +16,7 @@ namespace Flint;
  * @property-read GiftCardPurchaseSnapshotPreviousAttributes|null $gift_card_purchase
  * @property-read ImagePreviousAttributes|null $image
  * @property-read LineItemInventorySnapshotPreviousAttributes|null $inventory_snapshot
+ * @property-read int|null $license_key_quantity
  * @property-read array<array-key, string>|null $metadata
  * @property-read MoneyValuePreviousAttributes|null $modifier_total_money
  * @property-read list<OrderLineItemModifierPreviousAttributes>|null $modifiers
@@ -28,6 +29,7 @@ namespace Flint;
  * @property-read string|null $product_type
  * @property-read list<PurchasedGiftCardPreviousAttributes>|null $purchased_gift_cards
  * @property-read int|null $quantity
+ * @property-read OrderLineItemRefundablePreviousAttributes|null $refundable
  * @property-read MoneyValuePreviousAttributes|null $refunded_money
  * @property-read int|null $refunded_quantity
  * @property-read string|null $release_date
@@ -48,7 +50,7 @@ namespace Flint;
  * @property-read string|null $variant_id
  * Presence-aware response; omitted optional fields return null. */
 final class OrderLineItemPreviousAttributes extends Model {
-    /** @param array{'backordered_quantity'?: mixed, 'base_subtotal_money'?: mixed, 'bundle_components'?: mixed, 'bundle_id'?: mixed, 'catalog_pricing'?: mixed, 'categories'?: mixed, 'description'?: mixed, 'discount_money'?: mixed, 'expected_ship_date'?: mixed, 'fulfillment_quantities'?: mixed, 'fulfillment_requirements'?: mixed, 'gift_card_purchase'?: mixed, 'image'?: mixed, 'inventory_snapshot'?: mixed, 'metadata'?: mixed, 'modifier_total_money'?: mixed, 'modifiers'?: mixed, 'name'?: mixed, 'order_edit_id'?: mixed, 'order_id'?: mixed, 'order_line_item_id'?: mixed, 'payment_link_line_item_key'?: mixed, 'product_id'?: mixed, 'product_type'?: mixed, 'purchased_gift_cards'?: mixed, 'quantity'?: mixed, 'refunded_money'?: mixed, 'refunded_quantity'?: mixed, 'release_date'?: mixed, 'removed_quantity'?: mixed, 'selected_options'?: mixed, 'sku'?: mixed, 'subscription'?: mixed, 'subscription_id'?: mixed, 'subscription_offer'?: mixed, 'subtotal_money'?: mixed, 'tax'?: mixed, 'tax_money'?: mixed, 'total_money'?: mixed, 'type'?: mixed, 'unit_dimensions'?: mixed, 'unit_price_money'?: mixed, 'unit_weight'?: mixed, 'variant_id'?: mixed, ...}|object $values */
+    /** @param array{'backordered_quantity'?: mixed, 'base_subtotal_money'?: mixed, 'bundle_components'?: mixed, 'bundle_id'?: mixed, 'catalog_pricing'?: mixed, 'categories'?: mixed, 'description'?: mixed, 'discount_money'?: mixed, 'expected_ship_date'?: mixed, 'fulfillment_quantities'?: mixed, 'fulfillment_requirements'?: mixed, 'gift_card_purchase'?: mixed, 'image'?: mixed, 'inventory_snapshot'?: mixed, 'license_key_quantity'?: mixed, 'metadata'?: mixed, 'modifier_total_money'?: mixed, 'modifiers'?: mixed, 'name'?: mixed, 'order_edit_id'?: mixed, 'order_id'?: mixed, 'order_line_item_id'?: mixed, 'payment_link_line_item_key'?: mixed, 'product_id'?: mixed, 'product_type'?: mixed, 'purchased_gift_cards'?: mixed, 'quantity'?: mixed, 'refundable'?: mixed, 'refunded_money'?: mixed, 'refunded_quantity'?: mixed, 'release_date'?: mixed, 'removed_quantity'?: mixed, 'selected_options'?: mixed, 'sku'?: mixed, 'subscription'?: mixed, 'subscription_id'?: mixed, 'subscription_offer'?: mixed, 'subtotal_money'?: mixed, 'tax'?: mixed, 'tax_money'?: mixed, 'total_money'?: mixed, 'type'?: mixed, 'unit_dimensions'?: mixed, 'unit_price_money'?: mixed, 'unit_weight'?: mixed, 'variant_id'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderLineItemPreviousAttributes')); }
     /** Tracked line units waiting for stock. Always 0 when none are backordered. Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer. Tracked line units waiting for stock. Always 0 when none are backordered. Whole-number quantity; fractional quantities are not supported. Format: int64. minimum: 0. anyOf[2] (Value): null.
      * @return int|null
@@ -120,6 +122,11 @@ final class OrderLineItemPreviousAttributes extends Model {
      */
     public function getInventorySnapshot(): LineItemInventorySnapshotPreviousAttributes|null { return $this->get('inventory_snapshot'); }
     public function hasInventorySnapshot(): bool { return $this->has('inventory_snapshot'); }
+    /** Number of license keys promised by this line: quantity when its frozen catalog setting issues keys, otherwise 0. Includes keys for a subscription started by this line; renewal lines report 0. Refunds do not reduce this count. Keys arrive asynchronously after payment, so they may not exist yet when order.paid arrives. Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer. Number of license keys promised by this line: quantity when its frozen catalog setting issues keys, otherwise 0. Includes keys for a subscription started by this line; renewal lines report 0. Refunds do not reduce this count. Keys arrive asynchronously after payment, so they may not exist yet when order.paid arrives. Whole-number quantity; fractional quantities are not supported. Format: int64. minimum: 0. anyOf[2] (Value): null.
+     * @return int|null
+     */
+    public function getLicenseKeyQuantity(): int|null { return $this->get('license_key_quantity'); }
+    public function hasLicenseKeyQuantity(): bool { return $this->has('license_key_quantity'); }
     /** Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
      * @return array<array-key, string>|null
      */
@@ -180,6 +187,11 @@ final class OrderLineItemPreviousAttributes extends Model {
      */
     public function getQuantity(): int|null { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
+    /** Remaining quantity and components for an ID-only line refund target. Accounts for original-tender capacity, reversals, accepted refunds, and whole-value edit reservations, including credit transferred to added lines and pending or retryable failed edit refunds. All values are zero when exhausted. Refund eligibility is checked again on submission. anyOf[1] (Value): {@see OrderLineItemRefundablePreviousAttributes}. anyOf[2] (Value): null.
+     * @return OrderLineItemRefundablePreviousAttributes|null
+     */
+    public function getRefundable(): OrderLineItemRefundablePreviousAttributes|null { return $this->get('refundable'); }
+    public function hasRefundable(): bool { return $this->has('refundable'); }
     /** Amount of this line already refunded. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      * @return MoneyValuePreviousAttributes|null
      */

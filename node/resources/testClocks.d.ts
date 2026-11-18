@@ -1,6 +1,6 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { RequestOptions } from '../declarations/types-60.js';
+import type { RequestOptions } from '../declarations/types-61.js';
 import type {
     TestClock,
     TestClockListResponse,
@@ -10,8 +10,8 @@ import type {
     TestClocksDeleteParams,
     TestClocksGetParams,
     TestClocksListParams
-} from '../declarations/types-72.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-74.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -35,18 +35,20 @@ export type {
     TestClocksGetParams,
     TestClocksListParams,
     TestClockListResponse
-} from '../declarations/types-72.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-74.js';
+export type { RequestOptions } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AdvanceTestClockRequestInput } from '../declarations/types-0.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials, CreateTestClockRequestInput } from '../declarations/types-14.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export { makeAdvanceTestClockRequest } from '../declarations/types-77.js';
-export { makeCreateTestClockRequest } from '../declarations/types-82.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
+export type { Credentials } from '../declarations/types-15.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { CreateTestClockRequestInput } from '../declarations/types-14.js';
+export { makeAdvanceTestClockRequest } from '../declarations/types-79.js';
+export { makeCreateTestClockRequest } from '../declarations/types-84.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export interface TestClocksResource {
     /**
  * Sandbox only. Moves the test clock forward to `frozen_at`. Flint accepts the request and returns
@@ -58,7 +60,9 @@ export interface TestClocksResource {
  * that isn't canceled, whichever is earlier.
  *
  * `POST /v1/test-clocks/{test_clock_id}/advance`
- * @param test_clock_id ID of the test clock.
+ * @param test_clock_id ID of the test clock. Must be a valid ID with prefix tclk_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/test-clocks#advanceTestClock
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -89,7 +93,9 @@ export interface TestClocksResource {
  * everything. Deleting an archived clock returns it unchanged.
  *
  * `DELETE /v1/test-clocks/{test_clock_id}`
- * @param test_clock_id ID of the test clock.
+ * @param test_clock_id ID of the test clock. Must be a valid ID with prefix tclk_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/test-clocks#deleteTestClock
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -103,7 +109,9 @@ export interface TestClocksResource {
  * Sandbox only. Returns a test clock in this sandbox, including an archived one.
  *
  * `GET /v1/test-clocks/{test_clock_id}`
- * @param test_clock_id ID of the test clock.
+ * @param test_clock_id ID of the test clock. Must be a valid ID with prefix tclk_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/test-clocks#getTestClock
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

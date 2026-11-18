@@ -33,7 +33,7 @@ final class ReturnInspectionLineItemRequestInput extends Model {
      */
     public function getFindingCodes(): array { return $this->get('finding_codes'); }
     public function hasFindingCodes(): bool { return $this->has('finding_codes'); }
-    /** Note for your own team about this line. minLength: 1.
+    /** Note for your own team about this line. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1.
      * @return string
      * @throws SdkError When internal_note is omitted; use hasInternalNote() or valueOrDefault().
      */

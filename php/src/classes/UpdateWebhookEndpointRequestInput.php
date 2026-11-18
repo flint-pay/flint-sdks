@@ -77,7 +77,7 @@ final class UpdateWebhookEndpointRequestInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Public HTTPS URL to receive webhook deliveries. Omit to leave unchanged. minLength: 1.
+    /** Public HTTPS URL to receive webhook deliveries. Omit to leave unchanged. minLength: 1. maxLength: 2048.
      * @return string
      * @throws SdkError When url is omitted; use hasUrl() or valueOrDefault().
      */

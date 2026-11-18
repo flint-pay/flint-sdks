@@ -11,6 +11,7 @@ Response model.
 | `amount_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Amount in dispute. For a chargeback, this amount left your balance when the case opened; an inquiry moves no money. |
 | `can_respond_with_evidence` | Optional | boolean or null | Whether this dispute has an evidence response window. It stays true after the window closes or a decision is made. Use is_action_required to know whether a response is needed now. `can_respond_with_evidence`: [declared alternatives](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributescan_respond_with_evidence). |
 | `case_type` | Optional | string or null | Kind of case the card network or bank opened. `status` and `is_action_required` say whether a response is needed. Values: `"inquiry"`, `"chargeback"`, `"compliance"`, `"resolution"`, `"block"`, `"other"`, `"bank_return"`. `case_type`: [declared alternatives](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributescase_type). |
+| `closed_reason` | Optional | string or null | Why the dispute closed, when Flint recorded the cause. Absent when Flint has no confirmed closure reason. Values: `"merchant_accepted"`. `closed_reason`: [declared alternatives](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributesclosed_reason). |
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at). |
 | `customer` | Optional | [ExpandedCustomerSummaryPreviousAttributes](../models/ExpandedCustomerSummaryPreviousAttributes.md#expandedcustomersummarypreviousattributes) or null | Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. `customer`: [declared alternatives](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributescustomer). |
 | `customer_id` | Optional | string or null | The customer on the disputed payment. Absent when the payment has none. `customer_id`: [declared alternatives](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributescustomer_id). |
@@ -64,6 +65,20 @@ anyOf variant 1: Kind of case the card network or bank opened. `status` and `is_
 anyOf variant 2.
 
 - Value shape: null. Kind of case the card network or bank opened. `status` and `is_action_required` say whether a response is needed. 
+
+### DisputeInquiryClosedMerchantEventDataPreviousAttributes.closed_reason
+
+### DisputeInquiryClosedMerchantEventDataPreviousAttributes.closed_reason variant 1
+
+anyOf variant 1: Why the dispute closed, when Flint recorded the cause. Absent when Flint has no confirmed closure reason..
+
+- Value shape: string. Why the dispute closed, when Flint recorded the cause. Absent when Flint has no confirmed closure reason. Values: `"merchant_accepted"`.
+
+### DisputeInquiryClosedMerchantEventDataPreviousAttributes.closed_reason variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Why the dispute closed, when Flint recorded the cause. Absent when Flint has no confirmed closure reason. 
 
 ### DisputeInquiryClosedMerchantEventDataPreviousAttributes.created_at
 

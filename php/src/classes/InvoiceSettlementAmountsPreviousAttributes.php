@@ -29,7 +29,7 @@ final class InvoiceSettlementAmountsPreviousAttributes extends Model {
      */
     public function getLateFeeMoney(): MoneyValuePreviousAttributes|null { return $this->get('late_fee_money'); }
     public function hasLateFeeMoney(): bool { return $this->has('late_fee_money'); }
-    /** paid_money minus refunded_money and, on orders, dispute_lost_money, never below zero. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+    /** paid_money minus refunded_money, never below zero. Dispute losses do not reduce this invoice amount. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      * @return MoneyValuePreviousAttributes|null
      */
     public function getNetCollectedMoney(): MoneyValuePreviousAttributes|null { return $this->get('net_collected_money'); }

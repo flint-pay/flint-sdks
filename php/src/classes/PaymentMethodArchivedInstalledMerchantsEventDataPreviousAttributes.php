@@ -8,6 +8,7 @@ namespace Flint;
  * @property-read string|null $customer_id
  * @property-read string|null $fingerprint
  * @property-read bool|null $is_default
+ * @property-read bool|null $is_removing
  * @property-read string|null $merchant_id
  * @property-read string|null $payment_method_id
  * @property-read string|null $saved_with
@@ -17,7 +18,7 @@ namespace Flint;
  * @property-read string|null $usage
  * Presence-aware response; omitted optional fields return null. */
 final class PaymentMethodArchivedInstalledMerchantsEventDataPreviousAttributes extends Model {
-    /** @param array{'card'?: mixed, 'created_at'?: mixed, 'customer'?: mixed, 'customer_id'?: mixed, 'fingerprint'?: mixed, 'is_default'?: mixed, 'merchant_id'?: mixed, 'payment_method_id'?: mixed, 'saved_with'?: mixed, 'status'?: mixed, 'type'?: mixed, 'updated_at'?: mixed, 'usage'?: mixed, ...}|object $values */
+    /** @param array{'card'?: mixed, 'created_at'?: mixed, 'customer'?: mixed, 'customer_id'?: mixed, 'fingerprint'?: mixed, 'is_default'?: mixed, 'is_removing'?: mixed, 'merchant_id'?: mixed, 'payment_method_id'?: mixed, 'saved_with'?: mixed, 'status'?: mixed, 'type'?: mixed, 'updated_at'?: mixed, 'usage'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentMethodArchivedInstalledMerchantsEventDataPreviousAttributes')); }
     /** Brand, expiry and last four digits. Present when `type` is `card`. anyOf[1] (Value): {@see CardDetailsPreviousAttributes}. anyOf[2] (Value): null.
      * @return CardDetailsPreviousAttributes|null
@@ -44,11 +45,16 @@ final class PaymentMethodArchivedInstalledMerchantsEventDataPreviousAttributes e
      */
     public function getFingerprint(): string|null { return $this->get('fingerprint'); }
     public function hasFingerprint(): bool { return $this->has('fingerprint'); }
-    /** Whether this is the customer's default payment method, the one Customer.default_payment_method_id names. Change the default with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method event. anyOf[1] (Value): boolean. Whether this is the customer's default payment method, the one Customer.default_payment_method_id names. Change the default with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method event. anyOf[2] (Value): null.
+    /** Whether this is the customer's default payment method, the one Customer.default_payment_method_id names. Change the default with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method event. Existing subscriptions keep their payment_method_id. anyOf[1] (Value): boolean. Whether this is the customer's default payment method, the one Customer.default_payment_method_id names. Change the default with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method event. Existing subscriptions keep their payment_method_id. anyOf[2] (Value): null.
      * @return bool|null
      */
     public function getIsDefault(): bool|null { return $this->get('is_default'); }
     public function hasIsDefault(): bool { return $this->has('is_default'); }
+    /** Removal is in progress. Show this card as Removing and offer retry with DELETE /v1/payment-methods/{payment_method_id}, or DELETE /v1/me/payment-methods/{payment_method_id} for buyers. Do not offer it for a new payment, subscription, or default. Flint retries abandoned removals automatically. anyOf[1] (Value): boolean. Removal is in progress. Show this card as Removing and offer retry with DELETE /v1/payment-methods/{payment_method_id}, or DELETE /v1/me/payment-methods/{payment_method_id} for buyers. Do not offer it for a new payment, subscription, or default. Flint retries abandoned removals automatically. anyOf[2] (Value): null.
+     * @return bool|null
+     */
+    public function getIsRemoving(): bool|null { return $this->get('is_removing'); }
+    public function hasIsRemoving(): bool { return $this->has('is_removing'); }
     /** ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the merchant this resource belongs to. anyOf[2] (Value): null.
      * @return string|null
      */
@@ -64,7 +70,7 @@ final class PaymentMethodArchivedInstalledMerchantsEventDataPreviousAttributes e
      */
     public function getSavedWith(): string|null { return $this->get('saved_with'); }
     public function hasSavedWith(): bool { return $this->has('saved_with'); }
-    /** Whether the payment method can be charged. Treat any value other than active as not chargeable, including values added later. Value enum: "pending", "active", "expired", "archived", "failed". anyOf[1] (Value): string. Whether the payment method can be charged. Treat any value other than active as not chargeable, including values added later. Value enum: "pending", "active", "expired", "archived", "failed". anyOf[2] (Value): null.
+    /** The saved card lifecycle. Offer the card for a new payment only when status is active and is_removing is false. Treat any other status as not chargeable, including values added later. Value enum: "pending", "active", "expired", "archived", "failed". anyOf[1] (Value): string. The saved card lifecycle. Offer the card for a new payment only when status is active and is_removing is false. Treat any other status as not chargeable, including values added later. Value enum: "pending", "active", "expired", "archived", "failed". anyOf[2] (Value): null.
      * @return string|null
      */
     public function getStatus(): string|null { return $this->get('status'); }

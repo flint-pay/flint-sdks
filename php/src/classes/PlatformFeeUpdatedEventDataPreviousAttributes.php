@@ -28,7 +28,7 @@ final class PlatformFeeUpdatedEventDataPreviousAttributes extends Model {
      */
     public function getAmountMoney(): MoneyValuePreviousAttributes|null { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** Why Flint collected no fee. Present only when status is canceled. Can gain values. Value enum: "payment_not_completed", "install_revoked", "platform_capability_inactive", "uncollectible". anyOf[1] (Value): string. Why Flint collected no fee. Present only when status is canceled. Can gain values. Value enum: "payment_not_completed", "install_revoked", "platform_capability_inactive", "uncollectible". anyOf[2] (Value): null.
+    /** Why Flint collected no fee. Present only when status is canceled. Can gain values. Value enum: "payment_not_completed", "install_revoked", "install_revoked_by_app", "platform_capability_inactive", "uncollectible". anyOf[1] (Value): string. Why Flint collected no fee. Present only when status is canceled. Can gain values. Value enum: "payment_not_completed", "install_revoked", "install_revoked_by_app", "platform_capability_inactive", "uncollectible". anyOf[2] (Value): null.
      * @return string|null
      */
     public function getCanceledReason(): string|null { return $this->get('canceled_reason'); }
@@ -83,12 +83,12 @@ final class PlatformFeeUpdatedEventDataPreviousAttributes extends Model {
      */
     public function getRequestedAmountMoney(): MoneyValuePreviousAttributes|null { return $this->get('requested_amount_money'); }
     public function hasRequestedAmountMoney(): bool { return $this->has('requested_amount_money'); }
-    /** When the held share is due to return to your available balance. Absent until the fee posts, and when nothing was held. Setting it sends no event. anyOf[1] (Value): string. When the held share is due to return to your available balance. Absent until the fee posts, and when nothing was held. Setting it sends no event. Format: date-time. anyOf[2] (Value): null.
+    /** The original scheduled release date of the held share. Refunds can release their proportional share early. Absent until the fee posts, and when nothing was held. Setting it sends no event. anyOf[1] (Value): string. The original scheduled release date of the held share. Refunds can release their proportional share early. Absent until the fee posts, and when nothing was held. Setting it sends no event. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getReserveAvailableAt(): string|null { return $this->get('reserve_available_at'); }
     public function hasReserveAvailableAt(): bool { return $this->has('reserve_available_at'); }
-    /** The share of the fee Flint held in your reserve when it posted the fee to your ledger. Absent until then. A snapshot: loss coverage draws on the reserve as a whole, so read PlatformFeeBalance.reserve_money for what is held now. Setting it sends no event. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+    /** The share of the fee Flint held in your reserve when it posted the fee to your ledger. Absent until then. The original collection snapshot: refunds release their proportional share early, and loss coverage draws on the reserve as a whole. Read PlatformFeeBalance.reserve_money for what is held now. Setting it sends no event. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      * @return MoneyValuePreviousAttributes|null
      */
     public function getReserveHoldMoney(): MoneyValuePreviousAttributes|null { return $this->get('reserve_hold_money'); }

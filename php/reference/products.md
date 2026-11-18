@@ -32,7 +32,7 @@ Body model: [CreateProductRequestInput](../models/CreateProductRequestInput.md#c
 | `images` | Optional | Array of [ImageRequestInput](../models/ImageRequestInput.md#imagerequestinput) | The complete desired gallery in display order. The first image is primary. Send [] to clear the gallery. minItems: `0`. maxItems: `8`. |
 | `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
 | `modifier_set_id` | Optional | string or null | Attached modifier set. Send null on update to remove it. minLength: `1`. |
-| `name` | Required | string | Product name shown to buyers. minLength: `1`. maxLength: `255`. |
+| `name` | Required | string | Product name shown to buyers. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `255`. |
 | `options` | Optional | Array of [CreateProductOptionRequestInput](../models/CreateProductOptionRequestInput.md#createproductoptionrequestinput) | Options and values that distinguish this product's variants. Send with variants instead of default_variant. minItems: `1`. |
 | `product_type` | Required | string | Kind of goods or service this product represents. New variants of digital products store digital_goods when line_item_tax_category is omitted; explicit categories are preserved. Values: `"physical"`, `"service"`, `"fee"`, `"digital"`, `"gift_card"`. |
 | `status` | Optional | string | Whether the product is active or inactive. An inactive product's variants cannot be sold. Default: `"active"`. Values: `"active"`, `"inactive"`. |
@@ -117,7 +117,7 @@ Signature: `createVariant(string|Model $product_id, array|Model $params, ?Reques
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `product_id` | Required | string | Flint product ID. |
+| `product_id` | Required | string | Flint product ID. Must be a valid ID with prefix prod_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -130,16 +130,18 @@ Body model: [ProductVariantRequestInput](../models/ProductVariantRequestInput.md
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `barcode` | Optional | string | Barcode assigned to this sellable item. minLength: `1`. maxLength: `100`. |
+| `compare_at_price_money` | Optional | [MoneyValueInput](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) or null | Optional reference unit price for sale display. Must use the same currency and be strictly greater than unit_price_money. Omit or send null for none. |
 | `delivery_profile_id` | Optional | string | Delivery profile to assign. Digital and service products require requirement required, resolution_mode manual, and allowed_types exactly [digital] or [service], matching the product type. Omit it to leave delivery not_applicable with no delivery requirement; digital and service products never use a default. Physical products retain their default profile behavior. Fees and gift cards reject profiles. minLength: `1`. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `gift_card_configuration` | Optional | [GiftCardProductConfigurationRequestInput](../models/GiftCardProductConfigurationRequestInput.md#giftcardproductconfigurationrequestinput) | Only valid for product_type gift_card. Omission creates a fixed denomination at unit_price_money. Discounted pricing requires an explicit face_value_money and price_mode discounted. Gift card settings on a product variant: its `face_value_money`, price mode (face value or discounted), and bounds for custom amounts. |
 | `images` | Optional | Array of [ImageRequestInput](../models/ImageRequestInput.md#imagerequestinput) | The complete desired gallery in display order. The first image is primary. Send [] to clear the gallery. minItems: `0`. maxItems: `8`. |
 | `inventory_item` | Optional | [InventoryItemCreateRequestInput](../models/InventoryItemCreateRequestInput.md#inventoryitemcreaterequestinput) | New inventory item to create and track for this variant. Send either inventory_item or inventory_item_id. Inventory item details you supply when creating an inventory item for a product variant: `name`, `sku`, `barcode`, and metadata. |
 | `inventory_item_id` | Optional | string | Identifier of an existing inventory item to track for this variant. Send either inventory_item_id or inventory_item. minLength: `1`. |
+| `license_key_configuration` | Optional | [LicenseKeyConfigurationRequestInput](../models/LicenseKeyConfigurationRequestInput.md#licensekeyconfigurationrequestinput) or null | Replaced as a whole: send every field you want to keep. Only product_type digital supports this setting. It adds no delivery requirement and is independent of the delivery profile. Send null to remove every value you set in this section. Omission preserves it on update. |
 | `line_item_tax_category` | Optional | string | Flint line-item tax category to store. Omit for a digital product to store digital_goods; explicit categories are preserved. For other product types, omission uses the merchant default. Values: [12 declared values](#productscreatevariant-body-line_item_tax_category-values). |
 | `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
 | `modifier_set_id` | Optional | string or null | Attached modifier set. Send null on update to remove it. minLength: `1`. |
-| `name` | Optional | string | Variant name that distinguishes it from the product's other variants. minLength: `1`. maxLength: `255`. |
+| `name` | Optional | string | Variant name that distinguishes it from the product's other variants. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `255`. |
 | `position` | Optional | integer | Display order among the product's variants, starting at zero. When omitted in the variants array on product create, defaults to the variant's array index. For default_variant, defaults to zero. When creating a variant separately, defaults to the highest position among the product's variants plus one, or zero for the first variant. Format: `int32`. |
 | `quantity_price_breaks` | Optional | Array of [QuantityPriceBreakRequestInput](../models/QuantityPriceBreakRequestInput.md#quantitypricebreakrequestinput) | Up to 10 quantity price breaks. Omit the field or send [] for none. Each minimum_quantity is at least 2 and strictly increases. Each unit price is positive, strictly decreases from the previous price starting with the base unit price, and uses the base price's currency. Gift card variants reject a nonempty array. null is invalid. maxItems: `10`. |
 | `release_date` | Optional | string or null | Calendar release date in YYYY-MM-DD format. Omit or send null for no release date. Lines created before this date in the merchant timezone are pre-orders. Format: `date`. minLength: `1`. |
@@ -148,7 +150,7 @@ Body model: [ProductVariantRequestInput](../models/ProductVariantRequestInput.md
 | `status` | Optional | string | Whether the variant is active or inactive. An inactive variant cannot be sold. Default: `"active"`. Values: `"active"`, `"inactive"`. |
 | `taxable` | Optional | boolean | Whether this item is subject to tax. |
 | `unit_dimensions` | Optional | [DimensionsRequestInput](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantUnitDimensions.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantunitdimensions) | Per-unit measurement. Omitted when unknown. Package or item dimensions as `length`, `width`, and `height` in the given `unit`. |
-| `unit_price_money` | Required | [MoneyValueInput](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) | Base unit price in the currency's smallest unit. It applies below the first quantity price break. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `unit_price_money` | Required | object | Base unit price in the currency's smallest unit. It applies below the first quantity price break. |
 | `unit_weight` | Optional | [WeightRequestInput](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantUnitWeight.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantunitweight) | Per-unit measurement. Omitted when unknown. A weight value in grams, kilograms, ounces, or pounds, used in delivery profile configuration. |
 
 #### products.createVariant body line_item_tax_category values
@@ -227,7 +229,7 @@ Signature: `delete(string|Model $product_id, array|Model|null $params = null, ?R
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `product_id` | Required | string | Flint product ID. |
+| `product_id` | Required | string | Flint product ID. Must be a valid ID with prefix prod_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `expected_version` | Optional | integer | Optional product version last read by the caller. Format: `uint64`. minimum: `1`. maximum: `9007199254740991`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
@@ -285,7 +287,7 @@ Signature: `deleteVariant(string|Model $product_id, string|Model $variant_id, ar
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `product_id` | Required | string | Flint product ID. |
+| `product_id` | Required | string | Flint product ID. Must be a valid ID with prefix prod_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `variant_id` | Required | string | Flint product variant ID. |
 | `expected_version` | Optional | integer | Optional product variant version last read by the caller. Format: `uint64`. minimum: `1`. maximum: `9007199254740991`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -344,7 +346,7 @@ Signature: `get(string|Model $product_id, array|Model|null $params = null, ?Requ
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `product_id` | Required | string | Flint product ID. |
+| `product_id` | Required | string | Flint product ID. Must be a valid ID with prefix prod_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: modifier_set, variants, variants.modifier_set. Expand the attached modifier set. Limits: at most 10 unique expand paths per request. To-many expansions are capped at 250 related objects per path. Products have at most 250 non-archived variants. Items values: `"modifier_set"`, `"variants"`, `"variants.modifier_set"`. Values: `"modifier_set"`, `"variants"`, `"variants.modifier_set"`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
@@ -397,7 +399,7 @@ Signature: `getOption(string|Model $product_id, string|Model $option_id, array|M
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `product_id` | Required | string | Flint product ID. |
+| `product_id` | Required | string | Flint product ID. Must be a valid ID with prefix prod_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `option_id` | Required | string | Flint product option ID. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
@@ -450,7 +452,7 @@ Signature: `getVariant(string|Model $product_id, string|Model $variant_id, array
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `product_id` | Required | string | Flint product ID. |
+| `product_id` | Required | string | Flint product ID. Must be a valid ID with prefix prod_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `variant_id` | Required | string | Flint product variant ID. |
 | `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: modifier_set. Expand the attached modifier set. Limits: at most 10 unique expand paths per request. Items values: `"modifier_set"`. Values: `"modifier_set"`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -510,10 +512,11 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 | `status` | Optional | Array of string or string | Filter by status. Omitted, the list leaves out archived rows; name archived to include them. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"inactive"`, `"archived"`. Values: `"active"`, `"inactive"`, `"archived"`. |
 | `category_handle` | Optional | string | Filter by category handle. maxLength: `100`. pattern: `^[a-z0-9]+(-[a-z0-9]+)*$`. |
 | `external_reference_id` | Optional | string | Exact match on the product's own `external_reference_id`. To find a product by a variant's reference, use `variant_external_reference_id`. minLength: `1`. maxLength: `255`. |
-| `sku` | Optional | string | Full-value match on ProductVariant.sku, case- and accent-insensitive, with no trimming. All exact variant filters must match the same non-archived variant, including inactive variants. matched_variant is the first matching variant by position, then variant_id; exact predicates take precedence over query for this witness. minLength: `1`. maxLength: `100`. |
+| `sku` | Optional | string | Full-value match on ProductVariant.sku, ignoring surrounding whitespace, case, and accents. All exact variant filters must match the same non-archived variant, including inactive variants. matched_variant is the first matching variant by position, then variant_id; exact predicates take precedence over query for this witness. minLength: `1`. maxLength: `100`. |
 | `variant_external_reference_id` | Optional | string | Byte-sensitive whole-value match on ProductVariant.external_reference_id, preserving whitespace, casing, and Unicode. All exact variant filters must match the same non-archived variant. matched_variant is one deterministic witness; page the nested variant list to enumerate all matches. minLength: `1`. maxLength: `255`. |
+| `barcode` | Optional | string | Full-value match on ProductVariant.barcode, ignoring surrounding whitespace, case, and accents. All exact variant filters must match the same non-archived variant. Does not search the inventory item barcode. minLength: `1`. maxLength: `100`. |
 | `inventory_item_id` | Optional | string | Exact match on ProductVariant.inventory_item_id. Multiple variants may share one inventory item; this does not match or synchronize the inventory item's SKU. On products, all exact variant filters must match the same non-archived variant. pattern: `^invi_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `query` | Optional | string | Search across product ID, external reference ID, name, description, and SKU. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as prod_01. |
+| `query` | Optional | string | Search across product ID, external reference ID, name, description, SKU, and barcode. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as prod_01. |
 | `delivery_profile_id` | Optional | string | Filter products with at least one non-deleted variant assigned to this delivery profile. pattern: `^dprof_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `delivery_configuration_status` | Optional | Array of string or string | Filter by aggregated delivery readiness across non-deleted variants. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"configured"`, `"action_required"`, `"not_applicable"`. Values: `"configured"`, `"action_required"`, `"not_applicable"`. |
 | `sort_by` | Optional | string | Field to sort by. Defaults to created_at; ties are broken by product_id. Default: `"created_at"`. Values: `"name"`, `"created_at"`, `"updated_at"`. |
@@ -575,7 +578,7 @@ Signature: `listOptions(string|Model $product_id, array|Model|null $params = nul
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `product_id` | Required | string | Flint product ID. |
+| `product_id` | Required | string | Flint product ID. Must be a valid ID with prefix prod_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `status` | Optional | Array of string or string | Filter by status. Omitted, the list leaves out archived rows; name archived to include them. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"inactive"`, `"archived"`. Values: `"active"`, `"inactive"`, `"archived"`. |
@@ -632,12 +635,13 @@ Signature: `listVariants(string|Model $product_id, array|Model|null $params = nu
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `product_id` | Required | string | Flint product ID. |
+| `product_id` | Required | string | Flint product ID. Must be a valid ID with prefix prod_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `status` | Optional | Array of string or string | Filter by status. Omitted, the list leaves out archived rows; name archived to include them. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"inactive"`, `"archived"`. Values: `"active"`, `"inactive"`, `"archived"`. |
 | `external_reference_id` | Optional | string | Byte-sensitive whole-value match on ProductVariant.external_reference_id, preserving whitespace, casing, and Unicode. minLength: `1`. maxLength: `255`. |
-| `sku` | Optional | string | Full-value match on ProductVariant.sku, case- and accent-insensitive, with no trimming. Does not search the inventory item's SKU. minLength: `1`. maxLength: `100`. |
+| `sku` | Optional | string | Full-value match on ProductVariant.sku, ignoring surrounding whitespace, case, and accents. Does not search the inventory item's SKU. minLength: `1`. maxLength: `100`. |
+| `barcode` | Optional | string | Full-value match on ProductVariant.barcode, ignoring surrounding whitespace, case, and accents. All exact variant filters must match the same non-archived variant. Does not search the inventory item barcode. minLength: `1`. maxLength: `100`. |
 | `inventory_item_id` | Optional | string | Exact match on ProductVariant.inventory_item_id. Multiple variants may share one inventory item; this does not match or synchronize the inventory item's SKU. On products, all exact variant filters must match the same non-archived variant. pattern: `^invi_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `query` | Optional | string | Search across variant ID, external reference ID, name, SKU, and barcode. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as var_01. |
 | `sort_by` | Optional | string | Field to sort by. Defaults to position; ties are broken by variant_id. Default: `"position"`. Values: `"position"`, `"created_at"`, `"updated_at"`, `"unit_price_money"`. |
@@ -702,7 +706,7 @@ Signature: `update(string|Model $product_id, array|Model $params, ?RequestOption
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `product_id` | Required | string | Flint product ID. |
+| `product_id` | Required | string | Flint product ID. Must be a valid ID with prefix prod_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -722,7 +726,7 @@ Body model: [UpdateProductRequestInput](../models/UpdateProductRequestInput.md#u
 | `images` | Optional | Array of [ImageRequestInput](../models/ImageRequestInput.md#imagerequestinput) | The complete desired gallery in display order. The first image is primary. Send [] to clear the gallery. minItems: `0`. maxItems: `8`. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. This operation also limits the metadata object you send, before merging: at most 50 keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768 UTF-8 bytes of keys plus values. |
 | `modifier_set_id` | Optional | string or null | Attached modifier set. Send null on update to remove it. minLength: `1`. |
-| `name` | Optional | string | Product name shown to buyers. minLength: `1`. maxLength: `255`. |
+| `name` | Optional | string | Product name shown to buyers. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `255`. |
 | `options` | Optional | Array of [UpdateProductOptionRequestInput](../models/UpdateProductOptionRequestInput.md#updateproductoptionrequestinput) | Replaces all product options and values atomically. Include existing option_id and option_value_id values to retain members. Omitted members are archived. Null is not accepted. |
 | `product_type` | Optional | string | Kind of goods or service this product represents. Changing to digital fills variants' unset line_item_tax_category with digital_goods and advances their versions. Explicit categories are preserved. Returns 409 ACTION_NOT_ALLOWED with reason mixed_tax_treatment and blocking_resources if a containing bundle would become mixed. Values: `"physical"`, `"service"`, `"fee"`, `"digital"`, `"gift_card"`. |
 | `status` | Optional | string | Whether the product is active or inactive. An inactive product's variants cannot be sold. Values: `"active"`, `"inactive"`. |
@@ -785,7 +789,7 @@ Signature: `updateVariant(string|Model $product_id, string|Model $variant_id, ar
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `product_id` | Required | string | Flint product ID. |
+| `product_id` | Required | string | Flint product ID. Must be a valid ID with prefix prod_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `variant_id` | Required | string | Flint product variant ID. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
@@ -799,6 +803,7 @@ Body model: [UpdateProductVariantRequestInput](../models/UpdateProductVariantReq
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `barcode` | Optional | string or null | Send null to clear it. minLength: `1`. maxLength: `100`. |
+| `compare_at_price_money` | Optional | [MoneyValueInput](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) or null | Reference unit price for sale display. Omit to preserve it; null clears it. Must use the same currency and be strictly greater than the final unit_price_money. Base-price changes must preserve this rule; replace or clear this field in the same request when necessary. |
 | `delivery_profile_id` | Optional | string or null | Omit to preserve the assignment. Send null to clear it. Clearing a digital or service variant restores not_applicable with no delivery requirement and never selects a default. Assigned profiles must be required/manual with allowed_types exactly [digital] or [service], matching the product type. Existing order delivery snapshots do not change. minLength: `1`. |
 | `expected_version` | Optional | integer | Resource version last read by the caller. Required when images is present. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
@@ -806,10 +811,11 @@ Body model: [UpdateProductVariantRequestInput](../models/UpdateProductVariantReq
 | `images` | Optional | Array of [ImageRequestInput](../models/ImageRequestInput.md#imagerequestinput) | Replaces the authored variant gallery atomically. Send [] to clear it and resume product-image inheritance. minItems: `0`. maxItems: `8`. |
 | `inventory_item` | Optional | [InventoryItemCreateRequestInput](../models/InventoryItemCreateRequestInput.md#inventoryitemcreaterequestinput) | New inventory item to create and track for this variant. Send either inventory_item or inventory_item_id. Inventory item details you supply when creating an inventory item for a product variant: `name`, `sku`, `barcode`, and metadata. |
 | `inventory_item_id` | Optional | string or null | Inventory item tracked by this variant. Send null to stop tracking inventory. minLength: `1`. |
+| `license_key_configuration` | Optional | [LicenseKeyConfigurationRequestInput](../models/LicenseKeyConfigurationRequestInput.md#licensekeyconfigurationrequestinput) or null | Replaced as a whole: send every field you want to keep. Only product_type digital supports this setting. It adds no delivery requirement and is independent of the delivery profile. Send null to remove every value you set in this section. Omission preserves it on update. |
 | `line_item_tax_category` | Optional | string or null | Flint line-item tax category to store. Send null to clear it and use the merchant default. Returns 409 ACTION_NOT_ALLOWED with reason mixed_tax_treatment and blocking_resources if a containing bundle would become mixed. Values: [13 declared values](#productsupdatevariant-body-line_item_tax_category-values). |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. This operation also limits the metadata object you send, before merging: at most 50 keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768 UTF-8 bytes of keys plus values. |
 | `modifier_set_id` | Optional | string or null | Attached modifier set. Send null on update to remove it. minLength: `1`. |
-| `name` | Optional | string or null | Send null to clear it. minLength: `1`. maxLength: `255`. |
+| `name` | Optional | string or null | Send null to clear it. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `255`. |
 | `position` | Optional | integer | Display order among the product's variants, starting at zero. Format: `int32`. |
 | `quantity_price_breaks` | Optional | Array of [QuantityPriceBreakRequestInput](../models/QuantityPriceBreakRequestInput.md#quantitypricebreakrequestinput) | Complete array of up to 10 quantity price breaks. Replaces the whole array; [] clears it and omission preserves it on update. Minimum quantities start at 2 and strictly increase. Unit prices strictly decrease from the base unit price and use its currency. Gift card variants reject a nonempty array. null is invalid. Include expected_version on update to reject a concurrent variant change. maxItems: `10`. |
 | `release_date` | Optional | string or null | Calendar release date in YYYY-MM-DD format. Omit to preserve it; send null to clear it. Existing order line dates do not change. Format: `date`. minLength: `1`. |
@@ -818,7 +824,7 @@ Body model: [UpdateProductVariantRequestInput](../models/UpdateProductVariantReq
 | `status` | Optional | string | Whether the variant is active or inactive. An inactive variant cannot be sold. Values: `"active"`, `"inactive"`. |
 | `taxable` | Optional | boolean | Whether this item is subject to tax. |
 | `unit_dimensions` | Optional | [DimensionsRequestInput](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantUnitDimensions.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantunitdimensions) or null | Replaces the complete object. Send null to clear it. |
-| `unit_price_money` | Optional | [MoneyValueInput](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) | Base unit price in the currency's smallest unit. It applies below the first quantity price break. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `unit_price_money` | Optional | object | Base unit price in the currency's smallest unit. It applies below the first quantity price break. |
 | `unit_weight` | Optional | [WeightRequestInput](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantUnitWeight.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantunitweight) or null | Replaces the complete object. Send null to clear it. |
 
 #### products.updateVariant body line_item_tax_category values

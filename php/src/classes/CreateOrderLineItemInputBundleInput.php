@@ -72,7 +72,7 @@ final class CreateOrderLineItemInputBundleInput extends Model {
      */
     public function getModifiers(): array { return $this->get('modifiers'); }
     public function hasModifiers(): bool { return $this->has('modifiers'); }
-    /** Name of the item as it appears on the order. minLength: 1.
+    /** Name of the item as it appears on the order. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */

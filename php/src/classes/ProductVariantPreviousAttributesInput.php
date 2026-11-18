@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string|null $barcode
+ * @property-read MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $compare_at_price_money
  * @property-read string|\DateTimeInterface|null $created_at
  * @property-read string|null $delivery_configuration_reason
  * @property-read string|null $delivery_configuration_status
@@ -16,6 +17,7 @@ namespace Flint;
  * @property-read string|null $inventory_tracking
  * @property-read bool|null $is_available_for_sale
  * @property-read bool|null $is_inheriting_product_images
+ * @property-read LicenseKeyConfigurationPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null $license_key_configuration
  * @property-read string|null $line_item_tax_category
  * @property-read string|null $merchant_id
  * @property-read MetadataMapPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $metadata
@@ -38,7 +40,7 @@ namespace Flint;
  * @property-read int|null $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class ProductVariantPreviousAttributesInput extends Model {
-    /** @param array{'barcode'?: string|null, 'created_at'?: string|\DateTimeInterface|null, 'delivery_configuration_reason'?: string|null, 'delivery_configuration_status'?: string|null, 'delivery_profile_id'?: string|null, 'effective_images'?: list<ImageAttachmentPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'external_reference_id'?: string|null, 'gift_card_configuration'?: GiftCardProductConfigurationPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'images'?: list<ImageAttachmentPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'inventory_availability'?: ProductVariantInventoryAvailabilityPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'inventory_item_id'?: string|null, 'inventory_tracking'?: string|null, 'is_available_for_sale'?: bool|null, 'is_inheriting_product_images'?: bool|null, 'line_item_tax_category'?: string|null, 'merchant_id'?: string|null, 'metadata'?: MetadataMapPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'modifier_set'?: ModifierSetPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'modifier_set_id'?: string|null, 'name'?: string|null, 'position'?: int|null, 'product_id'?: string|null, 'quantity_price_breaks'?: list<QuantityPriceBreakPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'release_date'?: string|null, 'selected_options'?: list<SelectedProductOptionPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'sku'?: string|null, 'status'?: string|null, 'taxable'?: bool|null, 'unit_dimensions'?: DimensionsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'unit_price_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'unit_weight'?: WeightPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'updated_at'?: string|\DateTimeInterface|null, 'variant_id'?: string|null, 'version'?: int|null, ...}|object $values */
+    /** @param array{'barcode'?: string|null, 'compare_at_price_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'created_at'?: string|\DateTimeInterface|null, 'delivery_configuration_reason'?: string|null, 'delivery_configuration_status'?: string|null, 'delivery_profile_id'?: string|null, 'effective_images'?: list<ImageAttachmentPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'external_reference_id'?: string|null, 'gift_card_configuration'?: GiftCardProductConfigurationPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'images'?: list<ImageAttachmentPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'inventory_availability'?: ProductVariantInventoryAvailabilityPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'inventory_item_id'?: string|null, 'inventory_tracking'?: string|null, 'is_available_for_sale'?: bool|null, 'is_inheriting_product_images'?: bool|null, 'license_key_configuration'?: LicenseKeyConfigurationPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null, 'line_item_tax_category'?: string|null, 'merchant_id'?: string|null, 'metadata'?: MetadataMapPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'modifier_set'?: ModifierSetPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'modifier_set_id'?: string|null, 'name'?: string|null, 'position'?: int|null, 'product_id'?: string|null, 'quantity_price_breaks'?: list<QuantityPriceBreakPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'release_date'?: string|null, 'selected_options'?: list<SelectedProductOptionPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'sku'?: string|null, 'status'?: string|null, 'taxable'?: bool|null, 'unit_dimensions'?: DimensionsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'unit_price_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'unit_weight'?: WeightPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'updated_at'?: string|\DateTimeInterface|null, 'variant_id'?: string|null, 'version'?: int|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ProductVariantPreviousAttributesInput')); }
     /** Barcode assigned to this sellable item. anyOf[1] (Value): string. Barcode assigned to this sellable item. anyOf[2] (Value): null.
      * @return string|null
@@ -46,6 +48,12 @@ final class ProductVariantPreviousAttributesInput extends Model {
      */
     public function getBarcode(): mixed { return $this->get('barcode'); }
     public function hasBarcode(): bool { return $this->has('barcode'); }
+    /** Reference unit price for sale display, in the same currency and strictly greater than unit_price_money. Null when no compare-at price is set. Does not affect charges or quantity price breaks. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
+     * @return MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null
+     * @throws SdkError When compare_at_price_money is omitted; use hasCompareAtPriceMoney() or valueOrDefault().
+     */
+    public function getCompareAtPriceMoney(): mixed { return $this->get('compare_at_price_money'); }
+    public function hasCompareAtPriceMoney(): bool { return $this->has('compare_at_price_money'); }
     /** When this resource was created, as an RFC3339 timestamp. anyOf[1] (Value): string. When this resource was created, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
      * @return string|\DateTimeInterface|null
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
@@ -124,6 +132,12 @@ final class ProductVariantPreviousAttributesInput extends Model {
      */
     public function getIsInheritingProductImages(): mixed { return $this->get('is_inheriting_product_images'); }
     public function hasIsInheritingProductImages(): bool { return $this->has('is_inheriting_product_images'); }
+    /** License key terms. Null when the variant has no license key setting. Replaced as a whole: send every field you want to keep. Only product_type digital supports this setting. It adds no delivery requirement and is independent of the delivery profile. Send null to remove every value you set in this section. Omission preserves it on update. anyOf[1] (Value): ({@see LicenseKeyConfigurationPreviousAttributesInput} or null). License key terms. Null when the variant has no license key setting. Replaced as a whole: send every field you want to keep. Only product_type digital supports this setting. It adds no delivery requirement and is independent of the delivery profile. Send null to remove every value you set in this section. Omission preserves it on update. anyOf[1].anyOf[1] (Value): {@see LicenseKeyConfigurationPreviousAttributesInput}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+     * @return LicenseKeyConfigurationPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null
+     * @throws SdkError When license_key_configuration is omitted; use hasLicenseKeyConfiguration() or valueOrDefault().
+     */
+    public function getLicenseKeyConfiguration(): mixed { return $this->get('license_key_configuration'); }
+    public function hasLicenseKeyConfiguration(): bool { return $this->has('license_key_configuration'); }
     /** Stored Flint line-item tax category. New digital-product variants default to digital_goods when omitted. The stored value remains editable. Unset uses the merchant default. Value enum: "general", "physical_goods", "digital_goods", "software", "saas", "services", "professional_services", "food", "prepared_food", "clothing", "medical_goods", "admission". anyOf[1] (Value): string. Stored Flint line-item tax category. New digital-product variants default to digital_goods when omitted. The stored value remains editable. Unset uses the merchant default. Value enum: "general", "physical_goods", "digital_goods", "software", "saas", "services", "professional_services", "food", "prepared_food", "clothing", "medical_goods", "admission". anyOf[2] (Value): null.
      * @return string|null
      * @throws SdkError When line_item_tax_category is omitted; use hasLineItemTaxCategory() or valueOrDefault().

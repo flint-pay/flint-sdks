@@ -10,10 +10,10 @@ import type {
     OauthReauthorizeCLIDeviceParams,
     OauthRevokeTokenParams,
     OauthRevokeTokenResponse
-} from '../declarations/types-43.js';
-import type { PartnerAuthorizePreview, PartnerAuthorizePreviewResponse } from '../declarations/types-48.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-44.js';
+import type { PartnerAuthorizePreview, PartnerAuthorizePreviewResponse } from '../declarations/types-50.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -38,11 +38,17 @@ export type {
     OauthRevokeTokenParams,
     OauthRevokeTokenResponse,
     OAuthTokenRequestInput,
+    OAuthTokenRequestAuthorizationCodeInput,
+    OAuthTokenRequestClientCredentialsInput,
     OAuthTokenRequestRefreshTokenInput,
-    OAuthTokenRequestTokenExchangeInput
-} from '../declarations/types-43.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
+    OAuthTokenRequestDeviceCodeInput,
+    OAuthTokenRequestTokenExchangeInput,
+    MoneyValue,
+    NextAction,
+    OAuthRevokeRequestInput
+} from '../declarations/types-44.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { RequestOptions } from '../declarations/types-61.js';
 export type {
     CLIDeviceResponse,
     CLIContextsResponse,
@@ -50,26 +56,16 @@ export type {
     CLIContextsRequestInput,
     CLIReauthorizeRequestInput
 } from '../declarations/types-4.js';
-export type {
-    PartnerAuthorizePreview,
-    PartnerAuthorizePreviewResponse,
-    PartnerAppPaymentSplits,
-    PartnerAppPermissionManifestEntry
-} from '../declarations/types-48.js';
-export type { ClientOptions, ContextSummary } from '../declarations/types-7.js';
+export type { PartnerAuthorizePreview, PartnerAuthorizePreviewResponse } from '../declarations/types-50.js';
+export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
-export type {
-    OAuthTokenRequestAuthorizationCodeInput,
-    OAuthTokenRequestClientCredentialsInput,
-    OAuthTokenRequestDeviceCodeInput,
-    MoneyValue,
-    NextAction,
-    OAuthRevokeRequestInput
-} from '../declarations/types-42.js';
-export type { PlatformFeeCap } from '../declarations/types-54.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export { makeCLIContextsRequest, makeCLIDeviceRequest, makeCLIReauthorizeRequest } from '../declarations/types-78.js';
+export type { Credentials } from '../declarations/types-15.js';
+export type { ContextSummary } from '../declarations/types-8.js';
+export type { PartnerAppPaymentSplits, PartnerAppPlatformContact, PartnerAppPermissionManifestEntry } from '../declarations/types-49.js';
+export type { PlatformFeeCap } from '../declarations/types-55.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export { makeCLIContextsRequest, makeCLIDeviceRequest, makeCLIReauthorizeRequest } from '../declarations/types-80.js';
 export {
     makeMoneyValue,
     makeOAuthRevokeRequest,
@@ -79,7 +75,7 @@ export {
     makeOAuthTokenRequestDeviceCode,
     makeOAuthTokenRequestRefreshToken,
     makeOAuthTokenRequestTokenExchange
-} from '../declarations/types-86.js';
+} from '../declarations/types-88.js';
 export interface OauthResource {
     /**
  * First-party public client flint-cli. Uses application/x-www-form-urlencoded and flat OAuth JSON.

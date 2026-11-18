@@ -1,12 +1,8 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
+import type { DeliveryProfile, DeliveryProfileAssignment, DeliveryProfileAssignmentResponse } from '../declarations/types-21.js';
 import type {
-    DeliveryProfile,
-    DeliveryProfileAssignment,
-    DeliveryProfileAssignmentResponse,
-    DeliveryProfileListResponse
-} from '../declarations/types-21.js';
-import type {
+    DeliveryProfileListResponse,
     DeliveryProfileResponse,
     DeliveryProfilesAssignToUnconfiguredParams,
     DeliveryProfilesCreateParams,
@@ -15,8 +11,8 @@ import type {
     DeliveryProfilesListParams,
     DeliveryProfilesUpdateParams
 } from '../declarations/types-22.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -38,40 +34,41 @@ export type {
     DeliveryProfilesDeleteParams,
     DeliveryProfilesGetParams,
     DeliveryProfilesListParams,
+    DeliveryProfileListResponse,
     DeliveryProfilesUpdateParams,
     DeliveryProfileUnconfiguredAssignment,
-    DeliveryProfileOriginPolicyRequestInput
+    DeliveryProfileConfigurationRequestInput,
+    DeliveryProfileOriginPolicyRequestInput,
+    DeliveryProfileOriginPolicyInputFixedLocationInput,
+    DeliveryProfileOriginPolicyInputInventoryRoutingInput,
+    DeliveryProfileOriginPolicyInputMethodOriginInput,
+    DeliveryProfileOriginPolicy,
+    DeliveryProfileDiagnostics
 } from '../declarations/types-22.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
+export type { RequestOptions } from '../declarations/types-61.js';
 export type {
     DeliveryProfileAssignment,
     DeliveryProfileAssignmentResponse,
     DeliveryProfile,
-    DeliveryProfileListResponse,
-    DeliveryProfileConfigurationRequestInput,
-    DeliveryProfileOriginPolicyInputFixedLocationInput,
-    DeliveryProfileOriginPolicyInputInventoryRoutingInput,
-    DeliveryProfileOriginPolicyInputMethodOriginInput,
     DeliveryProfileConfigurationInputNoneInput,
     DeliveryProfileConfigurationInputRequiredInput,
     DeliveryProfileConfigurationInputQuoteInput,
     DeliveryProfileConfigurationInputManualInput,
-    DeliveryProfileConfiguration,
-    DeliveryProfileOriginPolicy,
-    DeliveryProfileDiagnostics
+    DeliveryProfileConfiguration
 } from '../declarations/types-21.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AssignToUnconfiguredDeliveryProfileRequestInput, AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
+export type { Credentials } from '../declarations/types-15.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { CreateDeliveryProfileRequestInput } from '../declarations/types-9.js';
-export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-41.js';
-export type { UpdateDeliveryProfileRequestInput } from '../declarations/types-73.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
+export type { UpdateDeliveryProfileRequestInput } from '../declarations/types-75.js';
 export type { DeliveryLocationSetsDeleteParams } from '../declarations/types-19.js';
-export { makeAssignToUnconfiguredDeliveryProfileRequest } from '../declarations/types-77.js';
-export { makeCreateDeliveryProfileRequest } from '../declarations/types-79.js';
+export { makeAssignToUnconfiguredDeliveryProfileRequest } from '../declarations/types-80.js';
+export { makeCreateDeliveryProfileRequest } from '../declarations/types-81.js';
 export {
     makeDeliveryProfileConfigurationInputManual,
     makeDeliveryProfileConfigurationInputNone,
@@ -82,10 +79,9 @@ export {
     makeDeliveryProfileOriginPolicyInputInventoryRouting,
     makeDeliveryProfileOriginPolicyInputMethodOrigin,
     makeDeliveryProfileOriginPolicyRequest
-} from '../declarations/types-83.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeUpdateDeliveryProfileRequest } from '../declarations/types-90.js';
+} from '../declarations/types-85.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeUpdateDeliveryProfileRequest } from '../declarations/types-93.js';
 export interface DeliveryProfilesResource {
     /**
  * Assigns this active delivery profile to physical product variants and bundle components that
@@ -101,7 +97,9 @@ export interface DeliveryProfilesResource {
  * items stay unconfigured.
  *
  * `POST /v1/delivery-profiles/{delivery_profile_id}/assign-to-unconfigured`
- * @param delivery_profile_id Flint delivery profile ID.
+ * @param delivery_profile_id Flint delivery profile ID. Must be a valid ID with prefix dprof_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see
  * https://developers.withflintpay.com/docs/api/delivery-configuration#assignToUnconfiguredDeliveryProfile
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
@@ -134,7 +132,9 @@ export interface DeliveryProfilesResource {
  * changing its version or repeating effects.
  *
  * `DELETE /v1/delivery-profiles/{delivery_profile_id}`
- * @param delivery_profile_id Flint delivery profile ID.
+ * @param delivery_profile_id Flint delivery profile ID. Must be a valid ID with prefix dprof_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/delivery-configuration#deleteDeliveryProfile
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -148,7 +148,9 @@ export interface DeliveryProfilesResource {
  * Returns the current revision and lifecycle state for one delivery profile.
  *
  * `GET /v1/delivery-profiles/{delivery_profile_id}`
- * @param delivery_profile_id Flint delivery profile ID.
+ * @param delivery_profile_id Flint delivery profile ID. Must be a valid ID with prefix dprof_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/delivery-configuration#getDeliveryProfile
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -183,7 +185,9 @@ export interface DeliveryProfilesResource {
  * revision. Archived resources can't be changed; create a new resource instead.
  *
  * `PATCH /v1/delivery-profiles/{delivery_profile_id}`
- * @param delivery_profile_id Flint delivery profile ID.
+ * @param delivery_profile_id Flint delivery profile ID. Must be a valid ID with prefix dprof_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/delivery-configuration#updateDeliveryProfile
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

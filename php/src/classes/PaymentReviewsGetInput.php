@@ -10,7 +10,7 @@ namespace Flint;
 final class PaymentReviewsGetInput extends Model {
     /** @param array{'payment_review_id': string, 'expand'?: list<string>|string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentReviewsGetInput')); }
-    /** Flint payment review ID. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
+    /** Flint payment review ID. Must be a valid ID with prefix rev_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
      * @return string
      * @throws SdkError When payment_review_id is omitted; use hasPaymentReviewId() or valueOrDefault().
      */

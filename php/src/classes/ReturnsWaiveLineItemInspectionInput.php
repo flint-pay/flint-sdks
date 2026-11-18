@@ -11,13 +11,13 @@ namespace Flint;
 final class ReturnsWaiveLineItemInspectionInput extends Model {
     /** @param array{'return_id': string, 'return_line_item_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'expected_version'?: int, 'reason': string, 'reason_message'?: string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnsWaiveLineItemInspectionInput')); }
-    /** Flint return id. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+    /** Flint return id. Must be a valid ID with prefix ret_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
      * @return string
      * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
      */
     public function getReturnId(): string { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
-    /** Flint return line item id. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+    /** Flint return line item id. Must be a valid ID with prefix retli_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
      * @return string
      * @throws SdkError When return_line_item_id is omitted; use hasReturnLineItemId() or valueOrDefault().
      */

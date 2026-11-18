@@ -22,7 +22,7 @@ final class PlatformFeePayoutInput extends Model {
      */
     public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** The credit on your merchant ledger. Present once Flint observes it; linking it sends no payout event and doesn't advance version. Example: "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ".
+    /** The credit on your merchant ledger. Flint checks daily for the credit, so this field can be absent even after the payout succeeds. Linking the credit sends no payout event and doesn't advance version. Example: "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ".
      * @return string
      * @throws SdkError When balance_transaction_id is omitted; use hasBalanceTransactionId() or valueOrDefault().
      */

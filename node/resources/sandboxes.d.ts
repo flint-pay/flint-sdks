@@ -1,7 +1,7 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
 import type { CreateDeveloperSandboxResult } from '../declarations/types-9.js';
-import type { RequestOptions } from '../declarations/types-60.js';
+import type { RequestOptions } from '../declarations/types-61.js';
 import type {
     Sandbox,
     SandboxListResponse,
@@ -12,8 +12,8 @@ import type {
     SandboxesGetParams,
     SandboxesListParams,
     SandboxesResetParams
-} from '../declarations/types-65.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-67.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -38,20 +38,21 @@ export type {
     SandboxesListParams,
     SandboxListResponse,
     SandboxesResetParams
-} from '../declarations/types-65.js';
-export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-60.js';
+} from '../declarations/types-67.js';
+export type { RequestOptions } from '../declarations/types-61.js';
 export type { CreateDeveloperSandboxResult } from '../declarations/types-9.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type { CreateSandboxRequestInput } from '../declarations/types-13.js';
+export type { CreateSandboxRequestInput } from '../declarations/types-14.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { APIKey } from '../declarations/types-0.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { PartnerAppsListParams } from '../declarations/types-48.js';
-export { makeCreateSandboxRequest } from '../declarations/types-81.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
+export type { ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-62.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { PartnerAppsListParams } from '../declarations/types-50.js';
+export { makeCreateSandboxRequest } from '../declarations/types-84.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export interface SandboxesResource {
     /**
  * Creates a new empty test sandbox for the current merchant. Send `issue_test_key: true` to also
@@ -74,7 +75,9 @@ export interface SandboxesResource {
  * the background.
  *
  * `DELETE /v1/sandboxes/{sandbox_id}`
- * @param sandbox_id Flint sandbox ID.
+ * @param sandbox_id Flint sandbox ID. Must be a valid ID with prefix test_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/sandboxes#deleteSandbox
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -89,7 +92,9 @@ export interface SandboxesResource {
  * read only the sandbox it is bound to; any other `sandbox_id` gets 404 `RESOURCE_NOT_FOUND`.
  *
  * `GET /v1/sandboxes/{sandbox_id}`
- * @param sandbox_id Flint sandbox ID.
+ * @param sandbox_id Flint sandbox ID. Must be a valid ID with prefix test_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/sandboxes#getSandbox
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -144,7 +149,9 @@ export interface SandboxesResource {
  * count again. See the [sandboxes guide](/docs/guides/sandboxes#reset-a-sandbox).
  *
  * `POST /v1/sandboxes/{sandbox_id}/reset`
- * @param sandbox_id Flint sandbox ID.
+ * @param sandbox_id Flint sandbox ID. Must be a valid ID with prefix test_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/sandboxes#resetSandbox
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

@@ -1,0 +1,1 @@
+{"shared":"PaymentActivityActor","phpRepresentation":{"kind":"record","fields":{"label":{"kind":"value","type":"string"},"resource_id":{"kind":"value","type":"string"},"resource_type":{"kind":"value","type":"string"}}},"dependencies":["PaymentActivityActor","SharedCodec2070","SharedCodec2071"]}

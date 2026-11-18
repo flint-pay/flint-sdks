@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# BuyerCreateReturnPreviewRequestResolution to BuyerReturnHandoffDestination
+# BuyerCreateReturnPreviewRequestEligibility to BuyerRememberedBuyerListResponse
 
+- [BuyerCreateReturnPreviewRequestEligibility](BuyerCreateReturnPreviewRequestEligibility.md)
+- [BuyerCreateReturnPreviewRequestEligibilityInput](BuyerCreateReturnPreviewRequestEligibilityInput.md)
 - [BuyerCreateReturnPreviewRequestResolution](BuyerCreateReturnPreviewRequestResolution.md)
 - [BuyerCreateReturnPreviewRequestResolutionInput](BuyerCreateReturnPreviewRequestResolutionInput.md)
 - [BuyerCreateReturnRequest](BuyerCreateReturnRequest.md)
@@ -56,6 +58,12 @@
 - [BuyerInvoicePaymentAttempt](BuyerInvoicePaymentAttempt.md)
 - [BuyerInvoiceResponse](BuyerInvoiceResponse.md)
 - [BuyerInvoiceSnapshot](BuyerInvoiceSnapshot.md)
+- [BuyerLicenseKey](BuyerLicenseKey.md)
+- [BuyerLicenseKeyActivation](BuyerLicenseKeyActivation.md)
+- [BuyerLicenseKeyActivationListResponse](BuyerLicenseKeyActivationListResponse.md)
+- [BuyerLicenseKeyActivationResponse](BuyerLicenseKeyActivationResponse.md)
+- [BuyerLicenseKeyListResponse](BuyerLicenseKeyListResponse.md)
+- [BuyerLicenseKeyResponse](BuyerLicenseKeyResponse.md)
 - [BuyerOrder](BuyerOrder.md)
 - [BuyerOrderCharge](BuyerOrderCharge.md)
 - [BuyerOrderLineItem](BuyerOrderLineItem.md)
@@ -67,6 +75,7 @@
 - [BuyerOrderTaxExemption](BuyerOrderTaxExemption.md)
 - [BuyerOrderTaxLocation](BuyerOrderTaxLocation.md)
 - [BuyerPackage](BuyerPackage.md)
+- [BuyerPackageItem](BuyerPackageItem.md)
 - [BuyerPackageListResponse](BuyerPackageListResponse.md)
 - [BuyerPackageResponse](BuyerPackageResponse.md)
 - [BuyerPauseActionOptions](BuyerPauseActionOptions.md)
@@ -93,13 +102,4 @@
 - [BuyerRefundResponse](BuyerRefundResponse.md)
 - [BuyerRememberedBuyer](BuyerRememberedBuyer.md)
 - [BuyerRememberedBuyerListResponse](BuyerRememberedBuyerListResponse.md)
-- [BuyerRememberedBuyerResponse](BuyerRememberedBuyerResponse.md)
-- [BuyerRetentionOffer](BuyerRetentionOffer.md)
-- [BuyerRetentionOfferRequestInput](BuyerRetentionOfferRequestInput.md)
-- [BuyerRetryPaymentActionOptions](BuyerRetryPaymentActionOptions.md)
-- [BuyerReturn](BuyerReturn.md)
-- [BuyerReturnCompletionBlocker](BuyerReturnCompletionBlocker.md)
-- [BuyerReturnEligibilityPreview](BuyerReturnEligibilityPreview.md)
-- [BuyerReturnEligibilityPreviewLineItem](BuyerReturnEligibilityPreviewLineItem.md)
-- [BuyerReturnHandoffDestination](BuyerReturnHandoffDestination.md)
 

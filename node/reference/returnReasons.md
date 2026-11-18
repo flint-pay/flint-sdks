@@ -30,7 +30,7 @@ Body model: [CreateReturnReasonRequestInput](../models/CreateReturnReasonRequest
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `handle` | Required | string | Stable lower_snake_case identifier. After trimming surrounding whitespace, it must start with a lowercase letter and contain only lowercase letters, digits, and underscores, with 1 through 100 characters. minLength: `1`. |
 | `is_note_required` | Optional | boolean | Whether a Return line with this reason needs a buyer_note. Defaults to false. Default: `false`. |
-| `name` | Required | string | Display name, limited to 1 through 255 bytes after trimming surrounding whitespace. minLength: `1`. |
+| `name` | Required | string | Display name, limited to 1 through 255 bytes after trimming surrounding whitespace. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. |
 
 #### Response
 
@@ -86,7 +86,7 @@ Signature: `delete(return_reason_id: InputValue<string>, params?: ReturnReasonsD
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `return_reason_id` | Required | string | Flint return reason id. |
+| `return_reason_id` | Required | string | Flint return reason id. Must be a valid ID with prefix rrsn_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `expected_version` | Optional | integer | Optional. The reason's current version. If it changed, the archive fails with 409 VERSION_CONFLICT and nothing changes. Format: `int64`. minimum: `1`. maximum: `9007199254740991`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
@@ -144,7 +144,7 @@ Signature: `get(return_reason_id: InputValue<string>, params?: ReturnReasonsGetP
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `return_reason_id` | Required | string | Flint return reason id. |
+| `return_reason_id` | Required | string | Flint return reason id. Must be a valid ID with prefix rrsn_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -256,7 +256,7 @@ Signature: `update(return_reason_id: InputValue<string>, params: ReturnReasonsUp
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `return_reason_id` | Required | string | Flint return reason id. |
+| `return_reason_id` | Required | string | Flint return reason id. Must be a valid ID with prefix rrsn_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -273,7 +273,7 @@ Body model: [UpdateReturnReasonRequestInput](../models/UpdateReturnReasonRequest
 | `expected_version` | Optional | integer | Required when any of these fields is present: category_handles. Format: `int64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
 | `is_note_required` | Optional | boolean | Whether a Return line with this reason needs a buyer_note. |
-| `name` | Optional | string | Display name, limited to 1 through 255 bytes after trimming surrounding whitespace. minLength: `1`. |
+| `name` | Optional | string | Display name, limited to 1 through 255 bytes after trimming surrounding whitespace. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. |
 | `status` | Optional | string | Set active to offer the reason or inactive to stop offering it. To archive a merchant reason, use DELETE. Values: `"active"`, `"inactive"`. |
 
 #### Response

@@ -9,11 +9,16 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `entries` | Required | Array of Alternative shapes (see declared variants) | Timeline entries for the resource, each tagged by `entry_type`. Narrowed by `include`, `occurred_after`, and `occurred_before`. `entries[]`: [declared alternatives](../models/ResourceTimelineResponse.md#resourcetimelineresponsedataentries). |
+| `license_key_pool_attestations` | Optional | Array of [ResourceTimelinePoolAttestationEntry](../models/ResourceTimelinePoolAttestationEntry.md#resourcetimelinepoolattestationentry) | Seller authorizations on this page, present for license key pools when any confirmations match the selected filters. `license_key_pool_attestations[]`: [field definitions](../models/ResourceTimelineResponse.md#resourcetimelineresponsedatalicense_key_pool_attestations). |
 | `resource_id` | Required | string | ID of the resource this timeline is for. |
-| `resource_type` | Required | string | Type of the resource this timeline is for. Values: [154 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). |
+| `resource_type` | Required | string | Type of the resource this timeline is for. Values: [157 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). |
 | `test` | Required | boolean | `true` when the timeline is for test mode data and `false` for live data. |
 
 ### ResourceTimeline.entries[]
 
 Declared alternatives: [ResourceTimelineResponse.data.entries[]](../models/ResourceTimelineResponse.md#resourcetimelineresponsedataentries).
+
+### ResourceTimeline.license_key_pool_attestations[]
+
+Field definitions: [ResourceTimelineResponse.data.license_key_pool_attestations[]](../models/ResourceTimelineResponse.md#resourcetimelineresponsedatalicense_key_pool_attestations).
 

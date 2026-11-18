@@ -2,17 +2,17 @@ import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
 import type { CreateReturnReceiptResponse } from '../declarations/types-13.js';
 import type { GetReturnReceiptResponse } from '../declarations/types-28.js';
-import type { ListReturnReceiptsResponse } from '../declarations/types-39.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { ReturnReceipt } from '../declarations/types-62.js';
+import type { ListReturnReceiptsResponse } from '../declarations/types-40.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { ReturnReceipt } from '../declarations/types-64.js';
 import type {
     ReturnReceiptsCreateParams,
     ReturnReceiptsGetParams,
     ReturnReceiptsListParams,
     ReturnReceiptsVerifyLineItemParams
-} from '../declarations/types-63.js';
-import type { VerifyReturnReceiptLineItemResponse } from '../declarations/types-76.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-65.js';
+import type { VerifyReturnReceiptLineItemResponse } from '../declarations/types-78.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -36,9 +36,9 @@ export type {
     ReturnSourceSystemRequestInput,
     ReturnUnverifiedItem,
     ReturnSourceSystem
-} from '../declarations/types-63.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-77.js';
-export type { RequestOptions, ReturnDisposition, ReturnActor, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
+} from '../declarations/types-65.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { RequestOptions } from '../declarations/types-61.js';
 export type {
     ReturnReceipt,
     ReturnReceiptLineItemRequestInput,
@@ -46,28 +46,30 @@ export type {
     ReturnReceiptLineItemInputUnverifiedInput,
     ReturnReceiptLineItemInputExcessInput,
     ReturnReceiptLineItem
-} from '../declarations/types-62.js';
+} from '../declarations/types-64.js';
 export type { CreateReturnReceiptResponse, CreateReturnReceiptRequestInput } from '../declarations/types-13.js';
 export type { GetReturnReceiptResponse } from '../declarations/types-28.js';
-export type { ListReturnReceiptsResponse } from '../declarations/types-39.js';
-export type { VerifyReturnReceiptLineItemResponse, VerifyReturnReceiptLineItemRequestInput } from '../declarations/types-76.js';
+export type { ListReturnReceiptsResponse } from '../declarations/types-40.js';
+export type { VerifyReturnReceiptLineItemResponse, VerifyReturnReceiptLineItemRequestInput } from '../declarations/types-78.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
-export type { MetadataMap } from '../declarations/types-41.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
-export { makeCreateReturnReceiptRequest } from '../declarations/types-81.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeReturnReceiptLineItemInputExcess, makeReturnReceiptLineItemInputMatched } from '../declarations/types-88.js';
+export type { Credentials } from '../declarations/types-15.js';
+export type { ReturnDisposition, ReturnActor, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { MetadataMap } from '../declarations/types-43.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { DisputesAcceptParams } from '../declarations/types-26.js';
+export { makeCreateReturnReceiptRequest } from '../declarations/types-83.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export {
+    makeReturnReceiptLineItemInputExcess,
+    makeReturnReceiptLineItemInputMatched,
     makeReturnReceiptLineItemInputUnverified,
     makeReturnReceiptLineItemRequest,
     makeReturnSourceSystemRequest,
     makeReturnUnverifiedItem
-} from '../declarations/types-89.js';
-export { makeVerifyReturnReceiptLineItemRequest } from '../declarations/types-92.js';
+} from '../declarations/types-91.js';
+export { makeVerifyReturnReceiptLineItemRequest } from '../declarations/types-94.js';
 export interface ReturnReceiptsResource {
     /**
  * Record an immutable merchandise receipt observation. Corrections supersede an earlier receipt
@@ -92,7 +94,9 @@ export interface ReturnReceiptsResource {
  * status.
  *
  * `GET /v1/return-receipts/{return_receipt_id}`
- * @param return_receipt_id Flint return receipt id.
+ * @param return_receipt_id Flint return receipt id. Must be a valid ID with prefix retrc_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/return-receipts#getReturnReceipt
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -124,8 +128,12 @@ export interface ReturnReceiptsResource {
  * and releases no release timing gate until it is verified.
  *
  * `POST /v1/return-receipts/{return_receipt_id}/line-items/{return_receipt_line_item_id}/verify`
- * @param return_receipt_id Flint return receipt id.
- * @param return_receipt_line_item_id Flint return receipt line item id.
+ * @param return_receipt_id Flint return receipt id. Must be a valid ID with prefix retrc_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
+ * @param return_receipt_line_item_id Flint return receipt line item id. Must be a valid ID with
+ * prefix retrcli_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed
+ * IDs that do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/return-receipts#verifyReturnReceiptLineItem
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

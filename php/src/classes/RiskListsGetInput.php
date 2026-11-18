@@ -9,7 +9,7 @@ namespace Flint;
 final class RiskListsGetInput extends Model {
     /** @param array{'risk_list_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RiskListsGetInput')); }
-    /** Flint risk list ID. Example: "rl_01KEZF7C00VYSERA4QCTJP147A".
+    /** Flint risk list ID. Must be a valid ID with prefix rl_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "rl_01KEZF7C00VYSERA4QCTJP147A".
      * @return string
      * @throws SdkError When risk_list_id is omitted; use hasRiskListId() or valueOrDefault().
      */

@@ -4,7 +4,7 @@
 
 ### disputes.accept
 
-Accepts a chargeback: you won't contest it, and the disputed amount stays with the buyer. The dispute becomes `lost`, and Flint sends `dispute.lost`. You can accept while `status` is `needs_response` and `is_action_required` is `true`. An inquiry can't be accepted; refund the payment or respond with evidence instead. Accepting can't be undone. Requires `payments.disputes.write`. Send no body or `{}`. If you don't receive a response, retry with the same idempotency key, or read the dispute: `status: lost` means it was accepted.
+Accepts a chargeback: you won't contest it, and the disputed amount stays with the buyer. The dispute becomes `lost`, and Flint sends `dispute.lost`. You can accept while `status` is `needs_response` and `is_action_required` is `true`. An inquiry can't be accepted; refund the payment or respond with evidence instead. Accepting can't be undone. Requires `payments.disputes.write`. Send no body or `{}`. If you don't receive a response, retry with the same idempotency key, or read the dispute. A `closed_reason` of `merchant_accepted` confirms acceptance.
 
 `POST /v1/disputes/{dispute_id}/accept`
 
@@ -14,7 +14,7 @@ Signature: `accept(string|Model $dispute_id, array|Model|null $params = null, ?R
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `dispute_id` | Required | string | Flint dispute ID. |
+| `dispute_id` | Required | string | Flint dispute ID. Must be a valid ID with prefix du_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -124,7 +124,7 @@ Signature: `get(string|Model $dispute_id, array|Model|null $params = null, ?Requ
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `dispute_id` | Required | string | Flint dispute ID. |
+| `dispute_id` | Required | string | Flint dispute ID. Must be a valid ID with prefix du_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: customer, order, payment_intent. Expansion requires payments.disputes.read plus the read scope for each expanded resource. Limits: at most 10 unique expand paths per request. Items values: `"customer"`, `"order"`, `"payment_intent"`. Values: `"customer"`, `"order"`, `"payment_intent"`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
@@ -248,7 +248,7 @@ Signature: `simulate(string|Model $dispute_id, array|Model $params, ?RequestOpti
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `dispute_id` | Required | string | Flint dispute ID. |
+| `dispute_id` | Required | string | Flint dispute ID. Must be a valid ID with prefix du_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |

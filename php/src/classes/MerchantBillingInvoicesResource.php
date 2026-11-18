@@ -4,7 +4,7 @@ namespace Flint;
 final class MerchantBillingInvoicesResource {
     public function __construct(private readonly Runtime $runtime) {}
     /** Returns one invoice issued by Flint for the authenticated merchant environment.
-     * @param string|Model $merchant_billing_invoice_id Flint merchant billing invoice ID.
+     * @param string|Model $merchant_billing_invoice_id Flint merchant billing invoice ID. Must be a valid ID with prefix msinv_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND.
      * @param MerchantBillingInvoicesGetParams|array<array-key, mixed>|Model|null $params Flat body fields and query/header parameters; path arguments follow URL order.
      * @return MerchantBillingInvoice
      */

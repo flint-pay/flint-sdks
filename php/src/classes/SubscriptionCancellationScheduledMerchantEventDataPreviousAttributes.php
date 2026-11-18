@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read int|null $billing_anchor_day
+ * @property-read SubscriptionBillingHoldPreviousAttributes|null $billing_hold
  * @property-read string|null $billing_interval
  * @property-read int|null $billing_interval_count
  * @property-read list<SubscriptionIntervalOptionPreviousAttributes>|null $billing_interval_options
@@ -44,6 +45,7 @@ namespace Flint;
  * @property-read MoneyValuePreviousAttributes|null $outstanding_money
  * @property-read string|null $pause_reason
  * @property-read string|null $paused_at
+ * @property-read SubscriptionPausedDeliveryHoldPreviousAttributes|null $paused_delivery_hold
  * @property-read ExpandedPaymentMethodSummaryPreviousAttributes|null $payment_method
  * @property-read string|null $payment_method_due_at
  * @property-read string|null $payment_method_id
@@ -73,13 +75,18 @@ namespace Flint;
  * @property-read int|null $version
  * Presence-aware response; omitted optional fields return null. */
 final class SubscriptionCancellationScheduledMerchantEventDataPreviousAttributes extends Model {
-    /** @param array{'billing_anchor_day'?: mixed, 'billing_interval'?: mixed, 'billing_interval_count'?: mixed, 'billing_interval_options'?: mixed, 'billing_schedule_owner'?: mixed, 'billing_schedule_waiting_started_at'?: mixed, 'cancel_at_period_end'?: mixed, 'canceled_at'?: mixed, 'cancellation_details'?: mixed, 'cancellation_reason'?: mixed, 'completed_cycles'?: mixed, 'contract_end_at'?: mixed, 'contract_start_at'?: mixed, 'created_at'?: mixed, 'current_period_end_at'?: mixed, 'current_period_start_at'?: mixed, 'customer'?: mixed, 'customer_id'?: mixed, 'deliveries_per_period'?: mixed, 'delivery'?: mixed, 'delivery_hold'?: mixed, 'delivery_interval'?: mixed, 'delivery_interval_count'?: mixed, 'early_termination_fee_money'?: mixed, 'end_after'?: mixed, 'expires_at'?: mixed, 'external_reference_id'?: mixed, 'gift_recipient'?: mixed, 'inventory_wait'?: mixed, 'is_awaiting_billing_schedule'?: mixed, 'last_payment_error'?: mixed, 'line_items'?: mixed, 'merchant_id'?: mixed, 'metadata'?: mixed, 'missed_billing_at'?: mixed, 'next_billing_at'?: mixed, 'next_delivery_at'?: mixed, 'next_retry_at'?: mixed, 'open_renewal_order_id'?: mixed, 'outstanding_money'?: mixed, 'pause_reason'?: mixed, 'paused_at'?: mixed, 'payment_method'?: mixed, 'payment_method_due_at'?: mixed, 'payment_method_id'?: mixed, 'promotions'?: mixed, 'prorate_first_period'?: mixed, 'recurring_subtotal_money'?: mixed, 'remaining_cycles'?: mixed, 'remaining_prepaid_deliveries'?: mixed, 'resume_requested_at'?: mixed, 'scheduled_cancel_at'?: mixed, 'scheduled_plan_change'?: mixed, 'scheduled_promotions'?: mixed, 'scheduled_resume_at'?: mixed, 'service_location'?: mixed, 'starts_at'?: mixed, 'status'?: mixed, 'subscription_id'?: mixed, 'subscription_plan'?: mixed, 'subscription_plan_id'?: mixed, 'supported_actions'?: mixed, 'tax'?: mixed, 'terms_type'?: mixed, 'test_clock_id'?: mixed, 'trial_end_at'?: mixed, 'upcoming_delivery_hold'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, ...}|object $values */
+    /** @param array{'billing_anchor_day'?: mixed, 'billing_hold'?: mixed, 'billing_interval'?: mixed, 'billing_interval_count'?: mixed, 'billing_interval_options'?: mixed, 'billing_schedule_owner'?: mixed, 'billing_schedule_waiting_started_at'?: mixed, 'cancel_at_period_end'?: mixed, 'canceled_at'?: mixed, 'cancellation_details'?: mixed, 'cancellation_reason'?: mixed, 'completed_cycles'?: mixed, 'contract_end_at'?: mixed, 'contract_start_at'?: mixed, 'created_at'?: mixed, 'current_period_end_at'?: mixed, 'current_period_start_at'?: mixed, 'customer'?: mixed, 'customer_id'?: mixed, 'deliveries_per_period'?: mixed, 'delivery'?: mixed, 'delivery_hold'?: mixed, 'delivery_interval'?: mixed, 'delivery_interval_count'?: mixed, 'early_termination_fee_money'?: mixed, 'end_after'?: mixed, 'expires_at'?: mixed, 'external_reference_id'?: mixed, 'gift_recipient'?: mixed, 'inventory_wait'?: mixed, 'is_awaiting_billing_schedule'?: mixed, 'last_payment_error'?: mixed, 'line_items'?: mixed, 'merchant_id'?: mixed, 'metadata'?: mixed, 'missed_billing_at'?: mixed, 'next_billing_at'?: mixed, 'next_delivery_at'?: mixed, 'next_retry_at'?: mixed, 'open_renewal_order_id'?: mixed, 'outstanding_money'?: mixed, 'pause_reason'?: mixed, 'paused_at'?: mixed, 'paused_delivery_hold'?: mixed, 'payment_method'?: mixed, 'payment_method_due_at'?: mixed, 'payment_method_id'?: mixed, 'promotions'?: mixed, 'prorate_first_period'?: mixed, 'recurring_subtotal_money'?: mixed, 'remaining_cycles'?: mixed, 'remaining_prepaid_deliveries'?: mixed, 'resume_requested_at'?: mixed, 'scheduled_cancel_at'?: mixed, 'scheduled_plan_change'?: mixed, 'scheduled_promotions'?: mixed, 'scheduled_resume_at'?: mixed, 'service_location'?: mixed, 'starts_at'?: mixed, 'status'?: mixed, 'subscription_id'?: mixed, 'subscription_plan'?: mixed, 'subscription_plan_id'?: mixed, 'supported_actions'?: mixed, 'tax'?: mixed, 'terms_type'?: mixed, 'test_clock_id'?: mixed, 'trial_end_at'?: mixed, 'upcoming_delivery_hold'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionCancellationScheduledMerchantEventDataPreviousAttributes')); }
     /** UTC day of the month used for monthly and yearly billing. Applies only to Flint-owned schedules. anyOf[1] (Value): integer. UTC day of the month used for monthly and yearly billing. Applies only to Flint-owned schedules. Format: int32. minimum: 1. maximum: 31. anyOf[2] (Value): null.
      * @return int|null
      */
     public function getBillingAnchorDay(): int|null { return $this->get('billing_anchor_day'); }
     public function hasBillingAnchorDay(): bool { return $this->has('billing_anchor_day'); }
+    /** Configuration issue blocking billing, with the first detection time. Flint retries automatically without starting card dunning. Cleared when billing succeeds, the schedule is replaced, the subscription is paused or canceled, or a card decline starts payment recovery. Included only in merchant responses. anyOf[1] (Value): {@see SubscriptionBillingHoldPreviousAttributes}. anyOf[2] (Value): null.
+     * @return SubscriptionBillingHoldPreviousAttributes|null
+     */
+    public function getBillingHold(): SubscriptionBillingHoldPreviousAttributes|null { return $this->get('billing_hold'); }
+    public function hasBillingHold(): bool { return $this->has('billing_hold'); }
     /** How often the subscription bills now. Read with billing_interval_count: monthly with a count of 3 bills quarterly. A change applies from the next renewal that has not been paid; next_billing_at does not move. Value enum: "daily", "weekly", "monthly", "yearly". anyOf[1] (Value): string. How often the subscription bills now. Read with billing_interval_count: monthly with a count of 3 bills quarterly. A change applies from the next renewal that has not been paid; next_billing_at does not move. Value enum: "daily", "weekly", "monthly", "yearly". anyOf[2] (Value): null.
      * @return string|null
      */
@@ -285,6 +292,11 @@ final class SubscriptionCancellationScheduledMerchantEventDataPreviousAttributes
      */
     public function getPausedAt(): string|null { return $this->get('paused_at'); }
     public function hasPausedAt(): bool { return $this->has('paused_at'); }
+    /** The delivery hold that expired and paused the subscription. Null when no stored expiry reason exists, including a manual pause during an active hold, or the subscription is no longer paused for delivery action. anyOf[1] (Value): {@see SubscriptionPausedDeliveryHoldPreviousAttributes}. anyOf[2] (Value): null.
+     * @return SubscriptionPausedDeliveryHoldPreviousAttributes|null
+     */
+    public function getPausedDeliveryHold(): SubscriptionPausedDeliveryHoldPreviousAttributes|null { return $this->get('paused_delivery_hold'); }
+    public function hasPausedDeliveryHold(): bool { return $this->has('paused_delivery_hold'); }
     /** Present only when `expand` includes `payment_method`; `null` when expanded and there is no related payment method. anyOf[1] (Value): {@see ExpandedPaymentMethodSummaryPreviousAttributes}. anyOf[2] (Value): null.
      * @return ExpandedPaymentMethodSummaryPreviousAttributes|null
      */

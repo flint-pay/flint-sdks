@@ -27,6 +27,7 @@ The resource snapshot, without expansions. Webhooks omit these fields: `note`.
 | `refund_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Money to refund after the removed value and released charges pay for added lines. May be zero; an edit with no refund money creates no refund. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `refund_money`: [field definitions](../models/OrderEdit.md#ordereditrefund_money). |
 | `remove_line_items` | Required | Array of [OrderEditLineRemoval](../models/OrderEditLineRemoval.md#ordereditlineremoval) | Removed units and their refund amounts frozen at creation. |
 | `removed_total_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The value of the removed units: the sum of remove_line_items[].total_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `removed_total_money`: [field definitions](../models/OrderEdit.md#ordereditremoved_total_money). |
+| `small_balance_adjustment_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Signed noncash adjustment: positive for an edit balance below the payment minimum, negative when removing previously absorbed value. Included in settlement_amounts.written_off_money, never paid or refundable. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. `small_balance_adjustment_money`: [field definitions](../models/OrderEdit.md#ordereditsmall_balance_adjustment_money). |
 | `status` | Required | string | Pending while waiting for a balance payment, completed once the item changes are applied, or canceled when it ends without changing the order. Refund processing has its own status on each refund. Values: `"pending"`, `"completed"`, `"canceled"`. |
 | `supported_actions` | Required | Array of string | Contains cancel while pending and the payment is neither processing nor succeeded. Contains retry when unrefunded_money is positive and no linked refund is pending. Empty while Flint is still processing the original refund before any linked refund exists; retry becomes available if that processing ends without a refund. Independent of caller permissions. Items values: `"cancel"`, `"retry"`. |
 | `unrefunded_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Frozen refund money not covered by pending or succeeded allocations from refunds linked to this edit. Failed allocations do not reduce it. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `unrefunded_money`: [field definitions](../models/OrderEdit.md#ordereditunrefunded_money). |
@@ -47,6 +48,10 @@ Field definitions: [OrderEdit.refund_money](../models/OrderEdit.md#ordereditrefu
 ### WebhookOrderEdit.removed_total_money
 
 Field definitions: [OrderEdit.removed_total_money](../models/OrderEdit.md#ordereditremoved_total_money).
+
+### WebhookOrderEdit.small_balance_adjustment_money
+
+Field definitions: [OrderEdit.small_balance_adjustment_money](../models/OrderEdit.md#ordereditsmall_balance_adjustment_money).
 
 ### WebhookOrderEdit.unrefunded_money
 

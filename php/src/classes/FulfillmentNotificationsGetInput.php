@@ -10,7 +10,7 @@ namespace Flint;
 final class FulfillmentNotificationsGetInput extends Model {
     /** @param array{'fulfillment_notification_id': string, 'expand'?: list<string>|string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FulfillmentNotificationsGetInput')); }
-    /** Flint fulfillment notification ID. Example: "fnt_01KEZF7C00QD91RXQH2E7H9K5E".
+    /** Flint fulfillment notification ID. Must be a valid ID with prefix fnt_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "fnt_01KEZF7C00QD91RXQH2E7H9K5E".
      * @return string
      * @throws SdkError When fulfillment_notification_id is omitted; use hasFulfillmentNotificationId() or valueOrDefault().
      */

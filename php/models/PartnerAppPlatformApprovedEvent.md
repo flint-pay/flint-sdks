@@ -331,7 +331,7 @@ Field definitions: [EnvironmentGrantRevokedEvent.data fields 1.previous_attribut
 
 ### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.platform_profile
 
-What the app told Flint for its platform review. Absent until set.
+What the app told Flint for its platform review. Absent until set. support_email, website_url and support_phone are shown to merchants on the consent screen and install resource.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
@@ -355,7 +355,7 @@ anyOf PartnerAppPlatformProfilePreviousAttributes.
 anyOf variant 2.
 
 - Undeclared: `estimated_merchant_count`, `estimated_monthly_volume_money`, `merchant_description`, `merchant_onboarding_description`, `product_description`, `support_email`, `support_phone`, `website_url`.
-- Value shape: null. What the app told Flint for its platform review. Absent until set. 
+- Value shape: null. What the app told Flint for its platform review. Absent until set. support_email, website_url and support_phone are shown to merchants on the consent screen and install resource. 
 
 ### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.platform_profile variant 1.estimated_merchant_count
 

@@ -6,7 +6,9 @@ import type {
     PackageItemListResponse,
     PackageItemResponse,
     PackageListResponse,
-    PackageResponse,
+    PackageResponse
+} from '../declarations/types-48.js';
+import type {
     PackagesCreateItemParams,
     PackagesCreateParams,
     PackagesDeleteItemParams,
@@ -25,9 +27,9 @@ import type {
     PackagesUpdateItemParams,
     PackagesUpdateParams,
     PackagesVoidParams
-} from '../declarations/types-47.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-49.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -44,18 +46,12 @@ export type {
 } from '../runtime.js';
 export type {
     PackagesCreateParams,
-    Package,
-    PackageResponse,
     PackagesCreateItemParams,
-    PackageItem,
-    PackageItemResponse,
     PackagesDeleteItemParams,
     PackagesGetParams,
     PackagesGetItemParams,
     PackagesListPackageItemsParams,
-    PackageItemListResponse,
     PackagesListParams,
-    PackageListResponse,
     PackagesMarkDeliveredParams,
     PackagesMarkDeliveryAttemptedParams,
     PackagesMarkExceptionParams,
@@ -67,42 +63,61 @@ export type {
     PackagesUpdateParams,
     PackagesUpdateItemParams,
     PackagesVoidParams
-} from '../declarations/types-47.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type { _SdkWithoutIdempotency, WeightRequestInput, Weight } from '../declarations/types-77.js';
+} from '../declarations/types-49.js';
+export type { RequestOptions } from '../declarations/types-61.js';
+export type {
+    Package,
+    PackageResponse,
+    PackageItem,
+    PackageItemResponse,
+    PackageItemListResponse,
+    PackageListResponse
+} from '../declarations/types-48.js';
+export type { _SdkWithoutIdempotency, WeightRequestInput, Weight } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type { CreatePackageRequestInput, CreatePackageRequestCreatedInput, CreatePackageRequestShippedInput } from '../declarations/types-12.js';
+export type {
+    CreatePackageRequestInput,
+    CreatePackageItemRequestInput,
+    CreatePackageRequestCreatedInput,
+    CreatePackageRequestShippedInput
+} from '../declarations/types-12.js';
 export type { DimensionsRequestInput, Dimensions } from '../declarations/types-25.js';
-export type { CreatePackageItemRequestInput } from '../declarations/types-11.js';
-export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-41.js';
-export type { ReturnShipmentLineItemAllocationRequestInput } from '../declarations/types-63.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
+export type { ReturnShipmentLineItemAllocationRequestInput } from '../declarations/types-65.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { ExpandedOrderSummary } from '../declarations/types-26.js';
-export type { CheckoutBuyerContact } from '../declarations/types-5.js';
+export type { CheckoutBuyerContact } from '../declarations/types-6.js';
 export type { DeferredPromotion } from '../declarations/types-17.js';
-export type { PricingAmounts } from '../declarations/types-55.js';
-export type { MoneyValue, NextAction } from '../declarations/types-42.js';
-export type { OrderSettlementAmounts } from '../declarations/types-45.js';
-export type { SettlementAmounts } from '../declarations/types-65.js';
-export type { ReturnHandoffRequirementLineItem } from '../declarations/types-61.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
+export type { PricingAmounts } from '../declarations/types-56.js';
+export type { MoneyValue, NextAction } from '../declarations/types-44.js';
+export type { OrderSettlementAmounts } from '../declarations/types-47.js';
+export type { SettlementAmounts } from '../declarations/types-68.js';
+export type { ReturnHandoffRequirementLineItem } from '../declarations/types-63.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type {
     MarkPackageDeliveredRequestInput,
     MarkPackageDeliveryAttemptedRequestInput,
-    MarkPackageExceptionRequestInput,
+    MarkPackageExceptionRequestInput
+} from '../declarations/types-40.js';
+export type {
     MarkPackageInTransitRequestInput,
     MarkPackageOutForDeliveryRequestInput,
     MarkPackagePackedRequestInput,
     MarkPackageReturnedRequestInput,
     MarkPackageShippedRequestInput
-} from '../declarations/types-39.js';
-export type { UpdatePackageRequestInput, UpdatePackageItemRequestInput } from '../declarations/types-74.js';
-export type { VoidPackageRequestInput } from '../declarations/types-76.js';
+} from '../declarations/types-41.js';
+export type { UpdatePackageRequestInput, UpdatePackageItemRequestInput } from '../declarations/types-76.js';
+export type { VoidPackageRequestInput } from '../declarations/types-78.js';
 export type { FulfillmentEventsGetParams } from '../declarations/types-27.js';
-export { makeCreatePackageItemRequest } from '../declarations/types-80.js';
-export { makeCreatePackageRequest, makeCreatePackageRequestCreated, makeCreatePackageRequestShipped } from '../declarations/types-81.js';
-export { makeDimensionsRequest } from '../declarations/types-83.js';
+export {
+    makeCreatePackageItemRequest,
+    makeCreatePackageRequest,
+    makeCreatePackageRequestCreated,
+    makeCreatePackageRequestShipped
+} from '../declarations/types-83.js';
+export { makeDimensionsRequest } from '../declarations/types-86.js';
 export {
     makeMarkPackageDeliveredRequest,
     makeMarkPackageDeliveryAttemptedRequest,
@@ -113,20 +128,20 @@ export {
     makeMarkPackageReturnedRequest,
     makeMarkPackageShippedRequest,
     makeMetadataPatchRequest,
-    makeMetadataRequest
-} from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeReturnShipmentLineItemAllocationRequest } from '../declarations/types-89.js';
-export { makeUpdatePackageItemRequest, makeUpdatePackageRequest } from '../declarations/types-91.js';
-export { makeVoidPackageRequest, makeWeightRequest } from '../declarations/types-92.js';
+    makeMetadataRequest,
+    makeMoneyValue
+} from '../declarations/types-88.js';
+export { makeReturnShipmentLineItemAllocationRequest } from '../declarations/types-91.js';
+export { makeUpdatePackageItemRequest, makeUpdatePackageRequest } from '../declarations/types-93.js';
+export { makeVoidPackageRequest, makeWeightRequest } from '../declarations/types-94.js';
 export interface PackagesResource {
     /**
- * Creates a package record under a shipment. Change package status through its lifecycle action
- * routes, such as `client.packages.markShipped`; this endpoint records package-level carrier,
- * tracking, label, measurement, and external correlation fields. Read timeline events with
- * `client.fulfillmentEvents.list` filtered by package_id, shipment_id, or fulfillment_id, and
- * notifications with `client.fulfillmentNotifications.list` filtered by fulfillment_event_id or
- * fulfillment_id.
+ * Creates a package record under a shipment. An outbound package created with status shipped
+ * requires at least one item. If items is omitted, the API returns 400 INVALID_REQUEST with detail
+ * REQUIRED at items. Change package status after creation through its lifecycle action routes.
+ * Read timeline events with `client.fulfillmentEvents.list` filtered by package_id, shipment_id,
+ * or fulfillment_id, and notifications with `client.fulfillmentNotifications.list` filtered by
+ * fulfillment_event_id or fulfillment_id.
  *
  * `POST /v1/packages`
  * @see https://developers.withflintpay.com/docs/api/fulfillment#createPackage
@@ -136,7 +151,8 @@ export interface PackagesResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.packages.create({carrier: "ups", dimensions: {height: 4, length: 8, unit: "inch", width:
  * 6}, expected_delivery_at: "2026-05-15T18:00:00Z", external_reference_id: "pkg_789",
- * external_system: "merchant_wms", metadata: {box: "small"}, service_code: "ground", shipment_id:
+ * external_system: "merchant_wms", items: [{order_line_item_id: "li_01KEZF7C0003GP5Y88KW1687AP",
+ * quantity: 1}], metadata: {box: "small"}, service_code: "ground", shipment_id:
  * "shp_01KEZF7C006DZPA7FGH42HTBY8", status: "shipped", tracking_number: "1Z999AA10123456784",
  * tracking_url: "https://track.example.com/1Z999AA10123456784", weight: {unit: "pound", value:
  * 1.2}}, { idempotencyKey: idempotencyKey })
@@ -147,7 +163,9 @@ export interface PackagesResource {
  * parent fulfillment line-item quantity.
  *
  * `POST /v1/packages/{package_id}/items`
- * @param package_id Flint package ID.
+ * @param package_id Flint package ID. Must be a valid ID with prefix pkg_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/fulfillment#createPackageItem
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -162,8 +180,12 @@ export interface PackagesResource {
  * Removes an order line quantity from a package while the package is still mutable.
  *
  * `DELETE /v1/packages/{package_id}/items/{package_item_id}`
- * @param package_id Flint package ID.
- * @param package_item_id Flint package item ID.
+ * @param package_id Flint package ID. Must be a valid ID with prefix pkg_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
+ * @param package_item_id Flint package item ID. Must be a valid ID with prefix pki_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/fulfillment#deletePackageItem
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -177,7 +199,9 @@ export interface PackagesResource {
  * Retrieves one package by ID.
  *
  * `GET /v1/packages/{package_id}`
- * @param package_id Flint package ID.
+ * @param package_id Flint package ID. Must be a valid ID with prefix pkg_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/fulfillment#getPackage
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -188,8 +212,12 @@ export interface PackagesResource {
  * Retrieves one package item by ID.
  *
  * `GET /v1/packages/{package_id}/items/{package_item_id}`
- * @param package_id Flint package ID.
- * @param package_item_id Flint package item ID.
+ * @param package_id Flint package ID. Must be a valid ID with prefix pkg_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
+ * @param package_item_id Flint package item ID. Must be a valid ID with prefix pki_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/fulfillment#getPackageItem
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -201,7 +229,9 @@ export interface PackagesResource {
  * package_item_id descending.
  *
  * `GET /v1/packages/{package_id}/items`
- * @param package_id Flint package ID.
+ * @param package_id Flint package ID. Must be a valid ID with prefix pkg_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/fulfillment#listPackageItems
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -242,12 +272,16 @@ export interface PackagesResource {
  * invalid. Other actions reject tracking fields. mark_shipped, mark_in_transit, and
  * mark_out_for_delivery optionally set expected_delivery_at; send null to clear it. Delivery
  * preserves the estimate as history. expected_version is optional and rejects a stale resource
- * version when supplied. Read timeline events with `client.fulfillmentEvents.list` filtered by
+ * version when supplied. Recording carrier progress on a created or packed package requires
+ * contents. An empty package returns 409 ACTION_NOT_ALLOWED with reason package_empty. Add an item
+ * before retrying. Read timeline events with `client.fulfillmentEvents.list` filtered by
  * package_id, shipment_id, or fulfillment_id, and notifications with
  * `client.fulfillmentNotifications.list` filtered by fulfillment_event_id or fulfillment_id.
  *
  * `POST /v1/packages/{package_id}/mark-delivered`
- * @param package_id Flint package ID.
+ * @param package_id Flint package ID. Must be a valid ID with prefix pkg_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/fulfillment#markPackageDelivered
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -264,12 +298,16 @@ export interface PackagesResource {
  * invalid. Other actions reject tracking fields. mark_shipped, mark_in_transit, and
  * mark_out_for_delivery optionally set expected_delivery_at; send null to clear it. Delivery
  * preserves the estimate as history. expected_version is optional and rejects a stale resource
- * version when supplied. Read timeline events with `client.fulfillmentEvents.list` filtered by
+ * version when supplied. Recording carrier progress on a created or packed package requires
+ * contents. An empty package returns 409 ACTION_NOT_ALLOWED with reason package_empty. Add an item
+ * before retrying. Read timeline events with `client.fulfillmentEvents.list` filtered by
  * package_id, shipment_id, or fulfillment_id, and notifications with
  * `client.fulfillmentNotifications.list` filtered by fulfillment_event_id or fulfillment_id.
  *
  * `POST /v1/packages/{package_id}/mark-delivery-attempted`
- * @param package_id Flint package ID.
+ * @param package_id Flint package ID. Must be a valid ID with prefix pkg_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/fulfillment#markPackageDeliveryAttempted
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -286,12 +324,16 @@ export interface PackagesResource {
  * invalid. Other actions reject tracking fields. mark_shipped, mark_in_transit, and
  * mark_out_for_delivery optionally set expected_delivery_at; send null to clear it. Delivery
  * preserves the estimate as history. expected_version is optional and rejects a stale resource
- * version when supplied. Read timeline events with `client.fulfillmentEvents.list` filtered by
+ * version when supplied. Recording carrier progress on a created or packed package requires
+ * contents. An empty package returns 409 ACTION_NOT_ALLOWED with reason package_empty. Add an item
+ * before retrying. Read timeline events with `client.fulfillmentEvents.list` filtered by
  * package_id, shipment_id, or fulfillment_id, and notifications with
  * `client.fulfillmentNotifications.list` filtered by fulfillment_event_id or fulfillment_id.
  *
  * `POST /v1/packages/{package_id}/mark-exception`
- * @param package_id Flint package ID.
+ * @param package_id Flint package ID. Must be a valid ID with prefix pkg_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/fulfillment#markPackageException
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -308,16 +350,20 @@ export interface PackagesResource {
  * invalid. Other actions reject tracking fields. mark_shipped, mark_in_transit, and
  * mark_out_for_delivery optionally set expected_delivery_at; send null to clear it. Delivery
  * preserves the estimate as history. expected_version is optional and rejects a stale resource
- * version when supplied. Reroutes from out_for_delivery or delivery_attempted require occurred_at
- * at or after the package's latest recorded status time. An older scan is refused before any write
- * with 409 ACTION_NOT_ALLOWED, reason out_of_order, param occurred_at, current_status, and
+ * version when supplied. Recording carrier progress on a created or packed package requires
+ * contents. An empty package returns 409 ACTION_NOT_ALLOWED with reason package_empty. Add an item
+ * before retrying. Reroutes from out_for_delivery or delivery_attempted require occurred_at at or
+ * after the package's latest recorded status time. An older scan is refused before any write with
+ * 409 ACTION_NOT_ALLOWED, reason out_of_order, param occurred_at, current_status, and
  * latest_status_occurred_at. Discard it or send an occurred_at at or after that time; equal
  * timestamps are accepted. Read timeline events with `client.fulfillmentEvents.list` filtered by
  * package_id, shipment_id, or fulfillment_id, and notifications with
  * `client.fulfillmentNotifications.list` filtered by fulfillment_event_id or fulfillment_id.
  *
  * `POST /v1/packages/{package_id}/mark-in-transit`
- * @param package_id Flint package ID.
+ * @param package_id Flint package ID. Must be a valid ID with prefix pkg_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/fulfillment#markPackageInTransit
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -334,12 +380,16 @@ export interface PackagesResource {
  * invalid. Other actions reject tracking fields. mark_shipped, mark_in_transit, and
  * mark_out_for_delivery optionally set expected_delivery_at; send null to clear it. Delivery
  * preserves the estimate as history. expected_version is optional and rejects a stale resource
- * version when supplied. Read timeline events with `client.fulfillmentEvents.list` filtered by
+ * version when supplied. Recording carrier progress on a created or packed package requires
+ * contents. An empty package returns 409 ACTION_NOT_ALLOWED with reason package_empty. Add an item
+ * before retrying. Read timeline events with `client.fulfillmentEvents.list` filtered by
  * package_id, shipment_id, or fulfillment_id, and notifications with
  * `client.fulfillmentNotifications.list` filtered by fulfillment_event_id or fulfillment_id.
  *
  * `POST /v1/packages/{package_id}/mark-out-for-delivery`
- * @param package_id Flint package ID.
+ * @param package_id Flint package ID. Must be a valid ID with prefix pkg_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/fulfillment#markPackageOutForDelivery
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -361,7 +411,9 @@ export interface PackagesResource {
  * `client.fulfillmentNotifications.list` filtered by fulfillment_event_id or fulfillment_id.
  *
  * `POST /v1/packages/{package_id}/mark-packed`
- * @param package_id Flint package ID.
+ * @param package_id Flint package ID. Must be a valid ID with prefix pkg_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/fulfillment#markPackagePacked
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -383,7 +435,9 @@ export interface PackagesResource {
  * `client.fulfillmentNotifications.list` filtered by fulfillment_event_id or fulfillment_id.
  *
  * `POST /v1/packages/{package_id}/mark-returned`
- * @param package_id Flint package ID.
+ * @param package_id Flint package ID. Must be a valid ID with prefix pkg_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/fulfillment#markPackageReturned
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -400,12 +454,16 @@ export interface PackagesResource {
  * invalid. Other actions reject tracking fields. mark_shipped, mark_in_transit, and
  * mark_out_for_delivery optionally set expected_delivery_at; send null to clear it. Delivery
  * preserves the estimate as history. expected_version is optional and rejects a stale resource
- * version when supplied. Read timeline events with `client.fulfillmentEvents.list` filtered by
+ * version when supplied. Recording carrier progress on a created or packed package requires
+ * contents. An empty package returns 409 ACTION_NOT_ALLOWED with reason package_empty. Add an item
+ * before retrying. Read timeline events with `client.fulfillmentEvents.list` filtered by
  * package_id, shipment_id, or fulfillment_id, and notifications with
  * `client.fulfillmentNotifications.list` filtered by fulfillment_event_id or fulfillment_id.
  *
  * `POST /v1/packages/{package_id}/mark-shipped`
- * @param package_id Flint package ID.
+ * @param package_id Flint package ID. Must be a valid ID with prefix pkg_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/fulfillment#markPackageShipped
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -426,7 +484,9 @@ export interface PackagesResource {
  * fulfillment_id.
  *
  * `PATCH /v1/packages/{package_id}`
- * @param package_id Flint package ID.
+ * @param package_id Flint package ID. Must be a valid ID with prefix pkg_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/fulfillment#updatePackage
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -440,8 +500,12 @@ export interface PackagesResource {
  * Updates a package item quantity or metadata while the package is still mutable.
  *
  * `PATCH /v1/packages/{package_id}/items/{package_item_id}`
- * @param package_id Flint package ID.
- * @param package_item_id Flint package item ID.
+ * @param package_id Flint package ID. Must be a valid ID with prefix pkg_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
+ * @param package_item_id Flint package item ID. Must be a valid ID with prefix pki_. Malformed IDs
+ * return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return
+ * 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/fulfillment#updatePackageItem
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -460,7 +524,9 @@ export interface PackagesResource {
  * fulfillment_id.
  *
  * `POST /v1/packages/{package_id}/void`
- * @param package_id Flint package ID.
+ * @param package_id Flint package ID. Must be a valid ID with prefix pkg_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/fulfillment#voidPackage
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

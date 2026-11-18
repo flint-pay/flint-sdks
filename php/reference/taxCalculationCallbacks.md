@@ -14,7 +14,7 @@ Signature: `checkConnection(string|Model $tax_calculation_callback_id, array|Mod
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `tax_calculation_callback_id` | Required | string | Tax calculation callback ID. |
+| `tax_calculation_callback_id` | Required | string | Tax calculation callback ID. Must be a valid ID with prefix tcb_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 
@@ -79,7 +79,7 @@ Body model: [CreateTaxCalculationCallbackRequestInput](../models/CreateTaxCalcul
 | --- | --- | --- | --- |
 | `configuration` | Required | [TaxCalculationCallbackConfigurationRequestInput](../models/TaxCalculationCallbackConfigurationInput.md#taxcalculationcallbackconfigurationinput) | The endpoint URL and request limits. Only `url` is required. Settings for a tax calculation callback: the endpoint `url` Flint calls, request timeout, request and response size limits, and redirect policy. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
-| `name` | Required | string | Your label for the callback, from 1 to 255 characters. minLength: `1`. maxLength: `255`. |
+| `name` | Required | string | Your label for the callback, from 1 to 255 characters. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `255`. |
 | `signing_methods` | Optional | Array of [WebhookSigningMethodInput](../models/WebhookSigningMethodInput.md#webhooksigningmethodinput) | How Flint signs requests to your endpoint: `jwt` for a bearer JWT you verify with Flint's public keys, `hmac` for a shared secret, or both. Defaults to `jwt`. minItems: `1`. uniqueItems: `true`. Default: `["jwt"]`. Items values: `"jwt"`, `"hmac"`. |
 
 #### Response
@@ -139,9 +139,7 @@ Signature: `createTestDelivery(string|Model $tax_calculation_callback_id, array|
 
 #### Request fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `tax_calculation_callback_id` | Required | string | Tax calculation callback ID. |
+Field definitions: [shared fields](#request-fields).
 
 #### Response
 
@@ -196,7 +194,7 @@ Signature: `delete(string|Model $tax_calculation_callback_id, array|Model|null $
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `tax_calculation_callback_id` | Required | string | Tax calculation callback ID. |
+| `tax_calculation_callback_id` | Required | string | Tax calculation callback ID. Must be a valid ID with prefix tcb_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `expected_version` | Optional | integer | Current callback version. Format: `uint64`. minimum: `1`. maximum: `9007199254740991`. |
 
 #### Response
@@ -249,9 +247,7 @@ Signature: `get(string|Model $tax_calculation_callback_id, array|Model|null $par
 
 #### Request fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `tax_calculation_callback_id` | Required | string | Tax calculation callback ID. |
+Field definitions: [shared fields](#request-fields).
 
 #### Response
 
@@ -353,9 +349,7 @@ Signature: `rotateSecret(string|Model $tax_calculation_callback_id, array|Model|
 
 #### Request fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `tax_calculation_callback_id` | Required | string | Tax calculation callback ID. |
+Field definitions: [shared fields](#request-fields).
 
 #### Response
 
@@ -409,7 +403,7 @@ Signature: `update(string|Model $tax_calculation_callback_id, array|Model $param
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `tax_calculation_callback_id` | Required | string | Tax calculation callback ID. |
+| `tax_calculation_callback_id` | Required | string | Tax calculation callback ID. Must be a valid ID with prefix tcb_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Required | [UpdateTaxCalculationCallbackRequestInput](../models/UpdateTaxCalculationCallbackRequestInput.md#updatetaxcalculationcallbackrequestinput) | The request body for: Update a tax calculation callback. minProperties: `1`. |
 
 Body model: [UpdateTaxCalculationCallbackRequestInput](../models/UpdateTaxCalculationCallbackRequestInput.md#updatetaxcalculationcallbackrequestinput).
@@ -421,7 +415,7 @@ Body model: [UpdateTaxCalculationCallbackRequestInput](../models/UpdateTaxCalcul
 | `configuration` | Optional | [TaxCalculationCallbackConfigurationPatchRequestInput](../models/TaxCalculationCallbackConfigurationPatchRequestInput.md#taxcalculationcallbackconfigurationpatchrequestinput) | Changes to the callback's configuration. Requires expected_version. Changes to a tax calculation callback's configuration. Only the keys you send change; keys you leave out keep their current values. Null restores an optional key's default. Requires expected_version. minProperties: `1`. |
 | `expected_version` | Optional | integer | The `version` you last read. A stale value is refused with a version conflict. Required with `configuration` and `signing_methods`. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
-| `name` | Optional | string | New label for the callback. minLength: `1`. |
+| `name` | Optional | string | New label for the callback. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. |
 | `signing_methods` | Optional | Array of [WebhookSigningMethodInput](../models/WebhookSigningMethodInput.md#webhooksigningmethodinput) | How Flint signs requests to your endpoint: `jwt` for a bearer JWT you verify with Flint's public keys, `hmac` for a shared secret, or both. Replaces the whole set. Requires expected_version. Removing hmac deletes the current and previous secrets. minItems: `1`. uniqueItems: `true`. Items values: `"jwt"`, `"hmac"`. |
 | `status` | Optional | string | Activates or deactivates the callback. Send it alone, with at most `expected_version`. - `active`: Makes the callback selectable in `tax.calculation_callback_id`. - `inactive`: Stops the callback from being selected. Refused while your settings select it. Values: `"active"`, `"inactive"`. |
 
@@ -434,7 +428,7 @@ Body model: [UpdateTaxCalculationCallbackRequestInput](../models/UpdateTaxCalcul
 | `configuration` | Optional | [TaxCalculationCallbackConfigurationPatchRequestInput](../models/TaxCalculationCallbackConfigurationPatchRequestInput.md#taxcalculationcallbackconfigurationpatchrequestinput) | Changes to the callback's configuration. Requires expected_version. Changes to a tax calculation callback's configuration. Only the keys you send change; keys you leave out keep their current values. Null restores an optional key's default. Requires expected_version. minProperties: `1`. |
 | `expected_version` | Optional | integer | The `version` you last read. A stale value is refused with a version conflict. Required with `configuration` and `signing_methods`. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
-| `name` | Required | string | New label for the callback. minLength: `1`. |
+| `name` | Required | string | New label for the callback. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. |
 | `signing_methods` | Optional | Array of [WebhookSigningMethodInput](../models/WebhookSigningMethodInput.md#webhooksigningmethodinput) | How Flint signs requests to your endpoint: `jwt` for a bearer JWT you verify with Flint's public keys, `hmac` for a shared secret, or both. Replaces the whole set. Requires expected_version. Removing hmac deletes the current and previous secrets. minItems: `1`. uniqueItems: `true`. Items values: `"jwt"`, `"hmac"`. |
 | `status` | Optional | string | Activates or deactivates the callback. Send it alone, with at most `expected_version`. - `active`: Makes the callback selectable in `tax.calculation_callback_id`. - `inactive`: Stops the callback from being selected. Refused while your settings select it. Values: `"active"`, `"inactive"`. |
 
@@ -447,7 +441,7 @@ Body model: [UpdateTaxCalculationCallbackRequestInput](../models/UpdateTaxCalcul
 | `configuration` | Optional | [TaxCalculationCallbackConfigurationPatchRequestInput](../models/TaxCalculationCallbackConfigurationPatchRequestInput.md#taxcalculationcallbackconfigurationpatchrequestinput) | Changes to the callback's configuration. Requires expected_version. Changes to a tax calculation callback's configuration. Only the keys you send change; keys you leave out keep their current values. Null restores an optional key's default. Requires expected_version. minProperties: `1`. |
 | `expected_version` | Optional | integer | The `version` you last read. A stale value is refused with a version conflict. Required with `configuration` and `signing_methods`. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Required | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
-| `name` | Optional | string | New label for the callback. minLength: `1`. |
+| `name` | Optional | string | New label for the callback. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. |
 | `signing_methods` | Optional | Array of [WebhookSigningMethodInput](../models/WebhookSigningMethodInput.md#webhooksigningmethodinput) | How Flint signs requests to your endpoint: `jwt` for a bearer JWT you verify with Flint's public keys, `hmac` for a shared secret, or both. Replaces the whole set. Requires expected_version. Removing hmac deletes the current and previous secrets. minItems: `1`. uniqueItems: `true`. Items values: `"jwt"`, `"hmac"`. |
 | `status` | Optional | string | Activates or deactivates the callback. Send it alone, with at most `expected_version`. - `active`: Makes the callback selectable in `tax.calculation_callback_id`. - `inactive`: Stops the callback from being selected. Refused while your settings select it. Values: `"active"`, `"inactive"`. |
 
@@ -460,7 +454,7 @@ Body model: [UpdateTaxCalculationCallbackRequestInput](../models/UpdateTaxCalcul
 | `configuration` | Required | [TaxCalculationCallbackConfigurationPatchRequestInput](../models/TaxCalculationCallbackConfigurationPatchRequestInput.md#taxcalculationcallbackconfigurationpatchrequestinput) | Changes to the callback's configuration. Requires expected_version. Changes to a tax calculation callback's configuration. Only the keys you send change; keys you leave out keep their current values. Null restores an optional key's default. Requires expected_version. minProperties: `1`. |
 | `expected_version` | Optional | integer | The `version` you last read. A stale value is refused with a version conflict. Required with `configuration` and `signing_methods`. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
-| `name` | Optional | string | New label for the callback. minLength: `1`. |
+| `name` | Optional | string | New label for the callback. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. |
 | `signing_methods` | Optional | Array of [WebhookSigningMethodInput](../models/WebhookSigningMethodInput.md#webhooksigningmethodinput) | How Flint signs requests to your endpoint: `jwt` for a bearer JWT you verify with Flint's public keys, `hmac` for a shared secret, or both. Replaces the whole set. Requires expected_version. Removing hmac deletes the current and previous secrets. minItems: `1`. uniqueItems: `true`. Items values: `"jwt"`, `"hmac"`. |
 | `status` | Optional | string | Activates or deactivates the callback. Send it alone, with at most `expected_version`. - `active`: Makes the callback selectable in `tax.calculation_callback_id`. - `inactive`: Stops the callback from being selected. Refused while your settings select it. Values: `"active"`, `"inactive"`. |
 
@@ -473,7 +467,7 @@ Body model: [UpdateTaxCalculationCallbackRequestInput](../models/UpdateTaxCalcul
 | `configuration` | Optional | [TaxCalculationCallbackConfigurationPatchRequestInput](../models/TaxCalculationCallbackConfigurationPatchRequestInput.md#taxcalculationcallbackconfigurationpatchrequestinput) | Changes to the callback's configuration. Requires expected_version. Changes to a tax calculation callback's configuration. Only the keys you send change; keys you leave out keep their current values. Null restores an optional key's default. Requires expected_version. minProperties: `1`. |
 | `expected_version` | Optional | integer | The `version` you last read. A stale value is refused with a version conflict. Required with `configuration` and `signing_methods`. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
-| `name` | Optional | string | New label for the callback. minLength: `1`. |
+| `name` | Optional | string | New label for the callback. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. |
 | `signing_methods` | Required | Array of [WebhookSigningMethodInput](../models/WebhookSigningMethodInput.md#webhooksigningmethodinput) | How Flint signs requests to your endpoint: `jwt` for a bearer JWT you verify with Flint's public keys, `hmac` for a shared secret, or both. Replaces the whole set. Requires expected_version. Removing hmac deletes the current and previous secrets. minItems: `1`. uniqueItems: `true`. Items values: `"jwt"`, `"hmac"`. |
 | `status` | Optional | string | Activates or deactivates the callback. Send it alone, with at most `expected_version`. - `active`: Makes the callback selectable in `tax.calculation_callback_id`. - `inactive`: Stops the callback from being selected. Refused while your settings select it. Values: `"active"`, `"inactive"`. |
 
@@ -486,7 +480,7 @@ Body model: [UpdateTaxCalculationCallbackRequestInput](../models/UpdateTaxCalcul
 | `configuration` | Optional | [TaxCalculationCallbackConfigurationPatchRequestInput](../models/TaxCalculationCallbackConfigurationPatchRequestInput.md#taxcalculationcallbackconfigurationpatchrequestinput) | Changes to the callback's configuration. Requires expected_version. Changes to a tax calculation callback's configuration. Only the keys you send change; keys you leave out keep their current values. Null restores an optional key's default. Requires expected_version. minProperties: `1`. |
 | `expected_version` | Optional | integer | The `version` you last read. A stale value is refused with a version conflict. Required with `configuration` and `signing_methods`. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
-| `name` | Optional | string | New label for the callback. minLength: `1`. |
+| `name` | Optional | string | New label for the callback. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. |
 | `signing_methods` | Optional | Array of [WebhookSigningMethodInput](../models/WebhookSigningMethodInput.md#webhooksigningmethodinput) | How Flint signs requests to your endpoint: `jwt` for a bearer JWT you verify with Flint's public keys, `hmac` for a shared secret, or both. Replaces the whole set. Requires expected_version. Removing hmac deletes the current and previous secrets. minItems: `1`. uniqueItems: `true`. Items values: `"jwt"`, `"hmac"`. |
 | `status` | Required | string | Activates or deactivates the callback. Send it alone, with at most `expected_version`. - `active`: Makes the callback selectable in `tax.calculation_callback_id`. - `inactive`: Stops the callback from being selected. Refused while your settings select it. Values: `"active"`, `"inactive"`. |
 

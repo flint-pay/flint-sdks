@@ -1,7 +1,7 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { ModifierGroup } from '../declarations/types-41.js';
 import type {
+    ModifierGroup,
     ModifierGroupListResponse,
     ModifierGroupResponse,
     ModifierGroupsCreateParams,
@@ -9,9 +9,9 @@ import type {
     ModifierGroupsGetParams,
     ModifierGroupsListParams,
     ModifierGroupsUpdateParams
-} from '../declarations/types-42.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-43.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -28,47 +28,43 @@ export type {
 } from '../runtime.js';
 export type {
     ModifierGroupsCreateParams,
+    ModifierGroup,
     ModifierGroupResponse,
     ModifierGroupsDeleteParams,
     ModifierGroupsGetParams,
     ModifierGroupsListParams,
     ModifierGroupListResponse,
     ModifierGroupsUpdateParams,
-    MoneyValueInput,
-    MoneyValue,
-    NextAction,
-    ModifierRequestInput
-} from '../declarations/types-42.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type {
-    ModifierGroup,
     MetadataRequestInput,
     MetadataMap,
     Modifier,
     MetadataPatchRequestInput,
+    ModifierRequestInput,
     MetadataPatchRequest
-} from '../declarations/types-41.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-43.js';
+export type { RequestOptions } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateModifierGroupRequestInput, CreateModifierRequestInput } from '../declarations/types-11.js';
+export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-44.js';
 export type {
     TextModifierConfigRequestInput,
     TextModifierConfig,
     TextModifierConfigPatchRequestInput,
     TextModifierConfigRequest,
     TextModifierConfigPatchRequest
-} from '../declarations/types-72.js';
+} from '../declarations/types-74.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { UpdateModifierGroupRequestInput } from '../declarations/types-74.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
+export type { Credentials } from '../declarations/types-15.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { UpdateModifierGroupRequestInput } from '../declarations/types-76.js';
+export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export type { CreateInlineModifierGroupRequestInput } from '../declarations/types-10.js';
-export { makeCreateInlineModifierGroupRequest, makeCreateModifierGroupRequest, makeCreateModifierRequest } from '../declarations/types-80.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeModifierRequest } from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeTextModifierConfigPatchRequest, makeTextModifierConfigRequest } from '../declarations/types-90.js';
-export { makeUpdateModifierGroupRequest } from '../declarations/types-91.js';
+export { makeCreateInlineModifierGroupRequest, makeCreateModifierGroupRequest, makeCreateModifierRequest } from '../declarations/types-82.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeModifierRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeTextModifierConfigPatchRequest } from '../declarations/types-92.js';
+export { makeTextModifierConfigRequest, makeUpdateModifierGroupRequest } from '../declarations/types-93.js';
 export interface ModifierGroupsResource {
     /**
  * Creates a modifier group, a set of choices that customize an item, such as toppings or a custom
@@ -95,7 +91,9 @@ export interface ModifierGroupsResource {
  * `VERSION_CONFLICT` and the `current_version`, even when the resource is already archived.
  *
  * `DELETE /v1/modifier-groups/{modifier_group_id}`
- * @param modifier_group_id Flint modifier group ID.
+ * @param modifier_group_id Flint modifier group ID. Must be a valid ID with prefix mg_. Malformed
+ * IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist
+ * return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/modifiers#deleteModifierGroup
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -110,7 +108,9 @@ export interface ModifierGroupsResource {
  * receipts and in fulfillment details.
  *
  * `GET /v1/modifier-groups/{modifier_group_id}`
- * @param modifier_group_id Flint modifier group ID.
+ * @param modifier_group_id Flint modifier group ID. Must be a valid ID with prefix mg_. Malformed
+ * IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist
+ * return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/modifiers#getModifierGroup
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -143,7 +143,9 @@ export interface ModifierGroupsResource {
  * is archived. The error names the archived resource and its `current_status`.
  *
  * `PATCH /v1/modifier-groups/{modifier_group_id}`
- * @param modifier_group_id Flint modifier group ID.
+ * @param modifier_group_id Flint modifier group ID. Must be a valid ID with prefix mg_. Malformed
+ * IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist
+ * return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/modifiers#updateModifierGroup
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

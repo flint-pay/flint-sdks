@@ -25,7 +25,7 @@ Body model: [CreateDeviceRequestInput](../models/CreateDeviceRequestInput.md#cre
 | `hardware_fingerprint` | Optional | string | Stable hardware identity. Must have no leading or trailing whitespace and is compared exactly, including case and accents. Only one active device in this merchant and environment can hold it. minLength: `1`. maxLength: `255`. |
 | `location_id` | Optional | string | An active Location to assign the device to. minLength: `1`. |
 | `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
-| `name` | Required | string | Name for the device, such as Front register. minLength: `1`. |
+| `name` | Required | string | Name for the device, such as Front register. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. |
 
 #### Response
 
@@ -88,7 +88,7 @@ Signature: `delete(string|Model $device_id, array|Model|null $params = null, ?Re
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `device_id` | Required | string | Flint device ID. |
+| `device_id` | Required | string | Flint device ID. Must be a valid ID with prefix dev_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `expected_version` | Optional | integer | Optional device version last read by the caller. Format: `uint64`. minimum: `1`. maximum: `9007199254740991`. |
 
 #### Response
@@ -143,7 +143,7 @@ Signature: `get(string|Model $device_id, array|Model|null $params = null, ?Reque
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `device_id` | Required | string | Flint device ID. |
+| `device_id` | Required | string | Flint device ID. Must be a valid ID with prefix dev_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 
@@ -248,7 +248,7 @@ Signature: `update(string|Model $device_id, array|Model $params, ?RequestOptions
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `device_id` | Required | string | Flint device ID. |
+| `device_id` | Required | string | Flint device ID. Must be a valid ID with prefix dev_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Required | [UpdateDeviceRequestInput](../models/UpdateDeviceRequestInput.md#updatedevicerequestinput) | The request body for: Update device. minProperties: `1`. |
 
 Body model: [UpdateDeviceRequestInput](../models/UpdateDeviceRequestInput.md#updatedevicerequestinput).
@@ -260,7 +260,7 @@ Body model: [UpdateDeviceRequestInput](../models/UpdateDeviceRequestInput.md#upd
 | `expected_version` | Optional | integer | The device version you last read. A different current version returns `409 VERSION_CONFLICT`. Format: `uint64`. minimum: `1`. |
 | `location_id` | Optional | string or null | Send null to clear it. minLength: `1`. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. This operation also limits the metadata object you send, before merging: at most 50 keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768 UTF-8 bytes of keys plus values. |
-| `name` | Optional | string | New name for the device. minLength: `1`. |
+| `name` | Optional | string | New name for the device. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. |
 
 #### Response
 

@@ -10,7 +10,7 @@
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `buyer_reasons` | Optional | Array of string or null | Buyer-safe reasons candidate methods did not produce an option. These can be present even when another method is available. `buyer_reasons`: [declared alternatives](../models/CheckoutDerivedDeliveryResourcePreviousAttributes.md#checkoutderiveddeliveryresourcepreviousattributesbuyer_reasons). |
+| `buyer_reasons` | Optional | Array of string or null | Buyer-safe reasons a choice group has no available option. Groups with an available option contribute no reasons. `buyer_reasons`: [declared alternatives](../models/CheckoutDerivedDeliveryResourcePreviousAttributes.md#checkoutderiveddeliveryresourcepreviousattributesbuyer_reasons). |
 | `choice_groups` | Optional | Array of [DeliveryQuoteChoiceGroupResourcePreviousAttributes](../models/DeliveryQuoteChoiceGroupResourcePreviousAttributes.md#deliveryquotechoicegroupresourcepreviousattributes) or null | Groups of order items that each choose their own delivery option. Empty until the checkout has a delivery quote. `choice_groups`: [declared alternatives](../models/CheckoutDerivedDeliveryResourcePreviousAttributes.md#checkoutderiveddeliveryresourcepreviousattributeschoice_groups). |
 | `delivery_quote_id` | Optional | string or null | ID of the checkout's current delivery quote. Omitted until the checkout has one. `delivery_quote_id`: [declared alternatives](../models/CheckoutDerivedDeliveryResourcePreviousAttributes.md#checkoutderiveddeliveryresourcepreviousattributesdelivery_quote_id). |
 | `delivery_selection_id` | Optional | string or null | Current delivery selection ID after reconciliation. `null` when no selection is current. Assert this value with expected_delivery_selection_id on checkout delivery writes. `delivery_selection_id`: [declared alternatives](../models/CheckoutDerivedDeliveryResourcePreviousAttributes.md#checkoutderiveddeliveryresourcepreviousattributesdelivery_selection_id). |
@@ -23,15 +23,15 @@
 
 ### CheckoutDerivedDeliveryResourcePreviousAttributes.buyer_reasons variant 1
 
-anyOf variant 1: Buyer-safe reasons candidate methods did not produce an option. These can be present even when another method is available..
+anyOf variant 1: Buyer-safe reasons a choice group has no available option. Groups with an available option contribute no reasons..
 
-- Value shape: Array of string. Buyer-safe reasons candidate methods did not produce an option. These can be present even when another method is available. 
+- Value shape: Array of string. Buyer-safe reasons a choice group has no available option. Groups with an available option contribute no reasons. 
 
 ### CheckoutDerivedDeliveryResourcePreviousAttributes.buyer_reasons variant 2
 
 anyOf variant 2.
 
-- Value shape: null. Buyer-safe reasons candidate methods did not produce an option. These can be present even when another method is available. 
+- Value shape: null. Buyer-safe reasons a choice group has no available option. Groups with an available option contribute no reasons. 
 
 ### CheckoutDerivedDeliveryResourcePreviousAttributes.choice_groups
 

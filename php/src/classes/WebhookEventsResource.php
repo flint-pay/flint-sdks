@@ -4,7 +4,7 @@ namespace Flint;
 final class WebhookEventsResource {
     public function __construct(private readonly Runtime $runtime) {}
     /** Returns a specific webhook event for the authenticated merchant. Global partner-source records are invisible in sandbox mode; a direct reference returns 404 RESOURCE_NOT_FOUND.
-     * @param string|Model $webhook_event_id Flint webhook event ID.
+     * @param string|Model $webhook_event_id Flint webhook event ID. Must be a valid ID with prefix whev_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND.
      * @param WebhookEventsGetParams|array<array-key, mixed>|Model|null $params Flat body fields and query/header parameters; path arguments follow URL order.
      * @return WebhookEvent
      */

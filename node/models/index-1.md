@@ -1,6 +1,6 @@
 [Model index](../MODELS.md)
 
-# AcceptFulfillmentRequestInput to BuyerCreateReturnPreviewRequestEligibilityInput
+# AcceptFulfillmentRequestInput to BuyerCreateReturnPreviewRequestInput
 
 - [AcceptFulfillmentRequestInput](AcceptFulfillmentRequestInput.md)
 - [AcceptPartnerAppPlatformTermsRequest](AcceptPartnerAppPlatformTermsRequest.md)
@@ -65,6 +65,8 @@
 - [BalanceTransaction](BalanceTransaction.md)
 - [BalanceTransactionCreatedInstalledMerchantsEvent](BalanceTransactionCreatedInstalledMerchantsEvent.md)
 - [BalanceTransactionCreatedMerchantEvent](BalanceTransactionCreatedMerchantEvent.md)
+- [BalanceTransactionFeeDetail](BalanceTransactionFeeDetail.md)
+- [BalanceTransactionFeeDetailPreviousAttributes](BalanceTransactionFeeDetailPreviousAttributes.md)
 - [BalanceTransactionListResponse](BalanceTransactionListResponse.md)
 - [BalanceTransactionResponse](BalanceTransactionResponse.md)
 - [BalanceTransactionUpdatedInstalledMerchantsEvent](BalanceTransactionUpdatedInstalledMerchantsEvent.md)
@@ -100,6 +102,4 @@
 - [BuyerCheckoutSessionWithSecret](BuyerCheckoutSessionWithSecret.md)
 - [BuyerCreateReturnPreviewRequest](BuyerCreateReturnPreviewRequest.md)
 - [BuyerCreateReturnPreviewRequestInput](BuyerCreateReturnPreviewRequestInput.md)
-- [BuyerCreateReturnPreviewRequestEligibility](BuyerCreateReturnPreviewRequestEligibility.md)
-- [BuyerCreateReturnPreviewRequestEligibilityInput](BuyerCreateReturnPreviewRequestEligibilityInput.md)
 

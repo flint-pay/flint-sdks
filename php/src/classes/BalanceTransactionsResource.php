@@ -4,7 +4,7 @@ namespace Flint;
 final class BalanceTransactionsResource {
     public function __construct(private readonly Runtime $runtime) {}
     /** Returns one balance transaction by ID, with optional related order expansion.
-     * @param string|Model $balance_transaction_id Flint balance transaction ID.
+     * @param string|Model $balance_transaction_id Flint balance transaction ID. Must be a valid ID with prefix btxn_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND.
      * @param BalanceTransactionsGetParams|array<array-key, mixed>|Model|null $params Flat body fields and query/header parameters; path arguments follow URL order.
      * @return BalanceTransaction
      */

@@ -20,6 +20,8 @@ Card details. Present when type is card.
 | --- | --- | --- | --- |
 | `brand` | Conditional | string or null | The card network. Values: `"visa"`, `"mastercard"`, `"amex"`, `"discover"`, `"diners"`, `"jcb"`, `"unionpay"`. `brand`: [declared alternatives](../models/PaymentSourceCardSummaryPreviousAttributes.md#paymentsourcecardsummarypreviousattributesbrand). |
 | `card_present` | Conditional | [PaymentSourceCardPresentDetailsPreviousAttributes](../models/PaymentSourceCardPresentDetailsPreviousAttributes.md#paymentsourcecardpresentdetailspreviousattributes) or null | Details of a card read on a reader, present once the card was read. Card-present cards are not saved, so payment_method_id is absent. `card_present`: [declared alternatives](../models/PaymentSourceCardSummaryPreviousAttributes.md#paymentsourcecardsummarypreviousattributescard_present). |
+| `country` | Conditional | string or null | ISO 3166-1 alpha-2 issuing country. `null` when the issuing country was not recorded, including older payments. `country`: [declared alternatives](../models/PaymentSourceSummaryPreviousAttributes.md#paymentsourcesummarypreviousattributescard-variant-1country). |
+| `funding` | Conditional | string or null | How the card is funded. `null` when no recognized funding type was recorded. Values: `"credit"`, `"debit"`, `"prepaid"`, `null`. `funding`: [declared alternatives](../models/PaymentSourceCardSummaryPreviousAttributes.md#paymentsourcecardsummarypreviousattributesfunding). |
 | `last4` | Conditional | string or null | Last four digits of the card number. `last4`: [declared alternatives](../models/PaymentSourceCardSummaryPreviousAttributes.md#paymentsourcecardsummarypreviousattributeslast4). |
 | `payment_method_id` | Conditional | string or null | ID of the saved Flint payment method for this card. Absent when the card isn't saved, as with a card read on a reader. `payment_method_id`: [declared alternatives](../models/PaymentSourceSummaryPreviousAttributes.md#paymentsourcesummarypreviousattributescard-variant-1payment_method_id). |
 
@@ -27,13 +29,13 @@ Card details. Present when type is card.
 
 anyOf PaymentSourceCardSummaryPreviousAttributes.
 
-- Optional: `brand`, `card_present`, `last4`, `payment_method_id`.
+- Optional: `brand`, `card_present`, `country`, `funding`, `last4`, `payment_method_id`.
 
 ### PaymentSourceSummaryPreviousAttributes.card variant 2
 
 anyOf variant 2.
 
-- Undeclared: `brand`, `card_present`, `last4`, `payment_method_id`.
+- Undeclared: `brand`, `card_present`, `country`, `funding`, `last4`, `payment_method_id`.
 - Value shape: null. Card details. Present when type is card. 
 
 ### PaymentSourceSummaryPreviousAttributes.card variant 1.brand
@@ -43,6 +45,24 @@ Declared alternatives: [PaymentSourceCardSummaryPreviousAttributes.brand](../mod
 ### PaymentSourceSummaryPreviousAttributes.card variant 1.card_present
 
 Declared alternatives: [PaymentSourceCardSummaryPreviousAttributes.card_present](../models/PaymentSourceCardSummaryPreviousAttributes.md#paymentsourcecardsummarypreviousattributescard_present).
+
+### PaymentSourceSummaryPreviousAttributes.card variant 1.country
+
+### PaymentSourceSummaryPreviousAttributes.card variant 1.country variant 1
+
+anyOf variant 1: ISO 3166-1 alpha-2 issuing country. `null` when the issuing country was not recorded, including older payments..
+
+- Value shape: string. ISO 3166-1 alpha-2 issuing country. `null` when the issuing country was not recorded, including older payments. ISO 3166-1 alpha-2 issuing country. `null` when the issuing country was not recorded, including older payments. minLength: `2`. maxLength: `2`. pattern: `^[A-Z]{2}$`. Example: `"US"`. 
+
+### PaymentSourceSummaryPreviousAttributes.card variant 1.country variant 2
+
+anyOf variant 2.
+
+- Value shape: null. ISO 3166-1 alpha-2 issuing country. `null` when the issuing country was not recorded, including older payments. 
+
+### PaymentSourceSummaryPreviousAttributes.card variant 1.funding
+
+Declared alternatives: [PaymentSourceCardSummaryPreviousAttributes.funding](../models/PaymentSourceCardSummaryPreviousAttributes.md#paymentsourcecardsummarypreviousattributesfunding).
 
 ### PaymentSourceSummaryPreviousAttributes.card variant 1.last4
 

@@ -76,7 +76,7 @@ Signature: `reset(demo_session_id: InputValue<string>, params: DemoSessionsReset
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `demo_session_id` | Required | string | The active or provisioning demo session to reset for this client. |
+| `demo_session_id` | Required | string | The active or provisioning demo session to reset for this client. Must be a valid ID with prefix demo_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Challenge-Token` | Required | string | Challenge token from Flint's hosted bot check on the page that offers the demo. Flint identifies the demo client by its IP address. |
 | `body` | Optional | [ResetDemoSessionRequestInput](../models/ResetDemoSessionRequest.md#resetdemosessionrequest) | The request body for: Reset demo session. |
 

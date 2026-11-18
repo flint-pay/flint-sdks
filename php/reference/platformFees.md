@@ -14,7 +14,7 @@ Signature: `get(string|Model $platform_fee_id, array|Model|null $params = null, 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `platform_fee_id` | Required | string | Flint platform fee ID. |
+| `platform_fee_id` | Required | string | Flint platform fee ID. Must be a valid ID with prefix pfee_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 

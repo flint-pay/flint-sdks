@@ -11,9 +11,10 @@ namespace Flint;
  * @property-read string $partner_app_id
  * @property-read list<string> $requested_permission_ids
  * @property-read string $sandbox_initial_onboarding
+ * @property-read string $timezone
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateMerchantSignupRequestInput extends Model {
-    /** @param array{'business_name'?: string, 'code_challenge': string, 'code_challenge_method': string, 'external_reference_id'?: string, 'modes': list<string>, 'owner': MerchantSignupOwnerRequestInput|array<array-key, mixed>|\stdClass, 'partner_app_id': string, 'requested_permission_ids'?: list<string>, 'sandbox_initial_onboarding'?: string}|object $values */
+    /** @param array{'business_name'?: string, 'code_challenge': string, 'code_challenge_method': string, 'external_reference_id'?: string, 'modes': list<string>, 'owner': MerchantSignupOwnerRequestInput|array<array-key, mixed>|\stdClass, 'partner_app_id': string, 'requested_permission_ids'?: list<string>, 'sandbox_initial_onboarding'?: string, 'timezone'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateMerchantSignupRequestInput')); }
     /** The new merchant's display name until onboarding sets its legal name, 1 to 100 characters, without links or email addresses: the code email shows it. Without it, Flint names the merchant from the owner's email. minLength: 1. maxLength: 100.
      * @return string
@@ -69,4 +70,10 @@ final class CreateMerchantSignupRequestInput extends Model {
      */
     public function getSandboxInitialOnboarding(): string { return $this->get('sandbox_initial_onboarding'); }
     public function hasSandboxInitialOnboarding(): bool { return $this->has('sandbox_initial_onboarding'); }
+    /** IANA business time zone for the new merchant, such as America/Chicago. Used for reports and business dates. Omit to leave it unset until a live location or a merchant update sets it. minLength: 1.
+     * @return string
+     * @throws SdkError When timezone is omitted; use hasTimezone() or valueOrDefault().
+     */
+    public function getTimezone(): string { return $this->get('timezone'); }
+    public function hasTimezone(): bool { return $this->has('timezone'); }
 }

@@ -10,7 +10,7 @@ namespace Flint;
 final class ReturnDispositionsRetryInput extends Model {
     /** @param array{'return_disposition_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'expected_version'?: int, 'reason': string, 'reason_message'?: string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnDispositionsRetryInput')); }
-    /** Flint return disposition id. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+    /** Flint return disposition id. Must be a valid ID with prefix retdsp_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
      * @return string
      * @throws SdkError When return_disposition_id is omitted; use hasReturnDispositionId() or valueOrDefault().
      */

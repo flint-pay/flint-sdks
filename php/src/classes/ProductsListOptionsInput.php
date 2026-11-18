@@ -12,7 +12,7 @@ namespace Flint;
 final class ProductsListOptionsInput extends Model {
     /** @param array{'product_id': string, 'page_size'?: int, 'page_token'?: string, 'status'?: list<string>|string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ProductsListOptionsInput')); }
-    /** Flint product ID. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+    /** Flint product ID. Must be a valid ID with prefix prod_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
      * @return string
      * @throws SdkError When product_id is omitted; use hasProductId() or valueOrDefault().
      */

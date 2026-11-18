@@ -14,7 +14,7 @@ Signature: `applyPromotion(string|Model $subscription_id, array|Model $params, ?
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string | Flint subscription ID. |
+| `subscription_id` | Required | string | Flint subscription ID. Must be a valid ID with prefix sub_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -90,7 +90,7 @@ Signature: `cancel(string|Model $subscription_id, array|Model|null $params = nul
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string | Flint subscription ID. |
+| `subscription_id` | Required | string | Flint subscription ID. Must be a valid ID with prefix sub_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -157,7 +157,7 @@ Signature: `changePlan(string|Model $subscription_id, array|Model $params, ?Requ
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string | Subscription ID. |
+| `subscription_id` | Required | string | Subscription ID. Must be a valid ID with prefix sub_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -235,7 +235,7 @@ Signature: `changeQuantity(string|Model $subscription_id, array|Model $params, ?
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string | Subscription ID. |
+| `subscription_id` | Required | string | Subscription ID. Must be a valid ID with prefix sub_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -302,7 +302,7 @@ $result = $client->subscriptions->changeQuantity('sub_01KEZF7C00BVRE8YDBXQB74BBM
 
 ### subscriptions.create
 
-Creates a subscription for a customer outside checkout. Send `customer_id`, the `terms` (a subscription plan or subscription offers), and `billing_start`, which says whether billing begins now, on a later date, or continues a period the buyer already paid elsewhere. Renewals charge `payment_method_id`, or the customer's default payment method when you omit it. Free trials without an upfront charge and `imported` starts can begin without a card when the customer has no default payment method; other starts fail with `INVALID_REQUEST` naming `payment_method_id`. A setup fee or other creation-time charge requires a card; scheduled starts also require one. Bind a card before `payment_method_due_at`: a trial without one cancels at that boundary without an attempted charge, while an imported subscription follows its normal dunning schedule. Flint requests the card three days before the boundary, or when a shorter trial begins. A default payment method that can't be used fails the request on every start. The payment method must belong to the customer, be active, and allow charges without the buyer present. A plan that is not active fails with `ACTION_NOT_ALLOWED`. Subscriptions require a customer with an email address in both customer account modes; otherwise creation returns 409 CUSTOMER_EMAIL_REQUIRED. Optional promotions (up to five) freeze current terms and qualify against the projected order for first_cycle. Imports alone accept consumed_cycles to carry over the buyer's used allowance. Attaching counts one promotion use and, when sent by code, one code use.
+Creates a subscription for a customer outside checkout. For `billing_start.type: imported`, an `external_reference_id` already used by a subscription that has not ended in this merchant environment returns `409 ALREADY_EXISTS`, even with a new idempotency key. `details[0].current_resource` identifies the existing subscription; retrieve it and continue with its ID. A scheduled cancellation still blocks reimport until the subscription ends. Send `customer_id`, the `terms` (a subscription plan or subscription offers), and `billing_start`, which says whether billing begins now, on a later date, or continues a period the buyer already paid elsewhere. Renewals charge `payment_method_id`, or the customer's default payment method when you omit it. Free trials without an upfront charge and `imported` starts can begin without a card when the customer has no default payment method; other starts fail with `INVALID_REQUEST` naming `payment_method_id`. A setup fee or other creation-time charge requires a card; scheduled starts also require one. Bind a card before `payment_method_due_at`: a trial without one cancels at that boundary without an attempted charge, while an imported subscription follows its normal dunning schedule. Flint requests the card three days before the boundary, or when a shorter trial begins. A default payment method that can't be used fails the request on every start. The payment method must belong to the customer, be active, and allow charges without the buyer present. A plan that is not active fails with `ACTION_NOT_ALLOWED`. Subscriptions require a customer with an email address in both customer account modes; otherwise creation returns 409 CUSTOMER_EMAIL_REQUIRED. Optional promotions (up to five) freeze current terms and qualify against the projected order for first_cycle. Imports alone accept consumed_cycles to carry over the buyer's used allowance. Attaching counts one promotion use and, when sent by code, one code use.
 
 `POST /v1/subscriptions`
 
@@ -412,7 +412,7 @@ Signature: `createAccessLink(string|Model $subscription_id, array|Model|null $pa
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string | Flint subscription ID. |
+| `subscription_id` | Required | string | Flint subscription ID. Must be a valid ID with prefix sub_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -481,7 +481,7 @@ Signature: `createLineItem(string|Model $subscription_id, array|Model $params, ?
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string | Subscription ID. |
+| `subscription_id` | Required | string | Subscription ID. Must be a valid ID with prefix sub_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -570,7 +570,7 @@ Signature: `createPaymentRetry(string|Model $subscription_id, array|Model|null $
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string | Flint subscription ID. |
+| `subscription_id` | Required | string | Flint subscription ID. Must be a valid ID with prefix sub_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -642,8 +642,8 @@ deleteLineItem(string|
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string | Subscription ID. |
-| `subscription_line_item_id` | Required | string | Subscription line item ID. |
+| `subscription_id` | Required | string | Subscription ID. Must be a valid ID with prefix sub_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
+| `subscription_line_item_id` | Required | string | Subscription line item ID. Must be a valid ID with prefix sli_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `expected_version` | Optional | integer | Reject the deletion if the subscription version has changed. Format: `uint64`. minimum: `1`. maximum: `9007199254740991`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
@@ -702,7 +702,7 @@ Signature: `get(string|Model $subscription_id, array|Model|null $params = null, 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string | Flint subscription ID. |
+| `subscription_id` | Required | string | Flint subscription ID. Must be a valid ID with prefix sub_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: customer, payment_method, subscription_plan. Expansion requires commerce.subscriptions.read plus the read scope for each expanded resource. Limits: at most 10 unique expand paths per request. Items values: `"customer"`, `"payment_method"`, `"subscription_plan"`. Values: `"customer"`, `"payment_method"`, `"subscription_plan"`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
@@ -766,8 +766,8 @@ getPaymentRetry(string|
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string | Flint subscription ID. |
-| `subscription_payment_retry_id` | Required | string | Flint subscription payment retry ID. |
+| `subscription_id` | Required | string | Flint subscription ID. Must be a valid ID with prefix sub_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
+| `subscription_payment_retry_id` | Required | string | Flint subscription payment retry ID. Must be a valid ID with prefix spr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -819,7 +819,7 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. pattern: `^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$`. |
+| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns only resources created in your caller namespace, plus resources created before caller scoping under the original key. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. pattern: `^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$`. |
 | `terms_type` | Optional | Array of string or string | Filter by where the subscription terms come from: a subscription plan or subscription offers. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"subscription_plan"`, `"subscription_offer"`. Values: `"subscription_plan"`, `"subscription_offer"`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
@@ -843,7 +843,7 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 | `updated_before` | Optional | string | Exclusive upper bound on updated_at. Format: `date-time`. |
 | `next_billing_after` | Optional | string | Inclusive lower bound on next_billing_at. Format: `date-time`. |
 | `next_billing_before` | Optional | string | Exclusive upper bound on next_billing_at. Format: `date-time`. |
-| `needs_attention` | Optional | boolean | True matches subscriptions with a delivery hold, an upcoming delivery hold, an inventory wait, or a delivery-action-required pause, plus past_due subscriptions and active or incomplete subscriptions whose billing date passed more than 24 hours ago without payment. False is the exact complement. Other filters still apply. |
+| `needs_attention` | Optional | boolean | True matches subscriptions with a delivery hold, an upcoming delivery hold, an inventory wait, a billing configuration hold, or a delivery-action-required pause, plus past_due subscriptions and active or incomplete subscriptions whose billing date passed more than 24 hours ago without payment. False is the exact complement. Other filters still apply. |
 | `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: customer, payment_method, subscription_plan. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. Items values: `"customer"`, `"payment_method"`, `"subscription_plan"`. Values: `"customer"`, `"payment_method"`, `"subscription_plan"`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
@@ -897,7 +897,7 @@ Signature: `listLineItems(string|Model $subscription_id, array|Model|null $param
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string | Flint subscription ID. |
+| `subscription_id` | Required | string | Flint subscription ID. Must be a valid ID with prefix sub_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -953,10 +953,10 @@ Signature: `listPaymentRetries(string|Model $subscription_id, array|Model|null $
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string | Flint subscription ID. |
+| `subscription_id` | Required | string | Flint subscription ID. Must be a valid ID with prefix sub_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
-| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. pattern: `^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$`. |
+| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns only resources created in your caller namespace, plus resources created before caller scoping under the original key. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. pattern: `^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -1010,7 +1010,7 @@ Signature: `pause(string|Model $subscription_id, array|Model|null $params = null
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string | Flint subscription ID. |
+| `subscription_id` | Required | string | Flint subscription ID. Must be a valid ID with prefix sub_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -1071,7 +1071,7 @@ Signature: `removePromotions(string|Model $subscription_id, array|Model $params,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string | Flint subscription ID. |
+| `subscription_id` | Required | string | Flint subscription ID. Must be a valid ID with prefix sub_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -1144,7 +1144,7 @@ Signature: `renew(string|Model $subscription_id, array|Model|null $params = null
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string | Subscription ID. |
+| `subscription_id` | Required | string | Subscription ID. Must be a valid ID with prefix sub_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -1206,7 +1206,7 @@ Signature: `resume(string|Model $subscription_id, array|Model|null $params = nul
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string | Flint subscription ID. |
+| `subscription_id` | Required | string | Flint subscription ID. Must be a valid ID with prefix sub_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -1268,7 +1268,7 @@ Signature: `skipCycle(string|Model $subscription_id, array|Model|null $params = 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string | Flint subscription ID. |
+| `subscription_id` | Required | string | Flint subscription ID. Must be a valid ID with prefix sub_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -1324,7 +1324,7 @@ $result = $client->subscriptions->skipCycle('sub_01KEZF7C00BVRE8YDBXQB74BBM', nu
 
 ### subscriptions.update
 
-Updates metadata, external_reference_id, payment_method_id, delivery, billing interval, cancel_at_period_end: false to undo a scheduled cancellation, or scheduled_plan_change: null to keep the current plan. Send billing_interval and billing_interval_count together. A billing_schedule update must be the only mutable field. Delivery and cadence changes apply to future unpaid renewals. Send expected_version to reject concurrent changes. Schedule a cancellation with POST /v1/subscriptions/{subscription_id}/cancel, change the plan with /change-plan, and manage lines through the line-items collection. A card whose setup hasn't finished fails with `ACTION_NOT_ALLOWED` and reason `status_not_reached`. Once setup finishes, send a new request with a new idempotency key.
+Updates metadata, external_reference_id, payment_method_id, delivery, billing interval, cancel_at_period_end: false to undo a scheduled cancellation, or scheduled_plan_change: null to keep the current plan. If a retained card is unusable, undoing cancellation requires a usable replacement in payment_method_id; otherwise ACTION_NOT_ALLOWED has reason payment_method_required. Send billing_interval and billing_interval_count together. A billing_schedule update must be the only mutable field. Delivery and cadence changes apply to future unpaid renewals. Send expected_version to reject concurrent changes. Schedule a cancellation with POST /v1/subscriptions/{subscription_id}/cancel, change the plan with /change-plan, and manage lines through the line-items collection. A card whose setup hasn't finished fails with `ACTION_NOT_ALLOWED` and reason `status_not_reached`. Once setup finishes, send a new request with a new idempotency key.
 
 `PATCH /v1/subscriptions/{subscription_id}`
 
@@ -1334,7 +1334,7 @@ Signature: `update(string|Model $subscription_id, array|Model $params, ?RequestO
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string | Flint subscription ID. |
+| `subscription_id` | Required | string | Flint subscription ID. Must be a valid ID with prefix sub_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -1419,8 +1419,8 @@ Signature: `updateLineItem(string|Model $subscription_id, string|Model $subscrip
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string | Subscription ID. |
-| `subscription_line_item_id` | Required | string | Subscription line item ID. |
+| `subscription_id` | Required | string | Subscription ID. Must be a valid ID with prefix sub_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
+| `subscription_line_item_id` | Required | string | Subscription line item ID. Must be a valid ID with prefix sli_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |

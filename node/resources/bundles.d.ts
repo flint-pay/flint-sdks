@@ -13,8 +13,8 @@ import type {
     BundlesUpdateParams
 } from '../declarations/types-1.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -44,32 +44,34 @@ export type {
     AuthMode,
     BundleComponentVariantSummary
 } from '../declarations/types-1.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { RequestOptions } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateBundleRequestInput, CreateBundleComponentRequestInput, CreateBundleComponentRequest } from '../declarations/types-8.js';
-export type { ImageRequestInput } from '../declarations/types-31.js';
-export type { ImageInputSourceURLInput, ImageInputFileInput, ImageAttachment } from '../declarations/types-30.js';
+export type { ImageRequestInput, ImageInputSourceURLInput, ImageInputFileInput, ImageAttachment } from '../declarations/types-31.js';
 export type {
     MetadataRequestInput,
     MetadataMap,
+    ModifierSet,
+    ModifierSetGroup,
     ModifierGroup,
     Modifier,
+    ModifierOverride,
     MetadataPatchRequestInput,
     MetadataPatchRequest
-} from '../declarations/types-41.js';
-export type { MoneyValueInput, ModifierSet, ModifierSetGroup, MoneyValue, ModifierOverride, NextAction } from '../declarations/types-42.js';
-export type { Credentials } from '../declarations/types-14.js';
+} from '../declarations/types-43.js';
+export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-44.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { CategoryReference } from '../declarations/types-5.js';
-export type { TextModifierConfig } from '../declarations/types-72.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { SelectedProductOption } from '../declarations/types-65.js';
-export type { UpdateBundleRequestInput, UpdateBundleComponentRequestInput, UpdateBundleComponentRequest } from '../declarations/types-73.js';
-export { makeCreateBundleComponentRequest, makeCreateBundleRequest } from '../declarations/types-79.js';
-export { makeImageInputFile, makeImageInputSourceURL, makeImageRequest } from '../declarations/types-84.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeUpdateBundleComponentRequest, makeUpdateBundleRequest } from '../declarations/types-90.js';
+export type { TextModifierConfig } from '../declarations/types-74.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { SelectedProductOption } from '../declarations/types-67.js';
+export type { UpdateBundleRequestInput, UpdateBundleComponentRequestInput, UpdateBundleComponentRequest } from '../declarations/types-75.js';
+export { makeCreateBundleComponentRequest, makeCreateBundleRequest } from '../declarations/types-81.js';
+export { makeImageInputFile, makeImageInputSourceURL, makeImageRequest } from '../declarations/types-86.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeUpdateBundleComponentRequest, makeUpdateBundleRequest } from '../declarations/types-93.js';
 export interface BundlesResource {
     /**
  * Creates a bundle: several product variants sold as one line at a single price. Send `name` and
@@ -95,7 +97,9 @@ export interface BundlesResource {
  * `VERSION_CONFLICT` and the `current_version`, even when the resource is already archived.
  *
  * `DELETE /v1/bundles/{bundle_id}`
- * @param bundle_id Flint bundle ID.
+ * @param bundle_id Flint bundle ID. Must be a valid ID with prefix bun_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/bundles#deleteBundle
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -108,7 +112,9 @@ export interface BundlesResource {
  * Returns one bundle by ID, with its price, components, and whether it is available for sale.
  *
  * `GET /v1/bundles/{bundle_id}`
- * @param bundle_id Flint bundle ID.
+ * @param bundle_id Flint bundle ID. Must be a valid ID with prefix bun_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/bundles#getBundle
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -119,7 +125,9 @@ export interface BundlesResource {
  * List bundle components. Default order: position ascending, then bundle_component_id ascending.
  *
  * `GET /v1/bundles/{bundle_id}/components`
- * @param bundle_id Flint bundle ID.
+ * @param bundle_id Flint bundle ID. Must be a valid ID with prefix bun_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/bundles#listBundleComponents
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -161,7 +169,9 @@ export interface BundlesResource {
  * archived. The error names the archived resource and its `current_status`.
  *
  * `PATCH /v1/bundles/{bundle_id}`
- * @param bundle_id Flint bundle ID.
+ * @param bundle_id Flint bundle ID. Must be a valid ID with prefix bun_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/bundles#updateBundle
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

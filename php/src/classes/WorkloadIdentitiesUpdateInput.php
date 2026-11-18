@@ -10,7 +10,7 @@ namespace Flint;
 final class WorkloadIdentitiesUpdateInput extends Model {
     /** @param array{'workload_identity_id': string, 'body': array{'claim_conditions'?: list<mixed>, 'expected_version'?: int, 'name'?: string, 'scopes'?: list<string>, 'status'?: string, 'subject'?: string, 'subject_match'?: string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WorkloadIdentitiesUpdateInput')); }
-    /** Flint workload identity ID. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
+    /** Flint workload identity ID. Must be a valid ID with prefix wid_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
      * @return string
      * @throws SdkError When workload_identity_id is omitted; use hasWorkloadIdentityId() or valueOrDefault().
      */

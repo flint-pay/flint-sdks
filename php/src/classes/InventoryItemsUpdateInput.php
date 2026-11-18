@@ -10,7 +10,7 @@ namespace Flint;
 final class InventoryItemsUpdateInput extends Model {
     /** @param array{'inventory_item_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'backorder'?: mixed, 'barcode'?: string|null, 'expected_version'?: int, 'external_reference_id'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name'?: string, 'sku'?: string|null, 'status'?: string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryItemsUpdateInput')); }
-    /** Flint inventory item ID. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
+    /** Flint inventory item ID. Must be a valid ID with prefix invi_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
      * @return string
      * @throws SdkError When inventory_item_id is omitted; use hasInventoryItemId() or valueOrDefault().
      */

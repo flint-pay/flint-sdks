@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read ?string $barcode
+ * @property-read MoneyValue|null $compare_at_price_money
  * @property-read ?string $created_at
  * @property-read ?string $delivery_configuration_reason
  * @property-read string $delivery_configuration_status
@@ -15,6 +16,7 @@ namespace Flint;
  * @property-read string $inventory_tracking
  * @property-read bool $is_available_for_sale
  * @property-read bool $is_inheriting_product_images
+ * @property-read mixed $license_key_configuration
  * @property-read ?string $line_item_tax_category
  * @property-read ?string $merchant_id
  * @property-read ?array<array-key, string> $metadata
@@ -36,13 +38,18 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class ProductVariantCreatedInstalledMerchantsEventDataObject extends Model {
-    /** @param array{'barcode'?: string, 'created_at'?: string, 'delivery_configuration_reason'?: string, 'delivery_configuration_status': string, 'delivery_profile_id'?: string, 'effective_images': list<mixed>, 'external_reference_id'?: string, 'gift_card_configuration'?: mixed, 'images': list<mixed>, 'inventory_item_id'?: string, 'inventory_tracking': string, 'is_available_for_sale': bool, 'is_inheriting_product_images': bool, 'line_item_tax_category'?: string, 'merchant_id'?: string, 'metadata'?: mixed, 'modifier_set_id': string|null, 'name'?: string, 'position': int, 'product_id': string, 'quantity_price_breaks': list<mixed>, 'release_date': string|null, 'selected_options': list<mixed>, 'sku'?: string, 'status': string, 'taxable'?: bool, 'unit_dimensions'?: mixed, 'unit_price_money': mixed, 'unit_weight'?: mixed, 'updated_at'?: string, 'variant_id': string, 'version': int, ...}|object $values */
+    /** @param array{'barcode'?: string, 'compare_at_price_money': mixed, 'created_at'?: string, 'delivery_configuration_reason'?: string, 'delivery_configuration_status': string, 'delivery_profile_id'?: string, 'effective_images': list<mixed>, 'external_reference_id'?: string, 'gift_card_configuration'?: mixed, 'images': list<mixed>, 'inventory_item_id'?: string, 'inventory_tracking': string, 'is_available_for_sale': bool, 'is_inheriting_product_images': bool, 'license_key_configuration': mixed, 'line_item_tax_category'?: string, 'merchant_id'?: string, 'metadata'?: mixed, 'modifier_set_id': string|null, 'name'?: string, 'position': int, 'product_id': string, 'quantity_price_breaks': list<mixed>, 'release_date': string|null, 'selected_options': list<mixed>, 'sku'?: string, 'status': string, 'taxable'?: bool, 'unit_dimensions'?: mixed, 'unit_price_money': mixed, 'unit_weight'?: mixed, 'updated_at'?: string, 'variant_id': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ProductVariantCreatedInstalledMerchantsEventDataObject')); }
     /** Barcode assigned to this sellable item.
      * @return ?string
      */
     public function getBarcode(): ?string { return $this->get('barcode'); }
     public function hasBarcode(): bool { return $this->has('barcode'); }
+    /** Reference unit price for sale display, in the same currency and strictly greater than unit_price_money. Null when no compare-at price is set. Does not affect charges or quantity price breaks. anyOf[1] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
+     * @return MoneyValue|null
+     */
+    public function getCompareAtPriceMoney(): MoneyValue|null { return $this->get('compare_at_price_money'); }
+    public function hasCompareAtPriceMoney(): bool { return $this->has('compare_at_price_money'); }
     /** When this resource was created, as an RFC3339 timestamp. Format: date-time.
      * @return ?string
      */
@@ -103,6 +110,11 @@ final class ProductVariantCreatedInstalledMerchantsEventDataObject extends Model
      */
     public function getIsInheritingProductImages(): bool { return $this->get('is_inheriting_product_images'); }
     public function hasIsInheritingProductImages(): bool { return $this->has('is_inheriting_product_images'); }
+    /** License key terms. Null when the variant has no license key setting. Replaced as a whole: send every field you want to keep. Only product_type digital supports this setting. It adds no delivery requirement and is independent of the delivery profile. Send null to remove every value you set in this section. Omission preserves it on update. anyOf[1] (Value): {@see LicenseKeyConfiguration}. License key terms. Null limits mean unlimited activations or no expiry. A null generated key prefix means no prefix. anyOf[2] (Value): null.
+     * @return mixed
+     */
+    public function getLicenseKeyConfiguration(): mixed { return $this->get('license_key_configuration'); }
+    public function hasLicenseKeyConfiguration(): bool { return $this->has('license_key_configuration'); }
     /** Stored Flint line-item tax category. New digital-product variants default to digital_goods when omitted. The stored value remains editable. Unset uses the merchant default. Value enum: "general", "physical_goods", "digital_goods", "software", "saas", "services", "professional_services", "food", "prepared_food", "clothing", "medical_goods", "admission".
      * @return ?string
      */

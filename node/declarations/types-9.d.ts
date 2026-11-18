@@ -1,5 +1,7 @@
-import type { CustomerTaxExemptionCoverageRequestInput } from './types-16.js';
-import type { MetadataRequestInput, MetadataMap } from './types-41.js';
+import type { AddressRequest, AddressRequestInput, APIKey } from './types-0.js';
+import type { MetadataMap, MetadataRequestInput } from './types-43.js';
+import type { TaxIdentityPatch, TaxIdentityRequestInput } from './types-74.js';
+import type { CustomerTaxExemptionCoverage, CustomerTaxExemptionCoverageRequestInput } from './types-17.js';
 import type {
     DeliveryLocationSetConfiguration,
     DeliveryLocationSetConfigurationInput,
@@ -13,42 +15,567 @@ import type {
     DeliveryMethodOriginSelectorRequestInput,
     DeliveryPickupAvailabilityMaximumDistanceRequestInput
 } from './types-20.js';
-import type { CreateOrderLineItemRequest, CreateOrderLineItemRequestInput } from './types-11.js';
-import type { DeliveryAddressRequest, DeliveryAddressRequestInput } from './types-17.js';
-import type { DeliveryBuyerLocationRequest, DeliveryBuyerLocationRequestInput, DeliveryDistance } from './types-18.js';
+import type { CreateOrderLineItemRequest } from './types-11.js';
+import type {
+    DeliveryAddressRequest,
+    DeliveryBuyerLocationRequest,
+    DeliveryAddressRequestInput,
+    DeliveryBuyerLocationRequestInput,
+    DeliveryDistance
+} from './types-18.js';
 import type { InventoryRoutingSourceRequest, InventoryRoutingSourceRequestInput } from './types-33.js';
-import type { DeliveryProfileConfigurationRequest, DeliveryProfileConfigurationRequestInput } from './types-21.js';
-import type { DeliveryRateCallbackConfiguration, DeliveryRateCallbackConfigurationRequestInput } from './types-22.js';
-import type { WebhookSigningMethod, WebhookSigningMethodInput } from './types-77.js';
+import type { CreateOrderLineItemRequestInput, CreatePickupFulfillmentDetails } from './types-12.js';
+import type { DeliveryProfileConfigurationRequest } from './types-21.js';
 import type {
-    DeliveryRevocationTarget,
+    DeliveryProfileConfigurationRequestInput,
+    DeliveryRateCallbackConfiguration,
+    DeliveryRateCallbackConfigurationRequestInput
+} from './types-22.js';
+import type { WebhookSigningMethod, WebhookSigningMethodInput } from './types-79.js';
+import type { DeliveryRevocationTarget } from './types-23.js';
+import type {
     DeliverySelectionInstructionsRequest,
-    DeliverySelectionInstructionsRequestInput
-} from './types-23.js';
-import type { AddressRequest, AddressRequestInput, APIKey } from './types-0.js';
-import type {
+    DeliverySelectionInstructionsRequestInput,
     DeliverySelectionRecipientRequest,
     DeliverySelectionRecipientRequestInput,
-    DeliveryZoneConfigurationRequest,
-    DeliveryZoneConfigurationRequestInput
+    DeliveryZoneConfigurationRequest
 } from './types-24.js';
-import type { Sandbox } from './types-65.js';
-import type { FeedbackReportingClient, FeedbackReportingClientRequestInput } from './types-26.js';
+import type { DeliveryZoneConfigurationRequestInput } from './types-25.js';
+import type { Sandbox } from './types-67.js';
 import type {
+    CreateFulfillmentRequestDigital,
+    CreateFulfillmentRequestLocalDelivery,
+    CreateFulfillmentRequestPickup,
     CreateFulfillmentRequestService,
-    CreateFulfillmentRequestShipment,
-    CreateFulfillmentRequestServiceInput,
-    CreateFulfillmentRequestShipmentInput
+    CreateFulfillmentRequestShipment
 } from './types-10.js';
-import type { CreatePickupFulfillmentDetails, CreatePickupFulfillmentDetailsInput } from './types-12.js';
-import type { CreateServiceFulfillmentDetails, CreateServiceFulfillmentDetailsInput } from './types-13.js';
-import type {
-    FulfillmentLineItemRequest,
-    FulfillmentPackagingRequest,
-    FulfillmentLineItemRequestInput,
-    FulfillmentPackagingRequestInput
-} from './types-27.js';
-import type { FulfillmentRecipientRequest, FulfillmentRecipientRequestInput } from './types-28.js';
+import type { CreateServiceFulfillmentDetails } from './types-14.js';
+import type { FulfillmentLineItemRequest } from './types-27.js';
+import type { FulfillmentPackagingRequest, FulfillmentRecipientRequest } from './types-28.js';
+/** The request body for: Create a custom domain. */
+export type CreateCustomDomainRequest = {
+    /**
+     * Hostname to configure, such as checkout.example.com or account.example.com. minLength: 1.
+     * maxLength: 253.
+     */
+    "hostname": string;
+    /**
+     * Whether the hostname serves checkout pages or the customer account Flint hosts. Value enum:
+     * "checkout", "customer_account".
+     */
+    "type": "checkout" | "customer_account" | (string & {});
+};
+/** The request body for: Create a custom domain. */
+export type CreateCustomDomainRequestInput = {
+    /**
+     * Hostname to configure, such as checkout.example.com or account.example.com. minLength: 1.
+     * maxLength: 253.
+     */
+    "hostname": string;
+    /**
+     * Whether the hostname serves checkout pages or the customer account Flint hosts. Value enum:
+     * "checkout", "customer_account".
+     */
+    "type": "checkout" | "customer_account";
+};
+/** Delivery mode, link lifetime, and return destination for a customer account link. */
+export type CreateCustomerAccessLinkRequest = ({
+    /**
+     * link returns the credential for your server to relay. email asks Flint to enqueue a
+     * store-branded email to the customer's current address and returns only a delivery
+     * acknowledgement and masked recipient. Default: "link". Value enum: "link", "email".
+     */
+    "delivery"?: "link" | "email" | (string & {});
+    /**
+     * 900 (15 minutes) or 259200 (72 hours). Omission keeps 900 for link delivery; email delivery
+     * always uses 259200. Both links are single-use. An idempotent replay keeps the original
+     * expiry. Value enum: 900, 259200.
+     */
+    "expires_in_seconds"?: number;
+    /**
+     * Where the buyer can return to on your site. Kept for the browser session this link starts,
+     * until sign-out or session end. Absolute HTTPS URL without credentials; test mode also
+     * accepts HTTP loopback URLs. Up to 2,048 characters. Query strings and fragments are allowed.
+     * Omit it for no return destination. Format: uri. minLength: 1. maxLength: 2048. Example:
+     * "https://example.com/receipt".
+     */
+    "return_url"?: string;
+});
+/** Delivery mode, link lifetime, and return destination for a customer account link. */
+export type CreateCustomerAccessLinkRequestInput = ({
+    /**
+     * link returns the credential for your server to relay. email asks Flint to enqueue a
+     * store-branded email to the customer's current address and returns only a delivery
+     * acknowledgement and masked recipient. Default: "link". Value enum: "link", "email".
+     */
+    "delivery"?: "link" | "email";
+    /**
+     * 900 (15 minutes) or 259200 (72 hours). Omission keeps 900 for link delivery; email delivery
+     * always uses 259200. Both links are single-use. An idempotent replay keeps the original
+     * expiry. Value enum: 900, 259200.
+     */
+    "expires_in_seconds"?: 900 | 259200;
+    /**
+     * Where the buyer can return to on your site. Kept for the browser session this link starts,
+     * until sign-out or session end. Absolute HTTPS URL without credentials; test mode also
+     * accepts HTTP loopback URLs. Up to 2,048 characters. Query strings and fragments are allowed.
+     * Omit it for no return destination. Format: uri. minLength: 1. maxLength: 2048. Example:
+     * "https://example.com/receipt".
+     */
+    "return_url"?: string;
+});
+/** The request body for: Create a customer address; Create an address for the current buyer. */
+export type CreateCustomerAddressRequest = {
+    /**
+     * The postal address to save. A complete postal address. State and postal_code are required
+     * for US addresses and optional for other countries. Send null or omit line2, state, and
+     * postal_code when the address has none.
+     */
+    "address": AddressRequest;
+    /**
+     * Set true to make this the default billing address and remove that default from any other
+     * saved address. Defaults to false.
+     */
+    "is_default_billing"?: boolean;
+    /**
+     * Set true to make this the default shipping address and remove that default from any other
+     * saved address. Defaults to false.
+     */
+    "is_default_shipping"?: boolean;
+    /**
+     * Limited to 100 characters (Unicode code points), counted before surrounding whitespace is
+     * trimmed. minLength: 1. maxLength: 100.
+     */
+    "label"?: string;
+    /**
+     * E.164 phone number. Limited to 30 characters (Unicode code points), counted before
+     * surrounding whitespace is trimmed. minLength: 1. maxLength: 30.
+     */
+    "phone"?: string;
+    /**
+     * Limited to 255 characters (Unicode code points), counted before surrounding whitespace is
+     * trimmed. minLength: 1. maxLength: 255.
+     */
+    "recipient_name": string;
+};
+/** The request body for: Create a customer address; Create an address for the current buyer. */
+export type CreateCustomerAddressRequestInput = {
+    /**
+     * The postal address to save. A complete postal address. State and postal_code are required
+     * for US addresses and optional for other countries. Send null or omit line2, state, and
+     * postal_code when the address has none.
+     */
+    "address": AddressRequestInput;
+    /**
+     * Set true to make this the default billing address and remove that default from any other
+     * saved address. Defaults to false.
+     */
+    "is_default_billing"?: boolean;
+    /**
+     * Set true to make this the default shipping address and remove that default from any other
+     * saved address. Defaults to false.
+     */
+    "is_default_shipping"?: boolean;
+    /**
+     * Limited to 100 characters (Unicode code points), counted before surrounding whitespace is
+     * trimmed. minLength: 1. maxLength: 100.
+     */
+    "label"?: string;
+    /**
+     * E.164 phone number. Limited to 30 characters (Unicode code points), counted before
+     * surrounding whitespace is trimmed. minLength: 1. maxLength: 30.
+     */
+    "phone"?: string;
+    /**
+     * Limited to 255 characters (Unicode code points), counted before surrounding whitespace is
+     * trimmed. minLength: 1. maxLength: 255.
+     */
+    "recipient_name": string;
+};
+/** The request body for: Request customer account deletion. */
+export type CreateCustomerDeletionRequest = {
+    /**
+     * Flint customer ID of the customer to delete. minLength: 1. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id": string;
+};
+/** The request body for: Request customer account deletion. */
+export type CreateCustomerDeletionRequestInput = CreateCustomerDeletionRequest;
+/** The request body for: Create customer. */
+export type CreateCustomerRequest = ({
+    /**
+     * Initial saved addresses, created atomically with the customer. Each entry uses the
+     * address-book create shape. At most one entry may be the billing default and one the shipping
+     * default. Defaults populate billing_address and shipping_address. Omit or send [] for none.
+     * When on_email_conflict is return_existing, an existing customer and its addresses stay
+     * unchanged. [] (Value): {@link CreateCustomerAddressRequest}. The request body for: Create a
+     * customer address; Create an address for the current buyer.
+     */
+    "addresses"?: Array<CreateCustomerAddressRequest>;
+    /**
+     * ID of the invoice payment term that applies to this customer's invoices created with
+     * `payment_due.type` set to `customer_default`. minLength: 1. Example:
+     * "ipt_01KEZF7C0064N1V301BBMQ37R4".
+     */
+    "default_invoice_payment_term_id"?: string;
+    /**
+     * Customer email, unique among the environment's customers. Required when `on_email_conflict`
+     * is `return_existing`. The local part before @ must be at most 64 octets (UTF-8 bytes).
+     * Format: email. minLength: 1. maxLength: 320. Example: "buyer@example.com".
+     */
+    "email"?: string;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Internal note about this customer. Not returned to customer sessions. Surrounding whitespace
+     * is trimmed before length validation. A supplied value cannot be blank; use null where
+     * clearing is supported. minLength: 1. maxLength: 1000.
+     */
+    "internal_note"?: string;
+    /**
+     * Flag you set on the customer, for example after checking ID in store. Promotion and delivery
+     * rules can match it. Flint does not set it; it is unrelated to customer verifications, which
+     * prove a buyer controls an email address.
+     */
+    "is_merchant_verified"?: boolean;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Customer name, up to 255 characters (Unicode code points) after trimming surrounding
+     * whitespace. Surrounding whitespace is trimmed before length validation. A supplied value
+     * cannot be blank; use null where clearing is supported. minLength: 1.
+     */
+    "name"?: string;
+    /**
+     * What to do when an active customer in this environment already has `email`. `error` returns
+     * `409 ALREADY_EXISTS` naming that customer. `return_existing` returns that customer unchanged
+     * with `200` instead of creating one; it requires `email`. Emails match case-insensitively.
+     * Default: "error". Value enum: "error", "return_existing".
+     */
+    "on_email_conflict"?: "error" | "return_existing" | (string & {});
+    /**
+     * Customer phone number in E.164 format: a leading `+`, then the country code and number as
+     * digits only, such as `+14155551234`, matching `^\+[1-9][0-9]{1,14}$`. Flint trims
+     * surrounding whitespace but rejects spaces, hyphens, dots, and parentheses inside the number,
+     * so send `+14155550100`, not `+1 (415) 555-0100`. Leave out a national trunk prefix: send
+     * `+442079460958`, not `+4402079460958`. minLength: 1. Example: "+14155551234".
+     */
+    "phone"?: string;
+    /**
+     * ID of a wholesale price list in this merchant environment. An inactive list can be assigned
+     * but does not apply. An archived list returns 409 ACTION_NOT_ALLOWED; a missing list returns
+     * 404 RESOURCE_NOT_FOUND. Omit or send null for no direct list. minLength: 1. pattern:
+     * ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+     */
+    "price_list_id"?: string | null;
+    /**
+     * Free-form label you assign, such as wholesale, so promotion and delivery rules can match
+     * groups of customers. It is not an ID; Flint does not check it against any resource.
+     * minLength: 1.
+     */
+    "segment"?: string;
+    /**
+     * Whether Flint treats this customer as exempt from tax on their orders, so it skips tax
+     * calculation for them. Defaults to `false`.
+     */
+    "tax_exempt"?: boolean;
+    /**
+     * Legal name, registered address and tax IDs printed on this customer's invoices and credit
+     * notes. Merchant-provided legal identity displayed on invoices and credit notes. Flint does
+     * not verify IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or NZ
+     * destination to its tax provider, which can apply a reverse charge; other IDs do not change
+     * tax treatment. Tax IDs are an owned collection in display order; replacing the array
+     * requires the parent's expected_version. Existing entries retain their document_tax_id; omit
+     * an entry to remove it, or omit its ID to add one.
+     */
+    "tax_identity"?: TaxIdentityPatch;
+    /**
+     * Sandbox only. ID of a test clock to create the customer on. The customer, and every
+     * subscription created for it, read the clock's time instead of real time. A customer can't be
+     * moved to another clock or taken off one. A live credential gets `403 FORBIDDEN` with reason
+     * `test_mode_required`. minLength: 1. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
+     */
+    "test_clock_id"?: string;
+});
+/** The request body for: Create customer. */
+export type CreateCustomerRequestInput = ({
+    /**
+     * Initial saved addresses, created atomically with the customer. Each entry uses the
+     * address-book create shape. At most one entry may be the billing default and one the shipping
+     * default. Defaults populate billing_address and shipping_address. Omit or send [] for none.
+     * When on_email_conflict is return_existing, an existing customer and its addresses stay
+     * unchanged. [] (Value): {@link CreateCustomerAddressRequestInput}. The request body for:
+     * Create a customer address; Create an address for the current buyer.
+     */
+    "addresses"?: Array<CreateCustomerAddressRequestInput>;
+    /**
+     * ID of the invoice payment term that applies to this customer's invoices created with
+     * `payment_due.type` set to `customer_default`. minLength: 1. Example:
+     * "ipt_01KEZF7C0064N1V301BBMQ37R4".
+     */
+    "default_invoice_payment_term_id"?: string;
+    /**
+     * Customer email, unique among the environment's customers. Required when `on_email_conflict`
+     * is `return_existing`. The local part before @ must be at most 64 octets (UTF-8 bytes).
+     * Format: email. minLength: 1. maxLength: 320. Example: "buyer@example.com".
+     */
+    "email"?: string;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Internal note about this customer. Not returned to customer sessions. Surrounding whitespace
+     * is trimmed before length validation. A supplied value cannot be blank; use null where
+     * clearing is supported. minLength: 1. maxLength: 1000.
+     */
+    "internal_note"?: string;
+    /**
+     * Flag you set on the customer, for example after checking ID in store. Promotion and delivery
+     * rules can match it. Flint does not set it; it is unrelated to customer verifications, which
+     * prove a buyer controls an email address.
+     */
+    "is_merchant_verified"?: boolean;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Customer name, up to 255 characters (Unicode code points) after trimming surrounding
+     * whitespace. Surrounding whitespace is trimmed before length validation. A supplied value
+     * cannot be blank; use null where clearing is supported. minLength: 1.
+     */
+    "name"?: string;
+    /**
+     * What to do when an active customer in this environment already has `email`. `error` returns
+     * `409 ALREADY_EXISTS` naming that customer. `return_existing` returns that customer unchanged
+     * with `200` instead of creating one; it requires `email`. Emails match case-insensitively.
+     * Default: "error". Value enum: "error", "return_existing".
+     */
+    "on_email_conflict"?: "error" | "return_existing";
+    /**
+     * Customer phone number in E.164 format: a leading `+`, then the country code and number as
+     * digits only, such as `+14155551234`, matching `^\+[1-9][0-9]{1,14}$`. Flint trims
+     * surrounding whitespace but rejects spaces, hyphens, dots, and parentheses inside the number,
+     * so send `+14155550100`, not `+1 (415) 555-0100`. Leave out a national trunk prefix: send
+     * `+442079460958`, not `+4402079460958`. minLength: 1. Example: "+14155551234".
+     */
+    "phone"?: string;
+    /**
+     * ID of a wholesale price list in this merchant environment. An inactive list can be assigned
+     * but does not apply. An archived list returns 409 ACTION_NOT_ALLOWED; a missing list returns
+     * 404 RESOURCE_NOT_FOUND. Omit or send null for no direct list. minLength: 1. pattern:
+     * ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+     */
+    "price_list_id"?: string | null;
+    /**
+     * Free-form label you assign, such as wholesale, so promotion and delivery rules can match
+     * groups of customers. It is not an ID; Flint does not check it against any resource.
+     * minLength: 1.
+     */
+    "segment"?: string;
+    /**
+     * Whether Flint treats this customer as exempt from tax on their orders, so it skips tax
+     * calculation for them. Defaults to `false`.
+     */
+    "tax_exempt"?: boolean;
+    /**
+     * Legal name, registered address and tax IDs printed on this customer's invoices and credit
+     * notes. Merchant-provided legal identity displayed on invoices and credit notes. Flint does
+     * not verify IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or NZ
+     * destination to its tax provider, which can apply a reverse charge; other IDs do not change
+     * tax treatment. Tax IDs are an owned collection in display order; replacing the array
+     * requires the parent's expected_version. Existing entries retain their document_tax_id; omit
+     * an entry to remove it, or omit its ID to add one.
+     */
+    "tax_identity"?: TaxIdentityRequestInput;
+    /**
+     * Sandbox only. ID of a test clock to create the customer on. The customer, and every
+     * subscription created for it, read the clock's time instead of real time. A customer can't be
+     * moved to another clock or taken off one. A live credential gets `403 FORBIDDEN` with reason
+     * `test_mode_required`. minLength: 1. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
+     */
+    "test_clock_id"?: string;
+});
+/** The request body for: Create a customer session. */
+export type CreateCustomerSessionRequest = {
+    /**
+     * Operation capabilities granted to this session. Omit for full access; an empty list grants
+     * no operations except self-revocation. Refresh preserves this list. uniqueItems: true. []
+     * enum: "account.read", "account.manage", "account.delete", "orders.read", "returns.read",
+     * "returns.create", "subscriptions.read", "subscriptions.manage", "payments.create",
+     * "payment_methods.read", "payment_methods.manage", "addresses.read", "addresses.manage",
+     * "gift_cards.read", "gift_cards.manage", "license_keys.read", "license_keys.manage". []
+     * (Value): string. Value enum: "account.read", "account.manage", "account.delete",
+     * "orders.read", "returns.read", "returns.create", "subscriptions.read",
+     * "subscriptions.manage", "payments.create", "payment_methods.read", "payment_methods.manage",
+     * "addresses.read", "addresses.manage", "gift_cards.read", "gift_cards.manage",
+     * "license_keys.read", "license_keys.manage".
+     */
+    "capabilities"?: Array<"account.read"
+        | "account.manage"
+        | "account.delete"
+        | "orders.read"
+        | "returns.read"
+        | "returns.create"
+        | "subscriptions.read"
+        | "subscriptions.manage"
+        | "payments.create"
+        | "payment_methods.read"
+        | "payment_methods.manage"
+        | "addresses.read"
+        | "addresses.manage"
+        | "gift_cards.read"
+        | "gift_cards.manage"
+        | "license_keys.read"
+        | "license_keys.manage"
+        | (string & {})>;
+    /**
+     * ID of the customer the session acts as. Calls made with the session's secret see only this
+     * customer's data. minLength: 1. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id": string;
+    /**
+     * How long the secret authenticates account calls, in seconds. Defaults to 3600 (one hour).
+     * Refreshing issues a new secret with a new window. Format: int64. minimum: 300. maximum:
+     * 86400.
+     */
+    "expires_in_seconds"?: number;
+    /**
+     * How long the refresh token can be exchanged for a new secret, in seconds. Defaults to 604800
+     * (seven days). Format: int64. minimum: 3600. maximum: 2592000.
+     */
+    "refresh_expires_in_seconds"?: number;
+};
+/** The request body for: Create a customer session. */
+export type CreateCustomerSessionRequestInput = {
+    /**
+     * Operation capabilities granted to this session. Omit for full access; an empty list grants
+     * no operations except self-revocation. Refresh preserves this list. uniqueItems: true. []
+     * enum: "account.read", "account.manage", "account.delete", "orders.read", "returns.read",
+     * "returns.create", "subscriptions.read", "subscriptions.manage", "payments.create",
+     * "payment_methods.read", "payment_methods.manage", "addresses.read", "addresses.manage",
+     * "gift_cards.read", "gift_cards.manage", "license_keys.read", "license_keys.manage". []
+     * (Value): string. Value enum: "account.read", "account.manage", "account.delete",
+     * "orders.read", "returns.read", "returns.create", "subscriptions.read",
+     * "subscriptions.manage", "payments.create", "payment_methods.read", "payment_methods.manage",
+     * "addresses.read", "addresses.manage", "gift_cards.read", "gift_cards.manage",
+     * "license_keys.read", "license_keys.manage".
+     */
+    "capabilities"?: Array<"account.read"
+        | "account.manage"
+        | "account.delete"
+        | "orders.read"
+        | "returns.read"
+        | "returns.create"
+        | "subscriptions.read"
+        | "subscriptions.manage"
+        | "payments.create"
+        | "payment_methods.read"
+        | "payment_methods.manage"
+        | "addresses.read"
+        | "addresses.manage"
+        | "gift_cards.read"
+        | "gift_cards.manage"
+        | "license_keys.read"
+        | "license_keys.manage">;
+    /**
+     * ID of the customer the session acts as. Calls made with the session's secret see only this
+     * customer's data. minLength: 1. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id": string;
+    /**
+     * How long the secret authenticates account calls, in seconds. Defaults to 3600 (one hour).
+     * Refreshing issues a new secret with a new window. Format: int64. minimum: 300. maximum:
+     * 86400.
+     */
+    "expires_in_seconds"?: number;
+    /**
+     * How long the refresh token can be exchanged for a new secret, in seconds. Defaults to 604800
+     * (seven days). Format: int64. minimum: 3600. maximum: 2592000.
+     */
+    "refresh_expires_in_seconds"?: number;
+};
+/** The request body for: Create a customer tax exemption. */
+export type CreateCustomerTaxExemptionRequest = {
+    /**
+     * Merchant's exemption certificate number. Null when none is recorded. minLength: 1.
+     * maxLength: 255.
+     */
+    "certificate_number"?: string | null;
+    /**
+     * Replaced as a whole: send every field you want to keep. Replaced as a whole: send every
+     * field you want to keep. Covers all US states or an explicit list of US states and DC.
+     */
+    "coverage": CustomerTaxExemptionCoverage;
+    /**
+     * Explanation of the exemption. Required for other. Null when none is recorded. minLength: 1.
+     * maxLength: 500.
+     */
+    "description"?: string | null;
+    /**
+     * Last day of the exemption, inclusive, in YYYY-MM-DD format. Null when the exemption has no
+     * end date. Format: date. minLength: 1. Example: "2026-08-02".
+     */
+    "end_date"?: string | null;
+    /**
+     * Merchant-only reference to the supporting document. Never shown to buyers or printed on
+     * buyer documents. Null when none is recorded. minLength: 1. maxLength: 1024.
+     */
+    "evidence_reference"?: string | null;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Exemption reason. Other requires a description. Value enum: "federal_government",
+     * "state_or_local_government", "tribal_government", "foreign_diplomat",
+     * "charitable_organization", "religious_organization", "educational_organization", "resale",
+     * "agricultural_production", "industrial_production", "direct_pay_permit", "direct_mail",
+     * "other".
+     */
+    "reason": "federal_government"
+        | "state_or_local_government"
+        | "tribal_government"
+        | "foreign_diplomat"
+        | "charitable_organization"
+        | "religious_organization"
+        | "educational_organization"
+        | "resale"
+        | "agricultural_production"
+        | "industrial_production"
+        | "direct_pay_permit"
+        | "direct_mail"
+        | "other"
+        | (string & {});
+    /**
+     * First day of the exemption, inclusive, in YYYY-MM-DD format. May be up to 365 days in the
+     * future. Format: date. minLength: 1. Example: "2026-08-02".
+     */
+    "start_date": string;
+};
 /** The request body for: Create a customer tax exemption. */
 export type CreateCustomerTaxExemptionRequestInput = {
     /**
@@ -300,7 +827,10 @@ export type CreateDeliveryLocationSetRequest = {
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataMap;
-    /** Merchant-facing name. minLength: 1. */
+    /**
+     * Merchant-facing name. Surrounding whitespace is trimmed before length validation. A supplied
+     * value cannot be blank; use null where clearing is supported. minLength: 1.
+     */
     "name": string;
 };
 /** The request body for: Create delivery location set. */
@@ -324,7 +854,10 @@ export type CreateDeliveryLocationSetRequestInput = {
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataRequestInput;
-    /** Merchant-facing name. minLength: 1. */
+    /**
+     * Merchant-facing name. Surrounding whitespace is trimmed before length validation. A supplied
+     * value cannot be blank; use null where clearing is supported. minLength: 1.
+     */
     "name": string;
 };
 /** The request body for: Create delivery method. */
@@ -356,7 +889,11 @@ export type CreateDeliveryMethodRequest = ({
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataMap;
-    /** Name of the method. Buyers see it as the option name at checkout. minLength: 1. */
+    /**
+     * Name of the method. Buyers see it as the option name at checkout. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1.
+     */
     "name": string;
     /**
      * Marks this method as recommended. Within each choice group, the available method with the
@@ -408,7 +945,11 @@ export type CreateDeliveryMethodRequestInput = ({
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataRequestInput;
-    /** Name of the method. Buyers see it as the option name at checkout. minLength: 1. */
+    /**
+     * Name of the method. Buyers see it as the option name at checkout. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1.
+     */
     "name": string;
     /**
      * Marks this method as recommended. Within each choice group, the available method with the
@@ -459,7 +1000,11 @@ export type CreateDeliveryMethodRequestLocalDelivery = ({
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataMap;
-    /** Name of the method. Buyers see it as the option name at checkout. minLength: 1. */
+    /**
+     * Name of the method. Buyers see it as the option name at checkout. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1.
+     */
     "name": string;
     /**
      * Marks this method as recommended. Within each choice group, the available method with the
@@ -603,7 +1148,11 @@ export type CreateDeliveryMethodRequestLocalDeliveryInput = ({
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataRequestInput;
-    /** Name of the method. Buyers see it as the option name at checkout. minLength: 1. */
+    /**
+     * Name of the method. Buyers see it as the option name at checkout. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1.
+     */
     "name": string;
     /**
      * Marks this method as recommended. Within each choice group, the available method with the
@@ -750,7 +1299,11 @@ export type CreateDeliveryMethodRequestPickup = ({
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataMap;
-    /** Name of the method. Buyers see it as the option name at checkout. minLength: 1. */
+    /**
+     * Name of the method. Buyers see it as the option name at checkout. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1.
+     */
     "name": string;
     /**
      * Marks this method as recommended. Within each choice group, the available method with the
@@ -947,7 +1500,11 @@ export type CreateDeliveryMethodRequestPickupInput = ({
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataRequestInput;
-    /** Name of the method. Buyers see it as the option name at checkout. minLength: 1. */
+    /**
+     * Name of the method. Buyers see it as the option name at checkout. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1.
+     */
     "name": string;
     /**
      * Marks this method as recommended. Within each choice group, the available method with the
@@ -1147,7 +1704,11 @@ export type CreateDeliveryMethodRequestShipment = ({
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataMap;
-    /** Name of the method. Buyers see it as the option name at checkout. minLength: 1. */
+    /**
+     * Name of the method. Buyers see it as the option name at checkout. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1.
+     */
     "name": string;
     /**
      * Marks this method as recommended. Within each choice group, the available method with the
@@ -1296,7 +1857,11 @@ export type CreateDeliveryMethodRequestShipmentInput = ({
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataRequestInput;
-    /** Name of the method. Buyers see it as the option name at checkout. minLength: 1. */
+    /**
+     * Name of the method. Buyers see it as the option name at checkout. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1.
+     */
     "name": string;
     /**
      * Marks this method as recommended. Within each choice group, the available method with the
@@ -1589,7 +2154,10 @@ export type CreateDeliveryProfileRequest = {
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataMap;
-    /** Merchant-facing name. minLength: 1. */
+    /**
+     * Merchant-facing name. Surrounding whitespace is trimmed before length validation. A supplied
+     * value cannot be blank; use null where clearing is supported. minLength: 1.
+     */
     "name": string;
 };
 /** The request body for: Create delivery profile. */
@@ -1614,7 +2182,10 @@ export type CreateDeliveryProfileRequestInput = {
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataRequestInput;
-    /** Merchant-facing name. minLength: 1. */
+    /**
+     * Merchant-facing name. Surrounding whitespace is trimmed before length validation. A supplied
+     * value cannot be blank; use null where clearing is supported. minLength: 1.
+     */
     "name": string;
 };
 /** The request body for: Create delivery rate callback. */
@@ -1630,7 +2201,10 @@ export type CreateDeliveryRateCallbackRequest = {
      * 255. Example: "warehouse-1842".
      */
     "external_reference_id"?: string;
-    /** Merchant-facing name. minLength: 1. */
+    /**
+     * Merchant-facing name. Surrounding whitespace is trimmed before length validation. A supplied
+     * value cannot be blank; use null where clearing is supported. minLength: 1.
+     */
     "name": string;
     /**
      * Signing methods for callback requests. Defaults to JWT verification with Flint's public
@@ -1659,7 +2233,10 @@ export type CreateDeliveryRateCallbackRequestInput = {
      * 255. Example: "warehouse-1842".
      */
     "external_reference_id"?: string;
-    /** Merchant-facing name. minLength: 1. */
+    /**
+     * Merchant-facing name. Surrounding whitespace is trimmed before length validation. A supplied
+     * value cannot be blank; use null where clearing is supported. minLength: 1.
+     */
     "name": string;
     /**
      * Signing methods for callback requests. Defaults to JWT verification with Flint's public
@@ -2001,7 +2578,10 @@ export type CreateDeliveryZoneRequest = {
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataMap;
-    /** Merchant-facing name. minLength: 1. */
+    /**
+     * Merchant-facing name. Surrounding whitespace is trimmed before length validation. A supplied
+     * value cannot be blank; use null where clearing is supported. minLength: 1.
+     */
     "name": string;
 };
 /** The request body for: Create delivery zone. */
@@ -2025,7 +2605,10 @@ export type CreateDeliveryZoneRequestInput = {
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataRequestInput;
-    /** Merchant-facing name. minLength: 1. */
+    /**
+     * Merchant-facing name. Surrounding whitespace is trimmed before length validation. A supplied
+     * value cannot be blank; use null where clearing is supported. minLength: 1.
+     */
     "name": string;
 };
 /** The request body for: Create demo session. */
@@ -2073,7 +2656,11 @@ export type CreateDeviceRequest = {
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataMap;
-    /** Name for the device, such as Front register. minLength: 1. */
+    /**
+     * Name for the device, such as Front register. Surrounding whitespace is trimmed before length
+     * validation. A supplied value cannot be blank; use null where clearing is supported.
+     * minLength: 1.
+     */
     "name": string;
 };
 /** The request body for: Create device. */
@@ -2098,7 +2685,11 @@ export type CreateDeviceRequestInput = {
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataRequestInput;
-    /** Name for the device, such as Front register. minLength: 1. */
+    /**
+     * Name for the device, such as Front register. Surrounding whitespace is trimmed before length
+     * validation. A supplied value cannot be blank; use null where clearing is supported.
+     * minLength: 1.
+     */
     "name": string;
 };
 /** Digital fulfillment details you supply when creating a fulfillment: the delivery URL. */
@@ -2111,763 +2702,14 @@ export type CreateDigitalFulfillmentDetailsInput = CreateDigitalFulfillmentDetai
 /** The request body for: Request a customer email change; Request an email change. */
 export type CreateEmailChangeRequest = {
     /**
-     * The address to change the email to. Flint emails a six-digit code to it. Format: email.
-     * minLength: 1. maxLength: 320. Example: "buyer@example.com".
+     * The address to change the email to. Flint emails a six-digit code to it. The local part
+     * before @ must be at most 64 octets (UTF-8 bytes). Format: email. minLength: 1. maxLength:
+     * 320. Example: "buyer@example.com".
      */
     "new_email": string;
 };
 /** The request body for: Request a customer email change; Request an email change. */
 export type CreateEmailChangeRequestInput = CreateEmailChangeRequest;
-/**
- * The `bug` variant of `CreateFeedbackReportRequest`. The `feature_request` variant of
- * `CreateFeedbackReportRequest`. The `other` variant of `CreateFeedbackReportRequest`. The
- * `papercut` variant of `CreateFeedbackReportRequest`. The `praise` variant of
- * `CreateFeedbackReportRequest`.
- */
-export type CreateFeedbackReportNarrative = ({
-    /**
-     * Optional observed outcome. Limited to 4000 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 4000.
-     */
-    "actual_behavior"?: string;
-    /**
-     * Dotted or hyphenated canonical command name, such as payment-intents.create. Limited to 200
-     * characters (Unicode code points), counted before whitespace and line-ending normalization.
-     * minLength: 1. maxLength: 200. pattern: ^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*$.
-     */
-    "canonical_command"?: string;
-    /**
-     * One file path relative to your repository root, optionally followed by `:line` or
-     * `:line:column`, such as `src/sync/products.ts:42`. Absolute paths, `..` segments, and
-     * backslashes are rejected. Limited to 500 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 500.
-     */
-    "code_location"?: string;
-    /**
-     * Optional feature or subsystem within the product. Limited to 128 characters (Unicode code
-     * points), counted before whitespace and line-ending normalization. minLength: 1. maxLength:
-     * 128.
-     */
-    "component"?: string;
-    /**
-     * Optional details about the feedback. Limited to 8000 characters (Unicode code points),
-     * counted before whitespace and line-ending normalization. minLength: 1. maxLength: 8000.
-     */
-    "description"?: string;
-    /**
-     * Optional desired outcome. Limited to 4000 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 4000.
-     */
-    "expected_behavior"?: string;
-    /**
-     * Classification of the feedback. Value enum: "papercut", "bug", "feature_request", "praise",
-     * "other".
-     */
-    "kind": "papercut" | "bug" | "feature_request" | "praise" | "other" | (string & {});
-    /**
-     * Flint request ID associated with this feedback. Limited to 255 characters (Unicode code
-     * points), counted before whitespace and line-ending normalization. minLength: 1. maxLength:
-     * 255. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "related_request_id"?: string;
-    /**
-     * Flint IDs of the resources this feedback is about, at most 20 and all different. Flint
-     * checks only that each ID has the format of a Flint resource ID, not that the resource exists
-     * or that you can read it. maxItems: 20. uniqueItems: true. [] (Value): string. minLength: 1.
-     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "related_resource_ids"?: Array<string>;
-    /** Whether the reporter is a human or an AI. Value enum: "human", "ai_agent". */
-    "reporter_kind"?: "human" | "ai_agent" | (string & {});
-    /**
-     * Tool submitting the feedback, independently of the product being discussed. Its name is
-     * required when present. The client that submits a feedback report, with its name, platform,
-     * version, and schema version.
-     */
-    "reporting_client"?: FeedbackReportingClient;
-    /**
-     * Unique steps in reproduction order, with at most 20 entries. maxItems: 20. uniqueItems:
-     * true. [] (Value): string. Limited to 1000 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 1000.
-     */
-    "reproduction_steps"?: Array<string>;
-    /**
-     * Positive, negative, or neutral assessment. Required for rating feedback; optional for
-     * narrative feedback. Value enum: "positive", "negative", "neutral".
-     */
-    "sentiment"?: "positive" | "negative" | "neutral" | (string & {});
-    /**
-     * Brief account of the feedback. Required for every kind except rating; optional for a rating.
-     * Limited to 200 characters (Unicode code points), counted before whitespace and line-ending
-     * normalization. minLength: 1. maxLength: 200.
-     */
-    "summary": string;
-    /**
-     * Product being discussed, independently of how the report is submitted. Value enum: "api",
-     * "cli", "mcp", "sdk", "docs", "dashboard", "checkout", "payment_links", "webhooks",
-     * "onboarding", "mobile", "other".
-     */
-    "surface": "api"
-        | "cli"
-        | "mcp"
-        | "sdk"
-        | "docs"
-        | "dashboard"
-        | "checkout"
-        | "payment_links"
-        | "webhooks"
-        | "onboarding"
-        | "mobile"
-        | "other"
-        | (string & {});
-    /**
-     * A public API route template exactly as the API reference shows it, such as
-     * `/v1/orders/{order_id}`, with no host, query string, or real IDs. Omit it for feedback that
-     * isn't about an API route; any other value returns `400 INVALID_REQUEST`. Limited to 500
-     * characters (Unicode code points), counted before whitespace and line-ending normalization.
-     * minLength: 1. maxLength: 500.
-     */
-    "surface_route"?: string;
-})
-    & ({
-    /** Value enum: "papercut", "bug", "feature_request", "praise", "other". */
-    "kind": "papercut" | "bug" | "feature_request" | "praise" | "other" | (string & {});
-    /**
-     * Product being discussed, independently of how the report is submitted. Value enum: "api",
-     * "cli", "mcp", "sdk", "docs", "dashboard", "checkout", "payment_links", "webhooks",
-     * "onboarding", "mobile", "other".
-     */
-    "surface": "api"
-        | "cli"
-        | "mcp"
-        | "sdk"
-        | "docs"
-        | "dashboard"
-        | "checkout"
-        | "payment_links"
-        | "webhooks"
-        | "onboarding"
-        | "mobile"
-        | "other"
-        | (string & {});
-    /**
-     * Brief account of the feedback. Required for every kind except rating; optional for a rating.
-     * Limited to 200 characters (Unicode code points), counted before whitespace and line-ending
-     * normalization. minLength: 1. maxLength: 200.
-     */
-    "summary": string;
-});
-/**
- * The `bug` variant of `CreateFeedbackReportRequest`. The `feature_request` variant of
- * `CreateFeedbackReportRequest`. The `other` variant of `CreateFeedbackReportRequest`. The
- * `papercut` variant of `CreateFeedbackReportRequest`. The `praise` variant of
- * `CreateFeedbackReportRequest`.
- */
-export type CreateFeedbackReportNarrativeInput = ({
-    /**
-     * Optional observed outcome. Limited to 4000 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 4000.
-     */
-    "actual_behavior"?: string;
-    /**
-     * Dotted or hyphenated canonical command name, such as payment-intents.create. Limited to 200
-     * characters (Unicode code points), counted before whitespace and line-ending normalization.
-     * minLength: 1. maxLength: 200. pattern: ^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*$.
-     */
-    "canonical_command"?: string;
-    /**
-     * One file path relative to your repository root, optionally followed by `:line` or
-     * `:line:column`, such as `src/sync/products.ts:42`. Absolute paths, `..` segments, and
-     * backslashes are rejected. Limited to 500 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 500.
-     */
-    "code_location"?: string;
-    /**
-     * Optional feature or subsystem within the product. Limited to 128 characters (Unicode code
-     * points), counted before whitespace and line-ending normalization. minLength: 1. maxLength:
-     * 128.
-     */
-    "component"?: string;
-    /**
-     * Optional details about the feedback. Limited to 8000 characters (Unicode code points),
-     * counted before whitespace and line-ending normalization. minLength: 1. maxLength: 8000.
-     */
-    "description"?: string;
-    /**
-     * Optional desired outcome. Limited to 4000 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 4000.
-     */
-    "expected_behavior"?: string;
-    /**
-     * Classification of the feedback. Value enum: "papercut", "bug", "feature_request", "praise",
-     * "other".
-     */
-    "kind": "papercut" | "bug" | "feature_request" | "praise" | "other";
-    /**
-     * Flint request ID associated with this feedback. Limited to 255 characters (Unicode code
-     * points), counted before whitespace and line-ending normalization. minLength: 1. maxLength:
-     * 255. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "related_request_id"?: string;
-    /**
-     * Flint IDs of the resources this feedback is about, at most 20 and all different. Flint
-     * checks only that each ID has the format of a Flint resource ID, not that the resource exists
-     * or that you can read it. maxItems: 20. uniqueItems: true. [] (Value): string. minLength: 1.
-     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "related_resource_ids"?: Array<string>;
-    /** Whether the reporter is a human or an AI. Value enum: "human", "ai_agent". */
-    "reporter_kind"?: "human" | "ai_agent";
-    /**
-     * Tool submitting the feedback, independently of the product being discussed. Its name is
-     * required when present. The client that submits a feedback report, with its name, platform,
-     * version, and schema version.
-     */
-    "reporting_client"?: FeedbackReportingClientRequestInput;
-    /**
-     * Unique steps in reproduction order, with at most 20 entries. maxItems: 20. uniqueItems:
-     * true. [] (Value): string. Limited to 1000 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 1000.
-     */
-    "reproduction_steps"?: Array<string>;
-    /**
-     * Positive, negative, or neutral assessment. Required for rating feedback; optional for
-     * narrative feedback. Value enum: "positive", "negative", "neutral".
-     */
-    "sentiment"?: "positive" | "negative" | "neutral";
-    /**
-     * Brief account of the feedback. Required for every kind except rating; optional for a rating.
-     * Limited to 200 characters (Unicode code points), counted before whitespace and line-ending
-     * normalization. minLength: 1. maxLength: 200.
-     */
-    "summary": string;
-    /**
-     * Product being discussed, independently of how the report is submitted. Value enum: "api",
-     * "cli", "mcp", "sdk", "docs", "dashboard", "checkout", "payment_links", "webhooks",
-     * "onboarding", "mobile", "other".
-     */
-    "surface": "api"
-        | "cli"
-        | "mcp"
-        | "sdk"
-        | "docs"
-        | "dashboard"
-        | "checkout"
-        | "payment_links"
-        | "webhooks"
-        | "onboarding"
-        | "mobile"
-        | "other";
-    /**
-     * A public API route template exactly as the API reference shows it, such as
-     * `/v1/orders/{order_id}`, with no host, query string, or real IDs. Omit it for feedback that
-     * isn't about an API route; any other value returns `400 INVALID_REQUEST`. Limited to 500
-     * characters (Unicode code points), counted before whitespace and line-ending normalization.
-     * minLength: 1. maxLength: 500.
-     */
-    "surface_route"?: string;
-})
-    & ({
-    /** Value enum: "papercut", "bug", "feature_request", "praise", "other". */
-    "kind": "papercut" | "bug" | "feature_request" | "praise" | "other";
-    /**
-     * Product being discussed, independently of how the report is submitted. Value enum: "api",
-     * "cli", "mcp", "sdk", "docs", "dashboard", "checkout", "payment_links", "webhooks",
-     * "onboarding", "mobile", "other".
-     */
-    "surface": "api"
-        | "cli"
-        | "mcp"
-        | "sdk"
-        | "docs"
-        | "dashboard"
-        | "checkout"
-        | "payment_links"
-        | "webhooks"
-        | "onboarding"
-        | "mobile"
-        | "other";
-    /**
-     * Brief account of the feedback. Required for every kind except rating; optional for a rating.
-     * Limited to 200 characters (Unicode code points), counted before whitespace and line-ending
-     * normalization. minLength: 1. maxLength: 200.
-     */
-    "summary": string;
-});
-/** The `rating` variant of `CreateFeedbackReportRequest`. */
-export type CreateFeedbackReportRating = ({
-    /**
-     * Optional observed outcome. Limited to 4000 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 4000.
-     */
-    "actual_behavior"?: string;
-    /**
-     * Dotted or hyphenated canonical command name, such as payment-intents.create. Limited to 200
-     * characters (Unicode code points), counted before whitespace and line-ending normalization.
-     * minLength: 1. maxLength: 200. pattern: ^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*$.
-     */
-    "canonical_command"?: string;
-    /**
-     * One file path relative to your repository root, optionally followed by `:line` or
-     * `:line:column`, such as `src/sync/products.ts:42`. Absolute paths, `..` segments, and
-     * backslashes are rejected. Limited to 500 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 500.
-     */
-    "code_location"?: string;
-    /**
-     * Optional feature or subsystem within the product. Limited to 128 characters (Unicode code
-     * points), counted before whitespace and line-ending normalization. minLength: 1. maxLength:
-     * 128.
-     */
-    "component"?: string;
-    /**
-     * Optional details about the feedback. Limited to 8000 characters (Unicode code points),
-     * counted before whitespace and line-ending normalization. minLength: 1. maxLength: 8000.
-     */
-    "description"?: string;
-    /**
-     * Optional desired outcome. Limited to 4000 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 4000.
-     */
-    "expected_behavior"?: string;
-    /** Classification of the feedback. Value enum: "rating". */
-    "kind": "rating" | (string & {});
-    /**
-     * Flint request ID associated with this feedback. Limited to 255 characters (Unicode code
-     * points), counted before whitespace and line-ending normalization. minLength: 1. maxLength:
-     * 255. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "related_request_id"?: string;
-    /**
-     * Flint IDs of the resources this feedback is about, at most 20 and all different. Flint
-     * checks only that each ID has the format of a Flint resource ID, not that the resource exists
-     * or that you can read it. maxItems: 20. uniqueItems: true. [] (Value): string. minLength: 1.
-     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "related_resource_ids"?: Array<string>;
-    /** Whether the reporter is a human or an AI. Value enum: "human", "ai_agent". */
-    "reporter_kind"?: "human" | "ai_agent" | (string & {});
-    /**
-     * Tool submitting the feedback, independently of the product being discussed. Its name is
-     * required when present. The client that submits a feedback report, with its name, platform,
-     * version, and schema version.
-     */
-    "reporting_client"?: FeedbackReportingClient;
-    /**
-     * Unique steps in reproduction order, with at most 20 entries. maxItems: 20. uniqueItems:
-     * true. [] (Value): string. Limited to 1000 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 1000.
-     */
-    "reproduction_steps"?: Array<string>;
-    /**
-     * Positive, negative, or neutral assessment. Required for rating feedback; optional for
-     * narrative feedback. Value enum: "positive", "negative", "neutral".
-     */
-    "sentiment": "positive" | "negative" | "neutral" | (string & {});
-    /**
-     * Brief account of the feedback. Required for every kind except rating; optional for a rating.
-     * Limited to 200 characters (Unicode code points), counted before whitespace and line-ending
-     * normalization. minLength: 1. maxLength: 200.
-     */
-    "summary"?: string;
-    /**
-     * Product being discussed, independently of how the report is submitted. Value enum: "api",
-     * "cli", "mcp", "sdk", "docs", "dashboard", "checkout", "payment_links", "webhooks",
-     * "onboarding", "mobile", "other".
-     */
-    "surface": "api"
-        | "cli"
-        | "mcp"
-        | "sdk"
-        | "docs"
-        | "dashboard"
-        | "checkout"
-        | "payment_links"
-        | "webhooks"
-        | "onboarding"
-        | "mobile"
-        | "other"
-        | (string & {});
-    /**
-     * A public API route template exactly as the API reference shows it, such as
-     * `/v1/orders/{order_id}`, with no host, query string, or real IDs. Omit it for feedback that
-     * isn't about an API route; any other value returns `400 INVALID_REQUEST`. Limited to 500
-     * characters (Unicode code points), counted before whitespace and line-ending normalization.
-     * minLength: 1. maxLength: 500.
-     */
-    "surface_route"?: string;
-})
-    & ({
-    /** Value enum: "rating". */
-    "kind": "rating" | (string & {});
-    /**
-     * Product being discussed, independently of how the report is submitted. Value enum: "api",
-     * "cli", "mcp", "sdk", "docs", "dashboard", "checkout", "payment_links", "webhooks",
-     * "onboarding", "mobile", "other".
-     */
-    "surface": "api"
-        | "cli"
-        | "mcp"
-        | "sdk"
-        | "docs"
-        | "dashboard"
-        | "checkout"
-        | "payment_links"
-        | "webhooks"
-        | "onboarding"
-        | "mobile"
-        | "other"
-        | (string & {});
-    /**
-     * Positive, negative, or neutral assessment. Required for rating feedback; optional for
-     * narrative feedback. Value enum: "positive", "negative", "neutral".
-     */
-    "sentiment": "positive" | "negative" | "neutral" | (string & {});
-});
-/** The `rating` variant of `CreateFeedbackReportRequest`. */
-export type CreateFeedbackReportRatingInput = ({
-    /**
-     * Optional observed outcome. Limited to 4000 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 4000.
-     */
-    "actual_behavior"?: string;
-    /**
-     * Dotted or hyphenated canonical command name, such as payment-intents.create. Limited to 200
-     * characters (Unicode code points), counted before whitespace and line-ending normalization.
-     * minLength: 1. maxLength: 200. pattern: ^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*$.
-     */
-    "canonical_command"?: string;
-    /**
-     * One file path relative to your repository root, optionally followed by `:line` or
-     * `:line:column`, such as `src/sync/products.ts:42`. Absolute paths, `..` segments, and
-     * backslashes are rejected. Limited to 500 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 500.
-     */
-    "code_location"?: string;
-    /**
-     * Optional feature or subsystem within the product. Limited to 128 characters (Unicode code
-     * points), counted before whitespace and line-ending normalization. minLength: 1. maxLength:
-     * 128.
-     */
-    "component"?: string;
-    /**
-     * Optional details about the feedback. Limited to 8000 characters (Unicode code points),
-     * counted before whitespace and line-ending normalization. minLength: 1. maxLength: 8000.
-     */
-    "description"?: string;
-    /**
-     * Optional desired outcome. Limited to 4000 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 4000.
-     */
-    "expected_behavior"?: string;
-    /** Classification of the feedback. Value enum: "rating". */
-    "kind": "rating";
-    /**
-     * Flint request ID associated with this feedback. Limited to 255 characters (Unicode code
-     * points), counted before whitespace and line-ending normalization. minLength: 1. maxLength:
-     * 255. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "related_request_id"?: string;
-    /**
-     * Flint IDs of the resources this feedback is about, at most 20 and all different. Flint
-     * checks only that each ID has the format of a Flint resource ID, not that the resource exists
-     * or that you can read it. maxItems: 20. uniqueItems: true. [] (Value): string. minLength: 1.
-     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "related_resource_ids"?: Array<string>;
-    /** Whether the reporter is a human or an AI. Value enum: "human", "ai_agent". */
-    "reporter_kind"?: "human" | "ai_agent";
-    /**
-     * Tool submitting the feedback, independently of the product being discussed. Its name is
-     * required when present. The client that submits a feedback report, with its name, platform,
-     * version, and schema version.
-     */
-    "reporting_client"?: FeedbackReportingClientRequestInput;
-    /**
-     * Unique steps in reproduction order, with at most 20 entries. maxItems: 20. uniqueItems:
-     * true. [] (Value): string. Limited to 1000 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 1000.
-     */
-    "reproduction_steps"?: Array<string>;
-    /**
-     * Positive, negative, or neutral assessment. Required for rating feedback; optional for
-     * narrative feedback. Value enum: "positive", "negative", "neutral".
-     */
-    "sentiment": "positive" | "negative" | "neutral";
-    /**
-     * Brief account of the feedback. Required for every kind except rating; optional for a rating.
-     * Limited to 200 characters (Unicode code points), counted before whitespace and line-ending
-     * normalization. minLength: 1. maxLength: 200.
-     */
-    "summary"?: string;
-    /**
-     * Product being discussed, independently of how the report is submitted. Value enum: "api",
-     * "cli", "mcp", "sdk", "docs", "dashboard", "checkout", "payment_links", "webhooks",
-     * "onboarding", "mobile", "other".
-     */
-    "surface": "api"
-        | "cli"
-        | "mcp"
-        | "sdk"
-        | "docs"
-        | "dashboard"
-        | "checkout"
-        | "payment_links"
-        | "webhooks"
-        | "onboarding"
-        | "mobile"
-        | "other";
-    /**
-     * A public API route template exactly as the API reference shows it, such as
-     * `/v1/orders/{order_id}`, with no host, query string, or real IDs. Omit it for feedback that
-     * isn't about an API route; any other value returns `400 INVALID_REQUEST`. Limited to 500
-     * characters (Unicode code points), counted before whitespace and line-ending normalization.
-     * minLength: 1. maxLength: 500.
-     */
-    "surface_route"?: string;
-})
-    & ({
-    /** Value enum: "rating". */
-    "kind": "rating";
-    /**
-     * Product being discussed, independently of how the report is submitted. Value enum: "api",
-     * "cli", "mcp", "sdk", "docs", "dashboard", "checkout", "payment_links", "webhooks",
-     * "onboarding", "mobile", "other".
-     */
-    "surface": "api"
-        | "cli"
-        | "mcp"
-        | "sdk"
-        | "docs"
-        | "dashboard"
-        | "checkout"
-        | "payment_links"
-        | "webhooks"
-        | "onboarding"
-        | "mobile"
-        | "other";
-    /**
-     * Positive, negative, or neutral assessment. Required for rating feedback; optional for
-     * narrative feedback. Value enum: "positive", "negative", "neutral".
-     */
-    "sentiment": "positive" | "negative" | "neutral";
-});
-/** The request body for: Create a feedback report. */
-export type CreateFeedbackReportRequest = ({
-    /**
-     * Optional observed outcome. Limited to 4000 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 4000.
-     */
-    "actual_behavior"?: string;
-    /**
-     * Dotted or hyphenated canonical command name, such as payment-intents.create. Limited to 200
-     * characters (Unicode code points), counted before whitespace and line-ending normalization.
-     * minLength: 1. maxLength: 200. pattern: ^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*$.
-     */
-    "canonical_command"?: string;
-    /**
-     * One file path relative to your repository root, optionally followed by `:line` or
-     * `:line:column`, such as `src/sync/products.ts:42`. Absolute paths, `..` segments, and
-     * backslashes are rejected. Limited to 500 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 500.
-     */
-    "code_location"?: string;
-    /**
-     * Optional feature or subsystem within the product. Limited to 128 characters (Unicode code
-     * points), counted before whitespace and line-ending normalization. minLength: 1. maxLength:
-     * 128.
-     */
-    "component"?: string;
-    /**
-     * Optional details about the feedback. Limited to 8000 characters (Unicode code points),
-     * counted before whitespace and line-ending normalization. minLength: 1. maxLength: 8000.
-     */
-    "description"?: string;
-    /**
-     * Optional desired outcome. Limited to 4000 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 4000.
-     */
-    "expected_behavior"?: string;
-    /**
-     * Classification of the feedback. Value enum: "papercut", "bug", "feature_request", "rating",
-     * "praise", "other".
-     */
-    "kind": "papercut" | "bug" | "feature_request" | "rating" | "praise" | "other" | (string & {});
-    /**
-     * Flint request ID associated with this feedback. Limited to 255 characters (Unicode code
-     * points), counted before whitespace and line-ending normalization. minLength: 1. maxLength:
-     * 255. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "related_request_id"?: string;
-    /**
-     * Flint IDs of the resources this feedback is about, at most 20 and all different. Flint
-     * checks only that each ID has the format of a Flint resource ID, not that the resource exists
-     * or that you can read it. maxItems: 20. uniqueItems: true. [] (Value): string. minLength: 1.
-     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "related_resource_ids"?: Array<string>;
-    /** Whether the reporter is a human or an AI. Value enum: "human", "ai_agent". */
-    "reporter_kind"?: "human" | "ai_agent" | (string & {});
-    /**
-     * Tool submitting the feedback, independently of the product being discussed. Its name is
-     * required when present. The client that submits a feedback report, with its name, platform,
-     * version, and schema version.
-     */
-    "reporting_client"?: FeedbackReportingClient;
-    /**
-     * Unique steps in reproduction order, with at most 20 entries. maxItems: 20. uniqueItems:
-     * true. [] (Value): string. Limited to 1000 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 1000.
-     */
-    "reproduction_steps"?: Array<string>;
-    /**
-     * Positive, negative, or neutral assessment. Required for rating feedback; optional for
-     * narrative feedback. Value enum: "positive", "negative", "neutral".
-     */
-    "sentiment"?: "positive" | "negative" | "neutral" | (string & {});
-    /**
-     * Brief account of the feedback. Required for every kind except rating; optional for a rating.
-     * Limited to 200 characters (Unicode code points), counted before whitespace and line-ending
-     * normalization. minLength: 1. maxLength: 200.
-     */
-    "summary"?: string;
-    /**
-     * Product being discussed, independently of how the report is submitted. Value enum: "api",
-     * "cli", "mcp", "sdk", "docs", "dashboard", "checkout", "payment_links", "webhooks",
-     * "onboarding", "mobile", "other".
-     */
-    "surface": "api"
-        | "cli"
-        | "mcp"
-        | "sdk"
-        | "docs"
-        | "dashboard"
-        | "checkout"
-        | "payment_links"
-        | "webhooks"
-        | "onboarding"
-        | "mobile"
-        | "other"
-        | (string & {});
-    /**
-     * A public API route template exactly as the API reference shows it, such as
-     * `/v1/orders/{order_id}`, with no host, query string, or real IDs. Omit it for feedback that
-     * isn't about an API route; any other value returns `400 INVALID_REQUEST`. Limited to 500
-     * characters (Unicode code points), counted before whitespace and line-ending normalization.
-     * minLength: 1. maxLength: 500.
-     */
-    "surface_route"?: string;
-})
-    & ((Exclude<CreateFeedbackReportRating & object, readonly unknown[]>)
-    | (Exclude<CreateFeedbackReportNarrative & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/** The request body for: Create a feedback report. */
-export type CreateFeedbackReportRequestInput = ({
-    /**
-     * Optional observed outcome. Limited to 4000 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 4000.
-     */
-    "actual_behavior"?: string;
-    /**
-     * Dotted or hyphenated canonical command name, such as payment-intents.create. Limited to 200
-     * characters (Unicode code points), counted before whitespace and line-ending normalization.
-     * minLength: 1. maxLength: 200. pattern: ^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*$.
-     */
-    "canonical_command"?: string;
-    /**
-     * One file path relative to your repository root, optionally followed by `:line` or
-     * `:line:column`, such as `src/sync/products.ts:42`. Absolute paths, `..` segments, and
-     * backslashes are rejected. Limited to 500 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 500.
-     */
-    "code_location"?: string;
-    /**
-     * Optional feature or subsystem within the product. Limited to 128 characters (Unicode code
-     * points), counted before whitespace and line-ending normalization. minLength: 1. maxLength:
-     * 128.
-     */
-    "component"?: string;
-    /**
-     * Optional details about the feedback. Limited to 8000 characters (Unicode code points),
-     * counted before whitespace and line-ending normalization. minLength: 1. maxLength: 8000.
-     */
-    "description"?: string;
-    /**
-     * Optional desired outcome. Limited to 4000 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 4000.
-     */
-    "expected_behavior"?: string;
-    /**
-     * Classification of the feedback. Value enum: "papercut", "bug", "feature_request", "rating",
-     * "praise", "other".
-     */
-    "kind": "papercut" | "bug" | "feature_request" | "rating" | "praise" | "other";
-    /**
-     * Flint request ID associated with this feedback. Limited to 255 characters (Unicode code
-     * points), counted before whitespace and line-ending normalization. minLength: 1. maxLength:
-     * 255. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "related_request_id"?: string;
-    /**
-     * Flint IDs of the resources this feedback is about, at most 20 and all different. Flint
-     * checks only that each ID has the format of a Flint resource ID, not that the resource exists
-     * or that you can read it. maxItems: 20. uniqueItems: true. [] (Value): string. minLength: 1.
-     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "related_resource_ids"?: Array<string>;
-    /** Whether the reporter is a human or an AI. Value enum: "human", "ai_agent". */
-    "reporter_kind"?: "human" | "ai_agent";
-    /**
-     * Tool submitting the feedback, independently of the product being discussed. Its name is
-     * required when present. The client that submits a feedback report, with its name, platform,
-     * version, and schema version.
-     */
-    "reporting_client"?: FeedbackReportingClientRequestInput;
-    /**
-     * Unique steps in reproduction order, with at most 20 entries. maxItems: 20. uniqueItems:
-     * true. [] (Value): string. Limited to 1000 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 1000.
-     */
-    "reproduction_steps"?: Array<string>;
-    /**
-     * Positive, negative, or neutral assessment. Required for rating feedback; optional for
-     * narrative feedback. Value enum: "positive", "negative", "neutral".
-     */
-    "sentiment"?: "positive" | "negative" | "neutral";
-    /**
-     * Brief account of the feedback. Required for every kind except rating; optional for a rating.
-     * Limited to 200 characters (Unicode code points), counted before whitespace and line-ending
-     * normalization. minLength: 1. maxLength: 200.
-     */
-    "summary"?: string;
-    /**
-     * Product being discussed, independently of how the report is submitted. Value enum: "api",
-     * "cli", "mcp", "sdk", "docs", "dashboard", "checkout", "payment_links", "webhooks",
-     * "onboarding", "mobile", "other".
-     */
-    "surface": "api"
-        | "cli"
-        | "mcp"
-        | "sdk"
-        | "docs"
-        | "dashboard"
-        | "checkout"
-        | "payment_links"
-        | "webhooks"
-        | "onboarding"
-        | "mobile"
-        | "other";
-    /**
-     * A public API route template exactly as the API reference shows it, such as
-     * `/v1/orders/{order_id}`, with no host, query string, or real IDs. Omit it for feedback that
-     * isn't about an API route; any other value returns `400 INVALID_REQUEST`. Limited to 500
-     * characters (Unicode code points), counted before whitespace and line-ending normalization.
-     * minLength: 1. maxLength: 500.
-     */
-    "surface_route"?: string;
-})
-    & ((Exclude<CreateFeedbackReportRatingInput & object, readonly unknown[]>)
-    | (Exclude<CreateFeedbackReportNarrativeInput & object, readonly unknown[]>));
 /** The request body for: Create a file. */
 export type CreateFileRequest = {
     /**
@@ -3097,642 +2939,3 @@ export type CreateFulfillmentRequest = ({
     | (Exclude<CreateFulfillmentRequestDigital & object, readonly unknown[]>)
     | (Exclude<CreateFulfillmentRequestService & object, readonly unknown[]>)
     | (Record<string, unknown>));
-/**
- * Provide at most one fulfillment details object: pickup_details, local_delivery_details,
- * digital_details, or service_details. Shipment execution details belong to shipments and
- * packages.
- */
-export type CreateFulfillmentRequestDigital = ({
-    /**
-     * Customer receiving this fulfillment, when one is set. minLength: 1. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id"?: string;
-    /**
-     * Device used for this fulfillment. It must be active. When location_id is also set, the
-     * device must belong to that Location. minLength: 1. Example:
-     * "dev_01KEZF7C0051ZP8MZSGHP989F6".
-     */
-    "device_id"?: string;
-    /**
-     * Details of a `digital` fulfillment, such as the download link. Digital fulfillment details
-     * you supply when creating a fulfillment: the delivery URL.
-     */
-    "digital_details"?: CreateDigitalFulfillmentDetails;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Order line items, with the quantity of each, that this fulfillment covers. minItems: 1. []
-     * (Value): {@link FulfillmentLineItemRequest}. An order line item and quantity to include when
-     * creating a fulfillment.
-     */
-    "line_items": Array<FulfillmentLineItemRequest>;
-    /**
-     * Details of a `local_delivery` fulfillment, such as the courier's tracking link. Local
-     * delivery details you supply when creating a fulfillment: courier, timing window,
-     * instructions, and tracking.
-     */
-    "local_delivery_details"?: CreateDeliveryFulfillmentDetails;
-    /**
-     * Merchant location responsible for this fulfillment. minLength: 1. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Paid order whose quantities this fulfillment delivers. minLength: 1. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id": string;
-    /**
-     * Details of a `pickup` fulfillment. Pickup details you supply when creating a fulfillment:
-     * the pickup address, location, window, instructions, and curbside details.
-     */
-    "pickup_details"?: CreatePickupFulfillmentDetails;
-    /**
-     * Who receives the fulfillment. Recipient details you supply when creating or updating a
-     * fulfillment: name, email, phone, address, and handling instructions.
-     */
-    "recipient"?: FulfillmentRecipientRequest;
-    /**
-     * Details of a `service` fulfillment. Service details you supply when creating a fulfillment:
-     * the scheduled start and end, timezone, and notes.
-     */
-    "service_details"?: CreateServiceFulfillmentDetails;
-    /**
-     * Creates an outbound shipment and packages atomically with a shipment fulfillment.
-     * single_package assigns every submitted line quantity to package; itemized requires explicit
-     * items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in
-     * the same call. Creates an outbound shipment with one package using `packaging:
-     * single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`.
-     * External reference and metadata are optional.
-     */
-    "shipment"?: FulfillmentPackagingRequest;
-    /** The kind of fulfillment. Value enum: "digital". */
-    "type": "digital" | (string & {});
-});
-/**
- * Provide at most one fulfillment details object: pickup_details, local_delivery_details,
- * digital_details, or service_details. Shipment execution details belong to shipments and
- * packages.
- */
-export type CreateFulfillmentRequestDigitalInput = ({
-    /**
-     * Customer receiving this fulfillment, when one is set. minLength: 1. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id"?: string;
-    /**
-     * Device used for this fulfillment. It must be active. When location_id is also set, the
-     * device must belong to that Location. minLength: 1. Example:
-     * "dev_01KEZF7C0051ZP8MZSGHP989F6".
-     */
-    "device_id"?: string;
-    /**
-     * Details of a `digital` fulfillment, such as the download link. Digital fulfillment details
-     * you supply when creating a fulfillment: the delivery URL.
-     */
-    "digital_details"?: CreateDigitalFulfillmentDetailsInput;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Order line items, with the quantity of each, that this fulfillment covers. minItems: 1. []
-     * (Value): {@link FulfillmentLineItemRequestInput}. An order line item and quantity to include
-     * when creating a fulfillment.
-     */
-    "line_items": Array<FulfillmentLineItemRequestInput>;
-    /**
-     * Details of a `local_delivery` fulfillment, such as the courier's tracking link. Local
-     * delivery details you supply when creating a fulfillment: courier, timing window,
-     * instructions, and tracking.
-     */
-    "local_delivery_details"?: CreateDeliveryFulfillmentDetailsInput;
-    /**
-     * Merchant location responsible for this fulfillment. minLength: 1. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Paid order whose quantities this fulfillment delivers. minLength: 1. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id": string;
-    /**
-     * Details of a `pickup` fulfillment. Pickup details you supply when creating a fulfillment:
-     * the pickup address, location, window, instructions, and curbside details.
-     */
-    "pickup_details"?: CreatePickupFulfillmentDetailsInput;
-    /**
-     * Who receives the fulfillment. Recipient details you supply when creating or updating a
-     * fulfillment: name, email, phone, address, and handling instructions.
-     */
-    "recipient"?: FulfillmentRecipientRequestInput;
-    /**
-     * Details of a `service` fulfillment. Service details you supply when creating a fulfillment:
-     * the scheduled start and end, timezone, and notes.
-     */
-    "service_details"?: CreateServiceFulfillmentDetailsInput;
-    /**
-     * Creates an outbound shipment and packages atomically with a shipment fulfillment.
-     * single_package assigns every submitted line quantity to package; itemized requires explicit
-     * items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in
-     * the same call. Creates an outbound shipment with one package using `packaging:
-     * single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`.
-     * External reference and metadata are optional.
-     */
-    "shipment"?: FulfillmentPackagingRequestInput;
-    /** The kind of fulfillment. Value enum: "digital". */
-    "type": "digital";
-})
-    & (({
-    "shipment"?: never;
-}))
-    & (({
-    "pickup_details"?: never;
-}))
-    & (({
-    "local_delivery_details"?: never;
-}))
-    & (({
-    "service_details"?: never;
-}));
-/**
- * Provide at most one fulfillment details object: pickup_details, local_delivery_details,
- * digital_details, or service_details. Shipment execution details belong to shipments and
- * packages.
- */
-export type CreateFulfillmentRequestInput = ({
-    /**
-     * Customer receiving this fulfillment, when one is set. minLength: 1. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id"?: string;
-    /**
-     * Device used for this fulfillment. It must be active. When location_id is also set, the
-     * device must belong to that Location. minLength: 1. Example:
-     * "dev_01KEZF7C0051ZP8MZSGHP989F6".
-     */
-    "device_id"?: string;
-    /**
-     * Details of a `digital` fulfillment, such as the download link. Digital fulfillment details
-     * you supply when creating a fulfillment: the delivery URL.
-     */
-    "digital_details"?: CreateDigitalFulfillmentDetailsInput;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Order line items, with the quantity of each, that this fulfillment covers. minItems: 1. []
-     * (Value): {@link FulfillmentLineItemRequestInput}. An order line item and quantity to include
-     * when creating a fulfillment.
-     */
-    "line_items": Array<FulfillmentLineItemRequestInput>;
-    /**
-     * Details of a `local_delivery` fulfillment, such as the courier's tracking link. Local
-     * delivery details you supply when creating a fulfillment: courier, timing window,
-     * instructions, and tracking.
-     */
-    "local_delivery_details"?: CreateDeliveryFulfillmentDetailsInput;
-    /**
-     * Merchant location responsible for this fulfillment. minLength: 1. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Paid order whose quantities this fulfillment delivers. minLength: 1. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id": string;
-    /**
-     * Details of a `pickup` fulfillment. Pickup details you supply when creating a fulfillment:
-     * the pickup address, location, window, instructions, and curbside details.
-     */
-    "pickup_details"?: CreatePickupFulfillmentDetailsInput;
-    /**
-     * Who receives the fulfillment. Recipient details you supply when creating or updating a
-     * fulfillment: name, email, phone, address, and handling instructions.
-     */
-    "recipient"?: FulfillmentRecipientRequestInput;
-    /**
-     * Details of a `service` fulfillment. Service details you supply when creating a fulfillment:
-     * the scheduled start and end, timezone, and notes.
-     */
-    "service_details"?: CreateServiceFulfillmentDetailsInput;
-    /**
-     * Creates an outbound shipment and packages atomically with a shipment fulfillment.
-     * single_package assigns every submitted line quantity to package; itemized requires explicit
-     * items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in
-     * the same call. Creates an outbound shipment with one package using `packaging:
-     * single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`.
-     * External reference and metadata are optional.
-     */
-    "shipment"?: FulfillmentPackagingRequestInput;
-    /**
-     * The kind of fulfillment. Value enum: "shipment", "pickup", "local_delivery", "digital",
-     * "service".
-     */
-    "type": "shipment" | "pickup" | "local_delivery" | "digital" | "service";
-})
-    & ((Exclude<CreateFulfillmentRequestShipmentInput & object, readonly unknown[]>)
-    | (Exclude<CreateFulfillmentRequestPickupInput & object, readonly unknown[]>)
-    | (Exclude<CreateFulfillmentRequestLocalDeliveryInput & object, readonly unknown[]>)
-    | (Exclude<CreateFulfillmentRequestDigitalInput & object, readonly unknown[]>)
-    | (Exclude<CreateFulfillmentRequestServiceInput & object, readonly unknown[]>));
-/**
- * Provide at most one fulfillment details object: pickup_details, local_delivery_details,
- * digital_details, or service_details. Shipment execution details belong to shipments and
- * packages.
- */
-export type CreateFulfillmentRequestLocalDelivery = ({
-    /**
-     * Customer receiving this fulfillment, when one is set. minLength: 1. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id"?: string;
-    /**
-     * Device used for this fulfillment. It must be active. When location_id is also set, the
-     * device must belong to that Location. minLength: 1. Example:
-     * "dev_01KEZF7C0051ZP8MZSGHP989F6".
-     */
-    "device_id"?: string;
-    /**
-     * Details of a `digital` fulfillment, such as the download link. Digital fulfillment details
-     * you supply when creating a fulfillment: the delivery URL.
-     */
-    "digital_details"?: CreateDigitalFulfillmentDetails;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Order line items, with the quantity of each, that this fulfillment covers. minItems: 1. []
-     * (Value): {@link FulfillmentLineItemRequest}. An order line item and quantity to include when
-     * creating a fulfillment.
-     */
-    "line_items": Array<FulfillmentLineItemRequest>;
-    /**
-     * Details of a `local_delivery` fulfillment, such as the courier's tracking link. Local
-     * delivery details you supply when creating a fulfillment: courier, timing window,
-     * instructions, and tracking.
-     */
-    "local_delivery_details"?: CreateDeliveryFulfillmentDetails;
-    /**
-     * Merchant location responsible for this fulfillment. minLength: 1. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Paid order whose quantities this fulfillment delivers. minLength: 1. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id": string;
-    /**
-     * Details of a `pickup` fulfillment. Pickup details you supply when creating a fulfillment:
-     * the pickup address, location, window, instructions, and curbside details.
-     */
-    "pickup_details"?: CreatePickupFulfillmentDetails;
-    /**
-     * Who receives the fulfillment. Recipient details you supply when creating or updating a
-     * fulfillment: name, email, phone, address, and handling instructions.
-     */
-    "recipient"?: FulfillmentRecipientRequest;
-    /**
-     * Details of a `service` fulfillment. Service details you supply when creating a fulfillment:
-     * the scheduled start and end, timezone, and notes.
-     */
-    "service_details"?: CreateServiceFulfillmentDetails;
-    /**
-     * Creates an outbound shipment and packages atomically with a shipment fulfillment.
-     * single_package assigns every submitted line quantity to package; itemized requires explicit
-     * items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in
-     * the same call. Creates an outbound shipment with one package using `packaging:
-     * single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`.
-     * External reference and metadata are optional.
-     */
-    "shipment"?: FulfillmentPackagingRequest;
-    /** The kind of fulfillment. Value enum: "local_delivery". */
-    "type": "local_delivery" | (string & {});
-});
-/**
- * Provide at most one fulfillment details object: pickup_details, local_delivery_details,
- * digital_details, or service_details. Shipment execution details belong to shipments and
- * packages.
- */
-export type CreateFulfillmentRequestLocalDeliveryInput = ({
-    /**
-     * Customer receiving this fulfillment, when one is set. minLength: 1. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id"?: string;
-    /**
-     * Device used for this fulfillment. It must be active. When location_id is also set, the
-     * device must belong to that Location. minLength: 1. Example:
-     * "dev_01KEZF7C0051ZP8MZSGHP989F6".
-     */
-    "device_id"?: string;
-    /**
-     * Details of a `digital` fulfillment, such as the download link. Digital fulfillment details
-     * you supply when creating a fulfillment: the delivery URL.
-     */
-    "digital_details"?: CreateDigitalFulfillmentDetailsInput;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Order line items, with the quantity of each, that this fulfillment covers. minItems: 1. []
-     * (Value): {@link FulfillmentLineItemRequestInput}. An order line item and quantity to include
-     * when creating a fulfillment.
-     */
-    "line_items": Array<FulfillmentLineItemRequestInput>;
-    /**
-     * Details of a `local_delivery` fulfillment, such as the courier's tracking link. Local
-     * delivery details you supply when creating a fulfillment: courier, timing window,
-     * instructions, and tracking.
-     */
-    "local_delivery_details"?: CreateDeliveryFulfillmentDetailsInput;
-    /**
-     * Merchant location responsible for this fulfillment. minLength: 1. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Paid order whose quantities this fulfillment delivers. minLength: 1. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id": string;
-    /**
-     * Details of a `pickup` fulfillment. Pickup details you supply when creating a fulfillment:
-     * the pickup address, location, window, instructions, and curbside details.
-     */
-    "pickup_details"?: CreatePickupFulfillmentDetailsInput;
-    /**
-     * Who receives the fulfillment. Recipient details you supply when creating or updating a
-     * fulfillment: name, email, phone, address, and handling instructions.
-     */
-    "recipient"?: FulfillmentRecipientRequestInput;
-    /**
-     * Details of a `service` fulfillment. Service details you supply when creating a fulfillment:
-     * the scheduled start and end, timezone, and notes.
-     */
-    "service_details"?: CreateServiceFulfillmentDetailsInput;
-    /**
-     * Creates an outbound shipment and packages atomically with a shipment fulfillment.
-     * single_package assigns every submitted line quantity to package; itemized requires explicit
-     * items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in
-     * the same call. Creates an outbound shipment with one package using `packaging:
-     * single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`.
-     * External reference and metadata are optional.
-     */
-    "shipment"?: FulfillmentPackagingRequestInput;
-    /** The kind of fulfillment. Value enum: "local_delivery". */
-    "type": "local_delivery";
-})
-    & (({
-    "shipment"?: never;
-}))
-    & (({
-    "pickup_details"?: never;
-}))
-    & (({
-    "digital_details"?: never;
-}))
-    & (({
-    "service_details"?: never;
-}));
-/**
- * Provide at most one fulfillment details object: pickup_details, local_delivery_details,
- * digital_details, or service_details. Shipment execution details belong to shipments and
- * packages.
- */
-export type CreateFulfillmentRequestPickup = ({
-    /**
-     * Customer receiving this fulfillment, when one is set. minLength: 1. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id"?: string;
-    /**
-     * Device used for this fulfillment. It must be active. When location_id is also set, the
-     * device must belong to that Location. minLength: 1. Example:
-     * "dev_01KEZF7C0051ZP8MZSGHP989F6".
-     */
-    "device_id"?: string;
-    /**
-     * Details of a `digital` fulfillment, such as the download link. Digital fulfillment details
-     * you supply when creating a fulfillment: the delivery URL.
-     */
-    "digital_details"?: CreateDigitalFulfillmentDetails;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Order line items, with the quantity of each, that this fulfillment covers. minItems: 1. []
-     * (Value): {@link FulfillmentLineItemRequest}. An order line item and quantity to include when
-     * creating a fulfillment.
-     */
-    "line_items": Array<FulfillmentLineItemRequest>;
-    /**
-     * Details of a `local_delivery` fulfillment, such as the courier's tracking link. Local
-     * delivery details you supply when creating a fulfillment: courier, timing window,
-     * instructions, and tracking.
-     */
-    "local_delivery_details"?: CreateDeliveryFulfillmentDetails;
-    /**
-     * Merchant location responsible for this fulfillment. minLength: 1. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Paid order whose quantities this fulfillment delivers. minLength: 1. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id": string;
-    /**
-     * Details of a `pickup` fulfillment. Pickup details you supply when creating a fulfillment:
-     * the pickup address, location, window, instructions, and curbside details.
-     */
-    "pickup_details"?: CreatePickupFulfillmentDetails;
-    /**
-     * Who receives the fulfillment. Recipient details you supply when creating or updating a
-     * fulfillment: name, email, phone, address, and handling instructions.
-     */
-    "recipient"?: FulfillmentRecipientRequest;
-    /**
-     * Details of a `service` fulfillment. Service details you supply when creating a fulfillment:
-     * the scheduled start and end, timezone, and notes.
-     */
-    "service_details"?: CreateServiceFulfillmentDetails;
-    /**
-     * Creates an outbound shipment and packages atomically with a shipment fulfillment.
-     * single_package assigns every submitted line quantity to package; itemized requires explicit
-     * items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in
-     * the same call. Creates an outbound shipment with one package using `packaging:
-     * single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`.
-     * External reference and metadata are optional.
-     */
-    "shipment"?: FulfillmentPackagingRequest;
-    /** The kind of fulfillment. Value enum: "pickup". */
-    "type": "pickup" | (string & {});
-});
-/**
- * Provide at most one fulfillment details object: pickup_details, local_delivery_details,
- * digital_details, or service_details. Shipment execution details belong to shipments and
- * packages.
- */
-export type CreateFulfillmentRequestPickupInput = ({
-    /**
-     * Customer receiving this fulfillment, when one is set. minLength: 1. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id"?: string;
-    /**
-     * Device used for this fulfillment. It must be active. When location_id is also set, the
-     * device must belong to that Location. minLength: 1. Example:
-     * "dev_01KEZF7C0051ZP8MZSGHP989F6".
-     */
-    "device_id"?: string;
-    /**
-     * Details of a `digital` fulfillment, such as the download link. Digital fulfillment details
-     * you supply when creating a fulfillment: the delivery URL.
-     */
-    "digital_details"?: CreateDigitalFulfillmentDetailsInput;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Order line items, with the quantity of each, that this fulfillment covers. minItems: 1. []
-     * (Value): {@link FulfillmentLineItemRequestInput}. An order line item and quantity to include
-     * when creating a fulfillment.
-     */
-    "line_items": Array<FulfillmentLineItemRequestInput>;
-    /**
-     * Details of a `local_delivery` fulfillment, such as the courier's tracking link. Local
-     * delivery details you supply when creating a fulfillment: courier, timing window,
-     * instructions, and tracking.
-     */
-    "local_delivery_details"?: CreateDeliveryFulfillmentDetailsInput;
-    /**
-     * Merchant location responsible for this fulfillment. minLength: 1. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Paid order whose quantities this fulfillment delivers. minLength: 1. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id": string;
-    /**
-     * Details of a `pickup` fulfillment. Pickup details you supply when creating a fulfillment:
-     * the pickup address, location, window, instructions, and curbside details.
-     */
-    "pickup_details"?: CreatePickupFulfillmentDetailsInput;
-    /**
-     * Who receives the fulfillment. Recipient details you supply when creating or updating a
-     * fulfillment: name, email, phone, address, and handling instructions.
-     */
-    "recipient"?: FulfillmentRecipientRequestInput;
-    /**
-     * Details of a `service` fulfillment. Service details you supply when creating a fulfillment:
-     * the scheduled start and end, timezone, and notes.
-     */
-    "service_details"?: CreateServiceFulfillmentDetailsInput;
-    /**
-     * Creates an outbound shipment and packages atomically with a shipment fulfillment.
-     * single_package assigns every submitted line quantity to package; itemized requires explicit
-     * items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in
-     * the same call. Creates an outbound shipment with one package using `packaging:
-     * single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`.
-     * External reference and metadata are optional.
-     */
-    "shipment"?: FulfillmentPackagingRequestInput;
-    /** The kind of fulfillment. Value enum: "pickup". */
-    "type": "pickup";
-})
-    & (({
-    "shipment"?: never;
-}))
-    & (({
-    "local_delivery_details"?: never;
-}))
-    & (({
-    "digital_details"?: never;
-}))
-    & (({
-    "service_details"?: never;
-}));

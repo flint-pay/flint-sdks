@@ -1,0 +1,11 @@
+import { Client } from "@flintpay/node";
+const baseUrl = process.env.FLINT_BASE_URL || undefined;
+const client = new Client({
+  baseUrl,
+  allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
+});
+const result = await client.licenseKeyPools.get(
+  "lkp_01KEZF7C00AQV1X2DPWG2NXS7H"
+);
+console.log(result.license_key_pool_id);
+console.log(result.status);

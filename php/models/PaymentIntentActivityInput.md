@@ -8,7 +8,8 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `activity_type` | Required | string | What kind of change this entry records. Values: [11 declared values](#paymentintentactivityinput-activity_type-values). |
+| `activity_type` | Required | string | What kind of change this entry records. Values: [13 declared values](#paymentintentactivityinput-activity_type-values). |
+| `actor` | Required | [PaymentActivityActorInput](../models/PaymentActivityActorInput.md#paymentactivityactorinput) or null | Identity that initiated this action. Null for automated activity or when no initiating merchant identity was recorded. Refund creation retains its initiating actor when a worker processes it. Later processor updates are automated activity. |
 | `checkout_session_id` | Optional | string | ID of the checkout session that created the payment intent. Present only on `created` entries, when the payment intent has no order. Example: `"cs_01KEZF7C004JRWFW43H037MQRN"`. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `description` | Required | string | Short human-readable summary of the change. It doesn't carry processor diagnostics, so read the referenced resource for details. |
@@ -34,6 +35,8 @@ Request input.
 - `"refund_status_changed"`
 - `"dispute_status_changed"`
 - `"receipt_sent"`
+- `"receipt_queued"`
+- `"receipt_delivery_failed"`
 
 #### PaymentIntentActivityInput from_dispute_status values
 

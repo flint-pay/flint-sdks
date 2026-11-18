@@ -10,8 +10,8 @@ import type {
     DevicesListParams,
     DevicesUpdateParams
 } from '../declarations/types-25.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -36,20 +36,20 @@ export type {
     DeviceListResponse,
     DevicesUpdateParams
 } from '../declarations/types-25.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { RequestOptions } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateDeviceRequestInput } from '../declarations/types-9.js';
-export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-41.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { UpdateDeviceRequestInput } from '../declarations/types-73.js';
-export { makeCreateDeviceRequest } from '../declarations/types-79.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeUpdateDeviceRequest } from '../declarations/types-90.js';
+export type { Credentials } from '../declarations/types-15.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { UpdateDeviceRequestInput } from '../declarations/types-76.js';
+export { makeCreateDeviceRequest } from '../declarations/types-82.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeUpdateDeviceRequest } from '../declarations/types-93.js';
 export interface DevicesResource {
     /**
  * Creates a device. If an active device already has the hardware_fingerprint, fails with
@@ -73,7 +73,9 @@ export interface DevicesResource {
  * with those readers in `blocking_resources`: archive them or clear their `device_id` first.
  *
  * `DELETE /v1/devices/{device_id}`
- * @param device_id Flint device ID.
+ * @param device_id Flint device ID. Must be a valid ID with prefix dev_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/devices#deleteDevice
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -86,7 +88,9 @@ export interface DevicesResource {
  * Returns a single device by ID.
  *
  * `GET /v1/devices/{device_id}`
- * @param device_id Flint device ID.
+ * @param device_id Flint device ID. Must be a valid ID with prefix dev_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/devices#getDevice
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -118,7 +122,9 @@ export interface DevicesResource {
  * current_status archived.
  *
  * `PATCH /v1/devices/{device_id}`
- * @param device_id Flint device ID.
+ * @param device_id Flint device ID. Must be a valid ID with prefix dev_. Malformed IDs return 400
+ * INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/devices#updateDevice
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

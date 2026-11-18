@@ -16,7 +16,7 @@ final class PromotionCodesDeleteInput extends Model {
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** Flint promotion code ID. Example: "pcode_01KEZF7C00JCC7QXWC262EF05T".
+    /** Flint promotion code ID. Must be a valid ID with prefix pcode_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "pcode_01KEZF7C00JCC7QXWC262EF05T".
      * @return string
      * @throws SdkError When promotion_code_id is omitted; use hasPromotionCodeId() or valueOrDefault().
      */

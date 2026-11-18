@@ -12,9 +12,10 @@ namespace Flint;
  * @property-read MoneyValue $refund_money
  * @property-read list<OrderEditRemoval> $remove_line_items
  * @property-read MoneyValue $removed_total_money
+ * @property-read SignedMoney $small_balance_adjustment_money
  * Presence-aware response; omitted optional fields return null. */
 final class OrderEditPreview extends Model {
-    /** @param array{'add_line_items': list<mixed>, 'added_total_money': mixed, 'amount_due_money': mixed, 'based_on_order_version': int, 'calculated_at': string, 'charge_refunds': list<mixed>, 'order_id': string, 'refund_money': mixed, 'remove_line_items': list<mixed>, 'removed_total_money': mixed, ...}|object $values */
+    /** @param array{'add_line_items': list<mixed>, 'added_total_money': mixed, 'amount_due_money': mixed, 'based_on_order_version': int, 'calculated_at': string, 'charge_refunds': list<mixed>, 'order_id': string, 'refund_money': mixed, 'remove_line_items': list<mixed>, 'removed_total_money': mixed, 'small_balance_adjustment_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderEditPreview')); }
     /** The requested additions, in request order, priced and taxed. Empty when the request adds nothing. [] (Value): {@see OrderEditPreviewAddition}. A line the preview would add, priced and taxed as it would be added to the order.
      * @return list<OrderEditPreviewAddition>
@@ -66,4 +67,9 @@ final class OrderEditPreview extends Model {
      */
     public function getRemovedTotalMoney(): MoneyValue { return $this->get('removed_total_money'); }
     public function hasRemovedTotalMoney(): bool { return $this->has('removed_total_money'); }
+    /** Signed noncash adjustment the edit would record: positive for a balance below the payment minimum, negative when removing previously absorbed value. Included in the order's written-off amount, never paid or refundable. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return SignedMoney
+     */
+    public function getSmallBalanceAdjustmentMoney(): SignedMoney { return $this->get('small_balance_adjustment_money'); }
+    public function hasSmallBalanceAdjustmentMoney(): bool { return $this->has('small_balance_adjustment_money'); }
 }

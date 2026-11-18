@@ -31,6 +31,10 @@ Field definitions: [shared fields](ReturnCreatedMerchantEvent.md#returncreatedme
 
 Field definitions: [ReturnCanceledMerchantEvent.data fields 1.object](../models/ReturnCanceledMerchantEvent.md#returncanceledmerchanteventdata-fields-1object).
 
+### ReturnCreatedInstalledMerchantsEvent.data fields 1.actor
+
+Field definitions: [ReturnCanceledMerchantEventData.actor](../models/ReturnCanceledMerchantEventData.md#returncanceledmerchanteventdataactor).
+
 ### ReturnCreatedInstalledMerchantsEvent.source fields 1
 
 The merchant and partner app install this event concerns, with environment details for installed-merchant events. The merchant and partner app install the event concerns. Environment fields are present for installed-merchant events.

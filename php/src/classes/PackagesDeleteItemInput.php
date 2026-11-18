@@ -11,13 +11,13 @@ namespace Flint;
 final class PackagesDeleteItemInput extends Model {
     /** @param array{'package_id': string, 'package_item_id': string, 'expected_version'?: int, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PackagesDeleteItemInput')); }
-    /** Flint package ID. Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R".
+    /** Flint package ID. Must be a valid ID with prefix pkg_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R".
      * @return string
      * @throws SdkError When package_id is omitted; use hasPackageId() or valueOrDefault().
      */
     public function getPackageId(): string { return $this->get('package_id'); }
     public function hasPackageId(): bool { return $this->has('package_id'); }
-    /** Flint package item ID. Example: "pki_01KEZF7C00CEFTYV5RD7XVYQ7B".
+    /** Flint package item ID. Must be a valid ID with prefix pki_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "pki_01KEZF7C00CEFTYV5RD7XVYQ7B".
      * @return string
      * @throws SdkError When package_item_id is omitted; use hasPackageItemId() or valueOrDefault().
      */

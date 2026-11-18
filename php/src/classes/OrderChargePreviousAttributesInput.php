@@ -13,6 +13,7 @@ namespace Flint;
  * @property-read string|null $order_charge_id
  * @property-read string|null $order_id
  * @property-read int|float|null $percent
+ * @property-read MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $refundable_money
  * @property-read MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $refunded_money
  * @property-read OrderCalculatedChargeTaxPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $tax
  * @property-read MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $tax_money
@@ -21,7 +22,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface|null $updated_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrderChargePreviousAttributesInput extends Model {
-    /** @param array{'amount_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'applied_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'calculation_basis'?: string|null, 'created_at'?: string|\DateTimeInterface|null, 'description'?: string|null, 'fulfillment_id'?: string|null, 'metadata'?: MetadataMapPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'name'?: string|null, 'order_charge_id'?: string|null, 'order_id'?: string|null, 'percent'?: int|float|null, 'refunded_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'tax'?: OrderCalculatedChargeTaxPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'tax_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'total_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'type'?: string|null, 'updated_at'?: string|\DateTimeInterface|null, ...}|object $values */
+    /** @param array{'amount_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'applied_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'calculation_basis'?: string|null, 'created_at'?: string|\DateTimeInterface|null, 'description'?: string|null, 'fulfillment_id'?: string|null, 'metadata'?: MetadataMapPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'name'?: string|null, 'order_charge_id'?: string|null, 'order_id'?: string|null, 'percent'?: int|float|null, 'refundable_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'refunded_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'tax'?: OrderCalculatedChargeTaxPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'tax_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'total_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'type'?: string|null, 'updated_at'?: string|\DateTimeInterface|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderChargePreviousAttributesInput')); }
     /** Fixed charge amount before charge discounts and tax. Percentage charges use percent instead. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
      * @return MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null
@@ -89,6 +90,12 @@ final class OrderChargePreviousAttributesInput extends Model {
      */
     public function getPercent(): mixed { return $this->get('percent'); }
     public function hasPercent(): bool { return $this->has('percent'); }
+    /** Remaining amount for an ID-only charge refund target. Accounts for original-tender capacity, reversals, accepted refunds, and whole-value edit reservations, including credit transferred to added lines and pending or retryable failed edit refunds. Zero when exhausted. Refund eligibility is checked again on submission. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
+     * @return MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null
+     * @throws SdkError When refundable_money is omitted; use hasRefundableMoney() or valueOrDefault().
+     */
+    public function getRefundableMoney(): mixed { return $this->get('refundable_money'); }
+    public function hasRefundableMoney(): bool { return $this->has('refundable_money'); }
     /** Charge amount already refunded. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
      * @return MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null
      * @throws SdkError When refunded_money is omitted; use hasRefundedMoney() or valueOrDefault().

@@ -124,7 +124,7 @@ final class SubscriptionPlansUpdateParams extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** New name of the plan. Omit to keep it. Can't be empty. minLength: 1.
+    /** New name of the plan. Omit to keep it. Can't be empty. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */

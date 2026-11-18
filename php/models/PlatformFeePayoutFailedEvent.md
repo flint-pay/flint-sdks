@@ -46,15 +46,15 @@ Field definitions: [shared fields](PlatformFeePayoutFailedEventDataPreviousAttri
 
 ### PlatformFeePayoutFailedEvent.data fields 1.previous_attributes.balance_transaction_id variant 1
 
-anyOf variant 1: The credit on your merchant ledger. Present once Flint observes it; linking it sends no payout event and doesn't advance version..
+anyOf variant 1: The credit on your merchant ledger. Flint checks daily for the credit, so this field can be absent even after the payout succeeds. Linking the credit sends no payout event and doesn't advance version..
 
-- Value shape: string. The credit on your merchant ledger. Present once Flint observes it; linking it sends no payout event and doesn't advance version. 
+- Value shape: string. The credit on your merchant ledger. Flint checks daily for the credit, so this field can be absent even after the payout succeeds. Linking the credit sends no payout event and doesn't advance version. 
 
 ### PlatformFeePayoutFailedEvent.data fields 1.previous_attributes.balance_transaction_id variant 2
 
 anyOf variant 2.
 
-- Value shape: null. The credit on your merchant ledger. Present once Flint observes it; linking it sends no payout event and doesn't advance version. 
+- Value shape: null. The credit on your merchant ledger. Flint checks daily for the credit, so this field can be absent even after the payout succeeds. Linking the credit sends no payout event and doesn't advance version. 
 
 ### PlatformFeePayoutFailedEvent.data fields 1.previous_attributes.created_at
 

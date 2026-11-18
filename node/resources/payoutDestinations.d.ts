@@ -1,16 +1,16 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
+import type { PayoutDestination } from '../declarations/types-54.js';
 import type {
-    PayoutDestination,
     PayoutDestinationListResponse,
     PayoutDestinationResponse,
     PayoutDestinationsDeleteParams,
     PayoutDestinationsGetParams,
     PayoutDestinationsListParams,
     PayoutDestinationsUpdateParams
-} from '../declarations/types-53.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-55.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -27,26 +27,26 @@ export type {
 } from '../runtime.js';
 export type {
     PayoutDestinationsDeleteParams,
-    PayoutDestination,
     PayoutDestinationResponse,
     PayoutDestinationsGetParams,
     PayoutDestinationsListParams,
     PayoutDestinationListResponse,
     PayoutDestinationsUpdateParams
-} from '../declarations/types-53.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-55.js';
+export type { RequestOptions } from '../declarations/types-61.js';
+export type { PayoutDestination } from '../declarations/types-54.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
-export type { MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-41.js';
-export type { NextAction, MoneyValue, MoneyMovementListMeta, MoneyMovementHistoryMeta } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { UpdatePayoutDestinationRequestInput } from '../declarations/types-74.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
-export { makeMetadataPatchRequest } from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeUpdatePayoutDestinationRequest } from '../declarations/types-91.js';
+export type { Credentials } from '../declarations/types-15.js';
+export type { MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { NextAction, MoneyValue, MoneyMovementListMeta, MoneyMovementHistoryMeta } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { UpdatePayoutDestinationRequestInput } from '../declarations/types-76.js';
+export type { DisputesAcceptParams } from '../declarations/types-26.js';
+export { makeMetadataPatchRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeUpdatePayoutDestinationRequest } from '../declarations/types-93.js';
 export interface PayoutDestinationsResource {
     /**
  * Archives the payout destination and returns it with `status: archived`. It stays readable by ID.
@@ -54,7 +54,9 @@ export interface PayoutDestinationsResource {
  * `client.payoutSettings.update` first. Safe to retry with the same idempotency key.
  *
  * `DELETE /v1/payout-destinations/{payout_destination_id}`
- * @param payout_destination_id Flint payout destination ID.
+ * @param payout_destination_id Flint payout destination ID. Must be a valid ID with prefix pdest_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/money-movement#deletePayoutDestination
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -68,7 +70,9 @@ export interface PayoutDestinationsResource {
  * Returns one payout destination by ID.
  *
  * `GET /v1/payout-destinations/{payout_destination_id}`
- * @param payout_destination_id Flint payout destination ID.
+ * @param payout_destination_id Flint payout destination ID. Must be a valid ID with prefix pdest_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/money-movement#getPayoutDestination
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -101,7 +105,9 @@ export interface PayoutDestinationsResource {
  * idempotency key.
  *
  * `PATCH /v1/payout-destinations/{payout_destination_id}`
- * @param payout_destination_id Flint payout destination ID.
+ * @param payout_destination_id Flint payout destination ID. Must be a valid ID with prefix pdest_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/money-movement#updatePayoutDestination
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

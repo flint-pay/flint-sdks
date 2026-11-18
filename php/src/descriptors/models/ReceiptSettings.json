@@ -1,0 +1,1 @@
+{"shared":"ReceiptSettings","phpRepresentation":{"kind":"record","fields":{"footer_text":{"kind":"nullable","value":{"kind":"value","type":"string"}}}},"dependencies":["ReceiptSettings"]}

@@ -19,9 +19,9 @@
 
 anyOf variant 1: Declared schema GiftCardNotificationRecipient. Who receives a gift card notification: their `email`, optional `name` and `message`, and an optional `send_at` time..
 
-- Constraints for `email`: Email address the notification is sent to.
+- Constraints for `email`: Email address the notification is sent to. The local part before @ must be at most 64 octets (UTF-8 bytes).
 - Constraints for `message`: Message included in the notification. minLength: `1`. maxLength: `200`.
-- Constraints for `name`: Name of the person the notification is addressed to. minLength: `1`. maxLength: `255`.
+- Constraints for `name`: Name of the person the notification is addressed to. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `255`.
 - Constraints for `send_at`: Optional whole-second send time between now and 90 days from now. minLength: `1`.
 
 ### GiftCardPurchaseRecipient variant 2
@@ -37,8 +37,8 @@ anyOf variant 2: Declared schema GiftCardPurchaseRecipient. The recipient of a p
 
 anyOf variant 3: Declared schema GiftCardPurchaseRecipientRequest. Recipient of a gift card purchase that you supply: `email`, optional `name` and `message`, and an optional `send_at` time..
 
-- Constraints for `email`: Email address the gift card is delivered to.
+- Constraints for `email`: Email address the gift card is delivered to. The local part before @ must be at most 64 octets (UTF-8 bytes).
 - Constraints for `message`: Personal message included with the gift card. minLength: `1`. maxLength: `200`.
-- Constraints for `name`: Name of the person receiving the gift card. minLength: `1`. maxLength: `255`.
+- Constraints for `name`: Name of the person receiving the gift card. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `255`.
 - Constraints for `send_at`: Optional send time between now and 90 days from now. Omission requests immediate recipient notification after funding. minLength: `1`.
 

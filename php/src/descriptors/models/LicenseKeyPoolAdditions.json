@@ -1,0 +1,1 @@
+{"shared":"LicenseKeyPoolAdditions","phpRepresentation":{"kind":"record","fields":{"additions":{"kind":"list","value":{"kind":"entity","name":"LicenseKeyPoolKeyAddition"}}}},"dependencies":["LicenseKeyPoolAdditions","LicenseKeyPoolKey","LicenseKeyPoolKeyAddition"]}

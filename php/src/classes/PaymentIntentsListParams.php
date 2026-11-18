@@ -7,8 +7,16 @@ namespace Flint;
  * @property-read string $page_token
  * @property-read string $order_id
  * @property-read string $customer_id
+ * @property-read string $email
  * @property-read string $invoice_id
  * @property-read bool $is_action_required
+ * @property-read bool $has_failed_attempts
+ * @property-read string $payment_link_id
+ * @property-read string $decline_code
+ * @property-read string $card_fingerprint
+ * @property-read string $buyer_ip_address
+ * @property-read string $card_last4
+ * @property-read list<string>|string $card_brand
  * @property-read list<string>|string $status
  * @property-read list<string>|string $risk_level
  * @property-read list<string>|string $payment_flow
@@ -30,9 +38,9 @@ namespace Flint;
  * @property-read list<string>|string $expand
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentIntentsListParams extends Model {
-    /** @param array{'idempotency_key'?: string, 'page_size'?: int, 'page_token'?: string, 'order_id'?: string, 'customer_id'?: string, 'invoice_id'?: string, 'is_action_required'?: bool, 'status'?: list<string>|string, 'risk_level'?: list<string>|string, 'payment_flow'?: list<string>|string, 'external_reference_id'?: string, 'return_id'?: string, 'return_resolution_id'?: string, 'query'?: string, 'min_amount'?: int, 'max_amount'?: int, 'currency'?: string, 'refund_status'?: list<string>|string, 'dispute_status'?: list<string>|string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'expand'?: list<string>|string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
+    /** @param array{'idempotency_key'?: string, 'page_size'?: int, 'page_token'?: string, 'order_id'?: string, 'customer_id'?: string, 'email'?: string, 'invoice_id'?: string, 'is_action_required'?: bool, 'has_failed_attempts'?: bool, 'payment_link_id'?: string, 'decline_code'?: string, 'card_fingerprint'?: string, 'buyer_ip_address'?: string, 'card_last4'?: string, 'card_brand'?: list<string>|string, 'status'?: list<string>|string, 'risk_level'?: list<string>|string, 'payment_flow'?: list<string>|string, 'external_reference_id'?: string, 'return_id'?: string, 'return_resolution_id'?: string, 'query'?: string, 'min_amount'?: int, 'max_amount'?: int, 'currency'?: string, 'refund_status'?: list<string>|string, 'dispute_status'?: list<string>|string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'expand'?: list<string>|string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentIntentsListParams')); }
-    /** Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
+    /** Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns only resources created in your caller namespace, plus resources created before caller scoping under the original key. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
      * @return string
      * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */
@@ -62,6 +70,12 @@ final class PaymentIntentsListParams extends Model {
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
+    /** Filter to payment intents whose receipt_email or linked customer's email equals this address, ignoring case and any whitespace stored around it, with accents preserved. Requires one bare email address without surrounding whitespace. Format: email. Example: "buyer@example.com".
+     * @return string
+     * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
+     */
+    public function getEmail(): string { return $this->get('email'); }
+    public function hasEmail(): bool { return $this->has('email'); }
     /** Filter by invoice ID. pattern: ^inv_[0-9A-HJKMNP-TV-Z]{26}$. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
      * @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoiceId() or valueOrDefault().
@@ -74,6 +88,48 @@ final class PaymentIntentsListParams extends Model {
      */
     public function getIsActionRequired(): bool { return $this->get('is_action_required'); }
     public function hasIsActionRequired(): bool { return $this->has('is_action_required'); }
+    /** Match any historical failed attempt, including successful retries. Combine with status=requires_payment_method for payments still awaiting another method. Merchant credentials only.
+     * @return bool
+     * @throws SdkError When has_failed_attempts is omitted; use hasHasFailedAttempts() or valueOrDefault().
+     */
+    public function getHasFailedAttempts(): bool { return $this->get('has_failed_attempts'); }
+    public function hasHasFailedAttempts(): bool { return $this->has('has_failed_attempts'); }
+    /** Match payments from a checkout session created by this payment link. Merchant credentials only. pattern: ^pl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+     * @return string
+     * @throws SdkError When payment_link_id is omitted; use hasPaymentLinkId() or valueOrDefault().
+     */
+    public function getPaymentLinkId(): string { return $this->get('payment_link_id'); }
+    public function hasPaymentLinkId(): bool { return $this->has('payment_link_id'); }
+    /** Exact failed-attempt decline code. Evidence filters match the same failed attempt. Merchant credentials only. maxLength: 100.
+     * @return string
+     * @throws SdkError When decline_code is omitted; use hasDeclineCode() or valueOrDefault().
+     */
+    public function getDeclineCode(): string { return $this->get('decline_code'); }
+    public function hasDeclineCode(): bool { return $this->has('decline_code'); }
+    /** Exact merchant/environment risk-list card fingerprint on a failed attempt. Merchant credentials only. maxLength: 255.
+     * @return string
+     * @throws SdkError When card_fingerprint is omitted; use hasCardFingerprint() or valueOrDefault().
+     */
+    public function getCardFingerprint(): string { return $this->get('card_fingerprint'); }
+    public function hasCardFingerprint(): bool { return $this->has('card_fingerprint'); }
+    /** Exact canonical IP on a failed attempt. Merchant credentials only.
+     * @return string
+     * @throws SdkError When buyer_ip_address is omitted; use hasBuyerIpAddress() or valueOrDefault().
+     */
+    public function getBuyerIpAddress(): string { return $this->get('buyer_ip_address'); }
+    public function hasBuyerIpAddress(): bool { return $this->has('buyer_ip_address'); }
+    /** Exact match on payment_source.card.last4 or a failed attempt snapshot. Send exactly four digits. Payments without a card never match. Combined with card_brand or any other filter, all filters must match. pattern: ^[0-9]{4}$.
+     * @return string
+     * @throws SdkError When card_last4 is omitted; use hasCardLast4() or valueOrDefault().
+     */
+    public function getCardLast4(): string { return $this->get('card_last4'); }
+    public function hasCardLast4(): bool { return $this->has('card_last4'); }
+    /** Exact match on payment_source.card.brand or a failed attempt snapshot. Repeat keys or comma-separate values to match any selected brand. Payments without a card never match. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "visa", "mastercard", "amex", "discover", "diners", "jcb", "unionpay". Value enum: "visa", "mastercard", "amex", "discover", "diners", "jcb", "unionpay". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "visa", "mastercard", "amex", "discover", "diners", "jcb", "unionpay". anyOf[1][] (Value): string.  Value enum: "visa", "mastercard", "amex", "discover", "diners", "jcb", "unionpay". anyOf[2] (Value): string.  Value enum: "visa", "mastercard", "amex", "discover", "diners", "jcb", "unionpay".
+     * @return list<string>|string
+     * @throws SdkError When card_brand is omitted; use hasCardBrand() or valueOrDefault().
+     */
+    public function getCardBrand(): mixed { return $this->get('card_brand'); }
+    public function hasCardBrand(): bool { return $this->has('card_brand'); }
     /** Filter by payment intent status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "requires_payment_method", "requires_confirmation", "requires_action", "processing", "requires_capture", "canceled", "succeeded", "expired". Value enum: "requires_payment_method", "requires_confirmation", "requires_action", "processing", "requires_capture", "canceled", "succeeded", "expired". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "requires_payment_method", "requires_confirmation", "requires_action", "processing", "requires_capture", "canceled", "succeeded", "expired". anyOf[1][] (Value): string.  Value enum: "requires_payment_method", "requires_confirmation", "requires_action", "processing", "requires_capture", "canceled", "succeeded", "expired". anyOf[2] (Value): string.  Value enum: "requires_payment_method", "requires_confirmation", "requires_action", "processing", "requires_capture", "canceled", "succeeded", "expired".
      * @return list<string>|string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
@@ -110,7 +166,7 @@ final class PaymentIntentsListParams extends Model {
      */
     public function getReturnResolutionId(): string { return $this->get('return_resolution_id'); }
     public function hasReturnResolutionId(): bool { return $this->has('return_resolution_id'); }
-    /** Search across payment_intent_id, external_reference_id, and receipt_email. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as ord_01.
+    /** Search across payment_intent_id, external_reference_id, and receipt_email. Use email or customer_id to find a linked customer's payments. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as ord_01.
      * @return string
      * @throws SdkError When query is omitted; use hasQuery() or valueOrDefault().
      */

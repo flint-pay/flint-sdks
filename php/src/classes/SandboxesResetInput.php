@@ -9,7 +9,7 @@ namespace Flint;
 final class SandboxesResetInput extends Model {
     /** @param array{'sandbox_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SandboxesResetInput')); }
-    /** Flint sandbox ID. Example: "test_01KEZF7C00JC77HTMTB2XHNPE0".
+    /** Flint sandbox ID. Must be a valid ID with prefix test_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "test_01KEZF7C00JC77HTMTB2XHNPE0".
      * @return string
      * @throws SdkError When sandbox_id is omitted; use hasSandboxId() or valueOrDefault().
      */

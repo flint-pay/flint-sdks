@@ -16,7 +16,7 @@ namespace Flint;
 final class CreatePartnerAppRequestInput extends Model {
     /** @param array{'api_version'?: string, 'client_secret_enabled'?: bool, 'default_requested_permissions'?: list<string>, 'merchant_action_url'?: string, 'name': string, 'payment_splits'?: PartnerAppPaymentSplitsRequestInput|array<array-key, mixed>|\stdClass, 'permission_manifest': list<PartnerAppPermissionManifestEntryRequestInput|array<array-key, mixed>|\stdClass>, 'platform_fee_cap'?: PlatformFeeCapRequestInput|array<array-key, mixed>|\stdClass, 'platform_profile'?: PartnerAppPlatformProfileRequestInput|array<array-key, mixed>|\stdClass, 'redirect_uris': list<string>}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreatePartnerAppRequestInput')); }
-    /** API version for requests the app makes with its install tokens that send no Flint-Version header. Defaults to the version of this request and can't be newer than it. minLength: 1.
+    /** API version for requests the app makes with its install tokens that send no Flint-Version header. Defaults to the version of this request. Any supported version is accepted. minLength: 1.
      * @return string
      * @throws SdkError When api_version is omitted; use hasApiVersion() or valueOrDefault().
      */
@@ -40,7 +40,7 @@ final class CreatePartnerAppRequestInput extends Model {
      */
     public function getMerchantActionUrl(): string { return $this->get('merchant_action_url'); }
     public function hasMerchantActionUrl(): bool { return $this->has('merchant_action_url'); }
-    /** The app's name, shown to merchants on the consent screen and in Flint's emails, at most 100 characters, without links or email addresses. minLength: 1. maxLength: 100.
+    /** The app's name, shown to merchants on the consent screen and in Flint's emails, at most 100 characters, without links or email addresses. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1. maxLength: 100.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
@@ -64,7 +64,7 @@ final class CreatePartnerAppRequestInput extends Model {
      */
     public function getPlatformFeeCap(): mixed { return $this->get('platform_fee_cap'); }
     public function hasPlatformFeeCap(): bool { return $this->has('platform_fee_cap'); }
-    /** The platform profile Flint reviews before it approves the app as a platform. Optional; set it now or later with PATCH. The whole platform profile. Every field is required except support_phone, and a write replaces the profile whole.
+    /** The platform profile Flint reviews before it approves the app as a platform. Optional; set it now or later with PATCH. support_email, website_url and support_phone are shown to merchants on the consent screen and install resource. The whole platform profile. support_email, website_url and support_phone are shown to merchants on the consent screen and install resource. Every field is required except support_phone, and a write replaces the profile whole.
      * @return PartnerAppPlatformProfileRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When platform_profile is omitted; use hasPlatformProfile() or valueOrDefault().
      */

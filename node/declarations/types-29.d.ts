@@ -1,36 +1,577 @@
 import type {
-    GiftCardFundingSourceAdjustmentPreviousAttributes,
-    GiftCardFundingSourceExternalPaymentPreviousAttributes,
-    GiftCardFundingSourceFlintManualPaymentPreviousAttributes,
-    GiftCardFundingSourceAdjustmentRequestInput,
-    GiftCardFundingSourceExternalPaymentRequestInput,
     GiftCard,
     GiftCardFundingDispute,
-    GiftCardFundingSource,
     GiftCardFundingDisputePreviousAttributes,
     GiftCardCustomAmountBounds,
-    GiftCardCustomAmountBoundsPreviousAttributes,
-    GiftCardCustomAmountBoundsRequestInput
+    GiftCardCustomAmountBoundsPreviousAttributes
 } from './types-28.js';
-import type { ResponseMeta } from './types-60.js';
+import type { ResponseMeta } from './types-62.js';
 import type {
+    GiftCardPurchaseRefundAllocation,
     GiftCardPurchaseRefundValueHold,
     GiftCardPurchaseRestoration,
     GiftCardRefundProvenance,
+    GiftCardPurchaseRefundAllocationPreviousAttributes,
     GiftCardPurchaseRefundValueHoldPreviousAttributes,
     GiftCardPurchaseRestorationPreviousAttributes,
     GiftCardRefundProvenancePreviousAttributes,
-    GiftCardPurchaseRefundValueAllocation,
-    GiftCardPurchaseRefundRecoveryPreviousAttributes,
-    GiftCardPurchaseRefundValueAllocationPreviousAttributes
+    GiftCardPurchaseRecipient,
+    GiftCardPurchaseRecipientPreviousAttributes
 } from './types-30.js';
-import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-42.js';
-import type { MerchantWebhookEnvelope } from './types-41.js';
-import type { PartnerWebhookEnvelope } from './types-49.js';
+import type { MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
+import type { MerchantWebhookEnvelope } from './types-43.js';
+import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateGiftCardLoadRequestInput, CreateGiftCardNotificationRequestInput } from './types-10.js';
-import type { DisputesAcceptParams } from './types-25.js';
+import type { DisputesAcceptParams } from './types-26.js';
 import type { CancelGiftCardNotificationRequestInput } from './types-4.js';
+/**
+ * How a lost funding dispute was resolved for a gift card load, such as honoring the card's value,
+ * with a reason message.
+ */
+export type GiftCardFundingLossResolution = {
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * What the merchant decided about the card's value after the funding payment lost a dispute.
+     * Value enum: "honor_value".
+     */
+    "disposition": "honor_value" | (string & {});
+    /**
+     * ID of the funding disposition recorded for the lost dispute. Example:
+     * "gfd_01KEZF7C0077Q8RK3Q4FD2DTW8".
+     */
+    "gift_card_funding_disposition_id": string;
+    /** The note you gave when you created the disposition. */
+    "reason_message": string;
+};
+export type GiftCardFundingLossResolutionPreviousAttributes = {
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "created_at"?: ((string) | (null));
+    /**
+     * What the merchant decided about the card's value after the funding payment lost a dispute.
+     * Value enum: "honor_value". anyOf[1] (Value): string. What the merchant decided about the
+     * card's value after the funding payment lost a dispute. Value enum: "honor_value". anyOf[2]
+     * (Value): null.
+     */
+    "disposition"?: (("honor_value" | (string & {})) | (null));
+    /**
+     * ID of the funding disposition recorded for the lost dispute. anyOf[1] (Value): string. ID of
+     * the funding disposition recorded for the lost dispute. Example:
+     * "gfd_01KEZF7C0077Q8RK3Q4FD2DTW8". anyOf[2] (Value): null.
+     */
+    "gift_card_funding_disposition_id"?: ((string) | (null));
+    /**
+     * The note you gave when you created the disposition. anyOf[1] (Value): string. The note you
+     * gave when you created the disposition. anyOf[2] (Value): null.
+     */
+    "reason_message"?: ((string) | (null));
+};
+/**
+ * Where the value of a gift card load came from, such as an external payment, a Flint payment, an
+ * import, or an adjustment, with your reference for it.
+ */
+export type GiftCardFundingSource = ({
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string;
+    /**
+     * Where the value came from. Value enum: "external_payment", "flint_payment",
+     * "flint_manual_payment", "import", "adjustment", "gift_card_refund",
+     * "gift_card_purchase_refund_recovery", "store_credit".
+     */
+    "funding_source_type": "external_payment"
+        | "flint_payment"
+        | "flint_manual_payment"
+        | "import"
+        | "adjustment"
+        | "gift_card_refund"
+        | "gift_card_purchase_refund_recovery"
+        | "store_credit"
+        | (string & {});
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: string;
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. minLength: 1. maxLength: 255. Example:
+     * "omp_01KEZF7C007J18203RBJKB9TYE".
+     */
+    "order_manual_payment_id"?: string;
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. minLength: 1. maxLength: 255. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id"?: string;
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * minLength: 1. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     */
+    "refund_id"?: string;
+})
+    & ((Exclude<GiftCardFundingSourceExternalPayment & object, readonly unknown[]>)
+    | (Exclude<GiftCardFundingSourceFlintPayment & object, readonly unknown[]>)
+    | (Exclude<GiftCardFundingSourceFlintManualPayment & object, readonly unknown[]>)
+    | (Exclude<GiftCardFundingSourceImport & object, readonly unknown[]>)
+    | (Exclude<GiftCardFundingSourceAdjustment & object, readonly unknown[]>)
+    | (Exclude<GiftCardFundingSourceGiftCardRefund & object, readonly unknown[]>)
+    | (Exclude<GiftCardFundingSourceGiftCardPurchaseRefundRecovery & object, readonly unknown[]>)
+    | (Exclude<GiftCardFundingSourceStoreCredit & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** The `adjustment` variant of `GiftCardFundingSource`. */
+export type GiftCardFundingSourceAdjustment = ({
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string;
+    /** Where the value came from. Value enum: "adjustment". */
+    "funding_source_type": "adjustment" | (string & {});
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: string;
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. minLength: 1. maxLength: 255. Example:
+     * "omp_01KEZF7C007J18203RBJKB9TYE".
+     */
+    "order_manual_payment_id"?: string;
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. minLength: 1. maxLength: 255. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id"?: string;
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * minLength: 1. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     */
+    "refund_id"?: string;
+})
+    & ({
+    /** Where the value came from. Value enum: "adjustment". */
+    "funding_source_type"?: unknown;
+});
+export type GiftCardFundingSourceAdjustmentPreviousAttributes = ({
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. anyOf[1] (Value): string. ID of the customer
+     * the funding is attributed to. Required for `external_payment` and `flint_manual_payment`;
+     * optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
+     */
+    "customer_id"?: ((string) | (null));
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. anyOf[1] (Value): string. Your reference for the payment
+     * or import record that funded this value, such as a POS sale ID. Required; 1 to 255
+     * characters. minLength: 1. maxLength: 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+     */
+    "external_reference_id"?: ((string) | (null));
+    /**
+     * Where the value came from. Value enum: "adjustment". anyOf[1] (Value): string. Where the
+     * value came from. Value enum: "adjustment". anyOf[2] (Value): null.
+     */
+    "funding_source_type"?: (("adjustment" | (string & {})) | (null));
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. anyOf[1] (Value): string.
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+     */
+    "order_id"?: ((string) | (null));
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. anyOf[1] (Value): string. ID of the manual payment on the order that
+     * funded the value. Required for `flint_manual_payment`. minLength: 1. maxLength: 255.
+     * Example: "omp_01KEZF7C007J18203RBJKB9TYE". anyOf[2] (Value): null.
+     */
+    "order_manual_payment_id"?: ((string) | (null));
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. anyOf[1] (Value): string. The original payment
+     * for flint_payment or store_credit value. For standalone paid funding, use a captured payment
+     * intent without an order_id. Order-linked payments fund purchased cards or store credit
+     * through their order. minLength: 1. maxLength: 255. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * anyOf[2] (Value): null.
+     */
+    "payment_intent_id"?: ((string) | (null));
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * anyOf[1] (Value): string. Refund that issued this value. Present only when
+     * funding_source_type is store_credit. minLength: 1. Example:
+     * "ref_01KEZF7C003DTD59WKYHEXYQ1K". anyOf[2] (Value): null.
+     */
+    "refund_id"?: ((string) | (null));
+})
+    & ({
+    /**
+     * Where the value came from. Value enum: "adjustment". anyOf[1] (Value): any. Where the value
+     * came from. Value enum: "adjustment". anyOf[2] (Value): null.
+     */
+    "funding_source_type"?: ((unknown) | (null) | (unknown));
+});
+/** The `adjustment` variant of `GiftCardFundingSource`. */
+export type GiftCardFundingSourceAdjustmentRequestInput = ({
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string;
+    /** Where the value came from. Value enum: "adjustment". */
+    "funding_source_type": "adjustment";
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: string;
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. minLength: 1. maxLength: 255. Example:
+     * "omp_01KEZF7C007J18203RBJKB9TYE".
+     */
+    "order_manual_payment_id"?: never;
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. minLength: 1. maxLength: 255. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id"?: string;
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * minLength: 1. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     */
+    "refund_id"?: never;
+})
+    & ({
+    /** Where the value came from. Value enum: "adjustment". */
+    "funding_source_type"?: ("adjustment") & ("adjustment");
+});
+/** The `external_payment` variant of `GiftCardFundingSource`. */
+export type GiftCardFundingSourceExternalPayment = ({
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id": string;
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string;
+    /** Where the value came from. Value enum: "external_payment". */
+    "funding_source_type": "external_payment" | (string & {});
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: string;
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. minLength: 1. maxLength: 255. Example:
+     * "omp_01KEZF7C007J18203RBJKB9TYE".
+     */
+    "order_manual_payment_id"?: string;
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. minLength: 1. maxLength: 255. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id"?: string;
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * minLength: 1. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     */
+    "refund_id"?: string;
+})
+    & (({
+    /** Where the value came from. Value enum: "external_payment". */
+    "funding_source_type"?: unknown;
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id": string;
+}));
+export type GiftCardFundingSourceExternalPaymentPreviousAttributes = ({
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. anyOf[1] (Value): string. ID of the customer
+     * the funding is attributed to. Required for `external_payment` and `flint_manual_payment`;
+     * optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
+     */
+    "customer_id"?: ((string) | (null));
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. anyOf[1] (Value): string. Your reference for the payment
+     * or import record that funded this value, such as a POS sale ID. Required; 1 to 255
+     * characters. minLength: 1. maxLength: 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+     */
+    "external_reference_id"?: ((string) | (null));
+    /**
+     * Where the value came from. Value enum: "external_payment". anyOf[1] (Value): string. Where
+     * the value came from. Value enum: "external_payment". anyOf[2] (Value): null.
+     */
+    "funding_source_type"?: (("external_payment" | (string & {})) | (null));
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. anyOf[1] (Value): string.
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+     */
+    "order_id"?: ((string) | (null));
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. anyOf[1] (Value): string. ID of the manual payment on the order that
+     * funded the value. Required for `flint_manual_payment`. minLength: 1. maxLength: 255.
+     * Example: "omp_01KEZF7C007J18203RBJKB9TYE". anyOf[2] (Value): null.
+     */
+    "order_manual_payment_id"?: ((string) | (null));
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. anyOf[1] (Value): string. The original payment
+     * for flint_payment or store_credit value. For standalone paid funding, use a captured payment
+     * intent without an order_id. Order-linked payments fund purchased cards or store credit
+     * through their order. minLength: 1. maxLength: 255. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * anyOf[2] (Value): null.
+     */
+    "payment_intent_id"?: ((string) | (null));
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * anyOf[1] (Value): string. Refund that issued this value. Present only when
+     * funding_source_type is store_credit. minLength: 1. Example:
+     * "ref_01KEZF7C003DTD59WKYHEXYQ1K". anyOf[2] (Value): null.
+     */
+    "refund_id"?: ((string) | (null));
+})
+    & ({
+    /**
+     * Where the value came from. Value enum: "external_payment". anyOf[1] (Value): any. Where the
+     * value came from. Value enum: "external_payment". anyOf[2] (Value): null.
+     */
+    "funding_source_type"?: ((unknown) | (null) | (unknown));
+});
+/** The `external_payment` variant of `GiftCardFundingSource`. */
+export type GiftCardFundingSourceExternalPaymentRequestInput = ({
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id": string;
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string;
+    /** Where the value came from. Value enum: "external_payment". */
+    "funding_source_type": "external_payment";
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: string;
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. minLength: 1. maxLength: 255. Example:
+     * "omp_01KEZF7C007J18203RBJKB9TYE".
+     */
+    "order_manual_payment_id"?: never;
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. minLength: 1. maxLength: 255. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id"?: string;
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * minLength: 1. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     */
+    "refund_id"?: never;
+})
+    & (({
+    /** Where the value came from. Value enum: "external_payment". */
+    "funding_source_type"?: ("external_payment") & ("external_payment");
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id": string;
+})
+    & (({
+    "payment_intent_id"?: never;
+}) & ({
+    "order_id"?: never;
+})));
+/** The `flint_manual_payment` variant of `GiftCardFundingSource`. */
+export type GiftCardFundingSourceFlintManualPayment = ({
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id": string;
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string;
+    /** Where the value came from. Value enum: "flint_manual_payment". */
+    "funding_source_type": "flint_manual_payment" | (string & {});
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id": string;
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. minLength: 1. maxLength: 255. Example:
+     * "omp_01KEZF7C007J18203RBJKB9TYE".
+     */
+    "order_manual_payment_id": string;
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. minLength: 1. maxLength: 255. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id"?: string;
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * minLength: 1. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     */
+    "refund_id"?: string;
+})
+    & (({
+    /** Where the value came from. Value enum: "flint_manual_payment". */
+    "funding_source_type"?: unknown;
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. minLength: 1. maxLength: 255. Example:
+     * "omp_01KEZF7C007J18203RBJKB9TYE".
+     */
+    "order_manual_payment_id": string;
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id": string;
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id": string;
+}));
+export type GiftCardFundingSourceFlintManualPaymentPreviousAttributes = ({
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. anyOf[1] (Value): string. ID of the customer
+     * the funding is attributed to. Required for `external_payment` and `flint_manual_payment`;
+     * optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
+     */
+    "customer_id"?: ((string) | (null));
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. anyOf[1] (Value): string. Your reference for the payment
+     * or import record that funded this value, such as a POS sale ID. Required; 1 to 255
+     * characters. minLength: 1. maxLength: 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+     */
+    "external_reference_id"?: ((string) | (null));
+    /**
+     * Where the value came from. Value enum: "flint_manual_payment". anyOf[1] (Value): string.
+     * Where the value came from. Value enum: "flint_manual_payment". anyOf[2] (Value): null.
+     */
+    "funding_source_type"?: (("flint_manual_payment" | (string & {})) | (null));
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. anyOf[1] (Value): string.
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+     */
+    "order_id"?: ((string) | (null));
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. anyOf[1] (Value): string. ID of the manual payment on the order that
+     * funded the value. Required for `flint_manual_payment`. minLength: 1. maxLength: 255.
+     * Example: "omp_01KEZF7C007J18203RBJKB9TYE". anyOf[2] (Value): null.
+     */
+    "order_manual_payment_id"?: ((string) | (null));
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. anyOf[1] (Value): string. The original payment
+     * for flint_payment or store_credit value. For standalone paid funding, use a captured payment
+     * intent without an order_id. Order-linked payments fund purchased cards or store credit
+     * through their order. minLength: 1. maxLength: 255. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * anyOf[2] (Value): null.
+     */
+    "payment_intent_id"?: ((string) | (null));
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * anyOf[1] (Value): string. Refund that issued this value. Present only when
+     * funding_source_type is store_credit. minLength: 1. Example:
+     * "ref_01KEZF7C003DTD59WKYHEXYQ1K". anyOf[2] (Value): null.
+     */
+    "refund_id"?: ((string) | (null));
+})
+    & ({
+    /**
+     * Where the value came from. Value enum: "flint_manual_payment". anyOf[1] (Value): any. Where
+     * the value came from. Value enum: "flint_manual_payment". anyOf[2] (Value): null.
+     */
+    "funding_source_type"?: ((unknown) | (null) | (unknown));
+});
 /** The `flint_manual_payment` variant of `GiftCardFundingSource`. */
 export type GiftCardFundingSourceFlintManualPaymentRequestInput = ({
     /**
@@ -3026,10 +3567,11 @@ export type GiftCardLoadsListParams = {
     "gift_card_id"?: InputValue<string>;
     /**
      * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
-     * exact and case-sensitive. Returns current authorized resources, not the recorded response. A
-     * pending resource does not prove that the operation succeeded, and an empty list does not
-     * prove that it had no effect. minLength: 1. maxLength: 255. pattern:
-     * ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
+     * exact and case-sensitive. Returns only resources created in your caller namespace, plus
+     * resources created before caller scoping under the original key. Returns current authorized
+     * resources, not the recorded response. A pending resource does not prove that the operation
+     * succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength:
+     * 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
      */
     "idempotency_key"?: InputValue<string>;
     /**
@@ -3651,13 +4193,17 @@ export type GiftCardNotificationListResponse = {
  */
 export type GiftCardNotificationRecipientInput = {
     /**
-     * Email address the notification is sent to. Format: email. minLength: 1. maxLength: 254.
-     * Example: "buyer@example.com".
+     * Email address the notification is sent to. The local part before @ must be at most 64 octets
+     * (UTF-8 bytes). Format: email. minLength: 1. maxLength: 254. Example: "buyer@example.com".
      */
     "email": string;
     /** Message included in the notification. minLength: 1. maxLength: 200. */
     "message"?: string;
-    /** Name of the person the notification is addressed to. minLength: 1. maxLength: 255. */
+    /**
+     * Name of the person the notification is addressed to. Surrounding whitespace is trimmed
+     * before length validation. A supplied value cannot be blank; use null where clearing is
+     * supported. minLength: 1. maxLength: 255.
+     */
     "name"?: string;
     /**
      * Optional whole-second send time between now and 90 days from now. Format: date-time.
@@ -4611,309 +5157,4 @@ export type GiftCardProductConfigurationPreviousAttributes = {
      * (Value): null.
      */
     "price_mode"?: (("face_value" | "discounted" | (string & {})) | (null));
-};
-/**
- * Gift card settings on a product variant: its `face_value_money`, price mode (face value or
- * discounted), and bounds for custom amounts.
- */
-export type GiftCardProductConfigurationRequestInput = {
-    /**
-     * Minimum and maximum gift card values buyers can choose. Omit for a fixed denomination. The
-     * minimum and maximum amounts a buyer can choose when buying a gift card with a custom amount.
-     */
-    "custom_amount_bounds"?: GiftCardCustomAmountBoundsRequestInput;
-    /**
-     * Gift card value issued for one unit of this variant, in the same currency as its unit price.
-     * Currency must be USD. Amount must be between 1 and 200000 minor units, inclusive. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "face_value_money": MoneyValueInput;
-    /**
-     * Whether the gift card is sold at its face value or at a discounted price. Value enum:
-     * "face_value", "discounted".
-     */
-    "price_mode": "face_value" | "discounted";
-};
-/**
- * Gift card details you supply for an order line item: the `face_value_money` and the `recipient`
- * who receives the card.
- */
-export type GiftCardPurchaseDetailsRequestInput = {
-    /**
-     * Buyer-selected face value within the gift card offer's limits. Currency must be USD. Amount
-     * must be between 1 and 200000 minor units, inclusive. The amount and every computed order
-     * amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or
-     * calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the
-     * responsible input field. Lower payment option limits can apply. Monetary amount represented
-     * as integer minor units plus an ISO 4217 currency code.
-     */
-    "face_value_money"?: MoneyValueInput;
-    /**
-     * Who receives the gift card. `null` when no recipient was set. Recipient of a gift card
-     * purchase that you supply: `email`, optional `name` and `message`, and an optional `send_at`
-     * time.
-     */
-    "recipient"?: GiftCardPurchaseRecipientRequestInput;
-};
-/**
- * The recipient of a purchased gift card: `email`, optional `name` and `message`, and an optional
- * `send_at` time.
- */
-export type GiftCardPurchaseRecipient = {
-    /**
-     * Email address the gift card is delivered to. Format: email. minLength: 1. maxLength: 254.
-     * Example: "buyer@example.com".
-     */
-    "email": string;
-    /** Personal message included with the gift card. maxLength: 200. */
-    "message"?: string;
-    /** Name of the person receiving the gift card. maxLength: 255. */
-    "name"?: string;
-    /**
-     * Optional send time between now and 90 days from now. Omission requests immediate recipient
-     * notification after funding. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "send_at"?: string;
-};
-/**
- * Changes to the recipient of a gift card purchase when updating a line item. Send null for `name`
- * or `message` to clear it.
- */
-export type GiftCardPurchaseRecipientPatchRequest = {
-    /**
-     * Email address the gift card is delivered to. Format: email. minLength: 1. maxLength: 254.
-     * Example: "buyer@example.com".
-     */
-    "email": string;
-    /** Send null to clear it. minLength: 1. maxLength: 200. */
-    "message"?: string | null;
-    /** Send null to clear it. minLength: 1. maxLength: 255. */
-    "name"?: string | null;
-    /**
-     * Optional send time between now and 90 days from now. Omission requests immediate recipient
-     * notification after funding. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "send_at"?: string;
-};
-/**
- * Changes to the recipient of a gift card purchase when updating a line item. Send null for `name`
- * or `message` to clear it.
- */
-export type GiftCardPurchaseRecipientPatchRequestInput = {
-    /**
-     * Email address the gift card is delivered to. Format: email. minLength: 1. maxLength: 254.
-     * Example: "buyer@example.com".
-     */
-    "email": string;
-    /** Send null to clear it. minLength: 1. maxLength: 200. */
-    "message"?: string | null;
-    /** Send null to clear it. minLength: 1. maxLength: 255. */
-    "name"?: string | null;
-    /**
-     * Optional send time between now and 90 days from now. Omission requests immediate recipient
-     * notification after funding. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "send_at"?: string | globalThis.Date;
-};
-export type GiftCardPurchaseRecipientPreviousAttributes = {
-    /**
-     * Email address the gift card is delivered to. anyOf[1] (Value): string. Email address the
-     * gift card is delivered to. Format: email. minLength: 1. maxLength: 254. Example:
-     * "buyer@example.com". anyOf[2] (Value): null.
-     */
-    "email"?: ((string) | (null));
-    /**
-     * Personal message included with the gift card. anyOf[1] (Value): string. Personal message
-     * included with the gift card. maxLength: 200. anyOf[2] (Value): null.
-     */
-    "message"?: ((string) | (null));
-    /**
-     * Name of the person receiving the gift card. anyOf[1] (Value): string. Name of the person
-     * receiving the gift card. maxLength: 255. anyOf[2] (Value): null.
-     */
-    "name"?: ((string) | (null));
-    /**
-     * Optional send time between now and 90 days from now. Omission requests immediate recipient
-     * notification after funding. anyOf[1] (Value): string. Optional send time between now and 90
-     * days from now. Omission requests immediate recipient notification after funding. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "send_at"?: ((string) | (null));
-};
-/**
- * Recipient of a gift card purchase that you supply: `email`, optional `name` and `message`, and
- * an optional `send_at` time.
- */
-export type GiftCardPurchaseRecipientRequestInput = {
-    /**
-     * Email address the gift card is delivered to. Format: email. minLength: 1. maxLength: 254.
-     * Example: "buyer@example.com".
-     */
-    "email": string;
-    /** Personal message included with the gift card. minLength: 1. maxLength: 200. */
-    "message"?: string;
-    /** Name of the person receiving the gift card. minLength: 1. maxLength: 255. */
-    "name"?: string;
-    /**
-     * Optional send time between now and 90 days from now. Omission requests immediate recipient
-     * notification after funding. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "send_at"?: string | globalThis.Date;
-};
-/** An entry in a gift card load's purchase refunds. */
-export type GiftCardPurchaseRefundAllocation = {
-    /**
-     * The part of the amount the buyer paid that this refund or reversal returns. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "consideration_money": MoneyValue;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /**
-     * ID of the manual payment reversal. Set when this entry reverses a manual payment instead of
-     * refunding a payment. Example: "omp_01KEZF7C007J18203RBJKB9TYE".
-     */
-    "order_manual_reversal_id"?: string;
-    /**
-     * ID of this entry in the load's purchase refunds. Example:
-     * "gcpra_01KEZF7C00HJZ2YP6AENMZK5KA".
-     */
-    "purchase_refund_allocation_id": string;
-    /**
-     * How the value was restored after the refund failed. `null` when no recovery happened.
-     * Records how value was recovered for a gift card purchase refund, on the original or a
-     * replacement card, with the destinations that received it.
-     */
-    "recovery"?: GiftCardPurchaseRefundRecovery;
-    /**
-     * ID of the refund. `null` when the entry reverses a manual payment, which has no refund.
-     * Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-     */
-    "refund_id": string | null;
-    /**
-     * Whether the refund has succeeded, failed, or is still pending. Value enum: "pending",
-     * "succeeded", "failed".
-     */
-    "status": "pending" | "succeeded" | "failed" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-    /**
-     * Actual value lots reserved or reversed for this original cash refund. Omitted when all value
-     * remains on the original load. [] (Value): {@link GiftCardPurchaseRefundValueAllocation}. A
-     * gift card load and amount reserved or reversed for a gift card purchase refund.
-     */
-    "value_allocations"?: Array<GiftCardPurchaseRefundValueAllocation>;
-    /**
-     * The unspent face value this entry removes from the load. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "value_money": MoneyValue;
-    /**
-     * Current version of this resource's owned state. Send it as `expected_version` when changing
-     * the resource to reject a stale write. Format: int64.
-     */
-    "version": number;
-};
-export type GiftCardPurchaseRefundAllocationPreviousAttributes = {
-    /**
-     * The part of the amount the buyer paid that this refund or reversal returns. anyOf[1]
-     * (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "consideration_money"?: ((MoneyValuePreviousAttributes) | (null));
-    /**
-     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "created_at"?: ((string) | (null));
-    /**
-     * ID of the manual payment reversal. Set when this entry reverses a manual payment instead of
-     * refunding a payment. anyOf[1] (Value): string. ID of the manual payment reversal. Set when
-     * this entry reverses a manual payment instead of refunding a payment. Example:
-     * "omp_01KEZF7C007J18203RBJKB9TYE". anyOf[2] (Value): null.
-     */
-    "order_manual_reversal_id"?: ((string) | (null));
-    /**
-     * ID of this entry in the load's purchase refunds. anyOf[1] (Value): string. ID of this entry
-     * in the load's purchase refunds. Example: "gcpra_01KEZF7C00HJZ2YP6AENMZK5KA". anyOf[2]
-     * (Value): null.
-     */
-    "purchase_refund_allocation_id"?: ((string) | (null));
-    /**
-     * How the value was restored after the refund failed. `null` when no recovery happened.
-     * anyOf[1] (Value): {@link GiftCardPurchaseRefundRecoveryPreviousAttributes}. anyOf[2]
-     * (Value): null.
-     */
-    "recovery"?: ((GiftCardPurchaseRefundRecoveryPreviousAttributes) | (null));
-    /**
-     * ID of the refund. `null` when the entry reverses a manual payment, which has no refund.
-     * anyOf[1] (Value): string. ID of the refund. `null` when the entry reverses a manual payment,
-     * which has no refund. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". anyOf[2] (Value): null.
-     */
-    "refund_id"?: ((string) | (null));
-    /**
-     * Whether the refund has succeeded, failed, or is still pending. Value enum: "pending",
-     * "succeeded", "failed". anyOf[1] (Value): string. Whether the refund has succeeded, failed,
-     * or is still pending. Value enum: "pending", "succeeded", "failed". anyOf[2] (Value): null.
-     */
-    "status"?: (("pending" | "succeeded" | "failed" | (string & {})) | (null));
-    /**
-     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "updated_at"?: ((string) | (null));
-    /**
-     * Actual value lots reserved or reversed for this original cash refund. Omitted when all value
-     * remains on the original load. anyOf[1] (Value): Array of {@link
-     * GiftCardPurchaseRefundValueAllocationPreviousAttributes}. Actual value lots reserved or
-     * reversed for this original cash refund. Omitted when all value remains on the original load.
-     * anyOf[1][] (Value): {@link GiftCardPurchaseRefundValueAllocationPreviousAttributes}.
-     * anyOf[2] (Value): null.
-     */
-    "value_allocations"?: ((Array<GiftCardPurchaseRefundValueAllocationPreviousAttributes>) | (null));
-    /**
-     * The unspent face value this entry removes from the load. anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "value_money"?: ((MoneyValuePreviousAttributes) | (null));
-    /**
-     * Current version of this resource's owned state. Send it as `expected_version` when changing
-     * the resource to reject a stale write. anyOf[1] (Value): integer. Current version of this
-     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
-     * stale write. Format: int64. anyOf[2] (Value): null.
-     */
-    "version"?: ((number) | (null));
-};
-/**
- * Records how value was recovered for a gift card purchase refund, on the original or a
- * replacement card, with the destinations that received it.
- */
-export type GiftCardPurchaseRefundRecovery = {
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /** Where the restored value went. Value enum: "original", "replacement". */
-    "destination": "original" | "replacement" | (string & {});
-    /**
-     * The cards and loads that received the restored value. [] (Value): {@link
-     * GiftCardPurchaseRefundRecoveryDestination}. A gift card and load that received recovered
-     * value in a gift card purchase refund recovery, with the amount.
-     */
-    "destinations": Array<GiftCardPurchaseRefundRecoveryDestination>;
-};
-/**
- * A gift card and load that received recovered value in a gift card purchase refund recovery, with
- * the amount.
- */
-export type GiftCardPurchaseRefundRecoveryDestination = {
-    /** ID of the gift card that received the value. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". */
-    "gift_card_id": string;
-    /** ID of the load that holds the value. Example: "gcl_01KEZF7C00YJED2857SE0J6KWC". */
-    "gift_card_load_id": string;
-    /**
-     * The value restored to the card. Monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code.
-     */
-    "value_money": MoneyValue;
 };

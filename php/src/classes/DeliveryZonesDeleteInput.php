@@ -10,7 +10,7 @@ namespace Flint;
 final class DeliveryZonesDeleteInput extends Model {
     /** @param array{'delivery_zone_id': string, 'expected_version'?: int, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryZonesDeleteInput')); }
-    /** Flint delivery zone ID. Example: "dzone_01KEZF7C005RY7KGCN4M2CH5WP".
+    /** Flint delivery zone ID. Must be a valid ID with prefix dzone_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "dzone_01KEZF7C005RY7KGCN4M2CH5WP".
      * @return string
      * @throws SdkError When delivery_zone_id is omitted; use hasDeliveryZoneId() or valueOrDefault().
      */

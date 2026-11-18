@@ -1,6 +1,6 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { RequestOptions } from '../declarations/types-60.js';
+import type { RequestOptions } from '../declarations/types-61.js';
 import type {
     WorkloadIdentitiesCreateParams,
     WorkloadIdentitiesDeleteParams,
@@ -11,7 +11,7 @@ import type {
     WorkloadIdentityListResponse,
     WorkloadIdentityResponse,
     _SdkWithoutIdempotency
-} from '../declarations/types-77.js';
+} from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -38,18 +38,19 @@ export type {
     WorkloadIdentitiesUpdateParams,
     WorkloadIdentityClaimConditionRequestInput,
     WorkloadIdentityClaimCondition
-} from '../declarations/types-77.js';
-export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-60.js';
+} from '../declarations/types-79.js';
+export type { RequestOptions } from '../declarations/types-61.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type { CreateWorkloadIdentityRequestInput, Credentials } from '../declarations/types-14.js';
+export type { CreateWorkloadIdentityRequestInput } from '../declarations/types-14.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { UpdateWorkloadIdentityRequestInput } from '../declarations/types-76.js';
-export { makeCreateWorkloadIdentityRequest } from '../declarations/types-82.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeUpdateWorkloadIdentityRequest } from '../declarations/types-91.js';
-export { makeWorkloadIdentityClaimConditionRequest } from '../declarations/types-92.js';
+export type { Credentials } from '../declarations/types-15.js';
+export type { ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-62.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { UpdateWorkloadIdentityRequestInput } from '../declarations/types-78.js';
+export { makeCreateWorkloadIdentityRequest } from '../declarations/types-84.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeUpdateWorkloadIdentityRequest, makeWorkloadIdentityClaimConditionRequest } from '../declarations/types-94.js';
 export interface WorkloadIdentitiesResource {
     /**
  * Creates an active identity in the authenticated environment and validates issuer discovery.
@@ -76,7 +77,9 @@ export interface WorkloadIdentitiesResource {
  * identity without changing its version.
  *
  * `DELETE /v1/workload-identities/{workload_identity_id}`
- * @param workload_identity_id Flint workload identity ID.
+ * @param workload_identity_id Flint workload identity ID. Must be a valid ID with prefix wid_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/workload-identities#deleteWorkloadIdentity
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -90,7 +93,9 @@ export interface WorkloadIdentitiesResource {
  * Returns an identity in the authenticated environment, including an archived identity.
  *
  * `GET /v1/workload-identities/{workload_identity_id}`
- * @param workload_identity_id Flint workload identity ID.
+ * @param workload_identity_id Flint workload identity ID. Must be a valid ID with prefix wid_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/workload-identities#getWorkloadIdentity
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -124,7 +129,9 @@ export interface WorkloadIdentitiesResource {
  * verification.
  *
  * `PATCH /v1/workload-identities/{workload_identity_id}`
- * @param workload_identity_id Flint workload identity ID.
+ * @param workload_identity_id Flint workload identity ID. Must be a valid ID with prefix wid_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/workload-identities#updateWorkloadIdentity
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

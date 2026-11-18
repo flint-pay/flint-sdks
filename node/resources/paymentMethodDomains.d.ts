@@ -8,9 +8,9 @@ import type {
     PaymentMethodDomainsGetParams,
     PaymentMethodDomainsListParams,
     PaymentMethodDomainsUpdateParams
-} from '../declarations/types-51.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-53.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -34,19 +34,20 @@ export type {
     PaymentMethodDomainListResponse,
     PaymentMethodDomainsUpdateParams,
     PaymentMethodDomainPaymentOptionStatus
-} from '../declarations/types-51.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-53.js';
+export type { RequestOptions } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreatePaymentMethodDomainRequestInput, CreatePaymentMethodDomainRequest } from '../declarations/types-12.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { UpdatePaymentMethodDomainRequestInput } from '../declarations/types-74.js';
-export { makeCreatePaymentMethodDomainRequest } from '../declarations/types-81.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeUpdatePaymentMethodDomainRequest } from '../declarations/types-91.js';
+export type { Credentials } from '../declarations/types-15.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { UpdatePaymentMethodDomainRequestInput } from '../declarations/types-76.js';
+export { makeCreatePaymentMethodDomainRequest } from '../declarations/types-83.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeUpdatePaymentMethodDomainRequest } from '../declarations/types-93.js';
 export interface PaymentMethodDomainsResource {
     /**
  * Registers one exact domain or subdomain for Apple Pay and Google Pay in the selected Flint
@@ -67,7 +68,9 @@ export interface PaymentMethodDomainsResource {
  * Returns one environment-scoped payment method domain and its Apple Pay and Google Pay readiness.
  *
  * `GET /v1/payment-method-domains/{payment_method_domain_id}`
- * @param payment_method_domain_id Flint payment method domain ID.
+ * @param payment_method_domain_id Flint payment method domain ID. Must be a valid ID with prefix
+ * pmdom_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/payment-method-domains#getPaymentMethodDomain
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -104,7 +107,9 @@ export interface PaymentMethodDomainsResource {
  * status inactive turns wallet buttons off for the hostname.
  *
  * `PATCH /v1/payment-method-domains/{payment_method_domain_id}`
- * @param payment_method_domain_id Flint payment method domain ID.
+ * @param payment_method_domain_id Flint payment method domain ID. Must be a valid ID with prefix
+ * pmdom_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see
  * https://developers.withflintpay.com/docs/api/payment-method-domains#updatePaymentMethodDomain
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.

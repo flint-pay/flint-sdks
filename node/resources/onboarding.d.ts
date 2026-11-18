@@ -17,15 +17,17 @@ import type {
     OnboardingStartResponse,
     OnboardingStartResult,
     OnboardingState,
-    OnboardingStateResponse,
+    OnboardingStateResponse
+} from '../declarations/types-44.js';
+import type {
     OnboardingVerifyEmailParams,
     OnboardingVerifyEmailRequest,
     OnboardingVerifyEmailRequestInput,
     OnboardingVerifyEmailResponse,
     OnboardingVerifyEmailResult
-} from '../declarations/types-43.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-45.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -49,9 +51,6 @@ export type {
     OnboardingStartParams,
     OnboardingStartResult,
     OnboardingStartResponse,
-    OnboardingVerifyEmailParams,
-    OnboardingVerifyEmailResult,
-    OnboardingVerifyEmailResponse,
     OnboardingAdvanceRequest,
     OnboardingAdvanceRequestInput,
     OnboardingProfile,
@@ -60,32 +59,40 @@ export type {
     OnboardingSessionAuthContext,
     OnboardingStartRequest,
     OnboardingStartRequestInput,
+    NextAction,
+    MoneyValue
+} from '../declarations/types-44.js';
+export type { RequestOptions } from '../declarations/types-61.js';
+export type { AccessLink, AccessLinkResponse, Address } from '../declarations/types-0.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type {
+    OnboardingVerifyEmailParams,
+    OnboardingVerifyEmailResult,
+    OnboardingVerifyEmailResponse,
     OnboardingVerifyEmailRequest,
     OnboardingVerifyEmailRequestInput
-} from '../declarations/types-43.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type { AccessLink, AccessLinkResponse, Address } from '../declarations/types-0.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-45.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
-export type { ReadinessAction, ReadinessMerchantAccountSession, ReadinessRequirements, ReadinessAxis } from '../declarations/types-58.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
+export type { Credentials } from '../declarations/types-15.js';
+export type { ReadinessAction } from '../declarations/types-59.js';
+export type { ReadinessMerchantAccountSession, ReadinessRequirements, ReadinessRequirementError, ReadinessAxis } from '../declarations/types-60.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { CreateOnboardingAccessLinkRequestInput, CreateOnboardingAccessLinkRequest } from '../declarations/types-11.js';
-export type { Merchant } from '../declarations/types-40.js';
-export type { ImageAttachment } from '../declarations/types-30.js';
-export type { MetadataMap, MerchantReadiness } from '../declarations/types-41.js';
+export type { Merchant, MerchantReadiness } from '../declarations/types-42.js';
+export type { ImageAttachment } from '../declarations/types-31.js';
+export type { MetadataMap } from '../declarations/types-43.js';
 export type { CapabilityReadiness } from '../declarations/types-5.js';
-export type { User } from '../declarations/types-76.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
-export { makeCreateOnboardingAccessLinkRequest } from '../declarations/types-80.js';
+export type { User } from '../declarations/types-78.js';
+export type { DisputesAcceptParams } from '../declarations/types-26.js';
+export { makeCreateOnboardingAccessLinkRequest } from '../declarations/types-83.js';
 export {
     makeMoneyValue,
     makeOnboardingAdvanceRequest,
     makeOnboardingProfileRequest,
     makeOnboardingStartRequest,
     makeOnboardingVerifyEmailRequest
-} from '../declarations/types-86.js';
+} from '../declarations/types-88.js';
 export interface OnboardingResource {
     /**
  * Submits whatever the caller currently knows, re-evaluates onboarding, reconciles onboarding

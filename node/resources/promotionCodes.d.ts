@@ -1,7 +1,7 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
+import type { PromotionCode } from '../declarations/types-57.js';
 import type {
-    PromotionCode,
     PromotionCodeListResponse,
     PromotionCodeResponse,
     PromotionCodesCreateParams,
@@ -11,9 +11,9 @@ import type {
     PromotionCodesSummary,
     PromotionCodesSummaryPreviousAttributes,
     PromotionCodesUpdateParams
-} from '../declarations/types-56.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-58.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -30,7 +30,6 @@ export type {
 } from '../runtime.js';
 export type {
     PromotionCodesCreateParams,
-    PromotionCode,
     PromotionCodeResponse,
     PromotionCodesDeleteParams,
     PromotionCodesGetParams,
@@ -39,34 +38,41 @@ export type {
     PromotionCodesUpdateParams,
     PromotionCodesSummary,
     PromotionCodesSummaryPreviousAttributes,
-    PromotionApplicationMethod,
     PromotionPercentOffMethod,
+    PromotionRuleGroup,
+    PromotionRule,
+    PromotionRuleValue,
     PromotionRecurrence,
     PromotionRecurrenceOnce,
     PromotionRecurrenceRepeating,
     PromotionRecurrenceForever,
-    PromotionBuyXGetYMethod,
     PromotionCombinesWith,
     PromotionExclusivity
-} from '../declarations/types-56.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-58.js';
+export type { RequestOptions } from '../declarations/types-61.js';
+export type {
+    PromotionCode,
+    Promotion,
+    PromotionApplicationMethod,
+    PromotionAmountOffMethod,
+    PromotionBuyXGetYMethod
+} from '../declarations/types-57.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreatePromotionCodeRequestInput } from '../declarations/types-12.js';
-export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-41.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
-export type { Promotion, PromotionAmountOffMethod } from '../declarations/types-55.js';
-export type { PromotionRuleGroup, PromotionRule, PromotionRuleValue, PromotionSchedule } from '../declarations/types-57.js';
-export type { MoneyValue, NextAction } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { UpdatePromotionCodeRequestInput } from '../declarations/types-75.js';
+export type { Credentials } from '../declarations/types-15.js';
+export type { MoneyValue, NextAction } from '../declarations/types-44.js';
+export type { PromotionSchedule } from '../declarations/types-59.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { UpdatePromotionCodeRequestInput } from '../declarations/types-77.js';
 export type { CategoriesDeleteParams } from '../declarations/types-5.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
-export { makeCreatePromotionCodeRequest } from '../declarations/types-81.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeUpdatePromotionCodeRequest } from '../declarations/types-91.js';
+export type { DisputesAcceptParams } from '../declarations/types-26.js';
+export { makeCreatePromotionCodeRequest } from '../declarations/types-83.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeUpdatePromotionCodeRequest } from '../declarations/types-93.js';
 export interface PromotionCodesResource {
     /**
  * Creates a code for a promotion whose `redemption_type` is code; adding a code to an automatic
@@ -92,7 +98,9 @@ export interface PromotionCodesResource {
  * its version or `updated_at`, sending a webhook, or checking references.
  *
  * `DELETE /v1/promotion-codes/{promotion_code_id}`
- * @param promotion_code_id Flint promotion code ID.
+ * @param promotion_code_id Flint promotion code ID. Must be a valid ID with prefix pcode_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/promotions#deletePromotionCode
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -108,7 +116,9 @@ export interface PromotionCodesResource {
  * to another merchant or environment.
  *
  * `GET /v1/promotion-codes/{promotion_code_id}`
- * @param promotion_code_id Flint promotion code ID.
+ * @param promotion_code_id Flint promotion code ID. Must be a valid ID with prefix pcode_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/promotions#getPromotionCode
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -141,7 +151,9 @@ export interface PromotionCodesResource {
  * archived resource and its `current_status`.
  *
  * `PATCH /v1/promotion-codes/{promotion_code_id}`
- * @param promotion_code_id Flint promotion code ID.
+ * @param promotion_code_id Flint promotion code ID. Must be a valid ID with prefix pcode_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/promotions#updatePromotionCode
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

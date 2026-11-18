@@ -15,6 +15,7 @@ namespace Flint;
  * @property-read ?GiftCardPurchaseSnapshot $gift_card_purchase
  * @property-read ?Image $image
  * @property-read LineItemInventorySnapshot|null $inventory_snapshot
+ * @property-read int $license_key_quantity
  * @property-read MoneyValue $modifier_total_money
  * @property-read list<BuyerOrderLineItemModifier> $modifiers
  * @property-read string $name
@@ -26,6 +27,7 @@ namespace Flint;
  * @property-read string|null $product_type
  * @property-read list<PurchasedGiftCard> $purchased_gift_cards
  * @property-read int $quantity
+ * @property-read OrderLineItemRefundable $refundable
  * @property-read MoneyValue $refunded_money
  * @property-read int $refunded_quantity
  * @property-read string|null $release_date
@@ -46,7 +48,7 @@ namespace Flint;
  * @property-read ?string $variant_id
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerOrderLineItem extends Model {
-    /** @param array{'backordered_quantity': int, 'base_subtotal_money': mixed, 'bundle_components': list<mixed>, 'bundle_id'?: string, 'categories': list<mixed>, 'description'?: string, 'discount_money': mixed, 'expected_ship_date': string|null, 'fulfillment_quantities'?: list<mixed>, 'fulfillment_requirements'?: mixed, 'gift_card_purchase'?: mixed, 'image'?: mixed, 'inventory_snapshot': mixed, 'modifier_total_money': mixed, 'modifiers': list<mixed>, 'name': string, 'order_edit_id': string|null, 'order_id': string, 'order_line_item_id': string, 'payment_link_line_item_key': string|null, 'product_id'?: string, 'product_type': string|null, 'purchased_gift_cards': list<mixed>, 'quantity': int, 'refunded_money': mixed, 'refunded_quantity': int, 'release_date': string|null, 'removed_quantity': int, 'selected_options': list<mixed>, 'sku'?: string, 'subscription'?: mixed, 'subscription_id'?: string, 'subscription_offer'?: mixed, 'subtotal_money': mixed, 'tax'?: mixed, 'tax_money': mixed, 'total_money': mixed, 'type': string, 'unit_dimensions'?: mixed, 'unit_price_money': mixed, 'unit_weight'?: mixed, 'variant_id'?: string, ...}|object $values */
+    /** @param array{'backordered_quantity': int, 'base_subtotal_money': mixed, 'bundle_components': list<mixed>, 'bundle_id'?: string, 'categories': list<mixed>, 'description'?: string, 'discount_money': mixed, 'expected_ship_date': string|null, 'fulfillment_quantities'?: list<mixed>, 'fulfillment_requirements'?: mixed, 'gift_card_purchase'?: mixed, 'image'?: mixed, 'inventory_snapshot': mixed, 'license_key_quantity': int, 'modifier_total_money': mixed, 'modifiers': list<mixed>, 'name': string, 'order_edit_id': string|null, 'order_id': string, 'order_line_item_id': string, 'payment_link_line_item_key': string|null, 'product_id'?: string, 'product_type': string|null, 'purchased_gift_cards': list<mixed>, 'quantity': int, 'refundable': mixed, 'refunded_money': mixed, 'refunded_quantity': int, 'release_date': string|null, 'removed_quantity': int, 'selected_options': list<mixed>, 'sku'?: string, 'subscription'?: mixed, 'subscription_id'?: string, 'subscription_offer'?: mixed, 'subtotal_money': mixed, 'tax'?: mixed, 'tax_money': mixed, 'total_money': mixed, 'type': string, 'unit_dimensions'?: mixed, 'unit_price_money': mixed, 'unit_weight'?: mixed, 'variant_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerOrderLineItem')); }
     /** Tracked line units waiting for stock. Always 0 when none are backordered. Whole-number quantity; fractional quantities are not supported. Format: int64. minimum: 0.
      * @return int
@@ -113,6 +115,11 @@ final class BuyerOrderLineItem extends Model {
      */
     public function getInventorySnapshot(): LineItemInventorySnapshot|null { return $this->get('inventory_snapshot'); }
     public function hasInventorySnapshot(): bool { return $this->has('inventory_snapshot'); }
+    /** Number of license keys promised by this line: quantity when its frozen catalog setting issues keys, otherwise 0. Includes keys for a subscription started by this line; renewal lines report 0. Refunds do not reduce this count. Keys arrive asynchronously after payment, so they may not exist yet when order.paid arrives. Whole-number quantity; fractional quantities are not supported. Format: int64. minimum: 0.
+     * @return int
+     */
+    public function getLicenseKeyQuantity(): int { return $this->get('license_key_quantity'); }
+    public function hasLicenseKeyQuantity(): bool { return $this->has('license_key_quantity'); }
     /** Sum of the line item's modifier totals. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
@@ -168,6 +175,11 @@ final class BuyerOrderLineItem extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
+    /** Remaining quantity and components for an ID-only line refund target. Accounts for original-tender capacity, reversals, accepted refunds, and whole-value edit reservations, including credit transferred to added lines and pending or retryable failed edit refunds. All values are zero when exhausted. Refund eligibility is checked again on submission. Remaining refundable quantity and value of an order line, after prior refunds and order edit reservations.
+     * @return OrderLineItemRefundable
+     */
+    public function getRefundable(): OrderLineItemRefundable { return $this->get('refundable'); }
+    public function hasRefundable(): bool { return $this->has('refundable'); }
     /** Amount of this line already refunded. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */

@@ -10,7 +10,7 @@ namespace Flint;
 final class GiftCardPurchaseRecipientPatchRequestInput extends Model {
     /** @param array{'email': string, 'message'?: string|null, 'name'?: string|null, 'send_at'?: string|\DateTimeInterface}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardPurchaseRecipientPatchRequestInput')); }
-    /** Email address the gift card is delivered to. Format: email. minLength: 1. maxLength: 254. Example: "buyer@example.com".
+    /** Email address the gift card is delivered to. The local part before @ must be at most 64 octets (UTF-8 bytes). Format: email. minLength: 1. maxLength: 254. Example: "buyer@example.com".
      * @return string
      * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
      */
@@ -22,7 +22,7 @@ final class GiftCardPurchaseRecipientPatchRequestInput extends Model {
      */
     public function getMessage(): string|null { return $this->get('message'); }
     public function hasMessage(): bool { return $this->has('message'); }
-    /** Send null to clear it. minLength: 1. maxLength: 255.
+    /** Send null to clear it. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1. maxLength: 255.
      * @return string|null
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */

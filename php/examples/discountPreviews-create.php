@@ -14,7 +14,12 @@ $client = new Client(new ClientOptions(
   allowInsecureHttp: $baseUrl !== null && in_array(parse_url($baseUrl, PHP_URL_HOST), ['localhost', '127.0.0.1'], true) && parse_url($baseUrl, PHP_URL_SCHEME) === 'http',
 ));
 $result = $client->discountPreviews->create([
-  'order_id' => 'ord_01KEZF7C0054GQKJ142A8X367A',
+  'discount' => (object) [
+    'promotion' => (object) [
+      'promotion_code' => 'SPRING15',
+    ],
+  ],
+  'order_id' => 'ord_01HZYV7Q9Y0Y4H8Q3H9F6R7T8J',
 ]);
 echo json_encode($result, JSON_THROW_ON_ERROR) . PHP_EOL;
 $client->close();

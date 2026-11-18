@@ -5,6 +5,7 @@ namespace Flint;
  * @property-read MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $amount_money
  * @property-read bool|null $can_respond_with_evidence
  * @property-read string|null $case_type
+ * @property-read string|null $closed_reason
  * @property-read string|\DateTimeInterface|null $created_at
  * @property-read ExpandedCustomerSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $customer
  * @property-read string|null $customer_id
@@ -32,7 +33,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface|null $updated_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class DisputePreviousAttributesInput extends Model {
-    /** @param array{'amount_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'can_respond_with_evidence'?: bool|null, 'case_type'?: string|null, 'created_at'?: string|\DateTimeInterface|null, 'customer'?: ExpandedCustomerSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'customer_id'?: string|null, 'dispute_id'?: string|null, 'evidence_due_at'?: string|\DateTimeInterface|null, 'evidence_submission_count'?: int|null, 'fraud_warning_id'?: string|null, 'has_evidence'?: bool|null, 'is_action_required'?: bool|null, 'is_evidence_deadline_passed'?: bool|null, 'merchant_id'?: string|null, 'network_reason_code'?: string|null, 'order'?: ExpandedOrderSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'order_id'?: string|null, 'payment_intent'?: ExpandedPaymentIntentSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'payment_intent_id'?: string|null, 'payment_option'?: string|null, 'reason'?: string|null, 'recommended_evidence_types'?: list<string>|null, 'response_unavailable_reason'?: string|null, 'split_reversals'?: list<SplitReversalReferencePreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'status'?: string|null, 'status_changed_at'?: string|\DateTimeInterface|null, 'supported_actions'?: list<string>|null, 'updated_at'?: string|\DateTimeInterface|null, ...}|object $values */
+    /** @param array{'amount_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'can_respond_with_evidence'?: bool|null, 'case_type'?: string|null, 'closed_reason'?: string|null, 'created_at'?: string|\DateTimeInterface|null, 'customer'?: ExpandedCustomerSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'customer_id'?: string|null, 'dispute_id'?: string|null, 'evidence_due_at'?: string|\DateTimeInterface|null, 'evidence_submission_count'?: int|null, 'fraud_warning_id'?: string|null, 'has_evidence'?: bool|null, 'is_action_required'?: bool|null, 'is_evidence_deadline_passed'?: bool|null, 'merchant_id'?: string|null, 'network_reason_code'?: string|null, 'order'?: ExpandedOrderSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'order_id'?: string|null, 'payment_intent'?: ExpandedPaymentIntentSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'payment_intent_id'?: string|null, 'payment_option'?: string|null, 'reason'?: string|null, 'recommended_evidence_types'?: list<string>|null, 'response_unavailable_reason'?: string|null, 'split_reversals'?: list<SplitReversalReferencePreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'status'?: string|null, 'status_changed_at'?: string|\DateTimeInterface|null, 'supported_actions'?: list<string>|null, 'updated_at'?: string|\DateTimeInterface|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DisputePreviousAttributesInput')); }
     /** Amount in dispute. For a chargeback, this amount left your balance when the case opened; an inquiry moves no money. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
      * @return MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null
@@ -52,6 +53,12 @@ final class DisputePreviousAttributesInput extends Model {
      */
     public function getCaseType(): mixed { return $this->get('case_type'); }
     public function hasCaseType(): bool { return $this->has('case_type'); }
+    /** Why the dispute closed, when Flint recorded the cause. Absent when Flint has no confirmed closure reason. Value enum: "merchant_accepted". anyOf[1] (Value): string. Why the dispute closed, when Flint recorded the cause. Absent when Flint has no confirmed closure reason. Value enum: "merchant_accepted". anyOf[2] (Value): null.
+     * @return string|null
+     * @throws SdkError When closed_reason is omitted; use hasClosedReason() or valueOrDefault().
+     */
+    public function getClosedReason(): mixed { return $this->get('closed_reason'); }
+    public function hasClosedReason(): bool { return $this->has('closed_reason'); }
     /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
      * @return string|\DateTimeInterface|null
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().

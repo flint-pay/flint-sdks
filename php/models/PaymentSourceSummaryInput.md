@@ -9,6 +9,6 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `ach_debit` | Optional | [PaymentSourceAchDebitSummaryInput](../models/PaymentSourceAchDebitSummaryInput.md#paymentsourceachdebitsummaryinput) | Bank account details. Present when type is ach_debit. Display details for a bank account payment source: account type, bank name, and last four digits. |
-| `card` | Optional | [PaymentSourceCardSummaryInput](../models/PaymentSourceCardSummaryInput.md#paymentsourcecardsummaryinput) | Card details. Present when type is card. Display details for a card payment source: brand, last four digits, and payment method ID. |
+| `card` | Optional | [PaymentSourceCardSummaryInput](../models/PaymentSourceCardSummaryInput.md#paymentsourcecardsummaryinput) | Card details. Present when type is card. Display details for a card payment source: brand, last four digits, issuing country, funding type, and payment method ID. |
 | `type` | Required | string | Funding-method family. Wallet payment options use card because their underlying funding source is a card. Values: `"card"`, `"ach_debit"`, `"affirm"`. |
 

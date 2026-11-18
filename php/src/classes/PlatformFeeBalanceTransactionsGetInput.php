@@ -9,7 +9,7 @@ namespace Flint;
 final class PlatformFeeBalanceTransactionsGetInput extends Model {
     /** @param array{'platform_fee_balance_transaction_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PlatformFeeBalanceTransactionsGetInput')); }
-    /** Flint platform fee balance transaction ID. Example: "pfbt_01KEZF7C0079KPKMAHC7C60G1T".
+    /** Flint platform fee balance transaction ID. Must be a valid ID with prefix pfbt_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "pfbt_01KEZF7C0079KPKMAHC7C60G1T".
      * @return string
      * @throws SdkError When platform_fee_balance_transaction_id is omitted; use hasPlatformFeeBalanceTransactionId() or valueOrDefault().
      */

@@ -14,7 +14,7 @@ final class RiskListsUpdateParams extends Model {
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** Name of a merchant-created risk list. It can't be cleared. minLength: 1.
+    /** Name of a merchant-created risk list. It can't be cleared. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */

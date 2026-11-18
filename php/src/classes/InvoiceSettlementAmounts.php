@@ -29,7 +29,7 @@ final class InvoiceSettlementAmounts extends Model {
      */
     public function getLateFeeMoney(): MoneyValue { return $this->get('late_fee_money'); }
     public function hasLateFeeMoney(): bool { return $this->has('late_fee_money'); }
-    /** paid_money minus refunded_money and, on orders, dispute_lost_money, never below zero. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** paid_money minus refunded_money, never below zero. Dispute losses do not reduce this invoice amount. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getNetCollectedMoney(): MoneyValue { return $this->get('net_collected_money'); }

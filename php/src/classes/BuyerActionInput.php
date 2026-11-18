@@ -39,7 +39,7 @@ final class BuyerActionInput extends Model {
      */
     public function getIsRequired(): bool { return $this->get('is_required'); }
     public function hasIsRequired(): bool { return $this->has('is_required'); }
-    /** What the action is. Each resource lists its own kinds in a fixed order. New kinds may be added; ignore kinds you don't recognize. Value enum: "start_return", "resend_receipt", "cancel", "pause", "resume", "reactivate", "update_payment_method", "pay", "withdraw", "ship_items", "pay_balance", "retry_payment", "update_delivery", "skip", "update_billing_interval", "update_quantity", "swap_items", "renew", "change_plan", "cancel_plan_change".
+    /** What the action is. Each resource lists its own kinds in a fixed order. New kinds may be added. Ignore kinds you don't recognize. Value enum: "start_return", "resend_receipt", "cancel", "pause", "resume", "reactivate", "update_payment_method", "pay", "withdraw", "ship_items", "pay_balance", "retry_payment", "update_delivery", "skip", "update_billing_interval", "update_quantity", "swap_items", "renew", "change_plan", "cancel_plan_change", "resend", "release".
      * @return string
      * @throws SdkError When kind is omitted; use hasKind() or valueOrDefault().
      */

@@ -15,6 +15,7 @@ namespace Flint;
  * @property-read bool|null $gifts_enabled
  * @property-read list<CheckoutSubscriptionTermsPreviousAttributesLineItemsItem>|null $line_items
  * @property-read string|null $plan_name
+ * @property-read list<CheckoutSubscriptionPricePhasePreviousAttributes>|null $recurring_price_phases
  * @property-read CheckoutSubscriptionRecurringShippingPreviousAttributes|null $recurring_shipping
  * @property-read MoneyValuePreviousAttributes|null $recurring_total_money
  * @property-read MoneyValuePreviousAttributes|null $setup_fee_money
@@ -22,7 +23,7 @@ namespace Flint;
  * @property-read int|null $trial_period_days
  * Presence-aware response; omitted optional fields return null. */
 final class CheckoutSubscriptionTermsPreviousAttributes extends Model {
-    /** @param array{'billing_interval'?: mixed, 'billing_interval_count'?: mixed, 'billing_interval_options'?: mixed, 'contract_term_months'?: mixed, 'deliveries_per_period'?: mixed, 'delivery_interval'?: mixed, 'delivery_interval_count'?: mixed, 'delivery_required'?: mixed, 'early_termination_fee_money'?: mixed, 'gift_recipient'?: mixed, 'gifts_enabled'?: mixed, 'line_items'?: mixed, 'plan_name'?: mixed, 'recurring_shipping'?: mixed, 'recurring_total_money'?: mixed, 'setup_fee_money'?: mixed, 'subscription_plan_id'?: mixed, 'trial_period_days'?: mixed, ...}|object $values */
+    /** @param array{'billing_interval'?: mixed, 'billing_interval_count'?: mixed, 'billing_interval_options'?: mixed, 'contract_term_months'?: mixed, 'deliveries_per_period'?: mixed, 'delivery_interval'?: mixed, 'delivery_interval_count'?: mixed, 'delivery_required'?: mixed, 'early_termination_fee_money'?: mixed, 'gift_recipient'?: mixed, 'gifts_enabled'?: mixed, 'line_items'?: mixed, 'plan_name'?: mixed, 'recurring_price_phases'?: mixed, 'recurring_shipping'?: mixed, 'recurring_total_money'?: mixed, 'setup_fee_money'?: mixed, 'subscription_plan_id'?: mixed, 'trial_period_days'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSubscriptionTermsPreviousAttributes')); }
     /** Unit of the billing period this checkout currently charges on. It starts as the interval chosen when the checkout session was created, or the plan's default when none was chosen, and changes when the buyer picks another option. Read with `billing_interval_count`. Value enum: "daily", "weekly", "monthly", "yearly". anyOf[1] (Value): string. Unit of the billing period this checkout currently charges on. It starts as the interval chosen when the checkout session was created, or the plan's default when none was chosen, and changes when the buyer picks another option. Read with `billing_interval_count`. Value enum: "daily", "weekly", "monthly", "yearly". anyOf[2] (Value): null.
      * @return string|null
@@ -89,6 +90,11 @@ final class CheckoutSubscriptionTermsPreviousAttributes extends Model {
      */
     public function getPlanName(): string|null { return $this->get('plan_name'); }
     public function hasPlanName(): bool { return $this->has('plan_name'); }
+    /** Ordered recurring merchandise prices from the first paid billing period, after any trial, with frozen signup promotions applied. Each finite phase is followed by the next phase; the final phase has a null billing_period_count and continues until cancellation. Tax and shipping are additional. Always contains at least one phase. anyOf[1] (Value): Array of {@see CheckoutSubscriptionPricePhasePreviousAttributes}. Ordered recurring merchandise prices from the first paid billing period, after any trial, with frozen signup promotions applied. Each finite phase is followed by the next phase; the final phase has a null billing_period_count and continues until cancellation. Tax and shipping are additional. Always contains at least one phase. anyOf[1][] (Value): {@see CheckoutSubscriptionPricePhasePreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<CheckoutSubscriptionPricePhasePreviousAttributes>|null
+     */
+    public function getRecurringPricePhases(): array|null { return $this->get('recurring_price_phases'); }
+    public function hasRecurringPricePhases(): bool { return $this->has('recurring_price_phases'); }
     /** Shipping that renews with each charge, for the delivery method the buyer chose. Omitted when no delivery method applies to the plan's lines. anyOf[1] (Value): {@see CheckoutSubscriptionRecurringShippingPreviousAttributes}. anyOf[2] (Value): null.
      * @return CheckoutSubscriptionRecurringShippingPreviousAttributes|null
      */

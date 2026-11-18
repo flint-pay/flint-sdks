@@ -1,17 +1,20 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { RequestOptions } from '../declarations/types-60.js';
+import type { RequestOptions } from '../declarations/types-61.js';
 import type {
     SubscriptionDeliveryMigration,
     SubscriptionDeliveryMigrationFailure,
-    SubscriptionDeliveryMigrationFailureListResponse,
+    SubscriptionDeliveryMigrationFailureListResponse
+} from '../declarations/types-69.js';
+import type {
     SubscriptionDeliveryMigrationListResponse,
     SubscriptionDeliveryMigrationResponse,
     SubscriptionDeliveryMigrationsCreateParams,
-    SubscriptionDeliveryMigrationsGetParams
-} from '../declarations/types-67.js';
-import type { SubscriptionDeliveryMigrationsListFailuresParams, SubscriptionDeliveryMigrationsListParams } from '../declarations/types-68.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+    SubscriptionDeliveryMigrationsGetParams,
+    SubscriptionDeliveryMigrationsListFailuresParams,
+    SubscriptionDeliveryMigrationsListParams
+} from '../declarations/types-70.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -28,29 +31,30 @@ export type {
 } from '../runtime.js';
 export type {
     SubscriptionDeliveryMigrationsCreateParams,
-    SubscriptionDeliveryMigration,
     SubscriptionDeliveryMigrationResponse,
     SubscriptionDeliveryMigrationsGetParams,
-    SubscriptionDeliveryMigrationFailureListResponse,
-    SubscriptionDeliveryMigrationFailure,
+    SubscriptionDeliveryMigrationsListFailuresParams,
+    SubscriptionDeliveryMigrationsListParams,
     SubscriptionDeliveryMigrationListResponse,
     SubscriptionDeliveryMigrationFailureReasonCount
-} from '../declarations/types-67.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
-export type { SubscriptionDeliveryMigrationsListFailuresParams, SubscriptionDeliveryMigrationsListParams } from '../declarations/types-68.js';
-export type { ClientOptions } from '../declarations/types-7.js';
+} from '../declarations/types-70.js';
+export type { RequestOptions } from '../declarations/types-61.js';
 export type {
-    CreateSubscriptionDeliveryMigrationRequestInput,
-    Credentials,
-    CreateSubscriptionDeliveryMigrationRequest
-} from '../declarations/types-14.js';
+    SubscriptionDeliveryMigration,
+    SubscriptionDeliveryMigrationFailureListResponse,
+    SubscriptionDeliveryMigrationFailure
+} from '../declarations/types-69.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { ClientOptions } from '../declarations/types-7.js';
+export type { CreateSubscriptionDeliveryMigrationRequestInput, CreateSubscriptionDeliveryMigrationRequest } from '../declarations/types-14.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
-export { makeCreateSubscriptionDeliveryMigrationRequest } from '../declarations/types-81.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
+export type { Credentials } from '../declarations/types-15.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { DisputesAcceptParams } from '../declarations/types-26.js';
+export { makeCreateSubscriptionDeliveryMigrationRequest } from '../declarations/types-84.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export interface SubscriptionDeliveryMigrationsResource {
     /**
  * Each subscription is previewed before its delivery method changes. Progress and per-subscription
@@ -73,7 +77,9 @@ export interface SubscriptionDeliveryMigrationsResource {
  * failures remain available after completion.
  *
  * `GET /v1/subscription-delivery-migrations/{subscription_delivery_migration_id}`
- * @param subscription_delivery_migration_id Subscription delivery migration ID.
+ * @param subscription_delivery_migration_id Subscription delivery migration ID. Must be a valid ID
+ * with prefix sdmig_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE;
+ * well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/subscriptions#getSubscriptionDeliveryMigration
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -86,7 +92,9 @@ export interface SubscriptionDeliveryMigrationsResource {
  * uniquely orders the results.
  *
  * `GET /v1/subscription-delivery-migrations/{subscription_delivery_migration_id}/failures`
- * @param subscription_delivery_migration_id Subscription delivery migration ID.
+ * @param subscription_delivery_migration_id Subscription delivery migration ID. Must be a valid ID
+ * with prefix sdmig_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE;
+ * well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND.
  * @see
  * https://developers.withflintpay.com/docs/api/subscriptions#listSubscriptionDeliveryMigrationFailures
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.

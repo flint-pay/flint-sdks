@@ -37,3 +37,7 @@ Field definitions: [SubscriptionActivatedMerchantEvent.data fields 1.object](../
 
 Field definitions: [SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes](../models/SubscriptionActivatedMerchantEvent.md#subscriptionactivatedmerchanteventdata-fields-1previous_attributes).
 
+### SubscriptionPlanChangedMerchantEvent.data fields 1.actor
+
+Field definitions: [ReturnCanceledMerchantEventData.actor](../models/ReturnCanceledMerchantEventData.md#returncanceledmerchanteventdataactor).
+

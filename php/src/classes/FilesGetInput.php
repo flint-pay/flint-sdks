@@ -9,7 +9,7 @@ namespace Flint;
 final class FilesGetInput extends Model {
     /** @param array{'file_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FilesGetInput')); }
-    /** Flint file ID. Example: "file_01KEZF7C00BZ179303GY9R0P03".
+    /** Flint file ID. Must be a valid ID with prefix file_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "file_01KEZF7C00BZ179303GY9R0P03".
      * @return string
      * @throws SdkError When file_id is omitted; use hasFileId() or valueOrDefault().
      */

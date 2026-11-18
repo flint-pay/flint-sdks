@@ -76,7 +76,7 @@ $result = $client->paymentMethods->create([
 
 ### paymentMethods.delete
 
-Deletes a saved payment method so it can no longer be used for future payments. Returns the payment method with status archived, including when it was already archived.
+Deletes a saved payment method so it can no longer be used for future payments. Returns the payment method with status archived, including when it was already archived. Subscriptions block deletion until they have a scheduled cancellation and no remaining payment or retry. Paid prepaid deliveries can finish without the card.
 
 `DELETE /v1/payment-methods/{payment_method_id}`
 
@@ -86,7 +86,7 @@ Signature: `delete(string|Model $payment_method_id, array|Model|null $params = n
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `payment_method_id` | Required | string | Flint payment method ID. |
+| `payment_method_id` | Required | string | Flint payment method ID. Must be a valid ID with prefix pm_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -145,7 +145,7 @@ Signature: `get(string|Model $payment_method_id, array|Model|null $params = null
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `payment_method_id` | Required | string | Flint payment method ID. |
+| `payment_method_id` | Required | string | Flint payment method ID. Must be a valid ID with prefix pm_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: customer. Expansion requires payments.payment_methods.read plus customers.read. Limits: at most 10 unique expand paths per request. Items values: `"customer"`. Values: `"customer"`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |

@@ -9,7 +9,7 @@ namespace Flint;
 final class DeliveryQuotesGetInput extends Model {
     /** @param array{'delivery_quote_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryQuotesGetInput')); }
-    /** Delivery quote ID. Example: "dqt_01KEZF7C009EB1AVCDJBN4BBVV".
+    /** Delivery quote ID. Must be a valid ID with prefix dqt_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "dqt_01KEZF7C009EB1AVCDJBN4BBVV".
      * @return string
      * @throws SdkError When delivery_quote_id is omitted; use hasDeliveryQuoteId() or valueOrDefault().
      */

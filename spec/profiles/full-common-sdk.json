@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/flint-pay/sdk-generator/4e727e1e3027cc354518aee1332545b9b968f05f/sdk-config.schema.json",
-  "version": "8.0.0-beta.6",
+  "version": "8.0.0-beta.7",
   "npm": {
     "name": "@flintpay/node",
     "access": "public"
@@ -671,7 +671,6 @@
       "subscription_offers": "subscription-offers",
       "webhooks": "webhooks",
       "developer_logs": "api-request-logs",
-      "feedback_reports": "feedback-reports",
       "merchants": "merchants",
       "merchant_billing": "merchant-billing",
       "organizations": "organizations",
@@ -704,14 +703,14 @@
       "payment_splits": "payment-splits",
       "platform_fees": "platform-fees",
       "readers": "readers",
-      "remembered_buyers": "remembered-buyers"
+      "remembered_buyers": "remembered-buyers",
+      "license-keys": "license-keys"
     },
     "exampleValues": {
       "customer_address_id": "caddr_01ARZ3NDEKTSV4RRFFQ69G5FAV",
       "customer_session_id": "cses_01ARZ3NDEKTSV4RRFFQ69G5FAV",
       "customer_verification_id": "cver_01ARZ3NDEKTSV4RRFFQ69G5FAV",
       "email_change_request_id": "cecr_01ARZ3NDEKTSV4RRFFQ69G5FAV",
-      "feedback_report_id": "fbr_01ARZ3NDEKTSV4RRFFQ69G5FAV",
       "flint_wallet_card_id": "fwc_01ARZ3NDEKTSV4RRFFQ69G5FAV",
       "gift_card_funding_disposition_id": "gfd_01ARZ3NDEKTSV4RRFFQ69G5FAV",
       "invoice_late_fee_id": "inlf_01ARZ3NDEKTSV4RRFFQ69G5FAV",
@@ -2174,32 +2173,6 @@
         "auto": true,
         "autoKeyPrefix": "flint-sdk-"
       },
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
-    "listFeedbackReports": {
-      "response": {
-        "payloadPath": null
-      },
-      "idempotency": false,
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
-    "createFeedbackReport": {
-      "pagination": false,
-      "idempotency": {
-        "auto": true,
-        "autoKeyPrefix": "flint-sdk-"
-      },
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
-    "getFeedbackReport": {
-      "idempotency": false,
-      "pagination": false,
       "retry": {
         "maxAttempts": 3
       }
@@ -8509,6 +8482,345 @@
         "maxAttempts": 3
       },
       "pagination": false,
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
+      }
+    },
+    "listLicenseKeyActivations": {
+      "response": {
+        "payloadPath": null
+      },
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "createLicenseKeyActivation": {
+      "pagination": false,
+      "example": {
+        "body": {
+          "key": "EXAMPLE-LICENSE-KEY-DO-NOT-USE",
+          "product_ids": [
+            "prod_01KEZF7C00BVSHCNWVH528HB66"
+          ],
+          "name": "Example desktop"
+        }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "getLicenseKeyActivation": {
+      "pagination": false,
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "releaseLicenseKeyActivation": {
+      "pagination": false,
+      "example": {
+        "license_key_activation_id": "lka_01KEZF7C00NZEZVCZW3SRDMHTZ",
+        "body": {
+          "key": "EXAMPLE-LICENSE-KEY-DO-NOT-USE",
+          "product_ids": [
+            "prod_01KEZF7C00BVSHCNWVH528HB66"
+          ]
+        }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "listLicenseKeyPools": {
+      "response": {
+        "payloadPath": null
+      },
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "createLicenseKeyPool": {
+      "pagination": false,
+      "example": {
+        "body": {
+          "name": "Example software keys"
+        }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "deleteLicenseKeyPool": {
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "getLicenseKeyPool": {
+      "pagination": false,
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "updateLicenseKeyPool": {
+      "pagination": false,
+      "example": {
+        "license_key_pool_id": "lkp_01KEZF7C00AQV1X2DPWG2NXS7H",
+        "body": {
+          "name": "Example desktop keys",
+          "expected_version": 1
+        }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "listLicenseKeyPoolKeys": {
+      "response": {
+        "payloadPath": null
+      },
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "createLicenseKeyPoolKeys": {
+      "pagination": false,
+      "example": {
+        "license_key_pool_id": "lkp_01KEZF7C00AQV1X2DPWG2NXS7H",
+        "body": {
+          "keys": [
+            "EXAMPLE-LICENSE-KEY-DO-NOT-USE"
+          ],
+          "seller_authorization_confirmed": true
+        }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "removeLicenseKeyPoolKeys": {
+      "pagination": false,
+      "example": {
+        "license_key_pool_id": "lkp_01KEZF7C00AQV1X2DPWG2NXS7H",
+        "body": {
+          "license_key_pool_key_ids": [
+            "lkpk_01KEZF7C004XWT0EAW2ZQGG93S"
+          ]
+        }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "listLicenseKeys": {
+      "response": {
+        "payloadPath": null
+      },
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "example": {
+        "order_id": "ord_01KEZF7C0054GQKJ142A8X367A"
+      }
+    },
+    "lookupLicenseKey": {
+      "pagination": false,
+      "example": {
+        "body": {
+          "key": "EXAMPLE-LICENSE-KEY-DO-NOT-USE"
+        }
+      },
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false
+      }
+    },
+    "validateLicenseKey": {
+      "pagination": false,
+      "example": {
+        "body": {
+          "key": "EXAMPLE-LICENSE-KEY-DO-NOT-USE",
+          "product_ids": [
+            "prod_01KEZF7C00BVSHCNWVH528HB66"
+          ]
+        }
+      },
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false
+      }
+    },
+    "getLicenseKey": {
+      "pagination": false,
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "updateLicenseKey": {
+      "pagination": false,
+      "example": {
+        "license_key_id": "lk_01KEZF7C000QD7VJ83G43V0NSN",
+        "body": {
+          "activation_limit": 2,
+          "expected_version": 1
+        }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "disableLicenseKey": {
+      "pagination": false,
+      "example": {
+        "license_key_id": "lk_01KEZF7C000QD7VJ83G43V0NSN",
+        "body": {
+          "expected_version": 1
+        }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "reinstateLicenseKey": {
+      "pagination": false,
+      "example": {
+        "license_key_id": "lk_01KEZF7C000QD7VJ83G43V0NSN",
+        "body": {
+          "expected_version": 1
+        }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "resendLicenseKey": {
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
+      }
+    },
+    "revealLicenseKey": {
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "rotateLicenseKeyKey": {
+      "pagination": false,
+      "example": {
+        "license_key_id": "lk_01KEZF7C000QD7VJ83G43V0NSN",
+        "body": {
+          "expected_version": 1
+        }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "listMeLicenseKeyActivations": {
+      "response": {
+        "payloadPath": null
+      },
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "releaseMeLicenseKeyActivation": {
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "listMeLicenseKeys": {
+      "response": {
+        "payloadPath": null
+      },
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "resendMeLicenseKey": {
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
       "defaults": {
         "timeoutMs": 150000,
         "deadlineMs": 300000

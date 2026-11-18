@@ -1,26 +1,345 @@
-import type { MoneyValuePreviousAttributes, MoneyValue } from './types-42.js';
+import type { GiftCardCustomAmountBoundsRequestInput, GiftCard } from './types-28.js';
+import type { MoneyValueInput, MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
 import type {
-    GiftCardPurchaseRecipient,
     GiftCardProductConfiguration,
     GiftCardProductConfigurationPreviousAttributes,
-    GiftCardPurchaseRecipientPreviousAttributes,
+    GiftCardFundingSource,
     GiftCardFundingSourcePreviousAttributes
 } from './types-29.js';
-import type { MerchantWebhookEnvelope } from './types-41.js';
-import type { PartnerWebhookEnvelope } from './types-49.js';
-import type { ResponseMeta, ResourceReference } from './types-60.js';
-import type { GiftCard, GiftCardFundingSource } from './types-28.js';
+import type { MerchantWebhookEnvelope } from './types-43.js';
+import type { PartnerWebhookEnvelope } from './types-50.js';
+import type { ResponseMeta, ResourceReference } from './types-62.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateGiftCardRedemptionRequestInput, CreateGiftCardRequestInput } from './types-10.js';
-import type { DisputesAcceptParams } from './types-25.js';
+import type { DisputesAcceptParams } from './types-26.js';
 import type { AdjustGiftCardBalanceRequestInput } from './types-0.js';
 import type { CashOutGiftCardRequestInput } from './types-5.js';
 import type { CloseGiftCardRequestInput } from './types-7.js';
 import type { FreezeGiftCardRequestInput } from './types-27.js';
-import type { LookupGiftCardRequestInput } from './types-39.js';
-import type { RotateGiftCardCodeRequestInput } from './types-65.js';
-import type { UnfreezeGiftCardRequestInput } from './types-73.js';
-import type { UpdateGiftCardRequestInput } from './types-74.js';
+import type { LookupGiftCardRequestInput } from './types-40.js';
+import type { RotateGiftCardCodeRequestInput } from './types-67.js';
+import type { UnfreezeGiftCardRequestInput } from './types-75.js';
+import type { UpdateGiftCardRequestInput } from './types-76.js';
+/**
+ * Gift card settings on a product variant: its `face_value_money`, price mode (face value or
+ * discounted), and bounds for custom amounts.
+ */
+export type GiftCardProductConfigurationRequestInput = {
+    /**
+     * Minimum and maximum gift card values buyers can choose. Omit for a fixed denomination. The
+     * minimum and maximum amounts a buyer can choose when buying a gift card with a custom amount.
+     */
+    "custom_amount_bounds"?: GiftCardCustomAmountBoundsRequestInput;
+    /**
+     * Gift card value issued for one unit of this variant, in the same currency as its unit price.
+     * Currency must be USD. Amount must be between 1 and 200000 minor units, inclusive. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "face_value_money": MoneyValueInput;
+    /**
+     * Whether the gift card is sold at its face value or at a discounted price. Value enum:
+     * "face_value", "discounted".
+     */
+    "price_mode": "face_value" | "discounted";
+};
+/**
+ * Gift card details you supply for an order line item: the `face_value_money` and the `recipient`
+ * who receives the card.
+ */
+export type GiftCardPurchaseDetailsRequestInput = {
+    /**
+     * Buyer-selected face value within the gift card offer's limits. Currency must be USD. Amount
+     * must be between 1 and 200000 minor units, inclusive. The amount and every computed order
+     * amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or
+     * calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the
+     * responsible input field. Lower payment option limits can apply. Monetary amount represented
+     * as integer minor units plus an ISO 4217 currency code.
+     */
+    "face_value_money"?: MoneyValueInput;
+    /**
+     * Who receives the gift card. `null` when no recipient was set. Recipient of a gift card
+     * purchase that you supply: `email`, optional `name` and `message`, and an optional `send_at`
+     * time.
+     */
+    "recipient"?: GiftCardPurchaseRecipientRequestInput;
+};
+/**
+ * The recipient of a purchased gift card: `email`, optional `name` and `message`, and an optional
+ * `send_at` time.
+ */
+export type GiftCardPurchaseRecipient = {
+    /**
+     * Email address the gift card is delivered to. Format: email. minLength: 1. maxLength: 254.
+     * Example: "buyer@example.com".
+     */
+    "email": string;
+    /** Personal message included with the gift card. maxLength: 200. */
+    "message"?: string;
+    /** Name of the person receiving the gift card. maxLength: 255. */
+    "name"?: string;
+    /**
+     * Optional send time between now and 90 days from now. Omission requests immediate recipient
+     * notification after funding. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "send_at"?: string;
+};
+/**
+ * Changes to the recipient of a gift card purchase when updating a line item. Send null for `name`
+ * or `message` to clear it.
+ */
+export type GiftCardPurchaseRecipientPatchRequest = {
+    /**
+     * Email address the gift card is delivered to. The local part before @ must be at most 64
+     * octets (UTF-8 bytes). Format: email. minLength: 1. maxLength: 254. Example:
+     * "buyer@example.com".
+     */
+    "email": string;
+    /** Send null to clear it. minLength: 1. maxLength: 200. */
+    "message"?: string | null;
+    /**
+     * Send null to clear it. Surrounding whitespace is trimmed before length validation. A
+     * supplied value cannot be blank; use null where clearing is supported. minLength: 1.
+     * maxLength: 255.
+     */
+    "name"?: string | null;
+    /**
+     * Optional send time between now and 90 days from now. Omission requests immediate recipient
+     * notification after funding. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "send_at"?: string;
+};
+/**
+ * Changes to the recipient of a gift card purchase when updating a line item. Send null for `name`
+ * or `message` to clear it.
+ */
+export type GiftCardPurchaseRecipientPatchRequestInput = {
+    /**
+     * Email address the gift card is delivered to. The local part before @ must be at most 64
+     * octets (UTF-8 bytes). Format: email. minLength: 1. maxLength: 254. Example:
+     * "buyer@example.com".
+     */
+    "email": string;
+    /** Send null to clear it. minLength: 1. maxLength: 200. */
+    "message"?: string | null;
+    /**
+     * Send null to clear it. Surrounding whitespace is trimmed before length validation. A
+     * supplied value cannot be blank; use null where clearing is supported. minLength: 1.
+     * maxLength: 255.
+     */
+    "name"?: string | null;
+    /**
+     * Optional send time between now and 90 days from now. Omission requests immediate recipient
+     * notification after funding. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "send_at"?: string | globalThis.Date;
+};
+export type GiftCardPurchaseRecipientPreviousAttributes = {
+    /**
+     * Email address the gift card is delivered to. anyOf[1] (Value): string. Email address the
+     * gift card is delivered to. Format: email. minLength: 1. maxLength: 254. Example:
+     * "buyer@example.com". anyOf[2] (Value): null.
+     */
+    "email"?: ((string) | (null));
+    /**
+     * Personal message included with the gift card. anyOf[1] (Value): string. Personal message
+     * included with the gift card. maxLength: 200. anyOf[2] (Value): null.
+     */
+    "message"?: ((string) | (null));
+    /**
+     * Name of the person receiving the gift card. anyOf[1] (Value): string. Name of the person
+     * receiving the gift card. maxLength: 255. anyOf[2] (Value): null.
+     */
+    "name"?: ((string) | (null));
+    /**
+     * Optional send time between now and 90 days from now. Omission requests immediate recipient
+     * notification after funding. anyOf[1] (Value): string. Optional send time between now and 90
+     * days from now. Omission requests immediate recipient notification after funding. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "send_at"?: ((string) | (null));
+};
+/**
+ * Recipient of a gift card purchase that you supply: `email`, optional `name` and `message`, and
+ * an optional `send_at` time.
+ */
+export type GiftCardPurchaseRecipientRequestInput = {
+    /**
+     * Email address the gift card is delivered to. The local part before @ must be at most 64
+     * octets (UTF-8 bytes). Format: email. minLength: 1. maxLength: 254. Example:
+     * "buyer@example.com".
+     */
+    "email": string;
+    /** Personal message included with the gift card. minLength: 1. maxLength: 200. */
+    "message"?: string;
+    /**
+     * Name of the person receiving the gift card. Surrounding whitespace is trimmed before length
+     * validation. A supplied value cannot be blank; use null where clearing is supported.
+     * minLength: 1. maxLength: 255.
+     */
+    "name"?: string;
+    /**
+     * Optional send time between now and 90 days from now. Omission requests immediate recipient
+     * notification after funding. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "send_at"?: string | globalThis.Date;
+};
+/** An entry in a gift card load's purchase refunds. */
+export type GiftCardPurchaseRefundAllocation = {
+    /**
+     * The part of the amount the buyer paid that this refund or reversal returns. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "consideration_money": MoneyValue;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * ID of the manual payment reversal. Set when this entry reverses a manual payment instead of
+     * refunding a payment. Example: "omp_01KEZF7C007J18203RBJKB9TYE".
+     */
+    "order_manual_reversal_id"?: string;
+    /**
+     * ID of this entry in the load's purchase refunds. Example:
+     * "gcpra_01KEZF7C00HJZ2YP6AENMZK5KA".
+     */
+    "purchase_refund_allocation_id": string;
+    /**
+     * How the value was restored after the refund failed. `null` when no recovery happened.
+     * Records how value was recovered for a gift card purchase refund, on the original or a
+     * replacement card, with the destinations that received it.
+     */
+    "recovery"?: GiftCardPurchaseRefundRecovery;
+    /**
+     * ID of the refund. `null` when the entry reverses a manual payment, which has no refund.
+     * Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     */
+    "refund_id": string | null;
+    /**
+     * Whether the refund has succeeded, failed, or is still pending. Value enum: "pending",
+     * "succeeded", "failed".
+     */
+    "status": "pending" | "succeeded" | "failed" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Actual value lots reserved or reversed for this original cash refund. Omitted when all value
+     * remains on the original load. [] (Value): {@link GiftCardPurchaseRefundValueAllocation}. A
+     * gift card load and amount reserved or reversed for a gift card purchase refund.
+     */
+    "value_allocations"?: Array<GiftCardPurchaseRefundValueAllocation>;
+    /**
+     * The unspent face value this entry removes from the load. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "value_money": MoneyValue;
+    /**
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. Format: int64.
+     */
+    "version": number;
+};
+export type GiftCardPurchaseRefundAllocationPreviousAttributes = {
+    /**
+     * The part of the amount the buyer paid that this refund or reversal returns. anyOf[1]
+     * (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "consideration_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "created_at"?: ((string) | (null));
+    /**
+     * ID of the manual payment reversal. Set when this entry reverses a manual payment instead of
+     * refunding a payment. anyOf[1] (Value): string. ID of the manual payment reversal. Set when
+     * this entry reverses a manual payment instead of refunding a payment. Example:
+     * "omp_01KEZF7C007J18203RBJKB9TYE". anyOf[2] (Value): null.
+     */
+    "order_manual_reversal_id"?: ((string) | (null));
+    /**
+     * ID of this entry in the load's purchase refunds. anyOf[1] (Value): string. ID of this entry
+     * in the load's purchase refunds. Example: "gcpra_01KEZF7C00HJZ2YP6AENMZK5KA". anyOf[2]
+     * (Value): null.
+     */
+    "purchase_refund_allocation_id"?: ((string) | (null));
+    /**
+     * How the value was restored after the refund failed. `null` when no recovery happened.
+     * anyOf[1] (Value): {@link GiftCardPurchaseRefundRecoveryPreviousAttributes}. anyOf[2]
+     * (Value): null.
+     */
+    "recovery"?: ((GiftCardPurchaseRefundRecoveryPreviousAttributes) | (null));
+    /**
+     * ID of the refund. `null` when the entry reverses a manual payment, which has no refund.
+     * anyOf[1] (Value): string. ID of the refund. `null` when the entry reverses a manual payment,
+     * which has no refund. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". anyOf[2] (Value): null.
+     */
+    "refund_id"?: ((string) | (null));
+    /**
+     * Whether the refund has succeeded, failed, or is still pending. Value enum: "pending",
+     * "succeeded", "failed". anyOf[1] (Value): string. Whether the refund has succeeded, failed,
+     * or is still pending. Value enum: "pending", "succeeded", "failed". anyOf[2] (Value): null.
+     */
+    "status"?: (("pending" | "succeeded" | "failed" | (string & {})) | (null));
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "updated_at"?: ((string) | (null));
+    /**
+     * Actual value lots reserved or reversed for this original cash refund. Omitted when all value
+     * remains on the original load. anyOf[1] (Value): Array of {@link
+     * GiftCardPurchaseRefundValueAllocationPreviousAttributes}. Actual value lots reserved or
+     * reversed for this original cash refund. Omitted when all value remains on the original load.
+     * anyOf[1][] (Value): {@link GiftCardPurchaseRefundValueAllocationPreviousAttributes}.
+     * anyOf[2] (Value): null.
+     */
+    "value_allocations"?: ((Array<GiftCardPurchaseRefundValueAllocationPreviousAttributes>) | (null));
+    /**
+     * The unspent face value this entry removes from the load. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "value_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. anyOf[1] (Value): integer. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. Format: int64. anyOf[2] (Value): null.
+     */
+    "version"?: ((number) | (null));
+};
+/**
+ * Records how value was recovered for a gift card purchase refund, on the original or a
+ * replacement card, with the destinations that received it.
+ */
+export type GiftCardPurchaseRefundRecovery = {
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /** Where the restored value went. Value enum: "original", "replacement". */
+    "destination": "original" | "replacement" | (string & {});
+    /**
+     * The cards and loads that received the restored value. [] (Value): {@link
+     * GiftCardPurchaseRefundRecoveryDestination}. A gift card and load that received recovered
+     * value in a gift card purchase refund recovery, with the amount.
+     */
+    "destinations": Array<GiftCardPurchaseRefundRecoveryDestination>;
+};
+/**
+ * A gift card and load that received recovered value in a gift card purchase refund recovery, with
+ * the amount.
+ */
+export type GiftCardPurchaseRefundRecoveryDestination = {
+    /** ID of the gift card that received the value. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". */
+    "gift_card_id": string;
+    /** ID of the load that holds the value. Example: "gcl_01KEZF7C00YJED2857SE0J6KWC". */
+    "gift_card_load_id": string;
+    /**
+     * The value restored to the card. Monetary amount represented as integer minor units plus an
+     * ISO 4217 currency code.
+     */
+    "value_money": MoneyValue;
+};
 export type GiftCardPurchaseRefundRecoveryDestinationPreviousAttributes = {
     /**
      * ID of the gift card that received the value. anyOf[1] (Value): string. ID of the gift card
@@ -2246,10 +2565,11 @@ export type GiftCardRedemptionsListParams = {
     "gift_card_id"?: InputValue<string>;
     /**
      * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
-     * exact and case-sensitive. Returns current authorized resources, not the recorded response. A
-     * pending resource does not prove that the operation succeeded, and an empty list does not
-     * prove that it had no effect. minLength: 1. maxLength: 255. pattern:
-     * ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
+     * exact and case-sensitive. Returns only resources created in your caller namespace, plus
+     * resources created before caller scoping under the original key. Returns current authorized
+     * resources, not the recorded response. A pending resource does not prove that the operation
+     * succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength:
+     * 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
      */
     "idempotency_key"?: InputValue<string>;
     /**
@@ -3284,10 +3604,11 @@ export type GiftCardTransactionsListParams = {
     "gift_card_id"?: InputValue<string>;
     /**
      * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
-     * exact and case-sensitive. Returns current authorized resources, not the recorded response. A
-     * pending resource does not prove that the operation succeeded, and an empty list does not
-     * prove that it had no effect. minLength: 1. maxLength: 255. pattern:
-     * ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
+     * exact and case-sensitive. Returns only resources created in your caller namespace, plus
+     * resources created before caller scoping under the original key. Returns current authorized
+     * resources, not the recorded response. A pending resource does not prove that the operation
+     * succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength:
+     * 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
      */
     "idempotency_key"?: InputValue<string>;
     /**
@@ -4649,10 +4970,11 @@ export type GiftCardsListParams = {
     "external_reference_id"?: InputValue<string>;
     /**
      * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
-     * exact and case-sensitive. Returns current authorized resources, not the recorded response. A
-     * pending resource does not prove that the operation succeeded, and an empty list does not
-     * prove that it had no effect. minLength: 1. maxLength: 255. pattern:
-     * ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
+     * exact and case-sensitive. Returns only resources created in your caller namespace, plus
+     * resources created before caller scoping under the original key. Returns current authorized
+     * resources, not the recorded response. A pending resource does not prove that the operation
+     * succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength:
+     * 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
      */
     "idempotency_key"?: InputValue<string>;
     /**
@@ -4787,258 +5109,3 @@ export type GiftCardsUpdateParams = (InputValue<UpdateGiftCardRequestInput>)
      */
     "Flint-Sandbox-Id"?: InputValue<string>;
 };
-/**
- * Result of linking a guest's purchases to a customer, with the customer, the email, and the
- * number of orders linked.
- */
-export type GuestPurchaseLink = {
-    /**
-     * ID of the customer the guest purchases now belong to. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id": string;
-    /** The verified email address whose guest purchases were linked. */
-    "email": string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "linked_at": string;
-    /** Number of guest orders linked to the customer by this request. Format: int64. */
-    "linked_order_count": number;
-};
-/** A response containing `GuestPurchaseLink` data. */
-export type GuestPurchaseLinkResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. Result of linking a
-     * guest's purchases to a customer, with the customer, the email, and the number of orders
-     * linked.
-     */
-    "data": GuestPurchaseLink;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** Pauses fulfillment work with a required merchant hold reason. */
-export type HoldFulfillmentRequest = {
-    /**
-     * Whether to send or suppress the buyer notification for this action. Value enum: "send",
-     * "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /** Resource version the caller last read. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * When the action occurred, as an RFC 3339 timestamp. On complete, also records completion
-     * evidence. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "occurred_at"?: string;
-    /**
-     * Why fulfillment work is paused or the service appointment was missed. Value enum:
-     * "inventory_issue", "address_issue", "customer_request", "provider_issue",
-     * "scheduling_issue", "fraud_review", "other".
-     */
-    "reason": "inventory_issue"
-        | "address_issue"
-        | "customer_request"
-        | "provider_issue"
-        | "scheduling_issue"
-        | "fraud_review"
-        | "other"
-        | (string & {});
-    /** Your note explaining this transition. minLength: 1. maxLength: 500. */
-    "reason_message"?: string;
-};
-/** Pauses fulfillment work with a required merchant hold reason. */
-export type HoldFulfillmentRequestInput = {
-    /**
-     * Whether to send or suppress the buyer notification for this action. Value enum: "send",
-     * "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /** Resource version the caller last read. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * When the action occurred, as an RFC 3339 timestamp. On complete, also records completion
-     * evidence. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "occurred_at"?: string | globalThis.Date;
-    /**
-     * Why fulfillment work is paused or the service appointment was missed. Value enum:
-     * "inventory_issue", "address_issue", "customer_request", "provider_issue",
-     * "scheduling_issue", "fraud_review", "other".
-     */
-    "reason": "inventory_issue"
-        | "address_issue"
-        | "customer_request"
-        | "provider_issue"
-        | "scheduling_issue"
-        | "fraud_review"
-        | "other";
-    /** Your note explaining this transition. minLength: 1. maxLength: 500. */
-    "reason_message"?: string;
-};
-/** An image with its URL, size, and alt text. */
-export type Image = {
-    /** Alternative text describing the image for accessibility. */
-    "alt"?: string;
-    /** Image height in pixels, when known. Format: int32. */
-    "height": number;
-    /** URL of the image. */
-    "url": string;
-    /** Image width in pixels, when known. Format: int32. */
-    "width": number;
-};
-/** An image attached to a resource, with its display properties and attachment metadata. */
-export type ImageAttachment = {
-    /** Alternative text describing the image for accessibility. */
-    "alt"?: string;
-    /**
-     * Identifier of the file attached as this image. Example: "file_01KEZF7C00BZ179303GY9R0P03".
-     */
-    "file_id"?: string;
-    /** Image height in pixels, when known. Format: int32. */
-    "height": number;
-    /**
-     * Caller-owned reference identifying this attachment within its gallery. minLength: 1.
-     * maxLength: 255.
-     */
-    "source_reference"?: string;
-    /** URL of the image. */
-    "url": string;
-    /** Image width in pixels, when known. Format: int32. */
-    "width": number;
-};
-export type ImageAttachmentPreviousAttributes = {
-    /**
-     * Alternative text describing the image for accessibility. anyOf[1] (Value): string.
-     * Alternative text describing the image for accessibility. anyOf[2] (Value): null.
-     */
-    "alt"?: ((string) | (null));
-    /**
-     * Identifier of the file attached as this image. anyOf[1] (Value): string. Identifier of the
-     * file attached as this image. Example: "file_01KEZF7C00BZ179303GY9R0P03". anyOf[2] (Value):
-     * null.
-     */
-    "file_id"?: ((string) | (null));
-    /**
-     * Image height in pixels, when known. anyOf[1] (Value): integer. Image height in pixels, when
-     * known. Format: int32. anyOf[2] (Value): null.
-     */
-    "height"?: ((number) | (null));
-    /**
-     * Caller-owned reference identifying this attachment within its gallery. anyOf[1] (Value):
-     * string. Caller-owned reference identifying this attachment within its gallery. minLength: 1.
-     * maxLength: 255. anyOf[2] (Value): null.
-     */
-    "source_reference"?: ((string) | (null));
-    /** URL of the image. anyOf[1] (Value): string. URL of the image. anyOf[2] (Value): null. */
-    "url"?: ((string) | (null));
-    /**
-     * Image width in pixels, when known. anyOf[1] (Value): integer. Image width in pixels, when
-     * known. Format: int32. anyOf[2] (Value): null.
-     */
-    "width"?: ((number) | (null));
-};
-/** The `File` variant of `ImageInput`. */
-export type ImageInputFile = ({
-    /** Alternative text describing the image for accessibility. minLength: 1. maxLength: 512. */
-    "alt"?: string;
-    /**
-     * The ID of a ready file uploaded with POST /v1/files. Send exactly one of source_url or
-     * file_id. minLength: 1. pattern: ^file_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "file_01KEZF7C00BZ179303GY9R0P03".
-     */
-    "file_id": string;
-    /**
-     * An opaque reference for this attachment, unique within its gallery. Whitespace and case are
-     * preserved. minLength: 1. maxLength: 255.
-     */
-    "source_reference"?: string;
-    /**
-     * A public image URL for Flint to fetch, or an untransformed canonical image.url returned by
-     * Flint. Send exactly one of source_url or file_id. Canonical Flint URLs attach without
-     * another fetch. Flint doesn't download a source_url again while the image it produced is
-     * still in this field. minLength: 1. maxLength: 8192.
-     */
-    "source_url"?: string;
-});
-/** The `File` variant of `ImageInput`. */
-export type ImageInputFileInput = ({
-    /** Alternative text describing the image for accessibility. minLength: 1. maxLength: 512. */
-    "alt"?: string;
-    /**
-     * The ID of a ready file uploaded with POST /v1/files. Send exactly one of source_url or
-     * file_id. minLength: 1. pattern: ^file_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "file_01KEZF7C00BZ179303GY9R0P03".
-     */
-    "file_id": string;
-    /**
-     * An opaque reference for this attachment, unique within its gallery. Whitespace and case are
-     * preserved. minLength: 1. maxLength: 255.
-     */
-    "source_reference"?: string;
-    /**
-     * A public image URL for Flint to fetch, or an untransformed canonical image.url returned by
-     * Flint. Send exactly one of source_url or file_id. Canonical Flint URLs attach without
-     * another fetch. Flint doesn't download a source_url again while the image it produced is
-     * still in this field. minLength: 1. maxLength: 8192.
-     */
-    "source_url"?: string;
-})
-    & (({
-    "source_url"?: never;
-}));
-/** The `Source URL` variant of `ImageInput`. */
-export type ImageInputSourceURL = ({
-    /** Alternative text describing the image for accessibility. minLength: 1. maxLength: 512. */
-    "alt"?: string;
-    /**
-     * The ID of a ready file uploaded with POST /v1/files. Send exactly one of source_url or
-     * file_id. minLength: 1. pattern: ^file_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "file_01KEZF7C00BZ179303GY9R0P03".
-     */
-    "file_id"?: string;
-    /**
-     * An opaque reference for this attachment, unique within its gallery. Whitespace and case are
-     * preserved. minLength: 1. maxLength: 255.
-     */
-    "source_reference"?: string;
-    /**
-     * A public image URL for Flint to fetch, or an untransformed canonical image.url returned by
-     * Flint. Send exactly one of source_url or file_id. Canonical Flint URLs attach without
-     * another fetch. Flint doesn't download a source_url again while the image it produced is
-     * still in this field. minLength: 1. maxLength: 8192.
-     */
-    "source_url": string;
-});
-/** The `Source URL` variant of `ImageInput`. */
-export type ImageInputSourceURLInput = ({
-    /** Alternative text describing the image for accessibility. minLength: 1. maxLength: 512. */
-    "alt"?: string;
-    /**
-     * The ID of a ready file uploaded with POST /v1/files. Send exactly one of source_url or
-     * file_id. minLength: 1. pattern: ^file_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "file_01KEZF7C00BZ179303GY9R0P03".
-     */
-    "file_id"?: string;
-    /**
-     * An opaque reference for this attachment, unique within its gallery. Whitespace and case are
-     * preserved. minLength: 1. maxLength: 255.
-     */
-    "source_reference"?: string;
-    /**
-     * A public image URL for Flint to fetch, or an untransformed canonical image.url returned by
-     * Flint. Send exactly one of source_url or file_id. Canonical Flint URLs attach without
-     * another fetch. Flint doesn't download a source_url again while the image it produced is
-     * still in this field. minLength: 1. maxLength: 8192.
-     */
-    "source_url": string;
-})
-    & (({
-    "file_id"?: never;
-}));

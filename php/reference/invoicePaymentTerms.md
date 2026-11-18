@@ -28,7 +28,7 @@ Body model: [CreateInvoicePaymentTermRequestInput](../models/CreateInvoicePaymen
 | `calculation` | Required | [InvoicePaymentTermCalculationRequestInput](../models/InvoicePaymentTermCalculationInput.md#invoicepaymenttermcalculationinput) | Rule used to calculate the invoice's due date when it is issued. Required on create; omit it on update to preserve the current rule. How an invoice due date is calculated from payment terms, such as on receipt, net days, or a day of the month. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `late_fee_policy` | Optional | [InvoiceLateFeePolicyRequestInput](../models/InvoiceLateFeePolicyInput.md#invoicelatefeepolicyinput) | One-time late fee policy for unpaid invoices using this term. Omit it to use no late fee on create or preserve the current policy on update; send null on update to remove it. A late fee for overdue invoices: a fixed amount or a percentage, a grace period in days, and whether Flint applies it automatically. |
-| `name` | Required | string | Name of the payment term shown on invoices. Required on create; omit it on update to preserve the current name. minLength: `1`. |
+| `name` | Required | string | Name of the payment term shown on invoices. Required on create; omit it on update to preserve the current name. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. |
 
 #### Response
 
@@ -89,7 +89,7 @@ Signature: `delete(string|Model $invoice_payment_term_id, array|Model|null $para
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `invoice_payment_term_id` | Required | string | Flint invoice payment term ID. |
+| `invoice_payment_term_id` | Required | string | Flint invoice payment term ID. Must be a valid ID with prefix ipt_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `expected_version` | Optional | integer | Optional version last read by the caller. Format: `uint32`. minimum: `1`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
@@ -147,7 +147,7 @@ Signature: `get(string|Model $invoice_payment_term_id, array|Model|null $params 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `invoice_payment_term_id` | Required | string | Flint invoice payment term ID. |
+| `invoice_payment_term_id` | Required | string | Flint invoice payment term ID. Must be a valid ID with prefix ipt_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -256,7 +256,7 @@ Signature: `update(string|Model $invoice_payment_term_id, array|Model $params, ?
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `invoice_payment_term_id` | Required | string | Flint invoice payment term ID. |
+| `invoice_payment_term_id` | Required | string | Flint invoice payment term ID. Must be a valid ID with prefix ipt_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -272,7 +272,7 @@ Body model: [UpdateInvoicePaymentTermRequestInput](../models/UpdateInvoicePaymen
 | `expected_version` | Optional | integer | Optional version last read by the caller. Format: `uint32`. minimum: `1`. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `late_fee_policy` | Optional | [InvoiceLateFeePolicyRequestInput](../models/InvoiceLateFeePolicyInput.md#invoicelatefeepolicyinput) or null | One-time late fee policy for unpaid invoices using this term. Omit it to use no late fee on create or preserve the current policy on update; send null on update to remove it. |
-| `name` | Optional | string | Name of the payment term shown on invoices. Required on create; omit it on update to preserve the current name. minLength: `1`. |
+| `name` | Optional | string | Name of the payment term shown on invoices. Required on create; omit it on update to preserve the current name. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. |
 
 #### Response
 

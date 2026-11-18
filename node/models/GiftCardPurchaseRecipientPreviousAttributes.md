@@ -19,9 +19,9 @@
 
 anyOf variant 1: Declared schema GiftCardNotificationRecipientPreviousAttributes. .
 
-- Constraints for `email`: Email address the notification is sent to.
+- Constraints for `email`: Email address the notification is sent to. The local part before @ must be at most 64 octets (UTF-8 bytes).
 - Constraints for `message`: Message included in the notification.
-- Constraints for `name`: Name of the person the notification is addressed to.
+- Constraints for `name`: Name of the person the notification is addressed to. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported.
 - Constraints for `send_at`: Optional whole-second send time between now and 90 days from now.
 
 ### GiftCardPurchaseRecipientPreviousAttributes variant 2

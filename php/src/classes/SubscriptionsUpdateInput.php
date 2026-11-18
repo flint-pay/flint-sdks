@@ -10,7 +10,7 @@ namespace Flint;
 final class SubscriptionsUpdateInput extends Model {
     /** @param array{'subscription_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'billing_interval'?: string, 'billing_interval_count'?: int, 'billing_schedule'?: mixed, 'cancel_at_period_end'?: bool, 'delivery'?: mixed, 'end_after'?: array{'cycle_count': int, 'type': string}|object|array{'end_date': string, 'timezone'?: string, 'type': string}|object|null, 'expected_version'?: int, 'external_reference_id'?: string|null, 'gift_recipient'?: array{'email': string, 'message'?: string|null, 'name'?: string|null}|object|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'payment_method_id'?: string, 'scheduled_plan_change'?: null, 'tax'?: array{'calculation'?: array{'components_source'?: string, 'mode': string}|object|null, 'enabled': bool}|object|null}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionsUpdateInput')); }
-    /** Flint subscription ID. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+    /** Flint subscription ID. Must be a valid ID with prefix sub_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
      * @return string
      * @throws SdkError When subscription_id is omitted; use hasSubscriptionId() or valueOrDefault().
      */

@@ -19,9 +19,9 @@ import type {
     GiftCardsUnfreezeParams,
     GiftCardsUpdateParams
 } from '../declarations/types-30.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { RotateGiftCardCodeResult, RotateGiftCardCodeResultResponse } from '../declarations/types-65.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-77.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { RotateGiftCardCodeResult, RotateGiftCardCodeResultResponse } from '../declarations/types-67.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -50,47 +50,45 @@ export type {
     GiftCardsUnfreezeParams,
     GiftCardsUpdateParams,
     GiftCardPurchaseRefundValueHold,
+    GiftCardPurchaseRefundAllocation,
+    GiftCardPurchaseRefundRecovery,
+    GiftCardPurchaseRefundRecoveryDestination,
     GiftCardPurchaseRefundValueAllocation,
     GiftCardPurchaseRestoration,
     GiftCardRefundProvenance,
     GiftCardTransaction,
-    GiftCardRestriction
+    GiftCardRestriction,
+    GiftCardPurchaseRecipient
 } from '../declarations/types-30.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-77.js';
-export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-60.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { RequestOptions } from '../declarations/types-61.js';
 export type {
     AdjustGiftCardBalanceResult,
     AdjustGiftCardBalanceResultResponse,
     AdjustGiftCardBalanceRequestInput
 } from '../declarations/types-0.js';
 export type { CashOutGiftCardResult, CashOutGiftCardResultResponse, CashOutGiftCardRequestInput } from '../declarations/types-5.js';
-export type {
-    GiftCard,
-    GiftCardFundingDispute,
-    GiftCardFundingLossResolution,
-    GiftCardFundingSource,
-    GiftCardFundingSourceExternalPayment,
-    GiftCardFundingSourceFlintManualPayment,
-    GiftCardFundingSourceAdjustment,
-    GiftCardFundingSourceExternalPaymentRequestInput,
-    GiftCardFundingSourceAdjustmentRequestInput
-} from '../declarations/types-28.js';
+export type { GiftCard, GiftCardFundingDispute } from '../declarations/types-28.js';
 export type { CreateGiftCardResult, CreateGiftCardResultResponse, CreateGiftCardRequestInput } from '../declarations/types-10.js';
 export type {
     GiftCardListResponse,
     GiftCardLoad,
-    GiftCardPurchaseRefundAllocation,
-    GiftCardPurchaseRefundRecovery,
-    GiftCardPurchaseRefundRecoveryDestination,
+    GiftCardFundingLossResolution,
+    GiftCardFundingSource,
+    GiftCardFundingSourceExternalPayment,
     GiftCardFundingSourceFlintPayment,
+    GiftCardFundingSourceFlintManualPayment,
     GiftCardFundingSourceImport,
+    GiftCardFundingSourceAdjustment,
     GiftCardFundingSourceGiftCardRefund,
     GiftCardFundingSourceGiftCardPurchaseRefundRecovery,
     GiftCardFundingSourceStoreCredit,
     GiftCardFundingSourceRequestInput,
+    GiftCardFundingSourceExternalPaymentRequestInput,
     GiftCardFundingSourceFlintPaymentRequestInput,
     GiftCardFundingSourceFlintManualPaymentRequestInput,
     GiftCardFundingSourceImportRequestInput,
+    GiftCardFundingSourceAdjustmentRequestInput,
     GiftCardFundingSourceGiftCardRefundRequestInput,
     GiftCardFundingSourceGiftCardPurchaseRefundRecoveryRequestInput,
     GiftCardFundingSourceStoreCreditRequestInput,
@@ -98,25 +96,26 @@ export type {
     GiftCardNotification,
     GiftCardNotificationDelivery,
     GiftCardNotificationDeliveryAttempt,
-    GiftCardNotificationDeliveryEvent,
-    GiftCardPurchaseRecipient
+    GiftCardNotificationDeliveryEvent
 } from '../declarations/types-29.js';
-export type { RotateGiftCardCodeResult, RotateGiftCardCodeResultResponse, RotateGiftCardCodeRequestInput } from '../declarations/types-65.js';
+export type { RotateGiftCardCodeResult, RotateGiftCardCodeResultResponse, RotateGiftCardCodeRequestInput } from '../declarations/types-67.js';
 export type { ClientOptions, CloseGiftCardRequestInput, CloseGiftCardRequest } from '../declarations/types-7.js';
-export type { SignedMoneyRequestInput } from '../declarations/types-66.js';
+export type { SignedMoneyRequestInput } from '../declarations/types-68.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
-export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
+export type { Credentials } from '../declarations/types-15.js';
+export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-44.js';
+export type { ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-62.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { InitialGiftCardFundingInput } from '../declarations/types-31.js';
 export type { FreezeGiftCardRequestInput } from '../declarations/types-27.js';
-export type { LookupGiftCardRequestInput, LookupGiftCardRequest } from '../declarations/types-39.js';
-export type { UnfreezeGiftCardRequestInput, UpdateGiftCardRequest } from '../declarations/types-73.js';
-export type { UpdateGiftCardRequestInput } from '../declarations/types-74.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
-export { makeAdjustGiftCardBalanceRequest } from '../declarations/types-77.js';
-export { makeCashOutGiftCardRequest, makeCloseGiftCardRequest } from '../declarations/types-78.js';
-export { makeCreateGiftCardRequest } from '../declarations/types-80.js';
+export type { LookupGiftCardRequestInput, LookupGiftCardRequest } from '../declarations/types-40.js';
+export type { UnfreezeGiftCardRequestInput } from '../declarations/types-75.js';
+export type { UpdateGiftCardRequestInput, UpdateGiftCardRequest } from '../declarations/types-76.js';
+export type { DisputesAcceptParams } from '../declarations/types-26.js';
+export { makeAdjustGiftCardBalanceRequest } from '../declarations/types-79.js';
+export { makeCashOutGiftCardRequest } from '../declarations/types-80.js';
+export { makeCloseGiftCardRequest } from '../declarations/types-81.js';
+export { makeCreateGiftCardRequest } from '../declarations/types-82.js';
 export {
     makeFreezeGiftCardRequest,
     makeGiftCardFundingSourceAdjustmentRequest,
@@ -130,11 +129,12 @@ export {
     makeGiftCardFundingSourceStoreCreditRequest,
     makeGiftCardNotificationRecipient,
     makeInitialGiftCardFunding
-} from '../declarations/types-84.js';
-export { makeLookupGiftCardRequest } from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeRotateGiftCardCodeRequest, makeSignedMoneyRequest } from '../declarations/types-89.js';
-export { makeUnfreezeGiftCardRequest, makeUpdateGiftCardRequest } from '../declarations/types-90.js';
+} from '../declarations/types-86.js';
+export { makeLookupGiftCardRequest } from '../declarations/types-87.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeRotateGiftCardCodeRequest } from '../declarations/types-91.js';
+export { makeSignedMoneyRequest } from '../declarations/types-92.js';
+export { makeUnfreezeGiftCardRequest, makeUpdateGiftCardRequest } from '../declarations/types-93.js';
 export interface GiftCardsResource {
     /**
  * Posts a relative correction with a typed reason and separate administrative authority.
@@ -142,7 +142,9 @@ export interface GiftCardsResource {
  * purchase reversals. expected_version fences the gift card version.
  *
  * `POST /v1/gift-cards/{gift_card_id}/adjust-balance`
- * @param gift_card_id Flint resource ID.
+ * @param gift_card_id Flint resource ID. Must be a valid ID with prefix gc_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/gift-cards#adjustGiftCardBalance
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -160,7 +162,9 @@ export interface GiftCardsResource {
  * merchant made outside Flint. expected_version fences the gift card version.
  *
  * `POST /v1/gift-cards/{gift_card_id}/cash-out`
- * @param gift_card_id Flint resource ID.
+ * @param gift_card_id Flint resource ID. Must be a valid ID with prefix gc_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/gift-cards#cashOutGiftCard
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -175,7 +179,9 @@ export interface GiftCardsResource {
  * pending purchase refunds. expected_version fences the gift card version.
  *
  * `POST /v1/gift-cards/{gift_card_id}/close`
- * @param gift_card_id Flint resource ID.
+ * @param gift_card_id Flint resource ID. Must be a valid ID with prefix gc_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/gift-cards#closeGiftCard
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -206,7 +212,9 @@ export interface GiftCardsResource {
  * reservations remain intact. expected_version fences the gift card version.
  *
  * `POST /v1/gift-cards/{gift_card_id}/freeze`
- * @param gift_card_id Flint resource ID.
+ * @param gift_card_id Flint resource ID. Must be a valid ID with prefix gc_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/gift-cards#freezeGiftCard
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -221,7 +229,9 @@ export interface GiftCardsResource {
  * A gift card ID does not authorize a buyer to spend it.
  *
  * `GET /v1/gift-cards/{gift_card_id}`
- * @param gift_card_id Flint resource ID.
+ * @param gift_card_id Flint resource ID. Must be a valid ID with prefix gc_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/gift-cards#getGiftCard
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -229,10 +239,10 @@ export interface GiftCardsResource {
  */
     get(gift_card_id: InputValue<string>, params?: GiftCardsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<GiftCard, GiftCardResponse>>;
     /**
- * Lists gift cards in descending ID order within the authenticated merchant and environment. Reads
- * include masked codes, posted balance, reserved value and available value. Purchased cards have
- * no expiry or service fees. Default order: gift_card_id descending; this key uniquely orders the
- * results.
+ * Lists gift cards newest first by created_at, with descending ID order for ties within the
+ * authenticated merchant and environment. Reads include masked codes, posted balance, reserved
+ * value and available value. Purchased cards have no expiry or service fees. Default order:
+ * gift_card_id descending; this key uniquely orders the results.
  *
  * `GET /v1/gift-cards`
  * @see https://developers.withflintpay.com/docs/api/gift-cards#listGiftCards
@@ -271,7 +281,9 @@ export interface GiftCardsResource {
  * fences the gift card version.
  *
  * `POST /v1/gift-cards/{gift_card_id}/rotate-code`
- * @param gift_card_id Flint resource ID.
+ * @param gift_card_id Flint resource ID. Must be a valid ID with prefix gc_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/gift-cards#rotateGiftCardCode
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -286,7 +298,9 @@ export interface GiftCardsResource {
  * this action. expected_version fences the gift card version.
  *
  * `POST /v1/gift-cards/{gift_card_id}/unfreeze`
- * @param gift_card_id Flint resource ID.
+ * @param gift_card_id Flint resource ID. Must be a valid ID with prefix gc_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/gift-cards#unfreezeGiftCard
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -302,7 +316,9 @@ export interface GiftCardsResource {
  * status. expected_version fences the gift card version.
  *
  * `PATCH /v1/gift-cards/{gift_card_id}`
- * @param gift_card_id Flint resource ID.
+ * @param gift_card_id Flint resource ID. Must be a valid ID with prefix gc_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/gift-cards#updateGiftCard
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

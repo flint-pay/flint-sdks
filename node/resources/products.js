@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/products.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
+import r0 from '../descriptors/resources/products.js?sdk=2fdad7cfcd1c92049468fb02e68ab24a81da669c248e8713cf6a7575952568a5';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
+import settings from '../descriptors/settings.js?sdk=2fdad7cfcd1c92049468fb02e68ab24a81da669c248e8713cf6a7575952568a5';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createProduct"]:r0,["createProductVariant"]:r0,["deleteProduct"]:r0,["deleteProductVariant"]:r0,["getProduct"]:r0,["getProductOption"]:r0,["getProductVariant"]:r0,["listProductOptions"]:r0,["listProducts"]:r0,["listProductVariants"]:r0,["updateProduct"]:r0,["updateProductVariant"]:r0});
 export class Client {
@@ -142,6 +142,7 @@ this.products = Object.freeze({
   "external_reference_id",
   "sku",
   "variant_external_reference_id",
+  "barcode",
   "inventory_item_id",
   "query",
   "delivery_profile_id",
@@ -169,6 +170,7 @@ this.products = Object.freeze({
   "external_reference_id",
   "sku",
   "variant_external_reference_id",
+  "barcode",
   "inventory_item_id",
   "query",
   "delivery_profile_id",
@@ -196,6 +198,7 @@ this.products = Object.freeze({
   "external_reference_id",
   "sku",
   "variant_external_reference_id",
+  "barcode",
   "inventory_item_id",
   "query",
   "delivery_profile_id",
@@ -222,6 +225,7 @@ this.products = Object.freeze({
   "status",
   "external_reference_id",
   "sku",
+  "barcode",
   "inventory_item_id",
   "query",
   "sort_by",
@@ -248,6 +252,7 @@ this.products = Object.freeze({
   "status",
   "external_reference_id",
   "sku",
+  "barcode",
   "inventory_item_id",
   "query",
   "sort_by",
@@ -274,6 +279,7 @@ this.products = Object.freeze({
   "status",
   "external_reference_id",
   "sku",
+  "barcode",
   "inventory_item_id",
   "query",
   "sort_by",
@@ -326,15 +332,18 @@ export { makeCreateProductRequest } from '../models/CreateProductRequest.js';
 export { makeCreateProductRequestOptioned } from '../models/CreateProductRequestOptioned.js';
 export { makeCreateProductRequestSimple } from '../models/CreateProductRequestSimple.js';
 export { makeDimensionsRequest } from '../models/DimensionsRequest.js';
+export { makeGeneratedLicenseKeyConfigurationRequest } from '../models/GeneratedLicenseKeyConfigurationRequest.js';
 export { makeGiftCardCustomAmountBoundsRequest } from '../models/GiftCardCustomAmountBoundsRequest.js';
 export { makeGiftCardProductConfigurationRequest } from '../models/GiftCardProductConfigurationRequest.js';
 export { makeImageInputFile } from '../models/ImageInputFile.js';
 export { makeImageInputSourceURL } from '../models/ImageInputSourceURL.js';
 export { makeImageRequest } from '../models/ImageRequest.js';
 export { makeInventoryItemCreateRequest } from '../models/InventoryItemCreateRequest.js';
+export { makeLicenseKeyConfigurationRequest } from '../models/LicenseKeyConfigurationRequest.js';
 export { makeMetadataPatchRequest } from '../models/MetadataPatchRequest.js';
 export { makeMetadataRequest } from '../models/MetadataRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
+export { makePoolLicenseKeyConfigurationRequest } from '../models/PoolLicenseKeyConfigurationRequest.js';
 export { makeProductVariantRequest } from '../models/ProductVariantRequest.js';
 export { makeProductVariantSelectedOptionRequest } from '../models/ProductVariantSelectedOptionRequest.js';
 export { makeQuantityPriceBreakRequest } from '../models/QuantityPriceBreakRequest.js';

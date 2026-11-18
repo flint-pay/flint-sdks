@@ -43,7 +43,7 @@ final class ReturnReasonsUpdateParams extends Model {
      */
     public function getIsNoteRequired(): bool { return $this->get('is_note_required'); }
     public function hasIsNoteRequired(): bool { return $this->has('is_note_required'); }
-    /** Display name, limited to 1 through 255 bytes after trimming surrounding whitespace. minLength: 1.
+    /** Display name, limited to 1 through 255 bytes after trimming surrounding whitespace. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */

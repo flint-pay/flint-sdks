@@ -14,7 +14,7 @@ Signature: `advance(test_clock_id: InputValue<string>, params: TestClocksAdvance
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `test_clock_id` | Required | string | ID of the test clock. |
+| `test_clock_id` | Required | string | ID of the test clock. Must be a valid ID with prefix tclk_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Required | [AdvanceTestClockRequestInput](../models/AdvanceTestClockRequest.md#advancetestclockrequest) | The request body for: Advance a test clock. |
 
 Body model: [AdvanceTestClockRequestInput](../models/AdvanceTestClockRequest.md#advancetestclockrequest).
@@ -89,7 +89,7 @@ Body model: [CreateTestClockRequestInput](../models/CreateTestClockRequest.md#cr
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `frozen_at` | Optional | string | The time the clock starts at. Defaults to now. It can be up to 5 years ahead, and no more than an hour behind now, to allow for clock skew on your side. Fractional seconds are truncated. Format: `date-time`. minLength: `1`. |
-| `name` | Optional | string | Your label for the test clock. minLength: `1`. maxLength: `255`. |
+| `name` | Optional | string | Your label for the test clock. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `255`. |
 
 #### Response
 
@@ -144,7 +144,7 @@ Signature: `delete(test_clock_id: InputValue<string>, params?: TestClocksDeleteP
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `test_clock_id` | Required | string | ID of the test clock. |
+| `test_clock_id` | Required | string | ID of the test clock. Must be a valid ID with prefix tclk_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `expected_version` | Optional | integer | Optional version most recently read. A stale value fails with `VERSION_CONFLICT` and the current version. Format: `int64`. minimum: `1`. maximum: `9007199254740991`. |
 
 #### Response
@@ -199,7 +199,7 @@ Signature: `get(test_clock_id: InputValue<string>, params?: TestClocksGetParams,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `test_clock_id` | Required | string | ID of the test clock. |
+| `test_clock_id` | Required | string | ID of the test clock. Must be a valid ID with prefix tclk_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 

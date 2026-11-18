@@ -21,13 +21,20 @@ anyOf Money: Declared schema MoneyValue. Monetary amount represented as integer 
 
 ### MoneyValue variant 2
 
-anyOf variant 2: Declared schema SignedMoney. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code..
+anyOf variant 2: Declared schema PlatformFeeMoney. A positive platform fee in integer minor units plus an ISO 4217 currency code..
 
-- Constraints for `amount`: Signed amount in the currency's minor unit, such as cents for USD.
+- Constraints for `amount`: Fee in the currency's minor unit, at least 1. minimum: `1`.
+- Constraints for `currency`: Example: `"USD"`.
 
 ### MoneyValue variant 3
 
-anyOf variant 3: Declared schema SignedMoneyRequest. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code..
+anyOf variant 3: Declared schema SignedMoney. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code..
+
+- Constraints for `amount`: Signed amount in the currency's minor unit, such as cents for USD.
+
+### MoneyValue variant 4
+
+anyOf variant 4: Declared schema SignedMoneyRequest. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code..
 
 - Constraints for `amount`: Signed amount in the currency's minor unit, such as cents for USD.
 - Constraints for `currency`: Example: `"USD"`.

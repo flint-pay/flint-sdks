@@ -8,6 +8,7 @@ namespace Flint;
  * @property-read ?Dimensions $dimensions
  * @property-read string|null $expected_delivery_at
  * @property-read string $fulfillment_id
+ * @property-read ?list<BuyerPackageItem> $items
  * @property-read ?string $label_url
  * @property-read string $order_id
  * @property-read string $package_id
@@ -24,7 +25,7 @@ namespace Flint;
  * @property-read ?Weight $weight
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerPackage extends Model {
-    /** @param array{'carrier'?: string, 'created_at': string, 'delivered_at'?: string, 'dimensions'?: mixed, 'expected_delivery_at'?: string|null, 'fulfillment_id': string, 'label_url'?: string, 'order_id': string, 'package_id': string, 'return_id'?: string, 'return_line_items'?: list<mixed>, 'service_code'?: string, 'shipment_id': string, 'shipped_at'?: string, 'status': string, 'tracking_number'?: string, 'tracking_url'?: string, 'updated_at': string, 'version': int, 'weight'?: mixed, ...}|object $values */
+    /** @param array{'carrier'?: string, 'created_at': string, 'delivered_at'?: string, 'dimensions'?: mixed, 'expected_delivery_at'?: string|null, 'fulfillment_id': string, 'items'?: list<mixed>, 'label_url'?: string, 'order_id': string, 'package_id': string, 'return_id'?: string, 'return_line_items'?: list<mixed>, 'service_code'?: string, 'shipment_id': string, 'shipped_at'?: string, 'status': string, 'tracking_number'?: string, 'tracking_url'?: string, 'updated_at': string, 'version': int, 'weight'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerPackage')); }
     /** Carrier transporting the package.
      * @return ?string
@@ -56,6 +57,11 @@ final class BuyerPackage extends Model {
      */
     public function getFulfillmentId(): string { return $this->get('fulfillment_id'); }
     public function hasFulfillmentId(): bool { return $this->has('fulfillment_id'); }
+    /** Order line quantities allocated to this outbound package. Present when the package has items. [] (Value): {@see BuyerPackageItem}. An order line quantity allocated to this package.
+     * @return ?list<BuyerPackageItem>
+     */
+    public function getItems(): ?array { return $this->get('items'); }
+    public function hasItems(): bool { return $this->has('items'); }
     /** Return-label URL supplied by the merchant's integration. Included for return packages; omitted for outbound packages. Omitted for a checkout session credential that doesn't act for the customer the buyer verified.
      * @return ?string
      */

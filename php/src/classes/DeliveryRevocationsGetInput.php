@@ -9,7 +9,7 @@ namespace Flint;
 final class DeliveryRevocationsGetInput extends Model {
     /** @param array{'delivery_revocation_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryRevocationsGetInput')); }
-    /** Flint delivery revocation ID. Example: "drev_01KEZF7C007Q141XJ28YAAC87B".
+    /** Flint delivery revocation ID. Must be a valid ID with prefix drev_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "drev_01KEZF7C007Q141XJ28YAAC87B".
      * @return string
      * @throws SdkError When delivery_revocation_id is omitted; use hasDeliveryRevocationId() or valueOrDefault().
      */

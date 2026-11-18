@@ -11,6 +11,7 @@ namespace Flint;
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $credit_adjustment_money
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $deduction_money
  * @property-read list<ReturnResolutionLineItemInput|array<array-key, mixed>|\stdClass> $line_items
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $refund_shortfall_money
  * @property-read list<ReturnReplacementLineItemInput|array<array-key, mixed>|\stdClass> $replacement_line_items
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $replacement_total_money
  * @property-read string $resolution_type
@@ -18,7 +19,7 @@ namespace Flint;
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $returned_total_money
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnResolutionPreviewInput extends Model {
-    /** @param array{'adjustments': list<ReturnResolutionAdjustmentInput|array<array-key, mixed>|\stdClass>, 'based_on_return_version': int, 'buyer_payment_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'buyer_refund_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'calculated_at': string|\DateTimeInterface, 'corrects_return_resolution_id'?: string, 'credit_adjustment_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'deduction_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'line_items': list<ReturnResolutionLineItemInput|array<array-key, mixed>|\stdClass>, 'replacement_line_items': list<ReturnReplacementLineItemInput|array<array-key, mixed>|\stdClass>, 'replacement_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'resolution_type': string, 'return_id': string, 'returned_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'adjustments': list<ReturnResolutionAdjustmentInput|array<array-key, mixed>|\stdClass>, 'based_on_return_version': int, 'buyer_payment_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'buyer_refund_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'calculated_at': string|\DateTimeInterface, 'corrects_return_resolution_id'?: string, 'credit_adjustment_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'deduction_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'line_items': list<ReturnResolutionLineItemInput|array<array-key, mixed>|\stdClass>, 'refund_shortfall_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'replacement_line_items': list<ReturnReplacementLineItemInput|array<array-key, mixed>|\stdClass>, 'replacement_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'resolution_type': string, 'return_id': string, 'returned_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnResolutionPreviewInput')); }
     /** Fees and credits to apply to the resolution, at most 50. [] (Value): {@see ReturnResolutionAdjustmentInput}. A fee or credit applied to a return resolution, such as a restocking fee, with the assessed and applied amounts and any waiver.
      * @return list<ReturnResolutionAdjustmentInput|array<array-key, mixed>|\stdClass>
@@ -74,6 +75,12 @@ final class ReturnResolutionPreviewInput extends Model {
      */
     public function getLineItems(): array { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
+    /** Buyer refund value that the original payments cannot fund. Zero when fully payable. buyer_refund_amount_money remains the full entitlement. Create and confirm refuse a shortfall with 409 LIMIT_EXCEEDED and maximum_money. Merchant only. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When refund_shortfall_money is omitted; use hasRefundShortfallMoney() or valueOrDefault().
+     */
+    public function getRefundShortfallMoney(): mixed { return $this->get('refund_shortfall_money'); }
+    public function hasRefundShortfallMoney(): bool { return $this->has('refund_shortfall_money'); }
     /** Merchandise the buyer receives instead, up to 100. Send with `exchange` or `replacement`. [] (Value): {@see ReturnReplacementLineItemInput}. A replacement item added to a return resolution, with its quantity and price totals.
      * @return list<ReturnReplacementLineItemInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When replacement_line_items is omitted; use hasReplacementLineItems() or valueOrDefault().

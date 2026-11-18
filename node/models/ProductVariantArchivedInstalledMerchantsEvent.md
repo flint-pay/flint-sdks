@@ -37,6 +37,7 @@ The affected public resource without expansions, client authority fields, or fie
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `barcode` | Optional | string | Barcode assigned to this sellable item. |
+| `compare_at_price_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Reference unit price for sale display, in the same currency and strictly greater than unit_price_money. Null when no compare-at price is set. Does not affect charges or quantity price breaks. `compare_at_price_money`: [declared alternatives](../models/ProductVariant.md#productvariantcompare_at_price_money). |
 | `created_at` | Optional | string | When this resource was created, as an RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `delivery_configuration_reason` | Optional | string | Reason the variant's delivery configuration needs attention. Values: `"delivery_profile_missing"`, `"delivery_profile_inactive"`. |
 | `delivery_configuration_status` | Required | string | Whether the variant's delivery configuration is ready, needs attention, or does not apply. Values: `"configured"`, `"action_required"`, `"not_applicable"`. |
@@ -49,6 +50,7 @@ The affected public resource without expansions, client authority fields, or fie
 | `inventory_tracking` | Required | string | Whether sales of this variant consume an inventory item. Values: `"not_tracked"`, `"tracked"`. |
 | `is_available_for_sale` | Required | boolean | Whether the variant and its product are both active. Stock isn't considered; `inventory_availability` reports it on reads. |
 | `is_inheriting_product_images` | Required | boolean | Whether effective_images comes from the product's gallery because this variant's gallery is empty. |
+| `license_key_configuration` | Required | [LicenseKeyConfiguration](../models/LicenseKeyConfiguration.md#licensekeyconfiguration) or null | License key terms. Null when the variant has no license key setting. Replaced as a whole: send every field you want to keep. Only product_type digital supports this setting. It adds no delivery requirement and is independent of the delivery profile. Send null to remove every value you set in this section. Omission preserves it on update. |
 | `line_item_tax_category` | Optional | string | Stored Flint line-item tax category. New digital-product variants default to digital_goods when omitted. The stored value remains editable. Unset uses the merchant default. Values: [12 declared values](#productvariantarchivedinstalledmerchantseventdataobject-line_item_tax_category-values). |
 | `merchant_id` | Optional | string | Identifier of the merchant that owns this resource. Example: `"mer_01KEZF7C00KPYH1DDFPCCX3B6E"`. |
 | `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) | Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/Bundle.md#bundlemetadata). |
@@ -84,6 +86,10 @@ The affected public resource without expansions, client authority fields, or fie
 - `"medical_goods"`
 - `"admission"`
 
+### ProductVariantArchivedInstalledMerchantsEvent.data.object.compare_at_price_money
+
+Declared alternatives: [ProductVariant.compare_at_price_money](../models/ProductVariant.md#productvariantcompare_at_price_money).
+
 ### ProductVariantArchivedInstalledMerchantsEvent.data.object.gift_card_configuration
 
 Field definitions: [ProductVariant.gift_card_configuration](../models/ProductVariant.md#productvariantgift_card_configuration).
@@ -115,6 +121,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `barcode` | Optional | string or null | Barcode assigned to this sellable item. `barcode`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesbarcode). |
+| `compare_at_price_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Reference unit price for sale display, in the same currency and strictly greater than unit_price_money. Null when no compare-at price is set. Does not affect charges or quantity price breaks. `compare_at_price_money`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributescompare_at_price_money). |
 | `created_at` | Optional | string or null | When this resource was created, as an RFC3339 timestamp. `created_at`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributescreated_at). |
 | `delivery_configuration_reason` | Optional | string or null | Reason the variant's delivery configuration needs attention. Values: `"delivery_profile_missing"`, `"delivery_profile_inactive"`. `delivery_configuration_reason`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesdelivery_configuration_reason). |
 | `delivery_configuration_status` | Optional | string or null | Whether the variant's delivery configuration is ready, needs attention, or does not apply. Values: `"configured"`, `"action_required"`, `"not_applicable"`. `delivery_configuration_status`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesdelivery_configuration_status). |
@@ -127,6 +134,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `inventory_tracking` | Optional | string or null | Whether sales of this variant consume an inventory item. Values: `"not_tracked"`, `"tracked"`. `inventory_tracking`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesinventory_tracking). |
 | `is_available_for_sale` | Optional | boolean or null | Whether the variant and its product are both active. Stock isn't considered; `inventory_availability` reports it on reads. `is_available_for_sale`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesis_available_for_sale). |
 | `is_inheriting_product_images` | Optional | boolean or null | Whether effective_images comes from the product's gallery because this variant's gallery is empty. `is_inheriting_product_images`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesis_inheriting_product_images). |
+| `license_key_configuration` | Optional | ([LicenseKeyConfigurationPreviousAttributes](../models/LicenseKeyConfigurationPreviousAttributes.md#licensekeyconfigurationpreviousattributes) or null) or null | License key terms. Null when the variant has no license key setting. Replaced as a whole: send every field you want to keep. Only product_type digital supports this setting. It adds no delivery requirement and is independent of the delivery profile. Send null to remove every value you set in this section. Omission preserves it on update. |
 | `line_item_tax_category` | Optional | string or null | Stored Flint line-item tax category. New digital-product variants default to digital_goods when omitted. The stored value remains editable. Unset uses the merchant default. Values: [12 declared values](#productvariantarchivedinstalledmerchantseventdataprevious_attributes-line_item_tax_category-values). `line_item_tax_category`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesline_item_tax_category). |
 | `merchant_id` | Optional | string or null | Identifier of the merchant that owns this resource. `merchant_id`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesmerchant_id). |
 | `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) or null | Caller-owned metadata stored on this resource. `metadata`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesmetadata). |
@@ -165,6 +173,33 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 ### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.barcode
 
 Declared alternatives: [BundleArchivedInstalledMerchantsEvent.data.previous_attributes.barcode](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesbarcode).
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.compare_at_price_money
+
+Reference unit price for sale display, in the same currency and strictly greater than unit_price_money. Null when no compare-at price is set. Does not affect charges or quantity price breaks.
+
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.compare_at_price_money variant 1
+
+anyOf MoneyValuePreviousAttributes.
+
+- Optional: `amount`, `currency`.
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.compare_at_price_money variant 2
+
+anyOf variant 2.
+
+- Undeclared: `amount`, `currency`.
+- Value shape: null. Reference unit price for sale display, in the same currency and strictly greater than unit_price_money. Null when no compare-at price is set. Does not affect charges or quantity price breaks. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.compare_at_price_money variant 1.amount
+
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.amount](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1amount).
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.compare_at_price_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.currency](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1currency).
 
 ### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.created_at
 
@@ -473,11 +508,11 @@ anyOf variant 2.
 
 ### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.unit_price_money variant 1.amount
 
-Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.amount](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1amount).
 
 ### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.unit_price_money variant 1.currency
 
-Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.currency](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1currency).
 
 ### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.updated_at
 

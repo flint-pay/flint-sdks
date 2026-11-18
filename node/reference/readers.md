@@ -89,7 +89,7 @@ Signature: `createConnectionSession(reader_id: InputValue<string>, params?: Read
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `reader_id` | Required | string | Flint reader ID. |
+| `reader_id` | Required | string | Flint reader ID. Must be a valid ID with prefix rdr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -148,7 +148,7 @@ Signature: `delete(reader_id: InputValue<string>, params?: ReadersDeleteParams, 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `reader_id` | Required | string | Flint reader ID. |
+| `reader_id` | Required | string | Flint reader ID. Must be a valid ID with prefix rdr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `expected_version` | Optional | integer | Optional version most recently read. A stale value fails with `VERSION_CONFLICT` and the current version. Format: `uint64`. minimum: `1`. maximum: `9007199254740991`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
@@ -311,7 +311,7 @@ Signature: `simulate(reader_id: InputValue<string>, params: ReadersSimulateParam
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `reader_id` | Required | string | Flint reader ID. |
+| `reader_id` | Required | string | Flint reader ID. Must be a valid ID with prefix rdr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -383,7 +383,7 @@ Signature: `update(reader_id: InputValue<string>, params: ReadersUpdateParams, o
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `reader_id` | Required | string | Flint reader ID. |
+| `reader_id` | Required | string | Flint reader ID. Must be a valid ID with prefix rdr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -398,7 +398,7 @@ Body model: [UpdateReaderRequestInput](../models/UpdateReaderRequest.md#updatere
 | `device_id` | Optional | string or null | The device the reader takes payments for. `null` clears it. Naming a device needs `accounts.devices.read` as well. minLength: `1`. |
 | `expected_version` | Optional | integer | Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the request before retrying. Format: `uint64`. minimum: `1`. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequest.md#metadatapatchrequest) or null | Keys to set, merged into the reader's metadata. A key with an empty value is removed; `null` clears all metadata. |
-| `name` | Optional | string | Your label for the reader. Can't be null. minLength: `1`. maxLength: `255`. |
+| `name` | Optional | string | Your label for the reader. Can't be null. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `255`. |
 
 #### Response
 

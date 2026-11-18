@@ -10,8 +10,8 @@ import type {
     InventoryItemsListParams,
     InventoryItemsUpdateParams
 } from '../declarations/types-32.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -36,34 +36,34 @@ export type {
     InventoryItemListResponse,
     InventoryItemsUpdateParams
 } from '../declarations/types-32.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { RequestOptions } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateInventoryItemRequestInput, CreateInventoryBackorderPolicyRequestInput } from '../declarations/types-10.js';
-export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-41.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { AuthMode, BackorderPolicy } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { UpdateInventoryItemRequestInput } from '../declarations/types-74.js';
+export type { Credentials } from '../declarations/types-15.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { UpdateInventoryItemRequestInput } from '../declarations/types-76.js';
 export type {
     InventoryBackorderPolicyRequestInput,
     InventoryAllocationPoliciesDeleteParams,
     InventoryBackorderPolicyRequest
 } from '../declarations/types-31.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
-export { makeCreateInventoryBackorderPolicyRequest, makeCreateInventoryItemRequest } from '../declarations/types-80.js';
-export { makeInventoryBackorderPolicyRequest } from '../declarations/types-84.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeUpdateInventoryItemRequest } from '../declarations/types-90.js';
+export type { DisputesAcceptParams } from '../declarations/types-26.js';
+export { makeCreateInventoryBackorderPolicyRequest, makeCreateInventoryItemRequest } from '../declarations/types-82.js';
+export { makeInventoryBackorderPolicyRequest } from '../declarations/types-86.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeUpdateInventoryItemRequest } from '../declarations/types-93.js';
 export interface InventoryItemsResource {
     /**
  * Create an inventory item. SKU and barcode are searchable attributes, not identity: they are not
- * required to be unique. Idempotency is scoped to the authenticated merchant, environment, and
- * endpoint. Its fingerprint includes the canonical request body. To recover the command's effects
- * after a lost response, list inventory items by the external_reference_id, sku, or barcode you
- * supplied, then read the matching item.
+ * required to be unique. Idempotency is scoped to the authenticated merchant, environment, caller
+ * namespace, and operation. Its fingerprint includes the canonical request body. To recover the
+ * command's effects after a lost response, list inventory items by the external_reference_id, sku,
+ * or barcode you supplied, then read the matching item.
  *
  * `POST /v1/inventory-items`
  * @see https://developers.withflintpay.com/docs/api/inventory#createInventoryItem
@@ -80,7 +80,9 @@ export interface InventoryItemsResource {
  * only when you filter by status archived.
  *
  * `DELETE /v1/inventory-items/{inventory_item_id}`
- * @param inventory_item_id Flint inventory item ID.
+ * @param inventory_item_id Flint inventory item ID. Must be a valid ID with prefix invi_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/inventory#deleteInventoryItem
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -94,7 +96,9 @@ export interface InventoryItemsResource {
  * Retrieve an inventory item by ID, including archived items.
  *
  * `GET /v1/inventory-items/{inventory_item_id}`
- * @param inventory_item_id Flint inventory item ID.
+ * @param inventory_item_id Flint inventory item ID. Must be a valid ID with prefix invi_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/inventory#getInventoryItem
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -123,12 +127,14 @@ export interface InventoryItemsResource {
     /**
  * Update an inventory item. Accepts status active or inactive. Send sku or barcode as null to
  * clear. expected_version is optional and enforced when sent. Idempotency is scoped to the
- * authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical
- * request body. To recover the command's effects after a lost response, read the inventory item by
- * ID.
+ * authenticated merchant, environment, caller namespace, and operation. Its fingerprint includes
+ * the canonical request body. To recover the command's effects after a lost response, read the
+ * inventory item by ID.
  *
  * `PATCH /v1/inventory-items/{inventory_item_id}`
- * @param inventory_item_id Flint inventory item ID.
+ * @param inventory_item_id Flint inventory item ID. Must be a valid ID with prefix invi_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/inventory#updateInventoryItem
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

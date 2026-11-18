@@ -5,11 +5,11 @@ import type {
     DeliveryRevocationListResponse,
     DeliveryRevocationResponse,
     DeliveryRevocationsCreateParams,
-    DeliveryRevocationsGetParams,
-    DeliveryRevocationsListParams
+    DeliveryRevocationsGetParams
 } from '../declarations/types-23.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+import type { DeliveryRevocationsListParams } from '../declarations/types-24.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -29,7 +29,6 @@ export type {
     DeliveryRevocation,
     DeliveryRevocationResponse,
     DeliveryRevocationsGetParams,
-    DeliveryRevocationsListParams,
     DeliveryRevocationListResponse,
     DeliveryRevocationImpact,
     DeliveryRevocationTarget,
@@ -38,8 +37,9 @@ export type {
     DeliveryRevocationTargetDeliveryRateCallbackRevision,
     DeliveryRevocationTargetDeliveryMethodRevision
 } from '../declarations/types-23.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { RequestOptions } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { DeliveryRevocationsListParams } from '../declarations/types-24.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type {
     CreateDeliveryRevocationRequestInput,
@@ -50,19 +50,22 @@ export type {
     CreateDeliveryRevocationTargetDeliveryMethodRevisionInput
 } from '../declarations/types-9.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
+export type { Credentials } from '../declarations/types-15.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export {
     makeCreateDeliveryRevocationRequest,
     makeCreateDeliveryRevocationTarget,
-    makeCreateDeliveryRevocationTargetDeliveryMethodRevision,
+    makeCreateDeliveryRevocationTargetDeliveryMethodRevision
+} from '../declarations/types-81.js';
+export {
     makeCreateDeliveryRevocationTargetDeliveryRateCallbackRevision,
     makeCreateDeliveryRevocationTargetDeliveryRateCallbackSigningKey,
     makeCreateDeliveryRevocationTargetLocationGeography
-} from '../declarations/types-79.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
+} from '../declarations/types-82.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export interface DeliveryRevocationsResource {
     /**
  * Permanently fences one exact delivery method revision, rate callback revision, callback HMAC
@@ -86,7 +89,9 @@ export interface DeliveryRevocationsResource {
  * Returns one permanent delivery revocation and its estimated impact at creation time.
  *
  * `GET /v1/delivery-revocations/{delivery_revocation_id}`
- * @param delivery_revocation_id Flint delivery revocation ID.
+ * @param delivery_revocation_id Flint delivery revocation ID. Must be a valid ID with prefix
+ * drev_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/delivery-revocations#getDeliveryRevocation
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

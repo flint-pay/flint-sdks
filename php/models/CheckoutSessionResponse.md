@@ -31,6 +31,7 @@ Resource, collection, or operation result returned by this request. A session in
 | `custom_field_answers` | Optional | Array of (object and Alternative shapes (see declared variants)) | The buyer's answers to the payment link's custom fields, the same as the `custom_field_answers` of the session's order. Read-only. Empty when the session didn't start from a payment link, the buyer answered no custom fields, or the order was created before Flint recorded answers here. Returned only to merchant credentials; omitted for buyer credentials. Always present with merchant credentials. maxItems: `20`. `custom_field_answers[]`: [declared alternatives](../models/OrderResponse.md#orderresponsedatacustom_field_answers). |
 | `custom_text` | Optional | [CheckoutCustomTextConfig](../models/CheckoutCustomTextConfig.md#checkoutcustomtextconfig) | The custom text this session shows in checkout. Custom text shown in checkout: an order summary message and a shipping address label. |
 | `customer` | Optional | [ExpandedCustomerSummary](../models/ExpandedCustomerSummary.md#expandedcustomersummary) or null | Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. `customer`: [declared alternatives](../models/DisputeResponse.md#disputeresponsedatacustomer). |
+| `customer_account_url` | Optional | string | The store's customer account, where the buyer can see this purchase and manage a subscription it starts. A stable link that opens the account wherever the merchant's `customer_account` settings put it; the buyer signs in there if needed. Pass it as Apple Pay's `managementURL` for a subscription. Omitted from webhooks, and when the account can't be resolved. Format: `uri`. Example: `"https://example.com/receipt"`. |
 | `customer_id` | Optional | string | The customer of the session's order. Omitted when the order has none. A checkout credential issued for this session acts for this customer. Add expand=customer to include the customer. Example: `"cus_01KEZF7C006X9JK6NZNA2SM9XD"`. |
 | `customer_prefill` | Optional | [CheckoutCustomerPrefill](../models/CheckoutCustomerPrefill.md#checkoutcustomerprefill) | Contact and default addresses of the customer the checkout acts for, with the recipient name on its default shipping address: the customer the merchant created the session for, or the customer whose email the buyer confirmed in it. Present on GET and PATCH responses while the session is open and acts for a customer. Separate from merchant-supplied prefill and buyer_contact saved by the buyer. Returned only to the checkout credential; never in webhook payloads. Details the buyer's checkout can prefill from the customer it acts for. |
 | `delivery` | Optional | [CheckoutDerivedDeliveryResource](../models/CheckoutDerivedDeliveryResource.md#checkoutderiveddeliveryresource) | Current delivery choices for Flint-owned pricing. External pricing reports requires_explicit_quote; reading this field does not request a delivery quote. Omitted when the session is not open, has no order, or Flint cannot read its delivery. The delivery options Flint derived for a checkout as a buyer sees them: choice groups, input requirements, and evaluation status. `delivery`: [field definitions](../models/CheckoutSessionResponse.md#checkoutsessionresponsedatadelivery). |
@@ -133,7 +134,7 @@ Current delivery choices for Flint-owned pricing. External pricing reports requi
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `buyer_reasons` | Required | Array of string | Buyer-safe reasons candidate methods did not produce an option. These can be present even when another method is available. |
+| `buyer_reasons` | Required | Array of string | Buyer-safe reasons a choice group has no available option. Groups with an available option contribute no reasons. |
 | `choice_groups` | Required | Array of [DeliveryQuoteChoiceGroupResource](../models/DeliveryQuoteChoiceGroupResource.md#deliveryquotechoicegroupresource) | Groups of order items that each choose their own delivery option. Empty until the checkout has a delivery quote. `choice_groups[]`: [field definitions](../models/CheckoutSessionResponse.md#checkoutsessionresponsedatadeliverychoice_groups). |
 | `delivery_quote_id` | Optional | string | ID of the checkout's current delivery quote. Omitted until the checkout has one. Example: `"dqt_01KEZF7C009EB1AVCDJBN4BBVV"`. |
 | `delivery_selection_id` | Required | string or null | Current delivery selection ID after reconciliation. `null` when no selection is current. Assert this value with expected_delivery_selection_id on checkout delivery writes. Example: `"dsel_01KEZF7C00QC35XBXVXQSCEB2D"`. |
@@ -242,7 +243,7 @@ An input a delivery method needs, such as an address field or time window, with 
 | `delivery_input_requirement_id` | Required | string | Unique ID of this requirement. Example: `"req_24c2628d965d791d993ab70c2c9f77882cc189e3039ef9ef68bf935e59717580"`. |
 | `delivery_method_ids` | Optional | Array of string | Delivery methods that need this input. Items: Example: `"dmet_01KEZF7C00YSG3X2D1TZJ36TM0"`. |
 | `delivery_option_ids` | Optional | Array of string | Delivery options that need this input. Omitted when the requirement applies to the choice group or method as a whole. Items: Example: `"dopt_01KEZF7C00JM9TDZQZ5KQJ6923"`. |
-| `field_path` | Required | string | Request property to fill in, using the same path as error params. Array templates use [] in place of an index. Values: [20 declared values](DeliveryInputRequirementInput.md#deliveryinputrequirementinput-field_path-values). |
+| `field_path` | Required | string | Request property to fill in, using the same path as error params. Array templates use [] in place of an index. Values: [21 declared values](DeliveryInputRequirementInput.md#deliveryinputrequirementinput-field_path-values). |
 | `purpose` | Required | string | When the input is needed. Values: `"quote"`, `"selection"`, `"pickup_availability"`. |
 
 ### CheckoutSessionResponse.data.delivery.choice_groups[].candidate_outcomes{}.input_requirements[].constraint
@@ -519,6 +520,7 @@ Money returned against a collected payment.
 | --- | --- | --- | --- |
 | `amount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Total refunded across all tenders, including `refunded_tip_money`. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `credit_adjustment_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Money paid for Return resolution credits, included in amount_money. It carries no merchandise, shipping, tax, or tip allocation. Zero for refunds without credits. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `credit_note_id` | Optional | string | ID of the credit note this refund paid out. Present only on refunds issued through a credit note. Example: `"cn_01KEZF7C00N1TRRCVDNY8S471H"`. |
 | `customer` | Optional | [ExpandedCustomerSummary](../models/ExpandedCustomerSummary.md#expandedcustomersummary) or null | The customer summary for `customer_id`. Buyer refund endpoints take no `expand` parameter, so it is never expanded here. `null` when the refund is not expanded. `customer`: [declared alternatives](../models/CheckoutSessionResponse.md#checkoutsessionresponsedatarefundscustomer). |
 | `customer_id` | Optional | string | ID of the customer on the refunded order or payment. Absent when neither has one. Example: `"cus_01KEZF7C006X9JK6NZNA2SM9XD"`. |
@@ -707,6 +709,7 @@ Renewal terms a subscription checkout commits the buyer to. Frozen when the sess
 | `gifts_enabled` | Required | boolean | Whether the buyer can name a gift recipient, frozen from the plan's gifts_enabled when the session was created. |
 | `line_items` | Required | Array of object | Identified frozen plan lines with buyer quantity permissions and bounds. `line_items[]`: [field definitions](../models/CheckoutSessionResponse.md#checkoutsessionresponsedatasubscription_termsline_items). |
 | `plan_name` | Required | string | Plan name shown to the buyer. |
+| `recurring_price_phases` | Required | Array of [CheckoutSubscriptionPricePhase](../models/CheckoutSubscriptionPricePhase.md#checkoutsubscriptionpricephase) | Ordered recurring merchandise prices from the first paid billing period, after any trial, with frozen signup promotions applied. Each finite phase is followed by the next phase; the final phase has a null billing_period_count and continues until cancellation. Tax and shipping are additional. Always contains at least one phase. `recurring_price_phases[]`: [field definitions](../models/CheckoutSessionResponse.md#checkoutsessionresponsedatasubscription_termsrecurring_price_phases). |
 | `recurring_shipping` | Optional | [CheckoutSubscriptionRecurringShipping](../models/CheckoutSubscriptionRecurringShipping.md#checkoutsubscriptionrecurringshipping) | Shipping that renews with each charge, for the delivery method the buyer chose. Omitted when no delivery method applies to the plan's lines. Recurring shipping charged on a checkout's subscription: the delivery method name, whether the price is fixed or quoted, and the amount. |
 | `recurring_total_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Charge for one billing period before tax and shipping, including prepaid deliveries and modifiers. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `setup_fee_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | One-time fee charged with the first payment, when the plan has one. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
@@ -743,6 +746,16 @@ anyOf variant 2.
 | `quantity` | Required | integer | The line quantity is the seat count. Nothing multiplies it. Whole-number quantity; fractional quantities are not supported. Format: `int32`. minimum: `1`. maximum: `9999`. |
 | `subscription_plan_line_item_id` | Optional | string | The plan line whose terms were captured. Absent when an older snapshot did not record its plan line ID. pattern: `^spli_[0-9A-HJKMNP-TV-Z]{26}$`. Example: `"spli_01KEZF7C00H9FGC2KBRF82H87N"`. |
 | `unit_price_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The captured unit price. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+
+### CheckoutSessionResponse.data.subscription_terms.recurring_price_phases[]
+
+One consecutive price window in a checkout subscription's paid billing periods.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `billing_period_count` | Required | integer or null | Number of paid billing periods at this price. Null when the price continues until cancellation. Format: `int32`. minimum: `1`. |
+| `recurring_total_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Recurring merchandise charge per billing period after discounts, before tax and shipping. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `starts_at` | Required | string or null | Fixed start of this phase, when known. Null when the buyer has not paid and the billing start depends on when they pay. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 
 ### CheckoutSessionResponse.meta
 

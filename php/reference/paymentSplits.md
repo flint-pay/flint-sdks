@@ -14,7 +14,7 @@ Signature: `get(string|Model $payment_split_id, array|Model|null $params = null,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `payment_split_id` | Required | string | Flint payment split ID. |
+| `payment_split_id` | Required | string | Flint payment split ID. Must be a valid ID with prefix psplit_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 

@@ -8,8 +8,10 @@ namespace Flint;
  * @property-read ?string $default_variant_id
  * @property-read ?string $description
  * @property-read bool $is_catalog_item_unavailable
+ * @property-read ?bool $is_sold_out
  * @property-read ?string $key
  * @property-read ?int $max_quantity
+ * @property-read ?int $max_total_quantity
  * @property-read ?PublicPaymentLinkLineItemsItemCustomVariableMaxUnitPriceMoney $max_unit_price_money
  * @property-read ?int $min_quantity
  * @property-read ?PublicPaymentLinkLineItemsItemCustomVariableMinUnitPriceMoney $min_unit_price_money
@@ -18,6 +20,7 @@ namespace Flint;
  * @property-read ?string $product_id
  * @property-read string|null $product_type
  * @property-read int $quantity
+ * @property-read ?int $remaining_quantity
  * @property-read ?string $resolved_name
  * @property-read ?PublicPaymentLinkLineItemsItemCustomVariableResolvedPriceRange $resolved_price_range
  * @property-read ?PublicPaymentLinkLineItemsItemCustomVariableResolvedUnitPriceMoney $resolved_unit_price_money
@@ -29,7 +32,7 @@ namespace Flint;
  * @property-read ?list<string> $variant_ids
  * Presence-aware response; omitted optional fields return null. */
 final class PublicPaymentLinkLineItemsItemCustomVariable extends Model {
-    /** @param array{'allow_quantity_adjustment'?: bool, 'allow_unit_price_adjustment': bool, 'bundle_id'?: string, 'default_variant_id'?: string, 'description'?: string, 'is_catalog_item_unavailable': bool, 'key'?: string, 'max_quantity'?: int, 'max_unit_price_money'?: mixed, 'min_quantity'?: int, 'min_unit_price_money'?: mixed, 'name': string, 'payment_link_line_item_id': string, 'product_id'?: string, 'product_type': string|null, 'quantity': int, 'resolved_name'?: string, 'resolved_price_range'?: mixed, 'resolved_unit_price_money'?: mixed, 'suggested_unit_price_money_options'?: list<mixed>, 'tax'?: mixed, 'type': string, 'unit_price_money'?: mixed, 'variant_id'?: string, 'variant_ids'?: list<string>, ...}|object $values */
+    /** @param array{'allow_quantity_adjustment'?: bool, 'allow_unit_price_adjustment': bool, 'bundle_id'?: string, 'default_variant_id'?: string, 'description'?: string, 'is_catalog_item_unavailable': bool, 'is_sold_out'?: bool, 'key'?: string, 'max_quantity'?: int, 'max_total_quantity'?: int, 'max_unit_price_money'?: mixed, 'min_quantity'?: int, 'min_unit_price_money'?: mixed, 'name': string, 'payment_link_line_item_id': string, 'product_id'?: string, 'product_type': string|null, 'quantity': int, 'remaining_quantity'?: int, 'resolved_name'?: string, 'resolved_price_range'?: mixed, 'resolved_unit_price_money'?: mixed, 'suggested_unit_price_money_options'?: list<mixed>, 'tax'?: mixed, 'type': string, 'unit_price_money'?: mixed, 'variant_id'?: string, 'variant_ids'?: list<string>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PublicPaymentLinkLineItemsItemCustomVariable')); }
     /** Whether the buyer can change the quantity in checkout.
      * @return ?bool
@@ -61,6 +64,11 @@ final class PublicPaymentLinkLineItemsItemCustomVariable extends Model {
      */
     public function getIsCatalogItemUnavailable(): bool { return $this->get('is_catalog_item_unavailable'); }
     public function hasIsCatalogItemUnavailable(): bool { return $this->has('is_catalog_item_unavailable'); }
+    /** Public event read: true when the tier or event has no capacity left.
+     * @return ?bool
+     */
+    public function getIsSoldOut(): ?bool { return $this->get('is_sold_out'); }
+    public function hasIsSoldOut(): bool { return $this->has('is_sold_out'); }
     /** Keys the resolve override maps. Stable line item key used in checkout overrides. Must not have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when omitted, skipping numbers already used by explicit keys; retained for an existing line item when omitted on update.
      * @return ?string
      */
@@ -71,7 +79,12 @@ final class PublicPaymentLinkLineItemsItemCustomVariable extends Model {
      */
     public function getMaxQuantity(): ?int { return $this->get('max_quantity'); }
     public function hasMaxQuantity(): bool { return $this->has('max_quantity'); }
-    /** Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Optional whole-number admission capacity across all orders for an event tier; fractional quantities are not supported. Must be at least 1 and cannot exceed event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it in a line_items replacement removes an existing cap. Format: int32. minimum: 1.
+     * @return ?int
+     */
+    public function getMaxTotalQuantity(): ?int { return $this->get('max_total_quantity'); }
+    public function hasMaxTotalQuantity(): bool { return $this->has('max_total_quantity'); }
+    /** Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Must be greater than zero and greater than or equal to min_unit_price_money. Omit for no maximum. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?PublicPaymentLinkLineItemsItemCustomVariableMaxUnitPriceMoney
      */
     public function getMaxUnitPriceMoney(): ?PublicPaymentLinkLineItemsItemCustomVariableMaxUnitPriceMoney { return $this->get('max_unit_price_money'); }
@@ -111,6 +124,11 @@ final class PublicPaymentLinkLineItemsItemCustomVariable extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
+    /** Public event read: whole-number admissions left after sales and payment holds; fractional quantities are not supported. This quantity is bounded by both the tier and event caps. Omitted when neither is capped. Format: int32.
+     * @return ?int
+     */
+    public function getRemainingQuantity(): ?int { return $this->get('remaining_quantity'); }
+    public function hasRemainingQuantity(): bool { return $this->has('remaining_quantity'); }
     /** Current catalog name of the referenced variant or bundle, or the product name for variant_ids lines. A variant reads as the product name, plus the variant name when the variant is a named option combination. This is the catalog value at read time, not a stored snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line items and when the catalog object no longer exists.
      * @return ?string
      */

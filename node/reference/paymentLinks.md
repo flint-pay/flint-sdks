@@ -31,7 +31,7 @@ Body model: [CreatePaymentLinkRequestInput](../models/CreatePaymentLinkRequest.m
 | `custom_text` | Optional | [PaymentLinkCustomTextConfigInput](../models/PaymentLinkCustomTextConfigInput.md#paymentlinkcustomtextconfiginput) | Custom text for checkouts started from this link. Custom text shown on a payment link's checkout, such as the order summary message and shipping address label. |
 | `delivery_method_ids` | Optional | Array of string | Complete delivery method selection for the link. A link without delivery methods offers settings.checkout.default_delivery_method_ids when its order has items to deliver. Send an empty array to clear the selection. Omit it on PATCH to leave the selection unchanged. Null and duplicate IDs are not accepted. Create, activation, and edits to items, delivery methods, or inventory routing require explicit methods or checkout defaults to cover the items' delivery profiles; otherwise ACTION_NOT_ALLOWED with reason configuration_required is returned. maxItems: `25`. uniqueItems: `true`. Items: minLength: `1`. |
 | `description` | Optional | string | Text about what the link sells, returned to buyers when they open it. minLength: `1`. maxLength: `2048`. |
-| `donation_max_amount_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Largest amount a buyer can give on a donation link. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `donation_max_amount_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Largest amount a buyer can give on a donation link. Must be greater than zero and greater than or equal to donation_min_amount_money. Omit on create for no maximum. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `donation_min_amount_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Smallest amount a buyer can give on a donation link. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `donation_suggested_amount_money_options` | Optional | Array of [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Amounts a donation link offers as one-tap choices. |
 | `event_config` | Optional | [PaymentLinkEventConfigRequestInput](../models/PaymentLinkEventConfigRequestInput.md#paymentlinkeventconfigrequestinput) | Event details for an `event` link: when and where it takes place and how many tickets it sells. Event settings you supply when creating an event payment link. |
@@ -43,7 +43,7 @@ Body model: [CreatePaymentLinkRequestInput](../models/CreatePaymentLinkRequest.m
 | `line_items` | Optional | Array of [PaymentLinkLineItemRequestInput](../models/PaymentLinkLineItemRequest.md#paymentlinklineitemrequest) | What the link sells. |
 | `max_completions` | Optional | integer | Most payments the link accepts, counted by `completed_count`. Absent means no limit. Once the limit is reached, resolving the link fails with a request error. It can't be set below `completed_count`. Format: `int32`. |
 | `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. At most 44 pairs, because Flint reserves 6 of the order's 50 metadata pairs. Metadata keys and values plus Flint's metadata must fit within 32768 UTF-8 bytes. Custom fields don't count toward either limit. These limits apply to standard and plan links and are checked against the merged configuration on update. maxProperties: `44`. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
-| `name` | Required | string | Name of the payment link. minLength: `1`. maxLength: `255`. |
+| `name` | Required | string | Name of the payment link. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `255`. |
 | `payment_link_type` | Optional | string | Payment link type. Omit to use standard. Explicit values must be standard, donation, or event; empty or padded values are invalid. Default: `"standard"`. Values: `"standard"`, `"donation"`, `"event"`. |
 | `payments` | Optional | [PaymentLinkPaymentConfigInput](../models/PaymentLinkPaymentConfigInput.md#paymentlinkpaymentconfiginput) | Payment options for checkouts started from this link. Payment settings on a payment link: the enabled payment options and a note shown with payment. |
 | `promotion_config` | Optional | [CheckoutPromotionConfigRequestInput](../models/CheckoutPromotionConfig.md#checkoutpromotionconfig) | Whether automatic promotions apply to checkouts started from this link and whether buyers can enter promotion codes. Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes. |
@@ -110,7 +110,7 @@ Signature: `get(payment_link_id: InputValue<string>, params?: PaymentLinksGetPar
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `payment_link_id` | Required | string | Flint payment link ID. |
+| `payment_link_id` | Required | string | Flint payment link ID. Must be a valid ID with prefix pl_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: sales_summary, subscription_plan. sales_summary requires checkouts.payment_links.read and is also available to dashboard sessions. subscription_plan additionally requires commerce.subscription_plans.read. sales_summary is supported only on this get route. Limits: at most 10 unique expand paths per request. Items values: `"sales_summary"`, `"subscription_plan"`. Values: `"sales_summary"`, `"subscription_plan"`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
@@ -169,7 +169,7 @@ getPublic(payment_link_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `payment_link_id` | Required | string | Flint payment link ID. |
+| `payment_link_id` | Required | string | Flint payment link ID. Must be a valid ID with prefix pl_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 
@@ -282,7 +282,7 @@ Signature: `resolve(payment_link_id: InputValue<string>, params: PaymentLinksRes
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `payment_link_id` | Required | string | Flint payment link ID. |
+| `payment_link_id` | Required | string | Flint payment link ID. Must be a valid ID with prefix pl_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Required | [ResolvePaymentLinkRequestInput](../models/ResolvePaymentLinkRequest.md#resolvepaymentlinkrequest) | The request body for: Resolve payment link. |
 
 Body model: [ResolvePaymentLinkRequestInput](../models/ResolvePaymentLinkRequest.md#resolvepaymentlinkrequest).
@@ -347,7 +347,7 @@ const result = await client.paymentLinks.resolve("pl_01KEZF7C007WDMA5P9BPZ8J2AM"
 
 ### paymentLinks.update
 
-Updates a payment link. To replace line items, custom fields, or delivery methods, send the complete array with `expected_version`.
+Updates a payment link. Setting `status` to `inactive` closes its open, unpaid checkout sessions. Payments already in progress can finish. To replace line items, custom fields, or delivery methods, send the complete array with `expected_version`.
 
 `PATCH /v1/payment-links/{payment_link_id}`
 
@@ -357,7 +357,7 @@ Signature: `update(payment_link_id: InputValue<string>, params: PaymentLinksUpda
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `payment_link_id` | Required | string | Flint payment link ID. |
+| `payment_link_id` | Required | string | Flint payment link ID. Must be a valid ID with prefix pl_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -375,7 +375,7 @@ Body model: [UpdatePaymentLinkRequestInput](../models/UpdatePaymentLinkRequest.m
 | `custom_text` | Optional | [PaymentLinkCustomTextPatchRequestInput](../models/PaymentLinkCustomTextPatchRequest.md#paymentlinkcustomtextpatchrequest) | Custom text for checkouts started from this link. Changes to a payment link's custom checkout text. Send null to clear a field. |
 | `delivery_method_ids` | Optional | Array of string | Complete delivery method selection for the link. A link without delivery methods offers settings.checkout.default_delivery_method_ids when its order has items to deliver. Send an empty array to clear the selection. Omit it on PATCH to leave the selection unchanged. Null and duplicate IDs are not accepted. Create, activation, and edits to items, delivery methods, or inventory routing require explicit methods or checkout defaults to cover the items' delivery profiles; otherwise ACTION_NOT_ALLOWED with reason configuration_required is returned. maxItems: `25`. uniqueItems: `true`. Items: minLength: `1`. |
 | `description` | Optional | string or null | Text about what the link sells, returned to buyers when they open it. Send null to clear. minLength: `1`. maxLength: `2048`. |
-| `donation_max_amount_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) or null | Maximum donation amount. Send null to clear the maximum. Send null to clear. |
+| `donation_max_amount_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) or null | Maximum donation amount. Must be greater than zero and greater than or equal to donation_min_amount_money. Send null to clear the maximum. |
 | `donation_min_amount_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) or null | Minimum donation amount. Send null to clear the minimum. Send null to clear. |
 | `donation_suggested_amount_money_options` | Optional | Array of [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Suggested donation amounts. Send an empty array to clear suggested amounts. |
 | `event_config` | Optional | [PaymentLinkEventConfigPatchRequestInput](../models/PaymentLinkEventConfigPatchRequest.md#paymentlinkeventconfigpatchrequest) | Event configuration patch. Omit to leave unchanged. The whole configuration cannot be cleared; null is not accepted. Changes to an event payment link's settings. Send null on a nullable field to clear it. |
@@ -388,7 +388,8 @@ Body model: [UpdatePaymentLinkRequestInput](../models/UpdatePaymentLinkRequest.m
 | `line_items` | Optional | Array of [PaymentLinkLineItemPatchRequestInput](../models/PaymentLinkLineItemPatchRequest.md#paymentlinklineitempatchrequest) | Replaces all line items atomically. Include an existing payment_link_line_item_id to retain that member, omit the ID to create a member, and omit a previous member to remove it. Omit line_items to leave it unchanged. Null is not accepted. minItems: `1`. |
 | `max_completions` | Optional | integer or null | Most payments the link accepts, counted by `completed_count`. Absent means no limit. Once the limit is reached, resolving the link fails with a request error. It can't be set below `completed_count`. Send null to clear. Format: `int32`. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequest.md#metadatapatchrequest) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Send null to clear. At most 44 pairs, because Flint reserves 6 of the order's 50 metadata pairs. Metadata keys and values plus Flint's metadata must fit within 32768 UTF-8 bytes. Custom fields don't count toward either limit. These limits apply to standard and plan links and are checked against the merged configuration on update. This operation also limits the metadata object you send, before merging: at most 50 keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768 UTF-8 bytes of keys plus values. |
-| `name` | Optional | string | Name of the payment link. minLength: `1`. maxLength: `255`. |
+| `name` | Optional | string | Name of the payment link. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `255`. |
+| `notify_ticket_holders` | Optional | boolean | Whether to email existing ticket holders when event_at, timezone, or venue changes. Defaults to true for each update. Unchanged event details send no notice. |
 | `payments` | Optional | [PaymentLinkPaymentPatchRequestInput](../models/PaymentLinkPaymentPatchRequest.md#paymentlinkpaymentpatchrequest) | Payment options for checkouts started from this link. Changes to a payment link's payment settings. Send null on the payment note to clear it. |
 | `promotion_config` | Optional | [CheckoutPromotionConfigRequestInput](../models/CheckoutPromotionConfig.md#checkoutpromotionconfig) | Whether automatic promotions apply to checkouts started from this link and whether buyers can enter promotion codes. Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes. |
 | `redirects` | Optional | [PaymentLinkRedirectsPatchRequestInput](../models/PaymentLinkRedirectsPatchRequest.md#paymentlinkredirectspatchrequest) | Where checkout sessions started from this payment link send the buyer after payment, cancellation, or expiration. Changes to a payment link's hosted checkout destinations. Omit a URL to leave it unchanged, or send null to clear it. |

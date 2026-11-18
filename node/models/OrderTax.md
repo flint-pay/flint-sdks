@@ -10,6 +10,7 @@ An order's tax state, including its mode, price mode, status, location, exemptio
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `attention` | Optional | [OrderTaxAttention](../models/OrderTaxAttention.md#ordertaxattention) or null | Tax information that needs merchant attention. Null when no tax attention is outstanding. Captured payments and refunds remain recorded; contact Flint support before changing tax. Omitted from buyer responses. Always present with merchant credentials. |
 | `automatic_profile` | Optional | string | Identifies which automatic tax behavior applies to this order. connected means the account's tax connection calculated it. standard marks an order calculated before automatic tax required a tax connection. Values: `"standard"`, `"connected"`. |
 | `available_location_inputs` | Optional | Array of string | How you can give Flint a tax location while `status` is `requires_location`. `provided` means send `tax.location`. |
 | `callback_evaluation` | Optional | [OrderTaxCallbackEvaluation](../models/OrderTaxCallbackEvaluation.md#ordertaxcallbackevaluation) | The tax calculation callback evaluation whose components the order's tax uses. Returned only on a `callback` order after your callback has answered; absent while tax is `requires_location` or `incomplete`, and on orders with nothing to tax. The tax calculation callback evaluation an order's tax uses. |

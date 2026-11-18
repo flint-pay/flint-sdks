@@ -2,15 +2,22 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read int|null $attempted_payment_count
  * @property-read int|null $checked_in_ticket_count
  * @property-read string|null $computed_at
+ * @property-read int|null $failed_payment_count
  * @property-read int|null $paid_order_count
  * @property-read list<MoneyValuePreviousAttributes>|null $paid_totals
  * @property-read list<MoneyValuePreviousAttributes>|null $refunded_totals
  * Presence-aware response; omitted optional fields return null. */
 final class PaymentLinkSalesSummaryPreviousAttributes extends Model {
-    /** @param array{'checked_in_ticket_count'?: mixed, 'computed_at'?: mixed, 'paid_order_count'?: mixed, 'paid_totals'?: mixed, 'refunded_totals'?: mixed, ...}|object $values */
+    /** @param array{'attempted_payment_count'?: mixed, 'checked_in_ticket_count'?: mixed, 'computed_at'?: mixed, 'failed_payment_count'?: mixed, 'paid_order_count'?: mixed, 'paid_totals'?: mixed, 'refunded_totals'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinkSalesSummaryPreviousAttributes')); }
+    /** All recorded card attempts from this link, including pending attempts and retries. anyOf[1] (Value): integer. All recorded card attempts from this link, including pending attempts and retries. Format: int64. anyOf[2] (Value): null.
+     * @return int|null
+     */
+    public function getAttemptedPaymentCount(): int|null { return $this->get('attempted_payment_count'); }
+    public function hasAttemptedPaymentCount(): bool { return $this->has('attempted_payment_count'); }
     /** Tickets for this payment link that are checked in now, counted when the summary is read. Undoing a check-in or voiding a ticket lowers it. 0 for links that have issued no tickets. anyOf[1] (Value): integer. Tickets for this payment link that are checked in now, counted when the summary is read. Undoing a check-in or voiding a ticket lowers it. 0 for links that have issued no tickets. Format: int32. minimum: 0. anyOf[2] (Value): null.
      * @return int|null
      */
@@ -21,6 +28,11 @@ final class PaymentLinkSalesSummaryPreviousAttributes extends Model {
      */
     public function getComputedAt(): string|null { return $this->get('computed_at'); }
     public function hasComputedAt(): bool { return $this->has('computed_at'); }
+    /** Recorded failed card attempts from this link. A successful retry does not erase previous failures. anyOf[1] (Value): integer. Recorded failed card attempts from this link. A successful retry does not erase previous failures. Format: int64. anyOf[2] (Value): null.
+     * @return int|null
+     */
+    public function getFailedPaymentCount(): int|null { return $this->get('failed_payment_count'); }
+    public function hasFailedPaymentCount(): bool { return $this->has('failed_payment_count'); }
     /** Number of orders whose collection has completed, across all currencies, including fully and partially refunded orders. anyOf[1] (Value): integer. Number of orders whose collection has completed, across all currencies, including fully and partially refunded orders. Format: int64. anyOf[2] (Value): null.
      * @return int|null
      */

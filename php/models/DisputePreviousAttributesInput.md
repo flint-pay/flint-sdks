@@ -11,6 +11,7 @@ Request input.
 | `amount_money` | Optional | [MoneyValuePreviousAttributesInput](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinput) or null | Amount in dispute. For a chargeback, this amount left your balance when the case opened; an inquiry moves no money. |
 | `can_respond_with_evidence` | Optional | boolean or null | Whether this dispute has an evidence response window. It stays true after the window closes or a decision is made. Use is_action_required to know whether a response is needed now. `can_respond_with_evidence`: [declared alternatives](../models/DisputeInquiryClosedInstalledMerchantsEventInput.md#disputeinquiryclosedinstalledmerchantseventinputdataprevious_attributescan_respond_with_evidence). |
 | `case_type` | Optional | string or null | Kind of case the card network or bank opened. `status` and `is_action_required` say whether a response is needed. Values: `"inquiry"`, `"chargeback"`, `"compliance"`, `"resolution"`, `"block"`, `"other"`, `"bank_return"`. `case_type`: [declared alternatives](../models/DisputeInquiryClosedInstalledMerchantsEventInput.md#disputeinquiryclosedinstalledmerchantseventinputdataprevious_attributescase_type). |
+| `closed_reason` | Optional | string or null | Why the dispute closed, when Flint recorded the cause. Absent when Flint has no confirmed closure reason. Values: `"merchant_accepted"`. `closed_reason`: [declared alternatives](../models/DisputeInquiryClosedInstalledMerchantsEventInput.md#disputeinquiryclosedinstalledmerchantseventinputdataprevious_attributesclosed_reason). |
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at). |
 | `customer` | Optional | [ExpandedCustomerSummaryPreviousAttributesInput](../models/ExpandedCustomerSummaryPreviousAttributesInput.md#expandedcustomersummarypreviousattributesinput) or null | Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. |
 | `customer_id` | Optional | string or null | The customer on the disputed payment. Absent when the payment has none. `customer_id`: [declared alternatives](../models/DisputeInquiryClosedInstalledMerchantsEventInput.md#disputeinquiryclosedinstalledmerchantseventinputdataprevious_attributescustomer_id). |
@@ -44,6 +45,10 @@ Declared alternatives: [DisputeInquiryClosedInstalledMerchantsEventInput.data.pr
 ### DisputePreviousAttributesInput.case_type
 
 Declared alternatives: [DisputeInquiryClosedInstalledMerchantsEventInput.data.previous_attributes.case_type](../models/DisputeInquiryClosedInstalledMerchantsEventInput.md#disputeinquiryclosedinstalledmerchantseventinputdataprevious_attributescase_type).
+
+### DisputePreviousAttributesInput.closed_reason
+
+Declared alternatives: [DisputeInquiryClosedInstalledMerchantsEventInput.data.previous_attributes.closed_reason](../models/DisputeInquiryClosedInstalledMerchantsEventInput.md#disputeinquiryclosedinstalledmerchantseventinputdataprevious_attributesclosed_reason).
 
 ### DisputePreviousAttributesInput.created_at
 

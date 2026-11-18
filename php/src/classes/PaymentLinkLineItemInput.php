@@ -8,8 +8,10 @@ namespace Flint;
  * @property-read string $default_variant_id
  * @property-read string $description
  * @property-read bool $is_catalog_item_unavailable
+ * @property-read bool $is_sold_out
  * @property-read string $key
  * @property-read int $max_quantity
+ * @property-read int $max_total_quantity
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $max_unit_price_money
  * @property-read int $min_quantity
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $min_unit_price_money
@@ -18,6 +20,7 @@ namespace Flint;
  * @property-read string $product_id
  * @property-read string|null $product_type
  * @property-read int $quantity
+ * @property-read int $remaining_quantity
  * @property-read string $resolved_name
  * @property-read ProductPriceRangeInput|array<array-key, mixed>|\stdClass $resolved_price_range
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $resolved_unit_price_money
@@ -67,6 +70,12 @@ final class PaymentLinkLineItemInput extends Model {
      */
     public function getIsCatalogItemUnavailable(): bool { return $this->get('is_catalog_item_unavailable'); }
     public function hasIsCatalogItemUnavailable(): bool { return $this->has('is_catalog_item_unavailable'); }
+    /** Public event read: true when the tier or event has no capacity left.
+     * @return bool
+     * @throws SdkError When is_sold_out is omitted; use hasIsSoldOut() or valueOrDefault().
+     */
+    public function getIsSoldOut(): bool { return $this->get('is_sold_out'); }
+    public function hasIsSoldOut(): bool { return $this->has('is_sold_out'); }
     /** Keys the resolve override maps. Stable line item key used in checkout overrides. Must not have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when omitted, skipping numbers already used by explicit keys; retained for an existing line item when omitted on update.
      * @return string
      * @throws SdkError When key is omitted; use hasKey() or valueOrDefault().
@@ -79,7 +88,13 @@ final class PaymentLinkLineItemInput extends Model {
      */
     public function getMaxQuantity(): int { return $this->get('max_quantity'); }
     public function hasMaxQuantity(): bool { return $this->has('max_quantity'); }
-    /** Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Optional whole-number admission capacity across all orders for an event tier; fractional quantities are not supported. Must be at least 1 and cannot exceed event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it in a line_items replacement removes an existing cap. Format: int32. minimum: 1.
+     * @return int
+     * @throws SdkError When max_total_quantity is omitted; use hasMaxTotalQuantity() or valueOrDefault().
+     */
+    public function getMaxTotalQuantity(): int { return $this->get('max_total_quantity'); }
+    public function hasMaxTotalQuantity(): bool { return $this->has('max_total_quantity'); }
+    /** Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Must be greater than zero and greater than or equal to min_unit_price_money. Omit for no maximum. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When max_unit_price_money is omitted; use hasMaxUnitPriceMoney() or valueOrDefault().
      */
@@ -127,6 +142,12 @@ final class PaymentLinkLineItemInput extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
+    /** Public event read: whole-number admissions left after sales and payment holds; fractional quantities are not supported. This quantity is bounded by both the tier and event caps. Omitted when neither is capped. Format: int32.
+     * @return int
+     * @throws SdkError When remaining_quantity is omitted; use hasRemainingQuantity() or valueOrDefault().
+     */
+    public function getRemainingQuantity(): int { return $this->get('remaining_quantity'); }
+    public function hasRemainingQuantity(): bool { return $this->has('remaining_quantity'); }
     /** Current catalog name of the referenced variant or bundle, or the product name for variant_ids lines. A variant reads as the product name, plus the variant name when the variant is a named option combination. This is the catalog value at read time, not a stored snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line items and when the catalog object no longer exists.
      * @return string
      * @throws SdkError When resolved_name is omitted; use hasResolvedName() or valueOrDefault().

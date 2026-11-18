@@ -14,8 +14,8 @@ import type {
     InventoryReservationsReleaseParams,
     InventoryReservationsUpdateParams
 } from '../declarations/types-33.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-77.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -53,44 +53,37 @@ export type {
     InventoryReservationLine,
     InventoryReservationOwner,
     InventoryReservationOwnerMerchant,
-    InventoryReservationOwnerOrder,
-    InventoryReservationOwnerRequest
+    InventoryReservationOwnerOrder
 } from '../declarations/types-33.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { RequestOptions, ReleaseInventoryReservationRequestInput } from '../declarations/types-61.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { InventoryReservation, InventoryLevel, InventoryItem, InventoryProvenanceRequestInput } from '../declarations/types-32.js';
-export type {
-    ClientOptions,
-    CommitInventoryReservationRequestInput,
-    ConsumeInventoryReservationRequestInput,
-    CommitInventoryReservationRequest
-} from '../declarations/types-7.js';
+export type { ClientOptions, CommitInventoryReservationRequestInput, CommitInventoryReservationRequest } from '../declarations/types-7.js';
 export type { AuthMode, BackorderPolicy } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
-export type { MetadataMap } from '../declarations/types-41.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
+export type { Credentials } from '../declarations/types-15.js';
+export type { MetadataMap } from '../declarations/types-43.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { ConsumeInventoryReservationRequestInput } from '../declarations/types-8.js';
 export type { CreateInventoryReservationRequestInput } from '../declarations/types-10.js';
 export type { InventoryActionRequired } from '../declarations/types-31.js';
-export type { ReleaseInventoryReservationRequestInput } from '../declarations/types-59.js';
-export type { UpdateInventoryReservationRequestInput } from '../declarations/types-74.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
-export { makeCommitInventoryReservationRequest } from '../declarations/types-78.js';
-export { makeConsumeInventoryReservationRequest } from '../declarations/types-79.js';
-export { makeCreateInventoryReservationRequest } from '../declarations/types-80.js';
+export type { UpdateInventoryReservationRequestInput } from '../declarations/types-76.js';
+export type { DisputesAcceptParams } from '../declarations/types-26.js';
+export { makeCommitInventoryReservationRequest, makeConsumeInventoryReservationRequest } from '../declarations/types-81.js';
+export { makeCreateInventoryReservationRequest } from '../declarations/types-82.js';
+export { makeInventoryProvenanceRequest, makeInventoryReservationOwnerRequest } from '../declarations/types-86.js';
 export {
-    makeInventoryProvenanceRequest,
-    makeInventoryReservationOwnerRequest,
     makeInventoryRoutingDemand,
     makeInventoryRoutingSourceInputFixedLocation,
     makeInventoryRoutingSourceInputPolicy,
     makeInventoryRoutingSourceInputPolicyRevision,
     makeInventoryRoutingSourceRequest,
     makeInventorySourceSystemRequest
-} from '../declarations/types-84.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeReleaseInventoryReservationRequest } from '../declarations/types-88.js';
-export { makeUpdateInventoryReservationRequest } from '../declarations/types-91.js';
+} from '../declarations/types-87.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeReleaseInventoryReservationRequest } from '../declarations/types-90.js';
+export { makeUpdateInventoryReservationRequest } from '../declarations/types-93.js';
 export interface InventoryReservationsResource {
     /**
  * Commits held quantity, usually once the buyer pays. Commit before expires_at: after the
@@ -98,12 +91,14 @@ export interface InventoryReservationsResource {
  * commit is in supported_actions. Lines carry cumulative targets: resending targets already
  * applied succeeds even after the reservation closes. Returns a result with inventory_reservation
  * as its primary resource and inventory_levels for the levels changed. Idempotency is scoped to
- * the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical
- * request body. To recover the command's effects after a lost response, read the inventory
- * reservation by ID.
+ * the authenticated merchant, environment, caller namespace, and operation. Its fingerprint
+ * includes the canonical request body. To recover the command's effects after a lost response,
+ * read the inventory reservation by ID.
  *
  * `POST /v1/inventory-reservations/{inventory_reservation_id}/commit`
- * @param inventory_reservation_id Flint inventory reservation ID.
+ * @param inventory_reservation_id Flint inventory reservation ID. Must be a valid ID with prefix
+ * invr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/inventory#commitInventoryReservation
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -119,12 +114,14 @@ export interface InventoryReservationsResource {
  * provenance describing the handoff. Call it only when consume is in supported_actions. Lines
  * carry cumulative targets: resending targets already applied succeeds even after the reservation
  * closes. Returns a result with inventory_reservation as its primary resource and inventory_levels
- * for the levels changed. Idempotency is scoped to the authenticated merchant, environment, and
- * endpoint. Its fingerprint includes the canonical request body. To recover the command's effects
- * after a lost response, read the inventory reservation by ID.
+ * for the levels changed. Idempotency is scoped to the authenticated merchant, environment, caller
+ * namespace, and operation. Its fingerprint includes the canonical request body. To recover the
+ * command's effects after a lost response, read the inventory reservation by ID.
  *
  * `POST /v1/inventory-reservations/{inventory_reservation_id}/consume`
- * @param inventory_reservation_id Flint inventory reservation ID.
+ * @param inventory_reservation_id Flint inventory reservation ID. Must be a valid ID with prefix
+ * invr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/inventory#consumeInventoryReservation
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -139,9 +136,10 @@ export interface InventoryReservationsResource {
     /**
  * Route standalone merchant demand and hold stock in one atomic command. A hold defaults to 15
  * minutes and can last up to 24 hours. Set expires_at when creating it or PATCH the reservation to
- * change its deadline. Idempotency is scoped to the authenticated merchant, environment, and
- * endpoint. Its fingerprint includes the canonical request body. To recover the command's effects
- * after a lost response, list inventory reservations with the same idempotency_key.
+ * change its deadline. Idempotency is scoped to the authenticated merchant, environment, caller
+ * namespace, and operation. Its fingerprint includes the canonical request body. To recover the
+ * command's effects after a lost response, list inventory reservations with the same
+ * idempotency_key.
  *
  * `POST /v1/inventory-reservations`
  * @see https://developers.withflintpay.com/docs/api/inventory#createInventoryReservation
@@ -159,7 +157,9 @@ export interface InventoryReservationsResource {
  * Retrieve an inventory reservation and its lines by ID, including merchant and order owners.
  *
  * `GET /v1/inventory-reservations/{inventory_reservation_id}`
- * @param inventory_reservation_id Flint inventory reservation ID.
+ * @param inventory_reservation_id Flint inventory reservation ID. Must be a valid ID with prefix
+ * invr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/inventory#getInventoryReservation
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -191,12 +191,14 @@ export interface InventoryReservationsResource {
  * or you cancel after payment. Call it only when release is in supported_actions. Lines carry
  * cumulative targets: resending targets already applied succeeds even after the reservation
  * closes. Returns a result with inventory_reservation as its primary resource and inventory_levels
- * for the levels changed. Idempotency is scoped to the authenticated merchant, environment, and
- * endpoint. Its fingerprint includes the canonical request body. To recover the command's effects
- * after a lost response, read the inventory reservation by ID.
+ * for the levels changed. Idempotency is scoped to the authenticated merchant, environment, caller
+ * namespace, and operation. Its fingerprint includes the canonical request body. To recover the
+ * command's effects after a lost response, read the inventory reservation by ID.
  *
  * `POST /v1/inventory-reservations/{inventory_reservation_id}/release`
- * @param inventory_reservation_id Flint inventory reservation ID.
+ * @param inventory_reservation_id Flint inventory reservation ID. Must be a valid ID with prefix
+ * invr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/inventory#releaseInventoryReservation
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -214,7 +216,9 @@ export interface InventoryReservationsResource {
  * consumed quantity never expire.
  *
  * `PATCH /v1/inventory-reservations/{inventory_reservation_id}`
- * @param inventory_reservation_id Flint inventory reservation ID.
+ * @param inventory_reservation_id Flint inventory reservation ID. Must be a valid ID with prefix
+ * invr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/inventory#updateInventoryReservation
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

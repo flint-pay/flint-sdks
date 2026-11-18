@@ -11,13 +11,13 @@ namespace Flint;
 final class InvoicesWaiveLateFeeInput extends Model {
     /** @param array{'invoice_id': string, 'invoice_late_fee_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'reason_message': string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicesWaiveLateFeeInput')); }
-    /** Invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+    /** Invoice ID. Must be a valid ID with prefix inv_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
      * @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoiceId() or valueOrDefault().
      */
     public function getInvoiceId(): string { return $this->get('invoice_id'); }
     public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
-    /** Invoice late fee ID. Example: "inlf_01KEZF7C00NVR97MBH5AHR4W1X".
+    /** Invoice late fee ID. Must be a valid ID with prefix inlf_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "inlf_01KEZF7C00NVR97MBH5AHR4W1X".
      * @return string
      * @throws SdkError When invoice_late_fee_id is omitted; use hasInvoiceLateFeeId() or valueOrDefault().
      */

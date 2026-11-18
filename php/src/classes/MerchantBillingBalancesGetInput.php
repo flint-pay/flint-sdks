@@ -9,7 +9,7 @@ namespace Flint;
 final class MerchantBillingBalancesGetInput extends Model {
     /** @param array{'merchant_billing_balance_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MerchantBillingBalancesGetInput')); }
-    /** Flint merchant billing balance ID. Example: "mbbal_01KEZF7C002TWWZA70R4DRVJC9".
+    /** Flint merchant billing balance ID. Must be a valid ID with prefix mbbal_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "mbbal_01KEZF7C002TWWZA70R4DRVJC9".
      * @return string
      * @throws SdkError When merchant_billing_balance_id is omitted; use hasMerchantBillingBalanceId() or valueOrDefault().
      */

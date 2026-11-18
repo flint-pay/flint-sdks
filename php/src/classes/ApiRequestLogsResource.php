@@ -4,7 +4,7 @@ namespace Flint;
 final class ApiRequestLogsResource {
     public function __construct(private readonly Runtime $runtime) {}
     /** Returns one request with redacted headers, the redacted request and response bodies for write routes that capture them, and a curl reproduction. Detail older than 14 days has no headers or bodies.
-     * @param string|Model $api_request_log_id Flint API request log ID.
+     * @param string|Model $api_request_log_id Flint API request log ID. Must be a valid ID with prefix rlog_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND.
      * @param ApiRequestLogsGetParams|array<array-key, mixed>|Model|null $params Flat body fields and query/header parameters; path arguments follow URL order.
      * @return APIRequestLogDetail
      */

@@ -1,7 +1,7 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { SignedWebhookEndpointDelivery, SignedWebhookEndpointDeliveryResponse } from '../declarations/types-66.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { SignedWebhookEndpointDelivery, SignedWebhookEndpointDeliveryResponse } from '../declarations/types-68.js';
 import type {
     WebhookDeliveryAction,
     WebhookDeliveryActionResponse,
@@ -13,13 +13,15 @@ import type {
     WebhookEndpointsCreateParams,
     WebhookEndpointsCreateTestEventParams,
     WebhookEndpointsDeleteParams,
-    WebhookEndpointsGetParams,
+    WebhookEndpointsGetParams
+} from '../declarations/types-78.js';
+import type {
     WebhookEndpointsListParams,
     WebhookEndpointsRotateSecretParams,
     WebhookEndpointsSignDeliveryParams,
-    WebhookEndpointsUpdateParams
-} from '../declarations/types-76.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+    WebhookEndpointsUpdateParams,
+    _SdkWithoutIdempotency
+} from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -45,33 +47,38 @@ export type {
     WebhookEndpoint,
     WebhookEndpointResponse,
     WebhookEndpointsGetParams,
-    WebhookEndpointsListParams,
     WebhookEndpointListResponse,
+    UpdateWebhookEndpointRequestInput
+} from '../declarations/types-78.js';
+export type { RequestOptions } from '../declarations/types-61.js';
+export type {
+    _SdkWithoutIdempotency,
+    WebhookEndpointsListParams,
     WebhookEndpointsRotateSecretParams,
     WebhookEndpointsSignDeliveryParams,
     WebhookEndpointsUpdateParams,
-    UpdateWebhookEndpointRequestInput
-} from '../declarations/types-76.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type { _SdkWithoutIdempotency, WebhookSigningMethodInput } from '../declarations/types-77.js';
+    WebhookSigningMethodInput
+} from '../declarations/types-79.js';
 export type {
     SignedWebhookEndpointDelivery,
     SignedWebhookEndpointDeliveryResponse,
     SignWebhookEndpointDeliveryRequestInput,
     SignWebhookEndpointDeliveryRequest
-} from '../declarations/types-66.js';
+} from '../declarations/types-68.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type { CreateWebhookEndpointRequestInput, Credentials, CreateWebhookTestEventRequestInput } from '../declarations/types-14.js';
+export type { CreateWebhookEndpointRequestInput, CreateWebhookTestEventRequestInput } from '../declarations/types-14.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { RotateWebhookSecretRequestInput } from '../declarations/types-65.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
-export { makeCreateWebhookEndpointRequest, makeCreateWebhookTestEventRequest } from '../declarations/types-82.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeRotateWebhookSecretRequest, makeSignWebhookEndpointDeliveryRequest } from '../declarations/types-89.js';
-export { makeUpdateWebhookEndpointRequest } from '../declarations/types-91.js';
-export { makeWebhookSigningMethod } from '../declarations/types-92.js';
+export type { Credentials } from '../declarations/types-15.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { RotateWebhookSecretRequestInput } from '../declarations/types-67.js';
+export type { DisputesAcceptParams } from '../declarations/types-26.js';
+export { makeCreateWebhookEndpointRequest, makeCreateWebhookTestEventRequest } from '../declarations/types-84.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeRotateWebhookSecretRequest } from '../declarations/types-91.js';
+export { makeSignWebhookEndpointDeliveryRequest } from '../declarations/types-92.js';
+export { makeUpdateWebhookEndpointRequest, makeWebhookSigningMethod } from '../declarations/types-94.js';
 export interface WebhookEndpointsResource {
     /**
  * Creates a webhook endpoint. signing_methods defaults to ["jwt"]. A shared secret is issued and
@@ -101,7 +108,9 @@ export interface WebhookEndpointsResource {
  * replay.
  *
  * `POST /v1/webhook-endpoints/{webhook_endpoint_id}/test-events`
- * @param webhook_endpoint_id Flint webhook endpoint ID.
+ * @param webhook_endpoint_id Flint webhook endpoint ID. Must be a valid ID with prefix whep_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/webhooks#createWebhookTestEvent
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -120,7 +129,9 @@ export interface WebhookEndpointsResource {
  * fail with `FORBIDDEN` and reason `live_mode_required`, including on idempotent replay.
  *
  * `DELETE /v1/webhook-endpoints/{webhook_endpoint_id}`
- * @param webhook_endpoint_id Flint webhook endpoint ID.
+ * @param webhook_endpoint_id Flint webhook endpoint ID. Must be a valid ID with prefix whep_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/webhooks#deleteWebhookEndpoint
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -136,7 +147,9 @@ export interface WebhookEndpointsResource {
  * RESOURCE_NOT_FOUND.
  *
  * `GET /v1/webhook-endpoints/{webhook_endpoint_id}`
- * @param webhook_endpoint_id Flint webhook endpoint ID.
+ * @param webhook_endpoint_id Flint webhook endpoint ID. Must be a valid ID with prefix whep_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/webhooks#getWebhookEndpoint
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -178,7 +191,9 @@ export interface WebhookEndpointsResource {
  * `live_mode_required`, including on idempotent replay.
  *
  * `POST /v1/webhook-endpoints/{webhook_endpoint_id}/rotate-secret`
- * @param webhook_endpoint_id Flint webhook endpoint ID.
+ * @param webhook_endpoint_id Flint webhook endpoint ID. Must be a valid ID with prefix whep_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/webhooks#rotateWebhookEndpointSecret
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -201,7 +216,8 @@ export interface WebhookEndpointsResource {
  *
  * `POST /v1/webhook-endpoints/{webhook_endpoint_id}/sign-delivery`
  * @param webhook_endpoint_id The caller's own merchant event-delivery endpoint in the selected
- * sandbox.
+ * sandbox. Must be a valid ID with prefix whep_. Malformed IDs return 400 INVALID_REQUEST with
+ * detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/webhooks#signWebhookEndpointDelivery
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -221,7 +237,9 @@ export interface WebhookEndpointsResource {
  * `FORBIDDEN` and reason `live_mode_required`, including on idempotent replay.
  *
  * `PATCH /v1/webhook-endpoints/{webhook_endpoint_id}`
- * @param webhook_endpoint_id Flint webhook endpoint ID.
+ * @param webhook_endpoint_id Flint webhook endpoint ID. Must be a valid ID with prefix whep_.
+ * Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not
+ * exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/webhooks#updateWebhookEndpoint
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

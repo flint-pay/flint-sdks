@@ -1,8 +1,8 @@
 import type { WithResponseInfo } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
 import type { DiscountPreview, DiscountPreviewResponse, DiscountPreviewsCreateParams } from '../declarations/types-25.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -23,22 +23,25 @@ export type {
     DiscountPreviewResponse,
     DiscountPreviewRequestInput
 } from '../declarations/types-25.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { RequestOptions } from '../declarations/types-61.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type { CreateOrderDiscountInput, CreateOrderDiscountPromotionInput, CreateOrderDiscountManualInput } from '../declarations/types-11.js';
-export type { ManualDiscountRequestInput } from '../declarations/types-39.js';
-export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-42.js';
-export type { PromotionRefRequestInput, PromotionRefInputPromotionIDInput, PromotionRefInputPromotionCodeInput } from '../declarations/types-57.js';
+export type {
+    PromotionRefRequestInput,
+    PromotionRefInputPromotionIDInput,
+    PromotionRefInputPromotionCodeInput,
+    PromotionCombinesWith,
+    PromotionExclusivity
+} from '../declarations/types-58.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
-export type { PromotionCandidate, PromotionCombinesWith, PromotionExclusivity } from '../declarations/types-56.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export { makeCreateOrderDiscount, makeCreateOrderDiscountManual, makeCreateOrderDiscountPromotion } from '../declarations/types-80.js';
-export { makeDiscountPreviewRequest } from '../declarations/types-84.js';
-export { makeManualDiscountRequest } from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makePromotionRefInputPromotionCode, makePromotionRefInputPromotionID, makePromotionRefRequest } from '../declarations/types-87.js';
+export type { Credentials } from '../declarations/types-15.js';
+export type { PromotionCandidate } from '../declarations/types-57.js';
+export type { MoneyValue, NextAction } from '../declarations/types-44.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export { makeDiscountPreviewRequest } from '../declarations/types-86.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
+export { makePromotionRefInputPromotionCode, makePromotionRefInputPromotionID, makePromotionRefRequest } from '../declarations/types-90.js';
 export interface DiscountPreviewsResource {
     /**
  * Evaluates promotion outcomes for an order without changing it. Returns the complete result
@@ -52,7 +55,8 @@ export interface DiscountPreviewsResource {
  * @see https://developers.withflintpay.com/docs/api/orders#createDiscountPreview
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.discountPreviews.create({order_id: "ord_01KEZF7C0054GQKJ142A8X367A"})
+ * client.discountPreviews.create({discount: {promotion: {promotion_code: "SPRING15"}}, order_id:
+ * "ord_01HZYV7Q9Y0Y4H8Q3H9F6R7T8J"})
  */
     create(params: DiscountPreviewsCreateParams, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant">>): Promise<WithResponseInfo<DiscountPreview, DiscountPreviewResponse>>;
 }

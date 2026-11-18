@@ -9,7 +9,7 @@ namespace Flint;
 final class CustomerSessionsRevokeInput extends Model {
     /** @param array{'customer_session_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerSessionsRevokeInput')); }
-    /** Flint customer session ID. Example: "cses_01KEZF7C00FBVRP25FZTW7KWZV".
+    /** Flint customer session ID. Must be a valid ID with prefix cses_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "cses_01KEZF7C00FBVRP25FZTW7KWZV".
      * @return string
      * @throws SdkError When customer_session_id is omitted; use hasCustomerSessionId() or valueOrDefault().
      */

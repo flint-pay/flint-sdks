@@ -13,7 +13,7 @@ Request input.
 | `customer_id` | Required | string | Unique identifier for this customer, prefixed `cus_`. Example: `"cus_01KEZF7C006X9JK6NZNA2SM9XD"`. |
 | `default_invoice_payment_term_id` | Optional | string | ID of the invoice payment term that applies to this customer's invoices created with `payment_due.type` set to `customer_default`. Absent when none is set. Example: `"ipt_01KEZF7C0064N1V301BBMQ37R4"`. |
 | `default_payment_method` | Optional | [ExpandedPaymentMethodSummaryInput](../models/ExpandedPaymentMethodSummaryInput.md#expandedpaymentmethodsummaryinput) or null | Present only when `expand` includes `default_payment_method`; `null` when expanded and there is no related payment method. |
-| `default_payment_method_id` | Required | string or null | ID of the customer's default off-session payment method. `null` when none is set. Example: `"pm_01KEZF7C0034B248TXXE4NXYFZ"`. |
+| `default_payment_method_id` | Required | string or null | ID of the customer's default off-session payment method. Existing subscriptions keep their own payment_method_id when the default changes. `null` when none is set. Example: `"pm_01KEZF7C0034B248TXXE4NXYFZ"`. |
 | `email` | Required | string or null | Customer email. `null` when the customer has none. Unique among the environment's customers. |
 | `external_reference_id` | Required | string or null | Caller-owned identifier for this customer in an external system. `null` when none is set. Not returned to customer sessions. minLength: `1`. maxLength: `255`. Example: `"warehouse-1842"`. |
 | `internal_note` | Required | string or null | Internal note about this customer. `null` when none is set. Not returned to customer sessions. |

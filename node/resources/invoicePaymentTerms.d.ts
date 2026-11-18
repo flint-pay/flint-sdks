@@ -12,8 +12,8 @@ import type {
     InvoicePaymentTermsSnapshotPreviousAttributes,
     InvoicePaymentTermsUpdateParams
 } from '../declarations/types-37.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -39,29 +39,29 @@ export type {
     InvoicePaymentTermsSnapshot,
     InvoicePaymentTermsSnapshotPreviousAttributes,
     InvoicePaymentTermCalculationRequestInput,
-    InvoicePaymentTermCalculationPreviousAttributes
-} from '../declarations/types-37.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type {
-    InvoicePaymentTerm,
     InvoicePaymentTermCalculationOnReceiptRequestInput,
     InvoicePaymentTermCalculationNetDaysRequestInput,
     InvoicePaymentTermCalculationDaysAfterMonthEndRequestInput,
-    InvoicePaymentTermCalculationDayOfMonthRequestInput,
     InvoicePaymentTermCalculationDayOfNextMonthRequestInput,
-    InvoicePaymentTermCalculation,
     InvoicePaymentTermCalculationOnReceipt,
     InvoicePaymentTermCalculationNetDays,
     InvoicePaymentTermCalculationDaysAfterMonthEnd,
-    InvoicePaymentTermCalculationDayOfMonth,
-    InvoicePaymentTermCalculationDayOfNextMonth,
+    InvoicePaymentTermCalculationPreviousAttributes,
     InvoicePaymentTermCalculationOnReceiptPreviousAttributes,
     InvoicePaymentTermCalculationNetDaysPreviousAttributes,
-    InvoicePaymentTermCalculationDaysAfterMonthEndPreviousAttributes,
+    InvoicePaymentTermCalculationDaysAfterMonthEndPreviousAttributes
+} from '../declarations/types-37.js';
+export type { RequestOptions } from '../declarations/types-61.js';
+export type {
+    InvoicePaymentTerm,
+    InvoicePaymentTermCalculationDayOfMonthRequestInput,
+    InvoicePaymentTermCalculation,
+    InvoicePaymentTermCalculationDayOfMonth,
+    InvoicePaymentTermCalculationDayOfNextMonth,
     InvoicePaymentTermCalculationDayOfMonthPreviousAttributes,
     InvoicePaymentTermCalculationDayOfNextMonthPreviousAttributes
 } from '../declarations/types-36.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateInvoicePaymentTermRequestInput } from '../declarations/types-10.js';
 export type {
@@ -75,15 +75,17 @@ export type {
     InvoiceLateFeePolicyFixedPreviousAttributes,
     InvoiceLateFeePolicyPercentagePreviousAttributes
 } from '../declarations/types-35.js';
-export type { MoneyValueInput, MoneyValue, NextAction, MoneyValuePreviousAttributes } from '../declarations/types-42.js';
+export type { MoneyValueInput, MoneyValue, NextAction, MoneyValuePreviousAttributes } from '../declarations/types-44.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { UpdateInvoicePaymentTermRequestInput } from '../declarations/types-74.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
-export { makeCreateInvoicePaymentTermRequest } from '../declarations/types-80.js';
-export { makeInvoiceLateFeePolicyFixedRequest, makeInvoiceLateFeePolicyPercentageRequest } from '../declarations/types-84.js';
+export type { Credentials } from '../declarations/types-15.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { UpdateInvoicePaymentTermRequestInput } from '../declarations/types-76.js';
+export type { DisputesAcceptParams } from '../declarations/types-26.js';
+export { makeCreateInvoicePaymentTermRequest } from '../declarations/types-82.js';
 export {
+    makeInvoiceLateFeePolicyFixedRequest,
+    makeInvoiceLateFeePolicyPercentageRequest,
     makeInvoiceLateFeePolicyRequest,
     makeInvoicePaymentTermCalculationDayOfMonthRequest,
     makeInvoicePaymentTermCalculationDayOfNextMonthRequest,
@@ -91,9 +93,9 @@ export {
     makeInvoicePaymentTermCalculationNetDaysRequest,
     makeInvoicePaymentTermCalculationOnReceiptRequest,
     makeInvoicePaymentTermCalculationRequest
-} from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeUpdateInvoicePaymentTermRequest } from '../declarations/types-91.js';
+} from '../declarations/types-87.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeUpdateInvoicePaymentTermRequest } from '../declarations/types-93.js';
 export interface InvoicePaymentTermsResource {
     /**
  * Creates a reusable payment term that decides when an invoice is due, for example on receipt, net
@@ -115,7 +117,9 @@ export interface InvoicePaymentTermsResource {
  * be retired.
  *
  * `DELETE /v1/invoice-payment-terms/{invoice_payment_term_id}`
- * @param invoice_payment_term_id Flint invoice payment term ID.
+ * @param invoice_payment_term_id Flint invoice payment term ID. Must be a valid ID with prefix
+ * ipt_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/invoices#deleteInvoicePaymentTerm
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -129,7 +133,9 @@ export interface InvoicePaymentTermsResource {
  * Returns one invoice payment term for the authenticated merchant.
  *
  * `GET /v1/invoice-payment-terms/{invoice_payment_term_id}`
- * @param invoice_payment_term_id Flint invoice payment term ID.
+ * @param invoice_payment_term_id Flint invoice payment term ID. Must be a valid ID with prefix
+ * ipt_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/invoices#getInvoicePaymentTerm
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -161,7 +167,9 @@ export interface InvoicePaymentTermsResource {
  * late_fee_policy or external_reference_id.
  *
  * `PATCH /v1/invoice-payment-terms/{invoice_payment_term_id}`
- * @param invoice_payment_term_id Flint invoice payment term ID.
+ * @param invoice_payment_term_id Flint invoice payment term ID. Must be a valid ID with prefix
+ * ipt_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/invoices#updateInvoicePaymentTerm
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

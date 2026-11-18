@@ -65,7 +65,7 @@ final class DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemCustom extend
      */
     public function getModifiers(): ?array { return $this->get('modifiers'); }
     public function hasModifiers(): bool { return $this->has('modifiers'); }
-    /** Name of the item as it appears on the order.
+    /** Name of the item as it appears on the order. maxLength: 255.
      * @return string
      */
     public function getName(): string { return $this->get('name'); }

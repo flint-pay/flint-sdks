@@ -71,7 +71,7 @@ final class OrdersListParams extends Model {
      */
     public function getVariantId(): string { return $this->get('variant_id'); }
     public function hasVariantId(): bool { return $this->has('variant_id'); }
-    /** Filter to orders whose buyer_email or linked customer's email equals this address, compared case-insensitively after trimming, with accents preserved. Requires a bare email address. Format: email. Example: "buyer@example.com".
+    /** Filter to orders whose buyer_email or linked customer's email equals this address, ignoring case and any whitespace stored around it, with accents preserved. Requires one bare email address without surrounding whitespace. Format: email. Example: "buyer@example.com".
      * @return string
      * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
      */

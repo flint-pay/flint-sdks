@@ -1,1 +1,1 @@
-{"shared":"BuyerExpandedOrderSummary","dependencies":["BuyerExpandedOrderSummary","DeferredPromotion","MoneyValue","OrderSettlementAmounts","PricingAmounts","SharedCodec1706"]}
+{"shared":"BuyerExpandedOrderSummary","dependencies":["BuyerExpandedOrderSummary","DeferredPromotion","MoneyValue","OrderSettlementAmounts","PricingAmounts","SharedCodec1717","SignedMoney"]}

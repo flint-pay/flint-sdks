@@ -13,6 +13,7 @@ namespace Flint;
  * @property-read string|null $order_charge_id
  * @property-read string|null $order_id
  * @property-read float|null $percent
+ * @property-read MoneyValuePreviousAttributes|null $refundable_money
  * @property-read MoneyValuePreviousAttributes|null $refunded_money
  * @property-read OrderCalculatedChargeTaxPreviousAttributes|null $tax
  * @property-read MoneyValuePreviousAttributes|null $tax_money
@@ -21,7 +22,7 @@ namespace Flint;
  * @property-read string|null $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class OrderChargePreviousAttributes extends Model {
-    /** @param array{'amount_money'?: mixed, 'applied_money'?: mixed, 'calculation_basis'?: mixed, 'created_at'?: mixed, 'description'?: mixed, 'fulfillment_id'?: mixed, 'metadata'?: mixed, 'name'?: mixed, 'order_charge_id'?: mixed, 'order_id'?: mixed, 'percent'?: mixed, 'refunded_money'?: mixed, 'tax'?: mixed, 'tax_money'?: mixed, 'total_money'?: mixed, 'type'?: mixed, 'updated_at'?: mixed, ...}|object $values */
+    /** @param array{'amount_money'?: mixed, 'applied_money'?: mixed, 'calculation_basis'?: mixed, 'created_at'?: mixed, 'description'?: mixed, 'fulfillment_id'?: mixed, 'metadata'?: mixed, 'name'?: mixed, 'order_charge_id'?: mixed, 'order_id'?: mixed, 'percent'?: mixed, 'refundable_money'?: mixed, 'refunded_money'?: mixed, 'tax'?: mixed, 'tax_money'?: mixed, 'total_money'?: mixed, 'type'?: mixed, 'updated_at'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderChargePreviousAttributes')); }
     /** Fixed charge amount before charge discounts and tax. Percentage charges use percent instead. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      * @return MoneyValuePreviousAttributes|null
@@ -78,6 +79,11 @@ final class OrderChargePreviousAttributes extends Model {
      */
     public function getPercent(): float|null { return $this->get('percent'); }
     public function hasPercent(): bool { return $this->has('percent'); }
+    /** Remaining amount for an ID-only charge refund target. Accounts for original-tender capacity, reversals, accepted refunds, and whole-value edit reservations, including credit transferred to added lines and pending or retryable failed edit refunds. Zero when exhausted. Refund eligibility is checked again on submission. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return MoneyValuePreviousAttributes|null
+     */
+    public function getRefundableMoney(): MoneyValuePreviousAttributes|null { return $this->get('refundable_money'); }
+    public function hasRefundableMoney(): bool { return $this->has('refundable_money'); }
     /** Charge amount already refunded. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      * @return MoneyValuePreviousAttributes|null
      */

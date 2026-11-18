@@ -46,7 +46,7 @@ final class PaymentAttemptPaymentIntentPreviousAttributes extends Model {
      */
     public function getPaymentIntentId(): string|null { return $this->get('payment_intent_id'); }
     public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
-    /** The reader the payment is or was last presented on. Set when Flint presents it and kept afterward. While processing or requires_action with a reader_id, the payment is on that reader now. anyOf[1] (Value): string. The reader the payment is or was last presented on. Set when Flint presents it and kept afterward. While processing or requires_action with a reader_id, the payment is on that reader now. anyOf[2] (Value): null.
+    /** The reader the payment is or was last presented on. Set when Flint presents it and kept afterward. While processing or requires_action with a reader_id and no payment_source.card.card_present, the payment is on that reader now. After a card is read, the payment can stay processing while Flint captures it. anyOf[1] (Value): string. The reader the payment is or was last presented on. Set when Flint presents it and kept afterward. While processing or requires_action with a reader_id and no payment_source.card.card_present, the payment is on that reader now. After a card is read, the payment can stay processing while Flint captures it. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getReaderId(): string|null { return $this->get('reader_id'); }

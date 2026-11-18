@@ -61,6 +61,7 @@ The product's default variant, when one is set.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `barcode` | Conditional | string or null | Barcode assigned to this sellable item. `barcode`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributesbarcode). |
+| `compare_at_price_money` | Conditional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Reference unit price for sale display, in the same currency and strictly greater than unit_price_money. Null when no compare-at price is set. Does not affect charges or quantity price breaks. |
 | `created_at` | Conditional | string or null | When this resource was created, as an RFC3339 timestamp. `created_at`: [declared alternatives](../models/ProductOptionPreviousAttributes.md#productoptionpreviousattributesvalues-variant-1-fields-1created_at). |
 | `delivery_configuration_reason` | Conditional | string or null | Reason the variant's delivery configuration needs attention. Values: `"delivery_profile_missing"`, `"delivery_profile_inactive"`. `delivery_configuration_reason`: [declared alternatives](../models/ProductVariantPreviousAttributes.md#productvariantpreviousattributesdelivery_configuration_reason). |
 | `delivery_configuration_status` | Conditional | string or null | Whether the variant's delivery configuration is ready, needs attention, or does not apply. Values: `"configured"`, `"action_required"`, `"not_applicable"`. `delivery_configuration_status`: [declared alternatives](../models/ProductVariantPreviousAttributes.md#productvariantpreviousattributesdelivery_configuration_status). |
@@ -74,6 +75,7 @@ The product's default variant, when one is set.
 | `inventory_tracking` | Conditional | string or null | Whether sales of this variant consume an inventory item. Values: `"not_tracked"`, `"tracked"`. `inventory_tracking`: [declared alternatives](../models/ProductVariantPreviousAttributes.md#productvariantpreviousattributesinventory_tracking). |
 | `is_available_for_sale` | Conditional | boolean or null | Whether the variant and its product are both active. Stock isn't considered; `inventory_availability` reports it on reads. `is_available_for_sale`: [declared alternatives](../models/ProductVariantPreviousAttributes.md#productvariantpreviousattributesis_available_for_sale). |
 | `is_inheriting_product_images` | Conditional | boolean or null | Whether effective_images comes from the product's gallery because this variant's gallery is empty. `is_inheriting_product_images`: [declared alternatives](../models/ProductVariantPreviousAttributes.md#productvariantpreviousattributesis_inheriting_product_images). |
+| `license_key_configuration` | Conditional | (object and Alternative shapes (see declared variants) or null) or null | License key terms. Null when the variant has no license key setting. Replaced as a whole: send every field you want to keep. Only product_type digital supports this setting. It adds no delivery requirement and is independent of the delivery profile. Send null to remove every value you set in this section. Omission preserves it on update. `license_key_configuration`: [declared alternatives](../models/ProductVariantPreviousAttributes.md#productvariantpreviousattributeslicense_key_configuration). |
 | `line_item_tax_category` | Conditional | string or null | Stored Flint line-item tax category. New digital-product variants default to digital_goods when omitted. The stored value remains editable. Unset uses the merchant default. Values: [12 declared values](#productarchivedmerchanteventdatapreviousattributesdefault_variant-line_item_tax_category-values). `line_item_tax_category`: [declared alternatives](../models/ProductVariantPreviousAttributes.md#productvariantpreviousattributesline_item_tax_category). |
 | `merchant_id` | Conditional | string or null | Identifier of the merchant that owns this resource. `merchant_id`: [declared alternatives](../models/ProductArchivedMerchantEventDataPreviousAttributes.md#productarchivedmerchanteventdatapreviousattributesdefault_variant-variant-1merchant_id). |
 | `metadata` | Conditional | Map of string or null | Caller-owned metadata stored on this resource. `metadata`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributesmetadata). |
@@ -114,13 +116,13 @@ The product's default variant, when one is set.
 
 anyOf ProductVariantPreviousAttributes.
 
-- Optional: `barcode`, `created_at`, `delivery_configuration_reason`, `delivery_configuration_status`, `delivery_profile_id`, `effective_images`, `external_reference_id`, `gift_card_configuration`, `images`, `inventory_availability`, `inventory_item_id`, `inventory_tracking`, `is_available_for_sale`, `is_inheriting_product_images`, `line_item_tax_category`, `merchant_id`, `metadata`, `modifier_set`, `modifier_set_id`, `name`, `position`, `product_id`, `quantity_price_breaks`, `release_date`, `selected_options`, `sku`, `status`, `taxable`, `unit_dimensions`, `unit_price_money`, `unit_weight`, `updated_at`, `variant_id`, `version`.
+- Optional: `barcode`, `compare_at_price_money`, `created_at`, `delivery_configuration_reason`, `delivery_configuration_status`, `delivery_profile_id`, `effective_images`, `external_reference_id`, `gift_card_configuration`, `images`, `inventory_availability`, `inventory_item_id`, `inventory_tracking`, `is_available_for_sale`, `is_inheriting_product_images`, `license_key_configuration`, `line_item_tax_category`, `merchant_id`, `metadata`, `modifier_set`, `modifier_set_id`, `name`, `position`, `product_id`, `quantity_price_breaks`, `release_date`, `selected_options`, `sku`, `status`, `taxable`, `unit_dimensions`, `unit_price_money`, `unit_weight`, `updated_at`, `variant_id`, `version`.
 
 ### ProductArchivedMerchantEventDataPreviousAttributes.default_variant variant 2
 
 anyOf variant 2.
 
-- Undeclared: `barcode`, `created_at`, `delivery_configuration_reason`, `delivery_configuration_status`, `delivery_profile_id`, `effective_images`, `external_reference_id`, `gift_card_configuration`, `images`, `inventory_availability`, `inventory_item_id`, `inventory_tracking`, `is_available_for_sale`, `is_inheriting_product_images`, `line_item_tax_category`, `merchant_id`, `metadata`, `modifier_set`, `modifier_set_id`, `name`, `position`, `product_id`, `quantity_price_breaks`, `release_date`, `selected_options`, `sku`, `status`, `taxable`, `unit_dimensions`, `unit_price_money`, `unit_weight`, `updated_at`, `variant_id`, `version`.
+- Undeclared: `barcode`, `compare_at_price_money`, `created_at`, `delivery_configuration_reason`, `delivery_configuration_status`, `delivery_profile_id`, `effective_images`, `external_reference_id`, `gift_card_configuration`, `images`, `inventory_availability`, `inventory_item_id`, `inventory_tracking`, `is_available_for_sale`, `is_inheriting_product_images`, `license_key_configuration`, `line_item_tax_category`, `merchant_id`, `metadata`, `modifier_set`, `modifier_set_id`, `name`, `position`, `product_id`, `quantity_price_breaks`, `release_date`, `selected_options`, `sku`, `status`, `taxable`, `unit_dimensions`, `unit_price_money`, `unit_weight`, `updated_at`, `variant_id`, `version`.
 - Value shape: null. The product's default variant, when one is set. 
 
 ### ProductArchivedMerchantEventDataPreviousAttributes.default_variant variant 1.barcode
@@ -190,6 +192,10 @@ Declared alternatives: [ProductVariantPreviousAttributes.is_available_for_sale](
 ### ProductArchivedMerchantEventDataPreviousAttributes.default_variant variant 1.is_inheriting_product_images
 
 Declared alternatives: [ProductVariantPreviousAttributes.is_inheriting_product_images](../models/ProductVariantPreviousAttributes.md#productvariantpreviousattributesis_inheriting_product_images).
+
+### ProductArchivedMerchantEventDataPreviousAttributes.default_variant variant 1.license_key_configuration
+
+Declared alternatives: [ProductVariantPreviousAttributes.license_key_configuration](../models/ProductVariantPreviousAttributes.md#productvariantpreviousattributeslicense_key_configuration).
 
 ### ProductArchivedMerchantEventDataPreviousAttributes.default_variant variant 1.line_item_tax_category
 

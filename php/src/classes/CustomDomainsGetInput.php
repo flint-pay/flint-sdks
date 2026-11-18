@@ -9,7 +9,7 @@ namespace Flint;
 final class CustomDomainsGetInput extends Model {
     /** @param array{'custom_domain_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomDomainsGetInput')); }
-    /** Flint custom domain ID. Example: "cdom_01KEZF7C00483JTTKHZVFQHKS8".
+    /** Flint custom domain ID. Must be a valid ID with prefix cdom_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "cdom_01KEZF7C00483JTTKHZVFQHKS8".
      * @return string
      * @throws SdkError When custom_domain_id is omitted; use hasCustomDomainId() or valueOrDefault().
      */

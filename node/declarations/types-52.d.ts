@@ -1,438 +1,86 @@
-import type { CardDetails, CardDetailsPreviousAttributes } from './types-5.js';
-import type {
-    ExpandedCustomerSummary,
-    ExpandedCustomerSummaryPreviousAttributes,
-    ExpandedPaymentIntentSummary,
-    ExpandedPaymentIntentSummaryPreviousAttributes,
-    ExpandedOrderSummary,
-    ExpandedOrderSummaryPreviousAttributes
-} from './types-26.js';
-import type { MerchantWebhookEnvelope } from './types-41.js';
-import type { PaymentMethod } from './types-51.js';
-import type { StripeClientSetup, SplitReversalReference, SplitReversalReferencePreviousAttributes } from './types-66.js';
 import type { InputValue } from '../runtime.js';
-import type { SavePaymentMethodRequestInput } from './types-65.js';
-import type { DisputesAcceptParams } from './types-25.js';
-import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-42.js';
-import type { ResourceReference, ResourceReferencePreviousAttributes, ResponseMeta } from './types-60.js';
-import type { PartnerWebhookEnvelope } from './types-49.js';
-import type { DeclinePaymentReviewRequestInput } from './types-17.js';
-import type { ReaderPaymentSourceTip, ReaderPaymentSourceTipInput } from './types-58.js';
-/**
- * The `payment_method.updated` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type PaymentMethodUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
+import type { SendPaymentIntentReceiptRequestInput, SelectedProductOption } from './types-67.js';
+import type { UpdatePaymentIntentRequestInput } from './types-76.js';
+import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
+import type {
+    CheckoutBuyerFields,
+    CheckoutCustomTextConfig,
+    CheckoutPaymentConfig,
+    CheckoutPromotionConfig,
+    CheckoutRedirects
+} from './types-6.js';
+import type { CheckoutTaxConfig, CheckoutTipConfig } from './types-7.js';
+import type { ExpandedSubscriptionPlanSummary } from './types-26.js';
+import type { ImageAttachment, Image } from './types-31.js';
+import type { InventoryRoutingSource } from './types-33.js';
+import type { LegalSettings } from './types-38.js';
+import type { MetadataMap, MerchantWebhookEnvelope } from './types-43.js';
+import type { PaymentLinkSalesSummary } from './types-53.js';
+import type { ThemeConfig } from './types-74.js';
+import type { PublicResolvedModifierGroup, QuantityPriceBreak } from './types-59.js';
+import type { PartnerWebhookEnvelope } from './types-50.js';
+import type { OrderLineItemTax, OrderLineItemTaxPreviousAttributes } from './types-46.js';
+import type { ProductPriceRange, ProductPriceRangePreviousAttributes } from './types-57.js';
+import type { OrderLineItemTaxRequestInput } from './types-47.js';
+import type { ResponseMeta } from './types-62.js';
+export type PaymentIntentsListActivitiesParams = {
     /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.card (Optional): {@link CardDetails}. Brand, expiry and last four
-     * digits. Present when `type` is `card`. Card details on a payment method: brand, expiration
-     * month and year, last four digits, and the wallet when one was used. object.created_at
-     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.customer (Optional): {@link ExpandedCustomerSummary} or null. Present only when
-     * `expand` includes `customer`; `null` when expanded and there is no related customer.
-     * object.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary
-     * fields, returned in place of a customer ID when the customer is expanded.
-     * object.customer.anyOf[2] (Value): null. object.customer_id (Required): string. Customer this
-     * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.fingerprint
-     * (Optional): string. A value that is the same for every saved copy of one card number at this
-     * merchant and environment, so you can spot duplicates. It doesn't identify the card anywhere
-     * else. A card added through Apple Pay or Google Pay can have a different fingerprint from the
-     * same card typed in. object.is_default (Required): boolean. Whether this is the customer's
-     * default payment method, the one Customer.default_payment_method_id names. Change the default
-     * with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method
-     * event. object.merchant_id (Required): string. ID of the merchant this resource belongs to.
-     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.payment_method_id (Required): string.
-     * Unique identifier for this payment method, prefixed `pm_`. Example:
-     * "pm_01KEZF7C0034B248TXXE4NXYFZ". object.saved_with (Optional): string. Where the buyer saved
-     * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet support
-     * is enabled. Accept future values. Value enum: "flint", "store". object.status (Required):
-     * string. Whether the payment method can be charged. Treat any value other than active as not
-     * chargeable, including values added later. Value enum: "pending", "active", "expired",
-     * "archived", "failed". object.type (Required): string. Kind of payment method. Value enum:
-     * "card". object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.usage (Required): string. When Flint may charge the payment
-     * method. off_session payment methods can pay subscriptions, automatic invoices, and other
-     * charges without the buyer, and can be a customer's default. on_session payment methods were
-     * saved by the buyer in checkout for faster checkout at this merchant; Flint charges them only
-     * in checkouts the buyer completes and refuses them for any charge without the buyer and as a
-     * default. Payment methods saved before usage existed are off_session. Value enum:
-     * "on_session", "off_session". previous_attributes (Optional): object. Previous values of
-     * changed top-level fields in data.object, at this delivery's API version. Nested changes
-     * include the whole previous top-level value. A value is null when the field was absent before
-     * the change. Omitted when Flint did not record the previous state, including synthetic test
-     * events. previous_attributes.card (Optional): {@link CardDetailsPreviousAttributes} or null.
-     * Brand, expiry and last four digits. Present when `type` is `card`.
-     * previous_attributes.card.anyOf[1] (Value): {@link CardDetailsPreviousAttributes}.
-     * previous_attributes.card.anyOf[2] (Value): null. previous_attributes.created_at (Optional):
-     * string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string.
-     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer
-     * (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present only when
-     * `expand` includes `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1] (Value): {@link
-     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
-     * null. previous_attributes.customer_id (Optional): string or null. Customer this payment
-     * method belongs to. previous_attributes.customer_id.anyOf[1] (Value): string. Customer this
-     * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * previous_attributes.customer_id.anyOf[2] (Value): null. previous_attributes.fingerprint
-     * (Optional): string or null. A value that is the same for every saved copy of one card number
-     * at this merchant and environment, so you can spot duplicates. It doesn't identify the card
-     * anywhere else. A card added through Apple Pay or Google Pay can have a different fingerprint
-     * from the same card typed in. previous_attributes.fingerprint.anyOf[1] (Value): string. A
-     * value that is the same for every saved copy of one card number at this merchant and
-     * environment, so you can spot duplicates. It doesn't identify the card anywhere else. A card
-     * added through Apple Pay or Google Pay can have a different fingerprint from the same card
-     * typed in. previous_attributes.fingerprint.anyOf[2] (Value): null.
-     * previous_attributes.is_default (Optional): boolean or null. Whether this is the customer's
-     * default payment method, the one Customer.default_payment_method_id names. Change the default
-     * with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method
-     * event. previous_attributes.is_default.anyOf[1] (Value): boolean. Whether this is the
-     * customer's default payment method, the one Customer.default_payment_method_id names. Change
-     * the default with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a
-     * payment method event. previous_attributes.is_default.anyOf[2] (Value): null.
-     * previous_attributes.merchant_id (Optional): string or null. ID of the merchant this resource
-     * belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the merchant
-     * this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     * previous_attributes.merchant_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_method_id (Optional): string or null. Unique identifier for this
-     * payment method, prefixed `pm_`. previous_attributes.payment_method_id.anyOf[1] (Value):
-     * string. Unique identifier for this payment method, prefixed `pm_`. Example:
-     * "pm_01KEZF7C0034B248TXXE4NXYFZ". previous_attributes.payment_method_id.anyOf[2] (Value):
-     * null. previous_attributes.saved_with (Optional): string or null. Where the buyer saved this
-     * payment method. Returned on /v1/me/payment-methods responses when Flint wallet support is
-     * enabled. Accept future values. Value enum: "flint", "store".
-     * previous_attributes.saved_with.anyOf[1] (Value): string. Where the buyer saved this payment
-     * method. Returned on /v1/me/payment-methods responses when Flint wallet support is enabled.
-     * Accept future values. Value enum: "flint", "store". previous_attributes.saved_with.anyOf[2]
-     * (Value): null. previous_attributes.status (Optional): string or null. Whether the payment
-     * method can be charged. Treat any value other than active as not chargeable, including values
-     * added later. Value enum: "pending", "active", "expired", "archived", "failed".
-     * previous_attributes.status.anyOf[1] (Value): string. Whether the payment method can be
-     * charged. Treat any value other than active as not chargeable, including values added later.
-     * Value enum: "pending", "active", "expired", "archived", "failed".
-     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.type (Optional):
-     * string or null. Kind of payment method. Value enum: "card".
-     * previous_attributes.type.anyOf[1] (Value): string. Kind of payment method. Value enum:
-     * "card". previous_attributes.type.anyOf[2] (Value): null. previous_attributes.updated_at
-     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
-     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.usage (Optional):
-     * string or null. When Flint may charge the payment method. off_session payment methods can
-     * pay subscriptions, automatic invoices, and other charges without the buyer, and can be a
-     * customer's default. on_session payment methods were saved by the buyer in checkout for
-     * faster checkout at this merchant; Flint charges them only in checkouts the buyer completes
-     * and refuses them for any charge without the buyer and as a default. Payment methods saved
-     * before usage existed are off_session. Value enum: "on_session", "off_session".
-     * previous_attributes.usage.anyOf[1] (Value): string. When Flint may charge the payment
-     * method. off_session payment methods can pay subscriptions, automatic invoices, and other
-     * charges without the buyer, and can be a customer's default. on_session payment methods were
-     * saved by the buyer in checkout for faster checkout at this merchant; Flint charges them only
-     * in checkouts the buyer completes and refuses them for any charge without the buyer and as a
-     * default. Payment methods saved before usage existed are off_session. Value enum:
-     * "on_session", "off_session". previous_attributes.usage.anyOf[2] (Value): null.
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
      */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields. card
-         * (Optional): {@link CardDetails}. Brand, expiry and last four digits. Present when `type`
-         * is `card`. Card details on a payment method: brand, expiration month and year, last four
-         * digits, and the wallet when one was used. created_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". customer (Optional):
-         * {@link ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`;
-         * `null` when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
-         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
-         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
-         * (Required): string. Customer this payment method belongs to. Example:
-         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". fingerprint (Optional): string. A value that is the
-         * same for every saved copy of one card number at this merchant and environment, so you
-         * can spot duplicates. It doesn't identify the card anywhere else. A card added through
-         * Apple Pay or Google Pay can have a different fingerprint from the same card typed in.
-         * is_default (Required): boolean. Whether this is the customer's default payment method,
-         * the one Customer.default_payment_method_id names. Change the default with PATCH
-         * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
-         * merchant_id (Required): string. ID of the merchant this resource belongs to. Example:
-         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". payment_method_id (Required): string. Unique
-         * identifier for this payment method, prefixed `pm_`. Example:
-         * "pm_01KEZF7C0034B248TXXE4NXYFZ". saved_with (Optional): string. Where the buyer saved
-         * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet
-         * support is enabled. Accept future values. Value enum: "flint", "store". status
-         * (Required): string. Whether the payment method can be charged. Treat any value other
-         * than active as not chargeable, including values added later. Value enum: "pending",
-         * "active", "expired", "archived", "failed". type (Required): string. Kind of payment
-         * method. Value enum: "card". updated_at (Required): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". usage (Required): string. When Flint may
-         * charge the payment method. off_session payment methods can pay subscriptions, automatic
-         * invoices, and other charges without the buyer, and can be a customer's default.
-         * on_session payment methods were saved by the buyer in checkout for faster checkout at
-         * this merchant; Flint charges them only in checkouts the buyer completes and refuses them
-         * for any charge without the buyer and as a default. Payment methods saved before usage
-         * existed are off_session. Value enum: "on_session", "off_session".
-         */
-        "object": {
-            /**
-             * Brand, expiry and last four digits. Present when `type` is `card`. Card details on a
-             * payment method: brand, expiration month and year, last four digits, and the wallet
-             * when one was used.
-             */
-            "card"?: CardDetails;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
-             * summary fields, returned in place of a customer ID when the customer is expanded.
-             * anyOf[2] (Value): null.
-             */
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            /**
-             * Customer this payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-             */
-            "customer_id": string;
-            /**
-             * A value that is the same for every saved copy of one card number at this merchant
-             * and environment, so you can spot duplicates. It doesn't identify the card anywhere
-             * else. A card added through Apple Pay or Google Pay can have a different fingerprint
-             * from the same card typed in.
-             */
-            "fingerprint"?: string;
-            /**
-             * Whether this is the customer's default payment method, the one
-             * Customer.default_payment_method_id names. Change the default with PATCH
-             * /v1/customers/{customer_id}; that sends customer.updated, not a payment method
-             * event.
-             */
-            "is_default": boolean;
-            /**
-             * ID of the merchant this resource belongs to. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id": string;
-            /**
-             * Unique identifier for this payment method, prefixed `pm_`. Example:
-             * "pm_01KEZF7C0034B248TXXE4NXYFZ".
-             */
-            "payment_method_id": string;
-            /**
-             * Where the buyer saved this payment method. Returned on /v1/me/payment-methods
-             * responses when Flint wallet support is enabled. Accept future values. Value enum:
-             * "flint", "store".
-             */
-            "saved_with"?: "flint" | "store" | (string & {});
-            /**
-             * Whether the payment method can be charged. Treat any value other than active as not
-             * chargeable, including values added later. Value enum: "pending", "active",
-             * "expired", "archived", "failed".
-             */
-            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
-            /** Kind of payment method. Value enum: "card". */
-            "type": "card" | (string & {});
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * When Flint may charge the payment method. off_session payment methods can pay
-             * subscriptions, automatic invoices, and other charges without the buyer, and can be a
-             * customer's default. on_session payment methods were saved by the buyer in checkout
-             * for faster checkout at this merchant; Flint charges them only in checkouts the buyer
-             * completes and refuses them for any charge without the buyer and as a default.
-             * Payment methods saved before usage existed are off_session. Value enum:
-             * "on_session", "off_session".
-             */
-            "usage": "on_session" | "off_session" | (string & {});
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. card (Optional): {@link
-         * CardDetailsPreviousAttributes} or null. Brand, expiry and last four digits. Present when
-         * `type` is `card`. card.anyOf[1] (Value): {@link CardDetailsPreviousAttributes}.
-         * card.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339 timestamp.
-         * created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer (Optional): {@link
-         * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
-         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
-         * (Value): {@link ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value):
-         * null. customer_id (Optional): string or null. Customer this payment method belongs to.
-         * customer_id.anyOf[1] (Value): string. Customer this payment method belongs to. Example:
-         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. fingerprint
-         * (Optional): string or null. A value that is the same for every saved copy of one card
-         * number at this merchant and environment, so you can spot duplicates. It doesn't identify
-         * the card anywhere else. A card added through Apple Pay or Google Pay can have a
-         * different fingerprint from the same card typed in. fingerprint.anyOf[1] (Value): string.
-         * A value that is the same for every saved copy of one card number at this merchant and
-         * environment, so you can spot duplicates. It doesn't identify the card anywhere else. A
-         * card added through Apple Pay or Google Pay can have a different fingerprint from the
-         * same card typed in. fingerprint.anyOf[2] (Value): null. is_default (Optional): boolean
-         * or null. Whether this is the customer's default payment method, the one
-         * Customer.default_payment_method_id names. Change the default with PATCH
-         * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
-         * is_default.anyOf[1] (Value): boolean. Whether this is the customer's default payment
-         * method, the one Customer.default_payment_method_id names. Change the default with PATCH
-         * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
-         * is_default.anyOf[2] (Value): null. merchant_id (Optional): string or null. ID of the
-         * merchant this resource belongs to. merchant_id.anyOf[1] (Value): string. ID of the
-         * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-         * merchant_id.anyOf[2] (Value): null. payment_method_id (Optional): string or null. Unique
-         * identifier for this payment method, prefixed `pm_`. payment_method_id.anyOf[1] (Value):
-         * string. Unique identifier for this payment method, prefixed `pm_`. Example:
-         * "pm_01KEZF7C0034B248TXXE4NXYFZ". payment_method_id.anyOf[2] (Value): null. saved_with
-         * (Optional): string or null. Where the buyer saved this payment method. Returned on
-         * /v1/me/payment-methods responses when Flint wallet support is enabled. Accept future
-         * values. Value enum: "flint", "store". saved_with.anyOf[1] (Value): string. Where the
-         * buyer saved this payment method. Returned on /v1/me/payment-methods responses when Flint
-         * wallet support is enabled. Accept future values. Value enum: "flint", "store".
-         * saved_with.anyOf[2] (Value): null. status (Optional): string or null. Whether the
-         * payment method can be charged. Treat any value other than active as not chargeable,
-         * including values added later. Value enum: "pending", "active", "expired", "archived",
-         * "failed". status.anyOf[1] (Value): string. Whether the payment method can be charged.
-         * Treat any value other than active as not chargeable, including values added later. Value
-         * enum: "pending", "active", "expired", "archived", "failed". status.anyOf[2] (Value):
-         * null. type (Optional): string or null. Kind of payment method. Value enum: "card".
-         * type.anyOf[1] (Value): string. Kind of payment method. Value enum: "card". type.anyOf[2]
-         * (Value): null. updated_at (Optional): string or null. RFC3339 timestamp.
-         * updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. usage (Optional): string or
-         * null. When Flint may charge the payment method. off_session payment methods can pay
-         * subscriptions, automatic invoices, and other charges without the buyer, and can be a
-         * customer's default. on_session payment methods were saved by the buyer in checkout for
-         * faster checkout at this merchant; Flint charges them only in checkouts the buyer
-         * completes and refuses them for any charge without the buyer and as a default. Payment
-         * methods saved before usage existed are off_session. Value enum: "on_session",
-         * "off_session". usage.anyOf[1] (Value): string. When Flint may charge the payment method.
-         * off_session payment methods can pay subscriptions, automatic invoices, and other charges
-         * without the buyer, and can be a customer's default. on_session payment methods were
-         * saved by the buyer in checkout for faster checkout at this merchant; Flint charges them
-         * only in checkouts the buyer completes and refuses them for any charge without the buyer
-         * and as a default. Payment methods saved before usage existed are off_session. Value
-         * enum: "on_session", "off_session". usage.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * Brand, expiry and last four digits. Present when `type` is `card`. anyOf[1] (Value):
-             * {@link CardDetailsPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "card"?: ((CardDetailsPreviousAttributes) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): {@link
-             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
-            /**
-             * Customer this payment method belongs to. anyOf[1] (Value): string. Customer this
-             * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2]
-             * (Value): null.
-             */
-            "customer_id"?: ((string) | (null));
-            /**
-             * A value that is the same for every saved copy of one card number at this merchant
-             * and environment, so you can spot duplicates. It doesn't identify the card anywhere
-             * else. A card added through Apple Pay or Google Pay can have a different fingerprint
-             * from the same card typed in. anyOf[1] (Value): string. A value that is the same for
-             * every saved copy of one card number at this merchant and environment, so you can
-             * spot duplicates. It doesn't identify the card anywhere else. A card added through
-             * Apple Pay or Google Pay can have a different fingerprint from the same card typed
-             * in. anyOf[2] (Value): null.
-             */
-            "fingerprint"?: ((string) | (null));
-            /**
-             * Whether this is the customer's default payment method, the one
-             * Customer.default_payment_method_id names. Change the default with PATCH
-             * /v1/customers/{customer_id}; that sends customer.updated, not a payment method
-             * event. anyOf[1] (Value): boolean. Whether this is the customer's default payment
-             * method, the one Customer.default_payment_method_id names. Change the default with
-             * PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method
-             * event. anyOf[2] (Value): null.
-             */
-            "is_default"?: ((boolean) | (null));
-            /**
-             * ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the
-             * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             * anyOf[2] (Value): null.
-             */
-            "merchant_id"?: ((string) | (null));
-            /**
-             * Unique identifier for this payment method, prefixed `pm_`. anyOf[1] (Value): string.
-             * Unique identifier for this payment method, prefixed `pm_`. Example:
-             * "pm_01KEZF7C0034B248TXXE4NXYFZ". anyOf[2] (Value): null.
-             */
-            "payment_method_id"?: ((string) | (null));
-            /**
-             * Where the buyer saved this payment method. Returned on /v1/me/payment-methods
-             * responses when Flint wallet support is enabled. Accept future values. Value enum:
-             * "flint", "store". anyOf[1] (Value): string. Where the buyer saved this payment
-             * method. Returned on /v1/me/payment-methods responses when Flint wallet support is
-             * enabled. Accept future values. Value enum: "flint", "store". anyOf[2] (Value): null.
-             */
-            "saved_with"?: (("flint" | "store" | (string & {})) | (null));
-            /**
-             * Whether the payment method can be charged. Treat any value other than active as not
-             * chargeable, including values added later. Value enum: "pending", "active",
-             * "expired", "archived", "failed". anyOf[1] (Value): string. Whether the payment
-             * method can be charged. Treat any value other than active as not chargeable,
-             * including values added later. Value enum: "pending", "active", "expired",
-             * "archived", "failed". anyOf[2] (Value): null.
-             */
-            "status"?: (("pending" | "active" | "expired" | "archived" | "failed" | (string & {})) | (null));
-            /**
-             * Kind of payment method. Value enum: "card". anyOf[1] (Value): string. Kind of
-             * payment method. Value enum: "card". anyOf[2] (Value): null.
-             */
-            "type"?: (("card" | (string & {})) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * When Flint may charge the payment method. off_session payment methods can pay
-             * subscriptions, automatic invoices, and other charges without the buyer, and can be a
-             * customer's default. on_session payment methods were saved by the buyer in checkout
-             * for faster checkout at this merchant; Flint charges them only in checkouts the buyer
-             * completes and refuses them for any charge without the buyer and as a default.
-             * Payment methods saved before usage existed are off_session. Value enum:
-             * "on_session", "off_session". anyOf[1] (Value): string. When Flint may charge the
-             * payment method. off_session payment methods can pay subscriptions, automatic
-             * invoices, and other charges without the buyer, and can be a customer's default.
-             * on_session payment methods were saved by the buyer in checkout for faster checkout
-             * at this merchant; Flint charges them only in checkouts the buyer completes and
-             * refuses them for any charge without the buyer and as a default. Payment methods
-             * saved before usage existed are off_session. Value enum: "on_session", "off_session".
-             * anyOf[2] (Value): null.
-             */
-            "usage"?: (("on_session" | "off_session" | (string & {})) | (null));
-        });
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "payment_method.updated". */
-    "event_type"?: "payment_method.updated";
-});
-/**
- * The saved payment method, with `client_setup` when the buyer must still complete processor setup
- * before the payment method can be used. A customer's saved payment details.
- */
-export type PaymentMethodWithSetup = (Exclude<PaymentMethod & object, readonly unknown[]>)
-    & ({
+    "page_size"?: InputValue<number>;
     /**
-     * Present when the buyer must complete processor setup before using this payment method.
-     * Stripe.js setup authority returned while saving a payment method. Follow its stripe_js_call
-     * now. setup_collection is guidance instead and never carries a secret.
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
      */
-    "client_setup"?: StripeClientSetup;
-});
-export type PaymentMethodsCreateParams = (InputValue<SavePaymentMethodRequestInput>)
-    & {
+    "page_token"?: InputValue<string>;
+    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+    /**
+     * Filter by activity type. Values are trimmed and deduplicated in first-seen order; empty or
+     * unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "created", "updated", "status_changed", "failed", "canceled", "expired",
+     * "refund_created", "refund_status_changed", "dispute_status_changed", "receipt_sent",
+     * "receipt_queued", "receipt_delivery_failed". Value enum: "created", "updated",
+     * "status_changed", "failed", "canceled", "expired", "refund_created",
+     * "refund_status_changed", "dispute_status_changed", "receipt_sent", "receipt_queued",
+     * "receipt_delivery_failed". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
+     * "created", "updated", "status_changed", "failed", "canceled", "expired", "refund_created",
+     * "refund_status_changed", "dispute_status_changed", "receipt_sent", "receipt_queued",
+     * "receipt_delivery_failed". anyOf[1][] (Value): string. Value enum: "created", "updated",
+     * "status_changed", "failed", "canceled", "expired", "refund_created",
+     * "refund_status_changed", "dispute_status_changed", "receipt_sent", "receipt_queued",
+     * "receipt_delivery_failed". anyOf[2] (Value): string. Value enum: "created", "updated",
+     * "status_changed", "failed", "canceled", "expired", "refund_created",
+     * "refund_status_changed", "dispute_status_changed", "receipt_sent", "receipt_queued",
+     * "receipt_delivery_failed".
+     */
+    "activity_type"?: InputValue<("created"
+        | "updated"
+        | "status_changed"
+        | "failed"
+        | "canceled"
+        | "expired"
+        | "refund_created"
+        | "refund_status_changed"
+        | "dispute_status_changed"
+        | "receipt_sent"
+        | "receipt_queued"
+        | "receipt_delivery_failed")
+        | readonly ("created"
+        | "updated"
+        | "status_changed"
+        | "failed"
+        | "canceled"
+        | "expired"
+        | "refund_created"
+        | "refund_status_changed"
+        | "dispute_status_changed"
+        | "receipt_sent"
+        | "receipt_queued"
+        | "receipt_delivery_failed")[]>;
     /**
      * Merchant this request acts for. Required with an app-level partner app token; optional with
      * a merchant-bound one, which it must match. Other credentials may send it only with their own
@@ -452,41 +100,16 @@ export type PaymentMethodsCreateParams = (InputValue<SavePaymentMethodRequestInp
      */
     "Flint-Sandbox-Id"?: InputValue<string>;
 };
-export type PaymentMethodsDeleteParams = DisputesAcceptParams;
-export type PaymentMethodsGetParams = {
+export type PaymentIntentsListParams = {
     /**
-     * Include related objects in the response. Supported expansions: customer. Expansion requires
-     * payments.payment_methods.read plus customers.read. Limits: at most 10 unique expand paths
-     * per request. [] enum: "customer". Value enum: "customer". anyOf[1] (Value): Array of string.
-     * [] enum: "customer". anyOf[1][] (Value): string. Value enum: "customer". anyOf[2] (Value):
-     * string. Value enum: "customer".
+     * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
+     * exact and case-sensitive. Returns only resources created in your caller namespace, plus
+     * resources created before caller scoping under the original key. Returns current authorized
+     * resources, not the recorded response. A pending resource does not prove that the operation
+     * succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength:
+     * 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
      */
-    "expand"?: InputValue<("customer") | readonly ("customer")[]>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type PaymentMethodsListParams = {
-    /**
-     * Optional Flint customer ID filter. pattern: ^cus_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id"?: InputValue<string>;
+    "idempotency_key"?: InputValue<string>;
     /**
      * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
      * 100. Default: 20.
@@ -500,5799 +123,113 @@ export type PaymentMethodsListParams = {
      */
     "page_token"?: InputValue<string>;
     /**
-     * Filter by payment method type. Values are trimmed and deduplicated in first-seen order;
-     * empty or unknown entries are rejected. Values within this filter are ORed; separate filters
-     * are ANDed. [] enum: "card". Value enum: "card". anyOf[1] (Value): Array of string. minItems:
-     * 1. [] enum: "card". anyOf[1][] (Value): string. Value enum: "card". anyOf[2] (Value):
-     * string. Value enum: "card".
+     * Filter by order ID. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
      */
-    "type"?: InputValue<("card") | readonly ("card")[]>;
+    "order_id"?: InputValue<string>;
     /**
-     * Filter by status. Omitted, the list leaves out archived rows; name archived to include them.
+     * Filter by customer ID. pattern: ^cus_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: InputValue<string>;
+    /**
+     * Filter to payment intents whose receipt_email or linked customer's email equals this
+     * address, ignoring case and any whitespace stored around it, with accents preserved. Requires
+     * one bare email address without surrounding whitespace. Format: email. Example:
+     * "buyer@example.com".
+     */
+    "email"?: InputValue<string>;
+    /**
+     * Filter by invoice ID. pattern: ^inv_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+     */
+    "invoice_id"?: InputValue<string>;
+    /**
+     * Filter by whether the merchant must capture the payment or respond to a dispute. A dispute
+     * requires action when its status is needs_response or inquiry_needs_response, evidence
+     * responses are allowed, and its deadline is absent or has not passed. Omit to include both
+     * groups.
+     */
+    "is_action_required"?: InputValue<boolean>;
+    /**
+     * Match any historical failed attempt, including successful retries. Combine with
+     * status=requires_payment_method for payments still awaiting another method. Merchant
+     * credentials only.
+     */
+    "has_failed_attempts"?: InputValue<boolean>;
+    /**
+     * Match payments from a checkout session created by this payment link. Merchant credentials
+     * only. pattern: ^pl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+     */
+    "payment_link_id"?: InputValue<string>;
+    /**
+     * Exact failed-attempt decline code. Evidence filters match the same failed attempt. Merchant
+     * credentials only. maxLength: 100.
+     */
+    "decline_code"?: InputValue<string>;
+    /**
+     * Exact merchant/environment risk-list card fingerprint on a failed attempt. Merchant
+     * credentials only. maxLength: 255.
+     */
+    "card_fingerprint"?: InputValue<string>;
+    /** Exact canonical IP on a failed attempt. Merchant credentials only. */
+    "buyer_ip_address"?: InputValue<string>;
+    /**
+     * Exact match on payment_source.card.last4 or a failed attempt snapshot. Send exactly four
+     * digits. Payments without a card never match. Combined with card_brand or any other filter,
+     * all filters must match. pattern: ^[0-9]{4}$.
+     */
+    "card_last4"?: InputValue<string>;
+    /**
+     * Exact match on payment_source.card.brand or a failed attempt snapshot. Repeat keys or
+     * comma-separate values to match any selected brand. Payments without a card never match.
      * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
-     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active",
-     * "pending", "expired", "archived", "failed". Value enum: "active", "pending", "expired",
-     * "archived", "failed". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "active",
-     * "pending", "expired", "archived", "failed". anyOf[1][] (Value): string. Value enum:
-     * "active", "pending", "expired", "archived", "failed". anyOf[2] (Value): string. Value enum:
-     * "active", "pending", "expired", "archived", "failed".
-     */
-    "status"?: InputValue<("active" | "pending" | "expired" | "archived" | "failed")
-        | readonly ("active" | "pending" | "expired" | "archived" | "failed")[]>;
-    /**
-     * Filter by usage: off_session payment methods can be charged without the buyer; on_session
-     * ones were saved by buyers for faster checkout. Values are trimmed and deduplicated in
-     * first-seen order; empty or unknown entries are rejected. Values within this filter are ORed;
-     * separate filters are ANDed. [] enum: "on_session", "off_session". Value enum: "on_session",
-     * "off_session". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "on_session",
-     * "off_session". anyOf[1][] (Value): string. Value enum: "on_session", "off_session". anyOf[2]
-     * (Value): string. Value enum: "on_session", "off_session".
-     */
-    "usage"?: InputValue<("on_session" | "off_session") | readonly ("on_session" | "off_session")[]>;
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Include related objects in the response. Supported expansions: customer. Include the
-     * requested related resources using scoped batch reads for this page. Each relationship
-     * requires its existing target read scopes. Expansion changes the representation without
-     * changing pagination tokens. Limits: at most 10 unique expand paths per request. [] enum:
-     * "customer". Value enum: "customer". anyOf[1] (Value): Array of string. [] enum: "customer".
-     * anyOf[1][] (Value): string. Value enum: "customer". anyOf[2] (Value): string. Value enum:
-     * "customer".
-     */
-    "expand"?: InputValue<("customer") | readonly ("customer")[]>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-/**
- * The part of a refund returned through one payment, with the amount, tip, status, and any failure
- * reason.
- */
-export type PaymentRefund = {
-    /**
-     * Amount refunded through this payment, including `refunded_tip_money`. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-    /**
-     * Why a refund failed or a payment refund was canceled. Failed and canceled amounts become
-     * refundable again, except a refund with reason payment_returned that failed with
-     * payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund. A
-     * payment_returned refund that failed with refund_abandoned can't be retried through Flint
-     * either: the money is in your balance. Flint hasn't repaid the buyer. Repay them another way
-     * if you haven't already. Fix the cause, then create a new refund with a new idempotency key.
-     * Unknown provider values are returned as refund_failed. Value enum:
-     * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
-     * "insufficient_available_balance", "declined", "merchant_request", "payment_disputed",
-     * "refund_abandoned", "payment_refund_failed", "payment_refund_not_attempted",
-     * "refund_failed".
-     */
-    "failure_reason"?: "expired_or_canceled_card"
-        | "lost_or_stolen_card"
-        | "insufficient_funds"
-        | "insufficient_available_balance"
-        | "declined"
-        | "merchant_request"
-        | "payment_disputed"
-        | "refund_abandoned"
-        | "payment_refund_failed"
-        | "payment_refund_not_attempted"
-        | "refund_failed"
-        | (string & {});
-    /**
-     * Present only when `expand` includes `payment_refunds.payment_intent`; `null` when expanded
-     * and there is no related payment intent. anyOf[1] (Value): {@link
-     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
-     * and capture method, returned when the payment intent is expanded. anyOf[2] (Value): null.
-     */
-    "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
-    /**
-     * The payment this part of the refund returned money through. Example:
-     * "pi_01KEZF7C00G8H9D509YEV22P7R".
-     */
-    "payment_intent_id"?: string;
-    /**
-     * The platform fee this payment refund returns to you, present when the payment carries a
-     * collected platform fee: its share when the refund was created with refund_platform_fee true,
-     * 0 when the partner app keeps the fee. Flint returns it once this payment refund succeeds. If
-     * this payment refund then fails, Flint doesn't take the returned fee back. See [Platform
-     * fees](/docs/guides/platform-fees). Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "refunded_platform_fee_money"?: MoneyValue;
-    /**
-     * Share of `amount_money` that refunds tips. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code.
-     */
-    "refunded_tip_money": MoneyValue;
-    /**
-     * Fixed seller allocations on the payment, each naming its payment split and reversal. Present
-     * only when the payment has splits; an empty array means no seller share was allocated. Read
-     * PaymentSplit.reversals for status, shortfall, and reinstated amounts. [] (Value): {@link
-     * SplitReversalReference}. A fixed allocation referencing a read-only reversal nested in a
-     * payment split. This reference has no independent lifecycle or write routes.
-     */
-    "split_reversals"?: Array<SplitReversalReference>;
-    /**
-     * Status of this payment refund or tender allocation. A succeeded refund can still fail after
-     * a bank rejection. Parent status transitions send refund.succeeded,
-     * refund.partially_succeeded, or refund.failed; other public changes send refund.updated.
-     * Value enum: "pending", "requires_action", "succeeded", "failed", "canceled".
-     */
-    "status": "pending" | "requires_action" | "succeeded" | "failed" | "canceled" | (string & {});
-    /**
-     * When this payment refund's `status` first became `succeeded`, as Flint recorded the
-     * processor's outcome. It keeps that time if the part fails and later succeeds again. The
-     * refund's `tender_allocations` entry for the same payment has the same value. Present only
-     * while `status` is `succeeded`. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "succeeded_at"?: string;
-};
-export type PaymentRefundPreviousAttributes = {
-    /**
-     * Amount refunded through this payment, including `refunded_tip_money`. anyOf[1] (Value):
-     * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
-    /**
-     * Why a refund failed or a payment refund was canceled. Failed and canceled amounts become
-     * refundable again, except a refund with reason payment_returned that failed with
-     * payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund. A
-     * payment_returned refund that failed with refund_abandoned can't be retried through Flint
-     * either: the money is in your balance. Flint hasn't repaid the buyer. Repay them another way
-     * if you haven't already. Fix the cause, then create a new refund with a new idempotency key.
-     * Unknown provider values are returned as refund_failed. Value enum:
-     * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
-     * "insufficient_available_balance", "declined", "merchant_request", "payment_disputed",
-     * "refund_abandoned", "payment_refund_failed", "payment_refund_not_attempted",
-     * "refund_failed". anyOf[1] (Value): string. Why a refund failed or a payment refund was
-     * canceled. Failed and canceled amounts become refundable again, except a refund with reason
-     * payment_returned that failed with payment_disputed: the buyer won a dispute on the charge,
-     * so nothing is left to refund. A payment_returned refund that failed with refund_abandoned
-     * can't be retried through Flint either: the money is in your balance. Flint hasn't repaid the
-     * buyer. Repay them another way if you haven't already. Fix the cause, then create a new
-     * refund with a new idempotency key. Unknown provider values are returned as refund_failed.
-     * Value enum: "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
-     * "insufficient_available_balance", "declined", "merchant_request", "payment_disputed",
-     * "refund_abandoned", "payment_refund_failed", "payment_refund_not_attempted",
-     * "refund_failed". anyOf[2] (Value): null.
-     */
-    "failure_reason"?: (("expired_or_canceled_card"
-        | "lost_or_stolen_card"
-        | "insufficient_funds"
-        | "insufficient_available_balance"
-        | "declined"
-        | "merchant_request"
-        | "payment_disputed"
-        | "refund_abandoned"
-        | "payment_refund_failed"
-        | "payment_refund_not_attempted"
-        | "refund_failed"
-        | (string & {}))
-        | (null));
-    /**
-     * Present only when `expand` includes `payment_refunds.payment_intent`; `null` when expanded
-     * and there is no related payment intent. anyOf[1] (Value): {@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
-    /**
-     * The payment this part of the refund returned money through. anyOf[1] (Value): string. The
-     * payment this part of the refund returned money through. Example:
-     * "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2] (Value): null.
-     */
-    "payment_intent_id"?: ((string) | (null));
-    /**
-     * The platform fee this payment refund returns to you, present when the payment carries a
-     * collected platform fee: its share when the refund was created with refund_platform_fee true,
-     * 0 when the partner app keeps the fee. Flint returns it once this payment refund succeeds. If
-     * this payment refund then fails, Flint doesn't take the returned fee back. See [Platform
-     * fees](/docs/guides/platform-fees). anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-     * anyOf[2] (Value): null.
-     */
-    "refunded_platform_fee_money"?: ((MoneyValuePreviousAttributes) | (null));
-    /**
-     * Share of `amount_money` that refunds tips. anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "refunded_tip_money"?: ((MoneyValuePreviousAttributes) | (null));
-    /**
-     * Fixed seller allocations on the payment, each naming its payment split and reversal. Present
-     * only when the payment has splits; an empty array means no seller share was allocated. Read
-     * PaymentSplit.reversals for status, shortfall, and reinstated amounts. anyOf[1] (Value):
-     * Array of {@link SplitReversalReferencePreviousAttributes}. Fixed seller allocations on the
-     * payment, each naming its payment split and reversal. Present only when the payment has
-     * splits; an empty array means no seller share was allocated. Read PaymentSplit.reversals for
-     * status, shortfall, and reinstated amounts. anyOf[1][] (Value): {@link
-     * SplitReversalReferencePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "split_reversals"?: ((Array<SplitReversalReferencePreviousAttributes>) | (null));
-    /**
-     * Status of this payment refund or tender allocation. A succeeded refund can still fail after
-     * a bank rejection. Parent status transitions send refund.succeeded,
-     * refund.partially_succeeded, or refund.failed; other public changes send refund.updated.
-     * Value enum: "pending", "requires_action", "succeeded", "failed", "canceled". anyOf[1]
-     * (Value): string. Status of this payment refund or tender allocation. A succeeded refund can
-     * still fail after a bank rejection. Parent status transitions send refund.succeeded,
-     * refund.partially_succeeded, or refund.failed; other public changes send refund.updated.
-     * Value enum: "pending", "requires_action", "succeeded", "failed", "canceled". anyOf[2]
-     * (Value): null.
-     */
-    "status"?: (("pending" | "requires_action" | "succeeded" | "failed" | "canceled" | (string & {})) | (null));
-    /**
-     * When this payment refund's `status` first became `succeeded`, as Flint recorded the
-     * processor's outcome. It keeps that time if the part fails and later succeeds again. The
-     * refund's `tender_allocations` entry for the same payment has the same value. Present only
-     * while `status` is `succeeded`. anyOf[1] (Value): string. When this payment refund's `status`
-     * first became `succeeded`, as Flint recorded the processor's outcome. It keeps that time if
-     * the part fails and later succeeds again. The refund's `tender_allocations` entry for the
-     * same payment has the same value. Present only while `status` is `succeeded`. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "succeeded_at"?: ((string) | (null));
-};
-/** A payment review requiring a merchant decision. */
-export type PaymentReview = {
-    /**
-     * RFC3339 timestamp. `null` when the review isn't closed. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "closed_at": string | null;
-    /**
-     * The credential that closed this payment review. Null when Flint closed it. anyOf[1] (Value):
-     * {@link ResourceReference}. A reference to another resource by `resource_type` and
-     * `resource_id`. anyOf[2] (Value): null.
-     */
-    "closed_by": ((ResourceReference) | (null));
-    /**
-     * How the review was resolved. `null` when the review isn't closed. Value enum: "approved",
-     * "declined", "refunded", "disputed", "payment_canceled", "expired", null.
-     */
-    "closed_reason": "approved"
-        | "declined"
-        | "refunded"
-        | "disputed"
-        | "payment_canceled"
-        | "expired"
-        | null
-        | (string & {})
-        | null;
-    /**
-     * Present only when `expand` includes `customer`; `null` when expanded and there is no related
-     * customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary fields,
-     * returned in place of a customer ID when the customer is expanded. anyOf[2] (Value): null.
-     */
-    "customer"?: ((ExpandedCustomerSummary) | (null));
-    /**
-     * ID of the customer the payment was made for. `null` when the payment has no customer.
-     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id": string | null;
-    /**
-     * The buyer's IP address recorded for the payment when it was confirmed. `null` when no buyer
-     * IP address was supplied for the payment.
-     */
-    "ip_address": string | null;
-    /**
-     * The most recent resolution attempt that failed. Set when a decline's refund failed and the
-     * review reopened. Null when no attempt has failed. anyOf[1] (Value): {@link
-     * PaymentReviewResolutionFailure}. A failed attempt to resolve a review by refund, with the
-     * `refund_id` and when it failed. anyOf[2] (Value): null.
-     */
-    "last_resolution_failure": ((PaymentReviewResolutionFailure) | (null));
-    /**
-     * ID of the risk rule with the review action that opened this review. Example:
-     * "rule_01KEZF7C00FWGAQJXXA8CRA319".
-     */
-    "matched_risk_rule_id": string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "opened_at": string;
-    /** Why Flint opened the review. Value enum: "rule". */
-    "opened_reason": "rule" | (string & {});
-    /**
-     * Present only when `expand` includes `order`; `null` when expanded and there is no related
-     * order. anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields, including
-     * status, payment and refund status, and pricing and settlement amounts, returned when the
-     * order is expanded. anyOf[2] (Value): null.
-     */
-    "order"?: ((ExpandedOrderSummary) | (null));
-    /**
-     * ID of the order the payment belongs to. `null` when the payment doesn't belong to an order.
-     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id": string | null;
-    /**
-     * How the reviewed payment was started. Value enum: "checkout", "payment_link", "invoice",
-     * "subscription_initial", "subscription_renewal", "virtual_terminal", "api".
-     */
-    "payment_flow": "checkout"
-        | "payment_link"
-        | "invoice"
-        | "subscription_initial"
-        | "subscription_renewal"
-        | "virtual_terminal"
-        | "api"
-        | (string & {});
-    /**
-     * Present only when `expand` includes `payment_intent`; `null` when expanded and there is no
-     * related payment intent. anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}. A payment
-     * intent's summary fields, including amount, status, and capture method, returned when the
-     * payment intent is expanded. anyOf[2] (Value): null.
-     */
-    "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
-    /** ID of the payment intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". */
-    "payment_intent_id": string;
-    /**
-     * Unique identifier for this payment review, prefixed `rev_`. Example:
-     * "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
-     */
-    "payment_review_id": string;
-    /**
-     * A snapshot of the payment as it was when the review opened. The payment details shown on a
-     * review: amount, capture method, authorization expiry, card brand and last four digits, and
-     * buyer email.
-     */
-    "payment_summary": PaymentReviewPaymentSummary;
-    /**
-     * The decision being carried out. `null` when status isn't resolving. Value enum: "approve",
-     * "decline", "expire", null.
-     */
-    "pending_action": "approve" | "decline" | "expire" | null | (string & {}) | null;
-    /**
-     * The refund created when the payment was declined. It can be set while status is resolving,
-     * before the refund finishes and the review closes. `null` when no refund exists for the
-     * review, including after a decline that needed none or when the review is open. Example:
-     * "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-     */
-    "refund_id": string | null;
-    /**
-     * Refunded amount for this review. Null when no refund is recorded. anyOf[1] (Value): {@link
-     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code. anyOf[2] (Value): null.
-     */
-    "refunded_money": ((MoneyValue) | (null));
-    /**
-     * RFC3339 timestamp. `null` when nobody has started approving or declining the review and
-     * Flint hasn't started expiring it. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "resolution_started_at": string | null;
-    /**
-     * The credential that started resolving this payment review, retained after closure. Null when
-     * no resolution has started or Flint started it. anyOf[1] (Value): {@link ResourceReference}.
-     * A reference to another resource by `resource_type` and `resource_id`. anyOf[2] (Value):
-     * null.
-     */
-    "resolution_started_by": ((ResourceReference) | (null));
-    /**
-     * The payment's risk level and score when the review opened. The risk assessment shown on a
-     * review: a `level` and, when available, a numeric `score`.
-     */
-    "risk": PaymentReviewRisk;
-    /** Where the review is in its lifecycle. Value enum: "open", "resolving", "closed". */
-    "status": "open" | "resolving" | "closed" | (string & {});
-    /**
-     * Lifecycle actions accepted in the current stored review state. An action remains listed
-     * while it is processing or can be repeated without changing the result. [] enum: "approve",
-     * "decline". [] (Value): string. Value enum: "approve", "decline".
-     */
-    "supported_actions": Array<"approve" | "decline" | (string & {})>;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-};
-export type PaymentReviewClosedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "closed_at": string | null;
-            "closed_by": ((ResourceReference) | (null));
-            "closed_reason": "approved"
-                | "declined"
-                | "refunded"
-                | "disputed"
-                | "payment_canceled"
-                | "expired"
-                | null
-                | (string & {})
-                | null;
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            "customer_id": string | null;
-            "ip_address": string | null;
-            "last_resolution_failure": ((PaymentReviewResolutionFailure) | (null));
-            "matched_risk_rule_id": string;
-            "opened_at": string;
-            "opened_reason": "rule" | (string & {});
-            "order"?: ((ExpandedOrderSummary) | (null));
-            "order_id": string | null;
-            "payment_flow": "checkout"
-                | "payment_link"
-                | "invoice"
-                | "subscription_initial"
-                | "subscription_renewal"
-                | "virtual_terminal"
-                | "api"
-                | (string & {});
-            "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
-            "payment_intent_id": string;
-            "payment_review_id": string;
-            "payment_summary": PaymentReviewPaymentSummary;
-            "pending_action": "approve" | "decline" | "expire" | null | (string & {}) | null;
-            "refund_id": string | null;
-            "refunded_money": ((MoneyValue) | (null));
-            "resolution_started_at": string | null;
-            "resolution_started_by": ((ResourceReference) | (null));
-            "risk": PaymentReviewRisk;
-            "status": "open" | "resolving" | "closed" | (string & {});
-            "supported_actions": Array<"approve" | "decline" | (string & {})>;
-            "updated_at": string;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "closed_at"?: ((string) | (null));
-            "closed_by"?: ((ResourceReferencePreviousAttributes) | (null));
-            "closed_reason"?: (("approved"
-                | "declined"
-                | "refunded"
-                | "disputed"
-                | "payment_canceled"
-                | "expired"
-                | null
-                | (string & {}))
-                | (null));
-            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
-            "customer_id"?: ((string) | (null));
-            "ip_address"?: ((string) | (null));
-            "last_resolution_failure"?: ((PaymentReviewResolutionFailurePreviousAttributes) | (null));
-            "matched_risk_rule_id"?: ((string) | (null));
-            "opened_at"?: ((string) | (null));
-            "opened_reason"?: (("rule" | (string & {})) | (null));
-            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
-            "order_id"?: ((string) | (null));
-            "payment_flow"?: (("checkout"
-                | "payment_link"
-                | "invoice"
-                | "subscription_initial"
-                | "subscription_renewal"
-                | "virtual_terminal"
-                | "api"
-                | (string & {}))
-                | (null));
-            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
-            "payment_intent_id"?: ((string) | (null));
-            "payment_review_id"?: ((string) | (null));
-            "payment_summary"?: ((PaymentReviewPaymentSummaryPreviousAttributes) | (null));
-            "pending_action"?: (("approve" | "decline" | "expire" | null | (string & {})) | (null));
-            "refund_id"?: ((string) | (null));
-            "refunded_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "resolution_started_at"?: ((string) | (null));
-            "resolution_started_by"?: ((ResourceReferencePreviousAttributes) | (null));
-            "risk"?: ((PaymentReviewRiskPreviousAttributes) | (null));
-            "status"?: (("open" | "resolving" | "closed" | (string & {})) | (null));
-            "supported_actions"?: ((Array<"approve" | "decline" | (string & {})>) | (null));
-            "updated_at"?: ((string) | (null));
-        });
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "payment_review.closed";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "closed_at": string | null;
-            "closed_by": ((ResourceReference) | (null));
-            "closed_reason": "approved"
-                | "declined"
-                | "refunded"
-                | "disputed"
-                | "payment_canceled"
-                | "expired"
-                | null
-                | (string & {})
-                | null;
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            "customer_id": string | null;
-            "ip_address": string | null;
-            "last_resolution_failure": ((PaymentReviewResolutionFailure) | (null));
-            "matched_risk_rule_id": string;
-            "opened_at": string;
-            "opened_reason": "rule" | (string & {});
-            "order"?: ((ExpandedOrderSummary) | (null));
-            "order_id": string | null;
-            "payment_flow": "checkout"
-                | "payment_link"
-                | "invoice"
-                | "subscription_initial"
-                | "subscription_renewal"
-                | "virtual_terminal"
-                | "api"
-                | (string & {});
-            "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
-            "payment_intent_id": string;
-            "payment_review_id": string;
-            "payment_summary": PaymentReviewPaymentSummary;
-            "pending_action": "approve" | "decline" | "expire" | null | (string & {}) | null;
-            "refund_id": string | null;
-            "refunded_money": ((MoneyValue) | (null));
-            "resolution_started_at": string | null;
-            "resolution_started_by": ((ResourceReference) | (null));
-            "risk": PaymentReviewRisk;
-            "status": "open" | "resolving" | "closed" | (string & {});
-            "supported_actions": Array<"approve" | "decline" | (string & {})>;
-            "updated_at": string;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "closed_at"?: ((string) | (null));
-            "closed_by"?: ((ResourceReferencePreviousAttributes) | (null));
-            "closed_reason"?: (("approved"
-                | "declined"
-                | "refunded"
-                | "disputed"
-                | "payment_canceled"
-                | "expired"
-                | null
-                | (string & {}))
-                | (null));
-            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
-            "customer_id"?: ((string) | (null));
-            "ip_address"?: ((string) | (null));
-            "last_resolution_failure"?: ((PaymentReviewResolutionFailurePreviousAttributes) | (null));
-            "matched_risk_rule_id"?: ((string) | (null));
-            "opened_at"?: ((string) | (null));
-            "opened_reason"?: (("rule" | (string & {})) | (null));
-            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
-            "order_id"?: ((string) | (null));
-            "payment_flow"?: (("checkout"
-                | "payment_link"
-                | "invoice"
-                | "subscription_initial"
-                | "subscription_renewal"
-                | "virtual_terminal"
-                | "api"
-                | (string & {}))
-                | (null));
-            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
-            "payment_intent_id"?: ((string) | (null));
-            "payment_review_id"?: ((string) | (null));
-            "payment_summary"?: ((PaymentReviewPaymentSummaryPreviousAttributes) | (null));
-            "pending_action"?: (("approve" | "decline" | "expire" | null | (string & {})) | (null));
-            "refund_id"?: ((string) | (null));
-            "refunded_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "resolution_started_at"?: ((string) | (null));
-            "resolution_started_by"?: ((ResourceReferencePreviousAttributes) | (null));
-            "risk"?: ((PaymentReviewRiskPreviousAttributes) | (null));
-            "status"?: (("open" | "resolving" | "closed" | (string & {})) | (null));
-            "supported_actions"?: ((Array<"approve" | "decline" | (string & {})>) | (null));
-            "updated_at"?: ((string) | (null));
-        });
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "payment_review.closed";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "payment_review.closed";
-});
-/**
- * The `payment_review.closed` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type PaymentReviewClosedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.closed_at (Required): string or null. RFC3339 timestamp. `null`
-     * when the review isn't closed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.closed_by (Required): {@link ResourceReference} or null. The credential that closed
-     * this payment review. Null when Flint closed it. object.closed_by.anyOf[1] (Value): {@link
-     * ResourceReference}. A reference to another resource by `resource_type` and `resource_id`.
-     * object.closed_by.anyOf[2] (Value): null. object.closed_reason (Required): string or null.
-     * How the review was resolved. `null` when the review isn't closed. Value enum: "approved",
-     * "declined", "refunded", "disputed", "payment_canceled", "expired", null. object.customer
-     * (Optional): {@link ExpandedCustomerSummary} or null. Present only when `expand` includes
-     * `customer`; `null` when expanded and there is no related customer. object.customer.anyOf[1]
-     * (Value): {@link ExpandedCustomerSummary}. A customer's summary fields, returned in place of
-     * a customer ID when the customer is expanded. object.customer.anyOf[2] (Value): null.
-     * object.customer_id (Required): string or null. ID of the customer the payment was made for.
-     * `null` when the payment has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * object.ip_address (Required): string or null. The buyer's IP address recorded for the
-     * payment when it was confirmed. `null` when no buyer IP address was supplied for the payment.
-     * object.last_resolution_failure (Required): {@link PaymentReviewResolutionFailure} or null.
-     * The most recent resolution attempt that failed. Set when a decline's refund failed and the
-     * review reopened. Null when no attempt has failed. object.last_resolution_failure.anyOf[1]
-     * (Value): {@link PaymentReviewResolutionFailure}. A failed attempt to resolve a review by
-     * refund, with the `refund_id` and when it failed. object.last_resolution_failure.anyOf[2]
-     * (Value): null. object.matched_risk_rule_id (Required): string. ID of the risk rule with the
-     * review action that opened this review. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319".
-     * object.opened_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.opened_reason (Required): string. Why Flint opened the
-     * review. Value enum: "rule". object.order (Optional): {@link ExpandedOrderSummary} or null.
-     * Present only when `expand` includes `order`; `null` when expanded and there is no related
-     * order. object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
-     * fields, including status, payment and refund status, and pricing and settlement amounts,
-     * returned when the order is expanded. object.order.anyOf[2] (Value): null. object.order_id
-     * (Required): string or null. ID of the order the payment belongs to. `null` when the payment
-     * doesn't belong to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.payment_flow
-     * (Required): string. How the reviewed payment was started. Value enum: "checkout",
-     * "payment_link", "invoice", "subscription_initial", "subscription_renewal",
-     * "virtual_terminal", "api". object.payment_intent (Optional): {@link
-     * ExpandedPaymentIntentSummary} or null. Present only when `expand` includes `payment_intent`;
-     * `null` when expanded and there is no related payment intent. object.payment_intent.anyOf[1]
-     * (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
-     * amount, status, and capture method, returned when the payment intent is expanded.
-     * object.payment_intent.anyOf[2] (Value): null. object.payment_intent_id (Required): string.
-     * ID of the payment intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-     * object.payment_review_id (Required): string. Unique identifier for this payment review,
-     * prefixed `rev_`. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6". object.payment_summary
-     * (Required): {@link PaymentReviewPaymentSummary}. A snapshot of the payment as it was when
-     * the review opened. The payment details shown on a review: amount, capture method,
-     * authorization expiry, card brand and last four digits, and buyer email.
-     * object.pending_action (Required): string or null. The decision being carried out. `null`
-     * when status isn't resolving. Value enum: "approve", "decline", "expire", null.
-     * object.refund_id (Required): string or null. The refund created when the payment was
-     * declined. It can be set while status is resolving, before the refund finishes and the review
-     * closes. `null` when no refund exists for the review, including after a decline that needed
-     * none or when the review is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-     * object.refunded_money (Required): {@link MoneyValue} or null. Refunded amount for this
-     * review. Null when no refund is recorded. object.refunded_money.anyOf[1] (Value): {@link
-     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code. object.refunded_money.anyOf[2] (Value): null. object.resolution_started_at (Required):
-     * string or null. RFC3339 timestamp. `null` when nobody has started approving or declining the
-     * review and Flint hasn't started expiring it. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.resolution_started_by (Required): {@link ResourceReference}
-     * or null. The credential that started resolving this payment review, retained after closure.
-     * Null when no resolution has started or Flint started it.
-     * object.resolution_started_by.anyOf[1] (Value): {@link ResourceReference}. A reference to
-     * another resource by `resource_type` and `resource_id`. object.resolution_started_by.anyOf[2]
-     * (Value): null. object.risk (Required): {@link PaymentReviewRisk}. The payment's risk level
-     * and score when the review opened. The risk assessment shown on a review: a `level` and, when
-     * available, a numeric `score`. object.status (Required): string. Where the review is in its
-     * lifecycle. Value enum: "open", "resolving", "closed". object.supported_actions (Required):
-     * Array of string. Lifecycle actions accepted in the current stored review state. An action
-     * remains listed while it is processing or can be repeated without changing the result. []
-     * enum: "approve", "decline". object.supported_actions[] (Value): string. Value enum:
-     * "approve", "decline". object.updated_at (Required): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events. previous_attributes.closed_at (Optional): string or null. RFC3339
-     * timestamp. `null` when the review isn't closed. previous_attributes.closed_at.anyOf[1]
-     * (Value): string. RFC3339 timestamp. `null` when the review isn't closed. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". previous_attributes.closed_at.anyOf[2] (Value): null.
-     * previous_attributes.closed_by (Optional): {@link ResourceReferencePreviousAttributes} or
-     * null. The credential that closed this payment review. Null when Flint closed it.
-     * previous_attributes.closed_by.anyOf[1] (Value): {@link ResourceReferencePreviousAttributes}.
-     * previous_attributes.closed_by.anyOf[2] (Value): null. previous_attributes.closed_reason
-     * (Optional): string or null. How the review was resolved. `null` when the review isn't
-     * closed. Value enum: "approved", "declined", "refunded", "disputed", "payment_canceled",
-     * "expired", null. previous_attributes.closed_reason.anyOf[1] (Value): string. How the review
-     * was resolved. `null` when the review isn't closed. Value enum: "approved", "declined",
-     * "refunded", "disputed", "payment_canceled", "expired", null.
-     * previous_attributes.closed_reason.anyOf[2] (Value): null. previous_attributes.customer
-     * (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present only when
-     * `expand` includes `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1] (Value): {@link
-     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
-     * null. previous_attributes.customer_id (Optional): string or null. ID of the customer the
-     * payment was made for. `null` when the payment has no customer.
-     * previous_attributes.customer_id.anyOf[1] (Value): string. ID of the customer the payment was
-     * made for. `null` when the payment has no customer. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
-     * previous_attributes.ip_address (Optional): string or null. The buyer's IP address recorded
-     * for the payment when it was confirmed. `null` when no buyer IP address was supplied for the
-     * payment. previous_attributes.ip_address.anyOf[1] (Value): string. The buyer's IP address
-     * recorded for the payment when it was confirmed. `null` when no buyer IP address was supplied
-     * for the payment. previous_attributes.ip_address.anyOf[2] (Value): null.
-     * previous_attributes.last_resolution_failure (Optional): {@link
-     * PaymentReviewResolutionFailurePreviousAttributes} or null. The most recent resolution
-     * attempt that failed. Set when a decline's refund failed and the review reopened. Null when
-     * no attempt has failed. previous_attributes.last_resolution_failure.anyOf[1] (Value): {@link
-     * PaymentReviewResolutionFailurePreviousAttributes}.
-     * previous_attributes.last_resolution_failure.anyOf[2] (Value): null.
-     * previous_attributes.matched_risk_rule_id (Optional): string or null. ID of the risk rule
-     * with the review action that opened this review.
-     * previous_attributes.matched_risk_rule_id.anyOf[1] (Value): string. ID of the risk rule with
-     * the review action that opened this review. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319".
-     * previous_attributes.matched_risk_rule_id.anyOf[2] (Value): null.
-     * previous_attributes.opened_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.opened_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.opened_at.anyOf[2] (Value):
-     * null. previous_attributes.opened_reason (Optional): string or null. Why Flint opened the
-     * review. Value enum: "rule". previous_attributes.opened_reason.anyOf[1] (Value): string. Why
-     * Flint opened the review. Value enum: "rule". previous_attributes.opened_reason.anyOf[2]
-     * (Value): null. previous_attributes.order (Optional): {@link
-     * ExpandedOrderSummaryPreviousAttributes} or null. Present only when `expand` includes
-     * `order`; `null` when expanded and there is no related order.
-     * previous_attributes.order.anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
-     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_id (Optional):
-     * string or null. ID of the order the payment belongs to. `null` when the payment doesn't
-     * belong to an order. previous_attributes.order_id.anyOf[1] (Value): string. ID of the order
-     * the payment belongs to. `null` when the payment doesn't belong to an order. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_flow (Optional): string or null. How the reviewed payment was
-     * started. Value enum: "checkout", "payment_link", "invoice", "subscription_initial",
-     * "subscription_renewal", "virtual_terminal", "api". previous_attributes.payment_flow.anyOf[1]
-     * (Value): string. How the reviewed payment was started. Value enum: "checkout",
-     * "payment_link", "invoice", "subscription_initial", "subscription_renewal",
-     * "virtual_terminal", "api". previous_attributes.payment_flow.anyOf[2] (Value): null.
-     * previous_attributes.payment_intent (Optional): {@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Present only when `expand` includes
-     * `payment_intent`; `null` when expanded and there is no related payment intent.
-     * previous_attributes.payment_intent.anyOf[1] (Value): {@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes}. previous_attributes.payment_intent.anyOf[2]
-     * (Value): null. previous_attributes.payment_intent_id (Optional): string or null. ID of the
-     * payment intent under review. previous_attributes.payment_intent_id.anyOf[1] (Value): string.
-     * ID of the payment intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-     * previous_attributes.payment_intent_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_review_id (Optional): string or null. Unique identifier for this
-     * payment review, prefixed `rev_`. previous_attributes.payment_review_id.anyOf[1] (Value):
-     * string. Unique identifier for this payment review, prefixed `rev_`. Example:
-     * "rev_01KEZF7C00BVBQ00XDFNKB1EF6". previous_attributes.payment_review_id.anyOf[2] (Value):
-     * null. previous_attributes.payment_summary (Optional): {@link
-     * PaymentReviewPaymentSummaryPreviousAttributes} or null. A snapshot of the payment as it was
-     * when the review opened. previous_attributes.payment_summary.anyOf[1] (Value): {@link
-     * PaymentReviewPaymentSummaryPreviousAttributes}. previous_attributes.payment_summary.anyOf[2]
-     * (Value): null. previous_attributes.pending_action (Optional): string or null. The decision
-     * being carried out. `null` when status isn't resolving. Value enum: "approve", "decline",
-     * "expire", null. previous_attributes.pending_action.anyOf[1] (Value): string. The decision
-     * being carried out. `null` when status isn't resolving. Value enum: "approve", "decline",
-     * "expire", null. previous_attributes.pending_action.anyOf[2] (Value): null.
-     * previous_attributes.refund_id (Optional): string or null. The refund created when the
-     * payment was declined. It can be set while status is resolving, before the refund finishes
-     * and the review closes. `null` when no refund exists for the review, including after a
-     * decline that needed none or when the review is open. previous_attributes.refund_id.anyOf[1]
-     * (Value): string. The refund created when the payment was declined. It can be set while
-     * status is resolving, before the refund finishes and the review closes. `null` when no refund
-     * exists for the review, including after a decline that needed none or when the review is
-     * open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". previous_attributes.refund_id.anyOf[2]
-     * (Value): null. previous_attributes.refunded_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. Refunded amount for this review. Null when no refund
-     * is recorded. previous_attributes.refunded_money.anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.refunded_money.anyOf[2] (Value): null.
-     * previous_attributes.resolution_started_at (Optional): string or null. RFC3339 timestamp.
-     * `null` when nobody has started approving or declining the review and Flint hasn't started
-     * expiring it. previous_attributes.resolution_started_at.anyOf[1] (Value): string. RFC3339
-     * timestamp. `null` when nobody has started approving or declining the review and Flint hasn't
-     * started expiring it. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.resolution_started_at.anyOf[2] (Value): null.
-     * previous_attributes.resolution_started_by (Optional): {@link
-     * ResourceReferencePreviousAttributes} or null. The credential that started resolving this
-     * payment review, retained after closure. Null when no resolution has started or Flint started
-     * it. previous_attributes.resolution_started_by.anyOf[1] (Value): {@link
-     * ResourceReferencePreviousAttributes}. previous_attributes.resolution_started_by.anyOf[2]
-     * (Value): null. previous_attributes.risk (Optional): {@link
-     * PaymentReviewRiskPreviousAttributes} or null. The payment's risk level and score when the
-     * review opened. previous_attributes.risk.anyOf[1] (Value): {@link
-     * PaymentReviewRiskPreviousAttributes}. previous_attributes.risk.anyOf[2] (Value): null.
-     * previous_attributes.status (Optional): string or null. Where the review is in its lifecycle.
-     * Value enum: "open", "resolving", "closed". previous_attributes.status.anyOf[1] (Value):
-     * string. Where the review is in its lifecycle. Value enum: "open", "resolving", "closed".
-     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
-     * (Optional): Array of string or null. Lifecycle actions accepted in the current stored review
-     * state. An action remains listed while it is processing or can be repeated without changing
-     * the result. [] enum: "approve", "decline". previous_attributes.supported_actions.anyOf[1]
-     * (Value): Array of string. Lifecycle actions accepted in the current stored review state. An
-     * action remains listed while it is processing or can be repeated without changing the result.
-     * [] enum: "approve", "decline". previous_attributes.supported_actions.anyOf[1][] (Value):
-     * string. Value enum: "approve", "decline". previous_attributes.supported_actions.anyOf[2]
-     * (Value): null. previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
-     * null.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields. closed_at
-         * (Required): string or null. RFC3339 timestamp. `null` when the review isn't closed.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". closed_by (Required): {@link
-         * ResourceReference} or null. The credential that closed this payment review. Null when
-         * Flint closed it. closed_by.anyOf[1] (Value): {@link ResourceReference}. A reference to
-         * another resource by `resource_type` and `resource_id`. closed_by.anyOf[2] (Value): null.
-         * closed_reason (Required): string or null. How the review was resolved. `null` when the
-         * review isn't closed. Value enum: "approved", "declined", "refunded", "disputed",
-         * "payment_canceled", "expired", null. customer (Optional): {@link
-         * ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null`
-         * when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
-         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
-         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
-         * (Required): string or null. ID of the customer the payment was made for. `null` when the
-         * payment has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". ip_address
-         * (Required): string or null. The buyer's IP address recorded for the payment when it was
-         * confirmed. `null` when no buyer IP address was supplied for the payment.
-         * last_resolution_failure (Required): {@link PaymentReviewResolutionFailure} or null. The
-         * most recent resolution attempt that failed. Set when a decline's refund failed and the
-         * review reopened. Null when no attempt has failed. last_resolution_failure.anyOf[1]
-         * (Value): {@link PaymentReviewResolutionFailure}. A failed attempt to resolve a review by
-         * refund, with the `refund_id` and when it failed. last_resolution_failure.anyOf[2]
-         * (Value): null. matched_risk_rule_id (Required): string. ID of the risk rule with the
-         * review action that opened this review. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319".
-         * opened_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". opened_reason (Required): string. Why Flint opened the review.
-         * Value enum: "rule". order (Optional): {@link ExpandedOrderSummary} or null. Present only
-         * when `expand` includes `order`; `null` when expanded and there is no related order.
-         * order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
-         * including status, payment and refund status, and pricing and settlement amounts,
-         * returned when the order is expanded. order.anyOf[2] (Value): null. order_id (Required):
-         * string or null. ID of the order the payment belongs to. `null` when the payment doesn't
-         * belong to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". payment_flow (Required):
-         * string. How the reviewed payment was started. Value enum: "checkout", "payment_link",
-         * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api".
-         * payment_intent (Optional): {@link ExpandedPaymentIntentSummary} or null. Present only
-         * when `expand` includes `payment_intent`; `null` when expanded and there is no related
-         * payment intent. payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}. A
-         * payment intent's summary fields, including amount, status, and capture method, returned
-         * when the payment intent is expanded. payment_intent.anyOf[2] (Value): null.
-         * payment_intent_id (Required): string. ID of the payment intent under review. Example:
-         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_review_id (Required): string. Unique identifier
-         * for this payment review, prefixed `rev_`. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
-         * payment_summary (Required): {@link PaymentReviewPaymentSummary}. A snapshot of the
-         * payment as it was when the review opened. The payment details shown on a review: amount,
-         * capture method, authorization expiry, card brand and last four digits, and buyer email.
-         * pending_action (Required): string or null. The decision being carried out. `null` when
-         * status isn't resolving. Value enum: "approve", "decline", "expire", null. refund_id
-         * (Required): string or null. The refund created when the payment was declined. It can be
-         * set while status is resolving, before the refund finishes and the review closes. `null`
-         * when no refund exists for the review, including after a decline that needed none or when
-         * the review is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". refunded_money
-         * (Required): {@link MoneyValue} or null. Refunded amount for this review. Null when no
-         * refund is recorded. refunded_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount
-         * represented as integer minor units plus an ISO 4217 currency code.
-         * refunded_money.anyOf[2] (Value): null. resolution_started_at (Required): string or null.
-         * RFC3339 timestamp. `null` when nobody has started approving or declining the review and
-         * Flint hasn't started expiring it. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * resolution_started_by (Required): {@link ResourceReference} or null. The credential that
-         * started resolving this payment review, retained after closure. Null when no resolution
-         * has started or Flint started it. resolution_started_by.anyOf[1] (Value): {@link
-         * ResourceReference}. A reference to another resource by `resource_type` and
-         * `resource_id`. resolution_started_by.anyOf[2] (Value): null. risk (Required): {@link
-         * PaymentReviewRisk}. The payment's risk level and score when the review opened. The risk
-         * assessment shown on a review: a `level` and, when available, a numeric `score`. status
-         * (Required): string. Where the review is in its lifecycle. Value enum: "open",
-         * "resolving", "closed". supported_actions (Required): Array of string. Lifecycle actions
-         * accepted in the current stored review state. An action remains listed while it is
-         * processing or can be repeated without changing the result. [] enum: "approve",
-         * "decline". supported_actions[] (Value): string. Value enum: "approve", "decline".
-         * updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z".
-         */
-        "object": {
-            /**
-             * RFC3339 timestamp. `null` when the review isn't closed. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "closed_at": string | null;
-            /**
-             * The credential that closed this payment review. Null when Flint closed it. anyOf[1]
-             * (Value): {@link ResourceReference}. A reference to another resource by
-             * `resource_type` and `resource_id`. anyOf[2] (Value): null.
-             */
-            "closed_by": ((ResourceReference) | (null));
-            /**
-             * How the review was resolved. `null` when the review isn't closed. Value enum:
-             * "approved", "declined", "refunded", "disputed", "payment_canceled", "expired", null.
-             */
-            "closed_reason": "approved"
-                | "declined"
-                | "refunded"
-                | "disputed"
-                | "payment_canceled"
-                | "expired"
-                | null
-                | (string & {})
-                | null;
-            /**
-             * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
-             * summary fields, returned in place of a customer ID when the customer is expanded.
-             * anyOf[2] (Value): null.
-             */
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            /**
-             * ID of the customer the payment was made for. `null` when the payment has no
-             * customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-             */
-            "customer_id": string | null;
-            /**
-             * The buyer's IP address recorded for the payment when it was confirmed. `null` when
-             * no buyer IP address was supplied for the payment.
-             */
-            "ip_address": string | null;
-            /**
-             * The most recent resolution attempt that failed. Set when a decline's refund failed
-             * and the review reopened. Null when no attempt has failed. anyOf[1] (Value): {@link
-             * PaymentReviewResolutionFailure}. A failed attempt to resolve a review by refund,
-             * with the `refund_id` and when it failed. anyOf[2] (Value): null.
-             */
-            "last_resolution_failure": ((PaymentReviewResolutionFailure) | (null));
-            /**
-             * ID of the risk rule with the review action that opened this review. Example:
-             * "rule_01KEZF7C00FWGAQJXXA8CRA319".
-             */
-            "matched_risk_rule_id": string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "opened_at": string;
-            /** Why Flint opened the review. Value enum: "rule". */
-            "opened_reason": "rule" | (string & {});
-            /**
-             * Present only when `expand` includes `order`; `null` when expanded and there is no
-             * related order. anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
-             * fields, including status, payment and refund status, and pricing and settlement
-             * amounts, returned when the order is expanded. anyOf[2] (Value): null.
-             */
-            "order"?: ((ExpandedOrderSummary) | (null));
-            /**
-             * ID of the order the payment belongs to. `null` when the payment doesn't belong to an
-             * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-             */
-            "order_id": string | null;
-            /**
-             * How the reviewed payment was started. Value enum: "checkout", "payment_link",
-             * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal",
-             * "api".
-             */
-            "payment_flow": "checkout"
-                | "payment_link"
-                | "invoice"
-                | "subscription_initial"
-                | "subscription_renewal"
-                | "virtual_terminal"
-                | "api"
-                | (string & {});
-            /**
-             * Present only when `expand` includes `payment_intent`; `null` when expanded and there
-             * is no related payment intent. anyOf[1] (Value): {@link
-             * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
-             * status, and capture method, returned when the payment intent is expanded. anyOf[2]
-             * (Value): null.
-             */
-            "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
-            /** ID of the payment intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". */
-            "payment_intent_id": string;
-            /**
-             * Unique identifier for this payment review, prefixed `rev_`. Example:
-             * "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
-             */
-            "payment_review_id": string;
-            /**
-             * A snapshot of the payment as it was when the review opened. The payment details
-             * shown on a review: amount, capture method, authorization expiry, card brand and last
-             * four digits, and buyer email.
-             */
-            "payment_summary": PaymentReviewPaymentSummary;
-            /**
-             * The decision being carried out. `null` when status isn't resolving. Value enum:
-             * "approve", "decline", "expire", null.
-             */
-            "pending_action": "approve" | "decline" | "expire" | null | (string & {}) | null;
-            /**
-             * The refund created when the payment was declined. It can be set while status is
-             * resolving, before the refund finishes and the review closes. `null` when no refund
-             * exists for the review, including after a decline that needed none or when the review
-             * is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-             */
-            "refund_id": string | null;
-            /**
-             * Refunded amount for this review. Null when no refund is recorded. anyOf[1] (Value):
-             * {@link MoneyValue}. Monetary amount represented as integer minor units plus an ISO
-             * 4217 currency code. anyOf[2] (Value): null.
-             */
-            "refunded_money": ((MoneyValue) | (null));
-            /**
-             * RFC3339 timestamp. `null` when nobody has started approving or declining the review
-             * and Flint hasn't started expiring it. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "resolution_started_at": string | null;
-            /**
-             * The credential that started resolving this payment review, retained after closure.
-             * Null when no resolution has started or Flint started it. anyOf[1] (Value): {@link
-             * ResourceReference}. A reference to another resource by `resource_type` and
-             * `resource_id`. anyOf[2] (Value): null.
-             */
-            "resolution_started_by": ((ResourceReference) | (null));
-            /**
-             * The payment's risk level and score when the review opened. The risk assessment shown
-             * on a review: a `level` and, when available, a numeric `score`.
-             */
-            "risk": PaymentReviewRisk;
-            /** Where the review is in its lifecycle. Value enum: "open", "resolving", "closed". */
-            "status": "open" | "resolving" | "closed" | (string & {});
-            /**
-             * Lifecycle actions accepted in the current stored review state. An action remains
-             * listed while it is processing or can be repeated without changing the result. []
-             * enum: "approve", "decline". [] (Value): string. Value enum: "approve", "decline".
-             */
-            "supported_actions": Array<"approve" | "decline" | (string & {})>;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. closed_at (Optional): string or null. RFC3339
-         * timestamp. `null` when the review isn't closed. closed_at.anyOf[1] (Value): string.
-         * RFC3339 timestamp. `null` when the review isn't closed. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". closed_at.anyOf[2] (Value): null. closed_by (Optional): {@link
-         * ResourceReferencePreviousAttributes} or null. The credential that closed this payment
-         * review. Null when Flint closed it. closed_by.anyOf[1] (Value): {@link
-         * ResourceReferencePreviousAttributes}. closed_by.anyOf[2] (Value): null. closed_reason
-         * (Optional): string or null. How the review was resolved. `null` when the review isn't
-         * closed. Value enum: "approved", "declined", "refunded", "disputed", "payment_canceled",
-         * "expired", null. closed_reason.anyOf[1] (Value): string. How the review was resolved.
-         * `null` when the review isn't closed. Value enum: "approved", "declined", "refunded",
-         * "disputed", "payment_canceled", "expired", null. closed_reason.anyOf[2] (Value): null.
-         * customer (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present
-         * only when `expand` includes `customer`; `null` when expanded and there is no related
-         * customer. customer.anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
-         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. ID of the
-         * customer the payment was made for. `null` when the payment has no customer.
-         * customer_id.anyOf[1] (Value): string. ID of the customer the payment was made for.
-         * `null` when the payment has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-         * customer_id.anyOf[2] (Value): null. ip_address (Optional): string or null. The buyer's
-         * IP address recorded for the payment when it was confirmed. `null` when no buyer IP
-         * address was supplied for the payment. ip_address.anyOf[1] (Value): string. The buyer's
-         * IP address recorded for the payment when it was confirmed. `null` when no buyer IP
-         * address was supplied for the payment. ip_address.anyOf[2] (Value): null.
-         * last_resolution_failure (Optional): {@link
-         * PaymentReviewResolutionFailurePreviousAttributes} or null. The most recent resolution
-         * attempt that failed. Set when a decline's refund failed and the review reopened. Null
-         * when no attempt has failed. last_resolution_failure.anyOf[1] (Value): {@link
-         * PaymentReviewResolutionFailurePreviousAttributes}. last_resolution_failure.anyOf[2]
-         * (Value): null. matched_risk_rule_id (Optional): string or null. ID of the risk rule with
-         * the review action that opened this review. matched_risk_rule_id.anyOf[1] (Value):
-         * string. ID of the risk rule with the review action that opened this review. Example:
-         * "rule_01KEZF7C00FWGAQJXXA8CRA319". matched_risk_rule_id.anyOf[2] (Value): null.
-         * opened_at (Optional): string or null. RFC3339 timestamp. opened_at.anyOf[1] (Value):
-         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * opened_at.anyOf[2] (Value): null. opened_reason (Optional): string or null. Why Flint
-         * opened the review. Value enum: "rule". opened_reason.anyOf[1] (Value): string. Why Flint
-         * opened the review. Value enum: "rule". opened_reason.anyOf[2] (Value): null. order
-         * (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or null. Present only when
-         * `expand` includes `order`; `null` when expanded and there is no related order.
-         * order.anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2]
-         * (Value): null. order_id (Optional): string or null. ID of the order the payment belongs
-         * to. `null` when the payment doesn't belong to an order. order_id.anyOf[1] (Value):
-         * string. ID of the order the payment belongs to. `null` when the payment doesn't belong
-         * to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
-         * payment_flow (Optional): string or null. How the reviewed payment was started. Value
-         * enum: "checkout", "payment_link", "invoice", "subscription_initial",
-         * "subscription_renewal", "virtual_terminal", "api". payment_flow.anyOf[1] (Value):
-         * string. How the reviewed payment was started. Value enum: "checkout", "payment_link",
-         * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api".
-         * payment_flow.anyOf[2] (Value): null. payment_intent (Optional): {@link
-         * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Present only when `expand`
-         * includes `payment_intent`; `null` when expanded and there is no related payment intent.
-         * payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummaryPreviousAttributes}.
-         * payment_intent.anyOf[2] (Value): null. payment_intent_id (Optional): string or null. ID
-         * of the payment intent under review. payment_intent_id.anyOf[1] (Value): string. ID of
-         * the payment intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-         * payment_intent_id.anyOf[2] (Value): null. payment_review_id (Optional): string or null.
-         * Unique identifier for this payment review, prefixed `rev_`. payment_review_id.anyOf[1]
-         * (Value): string. Unique identifier for this payment review, prefixed `rev_`. Example:
-         * "rev_01KEZF7C00BVBQ00XDFNKB1EF6". payment_review_id.anyOf[2] (Value): null.
-         * payment_summary (Optional): {@link PaymentReviewPaymentSummaryPreviousAttributes} or
-         * null. A snapshot of the payment as it was when the review opened.
-         * payment_summary.anyOf[1] (Value): {@link PaymentReviewPaymentSummaryPreviousAttributes}.
-         * payment_summary.anyOf[2] (Value): null. pending_action (Optional): string or null. The
-         * decision being carried out. `null` when status isn't resolving. Value enum: "approve",
-         * "decline", "expire", null. pending_action.anyOf[1] (Value): string. The decision being
-         * carried out. `null` when status isn't resolving. Value enum: "approve", "decline",
-         * "expire", null. pending_action.anyOf[2] (Value): null. refund_id (Optional): string or
-         * null. The refund created when the payment was declined. It can be set while status is
-         * resolving, before the refund finishes and the review closes. `null` when no refund
-         * exists for the review, including after a decline that needed none or when the review is
-         * open. refund_id.anyOf[1] (Value): string. The refund created when the payment was
-         * declined. It can be set while status is resolving, before the refund finishes and the
-         * review closes. `null` when no refund exists for the review, including after a decline
-         * that needed none or when the review is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-         * refund_id.anyOf[2] (Value): null. refunded_money (Optional): {@link
-         * MoneyValuePreviousAttributes} or null. Refunded amount for this review. Null when no
-         * refund is recorded. refunded_money.anyOf[1] (Value): {@link
-         * MoneyValuePreviousAttributes}. refunded_money.anyOf[2] (Value): null.
-         * resolution_started_at (Optional): string or null. RFC3339 timestamp. `null` when nobody
-         * has started approving or declining the review and Flint hasn't started expiring it.
-         * resolution_started_at.anyOf[1] (Value): string. RFC3339 timestamp. `null` when nobody
-         * has started approving or declining the review and Flint hasn't started expiring it.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". resolution_started_at.anyOf[2]
-         * (Value): null. resolution_started_by (Optional): {@link
-         * ResourceReferencePreviousAttributes} or null. The credential that started resolving this
-         * payment review, retained after closure. Null when no resolution has started or Flint
-         * started it. resolution_started_by.anyOf[1] (Value): {@link
-         * ResourceReferencePreviousAttributes}. resolution_started_by.anyOf[2] (Value): null. risk
-         * (Optional): {@link PaymentReviewRiskPreviousAttributes} or null. The payment's risk
-         * level and score when the review opened. risk.anyOf[1] (Value): {@link
-         * PaymentReviewRiskPreviousAttributes}. risk.anyOf[2] (Value): null. status (Optional):
-         * string or null. Where the review is in its lifecycle. Value enum: "open", "resolving",
-         * "closed". status.anyOf[1] (Value): string. Where the review is in its lifecycle. Value
-         * enum: "open", "resolving", "closed". status.anyOf[2] (Value): null. supported_actions
-         * (Optional): Array of string or null. Lifecycle actions accepted in the current stored
-         * review state. An action remains listed while it is processing or can be repeated without
-         * changing the result. [] enum: "approve", "decline". supported_actions.anyOf[1] (Value):
-         * Array of string. Lifecycle actions accepted in the current stored review state. An
-         * action remains listed while it is processing or can be repeated without changing the
-         * result. [] enum: "approve", "decline". supported_actions.anyOf[1][] (Value): string.
-         * Value enum: "approve", "decline". supported_actions.anyOf[2] (Value): null. updated_at
-         * (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string.
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * updated_at.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * RFC3339 timestamp. `null` when the review isn't closed. anyOf[1] (Value): string.
-             * RFC3339 timestamp. `null` when the review isn't closed. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "closed_at"?: ((string) | (null));
-            /**
-             * The credential that closed this payment review. Null when Flint closed it. anyOf[1]
-             * (Value): {@link ResourceReferencePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "closed_by"?: ((ResourceReferencePreviousAttributes) | (null));
-            /**
-             * How the review was resolved. `null` when the review isn't closed. Value enum:
-             * "approved", "declined", "refunded", "disputed", "payment_canceled", "expired", null.
-             * anyOf[1] (Value): string. How the review was resolved. `null` when the review isn't
-             * closed. Value enum: "approved", "declined", "refunded", "disputed",
-             * "payment_canceled", "expired", null. anyOf[2] (Value): null.
-             */
-            "closed_reason"?: (("approved"
-                | "declined"
-                | "refunded"
-                | "disputed"
-                | "payment_canceled"
-                | "expired"
-                | null
-                | (string & {}))
-                | (null));
-            /**
-             * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): {@link
-             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
-            /**
-             * ID of the customer the payment was made for. `null` when the payment has no
-             * customer. anyOf[1] (Value): string. ID of the customer the payment was made for.
-             * `null` when the payment has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-             * anyOf[2] (Value): null.
-             */
-            "customer_id"?: ((string) | (null));
-            /**
-             * The buyer's IP address recorded for the payment when it was confirmed. `null` when
-             * no buyer IP address was supplied for the payment. anyOf[1] (Value): string. The
-             * buyer's IP address recorded for the payment when it was confirmed. `null` when no
-             * buyer IP address was supplied for the payment. anyOf[2] (Value): null.
-             */
-            "ip_address"?: ((string) | (null));
-            /**
-             * The most recent resolution attempt that failed. Set when a decline's refund failed
-             * and the review reopened. Null when no attempt has failed. anyOf[1] (Value): {@link
-             * PaymentReviewResolutionFailurePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "last_resolution_failure"?: ((PaymentReviewResolutionFailurePreviousAttributes) | (null));
-            /**
-             * ID of the risk rule with the review action that opened this review. anyOf[1]
-             * (Value): string. ID of the risk rule with the review action that opened this review.
-             * Example: "rule_01KEZF7C00FWGAQJXXA8CRA319". anyOf[2] (Value): null.
-             */
-            "matched_risk_rule_id"?: ((string) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "opened_at"?: ((string) | (null));
-            /**
-             * Why Flint opened the review. Value enum: "rule". anyOf[1] (Value): string. Why Flint
-             * opened the review. Value enum: "rule". anyOf[2] (Value): null.
-             */
-            "opened_reason"?: (("rule" | (string & {})) | (null));
-            /**
-             * Present only when `expand` includes `order`; `null` when expanded and there is no
-             * related order. anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
-             * anyOf[2] (Value): null.
-             */
-            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
-            /**
-             * ID of the order the payment belongs to. `null` when the payment doesn't belong to an
-             * order. anyOf[1] (Value): string. ID of the order the payment belongs to. `null` when
-             * the payment doesn't belong to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-             * anyOf[2] (Value): null.
-             */
-            "order_id"?: ((string) | (null));
-            /**
-             * How the reviewed payment was started. Value enum: "checkout", "payment_link",
-             * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal",
-             * "api". anyOf[1] (Value): string. How the reviewed payment was started. Value enum:
-             * "checkout", "payment_link", "invoice", "subscription_initial",
-             * "subscription_renewal", "virtual_terminal", "api". anyOf[2] (Value): null.
-             */
-            "payment_flow"?: (("checkout"
-                | "payment_link"
-                | "invoice"
-                | "subscription_initial"
-                | "subscription_renewal"
-                | "virtual_terminal"
-                | "api"
-                | (string & {}))
-                | (null));
-            /**
-             * Present only when `expand` includes `payment_intent`; `null` when expanded and there
-             * is no related payment intent. anyOf[1] (Value): {@link
-             * ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
-            /**
-             * ID of the payment intent under review. anyOf[1] (Value): string. ID of the payment
-             * intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2] (Value):
-             * null.
-             */
-            "payment_intent_id"?: ((string) | (null));
-            /**
-             * Unique identifier for this payment review, prefixed `rev_`. anyOf[1] (Value):
-             * string. Unique identifier for this payment review, prefixed `rev_`. Example:
-             * "rev_01KEZF7C00BVBQ00XDFNKB1EF6". anyOf[2] (Value): null.
-             */
-            "payment_review_id"?: ((string) | (null));
-            /**
-             * A snapshot of the payment as it was when the review opened. anyOf[1] (Value): {@link
-             * PaymentReviewPaymentSummaryPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "payment_summary"?: ((PaymentReviewPaymentSummaryPreviousAttributes) | (null));
-            /**
-             * The decision being carried out. `null` when status isn't resolving. Value enum:
-             * "approve", "decline", "expire", null. anyOf[1] (Value): string. The decision being
-             * carried out. `null` when status isn't resolving. Value enum: "approve", "decline",
-             * "expire", null. anyOf[2] (Value): null.
-             */
-            "pending_action"?: (("approve" | "decline" | "expire" | null | (string & {})) | (null));
-            /**
-             * The refund created when the payment was declined. It can be set while status is
-             * resolving, before the refund finishes and the review closes. `null` when no refund
-             * exists for the review, including after a decline that needed none or when the review
-             * is open. anyOf[1] (Value): string. The refund created when the payment was declined.
-             * It can be set while status is resolving, before the refund finishes and the review
-             * closes. `null` when no refund exists for the review, including after a decline that
-             * needed none or when the review is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-             * anyOf[2] (Value): null.
-             */
-            "refund_id"?: ((string) | (null));
-            /**
-             * Refunded amount for this review. Null when no refund is recorded. anyOf[1] (Value):
-             * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "refunded_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * RFC3339 timestamp. `null` when nobody has started approving or declining the review
-             * and Flint hasn't started expiring it. anyOf[1] (Value): string. RFC3339 timestamp.
-             * `null` when nobody has started approving or declining the review and Flint hasn't
-             * started expiring it. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
-             * (Value): null.
-             */
-            "resolution_started_at"?: ((string) | (null));
-            /**
-             * The credential that started resolving this payment review, retained after closure.
-             * Null when no resolution has started or Flint started it. anyOf[1] (Value): {@link
-             * ResourceReferencePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "resolution_started_by"?: ((ResourceReferencePreviousAttributes) | (null));
-            /**
-             * The payment's risk level and score when the review opened. anyOf[1] (Value): {@link
-             * PaymentReviewRiskPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "risk"?: ((PaymentReviewRiskPreviousAttributes) | (null));
-            /**
-             * Where the review is in its lifecycle. Value enum: "open", "resolving", "closed".
-             * anyOf[1] (Value): string. Where the review is in its lifecycle. Value enum: "open",
-             * "resolving", "closed". anyOf[2] (Value): null.
-             */
-            "status"?: (("open" | "resolving" | "closed" | (string & {})) | (null));
-            /**
-             * Lifecycle actions accepted in the current stored review state. An action remains
-             * listed while it is processing or can be repeated without changing the result. []
-             * enum: "approve", "decline". anyOf[1] (Value): Array of string. Lifecycle actions
-             * accepted in the current stored review state. An action remains listed while it is
-             * processing or can be repeated without changing the result. [] enum: "approve",
-             * "decline". anyOf[1][] (Value): string. Value enum: "approve", "decline". anyOf[2]
-             * (Value): null.
-             */
-            "supported_actions"?: ((Array<"approve" | "decline" | (string & {})>) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "updated_at"?: ((string) | (null));
-        });
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "payment_review.closed". */
-    "event_type"?: "payment_review.closed";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `payment_review.closed` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type PaymentReviewClosedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.closed_at (Required): string or null. RFC3339 timestamp. `null`
-     * when the review isn't closed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.closed_by (Required): {@link ResourceReference} or null. The credential that closed
-     * this payment review. Null when Flint closed it. object.closed_by.anyOf[1] (Value): {@link
-     * ResourceReference}. A reference to another resource by `resource_type` and `resource_id`.
-     * object.closed_by.anyOf[2] (Value): null. object.closed_reason (Required): string or null.
-     * How the review was resolved. `null` when the review isn't closed. Value enum: "approved",
-     * "declined", "refunded", "disputed", "payment_canceled", "expired", null. object.customer
-     * (Optional): {@link ExpandedCustomerSummary} or null. Present only when `expand` includes
-     * `customer`; `null` when expanded and there is no related customer. object.customer.anyOf[1]
-     * (Value): {@link ExpandedCustomerSummary}. A customer's summary fields, returned in place of
-     * a customer ID when the customer is expanded. object.customer.anyOf[2] (Value): null.
-     * object.customer_id (Required): string or null. ID of the customer the payment was made for.
-     * `null` when the payment has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * object.ip_address (Required): string or null. The buyer's IP address recorded for the
-     * payment when it was confirmed. `null` when no buyer IP address was supplied for the payment.
-     * object.last_resolution_failure (Required): {@link PaymentReviewResolutionFailure} or null.
-     * The most recent resolution attempt that failed. Set when a decline's refund failed and the
-     * review reopened. Null when no attempt has failed. object.last_resolution_failure.anyOf[1]
-     * (Value): {@link PaymentReviewResolutionFailure}. A failed attempt to resolve a review by
-     * refund, with the `refund_id` and when it failed. object.last_resolution_failure.anyOf[2]
-     * (Value): null. object.matched_risk_rule_id (Required): string. ID of the risk rule with the
-     * review action that opened this review. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319".
-     * object.opened_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.opened_reason (Required): string. Why Flint opened the
-     * review. Value enum: "rule". object.order (Optional): {@link ExpandedOrderSummary} or null.
-     * Present only when `expand` includes `order`; `null` when expanded and there is no related
-     * order. object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
-     * fields, including status, payment and refund status, and pricing and settlement amounts,
-     * returned when the order is expanded. object.order.anyOf[2] (Value): null. object.order_id
-     * (Required): string or null. ID of the order the payment belongs to. `null` when the payment
-     * doesn't belong to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.payment_flow
-     * (Required): string. How the reviewed payment was started. Value enum: "checkout",
-     * "payment_link", "invoice", "subscription_initial", "subscription_renewal",
-     * "virtual_terminal", "api". object.payment_intent (Optional): {@link
-     * ExpandedPaymentIntentSummary} or null. Present only when `expand` includes `payment_intent`;
-     * `null` when expanded and there is no related payment intent. object.payment_intent.anyOf[1]
-     * (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
-     * amount, status, and capture method, returned when the payment intent is expanded.
-     * object.payment_intent.anyOf[2] (Value): null. object.payment_intent_id (Required): string.
-     * ID of the payment intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-     * object.payment_review_id (Required): string. Unique identifier for this payment review,
-     * prefixed `rev_`. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6". object.payment_summary
-     * (Required): {@link PaymentReviewPaymentSummary}. A snapshot of the payment as it was when
-     * the review opened. The payment details shown on a review: amount, capture method,
-     * authorization expiry, card brand and last four digits, and buyer email.
-     * object.pending_action (Required): string or null. The decision being carried out. `null`
-     * when status isn't resolving. Value enum: "approve", "decline", "expire", null.
-     * object.refund_id (Required): string or null. The refund created when the payment was
-     * declined. It can be set while status is resolving, before the refund finishes and the review
-     * closes. `null` when no refund exists for the review, including after a decline that needed
-     * none or when the review is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-     * object.refunded_money (Required): {@link MoneyValue} or null. Refunded amount for this
-     * review. Null when no refund is recorded. object.refunded_money.anyOf[1] (Value): {@link
-     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code. object.refunded_money.anyOf[2] (Value): null. object.resolution_started_at (Required):
-     * string or null. RFC3339 timestamp. `null` when nobody has started approving or declining the
-     * review and Flint hasn't started expiring it. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.resolution_started_by (Required): {@link ResourceReference}
-     * or null. The credential that started resolving this payment review, retained after closure.
-     * Null when no resolution has started or Flint started it.
-     * object.resolution_started_by.anyOf[1] (Value): {@link ResourceReference}. A reference to
-     * another resource by `resource_type` and `resource_id`. object.resolution_started_by.anyOf[2]
-     * (Value): null. object.risk (Required): {@link PaymentReviewRisk}. The payment's risk level
-     * and score when the review opened. The risk assessment shown on a review: a `level` and, when
-     * available, a numeric `score`. object.status (Required): string. Where the review is in its
-     * lifecycle. Value enum: "open", "resolving", "closed". object.supported_actions (Required):
-     * Array of string. Lifecycle actions accepted in the current stored review state. An action
-     * remains listed while it is processing or can be repeated without changing the result. []
-     * enum: "approve", "decline". object.supported_actions[] (Value): string. Value enum:
-     * "approve", "decline". object.updated_at (Required): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events. previous_attributes.closed_at (Optional): string or null. RFC3339
-     * timestamp. `null` when the review isn't closed. previous_attributes.closed_at.anyOf[1]
-     * (Value): string. RFC3339 timestamp. `null` when the review isn't closed. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". previous_attributes.closed_at.anyOf[2] (Value): null.
-     * previous_attributes.closed_by (Optional): {@link ResourceReferencePreviousAttributes} or
-     * null. The credential that closed this payment review. Null when Flint closed it.
-     * previous_attributes.closed_by.anyOf[1] (Value): {@link ResourceReferencePreviousAttributes}.
-     * previous_attributes.closed_by.anyOf[2] (Value): null. previous_attributes.closed_reason
-     * (Optional): string or null. How the review was resolved. `null` when the review isn't
-     * closed. Value enum: "approved", "declined", "refunded", "disputed", "payment_canceled",
-     * "expired", null. previous_attributes.closed_reason.anyOf[1] (Value): string. How the review
-     * was resolved. `null` when the review isn't closed. Value enum: "approved", "declined",
-     * "refunded", "disputed", "payment_canceled", "expired", null.
-     * previous_attributes.closed_reason.anyOf[2] (Value): null. previous_attributes.customer
-     * (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present only when
-     * `expand` includes `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1] (Value): {@link
-     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
-     * null. previous_attributes.customer_id (Optional): string or null. ID of the customer the
-     * payment was made for. `null` when the payment has no customer.
-     * previous_attributes.customer_id.anyOf[1] (Value): string. ID of the customer the payment was
-     * made for. `null` when the payment has no customer. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
-     * previous_attributes.ip_address (Optional): string or null. The buyer's IP address recorded
-     * for the payment when it was confirmed. `null` when no buyer IP address was supplied for the
-     * payment. previous_attributes.ip_address.anyOf[1] (Value): string. The buyer's IP address
-     * recorded for the payment when it was confirmed. `null` when no buyer IP address was supplied
-     * for the payment. previous_attributes.ip_address.anyOf[2] (Value): null.
-     * previous_attributes.last_resolution_failure (Optional): {@link
-     * PaymentReviewResolutionFailurePreviousAttributes} or null. The most recent resolution
-     * attempt that failed. Set when a decline's refund failed and the review reopened. Null when
-     * no attempt has failed. previous_attributes.last_resolution_failure.anyOf[1] (Value): {@link
-     * PaymentReviewResolutionFailurePreviousAttributes}.
-     * previous_attributes.last_resolution_failure.anyOf[2] (Value): null.
-     * previous_attributes.matched_risk_rule_id (Optional): string or null. ID of the risk rule
-     * with the review action that opened this review.
-     * previous_attributes.matched_risk_rule_id.anyOf[1] (Value): string. ID of the risk rule with
-     * the review action that opened this review. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319".
-     * previous_attributes.matched_risk_rule_id.anyOf[2] (Value): null.
-     * previous_attributes.opened_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.opened_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.opened_at.anyOf[2] (Value):
-     * null. previous_attributes.opened_reason (Optional): string or null. Why Flint opened the
-     * review. Value enum: "rule". previous_attributes.opened_reason.anyOf[1] (Value): string. Why
-     * Flint opened the review. Value enum: "rule". previous_attributes.opened_reason.anyOf[2]
-     * (Value): null. previous_attributes.order (Optional): {@link
-     * ExpandedOrderSummaryPreviousAttributes} or null. Present only when `expand` includes
-     * `order`; `null` when expanded and there is no related order.
-     * previous_attributes.order.anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
-     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_id (Optional):
-     * string or null. ID of the order the payment belongs to. `null` when the payment doesn't
-     * belong to an order. previous_attributes.order_id.anyOf[1] (Value): string. ID of the order
-     * the payment belongs to. `null` when the payment doesn't belong to an order. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_flow (Optional): string or null. How the reviewed payment was
-     * started. Value enum: "checkout", "payment_link", "invoice", "subscription_initial",
-     * "subscription_renewal", "virtual_terminal", "api". previous_attributes.payment_flow.anyOf[1]
-     * (Value): string. How the reviewed payment was started. Value enum: "checkout",
-     * "payment_link", "invoice", "subscription_initial", "subscription_renewal",
-     * "virtual_terminal", "api". previous_attributes.payment_flow.anyOf[2] (Value): null.
-     * previous_attributes.payment_intent (Optional): {@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Present only when `expand` includes
-     * `payment_intent`; `null` when expanded and there is no related payment intent.
-     * previous_attributes.payment_intent.anyOf[1] (Value): {@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes}. previous_attributes.payment_intent.anyOf[2]
-     * (Value): null. previous_attributes.payment_intent_id (Optional): string or null. ID of the
-     * payment intent under review. previous_attributes.payment_intent_id.anyOf[1] (Value): string.
-     * ID of the payment intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-     * previous_attributes.payment_intent_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_review_id (Optional): string or null. Unique identifier for this
-     * payment review, prefixed `rev_`. previous_attributes.payment_review_id.anyOf[1] (Value):
-     * string. Unique identifier for this payment review, prefixed `rev_`. Example:
-     * "rev_01KEZF7C00BVBQ00XDFNKB1EF6". previous_attributes.payment_review_id.anyOf[2] (Value):
-     * null. previous_attributes.payment_summary (Optional): {@link
-     * PaymentReviewPaymentSummaryPreviousAttributes} or null. A snapshot of the payment as it was
-     * when the review opened. previous_attributes.payment_summary.anyOf[1] (Value): {@link
-     * PaymentReviewPaymentSummaryPreviousAttributes}. previous_attributes.payment_summary.anyOf[2]
-     * (Value): null. previous_attributes.pending_action (Optional): string or null. The decision
-     * being carried out. `null` when status isn't resolving. Value enum: "approve", "decline",
-     * "expire", null. previous_attributes.pending_action.anyOf[1] (Value): string. The decision
-     * being carried out. `null` when status isn't resolving. Value enum: "approve", "decline",
-     * "expire", null. previous_attributes.pending_action.anyOf[2] (Value): null.
-     * previous_attributes.refund_id (Optional): string or null. The refund created when the
-     * payment was declined. It can be set while status is resolving, before the refund finishes
-     * and the review closes. `null` when no refund exists for the review, including after a
-     * decline that needed none or when the review is open. previous_attributes.refund_id.anyOf[1]
-     * (Value): string. The refund created when the payment was declined. It can be set while
-     * status is resolving, before the refund finishes and the review closes. `null` when no refund
-     * exists for the review, including after a decline that needed none or when the review is
-     * open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". previous_attributes.refund_id.anyOf[2]
-     * (Value): null. previous_attributes.refunded_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. Refunded amount for this review. Null when no refund
-     * is recorded. previous_attributes.refunded_money.anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.refunded_money.anyOf[2] (Value): null.
-     * previous_attributes.resolution_started_at (Optional): string or null. RFC3339 timestamp.
-     * `null` when nobody has started approving or declining the review and Flint hasn't started
-     * expiring it. previous_attributes.resolution_started_at.anyOf[1] (Value): string. RFC3339
-     * timestamp. `null` when nobody has started approving or declining the review and Flint hasn't
-     * started expiring it. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.resolution_started_at.anyOf[2] (Value): null.
-     * previous_attributes.resolution_started_by (Optional): {@link
-     * ResourceReferencePreviousAttributes} or null. The credential that started resolving this
-     * payment review, retained after closure. Null when no resolution has started or Flint started
-     * it. previous_attributes.resolution_started_by.anyOf[1] (Value): {@link
-     * ResourceReferencePreviousAttributes}. previous_attributes.resolution_started_by.anyOf[2]
-     * (Value): null. previous_attributes.risk (Optional): {@link
-     * PaymentReviewRiskPreviousAttributes} or null. The payment's risk level and score when the
-     * review opened. previous_attributes.risk.anyOf[1] (Value): {@link
-     * PaymentReviewRiskPreviousAttributes}. previous_attributes.risk.anyOf[2] (Value): null.
-     * previous_attributes.status (Optional): string or null. Where the review is in its lifecycle.
-     * Value enum: "open", "resolving", "closed". previous_attributes.status.anyOf[1] (Value):
-     * string. Where the review is in its lifecycle. Value enum: "open", "resolving", "closed".
-     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
-     * (Optional): Array of string or null. Lifecycle actions accepted in the current stored review
-     * state. An action remains listed while it is processing or can be repeated without changing
-     * the result. [] enum: "approve", "decline". previous_attributes.supported_actions.anyOf[1]
-     * (Value): Array of string. Lifecycle actions accepted in the current stored review state. An
-     * action remains listed while it is processing or can be repeated without changing the result.
-     * [] enum: "approve", "decline". previous_attributes.supported_actions.anyOf[1][] (Value):
-     * string. Value enum: "approve", "decline". previous_attributes.supported_actions.anyOf[2]
-     * (Value): null. previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
-     * null.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields. closed_at
-         * (Required): string or null. RFC3339 timestamp. `null` when the review isn't closed.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". closed_by (Required): {@link
-         * ResourceReference} or null. The credential that closed this payment review. Null when
-         * Flint closed it. closed_by.anyOf[1] (Value): {@link ResourceReference}. A reference to
-         * another resource by `resource_type` and `resource_id`. closed_by.anyOf[2] (Value): null.
-         * closed_reason (Required): string or null. How the review was resolved. `null` when the
-         * review isn't closed. Value enum: "approved", "declined", "refunded", "disputed",
-         * "payment_canceled", "expired", null. customer (Optional): {@link
-         * ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null`
-         * when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
-         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
-         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
-         * (Required): string or null. ID of the customer the payment was made for. `null` when the
-         * payment has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". ip_address
-         * (Required): string or null. The buyer's IP address recorded for the payment when it was
-         * confirmed. `null` when no buyer IP address was supplied for the payment.
-         * last_resolution_failure (Required): {@link PaymentReviewResolutionFailure} or null. The
-         * most recent resolution attempt that failed. Set when a decline's refund failed and the
-         * review reopened. Null when no attempt has failed. last_resolution_failure.anyOf[1]
-         * (Value): {@link PaymentReviewResolutionFailure}. A failed attempt to resolve a review by
-         * refund, with the `refund_id` and when it failed. last_resolution_failure.anyOf[2]
-         * (Value): null. matched_risk_rule_id (Required): string. ID of the risk rule with the
-         * review action that opened this review. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319".
-         * opened_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". opened_reason (Required): string. Why Flint opened the review.
-         * Value enum: "rule". order (Optional): {@link ExpandedOrderSummary} or null. Present only
-         * when `expand` includes `order`; `null` when expanded and there is no related order.
-         * order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
-         * including status, payment and refund status, and pricing and settlement amounts,
-         * returned when the order is expanded. order.anyOf[2] (Value): null. order_id (Required):
-         * string or null. ID of the order the payment belongs to. `null` when the payment doesn't
-         * belong to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". payment_flow (Required):
-         * string. How the reviewed payment was started. Value enum: "checkout", "payment_link",
-         * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api".
-         * payment_intent (Optional): {@link ExpandedPaymentIntentSummary} or null. Present only
-         * when `expand` includes `payment_intent`; `null` when expanded and there is no related
-         * payment intent. payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}. A
-         * payment intent's summary fields, including amount, status, and capture method, returned
-         * when the payment intent is expanded. payment_intent.anyOf[2] (Value): null.
-         * payment_intent_id (Required): string. ID of the payment intent under review. Example:
-         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_review_id (Required): string. Unique identifier
-         * for this payment review, prefixed `rev_`. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
-         * payment_summary (Required): {@link PaymentReviewPaymentSummary}. A snapshot of the
-         * payment as it was when the review opened. The payment details shown on a review: amount,
-         * capture method, authorization expiry, card brand and last four digits, and buyer email.
-         * pending_action (Required): string or null. The decision being carried out. `null` when
-         * status isn't resolving. Value enum: "approve", "decline", "expire", null. refund_id
-         * (Required): string or null. The refund created when the payment was declined. It can be
-         * set while status is resolving, before the refund finishes and the review closes. `null`
-         * when no refund exists for the review, including after a decline that needed none or when
-         * the review is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". refunded_money
-         * (Required): {@link MoneyValue} or null. Refunded amount for this review. Null when no
-         * refund is recorded. refunded_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount
-         * represented as integer minor units plus an ISO 4217 currency code.
-         * refunded_money.anyOf[2] (Value): null. resolution_started_at (Required): string or null.
-         * RFC3339 timestamp. `null` when nobody has started approving or declining the review and
-         * Flint hasn't started expiring it. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * resolution_started_by (Required): {@link ResourceReference} or null. The credential that
-         * started resolving this payment review, retained after closure. Null when no resolution
-         * has started or Flint started it. resolution_started_by.anyOf[1] (Value): {@link
-         * ResourceReference}. A reference to another resource by `resource_type` and
-         * `resource_id`. resolution_started_by.anyOf[2] (Value): null. risk (Required): {@link
-         * PaymentReviewRisk}. The payment's risk level and score when the review opened. The risk
-         * assessment shown on a review: a `level` and, when available, a numeric `score`. status
-         * (Required): string. Where the review is in its lifecycle. Value enum: "open",
-         * "resolving", "closed". supported_actions (Required): Array of string. Lifecycle actions
-         * accepted in the current stored review state. An action remains listed while it is
-         * processing or can be repeated without changing the result. [] enum: "approve",
-         * "decline". supported_actions[] (Value): string. Value enum: "approve", "decline".
-         * updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z".
-         */
-        "object": {
-            /**
-             * RFC3339 timestamp. `null` when the review isn't closed. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "closed_at": string | null;
-            /**
-             * The credential that closed this payment review. Null when Flint closed it. anyOf[1]
-             * (Value): {@link ResourceReference}. A reference to another resource by
-             * `resource_type` and `resource_id`. anyOf[2] (Value): null.
-             */
-            "closed_by": ((ResourceReference) | (null));
-            /**
-             * How the review was resolved. `null` when the review isn't closed. Value enum:
-             * "approved", "declined", "refunded", "disputed", "payment_canceled", "expired", null.
-             */
-            "closed_reason": "approved"
-                | "declined"
-                | "refunded"
-                | "disputed"
-                | "payment_canceled"
-                | "expired"
-                | null
-                | (string & {})
-                | null;
-            /**
-             * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
-             * summary fields, returned in place of a customer ID when the customer is expanded.
-             * anyOf[2] (Value): null.
-             */
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            /**
-             * ID of the customer the payment was made for. `null` when the payment has no
-             * customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-             */
-            "customer_id": string | null;
-            /**
-             * The buyer's IP address recorded for the payment when it was confirmed. `null` when
-             * no buyer IP address was supplied for the payment.
-             */
-            "ip_address": string | null;
-            /**
-             * The most recent resolution attempt that failed. Set when a decline's refund failed
-             * and the review reopened. Null when no attempt has failed. anyOf[1] (Value): {@link
-             * PaymentReviewResolutionFailure}. A failed attempt to resolve a review by refund,
-             * with the `refund_id` and when it failed. anyOf[2] (Value): null.
-             */
-            "last_resolution_failure": ((PaymentReviewResolutionFailure) | (null));
-            /**
-             * ID of the risk rule with the review action that opened this review. Example:
-             * "rule_01KEZF7C00FWGAQJXXA8CRA319".
-             */
-            "matched_risk_rule_id": string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "opened_at": string;
-            /** Why Flint opened the review. Value enum: "rule". */
-            "opened_reason": "rule" | (string & {});
-            /**
-             * Present only when `expand` includes `order`; `null` when expanded and there is no
-             * related order. anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
-             * fields, including status, payment and refund status, and pricing and settlement
-             * amounts, returned when the order is expanded. anyOf[2] (Value): null.
-             */
-            "order"?: ((ExpandedOrderSummary) | (null));
-            /**
-             * ID of the order the payment belongs to. `null` when the payment doesn't belong to an
-             * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-             */
-            "order_id": string | null;
-            /**
-             * How the reviewed payment was started. Value enum: "checkout", "payment_link",
-             * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal",
-             * "api".
-             */
-            "payment_flow": "checkout"
-                | "payment_link"
-                | "invoice"
-                | "subscription_initial"
-                | "subscription_renewal"
-                | "virtual_terminal"
-                | "api"
-                | (string & {});
-            /**
-             * Present only when `expand` includes `payment_intent`; `null` when expanded and there
-             * is no related payment intent. anyOf[1] (Value): {@link
-             * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
-             * status, and capture method, returned when the payment intent is expanded. anyOf[2]
-             * (Value): null.
-             */
-            "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
-            /** ID of the payment intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". */
-            "payment_intent_id": string;
-            /**
-             * Unique identifier for this payment review, prefixed `rev_`. Example:
-             * "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
-             */
-            "payment_review_id": string;
-            /**
-             * A snapshot of the payment as it was when the review opened. The payment details
-             * shown on a review: amount, capture method, authorization expiry, card brand and last
-             * four digits, and buyer email.
-             */
-            "payment_summary": PaymentReviewPaymentSummary;
-            /**
-             * The decision being carried out. `null` when status isn't resolving. Value enum:
-             * "approve", "decline", "expire", null.
-             */
-            "pending_action": "approve" | "decline" | "expire" | null | (string & {}) | null;
-            /**
-             * The refund created when the payment was declined. It can be set while status is
-             * resolving, before the refund finishes and the review closes. `null` when no refund
-             * exists for the review, including after a decline that needed none or when the review
-             * is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-             */
-            "refund_id": string | null;
-            /**
-             * Refunded amount for this review. Null when no refund is recorded. anyOf[1] (Value):
-             * {@link MoneyValue}. Monetary amount represented as integer minor units plus an ISO
-             * 4217 currency code. anyOf[2] (Value): null.
-             */
-            "refunded_money": ((MoneyValue) | (null));
-            /**
-             * RFC3339 timestamp. `null` when nobody has started approving or declining the review
-             * and Flint hasn't started expiring it. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "resolution_started_at": string | null;
-            /**
-             * The credential that started resolving this payment review, retained after closure.
-             * Null when no resolution has started or Flint started it. anyOf[1] (Value): {@link
-             * ResourceReference}. A reference to another resource by `resource_type` and
-             * `resource_id`. anyOf[2] (Value): null.
-             */
-            "resolution_started_by": ((ResourceReference) | (null));
-            /**
-             * The payment's risk level and score when the review opened. The risk assessment shown
-             * on a review: a `level` and, when available, a numeric `score`.
-             */
-            "risk": PaymentReviewRisk;
-            /** Where the review is in its lifecycle. Value enum: "open", "resolving", "closed". */
-            "status": "open" | "resolving" | "closed" | (string & {});
-            /**
-             * Lifecycle actions accepted in the current stored review state. An action remains
-             * listed while it is processing or can be repeated without changing the result. []
-             * enum: "approve", "decline". [] (Value): string. Value enum: "approve", "decline".
-             */
-            "supported_actions": Array<"approve" | "decline" | (string & {})>;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. closed_at (Optional): string or null. RFC3339
-         * timestamp. `null` when the review isn't closed. closed_at.anyOf[1] (Value): string.
-         * RFC3339 timestamp. `null` when the review isn't closed. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". closed_at.anyOf[2] (Value): null. closed_by (Optional): {@link
-         * ResourceReferencePreviousAttributes} or null. The credential that closed this payment
-         * review. Null when Flint closed it. closed_by.anyOf[1] (Value): {@link
-         * ResourceReferencePreviousAttributes}. closed_by.anyOf[2] (Value): null. closed_reason
-         * (Optional): string or null. How the review was resolved. `null` when the review isn't
-         * closed. Value enum: "approved", "declined", "refunded", "disputed", "payment_canceled",
-         * "expired", null. closed_reason.anyOf[1] (Value): string. How the review was resolved.
-         * `null` when the review isn't closed. Value enum: "approved", "declined", "refunded",
-         * "disputed", "payment_canceled", "expired", null. closed_reason.anyOf[2] (Value): null.
-         * customer (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present
-         * only when `expand` includes `customer`; `null` when expanded and there is no related
-         * customer. customer.anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
-         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. ID of the
-         * customer the payment was made for. `null` when the payment has no customer.
-         * customer_id.anyOf[1] (Value): string. ID of the customer the payment was made for.
-         * `null` when the payment has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-         * customer_id.anyOf[2] (Value): null. ip_address (Optional): string or null. The buyer's
-         * IP address recorded for the payment when it was confirmed. `null` when no buyer IP
-         * address was supplied for the payment. ip_address.anyOf[1] (Value): string. The buyer's
-         * IP address recorded for the payment when it was confirmed. `null` when no buyer IP
-         * address was supplied for the payment. ip_address.anyOf[2] (Value): null.
-         * last_resolution_failure (Optional): {@link
-         * PaymentReviewResolutionFailurePreviousAttributes} or null. The most recent resolution
-         * attempt that failed. Set when a decline's refund failed and the review reopened. Null
-         * when no attempt has failed. last_resolution_failure.anyOf[1] (Value): {@link
-         * PaymentReviewResolutionFailurePreviousAttributes}. last_resolution_failure.anyOf[2]
-         * (Value): null. matched_risk_rule_id (Optional): string or null. ID of the risk rule with
-         * the review action that opened this review. matched_risk_rule_id.anyOf[1] (Value):
-         * string. ID of the risk rule with the review action that opened this review. Example:
-         * "rule_01KEZF7C00FWGAQJXXA8CRA319". matched_risk_rule_id.anyOf[2] (Value): null.
-         * opened_at (Optional): string or null. RFC3339 timestamp. opened_at.anyOf[1] (Value):
-         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * opened_at.anyOf[2] (Value): null. opened_reason (Optional): string or null. Why Flint
-         * opened the review. Value enum: "rule". opened_reason.anyOf[1] (Value): string. Why Flint
-         * opened the review. Value enum: "rule". opened_reason.anyOf[2] (Value): null. order
-         * (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or null. Present only when
-         * `expand` includes `order`; `null` when expanded and there is no related order.
-         * order.anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2]
-         * (Value): null. order_id (Optional): string or null. ID of the order the payment belongs
-         * to. `null` when the payment doesn't belong to an order. order_id.anyOf[1] (Value):
-         * string. ID of the order the payment belongs to. `null` when the payment doesn't belong
-         * to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
-         * payment_flow (Optional): string or null. How the reviewed payment was started. Value
-         * enum: "checkout", "payment_link", "invoice", "subscription_initial",
-         * "subscription_renewal", "virtual_terminal", "api". payment_flow.anyOf[1] (Value):
-         * string. How the reviewed payment was started. Value enum: "checkout", "payment_link",
-         * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api".
-         * payment_flow.anyOf[2] (Value): null. payment_intent (Optional): {@link
-         * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Present only when `expand`
-         * includes `payment_intent`; `null` when expanded and there is no related payment intent.
-         * payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummaryPreviousAttributes}.
-         * payment_intent.anyOf[2] (Value): null. payment_intent_id (Optional): string or null. ID
-         * of the payment intent under review. payment_intent_id.anyOf[1] (Value): string. ID of
-         * the payment intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-         * payment_intent_id.anyOf[2] (Value): null. payment_review_id (Optional): string or null.
-         * Unique identifier for this payment review, prefixed `rev_`. payment_review_id.anyOf[1]
-         * (Value): string. Unique identifier for this payment review, prefixed `rev_`. Example:
-         * "rev_01KEZF7C00BVBQ00XDFNKB1EF6". payment_review_id.anyOf[2] (Value): null.
-         * payment_summary (Optional): {@link PaymentReviewPaymentSummaryPreviousAttributes} or
-         * null. A snapshot of the payment as it was when the review opened.
-         * payment_summary.anyOf[1] (Value): {@link PaymentReviewPaymentSummaryPreviousAttributes}.
-         * payment_summary.anyOf[2] (Value): null. pending_action (Optional): string or null. The
-         * decision being carried out. `null` when status isn't resolving. Value enum: "approve",
-         * "decline", "expire", null. pending_action.anyOf[1] (Value): string. The decision being
-         * carried out. `null` when status isn't resolving. Value enum: "approve", "decline",
-         * "expire", null. pending_action.anyOf[2] (Value): null. refund_id (Optional): string or
-         * null. The refund created when the payment was declined. It can be set while status is
-         * resolving, before the refund finishes and the review closes. `null` when no refund
-         * exists for the review, including after a decline that needed none or when the review is
-         * open. refund_id.anyOf[1] (Value): string. The refund created when the payment was
-         * declined. It can be set while status is resolving, before the refund finishes and the
-         * review closes. `null` when no refund exists for the review, including after a decline
-         * that needed none or when the review is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-         * refund_id.anyOf[2] (Value): null. refunded_money (Optional): {@link
-         * MoneyValuePreviousAttributes} or null. Refunded amount for this review. Null when no
-         * refund is recorded. refunded_money.anyOf[1] (Value): {@link
-         * MoneyValuePreviousAttributes}. refunded_money.anyOf[2] (Value): null.
-         * resolution_started_at (Optional): string or null. RFC3339 timestamp. `null` when nobody
-         * has started approving or declining the review and Flint hasn't started expiring it.
-         * resolution_started_at.anyOf[1] (Value): string. RFC3339 timestamp. `null` when nobody
-         * has started approving or declining the review and Flint hasn't started expiring it.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". resolution_started_at.anyOf[2]
-         * (Value): null. resolution_started_by (Optional): {@link
-         * ResourceReferencePreviousAttributes} or null. The credential that started resolving this
-         * payment review, retained after closure. Null when no resolution has started or Flint
-         * started it. resolution_started_by.anyOf[1] (Value): {@link
-         * ResourceReferencePreviousAttributes}. resolution_started_by.anyOf[2] (Value): null. risk
-         * (Optional): {@link PaymentReviewRiskPreviousAttributes} or null. The payment's risk
-         * level and score when the review opened. risk.anyOf[1] (Value): {@link
-         * PaymentReviewRiskPreviousAttributes}. risk.anyOf[2] (Value): null. status (Optional):
-         * string or null. Where the review is in its lifecycle. Value enum: "open", "resolving",
-         * "closed". status.anyOf[1] (Value): string. Where the review is in its lifecycle. Value
-         * enum: "open", "resolving", "closed". status.anyOf[2] (Value): null. supported_actions
-         * (Optional): Array of string or null. Lifecycle actions accepted in the current stored
-         * review state. An action remains listed while it is processing or can be repeated without
-         * changing the result. [] enum: "approve", "decline". supported_actions.anyOf[1] (Value):
-         * Array of string. Lifecycle actions accepted in the current stored review state. An
-         * action remains listed while it is processing or can be repeated without changing the
-         * result. [] enum: "approve", "decline". supported_actions.anyOf[1][] (Value): string.
-         * Value enum: "approve", "decline". supported_actions.anyOf[2] (Value): null. updated_at
-         * (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string.
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * updated_at.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * RFC3339 timestamp. `null` when the review isn't closed. anyOf[1] (Value): string.
-             * RFC3339 timestamp. `null` when the review isn't closed. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "closed_at"?: ((string) | (null));
-            /**
-             * The credential that closed this payment review. Null when Flint closed it. anyOf[1]
-             * (Value): {@link ResourceReferencePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "closed_by"?: ((ResourceReferencePreviousAttributes) | (null));
-            /**
-             * How the review was resolved. `null` when the review isn't closed. Value enum:
-             * "approved", "declined", "refunded", "disputed", "payment_canceled", "expired", null.
-             * anyOf[1] (Value): string. How the review was resolved. `null` when the review isn't
-             * closed. Value enum: "approved", "declined", "refunded", "disputed",
-             * "payment_canceled", "expired", null. anyOf[2] (Value): null.
-             */
-            "closed_reason"?: (("approved"
-                | "declined"
-                | "refunded"
-                | "disputed"
-                | "payment_canceled"
-                | "expired"
-                | null
-                | (string & {}))
-                | (null));
-            /**
-             * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): {@link
-             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
-            /**
-             * ID of the customer the payment was made for. `null` when the payment has no
-             * customer. anyOf[1] (Value): string. ID of the customer the payment was made for.
-             * `null` when the payment has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-             * anyOf[2] (Value): null.
-             */
-            "customer_id"?: ((string) | (null));
-            /**
-             * The buyer's IP address recorded for the payment when it was confirmed. `null` when
-             * no buyer IP address was supplied for the payment. anyOf[1] (Value): string. The
-             * buyer's IP address recorded for the payment when it was confirmed. `null` when no
-             * buyer IP address was supplied for the payment. anyOf[2] (Value): null.
-             */
-            "ip_address"?: ((string) | (null));
-            /**
-             * The most recent resolution attempt that failed. Set when a decline's refund failed
-             * and the review reopened. Null when no attempt has failed. anyOf[1] (Value): {@link
-             * PaymentReviewResolutionFailurePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "last_resolution_failure"?: ((PaymentReviewResolutionFailurePreviousAttributes) | (null));
-            /**
-             * ID of the risk rule with the review action that opened this review. anyOf[1]
-             * (Value): string. ID of the risk rule with the review action that opened this review.
-             * Example: "rule_01KEZF7C00FWGAQJXXA8CRA319". anyOf[2] (Value): null.
-             */
-            "matched_risk_rule_id"?: ((string) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "opened_at"?: ((string) | (null));
-            /**
-             * Why Flint opened the review. Value enum: "rule". anyOf[1] (Value): string. Why Flint
-             * opened the review. Value enum: "rule". anyOf[2] (Value): null.
-             */
-            "opened_reason"?: (("rule" | (string & {})) | (null));
-            /**
-             * Present only when `expand` includes `order`; `null` when expanded and there is no
-             * related order. anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
-             * anyOf[2] (Value): null.
-             */
-            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
-            /**
-             * ID of the order the payment belongs to. `null` when the payment doesn't belong to an
-             * order. anyOf[1] (Value): string. ID of the order the payment belongs to. `null` when
-             * the payment doesn't belong to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-             * anyOf[2] (Value): null.
-             */
-            "order_id"?: ((string) | (null));
-            /**
-             * How the reviewed payment was started. Value enum: "checkout", "payment_link",
-             * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal",
-             * "api". anyOf[1] (Value): string. How the reviewed payment was started. Value enum:
-             * "checkout", "payment_link", "invoice", "subscription_initial",
-             * "subscription_renewal", "virtual_terminal", "api". anyOf[2] (Value): null.
-             */
-            "payment_flow"?: (("checkout"
-                | "payment_link"
-                | "invoice"
-                | "subscription_initial"
-                | "subscription_renewal"
-                | "virtual_terminal"
-                | "api"
-                | (string & {}))
-                | (null));
-            /**
-             * Present only when `expand` includes `payment_intent`; `null` when expanded and there
-             * is no related payment intent. anyOf[1] (Value): {@link
-             * ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
-            /**
-             * ID of the payment intent under review. anyOf[1] (Value): string. ID of the payment
-             * intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2] (Value):
-             * null.
-             */
-            "payment_intent_id"?: ((string) | (null));
-            /**
-             * Unique identifier for this payment review, prefixed `rev_`. anyOf[1] (Value):
-             * string. Unique identifier for this payment review, prefixed `rev_`. Example:
-             * "rev_01KEZF7C00BVBQ00XDFNKB1EF6". anyOf[2] (Value): null.
-             */
-            "payment_review_id"?: ((string) | (null));
-            /**
-             * A snapshot of the payment as it was when the review opened. anyOf[1] (Value): {@link
-             * PaymentReviewPaymentSummaryPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "payment_summary"?: ((PaymentReviewPaymentSummaryPreviousAttributes) | (null));
-            /**
-             * The decision being carried out. `null` when status isn't resolving. Value enum:
-             * "approve", "decline", "expire", null. anyOf[1] (Value): string. The decision being
-             * carried out. `null` when status isn't resolving. Value enum: "approve", "decline",
-             * "expire", null. anyOf[2] (Value): null.
-             */
-            "pending_action"?: (("approve" | "decline" | "expire" | null | (string & {})) | (null));
-            /**
-             * The refund created when the payment was declined. It can be set while status is
-             * resolving, before the refund finishes and the review closes. `null` when no refund
-             * exists for the review, including after a decline that needed none or when the review
-             * is open. anyOf[1] (Value): string. The refund created when the payment was declined.
-             * It can be set while status is resolving, before the refund finishes and the review
-             * closes. `null` when no refund exists for the review, including after a decline that
-             * needed none or when the review is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-             * anyOf[2] (Value): null.
-             */
-            "refund_id"?: ((string) | (null));
-            /**
-             * Refunded amount for this review. Null when no refund is recorded. anyOf[1] (Value):
-             * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "refunded_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * RFC3339 timestamp. `null` when nobody has started approving or declining the review
-             * and Flint hasn't started expiring it. anyOf[1] (Value): string. RFC3339 timestamp.
-             * `null` when nobody has started approving or declining the review and Flint hasn't
-             * started expiring it. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
-             * (Value): null.
-             */
-            "resolution_started_at"?: ((string) | (null));
-            /**
-             * The credential that started resolving this payment review, retained after closure.
-             * Null when no resolution has started or Flint started it. anyOf[1] (Value): {@link
-             * ResourceReferencePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "resolution_started_by"?: ((ResourceReferencePreviousAttributes) | (null));
-            /**
-             * The payment's risk level and score when the review opened. anyOf[1] (Value): {@link
-             * PaymentReviewRiskPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "risk"?: ((PaymentReviewRiskPreviousAttributes) | (null));
-            /**
-             * Where the review is in its lifecycle. Value enum: "open", "resolving", "closed".
-             * anyOf[1] (Value): string. Where the review is in its lifecycle. Value enum: "open",
-             * "resolving", "closed". anyOf[2] (Value): null.
-             */
-            "status"?: (("open" | "resolving" | "closed" | (string & {})) | (null));
-            /**
-             * Lifecycle actions accepted in the current stored review state. An action remains
-             * listed while it is processing or can be repeated without changing the result. []
-             * enum: "approve", "decline". anyOf[1] (Value): Array of string. Lifecycle actions
-             * accepted in the current stored review state. An action remains listed while it is
-             * processing or can be repeated without changing the result. [] enum: "approve",
-             * "decline". anyOf[1][] (Value): string. Value enum: "approve", "decline". anyOf[2]
-             * (Value): null.
-             */
-            "supported_actions"?: ((Array<"approve" | "decline" | (string & {})>) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "updated_at"?: ((string) | (null));
-        });
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "payment_review.closed". */
-    "event_type"?: "payment_review.closed";
-});
-/** A page of `PaymentReview` objects. */
-export type PaymentReviewListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * PaymentReview}. A payment review requiring a merchant decision.
-     */
-    "data": Array<PaymentReview>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type PaymentReviewOpenedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "closed_at": string | null;
-            "closed_by": ((ResourceReference) | (null));
-            "closed_reason": "approved"
-                | "declined"
-                | "refunded"
-                | "disputed"
-                | "payment_canceled"
-                | "expired"
-                | null
-                | (string & {})
-                | null;
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            "customer_id": string | null;
-            "ip_address": string | null;
-            "last_resolution_failure": ((PaymentReviewResolutionFailure) | (null));
-            "matched_risk_rule_id": string;
-            "opened_at": string;
-            "opened_reason": "rule" | (string & {});
-            "order"?: ((ExpandedOrderSummary) | (null));
-            "order_id": string | null;
-            "payment_flow": "checkout"
-                | "payment_link"
-                | "invoice"
-                | "subscription_initial"
-                | "subscription_renewal"
-                | "virtual_terminal"
-                | "api"
-                | (string & {});
-            "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
-            "payment_intent_id": string;
-            "payment_review_id": string;
-            "payment_summary": PaymentReviewPaymentSummary;
-            "pending_action": "approve" | "decline" | "expire" | null | (string & {}) | null;
-            "refund_id": string | null;
-            "refunded_money": ((MoneyValue) | (null));
-            "resolution_started_at": string | null;
-            "resolution_started_by": ((ResourceReference) | (null));
-            "risk": PaymentReviewRisk;
-            "status": "open" | "resolving" | "closed" | (string & {});
-            "supported_actions": Array<"approve" | "decline" | (string & {})>;
-            "updated_at": string;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "closed_at"?: ((string) | (null));
-            "closed_by"?: ((ResourceReferencePreviousAttributes) | (null));
-            "closed_reason"?: (("approved"
-                | "declined"
-                | "refunded"
-                | "disputed"
-                | "payment_canceled"
-                | "expired"
-                | null
-                | (string & {}))
-                | (null));
-            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
-            "customer_id"?: ((string) | (null));
-            "ip_address"?: ((string) | (null));
-            "last_resolution_failure"?: ((PaymentReviewResolutionFailurePreviousAttributes) | (null));
-            "matched_risk_rule_id"?: ((string) | (null));
-            "opened_at"?: ((string) | (null));
-            "opened_reason"?: (("rule" | (string & {})) | (null));
-            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
-            "order_id"?: ((string) | (null));
-            "payment_flow"?: (("checkout"
-                | "payment_link"
-                | "invoice"
-                | "subscription_initial"
-                | "subscription_renewal"
-                | "virtual_terminal"
-                | "api"
-                | (string & {}))
-                | (null));
-            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
-            "payment_intent_id"?: ((string) | (null));
-            "payment_review_id"?: ((string) | (null));
-            "payment_summary"?: ((PaymentReviewPaymentSummaryPreviousAttributes) | (null));
-            "pending_action"?: (("approve" | "decline" | "expire" | null | (string & {})) | (null));
-            "refund_id"?: ((string) | (null));
-            "refunded_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "resolution_started_at"?: ((string) | (null));
-            "resolution_started_by"?: ((ResourceReferencePreviousAttributes) | (null));
-            "risk"?: ((PaymentReviewRiskPreviousAttributes) | (null));
-            "status"?: (("open" | "resolving" | "closed" | (string & {})) | (null));
-            "supported_actions"?: ((Array<"approve" | "decline" | (string & {})>) | (null));
-            "updated_at"?: ((string) | (null));
-        });
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "payment_review.opened";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "closed_at": string | null;
-            "closed_by": ((ResourceReference) | (null));
-            "closed_reason": "approved"
-                | "declined"
-                | "refunded"
-                | "disputed"
-                | "payment_canceled"
-                | "expired"
-                | null
-                | (string & {})
-                | null;
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            "customer_id": string | null;
-            "ip_address": string | null;
-            "last_resolution_failure": ((PaymentReviewResolutionFailure) | (null));
-            "matched_risk_rule_id": string;
-            "opened_at": string;
-            "opened_reason": "rule" | (string & {});
-            "order"?: ((ExpandedOrderSummary) | (null));
-            "order_id": string | null;
-            "payment_flow": "checkout"
-                | "payment_link"
-                | "invoice"
-                | "subscription_initial"
-                | "subscription_renewal"
-                | "virtual_terminal"
-                | "api"
-                | (string & {});
-            "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
-            "payment_intent_id": string;
-            "payment_review_id": string;
-            "payment_summary": PaymentReviewPaymentSummary;
-            "pending_action": "approve" | "decline" | "expire" | null | (string & {}) | null;
-            "refund_id": string | null;
-            "refunded_money": ((MoneyValue) | (null));
-            "resolution_started_at": string | null;
-            "resolution_started_by": ((ResourceReference) | (null));
-            "risk": PaymentReviewRisk;
-            "status": "open" | "resolving" | "closed" | (string & {});
-            "supported_actions": Array<"approve" | "decline" | (string & {})>;
-            "updated_at": string;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "closed_at"?: ((string) | (null));
-            "closed_by"?: ((ResourceReferencePreviousAttributes) | (null));
-            "closed_reason"?: (("approved"
-                | "declined"
-                | "refunded"
-                | "disputed"
-                | "payment_canceled"
-                | "expired"
-                | null
-                | (string & {}))
-                | (null));
-            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
-            "customer_id"?: ((string) | (null));
-            "ip_address"?: ((string) | (null));
-            "last_resolution_failure"?: ((PaymentReviewResolutionFailurePreviousAttributes) | (null));
-            "matched_risk_rule_id"?: ((string) | (null));
-            "opened_at"?: ((string) | (null));
-            "opened_reason"?: (("rule" | (string & {})) | (null));
-            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
-            "order_id"?: ((string) | (null));
-            "payment_flow"?: (("checkout"
-                | "payment_link"
-                | "invoice"
-                | "subscription_initial"
-                | "subscription_renewal"
-                | "virtual_terminal"
-                | "api"
-                | (string & {}))
-                | (null));
-            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
-            "payment_intent_id"?: ((string) | (null));
-            "payment_review_id"?: ((string) | (null));
-            "payment_summary"?: ((PaymentReviewPaymentSummaryPreviousAttributes) | (null));
-            "pending_action"?: (("approve" | "decline" | "expire" | null | (string & {})) | (null));
-            "refund_id"?: ((string) | (null));
-            "refunded_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "resolution_started_at"?: ((string) | (null));
-            "resolution_started_by"?: ((ResourceReferencePreviousAttributes) | (null));
-            "risk"?: ((PaymentReviewRiskPreviousAttributes) | (null));
-            "status"?: (("open" | "resolving" | "closed" | (string & {})) | (null));
-            "supported_actions"?: ((Array<"approve" | "decline" | (string & {})>) | (null));
-            "updated_at"?: ((string) | (null));
-        });
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "payment_review.opened";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "payment_review.opened";
-});
-/**
- * The `payment_review.opened` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type PaymentReviewOpenedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.closed_at (Required): string or null. RFC3339 timestamp. `null`
-     * when the review isn't closed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.closed_by (Required): {@link ResourceReference} or null. The credential that closed
-     * this payment review. Null when Flint closed it. object.closed_by.anyOf[1] (Value): {@link
-     * ResourceReference}. A reference to another resource by `resource_type` and `resource_id`.
-     * object.closed_by.anyOf[2] (Value): null. object.closed_reason (Required): string or null.
-     * How the review was resolved. `null` when the review isn't closed. Value enum: "approved",
-     * "declined", "refunded", "disputed", "payment_canceled", "expired", null. object.customer
-     * (Optional): {@link ExpandedCustomerSummary} or null. Present only when `expand` includes
-     * `customer`; `null` when expanded and there is no related customer. object.customer.anyOf[1]
-     * (Value): {@link ExpandedCustomerSummary}. A customer's summary fields, returned in place of
-     * a customer ID when the customer is expanded. object.customer.anyOf[2] (Value): null.
-     * object.customer_id (Required): string or null. ID of the customer the payment was made for.
-     * `null` when the payment has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * object.ip_address (Required): string or null. The buyer's IP address recorded for the
-     * payment when it was confirmed. `null` when no buyer IP address was supplied for the payment.
-     * object.last_resolution_failure (Required): {@link PaymentReviewResolutionFailure} or null.
-     * The most recent resolution attempt that failed. Set when a decline's refund failed and the
-     * review reopened. Null when no attempt has failed. object.last_resolution_failure.anyOf[1]
-     * (Value): {@link PaymentReviewResolutionFailure}. A failed attempt to resolve a review by
-     * refund, with the `refund_id` and when it failed. object.last_resolution_failure.anyOf[2]
-     * (Value): null. object.matched_risk_rule_id (Required): string. ID of the risk rule with the
-     * review action that opened this review. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319".
-     * object.opened_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.opened_reason (Required): string. Why Flint opened the
-     * review. Value enum: "rule". object.order (Optional): {@link ExpandedOrderSummary} or null.
-     * Present only when `expand` includes `order`; `null` when expanded and there is no related
-     * order. object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
-     * fields, including status, payment and refund status, and pricing and settlement amounts,
-     * returned when the order is expanded. object.order.anyOf[2] (Value): null. object.order_id
-     * (Required): string or null. ID of the order the payment belongs to. `null` when the payment
-     * doesn't belong to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.payment_flow
-     * (Required): string. How the reviewed payment was started. Value enum: "checkout",
-     * "payment_link", "invoice", "subscription_initial", "subscription_renewal",
-     * "virtual_terminal", "api". object.payment_intent (Optional): {@link
-     * ExpandedPaymentIntentSummary} or null. Present only when `expand` includes `payment_intent`;
-     * `null` when expanded and there is no related payment intent. object.payment_intent.anyOf[1]
-     * (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
-     * amount, status, and capture method, returned when the payment intent is expanded.
-     * object.payment_intent.anyOf[2] (Value): null. object.payment_intent_id (Required): string.
-     * ID of the payment intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-     * object.payment_review_id (Required): string. Unique identifier for this payment review,
-     * prefixed `rev_`. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6". object.payment_summary
-     * (Required): {@link PaymentReviewPaymentSummary}. A snapshot of the payment as it was when
-     * the review opened. The payment details shown on a review: amount, capture method,
-     * authorization expiry, card brand and last four digits, and buyer email.
-     * object.pending_action (Required): string or null. The decision being carried out. `null`
-     * when status isn't resolving. Value enum: "approve", "decline", "expire", null.
-     * object.refund_id (Required): string or null. The refund created when the payment was
-     * declined. It can be set while status is resolving, before the refund finishes and the review
-     * closes. `null` when no refund exists for the review, including after a decline that needed
-     * none or when the review is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-     * object.refunded_money (Required): {@link MoneyValue} or null. Refunded amount for this
-     * review. Null when no refund is recorded. object.refunded_money.anyOf[1] (Value): {@link
-     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code. object.refunded_money.anyOf[2] (Value): null. object.resolution_started_at (Required):
-     * string or null. RFC3339 timestamp. `null` when nobody has started approving or declining the
-     * review and Flint hasn't started expiring it. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.resolution_started_by (Required): {@link ResourceReference}
-     * or null. The credential that started resolving this payment review, retained after closure.
-     * Null when no resolution has started or Flint started it.
-     * object.resolution_started_by.anyOf[1] (Value): {@link ResourceReference}. A reference to
-     * another resource by `resource_type` and `resource_id`. object.resolution_started_by.anyOf[2]
-     * (Value): null. object.risk (Required): {@link PaymentReviewRisk}. The payment's risk level
-     * and score when the review opened. The risk assessment shown on a review: a `level` and, when
-     * available, a numeric `score`. object.status (Required): string. Where the review is in its
-     * lifecycle. Value enum: "open", "resolving", "closed". object.supported_actions (Required):
-     * Array of string. Lifecycle actions accepted in the current stored review state. An action
-     * remains listed while it is processing or can be repeated without changing the result. []
-     * enum: "approve", "decline". object.supported_actions[] (Value): string. Value enum:
-     * "approve", "decline". object.updated_at (Required): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events. previous_attributes.closed_at (Optional): string or null. RFC3339
-     * timestamp. `null` when the review isn't closed. previous_attributes.closed_at.anyOf[1]
-     * (Value): string. RFC3339 timestamp. `null` when the review isn't closed. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". previous_attributes.closed_at.anyOf[2] (Value): null.
-     * previous_attributes.closed_by (Optional): {@link ResourceReferencePreviousAttributes} or
-     * null. The credential that closed this payment review. Null when Flint closed it.
-     * previous_attributes.closed_by.anyOf[1] (Value): {@link ResourceReferencePreviousAttributes}.
-     * previous_attributes.closed_by.anyOf[2] (Value): null. previous_attributes.closed_reason
-     * (Optional): string or null. How the review was resolved. `null` when the review isn't
-     * closed. Value enum: "approved", "declined", "refunded", "disputed", "payment_canceled",
-     * "expired", null. previous_attributes.closed_reason.anyOf[1] (Value): string. How the review
-     * was resolved. `null` when the review isn't closed. Value enum: "approved", "declined",
-     * "refunded", "disputed", "payment_canceled", "expired", null.
-     * previous_attributes.closed_reason.anyOf[2] (Value): null. previous_attributes.customer
-     * (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present only when
-     * `expand` includes `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1] (Value): {@link
-     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
-     * null. previous_attributes.customer_id (Optional): string or null. ID of the customer the
-     * payment was made for. `null` when the payment has no customer.
-     * previous_attributes.customer_id.anyOf[1] (Value): string. ID of the customer the payment was
-     * made for. `null` when the payment has no customer. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
-     * previous_attributes.ip_address (Optional): string or null. The buyer's IP address recorded
-     * for the payment when it was confirmed. `null` when no buyer IP address was supplied for the
-     * payment. previous_attributes.ip_address.anyOf[1] (Value): string. The buyer's IP address
-     * recorded for the payment when it was confirmed. `null` when no buyer IP address was supplied
-     * for the payment. previous_attributes.ip_address.anyOf[2] (Value): null.
-     * previous_attributes.last_resolution_failure (Optional): {@link
-     * PaymentReviewResolutionFailurePreviousAttributes} or null. The most recent resolution
-     * attempt that failed. Set when a decline's refund failed and the review reopened. Null when
-     * no attempt has failed. previous_attributes.last_resolution_failure.anyOf[1] (Value): {@link
-     * PaymentReviewResolutionFailurePreviousAttributes}.
-     * previous_attributes.last_resolution_failure.anyOf[2] (Value): null.
-     * previous_attributes.matched_risk_rule_id (Optional): string or null. ID of the risk rule
-     * with the review action that opened this review.
-     * previous_attributes.matched_risk_rule_id.anyOf[1] (Value): string. ID of the risk rule with
-     * the review action that opened this review. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319".
-     * previous_attributes.matched_risk_rule_id.anyOf[2] (Value): null.
-     * previous_attributes.opened_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.opened_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.opened_at.anyOf[2] (Value):
-     * null. previous_attributes.opened_reason (Optional): string or null. Why Flint opened the
-     * review. Value enum: "rule". previous_attributes.opened_reason.anyOf[1] (Value): string. Why
-     * Flint opened the review. Value enum: "rule". previous_attributes.opened_reason.anyOf[2]
-     * (Value): null. previous_attributes.order (Optional): {@link
-     * ExpandedOrderSummaryPreviousAttributes} or null. Present only when `expand` includes
-     * `order`; `null` when expanded and there is no related order.
-     * previous_attributes.order.anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
-     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_id (Optional):
-     * string or null. ID of the order the payment belongs to. `null` when the payment doesn't
-     * belong to an order. previous_attributes.order_id.anyOf[1] (Value): string. ID of the order
-     * the payment belongs to. `null` when the payment doesn't belong to an order. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_flow (Optional): string or null. How the reviewed payment was
-     * started. Value enum: "checkout", "payment_link", "invoice", "subscription_initial",
-     * "subscription_renewal", "virtual_terminal", "api". previous_attributes.payment_flow.anyOf[1]
-     * (Value): string. How the reviewed payment was started. Value enum: "checkout",
-     * "payment_link", "invoice", "subscription_initial", "subscription_renewal",
-     * "virtual_terminal", "api". previous_attributes.payment_flow.anyOf[2] (Value): null.
-     * previous_attributes.payment_intent (Optional): {@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Present only when `expand` includes
-     * `payment_intent`; `null` when expanded and there is no related payment intent.
-     * previous_attributes.payment_intent.anyOf[1] (Value): {@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes}. previous_attributes.payment_intent.anyOf[2]
-     * (Value): null. previous_attributes.payment_intent_id (Optional): string or null. ID of the
-     * payment intent under review. previous_attributes.payment_intent_id.anyOf[1] (Value): string.
-     * ID of the payment intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-     * previous_attributes.payment_intent_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_review_id (Optional): string or null. Unique identifier for this
-     * payment review, prefixed `rev_`. previous_attributes.payment_review_id.anyOf[1] (Value):
-     * string. Unique identifier for this payment review, prefixed `rev_`. Example:
-     * "rev_01KEZF7C00BVBQ00XDFNKB1EF6". previous_attributes.payment_review_id.anyOf[2] (Value):
-     * null. previous_attributes.payment_summary (Optional): {@link
-     * PaymentReviewPaymentSummaryPreviousAttributes} or null. A snapshot of the payment as it was
-     * when the review opened. previous_attributes.payment_summary.anyOf[1] (Value): {@link
-     * PaymentReviewPaymentSummaryPreviousAttributes}. previous_attributes.payment_summary.anyOf[2]
-     * (Value): null. previous_attributes.pending_action (Optional): string or null. The decision
-     * being carried out. `null` when status isn't resolving. Value enum: "approve", "decline",
-     * "expire", null. previous_attributes.pending_action.anyOf[1] (Value): string. The decision
-     * being carried out. `null` when status isn't resolving. Value enum: "approve", "decline",
-     * "expire", null. previous_attributes.pending_action.anyOf[2] (Value): null.
-     * previous_attributes.refund_id (Optional): string or null. The refund created when the
-     * payment was declined. It can be set while status is resolving, before the refund finishes
-     * and the review closes. `null` when no refund exists for the review, including after a
-     * decline that needed none or when the review is open. previous_attributes.refund_id.anyOf[1]
-     * (Value): string. The refund created when the payment was declined. It can be set while
-     * status is resolving, before the refund finishes and the review closes. `null` when no refund
-     * exists for the review, including after a decline that needed none or when the review is
-     * open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". previous_attributes.refund_id.anyOf[2]
-     * (Value): null. previous_attributes.refunded_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. Refunded amount for this review. Null when no refund
-     * is recorded. previous_attributes.refunded_money.anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.refunded_money.anyOf[2] (Value): null.
-     * previous_attributes.resolution_started_at (Optional): string or null. RFC3339 timestamp.
-     * `null` when nobody has started approving or declining the review and Flint hasn't started
-     * expiring it. previous_attributes.resolution_started_at.anyOf[1] (Value): string. RFC3339
-     * timestamp. `null` when nobody has started approving or declining the review and Flint hasn't
-     * started expiring it. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.resolution_started_at.anyOf[2] (Value): null.
-     * previous_attributes.resolution_started_by (Optional): {@link
-     * ResourceReferencePreviousAttributes} or null. The credential that started resolving this
-     * payment review, retained after closure. Null when no resolution has started or Flint started
-     * it. previous_attributes.resolution_started_by.anyOf[1] (Value): {@link
-     * ResourceReferencePreviousAttributes}. previous_attributes.resolution_started_by.anyOf[2]
-     * (Value): null. previous_attributes.risk (Optional): {@link
-     * PaymentReviewRiskPreviousAttributes} or null. The payment's risk level and score when the
-     * review opened. previous_attributes.risk.anyOf[1] (Value): {@link
-     * PaymentReviewRiskPreviousAttributes}. previous_attributes.risk.anyOf[2] (Value): null.
-     * previous_attributes.status (Optional): string or null. Where the review is in its lifecycle.
-     * Value enum: "open", "resolving", "closed". previous_attributes.status.anyOf[1] (Value):
-     * string. Where the review is in its lifecycle. Value enum: "open", "resolving", "closed".
-     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
-     * (Optional): Array of string or null. Lifecycle actions accepted in the current stored review
-     * state. An action remains listed while it is processing or can be repeated without changing
-     * the result. [] enum: "approve", "decline". previous_attributes.supported_actions.anyOf[1]
-     * (Value): Array of string. Lifecycle actions accepted in the current stored review state. An
-     * action remains listed while it is processing or can be repeated without changing the result.
-     * [] enum: "approve", "decline". previous_attributes.supported_actions.anyOf[1][] (Value):
-     * string. Value enum: "approve", "decline". previous_attributes.supported_actions.anyOf[2]
-     * (Value): null. previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
-     * null.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields. closed_at
-         * (Required): string or null. RFC3339 timestamp. `null` when the review isn't closed.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". closed_by (Required): {@link
-         * ResourceReference} or null. The credential that closed this payment review. Null when
-         * Flint closed it. closed_by.anyOf[1] (Value): {@link ResourceReference}. A reference to
-         * another resource by `resource_type` and `resource_id`. closed_by.anyOf[2] (Value): null.
-         * closed_reason (Required): string or null. How the review was resolved. `null` when the
-         * review isn't closed. Value enum: "approved", "declined", "refunded", "disputed",
-         * "payment_canceled", "expired", null. customer (Optional): {@link
-         * ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null`
-         * when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
-         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
-         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
-         * (Required): string or null. ID of the customer the payment was made for. `null` when the
-         * payment has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". ip_address
-         * (Required): string or null. The buyer's IP address recorded for the payment when it was
-         * confirmed. `null` when no buyer IP address was supplied for the payment.
-         * last_resolution_failure (Required): {@link PaymentReviewResolutionFailure} or null. The
-         * most recent resolution attempt that failed. Set when a decline's refund failed and the
-         * review reopened. Null when no attempt has failed. last_resolution_failure.anyOf[1]
-         * (Value): {@link PaymentReviewResolutionFailure}. A failed attempt to resolve a review by
-         * refund, with the `refund_id` and when it failed. last_resolution_failure.anyOf[2]
-         * (Value): null. matched_risk_rule_id (Required): string. ID of the risk rule with the
-         * review action that opened this review. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319".
-         * opened_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". opened_reason (Required): string. Why Flint opened the review.
-         * Value enum: "rule". order (Optional): {@link ExpandedOrderSummary} or null. Present only
-         * when `expand` includes `order`; `null` when expanded and there is no related order.
-         * order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
-         * including status, payment and refund status, and pricing and settlement amounts,
-         * returned when the order is expanded. order.anyOf[2] (Value): null. order_id (Required):
-         * string or null. ID of the order the payment belongs to. `null` when the payment doesn't
-         * belong to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". payment_flow (Required):
-         * string. How the reviewed payment was started. Value enum: "checkout", "payment_link",
-         * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api".
-         * payment_intent (Optional): {@link ExpandedPaymentIntentSummary} or null. Present only
-         * when `expand` includes `payment_intent`; `null` when expanded and there is no related
-         * payment intent. payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}. A
-         * payment intent's summary fields, including amount, status, and capture method, returned
-         * when the payment intent is expanded. payment_intent.anyOf[2] (Value): null.
-         * payment_intent_id (Required): string. ID of the payment intent under review. Example:
-         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_review_id (Required): string. Unique identifier
-         * for this payment review, prefixed `rev_`. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
-         * payment_summary (Required): {@link PaymentReviewPaymentSummary}. A snapshot of the
-         * payment as it was when the review opened. The payment details shown on a review: amount,
-         * capture method, authorization expiry, card brand and last four digits, and buyer email.
-         * pending_action (Required): string or null. The decision being carried out. `null` when
-         * status isn't resolving. Value enum: "approve", "decline", "expire", null. refund_id
-         * (Required): string or null. The refund created when the payment was declined. It can be
-         * set while status is resolving, before the refund finishes and the review closes. `null`
-         * when no refund exists for the review, including after a decline that needed none or when
-         * the review is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". refunded_money
-         * (Required): {@link MoneyValue} or null. Refunded amount for this review. Null when no
-         * refund is recorded. refunded_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount
-         * represented as integer minor units plus an ISO 4217 currency code.
-         * refunded_money.anyOf[2] (Value): null. resolution_started_at (Required): string or null.
-         * RFC3339 timestamp. `null` when nobody has started approving or declining the review and
-         * Flint hasn't started expiring it. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * resolution_started_by (Required): {@link ResourceReference} or null. The credential that
-         * started resolving this payment review, retained after closure. Null when no resolution
-         * has started or Flint started it. resolution_started_by.anyOf[1] (Value): {@link
-         * ResourceReference}. A reference to another resource by `resource_type` and
-         * `resource_id`. resolution_started_by.anyOf[2] (Value): null. risk (Required): {@link
-         * PaymentReviewRisk}. The payment's risk level and score when the review opened. The risk
-         * assessment shown on a review: a `level` and, when available, a numeric `score`. status
-         * (Required): string. Where the review is in its lifecycle. Value enum: "open",
-         * "resolving", "closed". supported_actions (Required): Array of string. Lifecycle actions
-         * accepted in the current stored review state. An action remains listed while it is
-         * processing or can be repeated without changing the result. [] enum: "approve",
-         * "decline". supported_actions[] (Value): string. Value enum: "approve", "decline".
-         * updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z".
-         */
-        "object": {
-            /**
-             * RFC3339 timestamp. `null` when the review isn't closed. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "closed_at": string | null;
-            /**
-             * The credential that closed this payment review. Null when Flint closed it. anyOf[1]
-             * (Value): {@link ResourceReference}. A reference to another resource by
-             * `resource_type` and `resource_id`. anyOf[2] (Value): null.
-             */
-            "closed_by": ((ResourceReference) | (null));
-            /**
-             * How the review was resolved. `null` when the review isn't closed. Value enum:
-             * "approved", "declined", "refunded", "disputed", "payment_canceled", "expired", null.
-             */
-            "closed_reason": "approved"
-                | "declined"
-                | "refunded"
-                | "disputed"
-                | "payment_canceled"
-                | "expired"
-                | null
-                | (string & {})
-                | null;
-            /**
-             * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
-             * summary fields, returned in place of a customer ID when the customer is expanded.
-             * anyOf[2] (Value): null.
-             */
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            /**
-             * ID of the customer the payment was made for. `null` when the payment has no
-             * customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-             */
-            "customer_id": string | null;
-            /**
-             * The buyer's IP address recorded for the payment when it was confirmed. `null` when
-             * no buyer IP address was supplied for the payment.
-             */
-            "ip_address": string | null;
-            /**
-             * The most recent resolution attempt that failed. Set when a decline's refund failed
-             * and the review reopened. Null when no attempt has failed. anyOf[1] (Value): {@link
-             * PaymentReviewResolutionFailure}. A failed attempt to resolve a review by refund,
-             * with the `refund_id` and when it failed. anyOf[2] (Value): null.
-             */
-            "last_resolution_failure": ((PaymentReviewResolutionFailure) | (null));
-            /**
-             * ID of the risk rule with the review action that opened this review. Example:
-             * "rule_01KEZF7C00FWGAQJXXA8CRA319".
-             */
-            "matched_risk_rule_id": string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "opened_at": string;
-            /** Why Flint opened the review. Value enum: "rule". */
-            "opened_reason": "rule" | (string & {});
-            /**
-             * Present only when `expand` includes `order`; `null` when expanded and there is no
-             * related order. anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
-             * fields, including status, payment and refund status, and pricing and settlement
-             * amounts, returned when the order is expanded. anyOf[2] (Value): null.
-             */
-            "order"?: ((ExpandedOrderSummary) | (null));
-            /**
-             * ID of the order the payment belongs to. `null` when the payment doesn't belong to an
-             * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-             */
-            "order_id": string | null;
-            /**
-             * How the reviewed payment was started. Value enum: "checkout", "payment_link",
-             * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal",
-             * "api".
-             */
-            "payment_flow": "checkout"
-                | "payment_link"
-                | "invoice"
-                | "subscription_initial"
-                | "subscription_renewal"
-                | "virtual_terminal"
-                | "api"
-                | (string & {});
-            /**
-             * Present only when `expand` includes `payment_intent`; `null` when expanded and there
-             * is no related payment intent. anyOf[1] (Value): {@link
-             * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
-             * status, and capture method, returned when the payment intent is expanded. anyOf[2]
-             * (Value): null.
-             */
-            "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
-            /** ID of the payment intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". */
-            "payment_intent_id": string;
-            /**
-             * Unique identifier for this payment review, prefixed `rev_`. Example:
-             * "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
-             */
-            "payment_review_id": string;
-            /**
-             * A snapshot of the payment as it was when the review opened. The payment details
-             * shown on a review: amount, capture method, authorization expiry, card brand and last
-             * four digits, and buyer email.
-             */
-            "payment_summary": PaymentReviewPaymentSummary;
-            /**
-             * The decision being carried out. `null` when status isn't resolving. Value enum:
-             * "approve", "decline", "expire", null.
-             */
-            "pending_action": "approve" | "decline" | "expire" | null | (string & {}) | null;
-            /**
-             * The refund created when the payment was declined. It can be set while status is
-             * resolving, before the refund finishes and the review closes. `null` when no refund
-             * exists for the review, including after a decline that needed none or when the review
-             * is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-             */
-            "refund_id": string | null;
-            /**
-             * Refunded amount for this review. Null when no refund is recorded. anyOf[1] (Value):
-             * {@link MoneyValue}. Monetary amount represented as integer minor units plus an ISO
-             * 4217 currency code. anyOf[2] (Value): null.
-             */
-            "refunded_money": ((MoneyValue) | (null));
-            /**
-             * RFC3339 timestamp. `null` when nobody has started approving or declining the review
-             * and Flint hasn't started expiring it. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "resolution_started_at": string | null;
-            /**
-             * The credential that started resolving this payment review, retained after closure.
-             * Null when no resolution has started or Flint started it. anyOf[1] (Value): {@link
-             * ResourceReference}. A reference to another resource by `resource_type` and
-             * `resource_id`. anyOf[2] (Value): null.
-             */
-            "resolution_started_by": ((ResourceReference) | (null));
-            /**
-             * The payment's risk level and score when the review opened. The risk assessment shown
-             * on a review: a `level` and, when available, a numeric `score`.
-             */
-            "risk": PaymentReviewRisk;
-            /** Where the review is in its lifecycle. Value enum: "open", "resolving", "closed". */
-            "status": "open" | "resolving" | "closed" | (string & {});
-            /**
-             * Lifecycle actions accepted in the current stored review state. An action remains
-             * listed while it is processing or can be repeated without changing the result. []
-             * enum: "approve", "decline". [] (Value): string. Value enum: "approve", "decline".
-             */
-            "supported_actions": Array<"approve" | "decline" | (string & {})>;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. closed_at (Optional): string or null. RFC3339
-         * timestamp. `null` when the review isn't closed. closed_at.anyOf[1] (Value): string.
-         * RFC3339 timestamp. `null` when the review isn't closed. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". closed_at.anyOf[2] (Value): null. closed_by (Optional): {@link
-         * ResourceReferencePreviousAttributes} or null. The credential that closed this payment
-         * review. Null when Flint closed it. closed_by.anyOf[1] (Value): {@link
-         * ResourceReferencePreviousAttributes}. closed_by.anyOf[2] (Value): null. closed_reason
-         * (Optional): string or null. How the review was resolved. `null` when the review isn't
-         * closed. Value enum: "approved", "declined", "refunded", "disputed", "payment_canceled",
-         * "expired", null. closed_reason.anyOf[1] (Value): string. How the review was resolved.
-         * `null` when the review isn't closed. Value enum: "approved", "declined", "refunded",
-         * "disputed", "payment_canceled", "expired", null. closed_reason.anyOf[2] (Value): null.
-         * customer (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present
-         * only when `expand` includes `customer`; `null` when expanded and there is no related
-         * customer. customer.anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
-         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. ID of the
-         * customer the payment was made for. `null` when the payment has no customer.
-         * customer_id.anyOf[1] (Value): string. ID of the customer the payment was made for.
-         * `null` when the payment has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-         * customer_id.anyOf[2] (Value): null. ip_address (Optional): string or null. The buyer's
-         * IP address recorded for the payment when it was confirmed. `null` when no buyer IP
-         * address was supplied for the payment. ip_address.anyOf[1] (Value): string. The buyer's
-         * IP address recorded for the payment when it was confirmed. `null` when no buyer IP
-         * address was supplied for the payment. ip_address.anyOf[2] (Value): null.
-         * last_resolution_failure (Optional): {@link
-         * PaymentReviewResolutionFailurePreviousAttributes} or null. The most recent resolution
-         * attempt that failed. Set when a decline's refund failed and the review reopened. Null
-         * when no attempt has failed. last_resolution_failure.anyOf[1] (Value): {@link
-         * PaymentReviewResolutionFailurePreviousAttributes}. last_resolution_failure.anyOf[2]
-         * (Value): null. matched_risk_rule_id (Optional): string or null. ID of the risk rule with
-         * the review action that opened this review. matched_risk_rule_id.anyOf[1] (Value):
-         * string. ID of the risk rule with the review action that opened this review. Example:
-         * "rule_01KEZF7C00FWGAQJXXA8CRA319". matched_risk_rule_id.anyOf[2] (Value): null.
-         * opened_at (Optional): string or null. RFC3339 timestamp. opened_at.anyOf[1] (Value):
-         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * opened_at.anyOf[2] (Value): null. opened_reason (Optional): string or null. Why Flint
-         * opened the review. Value enum: "rule". opened_reason.anyOf[1] (Value): string. Why Flint
-         * opened the review. Value enum: "rule". opened_reason.anyOf[2] (Value): null. order
-         * (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or null. Present only when
-         * `expand` includes `order`; `null` when expanded and there is no related order.
-         * order.anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2]
-         * (Value): null. order_id (Optional): string or null. ID of the order the payment belongs
-         * to. `null` when the payment doesn't belong to an order. order_id.anyOf[1] (Value):
-         * string. ID of the order the payment belongs to. `null` when the payment doesn't belong
-         * to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
-         * payment_flow (Optional): string or null. How the reviewed payment was started. Value
-         * enum: "checkout", "payment_link", "invoice", "subscription_initial",
-         * "subscription_renewal", "virtual_terminal", "api". payment_flow.anyOf[1] (Value):
-         * string. How the reviewed payment was started. Value enum: "checkout", "payment_link",
-         * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api".
-         * payment_flow.anyOf[2] (Value): null. payment_intent (Optional): {@link
-         * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Present only when `expand`
-         * includes `payment_intent`; `null` when expanded and there is no related payment intent.
-         * payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummaryPreviousAttributes}.
-         * payment_intent.anyOf[2] (Value): null. payment_intent_id (Optional): string or null. ID
-         * of the payment intent under review. payment_intent_id.anyOf[1] (Value): string. ID of
-         * the payment intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-         * payment_intent_id.anyOf[2] (Value): null. payment_review_id (Optional): string or null.
-         * Unique identifier for this payment review, prefixed `rev_`. payment_review_id.anyOf[1]
-         * (Value): string. Unique identifier for this payment review, prefixed `rev_`. Example:
-         * "rev_01KEZF7C00BVBQ00XDFNKB1EF6". payment_review_id.anyOf[2] (Value): null.
-         * payment_summary (Optional): {@link PaymentReviewPaymentSummaryPreviousAttributes} or
-         * null. A snapshot of the payment as it was when the review opened.
-         * payment_summary.anyOf[1] (Value): {@link PaymentReviewPaymentSummaryPreviousAttributes}.
-         * payment_summary.anyOf[2] (Value): null. pending_action (Optional): string or null. The
-         * decision being carried out. `null` when status isn't resolving. Value enum: "approve",
-         * "decline", "expire", null. pending_action.anyOf[1] (Value): string. The decision being
-         * carried out. `null` when status isn't resolving. Value enum: "approve", "decline",
-         * "expire", null. pending_action.anyOf[2] (Value): null. refund_id (Optional): string or
-         * null. The refund created when the payment was declined. It can be set while status is
-         * resolving, before the refund finishes and the review closes. `null` when no refund
-         * exists for the review, including after a decline that needed none or when the review is
-         * open. refund_id.anyOf[1] (Value): string. The refund created when the payment was
-         * declined. It can be set while status is resolving, before the refund finishes and the
-         * review closes. `null` when no refund exists for the review, including after a decline
-         * that needed none or when the review is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-         * refund_id.anyOf[2] (Value): null. refunded_money (Optional): {@link
-         * MoneyValuePreviousAttributes} or null. Refunded amount for this review. Null when no
-         * refund is recorded. refunded_money.anyOf[1] (Value): {@link
-         * MoneyValuePreviousAttributes}. refunded_money.anyOf[2] (Value): null.
-         * resolution_started_at (Optional): string or null. RFC3339 timestamp. `null` when nobody
-         * has started approving or declining the review and Flint hasn't started expiring it.
-         * resolution_started_at.anyOf[1] (Value): string. RFC3339 timestamp. `null` when nobody
-         * has started approving or declining the review and Flint hasn't started expiring it.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". resolution_started_at.anyOf[2]
-         * (Value): null. resolution_started_by (Optional): {@link
-         * ResourceReferencePreviousAttributes} or null. The credential that started resolving this
-         * payment review, retained after closure. Null when no resolution has started or Flint
-         * started it. resolution_started_by.anyOf[1] (Value): {@link
-         * ResourceReferencePreviousAttributes}. resolution_started_by.anyOf[2] (Value): null. risk
-         * (Optional): {@link PaymentReviewRiskPreviousAttributes} or null. The payment's risk
-         * level and score when the review opened. risk.anyOf[1] (Value): {@link
-         * PaymentReviewRiskPreviousAttributes}. risk.anyOf[2] (Value): null. status (Optional):
-         * string or null. Where the review is in its lifecycle. Value enum: "open", "resolving",
-         * "closed". status.anyOf[1] (Value): string. Where the review is in its lifecycle. Value
-         * enum: "open", "resolving", "closed". status.anyOf[2] (Value): null. supported_actions
-         * (Optional): Array of string or null. Lifecycle actions accepted in the current stored
-         * review state. An action remains listed while it is processing or can be repeated without
-         * changing the result. [] enum: "approve", "decline". supported_actions.anyOf[1] (Value):
-         * Array of string. Lifecycle actions accepted in the current stored review state. An
-         * action remains listed while it is processing or can be repeated without changing the
-         * result. [] enum: "approve", "decline". supported_actions.anyOf[1][] (Value): string.
-         * Value enum: "approve", "decline". supported_actions.anyOf[2] (Value): null. updated_at
-         * (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string.
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * updated_at.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * RFC3339 timestamp. `null` when the review isn't closed. anyOf[1] (Value): string.
-             * RFC3339 timestamp. `null` when the review isn't closed. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "closed_at"?: ((string) | (null));
-            /**
-             * The credential that closed this payment review. Null when Flint closed it. anyOf[1]
-             * (Value): {@link ResourceReferencePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "closed_by"?: ((ResourceReferencePreviousAttributes) | (null));
-            /**
-             * How the review was resolved. `null` when the review isn't closed. Value enum:
-             * "approved", "declined", "refunded", "disputed", "payment_canceled", "expired", null.
-             * anyOf[1] (Value): string. How the review was resolved. `null` when the review isn't
-             * closed. Value enum: "approved", "declined", "refunded", "disputed",
-             * "payment_canceled", "expired", null. anyOf[2] (Value): null.
-             */
-            "closed_reason"?: (("approved"
-                | "declined"
-                | "refunded"
-                | "disputed"
-                | "payment_canceled"
-                | "expired"
-                | null
-                | (string & {}))
-                | (null));
-            /**
-             * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): {@link
-             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
-            /**
-             * ID of the customer the payment was made for. `null` when the payment has no
-             * customer. anyOf[1] (Value): string. ID of the customer the payment was made for.
-             * `null` when the payment has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-             * anyOf[2] (Value): null.
-             */
-            "customer_id"?: ((string) | (null));
-            /**
-             * The buyer's IP address recorded for the payment when it was confirmed. `null` when
-             * no buyer IP address was supplied for the payment. anyOf[1] (Value): string. The
-             * buyer's IP address recorded for the payment when it was confirmed. `null` when no
-             * buyer IP address was supplied for the payment. anyOf[2] (Value): null.
-             */
-            "ip_address"?: ((string) | (null));
-            /**
-             * The most recent resolution attempt that failed. Set when a decline's refund failed
-             * and the review reopened. Null when no attempt has failed. anyOf[1] (Value): {@link
-             * PaymentReviewResolutionFailurePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "last_resolution_failure"?: ((PaymentReviewResolutionFailurePreviousAttributes) | (null));
-            /**
-             * ID of the risk rule with the review action that opened this review. anyOf[1]
-             * (Value): string. ID of the risk rule with the review action that opened this review.
-             * Example: "rule_01KEZF7C00FWGAQJXXA8CRA319". anyOf[2] (Value): null.
-             */
-            "matched_risk_rule_id"?: ((string) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "opened_at"?: ((string) | (null));
-            /**
-             * Why Flint opened the review. Value enum: "rule". anyOf[1] (Value): string. Why Flint
-             * opened the review. Value enum: "rule". anyOf[2] (Value): null.
-             */
-            "opened_reason"?: (("rule" | (string & {})) | (null));
-            /**
-             * Present only when `expand` includes `order`; `null` when expanded and there is no
-             * related order. anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
-             * anyOf[2] (Value): null.
-             */
-            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
-            /**
-             * ID of the order the payment belongs to. `null` when the payment doesn't belong to an
-             * order. anyOf[1] (Value): string. ID of the order the payment belongs to. `null` when
-             * the payment doesn't belong to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-             * anyOf[2] (Value): null.
-             */
-            "order_id"?: ((string) | (null));
-            /**
-             * How the reviewed payment was started. Value enum: "checkout", "payment_link",
-             * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal",
-             * "api". anyOf[1] (Value): string. How the reviewed payment was started. Value enum:
-             * "checkout", "payment_link", "invoice", "subscription_initial",
-             * "subscription_renewal", "virtual_terminal", "api". anyOf[2] (Value): null.
-             */
-            "payment_flow"?: (("checkout"
-                | "payment_link"
-                | "invoice"
-                | "subscription_initial"
-                | "subscription_renewal"
-                | "virtual_terminal"
-                | "api"
-                | (string & {}))
-                | (null));
-            /**
-             * Present only when `expand` includes `payment_intent`; `null` when expanded and there
-             * is no related payment intent. anyOf[1] (Value): {@link
-             * ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
-            /**
-             * ID of the payment intent under review. anyOf[1] (Value): string. ID of the payment
-             * intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2] (Value):
-             * null.
-             */
-            "payment_intent_id"?: ((string) | (null));
-            /**
-             * Unique identifier for this payment review, prefixed `rev_`. anyOf[1] (Value):
-             * string. Unique identifier for this payment review, prefixed `rev_`. Example:
-             * "rev_01KEZF7C00BVBQ00XDFNKB1EF6". anyOf[2] (Value): null.
-             */
-            "payment_review_id"?: ((string) | (null));
-            /**
-             * A snapshot of the payment as it was when the review opened. anyOf[1] (Value): {@link
-             * PaymentReviewPaymentSummaryPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "payment_summary"?: ((PaymentReviewPaymentSummaryPreviousAttributes) | (null));
-            /**
-             * The decision being carried out. `null` when status isn't resolving. Value enum:
-             * "approve", "decline", "expire", null. anyOf[1] (Value): string. The decision being
-             * carried out. `null` when status isn't resolving. Value enum: "approve", "decline",
-             * "expire", null. anyOf[2] (Value): null.
-             */
-            "pending_action"?: (("approve" | "decline" | "expire" | null | (string & {})) | (null));
-            /**
-             * The refund created when the payment was declined. It can be set while status is
-             * resolving, before the refund finishes and the review closes. `null` when no refund
-             * exists for the review, including after a decline that needed none or when the review
-             * is open. anyOf[1] (Value): string. The refund created when the payment was declined.
-             * It can be set while status is resolving, before the refund finishes and the review
-             * closes. `null` when no refund exists for the review, including after a decline that
-             * needed none or when the review is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-             * anyOf[2] (Value): null.
-             */
-            "refund_id"?: ((string) | (null));
-            /**
-             * Refunded amount for this review. Null when no refund is recorded. anyOf[1] (Value):
-             * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "refunded_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * RFC3339 timestamp. `null` when nobody has started approving or declining the review
-             * and Flint hasn't started expiring it. anyOf[1] (Value): string. RFC3339 timestamp.
-             * `null` when nobody has started approving or declining the review and Flint hasn't
-             * started expiring it. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
-             * (Value): null.
-             */
-            "resolution_started_at"?: ((string) | (null));
-            /**
-             * The credential that started resolving this payment review, retained after closure.
-             * Null when no resolution has started or Flint started it. anyOf[1] (Value): {@link
-             * ResourceReferencePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "resolution_started_by"?: ((ResourceReferencePreviousAttributes) | (null));
-            /**
-             * The payment's risk level and score when the review opened. anyOf[1] (Value): {@link
-             * PaymentReviewRiskPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "risk"?: ((PaymentReviewRiskPreviousAttributes) | (null));
-            /**
-             * Where the review is in its lifecycle. Value enum: "open", "resolving", "closed".
-             * anyOf[1] (Value): string. Where the review is in its lifecycle. Value enum: "open",
-             * "resolving", "closed". anyOf[2] (Value): null.
-             */
-            "status"?: (("open" | "resolving" | "closed" | (string & {})) | (null));
-            /**
-             * Lifecycle actions accepted in the current stored review state. An action remains
-             * listed while it is processing or can be repeated without changing the result. []
-             * enum: "approve", "decline". anyOf[1] (Value): Array of string. Lifecycle actions
-             * accepted in the current stored review state. An action remains listed while it is
-             * processing or can be repeated without changing the result. [] enum: "approve",
-             * "decline". anyOf[1][] (Value): string. Value enum: "approve", "decline". anyOf[2]
-             * (Value): null.
-             */
-            "supported_actions"?: ((Array<"approve" | "decline" | (string & {})>) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "updated_at"?: ((string) | (null));
-        });
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "payment_review.opened". */
-    "event_type"?: "payment_review.opened";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `payment_review.opened` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type PaymentReviewOpenedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.closed_at (Required): string or null. RFC3339 timestamp. `null`
-     * when the review isn't closed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.closed_by (Required): {@link ResourceReference} or null. The credential that closed
-     * this payment review. Null when Flint closed it. object.closed_by.anyOf[1] (Value): {@link
-     * ResourceReference}. A reference to another resource by `resource_type` and `resource_id`.
-     * object.closed_by.anyOf[2] (Value): null. object.closed_reason (Required): string or null.
-     * How the review was resolved. `null` when the review isn't closed. Value enum: "approved",
-     * "declined", "refunded", "disputed", "payment_canceled", "expired", null. object.customer
-     * (Optional): {@link ExpandedCustomerSummary} or null. Present only when `expand` includes
-     * `customer`; `null` when expanded and there is no related customer. object.customer.anyOf[1]
-     * (Value): {@link ExpandedCustomerSummary}. A customer's summary fields, returned in place of
-     * a customer ID when the customer is expanded. object.customer.anyOf[2] (Value): null.
-     * object.customer_id (Required): string or null. ID of the customer the payment was made for.
-     * `null` when the payment has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * object.ip_address (Required): string or null. The buyer's IP address recorded for the
-     * payment when it was confirmed. `null` when no buyer IP address was supplied for the payment.
-     * object.last_resolution_failure (Required): {@link PaymentReviewResolutionFailure} or null.
-     * The most recent resolution attempt that failed. Set when a decline's refund failed and the
-     * review reopened. Null when no attempt has failed. object.last_resolution_failure.anyOf[1]
-     * (Value): {@link PaymentReviewResolutionFailure}. A failed attempt to resolve a review by
-     * refund, with the `refund_id` and when it failed. object.last_resolution_failure.anyOf[2]
-     * (Value): null. object.matched_risk_rule_id (Required): string. ID of the risk rule with the
-     * review action that opened this review. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319".
-     * object.opened_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.opened_reason (Required): string. Why Flint opened the
-     * review. Value enum: "rule". object.order (Optional): {@link ExpandedOrderSummary} or null.
-     * Present only when `expand` includes `order`; `null` when expanded and there is no related
-     * order. object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
-     * fields, including status, payment and refund status, and pricing and settlement amounts,
-     * returned when the order is expanded. object.order.anyOf[2] (Value): null. object.order_id
-     * (Required): string or null. ID of the order the payment belongs to. `null` when the payment
-     * doesn't belong to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.payment_flow
-     * (Required): string. How the reviewed payment was started. Value enum: "checkout",
-     * "payment_link", "invoice", "subscription_initial", "subscription_renewal",
-     * "virtual_terminal", "api". object.payment_intent (Optional): {@link
-     * ExpandedPaymentIntentSummary} or null. Present only when `expand` includes `payment_intent`;
-     * `null` when expanded and there is no related payment intent. object.payment_intent.anyOf[1]
-     * (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
-     * amount, status, and capture method, returned when the payment intent is expanded.
-     * object.payment_intent.anyOf[2] (Value): null. object.payment_intent_id (Required): string.
-     * ID of the payment intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-     * object.payment_review_id (Required): string. Unique identifier for this payment review,
-     * prefixed `rev_`. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6". object.payment_summary
-     * (Required): {@link PaymentReviewPaymentSummary}. A snapshot of the payment as it was when
-     * the review opened. The payment details shown on a review: amount, capture method,
-     * authorization expiry, card brand and last four digits, and buyer email.
-     * object.pending_action (Required): string or null. The decision being carried out. `null`
-     * when status isn't resolving. Value enum: "approve", "decline", "expire", null.
-     * object.refund_id (Required): string or null. The refund created when the payment was
-     * declined. It can be set while status is resolving, before the refund finishes and the review
-     * closes. `null` when no refund exists for the review, including after a decline that needed
-     * none or when the review is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-     * object.refunded_money (Required): {@link MoneyValue} or null. Refunded amount for this
-     * review. Null when no refund is recorded. object.refunded_money.anyOf[1] (Value): {@link
-     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code. object.refunded_money.anyOf[2] (Value): null. object.resolution_started_at (Required):
-     * string or null. RFC3339 timestamp. `null` when nobody has started approving or declining the
-     * review and Flint hasn't started expiring it. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.resolution_started_by (Required): {@link ResourceReference}
-     * or null. The credential that started resolving this payment review, retained after closure.
-     * Null when no resolution has started or Flint started it.
-     * object.resolution_started_by.anyOf[1] (Value): {@link ResourceReference}. A reference to
-     * another resource by `resource_type` and `resource_id`. object.resolution_started_by.anyOf[2]
-     * (Value): null. object.risk (Required): {@link PaymentReviewRisk}. The payment's risk level
-     * and score when the review opened. The risk assessment shown on a review: a `level` and, when
-     * available, a numeric `score`. object.status (Required): string. Where the review is in its
-     * lifecycle. Value enum: "open", "resolving", "closed". object.supported_actions (Required):
-     * Array of string. Lifecycle actions accepted in the current stored review state. An action
-     * remains listed while it is processing or can be repeated without changing the result. []
-     * enum: "approve", "decline". object.supported_actions[] (Value): string. Value enum:
-     * "approve", "decline". object.updated_at (Required): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events. previous_attributes.closed_at (Optional): string or null. RFC3339
-     * timestamp. `null` when the review isn't closed. previous_attributes.closed_at.anyOf[1]
-     * (Value): string. RFC3339 timestamp. `null` when the review isn't closed. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". previous_attributes.closed_at.anyOf[2] (Value): null.
-     * previous_attributes.closed_by (Optional): {@link ResourceReferencePreviousAttributes} or
-     * null. The credential that closed this payment review. Null when Flint closed it.
-     * previous_attributes.closed_by.anyOf[1] (Value): {@link ResourceReferencePreviousAttributes}.
-     * previous_attributes.closed_by.anyOf[2] (Value): null. previous_attributes.closed_reason
-     * (Optional): string or null. How the review was resolved. `null` when the review isn't
-     * closed. Value enum: "approved", "declined", "refunded", "disputed", "payment_canceled",
-     * "expired", null. previous_attributes.closed_reason.anyOf[1] (Value): string. How the review
-     * was resolved. `null` when the review isn't closed. Value enum: "approved", "declined",
-     * "refunded", "disputed", "payment_canceled", "expired", null.
-     * previous_attributes.closed_reason.anyOf[2] (Value): null. previous_attributes.customer
-     * (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present only when
-     * `expand` includes `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1] (Value): {@link
-     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
-     * null. previous_attributes.customer_id (Optional): string or null. ID of the customer the
-     * payment was made for. `null` when the payment has no customer.
-     * previous_attributes.customer_id.anyOf[1] (Value): string. ID of the customer the payment was
-     * made for. `null` when the payment has no customer. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
-     * previous_attributes.ip_address (Optional): string or null. The buyer's IP address recorded
-     * for the payment when it was confirmed. `null` when no buyer IP address was supplied for the
-     * payment. previous_attributes.ip_address.anyOf[1] (Value): string. The buyer's IP address
-     * recorded for the payment when it was confirmed. `null` when no buyer IP address was supplied
-     * for the payment. previous_attributes.ip_address.anyOf[2] (Value): null.
-     * previous_attributes.last_resolution_failure (Optional): {@link
-     * PaymentReviewResolutionFailurePreviousAttributes} or null. The most recent resolution
-     * attempt that failed. Set when a decline's refund failed and the review reopened. Null when
-     * no attempt has failed. previous_attributes.last_resolution_failure.anyOf[1] (Value): {@link
-     * PaymentReviewResolutionFailurePreviousAttributes}.
-     * previous_attributes.last_resolution_failure.anyOf[2] (Value): null.
-     * previous_attributes.matched_risk_rule_id (Optional): string or null. ID of the risk rule
-     * with the review action that opened this review.
-     * previous_attributes.matched_risk_rule_id.anyOf[1] (Value): string. ID of the risk rule with
-     * the review action that opened this review. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319".
-     * previous_attributes.matched_risk_rule_id.anyOf[2] (Value): null.
-     * previous_attributes.opened_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.opened_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.opened_at.anyOf[2] (Value):
-     * null. previous_attributes.opened_reason (Optional): string or null. Why Flint opened the
-     * review. Value enum: "rule". previous_attributes.opened_reason.anyOf[1] (Value): string. Why
-     * Flint opened the review. Value enum: "rule". previous_attributes.opened_reason.anyOf[2]
-     * (Value): null. previous_attributes.order (Optional): {@link
-     * ExpandedOrderSummaryPreviousAttributes} or null. Present only when `expand` includes
-     * `order`; `null` when expanded and there is no related order.
-     * previous_attributes.order.anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
-     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_id (Optional):
-     * string or null. ID of the order the payment belongs to. `null` when the payment doesn't
-     * belong to an order. previous_attributes.order_id.anyOf[1] (Value): string. ID of the order
-     * the payment belongs to. `null` when the payment doesn't belong to an order. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_flow (Optional): string or null. How the reviewed payment was
-     * started. Value enum: "checkout", "payment_link", "invoice", "subscription_initial",
-     * "subscription_renewal", "virtual_terminal", "api". previous_attributes.payment_flow.anyOf[1]
-     * (Value): string. How the reviewed payment was started. Value enum: "checkout",
-     * "payment_link", "invoice", "subscription_initial", "subscription_renewal",
-     * "virtual_terminal", "api". previous_attributes.payment_flow.anyOf[2] (Value): null.
-     * previous_attributes.payment_intent (Optional): {@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Present only when `expand` includes
-     * `payment_intent`; `null` when expanded and there is no related payment intent.
-     * previous_attributes.payment_intent.anyOf[1] (Value): {@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes}. previous_attributes.payment_intent.anyOf[2]
-     * (Value): null. previous_attributes.payment_intent_id (Optional): string or null. ID of the
-     * payment intent under review. previous_attributes.payment_intent_id.anyOf[1] (Value): string.
-     * ID of the payment intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-     * previous_attributes.payment_intent_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_review_id (Optional): string or null. Unique identifier for this
-     * payment review, prefixed `rev_`. previous_attributes.payment_review_id.anyOf[1] (Value):
-     * string. Unique identifier for this payment review, prefixed `rev_`. Example:
-     * "rev_01KEZF7C00BVBQ00XDFNKB1EF6". previous_attributes.payment_review_id.anyOf[2] (Value):
-     * null. previous_attributes.payment_summary (Optional): {@link
-     * PaymentReviewPaymentSummaryPreviousAttributes} or null. A snapshot of the payment as it was
-     * when the review opened. previous_attributes.payment_summary.anyOf[1] (Value): {@link
-     * PaymentReviewPaymentSummaryPreviousAttributes}. previous_attributes.payment_summary.anyOf[2]
-     * (Value): null. previous_attributes.pending_action (Optional): string or null. The decision
-     * being carried out. `null` when status isn't resolving. Value enum: "approve", "decline",
-     * "expire", null. previous_attributes.pending_action.anyOf[1] (Value): string. The decision
-     * being carried out. `null` when status isn't resolving. Value enum: "approve", "decline",
-     * "expire", null. previous_attributes.pending_action.anyOf[2] (Value): null.
-     * previous_attributes.refund_id (Optional): string or null. The refund created when the
-     * payment was declined. It can be set while status is resolving, before the refund finishes
-     * and the review closes. `null` when no refund exists for the review, including after a
-     * decline that needed none or when the review is open. previous_attributes.refund_id.anyOf[1]
-     * (Value): string. The refund created when the payment was declined. It can be set while
-     * status is resolving, before the refund finishes and the review closes. `null` when no refund
-     * exists for the review, including after a decline that needed none or when the review is
-     * open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". previous_attributes.refund_id.anyOf[2]
-     * (Value): null. previous_attributes.refunded_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. Refunded amount for this review. Null when no refund
-     * is recorded. previous_attributes.refunded_money.anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.refunded_money.anyOf[2] (Value): null.
-     * previous_attributes.resolution_started_at (Optional): string or null. RFC3339 timestamp.
-     * `null` when nobody has started approving or declining the review and Flint hasn't started
-     * expiring it. previous_attributes.resolution_started_at.anyOf[1] (Value): string. RFC3339
-     * timestamp. `null` when nobody has started approving or declining the review and Flint hasn't
-     * started expiring it. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.resolution_started_at.anyOf[2] (Value): null.
-     * previous_attributes.resolution_started_by (Optional): {@link
-     * ResourceReferencePreviousAttributes} or null. The credential that started resolving this
-     * payment review, retained after closure. Null when no resolution has started or Flint started
-     * it. previous_attributes.resolution_started_by.anyOf[1] (Value): {@link
-     * ResourceReferencePreviousAttributes}. previous_attributes.resolution_started_by.anyOf[2]
-     * (Value): null. previous_attributes.risk (Optional): {@link
-     * PaymentReviewRiskPreviousAttributes} or null. The payment's risk level and score when the
-     * review opened. previous_attributes.risk.anyOf[1] (Value): {@link
-     * PaymentReviewRiskPreviousAttributes}. previous_attributes.risk.anyOf[2] (Value): null.
-     * previous_attributes.status (Optional): string or null. Where the review is in its lifecycle.
-     * Value enum: "open", "resolving", "closed". previous_attributes.status.anyOf[1] (Value):
-     * string. Where the review is in its lifecycle. Value enum: "open", "resolving", "closed".
-     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
-     * (Optional): Array of string or null. Lifecycle actions accepted in the current stored review
-     * state. An action remains listed while it is processing or can be repeated without changing
-     * the result. [] enum: "approve", "decline". previous_attributes.supported_actions.anyOf[1]
-     * (Value): Array of string. Lifecycle actions accepted in the current stored review state. An
-     * action remains listed while it is processing or can be repeated without changing the result.
-     * [] enum: "approve", "decline". previous_attributes.supported_actions.anyOf[1][] (Value):
-     * string. Value enum: "approve", "decline". previous_attributes.supported_actions.anyOf[2]
-     * (Value): null. previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
-     * null.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields. closed_at
-         * (Required): string or null. RFC3339 timestamp. `null` when the review isn't closed.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". closed_by (Required): {@link
-         * ResourceReference} or null. The credential that closed this payment review. Null when
-         * Flint closed it. closed_by.anyOf[1] (Value): {@link ResourceReference}. A reference to
-         * another resource by `resource_type` and `resource_id`. closed_by.anyOf[2] (Value): null.
-         * closed_reason (Required): string or null. How the review was resolved. `null` when the
-         * review isn't closed. Value enum: "approved", "declined", "refunded", "disputed",
-         * "payment_canceled", "expired", null. customer (Optional): {@link
-         * ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null`
-         * when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
-         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
-         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
-         * (Required): string or null. ID of the customer the payment was made for. `null` when the
-         * payment has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". ip_address
-         * (Required): string or null. The buyer's IP address recorded for the payment when it was
-         * confirmed. `null` when no buyer IP address was supplied for the payment.
-         * last_resolution_failure (Required): {@link PaymentReviewResolutionFailure} or null. The
-         * most recent resolution attempt that failed. Set when a decline's refund failed and the
-         * review reopened. Null when no attempt has failed. last_resolution_failure.anyOf[1]
-         * (Value): {@link PaymentReviewResolutionFailure}. A failed attempt to resolve a review by
-         * refund, with the `refund_id` and when it failed. last_resolution_failure.anyOf[2]
-         * (Value): null. matched_risk_rule_id (Required): string. ID of the risk rule with the
-         * review action that opened this review. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319".
-         * opened_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". opened_reason (Required): string. Why Flint opened the review.
-         * Value enum: "rule". order (Optional): {@link ExpandedOrderSummary} or null. Present only
-         * when `expand` includes `order`; `null` when expanded and there is no related order.
-         * order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
-         * including status, payment and refund status, and pricing and settlement amounts,
-         * returned when the order is expanded. order.anyOf[2] (Value): null. order_id (Required):
-         * string or null. ID of the order the payment belongs to. `null` when the payment doesn't
-         * belong to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". payment_flow (Required):
-         * string. How the reviewed payment was started. Value enum: "checkout", "payment_link",
-         * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api".
-         * payment_intent (Optional): {@link ExpandedPaymentIntentSummary} or null. Present only
-         * when `expand` includes `payment_intent`; `null` when expanded and there is no related
-         * payment intent. payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}. A
-         * payment intent's summary fields, including amount, status, and capture method, returned
-         * when the payment intent is expanded. payment_intent.anyOf[2] (Value): null.
-         * payment_intent_id (Required): string. ID of the payment intent under review. Example:
-         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_review_id (Required): string. Unique identifier
-         * for this payment review, prefixed `rev_`. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
-         * payment_summary (Required): {@link PaymentReviewPaymentSummary}. A snapshot of the
-         * payment as it was when the review opened. The payment details shown on a review: amount,
-         * capture method, authorization expiry, card brand and last four digits, and buyer email.
-         * pending_action (Required): string or null. The decision being carried out. `null` when
-         * status isn't resolving. Value enum: "approve", "decline", "expire", null. refund_id
-         * (Required): string or null. The refund created when the payment was declined. It can be
-         * set while status is resolving, before the refund finishes and the review closes. `null`
-         * when no refund exists for the review, including after a decline that needed none or when
-         * the review is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". refunded_money
-         * (Required): {@link MoneyValue} or null. Refunded amount for this review. Null when no
-         * refund is recorded. refunded_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount
-         * represented as integer minor units plus an ISO 4217 currency code.
-         * refunded_money.anyOf[2] (Value): null. resolution_started_at (Required): string or null.
-         * RFC3339 timestamp. `null` when nobody has started approving or declining the review and
-         * Flint hasn't started expiring it. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * resolution_started_by (Required): {@link ResourceReference} or null. The credential that
-         * started resolving this payment review, retained after closure. Null when no resolution
-         * has started or Flint started it. resolution_started_by.anyOf[1] (Value): {@link
-         * ResourceReference}. A reference to another resource by `resource_type` and
-         * `resource_id`. resolution_started_by.anyOf[2] (Value): null. risk (Required): {@link
-         * PaymentReviewRisk}. The payment's risk level and score when the review opened. The risk
-         * assessment shown on a review: a `level` and, when available, a numeric `score`. status
-         * (Required): string. Where the review is in its lifecycle. Value enum: "open",
-         * "resolving", "closed". supported_actions (Required): Array of string. Lifecycle actions
-         * accepted in the current stored review state. An action remains listed while it is
-         * processing or can be repeated without changing the result. [] enum: "approve",
-         * "decline". supported_actions[] (Value): string. Value enum: "approve", "decline".
-         * updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z".
-         */
-        "object": {
-            /**
-             * RFC3339 timestamp. `null` when the review isn't closed. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "closed_at": string | null;
-            /**
-             * The credential that closed this payment review. Null when Flint closed it. anyOf[1]
-             * (Value): {@link ResourceReference}. A reference to another resource by
-             * `resource_type` and `resource_id`. anyOf[2] (Value): null.
-             */
-            "closed_by": ((ResourceReference) | (null));
-            /**
-             * How the review was resolved. `null` when the review isn't closed. Value enum:
-             * "approved", "declined", "refunded", "disputed", "payment_canceled", "expired", null.
-             */
-            "closed_reason": "approved"
-                | "declined"
-                | "refunded"
-                | "disputed"
-                | "payment_canceled"
-                | "expired"
-                | null
-                | (string & {})
-                | null;
-            /**
-             * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
-             * summary fields, returned in place of a customer ID when the customer is expanded.
-             * anyOf[2] (Value): null.
-             */
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            /**
-             * ID of the customer the payment was made for. `null` when the payment has no
-             * customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-             */
-            "customer_id": string | null;
-            /**
-             * The buyer's IP address recorded for the payment when it was confirmed. `null` when
-             * no buyer IP address was supplied for the payment.
-             */
-            "ip_address": string | null;
-            /**
-             * The most recent resolution attempt that failed. Set when a decline's refund failed
-             * and the review reopened. Null when no attempt has failed. anyOf[1] (Value): {@link
-             * PaymentReviewResolutionFailure}. A failed attempt to resolve a review by refund,
-             * with the `refund_id` and when it failed. anyOf[2] (Value): null.
-             */
-            "last_resolution_failure": ((PaymentReviewResolutionFailure) | (null));
-            /**
-             * ID of the risk rule with the review action that opened this review. Example:
-             * "rule_01KEZF7C00FWGAQJXXA8CRA319".
-             */
-            "matched_risk_rule_id": string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "opened_at": string;
-            /** Why Flint opened the review. Value enum: "rule". */
-            "opened_reason": "rule" | (string & {});
-            /**
-             * Present only when `expand` includes `order`; `null` when expanded and there is no
-             * related order. anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
-             * fields, including status, payment and refund status, and pricing and settlement
-             * amounts, returned when the order is expanded. anyOf[2] (Value): null.
-             */
-            "order"?: ((ExpandedOrderSummary) | (null));
-            /**
-             * ID of the order the payment belongs to. `null` when the payment doesn't belong to an
-             * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-             */
-            "order_id": string | null;
-            /**
-             * How the reviewed payment was started. Value enum: "checkout", "payment_link",
-             * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal",
-             * "api".
-             */
-            "payment_flow": "checkout"
-                | "payment_link"
-                | "invoice"
-                | "subscription_initial"
-                | "subscription_renewal"
-                | "virtual_terminal"
-                | "api"
-                | (string & {});
-            /**
-             * Present only when `expand` includes `payment_intent`; `null` when expanded and there
-             * is no related payment intent. anyOf[1] (Value): {@link
-             * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
-             * status, and capture method, returned when the payment intent is expanded. anyOf[2]
-             * (Value): null.
-             */
-            "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
-            /** ID of the payment intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". */
-            "payment_intent_id": string;
-            /**
-             * Unique identifier for this payment review, prefixed `rev_`. Example:
-             * "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
-             */
-            "payment_review_id": string;
-            /**
-             * A snapshot of the payment as it was when the review opened. The payment details
-             * shown on a review: amount, capture method, authorization expiry, card brand and last
-             * four digits, and buyer email.
-             */
-            "payment_summary": PaymentReviewPaymentSummary;
-            /**
-             * The decision being carried out. `null` when status isn't resolving. Value enum:
-             * "approve", "decline", "expire", null.
-             */
-            "pending_action": "approve" | "decline" | "expire" | null | (string & {}) | null;
-            /**
-             * The refund created when the payment was declined. It can be set while status is
-             * resolving, before the refund finishes and the review closes. `null` when no refund
-             * exists for the review, including after a decline that needed none or when the review
-             * is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-             */
-            "refund_id": string | null;
-            /**
-             * Refunded amount for this review. Null when no refund is recorded. anyOf[1] (Value):
-             * {@link MoneyValue}. Monetary amount represented as integer minor units plus an ISO
-             * 4217 currency code. anyOf[2] (Value): null.
-             */
-            "refunded_money": ((MoneyValue) | (null));
-            /**
-             * RFC3339 timestamp. `null` when nobody has started approving or declining the review
-             * and Flint hasn't started expiring it. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "resolution_started_at": string | null;
-            /**
-             * The credential that started resolving this payment review, retained after closure.
-             * Null when no resolution has started or Flint started it. anyOf[1] (Value): {@link
-             * ResourceReference}. A reference to another resource by `resource_type` and
-             * `resource_id`. anyOf[2] (Value): null.
-             */
-            "resolution_started_by": ((ResourceReference) | (null));
-            /**
-             * The payment's risk level and score when the review opened. The risk assessment shown
-             * on a review: a `level` and, when available, a numeric `score`.
-             */
-            "risk": PaymentReviewRisk;
-            /** Where the review is in its lifecycle. Value enum: "open", "resolving", "closed". */
-            "status": "open" | "resolving" | "closed" | (string & {});
-            /**
-             * Lifecycle actions accepted in the current stored review state. An action remains
-             * listed while it is processing or can be repeated without changing the result. []
-             * enum: "approve", "decline". [] (Value): string. Value enum: "approve", "decline".
-             */
-            "supported_actions": Array<"approve" | "decline" | (string & {})>;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. closed_at (Optional): string or null. RFC3339
-         * timestamp. `null` when the review isn't closed. closed_at.anyOf[1] (Value): string.
-         * RFC3339 timestamp. `null` when the review isn't closed. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". closed_at.anyOf[2] (Value): null. closed_by (Optional): {@link
-         * ResourceReferencePreviousAttributes} or null. The credential that closed this payment
-         * review. Null when Flint closed it. closed_by.anyOf[1] (Value): {@link
-         * ResourceReferencePreviousAttributes}. closed_by.anyOf[2] (Value): null. closed_reason
-         * (Optional): string or null. How the review was resolved. `null` when the review isn't
-         * closed. Value enum: "approved", "declined", "refunded", "disputed", "payment_canceled",
-         * "expired", null. closed_reason.anyOf[1] (Value): string. How the review was resolved.
-         * `null` when the review isn't closed. Value enum: "approved", "declined", "refunded",
-         * "disputed", "payment_canceled", "expired", null. closed_reason.anyOf[2] (Value): null.
-         * customer (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present
-         * only when `expand` includes `customer`; `null` when expanded and there is no related
-         * customer. customer.anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
-         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. ID of the
-         * customer the payment was made for. `null` when the payment has no customer.
-         * customer_id.anyOf[1] (Value): string. ID of the customer the payment was made for.
-         * `null` when the payment has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-         * customer_id.anyOf[2] (Value): null. ip_address (Optional): string or null. The buyer's
-         * IP address recorded for the payment when it was confirmed. `null` when no buyer IP
-         * address was supplied for the payment. ip_address.anyOf[1] (Value): string. The buyer's
-         * IP address recorded for the payment when it was confirmed. `null` when no buyer IP
-         * address was supplied for the payment. ip_address.anyOf[2] (Value): null.
-         * last_resolution_failure (Optional): {@link
-         * PaymentReviewResolutionFailurePreviousAttributes} or null. The most recent resolution
-         * attempt that failed. Set when a decline's refund failed and the review reopened. Null
-         * when no attempt has failed. last_resolution_failure.anyOf[1] (Value): {@link
-         * PaymentReviewResolutionFailurePreviousAttributes}. last_resolution_failure.anyOf[2]
-         * (Value): null. matched_risk_rule_id (Optional): string or null. ID of the risk rule with
-         * the review action that opened this review. matched_risk_rule_id.anyOf[1] (Value):
-         * string. ID of the risk rule with the review action that opened this review. Example:
-         * "rule_01KEZF7C00FWGAQJXXA8CRA319". matched_risk_rule_id.anyOf[2] (Value): null.
-         * opened_at (Optional): string or null. RFC3339 timestamp. opened_at.anyOf[1] (Value):
-         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * opened_at.anyOf[2] (Value): null. opened_reason (Optional): string or null. Why Flint
-         * opened the review. Value enum: "rule". opened_reason.anyOf[1] (Value): string. Why Flint
-         * opened the review. Value enum: "rule". opened_reason.anyOf[2] (Value): null. order
-         * (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or null. Present only when
-         * `expand` includes `order`; `null` when expanded and there is no related order.
-         * order.anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2]
-         * (Value): null. order_id (Optional): string or null. ID of the order the payment belongs
-         * to. `null` when the payment doesn't belong to an order. order_id.anyOf[1] (Value):
-         * string. ID of the order the payment belongs to. `null` when the payment doesn't belong
-         * to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
-         * payment_flow (Optional): string or null. How the reviewed payment was started. Value
-         * enum: "checkout", "payment_link", "invoice", "subscription_initial",
-         * "subscription_renewal", "virtual_terminal", "api". payment_flow.anyOf[1] (Value):
-         * string. How the reviewed payment was started. Value enum: "checkout", "payment_link",
-         * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api".
-         * payment_flow.anyOf[2] (Value): null. payment_intent (Optional): {@link
-         * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Present only when `expand`
-         * includes `payment_intent`; `null` when expanded and there is no related payment intent.
-         * payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummaryPreviousAttributes}.
-         * payment_intent.anyOf[2] (Value): null. payment_intent_id (Optional): string or null. ID
-         * of the payment intent under review. payment_intent_id.anyOf[1] (Value): string. ID of
-         * the payment intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-         * payment_intent_id.anyOf[2] (Value): null. payment_review_id (Optional): string or null.
-         * Unique identifier for this payment review, prefixed `rev_`. payment_review_id.anyOf[1]
-         * (Value): string. Unique identifier for this payment review, prefixed `rev_`. Example:
-         * "rev_01KEZF7C00BVBQ00XDFNKB1EF6". payment_review_id.anyOf[2] (Value): null.
-         * payment_summary (Optional): {@link PaymentReviewPaymentSummaryPreviousAttributes} or
-         * null. A snapshot of the payment as it was when the review opened.
-         * payment_summary.anyOf[1] (Value): {@link PaymentReviewPaymentSummaryPreviousAttributes}.
-         * payment_summary.anyOf[2] (Value): null. pending_action (Optional): string or null. The
-         * decision being carried out. `null` when status isn't resolving. Value enum: "approve",
-         * "decline", "expire", null. pending_action.anyOf[1] (Value): string. The decision being
-         * carried out. `null` when status isn't resolving. Value enum: "approve", "decline",
-         * "expire", null. pending_action.anyOf[2] (Value): null. refund_id (Optional): string or
-         * null. The refund created when the payment was declined. It can be set while status is
-         * resolving, before the refund finishes and the review closes. `null` when no refund
-         * exists for the review, including after a decline that needed none or when the review is
-         * open. refund_id.anyOf[1] (Value): string. The refund created when the payment was
-         * declined. It can be set while status is resolving, before the refund finishes and the
-         * review closes. `null` when no refund exists for the review, including after a decline
-         * that needed none or when the review is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-         * refund_id.anyOf[2] (Value): null. refunded_money (Optional): {@link
-         * MoneyValuePreviousAttributes} or null. Refunded amount for this review. Null when no
-         * refund is recorded. refunded_money.anyOf[1] (Value): {@link
-         * MoneyValuePreviousAttributes}. refunded_money.anyOf[2] (Value): null.
-         * resolution_started_at (Optional): string or null. RFC3339 timestamp. `null` when nobody
-         * has started approving or declining the review and Flint hasn't started expiring it.
-         * resolution_started_at.anyOf[1] (Value): string. RFC3339 timestamp. `null` when nobody
-         * has started approving or declining the review and Flint hasn't started expiring it.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". resolution_started_at.anyOf[2]
-         * (Value): null. resolution_started_by (Optional): {@link
-         * ResourceReferencePreviousAttributes} or null. The credential that started resolving this
-         * payment review, retained after closure. Null when no resolution has started or Flint
-         * started it. resolution_started_by.anyOf[1] (Value): {@link
-         * ResourceReferencePreviousAttributes}. resolution_started_by.anyOf[2] (Value): null. risk
-         * (Optional): {@link PaymentReviewRiskPreviousAttributes} or null. The payment's risk
-         * level and score when the review opened. risk.anyOf[1] (Value): {@link
-         * PaymentReviewRiskPreviousAttributes}. risk.anyOf[2] (Value): null. status (Optional):
-         * string or null. Where the review is in its lifecycle. Value enum: "open", "resolving",
-         * "closed". status.anyOf[1] (Value): string. Where the review is in its lifecycle. Value
-         * enum: "open", "resolving", "closed". status.anyOf[2] (Value): null. supported_actions
-         * (Optional): Array of string or null. Lifecycle actions accepted in the current stored
-         * review state. An action remains listed while it is processing or can be repeated without
-         * changing the result. [] enum: "approve", "decline". supported_actions.anyOf[1] (Value):
-         * Array of string. Lifecycle actions accepted in the current stored review state. An
-         * action remains listed while it is processing or can be repeated without changing the
-         * result. [] enum: "approve", "decline". supported_actions.anyOf[1][] (Value): string.
-         * Value enum: "approve", "decline". supported_actions.anyOf[2] (Value): null. updated_at
-         * (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string.
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * updated_at.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * RFC3339 timestamp. `null` when the review isn't closed. anyOf[1] (Value): string.
-             * RFC3339 timestamp. `null` when the review isn't closed. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "closed_at"?: ((string) | (null));
-            /**
-             * The credential that closed this payment review. Null when Flint closed it. anyOf[1]
-             * (Value): {@link ResourceReferencePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "closed_by"?: ((ResourceReferencePreviousAttributes) | (null));
-            /**
-             * How the review was resolved. `null` when the review isn't closed. Value enum:
-             * "approved", "declined", "refunded", "disputed", "payment_canceled", "expired", null.
-             * anyOf[1] (Value): string. How the review was resolved. `null` when the review isn't
-             * closed. Value enum: "approved", "declined", "refunded", "disputed",
-             * "payment_canceled", "expired", null. anyOf[2] (Value): null.
-             */
-            "closed_reason"?: (("approved"
-                | "declined"
-                | "refunded"
-                | "disputed"
-                | "payment_canceled"
-                | "expired"
-                | null
-                | (string & {}))
-                | (null));
-            /**
-             * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): {@link
-             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
-            /**
-             * ID of the customer the payment was made for. `null` when the payment has no
-             * customer. anyOf[1] (Value): string. ID of the customer the payment was made for.
-             * `null` when the payment has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-             * anyOf[2] (Value): null.
-             */
-            "customer_id"?: ((string) | (null));
-            /**
-             * The buyer's IP address recorded for the payment when it was confirmed. `null` when
-             * no buyer IP address was supplied for the payment. anyOf[1] (Value): string. The
-             * buyer's IP address recorded for the payment when it was confirmed. `null` when no
-             * buyer IP address was supplied for the payment. anyOf[2] (Value): null.
-             */
-            "ip_address"?: ((string) | (null));
-            /**
-             * The most recent resolution attempt that failed. Set when a decline's refund failed
-             * and the review reopened. Null when no attempt has failed. anyOf[1] (Value): {@link
-             * PaymentReviewResolutionFailurePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "last_resolution_failure"?: ((PaymentReviewResolutionFailurePreviousAttributes) | (null));
-            /**
-             * ID of the risk rule with the review action that opened this review. anyOf[1]
-             * (Value): string. ID of the risk rule with the review action that opened this review.
-             * Example: "rule_01KEZF7C00FWGAQJXXA8CRA319". anyOf[2] (Value): null.
-             */
-            "matched_risk_rule_id"?: ((string) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "opened_at"?: ((string) | (null));
-            /**
-             * Why Flint opened the review. Value enum: "rule". anyOf[1] (Value): string. Why Flint
-             * opened the review. Value enum: "rule". anyOf[2] (Value): null.
-             */
-            "opened_reason"?: (("rule" | (string & {})) | (null));
-            /**
-             * Present only when `expand` includes `order`; `null` when expanded and there is no
-             * related order. anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
-             * anyOf[2] (Value): null.
-             */
-            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
-            /**
-             * ID of the order the payment belongs to. `null` when the payment doesn't belong to an
-             * order. anyOf[1] (Value): string. ID of the order the payment belongs to. `null` when
-             * the payment doesn't belong to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-             * anyOf[2] (Value): null.
-             */
-            "order_id"?: ((string) | (null));
-            /**
-             * How the reviewed payment was started. Value enum: "checkout", "payment_link",
-             * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal",
-             * "api". anyOf[1] (Value): string. How the reviewed payment was started. Value enum:
-             * "checkout", "payment_link", "invoice", "subscription_initial",
-             * "subscription_renewal", "virtual_terminal", "api". anyOf[2] (Value): null.
-             */
-            "payment_flow"?: (("checkout"
-                | "payment_link"
-                | "invoice"
-                | "subscription_initial"
-                | "subscription_renewal"
-                | "virtual_terminal"
-                | "api"
-                | (string & {}))
-                | (null));
-            /**
-             * Present only when `expand` includes `payment_intent`; `null` when expanded and there
-             * is no related payment intent. anyOf[1] (Value): {@link
-             * ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
-            /**
-             * ID of the payment intent under review. anyOf[1] (Value): string. ID of the payment
-             * intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2] (Value):
-             * null.
-             */
-            "payment_intent_id"?: ((string) | (null));
-            /**
-             * Unique identifier for this payment review, prefixed `rev_`. anyOf[1] (Value):
-             * string. Unique identifier for this payment review, prefixed `rev_`. Example:
-             * "rev_01KEZF7C00BVBQ00XDFNKB1EF6". anyOf[2] (Value): null.
-             */
-            "payment_review_id"?: ((string) | (null));
-            /**
-             * A snapshot of the payment as it was when the review opened. anyOf[1] (Value): {@link
-             * PaymentReviewPaymentSummaryPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "payment_summary"?: ((PaymentReviewPaymentSummaryPreviousAttributes) | (null));
-            /**
-             * The decision being carried out. `null` when status isn't resolving. Value enum:
-             * "approve", "decline", "expire", null. anyOf[1] (Value): string. The decision being
-             * carried out. `null` when status isn't resolving. Value enum: "approve", "decline",
-             * "expire", null. anyOf[2] (Value): null.
-             */
-            "pending_action"?: (("approve" | "decline" | "expire" | null | (string & {})) | (null));
-            /**
-             * The refund created when the payment was declined. It can be set while status is
-             * resolving, before the refund finishes and the review closes. `null` when no refund
-             * exists for the review, including after a decline that needed none or when the review
-             * is open. anyOf[1] (Value): string. The refund created when the payment was declined.
-             * It can be set while status is resolving, before the refund finishes and the review
-             * closes. `null` when no refund exists for the review, including after a decline that
-             * needed none or when the review is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-             * anyOf[2] (Value): null.
-             */
-            "refund_id"?: ((string) | (null));
-            /**
-             * Refunded amount for this review. Null when no refund is recorded. anyOf[1] (Value):
-             * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "refunded_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * RFC3339 timestamp. `null` when nobody has started approving or declining the review
-             * and Flint hasn't started expiring it. anyOf[1] (Value): string. RFC3339 timestamp.
-             * `null` when nobody has started approving or declining the review and Flint hasn't
-             * started expiring it. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
-             * (Value): null.
-             */
-            "resolution_started_at"?: ((string) | (null));
-            /**
-             * The credential that started resolving this payment review, retained after closure.
-             * Null when no resolution has started or Flint started it. anyOf[1] (Value): {@link
-             * ResourceReferencePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "resolution_started_by"?: ((ResourceReferencePreviousAttributes) | (null));
-            /**
-             * The payment's risk level and score when the review opened. anyOf[1] (Value): {@link
-             * PaymentReviewRiskPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "risk"?: ((PaymentReviewRiskPreviousAttributes) | (null));
-            /**
-             * Where the review is in its lifecycle. Value enum: "open", "resolving", "closed".
-             * anyOf[1] (Value): string. Where the review is in its lifecycle. Value enum: "open",
-             * "resolving", "closed". anyOf[2] (Value): null.
-             */
-            "status"?: (("open" | "resolving" | "closed" | (string & {})) | (null));
-            /**
-             * Lifecycle actions accepted in the current stored review state. An action remains
-             * listed while it is processing or can be repeated without changing the result. []
-             * enum: "approve", "decline". anyOf[1] (Value): Array of string. Lifecycle actions
-             * accepted in the current stored review state. An action remains listed while it is
-             * processing or can be repeated without changing the result. [] enum: "approve",
-             * "decline". anyOf[1][] (Value): string. Value enum: "approve", "decline". anyOf[2]
-             * (Value): null.
-             */
-            "supported_actions"?: ((Array<"approve" | "decline" | (string & {})>) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "updated_at"?: ((string) | (null));
-        });
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "payment_review.opened". */
-    "event_type"?: "payment_review.opened";
-});
-/**
- * The payment details shown on a review: amount, capture method, authorization expiry, card brand
- * and last four digits, and buyer email.
- */
-export type PaymentReviewPaymentSummary = {
-    /**
-     * The payment's requested amount when it was confirmed. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-    /**
-     * Effective Flint capture deadline: the earlier of the provider capture deadline and any order
-     * resource guarantee. `null` when the payment has no authorization deadline. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "authorization_expires_at": string | null;
-    /**
-     * Whether the payment collects when confirmed or holds the funds for a later capture. Value
-     * enum: "automatic", "manual".
-     */
-    "capture_method": "automatic" | "manual" | (string & {});
-    /**
-     * The buyer's email address used for screening: the payment's receipt email, or else the email
-     * on the payment method, in lowercase. Empty when neither is known.
-     */
-    "email": string;
-    /** Last four digits of the card number. Empty when the payment has no card details. */
-    "last4": string;
-    /**
-     * The card network, as recorded when the payment was confirmed. Value enum: "amex",
-     * "discover", "diners", "jcb", "mastercard", "unionpay", "visa".
-     */
-    "payment_method_brand": "amex" | "discover" | "diners" | "jcb" | "mastercard" | "unionpay" | "visa" | (string & {});
-};
-export type PaymentReviewPaymentSummaryPreviousAttributes = {
-    /**
-     * The payment's requested amount when it was confirmed. anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
-    /**
-     * Effective Flint capture deadline: the earlier of the provider capture deadline and any order
-     * resource guarantee. `null` when the payment has no authorization deadline. anyOf[1] (Value):
-     * string. Effective Flint capture deadline: the earlier of the provider capture deadline and
-     * any order resource guarantee. `null` when the payment has no authorization deadline. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "authorization_expires_at"?: ((string) | (null));
-    /**
-     * Whether the payment collects when confirmed or holds the funds for a later capture. Value
-     * enum: "automatic", "manual". anyOf[1] (Value): string. Whether the payment collects when
-     * confirmed or holds the funds for a later capture. Value enum: "automatic", "manual".
-     * anyOf[2] (Value): null.
-     */
-    "capture_method"?: (("automatic" | "manual" | (string & {})) | (null));
-    /**
-     * The buyer's email address used for screening: the payment's receipt email, or else the email
-     * on the payment method, in lowercase. Empty when neither is known. anyOf[1] (Value): string.
-     * The buyer's email address used for screening: the payment's receipt email, or else the email
-     * on the payment method, in lowercase. Empty when neither is known. anyOf[2] (Value): null.
-     */
-    "email"?: ((string) | (null));
-    /**
-     * Last four digits of the card number. Empty when the payment has no card details. anyOf[1]
-     * (Value): string. Last four digits of the card number. Empty when the payment has no card
-     * details. anyOf[2] (Value): null.
-     */
-    "last4"?: ((string) | (null));
-    /**
-     * The card network, as recorded when the payment was confirmed. Value enum: "amex",
-     * "discover", "diners", "jcb", "mastercard", "unionpay", "visa". anyOf[1] (Value): string. The
-     * card network, as recorded when the payment was confirmed. Value enum: "amex", "discover",
-     * "diners", "jcb", "mastercard", "unionpay", "visa". anyOf[2] (Value): null.
-     */
-    "payment_method_brand"?: (("amex" | "discover" | "diners" | "jcb" | "mastercard" | "unionpay" | "visa" | (string & {}))
-        | (null));
-};
-export type PaymentReviewReopenedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "closed_at": string | null;
-            "closed_by": ((ResourceReference) | (null));
-            "closed_reason": "approved"
-                | "declined"
-                | "refunded"
-                | "disputed"
-                | "payment_canceled"
-                | "expired"
-                | null
-                | (string & {})
-                | null;
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            "customer_id": string | null;
-            "ip_address": string | null;
-            "last_resolution_failure": ((PaymentReviewResolutionFailure) | (null));
-            "matched_risk_rule_id": string;
-            "opened_at": string;
-            "opened_reason": "rule" | (string & {});
-            "order"?: ((ExpandedOrderSummary) | (null));
-            "order_id": string | null;
-            "payment_flow": "checkout"
-                | "payment_link"
-                | "invoice"
-                | "subscription_initial"
-                | "subscription_renewal"
-                | "virtual_terminal"
-                | "api"
-                | (string & {});
-            "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
-            "payment_intent_id": string;
-            "payment_review_id": string;
-            "payment_summary": PaymentReviewPaymentSummary;
-            "pending_action": "approve" | "decline" | "expire" | null | (string & {}) | null;
-            "refund_id": string | null;
-            "refunded_money": ((MoneyValue) | (null));
-            "resolution_started_at": string | null;
-            "resolution_started_by": ((ResourceReference) | (null));
-            "risk": PaymentReviewRisk;
-            "status": "open" | "resolving" | "closed" | (string & {});
-            "supported_actions": Array<"approve" | "decline" | (string & {})>;
-            "updated_at": string;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "closed_at"?: ((string) | (null));
-            "closed_by"?: ((ResourceReferencePreviousAttributes) | (null));
-            "closed_reason"?: (("approved"
-                | "declined"
-                | "refunded"
-                | "disputed"
-                | "payment_canceled"
-                | "expired"
-                | null
-                | (string & {}))
-                | (null));
-            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
-            "customer_id"?: ((string) | (null));
-            "ip_address"?: ((string) | (null));
-            "last_resolution_failure"?: ((PaymentReviewResolutionFailurePreviousAttributes) | (null));
-            "matched_risk_rule_id"?: ((string) | (null));
-            "opened_at"?: ((string) | (null));
-            "opened_reason"?: (("rule" | (string & {})) | (null));
-            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
-            "order_id"?: ((string) | (null));
-            "payment_flow"?: (("checkout"
-                | "payment_link"
-                | "invoice"
-                | "subscription_initial"
-                | "subscription_renewal"
-                | "virtual_terminal"
-                | "api"
-                | (string & {}))
-                | (null));
-            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
-            "payment_intent_id"?: ((string) | (null));
-            "payment_review_id"?: ((string) | (null));
-            "payment_summary"?: ((PaymentReviewPaymentSummaryPreviousAttributes) | (null));
-            "pending_action"?: (("approve" | "decline" | "expire" | null | (string & {})) | (null));
-            "refund_id"?: ((string) | (null));
-            "refunded_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "resolution_started_at"?: ((string) | (null));
-            "resolution_started_by"?: ((ResourceReferencePreviousAttributes) | (null));
-            "risk"?: ((PaymentReviewRiskPreviousAttributes) | (null));
-            "status"?: (("open" | "resolving" | "closed" | (string & {})) | (null));
-            "supported_actions"?: ((Array<"approve" | "decline" | (string & {})>) | (null));
-            "updated_at"?: ((string) | (null));
-        });
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "payment_review.reopened";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "closed_at": string | null;
-            "closed_by": ((ResourceReference) | (null));
-            "closed_reason": "approved"
-                | "declined"
-                | "refunded"
-                | "disputed"
-                | "payment_canceled"
-                | "expired"
-                | null
-                | (string & {})
-                | null;
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            "customer_id": string | null;
-            "ip_address": string | null;
-            "last_resolution_failure": ((PaymentReviewResolutionFailure) | (null));
-            "matched_risk_rule_id": string;
-            "opened_at": string;
-            "opened_reason": "rule" | (string & {});
-            "order"?: ((ExpandedOrderSummary) | (null));
-            "order_id": string | null;
-            "payment_flow": "checkout"
-                | "payment_link"
-                | "invoice"
-                | "subscription_initial"
-                | "subscription_renewal"
-                | "virtual_terminal"
-                | "api"
-                | (string & {});
-            "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
-            "payment_intent_id": string;
-            "payment_review_id": string;
-            "payment_summary": PaymentReviewPaymentSummary;
-            "pending_action": "approve" | "decline" | "expire" | null | (string & {}) | null;
-            "refund_id": string | null;
-            "refunded_money": ((MoneyValue) | (null));
-            "resolution_started_at": string | null;
-            "resolution_started_by": ((ResourceReference) | (null));
-            "risk": PaymentReviewRisk;
-            "status": "open" | "resolving" | "closed" | (string & {});
-            "supported_actions": Array<"approve" | "decline" | (string & {})>;
-            "updated_at": string;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "closed_at"?: ((string) | (null));
-            "closed_by"?: ((ResourceReferencePreviousAttributes) | (null));
-            "closed_reason"?: (("approved"
-                | "declined"
-                | "refunded"
-                | "disputed"
-                | "payment_canceled"
-                | "expired"
-                | null
-                | (string & {}))
-                | (null));
-            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
-            "customer_id"?: ((string) | (null));
-            "ip_address"?: ((string) | (null));
-            "last_resolution_failure"?: ((PaymentReviewResolutionFailurePreviousAttributes) | (null));
-            "matched_risk_rule_id"?: ((string) | (null));
-            "opened_at"?: ((string) | (null));
-            "opened_reason"?: (("rule" | (string & {})) | (null));
-            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
-            "order_id"?: ((string) | (null));
-            "payment_flow"?: (("checkout"
-                | "payment_link"
-                | "invoice"
-                | "subscription_initial"
-                | "subscription_renewal"
-                | "virtual_terminal"
-                | "api"
-                | (string & {}))
-                | (null));
-            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
-            "payment_intent_id"?: ((string) | (null));
-            "payment_review_id"?: ((string) | (null));
-            "payment_summary"?: ((PaymentReviewPaymentSummaryPreviousAttributes) | (null));
-            "pending_action"?: (("approve" | "decline" | "expire" | null | (string & {})) | (null));
-            "refund_id"?: ((string) | (null));
-            "refunded_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "resolution_started_at"?: ((string) | (null));
-            "resolution_started_by"?: ((ResourceReferencePreviousAttributes) | (null));
-            "risk"?: ((PaymentReviewRiskPreviousAttributes) | (null));
-            "status"?: (("open" | "resolving" | "closed" | (string & {})) | (null));
-            "supported_actions"?: ((Array<"approve" | "decline" | (string & {})>) | (null));
-            "updated_at"?: ((string) | (null));
-        });
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "payment_review.reopened";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "payment_review.reopened";
-});
-/**
- * The `payment_review.reopened` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type PaymentReviewReopenedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.closed_at (Required): string or null. RFC3339 timestamp. `null`
-     * when the review isn't closed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.closed_by (Required): {@link ResourceReference} or null. The credential that closed
-     * this payment review. Null when Flint closed it. object.closed_by.anyOf[1] (Value): {@link
-     * ResourceReference}. A reference to another resource by `resource_type` and `resource_id`.
-     * object.closed_by.anyOf[2] (Value): null. object.closed_reason (Required): string or null.
-     * How the review was resolved. `null` when the review isn't closed. Value enum: "approved",
-     * "declined", "refunded", "disputed", "payment_canceled", "expired", null. object.customer
-     * (Optional): {@link ExpandedCustomerSummary} or null. Present only when `expand` includes
-     * `customer`; `null` when expanded and there is no related customer. object.customer.anyOf[1]
-     * (Value): {@link ExpandedCustomerSummary}. A customer's summary fields, returned in place of
-     * a customer ID when the customer is expanded. object.customer.anyOf[2] (Value): null.
-     * object.customer_id (Required): string or null. ID of the customer the payment was made for.
-     * `null` when the payment has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * object.ip_address (Required): string or null. The buyer's IP address recorded for the
-     * payment when it was confirmed. `null` when no buyer IP address was supplied for the payment.
-     * object.last_resolution_failure (Required): {@link PaymentReviewResolutionFailure} or null.
-     * The most recent resolution attempt that failed. Set when a decline's refund failed and the
-     * review reopened. Null when no attempt has failed. object.last_resolution_failure.anyOf[1]
-     * (Value): {@link PaymentReviewResolutionFailure}. A failed attempt to resolve a review by
-     * refund, with the `refund_id` and when it failed. object.last_resolution_failure.anyOf[2]
-     * (Value): null. object.matched_risk_rule_id (Required): string. ID of the risk rule with the
-     * review action that opened this review. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319".
-     * object.opened_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.opened_reason (Required): string. Why Flint opened the
-     * review. Value enum: "rule". object.order (Optional): {@link ExpandedOrderSummary} or null.
-     * Present only when `expand` includes `order`; `null` when expanded and there is no related
-     * order. object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
-     * fields, including status, payment and refund status, and pricing and settlement amounts,
-     * returned when the order is expanded. object.order.anyOf[2] (Value): null. object.order_id
-     * (Required): string or null. ID of the order the payment belongs to. `null` when the payment
-     * doesn't belong to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.payment_flow
-     * (Required): string. How the reviewed payment was started. Value enum: "checkout",
-     * "payment_link", "invoice", "subscription_initial", "subscription_renewal",
-     * "virtual_terminal", "api". object.payment_intent (Optional): {@link
-     * ExpandedPaymentIntentSummary} or null. Present only when `expand` includes `payment_intent`;
-     * `null` when expanded and there is no related payment intent. object.payment_intent.anyOf[1]
-     * (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
-     * amount, status, and capture method, returned when the payment intent is expanded.
-     * object.payment_intent.anyOf[2] (Value): null. object.payment_intent_id (Required): string.
-     * ID of the payment intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-     * object.payment_review_id (Required): string. Unique identifier for this payment review,
-     * prefixed `rev_`. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6". object.payment_summary
-     * (Required): {@link PaymentReviewPaymentSummary}. A snapshot of the payment as it was when
-     * the review opened. The payment details shown on a review: amount, capture method,
-     * authorization expiry, card brand and last four digits, and buyer email.
-     * object.pending_action (Required): string or null. The decision being carried out. `null`
-     * when status isn't resolving. Value enum: "approve", "decline", "expire", null.
-     * object.refund_id (Required): string or null. The refund created when the payment was
-     * declined. It can be set while status is resolving, before the refund finishes and the review
-     * closes. `null` when no refund exists for the review, including after a decline that needed
-     * none or when the review is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-     * object.refunded_money (Required): {@link MoneyValue} or null. Refunded amount for this
-     * review. Null when no refund is recorded. object.refunded_money.anyOf[1] (Value): {@link
-     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code. object.refunded_money.anyOf[2] (Value): null. object.resolution_started_at (Required):
-     * string or null. RFC3339 timestamp. `null` when nobody has started approving or declining the
-     * review and Flint hasn't started expiring it. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.resolution_started_by (Required): {@link ResourceReference}
-     * or null. The credential that started resolving this payment review, retained after closure.
-     * Null when no resolution has started or Flint started it.
-     * object.resolution_started_by.anyOf[1] (Value): {@link ResourceReference}. A reference to
-     * another resource by `resource_type` and `resource_id`. object.resolution_started_by.anyOf[2]
-     * (Value): null. object.risk (Required): {@link PaymentReviewRisk}. The payment's risk level
-     * and score when the review opened. The risk assessment shown on a review: a `level` and, when
-     * available, a numeric `score`. object.status (Required): string. Where the review is in its
-     * lifecycle. Value enum: "open", "resolving", "closed". object.supported_actions (Required):
-     * Array of string. Lifecycle actions accepted in the current stored review state. An action
-     * remains listed while it is processing or can be repeated without changing the result. []
-     * enum: "approve", "decline". object.supported_actions[] (Value): string. Value enum:
-     * "approve", "decline". object.updated_at (Required): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events. previous_attributes.closed_at (Optional): string or null. RFC3339
-     * timestamp. `null` when the review isn't closed. previous_attributes.closed_at.anyOf[1]
-     * (Value): string. RFC3339 timestamp. `null` when the review isn't closed. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". previous_attributes.closed_at.anyOf[2] (Value): null.
-     * previous_attributes.closed_by (Optional): {@link ResourceReferencePreviousAttributes} or
-     * null. The credential that closed this payment review. Null when Flint closed it.
-     * previous_attributes.closed_by.anyOf[1] (Value): {@link ResourceReferencePreviousAttributes}.
-     * previous_attributes.closed_by.anyOf[2] (Value): null. previous_attributes.closed_reason
-     * (Optional): string or null. How the review was resolved. `null` when the review isn't
-     * closed. Value enum: "approved", "declined", "refunded", "disputed", "payment_canceled",
-     * "expired", null. previous_attributes.closed_reason.anyOf[1] (Value): string. How the review
-     * was resolved. `null` when the review isn't closed. Value enum: "approved", "declined",
-     * "refunded", "disputed", "payment_canceled", "expired", null.
-     * previous_attributes.closed_reason.anyOf[2] (Value): null. previous_attributes.customer
-     * (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present only when
-     * `expand` includes `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1] (Value): {@link
-     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
-     * null. previous_attributes.customer_id (Optional): string or null. ID of the customer the
-     * payment was made for. `null` when the payment has no customer.
-     * previous_attributes.customer_id.anyOf[1] (Value): string. ID of the customer the payment was
-     * made for. `null` when the payment has no customer. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
-     * previous_attributes.ip_address (Optional): string or null. The buyer's IP address recorded
-     * for the payment when it was confirmed. `null` when no buyer IP address was supplied for the
-     * payment. previous_attributes.ip_address.anyOf[1] (Value): string. The buyer's IP address
-     * recorded for the payment when it was confirmed. `null` when no buyer IP address was supplied
-     * for the payment. previous_attributes.ip_address.anyOf[2] (Value): null.
-     * previous_attributes.last_resolution_failure (Optional): {@link
-     * PaymentReviewResolutionFailurePreviousAttributes} or null. The most recent resolution
-     * attempt that failed. Set when a decline's refund failed and the review reopened. Null when
-     * no attempt has failed. previous_attributes.last_resolution_failure.anyOf[1] (Value): {@link
-     * PaymentReviewResolutionFailurePreviousAttributes}.
-     * previous_attributes.last_resolution_failure.anyOf[2] (Value): null.
-     * previous_attributes.matched_risk_rule_id (Optional): string or null. ID of the risk rule
-     * with the review action that opened this review.
-     * previous_attributes.matched_risk_rule_id.anyOf[1] (Value): string. ID of the risk rule with
-     * the review action that opened this review. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319".
-     * previous_attributes.matched_risk_rule_id.anyOf[2] (Value): null.
-     * previous_attributes.opened_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.opened_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.opened_at.anyOf[2] (Value):
-     * null. previous_attributes.opened_reason (Optional): string or null. Why Flint opened the
-     * review. Value enum: "rule". previous_attributes.opened_reason.anyOf[1] (Value): string. Why
-     * Flint opened the review. Value enum: "rule". previous_attributes.opened_reason.anyOf[2]
-     * (Value): null. previous_attributes.order (Optional): {@link
-     * ExpandedOrderSummaryPreviousAttributes} or null. Present only when `expand` includes
-     * `order`; `null` when expanded and there is no related order.
-     * previous_attributes.order.anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
-     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_id (Optional):
-     * string or null. ID of the order the payment belongs to. `null` when the payment doesn't
-     * belong to an order. previous_attributes.order_id.anyOf[1] (Value): string. ID of the order
-     * the payment belongs to. `null` when the payment doesn't belong to an order. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_flow (Optional): string or null. How the reviewed payment was
-     * started. Value enum: "checkout", "payment_link", "invoice", "subscription_initial",
-     * "subscription_renewal", "virtual_terminal", "api". previous_attributes.payment_flow.anyOf[1]
-     * (Value): string. How the reviewed payment was started. Value enum: "checkout",
-     * "payment_link", "invoice", "subscription_initial", "subscription_renewal",
-     * "virtual_terminal", "api". previous_attributes.payment_flow.anyOf[2] (Value): null.
-     * previous_attributes.payment_intent (Optional): {@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Present only when `expand` includes
-     * `payment_intent`; `null` when expanded and there is no related payment intent.
-     * previous_attributes.payment_intent.anyOf[1] (Value): {@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes}. previous_attributes.payment_intent.anyOf[2]
-     * (Value): null. previous_attributes.payment_intent_id (Optional): string or null. ID of the
-     * payment intent under review. previous_attributes.payment_intent_id.anyOf[1] (Value): string.
-     * ID of the payment intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-     * previous_attributes.payment_intent_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_review_id (Optional): string or null. Unique identifier for this
-     * payment review, prefixed `rev_`. previous_attributes.payment_review_id.anyOf[1] (Value):
-     * string. Unique identifier for this payment review, prefixed `rev_`. Example:
-     * "rev_01KEZF7C00BVBQ00XDFNKB1EF6". previous_attributes.payment_review_id.anyOf[2] (Value):
-     * null. previous_attributes.payment_summary (Optional): {@link
-     * PaymentReviewPaymentSummaryPreviousAttributes} or null. A snapshot of the payment as it was
-     * when the review opened. previous_attributes.payment_summary.anyOf[1] (Value): {@link
-     * PaymentReviewPaymentSummaryPreviousAttributes}. previous_attributes.payment_summary.anyOf[2]
-     * (Value): null. previous_attributes.pending_action (Optional): string or null. The decision
-     * being carried out. `null` when status isn't resolving. Value enum: "approve", "decline",
-     * "expire", null. previous_attributes.pending_action.anyOf[1] (Value): string. The decision
-     * being carried out. `null` when status isn't resolving. Value enum: "approve", "decline",
-     * "expire", null. previous_attributes.pending_action.anyOf[2] (Value): null.
-     * previous_attributes.refund_id (Optional): string or null. The refund created when the
-     * payment was declined. It can be set while status is resolving, before the refund finishes
-     * and the review closes. `null` when no refund exists for the review, including after a
-     * decline that needed none or when the review is open. previous_attributes.refund_id.anyOf[1]
-     * (Value): string. The refund created when the payment was declined. It can be set while
-     * status is resolving, before the refund finishes and the review closes. `null` when no refund
-     * exists for the review, including after a decline that needed none or when the review is
-     * open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". previous_attributes.refund_id.anyOf[2]
-     * (Value): null. previous_attributes.refunded_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. Refunded amount for this review. Null when no refund
-     * is recorded. previous_attributes.refunded_money.anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.refunded_money.anyOf[2] (Value): null.
-     * previous_attributes.resolution_started_at (Optional): string or null. RFC3339 timestamp.
-     * `null` when nobody has started approving or declining the review and Flint hasn't started
-     * expiring it. previous_attributes.resolution_started_at.anyOf[1] (Value): string. RFC3339
-     * timestamp. `null` when nobody has started approving or declining the review and Flint hasn't
-     * started expiring it. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.resolution_started_at.anyOf[2] (Value): null.
-     * previous_attributes.resolution_started_by (Optional): {@link
-     * ResourceReferencePreviousAttributes} or null. The credential that started resolving this
-     * payment review, retained after closure. Null when no resolution has started or Flint started
-     * it. previous_attributes.resolution_started_by.anyOf[1] (Value): {@link
-     * ResourceReferencePreviousAttributes}. previous_attributes.resolution_started_by.anyOf[2]
-     * (Value): null. previous_attributes.risk (Optional): {@link
-     * PaymentReviewRiskPreviousAttributes} or null. The payment's risk level and score when the
-     * review opened. previous_attributes.risk.anyOf[1] (Value): {@link
-     * PaymentReviewRiskPreviousAttributes}. previous_attributes.risk.anyOf[2] (Value): null.
-     * previous_attributes.status (Optional): string or null. Where the review is in its lifecycle.
-     * Value enum: "open", "resolving", "closed". previous_attributes.status.anyOf[1] (Value):
-     * string. Where the review is in its lifecycle. Value enum: "open", "resolving", "closed".
-     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
-     * (Optional): Array of string or null. Lifecycle actions accepted in the current stored review
-     * state. An action remains listed while it is processing or can be repeated without changing
-     * the result. [] enum: "approve", "decline". previous_attributes.supported_actions.anyOf[1]
-     * (Value): Array of string. Lifecycle actions accepted in the current stored review state. An
-     * action remains listed while it is processing or can be repeated without changing the result.
-     * [] enum: "approve", "decline". previous_attributes.supported_actions.anyOf[1][] (Value):
-     * string. Value enum: "approve", "decline". previous_attributes.supported_actions.anyOf[2]
-     * (Value): null. previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
-     * null.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields. closed_at
-         * (Required): string or null. RFC3339 timestamp. `null` when the review isn't closed.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". closed_by (Required): {@link
-         * ResourceReference} or null. The credential that closed this payment review. Null when
-         * Flint closed it. closed_by.anyOf[1] (Value): {@link ResourceReference}. A reference to
-         * another resource by `resource_type` and `resource_id`. closed_by.anyOf[2] (Value): null.
-         * closed_reason (Required): string or null. How the review was resolved. `null` when the
-         * review isn't closed. Value enum: "approved", "declined", "refunded", "disputed",
-         * "payment_canceled", "expired", null. customer (Optional): {@link
-         * ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null`
-         * when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
-         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
-         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
-         * (Required): string or null. ID of the customer the payment was made for. `null` when the
-         * payment has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". ip_address
-         * (Required): string or null. The buyer's IP address recorded for the payment when it was
-         * confirmed. `null` when no buyer IP address was supplied for the payment.
-         * last_resolution_failure (Required): {@link PaymentReviewResolutionFailure} or null. The
-         * most recent resolution attempt that failed. Set when a decline's refund failed and the
-         * review reopened. Null when no attempt has failed. last_resolution_failure.anyOf[1]
-         * (Value): {@link PaymentReviewResolutionFailure}. A failed attempt to resolve a review by
-         * refund, with the `refund_id` and when it failed. last_resolution_failure.anyOf[2]
-         * (Value): null. matched_risk_rule_id (Required): string. ID of the risk rule with the
-         * review action that opened this review. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319".
-         * opened_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". opened_reason (Required): string. Why Flint opened the review.
-         * Value enum: "rule". order (Optional): {@link ExpandedOrderSummary} or null. Present only
-         * when `expand` includes `order`; `null` when expanded and there is no related order.
-         * order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
-         * including status, payment and refund status, and pricing and settlement amounts,
-         * returned when the order is expanded. order.anyOf[2] (Value): null. order_id (Required):
-         * string or null. ID of the order the payment belongs to. `null` when the payment doesn't
-         * belong to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". payment_flow (Required):
-         * string. How the reviewed payment was started. Value enum: "checkout", "payment_link",
-         * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api".
-         * payment_intent (Optional): {@link ExpandedPaymentIntentSummary} or null. Present only
-         * when `expand` includes `payment_intent`; `null` when expanded and there is no related
-         * payment intent. payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}. A
-         * payment intent's summary fields, including amount, status, and capture method, returned
-         * when the payment intent is expanded. payment_intent.anyOf[2] (Value): null.
-         * payment_intent_id (Required): string. ID of the payment intent under review. Example:
-         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_review_id (Required): string. Unique identifier
-         * for this payment review, prefixed `rev_`. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
-         * payment_summary (Required): {@link PaymentReviewPaymentSummary}. A snapshot of the
-         * payment as it was when the review opened. The payment details shown on a review: amount,
-         * capture method, authorization expiry, card brand and last four digits, and buyer email.
-         * pending_action (Required): string or null. The decision being carried out. `null` when
-         * status isn't resolving. Value enum: "approve", "decline", "expire", null. refund_id
-         * (Required): string or null. The refund created when the payment was declined. It can be
-         * set while status is resolving, before the refund finishes and the review closes. `null`
-         * when no refund exists for the review, including after a decline that needed none or when
-         * the review is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". refunded_money
-         * (Required): {@link MoneyValue} or null. Refunded amount for this review. Null when no
-         * refund is recorded. refunded_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount
-         * represented as integer minor units plus an ISO 4217 currency code.
-         * refunded_money.anyOf[2] (Value): null. resolution_started_at (Required): string or null.
-         * RFC3339 timestamp. `null` when nobody has started approving or declining the review and
-         * Flint hasn't started expiring it. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * resolution_started_by (Required): {@link ResourceReference} or null. The credential that
-         * started resolving this payment review, retained after closure. Null when no resolution
-         * has started or Flint started it. resolution_started_by.anyOf[1] (Value): {@link
-         * ResourceReference}. A reference to another resource by `resource_type` and
-         * `resource_id`. resolution_started_by.anyOf[2] (Value): null. risk (Required): {@link
-         * PaymentReviewRisk}. The payment's risk level and score when the review opened. The risk
-         * assessment shown on a review: a `level` and, when available, a numeric `score`. status
-         * (Required): string. Where the review is in its lifecycle. Value enum: "open",
-         * "resolving", "closed". supported_actions (Required): Array of string. Lifecycle actions
-         * accepted in the current stored review state. An action remains listed while it is
-         * processing or can be repeated without changing the result. [] enum: "approve",
-         * "decline". supported_actions[] (Value): string. Value enum: "approve", "decline".
-         * updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z".
-         */
-        "object": {
-            /**
-             * RFC3339 timestamp. `null` when the review isn't closed. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "closed_at": string | null;
-            /**
-             * The credential that closed this payment review. Null when Flint closed it. anyOf[1]
-             * (Value): {@link ResourceReference}. A reference to another resource by
-             * `resource_type` and `resource_id`. anyOf[2] (Value): null.
-             */
-            "closed_by": ((ResourceReference) | (null));
-            /**
-             * How the review was resolved. `null` when the review isn't closed. Value enum:
-             * "approved", "declined", "refunded", "disputed", "payment_canceled", "expired", null.
-             */
-            "closed_reason": "approved"
-                | "declined"
-                | "refunded"
-                | "disputed"
-                | "payment_canceled"
-                | "expired"
-                | null
-                | (string & {})
-                | null;
-            /**
-             * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
-             * summary fields, returned in place of a customer ID when the customer is expanded.
-             * anyOf[2] (Value): null.
-             */
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            /**
-             * ID of the customer the payment was made for. `null` when the payment has no
-             * customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-             */
-            "customer_id": string | null;
-            /**
-             * The buyer's IP address recorded for the payment when it was confirmed. `null` when
-             * no buyer IP address was supplied for the payment.
-             */
-            "ip_address": string | null;
-            /**
-             * The most recent resolution attempt that failed. Set when a decline's refund failed
-             * and the review reopened. Null when no attempt has failed. anyOf[1] (Value): {@link
-             * PaymentReviewResolutionFailure}. A failed attempt to resolve a review by refund,
-             * with the `refund_id` and when it failed. anyOf[2] (Value): null.
-             */
-            "last_resolution_failure": ((PaymentReviewResolutionFailure) | (null));
-            /**
-             * ID of the risk rule with the review action that opened this review. Example:
-             * "rule_01KEZF7C00FWGAQJXXA8CRA319".
-             */
-            "matched_risk_rule_id": string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "opened_at": string;
-            /** Why Flint opened the review. Value enum: "rule". */
-            "opened_reason": "rule" | (string & {});
-            /**
-             * Present only when `expand` includes `order`; `null` when expanded and there is no
-             * related order. anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
-             * fields, including status, payment and refund status, and pricing and settlement
-             * amounts, returned when the order is expanded. anyOf[2] (Value): null.
-             */
-            "order"?: ((ExpandedOrderSummary) | (null));
-            /**
-             * ID of the order the payment belongs to. `null` when the payment doesn't belong to an
-             * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-             */
-            "order_id": string | null;
-            /**
-             * How the reviewed payment was started. Value enum: "checkout", "payment_link",
-             * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal",
-             * "api".
-             */
-            "payment_flow": "checkout"
-                | "payment_link"
-                | "invoice"
-                | "subscription_initial"
-                | "subscription_renewal"
-                | "virtual_terminal"
-                | "api"
-                | (string & {});
-            /**
-             * Present only when `expand` includes `payment_intent`; `null` when expanded and there
-             * is no related payment intent. anyOf[1] (Value): {@link
-             * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
-             * status, and capture method, returned when the payment intent is expanded. anyOf[2]
-             * (Value): null.
-             */
-            "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
-            /** ID of the payment intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". */
-            "payment_intent_id": string;
-            /**
-             * Unique identifier for this payment review, prefixed `rev_`. Example:
-             * "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
-             */
-            "payment_review_id": string;
-            /**
-             * A snapshot of the payment as it was when the review opened. The payment details
-             * shown on a review: amount, capture method, authorization expiry, card brand and last
-             * four digits, and buyer email.
-             */
-            "payment_summary": PaymentReviewPaymentSummary;
-            /**
-             * The decision being carried out. `null` when status isn't resolving. Value enum:
-             * "approve", "decline", "expire", null.
-             */
-            "pending_action": "approve" | "decline" | "expire" | null | (string & {}) | null;
-            /**
-             * The refund created when the payment was declined. It can be set while status is
-             * resolving, before the refund finishes and the review closes. `null` when no refund
-             * exists for the review, including after a decline that needed none or when the review
-             * is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-             */
-            "refund_id": string | null;
-            /**
-             * Refunded amount for this review. Null when no refund is recorded. anyOf[1] (Value):
-             * {@link MoneyValue}. Monetary amount represented as integer minor units plus an ISO
-             * 4217 currency code. anyOf[2] (Value): null.
-             */
-            "refunded_money": ((MoneyValue) | (null));
-            /**
-             * RFC3339 timestamp. `null` when nobody has started approving or declining the review
-             * and Flint hasn't started expiring it. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "resolution_started_at": string | null;
-            /**
-             * The credential that started resolving this payment review, retained after closure.
-             * Null when no resolution has started or Flint started it. anyOf[1] (Value): {@link
-             * ResourceReference}. A reference to another resource by `resource_type` and
-             * `resource_id`. anyOf[2] (Value): null.
-             */
-            "resolution_started_by": ((ResourceReference) | (null));
-            /**
-             * The payment's risk level and score when the review opened. The risk assessment shown
-             * on a review: a `level` and, when available, a numeric `score`.
-             */
-            "risk": PaymentReviewRisk;
-            /** Where the review is in its lifecycle. Value enum: "open", "resolving", "closed". */
-            "status": "open" | "resolving" | "closed" | (string & {});
-            /**
-             * Lifecycle actions accepted in the current stored review state. An action remains
-             * listed while it is processing or can be repeated without changing the result. []
-             * enum: "approve", "decline". [] (Value): string. Value enum: "approve", "decline".
-             */
-            "supported_actions": Array<"approve" | "decline" | (string & {})>;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. closed_at (Optional): string or null. RFC3339
-         * timestamp. `null` when the review isn't closed. closed_at.anyOf[1] (Value): string.
-         * RFC3339 timestamp. `null` when the review isn't closed. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". closed_at.anyOf[2] (Value): null. closed_by (Optional): {@link
-         * ResourceReferencePreviousAttributes} or null. The credential that closed this payment
-         * review. Null when Flint closed it. closed_by.anyOf[1] (Value): {@link
-         * ResourceReferencePreviousAttributes}. closed_by.anyOf[2] (Value): null. closed_reason
-         * (Optional): string or null. How the review was resolved. `null` when the review isn't
-         * closed. Value enum: "approved", "declined", "refunded", "disputed", "payment_canceled",
-         * "expired", null. closed_reason.anyOf[1] (Value): string. How the review was resolved.
-         * `null` when the review isn't closed. Value enum: "approved", "declined", "refunded",
-         * "disputed", "payment_canceled", "expired", null. closed_reason.anyOf[2] (Value): null.
-         * customer (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present
-         * only when `expand` includes `customer`; `null` when expanded and there is no related
-         * customer. customer.anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
-         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. ID of the
-         * customer the payment was made for. `null` when the payment has no customer.
-         * customer_id.anyOf[1] (Value): string. ID of the customer the payment was made for.
-         * `null` when the payment has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-         * customer_id.anyOf[2] (Value): null. ip_address (Optional): string or null. The buyer's
-         * IP address recorded for the payment when it was confirmed. `null` when no buyer IP
-         * address was supplied for the payment. ip_address.anyOf[1] (Value): string. The buyer's
-         * IP address recorded for the payment when it was confirmed. `null` when no buyer IP
-         * address was supplied for the payment. ip_address.anyOf[2] (Value): null.
-         * last_resolution_failure (Optional): {@link
-         * PaymentReviewResolutionFailurePreviousAttributes} or null. The most recent resolution
-         * attempt that failed. Set when a decline's refund failed and the review reopened. Null
-         * when no attempt has failed. last_resolution_failure.anyOf[1] (Value): {@link
-         * PaymentReviewResolutionFailurePreviousAttributes}. last_resolution_failure.anyOf[2]
-         * (Value): null. matched_risk_rule_id (Optional): string or null. ID of the risk rule with
-         * the review action that opened this review. matched_risk_rule_id.anyOf[1] (Value):
-         * string. ID of the risk rule with the review action that opened this review. Example:
-         * "rule_01KEZF7C00FWGAQJXXA8CRA319". matched_risk_rule_id.anyOf[2] (Value): null.
-         * opened_at (Optional): string or null. RFC3339 timestamp. opened_at.anyOf[1] (Value):
-         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * opened_at.anyOf[2] (Value): null. opened_reason (Optional): string or null. Why Flint
-         * opened the review. Value enum: "rule". opened_reason.anyOf[1] (Value): string. Why Flint
-         * opened the review. Value enum: "rule". opened_reason.anyOf[2] (Value): null. order
-         * (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or null. Present only when
-         * `expand` includes `order`; `null` when expanded and there is no related order.
-         * order.anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2]
-         * (Value): null. order_id (Optional): string or null. ID of the order the payment belongs
-         * to. `null` when the payment doesn't belong to an order. order_id.anyOf[1] (Value):
-         * string. ID of the order the payment belongs to. `null` when the payment doesn't belong
-         * to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
-         * payment_flow (Optional): string or null. How the reviewed payment was started. Value
-         * enum: "checkout", "payment_link", "invoice", "subscription_initial",
-         * "subscription_renewal", "virtual_terminal", "api". payment_flow.anyOf[1] (Value):
-         * string. How the reviewed payment was started. Value enum: "checkout", "payment_link",
-         * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api".
-         * payment_flow.anyOf[2] (Value): null. payment_intent (Optional): {@link
-         * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Present only when `expand`
-         * includes `payment_intent`; `null` when expanded and there is no related payment intent.
-         * payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummaryPreviousAttributes}.
-         * payment_intent.anyOf[2] (Value): null. payment_intent_id (Optional): string or null. ID
-         * of the payment intent under review. payment_intent_id.anyOf[1] (Value): string. ID of
-         * the payment intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-         * payment_intent_id.anyOf[2] (Value): null. payment_review_id (Optional): string or null.
-         * Unique identifier for this payment review, prefixed `rev_`. payment_review_id.anyOf[1]
-         * (Value): string. Unique identifier for this payment review, prefixed `rev_`. Example:
-         * "rev_01KEZF7C00BVBQ00XDFNKB1EF6". payment_review_id.anyOf[2] (Value): null.
-         * payment_summary (Optional): {@link PaymentReviewPaymentSummaryPreviousAttributes} or
-         * null. A snapshot of the payment as it was when the review opened.
-         * payment_summary.anyOf[1] (Value): {@link PaymentReviewPaymentSummaryPreviousAttributes}.
-         * payment_summary.anyOf[2] (Value): null. pending_action (Optional): string or null. The
-         * decision being carried out. `null` when status isn't resolving. Value enum: "approve",
-         * "decline", "expire", null. pending_action.anyOf[1] (Value): string. The decision being
-         * carried out. `null` when status isn't resolving. Value enum: "approve", "decline",
-         * "expire", null. pending_action.anyOf[2] (Value): null. refund_id (Optional): string or
-         * null. The refund created when the payment was declined. It can be set while status is
-         * resolving, before the refund finishes and the review closes. `null` when no refund
-         * exists for the review, including after a decline that needed none or when the review is
-         * open. refund_id.anyOf[1] (Value): string. The refund created when the payment was
-         * declined. It can be set while status is resolving, before the refund finishes and the
-         * review closes. `null` when no refund exists for the review, including after a decline
-         * that needed none or when the review is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-         * refund_id.anyOf[2] (Value): null. refunded_money (Optional): {@link
-         * MoneyValuePreviousAttributes} or null. Refunded amount for this review. Null when no
-         * refund is recorded. refunded_money.anyOf[1] (Value): {@link
-         * MoneyValuePreviousAttributes}. refunded_money.anyOf[2] (Value): null.
-         * resolution_started_at (Optional): string or null. RFC3339 timestamp. `null` when nobody
-         * has started approving or declining the review and Flint hasn't started expiring it.
-         * resolution_started_at.anyOf[1] (Value): string. RFC3339 timestamp. `null` when nobody
-         * has started approving or declining the review and Flint hasn't started expiring it.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". resolution_started_at.anyOf[2]
-         * (Value): null. resolution_started_by (Optional): {@link
-         * ResourceReferencePreviousAttributes} or null. The credential that started resolving this
-         * payment review, retained after closure. Null when no resolution has started or Flint
-         * started it. resolution_started_by.anyOf[1] (Value): {@link
-         * ResourceReferencePreviousAttributes}. resolution_started_by.anyOf[2] (Value): null. risk
-         * (Optional): {@link PaymentReviewRiskPreviousAttributes} or null. The payment's risk
-         * level and score when the review opened. risk.anyOf[1] (Value): {@link
-         * PaymentReviewRiskPreviousAttributes}. risk.anyOf[2] (Value): null. status (Optional):
-         * string or null. Where the review is in its lifecycle. Value enum: "open", "resolving",
-         * "closed". status.anyOf[1] (Value): string. Where the review is in its lifecycle. Value
-         * enum: "open", "resolving", "closed". status.anyOf[2] (Value): null. supported_actions
-         * (Optional): Array of string or null. Lifecycle actions accepted in the current stored
-         * review state. An action remains listed while it is processing or can be repeated without
-         * changing the result. [] enum: "approve", "decline". supported_actions.anyOf[1] (Value):
-         * Array of string. Lifecycle actions accepted in the current stored review state. An
-         * action remains listed while it is processing or can be repeated without changing the
-         * result. [] enum: "approve", "decline". supported_actions.anyOf[1][] (Value): string.
-         * Value enum: "approve", "decline". supported_actions.anyOf[2] (Value): null. updated_at
-         * (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string.
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * updated_at.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * RFC3339 timestamp. `null` when the review isn't closed. anyOf[1] (Value): string.
-             * RFC3339 timestamp. `null` when the review isn't closed. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "closed_at"?: ((string) | (null));
-            /**
-             * The credential that closed this payment review. Null when Flint closed it. anyOf[1]
-             * (Value): {@link ResourceReferencePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "closed_by"?: ((ResourceReferencePreviousAttributes) | (null));
-            /**
-             * How the review was resolved. `null` when the review isn't closed. Value enum:
-             * "approved", "declined", "refunded", "disputed", "payment_canceled", "expired", null.
-             * anyOf[1] (Value): string. How the review was resolved. `null` when the review isn't
-             * closed. Value enum: "approved", "declined", "refunded", "disputed",
-             * "payment_canceled", "expired", null. anyOf[2] (Value): null.
-             */
-            "closed_reason"?: (("approved"
-                | "declined"
-                | "refunded"
-                | "disputed"
-                | "payment_canceled"
-                | "expired"
-                | null
-                | (string & {}))
-                | (null));
-            /**
-             * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): {@link
-             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
-            /**
-             * ID of the customer the payment was made for. `null` when the payment has no
-             * customer. anyOf[1] (Value): string. ID of the customer the payment was made for.
-             * `null` when the payment has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-             * anyOf[2] (Value): null.
-             */
-            "customer_id"?: ((string) | (null));
-            /**
-             * The buyer's IP address recorded for the payment when it was confirmed. `null` when
-             * no buyer IP address was supplied for the payment. anyOf[1] (Value): string. The
-             * buyer's IP address recorded for the payment when it was confirmed. `null` when no
-             * buyer IP address was supplied for the payment. anyOf[2] (Value): null.
-             */
-            "ip_address"?: ((string) | (null));
-            /**
-             * The most recent resolution attempt that failed. Set when a decline's refund failed
-             * and the review reopened. Null when no attempt has failed. anyOf[1] (Value): {@link
-             * PaymentReviewResolutionFailurePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "last_resolution_failure"?: ((PaymentReviewResolutionFailurePreviousAttributes) | (null));
-            /**
-             * ID of the risk rule with the review action that opened this review. anyOf[1]
-             * (Value): string. ID of the risk rule with the review action that opened this review.
-             * Example: "rule_01KEZF7C00FWGAQJXXA8CRA319". anyOf[2] (Value): null.
-             */
-            "matched_risk_rule_id"?: ((string) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "opened_at"?: ((string) | (null));
-            /**
-             * Why Flint opened the review. Value enum: "rule". anyOf[1] (Value): string. Why Flint
-             * opened the review. Value enum: "rule". anyOf[2] (Value): null.
-             */
-            "opened_reason"?: (("rule" | (string & {})) | (null));
-            /**
-             * Present only when `expand` includes `order`; `null` when expanded and there is no
-             * related order. anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
-             * anyOf[2] (Value): null.
-             */
-            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
-            /**
-             * ID of the order the payment belongs to. `null` when the payment doesn't belong to an
-             * order. anyOf[1] (Value): string. ID of the order the payment belongs to. `null` when
-             * the payment doesn't belong to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-             * anyOf[2] (Value): null.
-             */
-            "order_id"?: ((string) | (null));
-            /**
-             * How the reviewed payment was started. Value enum: "checkout", "payment_link",
-             * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal",
-             * "api". anyOf[1] (Value): string. How the reviewed payment was started. Value enum:
-             * "checkout", "payment_link", "invoice", "subscription_initial",
-             * "subscription_renewal", "virtual_terminal", "api". anyOf[2] (Value): null.
-             */
-            "payment_flow"?: (("checkout"
-                | "payment_link"
-                | "invoice"
-                | "subscription_initial"
-                | "subscription_renewal"
-                | "virtual_terminal"
-                | "api"
-                | (string & {}))
-                | (null));
-            /**
-             * Present only when `expand` includes `payment_intent`; `null` when expanded and there
-             * is no related payment intent. anyOf[1] (Value): {@link
-             * ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
-            /**
-             * ID of the payment intent under review. anyOf[1] (Value): string. ID of the payment
-             * intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2] (Value):
-             * null.
-             */
-            "payment_intent_id"?: ((string) | (null));
-            /**
-             * Unique identifier for this payment review, prefixed `rev_`. anyOf[1] (Value):
-             * string. Unique identifier for this payment review, prefixed `rev_`. Example:
-             * "rev_01KEZF7C00BVBQ00XDFNKB1EF6". anyOf[2] (Value): null.
-             */
-            "payment_review_id"?: ((string) | (null));
-            /**
-             * A snapshot of the payment as it was when the review opened. anyOf[1] (Value): {@link
-             * PaymentReviewPaymentSummaryPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "payment_summary"?: ((PaymentReviewPaymentSummaryPreviousAttributes) | (null));
-            /**
-             * The decision being carried out. `null` when status isn't resolving. Value enum:
-             * "approve", "decline", "expire", null. anyOf[1] (Value): string. The decision being
-             * carried out. `null` when status isn't resolving. Value enum: "approve", "decline",
-             * "expire", null. anyOf[2] (Value): null.
-             */
-            "pending_action"?: (("approve" | "decline" | "expire" | null | (string & {})) | (null));
-            /**
-             * The refund created when the payment was declined. It can be set while status is
-             * resolving, before the refund finishes and the review closes. `null` when no refund
-             * exists for the review, including after a decline that needed none or when the review
-             * is open. anyOf[1] (Value): string. The refund created when the payment was declined.
-             * It can be set while status is resolving, before the refund finishes and the review
-             * closes. `null` when no refund exists for the review, including after a decline that
-             * needed none or when the review is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-             * anyOf[2] (Value): null.
-             */
-            "refund_id"?: ((string) | (null));
-            /**
-             * Refunded amount for this review. Null when no refund is recorded. anyOf[1] (Value):
-             * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "refunded_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * RFC3339 timestamp. `null` when nobody has started approving or declining the review
-             * and Flint hasn't started expiring it. anyOf[1] (Value): string. RFC3339 timestamp.
-             * `null` when nobody has started approving or declining the review and Flint hasn't
-             * started expiring it. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
-             * (Value): null.
-             */
-            "resolution_started_at"?: ((string) | (null));
-            /**
-             * The credential that started resolving this payment review, retained after closure.
-             * Null when no resolution has started or Flint started it. anyOf[1] (Value): {@link
-             * ResourceReferencePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "resolution_started_by"?: ((ResourceReferencePreviousAttributes) | (null));
-            /**
-             * The payment's risk level and score when the review opened. anyOf[1] (Value): {@link
-             * PaymentReviewRiskPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "risk"?: ((PaymentReviewRiskPreviousAttributes) | (null));
-            /**
-             * Where the review is in its lifecycle. Value enum: "open", "resolving", "closed".
-             * anyOf[1] (Value): string. Where the review is in its lifecycle. Value enum: "open",
-             * "resolving", "closed". anyOf[2] (Value): null.
-             */
-            "status"?: (("open" | "resolving" | "closed" | (string & {})) | (null));
-            /**
-             * Lifecycle actions accepted in the current stored review state. An action remains
-             * listed while it is processing or can be repeated without changing the result. []
-             * enum: "approve", "decline". anyOf[1] (Value): Array of string. Lifecycle actions
-             * accepted in the current stored review state. An action remains listed while it is
-             * processing or can be repeated without changing the result. [] enum: "approve",
-             * "decline". anyOf[1][] (Value): string. Value enum: "approve", "decline". anyOf[2]
-             * (Value): null.
-             */
-            "supported_actions"?: ((Array<"approve" | "decline" | (string & {})>) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "updated_at"?: ((string) | (null));
-        });
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "payment_review.reopened". */
-    "event_type"?: "payment_review.reopened";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `payment_review.reopened` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type PaymentReviewReopenedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.closed_at (Required): string or null. RFC3339 timestamp. `null`
-     * when the review isn't closed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.closed_by (Required): {@link ResourceReference} or null. The credential that closed
-     * this payment review. Null when Flint closed it. object.closed_by.anyOf[1] (Value): {@link
-     * ResourceReference}. A reference to another resource by `resource_type` and `resource_id`.
-     * object.closed_by.anyOf[2] (Value): null. object.closed_reason (Required): string or null.
-     * How the review was resolved. `null` when the review isn't closed. Value enum: "approved",
-     * "declined", "refunded", "disputed", "payment_canceled", "expired", null. object.customer
-     * (Optional): {@link ExpandedCustomerSummary} or null. Present only when `expand` includes
-     * `customer`; `null` when expanded and there is no related customer. object.customer.anyOf[1]
-     * (Value): {@link ExpandedCustomerSummary}. A customer's summary fields, returned in place of
-     * a customer ID when the customer is expanded. object.customer.anyOf[2] (Value): null.
-     * object.customer_id (Required): string or null. ID of the customer the payment was made for.
-     * `null` when the payment has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * object.ip_address (Required): string or null. The buyer's IP address recorded for the
-     * payment when it was confirmed. `null` when no buyer IP address was supplied for the payment.
-     * object.last_resolution_failure (Required): {@link PaymentReviewResolutionFailure} or null.
-     * The most recent resolution attempt that failed. Set when a decline's refund failed and the
-     * review reopened. Null when no attempt has failed. object.last_resolution_failure.anyOf[1]
-     * (Value): {@link PaymentReviewResolutionFailure}. A failed attempt to resolve a review by
-     * refund, with the `refund_id` and when it failed. object.last_resolution_failure.anyOf[2]
-     * (Value): null. object.matched_risk_rule_id (Required): string. ID of the risk rule with the
-     * review action that opened this review. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319".
-     * object.opened_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.opened_reason (Required): string. Why Flint opened the
-     * review. Value enum: "rule". object.order (Optional): {@link ExpandedOrderSummary} or null.
-     * Present only when `expand` includes `order`; `null` when expanded and there is no related
-     * order. object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
-     * fields, including status, payment and refund status, and pricing and settlement amounts,
-     * returned when the order is expanded. object.order.anyOf[2] (Value): null. object.order_id
-     * (Required): string or null. ID of the order the payment belongs to. `null` when the payment
-     * doesn't belong to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.payment_flow
-     * (Required): string. How the reviewed payment was started. Value enum: "checkout",
-     * "payment_link", "invoice", "subscription_initial", "subscription_renewal",
-     * "virtual_terminal", "api". object.payment_intent (Optional): {@link
-     * ExpandedPaymentIntentSummary} or null. Present only when `expand` includes `payment_intent`;
-     * `null` when expanded and there is no related payment intent. object.payment_intent.anyOf[1]
-     * (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
-     * amount, status, and capture method, returned when the payment intent is expanded.
-     * object.payment_intent.anyOf[2] (Value): null. object.payment_intent_id (Required): string.
-     * ID of the payment intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-     * object.payment_review_id (Required): string. Unique identifier for this payment review,
-     * prefixed `rev_`. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6". object.payment_summary
-     * (Required): {@link PaymentReviewPaymentSummary}. A snapshot of the payment as it was when
-     * the review opened. The payment details shown on a review: amount, capture method,
-     * authorization expiry, card brand and last four digits, and buyer email.
-     * object.pending_action (Required): string or null. The decision being carried out. `null`
-     * when status isn't resolving. Value enum: "approve", "decline", "expire", null.
-     * object.refund_id (Required): string or null. The refund created when the payment was
-     * declined. It can be set while status is resolving, before the refund finishes and the review
-     * closes. `null` when no refund exists for the review, including after a decline that needed
-     * none or when the review is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-     * object.refunded_money (Required): {@link MoneyValue} or null. Refunded amount for this
-     * review. Null when no refund is recorded. object.refunded_money.anyOf[1] (Value): {@link
-     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code. object.refunded_money.anyOf[2] (Value): null. object.resolution_started_at (Required):
-     * string or null. RFC3339 timestamp. `null` when nobody has started approving or declining the
-     * review and Flint hasn't started expiring it. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.resolution_started_by (Required): {@link ResourceReference}
-     * or null. The credential that started resolving this payment review, retained after closure.
-     * Null when no resolution has started or Flint started it.
-     * object.resolution_started_by.anyOf[1] (Value): {@link ResourceReference}. A reference to
-     * another resource by `resource_type` and `resource_id`. object.resolution_started_by.anyOf[2]
-     * (Value): null. object.risk (Required): {@link PaymentReviewRisk}. The payment's risk level
-     * and score when the review opened. The risk assessment shown on a review: a `level` and, when
-     * available, a numeric `score`. object.status (Required): string. Where the review is in its
-     * lifecycle. Value enum: "open", "resolving", "closed". object.supported_actions (Required):
-     * Array of string. Lifecycle actions accepted in the current stored review state. An action
-     * remains listed while it is processing or can be repeated without changing the result. []
-     * enum: "approve", "decline". object.supported_actions[] (Value): string. Value enum:
-     * "approve", "decline". object.updated_at (Required): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events. previous_attributes.closed_at (Optional): string or null. RFC3339
-     * timestamp. `null` when the review isn't closed. previous_attributes.closed_at.anyOf[1]
-     * (Value): string. RFC3339 timestamp. `null` when the review isn't closed. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". previous_attributes.closed_at.anyOf[2] (Value): null.
-     * previous_attributes.closed_by (Optional): {@link ResourceReferencePreviousAttributes} or
-     * null. The credential that closed this payment review. Null when Flint closed it.
-     * previous_attributes.closed_by.anyOf[1] (Value): {@link ResourceReferencePreviousAttributes}.
-     * previous_attributes.closed_by.anyOf[2] (Value): null. previous_attributes.closed_reason
-     * (Optional): string or null. How the review was resolved. `null` when the review isn't
-     * closed. Value enum: "approved", "declined", "refunded", "disputed", "payment_canceled",
-     * "expired", null. previous_attributes.closed_reason.anyOf[1] (Value): string. How the review
-     * was resolved. `null` when the review isn't closed. Value enum: "approved", "declined",
-     * "refunded", "disputed", "payment_canceled", "expired", null.
-     * previous_attributes.closed_reason.anyOf[2] (Value): null. previous_attributes.customer
-     * (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present only when
-     * `expand` includes `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1] (Value): {@link
-     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
-     * null. previous_attributes.customer_id (Optional): string or null. ID of the customer the
-     * payment was made for. `null` when the payment has no customer.
-     * previous_attributes.customer_id.anyOf[1] (Value): string. ID of the customer the payment was
-     * made for. `null` when the payment has no customer. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
-     * previous_attributes.ip_address (Optional): string or null. The buyer's IP address recorded
-     * for the payment when it was confirmed. `null` when no buyer IP address was supplied for the
-     * payment. previous_attributes.ip_address.anyOf[1] (Value): string. The buyer's IP address
-     * recorded for the payment when it was confirmed. `null` when no buyer IP address was supplied
-     * for the payment. previous_attributes.ip_address.anyOf[2] (Value): null.
-     * previous_attributes.last_resolution_failure (Optional): {@link
-     * PaymentReviewResolutionFailurePreviousAttributes} or null. The most recent resolution
-     * attempt that failed. Set when a decline's refund failed and the review reopened. Null when
-     * no attempt has failed. previous_attributes.last_resolution_failure.anyOf[1] (Value): {@link
-     * PaymentReviewResolutionFailurePreviousAttributes}.
-     * previous_attributes.last_resolution_failure.anyOf[2] (Value): null.
-     * previous_attributes.matched_risk_rule_id (Optional): string or null. ID of the risk rule
-     * with the review action that opened this review.
-     * previous_attributes.matched_risk_rule_id.anyOf[1] (Value): string. ID of the risk rule with
-     * the review action that opened this review. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319".
-     * previous_attributes.matched_risk_rule_id.anyOf[2] (Value): null.
-     * previous_attributes.opened_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.opened_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.opened_at.anyOf[2] (Value):
-     * null. previous_attributes.opened_reason (Optional): string or null. Why Flint opened the
-     * review. Value enum: "rule". previous_attributes.opened_reason.anyOf[1] (Value): string. Why
-     * Flint opened the review. Value enum: "rule". previous_attributes.opened_reason.anyOf[2]
-     * (Value): null. previous_attributes.order (Optional): {@link
-     * ExpandedOrderSummaryPreviousAttributes} or null. Present only when `expand` includes
-     * `order`; `null` when expanded and there is no related order.
-     * previous_attributes.order.anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
-     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_id (Optional):
-     * string or null. ID of the order the payment belongs to. `null` when the payment doesn't
-     * belong to an order. previous_attributes.order_id.anyOf[1] (Value): string. ID of the order
-     * the payment belongs to. `null` when the payment doesn't belong to an order. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_flow (Optional): string or null. How the reviewed payment was
-     * started. Value enum: "checkout", "payment_link", "invoice", "subscription_initial",
-     * "subscription_renewal", "virtual_terminal", "api". previous_attributes.payment_flow.anyOf[1]
-     * (Value): string. How the reviewed payment was started. Value enum: "checkout",
-     * "payment_link", "invoice", "subscription_initial", "subscription_renewal",
-     * "virtual_terminal", "api". previous_attributes.payment_flow.anyOf[2] (Value): null.
-     * previous_attributes.payment_intent (Optional): {@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Present only when `expand` includes
-     * `payment_intent`; `null` when expanded and there is no related payment intent.
-     * previous_attributes.payment_intent.anyOf[1] (Value): {@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes}. previous_attributes.payment_intent.anyOf[2]
-     * (Value): null. previous_attributes.payment_intent_id (Optional): string or null. ID of the
-     * payment intent under review. previous_attributes.payment_intent_id.anyOf[1] (Value): string.
-     * ID of the payment intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-     * previous_attributes.payment_intent_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_review_id (Optional): string or null. Unique identifier for this
-     * payment review, prefixed `rev_`. previous_attributes.payment_review_id.anyOf[1] (Value):
-     * string. Unique identifier for this payment review, prefixed `rev_`. Example:
-     * "rev_01KEZF7C00BVBQ00XDFNKB1EF6". previous_attributes.payment_review_id.anyOf[2] (Value):
-     * null. previous_attributes.payment_summary (Optional): {@link
-     * PaymentReviewPaymentSummaryPreviousAttributes} or null. A snapshot of the payment as it was
-     * when the review opened. previous_attributes.payment_summary.anyOf[1] (Value): {@link
-     * PaymentReviewPaymentSummaryPreviousAttributes}. previous_attributes.payment_summary.anyOf[2]
-     * (Value): null. previous_attributes.pending_action (Optional): string or null. The decision
-     * being carried out. `null` when status isn't resolving. Value enum: "approve", "decline",
-     * "expire", null. previous_attributes.pending_action.anyOf[1] (Value): string. The decision
-     * being carried out. `null` when status isn't resolving. Value enum: "approve", "decline",
-     * "expire", null. previous_attributes.pending_action.anyOf[2] (Value): null.
-     * previous_attributes.refund_id (Optional): string or null. The refund created when the
-     * payment was declined. It can be set while status is resolving, before the refund finishes
-     * and the review closes. `null` when no refund exists for the review, including after a
-     * decline that needed none or when the review is open. previous_attributes.refund_id.anyOf[1]
-     * (Value): string. The refund created when the payment was declined. It can be set while
-     * status is resolving, before the refund finishes and the review closes. `null` when no refund
-     * exists for the review, including after a decline that needed none or when the review is
-     * open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". previous_attributes.refund_id.anyOf[2]
-     * (Value): null. previous_attributes.refunded_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. Refunded amount for this review. Null when no refund
-     * is recorded. previous_attributes.refunded_money.anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.refunded_money.anyOf[2] (Value): null.
-     * previous_attributes.resolution_started_at (Optional): string or null. RFC3339 timestamp.
-     * `null` when nobody has started approving or declining the review and Flint hasn't started
-     * expiring it. previous_attributes.resolution_started_at.anyOf[1] (Value): string. RFC3339
-     * timestamp. `null` when nobody has started approving or declining the review and Flint hasn't
-     * started expiring it. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.resolution_started_at.anyOf[2] (Value): null.
-     * previous_attributes.resolution_started_by (Optional): {@link
-     * ResourceReferencePreviousAttributes} or null. The credential that started resolving this
-     * payment review, retained after closure. Null when no resolution has started or Flint started
-     * it. previous_attributes.resolution_started_by.anyOf[1] (Value): {@link
-     * ResourceReferencePreviousAttributes}. previous_attributes.resolution_started_by.anyOf[2]
-     * (Value): null. previous_attributes.risk (Optional): {@link
-     * PaymentReviewRiskPreviousAttributes} or null. The payment's risk level and score when the
-     * review opened. previous_attributes.risk.anyOf[1] (Value): {@link
-     * PaymentReviewRiskPreviousAttributes}. previous_attributes.risk.anyOf[2] (Value): null.
-     * previous_attributes.status (Optional): string or null. Where the review is in its lifecycle.
-     * Value enum: "open", "resolving", "closed". previous_attributes.status.anyOf[1] (Value):
-     * string. Where the review is in its lifecycle. Value enum: "open", "resolving", "closed".
-     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
-     * (Optional): Array of string or null. Lifecycle actions accepted in the current stored review
-     * state. An action remains listed while it is processing or can be repeated without changing
-     * the result. [] enum: "approve", "decline". previous_attributes.supported_actions.anyOf[1]
-     * (Value): Array of string. Lifecycle actions accepted in the current stored review state. An
-     * action remains listed while it is processing or can be repeated without changing the result.
-     * [] enum: "approve", "decline". previous_attributes.supported_actions.anyOf[1][] (Value):
-     * string. Value enum: "approve", "decline". previous_attributes.supported_actions.anyOf[2]
-     * (Value): null. previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
-     * null.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields. closed_at
-         * (Required): string or null. RFC3339 timestamp. `null` when the review isn't closed.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". closed_by (Required): {@link
-         * ResourceReference} or null. The credential that closed this payment review. Null when
-         * Flint closed it. closed_by.anyOf[1] (Value): {@link ResourceReference}. A reference to
-         * another resource by `resource_type` and `resource_id`. closed_by.anyOf[2] (Value): null.
-         * closed_reason (Required): string or null. How the review was resolved. `null` when the
-         * review isn't closed. Value enum: "approved", "declined", "refunded", "disputed",
-         * "payment_canceled", "expired", null. customer (Optional): {@link
-         * ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null`
-         * when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
-         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
-         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
-         * (Required): string or null. ID of the customer the payment was made for. `null` when the
-         * payment has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". ip_address
-         * (Required): string or null. The buyer's IP address recorded for the payment when it was
-         * confirmed. `null` when no buyer IP address was supplied for the payment.
-         * last_resolution_failure (Required): {@link PaymentReviewResolutionFailure} or null. The
-         * most recent resolution attempt that failed. Set when a decline's refund failed and the
-         * review reopened. Null when no attempt has failed. last_resolution_failure.anyOf[1]
-         * (Value): {@link PaymentReviewResolutionFailure}. A failed attempt to resolve a review by
-         * refund, with the `refund_id` and when it failed. last_resolution_failure.anyOf[2]
-         * (Value): null. matched_risk_rule_id (Required): string. ID of the risk rule with the
-         * review action that opened this review. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319".
-         * opened_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". opened_reason (Required): string. Why Flint opened the review.
-         * Value enum: "rule". order (Optional): {@link ExpandedOrderSummary} or null. Present only
-         * when `expand` includes `order`; `null` when expanded and there is no related order.
-         * order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
-         * including status, payment and refund status, and pricing and settlement amounts,
-         * returned when the order is expanded. order.anyOf[2] (Value): null. order_id (Required):
-         * string or null. ID of the order the payment belongs to. `null` when the payment doesn't
-         * belong to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". payment_flow (Required):
-         * string. How the reviewed payment was started. Value enum: "checkout", "payment_link",
-         * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api".
-         * payment_intent (Optional): {@link ExpandedPaymentIntentSummary} or null. Present only
-         * when `expand` includes `payment_intent`; `null` when expanded and there is no related
-         * payment intent. payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}. A
-         * payment intent's summary fields, including amount, status, and capture method, returned
-         * when the payment intent is expanded. payment_intent.anyOf[2] (Value): null.
-         * payment_intent_id (Required): string. ID of the payment intent under review. Example:
-         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_review_id (Required): string. Unique identifier
-         * for this payment review, prefixed `rev_`. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
-         * payment_summary (Required): {@link PaymentReviewPaymentSummary}. A snapshot of the
-         * payment as it was when the review opened. The payment details shown on a review: amount,
-         * capture method, authorization expiry, card brand and last four digits, and buyer email.
-         * pending_action (Required): string or null. The decision being carried out. `null` when
-         * status isn't resolving. Value enum: "approve", "decline", "expire", null. refund_id
-         * (Required): string or null. The refund created when the payment was declined. It can be
-         * set while status is resolving, before the refund finishes and the review closes. `null`
-         * when no refund exists for the review, including after a decline that needed none or when
-         * the review is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". refunded_money
-         * (Required): {@link MoneyValue} or null. Refunded amount for this review. Null when no
-         * refund is recorded. refunded_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount
-         * represented as integer minor units plus an ISO 4217 currency code.
-         * refunded_money.anyOf[2] (Value): null. resolution_started_at (Required): string or null.
-         * RFC3339 timestamp. `null` when nobody has started approving or declining the review and
-         * Flint hasn't started expiring it. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * resolution_started_by (Required): {@link ResourceReference} or null. The credential that
-         * started resolving this payment review, retained after closure. Null when no resolution
-         * has started or Flint started it. resolution_started_by.anyOf[1] (Value): {@link
-         * ResourceReference}. A reference to another resource by `resource_type` and
-         * `resource_id`. resolution_started_by.anyOf[2] (Value): null. risk (Required): {@link
-         * PaymentReviewRisk}. The payment's risk level and score when the review opened. The risk
-         * assessment shown on a review: a `level` and, when available, a numeric `score`. status
-         * (Required): string. Where the review is in its lifecycle. Value enum: "open",
-         * "resolving", "closed". supported_actions (Required): Array of string. Lifecycle actions
-         * accepted in the current stored review state. An action remains listed while it is
-         * processing or can be repeated without changing the result. [] enum: "approve",
-         * "decline". supported_actions[] (Value): string. Value enum: "approve", "decline".
-         * updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z".
-         */
-        "object": {
-            /**
-             * RFC3339 timestamp. `null` when the review isn't closed. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "closed_at": string | null;
-            /**
-             * The credential that closed this payment review. Null when Flint closed it. anyOf[1]
-             * (Value): {@link ResourceReference}. A reference to another resource by
-             * `resource_type` and `resource_id`. anyOf[2] (Value): null.
-             */
-            "closed_by": ((ResourceReference) | (null));
-            /**
-             * How the review was resolved. `null` when the review isn't closed. Value enum:
-             * "approved", "declined", "refunded", "disputed", "payment_canceled", "expired", null.
-             */
-            "closed_reason": "approved"
-                | "declined"
-                | "refunded"
-                | "disputed"
-                | "payment_canceled"
-                | "expired"
-                | null
-                | (string & {})
-                | null;
-            /**
-             * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
-             * summary fields, returned in place of a customer ID when the customer is expanded.
-             * anyOf[2] (Value): null.
-             */
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            /**
-             * ID of the customer the payment was made for. `null` when the payment has no
-             * customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-             */
-            "customer_id": string | null;
-            /**
-             * The buyer's IP address recorded for the payment when it was confirmed. `null` when
-             * no buyer IP address was supplied for the payment.
-             */
-            "ip_address": string | null;
-            /**
-             * The most recent resolution attempt that failed. Set when a decline's refund failed
-             * and the review reopened. Null when no attempt has failed. anyOf[1] (Value): {@link
-             * PaymentReviewResolutionFailure}. A failed attempt to resolve a review by refund,
-             * with the `refund_id` and when it failed. anyOf[2] (Value): null.
-             */
-            "last_resolution_failure": ((PaymentReviewResolutionFailure) | (null));
-            /**
-             * ID of the risk rule with the review action that opened this review. Example:
-             * "rule_01KEZF7C00FWGAQJXXA8CRA319".
-             */
-            "matched_risk_rule_id": string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "opened_at": string;
-            /** Why Flint opened the review. Value enum: "rule". */
-            "opened_reason": "rule" | (string & {});
-            /**
-             * Present only when `expand` includes `order`; `null` when expanded and there is no
-             * related order. anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
-             * fields, including status, payment and refund status, and pricing and settlement
-             * amounts, returned when the order is expanded. anyOf[2] (Value): null.
-             */
-            "order"?: ((ExpandedOrderSummary) | (null));
-            /**
-             * ID of the order the payment belongs to. `null` when the payment doesn't belong to an
-             * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-             */
-            "order_id": string | null;
-            /**
-             * How the reviewed payment was started. Value enum: "checkout", "payment_link",
-             * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal",
-             * "api".
-             */
-            "payment_flow": "checkout"
-                | "payment_link"
-                | "invoice"
-                | "subscription_initial"
-                | "subscription_renewal"
-                | "virtual_terminal"
-                | "api"
-                | (string & {});
-            /**
-             * Present only when `expand` includes `payment_intent`; `null` when expanded and there
-             * is no related payment intent. anyOf[1] (Value): {@link
-             * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
-             * status, and capture method, returned when the payment intent is expanded. anyOf[2]
-             * (Value): null.
-             */
-            "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
-            /** ID of the payment intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". */
-            "payment_intent_id": string;
-            /**
-             * Unique identifier for this payment review, prefixed `rev_`. Example:
-             * "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
-             */
-            "payment_review_id": string;
-            /**
-             * A snapshot of the payment as it was when the review opened. The payment details
-             * shown on a review: amount, capture method, authorization expiry, card brand and last
-             * four digits, and buyer email.
-             */
-            "payment_summary": PaymentReviewPaymentSummary;
-            /**
-             * The decision being carried out. `null` when status isn't resolving. Value enum:
-             * "approve", "decline", "expire", null.
-             */
-            "pending_action": "approve" | "decline" | "expire" | null | (string & {}) | null;
-            /**
-             * The refund created when the payment was declined. It can be set while status is
-             * resolving, before the refund finishes and the review closes. `null` when no refund
-             * exists for the review, including after a decline that needed none or when the review
-             * is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-             */
-            "refund_id": string | null;
-            /**
-             * Refunded amount for this review. Null when no refund is recorded. anyOf[1] (Value):
-             * {@link MoneyValue}. Monetary amount represented as integer minor units plus an ISO
-             * 4217 currency code. anyOf[2] (Value): null.
-             */
-            "refunded_money": ((MoneyValue) | (null));
-            /**
-             * RFC3339 timestamp. `null` when nobody has started approving or declining the review
-             * and Flint hasn't started expiring it. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "resolution_started_at": string | null;
-            /**
-             * The credential that started resolving this payment review, retained after closure.
-             * Null when no resolution has started or Flint started it. anyOf[1] (Value): {@link
-             * ResourceReference}. A reference to another resource by `resource_type` and
-             * `resource_id`. anyOf[2] (Value): null.
-             */
-            "resolution_started_by": ((ResourceReference) | (null));
-            /**
-             * The payment's risk level and score when the review opened. The risk assessment shown
-             * on a review: a `level` and, when available, a numeric `score`.
-             */
-            "risk": PaymentReviewRisk;
-            /** Where the review is in its lifecycle. Value enum: "open", "resolving", "closed". */
-            "status": "open" | "resolving" | "closed" | (string & {});
-            /**
-             * Lifecycle actions accepted in the current stored review state. An action remains
-             * listed while it is processing or can be repeated without changing the result. []
-             * enum: "approve", "decline". [] (Value): string. Value enum: "approve", "decline".
-             */
-            "supported_actions": Array<"approve" | "decline" | (string & {})>;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. closed_at (Optional): string or null. RFC3339
-         * timestamp. `null` when the review isn't closed. closed_at.anyOf[1] (Value): string.
-         * RFC3339 timestamp. `null` when the review isn't closed. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". closed_at.anyOf[2] (Value): null. closed_by (Optional): {@link
-         * ResourceReferencePreviousAttributes} or null. The credential that closed this payment
-         * review. Null when Flint closed it. closed_by.anyOf[1] (Value): {@link
-         * ResourceReferencePreviousAttributes}. closed_by.anyOf[2] (Value): null. closed_reason
-         * (Optional): string or null. How the review was resolved. `null` when the review isn't
-         * closed. Value enum: "approved", "declined", "refunded", "disputed", "payment_canceled",
-         * "expired", null. closed_reason.anyOf[1] (Value): string. How the review was resolved.
-         * `null` when the review isn't closed. Value enum: "approved", "declined", "refunded",
-         * "disputed", "payment_canceled", "expired", null. closed_reason.anyOf[2] (Value): null.
-         * customer (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present
-         * only when `expand` includes `customer`; `null` when expanded and there is no related
-         * customer. customer.anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
-         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. ID of the
-         * customer the payment was made for. `null` when the payment has no customer.
-         * customer_id.anyOf[1] (Value): string. ID of the customer the payment was made for.
-         * `null` when the payment has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-         * customer_id.anyOf[2] (Value): null. ip_address (Optional): string or null. The buyer's
-         * IP address recorded for the payment when it was confirmed. `null` when no buyer IP
-         * address was supplied for the payment. ip_address.anyOf[1] (Value): string. The buyer's
-         * IP address recorded for the payment when it was confirmed. `null` when no buyer IP
-         * address was supplied for the payment. ip_address.anyOf[2] (Value): null.
-         * last_resolution_failure (Optional): {@link
-         * PaymentReviewResolutionFailurePreviousAttributes} or null. The most recent resolution
-         * attempt that failed. Set when a decline's refund failed and the review reopened. Null
-         * when no attempt has failed. last_resolution_failure.anyOf[1] (Value): {@link
-         * PaymentReviewResolutionFailurePreviousAttributes}. last_resolution_failure.anyOf[2]
-         * (Value): null. matched_risk_rule_id (Optional): string or null. ID of the risk rule with
-         * the review action that opened this review. matched_risk_rule_id.anyOf[1] (Value):
-         * string. ID of the risk rule with the review action that opened this review. Example:
-         * "rule_01KEZF7C00FWGAQJXXA8CRA319". matched_risk_rule_id.anyOf[2] (Value): null.
-         * opened_at (Optional): string or null. RFC3339 timestamp. opened_at.anyOf[1] (Value):
-         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * opened_at.anyOf[2] (Value): null. opened_reason (Optional): string or null. Why Flint
-         * opened the review. Value enum: "rule". opened_reason.anyOf[1] (Value): string. Why Flint
-         * opened the review. Value enum: "rule". opened_reason.anyOf[2] (Value): null. order
-         * (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or null. Present only when
-         * `expand` includes `order`; `null` when expanded and there is no related order.
-         * order.anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2]
-         * (Value): null. order_id (Optional): string or null. ID of the order the payment belongs
-         * to. `null` when the payment doesn't belong to an order. order_id.anyOf[1] (Value):
-         * string. ID of the order the payment belongs to. `null` when the payment doesn't belong
-         * to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
-         * payment_flow (Optional): string or null. How the reviewed payment was started. Value
-         * enum: "checkout", "payment_link", "invoice", "subscription_initial",
-         * "subscription_renewal", "virtual_terminal", "api". payment_flow.anyOf[1] (Value):
-         * string. How the reviewed payment was started. Value enum: "checkout", "payment_link",
-         * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api".
-         * payment_flow.anyOf[2] (Value): null. payment_intent (Optional): {@link
-         * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Present only when `expand`
-         * includes `payment_intent`; `null` when expanded and there is no related payment intent.
-         * payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummaryPreviousAttributes}.
-         * payment_intent.anyOf[2] (Value): null. payment_intent_id (Optional): string or null. ID
-         * of the payment intent under review. payment_intent_id.anyOf[1] (Value): string. ID of
-         * the payment intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-         * payment_intent_id.anyOf[2] (Value): null. payment_review_id (Optional): string or null.
-         * Unique identifier for this payment review, prefixed `rev_`. payment_review_id.anyOf[1]
-         * (Value): string. Unique identifier for this payment review, prefixed `rev_`. Example:
-         * "rev_01KEZF7C00BVBQ00XDFNKB1EF6". payment_review_id.anyOf[2] (Value): null.
-         * payment_summary (Optional): {@link PaymentReviewPaymentSummaryPreviousAttributes} or
-         * null. A snapshot of the payment as it was when the review opened.
-         * payment_summary.anyOf[1] (Value): {@link PaymentReviewPaymentSummaryPreviousAttributes}.
-         * payment_summary.anyOf[2] (Value): null. pending_action (Optional): string or null. The
-         * decision being carried out. `null` when status isn't resolving. Value enum: "approve",
-         * "decline", "expire", null. pending_action.anyOf[1] (Value): string. The decision being
-         * carried out. `null` when status isn't resolving. Value enum: "approve", "decline",
-         * "expire", null. pending_action.anyOf[2] (Value): null. refund_id (Optional): string or
-         * null. The refund created when the payment was declined. It can be set while status is
-         * resolving, before the refund finishes and the review closes. `null` when no refund
-         * exists for the review, including after a decline that needed none or when the review is
-         * open. refund_id.anyOf[1] (Value): string. The refund created when the payment was
-         * declined. It can be set while status is resolving, before the refund finishes and the
-         * review closes. `null` when no refund exists for the review, including after a decline
-         * that needed none or when the review is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-         * refund_id.anyOf[2] (Value): null. refunded_money (Optional): {@link
-         * MoneyValuePreviousAttributes} or null. Refunded amount for this review. Null when no
-         * refund is recorded. refunded_money.anyOf[1] (Value): {@link
-         * MoneyValuePreviousAttributes}. refunded_money.anyOf[2] (Value): null.
-         * resolution_started_at (Optional): string or null. RFC3339 timestamp. `null` when nobody
-         * has started approving or declining the review and Flint hasn't started expiring it.
-         * resolution_started_at.anyOf[1] (Value): string. RFC3339 timestamp. `null` when nobody
-         * has started approving or declining the review and Flint hasn't started expiring it.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". resolution_started_at.anyOf[2]
-         * (Value): null. resolution_started_by (Optional): {@link
-         * ResourceReferencePreviousAttributes} or null. The credential that started resolving this
-         * payment review, retained after closure. Null when no resolution has started or Flint
-         * started it. resolution_started_by.anyOf[1] (Value): {@link
-         * ResourceReferencePreviousAttributes}. resolution_started_by.anyOf[2] (Value): null. risk
-         * (Optional): {@link PaymentReviewRiskPreviousAttributes} or null. The payment's risk
-         * level and score when the review opened. risk.anyOf[1] (Value): {@link
-         * PaymentReviewRiskPreviousAttributes}. risk.anyOf[2] (Value): null. status (Optional):
-         * string or null. Where the review is in its lifecycle. Value enum: "open", "resolving",
-         * "closed". status.anyOf[1] (Value): string. Where the review is in its lifecycle. Value
-         * enum: "open", "resolving", "closed". status.anyOf[2] (Value): null. supported_actions
-         * (Optional): Array of string or null. Lifecycle actions accepted in the current stored
-         * review state. An action remains listed while it is processing or can be repeated without
-         * changing the result. [] enum: "approve", "decline". supported_actions.anyOf[1] (Value):
-         * Array of string. Lifecycle actions accepted in the current stored review state. An
-         * action remains listed while it is processing or can be repeated without changing the
-         * result. [] enum: "approve", "decline". supported_actions.anyOf[1][] (Value): string.
-         * Value enum: "approve", "decline". supported_actions.anyOf[2] (Value): null. updated_at
-         * (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string.
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * updated_at.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * RFC3339 timestamp. `null` when the review isn't closed. anyOf[1] (Value): string.
-             * RFC3339 timestamp. `null` when the review isn't closed. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "closed_at"?: ((string) | (null));
-            /**
-             * The credential that closed this payment review. Null when Flint closed it. anyOf[1]
-             * (Value): {@link ResourceReferencePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "closed_by"?: ((ResourceReferencePreviousAttributes) | (null));
-            /**
-             * How the review was resolved. `null` when the review isn't closed. Value enum:
-             * "approved", "declined", "refunded", "disputed", "payment_canceled", "expired", null.
-             * anyOf[1] (Value): string. How the review was resolved. `null` when the review isn't
-             * closed. Value enum: "approved", "declined", "refunded", "disputed",
-             * "payment_canceled", "expired", null. anyOf[2] (Value): null.
-             */
-            "closed_reason"?: (("approved"
-                | "declined"
-                | "refunded"
-                | "disputed"
-                | "payment_canceled"
-                | "expired"
-                | null
-                | (string & {}))
-                | (null));
-            /**
-             * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): {@link
-             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
-            /**
-             * ID of the customer the payment was made for. `null` when the payment has no
-             * customer. anyOf[1] (Value): string. ID of the customer the payment was made for.
-             * `null` when the payment has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-             * anyOf[2] (Value): null.
-             */
-            "customer_id"?: ((string) | (null));
-            /**
-             * The buyer's IP address recorded for the payment when it was confirmed. `null` when
-             * no buyer IP address was supplied for the payment. anyOf[1] (Value): string. The
-             * buyer's IP address recorded for the payment when it was confirmed. `null` when no
-             * buyer IP address was supplied for the payment. anyOf[2] (Value): null.
-             */
-            "ip_address"?: ((string) | (null));
-            /**
-             * The most recent resolution attempt that failed. Set when a decline's refund failed
-             * and the review reopened. Null when no attempt has failed. anyOf[1] (Value): {@link
-             * PaymentReviewResolutionFailurePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "last_resolution_failure"?: ((PaymentReviewResolutionFailurePreviousAttributes) | (null));
-            /**
-             * ID of the risk rule with the review action that opened this review. anyOf[1]
-             * (Value): string. ID of the risk rule with the review action that opened this review.
-             * Example: "rule_01KEZF7C00FWGAQJXXA8CRA319". anyOf[2] (Value): null.
-             */
-            "matched_risk_rule_id"?: ((string) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "opened_at"?: ((string) | (null));
-            /**
-             * Why Flint opened the review. Value enum: "rule". anyOf[1] (Value): string. Why Flint
-             * opened the review. Value enum: "rule". anyOf[2] (Value): null.
-             */
-            "opened_reason"?: (("rule" | (string & {})) | (null));
-            /**
-             * Present only when `expand` includes `order`; `null` when expanded and there is no
-             * related order. anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
-             * anyOf[2] (Value): null.
-             */
-            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
-            /**
-             * ID of the order the payment belongs to. `null` when the payment doesn't belong to an
-             * order. anyOf[1] (Value): string. ID of the order the payment belongs to. `null` when
-             * the payment doesn't belong to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-             * anyOf[2] (Value): null.
-             */
-            "order_id"?: ((string) | (null));
-            /**
-             * How the reviewed payment was started. Value enum: "checkout", "payment_link",
-             * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal",
-             * "api". anyOf[1] (Value): string. How the reviewed payment was started. Value enum:
-             * "checkout", "payment_link", "invoice", "subscription_initial",
-             * "subscription_renewal", "virtual_terminal", "api". anyOf[2] (Value): null.
-             */
-            "payment_flow"?: (("checkout"
-                | "payment_link"
-                | "invoice"
-                | "subscription_initial"
-                | "subscription_renewal"
-                | "virtual_terminal"
-                | "api"
-                | (string & {}))
-                | (null));
-            /**
-             * Present only when `expand` includes `payment_intent`; `null` when expanded and there
-             * is no related payment intent. anyOf[1] (Value): {@link
-             * ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
-            /**
-             * ID of the payment intent under review. anyOf[1] (Value): string. ID of the payment
-             * intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2] (Value):
-             * null.
-             */
-            "payment_intent_id"?: ((string) | (null));
-            /**
-             * Unique identifier for this payment review, prefixed `rev_`. anyOf[1] (Value):
-             * string. Unique identifier for this payment review, prefixed `rev_`. Example:
-             * "rev_01KEZF7C00BVBQ00XDFNKB1EF6". anyOf[2] (Value): null.
-             */
-            "payment_review_id"?: ((string) | (null));
-            /**
-             * A snapshot of the payment as it was when the review opened. anyOf[1] (Value): {@link
-             * PaymentReviewPaymentSummaryPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "payment_summary"?: ((PaymentReviewPaymentSummaryPreviousAttributes) | (null));
-            /**
-             * The decision being carried out. `null` when status isn't resolving. Value enum:
-             * "approve", "decline", "expire", null. anyOf[1] (Value): string. The decision being
-             * carried out. `null` when status isn't resolving. Value enum: "approve", "decline",
-             * "expire", null. anyOf[2] (Value): null.
-             */
-            "pending_action"?: (("approve" | "decline" | "expire" | null | (string & {})) | (null));
-            /**
-             * The refund created when the payment was declined. It can be set while status is
-             * resolving, before the refund finishes and the review closes. `null` when no refund
-             * exists for the review, including after a decline that needed none or when the review
-             * is open. anyOf[1] (Value): string. The refund created when the payment was declined.
-             * It can be set while status is resolving, before the refund finishes and the review
-             * closes. `null` when no refund exists for the review, including after a decline that
-             * needed none or when the review is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-             * anyOf[2] (Value): null.
-             */
-            "refund_id"?: ((string) | (null));
-            /**
-             * Refunded amount for this review. Null when no refund is recorded. anyOf[1] (Value):
-             * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "refunded_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * RFC3339 timestamp. `null` when nobody has started approving or declining the review
-             * and Flint hasn't started expiring it. anyOf[1] (Value): string. RFC3339 timestamp.
-             * `null` when nobody has started approving or declining the review and Flint hasn't
-             * started expiring it. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
-             * (Value): null.
-             */
-            "resolution_started_at"?: ((string) | (null));
-            /**
-             * The credential that started resolving this payment review, retained after closure.
-             * Null when no resolution has started or Flint started it. anyOf[1] (Value): {@link
-             * ResourceReferencePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "resolution_started_by"?: ((ResourceReferencePreviousAttributes) | (null));
-            /**
-             * The payment's risk level and score when the review opened. anyOf[1] (Value): {@link
-             * PaymentReviewRiskPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "risk"?: ((PaymentReviewRiskPreviousAttributes) | (null));
-            /**
-             * Where the review is in its lifecycle. Value enum: "open", "resolving", "closed".
-             * anyOf[1] (Value): string. Where the review is in its lifecycle. Value enum: "open",
-             * "resolving", "closed". anyOf[2] (Value): null.
-             */
-            "status"?: (("open" | "resolving" | "closed" | (string & {})) | (null));
-            /**
-             * Lifecycle actions accepted in the current stored review state. An action remains
-             * listed while it is processing or can be repeated without changing the result. []
-             * enum: "approve", "decline". anyOf[1] (Value): Array of string. Lifecycle actions
-             * accepted in the current stored review state. An action remains listed while it is
-             * processing or can be repeated without changing the result. [] enum: "approve",
-             * "decline". anyOf[1][] (Value): string. Value enum: "approve", "decline". anyOf[2]
-             * (Value): null.
-             */
-            "supported_actions"?: ((Array<"approve" | "decline" | (string & {})>) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "updated_at"?: ((string) | (null));
-        });
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "payment_review.reopened". */
-    "event_type"?: "payment_review.reopened";
-});
-/** A failed attempt to resolve a review by refund, with the `refund_id` and when it failed. */
-export type PaymentReviewResolutionFailure = {
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "failed_at": string;
-    /**
-     * ID of the refund that failed and reopened the review. Example:
-     * "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-     */
-    "refund_id": string;
-};
-export type PaymentReviewResolutionFailurePreviousAttributes = {
-    /**
-     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "failed_at"?: ((string) | (null));
-    /**
-     * ID of the refund that failed and reopened the review. anyOf[1] (Value): string. ID of the
-     * refund that failed and reopened the review. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-     * anyOf[2] (Value): null.
-     */
-    "refund_id"?: ((string) | (null));
-};
-/** A response containing `PaymentReview` data. */
-export type PaymentReviewResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A payment review
-     * requiring a merchant decision.
-     */
-    "data": PaymentReview;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** The risk assessment shown on a review: a `level` and, when available, a numeric `score`. */
-export type PaymentReviewRisk = {
-    /**
-     * Fraud risk level from the card processor's screening, recorded when the review opened. Value
-     * enum: "normal", "elevated", "highest", "not_assessed".
-     */
-    "level": "normal" | "elevated" | "highest" | "not_assessed" | (string & {});
-    /**
-     * Fraud score from the card processor's screening, from 0 to 99. Higher means riskier. Absent
-     * when no score is available, which isn't a score of 0. Format: int32. minimum: 0. maximum:
-     * 99.
-     */
-    "score"?: number;
-};
-export type PaymentReviewRiskPreviousAttributes = {
-    /**
-     * Fraud risk level from the card processor's screening, recorded when the review opened. Value
-     * enum: "normal", "elevated", "highest", "not_assessed". anyOf[1] (Value): string. Fraud risk
-     * level from the card processor's screening, recorded when the review opened. Value enum:
-     * "normal", "elevated", "highest", "not_assessed". anyOf[2] (Value): null.
-     */
-    "level"?: (("normal" | "elevated" | "highest" | "not_assessed" | (string & {})) | (null));
-    /**
-     * Fraud score from the card processor's screening, from 0 to 99. Higher means riskier. Absent
-     * when no score is available, which isn't a score of 0. anyOf[1] (Value): integer. Fraud score
-     * from the card processor's screening, from 0 to 99. Higher means riskier. Absent when no
-     * score is available, which isn't a score of 0. Format: int32. minimum: 0. maximum: 99.
-     * anyOf[2] (Value): null.
-     */
-    "score"?: ((number) | (null));
-};
-export type PaymentReviewsApproveParams = DisputesAcceptParams;
-export type PaymentReviewsDeclineParams = (InputValue<DeclinePaymentReviewRequestInput> | {
-    "add_to_block_lists"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type PaymentReviewsGetParams = {
-    /**
-     * Include related objects in the response. Supported expansions: customer, order,
-     * payment_intent. Expansion requires risk.read plus the read scope for each expanded resource.
-     * Limits: at most 10 unique expand paths per request. [] enum: "customer", "order",
-     * "payment_intent". Value enum: "customer", "order", "payment_intent". anyOf[1] (Value): Array
-     * of string. [] enum: "customer", "order", "payment_intent". anyOf[1][] (Value): string. Value
-     * enum: "customer", "order", "payment_intent". anyOf[2] (Value): string. Value enum:
-     * "customer", "order", "payment_intent".
-     */
-    "expand"?: InputValue<("customer" | "order" | "payment_intent") | readonly ("customer" | "order" | "payment_intent")[]>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type PaymentReviewsListParams = {
-    /**
-     * Filter by review status. Repeat or comma-separate values. Values are trimmed and
-     * deduplicated in first-seen order; empty or unknown entries are rejected. Values within this
-     * filter are ORed; separate filters are ANDed. [] enum: "open", "resolving", "closed". Value
-     * enum: "open", "resolving", "closed". anyOf[1] (Value): Array of string. minItems: 1. []
-     * enum: "open", "resolving", "closed". anyOf[1][] (Value): string. Value enum: "open",
-     * "resolving", "closed". anyOf[2] (Value): string. Value enum: "open", "resolving", "closed".
-     */
-    "status"?: InputValue<("open" | "resolving" | "closed") | readonly ("open" | "resolving" | "closed")[]>;
-    /**
-     * Filter by immutable review risk level. Repeat or comma-separate values. Values are trimmed
-     * and deduplicated in first-seen order; empty or unknown entries are rejected. Values within
-     * this filter are ORed; separate filters are ANDed. [] enum: "normal", "elevated", "highest",
-     * "not_assessed". Value enum: "normal", "elevated", "highest", "not_assessed". anyOf[1]
-     * (Value): Array of string. minItems: 1. [] enum: "normal", "elevated", "highest",
+     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "visa",
+     * "mastercard", "amex", "discover", "diners", "jcb", "unionpay". Value enum: "visa",
+     * "mastercard", "amex", "discover", "diners", "jcb", "unionpay". anyOf[1] (Value): Array of
+     * string. minItems: 1. [] enum: "visa", "mastercard", "amex", "discover", "diners", "jcb",
+     * "unionpay". anyOf[1][] (Value): string. Value enum: "visa", "mastercard", "amex",
+     * "discover", "diners", "jcb", "unionpay". anyOf[2] (Value): string. Value enum: "visa",
+     * "mastercard", "amex", "discover", "diners", "jcb", "unionpay".
+     */
+    "card_brand"?: InputValue<("visa" | "mastercard" | "amex" | "discover" | "diners" | "jcb" | "unionpay")
+        | readonly ("visa" | "mastercard" | "amex" | "discover" | "diners" | "jcb" | "unionpay")[]>;
+    /**
+     * Filter by payment intent status. Values are trimmed and deduplicated in first-seen order;
+     * empty or unknown entries are rejected. Values within this filter are ORed; separate filters
+     * are ANDed. [] enum: "requires_payment_method", "requires_confirmation", "requires_action",
+     * "processing", "requires_capture", "canceled", "succeeded", "expired". Value enum:
+     * "requires_payment_method", "requires_confirmation", "requires_action", "processing",
+     * "requires_capture", "canceled", "succeeded", "expired". anyOf[1] (Value): Array of string.
+     * minItems: 1. [] enum: "requires_payment_method", "requires_confirmation", "requires_action",
+     * "processing", "requires_capture", "canceled", "succeeded", "expired". anyOf[1][] (Value):
+     * string. Value enum: "requires_payment_method", "requires_confirmation", "requires_action",
+     * "processing", "requires_capture", "canceled", "succeeded", "expired". anyOf[2] (Value):
+     * string. Value enum: "requires_payment_method", "requires_confirmation", "requires_action",
+     * "processing", "requires_capture", "canceled", "succeeded", "expired".
+     */
+    "status"?: InputValue<("requires_payment_method"
+        | "requires_confirmation"
+        | "requires_action"
+        | "processing"
+        | "requires_capture"
+        | "canceled"
+        | "succeeded"
+        | "expired")
+        | readonly ("requires_payment_method"
+        | "requires_confirmation"
+        | "requires_action"
+        | "processing"
+        | "requires_capture"
+        | "canceled"
+        | "succeeded"
+        | "expired")[]>;
+    /**
+     * Filter by the latest completed risk assessment. Repeat or comma-separate values. Values are
+     * trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values
+     * within this filter are ORed; separate filters are ANDed. [] enum: "normal", "elevated",
+     * "highest", "not_assessed". Value enum: "normal", "elevated", "highest", "not_assessed".
+     * anyOf[1] (Value): Array of string. minItems: 1. [] enum: "normal", "elevated", "highest",
      * "not_assessed". anyOf[1][] (Value): string. Value enum: "normal", "elevated", "highest",
      * "not_assessed". anyOf[2] (Value): string. Value enum: "normal", "elevated", "highest",
      * "not_assessed".
@@ -6327,48 +264,113 @@ export type PaymentReviewsListParams = {
         | "virtual_terminal"
         | "api")[]>;
     /**
-     * Filter by Flint payment intent ID. pattern: ^pi_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
+     * Example: "warehouse-1842".
      */
-    "payment_intent_id"?: InputValue<string>;
+    "external_reference_id"?: InputValue<string>;
     /**
-     * Filter by Flint order ID. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     * Filter by linked Return ID. pattern: ^ret_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
      */
-    "order_id"?: InputValue<string>;
+    "return_id"?: InputValue<string>;
     /**
-     * Filter by Flint customer ID. pattern: ^cus_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * Filter by linked ReturnResolution ID. pattern: ^retres_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
      */
-    "customer_id"?: InputValue<string>;
-    /** Inclusive lower bound on opened_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "opened_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on opened_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "opened_before"?: InputValue<string | globalThis.Date>;
+    "return_resolution_id"?: InputValue<string>;
     /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
+     * Search across payment_intent_id, external_reference_id, and receipt_email. Use email or
+     * customer_id to find a linked customer's payments. Text fields match any part of the value,
+     * and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the
+     * type prefix, such as ord_01.
      */
-    "page_size"?: InputValue<number>;
+    "query"?: InputValue<string>;
     /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
+     * Inclusive lower bound on amount_money.amount. Requires currency. Format: int64. minimum: 1.
+     * Example: 500.
      */
-    "page_token"?: InputValue<string>;
+    "min_amount"?: InputValue<number>;
     /**
-     * Include related objects in the response. Supported expansions: customer, order,
-     * payment_intent. Include the requested related resources using scoped batch reads for this
-     * page. Each relationship requires its existing target read scopes. Expansion changes the
-     * representation without changing pagination tokens. Limits: at most 10 unique expand paths
-     * per request. [] enum: "customer", "order", "payment_intent". Value enum: "customer",
-     * "order", "payment_intent". anyOf[1] (Value): Array of string. [] enum: "customer", "order",
-     * "payment_intent". anyOf[1][] (Value): string. Value enum: "customer", "order",
-     * "payment_intent". anyOf[2] (Value): string. Value enum: "customer", "order",
-     * "payment_intent".
+     * Inclusive upper bound on amount_money.amount. Requires currency. Format: int64. minimum: 1.
+     * Example: 500.
      */
-    "expand"?: InputValue<("customer" | "order" | "payment_intent") | readonly ("customer" | "order" | "payment_intent")[]>;
+    "max_amount"?: InputValue<number>;
+    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
+    "currency"?: InputValue<string>;
+    /**
+     * Exact match on refund_status. Repeat keys or comma-separate values to match any selected
+     * status. Combined with dispute_status, both filters must match. Values are trimmed and
+     * deduplicated in first-seen order; empty or unknown entries are rejected. Values within this
+     * filter are ORed; separate filters are ANDed. [] enum: "none", "partially_refunded",
+     * "refunded". Value enum: "none", "partially_refunded", "refunded". anyOf[1] (Value): Array of
+     * string. minItems: 1. [] enum: "none", "partially_refunded", "refunded". anyOf[1][] (Value):
+     * string. Value enum: "none", "partially_refunded", "refunded". anyOf[2] (Value): string.
+     * Value enum: "none", "partially_refunded", "refunded".
+     */
+    "refund_status"?: InputValue<("none" | "partially_refunded" | "refunded")
+        | readonly ("none" | "partially_refunded" | "refunded")[]>;
+    /**
+     * Exact match on dispute_status. Repeat keys or comma-separate values to match any selected
+     * status. Combined with refund_status, both filters must match. Values are trimmed and
+     * deduplicated in first-seen order; empty or unknown entries are rejected. Values within this
+     * filter are ORed; separate filters are ANDed. [] enum: "none", "inquiry_needs_response",
+     * "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won", "lost",
+     * "prevented", "other". Value enum: "none", "inquiry_needs_response", "inquiry_under_review",
+     * "inquiry_closed", "needs_response", "under_review", "won", "lost", "prevented", "other".
+     * anyOf[1] (Value): Array of string. minItems: 1. [] enum: "none", "inquiry_needs_response",
+     * "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won", "lost",
+     * "prevented", "other". anyOf[1][] (Value): string. Value enum: "none",
+     * "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response",
+     * "under_review", "won", "lost", "prevented", "other". anyOf[2] (Value): string. Value enum:
+     * "none", "inquiry_needs_response", "inquiry_under_review", "inquiry_closed",
+     * "needs_response", "under_review", "won", "lost", "prevented", "other".
+     */
+    "dispute_status"?: InputValue<("none"
+        | "inquiry_needs_response"
+        | "inquiry_under_review"
+        | "inquiry_closed"
+        | "needs_response"
+        | "under_review"
+        | "won"
+        | "lost"
+        | "prevented"
+        | "other")
+        | readonly ("none"
+        | "inquiry_needs_response"
+        | "inquiry_under_review"
+        | "inquiry_closed"
+        | "needs_response"
+        | "under_review"
+        | "won"
+        | "lost"
+        | "prevented"
+        | "other")[]>;
+    /**
+     * Field to sort by. Defaults to created_at; ties are broken by payment_intent_id. Default:
+     * "created_at". Value enum: "created_at", "updated_at", "amount_money".
+     */
+    "sort_by"?: InputValue<"created_at" | "updated_at" | "amount_money">;
+    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Include related objects in the response. Supported expansions: customer, invoice, order.
+     * Include the requested related resources using scoped batch reads for this page. Each
+     * relationship requires its existing target read scopes. Expansion changes the representation
+     * without changing pagination tokens. Limits: at most 10 unique expand paths per request. []
+     * enum: "customer", "invoice", "order". Value enum: "customer", "invoice", "order". anyOf[1]
+     * (Value): Array of string. [] enum: "customer", "invoice", "order". anyOf[1][] (Value):
+     * string. Value enum: "customer", "invoice", "order". anyOf[2] (Value): string. Value enum:
+     * "customer", "invoice", "order".
+     */
+    "expand"?: InputValue<("customer" | "invoice" | "order") | readonly ("customer" | "invoice" | "order")[]>;
     /**
      * Merchant this request acts for. Required with an app-level partner app token; optional with
      * a merchant-bound one, which it must match. Other credentials may send it only with their own
@@ -6388,775 +390,6493 @@ export type PaymentReviewsListParams = {
      */
     "Flint-Sandbox-Id"?: InputValue<string>;
 };
-/**
- * The risk assessment for a payment intent, with its risk level, score, outcome, and any matched
- * rule or review.
- */
-export type PaymentRisk = {
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "evaluated_at": string;
+export type PaymentIntentsSendReceiptParams = (InputValue<SendPaymentIntentReceiptRequestInput> | {
+    "email"?: never;
+})
+    & {
     /**
-     * Fraud risk level from the card processor's screening of the payment intent's latest payment
-     * attempt. Value enum: "normal", "elevated", "highest", "not_assessed".
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "level": "normal" | "elevated" | "highest" | "not_assessed" | (string & {});
+    "Flint-Merchant-Id"?: InputValue<string>;
     /**
-     * The risk rule that decided the outcome. Absent when no risk rule did. Example:
-     * "rule_01KEZF7C00FWGAQJXXA8CRA319".
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
      */
-    "matched_risk_rule_id"?: string;
+    "Flint-Mode"?: InputValue<"test" | "live">;
     /**
-     * What the risk evaluation decided about the payment intent's latest payment attempt. `null`
-     * when the evaluation has no outcome to report, such as when the attempt was canceled. Value
-     * enum: "authorized", "manual_review", "blocked", "issuer_declined", "invalid", null.
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "outcome"?: "authorized"
-        | "manual_review"
-        | "blocked"
-        | "issuer_declined"
-        | "invalid"
-        | null
-        | (string & {})
-        | null;
-    /**
-     * Why the evaluation reached its outcome. `null` when the evaluation has no reason to report,
-     * such as an authorized payment that raised no flags. Value enum: "highest_risk",
-     * "elevated_risk", "low_authorization_probability", "risk_rule", "risk_policy", null.
-     */
-    "outcome_reason"?: "highest_risk"
-        | "elevated_risk"
-        | "low_authorization_probability"
-        | "risk_rule"
-        | "risk_policy"
-        | null
-        | (string & {})
-        | null;
-    /**
-     * The payment review opened for the attempt. Present only when the outcome is manual_review.
-     * Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
-     */
-    "payment_review_id"?: string;
-    /**
-     * Fraud score from the card processor's screening, from 0 to 99. Higher means riskier. Absent
-     * when no score is available, which isn't a score of 0. Format: int32. minimum: 0. maximum:
-     * 99.
-     */
-    "score"?: number;
-    /** A plain-language summary of the evaluation. */
-    "statement": string;
+    "Flint-Sandbox-Id"?: InputValue<string>;
 };
-export type PaymentRiskPreviousAttributes = {
+export type PaymentIntentsUpdateParams = (InputValue<UpdatePaymentIntentRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+/** Optional merchant limits that can lower Flint's payment-option and surface policy limits. */
+export type PaymentLimitSettings = {
+    /**
+     * Enforced maximum USD amounts for every supported exact payment_option.surface selector. Only
+     * returned by GET /v1/settings/effective. Includes merchant limits and Flint support
+     * approvals; the approval map is private. * (Value): {@link MoneyValue}. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "effective_max_amounts"?: Record<string, MoneyValue>;
+    /**
+     * Enforced minimum USD amounts for every supported exact payment_option.surface selector. Only
+     * returned by GET /v1/settings/effective. Includes merchant limits and Flint's payment-option
+     * floors. * (Value): {@link MoneyValue}. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
+     */
+    "effective_min_amounts"?: Record<string, MoneyValue>;
+    /**
+     * Maximum USD amounts keyed by default, surface, or an exact payment_option.surface selector.
+     * Merchant settings cannot raise Flint's policy ceiling. * (Value): {@link MoneyValue}.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_amounts"?: Record<string, MoneyValue>;
+    /**
+     * Minimum USD amounts keyed by default, surface, or an exact payment_option.surface selector.
+     * Merchant settings cannot lower Flint's payment-option floor. * (Value): {@link MoneyValue}.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_amounts"?: Record<string, MoneyValue>;
+};
+/**
+ * Changes to a merchant's payment amount limits. Each map replaces the existing one, and null
+ * clears it. minProperties: 1.
+ */
+export type PaymentLimitSettingsPatch = {
+    /**
+     * Map replaced as a whole: the keys you send become the full map. Replaces this merchant limit
+     * map. Keys are default, a surface, payment_option.default, or payment_option.surface. Amounts
+     * must satisfy Flint's existing selector bounds and effective minimum/maximum range. Send null
+     * to clear this map; reads then omit it. minProperties: 1. * (Value): object. *.amount
+     * (Required): integer string. The limit in the currency's minor unit, such as cents for USD.
+     * Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum:
+     * 1. *.currency (Required): string. Currency of the limit. Only USD is accepted. Uses ISO 4217
+     * currency codes. minLength: 1. Value enum: "USD".
+     */
+    "max_amounts"?: Record<string, {
+        /**
+         * The limit in the currency's minor unit, such as cents for USD. Use an integer string
+         * (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}`;
+        /**
+         * Currency of the limit. Only USD is accepted. Uses ISO 4217 currency codes. minLength: 1.
+         * Value enum: "USD".
+         */
+        "currency": "USD" | (string & {});
+    }>
+        | null;
+    /**
+     * Map replaced as a whole: the keys you send become the full map. Replaces this merchant limit
+     * map. Keys are default, a surface, payment_option.default, or payment_option.surface. Amounts
+     * must satisfy Flint's existing selector bounds and effective minimum/maximum range. Send null
+     * to clear this map; reads then omit it. minProperties: 1. * (Value): object. *.amount
+     * (Required): integer string. The limit in the currency's minor unit, such as cents for USD.
+     * Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum:
+     * 1. *.currency (Required): string. Currency of the limit. Only USD is accepted. Uses ISO 4217
+     * currency codes. minLength: 1. Value enum: "USD".
+     */
+    "min_amounts"?: Record<string, {
+        /**
+         * The limit in the currency's minor unit, such as cents for USD. Use an integer string
+         * (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}`;
+        /**
+         * Currency of the limit. Only USD is accepted. Uses ISO 4217 currency codes. minLength: 1.
+         * Value enum: "USD".
+         */
+        "currency": "USD" | (string & {});
+    }>
+        | null;
+};
+/**
+ * Changes to a merchant's payment amount limits. Each map replaces the existing one, and null
+ * clears it. minProperties: 1.
+ */
+export type PaymentLimitSettingsPatchInput = {
+    /**
+     * Map replaced as a whole: the keys you send become the full map. Replaces this merchant limit
+     * map. Keys are default, a surface, payment_option.default, or payment_option.surface. Amounts
+     * must satisfy Flint's existing selector bounds and effective minimum/maximum range. Send null
+     * to clear this map; reads then omit it. minProperties: 1. * (Value): object. *.amount
+     * (Required): integer string. The limit in the currency's minor unit, such as cents for USD.
+     * Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum:
+     * 1. *.currency (Required): string. Currency of the limit. Only USD is accepted. Uses ISO 4217
+     * currency codes. minLength: 1. Value enum: "USD".
+     */
+    "max_amounts"?: Record<string, {
+        /**
+         * The limit in the currency's minor unit, such as cents for USD. Use an integer string
+         * (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}` | bigint;
+        /**
+         * Currency of the limit. Only USD is accepted. Uses ISO 4217 currency codes. minLength: 1.
+         * Value enum: "USD".
+         */
+        "currency": "USD";
+    }>
+        | null;
+    /**
+     * Map replaced as a whole: the keys you send become the full map. Replaces this merchant limit
+     * map. Keys are default, a surface, payment_option.default, or payment_option.surface. Amounts
+     * must satisfy Flint's existing selector bounds and effective minimum/maximum range. Send null
+     * to clear this map; reads then omit it. minProperties: 1. * (Value): object. *.amount
+     * (Required): integer string. The limit in the currency's minor unit, such as cents for USD.
+     * Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum:
+     * 1. *.currency (Required): string. Currency of the limit. Only USD is accepted. Uses ISO 4217
+     * currency codes. minLength: 1. Value enum: "USD".
+     */
+    "min_amounts"?: Record<string, {
+        /**
+         * The limit in the currency's minor unit, such as cents for USD. Use an integer string
+         * (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}` | bigint;
+        /**
+         * Currency of the limit. Only USD is accepted. Uses ISO 4217 currency codes. minLength: 1.
+         * Value enum: "USD".
+         */
+        "currency": "USD";
+    }>
+        | null;
+};
+/** A reusable link that opens checkout. */
+export type PaymentLink = {
+    /** What checkout asks the buyer for. Each field you leave out uses your checkout settings. */
+    "buyer_fields"?: CheckoutBuyerFields;
+    /**
+     * Seconds each checkout session the link starts stays open, from 60 to 86,400. Omit it to use
+     * your checkout settings, or 24 hours. It doesn't end the link; use sales_end_at for that.
+     * Format: int64. minimum: 60. maximum: 86400.
+     */
+    "checkout_session_expires_in_seconds"?: number;
+    /** Number of paid checkout sessions started from this link. Format: int32. */
+    "completed_count": number;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * Questions buyers answer before paying. Answers are recorded on the order and checkout
+     * session in `custom_field_answers`. [] (Value): {@link PaymentLinkCustomField}. A custom
+     * field on a payment link that collects an answer from the buyer.
+     */
+    "custom_fields"?: Array<PaymentLinkCustomField>;
+    /**
+     * Custom text for checkouts started from this link. Custom text shown in checkout: an order
+     * summary message and a shipping address label.
+     */
+    "custom_text"?: CheckoutCustomTextConfig;
+    /**
+     * Delivery methods the link offers. Empty when the link has none, and then its checkouts offer
+     * settings.checkout.default_delivery_method_ids when the order has items to deliver. []
+     * (Value): string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "delivery_method_ids": Array<string>;
+    /** Text about what the link sells, returned to buyers when they open it. */
+    "description"?: string;
+    /**
+     * Largest amount a buyer can give on a donation link. Must be greater than zero and greater
+     * than or equal to donation_min_amount_money. Omit on create for no maximum. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "donation_max_amount_money"?: MoneyValue;
+    /**
+     * Smallest amount a buyer can give on a donation link. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "donation_min_amount_money"?: MoneyValue;
+    /**
+     * Amounts a donation link offers as one-tap choices. [] (Value): {@link MoneyValue}. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "donation_suggested_amount_money_options"?: Array<MoneyValue>;
+    /**
+     * Event details for an `event` link: when and where it takes place and how many tickets it
+     * sells. Event settings on an event payment link, such as its date, venue, ticket limit, and
+     * ticket emails.
+     */
+    "event_config"?: PaymentLinkEventConfig;
+    /**
+     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Image shown to buyers with the link. An image attached to a resource, with its display
+     * properties and attachment metadata.
+     */
+    "image"?: ImageAttachment;
+    /** Message to show the buyer when the link is inactive. */
+    "inactive_message"?: string;
+    /**
+     * The inventory location or routing policy that supplies stock for the link's catalog lines.
+     * Absent when using the implicit single-Location fallback, which is evaluated again on use.
+     * Where an order, payment link, or reservation routes inventory from: a fixed Location, an
+     * inventory allocation policy, or one policy revision.
+     */
+    "inventory_routing_source"?: InventoryRoutingSource;
+    /**
+     * The terms and policy links checkouts started from this link show the buyer. Legal settings
+     * for a checkout: whether buyers must accept terms, and links to the terms, refund policy,
+     * shipping policy, and contract.
+     */
+    "legal"?: LegalSettings;
+    /**
+     * What the link sells. [] (Value): {@link PaymentLinkLineItem}. A line item on a payment link.
+     */
+    "line_items"?: Array<PaymentLinkLineItem>;
+    /**
+     * Most payments the link accepts, counted by `completed_count`. Absent means no limit. Once
+     * the limit is reached, resolving the link fails with a request error. It can't be set below
+     * `completed_count`. Format: int32.
+     */
+    "max_completions"?: number;
+    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+    "merchant_id": string;
+    /**
+     * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /** Name of the payment link. */
+    "name": string;
+    /**
+     * Unique identifier for this payment link, prefixed `pl_`. Example:
+     * "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+     */
+    "payment_link_id": string;
+    /** What kind of link this is. Value enum: "standard", "donation", "event". */
+    "payment_link_type"?: "standard" | "donation" | "event" | (string & {});
+    /**
+     * Payment options for checkouts started from this link. Payment settings for a checkout: the
+     * enabled payment options and a note shown with payment.
+     */
+    "payments"?: CheckoutPaymentConfig;
+    /**
+     * Whether automatic promotions apply to checkouts started from this link and whether buyers
+     * can enter promotion codes. Promotion settings for a checkout: whether automatic promotions
+     * apply and whether the buyer can apply promotion codes.
+     */
+    "promotion_config"?: CheckoutPromotionConfig;
+    /**
+     * Where checkout sessions started from this payment link send the buyer after payment,
+     * cancellation, or expiration. Where hosted checkout sends the buyer. Not allowed when surface
+     * is headless; use payment_return_url.
+     */
+    "redirects"?: CheckoutRedirects;
+    /**
+     * RFC3339 timestamp after which the link stops starting checkouts and resolve fails with
+     * `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on their own,
+     * except that an event link without sales_end_at stops selling at event_config.event_at. A
+     * checkout opened before the end can still start payment for up to 15 minutes after it.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "sales_end_at"?: string;
+    /**
+     * Present only with expand=sales_summary on GET /v1/payment-links or GET
+     * /v1/payment-links/{payment_link_id}. Available to merchant callers, including dashboard
+     * sessions and API keys with checkouts.payment_links.read. Uses the same paid-order definition
+     * as the merchant sales summary. Paid-order sales totals for a payment link, computed on
+     * request. Paid means the order's collection has completed. Fully and partially refunded
+     * orders still count, and paid_totals reports the amount collected before refunds. Each order
+     * counts once even if it has multiple checkout sessions.
+     */
+    "sales_summary"?: PaymentLinkSalesSummary;
+    /** Whether the link can start new checkouts. Value enum: "active", "inactive". */
+    "status": "active" | "inactive" | (string & {});
+    /**
+     * Present only when `expand` includes `subscription_plan`; `null` when expanded and there is
+     * no related subscription plan. anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary}. A
+     * subscription plan's summary fields, including name, billing interval, currency, and status,
+     * returned when the plan is expanded. anyOf[2] (Value): null.
+     */
+    "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
+    /**
+     * ID of the subscription plan the link sells. Absent for a link that doesn't sell a
+     * subscription. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
+     */
+    "subscription_plan_id"?: string;
+    /**
+     * Tax settings for checkouts started from this link. Whether tax is collected for a checkout
+     * session or payment link.
+     */
+    "tax"?: CheckoutTaxConfig;
+    /**
+     * The title and colors for checkouts started from this link, over your branding settings.
+     * Colors and title applied to a payment link's checkout page.
+     */
+    "theme"?: ThemeConfig;
+    /**
+     * Tip options for checkouts started from this link. Tip settings for a checkout: whether tips
+     * are enabled, the percent or fixed amount options, the default tip, and custom tips.
+     */
+    "tip"?: CheckoutTipConfig;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "total_quantity_sold": number;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /** URL buyers open to use the link. */
+    "url": string;
+    /**
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. Format: int64.
+     */
+    "version": number;
+};
+/**
+ * A listed payment link variant that can be sold in the line currency, with its current price,
+ * options, image, modifiers, and advisory stock state.
+ */
+export type PaymentLinkAvailableVariant = {
+    /**
+     * Modifier groups available for this variant's effective modifier set. Omitted when the
+     * variant has none. [] (Value): {@link PublicResolvedModifierGroup}. A modifier group as
+     * resolved for a payment link line item, with its selection limits, display flags, and options
+     * or text settings.
+     */
+    "available_modifiers"?: Array<PublicResolvedModifierGroup>;
+    /**
+     * Current catalog reference unit price for sale display. Null when no variant compare-at price
+     * is set. Does not affect the amount charged. anyOf[1] (Value): {@link MoneyValue}. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value):
+     * null.
+     */
+    "compare_at_price_money": ((MoneyValue) | (null));
+    /**
+     * Effective primary variant image, inherited from the product when the variant has none.
+     * Omitted when neither has an image. An image with its URL, size, and alt text.
+     */
+    "image"?: Image;
+    /**
+     * True when tracked inventory cannot supply the line's starting quantity through the payment
+     * link's inventory_routing_source. Uses min_quantity when quantity is adjustable, otherwise
+     * quantity. Always false for untracked variants. Advisory only: no stock is held at read or
+     * resolve time, and no stock counts are published.
+     */
+    "is_sold_out": boolean;
+    /** Order line name for this variant: the product name plus the variant label. */
+    "name": string;
+    /**
+     * Identifier of the product the offered variant belongs to. Example:
+     * "prod_01KEZF7C00BVSHCNWVH528HB66".
+     */
+    "product_id": string;
+    /**
+     * Default variant quantity breaks. Use the largest minimum_quantity not above this line's own
+     * quantity; an empty array uses the base price. [] (Value): {@link QuantityPriceBreak}. A net
+     * unit price that applies when one catalog line reaches minimum_quantity.
+     */
+    "quantity_price_breaks": Array<QuantityPriceBreak>;
+    /**
+     * The variant's product option values, in product option position order. Empty when the
+     * product has no options. [] (Value): {@link SelectedProductOption}. An option and value
+     * chosen for a product variant, such as size Large.
+     */
+    "selected_options": Array<SelectedProductOption>;
+    /**
+     * Current catalog base unit price in the line currency. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money": MoneyValue;
+    /** ID of the offered product variant. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". */
+    "variant_id": string;
+};
+export type PaymentLinkCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "buyer_fields"?: CheckoutBuyerFields;
+            "checkout_session_expires_in_seconds"?: number;
+            "completed_count": number;
+            "created_at": string;
+            "custom_fields"?: Array<PaymentLinkCustomField>;
+            "custom_text"?: CheckoutCustomTextConfig;
+            "delivery_method_ids": Array<string>;
+            "description"?: string;
+            "donation_max_amount_money"?: MoneyValue;
+            "donation_min_amount_money"?: MoneyValue;
+            "donation_suggested_amount_money_options"?: Array<MoneyValue>;
+            "event_config"?: PaymentLinkEventConfig;
+            "external_reference_id"?: string;
+            "image"?: ImageAttachment;
+            "inactive_message"?: string;
+            "inventory_routing_source"?: InventoryRoutingSource;
+            "legal"?: LegalSettings;
+            "line_items"?: Array<PaymentLinkLineItem>;
+            "max_completions"?: number;
+            "merchant_id": string;
+            "metadata"?: MetadataMap;
+            "name": string;
+            "payment_link_id": string;
+            "payment_link_type"?: "standard" | "donation" | "event" | (string & {});
+            "payments"?: CheckoutPaymentConfig;
+            "promotion_config"?: CheckoutPromotionConfig;
+            "redirects"?: CheckoutRedirects;
+            "sales_end_at"?: string;
+            "sales_summary"?: PaymentLinkSalesSummary;
+            "status": "active" | "inactive" | (string & {});
+            "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
+            "subscription_plan_id"?: string;
+            "tax"?: CheckoutTaxConfig;
+            "theme"?: ThemeConfig;
+            "tip"?: CheckoutTipConfig;
+            "total_quantity_sold": number;
+            "updated_at": string;
+            "url": string;
+            "version": number;
+        };
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "payment_link.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "buyer_fields"?: CheckoutBuyerFields;
+            "checkout_session_expires_in_seconds"?: number;
+            "completed_count": number;
+            "created_at": string;
+            "custom_fields"?: Array<PaymentLinkCustomField>;
+            "custom_text"?: CheckoutCustomTextConfig;
+            "delivery_method_ids": Array<string>;
+            "description"?: string;
+            "donation_max_amount_money"?: MoneyValue;
+            "donation_min_amount_money"?: MoneyValue;
+            "donation_suggested_amount_money_options"?: Array<MoneyValue>;
+            "event_config"?: PaymentLinkEventConfig;
+            "external_reference_id"?: string;
+            "image"?: ImageAttachment;
+            "inactive_message"?: string;
+            "inventory_routing_source"?: InventoryRoutingSource;
+            "legal"?: LegalSettings;
+            "line_items"?: Array<PaymentLinkLineItem>;
+            "max_completions"?: number;
+            "merchant_id": string;
+            "metadata"?: MetadataMap;
+            "name": string;
+            "payment_link_id": string;
+            "payment_link_type"?: "standard" | "donation" | "event" | (string & {});
+            "payments"?: CheckoutPaymentConfig;
+            "promotion_config"?: CheckoutPromotionConfig;
+            "redirects"?: CheckoutRedirects;
+            "sales_end_at"?: string;
+            "sales_summary"?: PaymentLinkSalesSummary;
+            "status": "active" | "inactive" | (string & {});
+            "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
+            "subscription_plan_id"?: string;
+            "tax"?: CheckoutTaxConfig;
+            "theme"?: ThemeConfig;
+            "tip"?: CheckoutTipConfig;
+            "total_quantity_sold": number;
+            "updated_at": string;
+            "url": string;
+            "version": number;
+        };
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "payment_link.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "payment_link.created";
+});
+/**
+ * The `payment_link.created` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type PaymentLinkCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.buyer_fields (Optional): {@link CheckoutBuyerFields}. What
+     * checkout asks the buyer for. Each field you leave out uses your checkout settings.
+     * object.checkout_session_expires_in_seconds (Optional): integer. Seconds each checkout
+     * session the link starts stays open, from 60 to 86,400. Omit it to use your checkout
+     * settings, or 24 hours. It doesn't end the link; use sales_end_at for that. Format: int64.
+     * minimum: 60. maximum: 86400. object.completed_count (Required): integer. Number of paid
+     * checkout sessions started from this link. Format: int32. object.created_at (Required):
+     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.custom_fields (Optional): Array of {@link PaymentLinkCustomField}. Questions buyers
+     * answer before paying. Answers are recorded on the order and checkout session in
+     * `custom_field_answers`. object.custom_fields[] (Value): {@link PaymentLinkCustomField}. A
+     * custom field on a payment link that collects an answer from the buyer. object.custom_text
+     * (Optional): {@link CheckoutCustomTextConfig}. Custom text for checkouts started from this
+     * link. Custom text shown in checkout: an order summary message and a shipping address label.
+     * object.delivery_method_ids (Required): Array of string. Delivery methods the link offers.
+     * Empty when the link has none, and then its checkouts offer
+     * settings.checkout.default_delivery_method_ids when the order has items to deliver.
+     * object.delivery_method_ids[] (Value): string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     * object.description (Optional): string. Text about what the link sells, returned to buyers
+     * when they open it. object.donation_max_amount_money (Optional): {@link MoneyValue}. Largest
+     * amount a buyer can give on a donation link. Must be greater than zero and greater than or
+     * equal to donation_min_amount_money. Omit on create for no maximum. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     * object.donation_min_amount_money (Optional): {@link MoneyValue}. Smallest amount a buyer can
+     * give on a donation link. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code. object.donation_suggested_amount_money_options (Optional): Array of {@link
+     * MoneyValue}. Amounts a donation link offers as one-tap choices.
+     * object.donation_suggested_amount_money_options[] (Value): {@link MoneyValue}. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     * object.event_config (Optional): {@link PaymentLinkEventConfig}. Event details for an `event`
+     * link: when and where it takes place and how many tickets it sells. Event settings on an
+     * event payment link, such as its date, venue, ticket limit, and ticket emails.
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842". object.image (Optional):
+     * {@link ImageAttachment}. Image shown to buyers with the link. An image attached to a
+     * resource, with its display properties and attachment metadata. object.inactive_message
+     * (Optional): string. Message to show the buyer when the link is inactive.
+     * object.inventory_routing_source (Optional): {@link InventoryRoutingSource}. The inventory
+     * location or routing policy that supplies stock for the link's catalog lines. Absent when
+     * using the implicit single-Location fallback, which is evaluated again on use. Where an
+     * order, payment link, or reservation routes inventory from: a fixed Location, an inventory
+     * allocation policy, or one policy revision. object.legal (Optional): {@link LegalSettings}.
+     * The terms and policy links checkouts started from this link show the buyer. Legal settings
+     * for a checkout: whether buyers must accept terms, and links to the terms, refund policy,
+     * shipping policy, and contract. object.line_items (Optional): Array of {@link
+     * PaymentLinkLineItem}. What the link sells. object.line_items[] (Value): {@link
+     * PaymentLinkLineItem}. A line item on a payment link. object.max_completions (Optional):
+     * integer. Most payments the link accepts, counted by `completed_count`. Absent means no
+     * limit. Once the limit is reached, resolving the link fails with a request error. It can't be
+     * set below `completed_count`. Format: int32. object.merchant_id (Required): string. ID of the
+     * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * object.metadata (Optional): {@link MetadataMap}. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a
+     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them. object.name (Required): string. Name of the payment link.
+     * object.payment_link_id (Required): string. Unique identifier for this payment link, prefixed
+     * `pl_`. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_type (Optional):
+     * string. What kind of link this is. Value enum: "standard", "donation", "event".
+     * object.payments (Optional): {@link CheckoutPaymentConfig}. Payment options for checkouts
+     * started from this link. Payment settings for a checkout: the enabled payment options and a
+     * note shown with payment. object.promotion_config (Optional): {@link
+     * CheckoutPromotionConfig}. Whether automatic promotions apply to checkouts started from this
+     * link and whether buyers can enter promotion codes. Promotion settings for a checkout:
+     * whether automatic promotions apply and whether the buyer can apply promotion codes.
+     * object.redirects (Optional): {@link CheckoutRedirects}. Where checkout sessions started from
+     * this payment link send the buyer after payment, cancellation, or expiration. Where hosted
+     * checkout sends the buyer. Not allowed when surface is headless; use payment_return_url.
+     * object.sales_end_at (Optional): string. RFC3339 timestamp after which the link stops
+     * starting checkouts and resolve fails with `ACTION_NOT_ALLOWED` and reason `not_offered`.
+     * Unset means sales do not end on their own, except that an event link without sales_end_at
+     * stops selling at event_config.event_at. A checkout opened before the end can still start
+     * payment for up to 15 minutes after it. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.sales_summary (Optional): {@link PaymentLinkSalesSummary}. Present only with
+     * expand=sales_summary on GET /v1/payment-links or GET /v1/payment-links/{payment_link_id}.
+     * Available to merchant callers, including dashboard sessions and API keys with
+     * checkouts.payment_links.read. Uses the same paid-order definition as the merchant sales
+     * summary. Paid-order sales totals for a payment link, computed on request. Paid means the
+     * order's collection has completed. Fully and partially refunded orders still count, and
+     * paid_totals reports the amount collected before refunds. Each order counts once even if it
+     * has multiple checkout sessions. object.status (Required): string. Whether the link can start
+     * new checkouts. Value enum: "active", "inactive". object.subscription_plan (Optional): {@link
+     * ExpandedSubscriptionPlanSummary} or null. Present only when `expand` includes
+     * `subscription_plan`; `null` when expanded and there is no related subscription plan.
+     * object.subscription_plan.anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary}. A
+     * subscription plan's summary fields, including name, billing interval, currency, and status,
+     * returned when the plan is expanded. object.subscription_plan.anyOf[2] (Value): null.
+     * object.subscription_plan_id (Optional): string. ID of the subscription plan the link sells.
+     * Absent for a link that doesn't sell a subscription. Example:
+     * "plan_01KEZF7C004CY5ZR33XST2AASV". object.tax (Optional): {@link CheckoutTaxConfig}. Tax
+     * settings for checkouts started from this link. Whether tax is collected for a checkout
+     * session or payment link. object.theme (Optional): {@link ThemeConfig}. The title and colors
+     * for checkouts started from this link, over your branding settings. Colors and title applied
+     * to a payment link's checkout page. object.tip (Optional): {@link CheckoutTipConfig}. Tip
+     * options for checkouts started from this link. Tip settings for a checkout: whether tips are
+     * enabled, the percent or fixed amount options, the default tip, and custom tips.
+     * object.total_quantity_sold (Required): integer. Whole-number quantity; fractional quantities
+     * are not supported. Format: int32. object.updated_at (Required): string. RFC3339 timestamp.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.url (Required): string. URL
+     * buyers open to use the link. object.version (Required): integer. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. Format: int64.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * buyer_fields (Optional): {@link CheckoutBuyerFields}. What checkout asks the buyer for.
+         * Each field you leave out uses your checkout settings.
+         * checkout_session_expires_in_seconds (Optional): integer. Seconds each checkout session
+         * the link starts stays open, from 60 to 86,400. Omit it to use your checkout settings, or
+         * 24 hours. It doesn't end the link; use sales_end_at for that. Format: int64. minimum:
+         * 60. maximum: 86400. completed_count (Required): integer. Number of paid checkout
+         * sessions started from this link. Format: int32. created_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". custom_fields (Optional):
+         * Array of {@link PaymentLinkCustomField}. Questions buyers answer before paying. Answers
+         * are recorded on the order and checkout session in `custom_field_answers`.
+         * custom_fields[] (Value): {@link PaymentLinkCustomField}. A custom field on a payment
+         * link that collects an answer from the buyer. custom_text (Optional): {@link
+         * CheckoutCustomTextConfig}. Custom text for checkouts started from this link. Custom text
+         * shown in checkout: an order summary message and a shipping address label.
+         * delivery_method_ids (Required): Array of string. Delivery methods the link offers. Empty
+         * when the link has none, and then its checkouts offer
+         * settings.checkout.default_delivery_method_ids when the order has items to deliver.
+         * delivery_method_ids[] (Value): string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+         * description (Optional): string. Text about what the link sells, returned to buyers when
+         * they open it. donation_max_amount_money (Optional): {@link MoneyValue}. Largest amount a
+         * buyer can give on a donation link. Must be greater than zero and greater than or equal
+         * to donation_min_amount_money. Omit on create for no maximum. Monetary amount represented
+         * as integer minor units plus an ISO 4217 currency code. donation_min_amount_money
+         * (Optional): {@link MoneyValue}. Smallest amount a buyer can give on a donation link.
+         * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+         * donation_suggested_amount_money_options (Optional): Array of {@link MoneyValue}. Amounts
+         * a donation link offers as one-tap choices. donation_suggested_amount_money_options[]
+         * (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an
+         * ISO 4217 currency code. event_config (Optional): {@link PaymentLinkEventConfig}. Event
+         * details for an `event` link: when and where it takes place and how many tickets it
+         * sells. Event settings on an event payment link, such as its date, venue, ticket limit,
+         * and ticket emails. external_reference_id (Optional): string. Caller-owned identifier for
+         * this resource in an external system. maxLength: 255. Example: "warehouse-1842". image
+         * (Optional): {@link ImageAttachment}. Image shown to buyers with the link. An image
+         * attached to a resource, with its display properties and attachment metadata.
+         * inactive_message (Optional): string. Message to show the buyer when the link is
+         * inactive. inventory_routing_source (Optional): {@link InventoryRoutingSource}. The
+         * inventory location or routing policy that supplies stock for the link's catalog lines.
+         * Absent when using the implicit single-Location fallback, which is evaluated again on
+         * use. Where an order, payment link, or reservation routes inventory from: a fixed
+         * Location, an inventory allocation policy, or one policy revision. legal (Optional):
+         * {@link LegalSettings}. The terms and policy links checkouts started from this link show
+         * the buyer. Legal settings for a checkout: whether buyers must accept terms, and links to
+         * the terms, refund policy, shipping policy, and contract. line_items (Optional): Array of
+         * {@link PaymentLinkLineItem}. What the link sells. line_items[] (Value): {@link
+         * PaymentLinkLineItem}. A line item on a payment link. max_completions (Optional):
+         * integer. Most payments the link accepts, counted by `completed_count`. Absent means no
+         * limit. Once the limit is reached, resolving the link fails with a request error. It
+         * can't be set below `completed_count`. Format: int32. merchant_id (Required): string. ID
+         * of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * metadata (Optional): {@link MetadataMap}. Stored caller-owned key-value data. See
+         * `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a
+         * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+         * follow the limits on MetadataInput and MetadataPatchInput; maps written before those
+         * limits may not satisfy them. name (Required): string. Name of the payment link.
+         * payment_link_id (Required): string. Unique identifier for this payment link, prefixed
+         * `pl_`. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_type (Optional): string.
+         * What kind of link this is. Value enum: "standard", "donation", "event". payments
+         * (Optional): {@link CheckoutPaymentConfig}. Payment options for checkouts started from
+         * this link. Payment settings for a checkout: the enabled payment options and a note shown
+         * with payment. promotion_config (Optional): {@link CheckoutPromotionConfig}. Whether
+         * automatic promotions apply to checkouts started from this link and whether buyers can
+         * enter promotion codes. Promotion settings for a checkout: whether automatic promotions
+         * apply and whether the buyer can apply promotion codes. redirects (Optional): {@link
+         * CheckoutRedirects}. Where checkout sessions started from this payment link send the
+         * buyer after payment, cancellation, or expiration. Where hosted checkout sends the buyer.
+         * Not allowed when surface is headless; use payment_return_url. sales_end_at (Optional):
+         * string. RFC3339 timestamp after which the link stops starting checkouts and resolve
+         * fails with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end
+         * on their own, except that an event link without sales_end_at stops selling at
+         * event_config.event_at. A checkout opened before the end can still start payment for up
+         * to 15 minutes after it. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * sales_summary (Optional): {@link PaymentLinkSalesSummary}. Present only with
+         * expand=sales_summary on GET /v1/payment-links or GET
+         * /v1/payment-links/{payment_link_id}. Available to merchant callers, including dashboard
+         * sessions and API keys with checkouts.payment_links.read. Uses the same paid-order
+         * definition as the merchant sales summary. Paid-order sales totals for a payment link,
+         * computed on request. Paid means the order's collection has completed. Fully and
+         * partially refunded orders still count, and paid_totals reports the amount collected
+         * before refunds. Each order counts once even if it has multiple checkout sessions. status
+         * (Required): string. Whether the link can start new checkouts. Value enum: "active",
+         * "inactive". subscription_plan (Optional): {@link ExpandedSubscriptionPlanSummary} or
+         * null. Present only when `expand` includes `subscription_plan`; `null` when expanded and
+         * there is no related subscription plan. subscription_plan.anyOf[1] (Value): {@link
+         * ExpandedSubscriptionPlanSummary}. A subscription plan's summary fields, including name,
+         * billing interval, currency, and status, returned when the plan is expanded.
+         * subscription_plan.anyOf[2] (Value): null. subscription_plan_id (Optional): string. ID of
+         * the subscription plan the link sells. Absent for a link that doesn't sell a
+         * subscription. Example: "plan_01KEZF7C004CY5ZR33XST2AASV". tax (Optional): {@link
+         * CheckoutTaxConfig}. Tax settings for checkouts started from this link. Whether tax is
+         * collected for a checkout session or payment link. theme (Optional): {@link ThemeConfig}.
+         * The title and colors for checkouts started from this link, over your branding settings.
+         * Colors and title applied to a payment link's checkout page. tip (Optional): {@link
+         * CheckoutTipConfig}. Tip options for checkouts started from this link. Tip settings for a
+         * checkout: whether tips are enabled, the percent or fixed amount options, the default
+         * tip, and custom tips. total_quantity_sold (Required): integer. Whole-number quantity;
+         * fractional quantities are not supported. Format: int32. updated_at (Required): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". url (Required):
+         * string. URL buyers open to use the link. version (Required): integer. Current version of
+         * this resource's owned state. Send it as `expected_version` when changing the resource to
+         * reject a stale write. Format: int64.
+         */
+        "object": {
+            /**
+             * What checkout asks the buyer for. Each field you leave out uses your checkout
+             * settings.
+             */
+            "buyer_fields"?: CheckoutBuyerFields;
+            /**
+             * Seconds each checkout session the link starts stays open, from 60 to 86,400. Omit it
+             * to use your checkout settings, or 24 hours. It doesn't end the link; use
+             * sales_end_at for that. Format: int64. minimum: 60. maximum: 86400.
+             */
+            "checkout_session_expires_in_seconds"?: number;
+            /** Number of paid checkout sessions started from this link. Format: int32. */
+            "completed_count": number;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Questions buyers answer before paying. Answers are recorded on the order and
+             * checkout session in `custom_field_answers`. [] (Value): {@link
+             * PaymentLinkCustomField}. A custom field on a payment link that collects an answer
+             * from the buyer.
+             */
+            "custom_fields"?: Array<PaymentLinkCustomField>;
+            /**
+             * Custom text for checkouts started from this link. Custom text shown in checkout: an
+             * order summary message and a shipping address label.
+             */
+            "custom_text"?: CheckoutCustomTextConfig;
+            /**
+             * Delivery methods the link offers. Empty when the link has none, and then its
+             * checkouts offer settings.checkout.default_delivery_method_ids when the order has
+             * items to deliver. [] (Value): string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+             */
+            "delivery_method_ids": Array<string>;
+            /** Text about what the link sells, returned to buyers when they open it. */
+            "description"?: string;
+            /**
+             * Largest amount a buyer can give on a donation link. Must be greater than zero and
+             * greater than or equal to donation_min_amount_money. Omit on create for no maximum.
+             * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "donation_max_amount_money"?: MoneyValue;
+            /**
+             * Smallest amount a buyer can give on a donation link. Monetary amount represented as
+             * integer minor units plus an ISO 4217 currency code.
+             */
+            "donation_min_amount_money"?: MoneyValue;
+            /**
+             * Amounts a donation link offers as one-tap choices. [] (Value): {@link MoneyValue}.
+             * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "donation_suggested_amount_money_options"?: Array<MoneyValue>;
+            /**
+             * Event details for an `event` link: when and where it takes place and how many
+             * tickets it sells. Event settings on an event payment link, such as its date, venue,
+             * ticket limit, and ticket emails.
+             */
+            "event_config"?: PaymentLinkEventConfig;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Image shown to buyers with the link. An image attached to a resource, with its
+             * display properties and attachment metadata.
+             */
+            "image"?: ImageAttachment;
+            /** Message to show the buyer when the link is inactive. */
+            "inactive_message"?: string;
+            /**
+             * The inventory location or routing policy that supplies stock for the link's catalog
+             * lines. Absent when using the implicit single-Location fallback, which is evaluated
+             * again on use. Where an order, payment link, or reservation routes inventory from: a
+             * fixed Location, an inventory allocation policy, or one policy revision.
+             */
+            "inventory_routing_source"?: InventoryRoutingSource;
+            /**
+             * The terms and policy links checkouts started from this link show the buyer. Legal
+             * settings for a checkout: whether buyers must accept terms, and links to the terms,
+             * refund policy, shipping policy, and contract.
+             */
+            "legal"?: LegalSettings;
+            /**
+             * What the link sells. [] (Value): {@link PaymentLinkLineItem}. A line item on a
+             * payment link.
+             */
+            "line_items"?: Array<PaymentLinkLineItem>;
+            /**
+             * Most payments the link accepts, counted by `completed_count`. Absent means no limit.
+             * Once the limit is reached, resolving the link fails with a request error. It can't
+             * be set below `completed_count`. Format: int32.
+             */
+            "max_completions"?: number;
+            /**
+             * ID of the merchant this resource belongs to. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
+             * are reserved for Flint and are not returned. Writes follow the limits on
+             * MetadataInput and MetadataPatchInput; maps written before those limits may not
+             * satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /** Name of the payment link. */
+            "name": string;
+            /**
+             * Unique identifier for this payment link, prefixed `pl_`. Example:
+             * "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+             */
+            "payment_link_id": string;
+            /** What kind of link this is. Value enum: "standard", "donation", "event". */
+            "payment_link_type"?: "standard" | "donation" | "event" | (string & {});
+            /**
+             * Payment options for checkouts started from this link. Payment settings for a
+             * checkout: the enabled payment options and a note shown with payment.
+             */
+            "payments"?: CheckoutPaymentConfig;
+            /**
+             * Whether automatic promotions apply to checkouts started from this link and whether
+             * buyers can enter promotion codes. Promotion settings for a checkout: whether
+             * automatic promotions apply and whether the buyer can apply promotion codes.
+             */
+            "promotion_config"?: CheckoutPromotionConfig;
+            /**
+             * Where checkout sessions started from this payment link send the buyer after payment,
+             * cancellation, or expiration. Where hosted checkout sends the buyer. Not allowed when
+             * surface is headless; use payment_return_url.
+             */
+            "redirects"?: CheckoutRedirects;
+            /**
+             * RFC3339 timestamp after which the link stops starting checkouts and resolve fails
+             * with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on
+             * their own, except that an event link without sales_end_at stops selling at
+             * event_config.event_at. A checkout opened before the end can still start payment for
+             * up to 15 minutes after it. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "sales_end_at"?: string;
+            /**
+             * Present only with expand=sales_summary on GET /v1/payment-links or GET
+             * /v1/payment-links/{payment_link_id}. Available to merchant callers, including
+             * dashboard sessions and API keys with checkouts.payment_links.read. Uses the same
+             * paid-order definition as the merchant sales summary. Paid-order sales totals for a
+             * payment link, computed on request. Paid means the order's collection has completed.
+             * Fully and partially refunded orders still count, and paid_totals reports the amount
+             * collected before refunds. Each order counts once even if it has multiple checkout
+             * sessions.
+             */
+            "sales_summary"?: PaymentLinkSalesSummary;
+            /** Whether the link can start new checkouts. Value enum: "active", "inactive". */
+            "status": "active" | "inactive" | (string & {});
+            /**
+             * Present only when `expand` includes `subscription_plan`; `null` when expanded and
+             * there is no related subscription plan. anyOf[1] (Value): {@link
+             * ExpandedSubscriptionPlanSummary}. A subscription plan's summary fields, including
+             * name, billing interval, currency, and status, returned when the plan is expanded.
+             * anyOf[2] (Value): null.
+             */
+            "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
+            /**
+             * ID of the subscription plan the link sells. Absent for a link that doesn't sell a
+             * subscription. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
+             */
+            "subscription_plan_id"?: string;
+            /**
+             * Tax settings for checkouts started from this link. Whether tax is collected for a
+             * checkout session or payment link.
+             */
+            "tax"?: CheckoutTaxConfig;
+            /**
+             * The title and colors for checkouts started from this link, over your branding
+             * settings. Colors and title applied to a payment link's checkout page.
+             */
+            "theme"?: ThemeConfig;
+            /**
+             * Tip options for checkouts started from this link. Tip settings for a checkout:
+             * whether tips are enabled, the percent or fixed amount options, the default tip, and
+             * custom tips.
+             */
+            "tip"?: CheckoutTipConfig;
+            /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+            "total_quantity_sold": number;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /** URL buyers open to use the link. */
+            "url": string;
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. Format: int64.
+             */
+            "version": number;
+        };
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "payment_link.created". */
+    "event_type"?: "payment_link.created";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `payment_link.created` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type PaymentLinkCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.buyer_fields (Optional): {@link CheckoutBuyerFields}. What
+     * checkout asks the buyer for. Each field you leave out uses your checkout settings.
+     * object.checkout_session_expires_in_seconds (Optional): integer. Seconds each checkout
+     * session the link starts stays open, from 60 to 86,400. Omit it to use your checkout
+     * settings, or 24 hours. It doesn't end the link; use sales_end_at for that. Format: int64.
+     * minimum: 60. maximum: 86400. object.completed_count (Required): integer. Number of paid
+     * checkout sessions started from this link. Format: int32. object.created_at (Required):
+     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.custom_fields (Optional): Array of {@link PaymentLinkCustomField}. Questions buyers
+     * answer before paying. Answers are recorded on the order and checkout session in
+     * `custom_field_answers`. object.custom_fields[] (Value): {@link PaymentLinkCustomField}. A
+     * custom field on a payment link that collects an answer from the buyer. object.custom_text
+     * (Optional): {@link CheckoutCustomTextConfig}. Custom text for checkouts started from this
+     * link. Custom text shown in checkout: an order summary message and a shipping address label.
+     * object.delivery_method_ids (Required): Array of string. Delivery methods the link offers.
+     * Empty when the link has none, and then its checkouts offer
+     * settings.checkout.default_delivery_method_ids when the order has items to deliver.
+     * object.delivery_method_ids[] (Value): string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     * object.description (Optional): string. Text about what the link sells, returned to buyers
+     * when they open it. object.donation_max_amount_money (Optional): {@link MoneyValue}. Largest
+     * amount a buyer can give on a donation link. Must be greater than zero and greater than or
+     * equal to donation_min_amount_money. Omit on create for no maximum. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     * object.donation_min_amount_money (Optional): {@link MoneyValue}. Smallest amount a buyer can
+     * give on a donation link. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code. object.donation_suggested_amount_money_options (Optional): Array of {@link
+     * MoneyValue}. Amounts a donation link offers as one-tap choices.
+     * object.donation_suggested_amount_money_options[] (Value): {@link MoneyValue}. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     * object.event_config (Optional): {@link PaymentLinkEventConfig}. Event details for an `event`
+     * link: when and where it takes place and how many tickets it sells. Event settings on an
+     * event payment link, such as its date, venue, ticket limit, and ticket emails.
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842". object.image (Optional):
+     * {@link ImageAttachment}. Image shown to buyers with the link. An image attached to a
+     * resource, with its display properties and attachment metadata. object.inactive_message
+     * (Optional): string. Message to show the buyer when the link is inactive.
+     * object.inventory_routing_source (Optional): {@link InventoryRoutingSource}. The inventory
+     * location or routing policy that supplies stock for the link's catalog lines. Absent when
+     * using the implicit single-Location fallback, which is evaluated again on use. Where an
+     * order, payment link, or reservation routes inventory from: a fixed Location, an inventory
+     * allocation policy, or one policy revision. object.legal (Optional): {@link LegalSettings}.
+     * The terms and policy links checkouts started from this link show the buyer. Legal settings
+     * for a checkout: whether buyers must accept terms, and links to the terms, refund policy,
+     * shipping policy, and contract. object.line_items (Optional): Array of {@link
+     * PaymentLinkLineItem}. What the link sells. object.line_items[] (Value): {@link
+     * PaymentLinkLineItem}. A line item on a payment link. object.max_completions (Optional):
+     * integer. Most payments the link accepts, counted by `completed_count`. Absent means no
+     * limit. Once the limit is reached, resolving the link fails with a request error. It can't be
+     * set below `completed_count`. Format: int32. object.merchant_id (Required): string. ID of the
+     * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * object.metadata (Optional): {@link MetadataMap}. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a
+     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them. object.name (Required): string. Name of the payment link.
+     * object.payment_link_id (Required): string. Unique identifier for this payment link, prefixed
+     * `pl_`. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_type (Optional):
+     * string. What kind of link this is. Value enum: "standard", "donation", "event".
+     * object.payments (Optional): {@link CheckoutPaymentConfig}. Payment options for checkouts
+     * started from this link. Payment settings for a checkout: the enabled payment options and a
+     * note shown with payment. object.promotion_config (Optional): {@link
+     * CheckoutPromotionConfig}. Whether automatic promotions apply to checkouts started from this
+     * link and whether buyers can enter promotion codes. Promotion settings for a checkout:
+     * whether automatic promotions apply and whether the buyer can apply promotion codes.
+     * object.redirects (Optional): {@link CheckoutRedirects}. Where checkout sessions started from
+     * this payment link send the buyer after payment, cancellation, or expiration. Where hosted
+     * checkout sends the buyer. Not allowed when surface is headless; use payment_return_url.
+     * object.sales_end_at (Optional): string. RFC3339 timestamp after which the link stops
+     * starting checkouts and resolve fails with `ACTION_NOT_ALLOWED` and reason `not_offered`.
+     * Unset means sales do not end on their own, except that an event link without sales_end_at
+     * stops selling at event_config.event_at. A checkout opened before the end can still start
+     * payment for up to 15 minutes after it. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.sales_summary (Optional): {@link PaymentLinkSalesSummary}. Present only with
+     * expand=sales_summary on GET /v1/payment-links or GET /v1/payment-links/{payment_link_id}.
+     * Available to merchant callers, including dashboard sessions and API keys with
+     * checkouts.payment_links.read. Uses the same paid-order definition as the merchant sales
+     * summary. Paid-order sales totals for a payment link, computed on request. Paid means the
+     * order's collection has completed. Fully and partially refunded orders still count, and
+     * paid_totals reports the amount collected before refunds. Each order counts once even if it
+     * has multiple checkout sessions. object.status (Required): string. Whether the link can start
+     * new checkouts. Value enum: "active", "inactive". object.subscription_plan (Optional): {@link
+     * ExpandedSubscriptionPlanSummary} or null. Present only when `expand` includes
+     * `subscription_plan`; `null` when expanded and there is no related subscription plan.
+     * object.subscription_plan.anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary}. A
+     * subscription plan's summary fields, including name, billing interval, currency, and status,
+     * returned when the plan is expanded. object.subscription_plan.anyOf[2] (Value): null.
+     * object.subscription_plan_id (Optional): string. ID of the subscription plan the link sells.
+     * Absent for a link that doesn't sell a subscription. Example:
+     * "plan_01KEZF7C004CY5ZR33XST2AASV". object.tax (Optional): {@link CheckoutTaxConfig}. Tax
+     * settings for checkouts started from this link. Whether tax is collected for a checkout
+     * session or payment link. object.theme (Optional): {@link ThemeConfig}. The title and colors
+     * for checkouts started from this link, over your branding settings. Colors and title applied
+     * to a payment link's checkout page. object.tip (Optional): {@link CheckoutTipConfig}. Tip
+     * options for checkouts started from this link. Tip settings for a checkout: whether tips are
+     * enabled, the percent or fixed amount options, the default tip, and custom tips.
+     * object.total_quantity_sold (Required): integer. Whole-number quantity; fractional quantities
+     * are not supported. Format: int32. object.updated_at (Required): string. RFC3339 timestamp.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.url (Required): string. URL
+     * buyers open to use the link. object.version (Required): integer. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. Format: int64.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * buyer_fields (Optional): {@link CheckoutBuyerFields}. What checkout asks the buyer for.
+         * Each field you leave out uses your checkout settings.
+         * checkout_session_expires_in_seconds (Optional): integer. Seconds each checkout session
+         * the link starts stays open, from 60 to 86,400. Omit it to use your checkout settings, or
+         * 24 hours. It doesn't end the link; use sales_end_at for that. Format: int64. minimum:
+         * 60. maximum: 86400. completed_count (Required): integer. Number of paid checkout
+         * sessions started from this link. Format: int32. created_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". custom_fields (Optional):
+         * Array of {@link PaymentLinkCustomField}. Questions buyers answer before paying. Answers
+         * are recorded on the order and checkout session in `custom_field_answers`.
+         * custom_fields[] (Value): {@link PaymentLinkCustomField}. A custom field on a payment
+         * link that collects an answer from the buyer. custom_text (Optional): {@link
+         * CheckoutCustomTextConfig}. Custom text for checkouts started from this link. Custom text
+         * shown in checkout: an order summary message and a shipping address label.
+         * delivery_method_ids (Required): Array of string. Delivery methods the link offers. Empty
+         * when the link has none, and then its checkouts offer
+         * settings.checkout.default_delivery_method_ids when the order has items to deliver.
+         * delivery_method_ids[] (Value): string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+         * description (Optional): string. Text about what the link sells, returned to buyers when
+         * they open it. donation_max_amount_money (Optional): {@link MoneyValue}. Largest amount a
+         * buyer can give on a donation link. Must be greater than zero and greater than or equal
+         * to donation_min_amount_money. Omit on create for no maximum. Monetary amount represented
+         * as integer minor units plus an ISO 4217 currency code. donation_min_amount_money
+         * (Optional): {@link MoneyValue}. Smallest amount a buyer can give on a donation link.
+         * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+         * donation_suggested_amount_money_options (Optional): Array of {@link MoneyValue}. Amounts
+         * a donation link offers as one-tap choices. donation_suggested_amount_money_options[]
+         * (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an
+         * ISO 4217 currency code. event_config (Optional): {@link PaymentLinkEventConfig}. Event
+         * details for an `event` link: when and where it takes place and how many tickets it
+         * sells. Event settings on an event payment link, such as its date, venue, ticket limit,
+         * and ticket emails. external_reference_id (Optional): string. Caller-owned identifier for
+         * this resource in an external system. maxLength: 255. Example: "warehouse-1842". image
+         * (Optional): {@link ImageAttachment}. Image shown to buyers with the link. An image
+         * attached to a resource, with its display properties and attachment metadata.
+         * inactive_message (Optional): string. Message to show the buyer when the link is
+         * inactive. inventory_routing_source (Optional): {@link InventoryRoutingSource}. The
+         * inventory location or routing policy that supplies stock for the link's catalog lines.
+         * Absent when using the implicit single-Location fallback, which is evaluated again on
+         * use. Where an order, payment link, or reservation routes inventory from: a fixed
+         * Location, an inventory allocation policy, or one policy revision. legal (Optional):
+         * {@link LegalSettings}. The terms and policy links checkouts started from this link show
+         * the buyer. Legal settings for a checkout: whether buyers must accept terms, and links to
+         * the terms, refund policy, shipping policy, and contract. line_items (Optional): Array of
+         * {@link PaymentLinkLineItem}. What the link sells. line_items[] (Value): {@link
+         * PaymentLinkLineItem}. A line item on a payment link. max_completions (Optional):
+         * integer. Most payments the link accepts, counted by `completed_count`. Absent means no
+         * limit. Once the limit is reached, resolving the link fails with a request error. It
+         * can't be set below `completed_count`. Format: int32. merchant_id (Required): string. ID
+         * of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * metadata (Optional): {@link MetadataMap}. Stored caller-owned key-value data. See
+         * `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a
+         * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+         * follow the limits on MetadataInput and MetadataPatchInput; maps written before those
+         * limits may not satisfy them. name (Required): string. Name of the payment link.
+         * payment_link_id (Required): string. Unique identifier for this payment link, prefixed
+         * `pl_`. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_type (Optional): string.
+         * What kind of link this is. Value enum: "standard", "donation", "event". payments
+         * (Optional): {@link CheckoutPaymentConfig}. Payment options for checkouts started from
+         * this link. Payment settings for a checkout: the enabled payment options and a note shown
+         * with payment. promotion_config (Optional): {@link CheckoutPromotionConfig}. Whether
+         * automatic promotions apply to checkouts started from this link and whether buyers can
+         * enter promotion codes. Promotion settings for a checkout: whether automatic promotions
+         * apply and whether the buyer can apply promotion codes. redirects (Optional): {@link
+         * CheckoutRedirects}. Where checkout sessions started from this payment link send the
+         * buyer after payment, cancellation, or expiration. Where hosted checkout sends the buyer.
+         * Not allowed when surface is headless; use payment_return_url. sales_end_at (Optional):
+         * string. RFC3339 timestamp after which the link stops starting checkouts and resolve
+         * fails with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end
+         * on their own, except that an event link without sales_end_at stops selling at
+         * event_config.event_at. A checkout opened before the end can still start payment for up
+         * to 15 minutes after it. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * sales_summary (Optional): {@link PaymentLinkSalesSummary}. Present only with
+         * expand=sales_summary on GET /v1/payment-links or GET
+         * /v1/payment-links/{payment_link_id}. Available to merchant callers, including dashboard
+         * sessions and API keys with checkouts.payment_links.read. Uses the same paid-order
+         * definition as the merchant sales summary. Paid-order sales totals for a payment link,
+         * computed on request. Paid means the order's collection has completed. Fully and
+         * partially refunded orders still count, and paid_totals reports the amount collected
+         * before refunds. Each order counts once even if it has multiple checkout sessions. status
+         * (Required): string. Whether the link can start new checkouts. Value enum: "active",
+         * "inactive". subscription_plan (Optional): {@link ExpandedSubscriptionPlanSummary} or
+         * null. Present only when `expand` includes `subscription_plan`; `null` when expanded and
+         * there is no related subscription plan. subscription_plan.anyOf[1] (Value): {@link
+         * ExpandedSubscriptionPlanSummary}. A subscription plan's summary fields, including name,
+         * billing interval, currency, and status, returned when the plan is expanded.
+         * subscription_plan.anyOf[2] (Value): null. subscription_plan_id (Optional): string. ID of
+         * the subscription plan the link sells. Absent for a link that doesn't sell a
+         * subscription. Example: "plan_01KEZF7C004CY5ZR33XST2AASV". tax (Optional): {@link
+         * CheckoutTaxConfig}. Tax settings for checkouts started from this link. Whether tax is
+         * collected for a checkout session or payment link. theme (Optional): {@link ThemeConfig}.
+         * The title and colors for checkouts started from this link, over your branding settings.
+         * Colors and title applied to a payment link's checkout page. tip (Optional): {@link
+         * CheckoutTipConfig}. Tip options for checkouts started from this link. Tip settings for a
+         * checkout: whether tips are enabled, the percent or fixed amount options, the default
+         * tip, and custom tips. total_quantity_sold (Required): integer. Whole-number quantity;
+         * fractional quantities are not supported. Format: int32. updated_at (Required): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". url (Required):
+         * string. URL buyers open to use the link. version (Required): integer. Current version of
+         * this resource's owned state. Send it as `expected_version` when changing the resource to
+         * reject a stale write. Format: int64.
+         */
+        "object": {
+            /**
+             * What checkout asks the buyer for. Each field you leave out uses your checkout
+             * settings.
+             */
+            "buyer_fields"?: CheckoutBuyerFields;
+            /**
+             * Seconds each checkout session the link starts stays open, from 60 to 86,400. Omit it
+             * to use your checkout settings, or 24 hours. It doesn't end the link; use
+             * sales_end_at for that. Format: int64. minimum: 60. maximum: 86400.
+             */
+            "checkout_session_expires_in_seconds"?: number;
+            /** Number of paid checkout sessions started from this link. Format: int32. */
+            "completed_count": number;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Questions buyers answer before paying. Answers are recorded on the order and
+             * checkout session in `custom_field_answers`. [] (Value): {@link
+             * PaymentLinkCustomField}. A custom field on a payment link that collects an answer
+             * from the buyer.
+             */
+            "custom_fields"?: Array<PaymentLinkCustomField>;
+            /**
+             * Custom text for checkouts started from this link. Custom text shown in checkout: an
+             * order summary message and a shipping address label.
+             */
+            "custom_text"?: CheckoutCustomTextConfig;
+            /**
+             * Delivery methods the link offers. Empty when the link has none, and then its
+             * checkouts offer settings.checkout.default_delivery_method_ids when the order has
+             * items to deliver. [] (Value): string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+             */
+            "delivery_method_ids": Array<string>;
+            /** Text about what the link sells, returned to buyers when they open it. */
+            "description"?: string;
+            /**
+             * Largest amount a buyer can give on a donation link. Must be greater than zero and
+             * greater than or equal to donation_min_amount_money. Omit on create for no maximum.
+             * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "donation_max_amount_money"?: MoneyValue;
+            /**
+             * Smallest amount a buyer can give on a donation link. Monetary amount represented as
+             * integer minor units plus an ISO 4217 currency code.
+             */
+            "donation_min_amount_money"?: MoneyValue;
+            /**
+             * Amounts a donation link offers as one-tap choices. [] (Value): {@link MoneyValue}.
+             * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "donation_suggested_amount_money_options"?: Array<MoneyValue>;
+            /**
+             * Event details for an `event` link: when and where it takes place and how many
+             * tickets it sells. Event settings on an event payment link, such as its date, venue,
+             * ticket limit, and ticket emails.
+             */
+            "event_config"?: PaymentLinkEventConfig;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Image shown to buyers with the link. An image attached to a resource, with its
+             * display properties and attachment metadata.
+             */
+            "image"?: ImageAttachment;
+            /** Message to show the buyer when the link is inactive. */
+            "inactive_message"?: string;
+            /**
+             * The inventory location or routing policy that supplies stock for the link's catalog
+             * lines. Absent when using the implicit single-Location fallback, which is evaluated
+             * again on use. Where an order, payment link, or reservation routes inventory from: a
+             * fixed Location, an inventory allocation policy, or one policy revision.
+             */
+            "inventory_routing_source"?: InventoryRoutingSource;
+            /**
+             * The terms and policy links checkouts started from this link show the buyer. Legal
+             * settings for a checkout: whether buyers must accept terms, and links to the terms,
+             * refund policy, shipping policy, and contract.
+             */
+            "legal"?: LegalSettings;
+            /**
+             * What the link sells. [] (Value): {@link PaymentLinkLineItem}. A line item on a
+             * payment link.
+             */
+            "line_items"?: Array<PaymentLinkLineItem>;
+            /**
+             * Most payments the link accepts, counted by `completed_count`. Absent means no limit.
+             * Once the limit is reached, resolving the link fails with a request error. It can't
+             * be set below `completed_count`. Format: int32.
+             */
+            "max_completions"?: number;
+            /**
+             * ID of the merchant this resource belongs to. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
+             * are reserved for Flint and are not returned. Writes follow the limits on
+             * MetadataInput and MetadataPatchInput; maps written before those limits may not
+             * satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /** Name of the payment link. */
+            "name": string;
+            /**
+             * Unique identifier for this payment link, prefixed `pl_`. Example:
+             * "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+             */
+            "payment_link_id": string;
+            /** What kind of link this is. Value enum: "standard", "donation", "event". */
+            "payment_link_type"?: "standard" | "donation" | "event" | (string & {});
+            /**
+             * Payment options for checkouts started from this link. Payment settings for a
+             * checkout: the enabled payment options and a note shown with payment.
+             */
+            "payments"?: CheckoutPaymentConfig;
+            /**
+             * Whether automatic promotions apply to checkouts started from this link and whether
+             * buyers can enter promotion codes. Promotion settings for a checkout: whether
+             * automatic promotions apply and whether the buyer can apply promotion codes.
+             */
+            "promotion_config"?: CheckoutPromotionConfig;
+            /**
+             * Where checkout sessions started from this payment link send the buyer after payment,
+             * cancellation, or expiration. Where hosted checkout sends the buyer. Not allowed when
+             * surface is headless; use payment_return_url.
+             */
+            "redirects"?: CheckoutRedirects;
+            /**
+             * RFC3339 timestamp after which the link stops starting checkouts and resolve fails
+             * with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on
+             * their own, except that an event link without sales_end_at stops selling at
+             * event_config.event_at. A checkout opened before the end can still start payment for
+             * up to 15 minutes after it. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "sales_end_at"?: string;
+            /**
+             * Present only with expand=sales_summary on GET /v1/payment-links or GET
+             * /v1/payment-links/{payment_link_id}. Available to merchant callers, including
+             * dashboard sessions and API keys with checkouts.payment_links.read. Uses the same
+             * paid-order definition as the merchant sales summary. Paid-order sales totals for a
+             * payment link, computed on request. Paid means the order's collection has completed.
+             * Fully and partially refunded orders still count, and paid_totals reports the amount
+             * collected before refunds. Each order counts once even if it has multiple checkout
+             * sessions.
+             */
+            "sales_summary"?: PaymentLinkSalesSummary;
+            /** Whether the link can start new checkouts. Value enum: "active", "inactive". */
+            "status": "active" | "inactive" | (string & {});
+            /**
+             * Present only when `expand` includes `subscription_plan`; `null` when expanded and
+             * there is no related subscription plan. anyOf[1] (Value): {@link
+             * ExpandedSubscriptionPlanSummary}. A subscription plan's summary fields, including
+             * name, billing interval, currency, and status, returned when the plan is expanded.
+             * anyOf[2] (Value): null.
+             */
+            "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
+            /**
+             * ID of the subscription plan the link sells. Absent for a link that doesn't sell a
+             * subscription. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
+             */
+            "subscription_plan_id"?: string;
+            /**
+             * Tax settings for checkouts started from this link. Whether tax is collected for a
+             * checkout session or payment link.
+             */
+            "tax"?: CheckoutTaxConfig;
+            /**
+             * The title and colors for checkouts started from this link, over your branding
+             * settings. Colors and title applied to a payment link's checkout page.
+             */
+            "theme"?: ThemeConfig;
+            /**
+             * Tip options for checkouts started from this link. Tip settings for a checkout:
+             * whether tips are enabled, the percent or fixed amount options, the default tip, and
+             * custom tips.
+             */
+            "tip"?: CheckoutTipConfig;
+            /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+            "total_quantity_sold": number;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /** URL buyers open to use the link. */
+            "url": string;
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. Format: int64.
+             */
+            "version": number;
+        };
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "payment_link.created". */
+    "event_type"?: "payment_link.created";
+});
+/** A custom field on a payment link that collects an answer from the buyer. */
+export type PaymentLinkCustomField = {
+    /**
+     * What kind of answer the field collects. Value enum: "text", "dropdown", "checkbox",
+     * "textarea".
+     */
+    "custom_field_type": "text" | "dropdown" | "checkbox" | "textarea" | (string & {});
+    /**
+     * Unique custom field key, without leading or trailing whitespace. Each answer records it as
+     * `custom_field_answers[].key`. minLength: 1. maxLength: 243.
+     */
+    "key": string;
+    /** Question shown to the buyer. */
+    "label": string;
+    /**
+     * Maximum answer length for text and textarea fields, counted in Unicode code points. Defaults
+     * to 255 for text and 1000 for textarea when omitted. Format: int32. minimum: 1. maximum:
+     * 4096.
+     */
+    "max_length"?: number;
+    /**
+     * Dropdown choices. Dropdown fields require at least one option. Options must not have leading
+     * or trailing whitespace. [] (Value): string. maxLength: 4096.
+     */
+    "options"?: Array<string>;
+    /**
+     * Unique identifier for this payment link custom field, prefixed `plcf_`. Example:
+     * "plcf_01KEZF7C00JBQMP98WBXZA3RHS".
+     */
+    "payment_link_custom_field_id": string;
+    /** Hint text shown inside the empty field. */
+    "placeholder"?: string;
+    /** Display order among the link's custom fields. Lower numbers come first. Format: int32. */
+    "position"?: number;
+    /** Whether the buyer must answer before paying. */
+    "required"?: boolean;
+};
+/**
+ * A custom field in a payment link update. Include its ID to change an existing field, or omit the
+ * ID to add a new one.
+ */
+export type PaymentLinkCustomFieldPatchRequest = {
+    /**
+     * What kind of answer the field collects. Value enum: "text", "dropdown", "checkbox",
+     * "textarea".
+     */
+    "custom_field_type": "text" | "dropdown" | "checkbox" | "textarea" | (string & {});
+    /**
+     * Unique custom field key, without leading or trailing whitespace. Each answer records it as
+     * `custom_field_answers[].key`. minLength: 1. maxLength: 243.
+     */
+    "key": string;
+    /** Question shown to the buyer. minLength: 1. maxLength: 255. */
+    "label": string;
+    /**
+     * Maximum answer length for text and textarea fields, counted in Unicode code points. Defaults
+     * to 255 for text and 1000 for textarea when omitted. Format: int32. minimum: 1. maximum:
+     * 4096.
+     */
+    "max_length"?: number;
+    /**
+     * Dropdown choices. Dropdown fields require at least one option. Options must not have leading
+     * or trailing whitespace. [] (Value): string. minLength: 1. maxLength: 4096.
+     */
+    "options"?: Array<string>;
+    /**
+     * Stable ID of an existing custom field. Omit it to create a new custom field. minLength: 1.
+     * Example: "plcf_01KEZF7C00JBQMP98WBXZA3RHS".
+     */
+    "payment_link_custom_field_id"?: string;
+    /** Hint text shown inside the empty field. minLength: 1. maxLength: 500. */
+    "placeholder"?: string;
+    /** Display order among the link's custom fields. Lower numbers come first. Format: int32. */
+    "position"?: number;
+    /** Whether the buyer must answer before paying. */
+    "required"?: boolean;
+};
+/**
+ * A custom field in a payment link update. Include its ID to change an existing field, or omit the
+ * ID to add a new one.
+ */
+export type PaymentLinkCustomFieldPatchRequestInput = {
+    /**
+     * What kind of answer the field collects. Value enum: "text", "dropdown", "checkbox",
+     * "textarea".
+     */
+    "custom_field_type": "text" | "dropdown" | "checkbox" | "textarea";
+    /**
+     * Unique custom field key, without leading or trailing whitespace. Each answer records it as
+     * `custom_field_answers[].key`. minLength: 1. maxLength: 243.
+     */
+    "key": string;
+    /** Question shown to the buyer. minLength: 1. maxLength: 255. */
+    "label": string;
+    /**
+     * Maximum answer length for text and textarea fields, counted in Unicode code points. Defaults
+     * to 255 for text and 1000 for textarea when omitted. Format: int32. minimum: 1. maximum:
+     * 4096.
+     */
+    "max_length"?: number;
+    /**
+     * Dropdown choices. Dropdown fields require at least one option. Options must not have leading
+     * or trailing whitespace. [] (Value): string. minLength: 1. maxLength: 4096.
+     */
+    "options"?: Array<string>;
+    /**
+     * Stable ID of an existing custom field. Omit it to create a new custom field. minLength: 1.
+     * Example: "plcf_01KEZF7C00JBQMP98WBXZA3RHS".
+     */
+    "payment_link_custom_field_id"?: string;
+    /** Hint text shown inside the empty field. minLength: 1. maxLength: 500. */
+    "placeholder"?: string;
+    /** Display order among the link's custom fields. Lower numbers come first. Format: int32. */
+    "position"?: number;
+    /** Whether the buyer must answer before paying. */
+    "required"?: boolean;
+};
+export type PaymentLinkCustomFieldPreviousAttributes = {
+    /**
+     * What kind of answer the field collects. Value enum: "text", "dropdown", "checkbox",
+     * "textarea". anyOf[1] (Value): string. What kind of answer the field collects. Value enum:
+     * "text", "dropdown", "checkbox", "textarea". anyOf[2] (Value): null.
+     */
+    "custom_field_type"?: (("text" | "dropdown" | "checkbox" | "textarea" | (string & {})) | (null));
+    /**
+     * Unique custom field key, without leading or trailing whitespace. Each answer records it as
+     * `custom_field_answers[].key`. anyOf[1] (Value): string. Unique custom field key, without
+     * leading or trailing whitespace. Each answer records it as `custom_field_answers[].key`.
+     * minLength: 1. maxLength: 243. anyOf[2] (Value): null.
+     */
+    "key"?: ((string) | (null));
+    /**
+     * Question shown to the buyer. anyOf[1] (Value): string. Question shown to the buyer. anyOf[2]
+     * (Value): null.
+     */
+    "label"?: ((string) | (null));
+    /**
+     * Maximum answer length for text and textarea fields, counted in Unicode code points. Defaults
+     * to 255 for text and 1000 for textarea when omitted. anyOf[1] (Value): integer. Maximum
+     * answer length for text and textarea fields, counted in Unicode code points. Defaults to 255
+     * for text and 1000 for textarea when omitted. Format: int32. minimum: 1. maximum: 4096.
+     * anyOf[2] (Value): null.
+     */
+    "max_length"?: ((number) | (null));
+    /**
+     * Dropdown choices. Dropdown fields require at least one option. Options must not have leading
+     * or trailing whitespace. anyOf[1] (Value): Array of string. Dropdown choices. Dropdown fields
+     * require at least one option. Options must not have leading or trailing whitespace.
+     * anyOf[1][] (Value): string. maxLength: 4096. anyOf[2] (Value): null.
+     */
+    "options"?: ((Array<string>) | (null));
+    /**
+     * Unique identifier for this payment link custom field, prefixed `plcf_`. anyOf[1] (Value):
+     * string. Unique identifier for this payment link custom field, prefixed `plcf_`. Example:
+     * "plcf_01KEZF7C00JBQMP98WBXZA3RHS". anyOf[2] (Value): null.
+     */
+    "payment_link_custom_field_id"?: ((string) | (null));
+    /**
+     * Hint text shown inside the empty field. anyOf[1] (Value): string. Hint text shown inside the
+     * empty field. anyOf[2] (Value): null.
+     */
+    "placeholder"?: ((string) | (null));
+    /**
+     * Display order among the link's custom fields. Lower numbers come first. anyOf[1] (Value):
+     * integer. Display order among the link's custom fields. Lower numbers come first. Format:
+     * int32. anyOf[2] (Value): null.
+     */
+    "position"?: ((number) | (null));
+    /**
+     * Whether the buyer must answer before paying. anyOf[1] (Value): boolean. Whether the buyer
+     * must answer before paying. anyOf[2] (Value): null.
+     */
+    "required"?: ((boolean) | (null));
+};
+/** A custom field you add to a payment link when creating it. */
+export type PaymentLinkCustomFieldRequest = {
+    /**
+     * What kind of answer the field collects. Value enum: "text", "dropdown", "checkbox",
+     * "textarea".
+     */
+    "custom_field_type": "text" | "dropdown" | "checkbox" | "textarea" | (string & {});
+    /**
+     * Unique custom field key, without leading or trailing whitespace. Each answer records it as
+     * `custom_field_answers[].key`. minLength: 1. maxLength: 243.
+     */
+    "key": string;
+    /** Question shown to the buyer. minLength: 1. maxLength: 255. */
+    "label": string;
+    /**
+     * Maximum answer length for text and textarea fields, counted in Unicode code points. Defaults
+     * to 255 for text and 1000 for textarea when omitted. Format: int32. minimum: 1. maximum:
+     * 4096.
+     */
+    "max_length"?: number;
+    /**
+     * Dropdown choices. Dropdown fields require at least one option. Options must not have leading
+     * or trailing whitespace. [] (Value): string. minLength: 1. maxLength: 4096.
+     */
+    "options"?: Array<string>;
+    /** Hint text shown inside the empty field. minLength: 1. maxLength: 500. */
+    "placeholder"?: string;
+    /** Display order among the link's custom fields. Lower numbers come first. Format: int32. */
+    "position"?: number;
+    /** Whether the buyer must answer before paying. */
+    "required"?: boolean;
+};
+/** A custom field you add to a payment link when creating it. */
+export type PaymentLinkCustomFieldRequestInput = {
+    /**
+     * What kind of answer the field collects. Value enum: "text", "dropdown", "checkbox",
+     * "textarea".
+     */
+    "custom_field_type": "text" | "dropdown" | "checkbox" | "textarea";
+    /**
+     * Unique custom field key, without leading or trailing whitespace. Each answer records it as
+     * `custom_field_answers[].key`. minLength: 1. maxLength: 243.
+     */
+    "key": string;
+    /** Question shown to the buyer. minLength: 1. maxLength: 255. */
+    "label": string;
+    /**
+     * Maximum answer length for text and textarea fields, counted in Unicode code points. Defaults
+     * to 255 for text and 1000 for textarea when omitted. Format: int32. minimum: 1. maximum:
+     * 4096.
+     */
+    "max_length"?: number;
+    /**
+     * Dropdown choices. Dropdown fields require at least one option. Options must not have leading
+     * or trailing whitespace. [] (Value): string. minLength: 1. maxLength: 4096.
+     */
+    "options"?: Array<string>;
+    /** Hint text shown inside the empty field. minLength: 1. maxLength: 500. */
+    "placeholder"?: string;
+    /** Display order among the link's custom fields. Lower numbers come first. Format: int32. */
+    "position"?: number;
+    /** Whether the buyer must answer before paying. */
+    "required"?: boolean;
+};
+/**
+ * Custom text shown on a payment link's checkout, such as the order summary message and shipping
+ * address label.
+ */
+export type PaymentLinkCustomTextConfigInput = {
+    /** Message shown near the order summary in checkout. minLength: 1. maxLength: 2048. */
+    "order_summary_message"?: string;
+    /** Label shown for the shipping address in checkout. minLength: 1. maxLength: 255. */
+    "shipping_address_label"?: string;
+};
+/** Changes to a payment link's custom checkout text. Send null to clear a field. */
+export type PaymentLinkCustomTextPatchRequest = {
+    /** Send null to clear it. minLength: 1. maxLength: 2048. */
+    "order_summary_message"?: string | null;
+    /** Send null to clear it. minLength: 1. maxLength: 255. */
+    "shipping_address_label"?: string | null;
+};
+/** Changes to a payment link's custom checkout text. Send null to clear a field. */
+export type PaymentLinkCustomTextPatchRequestInput = PaymentLinkCustomTextPatchRequest;
+/**
+ * Event settings on an event payment link, such as its date, venue, ticket limit, and ticket
+ * emails.
+ */
+export type PaymentLinkEventConfig = {
+    /**
+     * Whether resolving the link requires `attendee_names`, one name per ticket. Flint copies the
+     * names onto the tickets when the order is paid. Defaults to false.
+     */
+    "collect_attendee_names"?: boolean;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "event_at"?: string;
+    /**
+     * Most tickets the event sells across all orders. `null` when the event has no ticket limit.
+     * On update, send null to remove the limit; a value below the tickets already sold or held by
+     * payments in progress fails with `LIMIT_EXCEEDED`. Whole-number quantity; fractional
+     * quantities are not supported. Format: int32.
+     */
+    "max_total_quantity"?: number | null;
+    /** Whether Flint emails tickets to buyers after they pay. */
+    "send_ticket_emails"?: boolean;
+    /**
+     * Prefix for ticket numbers, up to 5 characters. It cannot change after the event has issued
+     * tickets. maxLength: 5.
+     */
+    "ticket_prefix"?: string;
+    /** IANA time zone of the event venue, used to show `event_at` as venue time. */
+    "timezone"?: string;
+    /** Where the event takes place. maxLength: 500. */
+    "venue"?: string;
+};
+/** Changes to an event payment link's settings. Send null on a nullable field to clear it. */
+export type PaymentLinkEventConfigPatchRequest = {
+    /**
+     * Whether resolving the link requires `attendee_names`, one name per ticket. Flint copies the
+     * names onto the tickets when the order is paid. Defaults to false.
+     */
+    "collect_attendee_names"?: boolean;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "event_at"?: string;
+    /**
+     * Most tickets the event sells across all orders. `null` when the event has no ticket limit.
+     * On update, send null to remove the limit; a value below the tickets already sold or held by
+     * payments in progress fails with `LIMIT_EXCEEDED`. Whole-number quantity; fractional
+     * quantities are not supported. Format: int32.
+     */
+    "max_total_quantity"?: number | null;
+    /** Whether Flint emails tickets to buyers after they pay. */
+    "send_ticket_emails"?: boolean;
+    /**
+     * Prefix for ticket numbers, up to 5 characters. It cannot change after the event has issued
+     * tickets. Send null to clear it. minLength: 1. maxLength: 5.
+     */
+    "ticket_prefix"?: string | null;
+    /** IANA time zone of the event venue, used to show `event_at` as venue time. minLength: 1. */
+    "timezone"?: string;
+    /** Send null to clear it. minLength: 1. maxLength: 500. */
+    "venue"?: string | null;
+};
+/** Changes to an event payment link's settings. Send null on a nullable field to clear it. */
+export type PaymentLinkEventConfigPatchRequestInput = {
+    /**
+     * Whether resolving the link requires `attendee_names`, one name per ticket. Flint copies the
+     * names onto the tickets when the order is paid. Defaults to false.
+     */
+    "collect_attendee_names"?: boolean;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "event_at"?: string | globalThis.Date;
+    /**
+     * Most tickets the event sells across all orders. `null` when the event has no ticket limit.
+     * On update, send null to remove the limit; a value below the tickets already sold or held by
+     * payments in progress fails with `LIMIT_EXCEEDED`. Whole-number quantity; fractional
+     * quantities are not supported. Format: int32.
+     */
+    "max_total_quantity"?: number | null;
+    /** Whether Flint emails tickets to buyers after they pay. */
+    "send_ticket_emails"?: boolean;
+    /**
+     * Prefix for ticket numbers, up to 5 characters. It cannot change after the event has issued
+     * tickets. Send null to clear it. minLength: 1. maxLength: 5.
+     */
+    "ticket_prefix"?: string | null;
+    /** IANA time zone of the event venue, used to show `event_at` as venue time. minLength: 1. */
+    "timezone"?: string;
+    /** Send null to clear it. minLength: 1. maxLength: 500. */
+    "venue"?: string | null;
+};
+export type PaymentLinkEventConfigPreviousAttributes = {
+    /**
+     * Whether resolving the link requires `attendee_names`, one name per ticket. Flint copies the
+     * names onto the tickets when the order is paid. Defaults to false. anyOf[1] (Value): boolean.
+     * Whether resolving the link requires `attendee_names`, one name per ticket. Flint copies the
+     * names onto the tickets when the order is paid. Defaults to false. anyOf[2] (Value): null.
+     */
+    "collect_attendee_names"?: ((boolean) | (null));
     /**
      * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
      * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
      */
-    "evaluated_at"?: ((string) | (null));
+    "event_at"?: ((string) | (null));
     /**
-     * Fraud risk level from the card processor's screening of the payment intent's latest payment
-     * attempt. Value enum: "normal", "elevated", "highest", "not_assessed". anyOf[1] (Value):
-     * string. Fraud risk level from the card processor's screening of the payment intent's latest
-     * payment attempt. Value enum: "normal", "elevated", "highest", "not_assessed". anyOf[2]
+     * Most tickets the event sells across all orders. `null` when the event has no ticket limit.
+     * On update, send null to remove the limit; a value below the tickets already sold or held by
+     * payments in progress fails with `LIMIT_EXCEEDED`. Whole-number quantity; fractional
+     * quantities are not supported. anyOf[1] (Value): integer. Most tickets the event sells across
+     * all orders. `null` when the event has no ticket limit. On update, send null to remove the
+     * limit; a value below the tickets already sold or held by payments in progress fails with
+     * `LIMIT_EXCEEDED`. Whole-number quantity; fractional quantities are not supported. Format:
+     * int32. anyOf[2] (Value): null.
+     */
+    "max_total_quantity"?: ((number) | (null));
+    /**
+     * Whether Flint emails tickets to buyers after they pay. anyOf[1] (Value): boolean. Whether
+     * Flint emails tickets to buyers after they pay. anyOf[2] (Value): null.
+     */
+    "send_ticket_emails"?: ((boolean) | (null));
+    /**
+     * Prefix for ticket numbers, up to 5 characters. It cannot change after the event has issued
+     * tickets. anyOf[1] (Value): string. Prefix for ticket numbers, up to 5 characters. It cannot
+     * change after the event has issued tickets. maxLength: 5. anyOf[2] (Value): null.
+     */
+    "ticket_prefix"?: ((string) | (null));
+    /**
+     * IANA time zone of the event venue, used to show `event_at` as venue time. anyOf[1] (Value):
+     * string. IANA time zone of the event venue, used to show `event_at` as venue time. anyOf[2]
      * (Value): null.
      */
-    "level"?: (("normal" | "elevated" | "highest" | "not_assessed" | (string & {})) | (null));
+    "timezone"?: ((string) | (null));
     /**
-     * The risk rule that decided the outcome. Absent when no risk rule did. anyOf[1] (Value):
-     * string. The risk rule that decided the outcome. Absent when no risk rule did. Example:
-     * "rule_01KEZF7C00FWGAQJXXA8CRA319". anyOf[2] (Value): null.
+     * Where the event takes place. anyOf[1] (Value): string. Where the event takes place.
+     * maxLength: 500. anyOf[2] (Value): null.
      */
-    "matched_risk_rule_id"?: ((string) | (null));
-    /**
-     * What the risk evaluation decided about the payment intent's latest payment attempt. `null`
-     * when the evaluation has no outcome to report, such as when the attempt was canceled. Value
-     * enum: "authorized", "manual_review", "blocked", "issuer_declined", "invalid", null. anyOf[1]
-     * (Value): string. What the risk evaluation decided about the payment intent's latest payment
-     * attempt. `null` when the evaluation has no outcome to report, such as when the attempt was
-     * canceled. Value enum: "authorized", "manual_review", "blocked", "issuer_declined",
-     * "invalid", null. anyOf[2] (Value): null.
-     */
-    "outcome"?: (("authorized" | "manual_review" | "blocked" | "issuer_declined" | "invalid" | null | (string & {}))
-        | (null));
-    /**
-     * Why the evaluation reached its outcome. `null` when the evaluation has no reason to report,
-     * such as an authorized payment that raised no flags. Value enum: "highest_risk",
-     * "elevated_risk", "low_authorization_probability", "risk_rule", "risk_policy", null. anyOf[1]
-     * (Value): string. Why the evaluation reached its outcome. `null` when the evaluation has no
-     * reason to report, such as an authorized payment that raised no flags. Value enum:
-     * "highest_risk", "elevated_risk", "low_authorization_probability", "risk_rule",
-     * "risk_policy", null. anyOf[2] (Value): null.
-     */
-    "outcome_reason"?: (("highest_risk"
-        | "elevated_risk"
-        | "low_authorization_probability"
-        | "risk_rule"
-        | "risk_policy"
-        | null
-        | (string & {}))
-        | (null));
-    /**
-     * The payment review opened for the attempt. Present only when the outcome is manual_review.
-     * anyOf[1] (Value): string. The payment review opened for the attempt. Present only when the
-     * outcome is manual_review. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6". anyOf[2] (Value): null.
-     */
-    "payment_review_id"?: ((string) | (null));
-    /**
-     * Fraud score from the card processor's screening, from 0 to 99. Higher means riskier. Absent
-     * when no score is available, which isn't a score of 0. anyOf[1] (Value): integer. Fraud score
-     * from the card processor's screening, from 0 to 99. Higher means riskier. Absent when no
-     * score is available, which isn't a score of 0. Format: int32. minimum: 0. maximum: 99.
-     * anyOf[2] (Value): null.
-     */
-    "score"?: ((number) | (null));
-    /**
-     * A plain-language summary of the evaluation. anyOf[1] (Value): string. A plain-language
-     * summary of the evaluation. anyOf[2] (Value): null.
-     */
-    "statement"?: ((string) | (null));
+    "venue"?: ((string) | (null));
 };
-/** Settings for the statement text on new payments. */
-export type PaymentSettings = {
+/** Event settings you supply when creating an event payment link. */
+export type PaymentLinkEventConfigRequestInput = {
     /**
-     * Static text shown on buyers' statements for new payments. `null` when the provider default
-     * is used. Changing it does not change past payments. Once this setting has been applied,
-     * changes made directly in the processor are overwritten by Flint's applied value.
+     * Whether resolving the link requires `attendee_names`, one name per ticket. Flint copies the
+     * names onto the tickets when the order is paid. Defaults to false.
      */
-    "statement_descriptor": string | null;
-};
-/** Changes to the statement text for new payments. */
-export type PaymentSettingsPatch = {
+    "collect_attendee_names"?: boolean;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "event_at"?: string | globalThis.Date;
     /**
-     * Static text for new payments: 5 to 22 Latin characters, including at least one letter,
-     * without < > \ ' " * or control characters. Omit to leave unchanged. Send null to restore the
-     * provider default. minLength: 5. maxLength: 22.
+     * Most tickets the event sells across all orders. `null` when the event has no ticket limit.
+     * On update, send null to remove the limit; a value below the tickets already sold or held by
+     * payments in progress fails with `LIMIT_EXCEEDED`. Whole-number quantity; fractional
+     * quantities are not supported. Format: int32.
      */
-    "statement_descriptor"?: string | null;
-};
-/** Changes to the statement text for new payments. */
-export type PaymentSettingsPatchInput = PaymentSettingsPatch;
-/**
- * Display details for a bank account payment source: account type, bank name, and last four
- * digits.
- */
-export type PaymentSourceAchDebitSummary = {
-    /** The kind of bank account. Value enum: "checking", "savings", "other". */
-    "account_type"?: "checking" | "savings" | "other" | (string & {});
-    /** Name of the bank that holds the account. */
-    "bank_name"?: string;
-    /** Last four digits of the bank account number. */
-    "last4"?: string;
-};
-export type PaymentSourceAchDebitSummaryPreviousAttributes = {
+    "max_total_quantity"?: number | null;
+    /** Whether Flint emails tickets to buyers after they pay. */
+    "send_ticket_emails"?: boolean;
     /**
-     * The kind of bank account. Value enum: "checking", "savings", "other". anyOf[1] (Value):
-     * string. The kind of bank account. Value enum: "checking", "savings", "other". anyOf[2]
-     * (Value): null.
+     * Prefix for ticket numbers, up to 5 characters. It cannot change after the event has issued
+     * tickets. minLength: 1. maxLength: 5.
      */
-    "account_type"?: (("checking" | "savings" | "other" | (string & {})) | (null));
-    /**
-     * Name of the bank that holds the account. anyOf[1] (Value): string. Name of the bank that
-     * holds the account. anyOf[2] (Value): null.
-     */
-    "bank_name"?: ((string) | (null));
-    /**
-     * Last four digits of the bank account number. anyOf[1] (Value): string. Last four digits of
-     * the bank account number. anyOf[2] (Value): null.
-     */
-    "last4"?: ((string) | (null));
-};
-/** Card and wallet details recorded when a payment is presented on a reader. */
-export type PaymentSourceCardPresentDetails = {
-    /**
-     * EMV application identifier (AID). Null when absent or outside the supported shape. pattern:
-     * ^[0-9A-F]{10,32}$. Example: "A0000000031010".
-     */
-    "application_id": string | null;
-    /**
-     * Card application's label, such as VISA CREDIT. Null when absent or outside the supported
-     * shape. pattern: ^[ -~]{1,16}$.
-     */
-    "application_name": string | null;
-    /**
-     * Issuer's authorization code. Null when absent or outside the supported shape. pattern:
-     * ^[0-9A-Za-z]{1,12}$.
-     */
-    "authorization_code": string | null;
-    /**
-     * How the buyer was verified. consumer_device means the phone verified the buyer. Unrecognized
-     * methods are other. Value enum: "pin", "signature", "consumer_device", "none", "other".
-     */
-    "cardholder_verification": "pin" | "signature" | "consumer_device" | "none" | "other" | (string & {});
-    /**
-     * How the card was read. swipe_fallback means a swipe after a failed chip read. Unrecognized
-     * methods are other. Value enum: "contactless", "chip", "swipe", "swipe_fallback", "other".
-     */
-    "read_method": "contactless" | "chip" | "swipe" | "swipe_fallback" | "other" | (string & {});
-    /**
-     * Wallet used on the reader. Absent when a card was used; unrecognized wallets are other.
-     * Value enum: "apple_pay", "google_pay", "samsung_pay", "other".
-     */
-    "wallet"?: "apple_pay" | "google_pay" | "samsung_pay" | "other" | (string & {});
-};
-export type PaymentSourceCardPresentDetailsPreviousAttributes = {
-    /**
-     * EMV application identifier (AID). Null when absent or outside the supported shape. anyOf[1]
-     * (Value): string. EMV application identifier (AID). Null when absent or outside the supported
-     * shape. pattern: ^[0-9A-F]{10,32}$. Example: "A0000000031010". anyOf[2] (Value): null.
-     */
-    "application_id"?: ((string) | (null));
-    /**
-     * Card application's label, such as VISA CREDIT. Null when absent or outside the supported
-     * shape. anyOf[1] (Value): string. Card application's label, such as VISA CREDIT. Null when
-     * absent or outside the supported shape. pattern: ^[ -~]{1,16}$. anyOf[2] (Value): null.
-     */
-    "application_name"?: ((string) | (null));
-    /**
-     * Issuer's authorization code. Null when absent or outside the supported shape. anyOf[1]
-     * (Value): string. Issuer's authorization code. Null when absent or outside the supported
-     * shape. pattern: ^[0-9A-Za-z]{1,12}$. anyOf[2] (Value): null.
-     */
-    "authorization_code"?: ((string) | (null));
-    /**
-     * How the buyer was verified. consumer_device means the phone verified the buyer. Unrecognized
-     * methods are other. Value enum: "pin", "signature", "consumer_device", "none", "other".
-     * anyOf[1] (Value): string. How the buyer was verified. consumer_device means the phone
-     * verified the buyer. Unrecognized methods are other. Value enum: "pin", "signature",
-     * "consumer_device", "none", "other". anyOf[2] (Value): null.
-     */
-    "cardholder_verification"?: (("pin" | "signature" | "consumer_device" | "none" | "other" | (string & {})) | (null));
-    /**
-     * How the card was read. swipe_fallback means a swipe after a failed chip read. Unrecognized
-     * methods are other. Value enum: "contactless", "chip", "swipe", "swipe_fallback", "other".
-     * anyOf[1] (Value): string. How the card was read. swipe_fallback means a swipe after a failed
-     * chip read. Unrecognized methods are other. Value enum: "contactless", "chip", "swipe",
-     * "swipe_fallback", "other". anyOf[2] (Value): null.
-     */
-    "read_method"?: (("contactless" | "chip" | "swipe" | "swipe_fallback" | "other" | (string & {})) | (null));
-    /**
-     * Wallet used on the reader. Absent when a card was used; unrecognized wallets are other.
-     * Value enum: "apple_pay", "google_pay", "samsung_pay", "other". anyOf[1] (Value): string.
-     * Wallet used on the reader. Absent when a card was used; unrecognized wallets are other.
-     * Value enum: "apple_pay", "google_pay", "samsung_pay", "other". anyOf[2] (Value): null.
-     */
-    "wallet"?: (("apple_pay" | "google_pay" | "samsung_pay" | "other" | (string & {})) | (null));
-};
-/** Display details for a card payment source: brand, last four digits, and payment method ID. */
-export type PaymentSourceCardSummary = {
-    /**
-     * The card network. Value enum: "visa", "mastercard", "amex", "discover", "diners", "jcb",
-     * "unionpay".
-     */
-    "brand"?: "visa" | "mastercard" | "amex" | "discover" | "diners" | "jcb" | "unionpay" | (string & {});
-    /**
-     * Details of a card read on a reader, present once the card was read. Card-present cards are
-     * not saved, so payment_method_id is absent. Card and wallet details recorded when a payment
-     * is presented on a reader.
-     */
-    "card_present"?: PaymentSourceCardPresentDetails;
-    /** Last four digits of the card number. */
-    "last4"?: string;
-    /**
-     * ID of the saved Flint payment method for this card. Absent when the card isn't saved, as
-     * with a card read on a reader. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
-     */
-    "payment_method_id"?: string;
-};
-export type PaymentSourceCardSummaryPreviousAttributes = {
-    /**
-     * The card network. Value enum: "visa", "mastercard", "amex", "discover", "diners", "jcb",
-     * "unionpay". anyOf[1] (Value): string. The card network. Value enum: "visa", "mastercard",
-     * "amex", "discover", "diners", "jcb", "unionpay". anyOf[2] (Value): null.
-     */
-    "brand"?: (("visa" | "mastercard" | "amex" | "discover" | "diners" | "jcb" | "unionpay" | (string & {}))
-        | (null));
-    /**
-     * Details of a card read on a reader, present once the card was read. Card-present cards are
-     * not saved, so payment_method_id is absent. anyOf[1] (Value): {@link
-     * PaymentSourceCardPresentDetailsPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "card_present"?: ((PaymentSourceCardPresentDetailsPreviousAttributes) | (null));
-    /**
-     * Last four digits of the card number. anyOf[1] (Value): string. Last four digits of the card
-     * number. anyOf[2] (Value): null.
-     */
-    "last4"?: ((string) | (null));
-    /**
-     * ID of the saved Flint payment method for this card. Absent when the card isn't saved, as
-     * with a card read on a reader. anyOf[1] (Value): string. ID of the saved Flint payment method
-     * for this card. Absent when the card isn't saved, as with a card read on a reader. Example:
-     * "pm_01KEZF7C0034B248TXXE4NXYFZ". anyOf[2] (Value): null.
-     */
-    "payment_method_id"?: ((string) | (null));
+    "ticket_prefix"?: string;
+    /** IANA time zone of the event venue, used to show `event_at` as venue time. minLength: 1. */
+    "timezone"?: string;
+    /** Where the event takes place. minLength: 1. maxLength: 500. */
+    "venue"?: string;
 };
 /**
- * The credential you provide to pay an order: a payment source token, a saved payment method ID,
- * or a Stripe confirmation token.
+ * Legal links on a payment link: contract, refund policy, shipping policy, and terms of service
+ * URLs, and whether buyers must accept the terms.
  */
-export type PaymentSourceCredential = ((PaymentSourceCredentialPaymentMethod)
-    | (PaymentSourceCredentialStripeConfirmationToken)
-    | (PaymentSourceCredentialStripePaymentMethod)
-    | (PaymentSourceCredentialReader)
-    | (Record<string, unknown>));
-/**
- * The credential you provide to pay an order: a payment source token, a saved payment method ID,
- * or a Stripe confirmation token.
- */
-export type PaymentSourceCredentialInput = ((PaymentSourceCredentialPaymentMethodInput)
-    | (PaymentSourceCredentialStripeConfirmationTokenInput)
-    | (PaymentSourceCredentialStripePaymentMethodInput)
-    | (PaymentSourceCredentialReaderInput));
-/** The `payment_method` variant of `PaymentSourceCredential`. */
-export type PaymentSourceCredentialPaymentMethod = {
-    /** Selects the credential supplied for this payment. Value enum: "payment_method". */
-    "credential_type": "payment_method" | (string & {});
+export type PaymentLinkLegalConfigInput = {
     /**
-     * Whether the customer is present for this payment. Defaults to present. Send absent to charge
-     * a saved card while the customer is away, such as for a no-show fee, damages, or a top-up.
-     * Flint then sends the charge to the card network as merchant-initiated, using the card's
-     * stored credential, so the bank can't ask the customer to authenticate. absent can be sent
-     * only with an API key or partner token, and only for a saved card whose usage is off_session;
-     * a card the customer saved for checkout only returns 409 ACTION_NOT_ALLOWED with reason
-     * payment_method_not_reusable. If the bank still requires authentication, the payment fails
-     * with status requires_payment_method and last_payment_error.code authentication_required. Ask
-     * the customer to pay while present instead of retrying. Default: "present". Value enum:
-     * "present", "absent".
+     * An `https://` URL of the contract the buyer agrees to, linked in checkout. minLength: 1.
+     * maxLength: 2048.
      */
-    "customer_presence"?: "present" | "absent" | (string & {});
+    "contract_url"?: string;
     /**
-     * A payment method saved in Flint for the customer making this payment. minLength: 1. Example:
-     * "pm_01KEZF7C0034B248TXXE4NXYFZ".
+     * An `https://` URL of your refund policy, linked in checkout. minLength: 1. maxLength: 2048.
      */
-    "payment_method_id": string;
+    "refund_policy_url"?: string;
+    /** Whether the buyer must accept the terms of service before paying. */
+    "require_terms_of_service"?: boolean;
+    /**
+     * An `https://` URL of your shipping policy, linked in checkout. minLength: 1. maxLength:
+     * 2048.
+     */
+    "shipping_policy_url"?: string;
+    /**
+     * An `https://` URL of your terms of service, linked in checkout. minLength: 1. maxLength:
+     * 2048.
+     */
+    "terms_of_service_url"?: string;
 };
-/** The `payment_method` variant of `PaymentSourceCredential`. */
-export type PaymentSourceCredentialPaymentMethodInput = {
-    /** Selects the credential supplied for this payment. Value enum: "payment_method". */
-    "credential_type": "payment_method";
-    /**
-     * Whether the customer is present for this payment. Defaults to present. Send absent to charge
-     * a saved card while the customer is away, such as for a no-show fee, damages, or a top-up.
-     * Flint then sends the charge to the card network as merchant-initiated, using the card's
-     * stored credential, so the bank can't ask the customer to authenticate. absent can be sent
-     * only with an API key or partner token, and only for a saved card whose usage is off_session;
-     * a card the customer saved for checkout only returns 409 ACTION_NOT_ALLOWED with reason
-     * payment_method_not_reusable. If the bank still requires authentication, the payment fails
-     * with status requires_payment_method and last_payment_error.code authentication_required. Ask
-     * the customer to pay while present instead of retrying. Default: "present". Value enum:
-     * "present", "absent".
-     */
-    "customer_presence"?: "present" | "absent";
-    /**
-     * A payment method saved in Flint for the customer making this payment. minLength: 1. Example:
-     * "pm_01KEZF7C0034B248TXXE4NXYFZ".
-     */
-    "payment_method_id": string;
+/** Changes to a payment link's legal links and terms setting. Send null on a URL to clear it. */
+export type PaymentLinkLegalPatchRequestInput = {
+    /** Send null to clear it. minLength: 1. maxLength: 2048. */
+    "contract_url"?: string | null;
+    /** Send null to clear it. minLength: 1. maxLength: 2048. */
+    "refund_policy_url"?: string | null;
+    /** Whether the buyer must accept the terms of service before paying. */
+    "require_terms_of_service"?: boolean;
+    /** Send null to clear it. minLength: 1. maxLength: 2048. */
+    "shipping_policy_url"?: string | null;
+    /** Send null to clear it. minLength: 1. maxLength: 2048. */
+    "terms_of_service_url"?: string | null;
 };
-/** The `reader` variant of `PaymentSourceCredential`. */
-export type PaymentSourceCredentialReader = {
-    /** Selects the credential supplied for this payment. Value enum: "reader". */
-    "credential_type": "reader" | (string & {});
+/** A line item on a payment link. */
+export type PaymentLinkLineItem = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
     /**
-     * Active reader in this merchant and environment. Requires payments.readers.write in addition
-     * to this operation's scopes. minLength: 1. pattern: ^rdr_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "rdr_01KEZF7C007JA0G24M7SD6P46C".
+     * ID of the catalog bundle a `bundle` line sells. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
      */
-    "reader_id": string;
+    "bundle_id"?: string;
     /**
-     * Optional tip collection on a supported smart reader. Tip collection settings for a payment
-     * presented on a smart reader.
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
      */
-    "tip"?: ReaderPaymentSourceTip;
-};
-/** The `reader` variant of `PaymentSourceCredential`. */
-export type PaymentSourceCredentialReaderInput = {
-    /** Selects the credential supplied for this payment. Value enum: "reader". */
-    "credential_type": "reader";
-    /**
-     * Active reader in this merchant and environment. Requires payments.readers.write in addition
-     * to this operation's scopes. minLength: 1. pattern: ^rdr_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "rdr_01KEZF7C007JA0G24M7SD6P46C".
-     */
-    "reader_id": string;
-    /**
-     * Optional tip collection on a supported smart reader. Tip collection settings for a payment
-     * presented on a smart reader.
-     */
-    "tip"?: ReaderPaymentSourceTipInput;
-};
-/** The `stripe_confirmation_token` variant of `PaymentSourceCredential`. */
-export type PaymentSourceCredentialStripeConfirmationToken = {
-    /**
-     * Selects the credential supplied for this payment. Value enum: "stripe_confirmation_token".
-     */
-    "credential_type": "stripe_confirmation_token" | (string & {});
-    /**
-     * Stripe credential collected for this payment. confirmation_token (Required): string. A
-     * Stripe ConfirmationToken your page created with Stripe.js createConfirmationToken. Use this
-     * for cards, wallets, ACH and Affirm collected in the browser. minLength: 1.
-     */
-    "stripe": {
-        /**
-         * A Stripe ConfirmationToken your page created with Stripe.js createConfirmationToken. Use
-         * this for cards, wallets, ACH and Affirm collected in the browser. minLength: 1.
-         */
-        "confirmation_token": string;
-    };
-};
-/** The `stripe_confirmation_token` variant of `PaymentSourceCredential`. */
-export type PaymentSourceCredentialStripeConfirmationTokenInput = {
-    /**
-     * Selects the credential supplied for this payment. Value enum: "stripe_confirmation_token".
-     */
-    "credential_type": "stripe_confirmation_token";
-    /**
-     * Stripe credential collected for this payment. confirmation_token (Required): string. A
-     * Stripe ConfirmationToken your page created with Stripe.js createConfirmationToken. Use this
-     * for cards, wallets, ACH and Affirm collected in the browser. minLength: 1.
-     */
-    "stripe": {
-        /**
-         * A Stripe ConfirmationToken your page created with Stripe.js createConfirmationToken. Use
-         * this for cards, wallets, ACH and Affirm collected in the browser. minLength: 1.
-         */
-        "confirmation_token": string;
-    };
-};
-/** The `stripe_payment_method` variant of `PaymentSourceCredential`. */
-export type PaymentSourceCredentialStripePaymentMethod = {
-    /** Selects the credential supplied for this payment. Value enum: "stripe_payment_method". */
-    "credential_type": "stripe_payment_method" | (string & {});
-    /**
-     * Stripe credential collected for this payment. payment_method (Required): string. A Stripe
-     * PaymentMethod your app created with createPaymentMethod, or a Stripe test payment method
-     * such as pm_card_visa in a sandbox. It isn't a Flint saved payment method; send those as
-     * payment_method. minLength: 1.
-     */
-    "stripe": {
-        /**
-         * A Stripe PaymentMethod your app created with createPaymentMethod, or a Stripe test
-         * payment method such as pm_card_visa in a sandbox. It isn't a Flint saved payment method;
-         * send those as payment_method. minLength: 1.
-         */
-        "payment_method": string;
-    };
-};
-/** The `stripe_payment_method` variant of `PaymentSourceCredential`. */
-export type PaymentSourceCredentialStripePaymentMethodInput = {
-    /** Selects the credential supplied for this payment. Value enum: "stripe_payment_method". */
-    "credential_type": "stripe_payment_method";
-    /**
-     * Stripe credential collected for this payment. payment_method (Required): string. A Stripe
-     * PaymentMethod your app created with createPaymentMethod, or a Stripe test payment method
-     * such as pm_card_visa in a sandbox. It isn't a Flint saved payment method; send those as
-     * payment_method. minLength: 1.
-     */
-    "stripe": {
-        /**
-         * A Stripe PaymentMethod your app created with createPaymentMethod, or a Stripe test
-         * payment method such as pm_card_visa in a sandbox. It isn't a Flint saved payment method;
-         * send those as payment_method. minLength: 1.
-         */
-        "payment_method": string;
-    };
-};
-/**
- * A summary of the payment source used for a payment, by funding-method family, with card or bank
- * account display details.
- */
-export type PaymentSourceSummary = {
-    /**
-     * Bank account details. Present when type is ach_debit. Display details for a bank account
-     * payment source: account type, bank name, and last four digits.
-     */
-    "ach_debit"?: PaymentSourceAchDebitSummary;
-    /**
-     * Card details. Present when type is card. Display details for a card payment source: brand,
-     * last four digits, and payment method ID.
-     */
-    "card"?: PaymentSourceCardSummary;
-    /**
-     * Funding-method family. Wallet payment options use card because their underlying funding
-     * source is a card. Value enum: "card", "ach_debit", "affirm".
-     */
-    "type": "card" | "ach_debit" | "affirm" | (string & {});
-};
-export type PaymentSourceSummaryPreviousAttributes = {
-    /**
-     * Bank account details. Present when type is ach_debit. anyOf[1] (Value): {@link
-     * PaymentSourceAchDebitSummaryPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "ach_debit"?: ((PaymentSourceAchDebitSummaryPreviousAttributes) | (null));
-    /**
-     * Card details. Present when type is card. anyOf[1] (Value): {@link
-     * PaymentSourceCardSummaryPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "card"?: ((PaymentSourceCardSummaryPreviousAttributes) | (null));
-    /**
-     * Funding-method family. Wallet payment options use card because their underlying funding
-     * source is a card. Value enum: "card", "ach_debit", "affirm". anyOf[1] (Value): string.
-     * Funding-method family. Wallet payment options use card because their underlying funding
-     * source is a card. Value enum: "card", "ach_debit", "affirm". anyOf[2] (Value): null.
-     */
-    "type"?: (("card" | "ach_debit" | "affirm" | (string & {})) | (null));
-};
-/**
- * A top-level child of a payment intent dividing the collecting merchant's payment funds with one
- * seller. Both parties read this same resource with their own credentials.
- */
-export type PaymentSplit = {
-    /**
-     * The admitted amount, or its final amount set at capture. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-    /**
-     * Present when status is canceled. Can gain values. Value enum: "payment_not_completed",
-     * "install_revoked", "fully_reversed".
-     */
-    "canceled_reason"?: "payment_not_completed" | "install_revoked" | "fully_reversed" | (string & {});
-    /**
-     * The merchant of record that collected the payment. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     */
-    "collecting_merchant_id": string;
-    /**
-     * When the payment's create recorded the split. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "created_at": string;
-    /** The collecting merchant's description, shown to the seller. */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. */
     "description"?: string;
     /**
-     * Caller-owned identifier for this resource in an external system. Shown to the seller. Exact,
-     * case-sensitive matching. maxLength: 255. Example: "warehouse-1842".
+     * True when the referenced variant or bundle cannot be sold, or no listed variant in
+     * variant_ids can be sold in the line currency. Always false on ad hoc line items.
      */
-    "external_reference_id"?: string;
+    "is_catalog_item_unavailable": boolean;
+    /** Public event read: true when the tier or event has no capacity left. */
+    "is_sold_out"?: boolean;
     /**
-     * Present when status is failed. Can gain values; unknown reasons use split_failed. Value
-     * enum: "seller_cannot_receive", "split_failed".
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update.
      */
-    "failure_reason"?: "seller_cannot_receive" | "split_failed" | (string & {});
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
     /**
-     * When the funds become available on Flint's balance. Null when Stripe has not reported it or
-     * the payment never succeeded. Can move later after a won dispute; frozen at release. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z".
+     * Optional whole-number admission capacity across all orders for an event tier; fractional
+     * quantities are not supported. Must be at least 1 and cannot exceed
+     * event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it
+     * in a line_items replacement removes an existing cap. Format: int32. minimum: 1.
      */
-    "funds_available_at": string | null;
-    /** The collecting merchant's partner app. Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV". */
-    "partner_app_id": string;
-    /** The seller's install of the app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". */
-    "partner_app_install_id": string;
+    "max_total_quantity"?: number;
     /**
-     * The collecting merchant's payment. Sellers can read the split, but not the payment. Example:
-     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Must be
+     * greater than zero and greater than or equal to min_unit_price_money. Omit for no maximum.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      */
-    "payment_intent_id": string;
-    /** Unique identifier for the split. Example: "psplit_01KEZF7C00Y5HA4Z8D4KRA07K8". */
-    "payment_split_id": string;
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
     /**
-     * Present when status is pending. Can gain values. Value enum: "awaiting_payment",
-     * "dispute_open", "reversals_pending", "awaiting_funds".
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
      */
-    "pending_reason"?: "awaiting_payment" | "dispute_open" | "reversals_pending" | "awaiting_funds" | (string & {});
+    "min_unit_price_money"?: MoneyValue;
+    /** Name of an ad hoc line item. Catalog lines take the catalog name. */
+    "name"?: string;
     /**
-     * Read-only nested children created by Flint, embedded whole. Empty when none. At most one per
-     * refund and one per dispute. [] (Value): {@link PaymentSplitReversal}. A read-only nested
-     * child of a payment split, created by Flint for a refund or dispute. Embedded whole in
-     * PaymentSplit.reversals; no routes of its own.
+     * Unique identifier for this payment link line item, prefixed `plli_`. Example:
+     * "plli_01KEZF7C004V7GVCCNMYYCBAJS".
      */
-    "reversals": Array<PaymentSplitReversal>;
+    "payment_link_line_item_id": string;
     /**
-     * Reversals' total amount minus their reinstated amounts. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
+     * Parent catalog context only. The product that the variants in variant_ids belong to. Present
+     * only on buyer choice lines; refused on input. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
      */
-    "reversed_money": MoneyValue;
-    /** The merchant receiving the split. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-    "seller_merchant_id": string;
+    "product_id"?: string;
     /**
-     * Reversed funds the collecting merchant covered for the seller, less reinstatements. The
-     * seller's net is amount_money minus reversed_money plus shortfall_money. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
+     * Classification configured on a custom line for ACH debit. Null when unclassified or
+     * catalog-backed; catalog lines get their product classification when checkout starts. Value
+     * enum: "physical", "service", "fee", "digital", "gift_card", null.
      */
-    "shortfall_money": MoneyValue;
+    "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | null | (string & {}) | null;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "quantity": number;
     /**
-     * The split lifecycle status. Value enum: "pending", "processing", "succeeded", "failed",
-     * "canceled".
+     * Public event read: whole-number admissions left after sales and payment holds; fractional
+     * quantities are not supported. This quantity is bounded by both the tier and event caps.
+     * Omitted when neither is capped. Format: int32.
      */
-    "status": "pending" | "processing" | "succeeded" | "failed" | "canceled" | (string & {});
+    "remaining_quantity"?: number;
     /**
-     * When the split reached the seller's balance. Present when succeeded. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z".
+     * Current catalog name of the referenced variant or bundle, or the product name for
+     * variant_ids lines. A variant reads as the product name, plus the variant name when the
+     * variant is a named option combination. This is the catalog value at read time, not a stored
+     * snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line
+     * items and when the catalog object no longer exists.
      */
-    "succeeded_at"?: string;
-    /** When the split last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
+    "resolved_name"?: string;
     /**
-     * Persisted version of this resource's owned state. Expanded resources and external
-     * observations can change independently. Format: uint64. minimum: 1.
+     * Current lowest and highest catalog unit prices among listed variants that can be sold in the
+     * line currency. Computed at read time, not stored. Omitted when no listed variant can be
+     * sold. The lowest and highest unit prices across a product's variants.
      */
-    "version": number;
-};
-export type PaymentSplitCanceledEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "amount_money": MoneyValue;
-            "canceled_reason"?: "payment_not_completed" | "install_revoked" | "fully_reversed" | (string & {});
-            "collecting_merchant_id": string;
-            "created_at": string;
-            "description"?: string;
-            "external_reference_id"?: string;
-            "failure_reason"?: "seller_cannot_receive" | "split_failed" | (string & {});
-            "funds_available_at": string | null;
-            "partner_app_id": string;
-            "partner_app_install_id": string;
-            "payment_intent_id": string;
-            "payment_split_id": string;
-            "pending_reason"?: "awaiting_payment" | "dispute_open" | "reversals_pending" | "awaiting_funds" | (string & {});
-            "reversals": Array<PaymentSplitReversal>;
-            "reversed_money": MoneyValue;
-            "seller_merchant_id": string;
-            "shortfall_money": MoneyValue;
-            "status": "pending" | "processing" | "succeeded" | "failed" | "canceled" | (string & {});
-            "succeeded_at"?: string;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "canceled_reason"?: (("payment_not_completed" | "install_revoked" | "fully_reversed" | (string & {})) | (null));
-            "collecting_merchant_id"?: ((string) | (null));
-            "created_at"?: ((string) | (null));
-            "description"?: ((string) | (null));
-            "external_reference_id"?: ((string) | (null));
-            "failure_reason"?: (("seller_cannot_receive" | "split_failed" | (string & {})) | (null));
-            "funds_available_at"?: ((string) | (null));
-            "partner_app_id"?: ((string) | (null));
-            "partner_app_install_id"?: ((string) | (null));
-            "payment_intent_id"?: ((string) | (null));
-            "payment_split_id"?: ((string) | (null));
-            "pending_reason"?: (("awaiting_payment" | "dispute_open" | "reversals_pending" | "awaiting_funds" | (string & {}))
-                | (null));
-            "reversals"?: ((Array<PaymentSplitReversalPreviousAttributes>) | (null));
-            "reversed_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "seller_merchant_id"?: ((string) | (null));
-            "shortfall_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "status"?: (("pending" | "processing" | "succeeded" | "failed" | "canceled" | (string & {})) | (null));
-            "succeeded_at"?: ((string) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: "merchant" | (string & {});
-    "event_type"?: "payment_split.canceled";
+    "resolved_price_range"?: ProductPriceRange;
+    /**
+     * Current catalog unit price of the referenced variant or bundle. For a fixed variant this is
+     * the base price that applies below the first quantity price break. This is the catalog value
+     * at read time, not a stored snapshot: checkout resolves the price again when a buyer opens
+     * the link, so the amount a buyer pays can differ. Absent on ad-hoc line items, variant_ids
+     * lines, and when the catalog object no longer exists. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "resolved_unit_price_money"?: MoneyValue;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /**
+     * How the line item is defined. Value enum: "variant", "bundle", "custom_fixed",
+     * "custom_variable".
+     */
+    "type": "variant" | "bundle" | "custom_fixed" | "custom_variable" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValue;
+    /**
+     * ID of the catalog variant a `variant` line sells. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
 })
-    & {
-    "event_type": "payment_split.canceled";
-});
-export type PaymentSplitCreatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "amount_money": MoneyValue;
-            "canceled_reason"?: "payment_not_completed" | "install_revoked" | "fully_reversed" | (string & {});
-            "collecting_merchant_id": string;
-            "created_at": string;
-            "description"?: string;
-            "external_reference_id"?: string;
-            "failure_reason"?: "seller_cannot_receive" | "split_failed" | (string & {});
-            "funds_available_at": string | null;
-            "partner_app_id": string;
-            "partner_app_install_id": string;
-            "payment_intent_id": string;
-            "payment_split_id": string;
-            "pending_reason"?: "awaiting_payment" | "dispute_open" | "reversals_pending" | "awaiting_funds" | (string & {});
-            "reversals": Array<PaymentSplitReversal>;
-            "reversed_money": MoneyValue;
-            "seller_merchant_id": string;
-            "shortfall_money": MoneyValue;
-            "status": "pending" | "processing" | "succeeded" | "failed" | "canceled" | (string & {});
-            "succeeded_at"?: string;
-            "updated_at": string;
-            "version": number;
-        };
-    };
-    "event_source"?: "merchant" | (string & {});
-    "event_type"?: "payment_split.created";
+    & ((Exclude<PaymentLinkLineItemVariant & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemBundle & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemCustomFixed & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemCustomVariable & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** A line item on a payment link. */
+export type PaymentLinkLineItemBundle = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id": string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. */
+    "description"?: string;
+    /**
+     * True when the referenced variant or bundle cannot be sold, or no listed variant in
+     * variant_ids can be sold in the line currency. Always false on ad hoc line items.
+     */
+    "is_catalog_item_unavailable": boolean;
+    /** Public event read: true when the tier or event has no capacity left. */
+    "is_sold_out"?: boolean;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Optional whole-number admission capacity across all orders for an event tier; fractional
+     * quantities are not supported. Must be at least 1 and cannot exceed
+     * event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it
+     * in a line_items replacement removes an existing cap. Format: int32. minimum: 1.
+     */
+    "max_total_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Must be
+     * greater than zero and greater than or equal to min_unit_price_money. Omit for no maximum.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /** Name of an ad hoc line item. Catalog lines take the catalog name. */
+    "name"?: string;
+    /**
+     * Unique identifier for this payment link line item, prefixed `plli_`. Example:
+     * "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id": string;
+    /**
+     * Parent catalog context only. The product that the variants in variant_ids belong to. Present
+     * only on buyer choice lines; refused on input. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+     */
+    "product_id"?: string;
+    /**
+     * Classification configured on a custom line for ACH debit. Null when unclassified or
+     * catalog-backed; catalog lines get their product classification when checkout starts. Value
+     * enum: "physical", "service", "fee", "digital", "gift_card", null.
+     */
+    "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | null | (string & {}) | null;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "quantity": number;
+    /**
+     * Public event read: whole-number admissions left after sales and payment holds; fractional
+     * quantities are not supported. This quantity is bounded by both the tier and event caps.
+     * Omitted when neither is capped. Format: int32.
+     */
+    "remaining_quantity"?: number;
+    /**
+     * Current catalog name of the referenced variant or bundle, or the product name for
+     * variant_ids lines. A variant reads as the product name, plus the variant name when the
+     * variant is a named option combination. This is the catalog value at read time, not a stored
+     * snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line
+     * items and when the catalog object no longer exists.
+     */
+    "resolved_name"?: string;
+    /**
+     * Current lowest and highest catalog unit prices among listed variants that can be sold in the
+     * line currency. Computed at read time, not stored. Omitted when no listed variant can be
+     * sold. The lowest and highest unit prices across a product's variants.
+     */
+    "resolved_price_range"?: ProductPriceRange;
+    /**
+     * Current catalog unit price of the referenced variant or bundle. For a fixed variant this is
+     * the base price that applies below the first quantity price break. This is the catalog value
+     * at read time, not a stored snapshot: checkout resolves the price again when a buyer opens
+     * the link, so the amount a buyer pays can differ. Absent on ad-hoc line items, variant_ids
+     * lines, and when the catalog object no longer exists. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "resolved_unit_price_money"?: MoneyValue;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /** How the line item is defined. Value enum: "bundle". */
+    "type": "bundle" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValue;
+    /**
+     * ID of the catalog variant a `variant` line sells. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
 })
-    & {
-    "event_type": "payment_split.created";
-});
-export type PaymentSplitFailedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "amount_money": MoneyValue;
-            "canceled_reason"?: "payment_not_completed" | "install_revoked" | "fully_reversed" | (string & {});
-            "collecting_merchant_id": string;
-            "created_at": string;
-            "description"?: string;
-            "external_reference_id"?: string;
-            "failure_reason"?: "seller_cannot_receive" | "split_failed" | (string & {});
-            "funds_available_at": string | null;
-            "partner_app_id": string;
-            "partner_app_install_id": string;
-            "payment_intent_id": string;
-            "payment_split_id": string;
-            "pending_reason"?: "awaiting_payment" | "dispute_open" | "reversals_pending" | "awaiting_funds" | (string & {});
-            "reversals": Array<PaymentSplitReversal>;
-            "reversed_money": MoneyValue;
-            "seller_merchant_id": string;
-            "shortfall_money": MoneyValue;
-            "status": "pending" | "processing" | "succeeded" | "failed" | "canceled" | (string & {});
-            "succeeded_at"?: string;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "canceled_reason"?: (("payment_not_completed" | "install_revoked" | "fully_reversed" | (string & {})) | (null));
-            "collecting_merchant_id"?: ((string) | (null));
-            "created_at"?: ((string) | (null));
-            "description"?: ((string) | (null));
-            "external_reference_id"?: ((string) | (null));
-            "failure_reason"?: (("seller_cannot_receive" | "split_failed" | (string & {})) | (null));
-            "funds_available_at"?: ((string) | (null));
-            "partner_app_id"?: ((string) | (null));
-            "partner_app_install_id"?: ((string) | (null));
-            "payment_intent_id"?: ((string) | (null));
-            "payment_split_id"?: ((string) | (null));
-            "pending_reason"?: (("awaiting_payment" | "dispute_open" | "reversals_pending" | "awaiting_funds" | (string & {}))
-                | (null));
-            "reversals"?: ((Array<PaymentSplitReversalPreviousAttributes>) | (null));
-            "reversed_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "seller_merchant_id"?: ((string) | (null));
-            "shortfall_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "status"?: (("pending" | "processing" | "succeeded" | "failed" | "canceled" | (string & {})) | (null));
-            "succeeded_at"?: ((string) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: "merchant" | (string & {});
-    "event_type"?: "payment_split.failed";
+    & (({
+    /** Value enum: "bundle". */
+    "type": "bundle" | (string & {});
+    /**
+     * ID of the catalog bundle a `bundle` line sells. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id": string;
+}));
+export type PaymentLinkLineItemBundlePreviousAttributes = ({
+    /**
+     * Whether the buyer can change the quantity in checkout. anyOf[1] (Value): boolean. Whether
+     * the buyer can change the quantity in checkout. anyOf[2] (Value): null.
+     */
+    "allow_quantity_adjustment"?: ((boolean) | (null));
+    /**
+     * Whether the buyer sets the unit price. Only `custom_variable` lines allow it. anyOf[1]
+     * (Value): boolean. Whether the buyer sets the unit price. Only `custom_variable` lines allow
+     * it. anyOf[2] (Value): null.
+     */
+    "allow_unit_price_adjustment"?: ((boolean) | (null));
+    /**
+     * ID of the catalog bundle a `bundle` line sells. anyOf[1] (Value): string. ID of the catalog
+     * bundle a `bundle` line sells. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". anyOf[2] (Value):
+     * null.
+     */
+    "bundle_id"?: ((string) | (null));
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. anyOf[1] (Value): string.
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". anyOf[2] (Value):
+     * null.
+     */
+    "default_variant_id"?: ((string) | (null));
+    /**
+     * Description of an ad hoc line item. anyOf[1] (Value): string. Description of an ad hoc line
+     * item. anyOf[2] (Value): null.
+     */
+    "description"?: ((string) | (null));
+    /**
+     * True when the referenced variant or bundle cannot be sold, or no listed variant in
+     * variant_ids can be sold in the line currency. Always false on ad hoc line items. anyOf[1]
+     * (Value): boolean. True when the referenced variant or bundle cannot be sold, or no listed
+     * variant in variant_ids can be sold in the line currency. Always false on ad hoc line items.
+     * anyOf[2] (Value): null.
+     */
+    "is_catalog_item_unavailable"?: ((boolean) | (null));
+    /**
+     * Public event read: true when the tier or event has no capacity left. anyOf[1] (Value):
+     * boolean. Public event read: true when the tier or event has no capacity left. anyOf[2]
+     * (Value): null.
+     */
+    "is_sold_out"?: ((boolean) | (null));
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. anyOf[1] (Value): string. Keys the resolve override maps. Stable
+     * line item key used in checkout overrides. Must not have leading or trailing whitespace.
+     * Assigned as line_item_1, line_item_2, and so on when omitted, skipping numbers already used
+     * by explicit keys; retained for an existing line item when omitted on update. anyOf[2]
+     * (Value): null.
+     */
+    "key"?: ((string) | (null));
+    /**
+     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
+     * Whole-number quantity; fractional quantities are not supported. Format: int32. anyOf[2]
+     * (Value): null.
+     */
+    "max_quantity"?: ((number) | (null));
+    /**
+     * Optional whole-number admission capacity across all orders for an event tier; fractional
+     * quantities are not supported. Must be at least 1 and cannot exceed
+     * event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it
+     * in a line_items replacement removes an existing cap. anyOf[1] (Value): integer. Optional
+     * whole-number admission capacity across all orders for an event tier; fractional quantities
+     * are not supported. Must be at least 1 and cannot exceed event_config.max_total_quantity when
+     * the event is capped. Omit for no tier cap; omitting it in a line_items replacement removes
+     * an existing cap. Format: int32. minimum: 1. anyOf[2] (Value): null.
+     */
+    "max_total_quantity"?: ((number) | (null));
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Must be
+     * greater than zero and greater than or equal to min_unit_price_money. Omit for no maximum.
+     * anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "max_unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
+     * Whole-number quantity; fractional quantities are not supported. Format: int32. anyOf[2]
+     * (Value): null.
+     */
+    "min_quantity"?: ((number) | (null));
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. anyOf[1]
+     * (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "min_unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. anyOf[1] (Value): string.
+     * Name of an ad hoc line item. Catalog lines take the catalog name. anyOf[2] (Value): null.
+     */
+    "name"?: ((string) | (null));
+    /**
+     * Unique identifier for this payment link line item, prefixed `plli_`. anyOf[1] (Value):
+     * string. Unique identifier for this payment link line item, prefixed `plli_`. Example:
+     * "plli_01KEZF7C004V7GVCCNMYYCBAJS". anyOf[2] (Value): null.
+     */
+    "payment_link_line_item_id"?: ((string) | (null));
+    /**
+     * Parent catalog context only. The product that the variants in variant_ids belong to. Present
+     * only on buyer choice lines; refused on input. anyOf[1] (Value): string. Parent catalog
+     * context only. The product that the variants in variant_ids belong to. Present only on buyer
+     * choice lines; refused on input. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". anyOf[2]
+     * (Value): null.
+     */
+    "product_id"?: ((string) | (null));
+    /**
+     * Classification configured on a custom line for ACH debit. Null when unclassified or
+     * catalog-backed; catalog lines get their product classification when checkout starts. Value
+     * enum: "physical", "service", "fee", "digital", "gift_card", null. anyOf[1] (Value): string.
+     * Classification configured on a custom line for ACH debit. Null when unclassified or
+     * catalog-backed; catalog lines get their product classification when checkout starts. Value
+     * enum: "physical", "service", "fee", "digital", "gift_card", null. anyOf[2] (Value): null.
+     */
+    "product_type"?: (("physical" | "service" | "fee" | "digital" | "gift_card" | null | (string & {})) | (null));
+    /**
+     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
+     * Whole-number quantity; fractional quantities are not supported. Format: int32. anyOf[2]
+     * (Value): null.
+     */
+    "quantity"?: ((number) | (null));
+    /**
+     * Public event read: whole-number admissions left after sales and payment holds; fractional
+     * quantities are not supported. This quantity is bounded by both the tier and event caps.
+     * Omitted when neither is capped. anyOf[1] (Value): integer. Public event read: whole-number
+     * admissions left after sales and payment holds; fractional quantities are not supported. This
+     * quantity is bounded by both the tier and event caps. Omitted when neither is capped. Format:
+     * int32. anyOf[2] (Value): null.
+     */
+    "remaining_quantity"?: ((number) | (null));
+    /**
+     * Current catalog name of the referenced variant or bundle, or the product name for
+     * variant_ids lines. A variant reads as the product name, plus the variant name when the
+     * variant is a named option combination. This is the catalog value at read time, not a stored
+     * snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line
+     * items and when the catalog object no longer exists. anyOf[1] (Value): string. Current
+     * catalog name of the referenced variant or bundle, or the product name for variant_ids lines.
+     * A variant reads as the product name, plus the variant name when the variant is a named
+     * option combination. This is the catalog value at read time, not a stored snapshot: checkout
+     * resolves it again when a buyer opens the link. Absent on ad-hoc line items and when the
+     * catalog object no longer exists. anyOf[2] (Value): null.
+     */
+    "resolved_name"?: ((string) | (null));
+    /**
+     * Current lowest and highest catalog unit prices among listed variants that can be sold in the
+     * line currency. Computed at read time, not stored. Omitted when no listed variant can be
+     * sold. anyOf[1] (Value): {@link ProductPriceRangePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "resolved_price_range"?: ((ProductPriceRangePreviousAttributes) | (null));
+    /**
+     * Current catalog unit price of the referenced variant or bundle. For a fixed variant this is
+     * the base price that applies below the first quantity price break. This is the catalog value
+     * at read time, not a stored snapshot: checkout resolves the price again when a buyer opens
+     * the link, so the amount a buyer pays can differ. Absent on ad-hoc line items, variant_ids
+     * lines, and when the catalog object no longer exists. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "resolved_unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. anyOf[1] (Value):
+     * Array of {@link MoneyValuePreviousAttributes}. Unit prices offered as one-tap choices when
+     * the buyer sets the price. anyOf[1][] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2]
+     * (Value): null.
+     */
+    "suggested_unit_price_money_options"?: ((Array<MoneyValuePreviousAttributes>) | (null));
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. anyOf[1] (Value):
+     * {@link OrderLineItemTaxPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "tax"?: ((OrderLineItemTaxPreviousAttributes) | (null));
+    /**
+     * How the line item is defined. Value enum: "bundle". anyOf[1] (Value): string. How the line
+     * item is defined. Value enum: "bundle". anyOf[2] (Value): null.
+     */
+    "type"?: (("bundle" | (string & {})) | (null));
+    /**
+     * Price of one unit of a `custom_fixed` line item. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * ID of the catalog variant a `variant` line sells. anyOf[1] (Value): string. ID of the
+     * catalog variant a `variant` line sells. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". anyOf[2]
+     * (Value): null.
+     */
+    "variant_id"?: ((string) | (null));
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. anyOf[1]
+     * (Value): Array of string. Variant IDs buyers may choose from, in the order offered. Contains
+     * 1 to 100 unique, active, sellable variants of one product in one currency. Available only on
+     * standard payment links. Mutually exclusive with variant_id, bundle_id, and ad hoc line item
+     * fields. minItems: 1. maxItems: 100. uniqueItems: true. anyOf[1][] (Value): string. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". anyOf[2] (Value):
+     * null.
+     */
+    "variant_ids"?: ((Array<string>) | (null));
 })
-    & {
-    "event_type": "payment_split.failed";
+    & ({
+    /**
+     * Value enum: "bundle". anyOf[1] (Value): string. Value enum: "bundle". anyOf[2] (Value):
+     * null.
+     */
+    "type"?: (("bundle" | (string & {})) | (null));
 });
-/** A page of `PaymentSplit` objects. */
-export type PaymentSplitListResponse = {
+/** A line item on a payment link. */
+export type PaymentLinkLineItemCustomFixed = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. */
+    "description"?: string;
+    /**
+     * True when the referenced variant or bundle cannot be sold, or no listed variant in
+     * variant_ids can be sold in the line currency. Always false on ad hoc line items.
+     */
+    "is_catalog_item_unavailable": boolean;
+    /** Public event read: true when the tier or event has no capacity left. */
+    "is_sold_out"?: boolean;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Optional whole-number admission capacity across all orders for an event tier; fractional
+     * quantities are not supported. Must be at least 1 and cannot exceed
+     * event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it
+     * in a line_items replacement removes an existing cap. Format: int32. minimum: 1.
+     */
+    "max_total_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Must be
+     * greater than zero and greater than or equal to min_unit_price_money. Omit for no maximum.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /** Name of an ad hoc line item. Catalog lines take the catalog name. */
+    "name": string;
+    /**
+     * Unique identifier for this payment link line item, prefixed `plli_`. Example:
+     * "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id": string;
+    /**
+     * Parent catalog context only. The product that the variants in variant_ids belong to. Present
+     * only on buyer choice lines; refused on input. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+     */
+    "product_id"?: string;
+    /**
+     * Classification configured on a custom line for ACH debit. Null when unclassified or
+     * catalog-backed; catalog lines get their product classification when checkout starts. Value
+     * enum: "physical", "service", "fee", "digital", "gift_card", null.
+     */
+    "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | null | (string & {}) | null;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "quantity": number;
+    /**
+     * Public event read: whole-number admissions left after sales and payment holds; fractional
+     * quantities are not supported. This quantity is bounded by both the tier and event caps.
+     * Omitted when neither is capped. Format: int32.
+     */
+    "remaining_quantity"?: number;
+    /**
+     * Current catalog name of the referenced variant or bundle, or the product name for
+     * variant_ids lines. A variant reads as the product name, plus the variant name when the
+     * variant is a named option combination. This is the catalog value at read time, not a stored
+     * snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line
+     * items and when the catalog object no longer exists.
+     */
+    "resolved_name"?: string;
+    /**
+     * Current lowest and highest catalog unit prices among listed variants that can be sold in the
+     * line currency. Computed at read time, not stored. Omitted when no listed variant can be
+     * sold. The lowest and highest unit prices across a product's variants.
+     */
+    "resolved_price_range"?: ProductPriceRange;
+    /**
+     * Current catalog unit price of the referenced variant or bundle. For a fixed variant this is
+     * the base price that applies below the first quantity price break. This is the catalog value
+     * at read time, not a stored snapshot: checkout resolves the price again when a buyer opens
+     * the link, so the amount a buyer pays can differ. Absent on ad-hoc line items, variant_ids
+     * lines, and when the catalog object no longer exists. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "resolved_unit_price_money"?: MoneyValue;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /** How the line item is defined. Value enum: "custom_fixed". */
+    "type": "custom_fixed" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money": MoneyValue;
+    /**
+     * ID of the catalog variant a `variant` line sells. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: false. */
+    "allow_unit_price_adjustment"?: boolean;
+    /** Value enum: "custom_fixed". */
+    "type": "custom_fixed" | (string & {});
+    /** Name of an ad hoc line item. Catalog lines take the catalog name. */
+    "name": string;
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money": MoneyValue;
+}));
+export type PaymentLinkLineItemCustomFixedPreviousAttributes = ({
+    /**
+     * Whether the buyer can change the quantity in checkout. anyOf[1] (Value): boolean. Whether
+     * the buyer can change the quantity in checkout. anyOf[2] (Value): null.
+     */
+    "allow_quantity_adjustment"?: ((boolean) | (null));
+    /**
+     * Whether the buyer sets the unit price. Only `custom_variable` lines allow it. anyOf[1]
+     * (Value): boolean. Whether the buyer sets the unit price. Only `custom_variable` lines allow
+     * it. anyOf[2] (Value): null.
+     */
+    "allow_unit_price_adjustment"?: ((boolean) | (null));
+    /**
+     * ID of the catalog bundle a `bundle` line sells. anyOf[1] (Value): string. ID of the catalog
+     * bundle a `bundle` line sells. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". anyOf[2] (Value):
+     * null.
+     */
+    "bundle_id"?: ((string) | (null));
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. anyOf[1] (Value): string.
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". anyOf[2] (Value):
+     * null.
+     */
+    "default_variant_id"?: ((string) | (null));
+    /**
+     * Description of an ad hoc line item. anyOf[1] (Value): string. Description of an ad hoc line
+     * item. anyOf[2] (Value): null.
+     */
+    "description"?: ((string) | (null));
+    /**
+     * True when the referenced variant or bundle cannot be sold, or no listed variant in
+     * variant_ids can be sold in the line currency. Always false on ad hoc line items. anyOf[1]
+     * (Value): boolean. True when the referenced variant or bundle cannot be sold, or no listed
+     * variant in variant_ids can be sold in the line currency. Always false on ad hoc line items.
+     * anyOf[2] (Value): null.
+     */
+    "is_catalog_item_unavailable"?: ((boolean) | (null));
+    /**
+     * Public event read: true when the tier or event has no capacity left. anyOf[1] (Value):
+     * boolean. Public event read: true when the tier or event has no capacity left. anyOf[2]
+     * (Value): null.
+     */
+    "is_sold_out"?: ((boolean) | (null));
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. anyOf[1] (Value): string. Keys the resolve override maps. Stable
+     * line item key used in checkout overrides. Must not have leading or trailing whitespace.
+     * Assigned as line_item_1, line_item_2, and so on when omitted, skipping numbers already used
+     * by explicit keys; retained for an existing line item when omitted on update. anyOf[2]
+     * (Value): null.
+     */
+    "key"?: ((string) | (null));
+    /**
+     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
+     * Whole-number quantity; fractional quantities are not supported. Format: int32. anyOf[2]
+     * (Value): null.
+     */
+    "max_quantity"?: ((number) | (null));
+    /**
+     * Optional whole-number admission capacity across all orders for an event tier; fractional
+     * quantities are not supported. Must be at least 1 and cannot exceed
+     * event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it
+     * in a line_items replacement removes an existing cap. anyOf[1] (Value): integer. Optional
+     * whole-number admission capacity across all orders for an event tier; fractional quantities
+     * are not supported. Must be at least 1 and cannot exceed event_config.max_total_quantity when
+     * the event is capped. Omit for no tier cap; omitting it in a line_items replacement removes
+     * an existing cap. Format: int32. minimum: 1. anyOf[2] (Value): null.
+     */
+    "max_total_quantity"?: ((number) | (null));
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Must be
+     * greater than zero and greater than or equal to min_unit_price_money. Omit for no maximum.
+     * anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "max_unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
+     * Whole-number quantity; fractional quantities are not supported. Format: int32. anyOf[2]
+     * (Value): null.
+     */
+    "min_quantity"?: ((number) | (null));
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. anyOf[1]
+     * (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "min_unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. anyOf[1] (Value): string.
+     * Name of an ad hoc line item. Catalog lines take the catalog name. anyOf[2] (Value): null.
+     */
+    "name"?: ((string) | (null));
+    /**
+     * Unique identifier for this payment link line item, prefixed `plli_`. anyOf[1] (Value):
+     * string. Unique identifier for this payment link line item, prefixed `plli_`. Example:
+     * "plli_01KEZF7C004V7GVCCNMYYCBAJS". anyOf[2] (Value): null.
+     */
+    "payment_link_line_item_id"?: ((string) | (null));
+    /**
+     * Parent catalog context only. The product that the variants in variant_ids belong to. Present
+     * only on buyer choice lines; refused on input. anyOf[1] (Value): string. Parent catalog
+     * context only. The product that the variants in variant_ids belong to. Present only on buyer
+     * choice lines; refused on input. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". anyOf[2]
+     * (Value): null.
+     */
+    "product_id"?: ((string) | (null));
+    /**
+     * Classification configured on a custom line for ACH debit. Null when unclassified or
+     * catalog-backed; catalog lines get their product classification when checkout starts. Value
+     * enum: "physical", "service", "fee", "digital", "gift_card", null. anyOf[1] (Value): string.
+     * Classification configured on a custom line for ACH debit. Null when unclassified or
+     * catalog-backed; catalog lines get their product classification when checkout starts. Value
+     * enum: "physical", "service", "fee", "digital", "gift_card", null. anyOf[2] (Value): null.
+     */
+    "product_type"?: (("physical" | "service" | "fee" | "digital" | "gift_card" | null | (string & {})) | (null));
+    /**
+     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
+     * Whole-number quantity; fractional quantities are not supported. Format: int32. anyOf[2]
+     * (Value): null.
+     */
+    "quantity"?: ((number) | (null));
+    /**
+     * Public event read: whole-number admissions left after sales and payment holds; fractional
+     * quantities are not supported. This quantity is bounded by both the tier and event caps.
+     * Omitted when neither is capped. anyOf[1] (Value): integer. Public event read: whole-number
+     * admissions left after sales and payment holds; fractional quantities are not supported. This
+     * quantity is bounded by both the tier and event caps. Omitted when neither is capped. Format:
+     * int32. anyOf[2] (Value): null.
+     */
+    "remaining_quantity"?: ((number) | (null));
+    /**
+     * Current catalog name of the referenced variant or bundle, or the product name for
+     * variant_ids lines. A variant reads as the product name, plus the variant name when the
+     * variant is a named option combination. This is the catalog value at read time, not a stored
+     * snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line
+     * items and when the catalog object no longer exists. anyOf[1] (Value): string. Current
+     * catalog name of the referenced variant or bundle, or the product name for variant_ids lines.
+     * A variant reads as the product name, plus the variant name when the variant is a named
+     * option combination. This is the catalog value at read time, not a stored snapshot: checkout
+     * resolves it again when a buyer opens the link. Absent on ad-hoc line items and when the
+     * catalog object no longer exists. anyOf[2] (Value): null.
+     */
+    "resolved_name"?: ((string) | (null));
+    /**
+     * Current lowest and highest catalog unit prices among listed variants that can be sold in the
+     * line currency. Computed at read time, not stored. Omitted when no listed variant can be
+     * sold. anyOf[1] (Value): {@link ProductPriceRangePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "resolved_price_range"?: ((ProductPriceRangePreviousAttributes) | (null));
+    /**
+     * Current catalog unit price of the referenced variant or bundle. For a fixed variant this is
+     * the base price that applies below the first quantity price break. This is the catalog value
+     * at read time, not a stored snapshot: checkout resolves the price again when a buyer opens
+     * the link, so the amount a buyer pays can differ. Absent on ad-hoc line items, variant_ids
+     * lines, and when the catalog object no longer exists. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "resolved_unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. anyOf[1] (Value):
+     * Array of {@link MoneyValuePreviousAttributes}. Unit prices offered as one-tap choices when
+     * the buyer sets the price. anyOf[1][] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2]
+     * (Value): null.
+     */
+    "suggested_unit_price_money_options"?: ((Array<MoneyValuePreviousAttributes>) | (null));
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. anyOf[1] (Value):
+     * {@link OrderLineItemTaxPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "tax"?: ((OrderLineItemTaxPreviousAttributes) | (null));
+    /**
+     * How the line item is defined. Value enum: "custom_fixed". anyOf[1] (Value): string. How the
+     * line item is defined. Value enum: "custom_fixed". anyOf[2] (Value): null.
+     */
+    "type"?: (("custom_fixed" | (string & {})) | (null));
+    /**
+     * Price of one unit of a `custom_fixed` line item. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * ID of the catalog variant a `variant` line sells. anyOf[1] (Value): string. ID of the
+     * catalog variant a `variant` line sells. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". anyOf[2]
+     * (Value): null.
+     */
+    "variant_id"?: ((string) | (null));
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. anyOf[1]
+     * (Value): Array of string. Variant IDs buyers may choose from, in the order offered. Contains
+     * 1 to 100 unique, active, sellable variants of one product in one currency. Available only on
+     * standard payment links. Mutually exclusive with variant_id, bundle_id, and ad hoc line item
+     * fields. minItems: 1. maxItems: 100. uniqueItems: true. anyOf[1][] (Value): string. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". anyOf[2] (Value):
+     * null.
+     */
+    "variant_ids"?: ((Array<string>) | (null));
+})
+    & ({
+    /** Value enum: false. anyOf[1] (Value): boolean.  Value enum: false. anyOf[2] (Value): null. */
+    "allow_unit_price_adjustment"?: ((boolean) | (null));
+    /**
+     * Value enum: "custom_fixed". anyOf[1] (Value): string. Value enum: "custom_fixed". anyOf[2]
+     * (Value): null.
+     */
+    "type"?: (("custom_fixed" | (string & {})) | (null));
+});
+/** A line item on a payment link. */
+export type PaymentLinkLineItemCustomVariable = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment": boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. */
+    "description"?: string;
+    /**
+     * True when the referenced variant or bundle cannot be sold, or no listed variant in
+     * variant_ids can be sold in the line currency. Always false on ad hoc line items.
+     */
+    "is_catalog_item_unavailable": boolean;
+    /** Public event read: true when the tier or event has no capacity left. */
+    "is_sold_out"?: boolean;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Optional whole-number admission capacity across all orders for an event tier; fractional
+     * quantities are not supported. Must be at least 1 and cannot exceed
+     * event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it
+     * in a line_items replacement removes an existing cap. Format: int32. minimum: 1.
+     */
+    "max_total_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Must be
+     * greater than zero and greater than or equal to min_unit_price_money. Omit for no maximum.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /** Name of an ad hoc line item. Catalog lines take the catalog name. */
+    "name": string;
+    /**
+     * Unique identifier for this payment link line item, prefixed `plli_`. Example:
+     * "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id": string;
+    /**
+     * Parent catalog context only. The product that the variants in variant_ids belong to. Present
+     * only on buyer choice lines; refused on input. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+     */
+    "product_id"?: string;
+    /**
+     * Classification configured on a custom line for ACH debit. Null when unclassified or
+     * catalog-backed; catalog lines get their product classification when checkout starts. Value
+     * enum: "physical", "service", "fee", "digital", "gift_card", null.
+     */
+    "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | null | (string & {}) | null;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "quantity": number;
+    /**
+     * Public event read: whole-number admissions left after sales and payment holds; fractional
+     * quantities are not supported. This quantity is bounded by both the tier and event caps.
+     * Omitted when neither is capped. Format: int32.
+     */
+    "remaining_quantity"?: number;
+    /**
+     * Current catalog name of the referenced variant or bundle, or the product name for
+     * variant_ids lines. A variant reads as the product name, plus the variant name when the
+     * variant is a named option combination. This is the catalog value at read time, not a stored
+     * snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line
+     * items and when the catalog object no longer exists.
+     */
+    "resolved_name"?: string;
+    /**
+     * Current lowest and highest catalog unit prices among listed variants that can be sold in the
+     * line currency. Computed at read time, not stored. Omitted when no listed variant can be
+     * sold. The lowest and highest unit prices across a product's variants.
+     */
+    "resolved_price_range"?: ProductPriceRange;
+    /**
+     * Current catalog unit price of the referenced variant or bundle. For a fixed variant this is
+     * the base price that applies below the first quantity price break. This is the catalog value
+     * at read time, not a stored snapshot: checkout resolves the price again when a buyer opens
+     * the link, so the amount a buyer pays can differ. Absent on ad-hoc line items, variant_ids
+     * lines, and when the catalog object no longer exists. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "resolved_unit_price_money"?: MoneyValue;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /** How the line item is defined. Value enum: "custom_variable". */
+    "type": "custom_variable" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValue;
+    /**
+     * ID of the catalog variant a `variant` line sells. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: true. */
+    "allow_unit_price_adjustment": boolean;
+    /** Value enum: "custom_variable". */
+    "type": "custom_variable" | (string & {});
+    /** Name of an ad hoc line item. Catalog lines take the catalog name. */
+    "name": string;
+}));
+export type PaymentLinkLineItemCustomVariablePreviousAttributes = ({
+    /**
+     * Whether the buyer can change the quantity in checkout. anyOf[1] (Value): boolean. Whether
+     * the buyer can change the quantity in checkout. anyOf[2] (Value): null.
+     */
+    "allow_quantity_adjustment"?: ((boolean) | (null));
+    /**
+     * Whether the buyer sets the unit price. Only `custom_variable` lines allow it. anyOf[1]
+     * (Value): boolean. Whether the buyer sets the unit price. Only `custom_variable` lines allow
+     * it. anyOf[2] (Value): null.
+     */
+    "allow_unit_price_adjustment"?: ((boolean) | (null));
+    /**
+     * ID of the catalog bundle a `bundle` line sells. anyOf[1] (Value): string. ID of the catalog
+     * bundle a `bundle` line sells. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". anyOf[2] (Value):
+     * null.
+     */
+    "bundle_id"?: ((string) | (null));
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. anyOf[1] (Value): string.
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". anyOf[2] (Value):
+     * null.
+     */
+    "default_variant_id"?: ((string) | (null));
+    /**
+     * Description of an ad hoc line item. anyOf[1] (Value): string. Description of an ad hoc line
+     * item. anyOf[2] (Value): null.
+     */
+    "description"?: ((string) | (null));
+    /**
+     * True when the referenced variant or bundle cannot be sold, or no listed variant in
+     * variant_ids can be sold in the line currency. Always false on ad hoc line items. anyOf[1]
+     * (Value): boolean. True when the referenced variant or bundle cannot be sold, or no listed
+     * variant in variant_ids can be sold in the line currency. Always false on ad hoc line items.
+     * anyOf[2] (Value): null.
+     */
+    "is_catalog_item_unavailable"?: ((boolean) | (null));
+    /**
+     * Public event read: true when the tier or event has no capacity left. anyOf[1] (Value):
+     * boolean. Public event read: true when the tier or event has no capacity left. anyOf[2]
+     * (Value): null.
+     */
+    "is_sold_out"?: ((boolean) | (null));
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. anyOf[1] (Value): string. Keys the resolve override maps. Stable
+     * line item key used in checkout overrides. Must not have leading or trailing whitespace.
+     * Assigned as line_item_1, line_item_2, and so on when omitted, skipping numbers already used
+     * by explicit keys; retained for an existing line item when omitted on update. anyOf[2]
+     * (Value): null.
+     */
+    "key"?: ((string) | (null));
+    /**
+     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
+     * Whole-number quantity; fractional quantities are not supported. Format: int32. anyOf[2]
+     * (Value): null.
+     */
+    "max_quantity"?: ((number) | (null));
+    /**
+     * Optional whole-number admission capacity across all orders for an event tier; fractional
+     * quantities are not supported. Must be at least 1 and cannot exceed
+     * event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it
+     * in a line_items replacement removes an existing cap. anyOf[1] (Value): integer. Optional
+     * whole-number admission capacity across all orders for an event tier; fractional quantities
+     * are not supported. Must be at least 1 and cannot exceed event_config.max_total_quantity when
+     * the event is capped. Omit for no tier cap; omitting it in a line_items replacement removes
+     * an existing cap. Format: int32. minimum: 1. anyOf[2] (Value): null.
+     */
+    "max_total_quantity"?: ((number) | (null));
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Must be
+     * greater than zero and greater than or equal to min_unit_price_money. Omit for no maximum.
+     * anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "max_unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
+     * Whole-number quantity; fractional quantities are not supported. Format: int32. anyOf[2]
+     * (Value): null.
+     */
+    "min_quantity"?: ((number) | (null));
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. anyOf[1]
+     * (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "min_unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. anyOf[1] (Value): string.
+     * Name of an ad hoc line item. Catalog lines take the catalog name. anyOf[2] (Value): null.
+     */
+    "name"?: ((string) | (null));
+    /**
+     * Unique identifier for this payment link line item, prefixed `plli_`. anyOf[1] (Value):
+     * string. Unique identifier for this payment link line item, prefixed `plli_`. Example:
+     * "plli_01KEZF7C004V7GVCCNMYYCBAJS". anyOf[2] (Value): null.
+     */
+    "payment_link_line_item_id"?: ((string) | (null));
+    /**
+     * Parent catalog context only. The product that the variants in variant_ids belong to. Present
+     * only on buyer choice lines; refused on input. anyOf[1] (Value): string. Parent catalog
+     * context only. The product that the variants in variant_ids belong to. Present only on buyer
+     * choice lines; refused on input. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". anyOf[2]
+     * (Value): null.
+     */
+    "product_id"?: ((string) | (null));
+    /**
+     * Classification configured on a custom line for ACH debit. Null when unclassified or
+     * catalog-backed; catalog lines get their product classification when checkout starts. Value
+     * enum: "physical", "service", "fee", "digital", "gift_card", null. anyOf[1] (Value): string.
+     * Classification configured on a custom line for ACH debit. Null when unclassified or
+     * catalog-backed; catalog lines get their product classification when checkout starts. Value
+     * enum: "physical", "service", "fee", "digital", "gift_card", null. anyOf[2] (Value): null.
+     */
+    "product_type"?: (("physical" | "service" | "fee" | "digital" | "gift_card" | null | (string & {})) | (null));
+    /**
+     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
+     * Whole-number quantity; fractional quantities are not supported. Format: int32. anyOf[2]
+     * (Value): null.
+     */
+    "quantity"?: ((number) | (null));
+    /**
+     * Public event read: whole-number admissions left after sales and payment holds; fractional
+     * quantities are not supported. This quantity is bounded by both the tier and event caps.
+     * Omitted when neither is capped. anyOf[1] (Value): integer. Public event read: whole-number
+     * admissions left after sales and payment holds; fractional quantities are not supported. This
+     * quantity is bounded by both the tier and event caps. Omitted when neither is capped. Format:
+     * int32. anyOf[2] (Value): null.
+     */
+    "remaining_quantity"?: ((number) | (null));
+    /**
+     * Current catalog name of the referenced variant or bundle, or the product name for
+     * variant_ids lines. A variant reads as the product name, plus the variant name when the
+     * variant is a named option combination. This is the catalog value at read time, not a stored
+     * snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line
+     * items and when the catalog object no longer exists. anyOf[1] (Value): string. Current
+     * catalog name of the referenced variant or bundle, or the product name for variant_ids lines.
+     * A variant reads as the product name, plus the variant name when the variant is a named
+     * option combination. This is the catalog value at read time, not a stored snapshot: checkout
+     * resolves it again when a buyer opens the link. Absent on ad-hoc line items and when the
+     * catalog object no longer exists. anyOf[2] (Value): null.
+     */
+    "resolved_name"?: ((string) | (null));
+    /**
+     * Current lowest and highest catalog unit prices among listed variants that can be sold in the
+     * line currency. Computed at read time, not stored. Omitted when no listed variant can be
+     * sold. anyOf[1] (Value): {@link ProductPriceRangePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "resolved_price_range"?: ((ProductPriceRangePreviousAttributes) | (null));
+    /**
+     * Current catalog unit price of the referenced variant or bundle. For a fixed variant this is
+     * the base price that applies below the first quantity price break. This is the catalog value
+     * at read time, not a stored snapshot: checkout resolves the price again when a buyer opens
+     * the link, so the amount a buyer pays can differ. Absent on ad-hoc line items, variant_ids
+     * lines, and when the catalog object no longer exists. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "resolved_unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. anyOf[1] (Value):
+     * Array of {@link MoneyValuePreviousAttributes}. Unit prices offered as one-tap choices when
+     * the buyer sets the price. anyOf[1][] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2]
+     * (Value): null.
+     */
+    "suggested_unit_price_money_options"?: ((Array<MoneyValuePreviousAttributes>) | (null));
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. anyOf[1] (Value):
+     * {@link OrderLineItemTaxPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "tax"?: ((OrderLineItemTaxPreviousAttributes) | (null));
+    /**
+     * How the line item is defined. Value enum: "custom_variable". anyOf[1] (Value): string. How
+     * the line item is defined. Value enum: "custom_variable". anyOf[2] (Value): null.
+     */
+    "type"?: (("custom_variable" | (string & {})) | (null));
+    /**
+     * Price of one unit of a `custom_fixed` line item. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * ID of the catalog variant a `variant` line sells. anyOf[1] (Value): string. ID of the
+     * catalog variant a `variant` line sells. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". anyOf[2]
+     * (Value): null.
+     */
+    "variant_id"?: ((string) | (null));
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. anyOf[1]
+     * (Value): Array of string. Variant IDs buyers may choose from, in the order offered. Contains
+     * 1 to 100 unique, active, sellable variants of one product in one currency. Available only on
+     * standard payment links. Mutually exclusive with variant_id, bundle_id, and ad hoc line item
+     * fields. minItems: 1. maxItems: 100. uniqueItems: true. anyOf[1][] (Value): string. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". anyOf[2] (Value):
+     * null.
+     */
+    "variant_ids"?: ((Array<string>) | (null));
+})
+    & ({
+    /** Value enum: true. anyOf[1] (Value): boolean.  Value enum: true. anyOf[2] (Value): null. */
+    "allow_unit_price_adjustment"?: ((boolean) | (null));
+    /**
+     * Value enum: "custom_variable". anyOf[1] (Value): string. Value enum: "custom_variable".
+     * anyOf[2] (Value): null.
+     */
+    "type"?: (("custom_variable" | (string & {})) | (null));
+});
+/** The `bundle` variant of `PaymentLinkLineItemInput`. */
+export type PaymentLinkLineItemInputBundle = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id": string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Optional whole-number admission capacity across all orders for an event tier; fractional
+     * quantities are not supported. Must be at least 1 and cannot exceed
+     * event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it
+     * in a line_items replacement removes an existing cap. Format: int32. minimum: 1.
+     */
+    "max_total_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Must be
+     * greater than zero and greater than or equal to min_unit_price_money. Omit for no maximum.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1. maxLength: 255.
+     */
+    "name"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | (string & {});
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /** How the line item is defined. Value enum: "bundle". */
+    "type": "bundle" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. amount (Required): integer string. Positive
+     * amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 1. currency (Required):
+     * string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern:
+     * ^[A-Z]{3}$. Example: "USD".
+     */
+    "unit_price_money"?: {
+        /**
+         * Positive amount in the currency's minor unit, such as cents for USD. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}`;
+        /**
+         * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+         * Example: "USD".
+         */
+        "currency": string;
+    };
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: "bundle". */
+    "type": "bundle" | (string & {});
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id": string;
+}));
+/** The `bundle` variant of `PaymentLinkLineItemInput`. */
+export type PaymentLinkLineItemInputBundleInput = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id": string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Optional whole-number admission capacity across all orders for an event tier; fractional
+     * quantities are not supported. Must be at least 1 and cannot exceed
+     * event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it
+     * in a line_items replacement removes an existing cap. Format: int32. minimum: 1.
+     */
+    "max_total_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Must be
+     * greater than zero and greater than or equal to min_unit_price_money. Omit for no maximum.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValueInput;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValueInput;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1. maxLength: 255.
+     */
+    "name"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital";
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValueInput>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTaxRequestInput;
+    /** How the line item is defined. Value enum: "bundle". */
+    "type": "bundle";
+    /**
+     * Price of one unit of a `custom_fixed` line item. amount (Required): integer string. Positive
+     * amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 1. currency (Required):
+     * string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern:
+     * ^[A-Z]{3}$. Example: "USD".
+     */
+    "unit_price_money"?: {
+        /**
+         * Positive amount in the currency's minor unit, such as cents for USD. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}` | bigint;
+        /**
+         * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+         * Example: "USD".
+         */
+        "currency": string;
+    };
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: "bundle". */
+    "type": ("bundle") & ("bundle");
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id": string;
+})
+    & (({
+    "variant_id"?: never;
+})
+    & ({
+    "variant_ids"?: never;
+})
+    & ({
+    "default_variant_id"?: never;
+})
+    & ({
+    "name"?: never;
+})
+    & ({
+    "unit_price_money"?: never;
+})
+    & ({
+    "description"?: never;
+})
+    & ({
+    "tax"?: never;
+})
+    & ({
+    "allow_unit_price_adjustment"?: never;
+})
+    & ({
+    "min_unit_price_money"?: never;
+})
+    & ({
+    "max_unit_price_money"?: never;
+})
+    & ({
+    "suggested_unit_price_money_options"?: never;
+})
+    & ({
+    "product_type"?: never;
+})));
+/** The `custom_fixed` variant of `PaymentLinkLineItemInput`. */
+export type PaymentLinkLineItemInputCustomFixed = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Optional whole-number admission capacity across all orders for an event tier; fractional
+     * quantities are not supported. Must be at least 1 and cannot exceed
+     * event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it
+     * in a line_items replacement removes an existing cap. Format: int32. minimum: 1.
+     */
+    "max_total_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Must be
+     * greater than zero and greater than or equal to min_unit_price_money. Omit for no maximum.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1. maxLength: 255.
+     */
+    "name": string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | (string & {});
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /** How the line item is defined. Value enum: "custom_fixed". */
+    "type": "custom_fixed" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. amount (Required): integer string. Positive
+     * amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 1. currency (Required):
+     * string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern:
+     * ^[A-Z]{3}$. Example: "USD".
+     */
+    "unit_price_money": {
+        /**
+         * Positive amount in the currency's minor unit, such as cents for USD. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}`;
+        /**
+         * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+         * Example: "USD".
+         */
+        "currency": string;
+    };
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: false. */
+    "allow_unit_price_adjustment"?: boolean;
+    /** Value enum: "custom_fixed". */
+    "type": "custom_fixed" | (string & {});
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1. maxLength: 255.
+     */
+    "name": string;
+    /**
+     * Price of one unit of a `custom_fixed` line item. amount (Required): integer string. Positive
+     * amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 1. currency (Required):
+     * string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern:
+     * ^[A-Z]{3}$. Example: "USD".
+     */
+    "unit_price_money": {
+        /**
+         * Positive amount in the currency's minor unit, such as cents for USD. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}`;
+        /**
+         * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+         * Example: "USD".
+         */
+        "currency": string;
+    };
+}));
+/** The `custom_fixed` variant of `PaymentLinkLineItemInput`. */
+export type PaymentLinkLineItemInputCustomFixedInput = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Optional whole-number admission capacity across all orders for an event tier; fractional
+     * quantities are not supported. Must be at least 1 and cannot exceed
+     * event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it
+     * in a line_items replacement removes an existing cap. Format: int32. minimum: 1.
+     */
+    "max_total_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Must be
+     * greater than zero and greater than or equal to min_unit_price_money. Omit for no maximum.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValueInput;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValueInput;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1. maxLength: 255.
+     */
+    "name": string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital";
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValueInput>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTaxRequestInput;
+    /** How the line item is defined. Value enum: "custom_fixed". */
+    "type": "custom_fixed";
+    /**
+     * Price of one unit of a `custom_fixed` line item. amount (Required): integer string. Positive
+     * amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 1. currency (Required):
+     * string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern:
+     * ^[A-Z]{3}$. Example: "USD".
+     */
+    "unit_price_money": {
+        /**
+         * Positive amount in the currency's minor unit, such as cents for USD. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}` | bigint;
+        /**
+         * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+         * Example: "USD".
+         */
+        "currency": string;
+    };
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: false. */
+    "allow_unit_price_adjustment"?: false;
+    /** Value enum: "custom_fixed". */
+    "type": ("custom_fixed") & ("custom_fixed");
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1. maxLength: 255.
+     */
+    "name": string;
+    /**
+     * Price of one unit of a `custom_fixed` line item. amount (Required): integer string. Positive
+     * amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 1. currency (Required):
+     * string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern:
+     * ^[A-Z]{3}$. Example: "USD".
+     */
+    "unit_price_money": {
+        /**
+         * Positive amount in the currency's minor unit, such as cents for USD. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}` | bigint;
+        /**
+         * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+         * Example: "USD".
+         */
+        "currency": string;
+    };
+})
+    & (({
+    "variant_id"?: never;
+})
+    & ({
+    "variant_ids"?: never;
+})
+    & ({
+    "default_variant_id"?: never;
+})
+    & ({
+    "bundle_id"?: never;
+})));
+/** The `custom_variable` variant of `PaymentLinkLineItemInput`. */
+export type PaymentLinkLineItemInputCustomVariable = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment": boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Optional whole-number admission capacity across all orders for an event tier; fractional
+     * quantities are not supported. Must be at least 1 and cannot exceed
+     * event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it
+     * in a line_items replacement removes an existing cap. Format: int32. minimum: 1.
+     */
+    "max_total_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Must be
+     * greater than zero and greater than or equal to min_unit_price_money. Omit for no maximum.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1. maxLength: 255.
+     */
+    "name": string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | (string & {});
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /** How the line item is defined. Value enum: "custom_variable". */
+    "type": "custom_variable" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. amount (Required): integer string. Positive
+     * amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 1. currency (Required):
+     * string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern:
+     * ^[A-Z]{3}$. Example: "USD".
+     */
+    "unit_price_money"?: {
+        /**
+         * Positive amount in the currency's minor unit, such as cents for USD. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}`;
+        /**
+         * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+         * Example: "USD".
+         */
+        "currency": string;
+    };
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: true. */
+    "allow_unit_price_adjustment": boolean;
+    /** Value enum: "custom_variable". */
+    "type": "custom_variable" | (string & {});
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1. maxLength: 255.
+     */
+    "name": string;
+}));
+/** The `custom_variable` variant of `PaymentLinkLineItemInput`. */
+export type PaymentLinkLineItemInputCustomVariableInput = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment": boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Optional whole-number admission capacity across all orders for an event tier; fractional
+     * quantities are not supported. Must be at least 1 and cannot exceed
+     * event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it
+     * in a line_items replacement removes an existing cap. Format: int32. minimum: 1.
+     */
+    "max_total_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Must be
+     * greater than zero and greater than or equal to min_unit_price_money. Omit for no maximum.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValueInput;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValueInput;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1. maxLength: 255.
+     */
+    "name": string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital";
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValueInput>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTaxRequestInput;
+    /** How the line item is defined. Value enum: "custom_variable". */
+    "type": "custom_variable";
+    /**
+     * Price of one unit of a `custom_fixed` line item. amount (Required): integer string. Positive
+     * amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 1. currency (Required):
+     * string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern:
+     * ^[A-Z]{3}$. Example: "USD".
+     */
+    "unit_price_money"?: {
+        /**
+         * Positive amount in the currency's minor unit, such as cents for USD. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}` | bigint;
+        /**
+         * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+         * Example: "USD".
+         */
+        "currency": string;
+    };
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: true. */
+    "allow_unit_price_adjustment": true;
+    /** Value enum: "custom_variable". */
+    "type": ("custom_variable") & ("custom_variable");
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1. maxLength: 255.
+     */
+    "name": string;
+})
+    & (({
+    "variant_id"?: never;
+})
+    & ({
+    "variant_ids"?: never;
+})
+    & ({
+    "default_variant_id"?: never;
+})
+    & ({
+    "bundle_id"?: never;
+})));
+/** The `variant` variant of `PaymentLinkLineItemInput`. */
+export type PaymentLinkLineItemInputVariant = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Optional whole-number admission capacity across all orders for an event tier; fractional
+     * quantities are not supported. Must be at least 1 and cannot exceed
+     * event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it
+     * in a line_items replacement removes an existing cap. Format: int32. minimum: 1.
+     */
+    "max_total_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Must be
+     * greater than zero and greater than or equal to min_unit_price_money. Omit for no maximum.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1. maxLength: 255.
+     */
+    "name"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | (string & {});
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /** How the line item is defined. Value enum: "variant". */
+    "type": "variant" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. amount (Required): integer string. Positive
+     * amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 1. currency (Required):
+     * string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern:
+     * ^[A-Z]{3}$. Example: "USD".
+     */
+    "unit_price_money"?: {
+        /**
+         * Positive amount in the currency's minor unit, such as cents for USD. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}`;
+        /**
+         * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+         * Example: "USD".
+         */
+        "currency": string;
+    };
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: "variant". */
+    "type": "variant" | (string & {});
+})
+    & (({
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id": string;
+})
+    | ({
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids": Array<string>;
+})
+    | (Record<string, unknown>)));
+/** The `variant` variant of `PaymentLinkLineItemInput`. */
+export type PaymentLinkLineItemInputVariantInput = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Optional whole-number admission capacity across all orders for an event tier; fractional
+     * quantities are not supported. Must be at least 1 and cannot exceed
+     * event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it
+     * in a line_items replacement removes an existing cap. Format: int32. minimum: 1.
+     */
+    "max_total_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Must be
+     * greater than zero and greater than or equal to min_unit_price_money. Omit for no maximum.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValueInput;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValueInput;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1. maxLength: 255.
+     */
+    "name"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital";
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValueInput>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTaxRequestInput;
+    /** How the line item is defined. Value enum: "variant". */
+    "type": "variant";
+    /**
+     * Price of one unit of a `custom_fixed` line item. amount (Required): integer string. Positive
+     * amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 1. currency (Required):
+     * string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern:
+     * ^[A-Z]{3}$. Example: "USD".
+     */
+    "unit_price_money"?: {
+        /**
+         * Positive amount in the currency's minor unit, such as cents for USD. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}` | bigint;
+        /**
+         * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+         * Example: "USD".
+         */
+        "currency": string;
+    };
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: "variant". */
+    "type": ("variant") & ("variant");
+})
+    & (({
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id": string;
+})
+    | ({
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids": Array<string>;
+}))
+    & (({
+    "bundle_id"?: never;
+})
+    & ({
+    "name"?: never;
+})
+    & ({
+    "unit_price_money"?: never;
+})
+    & ({
+    "description"?: never;
+})
+    & ({
+    "tax"?: never;
+})
+    & ({
+    "allow_unit_price_adjustment"?: never;
+})
+    & ({
+    "min_unit_price_money"?: never;
+})
+    & ({
+    "max_unit_price_money"?: never;
+})
+    & ({
+    "suggested_unit_price_money_options"?: never;
+})
+    & ({
+    "product_type"?: never;
+})
+    & ({
+    "variant_id"?: never;
+} | {
+    "variant_ids"?: never;
+})));
+/** The `bundle` variant of `PaymentLinkLineItemPatchInput`. */
+export type PaymentLinkLineItemPatchInputBundle = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id": string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. Send null to clear it.
+     * minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string | null;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Optional whole-number admission capacity across all orders for an event tier; fractional
+     * quantities are not supported. Must be at least 1 and cannot exceed
+     * event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it
+     * in a line_items replacement removes an existing cap. Format: int32. minimum: 1.
+     */
+    "max_total_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Must be
+     * greater than zero and greater than or equal to min_unit_price_money. Omit for no maximum.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1. maxLength: 255.
+     */
+    "name"?: string;
+    /**
+     * Stable ID of an existing line item. Omit it to create a new line item. minLength: 1.
+     * Example: "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | (string & {});
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /** How the line item is defined. Value enum: "bundle". */
+    "type": "bundle" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. amount (Required): integer string. Positive
+     * amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 1. currency (Required):
+     * string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern:
+     * ^[A-Z]{3}$. Example: "USD".
+     */
+    "unit_price_money"?: {
+        /**
+         * Positive amount in the currency's minor unit, such as cents for USD. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}`;
+        /**
+         * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+         * Example: "USD".
+         */
+        "currency": string;
+    };
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: "bundle". */
+    "type": "bundle" | (string & {});
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id": string;
+}));
+/** The `bundle` variant of `PaymentLinkLineItemPatchInput`. */
+export type PaymentLinkLineItemPatchInputBundleInput = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id": string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. Send null to clear it.
+     * minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string | null;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Optional whole-number admission capacity across all orders for an event tier; fractional
+     * quantities are not supported. Must be at least 1 and cannot exceed
+     * event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it
+     * in a line_items replacement removes an existing cap. Format: int32. minimum: 1.
+     */
+    "max_total_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Must be
+     * greater than zero and greater than or equal to min_unit_price_money. Omit for no maximum.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValueInput;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValueInput;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1. maxLength: 255.
+     */
+    "name"?: string;
+    /**
+     * Stable ID of an existing line item. Omit it to create a new line item. minLength: 1.
+     * Example: "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital";
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValueInput>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTaxRequestInput;
+    /** How the line item is defined. Value enum: "bundle". */
+    "type": "bundle";
+    /**
+     * Price of one unit of a `custom_fixed` line item. amount (Required): integer string. Positive
+     * amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 1. currency (Required):
+     * string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern:
+     * ^[A-Z]{3}$. Example: "USD".
+     */
+    "unit_price_money"?: {
+        /**
+         * Positive amount in the currency's minor unit, such as cents for USD. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}` | bigint;
+        /**
+         * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+         * Example: "USD".
+         */
+        "currency": string;
+    };
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: "bundle". */
+    "type": ("bundle") & ("bundle");
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id": string;
+})
+    & (({
+    "variant_id"?: never;
+})
+    & ({
+    "variant_ids"?: never;
+})
+    & ({
+    "default_variant_id"?: never;
+})
+    & ({
+    "name"?: never;
+})
+    & ({
+    "unit_price_money"?: never;
+})
+    & ({
+    "description"?: never;
+})
+    & ({
+    "tax"?: never;
+})
+    & ({
+    "allow_unit_price_adjustment"?: never;
+})
+    & ({
+    "min_unit_price_money"?: never;
+})
+    & ({
+    "max_unit_price_money"?: never;
+})
+    & ({
+    "suggested_unit_price_money_options"?: never;
+})
+    & ({
+    "product_type"?: never;
+})));
+/** The `custom_fixed` variant of `PaymentLinkLineItemPatchInput`. */
+export type PaymentLinkLineItemPatchInputCustomFixed = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. Send null to clear it.
+     * minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string | null;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Optional whole-number admission capacity across all orders for an event tier; fractional
+     * quantities are not supported. Must be at least 1 and cannot exceed
+     * event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it
+     * in a line_items replacement removes an existing cap. Format: int32. minimum: 1.
+     */
+    "max_total_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Must be
+     * greater than zero and greater than or equal to min_unit_price_money. Omit for no maximum.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1. maxLength: 255.
+     */
+    "name": string;
+    /**
+     * Stable ID of an existing line item. Omit it to create a new line item. minLength: 1.
+     * Example: "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | (string & {});
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /** How the line item is defined. Value enum: "custom_fixed". */
+    "type": "custom_fixed" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. amount (Required): integer string. Positive
+     * amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 1. currency (Required):
+     * string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern:
+     * ^[A-Z]{3}$. Example: "USD".
+     */
+    "unit_price_money": {
+        /**
+         * Positive amount in the currency's minor unit, such as cents for USD. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}`;
+        /**
+         * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+         * Example: "USD".
+         */
+        "currency": string;
+    };
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: false. */
+    "allow_unit_price_adjustment"?: boolean;
+    /** Value enum: "custom_fixed". */
+    "type": "custom_fixed" | (string & {});
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1. maxLength: 255.
+     */
+    "name": string;
+    /**
+     * Price of one unit of a `custom_fixed` line item. amount (Required): integer string. Positive
+     * amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 1. currency (Required):
+     * string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern:
+     * ^[A-Z]{3}$. Example: "USD".
+     */
+    "unit_price_money": {
+        /**
+         * Positive amount in the currency's minor unit, such as cents for USD. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}`;
+        /**
+         * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+         * Example: "USD".
+         */
+        "currency": string;
+    };
+}));
+/** The `custom_fixed` variant of `PaymentLinkLineItemPatchInput`. */
+export type PaymentLinkLineItemPatchInputCustomFixedInput = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. Send null to clear it.
+     * minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string | null;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Optional whole-number admission capacity across all orders for an event tier; fractional
+     * quantities are not supported. Must be at least 1 and cannot exceed
+     * event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it
+     * in a line_items replacement removes an existing cap. Format: int32. minimum: 1.
+     */
+    "max_total_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Must be
+     * greater than zero and greater than or equal to min_unit_price_money. Omit for no maximum.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValueInput;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValueInput;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1. maxLength: 255.
+     */
+    "name": string;
+    /**
+     * Stable ID of an existing line item. Omit it to create a new line item. minLength: 1.
+     * Example: "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital";
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValueInput>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTaxRequestInput;
+    /** How the line item is defined. Value enum: "custom_fixed". */
+    "type": "custom_fixed";
+    /**
+     * Price of one unit of a `custom_fixed` line item. amount (Required): integer string. Positive
+     * amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 1. currency (Required):
+     * string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern:
+     * ^[A-Z]{3}$. Example: "USD".
+     */
+    "unit_price_money": {
+        /**
+         * Positive amount in the currency's minor unit, such as cents for USD. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}` | bigint;
+        /**
+         * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+         * Example: "USD".
+         */
+        "currency": string;
+    };
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: false. */
+    "allow_unit_price_adjustment"?: false;
+    /** Value enum: "custom_fixed". */
+    "type": ("custom_fixed") & ("custom_fixed");
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1. maxLength: 255.
+     */
+    "name": string;
+    /**
+     * Price of one unit of a `custom_fixed` line item. amount (Required): integer string. Positive
+     * amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 1. currency (Required):
+     * string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern:
+     * ^[A-Z]{3}$. Example: "USD".
+     */
+    "unit_price_money": {
+        /**
+         * Positive amount in the currency's minor unit, such as cents for USD. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}` | bigint;
+        /**
+         * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+         * Example: "USD".
+         */
+        "currency": string;
+    };
+})
+    & (({
+    "variant_id"?: never;
+})
+    & ({
+    "variant_ids"?: never;
+})
+    & ({
+    "default_variant_id"?: never;
+})
+    & ({
+    "bundle_id"?: never;
+})));
+/** The `custom_variable` variant of `PaymentLinkLineItemPatchInput`. */
+export type PaymentLinkLineItemPatchInputCustomVariable = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment": boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. Send null to clear it.
+     * minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string | null;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Optional whole-number admission capacity across all orders for an event tier; fractional
+     * quantities are not supported. Must be at least 1 and cannot exceed
+     * event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it
+     * in a line_items replacement removes an existing cap. Format: int32. minimum: 1.
+     */
+    "max_total_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Must be
+     * greater than zero and greater than or equal to min_unit_price_money. Omit for no maximum.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1. maxLength: 255.
+     */
+    "name": string;
+    /**
+     * Stable ID of an existing line item. Omit it to create a new line item. minLength: 1.
+     * Example: "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | (string & {});
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /** How the line item is defined. Value enum: "custom_variable". */
+    "type": "custom_variable" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. amount (Required): integer string. Positive
+     * amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 1. currency (Required):
+     * string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern:
+     * ^[A-Z]{3}$. Example: "USD".
+     */
+    "unit_price_money"?: {
+        /**
+         * Positive amount in the currency's minor unit, such as cents for USD. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}`;
+        /**
+         * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+         * Example: "USD".
+         */
+        "currency": string;
+    };
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: true. */
+    "allow_unit_price_adjustment": boolean;
+    /** Value enum: "custom_variable". */
+    "type": "custom_variable" | (string & {});
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1. maxLength: 255.
+     */
+    "name": string;
+}));
+/** The `custom_variable` variant of `PaymentLinkLineItemPatchInput`. */
+export type PaymentLinkLineItemPatchInputCustomVariableInput = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment": boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. Send null to clear it.
+     * minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string | null;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Optional whole-number admission capacity across all orders for an event tier; fractional
+     * quantities are not supported. Must be at least 1 and cannot exceed
+     * event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it
+     * in a line_items replacement removes an existing cap. Format: int32. minimum: 1.
+     */
+    "max_total_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Must be
+     * greater than zero and greater than or equal to min_unit_price_money. Omit for no maximum.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValueInput;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValueInput;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1. maxLength: 255.
+     */
+    "name": string;
+    /**
+     * Stable ID of an existing line item. Omit it to create a new line item. minLength: 1.
+     * Example: "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital";
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValueInput>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTaxRequestInput;
+    /** How the line item is defined. Value enum: "custom_variable". */
+    "type": "custom_variable";
+    /**
+     * Price of one unit of a `custom_fixed` line item. amount (Required): integer string. Positive
+     * amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 1. currency (Required):
+     * string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern:
+     * ^[A-Z]{3}$. Example: "USD".
+     */
+    "unit_price_money"?: {
+        /**
+         * Positive amount in the currency's minor unit, such as cents for USD. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}` | bigint;
+        /**
+         * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+         * Example: "USD".
+         */
+        "currency": string;
+    };
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: true. */
+    "allow_unit_price_adjustment": true;
+    /** Value enum: "custom_variable". */
+    "type": ("custom_variable") & ("custom_variable");
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1. maxLength: 255.
+     */
+    "name": string;
+})
+    & (({
+    "variant_id"?: never;
+})
+    & ({
+    "variant_ids"?: never;
+})
+    & ({
+    "default_variant_id"?: never;
+})
+    & ({
+    "bundle_id"?: never;
+})));
+/** The `variant` variant of `PaymentLinkLineItemPatchInput`. */
+export type PaymentLinkLineItemPatchInputVariant = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. Send null to clear it.
+     * minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string | null;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Optional whole-number admission capacity across all orders for an event tier; fractional
+     * quantities are not supported. Must be at least 1 and cannot exceed
+     * event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it
+     * in a line_items replacement removes an existing cap. Format: int32. minimum: 1.
+     */
+    "max_total_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Must be
+     * greater than zero and greater than or equal to min_unit_price_money. Omit for no maximum.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1. maxLength: 255.
+     */
+    "name"?: string;
+    /**
+     * Stable ID of an existing line item. Omit it to create a new line item. minLength: 1.
+     * Example: "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | (string & {});
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /** How the line item is defined. Value enum: "variant". */
+    "type": "variant" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. amount (Required): integer string. Positive
+     * amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 1. currency (Required):
+     * string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern:
+     * ^[A-Z]{3}$. Example: "USD".
+     */
+    "unit_price_money"?: {
+        /**
+         * Positive amount in the currency's minor unit, such as cents for USD. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}`;
+        /**
+         * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+         * Example: "USD".
+         */
+        "currency": string;
+    };
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: "variant". */
+    "type": "variant" | (string & {});
+})
+    & (({
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id": string;
+})
+    | ({
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids": Array<string>;
+})
+    | (Record<string, unknown>)));
+/** The `variant` variant of `PaymentLinkLineItemPatchInput`. */
+export type PaymentLinkLineItemPatchInputVariantInput = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. Send null to clear it.
+     * minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string | null;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Optional whole-number admission capacity across all orders for an event tier; fractional
+     * quantities are not supported. Must be at least 1 and cannot exceed
+     * event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it
+     * in a line_items replacement removes an existing cap. Format: int32. minimum: 1.
+     */
+    "max_total_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Must be
+     * greater than zero and greater than or equal to min_unit_price_money. Omit for no maximum.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValueInput;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValueInput;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1. maxLength: 255.
+     */
+    "name"?: string;
+    /**
+     * Stable ID of an existing line item. Omit it to create a new line item. minLength: 1.
+     * Example: "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital";
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValueInput>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTaxRequestInput;
+    /** How the line item is defined. Value enum: "variant". */
+    "type": "variant";
+    /**
+     * Price of one unit of a `custom_fixed` line item. amount (Required): integer string. Positive
+     * amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 1. currency (Required):
+     * string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern:
+     * ^[A-Z]{3}$. Example: "USD".
+     */
+    "unit_price_money"?: {
+        /**
+         * Positive amount in the currency's minor unit, such as cents for USD. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}` | bigint;
+        /**
+         * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+         * Example: "USD".
+         */
+        "currency": string;
+    };
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: "variant". */
+    "type": ("variant") & ("variant");
+})
+    & (({
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id": string;
+})
+    | ({
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids": Array<string>;
+}))
+    & (({
+    "bundle_id"?: never;
+})
+    & ({
+    "name"?: never;
+})
+    & ({
+    "unit_price_money"?: never;
+})
+    & ({
+    "description"?: never;
+})
+    & ({
+    "tax"?: never;
+})
+    & ({
+    "allow_unit_price_adjustment"?: never;
+})
+    & ({
+    "min_unit_price_money"?: never;
+})
+    & ({
+    "max_unit_price_money"?: never;
+})
+    & ({
+    "suggested_unit_price_money_options"?: never;
+})
+    & ({
+    "product_type"?: never;
+})
+    & ({
+    "variant_id"?: never;
+} | {
+    "variant_ids"?: never;
+})));
+/**
+ * A line item in a payment link update. Include its ID to change an existing line item, or omit
+ * the ID to add a new one.
+ */
+export type PaymentLinkLineItemPatchRequest = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. Send null to clear it.
+     * minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string | null;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Optional whole-number admission capacity across all orders for an event tier; fractional
+     * quantities are not supported. Must be at least 1 and cannot exceed
+     * event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it
+     * in a line_items replacement removes an existing cap. Format: int32. minimum: 1.
+     */
+    "max_total_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Must be
+     * greater than zero and greater than or equal to min_unit_price_money. Omit for no maximum.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1. maxLength: 255.
+     */
+    "name"?: string;
+    /**
+     * Stable ID of an existing line item. Omit it to create a new line item. minLength: 1.
+     * Example: "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | (string & {});
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /**
+     * How the line item is defined. Value enum: "variant", "bundle", "custom_fixed",
+     * "custom_variable".
+     */
+    "type": "variant" | "bundle" | "custom_fixed" | "custom_variable" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. amount (Required): integer string. Positive
+     * amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 1. currency (Required):
+     * string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern:
+     * ^[A-Z]{3}$. Example: "USD".
+     */
+    "unit_price_money"?: {
+        /**
+         * Positive amount in the currency's minor unit, such as cents for USD. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}`;
+        /**
+         * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+         * Example: "USD".
+         */
+        "currency": string;
+    };
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & ((Exclude<PaymentLinkLineItemPatchInputVariant & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemPatchInputBundle & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemPatchInputCustomFixed & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemPatchInputCustomVariable & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * A line item in a payment link update. Include its ID to change an existing line item, or omit
+ * the ID to add a new one.
+ */
+export type PaymentLinkLineItemPatchRequestInput = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. Send null to clear it.
+     * minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string | null;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Optional whole-number admission capacity across all orders for an event tier; fractional
+     * quantities are not supported. Must be at least 1 and cannot exceed
+     * event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it
+     * in a line_items replacement removes an existing cap. Format: int32. minimum: 1.
+     */
+    "max_total_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Must be
+     * greater than zero and greater than or equal to min_unit_price_money. Omit for no maximum.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValueInput;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValueInput;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1. maxLength: 255.
+     */
+    "name"?: string;
+    /**
+     * Stable ID of an existing line item. Omit it to create a new line item. minLength: 1.
+     * Example: "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital";
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValueInput>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTaxRequestInput;
+    /**
+     * How the line item is defined. Value enum: "variant", "bundle", "custom_fixed",
+     * "custom_variable".
+     */
+    "type": "variant" | "bundle" | "custom_fixed" | "custom_variable";
+    /**
+     * Price of one unit of a `custom_fixed` line item. amount (Required): integer string. Positive
+     * amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 1. currency (Required):
+     * string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern:
+     * ^[A-Z]{3}$. Example: "USD".
+     */
+    "unit_price_money"?: {
+        /**
+         * Positive amount in the currency's minor unit, such as cents for USD. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}` | bigint;
+        /**
+         * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+         * Example: "USD".
+         */
+        "currency": string;
+    };
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & ((Exclude<PaymentLinkLineItemPatchInputVariantInput & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemPatchInputBundleInput & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemPatchInputCustomFixedInput & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemPatchInputCustomVariableInput & object, readonly unknown[]>));
+export type PaymentLinkLineItemPreviousAttributes = ({
+    /**
+     * Whether the buyer can change the quantity in checkout. anyOf[1] (Value): boolean. Whether
+     * the buyer can change the quantity in checkout. anyOf[2] (Value): null.
+     */
+    "allow_quantity_adjustment"?: ((boolean) | (null));
+    /**
+     * Whether the buyer sets the unit price. Only `custom_variable` lines allow it. anyOf[1]
+     * (Value): boolean. Whether the buyer sets the unit price. Only `custom_variable` lines allow
+     * it. anyOf[2] (Value): null.
+     */
+    "allow_unit_price_adjustment"?: ((boolean) | (null));
+    /**
+     * ID of the catalog bundle a `bundle` line sells. anyOf[1] (Value): string. ID of the catalog
+     * bundle a `bundle` line sells. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". anyOf[2] (Value):
+     * null.
+     */
+    "bundle_id"?: ((string) | (null));
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. anyOf[1] (Value): string.
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". anyOf[2] (Value):
+     * null.
+     */
+    "default_variant_id"?: ((string) | (null));
+    /**
+     * Description of an ad hoc line item. anyOf[1] (Value): string. Description of an ad hoc line
+     * item. anyOf[2] (Value): null.
+     */
+    "description"?: ((string) | (null));
+    /**
+     * True when the referenced variant or bundle cannot be sold, or no listed variant in
+     * variant_ids can be sold in the line currency. Always false on ad hoc line items. anyOf[1]
+     * (Value): boolean. True when the referenced variant or bundle cannot be sold, or no listed
+     * variant in variant_ids can be sold in the line currency. Always false on ad hoc line items.
+     * anyOf[2] (Value): null.
+     */
+    "is_catalog_item_unavailable"?: ((boolean) | (null));
+    /**
+     * Public event read: true when the tier or event has no capacity left. anyOf[1] (Value):
+     * boolean. Public event read: true when the tier or event has no capacity left. anyOf[2]
+     * (Value): null.
+     */
+    "is_sold_out"?: ((boolean) | (null));
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. anyOf[1] (Value): string. Keys the resolve override maps. Stable
+     * line item key used in checkout overrides. Must not have leading or trailing whitespace.
+     * Assigned as line_item_1, line_item_2, and so on when omitted, skipping numbers already used
+     * by explicit keys; retained for an existing line item when omitted on update. anyOf[2]
+     * (Value): null.
+     */
+    "key"?: ((string) | (null));
+    /**
+     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
+     * Whole-number quantity; fractional quantities are not supported. Format: int32. anyOf[2]
+     * (Value): null.
+     */
+    "max_quantity"?: ((number) | (null));
+    /**
+     * Optional whole-number admission capacity across all orders for an event tier; fractional
+     * quantities are not supported. Must be at least 1 and cannot exceed
+     * event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it
+     * in a line_items replacement removes an existing cap. anyOf[1] (Value): integer. Optional
+     * whole-number admission capacity across all orders for an event tier; fractional quantities
+     * are not supported. Must be at least 1 and cannot exceed event_config.max_total_quantity when
+     * the event is capped. Omit for no tier cap; omitting it in a line_items replacement removes
+     * an existing cap. Format: int32. minimum: 1. anyOf[2] (Value): null.
+     */
+    "max_total_quantity"?: ((number) | (null));
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Must be
+     * greater than zero and greater than or equal to min_unit_price_money. Omit for no maximum.
+     * anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "max_unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
+     * Whole-number quantity; fractional quantities are not supported. Format: int32. anyOf[2]
+     * (Value): null.
+     */
+    "min_quantity"?: ((number) | (null));
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. anyOf[1]
+     * (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "min_unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. anyOf[1] (Value): string.
+     * Name of an ad hoc line item. Catalog lines take the catalog name. anyOf[2] (Value): null.
+     */
+    "name"?: ((string) | (null));
+    /**
+     * Unique identifier for this payment link line item, prefixed `plli_`. anyOf[1] (Value):
+     * string. Unique identifier for this payment link line item, prefixed `plli_`. Example:
+     * "plli_01KEZF7C004V7GVCCNMYYCBAJS". anyOf[2] (Value): null.
+     */
+    "payment_link_line_item_id"?: ((string) | (null));
+    /**
+     * Parent catalog context only. The product that the variants in variant_ids belong to. Present
+     * only on buyer choice lines; refused on input. anyOf[1] (Value): string. Parent catalog
+     * context only. The product that the variants in variant_ids belong to. Present only on buyer
+     * choice lines; refused on input. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". anyOf[2]
+     * (Value): null.
+     */
+    "product_id"?: ((string) | (null));
+    /**
+     * Classification configured on a custom line for ACH debit. Null when unclassified or
+     * catalog-backed; catalog lines get their product classification when checkout starts. Value
+     * enum: "physical", "service", "fee", "digital", "gift_card", null. anyOf[1] (Value): string.
+     * Classification configured on a custom line for ACH debit. Null when unclassified or
+     * catalog-backed; catalog lines get their product classification when checkout starts. Value
+     * enum: "physical", "service", "fee", "digital", "gift_card", null. anyOf[2] (Value): null.
+     */
+    "product_type"?: (("physical" | "service" | "fee" | "digital" | "gift_card" | null | (string & {})) | (null));
+    /**
+     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
+     * Whole-number quantity; fractional quantities are not supported. Format: int32. anyOf[2]
+     * (Value): null.
+     */
+    "quantity"?: ((number) | (null));
+    /**
+     * Public event read: whole-number admissions left after sales and payment holds; fractional
+     * quantities are not supported. This quantity is bounded by both the tier and event caps.
+     * Omitted when neither is capped. anyOf[1] (Value): integer. Public event read: whole-number
+     * admissions left after sales and payment holds; fractional quantities are not supported. This
+     * quantity is bounded by both the tier and event caps. Omitted when neither is capped. Format:
+     * int32. anyOf[2] (Value): null.
+     */
+    "remaining_quantity"?: ((number) | (null));
+    /**
+     * Current catalog name of the referenced variant or bundle, or the product name for
+     * variant_ids lines. A variant reads as the product name, plus the variant name when the
+     * variant is a named option combination. This is the catalog value at read time, not a stored
+     * snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line
+     * items and when the catalog object no longer exists. anyOf[1] (Value): string. Current
+     * catalog name of the referenced variant or bundle, or the product name for variant_ids lines.
+     * A variant reads as the product name, plus the variant name when the variant is a named
+     * option combination. This is the catalog value at read time, not a stored snapshot: checkout
+     * resolves it again when a buyer opens the link. Absent on ad-hoc line items and when the
+     * catalog object no longer exists. anyOf[2] (Value): null.
+     */
+    "resolved_name"?: ((string) | (null));
+    /**
+     * Current lowest and highest catalog unit prices among listed variants that can be sold in the
+     * line currency. Computed at read time, not stored. Omitted when no listed variant can be
+     * sold. anyOf[1] (Value): {@link ProductPriceRangePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "resolved_price_range"?: ((ProductPriceRangePreviousAttributes) | (null));
+    /**
+     * Current catalog unit price of the referenced variant or bundle. For a fixed variant this is
+     * the base price that applies below the first quantity price break. This is the catalog value
+     * at read time, not a stored snapshot: checkout resolves the price again when a buyer opens
+     * the link, so the amount a buyer pays can differ. Absent on ad-hoc line items, variant_ids
+     * lines, and when the catalog object no longer exists. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "resolved_unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. anyOf[1] (Value):
+     * Array of {@link MoneyValuePreviousAttributes}. Unit prices offered as one-tap choices when
+     * the buyer sets the price. anyOf[1][] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2]
+     * (Value): null.
+     */
+    "suggested_unit_price_money_options"?: ((Array<MoneyValuePreviousAttributes>) | (null));
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. anyOf[1] (Value):
+     * {@link OrderLineItemTaxPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "tax"?: ((OrderLineItemTaxPreviousAttributes) | (null));
+    /**
+     * How the line item is defined. Value enum: "variant", "bundle", "custom_fixed",
+     * "custom_variable". anyOf[1] (Value): string. How the line item is defined. Value enum:
+     * "variant", "bundle", "custom_fixed", "custom_variable". anyOf[2] (Value): null.
+     */
+    "type"?: (("variant" | "bundle" | "custom_fixed" | "custom_variable" | (string & {})) | (null));
+    /**
+     * Price of one unit of a `custom_fixed` line item. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * ID of the catalog variant a `variant` line sells. anyOf[1] (Value): string. ID of the
+     * catalog variant a `variant` line sells. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". anyOf[2]
+     * (Value): null.
+     */
+    "variant_id"?: ((string) | (null));
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. anyOf[1]
+     * (Value): Array of string. Variant IDs buyers may choose from, in the order offered. Contains
+     * 1 to 100 unique, active, sellable variants of one product in one currency. Available only on
+     * standard payment links. Mutually exclusive with variant_id, bundle_id, and ad hoc line item
+     * fields. minItems: 1. maxItems: 100. uniqueItems: true. anyOf[1][] (Value): string. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". anyOf[2] (Value):
+     * null.
+     */
+    "variant_ids"?: ((Array<string>) | (null));
+})
+    & (((Exclude<PaymentLinkLineItemVariantPreviousAttributes & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemBundlePreviousAttributes & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemCustomFixedPreviousAttributes & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemCustomVariablePreviousAttributes & object, readonly unknown[]>)
+    | (Record<string, unknown>)));
+/**
+ * A line item you add to a payment link when creating it, from a catalog variant, a bundle, or an
+ * ad hoc name and price.
+ */
+export type PaymentLinkLineItemRequest = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Optional whole-number admission capacity across all orders for an event tier; fractional
+     * quantities are not supported. Must be at least 1 and cannot exceed
+     * event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it
+     * in a line_items replacement removes an existing cap. Format: int32. minimum: 1.
+     */
+    "max_total_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Must be
+     * greater than zero and greater than or equal to min_unit_price_money. Omit for no maximum.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1. maxLength: 255.
+     */
+    "name"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | (string & {});
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /**
+     * How the line item is defined. Value enum: "variant", "bundle", "custom_fixed",
+     * "custom_variable".
+     */
+    "type": "variant" | "bundle" | "custom_fixed" | "custom_variable" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. amount (Required): integer string. Positive
+     * amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 1. currency (Required):
+     * string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern:
+     * ^[A-Z]{3}$. Example: "USD".
+     */
+    "unit_price_money"?: {
+        /**
+         * Positive amount in the currency's minor unit, such as cents for USD. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}`;
+        /**
+         * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+         * Example: "USD".
+         */
+        "currency": string;
+    };
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & ((Exclude<PaymentLinkLineItemInputVariant & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemInputBundle & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemInputCustomFixed & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemInputCustomVariable & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * A line item you add to a payment link when creating it, from a catalog variant, a bundle, or an
+ * ad hoc name and price.
+ */
+export type PaymentLinkLineItemRequestInput = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Optional whole-number admission capacity across all orders for an event tier; fractional
+     * quantities are not supported. Must be at least 1 and cannot exceed
+     * event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it
+     * in a line_items replacement removes an existing cap. Format: int32. minimum: 1.
+     */
+    "max_total_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Must be
+     * greater than zero and greater than or equal to min_unit_price_money. Omit for no maximum.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValueInput;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValueInput;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1. maxLength: 255.
+     */
+    "name"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital";
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValueInput>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTaxRequestInput;
+    /**
+     * How the line item is defined. Value enum: "variant", "bundle", "custom_fixed",
+     * "custom_variable".
+     */
+    "type": "variant" | "bundle" | "custom_fixed" | "custom_variable";
+    /**
+     * Price of one unit of a `custom_fixed` line item. amount (Required): integer string. Positive
+     * amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 1. currency (Required):
+     * string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern:
+     * ^[A-Z]{3}$. Example: "USD".
+     */
+    "unit_price_money"?: {
+        /**
+         * Positive amount in the currency's minor unit, such as cents for USD. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}` | bigint;
+        /**
+         * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+         * Example: "USD".
+         */
+        "currency": string;
+    };
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & ((Exclude<PaymentLinkLineItemInputVariantInput & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemInputBundleInput & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemInputCustomFixedInput & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemInputCustomVariableInput & object, readonly unknown[]>));
+/** A line item on a payment link. */
+export type PaymentLinkLineItemVariant = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. */
+    "description"?: string;
+    /**
+     * True when the referenced variant or bundle cannot be sold, or no listed variant in
+     * variant_ids can be sold in the line currency. Always false on ad hoc line items.
+     */
+    "is_catalog_item_unavailable": boolean;
+    /** Public event read: true when the tier or event has no capacity left. */
+    "is_sold_out"?: boolean;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Optional whole-number admission capacity across all orders for an event tier; fractional
+     * quantities are not supported. Must be at least 1 and cannot exceed
+     * event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it
+     * in a line_items replacement removes an existing cap. Format: int32. minimum: 1.
+     */
+    "max_total_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Must be
+     * greater than zero and greater than or equal to min_unit_price_money. Omit for no maximum.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /** Name of an ad hoc line item. Catalog lines take the catalog name. */
+    "name"?: string;
+    /**
+     * Unique identifier for this payment link line item, prefixed `plli_`. Example:
+     * "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id": string;
+    /**
+     * Parent catalog context only. The product that the variants in variant_ids belong to. Present
+     * only on buyer choice lines; refused on input. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+     */
+    "product_id"?: string;
+    /**
+     * Classification configured on a custom line for ACH debit. Null when unclassified or
+     * catalog-backed; catalog lines get their product classification when checkout starts. Value
+     * enum: "physical", "service", "fee", "digital", "gift_card", null.
+     */
+    "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | null | (string & {}) | null;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "quantity": number;
+    /**
+     * Public event read: whole-number admissions left after sales and payment holds; fractional
+     * quantities are not supported. This quantity is bounded by both the tier and event caps.
+     * Omitted when neither is capped. Format: int32.
+     */
+    "remaining_quantity"?: number;
+    /**
+     * Current catalog name of the referenced variant or bundle, or the product name for
+     * variant_ids lines. A variant reads as the product name, plus the variant name when the
+     * variant is a named option combination. This is the catalog value at read time, not a stored
+     * snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line
+     * items and when the catalog object no longer exists.
+     */
+    "resolved_name"?: string;
+    /**
+     * Current lowest and highest catalog unit prices among listed variants that can be sold in the
+     * line currency. Computed at read time, not stored. Omitted when no listed variant can be
+     * sold. The lowest and highest unit prices across a product's variants.
+     */
+    "resolved_price_range"?: ProductPriceRange;
+    /**
+     * Current catalog unit price of the referenced variant or bundle. For a fixed variant this is
+     * the base price that applies below the first quantity price break. This is the catalog value
+     * at read time, not a stored snapshot: checkout resolves the price again when a buyer opens
+     * the link, so the amount a buyer pays can differ. Absent on ad-hoc line items, variant_ids
+     * lines, and when the catalog object no longer exists. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "resolved_unit_price_money"?: MoneyValue;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /** How the line item is defined. Value enum: "variant". */
+    "type": "variant" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValue;
+    /**
+     * ID of the catalog variant a `variant` line sells. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: "variant". */
+    "type": "variant" | (string & {});
+})
+    & (({
+    /**
+     * ID of the catalog variant a `variant` line sells. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id": string;
+})
+    | ({
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids": Array<string>;
+})
+    | (Record<string, unknown>)));
+export type PaymentLinkLineItemVariantPreviousAttributes = ({
+    /**
+     * Whether the buyer can change the quantity in checkout. anyOf[1] (Value): boolean. Whether
+     * the buyer can change the quantity in checkout. anyOf[2] (Value): null.
+     */
+    "allow_quantity_adjustment"?: ((boolean) | (null));
+    /**
+     * Whether the buyer sets the unit price. Only `custom_variable` lines allow it. anyOf[1]
+     * (Value): boolean. Whether the buyer sets the unit price. Only `custom_variable` lines allow
+     * it. anyOf[2] (Value): null.
+     */
+    "allow_unit_price_adjustment"?: ((boolean) | (null));
+    /**
+     * ID of the catalog bundle a `bundle` line sells. anyOf[1] (Value): string. ID of the catalog
+     * bundle a `bundle` line sells. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". anyOf[2] (Value):
+     * null.
+     */
+    "bundle_id"?: ((string) | (null));
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. anyOf[1] (Value): string.
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". anyOf[2] (Value):
+     * null.
+     */
+    "default_variant_id"?: ((string) | (null));
+    /**
+     * Description of an ad hoc line item. anyOf[1] (Value): string. Description of an ad hoc line
+     * item. anyOf[2] (Value): null.
+     */
+    "description"?: ((string) | (null));
+    /**
+     * True when the referenced variant or bundle cannot be sold, or no listed variant in
+     * variant_ids can be sold in the line currency. Always false on ad hoc line items. anyOf[1]
+     * (Value): boolean. True when the referenced variant or bundle cannot be sold, or no listed
+     * variant in variant_ids can be sold in the line currency. Always false on ad hoc line items.
+     * anyOf[2] (Value): null.
+     */
+    "is_catalog_item_unavailable"?: ((boolean) | (null));
+    /**
+     * Public event read: true when the tier or event has no capacity left. anyOf[1] (Value):
+     * boolean. Public event read: true when the tier or event has no capacity left. anyOf[2]
+     * (Value): null.
+     */
+    "is_sold_out"?: ((boolean) | (null));
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. anyOf[1] (Value): string. Keys the resolve override maps. Stable
+     * line item key used in checkout overrides. Must not have leading or trailing whitespace.
+     * Assigned as line_item_1, line_item_2, and so on when omitted, skipping numbers already used
+     * by explicit keys; retained for an existing line item when omitted on update. anyOf[2]
+     * (Value): null.
+     */
+    "key"?: ((string) | (null));
+    /**
+     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
+     * Whole-number quantity; fractional quantities are not supported. Format: int32. anyOf[2]
+     * (Value): null.
+     */
+    "max_quantity"?: ((number) | (null));
+    /**
+     * Optional whole-number admission capacity across all orders for an event tier; fractional
+     * quantities are not supported. Must be at least 1 and cannot exceed
+     * event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it
+     * in a line_items replacement removes an existing cap. anyOf[1] (Value): integer. Optional
+     * whole-number admission capacity across all orders for an event tier; fractional quantities
+     * are not supported. Must be at least 1 and cannot exceed event_config.max_total_quantity when
+     * the event is capped. Omit for no tier cap; omitting it in a line_items replacement removes
+     * an existing cap. Format: int32. minimum: 1. anyOf[2] (Value): null.
+     */
+    "max_total_quantity"?: ((number) | (null));
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Must be
+     * greater than zero and greater than or equal to min_unit_price_money. Omit for no maximum.
+     * anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "max_unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
+     * Whole-number quantity; fractional quantities are not supported. Format: int32. anyOf[2]
+     * (Value): null.
+     */
+    "min_quantity"?: ((number) | (null));
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. anyOf[1]
+     * (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "min_unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. anyOf[1] (Value): string.
+     * Name of an ad hoc line item. Catalog lines take the catalog name. anyOf[2] (Value): null.
+     */
+    "name"?: ((string) | (null));
+    /**
+     * Unique identifier for this payment link line item, prefixed `plli_`. anyOf[1] (Value):
+     * string. Unique identifier for this payment link line item, prefixed `plli_`. Example:
+     * "plli_01KEZF7C004V7GVCCNMYYCBAJS". anyOf[2] (Value): null.
+     */
+    "payment_link_line_item_id"?: ((string) | (null));
+    /**
+     * Parent catalog context only. The product that the variants in variant_ids belong to. Present
+     * only on buyer choice lines; refused on input. anyOf[1] (Value): string. Parent catalog
+     * context only. The product that the variants in variant_ids belong to. Present only on buyer
+     * choice lines; refused on input. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". anyOf[2]
+     * (Value): null.
+     */
+    "product_id"?: ((string) | (null));
+    /**
+     * Classification configured on a custom line for ACH debit. Null when unclassified or
+     * catalog-backed; catalog lines get their product classification when checkout starts. Value
+     * enum: "physical", "service", "fee", "digital", "gift_card", null. anyOf[1] (Value): string.
+     * Classification configured on a custom line for ACH debit. Null when unclassified or
+     * catalog-backed; catalog lines get their product classification when checkout starts. Value
+     * enum: "physical", "service", "fee", "digital", "gift_card", null. anyOf[2] (Value): null.
+     */
+    "product_type"?: (("physical" | "service" | "fee" | "digital" | "gift_card" | null | (string & {})) | (null));
+    /**
+     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
+     * Whole-number quantity; fractional quantities are not supported. Format: int32. anyOf[2]
+     * (Value): null.
+     */
+    "quantity"?: ((number) | (null));
+    /**
+     * Public event read: whole-number admissions left after sales and payment holds; fractional
+     * quantities are not supported. This quantity is bounded by both the tier and event caps.
+     * Omitted when neither is capped. anyOf[1] (Value): integer. Public event read: whole-number
+     * admissions left after sales and payment holds; fractional quantities are not supported. This
+     * quantity is bounded by both the tier and event caps. Omitted when neither is capped. Format:
+     * int32. anyOf[2] (Value): null.
+     */
+    "remaining_quantity"?: ((number) | (null));
+    /**
+     * Current catalog name of the referenced variant or bundle, or the product name for
+     * variant_ids lines. A variant reads as the product name, plus the variant name when the
+     * variant is a named option combination. This is the catalog value at read time, not a stored
+     * snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line
+     * items and when the catalog object no longer exists. anyOf[1] (Value): string. Current
+     * catalog name of the referenced variant or bundle, or the product name for variant_ids lines.
+     * A variant reads as the product name, plus the variant name when the variant is a named
+     * option combination. This is the catalog value at read time, not a stored snapshot: checkout
+     * resolves it again when a buyer opens the link. Absent on ad-hoc line items and when the
+     * catalog object no longer exists. anyOf[2] (Value): null.
+     */
+    "resolved_name"?: ((string) | (null));
+    /**
+     * Current lowest and highest catalog unit prices among listed variants that can be sold in the
+     * line currency. Computed at read time, not stored. Omitted when no listed variant can be
+     * sold. anyOf[1] (Value): {@link ProductPriceRangePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "resolved_price_range"?: ((ProductPriceRangePreviousAttributes) | (null));
+    /**
+     * Current catalog unit price of the referenced variant or bundle. For a fixed variant this is
+     * the base price that applies below the first quantity price break. This is the catalog value
+     * at read time, not a stored snapshot: checkout resolves the price again when a buyer opens
+     * the link, so the amount a buyer pays can differ. Absent on ad-hoc line items, variant_ids
+     * lines, and when the catalog object no longer exists. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "resolved_unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. anyOf[1] (Value):
+     * Array of {@link MoneyValuePreviousAttributes}. Unit prices offered as one-tap choices when
+     * the buyer sets the price. anyOf[1][] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2]
+     * (Value): null.
+     */
+    "suggested_unit_price_money_options"?: ((Array<MoneyValuePreviousAttributes>) | (null));
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. anyOf[1] (Value):
+     * {@link OrderLineItemTaxPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "tax"?: ((OrderLineItemTaxPreviousAttributes) | (null));
+    /**
+     * How the line item is defined. Value enum: "variant". anyOf[1] (Value): string. How the line
+     * item is defined. Value enum: "variant". anyOf[2] (Value): null.
+     */
+    "type"?: (("variant" | (string & {})) | (null));
+    /**
+     * Price of one unit of a `custom_fixed` line item. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * ID of the catalog variant a `variant` line sells. anyOf[1] (Value): string. ID of the
+     * catalog variant a `variant` line sells. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". anyOf[2]
+     * (Value): null.
+     */
+    "variant_id"?: ((string) | (null));
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. anyOf[1]
+     * (Value): Array of string. Variant IDs buyers may choose from, in the order offered. Contains
+     * 1 to 100 unique, active, sellable variants of one product in one currency. Available only on
+     * standard payment links. Mutually exclusive with variant_id, bundle_id, and ad hoc line item
+     * fields. minItems: 1. maxItems: 100. uniqueItems: true. anyOf[1][] (Value): string. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". anyOf[2] (Value):
+     * null.
+     */
+    "variant_ids"?: ((Array<string>) | (null));
+})
+    & (({
+    /**
+     * Value enum: "variant". anyOf[1] (Value): string. Value enum: "variant". anyOf[2] (Value):
+     * null.
+     */
+    "type"?: (("variant" | (string & {})) | (null));
+})
+    & (((unknown) | (unknown) | (Record<string, unknown>))));
+/** A page of `PaymentLink` objects. */
+export type PaymentLinkListResponse = {
     /**
      * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * PaymentSplit}. A top-level child of a payment intent dividing the collecting merchant's
-     * payment funds with one seller. Both parties read this same resource with their own
-     * credentials.
+     * PaymentLink}. A reusable link that opens checkout.
      */
-    "data": Array<PaymentSplit>;
+    "data": Array<PaymentLink>;
     /**
      * Additional information about this response. Metadata returned with a response: the
      * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
@@ -7173,315 +6893,63 @@ export type PaymentSplitListResponse = {
      */
     "request_id": string;
 };
-export type PaymentSplitPreviousAttributes = {
+/**
+ * Payment settings on a payment link: the enabled payment options and a note shown with payment.
+ */
+export type PaymentLinkPaymentConfigInput = {
     /**
-     * The admitted amount, or its final amount set at capture. anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * Payment options for this payment link. Checkout offers only the options that are also
+     * enabled in settings.checkout.enabled_payment_options; omit the list to use that setting. []
+     * enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit". [] (Value): string. Value
+     * enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
      */
-    "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
+    "enabled_payment_options"?: Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit">;
+    /** A note shown to the buyer with the payment options. minLength: 1. maxLength: 500. */
+    "payment_note"?: string;
+};
+/** Changes to a payment link's payment settings. Send null on the payment note to clear it. */
+export type PaymentLinkPaymentPatchRequest = {
     /**
-     * Present when status is canceled. Can gain values. Value enum: "payment_not_completed",
-     * "install_revoked", "fully_reversed". anyOf[1] (Value): string. Present when status is
-     * canceled. Can gain values. Value enum: "payment_not_completed", "install_revoked",
-     * "fully_reversed". anyOf[2] (Value): null.
+     * Payment options for this payment link. Checkout offers only the options that are also
+     * enabled in settings.checkout.enabled_payment_options; omit the list to use that setting. []
+     * enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit". [] (Value): string. Value
+     * enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
      */
-    "canceled_reason"?: (("payment_not_completed" | "install_revoked" | "fully_reversed" | (string & {})) | (null));
+    "enabled_payment_options"?: Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | (string & {})>;
+    /** Send null to clear it. minLength: 1. maxLength: 500. */
+    "payment_note"?: string | null;
+};
+/** Changes to a payment link's payment settings. Send null on the payment note to clear it. */
+export type PaymentLinkPaymentPatchRequestInput = {
     /**
-     * The merchant of record that collected the payment. anyOf[1] (Value): string. The merchant of
-     * record that collected the payment. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2]
-     * (Value): null.
+     * Payment options for this payment link. Checkout offers only the options that are also
+     * enabled in settings.checkout.enabled_payment_options; omit the list to use that setting. []
+     * enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit". [] (Value): string. Value
+     * enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
      */
-    "collecting_merchant_id"?: ((string) | (null));
-    /**
-     * When the payment's create recorded the split. anyOf[1] (Value): string. When the payment's
-     * create recorded the split. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
-     * (Value): null.
-     */
-    "created_at"?: ((string) | (null));
-    /**
-     * The collecting merchant's description, shown to the seller. anyOf[1] (Value): string. The
-     * collecting merchant's description, shown to the seller. anyOf[2] (Value): null.
-     */
-    "description"?: ((string) | (null));
-    /**
-     * Caller-owned identifier for this resource in an external system. Shown to the seller. Exact,
-     * case-sensitive matching. anyOf[1] (Value): string. Caller-owned identifier for this resource
-     * in an external system. Shown to the seller. Exact, case-sensitive matching. maxLength: 255.
-     * Example: "warehouse-1842". anyOf[2] (Value): null.
-     */
-    "external_reference_id"?: ((string) | (null));
-    /**
-     * Present when status is failed. Can gain values; unknown reasons use split_failed. Value
-     * enum: "seller_cannot_receive", "split_failed". anyOf[1] (Value): string. Present when status
-     * is failed. Can gain values; unknown reasons use split_failed. Value enum:
-     * "seller_cannot_receive", "split_failed". anyOf[2] (Value): null.
-     */
-    "failure_reason"?: (("seller_cannot_receive" | "split_failed" | (string & {})) | (null));
-    /**
-     * When the funds become available on Flint's balance. Null when Stripe has not reported it or
-     * the payment never succeeded. Can move later after a won dispute; frozen at release. anyOf[1]
-     * (Value): string. When the funds become available on Flint's balance. Null when Stripe has
-     * not reported it or the payment never succeeded. Can move later after a won dispute; frozen
-     * at release. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "funds_available_at"?: ((string) | (null));
-    /**
-     * The collecting merchant's partner app. anyOf[1] (Value): string. The collecting merchant's
-     * partner app. Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV". anyOf[2] (Value): null.
-     */
-    "partner_app_id"?: ((string) | (null));
-    /**
-     * The seller's install of the app. anyOf[1] (Value): string. The seller's install of the app.
-     * Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". anyOf[2] (Value): null.
-     */
-    "partner_app_install_id"?: ((string) | (null));
-    /**
-     * The collecting merchant's payment. Sellers can read the split, but not the payment. anyOf[1]
-     * (Value): string. The collecting merchant's payment. Sellers can read the split, but not the
-     * payment. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2] (Value): null.
-     */
-    "payment_intent_id"?: ((string) | (null));
-    /**
-     * Unique identifier for the split. anyOf[1] (Value): string. Unique identifier for the split.
-     * Example: "psplit_01KEZF7C00Y5HA4Z8D4KRA07K8". anyOf[2] (Value): null.
-     */
-    "payment_split_id"?: ((string) | (null));
-    /**
-     * Present when status is pending. Can gain values. Value enum: "awaiting_payment",
-     * "dispute_open", "reversals_pending", "awaiting_funds". anyOf[1] (Value): string. Present
-     * when status is pending. Can gain values. Value enum: "awaiting_payment", "dispute_open",
-     * "reversals_pending", "awaiting_funds". anyOf[2] (Value): null.
-     */
-    "pending_reason"?: (("awaiting_payment" | "dispute_open" | "reversals_pending" | "awaiting_funds" | (string & {}))
-        | (null));
-    /**
-     * Read-only nested children created by Flint, embedded whole. Empty when none. At most one per
-     * refund and one per dispute. anyOf[1] (Value): Array of {@link
-     * PaymentSplitReversalPreviousAttributes}. Read-only nested children created by Flint,
-     * embedded whole. Empty when none. At most one per refund and one per dispute. anyOf[1][]
-     * (Value): {@link PaymentSplitReversalPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "reversals"?: ((Array<PaymentSplitReversalPreviousAttributes>) | (null));
-    /**
-     * Reversals' total amount minus their reinstated amounts. anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "reversed_money"?: ((MoneyValuePreviousAttributes) | (null));
-    /**
-     * The merchant receiving the split. anyOf[1] (Value): string. The merchant receiving the
-     * split. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
-     */
-    "seller_merchant_id"?: ((string) | (null));
-    /**
-     * Reversed funds the collecting merchant covered for the seller, less reinstatements. The
-     * seller's net is amount_money minus reversed_money plus shortfall_money. anyOf[1] (Value):
-     * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "shortfall_money"?: ((MoneyValuePreviousAttributes) | (null));
-    /**
-     * The split lifecycle status. Value enum: "pending", "processing", "succeeded", "failed",
-     * "canceled". anyOf[1] (Value): string. The split lifecycle status. Value enum: "pending",
-     * "processing", "succeeded", "failed", "canceled". anyOf[2] (Value): null.
-     */
-    "status"?: (("pending" | "processing" | "succeeded" | "failed" | "canceled" | (string & {})) | (null));
-    /**
-     * When the split reached the seller's balance. Present when succeeded. anyOf[1] (Value):
-     * string. When the split reached the seller's balance. Present when succeeded. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "succeeded_at"?: ((string) | (null));
-    /**
-     * When the split last changed. anyOf[1] (Value): string. When the split last changed. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "updated_at"?: ((string) | (null));
-    /**
-     * Persisted version of this resource's owned state. Expanded resources and external
-     * observations can change independently. anyOf[1] (Value): integer. Persisted version of this
-     * resource's owned state. Expanded resources and external observations can change
-     * independently. Format: uint64. minimum: 1. anyOf[2] (Value): null.
-     */
-    "version"?: ((number) | (null));
+    "enabled_payment_options"?: Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit">;
+    /** Send null to clear it. minLength: 1. maxLength: 500. */
+    "payment_note"?: string | null;
 };
 /**
- * A seller's fixed share of one payment, created with that payment. This divides the payment's
- * funds; split tender divides how the buyer pays.
+ * An active product option offered on a payment link, with values used by its available variants.
  */
-export type PaymentSplitRequest = {
+export type PaymentLinkProductOption = {
+    /** Product option name, such as Size or Color. */
+    "name": string;
+    /** ID of the product option. Example: "opt_01KEZF7C008R5Q9BG9B4B4KQH8". */
+    "option_id": string;
     /**
-     * Seller's share above zero, in the payment's currency. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code. amount (Required): integer string. Use an
-     * integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
-     * Amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal
-     * digits), not a floating-point number. Format: int64. minimum: 0. currency (Required):
-     * string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern:
-     * ^[A-Z]{3}$.
+     * Values used by at least one available variant, in product option value position order. []
+     * (Value): {@link PaymentLinkProductOptionValue}. A product option value used by an available
+     * payment link variant.
      */
-    "amount_money": ({
-        /**
-         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
-         * minimum: 1.
-         */
-        "amount"?: `${bigint}`;
-    })
-        & (Exclude<MoneyValue & object, readonly unknown[]>);
-    /** Description shown to the seller, 1 to 500 characters. minLength: 1. maxLength: 500. */
-    "description"?: string;
-    /**
-     * Caller-owned identifier for this resource in an external system. Shown to the seller. Exact,
-     * case-sensitive matching. Must contain 1 to 255 characters (Unicode code points). minLength:
-     * 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Seller install of the collecting merchant's partner app. At most one split per install.
-     * minLength: 1. pattern: ^pinst_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-     */
-    "partner_app_install_id": string;
+    "values": Array<PaymentLinkProductOptionValue>;
 };
-/**
- * A seller's fixed share of one payment, created with that payment. This divides the payment's
- * funds; split tender divides how the buyer pays.
- */
-export type PaymentSplitRequestInput = {
-    /**
-     * Seller's share above zero, in the payment's currency. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code. amount (Required): integer string. Use an
-     * integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
-     * Amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal
-     * digits), not a floating-point number. Format: int64. minimum: 0. currency (Required):
-     * string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern:
-     * ^[A-Z]{3}$.
-     */
-    "amount_money": ({
-        /**
-         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
-         * minimum: 1.
-         */
-        "amount"?: `${bigint}` | bigint;
-    })
-        & (Exclude<MoneyValueInput & object, readonly unknown[]>);
-    /** Description shown to the seller, 1 to 500 characters. minLength: 1. maxLength: 500. */
-    "description"?: string;
-    /**
-     * Caller-owned identifier for this resource in an external system. Shown to the seller. Exact,
-     * case-sensitive matching. Must contain 1 to 255 characters (Unicode code points). minLength:
-     * 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Seller install of the collecting merchant's partner app. At most one split per install.
-     * minLength: 1. pattern: ^pinst_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-     */
-    "partner_app_install_id": string;
-};
-/** A response containing `PaymentSplit` data. */
-export type PaymentSplitResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A top-level child of a
-     * payment intent dividing the collecting merchant's payment funds with one seller. Both
-     * parties read this same resource with their own credentials.
-     */
-    "data": PaymentSplit;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * A read-only nested child of a payment split, created by Flint for a refund or dispute. Embedded
- * whole in PaymentSplit.reversals; no routes of its own.
- */
-export type PaymentSplitReversal = {
-    /**
-     * The split's share taken back. Monetary amount represented as integer minor units plus an ISO
-     * 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-    /** When the reversal was recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /** Unique identifier for the reversal. Example: "psrev_01KEZF7C00XC1HA7S8YCQJDBDM". */
-    "payment_split_reversal_id": string;
-    /** Why Flint created the reversal. Value enum: "refund", "dispute", "other". */
-    "reason": "refund" | "dispute" | "other" | (string & {});
-    /**
-     * Funds returned to whoever funded the reversal, such as after a won dispute or failed refund.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "reinstated_money": MoneyValue;
-    /**
-     * The part the collecting merchant covered. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "shortfall_money": MoneyValue;
-    /**
-     * The refund or dispute behind the reversal. A reference to another resource by
-     * `resource_type` and `resource_id`.
-     */
-    "source": ResourceReference;
-    /** The reversal lifecycle status. Value enum: "pending", "succeeded", "canceled". */
-    "status": "pending" | "succeeded" | "canceled" | (string & {});
-    /**
-     * When the split's share was recovered. Present when succeeded. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "succeeded_at"?: string;
-};
-export type PaymentSplitReversalPreviousAttributes = {
-    /**
-     * The split's share taken back. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-     * anyOf[2] (Value): null.
-     */
-    "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
-    /**
-     * When the reversal was recorded. anyOf[1] (Value): string. When the reversal was recorded.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "created_at"?: ((string) | (null));
-    /**
-     * Unique identifier for the reversal. anyOf[1] (Value): string. Unique identifier for the
-     * reversal. Example: "psrev_01KEZF7C00XC1HA7S8YCQJDBDM". anyOf[2] (Value): null.
-     */
-    "payment_split_reversal_id"?: ((string) | (null));
-    /**
-     * Why Flint created the reversal. Value enum: "refund", "dispute", "other". anyOf[1] (Value):
-     * string. Why Flint created the reversal. Value enum: "refund", "dispute", "other". anyOf[2]
-     * (Value): null.
-     */
-    "reason"?: (("refund" | "dispute" | "other" | (string & {})) | (null));
-    /**
-     * Funds returned to whoever funded the reversal, such as after a won dispute or failed refund.
-     * anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "reinstated_money"?: ((MoneyValuePreviousAttributes) | (null));
-    /**
-     * The part the collecting merchant covered. anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "shortfall_money"?: ((MoneyValuePreviousAttributes) | (null));
-    /**
-     * The refund or dispute behind the reversal. anyOf[1] (Value): {@link
-     * ResourceReferencePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "source"?: ((ResourceReferencePreviousAttributes) | (null));
-    /**
-     * The reversal lifecycle status. Value enum: "pending", "succeeded", "canceled". anyOf[1]
-     * (Value): string. The reversal lifecycle status. Value enum: "pending", "succeeded",
-     * "canceled". anyOf[2] (Value): null.
-     */
-    "status"?: (("pending" | "succeeded" | "canceled" | (string & {})) | (null));
-    /**
-     * When the split's share was recovered. Present when succeeded. anyOf[1] (Value): string. When
-     * the split's share was recovered. Present when succeeded. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "succeeded_at"?: ((string) | (null));
+/** A product option value used by an available payment link variant. */
+export type PaymentLinkProductOptionValue = {
+    /** ID of the product option value. Example: "optv_01KEZF7C0078SVZ1T7PVRXQK7F". */
+    "option_value_id": string;
+    /** Product option value shown to the buyer, such as M or Blue. */
+    "value": string;
 };

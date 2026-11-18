@@ -1,0 +1,1 @@
+{"shared":"PartnerAppPlatformContact","phpRepresentation":{"kind":"record","fields":{"support_email":{"kind":"value","type":"string"},"support_phone":{"kind":"value","type":"string"},"website_url":{"kind":"value","type":"string"}}},"dependencies":["PartnerAppPlatformContact"]}

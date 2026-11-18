@@ -24,6 +24,7 @@ Resource, collection, or operation result returned by this request. A package wi
 | `dimensions` | Optional | [Dimensions](../models/Dimensions.md#dimensions) | Physical length, width, and height of the package. Package or item dimensions as `length`, `width`, and `height` in the given `unit`. |
 | `expected_delivery_at` | Optional | string or null | When the carrier or merchant expects this package to arrive. Null when no estimate is set. Retained after delivery as history. This estimate is separate from the fulfillment's promised shipment window. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `fulfillment_id` | Required | string | Fulfillment whose items are in the package. Example: `"ful_01KEZF7C00F24WVSTTWR1FQX5T"`. |
+| `items` | Optional | Array of [BuyerPackageItem](../models/BuyerPackageItem.md#buyerpackageitem) | Order line quantities allocated to this outbound package. Present when the package has items. `items[]`: [field definitions](../models/BuyerPackageResponse.md#buyerpackageresponsedataitems). |
 | `label_url` | Optional | string | Return-label URL supplied by the merchant's integration. Included for return packages; omitted for outbound packages. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `order_id` | Required | string | Order whose items are in the package. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
 | `package_id` | Required | string | Stable identifier of the package. Example: `"pkg_01KEZF7C00ZZA16BJCEJBWKJ5R"`. |
@@ -38,6 +39,12 @@ Resource, collection, or operation result returned by this request. A package wi
 | `updated_at` | Required | string | Last update timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `version` | Required | integer | Monotonic package version for expected_version checks. Format: `uint64`. minimum: `1`. |
 | `weight` | Optional | [Weight](../models/Weight.md#weight) | Physical weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in delivery profile configuration. |
+
+### BuyerPackageResponse.data.items[]
+
+An order line quantity allocated to this package.
+
+Field definitions: [shared fields](BuyerPackageItemInput.md#buyerpackageiteminput).
 
 ### BuyerPackageResponse.data.return_line_items[]
 

@@ -3,15 +3,15 @@ import type { ClientOptions } from '../declarations/types-7.js';
 import type { CreateReturnPolicyResponse } from '../declarations/types-13.js';
 import type { DeleteReturnPolicyResponse } from '../declarations/types-17.js';
 import type { GetReturnPolicyResponse, GetReturnPolicyRevisionResponse } from '../declarations/types-28.js';
-import type { ListReturnPoliciesResponse, ListReturnPolicyRevisionsResponse } from '../declarations/types-39.js';
-import type { PublishReturnPolicyRevisionResponse } from '../declarations/types-57.js';
-import type { RequestOptions } from '../declarations/types-60.js';
+import type { ListReturnPoliciesResponse, ListReturnPolicyRevisionsResponse } from '../declarations/types-40.js';
+import type { PublishReturnPolicyRevisionResponse } from '../declarations/types-59.js';
+import type { RequestOptions } from '../declarations/types-61.js';
 import type {
     ReturnPoliciesCreateParams,
     ReturnPoliciesCreateRevisionParams,
     ReturnPoliciesDeleteParams,
     ReturnPoliciesGetParams
-} from '../declarations/types-61.js';
+} from '../declarations/types-63.js';
 import type {
     ReturnPoliciesGetRevisionParams,
     ReturnPoliciesListParams,
@@ -19,9 +19,9 @@ import type {
     ReturnPoliciesUpdateParams,
     ReturnPolicy,
     ReturnPolicyRevision
-} from '../declarations/types-62.js';
-import type { UpdateReturnPolicyResponse } from '../declarations/types-75.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+} from '../declarations/types-64.js';
+import type { UpdateReturnPolicyResponse } from '../declarations/types-77.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -41,8 +41,8 @@ export type {
     ReturnPoliciesCreateRevisionParams,
     ReturnPoliciesDeleteParams,
     ReturnPoliciesGetParams
-} from '../declarations/types-61.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
+} from '../declarations/types-63.js';
+export type { RequestOptions } from '../declarations/types-61.js';
 export type {
     ReturnPolicy,
     ReturnPoliciesGetRevisionParams,
@@ -59,42 +59,44 @@ export type {
     ReturnPolicyScope,
     ReturnPolicyScopeAll,
     ReturnPolicyScopeInclude
-} from '../declarations/types-62.js';
+} from '../declarations/types-64.js';
 export type { CreateReturnPolicyResponse, CreateReturnPolicyRequestInput } from '../declarations/types-13.js';
-export type { PublishReturnPolicyRevisionResponse, PublishReturnPolicyRevisionRequestInput } from '../declarations/types-57.js';
+export type { PublishReturnPolicyRevisionResponse, PublishReturnPolicyRevisionRequestInput } from '../declarations/types-59.js';
 export type { DeleteReturnPolicyResponse } from '../declarations/types-17.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { GetReturnPolicyResponse, GetReturnPolicyRevisionResponse } from '../declarations/types-28.js';
-export type { ListReturnPoliciesResponse, ListReturnPolicyRevisionsResponse } from '../declarations/types-39.js';
-export type { UpdateReturnPolicyResponse, UpdateReturnPolicyRequestInput } from '../declarations/types-75.js';
+export type { ListReturnPoliciesResponse, ListReturnPolicyRevisionsResponse } from '../declarations/types-40.js';
+export type { UpdateReturnPolicyResponse, UpdateReturnPolicyRequestInput } from '../declarations/types-77.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-41.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type {
     ReturnRestockingFeePolicyRequestInput,
     ReturnShippingPolicyRequestInput,
     ReturnRestockingFeePolicy,
     ReturnShippingPolicy
-} from '../declarations/types-63.js';
-export type { MoneyValueInput, NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReturnWindowRequestInput, ReturnWindow } from '../declarations/types-64.js';
+} from '../declarations/types-65.js';
+export type { MoneyValueInput, NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReturnWindowRequestInput, ReturnWindow } from '../declarations/types-66.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
-export { makeCreateReturnPolicyRequest } from '../declarations/types-81.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
+export type { Credentials } from '../declarations/types-15.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { DisputesAcceptParams } from '../declarations/types-26.js';
+export { makeCreateReturnPolicyRequest } from '../declarations/types-83.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makePublishReturnPolicyRevisionRequest } from '../declarations/types-90.js';
 export {
-    makePublishReturnPolicyRevisionRequest,
     makeReturnPolicyRevisionInputIneligible,
     makeReturnPolicyRevisionInputReturnable,
     makeReturnPolicyRevisionRequest,
     makeReturnPolicyScopeAllRequest,
     makeReturnPolicyScopeIncludeRequest,
-    makeReturnPolicyScopeRequest
-} from '../declarations/types-88.js';
-export { makeReturnRestockingFeePolicyRequest, makeReturnShippingPolicyRequest, makeReturnWindowRequest } from '../declarations/types-89.js';
-export { makeUpdateReturnPolicyRequest } from '../declarations/types-91.js';
+    makeReturnPolicyScopeRequest,
+    makeReturnRestockingFeePolicyRequest,
+    makeReturnShippingPolicyRequest,
+    makeReturnWindowRequest
+} from '../declarations/types-91.js';
+export { makeUpdateReturnPolicyRequest } from '../declarations/types-94.js';
 export interface ReturnPoliciesResource {
     /**
  * Create a Return policy with its first revision. The policy ID is stable across revisions, and
@@ -116,7 +118,9 @@ export interface ReturnPoliciesResource {
  * the policy's current version as expected_version to reject a concurrent policy edit or publish.
  *
  * `POST /v1/return-policies/{return_policy_id}/revisions`
- * @param return_policy_id Flint return policy id.
+ * @param return_policy_id Flint return policy id. Must be a valid ID with prefix rpol_. Malformed
+ * IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist
+ * return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/return-policies#createReturnPolicyRevision
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -132,7 +136,9 @@ export interface ReturnPoliciesResource {
  * Archive a Return policy so it is no longer evaluated or offered. Archiving is permanent.
  *
  * `DELETE /v1/return-policies/{return_policy_id}`
- * @param return_policy_id Flint return policy id.
+ * @param return_policy_id Flint return policy id. Must be a valid ID with prefix rpol_. Malformed
+ * IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist
+ * return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/return-policies#deleteReturnPolicy
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -146,7 +152,9 @@ export interface ReturnPoliciesResource {
  * Retrieve one Return policy. Supports expand for current_revision.
  *
  * `GET /v1/return-policies/{return_policy_id}`
- * @param return_policy_id Flint return policy id.
+ * @param return_policy_id Flint return policy id. Must be a valid ID with prefix rpol_. Malformed
+ * IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist
+ * return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/return-policies#getReturnPolicy
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -157,8 +165,12 @@ export interface ReturnPoliciesResource {
  * Retrieve one immutable policy revision, including the exact rules a Return was evaluated against.
  *
  * `GET /v1/return-policies/{return_policy_id}/revisions/{return_policy_revision_id}`
- * @param return_policy_id Flint return policy id.
- * @param return_policy_revision_id Flint return policy revision id.
+ * @param return_policy_id Flint return policy id. Must be a valid ID with prefix rpol_. Malformed
+ * IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist
+ * return 404 RESOURCE_NOT_FOUND.
+ * @param return_policy_revision_id Flint return policy revision id. Must be a valid ID with prefix
+ * rpolv_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that
+ * do not exist return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/return-policies#getReturnPolicyRevision
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -190,7 +202,9 @@ export interface ReturnPoliciesResource {
  * return_policy_revision_id descending.
  *
  * `GET /v1/return-policies/{return_policy_id}/revisions`
- * @param return_policy_id Flint return policy id.
+ * @param return_policy_id Flint return policy id. Must be a valid ID with prefix rpol_. Malformed
+ * IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist
+ * return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/return-policies#listReturnPolicyRevisions
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -210,7 +224,9 @@ export interface ReturnPoliciesResource {
  * changing a window, fee, or scope means publishing a new revision.
  *
  * `PATCH /v1/return-policies/{return_policy_id}`
- * @param return_policy_id Flint return policy id.
+ * @param return_policy_id Flint return policy id. Must be a valid ID with prefix rpol_. Malformed
+ * IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist
+ * return 404 RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/return-policies#updateReturnPolicy
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

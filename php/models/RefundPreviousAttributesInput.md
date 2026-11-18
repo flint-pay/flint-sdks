@@ -9,7 +9,9 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `amount_money` | Optional | [MoneyValuePreviousAttributesInput](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinput) or null | Total refunded across all tenders, including `refunded_tip_money`. |
+| `charge_allocations` | Optional | Array of [RefundChargeAllocationPreviousAttributesInput](../models/RefundChargeAllocationPreviousAttributesInput.md#refundchargeallocationpreviousattributesinput) or null | Money returned for each order charge, including subtotal, discount, and tax, combined across payment refunds. `charge_allocations`: [declared alternatives](../models/RefundFailedInstalledMerchantsEventInput.md#refundfailedinstalledmerchantseventinputdataprevious_attributescharge_allocations). |
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at). |
+| `credit_adjustment_money` | Optional | [MoneyValuePreviousAttributesInput](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinput) or null | Money paid for Return resolution credits, included in amount_money. It carries no merchandise, shipping, tax, or tip allocation. Zero for refunds without credits. |
 | `credit_note_id` | Optional | string or null | ID of the credit note this refund paid out. Present only on refunds issued through a credit note. `credit_note_id`: [declared alternatives](../models/BuyerRefundPreviousAttributesInput.md#buyerrefundpreviousattributesinputcredit_note_id). |
 | `customer` | Optional | [ExpandedCustomerSummaryPreviousAttributesInput](../models/ExpandedCustomerSummaryPreviousAttributesInput.md#expandedcustomersummarypreviousattributesinput) or null | Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. |
 | `customer_id` | Optional | string or null | ID of the customer on the refunded order or payment. Absent when neither has one. `customer_id`: [declared alternatives](../models/BuyerRefundPreviousAttributesInput.md#buyerrefundpreviousattributesinputcustomer_id). |
@@ -46,6 +48,10 @@ Request input.
 | `unissued_gift_card_recoveries` | Optional | Array of [RefundUnissuedGiftCardRecoveryPreviousAttributesInput](../models/RefundUnissuedGiftCardRecoveryPreviousAttributesInput.md#refundunissuedgiftcardrecoverypreviousattributesinput) or null | Cash returned after an unissued gift card purchase refund failed. Return it through a new refund against payment_intent_id and order_line_item_id. It does not issue another card. Source remaining and pending amounts describe the entire original settlement allocation; repeated entries for that source are not additive. `unissued_gift_card_recoveries`: [declared alternatives](../models/RefundFailedInstalledMerchantsEventInput.md#refundfailedinstalledmerchantseventinputdataprevious_attributesunissued_gift_card_recoveries). |
 | `updated_at` | Optional | string or null | RFC3339 timestamp. `updated_at`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at). |
 | `version` | Optional | integer or null | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. `version`: [declared alternatives](../models/BuyerExpandedPaymentIntentSummaryPreviousAttributesInput.md#buyerexpandedpaymentintentsummarypreviousattributesinputversion). |
+
+### RefundPreviousAttributesInput.charge_allocations
+
+Declared alternatives: [RefundFailedInstalledMerchantsEventInput.data.previous_attributes.charge_allocations](../models/RefundFailedInstalledMerchantsEventInput.md#refundfailedinstalledmerchantseventinputdataprevious_attributescharge_allocations).
 
 ### RefundPreviousAttributesInput.created_at
 

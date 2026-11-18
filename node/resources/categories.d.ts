@@ -10,8 +10,8 @@ import type {
     CategoryResponse
 } from '../declarations/types-5.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { RequestOptions } from '../declarations/types-60.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+import type { RequestOptions } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -36,21 +36,21 @@ export type {
     CategoryListResponse,
     CategoriesUpdateParams
 } from '../declarations/types-5.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { RequestOptions } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateCategoryRequestInput } from '../declarations/types-8.js';
-export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-41.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
-export type { NextAction, MoneyValue } from '../declarations/types-42.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { UpdateCategoryRequestInput } from '../declarations/types-73.js';
-export type { DisputesAcceptParams } from '../declarations/types-25.js';
-export { makeCreateCategoryRequest } from '../declarations/types-79.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeUpdateCategoryRequest } from '../declarations/types-90.js';
+export type { Credentials } from '../declarations/types-15.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { UpdateCategoryRequestInput } from '../declarations/types-75.js';
+export type { DisputesAcceptParams } from '../declarations/types-26.js';
+export { makeCreateCategoryRequest } from '../declarations/types-81.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeUpdateCategoryRequest } from '../declarations/types-93.js';
 export interface CategoriesResource {
     /**
  * Creates a reusable category. If handle is omitted, Flint derives it from the name and never
@@ -71,7 +71,9 @@ export interface CategoriesResource {
  * configuration references before deleting.
  *
  * `DELETE /v1/categories/{category_id}`
- * @param category_id Flint category ID.
+ * @param category_id Flint category ID. Must be a valid ID with prefix ctg_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/categories#deleteCategory
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -86,7 +88,9 @@ export interface CategoriesResource {
  * assigned to it. A deleted category fails with `RESOURCE_NOT_FOUND`.
  *
  * `GET /v1/categories/{category_id}`
- * @param category_id Flint category ID.
+ * @param category_id Flint category ID. Must be a valid ID with prefix ctg_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/categories#getCategory
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
@@ -117,7 +121,9 @@ export interface CategoriesResource {
  * `VERSION_CONFLICT` when the category changed since you read it.
  *
  * `PATCH /v1/categories/{category_id}`
- * @param category_id Flint category ID.
+ * @param category_id Flint category ID. Must be a valid ID with prefix ctg_. Malformed IDs return
+ * 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404
+ * RESOURCE_NOT_FOUND.
  * @see https://developers.withflintpay.com/docs/api/categories#updateCategory
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example

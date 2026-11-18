@@ -1,12 +1,14 @@
-import { d7640 as c0 } from '../descriptors/data/327.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
-import { d10060 as c1, d10065 as c2, d10066 as c3, d10067 as c4, d10068 as c5, d10071 as c6, d10072 as c7, d10073 as c8, d10074 as c9, d10075 as c10, d10078 as c16, d10079 as c17 } from '../descriptors/data/469.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
-import { d9345 as c11, d9346 as c12, d9347 as c13, d9348 as c14, d9349 as c15 } from '../descriptors/data/427.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
-import { d10080 as c18, d10083 as c19, d10084 as c20, d10085 as c21, d10086 as c22 } from '../descriptors/data/470.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
-import { d10060 as d10060 } from '../descriptors/data/469.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
+import { d7885 as c0 } from '../descriptors/data/337.js?sdk=2fdad7cfcd1c92049468fb02e68ab24a81da669c248e8713cf6a7575952568a5';
+import { d8227 as c1 } from '../descriptors/data/358.js?sdk=2fdad7cfcd1c92049468fb02e68ab24a81da669c248e8713cf6a7575952568a5';
+import { d10376 as c2, d10381 as c3, d10382 as c4, d10383 as c5, d10384 as c6, d10386 as c7, d10389 as c8, d10390 as c9, d10391 as c10, d10392 as c11, d10393 as c12, d10396 as c18, d10397 as c19, d10398 as c20 } from '../descriptors/data/482.js?sdk=2fdad7cfcd1c92049468fb02e68ab24a81da669c248e8713cf6a7575952568a5';
+import { d9639 as c13, d9640 as c14, d9641 as c15 } from '../descriptors/data/439.js?sdk=2fdad7cfcd1c92049468fb02e68ab24a81da669c248e8713cf6a7575952568a5';
+import { d9642 as c16, d9643 as c17 } from '../descriptors/data/440.js?sdk=2fdad7cfcd1c92049468fb02e68ab24a81da669c248e8713cf6a7575952568a5';
+import { d10401 as c21, d10402 as c22, d10403 as c23, d10404 as c24 } from '../descriptors/data/483.js?sdk=2fdad7cfcd1c92049468fb02e68ab24a81da669c248e8713cf6a7575952568a5';
+import { d10376 as d10376 } from '../descriptors/data/482.js?sdk=2fdad7cfcd1c92049468fb02e68ab24a81da669c248e8713cf6a7575952568a5';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d10060;
+const read = d10376;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["PromotionApplicationMethodRequest"]:c1(),["PromotionRecurrenceRequest"]:c2(),["PromotionRuleGroupRequest"]:c3(),["PromotionRuleRequest"]:c4(),["PromotionRuleValueRequest"]:c5(),["SharedCodec2349"]:c6(),["SharedCodec2350"]:c7(),["SharedCodec2351"]:c8(),["SharedCodec2352"]:c9(),["SharedCodec2353"]:c10(),["SharedCodec2356"]:c11(),["SharedCodec2357"]:c12(),["SharedCodec2358"]:c13(),["SharedCodec2359"]:c14(),["SharedCodec2360"]:c15(),["SharedCodec2362"]:c16(),["SharedCodec2363"]:c17(),["SharedCodec2364"]:c18(),["SharedCodec2423"]:c19(),["SharedCodec2424"]:c20(),["SharedCodec2425"]:c21(),["SharedCodec2426"]:c22()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["PlatformFeeMoney"]:c1(),["PromotionApplicationMethodRequest"]:c2(),["PromotionRecurrenceRequest"]:c3(),["PromotionRuleGroupRequest"]:c4(),["PromotionRuleRequest"]:c5(),["PromotionRuleValueRequest"]:c6(),["SharedCodec2421"]:c7(),["SharedCodec2427"]:c8(),["SharedCodec2428"]:c9(),["SharedCodec2429"]:c10(),["SharedCodec2430"]:c11(),["SharedCodec2431"]:c12(),["SharedCodec2434"]:c13(),["SharedCodec2435"]:c14(),["SharedCodec2436"]:c15(),["SharedCodec2437"]:c16(),["SharedCodec2438"]:c17(),["SharedCodec2440"]:c18(),["SharedCodec2441"]:c19(),["SharedCodec2442"]:c20(),["SharedCodec2501"]:c21(),["SharedCodec2502"]:c22(),["SharedCodec2503"]:c23(),["SharedCodec2504"]:c24()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makePromotionApplicationMethodRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

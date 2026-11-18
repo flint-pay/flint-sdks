@@ -11,10 +11,10 @@ Send only application_method fields to change. Omitted fields keep their stored 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `allocation` | Optional | string | How the effect is allocated. Omitted allocation keeps its stored value; it defaults by discount_class only when no allocation is stored. Changing discount_class does not reset allocation. Values: `"each"`, `"across"`. |
-| `amount_off_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Positive fixed discount in the primary currency. allocation determines whether it applies to each matched item or once across the matched set. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `amount_off_money`: [field definitions](../models/PromotionAmountOffMethod.md#promotionamountoffmethodamount_off_money). |
+| `amount_off_money` | Optional | object | Positive fixed discount in the primary currency. allocation determines whether it applies to each matched item or once across the matched set. `amount_off_money`: [field definitions](../models/PromotionAmountOffMethodRequest.md#promotionamountoffmethodrequestamount_off_money). |
 | `buy_min_quantity` | Optional | integer | Number of qualifying units needed for one application of a buy_x_get_y promotion. Whole-number quantity; fractional quantities are not supported. Format: `int32`. minimum: `1`. |
 | `calculation_basis` | Optional | string or null | What a merchandise discount is calculated from. Omitted means `subtotal_pre_tax`. Not used by service_charge promotions; sending it there returns `400 INVALID_REQUEST`. Send null to clear it. Values: `"subtotal_pre_tax"`, `"subtotal_post_tax"`, `null`. |
-| `currency_options` | Optional | Map of [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Alternative positive fixed discounts, keyed by currency code. Each Money currency must match its key. `currency_options{}`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
+| `currency_options` | Optional | Map of object or null | Alternative positive fixed discounts, keyed by currency code. Each Money currency must match its key. `currency_options{}`: [field definitions](../models/PromotionAmountOffMethodRequest.md#promotionamountoffmethodrequestcurrency_options). |
 | `discounted_item_rules` | Optional | [PromotionRuleGroupRequest](../models/PromotionRuleGroupRequest.md#promotionrulegrouprequest) or null | Which line items receive the discount. Required for service_charge promotions, and for line_item promotions whose eligibility_rules include any non-line-item condition (for example order.subtotal or a customer condition). It is optional only when eligibility_rules consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the matched items are used as the target. Omitting it otherwise returns `400 INVALID_REQUEST` with `param` naming this field. `discounted_item_rules`: [declared alternatives](../models/PromotionApplicationMethodPatch.md#promotionapplicationmethodpatchdiscounted_item_rules). |
 | `get_percent_off` | Optional | number | Percentage to discount from reward items, from 1 to 100. Use 100 to make the reward items free. minimum: `1`. maximum: `100`. multipleOf: `0.0001`. |
 | `get_quantity` | Optional | integer | Maximum number of reward units discounted per application of a buy_x_get_y promotion. Whole-number quantity; fractional quantities are not supported. Format: `int32`. minimum: `1`. |
@@ -28,11 +28,11 @@ Send only application_method fields to change. Omitted fields keep their stored 
 
 ### PromotionApplicationMethodPatch.amount_off_money
 
-Field definitions: [PromotionAmountOffMethod.amount_off_money](../models/PromotionAmountOffMethod.md#promotionamountoffmethodamount_off_money).
+Field definitions: [PromotionAmountOffMethodRequest.amount_off_money](../models/PromotionAmountOffMethodRequest.md#promotionamountoffmethodrequestamount_off_money).
 
 ### PromotionApplicationMethodPatch.currency_options{}
 
-Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options).
+Field definitions: [PromotionAmountOffMethodRequest.currency_options{}](../models/PromotionAmountOffMethodRequest.md#promotionamountoffmethodrequestcurrency_options).
 
 ### PromotionApplicationMethodPatch.discounted_item_rules
 

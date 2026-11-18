@@ -14,7 +14,7 @@ final class ReturnUnverifiedItemPreviousAttributes extends Model {
      */
     public function getDescription(): string|null { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** Name of the unidentified item. anyOf[1] (Value): string. Name of the unidentified item. minLength: 1. anyOf[2] (Value): null.
+    /** Name of the unidentified item. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. anyOf[1] (Value): string. Name of the unidentified item. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getName(): string|null { return $this->get('name'); }

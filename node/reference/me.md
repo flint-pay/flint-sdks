@@ -14,7 +14,7 @@ Signature: `cancelReturn(return_id: InputValue<string>, params?: MeCancelReturnP
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `return_id` | Required | string | Flint return id. |
+| `return_id` | Required | string | Flint return id. Must be a valid ID with prefix ret_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Optional | [BuyerCancelReturnRequestInput](../models/BuyerCancelReturnRequest.md#buyercancelreturnrequest) | Withdraw a requested Return belonging to the current buyer. An omitted reason defaults to buyer_request. |
 
 Body model: [BuyerCancelReturnRequestInput](../models/BuyerCancelReturnRequest.md#buyercancelreturnrequest).
@@ -77,7 +77,7 @@ Signature: `cancelSubscription(subscription_id: InputValue<string>, params?: MeC
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string | Flint subscription ID. |
+| `subscription_id` | Required | string | Flint subscription ID. Must be a valid ID with prefix sub_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Optional | [CancelMeSubscriptionRequestInput](../models/CancelMeSubscriptionRequest.md#cancelmesubscriptionrequest) | Cancellation timing and the optional reason and comment recorded with the request. |
 
 Body model: [CancelMeSubscriptionRequestInput](../models/CancelMeSubscriptionRequest.md#cancelmesubscriptionrequest).
@@ -147,7 +147,7 @@ changeSubscriptionPlan(subscription_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string | Subscription ID. |
+| `subscription_id` | Required | string | Subscription ID. Must be a valid ID with prefix sub_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Required | [ChangeMeSubscriptionPlanRequestInput](../models/ChangeMeSubscriptionPlanRequest.md#changemesubscriptionplanrequest) | The request body for: Change subscription plan. |
 
 Body model: [ChangeMeSubscriptionPlanRequestInput](../models/ChangeMeSubscriptionPlanRequest.md#changemesubscriptionplanrequest).
@@ -223,7 +223,7 @@ changeSubscriptionQuantity(subscription_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string | Subscription ID. |
+| `subscription_id` | Required | string | Subscription ID. Must be a valid ID with prefix sub_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Required | [ChangeMeSubscriptionQuantityRequestInput](../models/ChangeMeSubscriptionQuantityRequest.md#changemesubscriptionquantityrequest) | The request body for: Change subscription quantity. |
 
 Body model: [ChangeMeSubscriptionQuantityRequestInput](../models/ChangeMeSubscriptionQuantityRequest.md#changemesubscriptionquantityrequest).
@@ -298,7 +298,7 @@ confirmEmailChangeRequest(email_change_request_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `email_change_request_id` | Required | string | Flint email change request ID. |
+| `email_change_request_id` | Required | string | Flint email change request ID. Must be a valid ID with prefix cecr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Required | [ConfirmEmailChangeRequestInput](../models/ConfirmEmailChangeRequest.md#confirmemailchangerequest) | The request body for: Confirm an email change. |
 
 Body model: [ConfirmEmailChangeRequestInput](../models/ConfirmEmailChangeRequest.md#confirmemailchangerequest).
@@ -617,7 +617,7 @@ createFlintWalletStoreSetup(flint_wallet_card_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `flint_wallet_card_id` | Required | string | The card's handle at this store. |
+| `flint_wallet_card_id` | Required | string | The card's handle at this store. Must be a valid ID with prefix fwc_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 
@@ -884,7 +884,7 @@ createSubscriptionPaymentRetry(subscription_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string | Flint subscription ID. |
+| `subscription_id` | Required | string | Flint subscription ID. Must be a valid ID with prefix sub_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Optional | object | maxProperties: `0`. |
 
 Body shape: object.
@@ -1085,7 +1085,7 @@ Signature: `deleteAddress(customer_address_id: InputValue<string>, params?: MeDe
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_address_id` | Required | string | Flint customer address ID. |
+| `customer_address_id` | Required | string | Flint customer address ID. Must be a valid ID with prefix caddr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `expected_version` | Optional | integer | Optional address version last read by the caller. Format: `uint64`. minimum: `1`. maximum: `9007199254740991`. |
 
 #### Response
@@ -1130,7 +1130,7 @@ const result = await client.me.deleteAddress("caddr_01KEZF7C00K2Q127FBJAXWB0FP",
 
 ### me.deletePaymentMethod
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Deletes a saved payment method so it can no longer be used for future payments. Returns the payment method with status archived, including when it was already archived. A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Deletes a saved payment method so it can no longer be used for future payments. Returns the payment method with status archived, including when it was already archived. Subscriptions block deletion until they have a scheduled cancellation and no remaining payment or retry. Paid prepaid deliveries can finish without the card. A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
 
 `DELETE /v1/me/payment-methods/{payment_method_id}`
 
@@ -1140,7 +1140,7 @@ Signature: `deletePaymentMethod(payment_method_id: InputValue<string>, params?: 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `payment_method_id` | Required | string | Flint payment method ID. |
+| `payment_method_id` | Required | string | Flint payment method ID. Must be a valid ID with prefix pm_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 
@@ -1249,7 +1249,7 @@ getAddress(customer_address_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_address_id` | Required | string | Flint customer address ID. |
+| `customer_address_id` | Required | string | Flint customer address ID. Must be a valid ID with prefix caddr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 
@@ -1305,7 +1305,7 @@ getCreditNote(credit_note_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `credit_note_id` | Required | string | Flint credit note ID. |
+| `credit_note_id` | Required | string | Flint credit note ID. Must be a valid ID with prefix cn_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 
@@ -1359,9 +1359,7 @@ getCreditNotePDF(credit_note_id: InputValue<string>,
 
 #### Request fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `credit_note_id` | Required | string | Flint credit note ID. |
+Field definitions: [shared fields](#request-fields-19).
 
 #### Response
 
@@ -1413,9 +1411,7 @@ getDeletionRequest(customer_deletion_request_id: InputValue<string>,
 
 #### Request fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `customer_deletion_request_id` | Required | string | Flint customer deletion request ID. |
+Field definitions: [shared fields](customerDeletionRequests.md#request-fields-1).
 
 #### Response
 
@@ -1470,7 +1466,7 @@ getEmailChangeRequest(email_change_request_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `email_change_request_id` | Required | string | The email change request ID. |
+| `email_change_request_id` | Required | string | The email change request ID. Must be a valid ID with prefix cecr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 
@@ -1572,7 +1568,7 @@ getFulfillment(fulfillment_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `fulfillment_id` | Required | string | Flint fulfillment ID. |
+| `fulfillment_id` | Required | string | Flint fulfillment ID. Must be a valid ID with prefix ful_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 
@@ -1611,7 +1607,7 @@ const result = await client.me.getFulfillment("ful_01KEZF7C00F24WVSTTWR1FQX5T", 
 
 ### me.getGiftCard
 
-Requires a full customer session. Saved access requires possession of a current code or recipient link. Customer associations and purchase history do not authorize access. Replacing a code invalidates saved access; save again with fresh proof. Saved access does not permit spending or reveal a full code.
+Requires a full customer session. Cards assigned to the buyer by `customer_id`, including refund or Return store credit, appear automatically. Saving any other card requires its current code or private recipient link. Purchase and delivery alone do not grant access. Replacing a code invalidates saved access. Account access reveals only a masked code and grants no spending authority.
 
 `GET /v1/me/gift-cards/{gift_card_id}`
 
@@ -1621,7 +1617,7 @@ Signature: `getGiftCard(gift_card_id: InputValue<string>, params?: MeGetGiftCard
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `gift_card_id` | Required | string | Flint gift card ID. |
+| `gift_card_id` | Required | string | Flint gift card ID. Must be a valid ID with prefix gc_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 
@@ -1677,7 +1673,7 @@ getInvoice(invoice_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `invoice_id` | Required | string | Flint invoice ID. |
+| `invoice_id` | Required | string | Flint invoice ID. Must be a valid ID with prefix inv_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 
@@ -1731,9 +1727,7 @@ getInvoicePDF(invoice_id: InputValue<string>,
 
 #### Request fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `invoice_id` | Required | string | Flint invoice ID. |
+Field definitions: [shared fields](#request-fields-26).
 
 #### Response
 
@@ -1780,7 +1774,7 @@ Signature: `getOrder(order_id: InputValue<string>, params?: MeGetOrderParams, op
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string | Flint order ID. |
+| `order_id` | Required | string | Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 
@@ -1834,9 +1828,7 @@ getOrderReceiptPDF(order_id: InputValue<string>,
 
 #### Request fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `order_id` | Required | string | Flint order ID. |
+Field definitions: [shared fields](#request-fields-28).
 
 #### Response
 
@@ -1884,7 +1876,7 @@ Signature: `getPackage(package_id: InputValue<string>, params?: MeGetPackagePara
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `package_id` | Required | string | Flint package ID. |
+| `package_id` | Required | string | Flint package ID. Must be a valid ID with prefix pkg_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 
@@ -1939,7 +1931,7 @@ getPaymentIntent(payment_intent_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `payment_intent_id` | Required | string | Flint payment intent ID. |
+| `payment_intent_id` | Required | string | Flint payment intent ID. Must be a valid ID with prefix pi_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 
@@ -1992,9 +1984,7 @@ getPaymentMethod(payment_method_id: InputValue<string>,
 
 #### Request fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `payment_method_id` | Required | string | Flint payment method ID. |
+Field definitions: [shared fields](#request-fields-16).
 
 #### Response
 
@@ -2043,7 +2033,7 @@ Signature: `getRefund(refund_id: InputValue<string>, params?: MeGetRefundParams,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `refund_id` | Required | string | Flint refund ID. |
+| `refund_id` | Required | string | Flint refund ID. Must be a valid ID with prefix ref_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 
@@ -2092,7 +2082,7 @@ Signature: `getReturn(return_id: InputValue<string>, params?: MeGetReturnParams,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `return_id` | Required | string | Flint return id. |
+| `return_id` | Required | string | Flint return id. Must be a valid ID with prefix ret_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 
@@ -2147,7 +2137,7 @@ getReturnResolution(return_resolution_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `return_resolution_id` | Required | string | Flint return resolution id. |
+| `return_resolution_id` | Required | string | Flint return resolution id. Must be a valid ID with prefix retres_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 
@@ -2196,7 +2186,7 @@ Signature: `getShipment(shipment_id: InputValue<string>, params?: MeGetShipmentP
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `shipment_id` | Required | string | Flint shipment ID. |
+| `shipment_id` | Required | string | Flint shipment ID. Must be a valid ID with prefix shp_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 
@@ -2251,7 +2241,7 @@ getSubscription(subscription_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string | Flint subscription ID. |
+| `subscription_id` | Required | string | Flint subscription ID. Must be a valid ID with prefix sub_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 
@@ -2308,8 +2298,8 @@ getSubscriptionPaymentRetry(subscription_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string | Flint subscription ID. |
-| `subscription_payment_retry_id` | Required | string | Flint subscription payment retry ID. |
+| `subscription_id` | Required | string | Flint subscription ID. Must be a valid ID with prefix sub_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
+| `subscription_payment_retry_id` | Required | string | Flint subscription payment retry ID. Must be a valid ID with prefix spr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 
@@ -2356,7 +2346,10 @@ Signature: `listAddresses(params?: MeListAddressesParams, options?: _SdkWithoutI
 
 #### Request fields
 
-Field definitions: [shared fields](feedbackReports.md#request-fields-2).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 
 #### Response
 
@@ -2512,7 +2505,7 @@ Signature: `listEmailChangeRequests(params?: MeListEmailChangeRequestsParams, op
 
 #### Request fields
 
-Field definitions: [shared fields](feedbackReports.md#request-fields-2).
+Field definitions: [shared fields](#request-fields-39).
 
 #### Response
 
@@ -2748,7 +2741,7 @@ const result = await client.me.listFulfillments({}, {  });
 
 ### me.listGiftCards
 
-Requires a full customer session. Saved access requires possession of a current code or recipient link. Customer associations and purchase history do not authorize access. Replacing a code invalidates saved access; save again with fresh proof. Saved access does not permit spending or reveal a full code. Lists valid saved cards by saved time then card ID, descending. Default order: time the buyer saved the card (descending), then gift_card_id descending.
+Requires a full customer session. Cards assigned to the buyer by `customer_id`, including refund or Return store credit, appear automatically. Saving any other card requires its current code or private recipient link. Purchase and delivery alone do not grant access. Replacing a code invalidates saved access. Account access reveals only a masked code and grants no spending authority. Lists owned and currently saved cards once each. Default order: saved time or creation time for owned cards without current saved access (descending), then gift_card_id descending.
 
 `GET /v1/me/gift-cards`
 
@@ -2801,7 +2794,7 @@ const result = await client.me.listGiftCards({}, {  });
 
 ### me.listGiftCardTransactions
 
-Requires a full customer session. Saved access requires possession of a current code or recipient link. Customer associations and purchase history do not authorize access. Replacing a code invalidates saved access; save again with fresh proof. Saved access does not permit spending or reveal a full code. Lists the full anonymous balance-change history by per-card sequence, descending. Other holders' identities and order references are omitted. Default order: sequence descending; this key uniquely orders the results.
+Requires a full customer session. Cards assigned to the buyer by `customer_id`, including refund or Return store credit, appear automatically. Saving any other card requires its current code or private recipient link. Purchase and delivery alone do not grant access. Replacing a code invalidates saved access. Account access reveals only a masked code and grants no spending authority. Lists the full anonymous balance-change history by per-card sequence, descending. Other holders' identities and order references are omitted. Default order: sequence descending; this key uniquely orders the results.
 
 `GET /v1/me/gift-card-transactions`
 
@@ -2914,6 +2907,115 @@ const result = await client.me.listInvoices({}, {  });
 
 [Complete runnable example](../examples/me-listInvoices.mjs)
 
+### me.listLicenseKeyActivations
+
+Lists devices for one accessible license key, newest first. Supply license_key_id. Order and subscription links can list devices for keys on the resource they open. Released activations remain in the list. Default order: created_at descending, then license_key_activation_id descending.
+
+`GET /v1/me/license-key-activations`
+
+Signature: `listLicenseKeyActivations(params: MeListLicenseKeyActivationsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>)`
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
+| `license_key_id` | Required | string | The license key whose activations to list. pattern: `^lk_[0-7][0-9A-HJKMNP-TV-Z]{25}$`. |
+| `status` | Optional | Array of string or string | Filter by one or more activation statuses. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"released"`. Values: `"active"`, `"released"`. |
+
+#### Response
+
+Returned payload: [BuyerLicenseKeyActivationListResponse](../models/BuyerLicenseKeyActivationListResponse.md#buyerlicensekeyactivationlistresponse).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
+
+Pagination: `listLicenseKeyActivationsItems`, `listLicenseKeyActivationsPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+
+#### Example
+
+```typescript
+const result = await client.me.listLicenseKeyActivations({license_key_id: "lk_01KEZF7C000QD7VJ83G43V0NSN"}, {  });
+```
+
+[Complete runnable example](../examples/me-listLicenseKeyActivations.mjs)
+
+### me.listLicenseKeys
+
+Lists the current buyer's issued license keys, newest first, including disabled keys. An order filter includes keys from the subscription that order started. An order or subscription link limits results to that resource. The full assigned key is present for verified Flint sign-ins when the verified email matches the order's buyer email, or the subscription customer's email for a subscription with no starting order. A paying checkout's order link or an uncopied link emailed to the order's buyer can show full keys for that order. Merchant-created sessions and links show only the key suffix. Default order: created_at descending, then license_key_id descending.
+
+`GET /v1/me/license-keys`
+
+Signature: `listLicenseKeys(params?: MeListLicenseKeysParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>)`
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
+| `order_id` | Optional | string | Exact order ID, including the starting order of a subscription key. pattern: `^ord_[0-7][0-9A-HJKMNP-TV-Z]{25}$`. |
+| `subscription_id` | Optional | string | Exact subscription ID. pattern: `^sub_[0-7][0-9A-HJKMNP-TV-Z]{25}$`. |
+| `status` | Optional | Array of string or string | Filter by effective license key status. An active key past its expiry matches expired. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending"`, `"active"`, `"disabled"`, `"expired"`. Values: `"pending"`, `"active"`, `"disabled"`, `"expired"`. |
+
+#### Response
+
+Returned payload: [BuyerLicenseKeyListResponse](../models/BuyerLicenseKeyListResponse.md#buyerlicensekeylistresponse).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
+
+Pagination: `listLicenseKeysItems`, `listLicenseKeysPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+
+#### Example
+
+```typescript
+const result = await client.me.listLicenseKeys({}, {  });
+```
+
+[Complete runnable example](../examples/me-listLicenseKeys.mjs)
+
 ### me.listOrderActivities
 
 Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Returns a read-only, human-readable history log for an order. Use it to render timelines and debug what happened, not as a source of truth, ledger, or webhook replacement. Read the owning resource for authoritative state: the order for balances and status, the payment for payment state, the refund for refund outcomes, and the checkout session for checkout state. Do not sum balance_delta_money to compute an order balance. Informational rows such as payment_failed, refund_failed, and checkout_session_expired have a zero balance delta. The default order is newest first. Use sort_direction=asc for chronological timeline rendering. A typical chronological log might show created, payment_failed, payment, refund, then refund_failed; each row gives one reference to click through for the authoritative resource. Default order: created_at descending, then order_activity_id descending.
@@ -2932,7 +3034,7 @@ listOrderActivities(order_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string | Flint order ID. |
+| `order_id` | Required | string | Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `sort_direction` | Optional | string | Sort direction. Defaults to desc. Default: `"desc"`. Values: `"asc"`, `"desc"`. |
@@ -3022,6 +3124,7 @@ Returned payload: [BuyerOrderListResponse](../models/BuyerOrderListResponse.md#b
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 413 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
@@ -3354,7 +3457,7 @@ Signature: `listReturns(params?: MeListReturnsParams, options?: _SdkWithoutIdemp
 | `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
 | `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
 | `decision_status` | Optional | Array of string or string | Filter by decision status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending"`, `"approved"`, `"partially_approved"`, `"declined"`. Values: `"pending"`, `"approved"`, `"partially_approved"`, `"declined"`. |
-| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. pattern: `^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$`. |
+| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns only resources created in your caller namespace, plus resources created before caller scoping under the original key. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. pattern: `^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$`. |
 | `merchandise_status` | Optional | Array of string or string | Filter by merchandise status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [10 declared values](#melistreturns-input-merchandise_status--values). Values: [10 declared values](#melistreturns-input-merchandise_status-values). |
 | `order_id` | Optional | string | Filter by order id. pattern: `^ord_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. Format: `int32`. minimum: `1`. maximum: `100`. Default: `20`. |
@@ -3507,10 +3610,10 @@ listSubscriptionPaymentRetries(subscription_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string | Flint subscription ID. |
+| `subscription_id` | Required | string | Flint subscription ID. Must be a valid ID with prefix sub_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
-| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. pattern: `^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$`. |
+| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns only resources created in your caller namespace, plus resources created before caller scoping under the original key. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. pattern: `^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$`. |
 
 #### Response
 
@@ -3682,7 +3785,7 @@ Signature: `pauseSubscription(subscription_id: InputValue<string>, params?: MePa
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string | Flint subscription ID. |
+| `subscription_id` | Required | string | Flint subscription ID. Must be a valid ID with prefix sub_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Optional | [PauseSubscriptionRequestInput](../models/PauseSubscriptionRequest.md#pausesubscriptionrequest) | The request body for: Pause one of the current buyer's subscriptions; Pause subscription. |
 
 #### Response
@@ -3728,9 +3831,70 @@ const result = await client.me.pauseSubscription("sub_01KEZF7C00BVRE8YDBXQB74BBM
 
 [Complete runnable example](../examples/me-pauseSubscription.mjs)
 
+### me.releaseLicenseKeyActivation
+
+Deactivates a device and frees its slot. Requires a full customer session. Send an empty body or {}. An activation that has already been released returns 409 ACTION_NOT_ALLOWED with reason already_applied. A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
+
+`POST /v1/me/license-key-activations/{license_key_activation_id}/release`
+
+Signature:
+
+```typescript
+releaseLicenseKeyActivation(license_key_activation_id: InputValue<string>,
+ params?: MeReleaseLicenseKeyActivationParams,
+ options?: RequestOptions<"customer">)
+```
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `license_key_activation_id` | Required | string | The activation ID. Must be a valid ID with prefix lka_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
+
+#### Response
+
+Returned payload: [BuyerLicenseKeyActivation](../models/BuyerLicenseKeyActivation.md#buyerlicensekeyactivation).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
+
+Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```typescript
+// Persist this key with the action before sending; reuse it for every resubmission.
+const idempotencyKey = crypto.randomUUID();
+
+const result = await client.me.releaseLicenseKeyActivation("lka_01KEZF7C00NZEZVCZW3SRDMHTZ", {}, { idempotencyKey: idempotencyKey });
+```
+
+[Complete runnable example](../examples/me-releaseLicenseKeyActivation.mjs)
+
 ### me.removeGiftCard
 
-Requires a full customer session. Saved access requires possession of a current code or recipient link. Customer associations and purchase history do not authorize access. Replacing a code invalidates saved access; save again with fresh proof. Saved access does not permit spending or reveal a full code. Removes only this buyer's saved access without changing funds or other holders' access. A repeated removal without an idempotency key fails with `RESOURCE_NOT_FOUND` because saved access is already absent. Reusing the same idempotency key replays the original removal snapshot without restoring saved access. Idempotency keys are scoped to the buyer, merchant, environment, and operation. A replay cannot restore removed or revoked saved access. A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
+Requires a full customer session. Cards assigned to the buyer by `customer_id`, including refund or Return store credit, appear automatically. Saving any other card requires its current code or private recipient link. Purchase and delivery alone do not grant access. Replacing a code invalidates saved access. Account access reveals only a masked code and grants no spending authority. Removes this buyer's saved access without changing funds or other holders' access. Owned cards and cards without current saved access return 404. Reusing the same idempotency key replays the original removal snapshot without restoring saved access. Idempotency keys are scoped to the buyer, merchant, environment, and operation. A replay cannot restore removed or revoked saved access. A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
 
 `DELETE /v1/me/gift-cards/{gift_card_id}`
 
@@ -3738,9 +3902,7 @@ Signature: `removeGiftCard(gift_card_id: InputValue<string>, params?: MeRemoveGi
 
 #### Request fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `gift_card_id` | Required | string | Flint gift card ID. |
+Field definitions: [shared fields](#request-fields-25).
 
 #### Response
 
@@ -3802,7 +3964,7 @@ renewSubscription(subscription_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string | Subscription ID. |
+| `subscription_id` | Required | string | Subscription ID. Must be a valid ID with prefix sub_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Optional | [RenewSubscriptionRequestInput](../models/SkipMeSubscriptionCycleRequestInput.md#skipmesubscriptioncyclerequestinput) | The request body for: Renew subscription now. |
 
 #### Response
@@ -3849,6 +4011,62 @@ const result = await client.me.renewSubscription("sub_01KEZF7C00BVRE8YDBXQB74BBM
 
 [Complete runnable example](../examples/me-renewSubscription.mjs)
 
+### me.resendLicenseKey
+
+Queues an email to the order's buyer email, or to the subscription customer when there is no starting order. Returns the key's details with its last four characters. Requires a full customer session. Send an empty body or {}. Pending and disabled keys cannot be resent. Email delivery must be enabled and an address must be on file. Flint accepts one resend per key every 60 seconds across buyer and merchant requests. A sooner request returns 429 with Retry-After.
+
+`POST /v1/me/license-keys/{license_key_id}/resend`
+
+Signature: `resendLicenseKey(license_key_id: InputValue<string>, params?: MeResendLicenseKeyParams, options?: RequestOptions<"customer">)`
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `license_key_id` | Required | string | The license key ID. Must be a valid ID with prefix lk_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
+
+#### Response
+
+Returned payload: [BuyerLicenseKey](../models/BuyerLicenseKey.md#buyerlicensekey).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
+
+Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```typescript
+// Persist this key with the action before sending; reuse it for every resubmission.
+const idempotencyKey = crypto.randomUUID();
+
+const result = await client.me.resendLicenseKey("lk_01KEZF7C000QD7VJ83G43V0NSN", {}, { idempotencyKey: idempotencyKey });
+```
+
+[Complete runnable example](../examples/me-resendLicenseKey.mjs)
+
 ### me.resumeSubscription
 
 Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Asks Flint to resume a paused subscription. The request is accepted while the subscription is still paused, with `resume_requested_at` set. Flint then makes it active, or past_due while an overdue period is collected, and sends subscription.resumed. While prepaid deliveries remain, resuming makes no charge and shifts later deliveries and the next charge by the length of the pause. If Flint can't resume it, it stays paused, resume_requested_at clears, and Flint sends subscription.updated. Any other status fails with `ACTION_NOT_ALLOWED`. To undo a scheduled cancellation, PATCH the subscription with cancel_at_period_end set to false. When the store cannot accept payments, a new payment fails with 409 MERCHANT_NOT_READY and reason processing_restricted. Changes billed at a future renewal remain available. A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
@@ -3861,7 +4079,7 @@ Signature: `resumeSubscription(subscription_id: InputValue<string>, params?: MeR
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string | Flint subscription ID. |
+| `subscription_id` | Required | string | Flint subscription ID. Must be a valid ID with prefix sub_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Optional | [ResourceVersionRequestInput](../models/ResourceVersionRequestInput.md#resourceversionrequestinput) | The request body for: Mark invoice uncollectible; Regenerate invoice public link; Resume one of the current buyer's subscriptions; Resume subscription; Reverse credit note allocation; Void credit note; Void invoice. |
 
 #### Response
@@ -3920,7 +4138,7 @@ Signature: `revokeRememberedBuyer(remembered_buyer_id: InputValue<string>, param
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `remembered_buyer_id` | Required | string | Remembered buyer to forget. |
+| `remembered_buyer_id` | Required | string | Remembered buyer to forget. Must be a valid ID with prefix rbuy_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 
@@ -4017,7 +4235,7 @@ const result = await client.me.revokeSession({}, { idempotencyKey: idempotencyKe
 
 ### me.saveGiftCard
 
-Requires a full customer session. Saved access requires possession of a current code or recipient link. Customer associations and purchase history do not authorize access. Replacing a code invalidates saved access; save again with fresh proof. Saved access does not permit spending or reveal a full code. Idempotency keys are scoped to the buyer, merchant, environment, and operation. A replay cannot restore removed or revoked saved access. A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
+Requires a full customer session. Cards assigned to the buyer by `customer_id`, including refund or Return store credit, appear automatically. Saving any other card requires its current code or private recipient link. Purchase and delivery alone do not grant access. Replacing a code invalidates saved access. Account access reveals only a masked code and grants no spending authority. Idempotency keys are scoped to the buyer, merchant, environment, and operation. A replay cannot restore removed or revoked saved access. Generated and imported codes are accepted. Repeated incorrect codes share a one-hour failure budget per buyer, IP address, and merchant environment. A cooldown returns 429 RATE_LIMIT_EXCEEDED with Retry-After; starting a new customer session does not reset it. Private recipient links remain usable during a code cooldown. A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
 
 `POST /v1/me/gift-cards`
 
@@ -4104,9 +4322,7 @@ Signature: `sendOrderReceipt(order_id: InputValue<string>, params?: MeSendOrderR
 
 #### Request fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `order_id` | Required | string | Flint order ID. |
+Field definitions: [shared fields](#request-fields-28).
 
 #### Response
 
@@ -4161,7 +4377,7 @@ Signature: `skipSubscriptionCycle(subscription_id: InputValue<string>, params?: 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string | Subscription ID. |
+| `subscription_id` | Required | string | Subscription ID. Must be a valid ID with prefix sub_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Optional | [SkipMeSubscriptionCycleRequestInput](../models/SkipMeSubscriptionCycleRequestInput.md#skipmesubscriptioncyclerequestinput) | The request body for: Skip subscription cycle. |
 
 Body model: [SkipMeSubscriptionCycleRequestInput](../models/SkipMeSubscriptionCycleRequestInput.md#skipmesubscriptioncyclerequestinput).
@@ -4234,7 +4450,7 @@ Body model: [UpdateMeRequestInput](../models/UpdateMeRequest.md#updatemerequest)
 | --- | --- | --- | --- |
 | `default_payment_method_id` | Optional | string or null | The active off_session payment method to use by default. Omit to leave unchanged; null clears it. minLength: `1`. |
 | `expected_version` | Optional | integer | The customer version you read. A different version refuses the update. Format: `uint64`. minimum: `1`. |
-| `name` | Optional | string or null | Send null to clear it. minLength: `1`. |
+| `name` | Optional | string or null | Send null to clear it. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. |
 | `phone` | Optional | string or null | E.164 phone number. Send null to remove it. minLength: `1`. |
 
 #### Response
@@ -4291,7 +4507,7 @@ Signature: `updateAddress(customer_address_id: InputValue<string>, params: MeUpd
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_address_id` | Required | string | Flint customer address ID. |
+| `customer_address_id` | Required | string | Flint customer address ID. Must be a valid ID with prefix caddr_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Required | [UpdateCustomerAddressRequestInput](../models/UpdateCustomerAddressRequest.md#updatecustomeraddressrequest) | The request body for: Update a customer address; Update one of the current buyer's addresses. minProperties: `1`. |
 
 #### Response
@@ -4400,7 +4616,7 @@ const result = await client.me.updateEmailPreferences({checkout_reminders: false
 
 ### me.updateSubscription
 
-Updates payment_method_id, cancel_at_period_end: false, scheduled_plan_change: null, delivery and billing interval when the matching buyer action is available. Send billing_interval and billing_interval_count together. Mixed changes commit atomically. A scoped card-update session may send only payment_method_id and expected_version. Send expected_version to reject concurrent changes. A card whose setup hasn't finished fails with `ACTION_NOT_ALLOWED` and reason `status_not_reached`. Once setup finishes, send a new request with a new idempotency key. A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
+Updates payment_method_id, cancel_at_period_end: false, scheduled_plan_change: null, delivery and billing interval when the matching buyer action is available. If a retained card is unusable, undoing cancellation requires a usable replacement in payment_method_id; otherwise ACTION_NOT_ALLOWED has reason payment_method_required. Send billing_interval and billing_interval_count together. Mixed changes commit atomically. A scoped card-update session may send only payment_method_id and expected_version. Send expected_version to reject concurrent changes. A card whose setup hasn't finished fails with `ACTION_NOT_ALLOWED` and reason `status_not_reached`. Once setup finishes, send a new request with a new idempotency key. A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
 
 `PATCH /v1/me/subscriptions/{subscription_id}`
 
@@ -4410,7 +4626,7 @@ Signature: `updateSubscription(subscription_id: InputValue<string>, params: MeUp
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string | Flint subscription ID. |
+| `subscription_id` | Required | string | Flint subscription ID. Must be a valid ID with prefix sub_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Required | [UpdateMeSubscriptionRequestInput](../models/UpdateMeSubscriptionRequest.md#updatemesubscriptionrequest) | The request body for: Update subscription. minProperties: `1`. |
 
 Body model: [UpdateMeSubscriptionRequestInput](../models/UpdateMeSubscriptionRequest.md#updatemesubscriptionrequest).
@@ -4489,8 +4705,8 @@ updateSubscriptionLineItem(subscription_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string | Subscription ID. |
-| `subscription_line_item_id` | Required | string | Subscription line item ID. |
+| `subscription_id` | Required | string | Subscription ID. Must be a valid ID with prefix sub_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
+| `subscription_line_item_id` | Required | string | Subscription line item ID. Must be a valid ID with prefix sli_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Required | [UpdateMeSubscriptionLineItemRequestInput](../models/UpdateMeSubscriptionLineItemRequest.md#updatemesubscriptionlineitemrequest) | The request body for: Swap subscription variant. minProperties: `1`. |
 
 Body model: [UpdateMeSubscriptionLineItemRequestInput](../models/UpdateMeSubscriptionLineItemRequest.md#updatemesubscriptionlineitemrequest).

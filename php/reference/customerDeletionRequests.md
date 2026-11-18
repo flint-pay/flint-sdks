@@ -80,7 +80,7 @@ Signature: `get(string|Model $customer_deletion_request_id, array|Model|null $pa
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_deletion_request_id` | Required | string | Flint customer deletion request ID. |
+| `customer_deletion_request_id` | Required | string | Flint customer deletion request ID. Must be a valid ID with prefix cdel_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 
 #### Response
 
@@ -183,7 +183,7 @@ Signature: `resolve(string|Model $customer_deletion_request_id, array|Model $par
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_deletion_request_id` | Required | string | Flint customer deletion request ID. |
+| `customer_deletion_request_id` | Required | string | Flint customer deletion request ID. Must be a valid ID with prefix cdel_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
 | `body` | Required | [ResolveCustomerDeletionRequestInput](../models/ResolveCustomerDeletionRequestInput.md#resolvecustomerdeletionrequestinput) | The request body for: Resolve a customer deletion request. |
 
 Body model: [ResolveCustomerDeletionRequestInput](../models/ResolveCustomerDeletionRequestInput.md#resolvecustomerdeletionrequestinput).

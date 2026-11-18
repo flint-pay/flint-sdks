@@ -36,7 +36,7 @@ final class CreateOrderTipPercentInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Optional name that stays on the tip for your reporting. minLength: 1. maxLength: 255.
+    /** Optional name that stays on the tip for your reporting. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */

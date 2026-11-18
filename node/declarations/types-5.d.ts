@@ -1,23 +1,223 @@
+import type { InventoryProvenanceRequest, InventoryProvenanceRequestInput } from './types-32.js';
+import type { ResponseMeta } from './types-62.js';
+import type { Order, OrderEdit } from './types-45.js';
+import type { PayOrderResponse, PartnerWebhookEnvelope } from './types-50.js';
 import type { GetReturnDispositionResponse, GetReturnResponse, GetReturnResolutionResponse, GiftCard } from './types-28.js';
-import type {
-    ReadinessAction,
-    ReadinessRequirements,
-    ReadinessActionPreviousAttributes,
-    ReadinessRequirementsPreviousAttributes
-} from './types-58.js';
-import type { MoneyValue, MoneyValueInput } from './types-42.js';
-import type { PlatformFeeRequest, PlatformFeeRequestInput } from './types-54.js';
-import type { SplitReversalRequest } from './types-66.js';
+import type { ReadinessAction, ReadinessActionPreviousAttributes } from './types-59.js';
+import type { ReadinessRequirements, ReadinessRequirementsPreviousAttributes } from './types-60.js';
+import type { MoneyValue, MoneyValueInput } from './types-44.js';
+import type { PlatformFeeRequest, PlatformFeeRequestInput } from './types-56.js';
+import type { SplitReversalRequest } from './types-68.js';
 import type { GiftCardTransaction } from './types-30.js';
-import type { ResponseMeta } from './types-60.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateCategoryRequestInput } from './types-8.js';
-import type { DisputesAcceptParams } from './types-25.js';
-import type { UpdateCategoryRequestInput } from './types-73.js';
-import type { MetadataMap, MerchantWebhookEnvelope } from './types-41.js';
-import type { PartnerWebhookEnvelope } from './types-49.js';
-import type { SubscriptionQuantityChangeLineItemRequest, SubscriptionQuantityChangeLineItemRequestInput } from './types-70.js';
-import type { SubscriptionPlanChangeLineItemRequest, SubscriptionPlanChangeLineItemRequestInput } from './types-69.js';
+import type { DisputesAcceptParams } from './types-26.js';
+import type { UpdateCategoryRequestInput } from './types-75.js';
+import type { MetadataMap, MerchantWebhookEnvelope } from './types-43.js';
+import type { SubscriptionQuantityChangeLineItemRequest, SubscriptionQuantityChangeLineItemRequestInput } from './types-72.js';
+import type { SubscriptionPlanChangeLineItemRequest } from './types-71.js';
+/** Cancels requested quantity that hasn't departed. */
+export type CancelInventoryTransferRequest = {
+    /** Transfer version the caller last read. Format: uint64. minimum: 1. */
+    "expected_version"?: number;
+    /**
+     * Transfer lines this action changes, each with a cumulative target. 1 to 100 lines. minItems:
+     * 1. maxItems: 100. [] (Value): object. [].inventory_transfer_line_id (Required): string.
+     * Transfer line this action changes. minLength: 1. Example:
+     * "invtrln_01KEZF7C00CK297J6QVV5J0PFV". [].target_canceled_quantity (Required): integer.
+     * Cumulative quantity that should be canceled before departure. Whole-number quantity;
+     * fractional quantities are not supported. Format: int64. minimum: 0.
+     */
+    "lines": Array<{
+        /**
+         * Transfer line this action changes. minLength: 1. Example:
+         * "invtrln_01KEZF7C00CK297J6QVV5J0PFV".
+         */
+        "inventory_transfer_line_id": string;
+        /**
+         * Cumulative quantity that should be canceled before departure. Whole-number quantity;
+         * fractional quantities are not supported. Format: int64. minimum: 0.
+         */
+        "target_canceled_quantity": number;
+    }>;
+    /**
+     * When and where the stock moved. Optional; when omitted, the movements record the time Flint
+     * received the command as occurred_at and a null source_system. Where and when an inventory
+     * event happened: the source system, external actor, and time.
+     */
+    "provenance"?: InventoryProvenanceRequest;
+};
+/** Cancels requested quantity that hasn't departed. */
+export type CancelInventoryTransferRequestInput = {
+    /** Transfer version the caller last read. Format: uint64. minimum: 1. */
+    "expected_version"?: number;
+    /**
+     * Transfer lines this action changes, each with a cumulative target. 1 to 100 lines. minItems:
+     * 1. maxItems: 100. [] (Value): object. [].inventory_transfer_line_id (Required): string.
+     * Transfer line this action changes. minLength: 1. Example:
+     * "invtrln_01KEZF7C00CK297J6QVV5J0PFV". [].target_canceled_quantity (Required): integer.
+     * Cumulative quantity that should be canceled before departure. Whole-number quantity;
+     * fractional quantities are not supported. Format: int64. minimum: 0.
+     */
+    "lines": Array<{
+        /**
+         * Transfer line this action changes. minLength: 1. Example:
+         * "invtrln_01KEZF7C00CK297J6QVV5J0PFV".
+         */
+        "inventory_transfer_line_id": string;
+        /**
+         * Cumulative quantity that should be canceled before departure. Whole-number quantity;
+         * fractional quantities are not supported. Format: int64. minimum: 0.
+         */
+        "target_canceled_quantity": number;
+    }>;
+    /**
+     * When and where the stock moved. Optional; when omitted, the movements record the time Flint
+     * received the command as occurred_at and a null source_system. Where and when an inventory
+     * event happened: the source system, external actor, and time.
+     */
+    "provenance"?: InventoryProvenanceRequestInput;
+};
+/** Cancellation timing and the optional reason and comment recorded with the request. */
+export type CancelMeSubscriptionRequest = {
+    /**
+     * When true, ends the subscription now. Otherwise, schedules cancellation at trial_end_at
+     * while trialing, current_period_end_at while active, or next_retry_at while past_due, instead
+     * of that charge. An active subscription with an expired renewal delivery hold ends now. A
+     * scheduled, incomplete, or paused subscription, or a past_due subscription without
+     * next_retry_at, requires cancel_immediately: true; otherwise returns 409 ACTION_NOT_ALLOWED
+     * with reason period_end_unavailable. A buyer may cancel immediately when the store allows
+     * buyer_chooses or no scheduled cancellation time is available. Under end_of_period, a trial
+     * continues until trial_end_at.
+     */
+    "cancel_immediately"?: boolean;
+    /**
+     * Free text about the cancellation, up to 500 characters after surrounding spaces are trimmed.
+     * Recorded in cancellation_details.comment, which only merchant credentials read. minLength:
+     * 1. maxLength: 500.
+     */
+    "cancellation_comment"?: string;
+    /**
+     * Optional. Why the subscription is being canceled. When the store lists
+     * customer_account.buyer_capabilities.cancellation_reasons, a reason a buyer sends must be one
+     * of them; merchant credentials may send any code. Recorded in
+     * cancellation_details.reason_code. Value enum: "too_expensive", "missing_features",
+     * "switched_service", "unused", "customer_service", "too_complex", "low_quality", "other".
+     */
+    "cancellation_reason_code"?: "too_expensive"
+        | "missing_features"
+        | "switched_service"
+        | "unused"
+        | "customer_service"
+        | "too_complex"
+        | "low_quality"
+        | "other"
+        | (string & {});
+    /**
+     * Version last read from the resource returned in `data` (the primary resource for a result
+     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
+     * the operation and fields being changed. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+};
+/** Cancellation timing and the optional reason and comment recorded with the request. */
+export type CancelMeSubscriptionRequestInput = {
+    /**
+     * When true, ends the subscription now. Otherwise, schedules cancellation at trial_end_at
+     * while trialing, current_period_end_at while active, or next_retry_at while past_due, instead
+     * of that charge. An active subscription with an expired renewal delivery hold ends now. A
+     * scheduled, incomplete, or paused subscription, or a past_due subscription without
+     * next_retry_at, requires cancel_immediately: true; otherwise returns 409 ACTION_NOT_ALLOWED
+     * with reason period_end_unavailable. A buyer may cancel immediately when the store allows
+     * buyer_chooses or no scheduled cancellation time is available. Under end_of_period, a trial
+     * continues until trial_end_at.
+     */
+    "cancel_immediately"?: boolean;
+    /**
+     * Free text about the cancellation, up to 500 characters after surrounding spaces are trimmed.
+     * Recorded in cancellation_details.comment, which only merchant credentials read. minLength:
+     * 1. maxLength: 500.
+     */
+    "cancellation_comment"?: string;
+    /**
+     * Optional. Why the subscription is being canceled. When the store lists
+     * customer_account.buyer_capabilities.cancellation_reasons, a reason a buyer sends must be one
+     * of them; merchant credentials may send any code. Recorded in
+     * cancellation_details.reason_code. Value enum: "too_expensive", "missing_features",
+     * "switched_service", "unused", "customer_service", "too_complex", "low_quality", "other".
+     */
+    "cancellation_reason_code"?: "too_expensive"
+        | "missing_features"
+        | "switched_service"
+        | "unused"
+        | "customer_service"
+        | "too_complex"
+        | "low_quality"
+        | "other";
+    /**
+     * Version last read from the resource returned in `data` (the primary resource for a result
+     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
+     * the operation and fields being changed. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+};
+/** Cancel a pending order edit. */
+export type CancelOrderEditRequestInput = {
+    /**
+     * The order edit version to cancel. A mismatch returns VERSION_CONFLICT before changes.
+     * Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+};
+/** A response containing `CancelOrderEditResult` data. */
+export type CancelOrderEditResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. The canceled edit and
+     * current order.
+     */
+    "data": CancelOrderEditResult;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** The canceled edit and current order. */
+export type CancelOrderEditResult = {
+    /**
+     * The order after releasing the edit's holds. A customer's purchase and its payment and
+     * fulfillment progress.
+     */
+    "order": Order;
+    /**
+     * The edit after cancellation. Nested child of an order with frozen item changes, balance and
+     * refund amounts. A pending edit changes the order only when its balance payment succeeds.
+     * Refund completion is tracked on the refunds.
+     */
+    "order_edit": OrderEdit;
+};
+/** The request body for: Cancel order payment attempt. */
+export type CancelOrderPaymentAttemptRequest = {
+    /**
+     * Optional merchant-supplied cancellation reason. Value enum: "requested_by_customer",
+     * "duplicate", "fraudulent", "abandoned".
+     */
+    "cancellation_reason"?: "requested_by_customer" | "duplicate" | "fraudulent" | "abandoned" | (string & {});
+};
+/** The request body for: Cancel order payment attempt. */
+export type CancelOrderPaymentAttemptRequestInput = {
+    /**
+     * Optional merchant-supplied cancellation reason. Value enum: "requested_by_customer",
+     * "duplicate", "fraudulent", "abandoned".
+     */
+    "cancellation_reason"?: "requested_by_customer" | "duplicate" | "fraudulent" | "abandoned";
+};
+export type CancelOrderPaymentAttemptResponse = PayOrderResponse;
 /** The request body for: Cancel payment intent. */
 export type CancelPaymentIntentRequest = {
     /**
@@ -469,17 +669,18 @@ export type CapturePaymentIntentRequest = {
      * and tip. Only the partner app install token that created the payment can send it; from any
      * other credential it is INVALID_REQUEST with NOT_ALLOWED on platform_fee. It replaces the fee
      * the payment was created with, or adds one if it had none, after the same consent, capability
-     * and currency checks as at create: amount_money must be above zero and in the payment's
-     * currency, otherwise INVALID_REQUEST with INVALID_VALUE on platform_fee.amount_money. Without
-     * an approved cap in this currency it is ACTION_NOT_ALLOWED with reason
-     * platform_fee_consent_required; in live mode the partner app's platform_fees capability must
-     * be active. A fee that already ended is ACTION_NOT_ALLOWED with reason terminal_status. The
-     * cap and Flint's own fees apply to the captured total, so Flint lowers the fee rather than
-     * refusing the capture. A payment that belongs to an order can't take it at capture:
-     * INVALID_REQUEST with NOT_ALLOWED on platform_fee. Part of the request fingerprint. See
-     * [Platform fees](/docs/guides/platform-fees). A platform fee the partner app charges on the
-     * payment, beside Flint's fees. The installed merchant pays it, and Flint takes no share of
-     * it.
+     * and currency checks as at create: amount_money.amount must be at least 1 minor unit,
+     * otherwise INVALID_REQUEST with INVALID_VALUE on platform_fee.amount_money.amount. Its
+     * currency must match the payment's currency, otherwise INVALID_REQUEST with INVALID_VALUE on
+     * platform_fee.amount_money. Omit platform_fee to keep the existing fee. Without an approved
+     * cap in this currency it is ACTION_NOT_ALLOWED with reason platform_fee_consent_required; in
+     * live mode the partner app's platform_fees capability must be active. A fee that already
+     * ended is ACTION_NOT_ALLOWED with reason terminal_status. The cap and Flint's own fees apply
+     * to the captured total, so Flint lowers the fee rather than refusing the capture. A payment
+     * that belongs to an order can't take it at capture: INVALID_REQUEST with NOT_ALLOWED on
+     * platform_fee. Part of the request fingerprint. See [Platform
+     * fees](/docs/guides/platform-fees). A platform fee the partner app charges on the payment,
+     * beside Flint's fees. The installed merchant pays it, and Flint takes no share of it.
      */
     "platform_fee"?: PlatformFeeRequest;
     /**
@@ -542,17 +743,18 @@ export type CapturePaymentIntentRequestInput = {
      * and tip. Only the partner app install token that created the payment can send it; from any
      * other credential it is INVALID_REQUEST with NOT_ALLOWED on platform_fee. It replaces the fee
      * the payment was created with, or adds one if it had none, after the same consent, capability
-     * and currency checks as at create: amount_money must be above zero and in the payment's
-     * currency, otherwise INVALID_REQUEST with INVALID_VALUE on platform_fee.amount_money. Without
-     * an approved cap in this currency it is ACTION_NOT_ALLOWED with reason
-     * platform_fee_consent_required; in live mode the partner app's platform_fees capability must
-     * be active. A fee that already ended is ACTION_NOT_ALLOWED with reason terminal_status. The
-     * cap and Flint's own fees apply to the captured total, so Flint lowers the fee rather than
-     * refusing the capture. A payment that belongs to an order can't take it at capture:
-     * INVALID_REQUEST with NOT_ALLOWED on platform_fee. Part of the request fingerprint. See
-     * [Platform fees](/docs/guides/platform-fees). A platform fee the partner app charges on the
-     * payment, beside Flint's fees. The installed merchant pays it, and Flint takes no share of
-     * it.
+     * and currency checks as at create: amount_money.amount must be at least 1 minor unit,
+     * otherwise INVALID_REQUEST with INVALID_VALUE on platform_fee.amount_money.amount. Its
+     * currency must match the payment's currency, otherwise INVALID_REQUEST with INVALID_VALUE on
+     * platform_fee.amount_money. Omit platform_fee to keep the existing fee. Without an approved
+     * cap in this currency it is ACTION_NOT_ALLOWED with reason platform_fee_consent_required; in
+     * live mode the partner app's platform_fees capability must be active. A fee that already
+     * ended is ACTION_NOT_ALLOWED with reason terminal_status. The cap and Flint's own fees apply
+     * to the captured total, so Flint lowers the fee rather than refusing the capture. A payment
+     * that belongs to an order can't take it at capture: INVALID_REQUEST with NOT_ALLOWED on
+     * platform_fee. Part of the request fingerprint. See [Platform
+     * fees](/docs/guides/platform-fees). A platform fee the partner app charges on the payment,
+     * beside Flint's fees. The installed merchant pays it, and Flint takes no share of it.
      */
     "platform_fee"?: PlatformFeeRequestInput;
     /**
@@ -2627,202 +2829,3 @@ export type ChangeSubscriptionPlanRequest = ({
      */
     "subscription_plan_id": string;
 });
-/** The request body for: Change subscription plan. */
-export type ChangeSubscriptionPlanRequestInput = ({
-    /**
-     * Send with billing_interval_count to choose a target plan option. Omit both to keep the
-     * current interval if the target offers that pair, otherwise use the target plan's default
-     * interval and count. Value enum: "daily", "weekly", "monthly", "yearly".
-     */
-    "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly";
-    /**
-     * Required when billing_interval is sent; billing_interval is required when this field is
-     * sent. minimum: 1. maximum: 365.
-     */
-    "billing_interval_count"?: number;
-    /**
-     * now bills a new period with credit for unused paid item time. next_renewal changes the plan
-     * immediately and keeps the current paid period and next billing date. period_end keeps the
-     * current plan until the next charged renewal, then applies and bills the scheduled terms.
-     * prorated_now charges the new terms for the rest of the current period, less unused paid item
-     * credit, and keeps the billing period and anchor. Value enum: "now", "next_renewal",
-     * "period_end", "prorated_now".
-     */
-    "billing_starts": "now" | "next_renewal" | "period_end" | "prorated_now";
-    /**
-     * Version last read from the resource returned in `data` (the primary resource for a result
-     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
-     * the operation and fields being changed. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Optional quantities for target plan lines, with no duplicate IDs. Omitted lines carry their
-     * paired current line's quantity, or use the target line's quantity when unpaired. If an
-     * adjusted current quantity cannot be paired, send a quantity for every target line. []
-     * (Value): {@link SubscriptionPlanChangeLineItemRequestInput}. Quantity override for a line in
-     * the target subscription plan.
-     */
-    "line_items"?: Array<SubscriptionPlanChangeLineItemRequestInput>;
-    /**
-     * The target subscription plan. minLength: 1. pattern: ^plan_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "plan_01KEZF7C004CY5ZR33XST2AASV".
-     */
-    "subscription_plan_id": string;
-});
-/** The request body for: Change subscription quantity. */
-export type ChangeSubscriptionQuantityRequest = {
-    /**
-     * prorated_now charges the prorated difference now and keeps the current period and anchor;
-     * next_renewal changes quantities now without charging; period_end schedules them for the next
-     * billing boundary. Value enum: "prorated_now", "next_renewal", "period_end".
-     */
-    "billing_starts": "prorated_now" | "next_renewal" | "period_end" | (string & {});
-    /** Reject the request if the subscription version has changed. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * Quantities for existing subscription lines, with distinct IDs. Omitted lines keep their
-     * quantities. line_items is required. minItems: 1. maxItems: 50. [] (Value): {@link
-     * SubscriptionQuantityChangeLineItemRequest}. Quantity for an existing subscription line.
-     */
-    "line_items": Array<SubscriptionQuantityChangeLineItemRequest>;
-};
-/** The request body for: Change subscription quantity. */
-export type ChangeSubscriptionQuantityRequestInput = {
-    /**
-     * prorated_now charges the prorated difference now and keeps the current period and anchor;
-     * next_renewal changes quantities now without charging; period_end schedules them for the next
-     * billing boundary. Value enum: "prorated_now", "next_renewal", "period_end".
-     */
-    "billing_starts": "prorated_now" | "next_renewal" | "period_end";
-    /** Reject the request if the subscription version has changed. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * Quantities for existing subscription lines, with distinct IDs. Omitted lines keep their
-     * quantities. line_items is required. minItems: 1. maxItems: 50. [] (Value): {@link
-     * SubscriptionQuantityChangeLineItemRequestInput}. Quantity for an existing subscription line.
-     */
-    "line_items": Array<SubscriptionQuantityChangeLineItemRequestInput>;
-};
-/** An optional admission code to verify and an optional version fence. */
-export type CheckInTicketRequest = {
-    /**
-     * The 16-character Crockford base32 admission code scanned at the door. Spaces, hyphens and
-     * ASCII lowercase are normalized. Omit it to check the ticket in manually. minLength: 16.
-     */
-    "admission_code"?: string;
-    /**
-     * The ticket version last read. The change applies only while the ticket is at this version; a
-     * stale value returns 409 VERSION_CONFLICT, even when the ticket's status would also refuse
-     * the change. Door scanners usually omit it. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-};
-/** An optional admission code to verify and an optional version fence. */
-export type CheckInTicketRequestInput = CheckInTicketRequest;
-/** Buyer contact supplied with payment or saved during checkout. */
-export type CheckoutBuyerContact = {
-    /**
-     * Email supplied for the buyer, exactly as sent. Null when no email is saved; is_email_cleared
-     * distinguishes an explicit clear. Format: email. maxLength: 255. Example:
-     * "buyer@example.com".
-     */
-    "email": string | null;
-    /**
-     * True when the buyer explicitly cleared the email, including before entering one. Saving an
-     * email resets it to false. Do not restore a prefilled email while true.
-     */
-    "is_email_cleared": boolean;
-    /**
-     * True when the buyer explicitly cleared the phone, including before entering one. Saving a
-     * phone resets it to false. Do not restore a prefilled phone while true.
-     */
-    "is_phone_cleared": boolean;
-    /**
-     * Phone supplied for the buyer, in E.164 format. Null when no phone is saved; is_phone_cleared
-     * distinguishes an explicit clear. pattern: ^\+[1-9][0-9]{1,14}$.
-     */
-    "phone": string | null;
-    /**
-     * When the buyer last changed the saved checkout contact. Omitted on order buyer contact.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "updated_at"?: string;
-};
-export type CheckoutBuyerContactPreviousAttributes = {
-    /**
-     * Email supplied for the buyer, exactly as sent. Null when no email is saved; is_email_cleared
-     * distinguishes an explicit clear. anyOf[1] (Value): string. Email supplied for the buyer,
-     * exactly as sent. Null when no email is saved; is_email_cleared distinguishes an explicit
-     * clear. Format: email. maxLength: 255. Example: "buyer@example.com". anyOf[2] (Value): null.
-     */
-    "email"?: ((string) | (null));
-    /**
-     * True when the buyer explicitly cleared the email, including before entering one. Saving an
-     * email resets it to false. Do not restore a prefilled email while true. anyOf[1] (Value):
-     * boolean. True when the buyer explicitly cleared the email, including before entering one.
-     * Saving an email resets it to false. Do not restore a prefilled email while true. anyOf[2]
-     * (Value): null.
-     */
-    "is_email_cleared"?: ((boolean) | (null));
-    /**
-     * True when the buyer explicitly cleared the phone, including before entering one. Saving a
-     * phone resets it to false. Do not restore a prefilled phone while true. anyOf[1] (Value):
-     * boolean. True when the buyer explicitly cleared the phone, including before entering one.
-     * Saving a phone resets it to false. Do not restore a prefilled phone while true. anyOf[2]
-     * (Value): null.
-     */
-    "is_phone_cleared"?: ((boolean) | (null));
-    /**
-     * Phone supplied for the buyer, in E.164 format. Null when no phone is saved; is_phone_cleared
-     * distinguishes an explicit clear. anyOf[1] (Value): string. Phone supplied for the buyer, in
-     * E.164 format. Null when no phone is saved; is_phone_cleared distinguishes an explicit clear.
-     * pattern: ^\+[1-9][0-9]{1,14}$. anyOf[2] (Value): null.
-     */
-    "phone"?: ((string) | (null));
-    /**
-     * When the buyer last changed the saved checkout contact. Omitted on order buyer contact.
-     * anyOf[1] (Value): string. When the buyer last changed the saved checkout contact. Omitted on
-     * order buyer contact. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
-     * null.
-     */
-    "updated_at"?: ((string) | (null));
-};
-/**
- * Buyer contact to supply with payment or save during checkout. Send at least one field. Values
- * are stored exactly as sent, so an email with surrounding spaces is rejected. Checkout session
- * updates keep omitted fields and accept null to clear a field. Payment requests do not accept
- * null. minProperties: 1.
- */
-export type CheckoutBuyerContactRequest = {
-    /**
-     * Email for the buyer, such as buyer@example.com. On checkout session updates, null clears the
-     * saved email. Format: email. minLength: 1. maxLength: 255. Example: "buyer@example.com".
-     */
-    "email"?: string | null;
-    /**
-     * Phone for the buyer, in E.164 format, such as +14155551234. On checkout session updates,
-     * null clears the saved phone. minLength: 1. pattern: ^\+[1-9][0-9]{1,14}$.
-     */
-    "phone"?: string | null;
-};
-/**
- * Buyer contact to supply with payment or save during checkout. Send at least one field. Values
- * are stored exactly as sent, so an email with surrounding spaces is rejected. Checkout session
- * updates keep omitted fields and accept null to clear a field. Payment requests do not accept
- * null. minProperties: 1.
- */
-export type CheckoutBuyerContactRequestInput = CheckoutBuyerContactRequest;
-/** What checkout asks the buyer for. Each field you leave out uses your checkout settings. */
-export type CheckoutBuyerFields = {
-    /** Whether checkout offers address suggestions while the buyer enters an address. */
-    "address_autocomplete_enabled"?: boolean;
-    /** Whether checkout requires the buyer's billing address. */
-    "require_billing_address"?: boolean;
-    /**
-     * Whether checkout requires the buyer's email address. Subscription plan sessions always
-     * require email, so only true is allowed with type: subscription_plan.
-     */
-    "require_email"?: boolean;
-    /** Whether checkout requires the buyer's phone number. */
-    "require_phone"?: boolean;
-};

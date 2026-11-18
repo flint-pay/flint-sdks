@@ -10,7 +10,7 @@ namespace Flint;
 final class PackagesCreateItemInput extends Model {
     /** @param array{'package_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'bundle_component_id'?: string|null, 'metadata'?: mixed, 'order_line_item_id': string, 'quantity': int}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PackagesCreateItemInput')); }
-    /** Flint package ID. Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R".
+    /** Flint package ID. Must be a valid ID with prefix pkg_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R".
      * @return string
      * @throws SdkError When package_id is omitted; use hasPackageId() or valueOrDefault().
      */

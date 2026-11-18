@@ -1,36 +1,886 @@
-import type { CustomerTaxExemption, CustomerReceivables, CustomerReceivablesPreviousAttributes } from './types-16.js';
-import type { ResponseMeta } from './types-60.js';
-import type { Address, AddressPreviousAttributes } from './types-0.js';
-import type { ExpandedPaymentMethodSummary, ExpandedPaymentMethodSummaryPreviousAttributes } from './types-26.js';
-import type { MerchantWebhookEnvelope, MetadataMap } from './types-41.js';
-import type { PartnerWebhookEnvelope } from './types-49.js';
-import type { TaxIdentity, TaxIdentityPreviousAttributes } from './types-72.js';
 import type { InputValue } from '../runtime.js';
-import type { ConfirmCustomerVerificationRequestInput } from './types-7.js';
+import type { RefreshCustomerSessionRequestInput } from './types-60.js';
+import type { ResponseMeta } from './types-62.js';
+import type { MetadataMap, MerchantWebhookEnvelope } from './types-43.js';
+import type { Address, AddressPreviousAttributes } from './types-0.js';
+import type { CustomerReceivables, CustomerReceivablesPreviousAttributes } from './types-16.js';
+import type {
+    ExpandedPaymentMethodSummary,
+    ExpandedPaymentMethodSummaryPreviousAttributes,
+    DisputesAcceptParams
+} from './types-26.js';
+import type { PartnerWebhookEnvelope } from './types-50.js';
+import type { TaxIdentity, TaxIdentityPreviousAttributes } from './types-74.js';
+import type { ConfirmCustomerVerificationRequestInput } from './types-8.js';
 import type {
     CreateCustomerVerificationRequestInput,
-    CreateEmailChangeRequestInput,
-    CreateCustomerTaxExemptionRequestInput
-} from './types-9.js';
-import type { DisputesAcceptParams } from './types-25.js';
-import type {
     CreateCustomerAccessLinkRequestInput,
     CreateCustomerAddressRequestInput,
-    CreateCustomerRequestInput
-} from './types-8.js';
-import type { LinkCustomerGuestPurchasesRequestInput } from './types-38.js';
+    CreateEmailChangeRequestInput,
+    CreateCustomerRequestInput,
+    CreateCustomerTaxExemptionRequestInput
+} from './types-9.js';
+import type { LinkCustomerGuestPurchasesRequestInput } from './types-40.js';
 import type {
     UpdateCustomerAddressRequestInput,
     UpdateCustomerRequestInput,
     UpdateCustomerTaxExemptionRequestInput
-} from './types-73.js';
+} from './types-75.js';
 import type { GetReturnInspectionResponse, GetReturnResponse, GetReturnPolicyResponse, GetReturnReasonResponse } from './types-28.js';
-import type { ReturnLineDecision, ReturnLineDecisionInput } from './types-61.js';
-import type {
-    DeliveryWeeklyInterval,
-    DeliveryWeeklyIntervalPreviousAttributes,
-    DeliveryWeeklyIntervalRequestInput
-} from './types-24.js';
+import type { ReturnLineDecision, ReturnLineDecisionInput } from './types-63.js';
+export type CustomerSessionsRefreshParams = (InputValue<RefreshCustomerSessionRequestInput>);
+/**
+ * The result of revoking a customer's sessions: the customer ID and how many sessions were
+ * revoked.
+ */
+export type CustomerSessionsRevocation = {
+    /**
+     * ID of the customer whose sessions were revoked. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id": string;
+    /**
+     * Number of sessions this call revoked. Sessions that were already revoked are not counted.
+     * Format: int64.
+     */
+    "revoked_count": number;
+};
+/** A response containing `CustomerSessionsRevocation` data. */
+export type CustomerSessionsRevocationResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. The result of revoking a
+     * customer's sessions: the customer ID and how many sessions were revoked.
+     */
+    "data": CustomerSessionsRevocation;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type CustomerSessionsRevokeParams = {};
+/**
+ * Nested child of a customer, bounded to 100 unarchived records per customer. Archives remain
+ * retrievable by ID and through the archived status filter. Expired and archived records cannot be
+ * edited. An active record applies to the customer's sales whose taxable destination its coverage
+ * contains, within its date range, and is snapshotted on each exempt sale. Saving one doesn't
+ * change the customer's blanket tax_exempt flag, which still takes precedence.
+ */
+export type CustomerTaxExemption = {
+    /**
+     * Merchant's exemption certificate number. Null when none is recorded. minLength: 1.
+     * maxLength: 255.
+     */
+    "certificate_number": string | null;
+    /**
+     * Replaced as a whole: send every field you want to keep. Replaced as a whole: send every
+     * field you want to keep. Covers all US states or an explicit list of US states and DC.
+     */
+    "coverage": CustomerTaxExemptionCoverage;
+    /** When the exemption was recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * The customer that owns this nested child for its lifetime. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id": string;
+    /**
+     * Flint customer tax exemption ID, prefixed ctex_. Example: "ctex_01KEZF7C009N0YTK0NMWP1XZPW".
+     */
+    "customer_tax_exemption_id": string;
+    /**
+     * Explanation of the exemption. Required for other. Null when none is recorded. minLength: 1.
+     * maxLength: 500.
+     */
+    "description": string | null;
+    /**
+     * Last day of the exemption, inclusive, in YYYY-MM-DD format. Null when the exemption has no
+     * end date. Format: date. Example: "2026-08-02".
+     */
+    "end_date": string | null;
+    /**
+     * Merchant-only reference to the supporting document. Never shown to buyers or printed on
+     * buyer documents. Null when none is recorded. minLength: 1. maxLength: 1024.
+     */
+    "evidence_reference": string | null;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
+     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
+     * written before those limits may not satisfy them.
+     */
+    "metadata": MetadataMap;
+    /**
+     * Exemption reason. Other requires a description. Value enum: "federal_government",
+     * "state_or_local_government", "tribal_government", "foreign_diplomat",
+     * "charitable_organization", "religious_organization", "educational_organization", "resale",
+     * "agricultural_production", "industrial_production", "direct_pay_permit", "direct_mail",
+     * "other".
+     */
+    "reason": "federal_government"
+        | "state_or_local_government"
+        | "tribal_government"
+        | "foreign_diplomat"
+        | "charitable_organization"
+        | "religious_organization"
+        | "educational_organization"
+        | "resale"
+        | "agricultural_production"
+        | "industrial_production"
+        | "direct_pay_permit"
+        | "direct_mail"
+        | "other"
+        | (string & {});
+    /**
+     * First day of the exemption, inclusive, in YYYY-MM-DD format. May be up to 365 days in the
+     * future. Format: date. Example: "2026-08-02".
+     */
+    "start_date": string;
+    /**
+     * Derived from dates in the merchant timezone, using UTC when unset. DELETE archives the
+     * record. Value enum: "scheduled", "active", "expired", "archived".
+     */
+    "status": "scheduled" | "active" | "expired" | "archived" | (string & {});
+    /** When the exemption last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Current resource version. Date-derived status changes do not advance it. Format: uint64.
+     * minimum: 1.
+     */
+    "version": number;
+};
+/**
+ * Replaced as a whole: send every field you want to keep. Covers all US states or an explicit list
+ * of US states and DC.
+ */
+export type CustomerTaxExemptionCoverage = ({
+    /**
+     * Country covered by this exemption. Only US is accepted. Uses ISO 3166-1 alpha-2 country
+     * codes. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example: "US". Value enum: "US".
+     */
+    "country": "US" | (string & {});
+    /**
+     * US postal state codes or DC. Required for states and forbidden for all_states. minItems: 1.
+     * maxItems: 60. uniqueItems: true. [] enum: "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE",
+     * "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI",
+     * "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR",
+     * "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY". [] (Value):
+     * string. Value enum: "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI",
+     * "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT",
+     * "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD",
+     * "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY".
+     */
+    "states"?: Array<"AL"
+        | "AK"
+        | "AZ"
+        | "AR"
+        | "CA"
+        | "CO"
+        | "CT"
+        | "DE"
+        | "DC"
+        | "FL"
+        | "GA"
+        | "HI"
+        | "ID"
+        | "IL"
+        | "IN"
+        | "IA"
+        | "KS"
+        | "KY"
+        | "LA"
+        | "ME"
+        | "MD"
+        | "MA"
+        | "MI"
+        | "MN"
+        | "MS"
+        | "MO"
+        | "MT"
+        | "NE"
+        | "NV"
+        | "NH"
+        | "NJ"
+        | "NM"
+        | "NY"
+        | "NC"
+        | "ND"
+        | "OH"
+        | "OK"
+        | "OR"
+        | "PA"
+        | "RI"
+        | "SC"
+        | "SD"
+        | "TN"
+        | "TX"
+        | "UT"
+        | "VT"
+        | "VA"
+        | "WA"
+        | "WV"
+        | "WI"
+        | "WY"
+        | (string & {})>;
+    /** Choose all_states or states explicitly. Value enum: "all_states", "states". */
+    "type": "all_states" | "states" | (string & {});
+})
+    & ((Exclude<CustomerTaxExemptionCoverageAllStates & object, readonly unknown[]>)
+    | (Exclude<CustomerTaxExemptionCoverageStates & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * Replaced as a whole: send every field you want to keep. Covers all US states or an explicit list
+ * of US states and DC.
+ */
+export type CustomerTaxExemptionCoverageAllStates = ({
+    /**
+     * Country covered by this exemption. Only US is accepted. Uses ISO 3166-1 alpha-2 country
+     * codes. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example: "US". Value enum: "US".
+     */
+    "country": "US" | (string & {});
+    /**
+     * US postal state codes or DC. Required for states and forbidden for all_states. minItems: 1.
+     * maxItems: 60. uniqueItems: true. [] enum: "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE",
+     * "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI",
+     * "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR",
+     * "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY". [] (Value):
+     * string. Value enum: "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI",
+     * "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT",
+     * "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD",
+     * "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY".
+     */
+    "states"?: Array<"AL"
+        | "AK"
+        | "AZ"
+        | "AR"
+        | "CA"
+        | "CO"
+        | "CT"
+        | "DE"
+        | "DC"
+        | "FL"
+        | "GA"
+        | "HI"
+        | "ID"
+        | "IL"
+        | "IN"
+        | "IA"
+        | "KS"
+        | "KY"
+        | "LA"
+        | "ME"
+        | "MD"
+        | "MA"
+        | "MI"
+        | "MN"
+        | "MS"
+        | "MO"
+        | "MT"
+        | "NE"
+        | "NV"
+        | "NH"
+        | "NJ"
+        | "NM"
+        | "NY"
+        | "NC"
+        | "ND"
+        | "OH"
+        | "OK"
+        | "OR"
+        | "PA"
+        | "RI"
+        | "SC"
+        | "SD"
+        | "TN"
+        | "TX"
+        | "UT"
+        | "VT"
+        | "VA"
+        | "WA"
+        | "WV"
+        | "WI"
+        | "WY"
+        | (string & {})>;
+    /** Choose all_states or states explicitly. Value enum: "all_states". */
+    "type": "all_states" | (string & {});
+})
+    & (({
+    /** Value enum: "all_states". */
+    "type"?: "all_states" | (string & {});
+}));
+export type CustomerTaxExemptionCoverageAllStatesPreviousAttributes = ({
+    /**
+     * Country covered by this exemption. Only US is accepted. Uses ISO 3166-1 alpha-2 country
+     * codes. Value enum: "US". anyOf[1] (Value): string. Country covered by this exemption. Only
+     * US is accepted. Uses ISO 3166-1 alpha-2 country codes. minLength: 2. maxLength: 2. pattern:
+     * ^[A-Z]{2}$. Example: "US". Value enum: "US". anyOf[2] (Value): null.
+     */
+    "country"?: (("US" | (string & {})) | (null));
+    /**
+     * US postal state codes or DC. Required for states and forbidden for all_states. [] enum:
+     * "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI", "ID", "IL", "IN",
+     * "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH",
+     * "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT",
+     * "VT", "VA", "WA", "WV", "WI", "WY". anyOf[1] (Value): Array of string. US postal state codes
+     * or DC. Required for states and forbidden for all_states. minItems: 1. maxItems: 60.
+     * uniqueItems: true. [] enum: "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL",
+     * "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS",
+     * "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI",
+     * "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY". anyOf[1][] (Value):
+     * string. Value enum: "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI",
+     * "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT",
+     * "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD",
+     * "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY". anyOf[2] (Value): null.
+     */
+    "states"?: ((Array<"AL"
+        | "AK"
+        | "AZ"
+        | "AR"
+        | "CA"
+        | "CO"
+        | "CT"
+        | "DE"
+        | "DC"
+        | "FL"
+        | "GA"
+        | "HI"
+        | "ID"
+        | "IL"
+        | "IN"
+        | "IA"
+        | "KS"
+        | "KY"
+        | "LA"
+        | "ME"
+        | "MD"
+        | "MA"
+        | "MI"
+        | "MN"
+        | "MS"
+        | "MO"
+        | "MT"
+        | "NE"
+        | "NV"
+        | "NH"
+        | "NJ"
+        | "NM"
+        | "NY"
+        | "NC"
+        | "ND"
+        | "OH"
+        | "OK"
+        | "OR"
+        | "PA"
+        | "RI"
+        | "SC"
+        | "SD"
+        | "TN"
+        | "TX"
+        | "UT"
+        | "VT"
+        | "VA"
+        | "WA"
+        | "WV"
+        | "WI"
+        | "WY"
+        | (string & {})>)
+        | (null));
+    /**
+     * Choose all_states or states explicitly. Value enum: "all_states". anyOf[1] (Value): string.
+     * Choose all_states or states explicitly. Value enum: "all_states". anyOf[2] (Value): null.
+     */
+    "type"?: (("all_states" | (string & {})) | (null));
+})
+    & ({
+    /**
+     * Value enum: "all_states". anyOf[1] (Value): string. Value enum: "all_states". anyOf[2]
+     * (Value): null.
+     */
+    "type"?: (("all_states" | (string & {})) | (null));
+});
+/**
+ * Replaced as a whole: send every field you want to keep. Covers all US states or an explicit list
+ * of US states and DC.
+ */
+export type CustomerTaxExemptionCoverageAllStatesRequestInput = ({
+    /**
+     * Country covered by this exemption. Only US is accepted. Uses ISO 3166-1 alpha-2 country
+     * codes. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Value enum: "US".
+     */
+    "country": "US";
+    /**
+     * US postal state codes or DC. Required for states and forbidden for all_states. minItems: 1.
+     * maxItems: 60. uniqueItems: true. [] enum: "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE",
+     * "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI",
+     * "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR",
+     * "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY". [] (Value):
+     * string. Value enum: "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI",
+     * "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT",
+     * "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD",
+     * "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY".
+     */
+    "states"?: Array<"AL"
+        | "AK"
+        | "AZ"
+        | "AR"
+        | "CA"
+        | "CO"
+        | "CT"
+        | "DE"
+        | "DC"
+        | "FL"
+        | "GA"
+        | "HI"
+        | "ID"
+        | "IL"
+        | "IN"
+        | "IA"
+        | "KS"
+        | "KY"
+        | "LA"
+        | "ME"
+        | "MD"
+        | "MA"
+        | "MI"
+        | "MN"
+        | "MS"
+        | "MO"
+        | "MT"
+        | "NE"
+        | "NV"
+        | "NH"
+        | "NJ"
+        | "NM"
+        | "NY"
+        | "NC"
+        | "ND"
+        | "OH"
+        | "OK"
+        | "OR"
+        | "PA"
+        | "RI"
+        | "SC"
+        | "SD"
+        | "TN"
+        | "TX"
+        | "UT"
+        | "VT"
+        | "VA"
+        | "WA"
+        | "WV"
+        | "WI"
+        | "WY">;
+    /** Choose all_states or states explicitly. Value enum: "all_states". */
+    "type": "all_states";
+})
+    & (({
+    /** Value enum: "all_states". */
+    "type"?: "all_states";
+}) & ({
+    "states"?: never;
+}));
+export type CustomerTaxExemptionCoveragePreviousAttributes = ({
+    /**
+     * Country covered by this exemption. Only US is accepted. Uses ISO 3166-1 alpha-2 country
+     * codes. Value enum: "US". anyOf[1] (Value): string. Country covered by this exemption. Only
+     * US is accepted. Uses ISO 3166-1 alpha-2 country codes. minLength: 2. maxLength: 2. pattern:
+     * ^[A-Z]{2}$. Example: "US". Value enum: "US". anyOf[2] (Value): null.
+     */
+    "country"?: (("US" | (string & {})) | (null));
+    /**
+     * US postal state codes or DC. Required for states and forbidden for all_states. [] enum:
+     * "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI", "ID", "IL", "IN",
+     * "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH",
+     * "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT",
+     * "VT", "VA", "WA", "WV", "WI", "WY". anyOf[1] (Value): Array of string. US postal state codes
+     * or DC. Required for states and forbidden for all_states. minItems: 1. maxItems: 60.
+     * uniqueItems: true. [] enum: "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL",
+     * "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS",
+     * "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI",
+     * "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY". anyOf[1][] (Value):
+     * string. Value enum: "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI",
+     * "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT",
+     * "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD",
+     * "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY". anyOf[2] (Value): null.
+     */
+    "states"?: ((Array<"AL"
+        | "AK"
+        | "AZ"
+        | "AR"
+        | "CA"
+        | "CO"
+        | "CT"
+        | "DE"
+        | "DC"
+        | "FL"
+        | "GA"
+        | "HI"
+        | "ID"
+        | "IL"
+        | "IN"
+        | "IA"
+        | "KS"
+        | "KY"
+        | "LA"
+        | "ME"
+        | "MD"
+        | "MA"
+        | "MI"
+        | "MN"
+        | "MS"
+        | "MO"
+        | "MT"
+        | "NE"
+        | "NV"
+        | "NH"
+        | "NJ"
+        | "NM"
+        | "NY"
+        | "NC"
+        | "ND"
+        | "OH"
+        | "OK"
+        | "OR"
+        | "PA"
+        | "RI"
+        | "SC"
+        | "SD"
+        | "TN"
+        | "TX"
+        | "UT"
+        | "VT"
+        | "VA"
+        | "WA"
+        | "WV"
+        | "WI"
+        | "WY"
+        | (string & {})>)
+        | (null));
+    /**
+     * Choose all_states or states explicitly. Value enum: "all_states", "states". anyOf[1]
+     * (Value): string. Choose all_states or states explicitly. Value enum: "all_states", "states".
+     * anyOf[2] (Value): null.
+     */
+    "type"?: (("all_states" | "states" | (string & {})) | (null));
+})
+    & (((Exclude<CustomerTaxExemptionCoverageAllStatesPreviousAttributes & object, readonly unknown[]>)
+    | (Exclude<CustomerTaxExemptionCoverageStatesPreviousAttributes & object, readonly unknown[]>)
+    | (Record<string, unknown>)));
+/**
+ * Replaced as a whole: send every field you want to keep. Covers all US states or an explicit list
+ * of US states and DC.
+ */
+export type CustomerTaxExemptionCoverageRequestInput = ({
+    /**
+     * Country covered by this exemption. Only US is accepted. Uses ISO 3166-1 alpha-2 country
+     * codes. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Value enum: "US".
+     */
+    "country": "US";
+    /**
+     * US postal state codes or DC. Required for states and forbidden for all_states. minItems: 1.
+     * maxItems: 60. uniqueItems: true. [] enum: "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE",
+     * "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI",
+     * "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR",
+     * "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY". [] (Value):
+     * string. Value enum: "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI",
+     * "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT",
+     * "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD",
+     * "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY".
+     */
+    "states"?: Array<"AL"
+        | "AK"
+        | "AZ"
+        | "AR"
+        | "CA"
+        | "CO"
+        | "CT"
+        | "DE"
+        | "DC"
+        | "FL"
+        | "GA"
+        | "HI"
+        | "ID"
+        | "IL"
+        | "IN"
+        | "IA"
+        | "KS"
+        | "KY"
+        | "LA"
+        | "ME"
+        | "MD"
+        | "MA"
+        | "MI"
+        | "MN"
+        | "MS"
+        | "MO"
+        | "MT"
+        | "NE"
+        | "NV"
+        | "NH"
+        | "NJ"
+        | "NM"
+        | "NY"
+        | "NC"
+        | "ND"
+        | "OH"
+        | "OK"
+        | "OR"
+        | "PA"
+        | "RI"
+        | "SC"
+        | "SD"
+        | "TN"
+        | "TX"
+        | "UT"
+        | "VT"
+        | "VA"
+        | "WA"
+        | "WV"
+        | "WI"
+        | "WY">;
+    /** Choose all_states or states explicitly. Value enum: "all_states", "states". */
+    "type": "all_states" | "states";
+})
+    & ((Exclude<CustomerTaxExemptionCoverageAllStatesRequestInput & object, readonly unknown[]>)
+    | (Exclude<CustomerTaxExemptionCoverageStatesRequestInput & object, readonly unknown[]>));
+/**
+ * Replaced as a whole: send every field you want to keep. Covers all US states or an explicit list
+ * of US states and DC.
+ */
+export type CustomerTaxExemptionCoverageStates = ({
+    /**
+     * Country covered by this exemption. Only US is accepted. Uses ISO 3166-1 alpha-2 country
+     * codes. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example: "US". Value enum: "US".
+     */
+    "country": "US" | (string & {});
+    /**
+     * US postal state codes or DC. Required for states and forbidden for all_states. minItems: 1.
+     * maxItems: 60. uniqueItems: true. [] enum: "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE",
+     * "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI",
+     * "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR",
+     * "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY". [] (Value):
+     * string. Value enum: "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI",
+     * "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT",
+     * "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD",
+     * "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY".
+     */
+    "states": Array<"AL"
+        | "AK"
+        | "AZ"
+        | "AR"
+        | "CA"
+        | "CO"
+        | "CT"
+        | "DE"
+        | "DC"
+        | "FL"
+        | "GA"
+        | "HI"
+        | "ID"
+        | "IL"
+        | "IN"
+        | "IA"
+        | "KS"
+        | "KY"
+        | "LA"
+        | "ME"
+        | "MD"
+        | "MA"
+        | "MI"
+        | "MN"
+        | "MS"
+        | "MO"
+        | "MT"
+        | "NE"
+        | "NV"
+        | "NH"
+        | "NJ"
+        | "NM"
+        | "NY"
+        | "NC"
+        | "ND"
+        | "OH"
+        | "OK"
+        | "OR"
+        | "PA"
+        | "RI"
+        | "SC"
+        | "SD"
+        | "TN"
+        | "TX"
+        | "UT"
+        | "VT"
+        | "VA"
+        | "WA"
+        | "WV"
+        | "WI"
+        | "WY"
+        | (string & {})>;
+    /** Choose all_states or states explicitly. Value enum: "states". */
+    "type": "states" | (string & {});
+})
+    & ({
+    /** Value enum: "states". */
+    "type"?: "states" | (string & {});
+    /**
+     * US postal state codes or DC. Required for states and forbidden for all_states. minItems: 1.
+     * maxItems: 60. uniqueItems: true. [] enum: "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE",
+     * "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI",
+     * "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR",
+     * "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY". [] (Value):
+     * string. Value enum: "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI",
+     * "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT",
+     * "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD",
+     * "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY".
+     */
+    "states": Array<"AL"
+        | "AK"
+        | "AZ"
+        | "AR"
+        | "CA"
+        | "CO"
+        | "CT"
+        | "DE"
+        | "DC"
+        | "FL"
+        | "GA"
+        | "HI"
+        | "ID"
+        | "IL"
+        | "IN"
+        | "IA"
+        | "KS"
+        | "KY"
+        | "LA"
+        | "ME"
+        | "MD"
+        | "MA"
+        | "MI"
+        | "MN"
+        | "MS"
+        | "MO"
+        | "MT"
+        | "NE"
+        | "NV"
+        | "NH"
+        | "NJ"
+        | "NM"
+        | "NY"
+        | "NC"
+        | "ND"
+        | "OH"
+        | "OK"
+        | "OR"
+        | "PA"
+        | "RI"
+        | "SC"
+        | "SD"
+        | "TN"
+        | "TX"
+        | "UT"
+        | "VT"
+        | "VA"
+        | "WA"
+        | "WV"
+        | "WI"
+        | "WY"
+        | (string & {})>;
+});
+export type CustomerTaxExemptionCoverageStatesPreviousAttributes = ({
+    /**
+     * Country covered by this exemption. Only US is accepted. Uses ISO 3166-1 alpha-2 country
+     * codes. Value enum: "US". anyOf[1] (Value): string. Country covered by this exemption. Only
+     * US is accepted. Uses ISO 3166-1 alpha-2 country codes. minLength: 2. maxLength: 2. pattern:
+     * ^[A-Z]{2}$. Example: "US". Value enum: "US". anyOf[2] (Value): null.
+     */
+    "country"?: (("US" | (string & {})) | (null));
+    /**
+     * US postal state codes or DC. Required for states and forbidden for all_states. [] enum:
+     * "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI", "ID", "IL", "IN",
+     * "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH",
+     * "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT",
+     * "VT", "VA", "WA", "WV", "WI", "WY". anyOf[1] (Value): Array of string. US postal state codes
+     * or DC. Required for states and forbidden for all_states. minItems: 1. maxItems: 60.
+     * uniqueItems: true. [] enum: "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL",
+     * "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS",
+     * "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI",
+     * "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY". anyOf[1][] (Value):
+     * string. Value enum: "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI",
+     * "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT",
+     * "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD",
+     * "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY". anyOf[2] (Value): null.
+     */
+    "states"?: ((Array<"AL"
+        | "AK"
+        | "AZ"
+        | "AR"
+        | "CA"
+        | "CO"
+        | "CT"
+        | "DE"
+        | "DC"
+        | "FL"
+        | "GA"
+        | "HI"
+        | "ID"
+        | "IL"
+        | "IN"
+        | "IA"
+        | "KS"
+        | "KY"
+        | "LA"
+        | "ME"
+        | "MD"
+        | "MA"
+        | "MI"
+        | "MN"
+        | "MS"
+        | "MO"
+        | "MT"
+        | "NE"
+        | "NV"
+        | "NH"
+        | "NJ"
+        | "NM"
+        | "NY"
+        | "NC"
+        | "ND"
+        | "OH"
+        | "OK"
+        | "OR"
+        | "PA"
+        | "RI"
+        | "SC"
+        | "SD"
+        | "TN"
+        | "TX"
+        | "UT"
+        | "VT"
+        | "VA"
+        | "WA"
+        | "WV"
+        | "WI"
+        | "WY"
+        | (string & {})>)
+        | (null));
+    /**
+     * Choose all_states or states explicitly. Value enum: "states". anyOf[1] (Value): string.
+     * Choose all_states or states explicitly. Value enum: "states". anyOf[2] (Value): null.
+     */
+    "type"?: (("states" | (string & {})) | (null));
+})
+    & ({
+    /**
+     * Value enum: "states". anyOf[1] (Value): string. Value enum: "states". anyOf[2] (Value):
+     * null.
+     */
+    "type"?: (("states" | (string & {})) | (null));
+});
 /**
  * Replaced as a whole: send every field you want to keep. Covers all US states or an explicit list
  * of US states and DC.
@@ -424,21 +1274,22 @@ export type CustomerUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
      * payment method's summary fields, including type, status, and card details, returned when the
      * payment method is expanded. object.default_payment_method.anyOf[2] (Value): null.
      * object.default_payment_method_id (Required): string or null. ID of the customer's default
-     * off-session payment method. `null` when none is set. Example:
-     * "pm_01KEZF7C0034B248TXXE4NXYFZ". object.email (Required): string or null. Customer email.
-     * `null` when the customer has none. Unique among the environment's customers.
-     * object.external_reference_id (Required): string or null. Caller-owned identifier for this
-     * customer in an external system. `null` when none is set. Not returned to customer sessions.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842". object.internal_note (Required):
-     * string or null. Internal note about this customer. `null` when none is set. Not returned to
-     * customer sessions. object.is_merchant_verified (Optional): boolean. Flag you set on the
-     * customer, for example after checking ID in store. Promotion and delivery rules can match it.
-     * Flint does not set it; it is unrelated to customer verifications, which prove a buyer
-     * controls an email address. object.merchant_id (Required): string. ID of the merchant this
-     * resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional):
-     * {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
-     * and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
-     * are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and
+     * off-session payment method. Existing subscriptions keep their own payment_method_id when the
+     * default changes. `null` when none is set. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
+     * object.email (Required): string or null. Customer email. `null` when the customer has none.
+     * Unique among the environment's customers. object.external_reference_id (Required): string or
+     * null. Caller-owned identifier for this customer in an external system. `null` when none is
+     * set. Not returned to customer sessions. minLength: 1. maxLength: 255. Example:
+     * "warehouse-1842". object.internal_note (Required): string or null. Internal note about this
+     * customer. `null` when none is set. Not returned to customer sessions.
+     * object.is_merchant_verified (Optional): boolean. Flag you set on the customer, for example
+     * after checking ID in store. Promotion and delivery rules can match it. Flint does not set
+     * it; it is unrelated to customer verifications, which prove a buyer controls an email
+     * address. object.merchant_id (Required): string. ID of the merchant this resource belongs to.
+     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}.
+     * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
      * MetadataPatchInput; maps written before those limits may not satisfy them. object.name
      * (Required): string or null. Customer name. `null` when none is set. object.phone (Required):
      * string or null. Customer phone number. `null` when none is set. object.price_list_id
@@ -513,12 +1364,14 @@ export type CustomerUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
      * ExpandedPaymentMethodSummaryPreviousAttributes}.
      * previous_attributes.default_payment_method.anyOf[2] (Value): null.
      * previous_attributes.default_payment_method_id (Optional): string or null. ID of the
-     * customer's default off-session payment method. `null` when none is set.
+     * customer's default off-session payment method. Existing subscriptions keep their own
+     * payment_method_id when the default changes. `null` when none is set.
      * previous_attributes.default_payment_method_id.anyOf[1] (Value): string. ID of the customer's
-     * default off-session payment method. `null` when none is set. Example:
-     * "pm_01KEZF7C0034B248TXXE4NXYFZ". previous_attributes.default_payment_method_id.anyOf[2]
-     * (Value): null. previous_attributes.email (Optional): string or null. Customer email. `null`
-     * when the customer has none. Unique among the environment's customers.
+     * default off-session payment method. Existing subscriptions keep their own payment_method_id
+     * when the default changes. `null` when none is set. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
+     * previous_attributes.default_payment_method_id.anyOf[2] (Value): null.
+     * previous_attributes.email (Optional): string or null. Customer email. `null` when the
+     * customer has none. Unique among the environment's customers.
      * previous_attributes.email.anyOf[1] (Value): string. Customer email. `null` when the customer
      * has none. Unique among the environment's customers. previous_attributes.email.anyOf[2]
      * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
@@ -635,27 +1488,28 @@ export type CustomerUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
          * method's summary fields, including type, status, and card details, returned when the
          * payment method is expanded. default_payment_method.anyOf[2] (Value): null.
          * default_payment_method_id (Required): string or null. ID of the customer's default
-         * off-session payment method. `null` when none is set. Example:
-         * "pm_01KEZF7C0034B248TXXE4NXYFZ". email (Required): string or null. Customer email.
-         * `null` when the customer has none. Unique among the environment's customers.
-         * external_reference_id (Required): string or null. Caller-owned identifier for this
-         * customer in an external system. `null` when none is set. Not returned to customer
-         * sessions. minLength: 1. maxLength: 255. Example: "warehouse-1842". internal_note
-         * (Required): string or null. Internal note about this customer. `null` when none is set.
-         * Not returned to customer sessions. is_merchant_verified (Optional): boolean. Flag you
-         * set on the customer, for example after checking ID in store. Promotion and delivery
-         * rules can match it. Flint does not set it; it is unrelated to customer verifications,
-         * which prove a buyer controls an email address. merchant_id (Required): string. ID of the
-         * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata
-         * (Optional): {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput`
-         * for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys
-         * starting with flint_ are reserved for Flint and are not returned. Writes follow the
-         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
-         * satisfy them. name (Required): string or null. Customer name. `null` when none is set.
-         * phone (Required): string or null. Customer phone number. `null` when none is set.
-         * price_list_id (Required): string or null. ID of the customer's direct wholesale price
-         * list. `null` when none is set. An inactive list can be assigned but does not apply. Not
-         * returned to customer sessions. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+         * off-session payment method. Existing subscriptions keep their own payment_method_id when
+         * the default changes. `null` when none is set. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
+         * email (Required): string or null. Customer email. `null` when the customer has none.
+         * Unique among the environment's customers. external_reference_id (Required): string or
+         * null. Caller-owned identifier for this customer in an external system. `null` when none
+         * is set. Not returned to customer sessions. minLength: 1. maxLength: 255. Example:
+         * "warehouse-1842". internal_note (Required): string or null. Internal note about this
+         * customer. `null` when none is set. Not returned to customer sessions.
+         * is_merchant_verified (Optional): boolean. Flag you set on the customer, for example
+         * after checking ID in store. Promotion and delivery rules can match it. Flint does not
+         * set it; it is unrelated to customer verifications, which prove a buyer controls an email
+         * address. merchant_id (Required): string. ID of the merchant this resource belongs to.
+         * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link MetadataMap}.
+         * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+         * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
+         * for Flint and are not returned. Writes follow the limits on MetadataInput and
+         * MetadataPatchInput; maps written before those limits may not satisfy them. name
+         * (Required): string or null. Customer name. `null` when none is set. phone (Required):
+         * string or null. Customer phone number. `null` when none is set. price_list_id
+         * (Required): string or null. ID of the customer's direct wholesale price list. `null`
+         * when none is set. An inactive list can be assigned but does not apply. Not returned to
+         * customer sessions. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
          * "prl_01KEZF7C00EH39P59GN3XMGS2Q". receivables (Optional): {@link CustomerReceivables}.
          * What this customer owes you on invoices: the outstanding and overdue amounts, one
          * balance per currency. Present only when `expand` includes `receivables`. A customer's
@@ -731,7 +1585,8 @@ export type CustomerUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
              */
             "default_payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
             /**
-             * ID of the customer's default off-session payment method. `null` when none is set.
+             * ID of the customer's default off-session payment method. Existing subscriptions keep
+             * their own payment_method_id when the default changes. `null` when none is set.
              * Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
              */
             "default_payment_method_id": string | null;
@@ -870,33 +1725,34 @@ export type CustomerUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
          * method. default_payment_method.anyOf[1] (Value): {@link
          * ExpandedPaymentMethodSummaryPreviousAttributes}. default_payment_method.anyOf[2]
          * (Value): null. default_payment_method_id (Optional): string or null. ID of the
-         * customer's default off-session payment method. `null` when none is set.
+         * customer's default off-session payment method. Existing subscriptions keep their own
+         * payment_method_id when the default changes. `null` when none is set.
          * default_payment_method_id.anyOf[1] (Value): string. ID of the customer's default
-         * off-session payment method. `null` when none is set. Example:
-         * "pm_01KEZF7C0034B248TXXE4NXYFZ". default_payment_method_id.anyOf[2] (Value): null. email
-         * (Optional): string or null. Customer email. `null` when the customer has none. Unique
-         * among the environment's customers. email.anyOf[1] (Value): string. Customer email.
-         * `null` when the customer has none. Unique among the environment's customers.
-         * email.anyOf[2] (Value): null. external_reference_id (Optional): string or null.
-         * Caller-owned identifier for this customer in an external system. `null` when none is
-         * set. Not returned to customer sessions. external_reference_id.anyOf[1] (Value): string.
-         * Caller-owned identifier for this customer in an external system. `null` when none is
-         * set. Not returned to customer sessions. minLength: 1. maxLength: 255. Example:
-         * "warehouse-1842". external_reference_id.anyOf[2] (Value): null. internal_note
-         * (Optional): string or null. Internal note about this customer. `null` when none is set.
-         * Not returned to customer sessions. internal_note.anyOf[1] (Value): string. Internal note
-         * about this customer. `null` when none is set. Not returned to customer sessions.
-         * internal_note.anyOf[2] (Value): null. is_merchant_verified (Optional): boolean or null.
-         * Flag you set on the customer, for example after checking ID in store. Promotion and
-         * delivery rules can match it. Flint does not set it; it is unrelated to customer
-         * verifications, which prove a buyer controls an email address.
-         * is_merchant_verified.anyOf[1] (Value): boolean. Flag you set on the customer, for
-         * example after checking ID in store. Promotion and delivery rules can match it. Flint
-         * does not set it; it is unrelated to customer verifications, which prove a buyer controls
-         * an email address. is_merchant_verified.anyOf[2] (Value): null. merchant_id (Optional):
-         * string or null. ID of the merchant this resource belongs to. merchant_id.anyOf[1]
-         * (Value): string. ID of the merchant this resource belongs to. Example:
-         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * off-session payment method. Existing subscriptions keep their own payment_method_id when
+         * the default changes. `null` when none is set. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
+         * default_payment_method_id.anyOf[2] (Value): null. email (Optional): string or null.
+         * Customer email. `null` when the customer has none. Unique among the environment's
+         * customers. email.anyOf[1] (Value): string. Customer email. `null` when the customer has
+         * none. Unique among the environment's customers. email.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * customer in an external system. `null` when none is set. Not returned to customer
+         * sessions. external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for
+         * this customer in an external system. `null` when none is set. Not returned to customer
+         * sessions. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. internal_note (Optional): string or null.
+         * Internal note about this customer. `null` when none is set. Not returned to customer
+         * sessions. internal_note.anyOf[1] (Value): string. Internal note about this customer.
+         * `null` when none is set. Not returned to customer sessions. internal_note.anyOf[2]
+         * (Value): null. is_merchant_verified (Optional): boolean or null. Flag you set on the
+         * customer, for example after checking ID in store. Promotion and delivery rules can match
+         * it. Flint does not set it; it is unrelated to customer verifications, which prove a
+         * buyer controls an email address. is_merchant_verified.anyOf[1] (Value): boolean. Flag
+         * you set on the customer, for example after checking ID in store. Promotion and delivery
+         * rules can match it. Flint does not set it; it is unrelated to customer verifications,
+         * which prove a buyer controls an email address. is_merchant_verified.anyOf[2] (Value):
+         * null. merchant_id (Optional): string or null. ID of the merchant this resource belongs
+         * to. merchant_id.anyOf[1] (Value): string. ID of the merchant this resource belongs to.
+         * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
          * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
          * `MetadataInput` for key, value, and size rules. metadata.anyOf[1] (Value): {@link
          * MetadataMap}. metadata.anyOf[2] (Value): null. name (Optional): string or null. Customer
@@ -992,8 +1848,10 @@ export type CustomerUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
              */
             "default_payment_method"?: ((ExpandedPaymentMethodSummaryPreviousAttributes) | (null));
             /**
-             * ID of the customer's default off-session payment method. `null` when none is set.
+             * ID of the customer's default off-session payment method. Existing subscriptions keep
+             * their own payment_method_id when the default changes. `null` when none is set.
              * anyOf[1] (Value): string. ID of the customer's default off-session payment method.
+             * Existing subscriptions keep their own payment_method_id when the default changes.
              * `null` when none is set. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ". anyOf[2] (Value):
              * null.
              */
@@ -1198,21 +2056,22 @@ export type CustomerUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
      * payment method's summary fields, including type, status, and card details, returned when the
      * payment method is expanded. object.default_payment_method.anyOf[2] (Value): null.
      * object.default_payment_method_id (Required): string or null. ID of the customer's default
-     * off-session payment method. `null` when none is set. Example:
-     * "pm_01KEZF7C0034B248TXXE4NXYFZ". object.email (Required): string or null. Customer email.
-     * `null` when the customer has none. Unique among the environment's customers.
-     * object.external_reference_id (Required): string or null. Caller-owned identifier for this
-     * customer in an external system. `null` when none is set. Not returned to customer sessions.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842". object.internal_note (Required):
-     * string or null. Internal note about this customer. `null` when none is set. Not returned to
-     * customer sessions. object.is_merchant_verified (Optional): boolean. Flag you set on the
-     * customer, for example after checking ID in store. Promotion and delivery rules can match it.
-     * Flint does not set it; it is unrelated to customer verifications, which prove a buyer
-     * controls an email address. object.merchant_id (Required): string. ID of the merchant this
-     * resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional):
-     * {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
-     * and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
-     * are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and
+     * off-session payment method. Existing subscriptions keep their own payment_method_id when the
+     * default changes. `null` when none is set. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
+     * object.email (Required): string or null. Customer email. `null` when the customer has none.
+     * Unique among the environment's customers. object.external_reference_id (Required): string or
+     * null. Caller-owned identifier for this customer in an external system. `null` when none is
+     * set. Not returned to customer sessions. minLength: 1. maxLength: 255. Example:
+     * "warehouse-1842". object.internal_note (Required): string or null. Internal note about this
+     * customer. `null` when none is set. Not returned to customer sessions.
+     * object.is_merchant_verified (Optional): boolean. Flag you set on the customer, for example
+     * after checking ID in store. Promotion and delivery rules can match it. Flint does not set
+     * it; it is unrelated to customer verifications, which prove a buyer controls an email
+     * address. object.merchant_id (Required): string. ID of the merchant this resource belongs to.
+     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}.
+     * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
      * MetadataPatchInput; maps written before those limits may not satisfy them. object.name
      * (Required): string or null. Customer name. `null` when none is set. object.phone (Required):
      * string or null. Customer phone number. `null` when none is set. object.price_list_id
@@ -1287,12 +2146,14 @@ export type CustomerUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
      * ExpandedPaymentMethodSummaryPreviousAttributes}.
      * previous_attributes.default_payment_method.anyOf[2] (Value): null.
      * previous_attributes.default_payment_method_id (Optional): string or null. ID of the
-     * customer's default off-session payment method. `null` when none is set.
+     * customer's default off-session payment method. Existing subscriptions keep their own
+     * payment_method_id when the default changes. `null` when none is set.
      * previous_attributes.default_payment_method_id.anyOf[1] (Value): string. ID of the customer's
-     * default off-session payment method. `null` when none is set. Example:
-     * "pm_01KEZF7C0034B248TXXE4NXYFZ". previous_attributes.default_payment_method_id.anyOf[2]
-     * (Value): null. previous_attributes.email (Optional): string or null. Customer email. `null`
-     * when the customer has none. Unique among the environment's customers.
+     * default off-session payment method. Existing subscriptions keep their own payment_method_id
+     * when the default changes. `null` when none is set. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
+     * previous_attributes.default_payment_method_id.anyOf[2] (Value): null.
+     * previous_attributes.email (Optional): string or null. Customer email. `null` when the
+     * customer has none. Unique among the environment's customers.
      * previous_attributes.email.anyOf[1] (Value): string. Customer email. `null` when the customer
      * has none. Unique among the environment's customers. previous_attributes.email.anyOf[2]
      * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
@@ -1409,27 +2270,28 @@ export type CustomerUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
          * method's summary fields, including type, status, and card details, returned when the
          * payment method is expanded. default_payment_method.anyOf[2] (Value): null.
          * default_payment_method_id (Required): string or null. ID of the customer's default
-         * off-session payment method. `null` when none is set. Example:
-         * "pm_01KEZF7C0034B248TXXE4NXYFZ". email (Required): string or null. Customer email.
-         * `null` when the customer has none. Unique among the environment's customers.
-         * external_reference_id (Required): string or null. Caller-owned identifier for this
-         * customer in an external system. `null` when none is set. Not returned to customer
-         * sessions. minLength: 1. maxLength: 255. Example: "warehouse-1842". internal_note
-         * (Required): string or null. Internal note about this customer. `null` when none is set.
-         * Not returned to customer sessions. is_merchant_verified (Optional): boolean. Flag you
-         * set on the customer, for example after checking ID in store. Promotion and delivery
-         * rules can match it. Flint does not set it; it is unrelated to customer verifications,
-         * which prove a buyer controls an email address. merchant_id (Required): string. ID of the
-         * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata
-         * (Optional): {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput`
-         * for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys
-         * starting with flint_ are reserved for Flint and are not returned. Writes follow the
-         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
-         * satisfy them. name (Required): string or null. Customer name. `null` when none is set.
-         * phone (Required): string or null. Customer phone number. `null` when none is set.
-         * price_list_id (Required): string or null. ID of the customer's direct wholesale price
-         * list. `null` when none is set. An inactive list can be assigned but does not apply. Not
-         * returned to customer sessions. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+         * off-session payment method. Existing subscriptions keep their own payment_method_id when
+         * the default changes. `null` when none is set. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
+         * email (Required): string or null. Customer email. `null` when the customer has none.
+         * Unique among the environment's customers. external_reference_id (Required): string or
+         * null. Caller-owned identifier for this customer in an external system. `null` when none
+         * is set. Not returned to customer sessions. minLength: 1. maxLength: 255. Example:
+         * "warehouse-1842". internal_note (Required): string or null. Internal note about this
+         * customer. `null` when none is set. Not returned to customer sessions.
+         * is_merchant_verified (Optional): boolean. Flag you set on the customer, for example
+         * after checking ID in store. Promotion and delivery rules can match it. Flint does not
+         * set it; it is unrelated to customer verifications, which prove a buyer controls an email
+         * address. merchant_id (Required): string. ID of the merchant this resource belongs to.
+         * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link MetadataMap}.
+         * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+         * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
+         * for Flint and are not returned. Writes follow the limits on MetadataInput and
+         * MetadataPatchInput; maps written before those limits may not satisfy them. name
+         * (Required): string or null. Customer name. `null` when none is set. phone (Required):
+         * string or null. Customer phone number. `null` when none is set. price_list_id
+         * (Required): string or null. ID of the customer's direct wholesale price list. `null`
+         * when none is set. An inactive list can be assigned but does not apply. Not returned to
+         * customer sessions. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
          * "prl_01KEZF7C00EH39P59GN3XMGS2Q". receivables (Optional): {@link CustomerReceivables}.
          * What this customer owes you on invoices: the outstanding and overdue amounts, one
          * balance per currency. Present only when `expand` includes `receivables`. A customer's
@@ -1505,7 +2367,8 @@ export type CustomerUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
              */
             "default_payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
             /**
-             * ID of the customer's default off-session payment method. `null` when none is set.
+             * ID of the customer's default off-session payment method. Existing subscriptions keep
+             * their own payment_method_id when the default changes. `null` when none is set.
              * Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
              */
             "default_payment_method_id": string | null;
@@ -1644,33 +2507,34 @@ export type CustomerUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
          * method. default_payment_method.anyOf[1] (Value): {@link
          * ExpandedPaymentMethodSummaryPreviousAttributes}. default_payment_method.anyOf[2]
          * (Value): null. default_payment_method_id (Optional): string or null. ID of the
-         * customer's default off-session payment method. `null` when none is set.
+         * customer's default off-session payment method. Existing subscriptions keep their own
+         * payment_method_id when the default changes. `null` when none is set.
          * default_payment_method_id.anyOf[1] (Value): string. ID of the customer's default
-         * off-session payment method. `null` when none is set. Example:
-         * "pm_01KEZF7C0034B248TXXE4NXYFZ". default_payment_method_id.anyOf[2] (Value): null. email
-         * (Optional): string or null. Customer email. `null` when the customer has none. Unique
-         * among the environment's customers. email.anyOf[1] (Value): string. Customer email.
-         * `null` when the customer has none. Unique among the environment's customers.
-         * email.anyOf[2] (Value): null. external_reference_id (Optional): string or null.
-         * Caller-owned identifier for this customer in an external system. `null` when none is
-         * set. Not returned to customer sessions. external_reference_id.anyOf[1] (Value): string.
-         * Caller-owned identifier for this customer in an external system. `null` when none is
-         * set. Not returned to customer sessions. minLength: 1. maxLength: 255. Example:
-         * "warehouse-1842". external_reference_id.anyOf[2] (Value): null. internal_note
-         * (Optional): string or null. Internal note about this customer. `null` when none is set.
-         * Not returned to customer sessions. internal_note.anyOf[1] (Value): string. Internal note
-         * about this customer. `null` when none is set. Not returned to customer sessions.
-         * internal_note.anyOf[2] (Value): null. is_merchant_verified (Optional): boolean or null.
-         * Flag you set on the customer, for example after checking ID in store. Promotion and
-         * delivery rules can match it. Flint does not set it; it is unrelated to customer
-         * verifications, which prove a buyer controls an email address.
-         * is_merchant_verified.anyOf[1] (Value): boolean. Flag you set on the customer, for
-         * example after checking ID in store. Promotion and delivery rules can match it. Flint
-         * does not set it; it is unrelated to customer verifications, which prove a buyer controls
-         * an email address. is_merchant_verified.anyOf[2] (Value): null. merchant_id (Optional):
-         * string or null. ID of the merchant this resource belongs to. merchant_id.anyOf[1]
-         * (Value): string. ID of the merchant this resource belongs to. Example:
-         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * off-session payment method. Existing subscriptions keep their own payment_method_id when
+         * the default changes. `null` when none is set. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
+         * default_payment_method_id.anyOf[2] (Value): null. email (Optional): string or null.
+         * Customer email. `null` when the customer has none. Unique among the environment's
+         * customers. email.anyOf[1] (Value): string. Customer email. `null` when the customer has
+         * none. Unique among the environment's customers. email.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * customer in an external system. `null` when none is set. Not returned to customer
+         * sessions. external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for
+         * this customer in an external system. `null` when none is set. Not returned to customer
+         * sessions. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. internal_note (Optional): string or null.
+         * Internal note about this customer. `null` when none is set. Not returned to customer
+         * sessions. internal_note.anyOf[1] (Value): string. Internal note about this customer.
+         * `null` when none is set. Not returned to customer sessions. internal_note.anyOf[2]
+         * (Value): null. is_merchant_verified (Optional): boolean or null. Flag you set on the
+         * customer, for example after checking ID in store. Promotion and delivery rules can match
+         * it. Flint does not set it; it is unrelated to customer verifications, which prove a
+         * buyer controls an email address. is_merchant_verified.anyOf[1] (Value): boolean. Flag
+         * you set on the customer, for example after checking ID in store. Promotion and delivery
+         * rules can match it. Flint does not set it; it is unrelated to customer verifications,
+         * which prove a buyer controls an email address. is_merchant_verified.anyOf[2] (Value):
+         * null. merchant_id (Optional): string or null. ID of the merchant this resource belongs
+         * to. merchant_id.anyOf[1] (Value): string. ID of the merchant this resource belongs to.
+         * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
          * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
          * `MetadataInput` for key, value, and size rules. metadata.anyOf[1] (Value): {@link
          * MetadataMap}. metadata.anyOf[2] (Value): null. name (Optional): string or null. Customer
@@ -1766,8 +2630,10 @@ export type CustomerUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
              */
             "default_payment_method"?: ((ExpandedPaymentMethodSummaryPreviousAttributes) | (null));
             /**
-             * ID of the customer's default off-session payment method. `null` when none is set.
+             * ID of the customer's default off-session payment method. Existing subscriptions keep
+             * their own payment_method_id when the default changes. `null` when none is set.
              * anyOf[1] (Value): string. ID of the customer's default off-session payment method.
+             * Existing subscriptions keep their own payment_method_id when the default changes.
              * `null` when none is set. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ". anyOf[2] (Value):
              * null.
              */
@@ -2610,269 +3476,4 @@ export type DeliveryAddressAdvisoryResource = {
     "suggested_address"?: Address;
     /** How far address verification got. Value enum: "needs_review", "unverifiable". */
     "verification_state": "needs_review" | "unverifiable" | (string & {});
-};
-export type DeliveryAddressAdvisoryResourcePreviousAttributes = {
-    /**
-     * Which address the advisory is about. Value enum: "destination_address", "buyer_location".
-     * anyOf[1] (Value): string. Which address the advisory is about. Value enum:
-     * "destination_address", "buyer_location". anyOf[2] (Value): null.
-     */
-    "role"?: (("destination_address" | "buyer_location" | (string & {})) | (null));
-    /**
-     * Omitted for a checkout session credential that doesn't act for the customer the buyer
-     * verified. anyOf[1] (Value): {@link AddressPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "suggested_address"?: ((AddressPreviousAttributes) | (null));
-    /**
-     * How far address verification got. Value enum: "needs_review", "unverifiable". anyOf[1]
-     * (Value): string. How far address verification got. Value enum: "needs_review",
-     * "unverifiable". anyOf[2] (Value): null.
-     */
-    "verification_state"?: (("needs_review" | "unverifiable" | (string & {})) | (null));
-};
-/**
- * A partial address for delivery quotes, previews, and buyer locations. Country is required when
- * any member is present.
- */
-export type DeliveryAddressRequest = ({
-    /** City, town, or locality. minLength: 1. maxLength: 100. */
-    "city"?: string;
-    /**
-     * ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example:
-     * "US".
-     */
-    "country"?: string;
-    /** First line of the street address. minLength: 1. maxLength: 255. */
-    "line1"?: string;
-    /**
-     * Second line of the street address, such as an apartment or suite. minLength: 1. maxLength:
-     * 255.
-     */
-    "line2"?: string;
-    /** Postal or ZIP code. minLength: 1. maxLength: 20. */
-    "postal_code"?: string;
-    /**
-     * State, province, or region. State conditions read it as a subdivision of the address's
-     * country: send its code with or without the country prefix, such as NY or US-NY. In the US
-     * and Canada, the English name, such as New York, also matches. US addresses also accept the
-     * USPS military codes AA, AE, and AP. If the address country is listed by a state condition
-     * but state names no subdivision of that country, the condition cannot be decided: the method
-     * or rate is left out as cannot_calculate (invalid_buyer_input). minLength: 1. maxLength: 100.
-     */
-    "state"?: string;
-});
-/**
- * A partial address for delivery quotes, previews, and buyer locations. Country is required when
- * any member is present.
- */
-export type DeliveryAddressRequestInput = DeliveryAddressRequest;
-/**
- * The estimated arrival date range for a delivery option, as calendar dates in the option's
- * timezone.
- */
-export type DeliveryArrivalEstimate = {
-    /**
-     * Calendar date in the option timezone. Do not parse it as a UTC timestamp. Format: date.
-     * Example: "2026-08-02".
-     */
-    "earliest_date": string;
-    /**
-     * Calendar date in the option timezone. Do not parse it as a UTC timestamp. Format: date.
-     * Example: "2026-08-02".
-     */
-    "latest_date": string;
-    /** Uses an IANA time zone name. */
-    "timezone": string;
-};
-export type DeliveryArrivalEstimatePreviousAttributes = {
-    /**
-     * Calendar date in the option timezone. Do not parse it as a UTC timestamp. anyOf[1] (Value):
-     * string. Calendar date in the option timezone. Do not parse it as a UTC timestamp. Format:
-     * date. Example: "2026-08-02". anyOf[2] (Value): null.
-     */
-    "earliest_date"?: ((string) | (null));
-    /**
-     * Calendar date in the option timezone. Do not parse it as a UTC timestamp. anyOf[1] (Value):
-     * string. Calendar date in the option timezone. Do not parse it as a UTC timestamp. Format:
-     * date. Example: "2026-08-02". anyOf[2] (Value): null.
-     */
-    "latest_date"?: ((string) | (null));
-    /**
-     * Uses an IANA time zone name. anyOf[1] (Value): string. Uses an IANA time zone name. anyOf[2]
-     * (Value): null.
-     */
-    "timezone"?: ((string) | (null));
-};
-/**
- * When a delivery method can be scheduled: weekly intervals, blackout intervals, lead time, and
- * how far ahead a buyer can book.
- */
-export type DeliveryAvailability = {
-    /**
-     * Local date-time spans in which no window is offered. [] (Value): {@link
-     * DeliveryBlackoutInterval}. A local start and end time during which a delivery schedule
-     * offers no windows.
-     */
-    "blackout_intervals"?: Array<DeliveryBlackoutInterval>;
-    /**
-     * Which of the two instants a local time means when a clock change makes it happen twice.
-     * Defaults to `earlier`. Default: "earlier". Value enum: "earlier", "later".
-     */
-    "dst_disambiguation"?: "earlier" | "later" | (string & {});
-    /** How many days ahead windows are offered, from 1 to 365. */
-    "maximum_scheduling_horizon_days": number;
-    /**
-     * Notice the merchant needs before a window starts, in seconds. A buyer can choose a window
-     * until this long before it starts. Quotes offer only windows that can still be chosen, so a
-     * window already under way is not offered. Format: int64.
-     */
-    "preparation_lead_time_seconds": number;
-    /**
-     * Minute of the day, from 0 to 1439 in the schedule's timezone, after which today's windows
-     * are no longer offered. Omit it to apply no cutoff.
-     */
-    "same_day_cutoff_minute"?: number;
-    /** Uses an IANA time zone name. minLength: 1. */
-    "timezone": string;
-    /**
-     * One to 100 weekly spans in which windows are offered. They cannot overlap. [] (Value):
-     * {@link DeliveryWeeklyInterval}. A recurring weekly span, from a start weekday and minute to
-     * an end weekday and minute, used in a delivery method's availability schedule.
-     */
-    "weekly_intervals": Array<DeliveryWeeklyInterval>;
-};
-export type DeliveryAvailabilityPreviousAttributes = {
-    /**
-     * Local date-time spans in which no window is offered. anyOf[1] (Value): Array of {@link
-     * DeliveryBlackoutIntervalPreviousAttributes}. Local date-time spans in which no window is
-     * offered. anyOf[1][] (Value): {@link DeliveryBlackoutIntervalPreviousAttributes}. anyOf[2]
-     * (Value): null.
-     */
-    "blackout_intervals"?: ((Array<DeliveryBlackoutIntervalPreviousAttributes>) | (null));
-    /**
-     * Which of the two instants a local time means when a clock change makes it happen twice.
-     * Defaults to `earlier`. Value enum: "earlier", "later". anyOf[1] (Value): string. Which of
-     * the two instants a local time means when a clock change makes it happen twice. Defaults to
-     * `earlier`. Default: "earlier". Value enum: "earlier", "later". anyOf[2] (Value): null.
-     */
-    "dst_disambiguation"?: (("earlier" | "later" | (string & {})) | (null));
-    /**
-     * How many days ahead windows are offered, from 1 to 365. anyOf[1] (Value): integer. How many
-     * days ahead windows are offered, from 1 to 365. anyOf[2] (Value): null.
-     */
-    "maximum_scheduling_horizon_days"?: ((number) | (null));
-    /**
-     * Notice the merchant needs before a window starts, in seconds. A buyer can choose a window
-     * until this long before it starts. Quotes offer only windows that can still be chosen, so a
-     * window already under way is not offered. anyOf[1] (Value): integer. Notice the merchant
-     * needs before a window starts, in seconds. A buyer can choose a window until this long before
-     * it starts. Quotes offer only windows that can still be chosen, so a window already under way
-     * is not offered. Format: int64. anyOf[2] (Value): null.
-     */
-    "preparation_lead_time_seconds"?: ((number) | (null));
-    /**
-     * Minute of the day, from 0 to 1439 in the schedule's timezone, after which today's windows
-     * are no longer offered. Omit it to apply no cutoff. anyOf[1] (Value): integer. Minute of the
-     * day, from 0 to 1439 in the schedule's timezone, after which today's windows are no longer
-     * offered. Omit it to apply no cutoff. anyOf[2] (Value): null.
-     */
-    "same_day_cutoff_minute"?: ((number) | (null));
-    /**
-     * Uses an IANA time zone name. anyOf[1] (Value): string. Uses an IANA time zone name.
-     * minLength: 1. anyOf[2] (Value): null.
-     */
-    "timezone"?: ((string) | (null));
-    /**
-     * One to 100 weekly spans in which windows are offered. They cannot overlap. anyOf[1] (Value):
-     * Array of {@link DeliveryWeeklyIntervalPreviousAttributes}. One to 100 weekly spans in which
-     * windows are offered. They cannot overlap. anyOf[1][] (Value): {@link
-     * DeliveryWeeklyIntervalPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "weekly_intervals"?: ((Array<DeliveryWeeklyIntervalPreviousAttributes>) | (null));
-};
-/**
- * When a delivery method can be scheduled: weekly intervals, blackout intervals, lead time, and
- * how far ahead a buyer can book.
- */
-export type DeliveryAvailabilityRequestInput = {
-    /**
-     * Local date-time spans in which no window is offered. [] (Value): {@link
-     * DeliveryBlackoutIntervalRequestInput}. A local start and end time during which a delivery
-     * schedule offers no windows.
-     */
-    "blackout_intervals"?: Array<DeliveryBlackoutIntervalRequestInput>;
-    /**
-     * Which of the two instants a local time means when a clock change makes it happen twice.
-     * Defaults to `earlier`. Default: "earlier". Value enum: "earlier", "later".
-     */
-    "dst_disambiguation"?: "earlier" | "later";
-    /** How many days ahead windows are offered, from 1 to 365. */
-    "maximum_scheduling_horizon_days": number;
-    /**
-     * Notice the merchant needs before a window starts, in seconds. A buyer can choose a window
-     * until this long before it starts. Quotes offer only windows that can still be chosen, so a
-     * window already under way is not offered. Format: int64.
-     */
-    "preparation_lead_time_seconds": number;
-    /**
-     * Minute of the day, from 0 to 1439 in the schedule's timezone, after which today's windows
-     * are no longer offered. Omit it to apply no cutoff.
-     */
-    "same_day_cutoff_minute"?: number;
-    /** Uses an IANA time zone name. minLength: 1. */
-    "timezone": string;
-    /**
-     * One to 100 weekly spans in which windows are offered. They cannot overlap. [] (Value):
-     * {@link DeliveryWeeklyIntervalRequestInput}. A recurring weekly span, from a start weekday
-     * and minute to an end weekday and minute, used in a delivery method's availability schedule.
-     */
-    "weekly_intervals": Array<DeliveryWeeklyIntervalRequestInput>;
-};
-/** A local start and end time during which a delivery schedule offers no windows. */
-export type DeliveryBlackoutInterval = {
-    /**
-     * Local date and time the blackout ends, as `YYYY-MM-DDTHH:MM:SS` in the schedule's timezone.
-     * minLength: 1.
-     */
-    "end_local": string;
-    /**
-     * Local date and time the blackout starts, as `YYYY-MM-DDTHH:MM:SS` in the schedule's
-     * timezone. minLength: 1.
-     */
-    "start_local": string;
-};
-export type DeliveryBlackoutIntervalPreviousAttributes = {
-    /**
-     * Local date and time the blackout ends, as `YYYY-MM-DDTHH:MM:SS` in the schedule's timezone.
-     * anyOf[1] (Value): string. Local date and time the blackout ends, as `YYYY-MM-DDTHH:MM:SS` in
-     * the schedule's timezone. minLength: 1. anyOf[2] (Value): null.
-     */
-    "end_local"?: ((string) | (null));
-    /**
-     * Local date and time the blackout starts, as `YYYY-MM-DDTHH:MM:SS` in the schedule's
-     * timezone. anyOf[1] (Value): string. Local date and time the blackout starts, as
-     * `YYYY-MM-DDTHH:MM:SS` in the schedule's timezone. minLength: 1. anyOf[2] (Value): null.
-     */
-    "start_local"?: ((string) | (null));
-};
-/** A local start and end time during which a delivery schedule offers no windows. */
-export type DeliveryBlackoutIntervalRequestInput = DeliveryBlackoutInterval;
-/** A minimum and maximum number of business days, used in transit time estimates. */
-export type DeliveryBusinessDayRange = {
-    /** Most business days, from `minimum` to 365. */
-    "maximum": number;
-    /** Fewest business days, from 0. */
-    "minimum": number;
-};
-export type DeliveryBusinessDayRangePreviousAttributes = {
-    /**
-     * Most business days, from `minimum` to 365. anyOf[1] (Value): integer. Most business days,
-     * from `minimum` to 365. anyOf[2] (Value): null.
-     */
-    "maximum"?: ((number) | (null));
-    /**
-     * Fewest business days, from 0. anyOf[1] (Value): integer. Fewest business days, from 0.
-     * anyOf[2] (Value): null.
-     */
-    "minimum"?: ((number) | (null));
 };

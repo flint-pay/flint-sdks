@@ -23,7 +23,7 @@ final class WebhookDeliveriesListAttemptsInput extends Model {
      */
     public function getPageToken(): string { return $this->get('page_token'); }
     public function hasPageToken(): bool { return $this->has('page_token'); }
-    /** Flint webhook delivery ID. Example: "wdel_01KEZF7C001DWSNDCDZHCTBN0A".
+    /** Flint webhook delivery ID. Must be a valid ID with prefix wdel_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "wdel_01KEZF7C001DWSNDCDZHCTBN0A".
      * @return string
      * @throws SdkError When webhook_delivery_id is omitted; use hasWebhookDeliveryId() or valueOrDefault().
      */

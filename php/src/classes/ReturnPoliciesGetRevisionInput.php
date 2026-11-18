@@ -10,13 +10,13 @@ namespace Flint;
 final class ReturnPoliciesGetRevisionInput extends Model {
     /** @param array{'return_policy_id': string, 'return_policy_revision_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnPoliciesGetRevisionInput')); }
-    /** Flint return policy id. Example: "rpol_01KEZF7C00H8C042BEK6HBRANX".
+    /** Flint return policy id. Must be a valid ID with prefix rpol_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "rpol_01KEZF7C00H8C042BEK6HBRANX".
      * @return string
      * @throws SdkError When return_policy_id is omitted; use hasReturnPolicyId() or valueOrDefault().
      */
     public function getReturnPolicyId(): string { return $this->get('return_policy_id'); }
     public function hasReturnPolicyId(): bool { return $this->has('return_policy_id'); }
-    /** Flint return policy revision id. Example: "rpolv_01KEZF7C007AWH6P4QC14Q25TC".
+    /** Flint return policy revision id. Must be a valid ID with prefix rpolv_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "rpolv_01KEZF7C007AWH6P4QC14Q25TC".
      * @return string
      * @throws SdkError When return_policy_revision_id is omitted; use hasReturnPolicyRevisionId() or valueOrDefault().
      */

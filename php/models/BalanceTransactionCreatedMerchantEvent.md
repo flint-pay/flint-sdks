@@ -38,6 +38,10 @@ The affected public resource without expansions, client authority fields, or fie
 
 Field definitions: [shared fields](BalanceTransaction.md#balancetransaction).
 
+### BalanceTransactionCreatedMerchantEvent.data fields 1.object.fee_details[]
+
+Field definitions: [BalanceTransactionResponse.data.fee_details[]](../models/BalanceTransactionResponse.md#balancetransactionresponsedatafee_details).
+
 ### BalanceTransactionCreatedMerchantEvent.data fields 1.object.related_resource
 
 Field definitions: [BalanceTransactionResponse.data.related_resource](../models/BalanceTransactionResponse.md#balancetransactionresponsedatarelated_resource).

@@ -9,7 +9,7 @@ namespace Flint;
  * @property-read ?string $context_id
  * @property-read string $expires_at
  * @property-read string $fresh_verification_expires_at
- * @property-read string $merchant_id
+ * @property-read string|null $merchant_id
  * @property-read string $mode
  * @property-read ?string $name
  * @property-read ?string $oauth_grant_id
@@ -17,13 +17,13 @@ namespace Flint;
  * @property-read ?string $organization_id
  * @property-read ?string $partner_app_id
  * @property-read string|null $partner_app_install_id
- * @property-read string $sandbox_id
+ * @property-read string|null $sandbox_id
  * @property-read ?list<string> $scopes
  * @property-read string $user_id
  * @property-read ?string $workload_identity_id
  * Presence-aware response; omitted optional fields return null. */
 final class AuthContextResponseDataOnboardingSession extends Model {
-    /** @param array{'access'?: string, 'api_key_id'?: string, 'auth_type': string, 'can_manage_api_keys': bool, 'context_id'?: string, 'expires_at': string, 'fresh_verification_expires_at': string, 'merchant_id': string, 'mode': string, 'name'?: string, 'oauth_grant_id'?: string, 'oauth_session_id'?: string, 'organization_id'?: string, 'partner_app_id'?: string, 'partner_app_install_id'?: string|null, 'sandbox_id': string, 'scopes'?: list<string>, 'user_id': string, 'workload_identity_id'?: string, ...}|object $values */
+    /** @param array{'access'?: string, 'api_key_id'?: string, 'auth_type': string, 'can_manage_api_keys': bool, 'context_id'?: string, 'expires_at': string, 'fresh_verification_expires_at': string, 'merchant_id': string|null, 'mode': string, 'name'?: string, 'oauth_grant_id'?: string, 'oauth_session_id'?: string, 'organization_id'?: string, 'partner_app_id'?: string, 'partner_app_install_id'?: string|null, 'sandbox_id': string|null, 'scopes'?: list<string>, 'user_id': string, 'workload_identity_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('AuthContextResponseDataOnboardingSession')); }
     /** Access level; scoped tokens always have restricted access. Value enum: "full", "read_only", "restricted".
      * @return ?string
@@ -60,10 +60,10 @@ final class AuthContextResponseDataOnboardingSession extends Model {
      */
     public function getFreshVerificationExpiresAt(): string { return $this->get('fresh_verification_expires_at'); }
     public function hasFreshVerificationExpiresAt(): bool { return $this->has('fresh_verification_expires_at'); }
-    /** Merchant the credential acts for.
-     * @return string
+    /**  anyOf[1] (Value): (string or null). Merchant the credential acts for. Null when an onboarding session has no merchant yet. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getMerchantId(): string { return $this->get('merchant_id'); }
+    public function getMerchantId(): string|null { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
     /** Whether the credential acts in test or live mode. Value enum: "test".
      * @return string
@@ -100,10 +100,10 @@ final class AuthContextResponseDataOnboardingSession extends Model {
      */
     public function getPartnerAppInstallId(): string|null { return $this->get('partner_app_install_id'); }
     public function hasPartnerAppInstallId(): bool { return $this->has('partner_app_install_id'); }
-    /** Sandbox the credential is bound to, present only in test mode.
-     * @return string
+    /**  anyOf[1] (Value): (string or null). Public sandbox ID in test mode. Null when an onboarding session has no sandbox yet. Omitted when mode is live. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getSandboxId(): string { return $this->get('sandbox_id'); }
+    public function getSandboxId(): string|null { return $this->get('sandbox_id'); }
     public function hasSandboxId(): bool { return $this->has('sandbox_id'); }
     /** Current granted API scopes, resolved at request time for full and read_only keys. [] (Value): string.
      * @return ?list<string>

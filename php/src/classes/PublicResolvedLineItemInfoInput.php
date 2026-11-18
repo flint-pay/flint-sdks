@@ -7,6 +7,7 @@ namespace Flint;
  * @property-read list<PublicResolvedBundleComponentInput|array<array-key, mixed>|\stdClass> $bundle_components
  * @property-read string $bundle_id
  * @property-read string $catalog_object_type
+ * @property-read array{'amount': string, 'currency': string}|object|null $compare_at_price_money
  * @property-read ImageInput|array<array-key, mixed>|\stdClass $image
  * @property-read bool $is_inventory_tracked
  * @property-read bool $is_sold_out
@@ -21,7 +22,7 @@ namespace Flint;
  * @property-read string $variant_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class PublicResolvedLineItemInfoInput extends Model {
-    /** @param array{'available_modifiers'?: list<PublicResolvedModifierGroupInput|array<array-key, mixed>|\stdClass>, 'available_variants'?: list<PaymentLinkAvailableVariantInput|array<array-key, mixed>|\stdClass>, 'bundle_components'?: list<PublicResolvedBundleComponentInput|array<array-key, mixed>|\stdClass>, 'bundle_id'?: string, 'catalog_object_type'?: string, 'image'?: ImageInput|array<array-key, mixed>|\stdClass, 'is_inventory_tracked'?: bool, 'is_sold_out': bool, 'key': string, 'product_id'?: string, 'product_options'?: list<PaymentLinkProductOptionInput|array<array-key, mixed>|\stdClass>, 'quantity_price_breaks': list<QuantityPriceBreakInput|array<array-key, mixed>|\stdClass>, 'resolved_description'?: string, 'resolved_name'?: string, 'resolved_unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'selected_options'?: list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>, 'variant_id'?: string, ...}|object $values */
+    /** @param array{'available_modifiers'?: list<PublicResolvedModifierGroupInput|array<array-key, mixed>|\stdClass>, 'available_variants'?: list<PaymentLinkAvailableVariantInput|array<array-key, mixed>|\stdClass>, 'bundle_components'?: list<PublicResolvedBundleComponentInput|array<array-key, mixed>|\stdClass>, 'bundle_id'?: string, 'catalog_object_type'?: string, 'compare_at_price_money': array{'amount': string, 'currency': string}|object|null, 'image'?: ImageInput|array<array-key, mixed>|\stdClass, 'is_inventory_tracked'?: bool, 'is_sold_out': bool, 'key': string, 'product_id'?: string, 'product_options'?: list<PaymentLinkProductOptionInput|array<array-key, mixed>|\stdClass>, 'quantity_price_breaks': list<QuantityPriceBreakInput|array<array-key, mixed>|\stdClass>, 'resolved_description'?: string, 'resolved_name'?: string, 'resolved_unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'selected_options'?: list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>, 'variant_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PublicResolvedLineItemInfoInput')); }
     /** Modifier groups the buyer can choose from for this item. [] (Value): {@see PublicResolvedModifierGroupInput}. A modifier group as resolved for a payment link line item, with its selection limits, display flags, and options or text settings.
      * @return list<PublicResolvedModifierGroupInput|array<array-key, mixed>|\stdClass>
@@ -53,6 +54,12 @@ final class PublicResolvedLineItemInfoInput extends Model {
      */
     public function getCatalogObjectType(): string { return $this->get('catalog_object_type'); }
     public function hasCatalogObjectType(): bool { return $this->has('catalog_object_type'); }
+    /** Current catalog reference unit price for sale display. Null when no variant compare-at price is set. Does not affect the amount charged. anyOf[1] (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
+     * @return array{'amount': string, 'currency': string}|object|null
+     * @throws SdkError When compare_at_price_money is omitted; use hasCompareAtPriceMoney() or valueOrDefault().
+     */
+    public function getCompareAtPriceMoney(): mixed { return $this->get('compare_at_price_money'); }
+    public function hasCompareAtPriceMoney(): bool { return $this->has('compare_at_price_money'); }
     /** Image of the variant or bundle. An image with its URL, size, and alt text.
      * @return ImageInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When image is omitted; use hasImage() or valueOrDefault().
