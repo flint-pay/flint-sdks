@@ -77,7 +77,7 @@ export type {
 export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { DeliveryWindowRequestInput, DeliveryWindowRequest, DeliveryShipmentDetails } from '../declarations/types-24.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type { Address } from '../declarations/types-0.js';
 export type { LocationCoordinate } from '../declarations/types-40.js';
 export type { DeliveryAddressAdvisoryResource } from '../declarations/types-17.js';

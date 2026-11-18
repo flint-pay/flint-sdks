@@ -111,7 +111,6 @@ export type {
     OrderTaxLocationRequestInput,
     OrderTaxLocationInputPostalCodeInput,
     OrderTaxLocationPostalAddressRequestInput,
-    OrderTaxLocationInputFullAddressInput,
     OrderTaxUpdateRequestInput,
     OrderTaxLocationPostalAddressRequest
 } from '../declarations/types-48.js';
@@ -176,6 +175,7 @@ export type {
     OrderTaxExemptionInputCustomerInput,
     OrderTaxExemptionInputNoneInput,
     OrderTaxExemptionInputOrderInput,
+    OrderTaxLocationInputFullAddressInput,
     OrderTaxLocationFullAddressRequestInput,
     OrderPaymentAttemptPaymentMethodSave,
     OrderLineSubscriptionOfferSummary,
@@ -224,6 +224,7 @@ export type {
     CreateOrderDiscountInput,
     CreateOrderDiscountPromotionInput,
     CreateOrderDiscountManualInput,
+    CreateOrderLineItemRequestInput,
     CreateOrderLineItemInputVariantInput,
     CreateOrderLineItemInputBundleInput,
     CreateOrderLineItemInputCustomInput,
@@ -283,7 +284,7 @@ export type {
     BundleComponent,
     BundleComponentVariantSummary
 } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type { BuyerPauseActionOptions, BuyerPayBalanceActionOptions, BuyerRetryPaymentActionOptions } from '../declarations/types-3.js';
 export type { CheckoutBuyerContact, CheckoutBuyerContactRequestInput, CheckoutBuyerContactRequest } from '../declarations/types-6.js';
 export type {
@@ -300,6 +301,7 @@ export type {
     ExpandedShipmentSummary,
     ErrorRemediation,
     ExpandedPaymentIntentSummary,
+    ExpandedSubscriptionSummary,
     ExpandedSubscriptionPlanSummary,
     DisputesAcceptParams
 } from '../declarations/types-26.js';
@@ -315,14 +317,7 @@ export type {
     CustomersListAddressesParams
 } from '../declarations/types-17.js';
 export type { DeliveryRecipientResource } from '../declarations/types-23.js';
-export type {
-    Fulfillment,
-    FulfillmentHold,
-    FulfillmentChargeLink,
-    FulfillmentLineItem,
-    ExpandedSubscriptionSummary,
-    FilesCompleteParams
-} from '../declarations/types-27.js';
+export type { Fulfillment, FulfillmentHold, FulfillmentChargeLink, FulfillmentLineItem, FilesCompleteParams } from '../declarations/types-27.js';
 export type { DigitalFulfillmentDetails, DimensionsRequestInput, Dimensions } from '../declarations/types-25.js';
 export type { MetadataMap, MetadataRequestInput, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type {
@@ -429,7 +424,6 @@ export type {
 export type { TicketedEvent, Tip, TipPaymentIntentAllocation, TipValueSettlementAllocation } from '../declarations/types-75.js';
 export type {
     CreateOrderRequestInput,
-    CreateOrderLineItemRequestInput,
     CreateOrderTipInput,
     CreateOrderTipAmountInput,
     CreateOrderTipPercentInput
@@ -486,8 +480,8 @@ export {
     makeCustomerTaxExemptionCoverageStatesRequest,
     makeDeliveryChargeTaxCalculationRequestModel
 } from '../declarations/types-84.js';
+export { makeDeliverySelectionRecipientRequest } from '../declarations/types-85.js';
 export {
-    makeDeliverySelectionRecipientRequest,
     makeDimensionsRequest,
     makeGiftCardPurchaseDetailsRequest,
     makeGiftCardPurchaseRecipientPatchRequest,
@@ -533,10 +527,10 @@ export {
     makeOrderTaxCalculationInputExternal,
     makeOrderTaxCalculationRequest,
     makeOrderTaxComponentRequest,
-    makeOrderTaxExemptionInputCustomer
+    makeOrderTaxExemptionInputCustomer,
+    makeOrderTaxExemptionInputNone
 } from '../declarations/types-88.js';
 export {
-    makeOrderTaxExemptionInputNone,
     makeOrderTaxExemptionInputOrder,
     makeOrderTaxExemptionRequest,
     makeOrderTaxJurisdictionRequest,

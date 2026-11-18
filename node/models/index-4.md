@@ -1,6 +1,6 @@
 [Model index](../MODELS.md)
 
-# CancelReturnRequestInput to CheckoutSessionTax
+# CancelReturnRequestInput to CheckoutSessionTaxPreviousAttributes
 
 - [CancelReturnRequestInput](CancelReturnRequestInput.md)
 - [CancelReturnResolutionRequestInput](CancelReturnResolutionRequestInput.md)
@@ -57,7 +57,6 @@
 - [CheckoutGiftCardChallengePreviousAttributes](CheckoutGiftCardChallengePreviousAttributes.md)
 - [CheckoutLegalConfigPreviousAttributes](CheckoutLegalConfigPreviousAttributes.md)
 - [CheckoutLegalConfigRequestInput](CheckoutLegalConfigRequestInput.md)
-- [CheckoutLicenseKey](CheckoutLicenseKey.md)
 - [CheckoutMerchantSupport](CheckoutMerchantSupport.md)
 - [CheckoutPaymentConfig](CheckoutPaymentConfig.md)
 - [CheckoutPaymentConfigPreviousAttributes](CheckoutPaymentConfigPreviousAttributes.md)
@@ -102,4 +101,5 @@
 - [CheckoutSessionPlatformFee](CheckoutSessionPlatformFee.md)
 - [CheckoutSessionResponse](CheckoutSessionResponse.md)
 - [CheckoutSessionTax](CheckoutSessionTax.md)
+- [CheckoutSessionTaxPreviousAttributes](CheckoutSessionTaxPreviousAttributes.md)
 

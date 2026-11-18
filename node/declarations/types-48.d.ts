@@ -1,6 +1,13 @@
 import type {
-    OrderTaxLocationFullAddressRequestInput,
+    AddressPreviousAttributes,
+    ApplyDiscountRequestInput,
+    ApplyOrderGiftCardRequestInput,
+    AddOrderChargeRequestInput,
+    AddLineItemsRequestInput
+} from './types-0.js';
+import type {
     OrderTaxLocationInputFullAddress,
+    OrderTaxLocationInputFullAddressInput,
     OrderTaxAttentionPreviousAttributes,
     OrderTaxCallbackEvaluationPreviousAttributes,
     OrderTaxExemptionPreviousAttributes,
@@ -11,13 +18,6 @@ import type {
     OrderReturnCreditSettlementPreviousAttributes,
     OrderSettlementAmountsPreviousAttributes
 } from './types-47.js';
-import type {
-    AddressPreviousAttributes,
-    ApplyDiscountRequestInput,
-    ApplyOrderGiftCardRequestInput,
-    AddOrderChargeRequestInput,
-    AddLineItemsRequestInput
-} from './types-0.js';
 import type {
     DeliveryChargeTaxCalculationRequestPreviousAttributes,
     DeliveryChargeTaxCalculationRequest,
@@ -51,7 +51,8 @@ import type {
     ExpandedPaymentIntentSummaryPreviousAttributes,
     ExpandedSubscriptionPlanSummaryPreviousAttributes,
     DisputesAcceptParams,
-    ExpandedOrderSummary
+    ExpandedOrderSummary,
+    ExpandedOrderSummaryPreviousAttributes
 } from './types-26.js';
 import type { ExpandedSubscriptionSummaryPreviousAttributes, FilesCompleteParams } from './types-27.js';
 import type { FulfillmentPreviousAttributes } from './types-28.js';
@@ -60,7 +61,7 @@ import type { MerchantWebhookEnvelope, MetadataMap, MetadataRequestInput } from 
 import type { PartnerWebhookEnvelope, PayOrderRequestInput } from './types-50.js';
 import type { PricingAmountsPreviousAttributes } from './types-56.js';
 import type { TicketedEventPreviousAttributes, TipPreviousAttributes } from './types-75.js';
-import type { WebhookOrder, Weight, WeightRequestInput } from './types-79.js';
+import type { WebhookOrder, Weight, WeightRequestInput, WeightPreviousAttributes } from './types-79.js';
 import type { InputValue } from '../runtime.js';
 import type { CancelOrderEditRequestInput, CancelOrderPaymentAttemptRequestInput } from './types-5.js';
 import type { CloseOrderRequestInput } from './types-7.js';
@@ -70,30 +71,9 @@ import type { RemoveDiscountsRequestInput, RepriceDiscountsRequestInput } from '
 import type { ResolveOrderInventoryExceptionRequestInput, RetryOrderEditRefundRequestInput, ResponseMeta } from './types-62.js';
 import type { SendOrderReceiptRequestInput } from './types-67.js';
 import type { UpdateOrderChargeRequestInput, UpdateLineItemRequestInput, UpdateOrderRequestInput } from './types-76.js';
-import type { Dimensions, DimensionsRequestInput } from './types-25.js';
-import type { ReturnHandoffRequirementLineItem } from './types-63.js';
+import type { Dimensions, DimensionsRequestInput, DimensionsPreviousAttributes } from './types-25.js';
+import type { ReturnHandoffRequirementLineItem, ReturnHandoffRequirementLineItemPreviousAttributes } from './types-63.js';
 import type { ReturnResolutionLineItemRequest, ReturnShipmentLineItemAllocationRequestInput } from './types-65.js';
-/**
- * The `billing_address` variant of `OrderTaxLocationInput`. The `shipping_address` variant of
- * `OrderTaxLocationInput`. The `tax_address` variant of `OrderTaxLocationInput`.
- */
-export type OrderTaxLocationInputFullAddressInput = {
-    /**
-     * The address to calculate tax from. A full street address you supply as an order's tax
-     * location.
-     */
-    "address": OrderTaxLocationFullAddressRequestInput;
-    /**
-     * Where the tax address comes from. The only accepted value is provided, which is the default.
-     * Default: "provided". Value enum: "provided".
-     */
-    "address_source"?: "provided";
-    /**
-     * The kind of address you are sending. Value enum: "tax_address", "billing_address",
-     * "shipping_address".
-     */
-    "address_type": "tax_address" | "billing_address" | "shipping_address";
-};
 /** The `postal_code` variant of `OrderTaxLocationInput`. */
 export type OrderTaxLocationInputPostalCode = {
     /**
@@ -6403,3 +6383,225 @@ export type PackageResponse = {
      */
     "request_id": string;
 };
+export type PackageUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "carrier"?: string;
+            "created_at": string;
+            "delivered_at"?: string;
+            "dimensions"?: Dimensions;
+            "expected_delivery_at"?: string | null;
+            "external_reference_id"?: string;
+            "external_system"?: string;
+            "fulfillment_id": string;
+            "label_url"?: string;
+            "metadata"?: MetadataMap;
+            "order"?: ((ExpandedOrderSummary) | (null));
+            "order_id": string;
+            "package_id": string;
+            "return_id"?: string;
+            "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
+            "service_code"?: string;
+            "shipment_id": string;
+            "shipped_at"?: string;
+            "status": "created"
+                | "packed"
+                | "shipped"
+                | "in_transit"
+                | "out_for_delivery"
+                | "delivered"
+                | "delivery_attempted"
+                | "exception"
+                | "returned"
+                | "voided"
+                | (string & {});
+            "status_reason"?: string;
+            "supported_actions": Array<"mark_delivered"
+                | "mark_delivery_attempted"
+                | "mark_exception"
+                | "mark_in_transit"
+                | "mark_out_for_delivery"
+                | "mark_packed"
+                | "mark_returned"
+                | "mark_shipped"
+                | "void"
+                | (string & {})>;
+            "tracking_number"?: string;
+            "tracking_url"?: string;
+            "updated_at": string;
+            "version": number;
+            "weight"?: Weight;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "carrier"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "delivered_at"?: ((string) | (null));
+            "dimensions"?: ((DimensionsPreviousAttributes) | (null));
+            "expected_delivery_at"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "external_system"?: ((string) | (null));
+            "fulfillment_id"?: ((string) | (null));
+            "label_url"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
+            "order_id"?: ((string) | (null));
+            "package_id"?: ((string) | (null));
+            "return_id"?: ((string) | (null));
+            "return_line_items"?: ((Array<ReturnHandoffRequirementLineItemPreviousAttributes>) | (null));
+            "service_code"?: ((string) | (null));
+            "shipment_id"?: ((string) | (null));
+            "shipped_at"?: ((string) | (null));
+            "status"?: (("created"
+                | "packed"
+                | "shipped"
+                | "in_transit"
+                | "out_for_delivery"
+                | "delivered"
+                | "delivery_attempted"
+                | "exception"
+                | "returned"
+                | "voided"
+                | (string & {}))
+                | (null));
+            "status_reason"?: ((string) | (null));
+            "supported_actions"?: ((Array<"mark_delivered"
+                | "mark_delivery_attempted"
+                | "mark_exception"
+                | "mark_in_transit"
+                | "mark_out_for_delivery"
+                | "mark_packed"
+                | "mark_returned"
+                | "mark_shipped"
+                | "void"
+                | (string & {})>)
+                | (null));
+            "tracking_number"?: ((string) | (null));
+            "tracking_url"?: ((string) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+            "weight"?: ((WeightPreviousAttributes) | (null));
+        });
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "package.updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "carrier"?: string;
+            "created_at": string;
+            "delivered_at"?: string;
+            "dimensions"?: Dimensions;
+            "expected_delivery_at"?: string | null;
+            "external_reference_id"?: string;
+            "external_system"?: string;
+            "fulfillment_id": string;
+            "label_url"?: string;
+            "metadata"?: MetadataMap;
+            "order"?: ((ExpandedOrderSummary) | (null));
+            "order_id": string;
+            "package_id": string;
+            "return_id"?: string;
+            "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
+            "service_code"?: string;
+            "shipment_id": string;
+            "shipped_at"?: string;
+            "status": "created"
+                | "packed"
+                | "shipped"
+                | "in_transit"
+                | "out_for_delivery"
+                | "delivered"
+                | "delivery_attempted"
+                | "exception"
+                | "returned"
+                | "voided"
+                | (string & {});
+            "status_reason"?: string;
+            "supported_actions": Array<"mark_delivered"
+                | "mark_delivery_attempted"
+                | "mark_exception"
+                | "mark_in_transit"
+                | "mark_out_for_delivery"
+                | "mark_packed"
+                | "mark_returned"
+                | "mark_shipped"
+                | "void"
+                | (string & {})>;
+            "tracking_number"?: string;
+            "tracking_url"?: string;
+            "updated_at": string;
+            "version": number;
+            "weight"?: Weight;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "carrier"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "delivered_at"?: ((string) | (null));
+            "dimensions"?: ((DimensionsPreviousAttributes) | (null));
+            "expected_delivery_at"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "external_system"?: ((string) | (null));
+            "fulfillment_id"?: ((string) | (null));
+            "label_url"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
+            "order_id"?: ((string) | (null));
+            "package_id"?: ((string) | (null));
+            "return_id"?: ((string) | (null));
+            "return_line_items"?: ((Array<ReturnHandoffRequirementLineItemPreviousAttributes>) | (null));
+            "service_code"?: ((string) | (null));
+            "shipment_id"?: ((string) | (null));
+            "shipped_at"?: ((string) | (null));
+            "status"?: (("created"
+                | "packed"
+                | "shipped"
+                | "in_transit"
+                | "out_for_delivery"
+                | "delivered"
+                | "delivery_attempted"
+                | "exception"
+                | "returned"
+                | "voided"
+                | (string & {}))
+                | (null));
+            "status_reason"?: ((string) | (null));
+            "supported_actions"?: ((Array<"mark_delivered"
+                | "mark_delivery_attempted"
+                | "mark_exception"
+                | "mark_in_transit"
+                | "mark_out_for_delivery"
+                | "mark_packed"
+                | "mark_returned"
+                | "mark_shipped"
+                | "void"
+                | (string & {})>)
+                | (null));
+            "tracking_number"?: ((string) | (null));
+            "tracking_url"?: ((string) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+            "weight"?: ((WeightPreviousAttributes) | (null));
+        });
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "package.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "package.updated";
+});

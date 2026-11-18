@@ -1,1 +1,1 @@
-{"shared":"CheckoutLicenseKey","dependencies":["CheckoutBuyerContact","CheckoutLicenseKey","DeferredPromotion","ExpandedCustomerSummary","ExpandedOrderSummary","LicenseKeyRestriction","MetadataMap","MoneyValue","OrderSettlementAmounts","PricingAmounts","SharedCodec1717","SignedMoney"]}
+{"shared":"LicenseKeyWithKey","dependencies":["CheckoutBuyerContact","DeferredPromotion","ExpandedCustomerSummary","ExpandedOrderSummary","LicenseKeyRestriction","LicenseKeyWithKey","MetadataMap","MoneyValue","OrderSettlementAmounts","PricingAmounts","SharedCodec1717","SignedMoney"]}

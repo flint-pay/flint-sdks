@@ -1,5 +1,5 @@
 import type { InputValue, Model } from '../runtime.js';
-import type { CreateRiskPreviewRequestInput, CreateRiskPreviewRequestInlineInput } from './types-13.js';
+import type { CreateRiskPreviewRequestInlineInput } from './types-13.js';
 import type {
     CreateRiskPreviewRequestStoredRuleInput,
     CreateRiskRuleRequestInput,
@@ -70,9 +70,9 @@ import type {
     DeliveryChargeTaxCalculationRequestModelInput,
     DeliveryCoordinateRequestInput,
     DeliveryCountryConditionRequestInput,
-    DeliveryCustomerBooleanConditionInput
+    DeliveryCustomerBooleanConditionInput,
+    DeliveryCustomerSegmentConditionInput
 } from './types-18.js';
-export declare function makeCreateRiskPreviewRequest(value: InputValue<CreateRiskPreviewRequestInput>): Model<CreateRiskPreviewRequestInput>;
 export declare function makeCreateRiskPreviewRequestInline(value: InputValue<CreateRiskPreviewRequestInlineInput>): Model<CreateRiskPreviewRequestInlineInput>;
 export declare function makeCreateRiskPreviewRequestStoredRule(value: InputValue<CreateRiskPreviewRequestStoredRuleInput>): Model<CreateRiskPreviewRequestStoredRuleInput>;
 export declare function makeCreateRiskRuleRequest(value: InputValue<CreateRiskRuleRequestInput>): Model<CreateRiskRuleRequestInput>;
@@ -137,3 +137,4 @@ export declare function makeDeliveryChargeTaxCalculationRequestModel(value: Inpu
 export declare function makeDeliveryCoordinateRequest(value: InputValue<DeliveryCoordinateRequestInput>): Model<DeliveryCoordinateRequestInput>;
 export declare function makeDeliveryCountryConditionRequest(value: InputValue<DeliveryCountryConditionRequestInput>): Model<DeliveryCountryConditionRequestInput>;
 export declare function makeDeliveryCustomerBooleanCondition(value: InputValue<DeliveryCustomerBooleanConditionInput>): Model<DeliveryCustomerBooleanConditionInput>;
+export declare function makeDeliveryCustomerSegmentCondition(value: InputValue<DeliveryCustomerSegmentConditionInput>): Model<DeliveryCustomerSegmentConditionInput>;

@@ -162,7 +162,7 @@ export type {
 } from '../declarations/types-23.js';
 export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type { AddRiskListItemsRequest } from '../declarations/types-0.js';
 export type { SubscriptionCounts } from '../declarations/types-69.js';
 export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
@@ -185,10 +185,10 @@ export {
     makeDeliveryCallbackPricingStrategyRequest,
     makeDeliveryCallerSuppliedPricingStrategyRequest,
     makeDeliveryCountryConditionRequest,
-    makeDeliveryCustomerBooleanCondition
+    makeDeliveryCustomerBooleanCondition,
+    makeDeliveryCustomerSegmentCondition
 } from '../declarations/types-84.js';
 export {
-    makeDeliveryCustomerSegmentCondition,
     makeDeliveryDistanceRequest,
     makeDeliveryDistanceUnitPriceRequest,
     makeDeliveryEligibilityExpressionRequest,

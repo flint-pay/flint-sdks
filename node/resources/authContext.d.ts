@@ -21,7 +21,7 @@ export type { AuthContextGetParams, AuthContext, AuthContextResponse, AuthMode }
 export type { _SdkWithoutIdempotency, WorkloadIdentityAuthContext } from '../declarations/types-79.js';
 export type { RequestOptions } from '../declarations/types-61.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type { APIKeyAuthContext } from '../declarations/types-0.js';
 export type { CLILoginAuthContext } from '../declarations/types-4.js';
 export type { PartnerAppAuthContext } from '../declarations/types-49.js';

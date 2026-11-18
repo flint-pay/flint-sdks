@@ -1,6 +1,5 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
-    ApplyInventoryCountRequestInput,
     ApplyOrderGiftCardRequestInput,
     ApplySubscriptionPromotionRequestInput,
     AssessInvoiceLateFeeRequestInput
@@ -77,9 +76,9 @@ import type {
 import type {
     CheckoutSettingsRequestInput,
     CheckoutSubscriptionTermsRequestInput,
-    CheckoutTaxCalculationRequestInput
+    CheckoutTaxCalculationRequestInput,
+    CheckoutTaxConfigRequestInput
 } from './types-7.js';
-export declare function makeApplyInventoryCountRequest(value: InputValue<ApplyInventoryCountRequestInput>): Model<ApplyInventoryCountRequestInput>;
 export declare function makeApplyOrderGiftCardRequest(value: InputValue<ApplyOrderGiftCardRequestInput>): Model<ApplyOrderGiftCardRequestInput>;
 export declare function makeApplySubscriptionPromotionRequest(value: InputValue<ApplySubscriptionPromotionRequestInput>): Model<ApplySubscriptionPromotionRequestInput>;
 export declare function makeAssessInvoiceLateFeeRequest(value: InputValue<AssessInvoiceLateFeeRequestInput>): Model<AssessInvoiceLateFeeRequestInput>;
@@ -143,3 +142,4 @@ export declare function makeCheckoutSavedPaymentDetailsSettingsRequest(value: In
 export declare function makeCheckoutSettingsRequest(value: InputValue<CheckoutSettingsRequestInput>): Model<CheckoutSettingsRequestInput>;
 export declare function makeCheckoutSubscriptionTermsRequest(value: InputValue<CheckoutSubscriptionTermsRequestInput>): Model<CheckoutSubscriptionTermsRequestInput>;
 export declare function makeCheckoutTaxCalculationRequest(value: InputValue<CheckoutTaxCalculationRequestInput>): Model<CheckoutTaxCalculationRequestInput>;
+export declare function makeCheckoutTaxConfigRequest(value: InputValue<CheckoutTaxConfigRequestInput>): Model<CheckoutTaxConfigRequestInput>;

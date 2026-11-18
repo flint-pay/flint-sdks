@@ -34,7 +34,7 @@ export type {
     PromotionExclusivity
 } from '../declarations/types-58.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type { PromotionCandidate } from '../declarations/types-57.js';
 export type { MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';

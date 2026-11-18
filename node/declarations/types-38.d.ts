@@ -35,6 +35,19 @@ import type {
 } from './types-26.js';
 import type {
     InvoiceCollectionPreviousAttributes,
+    InvoiceAutopayRetryPolicy,
+    InvoiceAutopayRetryPolicyInput,
+    Invoice,
+    InventoryTransferClosedEvent,
+    InventoryTransferDepartedEvent,
+    InventoryTransferLostEvent,
+    InventoryTransferReceivedEvent,
+    InventoryTransferReturnedEvent,
+    InventoryTransferUpdatedEvent,
+    InvoiceCollectionBlockResolvedEvent,
+    InvoiceCollectionBlockedEvent
+} from './types-34.js';
+import type {
     InvoiceLateFeePreviousAttributes,
     InvoiceDiscount,
     InvoiceLineItem,
@@ -51,13 +64,13 @@ import type {
     InvoiceLateFeeDueEvent,
     InvoiceLateFeeWaivedEvent,
     InvoiceManualPaymentCreatedEvent,
-    InvoiceManualPaymentReversedEvent
+    InvoiceManualPaymentReversedEvent,
+    InvoiceMarkedUncollectibleEvent
 } from './types-35.js';
 import type {
     InvoicePaymentDuePreviousAttributes,
     InvoicePaymentPolicy,
     InvoicePaymentPolicyRequestInput,
-    InvoiceMarkedUncollectibleEvent,
     InvoiceOverdueEvent,
     InvoicePaidEvent,
     InvoicePartiallyPaidEvent,
@@ -98,19 +111,6 @@ import type {
     ProductCreatedEvent
 } from './types-56.js';
 import type { WebhookInvoice } from './types-79.js';
-import type {
-    InvoiceAutopayRetryPolicy,
-    InvoiceAutopayRetryPolicyInput,
-    Invoice,
-    InventoryTransferClosedEvent,
-    InventoryTransferDepartedEvent,
-    InventoryTransferLostEvent,
-    InventoryTransferReceivedEvent,
-    InventoryTransferReturnedEvent,
-    InventoryTransferUpdatedEvent,
-    InvoiceCollectionBlockResolvedEvent,
-    InvoiceCollectionBlockedEvent
-} from './types-34.js';
 import type { MoneyValue, MoneyValuePreviousAttributes, ModifierSetUpdatedEvent } from './types-44.js';
 import type {
     SettlementAmounts,
@@ -125,7 +125,8 @@ import type {
     OrderClosedEvent,
     OrderCreatedEvent,
     OrderEditCanceledEvent,
-    OrderEditCompletedEvent
+    OrderEditCompletedEvent,
+    OrderEditCreatedEvent
 } from './types-45.js';
 import type {
     OrderTaxExemption,
@@ -167,8 +168,7 @@ import type {
     CheckoutSessionPartiallyPaidEvent,
     CheckoutSessionUpdatedEvent
 } from './types-7.js';
-import type { CreateInvoiceManualPaymentRequestInput } from './types-10.js';
-import type { CreateInvoiceRequestInput } from './types-11.js';
+import type { CreateInvoiceManualPaymentRequestInput, CreateInvoiceRequestInput } from './types-10.js';
 import type { CustomersListAddressesParams, CustomerUpdatedEvent } from './types-17.js';
 import type {
     CreditNotesListAllocationsParams,
@@ -196,7 +196,7 @@ import type {
     ReturnDecisionRecordedEvent,
     ReturnDispositionCreatedEvent
 } from './types-62.js';
-import type { ReverseInvoiceManualPaymentRequestInput, ReturnUpdatedEvent } from './types-66.js';
+import type { ReverseInvoiceManualPaymentRequestInput } from './types-66.js';
 import type { UpdateInvoiceRequestInput } from './types-76.js';
 import type { WaiveInvoiceLateFeeRequestInput } from './types-78.js';
 import type {
@@ -247,13 +247,10 @@ import type {
     DeliveryProfileUpdatedEvent,
     DeliveryRateCallbackActivatedEvent,
     DeliveryRateCallbackArchivedEvent,
-    DeliveryRateCallbackCreatedEvent
+    DeliveryRateCallbackCreatedEvent,
+    DeliveryRateCallbackDeactivatedEvent
 } from './types-22.js';
-import type {
-    DeliveryRateCallbackDeactivatedEvent,
-    DeliveryRateCallbackUpdatedEvent,
-    DeliveryRevocationCreatedEvent
-} from './types-23.js';
+import type { DeliveryRateCallbackUpdatedEvent, DeliveryRevocationCreatedEvent } from './types-23.js';
 import type { DeliverySelectionCommittedEvent, DeliveryZoneArchivedEvent } from './types-24.js';
 import type {
     DeliveryZoneCreatedEvent,
@@ -323,15 +320,9 @@ import type {
     MerchantBillingInvoiceUpdatedEvent,
     MerchantReadinessUpdatedEvent
 } from './types-42.js';
+import type { OrderEditUpdatedEvent, OrderInventoryExceptionCreatedEvent, OrderInventoryExceptionResolvedEvent } from './types-46.js';
+import type { OrderUpdatedEvent, PackageCreatedEvent, PackageUpdatedEvent } from './types-48.js';
 import type {
-    OrderEditCreatedEvent,
-    OrderEditUpdatedEvent,
-    OrderInventoryExceptionCreatedEvent,
-    OrderInventoryExceptionResolvedEvent
-} from './types-46.js';
-import type { OrderUpdatedEvent, PackageCreatedEvent } from './types-48.js';
-import type {
-    PackageUpdatedEvent,
     PartnerAppInstallCreatedEvent,
     PartnerAppInstallPermissionsUpdatedEvent,
     PartnerAppInstallRevokedEvent,
@@ -402,7 +393,12 @@ import type {
     ReturnInspectionSupersededEvent
 } from './types-63.js';
 import type { ReturnReceiptCreatedEvent, ReturnReceiptSupersededEvent, ReturnReceiptVerifiedEvent } from './types-64.js';
-import type { ReturnReopenedEvent, ReturnResolutionCreatedEvent, ReturnResolutionUpdatedEvent } from './types-65.js';
+import type {
+    ReturnReopenedEvent,
+    ReturnResolutionCreatedEvent,
+    ReturnResolutionUpdatedEvent,
+    ReturnUpdatedEvent
+} from './types-65.js';
 import type {
     SubscriptionCanceledEvent,
     SubscriptionCancellationScheduledEvent,
@@ -436,35 +432,6 @@ import type {
     SubscriptionUpdatedEvent
 } from './types-72.js';
 import type { TicketUpdatedEvent, TicketVoidedEvent } from './types-75.js';
-/**
- * One payment schedule entry you supply when creating or updating an invoice. Set its kind, how
- * much it collects, and when it is due.
- */
-export type InvoiceScheduleEntryWrite = ({
-    /**
-     * How much the entry collects. Deposits and installments use fixed or percentage, and the
-     * balance uses remaining_balance. How much a payment schedule entry collects: a fixed amount,
-     * a percentage of the invoice total, or the remaining balance.
-     */
-    "amount_specification": InvoiceScheduleAmountSpecification;
-    /**
-     * When the entry is due. Deposits use at_issue or date, installments use date, and the balance
-     * uses invoice_due_date or date. When a payment schedule entry is due, as supplied when
-     * creating or updating an invoice: at issue, on a set date, or on the invoice due date.
-     */
-    "due": InvoiceScheduleDueWrite;
-    /**
-     * An existing entry's ID, to keep that entry when you replace the schedule on PATCH. Omit it
-     * to add a new entry. minLength: 1. Example: "invse_01KEZF7C006JCPQBD8VZ0RNT6R".
-     */
-    "invoice_schedule_entry_id"?: string;
-    /** The entry's role in the schedule. Value enum: "deposit", "installment", "balance". */
-    "kind": "deposit" | "installment" | "balance" | (string & {});
-})
-    & ((Exclude<InvoiceScheduleEntryWriteDeposit & object, readonly unknown[]>)
-    | (Exclude<InvoiceScheduleEntryWriteInstallment & object, readonly unknown[]>)
-    | (Exclude<InvoiceScheduleEntryWriteBalance & object, readonly unknown[]>)
-    | (Record<string, unknown>));
 /** The `balance` variant of `InvoiceScheduleEntryWrite`. */
 export type InvoiceScheduleEntryWriteBalance = ({
     /**
@@ -8507,4 +8474,95 @@ export type LicenseKeyActivationCreatedInstalledMerchantsEvent = (Exclude<Partne
          */
         "sandbox_id"?: string;
     });
+});
+/**
+ * The `license_key_activation.created` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type LicenseKeyActivationCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.created_at (Required): string. When the activation was created.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.fingerprint (Required): string or
+     * null. The identifier supplied by the app. Null when absent or erased.
+     * object.last_validated_at (Required): string or null. When the activation was last checked,
+     * updated at most once an hour. Null when the activation has never been checked. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.license_key_activation_id (Required):
+     * string. The activation ID. Example: "lka_01KEZF7C00NZEZVCZW3SRDMHTZ". object.license_key_id
+     * (Required): string. The activated license key ID. Example: "lk_01KEZF7C000QD7VJ83G43V0NSN".
+     * object.name (Required): string or null. The name supplied by the app. Null when erased.
+     * object.product_id (Required): string. The product this installation can use. Example:
+     * "prod_01KEZF7C00BVSHCNWVH528HB66". object.released_at (Required): string or null. When the
+     * activation was released. Null when it is active. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.status (Required): string. The activation state. Value enum:
+     * "active", "released". object.supported_actions (Required): Array of string. Actions
+     * available for this activation. [] enum: "release". object.supported_actions[] (Value):
+     * string. Value enum: "release". object.variant_id (Required): string. The variant this
+     * installation can use. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * created_at (Required): string. When the activation was created. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". fingerprint (Required): string or null. The identifier
+         * supplied by the app. Null when absent or erased. last_validated_at (Required): string or
+         * null. When the activation was last checked, updated at most once an hour. Null when the
+         * activation has never been checked. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * license_key_activation_id (Required): string. The activation ID. Example:
+         * "lka_01KEZF7C00NZEZVCZW3SRDMHTZ". license_key_id (Required): string. The activated
+         * license key ID. Example: "lk_01KEZF7C000QD7VJ83G43V0NSN". name (Required): string or
+         * null. The name supplied by the app. Null when erased. product_id (Required): string. The
+         * product this installation can use. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+         * released_at (Required): string or null. When the activation was released. Null when it
+         * is active. Format: date-time. Example: "2026-08-02T16:00:00Z". status (Required):
+         * string. The activation state. Value enum: "active", "released". supported_actions
+         * (Required): Array of string. Actions available for this activation. [] enum: "release".
+         * supported_actions[] (Value): string. Value enum: "release". variant_id (Required):
+         * string. The variant this installation can use. Example:
+         * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+         */
+        "object": {
+            /**
+             * When the activation was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "created_at": string;
+            /** The identifier supplied by the app. Null when absent or erased. */
+            "fingerprint": string | null;
+            /**
+             * When the activation was last checked, updated at most once an hour. Null when the
+             * activation has never been checked. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "last_validated_at": string | null;
+            /** The activation ID. Example: "lka_01KEZF7C00NZEZVCZW3SRDMHTZ". */
+            "license_key_activation_id": string;
+            /** The activated license key ID. Example: "lk_01KEZF7C000QD7VJ83G43V0NSN". */
+            "license_key_id": string;
+            /** The name supplied by the app. Null when erased. */
+            "name": string | null;
+            /**
+             * The product this installation can use. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+             */
+            "product_id": string;
+            /**
+             * When the activation was released. Null when it is active. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "released_at": string | null;
+            /** The activation state. Value enum: "active", "released". */
+            "status": "active" | "released" | (string & {});
+            /**
+             * Actions available for this activation. [] enum: "release". [] (Value): string. Value
+             * enum: "release".
+             */
+            "supported_actions": Array<"release" | (string & {})>;
+            /** The variant this installation can use. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". */
+            "variant_id": string;
+        };
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "license_key_activation.created". */
+    "event_type"?: "license_key_activation.created";
 });

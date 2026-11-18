@@ -16,7 +16,7 @@ final class LicenseKeyActivationsReleaseInput extends Model {
      */
     public function getLicenseKeyActivationId(): string { return $this->get('license_key_activation_id'); }
     public function hasLicenseKeyActivationId(): bool { return $this->has('license_key_activation_id'); }
-    /** The request body for: Release a license key activation. Example: {}.
+    /** The request body for: Release a license key activation.
      * @return array{'key'?: string, 'product_ids'?: list<string>}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

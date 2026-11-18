@@ -12,4 +12,5 @@ const result = await client.licenseKeys.reveal(
   undefined,
   { idempotencyKey: idempotencyKey },
 );
-console.log(result);
+console.log(result.license_key_id);
+console.log(result.product_id);

@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
+import { readFileSync } from 'node:fs';
 import test from 'node:test';
+import { inspect } from 'node:util';
 import { Client } from '../node/index.js';
 
 const productId = 'prod_01KEZF7C00BVSHCNWVH528HB66';
@@ -96,4 +98,79 @@ foreach ([null, $argv[2]] as $credential) {
     }
 }
 `, JSON.stringify(calls), apiKey], { cwd: new URL('..', import.meta.url), timeout: 30000 });
+});
+
+const api = JSON.parse(readFileSync(new URL('../spec/openapi.json', import.meta.url), 'utf8'));
+const disclosure = [
+  { path: '/v1/license-keys/{license_key_id}/reveal', verb: 'post', resource: 'licenseKeys',
+    method: 'reveal', args: [licenseId], credential: 'apiKey' },
+  { path: '/v1/license-keys/{license_key_id}/rotate-key', verb: 'post', resource: 'licenseKeys',
+    method: 'rotateKey', args: [licenseId], credential: 'apiKey' },
+  { path: '/v1/license-keys', verb: 'get', resource: 'licenseKeys',
+    method: 'list', args: [{ order_id: 'ord_01KEZF7C00AQV1X2DPWG2NXS7H' }], credential: 'checkoutToken' },
+  { path: '/v1/me/license-keys', verb: 'get', resource: 'me',
+    method: 'listLicenseKeys', args: [], credential: 'customerToken' },
+].map(call => {
+  const response = api.paths[call.path][call.verb].responses['200'];
+  const body = structuredClone(response.content['application/json'].example);
+  const item = call.verb === 'get' ? body.data[0] : body.data;
+  item.key = input.key;
+  return { ...call, body: JSON.stringify(body) };
+});
+
+test('Node returns full license keys and redacts them from inspection', async () => {
+  for (const call of disclosure) {
+    const client = new Client({
+      ambientCredentials: false,
+      [call.credential]: 'synthetic-credential',
+      transport: async () => new Response(call.body, { headers: { 'content-type': 'application/json' } }),
+    });
+    try {
+      const result = await client[call.resource][call.method](...call.args);
+      const license = call.verb === 'get' ? result.data[0] : result;
+      assert.equal(license.key, input.key);
+      assert.ok(!inspect(license).includes(input.key), call.method);
+    } finally {
+      await client.close();
+    }
+  }
+});
+
+test('PHP returns full license keys and redacts them from var_dump', () => {
+  execFileSync('php', ['-r', String.raw`
+require 'php/src/autoload.php';
+foreach (json_decode($argv[1], true, 512, JSON_THROW_ON_ERROR) as $call) {
+    $options = [
+        'ambientCredentials' => false,
+        $call['credential'] => 'synthetic-credential',
+        'transport' => fn() => ['status' => 200, 'headers' => ['content-type' => 'application/json'],
+            'body' => $call['body']],
+    ];
+    $client = new \Flint\Client(new \Flint\ClientOptions(...$options));
+    try {
+        $resource = $call['resource'];
+        $method = $call['method'];
+        $result = $client->$resource->$method(...$call['args']);
+        $license = $call['verb'] === 'get' ? $result->getData()[0] : $result;
+        if ($license->getKey() !== $argv[2]) throw new \RuntimeException('Missing license key in ' . $method);
+        ob_start();
+        var_dump($license);
+        $dump = ob_get_clean();
+        if (str_contains($dump, $argv[2])) throw new \RuntimeException('License key in dump for ' . $method);
+    } finally {
+        $client->close();
+    }
+}
+`, JSON.stringify(disclosure), input.key], { cwd: new URL('..', import.meta.url), timeout: 30000 });
+});
+
+test('reveal and rotate examples display the license ID without printing the entire response', () => {
+  for (const method of ['reveal', 'rotateKey']) {
+    const node = readFileSync(new URL(`../node/examples/licenseKeys-${method}.mjs`, import.meta.url), 'utf8');
+    const php = readFileSync(new URL(`../php/examples/licenseKeys-${method}.php`, import.meta.url), 'utf8');
+    assert.match(node, /console\.log\(result\.license_key_id\)/);
+    assert.doesNotMatch(node, /console\.log\(result\)/);
+    assert.match(php, /echo \$result->license_key_id /);
+    assert.doesNotMatch(php, /json_encode\(\$result/);
+  }
 });

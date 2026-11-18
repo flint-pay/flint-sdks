@@ -1,4 +1,4 @@
-import type { MoneyValuePreviousAttributes, MoneyValueInput, MoneyValue } from './types-44.js';
+import type { MoneyValueInput, MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
 import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { PromotionApplicationMethodPreviousAttributes } from './types-57.js';
@@ -34,8 +34,6 @@ import type { ReturnPolicyRevisionRequest, ReturnPolicyRevisionRequestInput } fr
 import type { GetReturnPolicyResponse } from './types-28.js';
 import type { SimulateReaderRequestInput } from './types-68.js';
 import type { ReadinessMerchantAccountSession, ReadinessMerchantAccountSessionPreviousAttributes } from './types-60.js';
-/** Rule comparison value. Use a primitive string, number, boolean, or a money object. */
-export type PromotionRuleValuePreviousAttributes = (((string) | (number) | (boolean) | (MoneyValuePreviousAttributes) | (unknown)));
 /** Rule comparison value. Use a primitive string, number, boolean, or a money object. */
 export type PromotionRuleValueRequestInput = ((string) | (number) | (boolean) | (MoneyValueInput));
 /**
@@ -3727,4 +3725,54 @@ export type ReadinessActionPreviousAttributes = {
      * null.
      */
     "required_fields"?: ((Array<string>) | (null));
+};
+/**
+ * Readiness for one area of a merchant account, with its `status`, the reason for it, and the
+ * actions that would advance it.
+ */
+export type ReadinessAxis = {
+    /**
+     * Steps that move this area toward `ready`. Empty when there is nothing to do. [] (Value):
+     * {@link ReadinessAction}. A step that moves a merchant capability or readiness axis forward,
+     * with the party that must do it (`owner`) and any required fields.
+     */
+    "next_actions": Array<ReadinessAction>;
+    /**
+     * Whether this area works now. `status_reason` says why when the status is neither `ready` nor
+     * `not_requested`. Value enum: "ready", "pending", "blocked", "not_requested",
+     * "not_available".
+     */
+    "status": "ready" | "pending" | "blocked" | "not_requested" | "not_available" | (string & {});
+    /**
+     * Why readiness has its current status. MERCHANT_NOT_READY uses onboarding_required for
+     * onboarding_not_started, requirements_due, requirements_past_due and pending_verification,
+     * and platform_review for Flint's own review. `null` when no reason applies. Value enum:
+     * "provisioning", "onboarding_not_started", "requirements_due", "requirements_past_due",
+     * "pending_verification", "account_rejected", "disabled_by_platform_policy",
+     * "billing_suspended", "platform_review", "processing_not_enabled",
+     * "platform_funding_unavailable", "tax_category_required", "service_unavailable",
+     * "payment_option_access_not_provisioned", "payment_option_activation_pending",
+     * "payment_option_not_in_plan", "payment_option_not_available", "capability_not_active",
+     * "other".
+     */
+    "status_reason"?: "provisioning"
+        | "onboarding_not_started"
+        | "requirements_due"
+        | "requirements_past_due"
+        | "pending_verification"
+        | "account_rejected"
+        | "disabled_by_platform_policy"
+        | "billing_suspended"
+        | "platform_review"
+        | "processing_not_enabled"
+        | "platform_funding_unavailable"
+        | "tax_category_required"
+        | "service_unavailable"
+        | "payment_option_access_not_provisioned"
+        | "payment_option_activation_pending"
+        | "payment_option_not_in_plan"
+        | "payment_option_not_available"
+        | "capability_not_active"
+        | "other"
+        | (string & {});
 };

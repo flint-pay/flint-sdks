@@ -13,7 +13,7 @@ import type { BuyerCapabilities, BuyerCapabilitiesRequestInput } from './types-1
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { CreateCustomerDeletionRequestInput, CreateCustomerSessionRequestInput } from './types-9.js';
 import type { MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
-export type CustomDomainsDeleteParams = DisputesAcceptParams;
+import type { RefreshCustomerSessionRequestInput } from './types-60.js';
 export type CustomDomainsGetParams = DisputesAcceptParams;
 export type CustomDomainsListParams = {
     /**
@@ -3750,3 +3750,4 @@ export type CustomerSessionWithSecretResponse = {
     "request_id": string;
 };
 export type CustomerSessionsCreateParams = (InputValue<CreateCustomerSessionRequestInput>);
+export type CustomerSessionsRefreshParams = (InputValue<RefreshCustomerSessionRequestInput>);

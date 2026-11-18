@@ -163,7 +163,7 @@ export type {
 } from '../declarations/types-77.js';
 export type { WaiveReturnLineInspectionResponse, WaiveReturnLineInspectionRequestInput } from '../declarations/types-78.js';
 export type { AuthMode, BundleComponent, BundleComponentVariantSummary } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type {
     ExpandedCustomerSummary,
     ExpandedOrderSummary,
@@ -224,8 +224,8 @@ export {
     makeOrderDraftTaxComponentRequestModel,
     makeOrderDraftTaxJurisdictionRequestModel
 } from '../declarations/types-88.js';
-export { makeProcessExistingReturnLineItemRequest } from '../declarations/types-89.js';
-export { makeProcessExistingReturnRequest, makeReopenReturnRequest } from '../declarations/types-90.js';
+export { makeProcessExistingReturnLineItemRequest, makeProcessExistingReturnRequest } from '../declarations/types-89.js';
+export { makeReopenReturnRequest } from '../declarations/types-90.js';
 export {
     makeReturnLineDecision,
     makeReturnLineItemRequest,

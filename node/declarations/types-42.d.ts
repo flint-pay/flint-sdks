@@ -12,133 +12,9 @@ import type { MetadataMap, MerchantWebhookEnvelope } from './types-43.js';
 import type { DisputeResponseSessionStripeAccountSession, DisputesAcceptParams } from './types-26.js';
 import type { MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
 import type { CapabilityReadiness, CapabilityReadinessPreviousAttributes } from './types-5.js';
-import type {
-    ReadinessAxis,
-    ReadinessRequirements,
-    ReadinessAxisPreviousAttributes,
-    ReadinessRequirementsPreviousAttributes
-} from './types-60.js';
+import type { ReadinessAxis } from './types-59.js';
+import type { ReadinessRequirements, ReadinessAxisPreviousAttributes, ReadinessRequirementsPreviousAttributes } from './types-60.js';
 import type { WebhookMerchant } from './types-79.js';
-export type MeListPaymentIntentsParams = {
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Filter by order ID. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id"?: InputValue<string>;
-    /**
-     * Filter by invoice ID. pattern: ^inv_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-     */
-    "invoice_id"?: InputValue<string>;
-    /**
-     * Filter by payment intent status. Values are trimmed and deduplicated in first-seen order;
-     * empty or unknown entries are rejected. Values within this filter are ORed; separate filters
-     * are ANDed. [] enum: "requires_payment_method", "requires_confirmation", "requires_action",
-     * "processing", "requires_capture", "canceled", "succeeded", "expired". Value enum:
-     * "requires_payment_method", "requires_confirmation", "requires_action", "processing",
-     * "requires_capture", "canceled", "succeeded", "expired". anyOf[1] (Value): Array of string.
-     * minItems: 1. [] enum: "requires_payment_method", "requires_confirmation", "requires_action",
-     * "processing", "requires_capture", "canceled", "succeeded", "expired". anyOf[1][] (Value):
-     * string. Value enum: "requires_payment_method", "requires_confirmation", "requires_action",
-     * "processing", "requires_capture", "canceled", "succeeded", "expired". anyOf[2] (Value):
-     * string. Value enum: "requires_payment_method", "requires_confirmation", "requires_action",
-     * "processing", "requires_capture", "canceled", "succeeded", "expired".
-     */
-    "status"?: InputValue<("requires_payment_method"
-        | "requires_confirmation"
-        | "requires_action"
-        | "processing"
-        | "requires_capture"
-        | "canceled"
-        | "succeeded"
-        | "expired")
-        | readonly ("requires_payment_method"
-        | "requires_confirmation"
-        | "requires_action"
-        | "processing"
-        | "requires_capture"
-        | "canceled"
-        | "succeeded"
-        | "expired")[]>;
-    /**
-     * Filter by immutable payment flow. Repeat or comma-separate values. Values are trimmed and
-     * deduplicated in first-seen order; empty or unknown entries are rejected. Values within this
-     * filter are ORed; separate filters are ANDed. [] enum: "checkout", "payment_link", "invoice",
-     * "subscription_initial", "subscription_renewal", "virtual_terminal", "api". Value enum:
-     * "checkout", "payment_link", "invoice", "subscription_initial", "subscription_renewal",
-     * "virtual_terminal", "api". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
-     * "checkout", "payment_link", "invoice", "subscription_initial", "subscription_renewal",
-     * "virtual_terminal", "api". anyOf[1][] (Value): string. Value enum: "checkout",
-     * "payment_link", "invoice", "subscription_initial", "subscription_renewal",
-     * "virtual_terminal", "api". anyOf[2] (Value): string. Value enum: "checkout", "payment_link",
-     * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api".
-     */
-    "payment_flow"?: InputValue<("checkout"
-        | "payment_link"
-        | "invoice"
-        | "subscription_initial"
-        | "subscription_renewal"
-        | "virtual_terminal"
-        | "api")
-        | readonly ("checkout"
-        | "payment_link"
-        | "invoice"
-        | "subscription_initial"
-        | "subscription_renewal"
-        | "virtual_terminal"
-        | "api")[]>;
-    /**
-     * Inclusive lower bound on amount_money.amount. Requires currency. Format: int64. minimum: 1.
-     * Example: 500.
-     */
-    "min_amount"?: InputValue<number>;
-    /**
-     * Inclusive upper bound on amount_money.amount. Requires currency. Format: int64. minimum: 1.
-     * Example: 500.
-     */
-    "max_amount"?: InputValue<number>;
-    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
-    "currency"?: InputValue<string>;
-    /**
-     * Exact match on refund_status. Repeat keys or comma-separate values to match any selected
-     * status. Combined with dispute_status, both filters must match. Values are trimmed and
-     * deduplicated in first-seen order; empty or unknown entries are rejected. Values within this
-     * filter are ORed; separate filters are ANDed. [] enum: "none", "partially_refunded",
-     * "refunded". Value enum: "none", "partially_refunded", "refunded". anyOf[1] (Value): Array of
-     * string. minItems: 1. [] enum: "none", "partially_refunded", "refunded". anyOf[1][] (Value):
-     * string. Value enum: "none", "partially_refunded", "refunded". anyOf[2] (Value): string.
-     * Value enum: "none", "partially_refunded", "refunded".
-     */
-    "refund_status"?: InputValue<("none" | "partially_refunded" | "refunded")
-        | readonly ("none" | "partially_refunded" | "refunded")[]>;
-    /**
-     * Field to sort by. Defaults to created_at; ties are broken by payment_intent_id. Default:
-     * "created_at". Value enum: "created_at", "updated_at", "amount_money".
-     */
-    "sort_by"?: InputValue<"created_at" | "updated_at" | "amount_money">;
-    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
-    "sort_direction"?: InputValue<"asc" | "desc">;
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_before"?: InputValue<string | globalThis.Date>;
-};
 export type MeListPaymentMethodsParams = {
     /**
      * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
@@ -2739,3 +2615,21 @@ export type MerchantReadinessUpdatedMerchantEvent = (Exclude<MerchantWebhookEnve
     /** Value enum: "merchant.readiness_updated". */
     "event_type"?: "merchant.readiness_updated";
 });
+/** A response containing `Merchant` data. */
+export type MerchantResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. The business accepting
+     * payments.
+     */
+    "data": Merchant;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};

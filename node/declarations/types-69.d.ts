@@ -12,8 +12,7 @@ import type {
     SubscriptionUpcomingDeliveryHold,
     SubscriptionUpcomingDeliveryHoldPreviousAttributes,
     SubscriptionRenewalEstimateDiscount,
-    SubscriptionRenewalEstimateLineItem,
-    SubscriptionPreviewError
+    SubscriptionRenewalEstimateLineItem
 } from './types-72.js';
 import type { ResponseMeta, ReturnActor } from './types-62.js';
 import type {
@@ -41,23 +40,13 @@ import type {
     SubscriptionLineItem,
     SubscriptionLineItemPreviousAttributes,
     SubscriptionPausedDeliveryHold,
-    SubscriptionDeliveryMigrationFailureReasonCount,
+    SubscriptionPausedDeliveryHoldPreviousAttributes,
     SubscriptionDeliveryMigrationFailureReasonCountPreviousAttributes
 } from './types-70.js';
-import type { SubscriptionPausedDeliveryHoldPreviousAttributes } from './types-71.js';
+import type { SubscriptionPreviewError } from './types-71.js';
 import type { DeliveryRecipientResource } from './types-23.js';
+import type { SubscriptionAddressVerification } from './types-68.js';
 import type { Address, AddressRequestInput } from './types-0.js';
-/**
- * The verification state of a subscription's delivery address: `verified`, `unverified`,
- * `needs_review`, or `unverifiable`.
- */
-export type SubscriptionAddressVerification = {
-    /**
-     * How far verification of the address got. Each value says what it means. Value enum:
-     * "verified", "unverified", "needs_review", "unverifiable".
-     */
-    "state": "verified" | "unverified" | "needs_review" | "unverifiable" | (string & {});
-};
 export type SubscriptionAddressVerificationPreviousAttributes = {
     /**
      * How far verification of the address got. Each value says what it means. Value enum:
@@ -27490,4 +27479,21 @@ export type SubscriptionDeliveryMigrationFailureListResponse = {
      * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id": string;
+};
+/** The number of subscriptions that failed a delivery method migration for one reason. */
+export type SubscriptionDeliveryMigrationFailureReasonCount = {
+    /** Number of subscriptions that failed for this reason. Format: int64. */
+    "count": number;
+    /**
+     * Why these subscriptions could not be moved. Value enum: "method_not_offered",
+     * "destination_not_served", "rate_unavailable", "method_unavailable", "no_longer_applicable",
+     * "not_movable".
+     */
+    "reason": "method_not_offered"
+        | "destination_not_served"
+        | "rate_unavailable"
+        | "method_unavailable"
+        | "no_longer_applicable"
+        | "not_movable"
+        | (string & {});
 };

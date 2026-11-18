@@ -1,6 +1,5 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
-    CreateDeliveryRevocationTargetDeliveryRateCallbackRevisionInput,
     CreateDeliveryRevocationTargetDeliveryRateCallbackSigningKeyInput,
     CreateDeliveryRevocationTargetLocationGeographyInput,
     CreateDeliverySelectionChoiceRequestInput,
@@ -44,10 +43,10 @@ import type {
     CreateInvoiceIssueRequestInput,
     CreateInvoiceManualPaymentRequestInput,
     CreateInvoicePaymentTermRequestInput,
-    CreateInvoiceQuickPayRequestInput
+    CreateInvoiceQuickPayRequestInput,
+    CreateInvoiceRequestInput
 } from './types-10.js';
 import type {
-    CreateInvoiceRequestInput,
     CreateInvoiceRequestOrderInput,
     CreateInvoiceRequestQuickPayInput,
     CreateLicenseKeyActivationRequestInput,
@@ -67,9 +66,9 @@ import type {
     CreateModifierRequestInput,
     CreateModifierSetGroupInputExistingInput,
     CreateModifierSetGroupInputInlineInput,
-    CreateModifierSetGroupRequestInput
+    CreateModifierSetGroupRequestInput,
+    CreateModifierSetRequestInput
 } from './types-11.js';
-export declare function makeCreateDeliveryRevocationTargetDeliveryRateCallbackRevision(value: InputValue<CreateDeliveryRevocationTargetDeliveryRateCallbackRevisionInput>): Model<CreateDeliveryRevocationTargetDeliveryRateCallbackRevisionInput>;
 export declare function makeCreateDeliveryRevocationTargetDeliveryRateCallbackSigningKey(value: InputValue<CreateDeliveryRevocationTargetDeliveryRateCallbackSigningKeyInput>): Model<CreateDeliveryRevocationTargetDeliveryRateCallbackSigningKeyInput>;
 export declare function makeCreateDeliveryRevocationTargetLocationGeography(value: InputValue<CreateDeliveryRevocationTargetLocationGeographyInput>): Model<CreateDeliveryRevocationTargetLocationGeographyInput>;
 export declare function makeCreateDeliverySelectionChoiceRequest(value: InputValue<CreateDeliverySelectionChoiceRequestInput>): Model<CreateDeliverySelectionChoiceRequestInput>;
@@ -135,3 +134,4 @@ export declare function makeCreateModifierRequest(value: InputValue<CreateModifi
 export declare function makeCreateModifierSetGroupInputExisting(value: InputValue<CreateModifierSetGroupInputExistingInput>): Model<CreateModifierSetGroupInputExistingInput>;
 export declare function makeCreateModifierSetGroupInputInline(value: InputValue<CreateModifierSetGroupInputInlineInput>): Model<CreateModifierSetGroupInputInlineInput>;
 export declare function makeCreateModifierSetGroupRequest(value: InputValue<CreateModifierSetGroupRequestInput>): Model<CreateModifierSetGroupRequestInput>;
+export declare function makeCreateModifierSetRequest(value: InputValue<CreateModifierSetRequestInput>): Model<CreateModifierSetRequestInput>;

@@ -1,8 +1,8 @@
-import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
 import type { MerchantWebhookEnvelope, MetadataMap, ModifierSet } from './types-43.js';
+import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
+import type { PlatformFeePayout, PlatformFeeMoneyInput, PlatformFee } from './types-55.js';
 import type { ResponseMeta } from './types-62.js';
 import type { InputValue } from '../runtime.js';
-import type { PlatformFeeMoneyInput, PlatformFee } from './types-55.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { QuantityPriceBreak, QuantityPriceBreakRequestInput } from './types-59.js';
 import type { CreatePriceListRequestInput, CreatePriceListPricesRequestInput } from './types-12.js';
@@ -27,65 +27,12 @@ import type {
     ProductPriceRange,
     ProductVariant,
     ProductVariantMatch,
-    ProductOptionPreviousAttributes,
     ProductPriceRangePreviousAttributes,
     ProductVariantPreviousAttributes,
-    ProductOptionValue
+    ProductOptionValue,
+    ProductOptionValuePreviousAttributes
 } from './types-57.js';
 import type { WebhookProduct } from './types-79.js';
-/**
- * A payout from your partner app's platform fee balance to your merchant balance. Owned by the
- * merchant that owns the partner app.
- */
-export type PlatformFeePayout = {
-    /**
-     * The amount transferred to your merchant balance. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-    /**
-     * The credit on your merchant ledger. Flint checks daily for the credit, so this field can be
-     * absent even after the payout succeeds. Linking the credit sends no payout event and doesn't
-     * advance version. Example: "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ".
-     */
-    "balance_transaction_id"?: string;
-    /** When Flint prepared the payout. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /**
-     * Why the payout failed. Present only when status is failed. Can gain values; treat unknown
-     * values as payout_failed. Value enum: "merchant_cannot_receive", "payout_failed".
-     */
-    "failure_reason"?: "merchant_cannot_receive" | "payout_failed" | (string & {});
-    /**
-     * The partner app whose fee balance funded the payout. Example:
-     * "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
-     */
-    "partner_app_id": string;
-    /**
-     * Unique identifier for the platform fee payout. Example: "pfpo_01KEZF7C00H58B147FK286D4A4".
-     */
-    "platform_fee_payout_id": string;
-    /**
-     * Where the payout stands. succeeded and failed are final. Value enum: "pending", "succeeded",
-     * "failed".
-     */
-    "status": "pending" | "succeeded" | "failed" | (string & {});
-    /**
-     * When the transfer succeeded. Present only when status is succeeded. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z".
-     */
-    "succeeded_at"?: string;
-    /**
-     * When the payout's owned state last changed. Retry bookkeeping and observing the credit don't
-     * change it. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "updated_at": string;
-    /**
-     * Persisted version of this resource's owned state. Expanded resources and external
-     * observations can change independently. Format: uint64. minimum: 1.
-     */
-    "version": number;
-};
 export type PlatformFeePayoutCreatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
@@ -4478,4 +4425,59 @@ export type ProductOptionListResponse = {
      * ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id": string;
+};
+export type ProductOptionPreviousAttributes = {
+    /**
+     * When this resource was created, as an RFC3339 timestamp. anyOf[1] (Value): string. When this
+     * resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "created_at"?: ((string) | (null));
+    /**
+     * Caller-owned metadata stored on this resource. anyOf[1] (Value): {@link MetadataMap}.
+     * anyOf[2] (Value): null.
+     */
+    "metadata"?: ((MetadataMap) | (null));
+    /**
+     * Option name, such as Size or Color. anyOf[1] (Value): string. Option name, such as Size or
+     * Color. anyOf[2] (Value): null.
+     */
+    "name"?: ((string) | (null));
+    /**
+     * Stable identifier of the product option. anyOf[1] (Value): string. Stable identifier of the
+     * product option. Example: "opt_01KEZF7C008R5Q9BG9B4B4KQH8". anyOf[2] (Value): null.
+     */
+    "option_id"?: ((string) | (null));
+    /**
+     * Display order among the product's options, starting at zero. anyOf[1] (Value): integer.
+     * Display order among the product's options, starting at zero. Format: int32. anyOf[2]
+     * (Value): null.
+     */
+    "position"?: ((number) | (null));
+    /**
+     * Identifier of the product this option belongs to. anyOf[1] (Value): string. Identifier of
+     * the product this option belongs to. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". anyOf[2]
+     * (Value): null.
+     */
+    "product_id"?: ((string) | (null));
+    /**
+     * Option lifecycle status. Every active variant must select an active value for each active
+     * option. Value enum: "active", "inactive", "archived". anyOf[1] (Value): string. Option
+     * lifecycle status. Every active variant must select an active value for each active option.
+     * Value enum: "active", "inactive", "archived". anyOf[2] (Value): null.
+     */
+    "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+    /**
+     * When this resource last changed, as an RFC3339 timestamp. anyOf[1] (Value): string. When
+     * this resource last changed, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "updated_at"?: ((string) | (null));
+    /**
+     * Values offered for this option, such as Small, Medium, and Large for Size. anyOf[1] (Value):
+     * Array of {@link ProductOptionValuePreviousAttributes}. Values offered for this option, such
+     * as Small, Medium, and Large for Size. anyOf[1][] (Value): {@link
+     * ProductOptionValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "values"?: ((Array<ProductOptionValuePreviousAttributes>) | (null));
 };

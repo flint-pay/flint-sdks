@@ -1,4 +1,3 @@
-import type { Dispute } from './types-25.js';
 import type { ResponseMeta } from './types-62.js';
 import type { MerchantWebhookEnvelope } from './types-43.js';
 import type { MoneyValue, MoneyValuePreviousAttributes, NextAction, NextActionPreviousAttributes } from './types-44.js';
@@ -38,24 +37,6 @@ import type { PaymentSourceSummary, PaymentSourceSummaryPreviousAttributes } fro
 import type { CardDetails, CardDetailsPreviousAttributes } from './types-5.js';
 import type { SubscriptionIntervalOption, SubscriptionIntervalOptionPreviousAttributes } from './types-70.js';
 import type { SubscriptionPlanLineItem, SubscriptionPlanLineItemPreviousAttributes } from './types-71.js';
-/** A response containing `Dispute` data. */
-export type DisputeResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A challenge to a
-     * collected payment.
-     */
-    "data": Dispute;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
 /**
  * A session for responding to a dispute in the browser, with the `dispute_id` and a short-lived
  * `client_session` for the embedded response component.
@@ -9617,4 +9598,80 @@ export type ExpandedSubscriptionPlanSummaryPreviousAttributes = {
      * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
      */
     "updated_at"?: ((string) | (null));
+};
+/**
+ * A subscription's summary fields, including status, billing period, and next billing time,
+ * returned when the subscription is expanded.
+ */
+export type ExpandedSubscriptionSummary = {
+    /**
+     * UTC day of the month used for monthly and yearly billing. Applies only to Flint-owned
+     * schedules; 0 when no anchor day is set. Format: int32.
+     */
+    "billing_anchor_day": number;
+    /** True when the subscription is scheduled to cancel instead of renewing. */
+    "cancel_at_period_end": boolean;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at"?: string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "current_period_end_at"?: string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "current_period_start_at"?: string;
+    /** The customer this subscription bills. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
+    "customer_id": string;
+    /**
+     * When Flint next starts a scheduled renewal charge, as an RFC3339 timestamp. Present only
+     * while a trialing or active subscription has a billing date and isn't set to cancel at the
+     * end of its period. Absent when no renewal is scheduled: a paused subscription resumes at
+     * scheduled_resume_at, a past_due one reports the failed billing date in missed_billing_at and
+     * retries at next_retry_at, an incomplete one retries at next_retry_at, a scheduled start
+     * begins at starts_at, one set to cancel ends at scheduled_cancel_at, and an external schedule
+     * awaiting a date reports is_awaiting_billing_schedule. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "next_billing_at"?: string;
+    /**
+     * Where the subscription is in its lifecycle. Each value says what it means. Value enum:
+     * "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled".
+     */
+    "status": "trialing"
+        | "active"
+        | "paused"
+        | "past_due"
+        | "canceled"
+        | "incomplete"
+        | "scheduled"
+        | (string & {});
+    /**
+     * Unique identifier for this subscription, prefixed `sub_`. Example:
+     * "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+     */
+    "subscription_id": string;
+    /**
+     * ID of the subscription plan the terms come from. An empty string when `terms_type` is
+     * `subscription_offer`. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
+     */
+    "subscription_plan_id": string;
+    /**
+     * Merchant lifecycle actions accepted by the subscription's current state. Always present with
+     * merchant credentials. [] enum: "cancel", "pause", "resume", "skip_cycle", "renew",
+     * "change_plan", "change_quantity". [] (Value): string. Value enum: "cancel", "pause",
+     * "resume", "skip_cycle", "renew", "change_plan", "change_quantity".
+     */
+    "supported_actions"?: Array<"cancel"
+        | "pause"
+        | "resume"
+        | "skip_cycle"
+        | "renew"
+        | "change_plan"
+        | "change_quantity"
+        | (string & {})>;
+    /**
+     * Terms come from the subscription plan in subscription_plan_id, or from subscription offers
+     * identified on each offer line by subscription_offer_id. Value enum: "subscription_plan",
+     * "subscription_offer".
+     */
+    "terms_type": "subscription_plan" | "subscription_offer" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at"?: string;
 };

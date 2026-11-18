@@ -7,7 +7,7 @@ import type {
     ExpandedShipmentSummaryPreviousAttributes,
     DisputesAcceptParams
 } from './types-26.js';
-import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
+import type { MetadataMap, MerchantWebhookEnvelope } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type {
     ReturnActor,
@@ -15,11 +15,11 @@ import type {
     ReturnCompletionBlocker,
     ReturnCompletionBlockerPreviousAttributes,
     ReturnDisposition,
+    ReturnDispositionPreviousAttributes,
     ResponseMeta,
     ResourceReference
 } from './types-62.js';
 import type {
-    ReturnDispositionPreviousAttributes,
     ReturnFinancialSummary,
     ReturnFinancialSummaryPreviousAttributes,
     ReturnHandoffRequirement,
@@ -49,308 +49,6 @@ import type { UpdateReturnLineItemRequestInput, UpdateReturnRequestInput, Update
 import type { WaiveReturnLineInspectionRequestInput } from './types-78.js';
 import type { RiskPredicateNodeRequest, RiskPredicateNodeRequestInput } from './types-67.js';
 import type { MoneyValue, MoneyValueInput } from './types-44.js';
-export type ReturnUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "actor"?: ReturnActor;
-        "object": {
-            "canceled_at"?: string;
-            "canceled_by"?: ReturnActor;
-            "cancellation_reason"?: "buyer_request"
-                | "merchant_request"
-                | "duplicate"
-                | "expired"
-                | "created_in_error"
-                | "other"
-                | (string & {});
-            "cancellation_reason_message"?: string;
-            "completed_at"?: string;
-            "completed_by"?: ReturnActor;
-            "completion_blockers": Array<ReturnCompletionBlocker>;
-            "completion_mode"?: "manual" | "automatic" | (string & {});
-            "completion_reason"?: "manual_completion" | "exception_waived" | "other" | (string & {});
-            "completion_reason_message"?: string;
-            "created_at": string;
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            "customer_id"?: string;
-            "decision_at"?: string;
-            "decision_status": "pending" | "approved" | "partially_approved" | "declined" | (string & {});
-            "external_reference_id"?: string;
-            "financial_summary": ReturnFinancialSummary;
-            "handoff_requirements": Array<ReturnHandoffRequirement>;
-            "initiated_by": "buyer" | "merchant" | "integration" | "system" | (string & {});
-            "line_items": Array<ReturnLineItem>;
-            "merchandise_status": "not_required"
-                | "awaiting_handoff"
-                | "in_transit"
-                | "partially_received"
-                | "inspection_required"
-                | "partially_inspected"
-                | "inspection_review_required"
-                | "disposition_required"
-                | "resolved"
-                | "exception"
-                | (string & {});
-            "metadata": MetadataMap;
-            "order"?: ((ExpandedOrderSummary) | (null));
-            "order_id": string;
-            "policy_evaluation"?: ReturnPolicyEvaluation;
-            "resolution_status": "not_selected"
-                | "pending"
-                | "partially_completed"
-                | "requires_action"
-                | "completed"
-                | "failed"
-                | (string & {});
-            "return_disposition_ids": Array<string>;
-            "return_dispositions"?: Array<ReturnDisposition>;
-            "return_id": string;
-            "return_inspection_ids": Array<string>;
-            "return_inspections"?: Array<ReturnInspection>;
-            "return_number": string;
-            "return_receipt_ids": Array<string>;
-            "return_receipts"?: Array<ReturnReceipt>;
-            "return_resolution_ids": Array<string>;
-            "return_resolutions"?: Array<ReturnResolution>;
-            "shipment_ids": Array<string>;
-            "shipments"?: Array<ExpandedShipmentSummary>;
-            "status": "requested" | "open" | "completed" | "declined" | "canceled" | (string & {});
-            "supported_actions": Array<"cancel" | "complete" | "decide" | "process" | "reopen" | (string & {})>;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "canceled_at"?: ((string) | (null));
-            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null));
-            "cancellation_reason"?: (("buyer_request"
-                | "merchant_request"
-                | "duplicate"
-                | "expired"
-                | "created_in_error"
-                | "other"
-                | (string & {}))
-                | (null));
-            "cancellation_reason_message"?: ((string) | (null));
-            "completed_at"?: ((string) | (null));
-            "completed_by"?: ((ReturnActorPreviousAttributes) | (null));
-            "completion_blockers"?: ((Array<ReturnCompletionBlockerPreviousAttributes>) | (null));
-            "completion_mode"?: (("manual" | "automatic" | (string & {})) | (null));
-            "completion_reason"?: (("manual_completion" | "exception_waived" | "other" | (string & {})) | (null));
-            "completion_reason_message"?: ((string) | (null));
-            "created_at"?: ((string) | (null));
-            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
-            "customer_id"?: ((string) | (null));
-            "decision_at"?: ((string) | (null));
-            "decision_status"?: (("pending" | "approved" | "partially_approved" | "declined" | (string & {})) | (null));
-            "external_reference_id"?: ((string) | (null));
-            "financial_summary"?: ((ReturnFinancialSummaryPreviousAttributes) | (null));
-            "handoff_requirements"?: ((Array<ReturnHandoffRequirementPreviousAttributes>) | (null));
-            "initiated_by"?: (("buyer" | "merchant" | "integration" | "system" | (string & {})) | (null));
-            "line_items"?: ((Array<ReturnLineItemPreviousAttributes>) | (null));
-            "merchandise_status"?: (("not_required"
-                | "awaiting_handoff"
-                | "in_transit"
-                | "partially_received"
-                | "inspection_required"
-                | "partially_inspected"
-                | "inspection_review_required"
-                | "disposition_required"
-                | "resolved"
-                | "exception"
-                | (string & {}))
-                | (null));
-            "metadata"?: ((MetadataMap) | (null));
-            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
-            "order_id"?: ((string) | (null));
-            "policy_evaluation"?: ((ReturnPolicyEvaluationPreviousAttributes) | (null));
-            "resolution_status"?: (("not_selected"
-                | "pending"
-                | "partially_completed"
-                | "requires_action"
-                | "completed"
-                | "failed"
-                | (string & {}))
-                | (null));
-            "return_disposition_ids"?: ((Array<string>) | (null));
-            "return_dispositions"?: ((Array<ReturnDispositionPreviousAttributes>) | (null));
-            "return_id"?: ((string) | (null));
-            "return_inspection_ids"?: ((Array<string>) | (null));
-            "return_inspections"?: ((Array<ReturnInspectionPreviousAttributes>) | (null));
-            "return_number"?: ((string) | (null));
-            "return_receipt_ids"?: ((Array<string>) | (null));
-            "return_receipts"?: ((Array<ReturnReceiptPreviousAttributes>) | (null));
-            "return_resolution_ids"?: ((Array<string>) | (null));
-            "return_resolutions"?: ((Array<ReturnResolutionPreviousAttributes>) | (null));
-            "shipment_ids"?: ((Array<string>) | (null));
-            "shipments"?: ((Array<ExpandedShipmentSummaryPreviousAttributes>) | (null));
-            "status"?: (("requested" | "open" | "completed" | "declined" | "canceled" | (string & {})) | (null));
-            "supported_actions"?: ((Array<"cancel" | "complete" | "decide" | "process" | "reopen" | (string & {})>) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "return.updated";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "actor"?: ReturnActor;
-        "object": {
-            "canceled_at"?: string;
-            "canceled_by"?: ReturnActor;
-            "cancellation_reason"?: "buyer_request"
-                | "merchant_request"
-                | "duplicate"
-                | "expired"
-                | "created_in_error"
-                | "other"
-                | (string & {});
-            "cancellation_reason_message"?: string;
-            "completed_at"?: string;
-            "completed_by"?: ReturnActor;
-            "completion_blockers": Array<ReturnCompletionBlocker>;
-            "completion_mode"?: "manual" | "automatic" | (string & {});
-            "completion_reason"?: "manual_completion" | "exception_waived" | "other" | (string & {});
-            "completion_reason_message"?: string;
-            "created_at": string;
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            "customer_id"?: string;
-            "decision_at"?: string;
-            "decision_status": "pending" | "approved" | "partially_approved" | "declined" | (string & {});
-            "external_reference_id"?: string;
-            "financial_summary": ReturnFinancialSummary;
-            "handoff_requirements": Array<ReturnHandoffRequirement>;
-            "initiated_by": "buyer" | "merchant" | "integration" | "system" | (string & {});
-            "line_items": Array<ReturnLineItem>;
-            "merchandise_status": "not_required"
-                | "awaiting_handoff"
-                | "in_transit"
-                | "partially_received"
-                | "inspection_required"
-                | "partially_inspected"
-                | "inspection_review_required"
-                | "disposition_required"
-                | "resolved"
-                | "exception"
-                | (string & {});
-            "metadata": MetadataMap;
-            "order"?: ((ExpandedOrderSummary) | (null));
-            "order_id": string;
-            "policy_evaluation"?: ReturnPolicyEvaluation;
-            "resolution_status": "not_selected"
-                | "pending"
-                | "partially_completed"
-                | "requires_action"
-                | "completed"
-                | "failed"
-                | (string & {});
-            "return_disposition_ids": Array<string>;
-            "return_dispositions"?: Array<ReturnDisposition>;
-            "return_id": string;
-            "return_inspection_ids": Array<string>;
-            "return_inspections"?: Array<ReturnInspection>;
-            "return_number": string;
-            "return_receipt_ids": Array<string>;
-            "return_receipts"?: Array<ReturnReceipt>;
-            "return_resolution_ids": Array<string>;
-            "return_resolutions"?: Array<ReturnResolution>;
-            "shipment_ids": Array<string>;
-            "shipments"?: Array<ExpandedShipmentSummary>;
-            "status": "requested" | "open" | "completed" | "declined" | "canceled" | (string & {});
-            "supported_actions": Array<"cancel" | "complete" | "decide" | "process" | "reopen" | (string & {})>;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "canceled_at"?: ((string) | (null));
-            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null));
-            "cancellation_reason"?: (("buyer_request"
-                | "merchant_request"
-                | "duplicate"
-                | "expired"
-                | "created_in_error"
-                | "other"
-                | (string & {}))
-                | (null));
-            "cancellation_reason_message"?: ((string) | (null));
-            "completed_at"?: ((string) | (null));
-            "completed_by"?: ((ReturnActorPreviousAttributes) | (null));
-            "completion_blockers"?: ((Array<ReturnCompletionBlockerPreviousAttributes>) | (null));
-            "completion_mode"?: (("manual" | "automatic" | (string & {})) | (null));
-            "completion_reason"?: (("manual_completion" | "exception_waived" | "other" | (string & {})) | (null));
-            "completion_reason_message"?: ((string) | (null));
-            "created_at"?: ((string) | (null));
-            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
-            "customer_id"?: ((string) | (null));
-            "decision_at"?: ((string) | (null));
-            "decision_status"?: (("pending" | "approved" | "partially_approved" | "declined" | (string & {})) | (null));
-            "external_reference_id"?: ((string) | (null));
-            "financial_summary"?: ((ReturnFinancialSummaryPreviousAttributes) | (null));
-            "handoff_requirements"?: ((Array<ReturnHandoffRequirementPreviousAttributes>) | (null));
-            "initiated_by"?: (("buyer" | "merchant" | "integration" | "system" | (string & {})) | (null));
-            "line_items"?: ((Array<ReturnLineItemPreviousAttributes>) | (null));
-            "merchandise_status"?: (("not_required"
-                | "awaiting_handoff"
-                | "in_transit"
-                | "partially_received"
-                | "inspection_required"
-                | "partially_inspected"
-                | "inspection_review_required"
-                | "disposition_required"
-                | "resolved"
-                | "exception"
-                | (string & {}))
-                | (null));
-            "metadata"?: ((MetadataMap) | (null));
-            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
-            "order_id"?: ((string) | (null));
-            "policy_evaluation"?: ((ReturnPolicyEvaluationPreviousAttributes) | (null));
-            "resolution_status"?: (("not_selected"
-                | "pending"
-                | "partially_completed"
-                | "requires_action"
-                | "completed"
-                | "failed"
-                | (string & {}))
-                | (null));
-            "return_disposition_ids"?: ((Array<string>) | (null));
-            "return_dispositions"?: ((Array<ReturnDispositionPreviousAttributes>) | (null));
-            "return_id"?: ((string) | (null));
-            "return_inspection_ids"?: ((Array<string>) | (null));
-            "return_inspections"?: ((Array<ReturnInspectionPreviousAttributes>) | (null));
-            "return_number"?: ((string) | (null));
-            "return_receipt_ids"?: ((Array<string>) | (null));
-            "return_receipts"?: ((Array<ReturnReceiptPreviousAttributes>) | (null));
-            "return_resolution_ids"?: ((Array<string>) | (null));
-            "return_resolutions"?: ((Array<ReturnResolutionPreviousAttributes>) | (null));
-            "shipment_ids"?: ((Array<string>) | (null));
-            "shipments"?: ((Array<ExpandedShipmentSummaryPreviousAttributes>) | (null));
-            "status"?: (("requested" | "open" | "completed" | "declined" | "canceled" | (string & {})) | (null));
-            "supported_actions"?: ((Array<"cancel" | "complete" | "decide" | "process" | "reopen" | (string & {})>) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "return.updated";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "return.updated";
-});
 /**
  * The `return.updated` webhook payload for the `installed_merchants` event source. Fields shared
  * by partner webhook payloads.
@@ -4495,4 +4193,12 @@ export type RiskPredicateNodeNotRequest = {
      * attribute, or an `all`, `any`, or `not` group of other nodes.
      */
     "not": RiskPredicateNodeRequest;
+};
+/** The `Not` variant of `RiskPredicateNode`. */
+export type RiskPredicateNodeNotRequestInput = {
+    /**
+     * The predicate that must not match. A node in a risk rule condition: a comparison of an
+     * attribute, or an `all`, `any`, or `not` group of other nodes.
+     */
+    "not": RiskPredicateNodeRequestInput;
 };

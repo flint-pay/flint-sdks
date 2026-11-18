@@ -1,6 +1,5 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
-    DeliverySelectionRecipientRequestInput,
     DeliveryStateConditionRequestInput,
     DeliveryTieredPricingStrategyInputQuantityOrMoneyInput,
     DeliveryTieredPricingStrategyInputWeightInput,
@@ -10,10 +9,10 @@ import type {
     DeliveryWeightUnitPriceRequestInput,
     DeliveryWindowRequestInput,
     DeliveryWindowTimeConditionInput,
-    DeliveryZoneConditionRequestInput
+    DeliveryZoneConditionRequestInput,
+    DeliveryZoneConfigurationRequestInput
 } from './types-24.js';
 import type {
-    DeliveryZoneConfigurationRequestInput,
     DepartInventoryTransferRequestInput,
     DimensionsRequestInput,
     DisableLicenseKeyRequestInput,
@@ -46,10 +45,10 @@ import type {
     GiftCardFundingSourceImportRequestInput,
     GiftCardFundingSourceRequestInput,
     GiftCardFundingSourceStoreCreditRequestInput,
-    GiftCardNotificationRecipientInput
+    GiftCardNotificationRecipientInput,
+    GiftCardProductConfigurationRequestInput
 } from './types-29.js';
 import type {
-    GiftCardProductConfigurationRequestInput,
     GiftCardPurchaseDetailsRequestInput,
     GiftCardPurchaseRecipientPatchRequestInput,
     GiftCardPurchaseRecipientRequestInput,
@@ -77,8 +76,7 @@ import type {
     InventoryProvenanceRequestInput,
     InventoryReceiptLineRequestInput
 } from './types-32.js';
-import type { InventoryReservationOwnerRequestInput } from './types-33.js';
-export declare function makeDeliverySelectionRecipientRequest(value: InputValue<DeliverySelectionRecipientRequestInput>): Model<DeliverySelectionRecipientRequestInput>;
+import type { InventoryReservationOwnerRequestInput, InventoryRoutingDemandInput } from './types-33.js';
 export declare function makeDeliveryStateConditionRequest(value: InputValue<DeliveryStateConditionRequestInput>): Model<DeliveryStateConditionRequestInput>;
 export declare function makeDeliveryTieredPricingStrategyInputQuantityOrMoney(value: InputValue<DeliveryTieredPricingStrategyInputQuantityOrMoneyInput>): Model<DeliveryTieredPricingStrategyInputQuantityOrMoneyInput>;
 export declare function makeDeliveryTieredPricingStrategyInputWeight(value: InputValue<DeliveryTieredPricingStrategyInputWeightInput>): Model<DeliveryTieredPricingStrategyInputWeightInput>;
@@ -142,3 +140,4 @@ export declare function makeInventoryOriginPolicyRequest(value: InputValue<Inven
 export declare function makeInventoryProvenanceRequest(value: InputValue<InventoryProvenanceRequestInput>): Model<InventoryProvenanceRequestInput>;
 export declare function makeInventoryReceiptLineRequest(value: InputValue<InventoryReceiptLineRequestInput>): Model<InventoryReceiptLineRequestInput>;
 export declare function makeInventoryReservationOwnerRequest(value: InputValue<InventoryReservationOwnerRequestInput>): Model<InventoryReservationOwnerRequestInput>;
+export declare function makeInventoryRoutingDemand(value: InputValue<InventoryRoutingDemandInput>): Model<InventoryRoutingDemandInput>;

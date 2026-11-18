@@ -35,10 +35,10 @@ import type {
     MerchantReadiness,
     MerchantReadinessPreviousAttributes,
     MerchantReadinessUpdatedInstalledMerchantsEvent,
-    MerchantReadinessUpdatedMerchantEvent
+    MerchantReadinessUpdatedMerchantEvent,
+    MerchantResponse
 } from '../declarations/types-42.js';
 import type {
-    MerchantResponse,
     MerchantSignup,
     MerchantSignupListResponse,
     MerchantSignupOwner,
@@ -83,6 +83,7 @@ export type {
 export type {
     MerchantGetParams,
     Merchant,
+    MerchantResponse,
     MerchantAccountSession,
     MerchantAccountSessionClientSession,
     MerchantAccountSessionCreateRequest,
@@ -120,7 +121,6 @@ export type {
 export type { _SdkWithoutIdempotency, WebhookEventSource, WebhookMerchant } from '../declarations/types-79.js';
 export type { RequestOptions } from '../declarations/types-61.js';
 export type {
-    MerchantResponse,
     MerchantUpdateParams,
     MerchantSignup,
     MerchantSignupListResponse,
@@ -151,7 +151,7 @@ export type {
 } from '../declarations/types-43.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type { Address, AddressRequestInput, AddressPreviousAttributes, AddressRequest } from '../declarations/types-0.js';
 export type {
     ImageAttachment,
@@ -166,7 +166,6 @@ export type {
     ReadinessMerchantAccountSession,
     ReadinessRequirements,
     ReadinessRequirementError,
-    ReadinessAxis,
     ReadinessMerchantAccountSessionPreviousAttributes,
     ReadinessRequirementsPreviousAttributes,
     ReadinessRequirementErrorPreviousAttributes,
@@ -175,7 +174,7 @@ export type {
 export type { UpdateMerchantRequestInput } from '../declarations/types-76.js';
 export type { DisputeResponseSessionStripeAccountSession, DisputesAcceptParams } from '../declarations/types-26.js';
 export type { CapabilityReadiness, CapabilityReadinessPreviousAttributes } from '../declarations/types-5.js';
-export type { ReadinessAction, ReadinessActionPreviousAttributes } from '../declarations/types-59.js';
+export type { ReadinessAction, ReadinessAxis, ReadinessActionPreviousAttributes } from '../declarations/types-59.js';
 export type { PartnerWebhookEnvelope } from '../declarations/types-50.js';
 export type { PlatformFeeCap } from '../declarations/types-55.js';
 export type { CreateMerchantSignupRequestInput } from '../declarations/types-11.js';

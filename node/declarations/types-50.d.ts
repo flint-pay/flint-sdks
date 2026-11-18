@@ -8,6 +8,7 @@ import type {
     PartnerAppPermissionManifestEntryPreviousAttributes,
     PartnerAppPlatform,
     PartnerAppPlatformCapabilityPreviousAttributes,
+    PartnerAppPlatformCurrentTermsPreviousAttributes,
     PartnerApp,
     PartnerAppPlatformContact,
     PartnerAppMerchantReadiness,
@@ -40,32 +41,10 @@ import type {
     PaymentErrorSummary,
     PaymentErrorSummaryPreviousAttributes,
     PaymentClientActionStripe,
-    PaymentClientActionURL
+    PaymentClientActionURL,
+    PaymentClientActionStripePreviousAttributes,
+    PaymentClientActionURLPreviousAttributes
 } from './types-51.js';
-export type PartnerAppPlatformCurrentTermsPreviousAttributes = {
-    /**
-     * When accepting this version becomes required. Until then an earlier accepted version keeps
-     * the platform_terms requirement met; from then the app needs this one. Absent when this
-     * version is already required. anyOf[1] (Value): string. When accepting this version becomes
-     * required. Until then an earlier accepted version keeps the platform_terms requirement met;
-     * from then the app needs this one. Absent when this version is already required. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "acceptance_due_at"?: ((string) | (null));
-    /**
-     * The current platform terms version. Send it as platform_terms_version to
-     * accept-platform-terms. anyOf[1] (Value): string. The current platform terms version. Send it
-     * as platform_terms_version to accept-platform-terms. anyOf[2] (Value): null.
-     */
-    "platform_terms_version"?: ((string) | (null));
-    /**
-     * Where Flint publishes this version's text: the Flint Platform Agreement. `null` when the
-     * version has no published text. anyOf[1] (Value): string. Where Flint publishes this
-     * version's text: the Flint Platform Agreement. `null` when the version has no published text.
-     * Format: uri. Example: "https://example.com/receipt". anyOf[2] (Value): null.
-     */
-    "url"?: ((string) | (null));
-};
 export type PartnerAppPlatformLimitedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
@@ -2919,3 +2898,13 @@ export type PaymentAttemptPaymentIntentPreviousAttributes = {
  * and the payment intent ends canceled with cancellation_reason payment_returned.
  */
 export type PaymentClientAction = ((PaymentClientActionURL) | (PaymentClientActionStripe) | (Record<string, unknown>));
+/**
+ * How to finish a payment step. Flint's API returns a Stripe client secret only for
+ * client_action_type stripe. With url, Stripe's authentication page receives what it needs to run
+ * the challenge, including the client secret for hosted 3DS2. If a payment is confirmed with a
+ * payment method Flint didn't approve, Flint doesn't count the charge, returns it to the buyer,
+ * and the payment intent ends canceled with cancellation_reason payment_returned.
+ */
+export type PaymentClientActionPreviousAttributes = (((PaymentClientActionURLPreviousAttributes)
+    | (PaymentClientActionStripePreviousAttributes)
+    | (unknown)));

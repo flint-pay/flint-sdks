@@ -9,7 +9,7 @@ namespace Flint;
 final class LicenseKeyWithKeyResponseInput extends Model {
     /** @param array{'data': LicenseKeyWithKeyInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('LicenseKeyWithKeyResponseInput')); }
-    /** Resource, collection, or operation result returned by this request. A merchant license key with its full credential when available to the caller. A license key issued to a buyer, with its display suffix.
+    /** Resource, collection, or operation result returned by this request. A merchant license key with its full credential when available to the caller.
      * @return LicenseKeyWithKeyInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
      */

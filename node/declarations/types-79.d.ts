@@ -15,6 +15,7 @@ import type {
     ExpandedOrderSummary,
     ExpandedPaymentIntentSummary,
     ExpandedSubscriptionPlanSummary,
+    ExpandedSubscriptionSummary,
     ExpandedInvoiceSummary
 } from './types-26.js';
 import type {
@@ -30,7 +31,8 @@ import type {
     AdvanceTestClockRequestInput,
     ApplyDiscountRequestInput,
     ApplyDiscountRequestManualInput,
-    ApplyDiscountRequestPromotionInput
+    ApplyDiscountRequestPromotionInput,
+    ApplyInventoryCountRequestInput
 } from './types-0.js';
 import type { InvoiceCollection } from './types-34.js';
 import type { InvoiceLateFee } from './types-35.js';
@@ -44,7 +46,7 @@ import type { MerchantReadiness } from './types-42.js';
 import type { CheckoutBuyerContact } from './types-6.js';
 import type { CustomFieldAnswer } from './types-16.js';
 import type { DeferredPromotion } from './types-17.js';
-import type { ExpandedSubscriptionSummary, Fulfillment, FailedPaymentAttempt } from './types-27.js';
+import type { Fulfillment, FailedPaymentAttempt } from './types-27.js';
 import type { InventoryRoutingSource } from './types-33.js';
 import type {
     OrderAuthorizationAmounts,
@@ -77,75 +79,6 @@ import type { LicenseKeyConfiguration } from './types-39.js';
 import type { QuantityPriceBreak, PromotionSchedule, ReaderConnectivity } from './types-59.js';
 import type { PromotionCodesSummary, PromotionCombinesWith, PromotionExclusivity, PromotionRuleGroup } from './types-58.js';
 import type { CreateWorkloadIdentityRequestInput } from './types-14.js';
-export type WebhookEndpointsListParams = {
-    /**
-     * Filter by the exact ID of the API key, user, partner app, or workload identity that created
-     * the endpoint. Unknown IDs return an empty list. pattern:
-     * ^(key|usr|papp|wid)_[0-7][0-9A-HJKMNP-TV-Z]{25}$.
-     */
-    "created_by"?: InputValue<string>;
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Filter by status. Omitted, the list leaves out deleted rows; name deleted to include them.
-     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
-     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active",
-     * "inactive", "deleted". Value enum: "active", "inactive", "deleted". anyOf[1] (Value): Array
-     * of string. minItems: 1. [] enum: "active", "inactive", "deleted". anyOf[1][] (Value):
-     * string. Value enum: "active", "inactive", "deleted". anyOf[2] (Value): string. Value enum:
-     * "active", "inactive", "deleted".
-     */
-    "status"?: InputValue<("active" | "inactive" | "deleted") | readonly ("active" | "inactive" | "deleted")[]>;
-    /**
-     * Filter by webhook endpoint event sources. Values are trimmed and deduplicated in first-seen
-     * order; empty or unknown entries are rejected. Values within this filter are ORed; separate
-     * filters are ANDed. [] enum: "merchant", "partner_app", "installed_merchants". Value enum:
-     * "merchant", "partner_app", "installed_merchants". anyOf[1] (Value): Array of string.
-     * minItems: 1. [] enum: "merchant", "partner_app", "installed_merchants". anyOf[1][] (Value):
-     * string. Value enum: "merchant", "partner_app", "installed_merchants". anyOf[2] (Value):
-     * string. Value enum: "merchant", "partner_app", "installed_merchants".
-     */
-    "event_sources"?: InputValue<("merchant" | "partner_app" | "installed_merchants")
-        | readonly ("merchant" | "partner_app" | "installed_merchants")[]>;
-    /**
-     * Filter by partner app ID for partner-source webhook endpoints. pattern:
-     * ^papp_[0-9A-HJKMNP-TV-Z]{26}$. Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
-     */
-    "partner_app_id"?: InputValue<string>;
-    /**
-     * Exact-match filter on partner_app_install_id. pattern: ^pinst_[0-9A-HJKMNP-TV-Z]{26}$.
-     * Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-     */
-    "partner_app_install_id"?: InputValue<string>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
 export type WebhookEndpointsRotateSecretParams = (InputValue<RotateWebhookSecretRequestInput>);
 export type WebhookEndpointsSignDeliveryParams = (InputValue<SignWebhookEndpointDeliveryRequestInput>);
 export type WebhookEndpointsUpdateParams = (InputValue<UpdateWebhookEndpointRequestInput>);
@@ -7293,3 +7226,4 @@ export declare function makeAdvanceTestClockRequest(value: InputValue<AdvanceTes
 export declare function makeApplyDiscountRequest(value: InputValue<ApplyDiscountRequestInput>): Model<ApplyDiscountRequestInput>;
 export declare function makeApplyDiscountRequestManual(value: InputValue<ApplyDiscountRequestManualInput>): Model<ApplyDiscountRequestManualInput>;
 export declare function makeApplyDiscountRequestPromotion(value: InputValue<ApplyDiscountRequestPromotionInput>): Model<ApplyDiscountRequestPromotionInput>;
+export declare function makeApplyInventoryCountRequest(value: InputValue<ApplyInventoryCountRequestInput>): Model<ApplyInventoryCountRequestInput>;

@@ -1,6 +1,5 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
-    ResolvePaymentLinkRequestInput,
     ResolvePaymentLinkTextModifierRequestInput,
     ResourceVersionRequestInput,
     RetryOrderEditRefundRequestInput,
@@ -58,10 +57,10 @@ import type {
     RiskPredicateNodeInListRequestInput,
     RiskPredicateNodeInRequestInput,
     RiskPredicateNodeIsMissingRequestInput,
-    RiskPredicateNodeMoneyComparisonRequestInput
+    RiskPredicateNodeMoneyComparisonRequestInput,
+    RiskPredicateNodeNotRequestInput
 } from './types-66.js';
 import type {
-    RiskPredicateNodeNotRequestInput,
     RiskPredicateNodeRequestInput,
     RotateGiftCardCodeRequestInput,
     RotatePartnerAppSecretRequestInput,
@@ -73,9 +72,9 @@ import type {
     SavePaymentMethodRequestInput,
     ScheduleFulfillmentRequestInput,
     SellerTaxAttestationRequestInput,
-    SendOrderReceiptRequestInput
+    SendOrderReceiptRequestInput,
+    SendPaymentIntentReceiptRequestInput
 } from './types-67.js';
-export declare function makeResolvePaymentLinkRequest(value: InputValue<ResolvePaymentLinkRequestInput>): Model<ResolvePaymentLinkRequestInput>;
 export declare function makeResolvePaymentLinkTextModifierRequest(value: InputValue<ResolvePaymentLinkTextModifierRequestInput>): Model<ResolvePaymentLinkTextModifierRequestInput>;
 export declare function makeResourceVersionRequest(value: InputValue<ResourceVersionRequestInput>): Model<ResourceVersionRequestInput>;
 export declare function makeRetryOrderEditRefundRequest(value: InputValue<RetryOrderEditRefundRequestInput>): Model<RetryOrderEditRefundRequestInput>;
@@ -140,3 +139,4 @@ export declare function makeSavePaymentMethodRequest(value: InputValue<SavePayme
 export declare function makeScheduleFulfillmentRequest(value: InputValue<ScheduleFulfillmentRequestInput>): Model<ScheduleFulfillmentRequestInput>;
 export declare function makeSellerTaxAttestationRequest(value: InputValue<SellerTaxAttestationRequestInput>): Model<SellerTaxAttestationRequestInput>;
 export declare function makeSendOrderReceiptRequest(value: InputValue<SendOrderReceiptRequestInput>): Model<SendOrderReceiptRequestInput>;
+export declare function makeSendPaymentIntentReceiptRequest(value: InputValue<SendPaymentIntentReceiptRequestInput>): Model<SendPaymentIntentReceiptRequestInput>;

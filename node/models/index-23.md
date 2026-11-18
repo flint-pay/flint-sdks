@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# MerchantBillingInvoiceListResponse to OnboardingVerifyEmailRequest
+# MerchantBillingInvoiceResponse to OnboardingVerifyEmailRequestInput
 
-- [MerchantBillingInvoiceListResponse](MerchantBillingInvoiceListResponse.md)
 - [MerchantBillingInvoiceResponse](MerchantBillingInvoiceResponse.md)
 - [MerchantBillingInvoiceUpdatedEvent](MerchantBillingInvoiceUpdatedEvent.md)
 - [MerchantReadiness](MerchantReadiness.md)
@@ -102,4 +101,5 @@
 - [OnboardingState](OnboardingState.md)
 - [OnboardingStateResponse](OnboardingStateResponse.md)
 - [OnboardingVerifyEmailRequest](OnboardingVerifyEmailRequest.md)
+- [OnboardingVerifyEmailRequestInput](OnboardingVerifyEmailRequestInput.md)
 

@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# LicenseKeyPoolCreatedInstalledMerchantsEvent to MerchantBillingInvoiceLineItemPreviousAttributes
+# LicenseKeyPoolCreatedMerchantEvent to MerchantBillingInvoiceListResponse
 
-- [LicenseKeyPoolCreatedInstalledMerchantsEvent](LicenseKeyPoolCreatedInstalledMerchantsEvent.md)
 - [LicenseKeyPoolCreatedMerchantEvent](LicenseKeyPoolCreatedMerchantEvent.md)
 - [LicenseKeyPoolKey](LicenseKeyPoolKey.md)
 - [LicenseKeyPoolKeyAddition](LicenseKeyPoolKeyAddition.md)
@@ -102,4 +101,5 @@
 - [MerchantBillingInvoiceIssuedEvent](MerchantBillingInvoiceIssuedEvent.md)
 - [MerchantBillingInvoiceLineItem](MerchantBillingInvoiceLineItem.md)
 - [MerchantBillingInvoiceLineItemPreviousAttributes](MerchantBillingInvoiceLineItemPreviousAttributes.md)
+- [MerchantBillingInvoiceListResponse](MerchantBillingInvoiceListResponse.md)
 

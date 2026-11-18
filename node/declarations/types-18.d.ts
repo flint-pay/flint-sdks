@@ -1,4 +1,3 @@
-import type { AddressPreviousAttributes, Address, AddRiskListItemsRequest } from './types-0.js';
 import type {
     DeliveryWeeklyInterval,
     DeliveryWeeklyIntervalPreviousAttributes,
@@ -14,8 +13,9 @@ import type {
     DeliveryZoneConditionPreviousAttributes
 } from './types-24.js';
 import type { LocationCoordinate } from './types-40.js';
+import type { Address, AddressPreviousAttributes, AddRiskListItemsRequest } from './types-0.js';
 import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
-import type { DeliveryAddressAdvisoryResource } from './types-17.js';
+import type { DeliveryAddressAdvisoryResource, DeliveryAddressAdvisoryResourcePreviousAttributes } from './types-17.js';
 import type { DeliveryInputRequirement, DeliveryInputRequirementPreviousAttributes } from './types-19.js';
 import type {
     DeliveryOptionProjection,
@@ -25,25 +25,6 @@ import type {
 } from './types-20.js';
 import type { TaxComponentRequest, TaxComponentRequestModelInput, TaxComponentRequestPreviousAttributes } from './types-73.js';
 import type { DeliveryRadiusCondition, DeliveryRadiusConditionPreviousAttributes } from './types-22.js';
-export type DeliveryAddressAdvisoryResourcePreviousAttributes = {
-    /**
-     * Which address the advisory is about. Value enum: "destination_address", "buyer_location".
-     * anyOf[1] (Value): string. Which address the advisory is about. Value enum:
-     * "destination_address", "buyer_location". anyOf[2] (Value): null.
-     */
-    "role"?: (("destination_address" | "buyer_location" | (string & {})) | (null));
-    /**
-     * Omitted for a checkout session credential that doesn't act for the customer the buyer
-     * verified. anyOf[1] (Value): {@link AddressPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "suggested_address"?: ((AddressPreviousAttributes) | (null));
-    /**
-     * How far address verification got. Value enum: "needs_review", "unverifiable". anyOf[1]
-     * (Value): string. How far address verification got. Value enum: "needs_review",
-     * "unverifiable". anyOf[2] (Value): null.
-     */
-    "verification_state"?: (("needs_review" | "unverifiable" | (string & {})) | (null));
-};
 /**
  * A partial address for delivery quotes, previews, and buyer locations. Country is required when
  * any member is present.
@@ -3059,3 +3040,194 @@ export type DeliveryEligibilityExpressionPreviousAttributes = ({
     | (unknown)
     | (unknown)
     | (Record<string, unknown>)));
+/**
+ * A boolean expression containing exactly one operator or typed condition at each node.
+ * Expressions support at most 8 levels and 100 total nodes.
+ */
+export type DeliveryEligibilityExpressionRequest = ({
+    /**
+     * Matches when every nested expression matches. minItems: 1. maxItems: 100. [] (Value): {@link
+     * DeliveryEligibilityExpressionRequest}. A boolean expression containing exactly one operator
+     * or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.
+     */
+    "all"?: Array<DeliveryEligibilityExpressionRequest>;
+    /**
+     * Matches when at least one nested expression matches. minItems: 1. maxItems: 100. [] (Value):
+     * {@link DeliveryEligibilityExpressionRequest}. A boolean expression containing exactly one
+     * operator or typed condition at each node. Expressions support at most 8 levels and 100 total
+     * nodes.
+     */
+    "any"?: Array<DeliveryEligibilityExpressionRequest>;
+    /**
+     * Matches when the address is in one of the listed countries. A delivery eligibility condition
+     * that matches when the address country is one of `values`.
+     */
+    "country"?: DeliveryStateCondition;
+    /**
+     * Matches when whether the customer has an email address equals `value`. A delivery
+     * eligibility condition that tests a true or false fact about the customer against `value`.
+     */
+    "customer_has_email"?: DeliveryCustomerBooleanCondition;
+    /**
+     * Matches when whether the customer has a phone number equals `value`. A delivery eligibility
+     * condition that tests a true or false fact about the customer against `value`.
+     */
+    "customer_has_phone"?: DeliveryCustomerBooleanCondition;
+    /**
+     * Matches the is_merchant_verified flag you set on the customer against value. A delivery
+     * eligibility condition that tests a true or false fact about the customer against `value`.
+     */
+    "customer_merchant_verified"?: DeliveryCustomerBooleanCondition;
+    /**
+     * Matches the free-form segment you assign to the customer against values. A delivery
+     * eligibility condition that matches customers in one of the listed segments (`values`).
+     */
+    "customer_segment"?: AddRiskListItemsRequest;
+    /**
+     * Matches when the nested expression does not match. A boolean expression containing exactly
+     * one operator or typed condition at each node. Expressions support at most 8 levels and 100
+     * total nodes.
+     */
+    "not"?: DeliveryEligibilityExpressionRequest;
+    /**
+     * Matches when the address postal code matches one of the listed codes. A delivery eligibility
+     * condition that matches the address postal code against exact or prefix `values`.
+     */
+    "postal_code"?: DeliveryPostalCodeCondition;
+    /**
+     * Matches when the address is within a set distance of an origin. Eligibility condition that
+     * matches when the destination or buyer location is within `maximum_distance` of an origin,
+     * measured in a straight line.
+     */
+    "radius"?: DeliveryRadiusCondition;
+    /**
+     * Matches when the address is in one of the listed states or provinces. Eligibility condition
+     * that matches when the destination or buyer location is in one of the listed states or
+     * provinces, given as ISO 3166-2 codes.
+     */
+    "state"?: DeliveryStateCondition;
+    /**
+     * Matches when whether the purchase is a subscription purchase equals `value`. A delivery
+     * eligibility condition that tests a true or false fact about the customer against `value`.
+     */
+    "subscription_purchase"?: DeliveryCustomerBooleanCondition;
+    /**
+     * Matches when the delivery window falls on the listed weekdays and within the listed time of
+     * day, in the window's timezone. Eligibility condition that matches by time of day, using
+     * `start_minute` and `end_minute`, on the listed `weekdays`.
+     */
+    "window_time"?: DeliveryWindowTimeCondition;
+    /**
+     * Matches when the address is inside the delivery zone you name. Eligibility condition that
+     * matches when the destination or buyer location falls inside the delivery zone
+     * `delivery_zone_id`.
+     */
+    "zone"?: DeliveryZoneCondition;
+})
+    & (({
+    /**
+     * Matches when every nested expression matches. minItems: 1. maxItems: 100. [] (Value): {@link
+     * DeliveryEligibilityExpressionRequest}. A boolean expression containing exactly one operator
+     * or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.
+     */
+    "all": Array<DeliveryEligibilityExpressionRequest>;
+})
+    | ({
+    /**
+     * Matches when at least one nested expression matches. minItems: 1. maxItems: 100. [] (Value):
+     * {@link DeliveryEligibilityExpressionRequest}. A boolean expression containing exactly one
+     * operator or typed condition at each node. Expressions support at most 8 levels and 100 total
+     * nodes.
+     */
+    "any": Array<DeliveryEligibilityExpressionRequest>;
+})
+    | ({
+    /**
+     * Matches when the nested expression does not match. A boolean expression containing exactly
+     * one operator or typed condition at each node. Expressions support at most 8 levels and 100
+     * total nodes.
+     */
+    "not": DeliveryEligibilityExpressionRequest;
+})
+    | ({
+    /**
+     * Matches when the address is inside the delivery zone you name. Eligibility condition that
+     * matches when the destination or buyer location falls inside the delivery zone
+     * `delivery_zone_id`.
+     */
+    "zone": DeliveryZoneCondition;
+})
+    | ({
+    /**
+     * Matches when the address is in one of the listed countries. A delivery eligibility condition
+     * that matches when the address country is one of `values`.
+     */
+    "country": DeliveryStateCondition;
+})
+    | ({
+    /**
+     * Matches when the address is in one of the listed states or provinces. Eligibility condition
+     * that matches when the destination or buyer location is in one of the listed states or
+     * provinces, given as ISO 3166-2 codes.
+     */
+    "state": DeliveryStateCondition;
+})
+    | ({
+    /**
+     * Matches when the address postal code matches one of the listed codes. A delivery eligibility
+     * condition that matches the address postal code against exact or prefix `values`.
+     */
+    "postal_code": DeliveryPostalCodeCondition;
+})
+    | ({
+    /**
+     * Matches when the address is within a set distance of an origin. Eligibility condition that
+     * matches when the destination or buyer location is within `maximum_distance` of an origin,
+     * measured in a straight line.
+     */
+    "radius": DeliveryRadiusCondition;
+})
+    | ({
+    /**
+     * Matches when the delivery window falls on the listed weekdays and within the listed time of
+     * day, in the window's timezone. Eligibility condition that matches by time of day, using
+     * `start_minute` and `end_minute`, on the listed `weekdays`.
+     */
+    "window_time": DeliveryWindowTimeCondition;
+})
+    | ({
+    /**
+     * Matches the free-form segment you assign to the customer against values. A delivery
+     * eligibility condition that matches customers in one of the listed segments (`values`).
+     */
+    "customer_segment": AddRiskListItemsRequest;
+})
+    | ({
+    /**
+     * Matches the is_merchant_verified flag you set on the customer against value. A delivery
+     * eligibility condition that tests a true or false fact about the customer against `value`.
+     */
+    "customer_merchant_verified": DeliveryCustomerBooleanCondition;
+})
+    | ({
+    /**
+     * Matches when whether the customer has an email address equals `value`. A delivery
+     * eligibility condition that tests a true or false fact about the customer against `value`.
+     */
+    "customer_has_email": DeliveryCustomerBooleanCondition;
+})
+    | ({
+    /**
+     * Matches when whether the customer has a phone number equals `value`. A delivery eligibility
+     * condition that tests a true or false fact about the customer against `value`.
+     */
+    "customer_has_phone": DeliveryCustomerBooleanCondition;
+})
+    | ({
+    /**
+     * Matches when whether the purchase is a subscription purchase equals `value`. A delivery
+     * eligibility condition that tests a true or false fact about the customer against `value`.
+     */
+    "subscription_purchase": DeliveryCustomerBooleanCondition;
+})
+    | (Record<string, unknown>));

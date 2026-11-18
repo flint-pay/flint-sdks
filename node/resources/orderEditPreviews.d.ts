@@ -33,7 +33,12 @@ export type {
 export type { _SdkWithoutIdempotency, WeightRequestInput } from '../declarations/types-79.js';
 export type { RequestOptions } from '../declarations/types-61.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type { CreateOrderLineItemRequestInput } from '../declarations/types-12.js';
+export type {
+    CreateOrderLineItemRequestInput,
+    CreateOrderLineItemInputVariantInput,
+    CreateOrderLineItemInputBundleInput,
+    CreateOrderLineItemInputCustomInput
+} from '../declarations/types-11.js';
 export type { LineItemFulfillmentRequestModelInput, LineItemFulfillmentOriginRequestModelInput } from '../declarations/types-40.js';
 export type { GiftCardPurchaseDetailsRequestInput, GiftCardPurchaseRecipientRequestInput } from '../declarations/types-30.js';
 export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-44.js';
@@ -51,14 +56,9 @@ export type { MetadataRequestInput, MetadataMap } from '../declarations/types-43
 export type { TextModifierRequestInput, TextModifierRequest } from '../declarations/types-74.js';
 export type { SubscribedLineRequestModelInput } from '../declarations/types-68.js';
 export type { DimensionsRequestInput } from '../declarations/types-25.js';
-export type {
-    CreateOrderLineItemInputVariantInput,
-    CreateOrderLineItemInputBundleInput,
-    CreateOrderLineItemInputCustomInput
-} from '../declarations/types-11.js';
 export type { RefundChargeInput, RefundDestinationsInput, ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export {
     makeCreateOrderLineItemInputBundle,

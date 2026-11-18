@@ -1,5 +1,3 @@
-import type { InputValue } from '../runtime.js';
-import type { UpdateSettingsRequestInput, UpdateShipmentRequestInput } from './types-77.js';
 import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
 import type {
     PaymentCollectionStripeElements,
@@ -23,7 +21,9 @@ import type { MetadataMap, MerchantWebhookEnvelope, MetadataRequestInput } from 
 import type { ReturnHandoffRequirementLineItem, ReturnHandoffRequirementLineItemPreviousAttributes } from './types-63.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { ResponseMeta, ReturnActor } from './types-62.js';
+import type { InputValue } from '../runtime.js';
 import type { CreateShipmentRequestInput } from './types-14.js';
+import type { UpdateShipmentRequestInput } from './types-77.js';
 import type { VoidShipmentRequestInput } from './types-78.js';
 import type { Dimensions, DimensionsRequestInput } from './types-25.js';
 import type { Weight, WeightRequestInput } from './types-79.js';
@@ -50,7 +50,8 @@ import type {
     SubscriptionGiftRecipientPreviousAttributes,
     SubscriptionIntervalOptionPreviousAttributes,
     SubscriptionInventoryWaitPreviousAttributes,
-    SubscriptionLineItemPreviousAttributes
+    SubscriptionLineItemPreviousAttributes,
+    SubscriptionPausedDeliveryHoldPreviousAttributes
 } from './types-70.js';
 import type {
     SubscriptionPromotion,
@@ -64,28 +65,6 @@ import type {
     SubscriptionTaxPreviousAttributes,
     SubscriptionUpcomingDeliveryHoldPreviousAttributes
 } from './types-72.js';
-import type { SubscriptionPausedDeliveryHoldPreviousAttributes } from './types-71.js';
-export type SettingsUpdateParams = (InputValue<UpdateSettingsRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
 /** Money collected, returned, waived, and still owed on a bill. */
 export type SettlementAmounts = {
     /**
@@ -10114,3 +10093,14 @@ export type SubscriptionActivatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
     /** Value enum: "subscription.activated". */
     "event_type"?: "subscription.activated";
 });
+/**
+ * The verification state of a subscription's delivery address: `verified`, `unverified`,
+ * `needs_review`, or `unverifiable`.
+ */
+export type SubscriptionAddressVerification = {
+    /**
+     * How far verification of the address got. Each value says what it means. Value enum:
+     * "verified", "unverified", "needs_review", "unverifiable".
+     */
+    "state": "verified" | "unverified" | "needs_review" | "unverifiable" | (string & {});
+};

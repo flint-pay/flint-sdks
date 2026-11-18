@@ -50,7 +50,7 @@ export type {
 export type { RequestOptions } from '../declarations/types-61.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type { CreateSubscriptionPlanRequestInput } from '../declarations/types-14.js';
+export type { CreateSubscriptionPlanRequestInput, Credentials } from '../declarations/types-14.js';
 export type {
     SubscriptionIntervalOptionRequestInput,
     SubscriptionEndAfterCyclesRequestInput,
@@ -70,14 +70,13 @@ export type {
     OrderLineItemModifierRequestModelInput,
     OrderLineItemModifierInputCatalogRequestInput,
     OrderLineItemModifierInputTextRequestInput,
+    OrderLineItemTaxRequestInput,
     OrderLineItemModifier,
     OrderLineItemTax
 } from '../declarations/types-46.js';
 export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { TextModifierRequestInput, TextModifierRequest } from '../declarations/types-74.js';
-export type { OrderLineItemTaxRequestInput } from '../declarations/types-47.js';
 export type { AuthMode, BundleComponent, BundleComponentVariantSummary } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
 export type { SubscriptionDeliveryMethodCounts, SubscriptionCounts } from '../declarations/types-69.js';
 export type { SelectedProductOption } from '../declarations/types-67.js';
 export type { CategoryReference } from '../declarations/types-5.js';
@@ -87,9 +86,9 @@ export type {
     UpdateSubscriptionPlanRequestInput,
     UpdateSubscriptionPlanLineItemRequestInput,
     UpdateSubscriptionPlanLineItemInputVariantInput,
-    UpdateSubscriptionPlanLineItemInputBundleInput,
     UpdateSubscriptionPlanLineItemInputCustomInput
 } from '../declarations/types-78.js';
+export type { UpdateSubscriptionPlanLineItemInputBundleInput } from '../declarations/types-77.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeCreateSubscriptionPlanRequest } from '../declarations/types-84.js';
 export { makeImageInputFile, makeImageInputSourceURL, makeImageRequest } from '../declarations/types-86.js';

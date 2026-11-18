@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# ReturnDispositionCreatedMerchantEvent to ReturnReceiptVerifiedMerchantEvent
+# ReturnDispositionPreviousAttributes to ReturnRefundEstimate
 
-- [ReturnDispositionCreatedMerchantEvent](ReturnDispositionCreatedMerchantEvent.md)
 - [ReturnDispositionPreviousAttributes](ReturnDispositionPreviousAttributes.md)
 - [ReturnDispositionUpdatedInstalledMerchantsEvent](ReturnDispositionUpdatedInstalledMerchantsEvent.md)
 - [ReturnDispositionUpdatedMerchantEvent](ReturnDispositionUpdatedMerchantEvent.md)
@@ -102,4 +101,5 @@
 - [ReturnReceiptSupersededMerchantEvent](ReturnReceiptSupersededMerchantEvent.md)
 - [ReturnReceiptVerifiedInstalledMerchantsEvent](ReturnReceiptVerifiedInstalledMerchantsEvent.md)
 - [ReturnReceiptVerifiedMerchantEvent](ReturnReceiptVerifiedMerchantEvent.md)
+- [ReturnRefundEstimate](ReturnRefundEstimate.md)
 

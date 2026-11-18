@@ -13,32 +13,6 @@ import type { SaveMePaymentMethodRequestInput } from './types-67.js';
 import type { BuyerCreateReturnRequestInput, BuyerCreateReturnPreviewRequestInput } from './types-2.js';
 import type { CheckoutSessionsListCustomerVerificationsParams } from './types-7.js';
 /** Records the package action mark_in_transit. */
-export type MarkPackageInTransitRequest = {
-    /**
-     * Whether to send or suppress the buyer notification for this action. Value enum: "send",
-     * "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /**
-     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
-     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "expected_delivery_at"?: string | null;
-    /** Resource version the caller last read. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * When the carrier scan or package action occurred, as an RFC 3339 timestamp. Format:
-     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "occurred_at"?: string;
-    /**
-     * Your internal note explaining this transition. Not included in buyer emails. minLength: 1.
-     * maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/** Records the package action mark_in_transit. */
 export type MarkPackageInTransitRequestInput = {
     /**
      * Whether to send or suppress the buyer notification for this action. Value enum: "send",
@@ -876,4 +850,124 @@ export type MeListPackagesParams = {
         | "exception"
         | "returned"
         | "voided")[]>;
+};
+export type MeListPaymentIntentsParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Filter by order ID. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: InputValue<string>;
+    /**
+     * Filter by invoice ID. pattern: ^inv_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+     */
+    "invoice_id"?: InputValue<string>;
+    /**
+     * Filter by payment intent status. Values are trimmed and deduplicated in first-seen order;
+     * empty or unknown entries are rejected. Values within this filter are ORed; separate filters
+     * are ANDed. [] enum: "requires_payment_method", "requires_confirmation", "requires_action",
+     * "processing", "requires_capture", "canceled", "succeeded", "expired". Value enum:
+     * "requires_payment_method", "requires_confirmation", "requires_action", "processing",
+     * "requires_capture", "canceled", "succeeded", "expired". anyOf[1] (Value): Array of string.
+     * minItems: 1. [] enum: "requires_payment_method", "requires_confirmation", "requires_action",
+     * "processing", "requires_capture", "canceled", "succeeded", "expired". anyOf[1][] (Value):
+     * string. Value enum: "requires_payment_method", "requires_confirmation", "requires_action",
+     * "processing", "requires_capture", "canceled", "succeeded", "expired". anyOf[2] (Value):
+     * string. Value enum: "requires_payment_method", "requires_confirmation", "requires_action",
+     * "processing", "requires_capture", "canceled", "succeeded", "expired".
+     */
+    "status"?: InputValue<("requires_payment_method"
+        | "requires_confirmation"
+        | "requires_action"
+        | "processing"
+        | "requires_capture"
+        | "canceled"
+        | "succeeded"
+        | "expired")
+        | readonly ("requires_payment_method"
+        | "requires_confirmation"
+        | "requires_action"
+        | "processing"
+        | "requires_capture"
+        | "canceled"
+        | "succeeded"
+        | "expired")[]>;
+    /**
+     * Filter by immutable payment flow. Repeat or comma-separate values. Values are trimmed and
+     * deduplicated in first-seen order; empty or unknown entries are rejected. Values within this
+     * filter are ORed; separate filters are ANDed. [] enum: "checkout", "payment_link", "invoice",
+     * "subscription_initial", "subscription_renewal", "virtual_terminal", "api". Value enum:
+     * "checkout", "payment_link", "invoice", "subscription_initial", "subscription_renewal",
+     * "virtual_terminal", "api". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
+     * "checkout", "payment_link", "invoice", "subscription_initial", "subscription_renewal",
+     * "virtual_terminal", "api". anyOf[1][] (Value): string. Value enum: "checkout",
+     * "payment_link", "invoice", "subscription_initial", "subscription_renewal",
+     * "virtual_terminal", "api". anyOf[2] (Value): string. Value enum: "checkout", "payment_link",
+     * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api".
+     */
+    "payment_flow"?: InputValue<("checkout"
+        | "payment_link"
+        | "invoice"
+        | "subscription_initial"
+        | "subscription_renewal"
+        | "virtual_terminal"
+        | "api")
+        | readonly ("checkout"
+        | "payment_link"
+        | "invoice"
+        | "subscription_initial"
+        | "subscription_renewal"
+        | "virtual_terminal"
+        | "api")[]>;
+    /**
+     * Inclusive lower bound on amount_money.amount. Requires currency. Format: int64. minimum: 1.
+     * Example: 500.
+     */
+    "min_amount"?: InputValue<number>;
+    /**
+     * Inclusive upper bound on amount_money.amount. Requires currency. Format: int64. minimum: 1.
+     * Example: 500.
+     */
+    "max_amount"?: InputValue<number>;
+    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
+    "currency"?: InputValue<string>;
+    /**
+     * Exact match on refund_status. Repeat keys or comma-separate values to match any selected
+     * status. Combined with dispute_status, both filters must match. Values are trimmed and
+     * deduplicated in first-seen order; empty or unknown entries are rejected. Values within this
+     * filter are ORed; separate filters are ANDed. [] enum: "none", "partially_refunded",
+     * "refunded". Value enum: "none", "partially_refunded", "refunded". anyOf[1] (Value): Array of
+     * string. minItems: 1. [] enum: "none", "partially_refunded", "refunded". anyOf[1][] (Value):
+     * string. Value enum: "none", "partially_refunded", "refunded". anyOf[2] (Value): string.
+     * Value enum: "none", "partially_refunded", "refunded".
+     */
+    "refund_status"?: InputValue<("none" | "partially_refunded" | "refunded")
+        | readonly ("none" | "partially_refunded" | "refunded")[]>;
+    /**
+     * Field to sort by. Defaults to created_at; ties are broken by payment_intent_id. Default:
+     * "created_at". Value enum: "created_at", "updated_at", "amount_money".
+     */
+    "sort_by"?: InputValue<"created_at" | "updated_at" | "amount_money">;
+    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_before"?: InputValue<string | globalThis.Date>;
 };

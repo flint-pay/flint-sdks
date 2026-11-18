@@ -39,7 +39,6 @@ export type {
     SubscriptionTaxCalculationRequestInput,
     SubscriptionTermsRequestInput,
     SubscriptionQuantityChangeLineItemRequestInput,
-    SubscriptionPreviewError,
     SubscriptionRenewalEstimateDiscount,
     SubscriptionRenewalEstimateLineItem,
     SubscriptionPromotion,
@@ -61,7 +60,6 @@ export type {
     SubscriptionBillingStartInputScheduledInput,
     SubscriptionBillingStartInputImportedInput,
     SubscriptionChargeEstimate,
-    SubscriptionAddressVerification,
     SubscriptionCounts
 } from '../declarations/types-69.js';
 export type {
@@ -69,6 +67,7 @@ export type {
     SubscriptionPlanChangePreview,
     SubscriptionPlanTermsRequestInput,
     SubscriptionPlanChangeLineItemRequestInput,
+    SubscriptionPreviewError,
     SubscriptionPlanChangeLineItemRequest
 } from '../declarations/types-71.js';
 export type { ClientOptions } from '../declarations/types-7.js';
@@ -81,7 +80,8 @@ export type {
     CreateSubscriptionPreviewRequestNextRenewalInput,
     CreateSubscriptionPreviewRequestPlanChangeInput,
     CreateSubscriptionPreviewRequestQuantityChangeInput,
-    CreateSubscriptionPreviewRequestPromotionApplyInput
+    CreateSubscriptionPreviewRequestPromotionApplyInput,
+    Credentials
 } from '../declarations/types-14.js';
 export type { AddressRequestInput, Address, AddressRequest } from '../declarations/types-0.js';
 export type {
@@ -182,7 +182,6 @@ export type {
     DeliveryRevocationTargetDeliveryMethodRevision
 } from '../declarations/types-23.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials, CustomDomain, CustomDomainDNSRecord } from '../declarations/types-15.js';
 export type {
     ErrorDetail,
     ErrorResourceReference,
@@ -200,7 +199,7 @@ export type { CheckoutBuyerContact } from '../declarations/types-6.js';
 export type { DeferredPromotion } from '../declarations/types-17.js';
 export type { PricingAmounts } from '../declarations/types-56.js';
 export type { OrderSettlementAmounts } from '../declarations/types-47.js';
-export type { SettlementAmounts, ShipmentFulfillmentDetails, Shipment } from '../declarations/types-68.js';
+export type { SettlementAmounts, ShipmentFulfillmentDetails, Shipment, SubscriptionAddressVerification } from '../declarations/types-68.js';
 export type { FulfillmentOutcome, FulfillmentRecipient } from '../declarations/types-28.js';
 export type { PickupFulfillmentDetails } from '../declarations/types-55.js';
 export type {
@@ -211,6 +210,7 @@ export type {
 } from '../declarations/types-67.js';
 export type { ReturnHandoffRequirementLineItem } from '../declarations/types-63.js';
 export type { Package } from '../declarations/types-48.js';
+export type { CustomDomain, CustomDomainDNSRecord } from '../declarations/types-15.js';
 export type { QuotaDetails } from '../declarations/types-59.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-62.js';
@@ -234,10 +234,10 @@ export {
     makeDeliveryCallbackPricingStrategyRequest,
     makeDeliveryCallerSuppliedPricingStrategyRequest,
     makeDeliveryCountryConditionRequest,
-    makeDeliveryCustomerBooleanCondition
+    makeDeliveryCustomerBooleanCondition,
+    makeDeliveryCustomerSegmentCondition
 } from '../declarations/types-84.js';
 export {
-    makeDeliveryCustomerSegmentCondition,
     makeDeliveryDistanceRequest,
     makeDeliveryDistanceUnitPriceRequest,
     makeDeliveryEligibilityExpressionRequest,
@@ -266,10 +266,10 @@ export {
     makeDeliveryRadiusOrigin,
     makeDeliveryRateTablePricingStrategyRequest,
     makeDeliveryRecipientRequirementRequest,
-    makeDeliveryScheduleWindowRuleRequest
+    makeDeliveryScheduleWindowRuleRequest,
+    makeDeliverySelectionRecipientRequest
 } from '../declarations/types-85.js';
 export {
-    makeDeliverySelectionRecipientRequest,
     makeDeliveryStateConditionRequest,
     makeDeliveryTieredPricingStrategyInputQuantityOrMoney,
     makeDeliveryTieredPricingStrategyInputWeight,

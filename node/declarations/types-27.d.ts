@@ -39,82 +39,6 @@ import type {
 import type { CreatePackageItemRequest, CreatePackageItemRequestInput } from './types-12.js';
 import type { PackageCreateRequest, PackageCreateRequestInput } from './types-48.js';
 import type { OrderLineItemModifier, OrderLineItemModifierPreviousAttributes } from './types-46.js';
-/**
- * A subscription's summary fields, including status, billing period, and next billing time,
- * returned when the subscription is expanded.
- */
-export type ExpandedSubscriptionSummary = {
-    /**
-     * UTC day of the month used for monthly and yearly billing. Applies only to Flint-owned
-     * schedules; 0 when no anchor day is set. Format: int32.
-     */
-    "billing_anchor_day": number;
-    /** True when the subscription is scheduled to cancel instead of renewing. */
-    "cancel_at_period_end": boolean;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at"?: string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "current_period_end_at"?: string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "current_period_start_at"?: string;
-    /** The customer this subscription bills. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
-    "customer_id": string;
-    /**
-     * When Flint next starts a scheduled renewal charge, as an RFC3339 timestamp. Present only
-     * while a trialing or active subscription has a billing date and isn't set to cancel at the
-     * end of its period. Absent when no renewal is scheduled: a paused subscription resumes at
-     * scheduled_resume_at, a past_due one reports the failed billing date in missed_billing_at and
-     * retries at next_retry_at, an incomplete one retries at next_retry_at, a scheduled start
-     * begins at starts_at, one set to cancel ends at scheduled_cancel_at, and an external schedule
-     * awaiting a date reports is_awaiting_billing_schedule. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "next_billing_at"?: string;
-    /**
-     * Where the subscription is in its lifecycle. Each value says what it means. Value enum:
-     * "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled".
-     */
-    "status": "trialing"
-        | "active"
-        | "paused"
-        | "past_due"
-        | "canceled"
-        | "incomplete"
-        | "scheduled"
-        | (string & {});
-    /**
-     * Unique identifier for this subscription, prefixed `sub_`. Example:
-     * "sub_01KEZF7C00BVRE8YDBXQB74BBM".
-     */
-    "subscription_id": string;
-    /**
-     * ID of the subscription plan the terms come from. An empty string when `terms_type` is
-     * `subscription_offer`. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
-     */
-    "subscription_plan_id": string;
-    /**
-     * Merchant lifecycle actions accepted by the subscription's current state. Always present with
-     * merchant credentials. [] enum: "cancel", "pause", "resume", "skip_cycle", "renew",
-     * "change_plan", "change_quantity". [] (Value): string. Value enum: "cancel", "pause",
-     * "resume", "skip_cycle", "renew", "change_plan", "change_quantity".
-     */
-    "supported_actions"?: Array<"cancel"
-        | "pause"
-        | "resume"
-        | "skip_cycle"
-        | "renew"
-        | "change_plan"
-        | "change_quantity"
-        | (string & {})>;
-    /**
-     * Terms come from the subscription plan in subscription_plan_id, or from subscription offers
-     * identified on each offer line by subscription_offer_id. Value enum: "subscription_plan",
-     * "subscription_offer".
-     */
-    "terms_type": "subscription_plan" | "subscription_offer" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at"?: string;
-};
 export type ExpandedSubscriptionSummaryPreviousAttributes = {
     /**
      * UTC day of the month used for monthly and yearly billing. Applies only to Flint-owned
@@ -14135,3 +14059,132 @@ export type FulfillmentNotificationResponse = {
     "request_id": string;
 };
 export type FulfillmentNotificationsGetParams = FulfillmentEventsGetParams;
+export type FulfillmentNotificationsListParams = {
+    /**
+     * Optional fulfillment ID filter. pattern: ^ful_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+     */
+    "fulfillment_id"?: InputValue<string>;
+    /**
+     * Optional order ID filter. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: InputValue<string>;
+    /**
+     * Optional fulfillment event ID filter. pattern: ^fev_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "fev_01KEZF7C002XK9D7X3239ERT51".
+     */
+    "fulfillment_event_id"?: InputValue<string>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Filter by notification channel. Values are trimmed and deduplicated in first-seen order;
+     * empty or unknown entries are rejected. Values within this filter are ORed; separate filters
+     * are ANDed. [] enum: "email". Value enum: "email". anyOf[1] (Value): Array of string.
+     * minItems: 1. [] enum: "email". anyOf[1][] (Value): string. Value enum: "email". anyOf[2]
+     * (Value): string. Value enum: "email".
+     */
+    "channel"?: InputValue<("email") | readonly ("email")[]>;
+    /**
+     * Filter by notification status. Values are trimmed and deduplicated in first-seen order;
+     * empty or unknown entries are rejected. Values within this filter are ORed; separate filters
+     * are ANDed. [] enum: "pending", "sent", "failed", "suppressed". Value enum: "pending",
+     * "sent", "failed", "suppressed". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
+     * "pending", "sent", "failed", "suppressed". anyOf[1][] (Value): string. Value enum:
+     * "pending", "sent", "failed", "suppressed". anyOf[2] (Value): string. Value enum: "pending",
+     * "sent", "failed", "suppressed".
+     */
+    "status"?: InputValue<("pending" | "sent" | "failed" | "suppressed")
+        | readonly ("pending" | "sent" | "failed" | "suppressed")[]>;
+    /**
+     * Filter by notification type. Values are trimmed and deduplicated in first-seen order; empty
+     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "fulfillment_canceled", "fulfillment_completed", "fulfillment_delivered",
+     * "fulfillment_dispatched", "fulfillment_failed", "fulfillment_no_show", "fulfillment_ready",
+     * "fulfillment_shipped", "shipment_delivered", "shipment_delivery_attempted",
+     * "shipment_exception", "shipment_out_for_delivery", "shipment_returned", "shipment_shipped".
+     * Value enum: "fulfillment_canceled", "fulfillment_completed", "fulfillment_delivered",
+     * "fulfillment_dispatched", "fulfillment_failed", "fulfillment_no_show", "fulfillment_ready",
+     * "fulfillment_shipped", "shipment_delivered", "shipment_delivery_attempted",
+     * "shipment_exception", "shipment_out_for_delivery", "shipment_returned", "shipment_shipped".
+     * anyOf[1] (Value): Array of string. minItems: 1. [] enum: "fulfillment_canceled",
+     * "fulfillment_completed", "fulfillment_delivered", "fulfillment_dispatched",
+     * "fulfillment_failed", "fulfillment_no_show", "fulfillment_ready", "fulfillment_shipped",
+     * "shipment_delivered", "shipment_delivery_attempted", "shipment_exception",
+     * "shipment_out_for_delivery", "shipment_returned", "shipment_shipped". anyOf[1][] (Value):
+     * string. Value enum: "fulfillment_canceled", "fulfillment_completed",
+     * "fulfillment_delivered", "fulfillment_dispatched", "fulfillment_failed",
+     * "fulfillment_no_show", "fulfillment_ready", "fulfillment_shipped", "shipment_delivered",
+     * "shipment_delivery_attempted", "shipment_exception", "shipment_out_for_delivery",
+     * "shipment_returned", "shipment_shipped". anyOf[2] (Value): string. Value enum:
+     * "fulfillment_canceled", "fulfillment_completed", "fulfillment_delivered",
+     * "fulfillment_dispatched", "fulfillment_failed", "fulfillment_no_show", "fulfillment_ready",
+     * "fulfillment_shipped", "shipment_delivered", "shipment_delivery_attempted",
+     * "shipment_exception", "shipment_out_for_delivery", "shipment_returned", "shipment_shipped".
+     */
+    "notification_type"?: InputValue<("fulfillment_canceled"
+        | "fulfillment_completed"
+        | "fulfillment_delivered"
+        | "fulfillment_dispatched"
+        | "fulfillment_failed"
+        | "fulfillment_no_show"
+        | "fulfillment_ready"
+        | "fulfillment_shipped"
+        | "shipment_delivered"
+        | "shipment_delivery_attempted"
+        | "shipment_exception"
+        | "shipment_out_for_delivery"
+        | "shipment_returned"
+        | "shipment_shipped")
+        | readonly ("fulfillment_canceled"
+        | "fulfillment_completed"
+        | "fulfillment_delivered"
+        | "fulfillment_dispatched"
+        | "fulfillment_failed"
+        | "fulfillment_no_show"
+        | "fulfillment_ready"
+        | "fulfillment_shipped"
+        | "shipment_delivered"
+        | "shipment_delivery_attempted"
+        | "shipment_exception"
+        | "shipment_out_for_delivery"
+        | "shipment_returned"
+        | "shipment_shipped")[]>;
+    /**
+     * Include related objects in the response. Supported expansions: order. Include the requested
+     * related resources using scoped batch reads for this page. Each relationship requires its
+     * existing target read scopes. Expansion changes the representation without changing
+     * pagination tokens. Limits: at most 10 unique expand paths per request. [] enum: "order".
+     * Value enum: "order". anyOf[1] (Value): Array of string. [] enum: "order". anyOf[1][]
+     * (Value): string. Value enum: "order". anyOf[2] (Value): string. Value enum: "order".
+     */
+    "expand"?: InputValue<("order") | readonly ("order")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};

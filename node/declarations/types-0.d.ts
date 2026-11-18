@@ -1,6 +1,5 @@
 import type { ResourceReference, ResponseMeta, ResourceReferencePreviousAttributes } from './types-62.js';
-import type { CreateOrderLineItemRequest } from './types-11.js';
-import type { CreateOrderLineItemRequestInput } from './types-12.js';
+import type { CreateOrderLineItemRequest, CreateOrderLineItemRequestInput } from './types-11.js';
 import type { OrderChargeRequest, OrderChargeRequestInput } from './types-45.js';
 import type { ReturnLineItemRequest, ReturnLineItemRequestInput } from './types-63.js';
 import type { GetReturnResponse, GiftCard } from './types-28.js';

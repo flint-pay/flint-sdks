@@ -1,12 +1,7 @@
-import type {
-    DeliveryProfileConfigurationInputNoneInput,
-    DeliveryProfileConfigurationInputRequiredInput,
-    DeliveryProfile,
-    DeliveryProfileConfigurationPreviousAttributes
-} from './types-21.js';
 import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { WebhookDeliveryProfile } from './types-78.js';
+import type { DeliveryProfile, DeliveryProfileConfigurationPreviousAttributes } from './types-21.js';
 import type { ResponseMeta } from './types-62.js';
 import type { InputValue } from '../runtime.js';
 import type { AssignToUnconfiguredDeliveryProfileRequestInput } from './types-1.js';
@@ -22,7 +17,6 @@ import type { Address } from './types-0.js';
 import type {
     DeliveryBuyerLocationResource,
     DeliveryCandidateOutcomeResource,
-    DeliveryAddressAdvisoryResourcePreviousAttributes,
     DeliveryCandidateOutcomeResourcePreviousAttributes,
     DeliveryDistance,
     DeliveryDistancePreviousAttributes,
@@ -35,57 +29,10 @@ import type {
     DeliveryOptionProjectionPreviousAttributes
 } from './types-20.js';
 import type { BuyerInstructionsConfig } from './types-2.js';
-import type { DeliveryAddressAdvisoryResource } from './types-17.js';
+import type { DeliveryAddressAdvisoryResource, DeliveryAddressAdvisoryResourcePreviousAttributes } from './types-17.js';
 import type { MoneyValue } from './types-44.js';
 import type { CreateCheckoutDeliveryQuoteRequestInput } from './types-8.js';
 import type { DisputesAcceptParams } from './types-26.js';
-/**
- * Delivery planning settings you supply when creating or updating a delivery profile. Which fields
- * are allowed depends on `requirement` and `resolution_mode`.
- */
-export type DeliveryProfileConfigurationRequestInput = ({
-    /**
-     * Required as a non-empty unique list when requirement is required. quote accepts shipment,
-     * pickup, and local_delivery. manual accepts digital and service. minItems: 1. uniqueItems:
-     * true. [] enum: "shipment", "pickup", "local_delivery", "digital", "service". [] (Value):
-     * string. Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
-     */
-    "allowed_types"?: Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service">;
-    /**
-     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
-     * manual. Controls which delivery obligations can share a choice group. Value enum:
-     * "combine_when_compatible", "separate_profile", "separate_line_item", "fulfill_alone".
-     */
-    "combination_policy"?: "combine_when_compatible" | "separate_profile" | "separate_line_item" | "fulfill_alone";
-    /**
-     * Required for quote resolution and forbidden for none or manual resolution. fixed_location
-     * requires location_id. inventory_routing forbids location_id and applies only to tracked
-     * inventory. method_origin forbids location_id. Origin policy you supply for a delivery
-     * profile: a fixed Location (`location_id`), inventory routing, or the origin set on the
-     * delivery method.
-     */
-    "origin_policy"?: DeliveryProfileOriginPolicyRequestInput;
-    /**
-     * Whether delivery planning applies. none forbids every other configuration field. required
-     * also requires resolution_mode and allowed_types, plus the fields required by that resolution
-     * mode. Value enum: "none", "required".
-     */
-    "requirement"?: "none" | "required";
-    /**
-     * Required when requirement is required. quote plans physical delivery and requires
-     * origin_policy, combination_policy, and splitting_policy. manual supports digital and service
-     * items and forbids physical planning fields. Value enum: "quote", "manual".
-     */
-    "resolution_mode"?: "quote" | "manual";
-    /**
-     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
-     * manual. Controls whether a line item quantity can be split across delivery assignments.
-     * Value enum: "whole_line_item", "quantity_split_allowed".
-     */
-    "splitting_policy"?: "whole_line_item" | "quantity_split_allowed";
-})
-    & ((Exclude<DeliveryProfileConfigurationInputNoneInput & object, readonly unknown[]>)
-    | (Exclude<DeliveryProfileConfigurationInputRequiredInput & object, readonly unknown[]>));
 export type DeliveryProfileCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
@@ -4417,4 +4364,94 @@ export type DeliveryRateCallbackCreatedMerchantEvent = (Exclude<MerchantWebhookE
     "event_source"?: "merchant" | (string & {});
     /** Value enum: "delivery_rate_callback.created". */
     "event_type"?: "delivery_rate_callback.created";
+});
+export type DeliveryRateCallbackDeactivatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "circuit_failure_count": number;
+            "circuit_state": "closed" | "open" | "half_open" | (string & {});
+            "configuration": DeliveryRateCallbackConfiguration;
+            "created_at": string;
+            "current_delivery_rate_callback_revision_id": string;
+            "delivery_rate_callback_id": string;
+            "delivery_revocation_id": string | null;
+            "external_reference_id"?: string;
+            "name": string;
+            "signing_methods": Array<"jwt" | "hmac" | (string & {})>;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "circuit_failure_count"?: ((number) | (null));
+            "circuit_state"?: (("closed" | "open" | "half_open" | (string & {})) | (null));
+            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null));
+            "created_at"?: ((string) | (null));
+            "current_delivery_rate_callback_revision_id"?: ((string) | (null));
+            "delivery_rate_callback_id"?: ((string) | (null));
+            "delivery_revocation_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "name"?: ((string) | (null));
+            "signing_methods"?: ((Array<"jwt" | "hmac" | (string & {})>) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "delivery_rate_callback.deactivated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "circuit_failure_count": number;
+            "circuit_state": "closed" | "open" | "half_open" | (string & {});
+            "configuration": DeliveryRateCallbackConfiguration;
+            "created_at": string;
+            "current_delivery_rate_callback_revision_id": string;
+            "delivery_rate_callback_id": string;
+            "delivery_revocation_id": string | null;
+            "external_reference_id"?: string;
+            "name": string;
+            "signing_methods": Array<"jwt" | "hmac" | (string & {})>;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "circuit_failure_count"?: ((number) | (null));
+            "circuit_state"?: (("closed" | "open" | "half_open" | (string & {})) | (null));
+            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null));
+            "created_at"?: ((string) | (null));
+            "current_delivery_rate_callback_revision_id"?: ((string) | (null));
+            "delivery_rate_callback_id"?: ((string) | (null));
+            "delivery_revocation_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "name"?: ((string) | (null));
+            "signing_methods"?: ((Array<"jwt" | "hmac" | (string & {})>) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "delivery_rate_callback.deactivated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "delivery_rate_callback.deactivated";
 });

@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# OrderLineItemModifier to PackageItem
+# OrderLineItemModifierInputCatalog to PackageItemListResponse
 
-- [OrderLineItemModifier](OrderLineItemModifier.md)
 - [OrderLineItemModifierInputCatalog](OrderLineItemModifierInputCatalog.md)
 - [OrderLineItemModifierInputCatalogRequestInput](OrderLineItemModifierInputCatalogRequestInput.md)
 - [OrderLineItemModifierInputText](OrderLineItemModifierInputText.md)
@@ -102,4 +101,5 @@
 - [PackageCreateRequest](PackageCreateRequest.md)
 - [PackageCreateRequestInput](PackageCreateRequestInput.md)
 - [PackageItem](PackageItem.md)
+- [PackageItemListResponse](PackageItemListResponse.md)
 

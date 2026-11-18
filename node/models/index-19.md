@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# InventoryReservationLinePreviousAttributes to InvoiceDocumentRow
+# InventoryReservationListResponse to InvoiceIssuedInstalledMerchantsEvent
 
-- [InventoryReservationLinePreviousAttributes](InventoryReservationLinePreviousAttributes.md)
 - [InventoryReservationListResponse](InventoryReservationListResponse.md)
 - [InventoryReservationOwner](InventoryReservationOwner.md)
 - [InventoryReservationOwnerMerchant](InventoryReservationOwnerMerchant.md)
@@ -102,4 +101,5 @@
 - [InvoiceDiscount](InvoiceDiscount.md)
 - [InvoiceDiscountPreviousAttributes](InvoiceDiscountPreviousAttributes.md)
 - [InvoiceDocumentRow](InvoiceDocumentRow.md)
+- [InvoiceIssuedInstalledMerchantsEvent](InvoiceIssuedInstalledMerchantsEvent.md)
 

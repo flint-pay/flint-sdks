@@ -1,4 +1,5 @@
 import type {
+    PaymentLinkRedirectsPatchRequest,
     PaymentLink,
     PaymentLinkCustomField,
     PaymentLinkCustomFieldPreviousAttributes,
@@ -53,39 +54,7 @@ import type { UpdatePaymentLinkRequestInput, UpdatePaymentMethodDomainRequestInp
 import type { CardDetails, CardDetailsPreviousAttributes } from './types-5.js';
 import type { StripeClientSetup, SplitReversalReference, SplitReversalReferencePreviousAttributes } from './types-68.js';
 import type { SavePaymentMethodRequestInput } from './types-67.js';
-import type {
-    PaymentReviewRisk,
-    PaymentReviewResolutionFailurePreviousAttributes,
-    PaymentReviewRiskPreviousAttributes
-} from './types-54.js';
-/**
- * Changes to a payment link's hosted checkout destinations. Omit a URL to leave it unchanged, or
- * send null to clear it.
- */
-export type PaymentLinkRedirectsPatchRequest = {
-    /**
-     * Where the buyer goes when they leave checkout without paying. The session stays open until
-     * it expires. Absolute HTTPS URL; test mode also accepts HTTP loopback URLs. Up to 2,048
-     * characters. Send null to clear it. Format: uri. minLength: 1. maxLength: 2048. Example:
-     * "https://example.com/receipt".
-     */
-    "cancel_url"?: string | null;
-    /**
-     * Where Flint sends a buyer who opens the session after it expires. Without it, the buyer sees
-     * Flint's expired-checkout page. Absolute HTTPS URL; test mode also accepts HTTP loopback
-     * URLs. Up to 2,048 characters. Send null to clear it. Format: uri. minLength: 1. maxLength:
-     * 2048. Example: "https://example.com/receipt".
-     */
-    "expired_url"?: string | null;
-    /**
-     * Where the buyer goes after paying. Flint adds checkout_session_id and order_id query
-     * parameters, replacing any with those names. The redirect doesn't prove payment: confirm with
-     * the order.paid webhook or by reading the session. Absolute HTTPS URL; test mode also accepts
-     * HTTP loopback URLs. Up to 2,048 characters. Send null to clear it. Format: uri. minLength:
-     * 1. maxLength: 2048. Example: "https://example.com/receipt".
-     */
-    "success_url"?: string | null;
-};
+import type { PaymentReviewRisk, PaymentReviewRiskPreviousAttributes } from './types-54.js';
 /**
  * Changes to a payment link's hosted checkout destinations. Omit a URL to leave it unchanged, or
  * send null to clear it.
@@ -12945,4 +12914,17 @@ export type PaymentReviewResolutionFailure = {
      * "ref_01KEZF7C003DTD59WKYHEXYQ1K".
      */
     "refund_id": string;
+};
+export type PaymentReviewResolutionFailurePreviousAttributes = {
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "failed_at"?: ((string) | (null));
+    /**
+     * ID of the refund that failed and reopened the review. anyOf[1] (Value): string. ID of the
+     * refund that failed and reopened the review. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     * anyOf[2] (Value): null.
+     */
+    "refund_id"?: ((string) | (null));
 };

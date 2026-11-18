@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# CreateOrderLineItemInputBundleInput to CreateReturnPreviewRequestEligibilityInput
+# CreateOrderLineItemInputCustom to CreateReturnPreviewRequestResolution
 
-- [CreateOrderLineItemInputBundleInput](CreateOrderLineItemInputBundleInput.md)
 - [CreateOrderLineItemInputCustom](CreateOrderLineItemInputCustom.md)
 - [CreateOrderLineItemInputCustomInput](CreateOrderLineItemInputCustomInput.md)
 - [CreateOrderLineItemInputVariant](CreateOrderLineItemInputVariant.md)
@@ -102,4 +101,5 @@
 - [CreateReturnPreviewRequestInput](CreateReturnPreviewRequestInput.md)
 - [CreateReturnPreviewRequestEligibility](CreateReturnPreviewRequestEligibility.md)
 - [CreateReturnPreviewRequestEligibilityInput](CreateReturnPreviewRequestEligibilityInput.md)
+- [CreateReturnPreviewRequestResolution](CreateReturnPreviewRequestResolution.md)
 

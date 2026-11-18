@@ -1,13 +1,12 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
-    OrderTaxExemptionInputNoneInput,
     OrderTaxExemptionInputOrderInput,
     OrderTaxExemptionRequestInput,
     OrderTaxJurisdictionRequestInput,
-    OrderTaxLocationFullAddressRequestInput
+    OrderTaxLocationFullAddressRequestInput,
+    OrderTaxLocationInputFullAddressInput
 } from './types-47.js';
 import type {
-    OrderTaxLocationInputFullAddressInput,
     OrderTaxLocationInputPostalCodeInput,
     OrderTaxLocationPostalAddressRequestInput,
     OrderTaxLocationRequestInput,
@@ -76,9 +75,9 @@ import type {
     PlatformFeeRequestInput,
     PoolLicenseKeyConfigurationRequestInput,
     PriceListPriceRequestInput,
-    ProcessExistingReturnLineItemRequestInput
+    ProcessExistingReturnLineItemRequestInput,
+    ProcessExistingReturnRequestInput
 } from './types-56.js';
-export declare function makeOrderTaxExemptionInputNone(value: InputValue<OrderTaxExemptionInputNoneInput>): Model<OrderTaxExemptionInputNoneInput>;
 export declare function makeOrderTaxExemptionInputOrder(value: InputValue<OrderTaxExemptionInputOrderInput>): Model<OrderTaxExemptionInputOrderInput>;
 export declare function makeOrderTaxExemptionRequest(value: InputValue<OrderTaxExemptionRequestInput>): Model<OrderTaxExemptionRequestInput>;
 export declare function makeOrderTaxJurisdictionRequest(value: InputValue<OrderTaxJurisdictionRequestInput>): Model<OrderTaxJurisdictionRequestInput>;
@@ -145,3 +144,4 @@ export declare function makePlatformFeeRequest(value: InputValue<PlatformFeeRequ
 export declare function makePoolLicenseKeyConfigurationRequest(value: InputValue<PoolLicenseKeyConfigurationRequestInput>): Model<PoolLicenseKeyConfigurationRequestInput>;
 export declare function makePriceListPriceRequest(value: InputValue<PriceListPriceRequestInput>): Model<PriceListPriceRequestInput>;
 export declare function makeProcessExistingReturnLineItemRequest(value: InputValue<ProcessExistingReturnLineItemRequestInput>): Model<ProcessExistingReturnLineItemRequestInput>;
+export declare function makeProcessExistingReturnRequest(value: InputValue<ProcessExistingReturnRequestInput>): Model<ProcessExistingReturnRequestInput>;

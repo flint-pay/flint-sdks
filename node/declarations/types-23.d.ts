@@ -3,8 +3,8 @@ import type {
     DeliveryRateCallbackConfigurationPreviousAttributes,
     DeliveryRateCallback
 } from './types-22.js';
-import type { MerchantWebhookEnvelope } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
+import type { MerchantWebhookEnvelope } from './types-43.js';
 import type { ResponseMeta } from './types-62.js';
 import type { InputValue } from '../runtime.js';
 import type { DisputesAcceptParams } from './types-26.js';
@@ -16,99 +16,10 @@ import type {
     DeliveryPricingRate,
     DeliveryPricingRateCreateRequest,
     DeliveryPricingRateCreateRequestInput,
-    DeliveryPricingRatePreviousAttributes
+    DeliveryPricingRatePreviousAttributes,
+    DeliveryPricingRateRequest
 } from './types-20.js';
-import type { DeliveryPricingRateRequest, DeliveryPricingRateRequestInput } from './types-21.js';
-export type DeliveryRateCallbackDeactivatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "circuit_failure_count": number;
-            "circuit_state": "closed" | "open" | "half_open" | (string & {});
-            "configuration": DeliveryRateCallbackConfiguration;
-            "created_at": string;
-            "current_delivery_rate_callback_revision_id": string;
-            "delivery_rate_callback_id": string;
-            "delivery_revocation_id": string | null;
-            "external_reference_id"?: string;
-            "name": string;
-            "signing_methods": Array<"jwt" | "hmac" | (string & {})>;
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "circuit_failure_count"?: ((number) | (null));
-            "circuit_state"?: (("closed" | "open" | "half_open" | (string & {})) | (null));
-            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null));
-            "created_at"?: ((string) | (null));
-            "current_delivery_rate_callback_revision_id"?: ((string) | (null));
-            "delivery_rate_callback_id"?: ((string) | (null));
-            "delivery_revocation_id"?: ((string) | (null));
-            "external_reference_id"?: ((string) | (null));
-            "name"?: ((string) | (null));
-            "signing_methods"?: ((Array<"jwt" | "hmac" | (string & {})>) | (null));
-            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "delivery_rate_callback.deactivated";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "circuit_failure_count": number;
-            "circuit_state": "closed" | "open" | "half_open" | (string & {});
-            "configuration": DeliveryRateCallbackConfiguration;
-            "created_at": string;
-            "current_delivery_rate_callback_revision_id": string;
-            "delivery_rate_callback_id": string;
-            "delivery_revocation_id": string | null;
-            "external_reference_id"?: string;
-            "name": string;
-            "signing_methods": Array<"jwt" | "hmac" | (string & {})>;
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "circuit_failure_count"?: ((number) | (null));
-            "circuit_state"?: (("closed" | "open" | "half_open" | (string & {})) | (null));
-            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null));
-            "created_at"?: ((string) | (null));
-            "current_delivery_rate_callback_revision_id"?: ((string) | (null));
-            "delivery_rate_callback_id"?: ((string) | (null));
-            "delivery_revocation_id"?: ((string) | (null));
-            "external_reference_id"?: ((string) | (null));
-            "name"?: ((string) | (null));
-            "signing_methods"?: ((Array<"jwt" | "hmac" | (string & {})>) | (null));
-            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "delivery_rate_callback.deactivated";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "delivery_rate_callback.deactivated";
-});
+import type { DeliveryPricingRateRequestInput } from './types-21.js';
 /**
  * The `delivery_rate_callback.deactivated` webhook payload for the `installed_merchants` event
  * source. Fields shared by partner webhook payloads.
@@ -4118,3 +4029,83 @@ export type DeliveryRevocationsCreateParams = (InputValue<CreateDeliveryRevocati
     "Flint-Sandbox-Id"?: InputValue<string>;
 };
 export type DeliveryRevocationsGetParams = DisputesAcceptParams;
+export type DeliveryRevocationsListParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Filter by revocation target type. Values are trimmed and deduplicated in first-seen order;
+     * empty or unknown entries are rejected. Values within this filter are ORed; separate filters
+     * are ANDed. [] enum: "location_geography", "delivery_rate_callback_signing_key",
+     * "delivery_rate_callback_revision", "delivery_method_revision". Value enum:
+     * "location_geography", "delivery_rate_callback_signing_key",
+     * "delivery_rate_callback_revision", "delivery_method_revision". anyOf[1] (Value): Array of
+     * string. minItems: 1. [] enum: "location_geography", "delivery_rate_callback_signing_key",
+     * "delivery_rate_callback_revision", "delivery_method_revision". anyOf[1][] (Value): string.
+     * Value enum: "location_geography", "delivery_rate_callback_signing_key",
+     * "delivery_rate_callback_revision", "delivery_method_revision". anyOf[2] (Value): string.
+     * Value enum: "location_geography", "delivery_rate_callback_signing_key",
+     * "delivery_rate_callback_revision", "delivery_method_revision".
+     */
+    "target_type"?: InputValue<("location_geography"
+        | "delivery_rate_callback_signing_key"
+        | "delivery_rate_callback_revision"
+        | "delivery_method_revision")
+        | readonly ("location_geography"
+        | "delivery_rate_callback_signing_key"
+        | "delivery_rate_callback_revision"
+        | "delivery_method_revision")[]>;
+    /**
+     * Filter by revocation reason. Values are trimmed and deduplicated in first-seen order; empty
+     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "unsafe_configuration", "location_unavailable", "credential_compromise",
+     * "legal_requirement", "other". Value enum: "unsafe_configuration", "location_unavailable",
+     * "credential_compromise", "legal_requirement", "other". anyOf[1] (Value): Array of string.
+     * minItems: 1. [] enum: "unsafe_configuration", "location_unavailable",
+     * "credential_compromise", "legal_requirement", "other". anyOf[1][] (Value): string. Value
+     * enum: "unsafe_configuration", "location_unavailable", "credential_compromise",
+     * "legal_requirement", "other". anyOf[2] (Value): string. Value enum: "unsafe_configuration",
+     * "location_unavailable", "credential_compromise", "legal_requirement", "other".
+     */
+    "reason"?: InputValue<("unsafe_configuration"
+        | "location_unavailable"
+        | "credential_compromise"
+        | "legal_requirement"
+        | "other")
+        | readonly ("unsafe_configuration"
+        | "location_unavailable"
+        | "credential_compromise"
+        | "legal_requirement"
+        | "other")[]>;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};

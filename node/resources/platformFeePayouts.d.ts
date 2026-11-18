@@ -1,7 +1,7 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
+import type { PlatformFeePayout } from '../declarations/types-55.js';
 import type {
-    PlatformFeePayout,
     PlatformFeePayoutListResponse,
     PlatformFeePayoutResponse,
     PlatformFeePayoutsGetParams,
@@ -25,16 +25,16 @@ export type {
 } from '../runtime.js';
 export type {
     PlatformFeePayoutsGetParams,
-    PlatformFeePayout,
     PlatformFeePayoutResponse,
     PlatformFeePayoutsListParams,
     PlatformFeePayoutListResponse
 } from '../declarations/types-56.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { RequestOptions } from '../declarations/types-61.js';
+export type { PlatformFeePayout } from '../declarations/types-55.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type { MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';

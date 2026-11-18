@@ -81,7 +81,7 @@ export type {
     OrderDraftTaxJurisdictionRequestModelInput
 } from '../declarations/types-45.js';
 export type { AuthMode, BundleComponent, BundleComponentVariantSummary } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type { SelectedProductOption } from '../declarations/types-67.js';
 export type { Image } from '../declarations/types-31.js';
 export type { OrderLineItemModifier } from '../declarations/types-46.js';

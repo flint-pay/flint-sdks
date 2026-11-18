@@ -43,7 +43,6 @@ export type {
     CreateRefundRequestInput,
     CreateRefundRequestCreditNoteInput,
     CreateRefundRequestFullInput,
-    CreateRefundRequestAmountInput,
     CreateRefundRequestTargetsInput
 } from '../declarations/types-13.js';
 export type {
@@ -74,8 +73,9 @@ export type { ClientOptions } from '../declarations/types-7.js';
 export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { SplitReversalRequestInput, SettlementAmounts, SplitReversalReference } from '../declarations/types-68.js';
+export type { CreateRefundRequestAmountInput } from '../declarations/types-12.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type { ExpandedCustomerSummary, ExpandedOrderSummary, ExpandedPaymentIntentSummary } from '../declarations/types-26.js';
 export type { CategoryReference } from '../declarations/types-5.js';
 export type { SelectedProductOption } from '../declarations/types-67.js';
@@ -115,7 +115,7 @@ export {
     makeRefundTenderAllocationRequest
 } from '../declarations/types-90.js';
 export { makeSplitReversalRequest } from '../declarations/types-92.js';
-export { makeUpdateRefundRequest } from '../declarations/types-94.js';
+export { makeUpdateRefundRequest } from '../declarations/types-93.js';
 export interface RefundsResource {
     /**
  * Creates a refund for an issued credit note on a paid invoice, an order, a payment intent, a

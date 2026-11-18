@@ -1,36 +1,18 @@
-import type { Merchant, MerchantReadinessPreviousAttributes } from './types-42.js';
-import type { ResponseMeta } from './types-62.js';
 import type { PlatformFeeCap } from './types-55.js';
+import type { ResponseMeta } from './types-62.js';
 import type { LicenseKeyVersionRequestInput } from './types-40.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateMerchantSignupRequestInput, CreateModifierGroupRequestInput } from './types-11.js';
 import type { VerifyMerchantSignupRequestInput } from './types-78.js';
 import type { UpdateMerchantRequestInput, UpdateModifierGroupRequestInput } from './types-76.js';
 import type { AddressPreviousAttributes } from './types-0.js';
-import type { ImageAttachmentPreviousAttributes, InlineModifierGroupRequest } from './types-31.js';
+import type { ImageAttachmentPreviousAttributes, InlineModifierGroupRequest, InlineModifierGroupRequestInput } from './types-31.js';
+import type { MerchantReadinessPreviousAttributes } from './types-42.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { WebhookMerchant } from './types-79.js';
 import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput, ModifierSetGroupPreviousAttributes } from './types-44.js';
 import type { TextModifierConfig, TextModifierConfigPreviousAttributes } from './types-74.js';
 import type { DisputesAcceptParams } from './types-26.js';
-/** A response containing `Merchant` data. */
-export type MerchantResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. The business accepting
-     * payments.
-     */
-    "data": Merchant;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
 /**
  * A platform's request to create a merchant for an owner, who confirms it with a code Flint emails
  * them. Once verified, it is the record of the owner's consent, kept for as long as the merchant
@@ -6974,4 +6956,76 @@ export type ModifierSetGroupInputExisting = ({
      * 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
      */
     "modifier_group_id": string;
+}));
+/** The `existing` variant of `ModifierSetGroupInput`. */
+export type ModifierSetGroupInputExistingInput = ({
+    /**
+     * Overrides the group's name for this set. Omit it to use the group's name. minLength: 1.
+     * maxLength: 255.
+     */
+    "display_name"?: string;
+    /**
+     * Overrides the group's max_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; if neither value is set, there is no limit. Format: int32.
+     */
+    "max_selected"?: number;
+    /**
+     * Overrides the group's min_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; set min_selected: 1 to require a selection. If neither value is set,
+     * the minimum is 0. Format: int32.
+     */
+    "min_selected"?: number;
+    /**
+     * Modifier group owned by this set when source is inline. Read this group through GET
+     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
+     * defined inline when setting up a modifier set, with its name, rules for how many options can
+     * be selected, and its modifiers.
+     */
+    "modifier_group"?: InlineModifierGroupRequestInput;
+    /**
+     * Identifier of the independent modifier group referenced when source is existing. minLength:
+     * 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
+     */
+    "modifier_group_id": string;
+    /**
+     * Overrides for individual list modifiers in this set. A choice is offered only when its
+     * status is active and its override's available is not false. [] (Value): {@link
+     * ModifierOverrideRequestInput}. Settings for one modifier that apply only within a modifier
+     * set group, overriding the modifier group's own values.
+     */
+    "modifier_overrides"?: Array<ModifierOverrideRequestInput>;
+    /**
+     * Stable identifier of this group entry within the set. In a replacement request, include it
+     * to retain an entry or omit it to create one. minLength: 1. Example:
+     * "msg_01KEZF7C008GXTVA2AQ1SRFGFC".
+     */
+    "modifier_set_group_id"?: string;
+    /** Display position of this group within the set; lower values appear first. Format: int32. */
+    "position"?: number;
+    /**
+     * Overrides the group's text.required for this set. Omit it to use the group's value. Accepted
+     * only for text groups; for a list group, set min_selected: 1 to require a selection.
+     */
+    "required"?: boolean;
+    /** Overrides the group's show_on_fulfillment for this set. Omit it to use the group's value. */
+    "show_on_fulfillment"?: boolean;
+    /** Overrides the group's show_on_receipt for this set. Omit it to use the group's value. */
+    "show_on_receipt"?: boolean;
+    /**
+     * Use inline for a modifier group owned by this modifier set, or existing to reference an
+     * independent modifier group. Value enum: "existing".
+     */
+    "source": "existing";
+})
+    & (({
+    /** References an independent modifier group. Value enum: "existing". */
+    "source": "existing";
+    /**
+     * Identifier of the independent modifier group referenced when source is existing. minLength:
+     * 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
+     */
+    "modifier_group_id": string;
+})
+    & ({
+    "modifier_group"?: never;
 }));

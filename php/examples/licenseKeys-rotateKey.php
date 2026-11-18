@@ -19,5 +19,6 @@ $idempotencyKey = bin2hex(random_bytes(16));
 $result = $client->licenseKeys->rotateKey('lk_01KEZF7C000QD7VJ83G43V0NSN', [
   'expected_version' => 1,
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
-echo json_encode($result, JSON_THROW_ON_ERROR) . PHP_EOL;
+echo $result->license_key_id . PHP_EOL;
+echo $result->product_id . PHP_EOL;
 $client->close();

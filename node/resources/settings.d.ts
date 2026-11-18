@@ -1,8 +1,7 @@
 import type { WithResponseInfo } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
 import type { RequestOptions } from '../declarations/types-61.js';
-import type { Settings, SettingsGetEffectiveParams, SettingsGetParams, SettingsResponse } from '../declarations/types-67.js';
-import type { SettingsUpdateParams } from '../declarations/types-68.js';
+import type { Settings, SettingsGetEffectiveParams, SettingsGetParams, SettingsResponse, SettingsUpdateParams } from '../declarations/types-67.js';
 import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
@@ -18,10 +17,9 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { SettingsGetEffectiveParams, Settings, SettingsResponse, SettingsGetParams } from '../declarations/types-67.js';
+export type { SettingsGetEffectiveParams, Settings, SettingsResponse, SettingsGetParams, SettingsUpdateParams } from '../declarations/types-67.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { RequestOptions } from '../declarations/types-61.js';
-export type { SettingsUpdateParams, StatementDescriptorStatus } from '../declarations/types-68.js';
 export type { ClientOptions, CheckoutSettings, CheckoutSettingsRequestInput } from '../declarations/types-7.js';
 export type {
     AuthMode,
@@ -30,7 +28,7 @@ export type {
     BrandingSettingsRequestInput,
     BuyerCapabilitiesRequestInput
 } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type {
     CheckoutRecoveryEmailSettings,
     CheckoutSavedPaymentDetailsSettings,
@@ -85,6 +83,7 @@ export type { Address, AddressRequestInput, AddressRequest } from '../declaratio
 export type { MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { PaymentLimitSettings, PaymentLimitSettingsPatchInput } from '../declarations/types-52.js';
 export type { PaymentSettings, PaymentSettingsPatchInput, PaymentSettingsPatch } from '../declarations/types-54.js';
+export type { StatementDescriptorStatus } from '../declarations/types-68.js';
 export type { PromotionSettings, PromotionSettingsRequestInput } from '../declarations/types-59.js';
 export type {
     ReceiptSettings,

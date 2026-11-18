@@ -1,5 +1,4 @@
 import type { InputValue, Model } from '../runtime.js';
-import type { ProcessExistingReturnRequestInput } from './types-56.js';
 import type {
     ProductVariantRequestInput,
     ProductVariantSelectedOptionRequestInput,
@@ -63,19 +62,19 @@ import type {
     ReopenReturnRequestInput,
     ReportInventoryTransferLossRequestInput,
     RepriceDiscountsRequestInput,
-    ResendLicenseKeyRequestInput
+    ResendLicenseKeyRequestInput,
+    ResendWebhookDeliveryRequestInput
 } from './types-61.js';
 import type {
-    ResendWebhookDeliveryRequestInput,
     ResetDemoSessionRequestInput,
     ResolveCustomerDeletionRequestInput,
     ResolveOrderInventoryExceptionRequestInput,
     ResolvePaymentLinkLineItemModifierInputCatalogInput,
     ResolvePaymentLinkLineItemModifierInputTextInput,
     ResolvePaymentLinkLineItemModifierRequestInput,
-    ResolvePaymentLinkLineItemModifiersInput
+    ResolvePaymentLinkLineItemModifiersInput,
+    ResolvePaymentLinkRequestInput
 } from './types-62.js';
-export declare function makeProcessExistingReturnRequest(value: InputValue<ProcessExistingReturnRequestInput>): Model<ProcessExistingReturnRequestInput>;
 export declare function makeProductVariantRequest(value: InputValue<ProductVariantRequestInput>): Model<ProductVariantRequestInput>;
 export declare function makeProductVariantSelectedOptionRequest(value: InputValue<ProductVariantSelectedOptionRequestInput>): Model<ProductVariantSelectedOptionRequestInput>;
 export declare function makePromotionAmountOffMethodRequest(value: InputValue<PromotionAmountOffMethodRequestInput>): Model<PromotionAmountOffMethodRequestInput>;
@@ -143,3 +142,4 @@ export declare function makeResolvePaymentLinkLineItemModifierInputCatalog(value
 export declare function makeResolvePaymentLinkLineItemModifierInputText(value: InputValue<ResolvePaymentLinkLineItemModifierInputTextInput>): Model<ResolvePaymentLinkLineItemModifierInputTextInput>;
 export declare function makeResolvePaymentLinkLineItemModifierRequest(value: InputValue<ResolvePaymentLinkLineItemModifierRequestInput>): Model<ResolvePaymentLinkLineItemModifierRequestInput>;
 export declare function makeResolvePaymentLinkLineItemModifiers(value: InputValue<ResolvePaymentLinkLineItemModifiersInput>): Model<ResolvePaymentLinkLineItemModifiersInput>;
+export declare function makeResolvePaymentLinkRequest(value: InputValue<ResolvePaymentLinkRequestInput>): Model<ResolvePaymentLinkRequestInput>;

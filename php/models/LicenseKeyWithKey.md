@@ -4,8 +4,6 @@
 
 A merchant license key with its full credential when available to the caller.
 
-A license key issued to a buyer, with its display suffix.
-
 Response model.
 
 | Field | Presence | Type | Description |
@@ -16,6 +14,7 @@ Response model.
 | `customer` | Optional | [ExpandedCustomerSummary](../models/ExpandedCustomerSummary.md#expandedcustomersummary) | Customer summary when requested with expand=customer. Null when the key has no customer. Omitted when no customer expansion is requested. A customer's summary fields, returned in place of a customer ID when the customer is expanded. `customer`: [field definitions](../models/LicenseKeyResponse.md#licensekeyresponsedatacustomer). |
 | `customer_id` | Required | string or null | The current customer of the owning order or subscription. Null when the order has no linked customer. |
 | `expires_at` | Required | string or null | When the key expires. Null when no expiry is set. Format: `date-time`. |
+| `key` | Optional | string | The full key. Omitted when another credential replays the request, the recovery window has ended, or a rotation is replayed after the resource version changed. |
 | `key_last4` | Required | string or null | Last four characters of the assigned key. Null when the key is awaiting assignment. |
 | `license_key_id` | Required | string | Unique license key ID with the lk_ prefix. |
 | `license_key_pool_id` | Required | string or null | The source pool ID. Null when the key is generated. |
@@ -34,7 +33,6 @@ Response model.
 | `updated_at` | Required | string | When the license key version last changed. Format: `date-time`. |
 | `variant_id` | Required | string | The product variant ID. |
 | `version` | Required | integer | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. Format: `uint64`. minimum: `1`. |
-| `key` | Optional | string | The full key. Omitted when another credential replays the request, the recovery window has ended, or a rotation is replayed after the resource version changed. |
 
 ### LicenseKeyWithKey.customer
 

@@ -1,1 +1,1 @@
-{"shared":"PromotionRuleGroup","dependencies":["MoneyValue","PromotionRule","PromotionRuleGroup","PromotionRuleValue","SharedCodec2485","SharedCodec2486","SharedCodec2487","SharedCodec2488","SharedCodec2489","SharedCodec2490","SharedCodec2491","SharedCodec2492","SharedCodec2493"]}
+{"shared":"PromotionRuleGroup","dependencies":["MoneyValue","PromotionRule","PromotionRuleGroup","PromotionRuleValue","SharedCodec2484","SharedCodec2485","SharedCodec2486","SharedCodec2487","SharedCodec2488","SharedCodec2489","SharedCodec2490","SharedCodec2491","SharedCodec2492"]}

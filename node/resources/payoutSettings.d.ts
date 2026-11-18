@@ -36,7 +36,7 @@ export type { _SdkWithoutIdempotency, WebhookEventSource } from '../declarations
 export type { RequestOptions } from '../declarations/types-61.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type {
     MoneyMovementBlockedReason,
     MoneyValue,
@@ -48,7 +48,7 @@ export type {
 } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession, ReadinessMerchantAccountSessionPreviousAttributes } from '../declarations/types-60.js';
 export type { ResourceReference, ResponseMeta, ResponseWarning, ResourceReferencePreviousAttributes } from '../declarations/types-62.js';
-export type { UpdatePayoutSettingsRequestInput } from '../declarations/types-77.js';
+export type { UpdatePayoutSettingsRequestInput } from '../declarations/types-76.js';
 export type { PartnerWebhookEnvelope } from '../declarations/types-50.js';
 export type { MerchantWebhookEnvelope } from '../declarations/types-43.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';

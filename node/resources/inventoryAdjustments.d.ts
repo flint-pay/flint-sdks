@@ -52,7 +52,7 @@ export type {
 } from '../declarations/types-10.js';
 export type { InventorySourceSystemRequestInput, InventorySourceSystem } from '../declarations/types-33.js';
 export type { AuthMode, BackorderPolicy } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type { InventoryLevel, InventoryItem } from '../declarations/types-32.js';
 export type { MetadataMap } from '../declarations/types-43.js';
 export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';

@@ -22,7 +22,7 @@ export type { _SdkWithoutIdempotency, WebhookPreviousAttributes } from '../decla
 export type { RequestOptions } from '../declarations/types-61.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials } from '../declarations/types-14.js';
 export interface OpenapiResource {
     /**
  * Returns the Flint public OpenAPI document for tooling, schema inspection, and client generation.

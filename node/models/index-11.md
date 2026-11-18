@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# CustomFieldAnswerCheckboxPreviousAttributes to DeliveryInventoryAssignmentRequest
+# CustomFieldAnswerDropdown to DeliveryInventoryAssignmentRequestInput
 
-- [CustomFieldAnswerCheckboxPreviousAttributes](CustomFieldAnswerCheckboxPreviousAttributes.md)
 - [CustomFieldAnswerDropdown](CustomFieldAnswerDropdown.md)
 - [CustomFieldAnswerDropdownPreviousAttributes](CustomFieldAnswerDropdownPreviousAttributes.md)
 - [CustomFieldAnswerPreviousAttributes](CustomFieldAnswerPreviousAttributes.md)
@@ -102,4 +101,5 @@
 - [DeliveryInputRequirement](DeliveryInputRequirement.md)
 - [DeliveryInputRequirementPreviousAttributes](DeliveryInputRequirementPreviousAttributes.md)
 - [DeliveryInventoryAssignmentRequest](DeliveryInventoryAssignmentRequest.md)
+- [DeliveryInventoryAssignmentRequestInput](DeliveryInventoryAssignmentRequestInput.md)
 

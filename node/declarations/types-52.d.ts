@@ -19,87 +19,9 @@ import type { PaymentLinkSalesSummary } from './types-53.js';
 import type { ThemeConfig } from './types-74.js';
 import type { PublicResolvedModifierGroup, QuantityPriceBreak } from './types-59.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
-import type { OrderLineItemTax, OrderLineItemTaxPreviousAttributes } from './types-46.js';
+import type { OrderLineItemTax, OrderLineItemTaxPreviousAttributes, OrderLineItemTaxRequestInput } from './types-46.js';
 import type { ProductPriceRange, ProductPriceRangePreviousAttributes } from './types-57.js';
-import type { OrderLineItemTaxRequestInput } from './types-47.js';
 import type { ResponseMeta } from './types-62.js';
-export type PaymentIntentsListActivitiesParams = {
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
-    "sort_direction"?: InputValue<"asc" | "desc">;
-    /**
-     * Filter by activity type. Values are trimmed and deduplicated in first-seen order; empty or
-     * unknown entries are rejected. Values within this filter are ORed; separate filters are
-     * ANDed. [] enum: "created", "updated", "status_changed", "failed", "canceled", "expired",
-     * "refund_created", "refund_status_changed", "dispute_status_changed", "receipt_sent",
-     * "receipt_queued", "receipt_delivery_failed". Value enum: "created", "updated",
-     * "status_changed", "failed", "canceled", "expired", "refund_created",
-     * "refund_status_changed", "dispute_status_changed", "receipt_sent", "receipt_queued",
-     * "receipt_delivery_failed". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
-     * "created", "updated", "status_changed", "failed", "canceled", "expired", "refund_created",
-     * "refund_status_changed", "dispute_status_changed", "receipt_sent", "receipt_queued",
-     * "receipt_delivery_failed". anyOf[1][] (Value): string. Value enum: "created", "updated",
-     * "status_changed", "failed", "canceled", "expired", "refund_created",
-     * "refund_status_changed", "dispute_status_changed", "receipt_sent", "receipt_queued",
-     * "receipt_delivery_failed". anyOf[2] (Value): string. Value enum: "created", "updated",
-     * "status_changed", "failed", "canceled", "expired", "refund_created",
-     * "refund_status_changed", "dispute_status_changed", "receipt_sent", "receipt_queued",
-     * "receipt_delivery_failed".
-     */
-    "activity_type"?: InputValue<("created"
-        | "updated"
-        | "status_changed"
-        | "failed"
-        | "canceled"
-        | "expired"
-        | "refund_created"
-        | "refund_status_changed"
-        | "dispute_status_changed"
-        | "receipt_sent"
-        | "receipt_queued"
-        | "receipt_delivery_failed")
-        | readonly ("created"
-        | "updated"
-        | "status_changed"
-        | "failed"
-        | "canceled"
-        | "expired"
-        | "refund_created"
-        | "refund_status_changed"
-        | "dispute_status_changed"
-        | "receipt_sent"
-        | "receipt_queued"
-        | "receipt_delivery_failed")[]>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
 export type PaymentIntentsListParams = {
     /**
      * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
@@ -6952,4 +6874,32 @@ export type PaymentLinkProductOptionValue = {
     "option_value_id": string;
     /** Product option value shown to the buyer, such as M or Blue. */
     "value": string;
+};
+/**
+ * Changes to a payment link's hosted checkout destinations. Omit a URL to leave it unchanged, or
+ * send null to clear it.
+ */
+export type PaymentLinkRedirectsPatchRequest = {
+    /**
+     * Where the buyer goes when they leave checkout without paying. The session stays open until
+     * it expires. Absolute HTTPS URL; test mode also accepts HTTP loopback URLs. Up to 2,048
+     * characters. Send null to clear it. Format: uri. minLength: 1. maxLength: 2048. Example:
+     * "https://example.com/receipt".
+     */
+    "cancel_url"?: string | null;
+    /**
+     * Where Flint sends a buyer who opens the session after it expires. Without it, the buyer sees
+     * Flint's expired-checkout page. Absolute HTTPS URL; test mode also accepts HTTP loopback
+     * URLs. Up to 2,048 characters. Send null to clear it. Format: uri. minLength: 1. maxLength:
+     * 2048. Example: "https://example.com/receipt".
+     */
+    "expired_url"?: string | null;
+    /**
+     * Where the buyer goes after paying. Flint adds checkout_session_id and order_id query
+     * parameters, replacing any with those names. The redirect doesn't prove payment: confirm with
+     * the order.paid webhook or by reading the session. Absolute HTTPS URL; test mode also accepts
+     * HTTP loopback URLs. Up to 2,048 characters. Send null to clear it. Format: uri. minLength:
+     * 1. maxLength: 2048. Example: "https://example.com/receipt".
+     */
+    "success_url"?: string | null;
 };

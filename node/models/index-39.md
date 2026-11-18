@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# TicketVoidedMerchantEvent to UpdatePaymentIntentRequest
+# TicketWithAdmissionCode to UpdatePaymentIntentRequestInput
 
-- [TicketVoidedMerchantEvent](TicketVoidedMerchantEvent.md)
 - [TicketWithAdmissionCode](TicketWithAdmissionCode.md)
 - [TicketWithAdmissionCodeResponse](TicketWithAdmissionCodeResponse.md)
 - [Tip](Tip.md)
@@ -102,4 +101,5 @@
 - [UpdatePartnerAppRequest](UpdatePartnerAppRequest.md)
 - [UpdatePartnerAppRequestInput](UpdatePartnerAppRequestInput.md)
 - [UpdatePaymentIntentRequest](UpdatePaymentIntentRequest.md)
+- [UpdatePaymentIntentRequestInput](UpdatePaymentIntentRequestInput.md)
 

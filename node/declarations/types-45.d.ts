@@ -1,7 +1,7 @@
-import type { InputValue } from '../runtime.js';
 import type { ResponseMeta } from './types-62.js';
 import type { Merchant } from './types-42.js';
 import type { User } from './types-78.js';
+import type { InputValue } from '../runtime.js';
 import type { WebhookPreviousAttributes, WebhookOrder, WebhookOrderEdit } from './types-79.js';
 import type { BuyerAction } from './types-1.js';
 import type { CheckoutBuyerContact, CheckoutBuyerContactPreviousAttributes } from './types-6.js';
@@ -11,11 +11,12 @@ import type {
     ExpandedCustomerSummary,
     ExpandedPaymentIntentSummary,
     ExpandedSubscriptionPlanSummary,
+    ExpandedSubscriptionSummary,
     ExpandedCustomerSummaryPreviousAttributes,
     ExpandedPaymentIntentSummaryPreviousAttributes,
     ExpandedSubscriptionPlanSummaryPreviousAttributes
 } from './types-26.js';
-import type { ExpandedSubscriptionSummary, Fulfillment, ExpandedSubscriptionSummaryPreviousAttributes } from './types-27.js';
+import type { Fulfillment, ExpandedSubscriptionSummaryPreviousAttributes } from './types-27.js';
 import type { InventoryRoutingSource, InventoryRoutingSourcePreviousAttributes } from './types-33.js';
 import type { MetadataMap, MetadataRequestInput, MerchantWebhookEnvelope } from './types-43.js';
 import type {
@@ -61,7 +62,6 @@ import type { DeliverySelectionRecipientRequest, DeliverySelectionRecipientReque
 import type { SubscriptionServiceLocationRequest } from './types-72.js';
 import type { SubscriptionDeliveryDestinationRequestInput } from './types-69.js';
 import type { DeliveryRecipientResource, DeliveryRecipientResourcePreviousAttributes } from './types-23.js';
-export type OnboardingVerifyEmailParams = (InputValue<OnboardingVerifyEmailRequestInput>);
 /** The request body for: Verify onboarding email. */
 export type OnboardingVerifyEmailRequest = {
     /**
@@ -7961,4 +7961,30 @@ export type OrderEditCompletedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
     "event_source"?: "merchant" | (string & {});
     /** Value enum: "order_edit.completed". */
     "event_type"?: "order_edit.completed";
+});
+export type OrderEditCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookOrderEdit;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "order_edit.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookOrderEdit;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "order_edit.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "order_edit.created";
 });

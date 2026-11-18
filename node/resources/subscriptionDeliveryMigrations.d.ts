@@ -35,20 +35,23 @@ export type {
     SubscriptionDeliveryMigrationsGetParams,
     SubscriptionDeliveryMigrationsListFailuresParams,
     SubscriptionDeliveryMigrationsListParams,
-    SubscriptionDeliveryMigrationListResponse,
-    SubscriptionDeliveryMigrationFailureReasonCount
+    SubscriptionDeliveryMigrationListResponse
 } from '../declarations/types-70.js';
 export type { RequestOptions } from '../declarations/types-61.js';
 export type {
     SubscriptionDeliveryMigration,
     SubscriptionDeliveryMigrationFailureListResponse,
-    SubscriptionDeliveryMigrationFailure
+    SubscriptionDeliveryMigrationFailure,
+    SubscriptionDeliveryMigrationFailureReasonCount
 } from '../declarations/types-69.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type { CreateSubscriptionDeliveryMigrationRequestInput, CreateSubscriptionDeliveryMigrationRequest } from '../declarations/types-14.js';
+export type {
+    CreateSubscriptionDeliveryMigrationRequestInput,
+    Credentials,
+    CreateSubscriptionDeliveryMigrationRequest
+} from '../declarations/types-14.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
 export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';

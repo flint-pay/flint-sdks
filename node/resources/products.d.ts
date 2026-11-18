@@ -81,7 +81,7 @@ export type {
     CreateProductRequestOptionedInput
 } from '../declarations/types-12.js';
 export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-44.js';
-export type { GiftCardProductConfigurationRequestInput } from '../declarations/types-30.js';
+export type { GiftCardProductConfigurationRequestInput, GiftCardProductConfiguration } from '../declarations/types-29.js';
 export type {
     GiftCardCustomAmountBoundsRequestInput,
     GeneratedLicenseKeyConfigurationRequestInput,
@@ -105,12 +105,11 @@ export type { LicenseKeyConfigurationRequestInput, LicenseKeyConfiguration } fro
 export type { QuantityPriceBreakRequestInput, QuantityPriceBreak } from '../declarations/types-59.js';
 export type { DimensionsRequestInput, Dimensions } from '../declarations/types-25.js';
 export type { AuthMode, BundlesGetParams } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type { CategoryReference } from '../declarations/types-5.js';
 export type { TextModifierConfig } from '../declarations/types-74.js';
 export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
-export type { GiftCardProductConfiguration } from '../declarations/types-29.js';
 export type { InventoryRoutingSource } from '../declarations/types-33.js';
 export type { SelectedProductOption } from '../declarations/types-67.js';
 export type {

@@ -22,7 +22,6 @@ export type {
     RiskPreview,
     RiskPreviewResponse,
     RiskPredicateNodeRequestInput,
-    RiskPredicateNodeNotRequestInput,
     RiskRuleAnalysis,
     RiskRuleIssue
 } from '../declarations/types-67.js';
@@ -33,6 +32,7 @@ export type { CreateRiskPreviewRequestInput, CreateRiskPreviewRequestInlineInput
 export type {
     RiskPredicateNodeAllRequestInput,
     RiskPredicateNodeAnyRequestInput,
+    RiskPredicateNodeNotRequestInput,
     RiskPredicateNodeComparisonRequestInput,
     RiskPredicateNodeMoneyComparisonRequestInput,
     RiskPredicateNodeInRequestInput,
@@ -40,16 +40,12 @@ export type {
     RiskPredicateNodeIsMissingRequestInput
 } from '../declarations/types-66.js';
 export type { MoneyValueInput, NextAction, MoneyValue } from '../declarations/types-44.js';
-export type { CreateRiskPreviewRequestStoredRuleInput } from '../declarations/types-14.js';
+export type { CreateRiskPreviewRequestStoredRuleInput, Credentials } from '../declarations/types-14.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
 export type { ResponseWarning, ResourceReference, ResponseMeta } from '../declarations/types-62.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
-export {
-    makeCreateRiskPreviewRequest,
-    makeCreateRiskPreviewRequestInline,
-    makeCreateRiskPreviewRequestStoredRule
-} from '../declarations/types-84.js';
+export { makeCreateRiskPreviewRequest } from '../declarations/types-83.js';
+export { makeCreateRiskPreviewRequestInline, makeCreateRiskPreviewRequestStoredRule } from '../declarations/types-84.js';
 export { makeMoneyValue } from '../declarations/types-88.js';
 export {
     makeRiskPredicateNodeAllRequest,

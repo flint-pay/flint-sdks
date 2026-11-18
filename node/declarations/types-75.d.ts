@@ -1,8 +1,8 @@
 import type { ExpandedOrderSummary, ExpandedOrderSummaryPreviousAttributes } from './types-26.js';
-import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { MerchantWebhookEnvelope, MetadataMap, MetadataPatchRequest, MetadataPatchRequestInput } from './types-43.js';
 import type { ResponseMeta } from './types-62.js';
 import type { Ticket, TaxIdentityPatch, TaxIdentityPatchInput } from './types-74.js';
+import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { InputValue } from '../runtime.js';
 import type { CheckInTicketRequestInput, CheckoutBuyerContactRequest, CheckoutBuyerContactRequestInput } from './types-6.js';
 import type { LookupTicketRequestInput } from './types-40.js';
@@ -19,203 +19,13 @@ import type {
     DeliveryMethodConfigurationPatchRequest,
     DeliveryMethodConfigurationPatchRequestInput
 } from './types-19.js';
-import type { DeliveryProfileConfigurationRequest } from './types-21.js';
+import type { DeliveryProfileConfigurationRequest, DeliveryProfileConfigurationRequestInput } from './types-21.js';
 import type {
-    DeliveryProfileConfigurationRequestInput,
     DeliveryRateCallbackConfigurationPatchRequest,
     DeliveryRateCallbackConfigurationPatchRequestInput
 } from './types-22.js';
 import type { WebhookSigningMethod, WebhookSigningMethodInput } from './types-79.js';
-import type { DeliveryZoneConfigurationRequest } from './types-24.js';
-/**
- * The `ticket.created` webhook payload for the `installed_merchants` event source. Fields shared
- * by partner webhook payloads.
- */
-export type TicketCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.admission_code (Optional): string. The ticket's 16-character
-     * Crockford base32 admission code, the value its QR code holds. A bearer secret: only the paid
-     * checkout session's own paying credential receives it, on its own order's tickets that aren't
-     * voided. A checkout credential from a launch URL a merchant reads or requests after payment
-     * never does. Returned only to the checkout credential; never in webhook payloads. minLength:
-     * 16. object.admission_code_last4 (Required): string. Last four characters of the current
-     * admission code. object.attendee_name (Required): string or null. Optional attendee name.
-     * Null when not supplied. minLength: 1. maxLength: 200. object.check_in_method (Required):
-     * string or null. How the ticket was admitted. Null when the ticket is not checked in. Value
-     * enum: "admission_code", "manual". object.check_in_method.anyOf[1] (Value): string. Value
-     * enum: "admission_code", "manual". object.check_in_method.anyOf[2] (Value): null.
-     * object.checked_in_at (Required): string or null. When the ticket was admitted. Null when the
-     * ticket is not checked in. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.created_at (Required): string. When the ticket was issued. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.order (Optional): {@link ExpandedOrderSummary}.
-     * Order summary, present only with expand=order. Requires commerce.orders.read. An order's
-     * summary fields, including status, payment and refund status, and pricing and settlement
-     * amounts, returned when the order is expanded. object.order_id (Required): string. The order
-     * that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     * object.order_line_item_id (Required): string. The purchased ticket tier. Example:
-     * "li_01KEZF7C008YPRCK7VDKTGWR31". object.payment_link_id (Required): string. The event
-     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.status (Required): string.
-     * The admission lifecycle. Value enum: "issued", "checked_in", "voided".
-     * object.supported_actions (Required): Array of string. Actions currently offered for this
-     * ticket. [] enum: "check_in", "undo_check_in", "void". object.supported_actions[] (Value):
-     * string. Value enum: "check_in", "undo_check_in", "void". object.ticket_id (Required):
-     * string. Unique ticket identity with the tkt_ prefix. Example:
-     * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". object.ticket_number (Required): string. The event prefix
-     * and sequence, such as GAL001. Numbers are never reused and do not authorize entry.
-     * object.updated_at (Required): string. When the ticket last changed. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Persisted version of
-     * this resource's owned state. Expanded resources and external observations can change
-     * independently. Format: uint64. minimum: 1. object.voided_at (Required): string or null. When
-     * the ticket was permanently voided. Null when the ticket has not been voided. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * admission_code (Optional): string. The ticket's 16-character Crockford base32 admission
-         * code, the value its QR code holds. A bearer secret: only the paid checkout session's own
-         * paying credential receives it, on its own order's tickets that aren't voided. A checkout
-         * credential from a launch URL a merchant reads or requests after payment never does.
-         * Returned only to the checkout credential; never in webhook payloads. minLength: 16.
-         * admission_code_last4 (Required): string. Last four characters of the current admission
-         * code. attendee_name (Required): string or null. Optional attendee name. Null when not
-         * supplied. minLength: 1. maxLength: 200. check_in_method (Required): string or null. How
-         * the ticket was admitted. Null when the ticket is not checked in. Value enum:
-         * "admission_code", "manual". check_in_method.anyOf[1] (Value): string. Value enum:
-         * "admission_code", "manual". check_in_method.anyOf[2] (Value): null. checked_in_at
-         * (Required): string or null. When the ticket was admitted. Null when the ticket is not
-         * checked in. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at (Required):
-         * string. When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * order (Optional): {@link ExpandedOrderSummary}. Order summary, present only with
-         * expand=order. Requires commerce.orders.read. An order's summary fields, including
-         * status, payment and refund status, and pricing and settlement amounts, returned when the
-         * order is expanded. order_id (Required): string. The order that purchased this ticket.
-         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_line_item_id (Required): string. The
-         * purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". payment_link_id
-         * (Required): string. The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
-         * status (Required): string. The admission lifecycle. Value enum: "issued", "checked_in",
-         * "voided". supported_actions (Required): Array of string. Actions currently offered for
-         * this ticket. [] enum: "check_in", "undo_check_in", "void". supported_actions[] (Value):
-         * string. Value enum: "check_in", "undo_check_in", "void". ticket_id (Required): string.
-         * Unique ticket identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
-         * ticket_number (Required): string. The event prefix and sequence, such as GAL001. Numbers
-         * are never reused and do not authorize entry. updated_at (Required): string. When the
-         * ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
-         * (Required): integer. Persisted version of this resource's owned state. Expanded
-         * resources and external observations can change independently. Format: uint64. minimum:
-         * 1. voided_at (Required): string or null. When the ticket was permanently voided. Null
-         * when the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         */
-        "object": {
-            /**
-             * The ticket's 16-character Crockford base32 admission code, the value its QR code
-             * holds. A bearer secret: only the paid checkout session's own paying credential
-             * receives it, on its own order's tickets that aren't voided. A checkout credential
-             * from a launch URL a merchant reads or requests after payment never does. Returned
-             * only to the checkout credential; never in webhook payloads. minLength: 16.
-             */
-            "admission_code"?: string;
-            /** Last four characters of the current admission code. */
-            "admission_code_last4": string;
-            /** Optional attendee name. Null when not supplied. minLength: 1. maxLength: 200. */
-            "attendee_name": string | null;
-            /**
-             * How the ticket was admitted. Null when the ticket is not checked in. Value enum:
-             * "admission_code", "manual". anyOf[1] (Value): string. Value enum: "admission_code",
-             * "manual". anyOf[2] (Value): null.
-             */
-            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
-            /**
-             * When the ticket was admitted. Null when the ticket is not checked in. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "checked_in_at": string | null;
-            /** When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * Order summary, present only with expand=order. Requires commerce.orders.read. An
-             * order's summary fields, including status, payment and refund status, and pricing and
-             * settlement amounts, returned when the order is expanded.
-             */
-            "order"?: ExpandedOrderSummary;
-            /** The order that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
-            "order_id": string;
-            /** The purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". */
-            "order_line_item_id": string;
-            /** The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". */
-            "payment_link_id": string;
-            /** The admission lifecycle. Value enum: "issued", "checked_in", "voided". */
-            "status": "issued" | "checked_in" | "voided" | (string & {});
-            /**
-             * Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in",
-             * "void". [] (Value): string. Value enum: "check_in", "undo_check_in", "void".
-             */
-            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
-            /**
-             * Unique ticket identity with the tkt_ prefix. Example:
-             * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
-             */
-            "ticket_id": string;
-            /**
-             * The event prefix and sequence, such as GAL001. Numbers are never reused and do not
-             * authorize entry.
-             */
-            "ticket_number": string;
-            /** When the ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Persisted version of this resource's owned state. Expanded resources and external
-             * observations can change independently. Format: uint64. minimum: 1.
-             */
-            "version": number;
-            /**
-             * When the ticket was permanently voided. Null when the ticket has not been voided.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "voided_at": string | null;
-        };
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "ticket.created". */
-    "event_type"?: "ticket.created";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
+import type { DeliveryZoneConfigurationRequest, DeliveryZoneConfigurationRequestInput } from './types-24.js';
 /**
  * The `ticket.created` webhook payload for the `merchant` event source. Fields shared by merchant
  * webhook payloads.
@@ -6127,3 +5937,89 @@ export type UpdateDeliveryZoneRequest = ({
     "metadata": ((MetadataPatchRequest) | (null));
 })
     | (Record<string, unknown>));
+/** The request body for: Update delivery zone. minProperties: 1. */
+export type UpdateDeliveryZoneRequestInput = ({
+    /**
+     * Replaced as a whole: send every field you want to keep. Send the whole geography; leave
+     * configuration out to keep it. Null and an empty object are invalid. Publishes a new
+     * immutable revision, even when the values are unchanged, and requires expected_version. A
+     * reusable geographic predicate containing only country, state, postal_code, and radius
+     * conditions.
+     */
+    "configuration"?: DeliveryZoneConfigurationRequestInput;
+    /**
+     * Current resource version. Required when the request carries a revision field: configuration.
+     * A revision field publishes a new immutable revision even when its value is unchanged.
+     * Optional for other fields, which advance version and keep the current revision. Format:
+     * uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string | null;
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a caller-owned metadata
+     * map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes
+     * the key, and an empty object makes no change; send null for the whole field to clear all
+     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
+     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
+     * (Value): null.
+     */
+    "metadata"?: ((MetadataPatchRequestInput) | (null));
+    /**
+     * Merchant-facing name. Surrounding whitespace is trimmed before length validation. A supplied
+     * value cannot be blank; use null where clearing is supported. minLength: 1.
+     */
+    "name"?: string;
+})
+    & (({
+    /**
+     * Merchant-facing name. Surrounding whitespace is trimmed before length validation. A supplied
+     * value cannot be blank; use null where clearing is supported. minLength: 1.
+     */
+    "name": string;
+})
+    | ({
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string | null;
+})
+    | ({
+    /**
+     * Replaced as a whole: send every field you want to keep. Send the whole geography; leave
+     * configuration out to keep it. Null and an empty object are invalid. Publishes a new
+     * immutable revision, even when the values are unchanged, and requires expected_version. A
+     * reusable geographic predicate containing only country, state, postal_code, and radius
+     * conditions.
+     */
+    "configuration": DeliveryZoneConfigurationRequestInput;
+})
+    | ({
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a caller-owned metadata
+     * map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes
+     * the key, and an empty object makes no change; send null for the whole field to clear all
+     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
+     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
+     * (Value): null.
+     */
+    "metadata": ((MetadataPatchRequestInput) | (null));
+}));

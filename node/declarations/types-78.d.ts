@@ -1,7 +1,11 @@
-import type { MoneyValueInput, MoneyValue } from './types-44.js';
-import type { OrderLineItemModifierRequestModelInput, OrderLineItemModifierRequest, OrderLineItemTax } from './types-46.js';
-import type { OrderLineItemTaxRequestInput, OrderPaymentAttempt } from './types-47.js';
-import type { UpdateSubscriptionPlanLineItemInputBundle } from './types-77.js';
+import type { MoneyValue, MoneyValueInput } from './types-44.js';
+import type {
+    OrderLineItemModifierRequest,
+    OrderLineItemTax,
+    OrderLineItemModifierRequestModelInput,
+    OrderLineItemTaxRequestInput
+} from './types-46.js';
+import type { UpdateSubscriptionPlanLineItemInputBundle, UpdateSubscriptionPlanLineItemInputBundleInput } from './types-77.js';
 import type { ImageRequest, ImageRequestInput, ImageAttachment } from './types-31.js';
 import type { InventoryRoutingSourceRequest, InventoryRoutingSourceRequestInput } from './types-33.js';
 import type {
@@ -38,7 +42,7 @@ import type {
 } from './types-79.js';
 import type { KnownWebhookEvent, LegalSettings } from './types-38.js';
 import type { GetReturnReceiptResponse, GetReturnResponse } from './types-28.js';
-import type { ResponseMeta, ResendWebhookDeliveryRequestInput, ResourceReference } from './types-62.js';
+import type { ResponseMeta, ResourceReference } from './types-62.js';
 import type { Package } from './types-48.js';
 import type { Shipment, SetupCollection } from './types-68.js';
 import type { BundleComponent } from './types-1.js';
@@ -66,6 +70,7 @@ import type {
     ExpandedPaymentLinkSummary,
     DisputesAcceptParams
 } from './types-26.js';
+import type { OrderPaymentAttempt } from './types-47.js';
 import type { PaymentCollection } from './types-51.js';
 import type { InputValue } from '../runtime.js';
 import type {
@@ -74,154 +79,8 @@ import type {
     CreateWebhookTestEventRequestInput
 } from './types-14.js';
 import type { CustomersListAddressesParams } from './types-17.js';
+import type { ResendWebhookDeliveryRequestInput } from './types-61.js';
 import type { DeliveryProfileConfiguration } from './types-21.js';
-/** The `bundle` variant of `UpdateSubscriptionPlanLineItemInput`. */
-export type UpdateSubscriptionPlanLineItemInputBundleInput = ({
-    /**
-     * Whether buyers may adjust this line quantity. Defaults to false. At most one line per plan
-     * may allow adjustment. Default: false.
-     */
-    "allow_quantity_adjustment"?: boolean;
-    /**
-     * ID of the catalog bundle to sell on this line. Send it with `type` bundle and without
-     * `variant_id`, `name`, `unit_price_money`, `description`, or `tax`: Flint takes those from
-     * the bundle. Changing it on a retained line needs `modifiers`. minLength: 1. Example:
-     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
-     */
-    "bundle_id": string;
-    /**
-     * Description of the line. Optional on a custom line, and not allowed on a variant or bundle
-     * line, which take the catalog description. minLength: 1.
-     */
-    "description"?: string;
-    /**
-     * Maximum buyer quantity. Defaults to 9999. Merchants may set any line quantity from 1 to
-     * 9999. Whole-number quantity; fractional quantities are not supported. Format: int32.
-     * minimum: 1. maximum: 9999. Default: 9999.
-     */
-    "max_quantity"?: number;
-    /**
-     * Minimum buyer quantity. Defaults to 1. The bounds must enclose the plan line quantity.
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
-     * maximum: 9999. Default: 1.
-     */
-    "min_quantity"?: number;
-    /**
-     * Modifiers for a variant or bundle line. On a new line, omit to apply the catalog item's
-     * default modifiers. On a retained line with the same variant or bundle, omit to keep its
-     * recorded choices. Changing `variant_id` or `bundle_id` requires `modifiers`. Not allowed on
-     * a custom line, and `null` is rejected. [] (Value): {@link
-     * OrderLineItemModifierRequestModelInput}. A modifier selection you supply on a line item: a
-     * catalog modifier by ID or a text modifier, with a quantity. [].metadata (Optional): {@link
-     * MetadataRequestInput}. Caller-owned metadata for this selection, returned on the order line
-     * item's modifier. Values can't be empty strings. Keys starting with flint_ are reserved for
-     * Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50. [].modifier_id (Optional):
-     * string. ID of the existing modifier. Treated as an opaque resource reference; accepted
-     * spellings follow resource ID validation. Its resolved price and the resulting line subtotal
-     * must satisfy the order money ceiling. The amount and every computed order amount must not
-     * exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above
-     * this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field.
-     * Lower payment option limits can apply. minLength: 1. Example:
-     * "mod_01KEZF7C00SAWDZBQJX5H0XW1S". [].order_line_item_modifier_id (Optional): string.
-     * Existing selection ID to retain during replacement. minLength: 1. pattern:
-     * ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Example: "olim_01KEZF7C00YP0WSZGRAD25EB1Z". [].quantity
-     * (Optional): integer. Whole-number quantity; fractional quantities are not supported. Format:
-     * int64. [].text (Optional): {@link TextModifierRequestInput}. The text to use. Send it with a
-     * `text` modifier. Text a buyer entered for a text modifier group on an order line item.
-     * [].type (Required): string. Selects the type branch. Value enum: "catalog", "text".
-     * [].oneOf[1] (Value): {@link OrderLineItemModifierInputCatalogRequestInput}. The `catalog`
-     * variant of `OrderLineItemModifierInput`. [].oneOf[2] (Value): {@link
-     * OrderLineItemModifierInputTextRequestInput}. The `text` variant of
-     * `OrderLineItemModifierInput`.
-     */
-    "modifiers"?: Array<(Exclude<OrderLineItemModifierRequestModelInput & object, readonly unknown[]>)
-        & (({
-        "order_line_item_modifier_id"?: never;
-    }))>;
-    /**
-     * Name of the line. Required for a custom line, and not allowed on a variant or bundle line,
-     * which take the catalog name. Surrounding whitespace is trimmed before length validation. A
-     * supplied value cannot be blank; use null where clearing is supported. minLength: 1.
-     */
-    "name"?: string;
-    /**
-     * Whole-number quantity; fractional quantities are not supported. Omission uses 1. Format:
-     * int32. minimum: 1. maximum: 9999. Default: 1.
-     */
-    "quantity"?: number;
-    /**
-     * ID of an existing item on this plan to retain. Omit for a new item. Duplicate IDs and IDs
-     * from other plans are rejected. minLength: 1. Example: "spli_01KEZF7C00H9FGC2KBRF82H87N".
-     */
-    "subscription_plan_line_item_id"?: string;
-    /**
-     * Variants a subscriber can swap this line to. Only for a variant line. At most 25, with no
-     * repeats, none equal to the line's own variant, and all from the same product. On a retained
-     * line with the same variant, omit to keep its current choices. maxItems: 25. uniqueItems:
-     * true. [] (Value): string. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "swap_variant_ids"?: Array<string>;
-    /**
-     * Whether the line is taxable and its tax category. A custom line needs `taxable` when it
-     * sends `tax`. Not allowed on a variant or bundle line, which take the catalog tax settings. A
-     * line item's tax category and whether it is taxable.
-     */
-    "tax"?: OrderLineItemTaxRequestInput;
-    /**
-     * The kind of line to keep or add. It must match the other fields: `variant` needs
-     * `variant_id`, `bundle` needs `bundle_id`, and `custom` needs `name` and `unit_price_money`.
-     * Value enum: "bundle".
-     */
-    "type": "bundle";
-    /**
-     * Price of one unit, in the plan's currency. Required for a custom line, with an amount above
-     * zero, and not allowed on a variant or bundle line, which take the catalog price. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "unit_price_money"?: MoneyValueInput;
-    /**
-     * ID of the catalog variant to sell on this line. Send it with `type` variant and without
-     * `bundle_id`, `name`, `unit_price_money`, `description`, or `tax`: Flint takes those from the
-     * variant. Changing it on a retained line needs `modifiers`. minLength: 1. Example:
-     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "variant_id"?: string;
-})
-    & (({
-    /**
-     * The kind of line to keep or add. It must match the other fields: `variant` needs
-     * `variant_id`, `bundle` needs `bundle_id`, and `custom` needs `name` and `unit_price_money`.
-     * Value enum: "bundle".
-     */
-    "type": ("bundle") & ("bundle");
-    /**
-     * ID of the catalog bundle to sell on this line. Send it with `type` bundle and without
-     * `variant_id`, `name`, `unit_price_money`, `description`, or `tax`: Flint takes those from
-     * the bundle. Changing it on a retained line needs `modifiers`. minLength: 1. Example:
-     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
-     */
-    "bundle_id": string;
-})
-    & (({
-    "variant_id"?: never;
-})
-    & ({
-    "name"?: never;
-})
-    & ({
-    "unit_price_money"?: never;
-})
-    & ({
-    "description"?: never;
-})
-    & ({
-    "tax"?: never;
-})));
 /** The `custom` variant of `UpdateSubscriptionPlanLineItemInput`. */
 export type UpdateSubscriptionPlanLineItemInputCustom = ({
     /**
@@ -3794,3 +3653,72 @@ export type WebhookEndpointsDeleteParams = {
     "expected_version"?: InputValue<number>;
 };
 export type WebhookEndpointsGetParams = DisputesAcceptParams;
+export type WebhookEndpointsListParams = {
+    /**
+     * Filter by the exact ID of the API key, user, partner app, or workload identity that created
+     * the endpoint. Unknown IDs return an empty list. pattern:
+     * ^(key|usr|papp|wid)_[0-7][0-9A-HJKMNP-TV-Z]{25}$.
+     */
+    "created_by"?: InputValue<string>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Filter by status. Omitted, the list leaves out deleted rows; name deleted to include them.
+     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
+     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active",
+     * "inactive", "deleted". Value enum: "active", "inactive", "deleted". anyOf[1] (Value): Array
+     * of string. minItems: 1. [] enum: "active", "inactive", "deleted". anyOf[1][] (Value):
+     * string. Value enum: "active", "inactive", "deleted". anyOf[2] (Value): string. Value enum:
+     * "active", "inactive", "deleted".
+     */
+    "status"?: InputValue<("active" | "inactive" | "deleted") | readonly ("active" | "inactive" | "deleted")[]>;
+    /**
+     * Filter by webhook endpoint event sources. Values are trimmed and deduplicated in first-seen
+     * order; empty or unknown entries are rejected. Values within this filter are ORed; separate
+     * filters are ANDed. [] enum: "merchant", "partner_app", "installed_merchants". Value enum:
+     * "merchant", "partner_app", "installed_merchants". anyOf[1] (Value): Array of string.
+     * minItems: 1. [] enum: "merchant", "partner_app", "installed_merchants". anyOf[1][] (Value):
+     * string. Value enum: "merchant", "partner_app", "installed_merchants". anyOf[2] (Value):
+     * string. Value enum: "merchant", "partner_app", "installed_merchants".
+     */
+    "event_sources"?: InputValue<("merchant" | "partner_app" | "installed_merchants")
+        | readonly ("merchant" | "partner_app" | "installed_merchants")[]>;
+    /**
+     * Filter by partner app ID for partner-source webhook endpoints. pattern:
+     * ^papp_[0-9A-HJKMNP-TV-Z]{26}$. Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
+     */
+    "partner_app_id"?: InputValue<string>;
+    /**
+     * Exact-match filter on partner_app_install_id. pattern: ^pinst_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+     */
+    "partner_app_install_id"?: InputValue<string>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};

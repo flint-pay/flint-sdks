@@ -1,5 +1,5 @@
+import type { BuyerRefundPreviousAttributes } from './types-3.js';
 import type {
-    CheckoutSession,
     CheckoutBuyerContactPreviousAttributes,
     CheckoutBuyerFieldsPreviousAttributes,
     CheckoutCustomTextConfigPreviousAttributes,
@@ -11,13 +11,12 @@ import type {
     CheckoutProblemResourcePreviousAttributes,
     CheckoutPromotionConfigPreviousAttributes,
     CheckoutRedirectsPreviousAttributes,
+    CheckoutSession,
     CheckoutRecoveryEmailSettings,
     CheckoutSavedPaymentDetailsSettings,
     CheckoutRecoveryEmailSettingsRequestInput,
     CheckoutSavedPaymentDetailsSettingsRequestInput
 } from './types-6.js';
-import type { ResponseMeta } from './types-62.js';
-import type { BuyerRefundPreviousAttributes } from './types-3.js';
 import type { CustomFieldAnswerPreviousAttributes } from './types-16.js';
 import type {
     ExpandedCustomerSummaryPreviousAttributes,
@@ -32,6 +31,7 @@ import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { SetupCollectionPreviousAttributes } from './types-68.js';
 import type { WebhookCheckoutSession } from './types-78.js';
 import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
+import type { ResponseMeta } from './types-62.js';
 import type { Address, AddressPreviousAttributes, AcceptFulfillmentRequestInput } from './types-0.js';
 import type { InputValue, ClientOptions as RuntimeClientOptions, CredentialProvider } from '../runtime.js';
 import type { CreateCheckoutSessionCustomerVerificationRequestInput, CreateCheckoutSessionRequestInput } from './types-8.js';
@@ -46,33 +46,10 @@ import type {
 } from './types-70.js';
 import type { SubscriptionPlanChangeLineItemRequest, SubscriptionPlanChangeLineItemRequestInput } from './types-71.js';
 import type { AuthMode } from './types-1.js';
-import type { Credentials } from './types-15.js';
+import type { Credentials } from './types-14.js';
 import type { Invoice } from './types-34.js';
 import type { InvoicePaymentAttempt } from './types-36.js';
 import type { GetReturnResponse } from './types-28.js';
-/** A page of `CheckoutSession` objects. */
-export type CheckoutSessionListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * CheckoutSession}. A session in which a buyer completes an order's payment.
-     */
-    "data": Array<CheckoutSession>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
 export type CheckoutSessionPaidEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
@@ -9527,3 +9504,8 @@ export type ConfirmCheckoutSessionCustomerVerificationRequest = {
 };
 /** The code the buyer typed. */
 export type ConfirmCheckoutSessionCustomerVerificationRequestInput = ConfirmCheckoutSessionCustomerVerificationRequest;
+/** The request body for: Confirm a customer email verification. */
+export type ConfirmCustomerVerificationRequestInput = {
+    /** The six-digit code Flint sent to the customer's email. minLength: 1. pattern: ^[0-9]{6}$. */
+    "code": string;
+};

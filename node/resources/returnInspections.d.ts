@@ -45,7 +45,7 @@ export type { ListReturnInspectionsResponse } from '../declarations/types-40.js'
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { ReturnSourceSystemRequestInput, ReturnSourceSystem } from '../declarations/types-65.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type { ReturnDisposition, ReturnActor, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { MetadataMap } from '../declarations/types-43.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';

@@ -2,6 +2,7 @@ import type {
     InvoicePaymentTermCalculationDayOfMonthPreviousAttributes,
     InvoicePaymentTermCalculationDayOfNextMonthPreviousAttributes,
     InvoicePaymentTermCalculationDayOfMonthRequestInput,
+    InvoicePaymentTermCalculationDayOfNextMonthRequestInput,
     InvoicePaymentTerm,
     InvoicePaymentTermCalculation,
     InvoicePaymentDuePreviousAttributes
@@ -14,55 +15,22 @@ import type {
     ExpandedCustomerSummaryPreviousAttributes,
     ExpandedOrderSummaryPreviousAttributes
 } from './types-26.js';
-import type {
-    InvoiceLateFeePolicy,
-    InvoiceLateFeePolicyPreviousAttributes,
-    InvoiceCollectionPreviousAttributes,
-    InvoiceLateFeePreviousAttributes
-} from './types-35.js';
+import type { InvoiceLateFeePolicy, InvoiceLateFeePolicyPreviousAttributes, InvoiceLateFeePreviousAttributes } from './types-35.js';
 import type { UpdateInvoicePaymentTermRequestInput } from './types-76.js';
 import type { AddressPreviousAttributes } from './types-0.js';
-import type { InvoiceSettlementAmountsPreviousAttributes, InvoiceSnapshotPreviousAttributes } from './types-38.js';
+import type { InvoiceCollectionPreviousAttributes, Invoice } from './types-34.js';
+import type {
+    InvoiceSettlementAmountsPreviousAttributes,
+    InvoiceSnapshotPreviousAttributes,
+    InvoiceScheduleEntryWriteBalance,
+    InvoiceScheduleEntryWriteDeposit,
+    InvoiceScheduleEntryWriteInstallment
+} from './types-38.js';
 import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { PricingAmountsPreviousAttributes } from './types-56.js';
 import type { WebhookInvoice } from './types-79.js';
-import type { Invoice } from './types-34.js';
 import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
-/** The `day_of_next_month` variant of `InvoicePaymentTermCalculation`. */
-export type InvoicePaymentTermCalculationDayOfNextMonthRequestInput = ({
-    /**
-     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
-     * maximum: 31.
-     */
-    "day": number;
-    /**
-     * Calendar days after issue for net_days, or after the issue month's last day for
-     * days_after_month_end. Required only for those types. Format: int32. minimum: 0. maximum:
-     * 365.
-     */
-    "days"?: number;
-    /**
-     * How issue calculates the invoice's due date in the invoice timezone. Value enum:
-     * "day_of_next_month".
-     */
-    "type": "day_of_next_month";
-})
-    & (({
-    /**
-     * How issue calculates the invoice's due date in the invoice timezone. Value enum:
-     * "day_of_next_month".
-     */
-    "type": "day_of_next_month";
-    /**
-     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
-     * maximum: 31.
-     */
-    "day": number;
-})
-    & ({
-    "days"?: never;
-}));
 /** The `days_after_month_end` variant of `InvoicePaymentTermCalculation`. */
 export type InvoicePaymentTermCalculationDaysAfterMonthEnd = ({
     /**
@@ -5347,3 +5315,32 @@ export type InvoiceScheduleEntryPreviousAttributes = {
      */
     "written_off_money"?: ((MoneyValuePreviousAttributes) | (null));
 };
+/**
+ * One payment schedule entry you supply when creating or updating an invoice. Set its kind, how
+ * much it collects, and when it is due.
+ */
+export type InvoiceScheduleEntryWrite = ({
+    /**
+     * How much the entry collects. Deposits and installments use fixed or percentage, and the
+     * balance uses remaining_balance. How much a payment schedule entry collects: a fixed amount,
+     * a percentage of the invoice total, or the remaining balance.
+     */
+    "amount_specification": InvoiceScheduleAmountSpecification;
+    /**
+     * When the entry is due. Deposits use at_issue or date, installments use date, and the balance
+     * uses invoice_due_date or date. When a payment schedule entry is due, as supplied when
+     * creating or updating an invoice: at issue, on a set date, or on the invoice due date.
+     */
+    "due": InvoiceScheduleDueWrite;
+    /**
+     * An existing entry's ID, to keep that entry when you replace the schedule on PATCH. Omit it
+     * to add a new entry. minLength: 1. Example: "invse_01KEZF7C006JCPQBD8VZ0RNT6R".
+     */
+    "invoice_schedule_entry_id"?: string;
+    /** The entry's role in the schedule. Value enum: "deposit", "installment", "balance". */
+    "kind": "deposit" | "installment" | "balance" | (string & {});
+})
+    & ((Exclude<InvoiceScheduleEntryWriteDeposit & object, readonly unknown[]>)
+    | (Exclude<InvoiceScheduleEntryWriteInstallment & object, readonly unknown[]>)
+    | (Exclude<InvoiceScheduleEntryWriteBalance & object, readonly unknown[]>)
+    | (Record<string, unknown>));

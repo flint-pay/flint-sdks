@@ -1,1 +1,1 @@
-{"shared":"OrderTaxLocationRequest","dependencies":["OrderTaxLocationFullAddressRequest","OrderTaxLocationPostalAddressRequest","OrderTaxLocationRequest","SharedCodec1983","SharedCodec1984","SharedCodec1987","SharedCodec1988"]}
+{"shared":"OrderTaxLocationRequest","dependencies":["OrderTaxLocationFullAddressRequest","OrderTaxLocationPostalAddressRequest","OrderTaxLocationRequest","SharedCodec1982","SharedCodec1983","SharedCodec1986","SharedCodec1987"]}

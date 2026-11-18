@@ -151,10 +151,10 @@ import type {
     MeListLicenseKeysParams,
     MeListOrderActivitiesParams,
     MeListOrdersParams,
-    MeListPackagesParams
+    MeListPackagesParams,
+    MeListPaymentIntentsParams
 } from '../declarations/types-41.js';
 import type {
-    MeListPaymentIntentsParams,
     MeListPaymentMethodsParams,
     MeListRefundsParams,
     MeListRememberedBuyersParams,
@@ -213,10 +213,10 @@ import type {
     MerchantReadiness,
     MerchantReadinessPreviousAttributes,
     MerchantReadinessUpdatedInstalledMerchantsEvent,
-    MerchantReadinessUpdatedMerchantEvent
+    MerchantReadinessUpdatedMerchantEvent,
+    MerchantResponse
 } from '../declarations/types-42.js';
 import type {
-    MerchantResponse,
     MerchantSignup,
     MerchantSignupListResponse,
     MerchantSignupOwner,
@@ -322,7 +322,8 @@ export type {
     MeListLicenseKeysParams,
     MeListOrderActivitiesParams,
     MeListOrdersParams,
-    MeListPackagesParams
+    MeListPackagesParams,
+    MeListPaymentIntentsParams
 } from '../declarations/types-41.js';
 export type { RequestOptions, RenewSubscriptionRequestInput } from '../declarations/types-61.js';
 export type {
@@ -529,7 +530,6 @@ export type {
     OrderCalculatedLineItemTax
 } from '../declarations/types-45.js';
 export type {
-    MeListPaymentIntentsParams,
     MeListPaymentMethodsParams,
     MeListRefundsParams,
     MeListRememberedBuyersParams,
@@ -581,6 +581,7 @@ export type {
     MerchantReadinessPreviousAttributes,
     MerchantReadinessUpdatedInstalledMerchantsEvent,
     MerchantReadinessUpdatedMerchantEvent,
+    MerchantResponse,
     MerchantAccountSessionsCreateParams,
     MerchantGetParams,
     MerchantBillingBalancesGetParams,
@@ -591,7 +592,6 @@ export type {
     MerchantAccountSessionsRefreshParams
 } from '../declarations/types-42.js';
 export type {
-    MerchantResponse,
     MerchantSignup,
     MerchantSignupListResponse,
     MerchantSignupOwner,
@@ -633,13 +633,7 @@ export type {
     CheckoutSessionsListCustomerVerificationsParams,
     ConfigurationVersionRequestInput
 } from '../declarations/types-7.js';
-export type {
-    Credentials,
-    CreditNoteLineItem,
-    CreditNoteCorrectionRequest,
-    CreditNoteCorrectionRequestQuantity,
-    CreditNoteCorrectionRequestAmount
-} from '../declarations/types-15.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type {
     ReturnFinancialSummary,
     ReturnHandoffRequirementLineItem,
@@ -693,7 +687,6 @@ export type {
     RefundTenderAllocation,
     ReadinessRequirements,
     ReadinessRequirementError,
-    ReadinessAxis,
     ReadinessMerchantAccountSessionPreviousAttributes,
     ReadinessRequirementsPreviousAttributes,
     ReadinessRequirementErrorPreviousAttributes,
@@ -720,7 +713,6 @@ export type {
 } from '../declarations/types-70.js';
 export type {
     SubscriptionDelivery,
-    SubscriptionAddressVerification,
     SubscriptionDeliveryMethodSummary,
     SubscriptionDeliveryDestination,
     SubscriptionDeliveryHold,
@@ -729,6 +721,19 @@ export type {
     SubscriptionDeliveryDestinationInputAddressInput,
     SubscriptionChargeEstimate
 } from '../declarations/types-69.js';
+export type {
+    SubscriptionAddressVerification,
+    StripePaymentClientAction,
+    StripeSetupIntentClientAction,
+    StripeTerminalPaymentIntentClientAction,
+    StripeClientSetup,
+    StripeClientSetupStripe,
+    StripeClientAuthority,
+    ShipmentFulfillmentDetails,
+    SettlementAmounts,
+    SubscribedLine,
+    SkipMeSubscriptionCycleRequestInput
+} from '../declarations/types-68.js';
 export type { DeliveryRecipientResource, DeliveryRecipientRequirement } from '../declarations/types-23.js';
 export type { TextModifierRequest, TaxIdentity, TaxCurrencyConversion, TaxJurisdiction, TaxReverseCharge } from '../declarations/types-74.js';
 export type {
@@ -773,18 +778,6 @@ export type {
     PlatformFeeCap
 } from '../declarations/types-55.js';
 export type { PaymentClientActionURL, PaymentClientActionStripe, PaymentErrorSummary, PaymentFulfillmentHold } from '../declarations/types-51.js';
-export type {
-    StripePaymentClientAction,
-    StripeSetupIntentClientAction,
-    StripeTerminalPaymentIntentClientAction,
-    StripeClientSetup,
-    StripeClientSetupStripe,
-    StripeClientAuthority,
-    ShipmentFulfillmentDetails,
-    SettlementAmounts,
-    SubscribedLine,
-    SkipMeSubscriptionCycleRequestInput
-} from '../declarations/types-68.js';
 export type { ConfirmEmailChangeRequestInput, ConfirmEmailChangeRequest, ConfirmReturnResolutionRequestInput } from '../declarations/types-8.js';
 export type { CreateCustomerAddressRequestInput, CreateEmailChangeRequestInput, CreateEmailChangeRequest } from '../declarations/types-9.js';
 export type {
@@ -869,6 +862,12 @@ export type {
     ReturnReplacementLineItem,
     ReturnResolutionLineItemRequest
 } from '../declarations/types-65.js';
+export type {
+    CreditNoteLineItem,
+    CreditNoteCorrectionRequest,
+    CreditNoteCorrectionRequestQuantity,
+    CreditNoteCorrectionRequestAmount
+} from '../declarations/types-15.js';
 export type { FulfillmentChargeLink } from '../declarations/types-27.js';
 export type { FulfillmentRecipient, GiftCardCustomAmountBounds } from '../declarations/types-28.js';
 export type {
@@ -911,7 +910,7 @@ export type {
 export type { GiftCardPurchaseSnapshot, GiftCardPurchaseRecipient } from '../declarations/types-30.js';
 export type { GiftCardProductConfiguration } from '../declarations/types-29.js';
 export type { LineItemInventorySnapshot, LineItemInventoryDemand, LicenseKeyVersionRequestInput } from '../declarations/types-40.js';
-export type { PurchasedGiftCard, ReadinessAction, ReadinessActionPreviousAttributes } from '../declarations/types-59.js';
+export type { PurchasedGiftCard, ReadinessAction, ReadinessAxis, ReadinessActionPreviousAttributes } from '../declarations/types-59.js';
 export type { Dimensions } from '../declarations/types-25.js';
 export type {
     TicketedEvent,
@@ -971,13 +970,8 @@ export {
     makeCreateMeSubscriptionPreviewRequestQuantityChange
 } from '../declarations/types-82.js';
 export { makeCreateReturnEligibilityPreviewRequest } from '../declarations/types-83.js';
-export {
-    makeDeliverySelectionRecipientRequest,
-    makeDeliveryWindowRequest,
-    makeImageInputFile,
-    makeImageInputSourceURL,
-    makeImageRequest
-} from '../declarations/types-86.js';
+export { makeDeliverySelectionRecipientRequest } from '../declarations/types-85.js';
+export { makeDeliveryWindowRequest, makeImageInputFile, makeImageInputSourceURL, makeImageRequest } from '../declarations/types-86.js';
 export { makeLicenseKeyVersionRequest } from '../declarations/types-87.js';
 export {
     makeMerchantAccountSessionCreateRequest,

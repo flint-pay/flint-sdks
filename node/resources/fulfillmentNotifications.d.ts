@@ -4,9 +4,9 @@ import type {
     FulfillmentNotification,
     FulfillmentNotificationListResponse,
     FulfillmentNotificationResponse,
-    FulfillmentNotificationsGetParams
+    FulfillmentNotificationsGetParams,
+    FulfillmentNotificationsListParams
 } from '../declarations/types-27.js';
-import type { FulfillmentNotificationsListParams } from '../declarations/types-28.js';
 import type { RequestOptions } from '../declarations/types-61.js';
 import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
@@ -27,15 +27,15 @@ export type {
     FulfillmentNotificationsGetParams,
     FulfillmentNotification,
     FulfillmentNotificationResponse,
+    FulfillmentNotificationsListParams,
     FulfillmentNotificationListResponse,
     FulfillmentEventsGetParams
 } from '../declarations/types-27.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { RequestOptions } from '../declarations/types-61.js';
-export type { FulfillmentNotificationsListParams } from '../declarations/types-28.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type { MetadataMap } from '../declarations/types-43.js';
 export type { ExpandedOrderSummary } from '../declarations/types-26.js';
 export type { CheckoutBuyerContact } from '../declarations/types-6.js';

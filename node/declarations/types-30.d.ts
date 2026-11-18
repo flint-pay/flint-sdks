@@ -1,4 +1,3 @@
-import type { GiftCardCustomAmountBoundsRequestInput, GiftCard } from './types-28.js';
 import type { MoneyValueInput, MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
 import type {
     GiftCardProductConfiguration,
@@ -9,6 +8,7 @@ import type {
 import type { MerchantWebhookEnvelope } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { ResponseMeta, ResourceReference } from './types-62.js';
+import type { GiftCard } from './types-28.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateGiftCardRedemptionRequestInput, CreateGiftCardRequestInput } from './types-10.js';
 import type { DisputesAcceptParams } from './types-26.js';
@@ -20,28 +20,6 @@ import type { LookupGiftCardRequestInput } from './types-40.js';
 import type { RotateGiftCardCodeRequestInput } from './types-67.js';
 import type { UnfreezeGiftCardRequestInput } from './types-75.js';
 import type { UpdateGiftCardRequestInput } from './types-76.js';
-/**
- * Gift card settings on a product variant: its `face_value_money`, price mode (face value or
- * discounted), and bounds for custom amounts.
- */
-export type GiftCardProductConfigurationRequestInput = {
-    /**
-     * Minimum and maximum gift card values buyers can choose. Omit for a fixed denomination. The
-     * minimum and maximum amounts a buyer can choose when buying a gift card with a custom amount.
-     */
-    "custom_amount_bounds"?: GiftCardCustomAmountBoundsRequestInput;
-    /**
-     * Gift card value issued for one unit of this variant, in the same currency as its unit price.
-     * Currency must be USD. Amount must be between 1 and 200000 minor units, inclusive. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "face_value_money": MoneyValueInput;
-    /**
-     * Whether the gift card is sold at its face value or at a discounted price. Value enum:
-     * "face_value", "discounted".
-     */
-    "price_mode": "face_value" | "discounted";
-};
 /**
  * Gift card details you supply for an order line item: the `face_value_money` and the `recipient`
  * who receives the card.
@@ -5108,4 +5086,21 @@ export type GiftCardsUpdateParams = (InputValue<UpdateGiftCardRequestInput>)
      * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
      */
     "Flint-Sandbox-Id"?: InputValue<string>;
+};
+/**
+ * Result of linking a guest's purchases to a customer, with the customer, the email, and the
+ * number of orders linked.
+ */
+export type GuestPurchaseLink = {
+    /**
+     * ID of the customer the guest purchases now belong to. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id": string;
+    /** The verified email address whose guest purchases were linked. */
+    "email": string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "linked_at": string;
+    /** Number of guest orders linked to the customer by this request. Format: int64. */
+    "linked_order_count": number;
 };

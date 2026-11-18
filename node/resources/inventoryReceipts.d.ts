@@ -46,7 +46,7 @@ export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateInventoryReceiptRequestInput } from '../declarations/types-10.js';
 export type { InventorySourceSystemRequestInput, InventorySourceSystem } from '../declarations/types-33.js';
 export type { AuthMode, BackorderPolicy } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type { MetadataMap } from '../declarations/types-43.js';
 export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';

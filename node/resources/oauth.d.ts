@@ -59,7 +59,7 @@ export type {
 export type { PartnerAuthorizePreview, PartnerAuthorizePreviewResponse } from '../declarations/types-50.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type { ContextSummary } from '../declarations/types-8.js';
 export type { PartnerAppPaymentSplits, PartnerAppPlatformContact, PartnerAppPermissionManifestEntry } from '../declarations/types-49.js';
 export type { PlatformFeeCap } from '../declarations/types-55.js';

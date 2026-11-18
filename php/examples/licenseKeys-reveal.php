@@ -17,5 +17,6 @@ $client = new Client(new ClientOptions(
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->licenseKeys->reveal('lk_01KEZF7C000QD7VJ83G43V0NSN', null, new RequestOptions(idempotencyKey: $idempotencyKey));
-echo json_encode($result, JSON_THROW_ON_ERROR) . PHP_EOL;
+echo $result->license_key_id . PHP_EOL;
+echo $result->product_id . PHP_EOL;
 $client->close();

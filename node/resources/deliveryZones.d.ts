@@ -33,12 +33,12 @@ export type {
     DeliveryZonesGetParams,
     DeliveryZonesListParams,
     DeliveryZoneListResponse,
-    DeliveryZonesUpdateParams,
-    DeliveryZoneConfigurationRequestInput
+    DeliveryZonesUpdateParams
 } from '../declarations/types-25.js';
 export type { RequestOptions } from '../declarations/types-61.js';
 export type {
     DeliveryZone,
+    DeliveryZoneConfigurationRequestInput,
     DeliveryStateConditionRequestInput,
     DeliveryZoneConfiguration,
     DeliveryStateCondition
@@ -61,11 +61,11 @@ export type {
 } from '../declarations/types-22.js';
 export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
-export type { UpdateDeliveryZoneRequestInput } from '../declarations/types-76.js';
+export type { UpdateDeliveryZoneRequestInput } from '../declarations/types-75.js';
 export type { DeliveryLocationSetsDeleteParams } from '../declarations/types-19.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeCreateDeliveryZoneRequest } from '../declarations/types-82.js';

@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# RefundTenderAllocationPreviousAttributes to ReturnDispositionCreatedInstalledMerchantsEvent
+# RefundTenderAllocationRequest to ReturnDispositionCreatedMerchantEvent
 
-- [RefundTenderAllocationPreviousAttributes](RefundTenderAllocationPreviousAttributes.md)
 - [RefundTenderAllocationRequest](RefundTenderAllocationRequest.md)
 - [RefundTenderAllocationRequestInput](RefundTenderAllocationRequestInput.md)
 - [RefundUnissuedGiftCardRecovery](RefundUnissuedGiftCardRecovery.md)
@@ -102,4 +101,5 @@
 - [ReturnDecisionRecordedMerchantEvent](ReturnDecisionRecordedMerchantEvent.md)
 - [ReturnDisposition](ReturnDisposition.md)
 - [ReturnDispositionCreatedInstalledMerchantsEvent](ReturnDispositionCreatedInstalledMerchantsEvent.md)
+- [ReturnDispositionCreatedMerchantEvent](ReturnDispositionCreatedMerchantEvent.md)
 

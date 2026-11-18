@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# DeliveryWindowTimeConditionInput to ExpandedPaymentMethodSummary
+# DeliveryWindowTimeConditionPreviousAttributes to ExpandedPaymentMethodSummaryPreviousAttributes
 
-- [DeliveryWindowTimeConditionInput](DeliveryWindowTimeConditionInput.md)
 - [DeliveryWindowTimeConditionPreviousAttributes](DeliveryWindowTimeConditionPreviousAttributes.md)
 - [DeliveryZone](DeliveryZone.md)
 - [DeliveryZoneArchivedInstalledMerchantsEvent](DeliveryZoneArchivedInstalledMerchantsEvent.md)
@@ -102,4 +101,5 @@
 - [ExpandedPaymentLinkSummary](ExpandedPaymentLinkSummary.md)
 - [ExpandedPaymentLinkSummaryPreviousAttributes](ExpandedPaymentLinkSummaryPreviousAttributes.md)
 - [ExpandedPaymentMethodSummary](ExpandedPaymentMethodSummary.md)
+- [ExpandedPaymentMethodSummaryPreviousAttributes](ExpandedPaymentMethodSummaryPreviousAttributes.md)
 

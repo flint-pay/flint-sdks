@@ -42,7 +42,12 @@ export type { RequestOptions } from '../declarations/types-61.js';
 export type { _SdkWithoutIdempotency, WeightRequestInput, Weight } from '../declarations/types-79.js';
 export type { VoidShipmentResult, VoidShipmentResponse, VoidShipmentRequestInput, VoidPackageRequestInput } from '../declarations/types-78.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type { CreateShipmentRequestInput, CreateShipmentRequestOutboundInput, CreateShipmentRequestReturnInput } from '../declarations/types-14.js';
+export type {
+    CreateShipmentRequestInput,
+    CreateShipmentRequestOutboundInput,
+    CreateShipmentRequestReturnInput,
+    Credentials
+} from '../declarations/types-14.js';
 export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type {
     PackageCreateRequestInput,
@@ -54,7 +59,6 @@ export type { DimensionsRequestInput, Dimensions } from '../declarations/types-2
 export type { CreatePackageItemRequestInput } from '../declarations/types-12.js';
 export type { ReturnShipmentLineItemAllocationRequestInput } from '../declarations/types-65.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
 export type { ExpandedOrderSummary, ExpandedPackageSummary } from '../declarations/types-26.js';
 export type { CheckoutBuyerContact } from '../declarations/types-6.js';
 export type { DeferredPromotion } from '../declarations/types-17.js';

@@ -10,10 +10,10 @@ import type {
     ReturnPoliciesCreateParams,
     ReturnPoliciesCreateRevisionParams,
     ReturnPoliciesDeleteParams,
-    ReturnPoliciesGetParams
+    ReturnPoliciesGetParams,
+    ReturnPoliciesGetRevisionParams
 } from '../declarations/types-63.js';
 import type {
-    ReturnPoliciesGetRevisionParams,
     ReturnPoliciesListParams,
     ReturnPoliciesListRevisionsParams,
     ReturnPoliciesUpdateParams,
@@ -40,12 +40,12 @@ export type {
     ReturnPoliciesCreateParams,
     ReturnPoliciesCreateRevisionParams,
     ReturnPoliciesDeleteParams,
-    ReturnPoliciesGetParams
+    ReturnPoliciesGetParams,
+    ReturnPoliciesGetRevisionParams
 } from '../declarations/types-63.js';
 export type { RequestOptions } from '../declarations/types-61.js';
 export type {
     ReturnPolicy,
-    ReturnPoliciesGetRevisionParams,
     ReturnPolicyRevision,
     ReturnPoliciesListParams,
     ReturnPoliciesListRevisionsParams,
@@ -78,7 +78,7 @@ export type {
 export type { MoneyValueInput, NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReturnWindowRequestInput, ReturnWindow } from '../declarations/types-66.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';

@@ -70,7 +70,15 @@ export type {
     InventoryRoutingSourceInputPolicyInput,
     InventoryRoutingSourceInputPolicyRevisionInput
 } from '../declarations/types-33.js';
-export type { CreateOrderLineItemRequestInput, CreateOrderLineItemVariant } from '../declarations/types-12.js';
+export type {
+    CreateOrderLineItemRequestInput,
+    CreateOrderLineItemInputVariantInput,
+    CreateOrderLineItemInputBundleInput,
+    CreateOrderLineItemInputCustomInput,
+    CreateOrderLineItem,
+    CreateOrderLineItemBundle,
+    CreateOrderLineItemCustom
+} from '../declarations/types-11.js';
 export type {
     LineItemFulfillmentRequestModelInput,
     LineItemFulfillmentOriginRequestModelInput,
@@ -107,16 +115,8 @@ export type {
 export type { TextModifierRequestInput, TextModifierRequest, TaxJurisdiction } from '../declarations/types-74.js';
 export type { SubscribedLineRequestModelInput, SubscribedLineRequest } from '../declarations/types-68.js';
 export type { DimensionsRequestInput, Dimensions } from '../declarations/types-25.js';
-export type {
-    CreateOrderLineItemInputVariantInput,
-    CreateOrderLineItemInputBundleInput,
-    CreateOrderLineItemInputCustomInput,
-    CreateOrderLineItem,
-    CreateOrderLineItemBundle,
-    CreateOrderLineItemCustom
-} from '../declarations/types-11.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type { Address } from '../declarations/types-0.js';
 export type { DeliveryAddressAdvisoryResource } from '../declarations/types-17.js';
 export type {
@@ -131,6 +131,7 @@ export type { BuyerInstructionsConfig } from '../declarations/types-2.js';
 export type { DeliveryQuoteExecutionLegResource, DeliveryQuoteLineItemResource } from '../declarations/types-22.js';
 export type { DeliveryRecipientRequirement } from '../declarations/types-23.js';
 export type { TaxCalculationRequest, TaxComponentRequest } from '../declarations/types-73.js';
+export type { CreateOrderLineItemVariant } from '../declarations/types-12.js';
 export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export {

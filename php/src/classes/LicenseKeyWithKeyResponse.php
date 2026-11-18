@@ -9,7 +9,7 @@ namespace Flint;
 final class LicenseKeyWithKeyResponse extends Model {
     /** @param array{'data': mixed, 'meta'?: mixed, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('LicenseKeyWithKeyResponse')); }
-    /** Resource, collection, or operation result returned by this request. A merchant license key with its full credential when available to the caller. A license key issued to a buyer, with its display suffix.
+    /** Resource, collection, or operation result returned by this request. A merchant license key with its full credential when available to the caller.
      * @return LicenseKeyWithKey
      */
     public function getData(): LicenseKeyWithKey { return $this->get('data'); }

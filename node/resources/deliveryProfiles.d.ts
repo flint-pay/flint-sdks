@@ -37,7 +37,6 @@ export type {
     DeliveryProfileListResponse,
     DeliveryProfilesUpdateParams,
     DeliveryProfileUnconfiguredAssignment,
-    DeliveryProfileConfigurationRequestInput,
     DeliveryProfileOriginPolicyRequestInput,
     DeliveryProfileOriginPolicyInputFixedLocationInput,
     DeliveryProfileOriginPolicyInputInventoryRoutingInput,
@@ -50,6 +49,7 @@ export type {
     DeliveryProfileAssignment,
     DeliveryProfileAssignmentResponse,
     DeliveryProfile,
+    DeliveryProfileConfigurationRequestInput,
     DeliveryProfileConfigurationInputNoneInput,
     DeliveryProfileConfigurationInputRequiredInput,
     DeliveryProfileConfigurationInputQuoteInput,
@@ -59,7 +59,7 @@ export type {
 export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AssignToUnconfiguredDeliveryProfileRequestInput, AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';

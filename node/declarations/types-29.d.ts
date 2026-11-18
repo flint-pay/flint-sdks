@@ -3,7 +3,8 @@ import type {
     GiftCardFundingDispute,
     GiftCardFundingDisputePreviousAttributes,
     GiftCardCustomAmountBounds,
-    GiftCardCustomAmountBoundsPreviousAttributes
+    GiftCardCustomAmountBoundsPreviousAttributes,
+    GiftCardCustomAmountBoundsRequestInput
 } from './types-28.js';
 import type { ResponseMeta } from './types-62.js';
 import type {
@@ -18,33 +19,13 @@ import type {
     GiftCardPurchaseRecipient,
     GiftCardPurchaseRecipientPreviousAttributes
 } from './types-30.js';
-import type { MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
+import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
 import type { MerchantWebhookEnvelope } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateGiftCardLoadRequestInput, CreateGiftCardNotificationRequestInput } from './types-10.js';
 import type { DisputesAcceptParams } from './types-26.js';
 import type { CancelGiftCardNotificationRequestInput } from './types-4.js';
-/**
- * How a lost funding dispute was resolved for a gift card load, such as honoring the card's value,
- * with a reason message.
- */
-export type GiftCardFundingLossResolution = {
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /**
-     * What the merchant decided about the card's value after the funding payment lost a dispute.
-     * Value enum: "honor_value".
-     */
-    "disposition": "honor_value" | (string & {});
-    /**
-     * ID of the funding disposition recorded for the lost dispute. Example:
-     * "gfd_01KEZF7C0077Q8RK3Q4FD2DTW8".
-     */
-    "gift_card_funding_disposition_id": string;
-    /** The note you gave when you created the disposition. */
-    "reason_message": string;
-};
 export type GiftCardFundingLossResolutionPreviousAttributes = {
     /**
      * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
@@ -5157,4 +5138,26 @@ export type GiftCardProductConfigurationPreviousAttributes = {
      * (Value): null.
      */
     "price_mode"?: (("face_value" | "discounted" | (string & {})) | (null));
+};
+/**
+ * Gift card settings on a product variant: its `face_value_money`, price mode (face value or
+ * discounted), and bounds for custom amounts.
+ */
+export type GiftCardProductConfigurationRequestInput = {
+    /**
+     * Minimum and maximum gift card values buyers can choose. Omit for a fixed denomination. The
+     * minimum and maximum amounts a buyer can choose when buying a gift card with a custom amount.
+     */
+    "custom_amount_bounds"?: GiftCardCustomAmountBoundsRequestInput;
+    /**
+     * Gift card value issued for one unit of this variant, in the same currency as its unit price.
+     * Currency must be USD. Amount must be between 1 and 200000 minor units, inclusive. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "face_value_money": MoneyValueInput;
+    /**
+     * Whether the gift card is sold at its face value or at a discounted price. Value enum:
+     * "face_value", "discounted".
+     */
+    "price_mode": "face_value" | "discounted";
 };

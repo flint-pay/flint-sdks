@@ -64,7 +64,6 @@ export type {
     CreditNoteCorrectionRequestModelInput,
     CreditNoteCorrectionRequestQuantityRequestInput,
     CreditNoteCorrectionRequestAmountRequestInput,
-    Credentials,
     CreditNoteLineItem,
     CreditNoteCorrectionRequest,
     CreditNoteCorrectionRequestQuantity,
@@ -91,6 +90,7 @@ export type {
 } from '../declarations/types-8.js';
 export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { AuthMode, BundleComponent, BundleComponentVariantSummary } from '../declarations/types-1.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type { TaxIdentity, TaxCurrencyConversion, TextModifierRequest, TaxJurisdiction, TaxReverseCharge } from '../declarations/types-74.js';
 export type { Address } from '../declarations/types-0.js';
 export type {

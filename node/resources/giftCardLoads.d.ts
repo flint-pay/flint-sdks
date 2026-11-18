@@ -41,7 +41,6 @@ export type {
     GiftCardFundingSourceGiftCardRefundRequestInput,
     GiftCardFundingSourceGiftCardPurchaseRefundRecoveryRequestInput,
     GiftCardFundingSourceStoreCreditRequestInput,
-    GiftCardFundingLossResolution,
     GiftCardFundingSource,
     GiftCardFundingSourceExternalPayment,
     GiftCardFundingSourceFlintPayment,
@@ -58,8 +57,8 @@ export type { CreateGiftCardLoadResult, CreateGiftCardLoadResultResponse, Create
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
-export type { GiftCard, GiftCardFundingDispute } from '../declarations/types-28.js';
+export type { Credentials } from '../declarations/types-14.js';
+export type { GiftCard, GiftCardFundingDispute, GiftCardFundingLossResolution } from '../declarations/types-28.js';
 export type {
     GiftCardRestriction,
     GiftCardTransaction,

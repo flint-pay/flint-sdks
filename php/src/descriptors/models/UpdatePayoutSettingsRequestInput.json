@@ -1,1 +1,1 @@
-{"shared":"UpdatePayoutSettingsRequest","dependencies":["MoneyValue","SharedCodec137","SharedCodec3153","SharedCodec3154","SharedCodec3155","SharedCodec3156","SharedCodec3157","SharedCodec3158","UpdatePayoutSettingsRequest"]}
+{"shared":"UpdatePayoutSettingsRequest","dependencies":["MoneyValue","SharedCodec137","SharedCodec3152","SharedCodec3153","SharedCodec3154","SharedCodec3155","SharedCodec3156","SharedCodec3157","UpdatePayoutSettingsRequest"]}

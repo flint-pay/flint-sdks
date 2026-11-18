@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# DeliveryPricingStrategyCreateInputCalculatedInput to DeliveryRateCallbackConnectionCheckRequest
+# DeliveryPricingStrategyCreateInputCallback to DeliveryRateCallbackConnectionCheckResponse
 
-- [DeliveryPricingStrategyCreateInputCalculatedInput](DeliveryPricingStrategyCreateInputCalculatedInput.md)
 - [DeliveryPricingStrategyCreateInputCallback](DeliveryPricingStrategyCreateInputCallback.md)
 - [DeliveryPricingStrategyCreateInputCallbackInput](DeliveryPricingStrategyCreateInputCallbackInput.md)
 - [DeliveryPricingStrategyCreateInputCallerSupplied](DeliveryPricingStrategyCreateInputCallerSupplied.md)
@@ -102,4 +101,5 @@
 - [DeliveryRateCallbackConfigurationRequestInput](DeliveryRateCallbackConfigurationRequestInput.md)
 - [DeliveryRateCallbackConnectionCheck](DeliveryRateCallbackConnectionCheck.md)
 - [DeliveryRateCallbackConnectionCheckRequest](DeliveryRateCallbackConnectionCheckRequest.md)
+- [DeliveryRateCallbackConnectionCheckResponse](DeliveryRateCallbackConnectionCheckResponse.md)
 

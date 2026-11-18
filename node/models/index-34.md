@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# ReturnRefundEstimate to RotatePartnerAppSecretResponse
+# ReturnRefundTenderEstimate to RotateWebhookSecretRequest
 
-- [ReturnRefundEstimate](ReturnRefundEstimate.md)
 - [ReturnRefundTenderEstimate](ReturnRefundTenderEstimate.md)
 - [ReturnRefundTenderEstimateGiftCardRedemption](ReturnRefundTenderEstimateGiftCardRedemption.md)
 - [ReturnRefundTenderEstimatePaymentIntent](ReturnRefundTenderEstimatePaymentIntent.md)
@@ -102,4 +101,5 @@
 - [RotateGiftCardCodeResultResponse](RotateGiftCardCodeResultResponse.md)
 - [RotatePartnerAppSecretRequestInput](RotatePartnerAppSecretRequestInput.md)
 - [RotatePartnerAppSecretResponse](RotatePartnerAppSecretResponse.md)
+- [RotateWebhookSecretRequest](RotateWebhookSecretRequest.md)
 

@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# SubscriptionPaymentRetry to SubscriptionUpdatedInstalledMerchantsEvent
+# SubscriptionPaymentRetryCreatedInstalledMerchantsEvent to SubscriptionUpdatedMerchantEvent
 
-- [SubscriptionPaymentRetry](SubscriptionPaymentRetry.md)
 - [SubscriptionPaymentRetryCreatedInstalledMerchantsEvent](SubscriptionPaymentRetryCreatedInstalledMerchantsEvent.md)
 - [SubscriptionPaymentRetryCreatedMerchantEvent](SubscriptionPaymentRetryCreatedMerchantEvent.md)
 - [SubscriptionPaymentRetryFailedInstalledMerchantsEvent](SubscriptionPaymentRetryFailedInstalledMerchantsEvent.md)
@@ -102,4 +101,5 @@
 - [SubscriptionUpcomingDeliveryHold](SubscriptionUpcomingDeliveryHold.md)
 - [SubscriptionUpcomingDeliveryHoldPreviousAttributes](SubscriptionUpcomingDeliveryHoldPreviousAttributes.md)
 - [SubscriptionUpdatedInstalledMerchantsEvent](SubscriptionUpdatedInstalledMerchantsEvent.md)
+- [SubscriptionUpdatedMerchantEvent](SubscriptionUpdatedMerchantEvent.md)
 

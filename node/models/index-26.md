@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# PackageItemListResponse to PaymentIntentActivityListResponse
+# PackageItemResponse to PaymentIntentAuthorizationExpiringInstalledMerchantsEvent
 
-- [PackageItemListResponse](PackageItemListResponse.md)
 - [PackageItemResponse](PackageItemResponse.md)
 - [PackageListResponse](PackageListResponse.md)
 - [PackageResponse](PackageResponse.md)
@@ -102,4 +101,5 @@
 - [PaymentIntent](PaymentIntent.md)
 - [PaymentIntentActivity](PaymentIntentActivity.md)
 - [PaymentIntentActivityListResponse](PaymentIntentActivityListResponse.md)
+- [PaymentIntentAuthorizationExpiringInstalledMerchantsEvent](PaymentIntentAuthorizationExpiringInstalledMerchantsEvent.md)
 

@@ -14,6 +14,7 @@ import type {
     RiskPredicateNodeInRequestInput,
     RiskPredicateNodeIsMissingRequestInput,
     RiskPredicateNodeMoneyComparisonRequestInput,
+    RiskPredicateNodeNotRequestInput,
     RiskPredicateNode
 } from './types-66.js';
 import type { ResponseWarning, ResponseMeta, ResourceReference } from './types-62.js';
@@ -21,7 +22,7 @@ import type { InputValue } from '../runtime.js';
 import type { CreateRiskPreviewRequestInput } from './types-13.js';
 import type { CreateRiskRuleRequestInput, CreateSandboxRequestInput } from './types-14.js';
 import type { DisputesAcceptParams } from './types-26.js';
-import type { UpdateRiskRuleRequestInput } from './types-77.js';
+import type { UpdateRiskRuleRequestInput, UpdateSettingsRequestInput } from './types-77.js';
 import type { GiftCardPurchaseRecipient } from './types-30.js';
 import type { GiftCardNotificationRecipientInput, GiftCardNotification } from './types-29.js';
 import type { GiftCard, FulfillmentSettings } from './types-28.js';
@@ -44,14 +45,6 @@ import type { ReceiptSettings } from './types-60.js';
 import type { SubscriptionSettings } from './types-72.js';
 import type { TaxIdentity, TaxSettings } from './types-74.js';
 import type { TippingSettings } from './types-75.js';
-/** The `Not` variant of `RiskPredicateNode`. */
-export type RiskPredicateNodeNotRequestInput = {
-    /**
-     * The predicate that must not match. A node in a risk rule condition: a comparison of an
-     * attribute, or an `all`, `any`, or `not` group of other nodes.
-     */
-    "not": RiskPredicateNodeRequestInput;
-};
 /**
  * A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not`
  * group of other nodes.
@@ -1563,4 +1556,25 @@ export type SettingsResponse = {
      * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id": string;
+};
+export type SettingsUpdateParams = (InputValue<UpdateSettingsRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
 };

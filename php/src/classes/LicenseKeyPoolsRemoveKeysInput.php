@@ -34,7 +34,7 @@ final class LicenseKeyPoolsRemoveKeysInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** The request body for: Remove keys from a license key pool. Example: {"license_key_pool_key_ids":["lkpk_01M8E20A2C4E6G8J0M2P4R6T8V"]}.
+    /** The request body for: Remove keys from a license key pool.
      * @return array{'keys': list<string>}|object|array{'license_key_pool_key_ids': list<string>}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

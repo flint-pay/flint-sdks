@@ -1,6 +1,6 @@
-import type { MetadataMap, MerchantWebhookEnvelope, ModifierSet, MetadataRequestInput } from './types-43.js';
-import type { ProductOption, Product } from './types-56.js';
+import type { ProductOption, Product, ProductOptionPreviousAttributes } from './types-56.js';
 import type { ResponseMeta } from './types-62.js';
+import type { MetadataMap, MerchantWebhookEnvelope, ModifierSet, MetadataRequestInput } from './types-43.js';
 import type { MoneyValue, MoneyValuePreviousAttributes, ModifierSetPreviousAttributes, MoneyValueInput } from './types-44.js';
 import type { CategoryReferencePreviousAttributes } from './types-5.js';
 import type { ImageAttachmentPreviousAttributes, ImageAttachment, ImageRequest, ImageRequestInput } from './types-31.js';
@@ -15,7 +15,11 @@ import type {
     WebhookPromotionCode
 } from './types-79.js';
 import type { Dimensions, DimensionsPreviousAttributes, DimensionsRequestInput } from './types-25.js';
-import type { GiftCardProductConfiguration, GiftCardProductConfigurationPreviousAttributes } from './types-29.js';
+import type {
+    GiftCardProductConfiguration,
+    GiftCardProductConfigurationPreviousAttributes,
+    GiftCardProductConfigurationRequestInput
+} from './types-29.js';
 import type {
     LicenseKeyConfiguration,
     LicenseKeyConfigurationPreviousAttributes,
@@ -32,7 +36,6 @@ import type {
 import type { SelectedProductOption, SelectedProductOptionPreviousAttributes } from './types-67.js';
 import type { InventoryRoutingSource, InventoryRoutingSourcePreviousAttributes } from './types-33.js';
 import type { InventoryItemCreateRequest, InventoryItemCreateRequestInput } from './types-32.js';
-import type { GiftCardProductConfigurationRequestInput } from './types-30.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateProductRequestInput } from './types-12.js';
 import type { DisputesAcceptParams } from './types-26.js';
@@ -57,61 +60,6 @@ import type {
     PromotionCombinesWithPreviousAttributes,
     PromotionExclusivityPreviousAttributes
 } from './types-58.js';
-export type ProductOptionPreviousAttributes = {
-    /**
-     * When this resource was created, as an RFC3339 timestamp. anyOf[1] (Value): string. When this
-     * resource was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "created_at"?: ((string) | (null));
-    /**
-     * Caller-owned metadata stored on this resource. anyOf[1] (Value): {@link MetadataMap}.
-     * anyOf[2] (Value): null.
-     */
-    "metadata"?: ((MetadataMap) | (null));
-    /**
-     * Option name, such as Size or Color. anyOf[1] (Value): string. Option name, such as Size or
-     * Color. anyOf[2] (Value): null.
-     */
-    "name"?: ((string) | (null));
-    /**
-     * Stable identifier of the product option. anyOf[1] (Value): string. Stable identifier of the
-     * product option. Example: "opt_01KEZF7C008R5Q9BG9B4B4KQH8". anyOf[2] (Value): null.
-     */
-    "option_id"?: ((string) | (null));
-    /**
-     * Display order among the product's options, starting at zero. anyOf[1] (Value): integer.
-     * Display order among the product's options, starting at zero. Format: int32. anyOf[2]
-     * (Value): null.
-     */
-    "position"?: ((number) | (null));
-    /**
-     * Identifier of the product this option belongs to. anyOf[1] (Value): string. Identifier of
-     * the product this option belongs to. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". anyOf[2]
-     * (Value): null.
-     */
-    "product_id"?: ((string) | (null));
-    /**
-     * Option lifecycle status. Every active variant must select an active value for each active
-     * option. Value enum: "active", "inactive", "archived". anyOf[1] (Value): string. Option
-     * lifecycle status. Every active variant must select an active value for each active option.
-     * Value enum: "active", "inactive", "archived". anyOf[2] (Value): null.
-     */
-    "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-    /**
-     * When this resource last changed, as an RFC3339 timestamp. anyOf[1] (Value): string. When
-     * this resource last changed, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "updated_at"?: ((string) | (null));
-    /**
-     * Values offered for this option, such as Small, Medium, and Large for Size. anyOf[1] (Value):
-     * Array of {@link ProductOptionValuePreviousAttributes}. Values offered for this option, such
-     * as Small, Medium, and Large for Size. anyOf[1][] (Value): {@link
-     * ProductOptionValuePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "values"?: ((Array<ProductOptionValuePreviousAttributes>) | (null));
-};
 /** A response containing `ProductOption` data. */
 export type ProductOptionResponse = {
     /** The requested product option data. A choice that defines a product's variants. */
@@ -8273,4 +8221,293 @@ export type PromotionCodeArchivedInstalledMerchantsEvent = (Exclude<PartnerWebho
          */
         "sandbox_id"?: string;
     });
+});
+/**
+ * The `promotion_code.archived` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type PromotionCodeArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link WebhookPromotionCode}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `promotion`. previous_attributes (Optional): object. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events. previous_attributes.available (Optional): boolean or null. Whether a
+     * buyer can redeem the code right now: the code is active, not expired, and under its
+     * max_uses, and its promotion is available. previous_attributes.available.anyOf[1] (Value):
+     * boolean. Whether a buyer can redeem the code right now: the code is active, not expired, and
+     * under its max_uses, and its promotion is available. previous_attributes.available.anyOf[2]
+     * (Value): null. previous_attributes.code (Optional): string or null. Code a buyer enters to
+     * redeem the promotion. previous_attributes.code.anyOf[1] (Value): string. Code a buyer enters
+     * to redeem the promotion. previous_attributes.code.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. When the promotion code was
+     * created, as an RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string.
+     * When the promotion code was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value): null.
+     * previous_attributes.customer_id (Optional): string or null. Only this identified customer
+     * can redeem the code. The customer must belong to the same merchant and environment. A
+     * checkout may use its merchant-named or email-verified customer; a typed email does not
+     * identify a customer. Null when the code is unbound. previous_attributes.customer_id.anyOf[1]
+     * (Value): string. Only this identified customer can redeem the code. The customer must belong
+     * to the same merchant and environment. A checkout may use its merchant-named or
+     * email-verified customer; a typed email does not identify a customer. Null when the code is
+     * unbound. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2]
+     * (Value): null. previous_attributes.expires_at (Optional): string or null. When the code
+     * stops being redeemable, as an absolute RFC3339 timestamp. Omitted when the code does not
+     * expire. previous_attributes.expires_at.anyOf[1] (Value): string. When the code stops being
+     * redeemable, as an absolute RFC3339 timestamp. Omitted when the code does not expire. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.expires_at.anyOf[2] (Value):
+     * null. previous_attributes.max_uses (Optional): integer or null. Maximum number of times this
+     * code can be redeemed. Omitted when the code has no redemption limit.
+     * previous_attributes.max_uses.anyOf[1] (Value): integer. Maximum number of times this code
+     * can be redeemed. Omitted when the code has no redemption limit. Format: int64.
+     * previous_attributes.max_uses.anyOf[2] (Value): null. previous_attributes.merchant_id
+     * (Optional): string or null. Identifier of the merchant that owns the promotion code.
+     * previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier of the merchant that
+     * owns the promotion code. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Key-value data you attach to the promotion code.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.promotion_code_id
+     * (Optional): string or null. Unique identifier for the promotion code.
+     * previous_attributes.promotion_code_id.anyOf[1] (Value): string. Unique identifier for the
+     * promotion code. Example: "pcode_01KEZF7C00JCC7QXWC262EF05T".
+     * previous_attributes.promotion_code_id.anyOf[2] (Value): null.
+     * previous_attributes.promotion_id (Optional): string or null. Identifier of the promotion
+     * this code redeems. previous_attributes.promotion_id.anyOf[1] (Value): string. Identifier of
+     * the promotion this code redeems. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
+     * previous_attributes.promotion_id.anyOf[2] (Value): null. previous_attributes.status
+     * (Optional): string or null. Lifecycle status: active, inactive, or archived. Set active or
+     * inactive with PATCH; DELETE sets archived. An active code can still be unavailable: read
+     * available. Value enum: "active", "inactive", "archived". previous_attributes.status.anyOf[1]
+     * (Value): string. Lifecycle status: active, inactive, or archived. Set active or inactive
+     * with PATCH; DELETE sets archived. An active code can still be unavailable: read available.
+     * Value enum: "active", "inactive", "archived". previous_attributes.status.anyOf[2] (Value):
+     * null. previous_attributes.timezone (Optional): string or null. IANA zone the code's times
+     * were entered in, used for display. expires_at is an absolute timestamp, so this does not
+     * change when the code expires. previous_attributes.timezone.anyOf[1] (Value): string. IANA
+     * zone the code's times were entered in, used for display. expires_at is an absolute
+     * timestamp, so this does not change when the code expires.
+     * previous_attributes.timezone.anyOf[2] (Value): null. previous_attributes.unavailable_reason
+     * (Optional): string or null. Why available is false. Present only when available is false.
+     * The code's own state is reported first; promotion_unavailable means the code is usable but
+     * its promotion is not. Value enum: "archived", "inactive", "expired", "exhausted",
+     * "promotion_unavailable". previous_attributes.unavailable_reason.anyOf[1] (Value): string.
+     * Why available is false. Present only when available is false. The code's own state is
+     * reported first; promotion_unavailable means the code is usable but its promotion is not.
+     * Value enum: "archived", "inactive", "expired", "exhausted", "promotion_unavailable".
+     * previous_attributes.unavailable_reason.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. When the promotion code was last
+     * updated, as an RFC3339 timestamp. previous_attributes.updated_at.anyOf[1] (Value): string.
+     * When the promotion code was last updated, as an RFC3339 timestamp. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value): null.
+     * previous_attributes.uses_count (Optional): integer or null. Number of times this code has
+     * been redeemed. previous_attributes.uses_count.anyOf[1] (Value): integer. Number of times
+     * this code has been redeemed. Format: int64. previous_attributes.uses_count.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Persisted owned-state
+     * version. Clock-based availability and expanded resources do not advance this counter.
+     * previous_attributes.version.anyOf[1] (Value): integer. Persisted owned-state version.
+     * Clock-based availability and expanded resources do not advance this counter. Format: uint64.
+     * minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
+     */
+    "data"?: {
+        /** The resource snapshot, without expansions. Webhooks omit these fields: `promotion`. */
+        "object": WebhookPromotionCode;
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. available (Optional): boolean or null. Whether a
+         * buyer can redeem the code right now: the code is active, not expired, and under its
+         * max_uses, and its promotion is available. available.anyOf[1] (Value): boolean. Whether a
+         * buyer can redeem the code right now: the code is active, not expired, and under its
+         * max_uses, and its promotion is available. available.anyOf[2] (Value): null. code
+         * (Optional): string or null. Code a buyer enters to redeem the promotion. code.anyOf[1]
+         * (Value): string. Code a buyer enters to redeem the promotion. code.anyOf[2] (Value):
+         * null. created_at (Optional): string or null. When the promotion code was created, as an
+         * RFC3339 timestamp. created_at.anyOf[1] (Value): string. When the promotion code was
+         * created, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. customer_id (Optional): string or null. Only this
+         * identified customer can redeem the code. The customer must belong to the same merchant
+         * and environment. A checkout may use its merchant-named or email-verified customer; a
+         * typed email does not identify a customer. Null when the code is unbound.
+         * customer_id.anyOf[1] (Value): string. Only this identified customer can redeem the code.
+         * The customer must belong to the same merchant and environment. A checkout may use its
+         * merchant-named or email-verified customer; a typed email does not identify a customer.
+         * Null when the code is unbound. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+         * customer_id.anyOf[2] (Value): null. expires_at (Optional): string or null. When the code
+         * stops being redeemable, as an absolute RFC3339 timestamp. Omitted when the code does not
+         * expire. expires_at.anyOf[1] (Value): string. When the code stops being redeemable, as an
+         * absolute RFC3339 timestamp. Omitted when the code does not expire. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". expires_at.anyOf[2] (Value): null. max_uses (Optional):
+         * integer or null. Maximum number of times this code can be redeemed. Omitted when the
+         * code has no redemption limit. max_uses.anyOf[1] (Value): integer. Maximum number of
+         * times this code can be redeemed. Omitted when the code has no redemption limit. Format:
+         * int64. max_uses.anyOf[2] (Value): null. merchant_id (Optional): string or null.
+         * Identifier of the merchant that owns the promotion code. merchant_id.anyOf[1] (Value):
+         * string. Identifier of the merchant that owns the promotion code. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Key-value data you attach to the promotion
+         * code. metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2] (Value): null.
+         * promotion_code_id (Optional): string or null. Unique identifier for the promotion code.
+         * promotion_code_id.anyOf[1] (Value): string. Unique identifier for the promotion code.
+         * Example: "pcode_01KEZF7C00JCC7QXWC262EF05T". promotion_code_id.anyOf[2] (Value): null.
+         * promotion_id (Optional): string or null. Identifier of the promotion this code redeems.
+         * promotion_id.anyOf[1] (Value): string. Identifier of the promotion this code redeems.
+         * Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V". promotion_id.anyOf[2] (Value): null. status
+         * (Optional): string or null. Lifecycle status: active, inactive, or archived. Set active
+         * or inactive with PATCH; DELETE sets archived. An active code can still be unavailable:
+         * read available. Value enum: "active", "inactive", "archived". status.anyOf[1] (Value):
+         * string. Lifecycle status: active, inactive, or archived. Set active or inactive with
+         * PATCH; DELETE sets archived. An active code can still be unavailable: read available.
+         * Value enum: "active", "inactive", "archived". status.anyOf[2] (Value): null. timezone
+         * (Optional): string or null. IANA zone the code's times were entered in, used for
+         * display. expires_at is an absolute timestamp, so this does not change when the code
+         * expires. timezone.anyOf[1] (Value): string. IANA zone the code's times were entered in,
+         * used for display. expires_at is an absolute timestamp, so this does not change when the
+         * code expires. timezone.anyOf[2] (Value): null. unavailable_reason (Optional): string or
+         * null. Why available is false. Present only when available is false. The code's own state
+         * is reported first; promotion_unavailable means the code is usable but its promotion is
+         * not. Value enum: "archived", "inactive", "expired", "exhausted",
+         * "promotion_unavailable". unavailable_reason.anyOf[1] (Value): string. Why available is
+         * false. Present only when available is false. The code's own state is reported first;
+         * promotion_unavailable means the code is usable but its promotion is not. Value enum:
+         * "archived", "inactive", "expired", "exhausted", "promotion_unavailable".
+         * unavailable_reason.anyOf[2] (Value): null. updated_at (Optional): string or null. When
+         * the promotion code was last updated, as an RFC3339 timestamp. updated_at.anyOf[1]
+         * (Value): string. When the promotion code was last updated, as an RFC3339 timestamp.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null.
+         * uses_count (Optional): integer or null. Number of times this code has been redeemed.
+         * uses_count.anyOf[1] (Value): integer. Number of times this code has been redeemed.
+         * Format: int64. uses_count.anyOf[2] (Value): null. version (Optional): integer or null.
+         * Persisted owned-state version. Clock-based availability and expanded resources do not
+         * advance this counter. version.anyOf[1] (Value): integer. Persisted owned-state version.
+         * Clock-based availability and expanded resources do not advance this counter. Format:
+         * uint64. minimum: 1. version.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Whether a buyer can redeem the code right now: the code is active, not expired, and
+             * under its max_uses, and its promotion is available. anyOf[1] (Value): boolean.
+             * Whether a buyer can redeem the code right now: the code is active, not expired, and
+             * under its max_uses, and its promotion is available. anyOf[2] (Value): null.
+             */
+            "available"?: ((boolean) | (null));
+            /**
+             * Code a buyer enters to redeem the promotion. anyOf[1] (Value): string. Code a buyer
+             * enters to redeem the promotion. anyOf[2] (Value): null.
+             */
+            "code"?: ((string) | (null));
+            /**
+             * When the promotion code was created, as an RFC3339 timestamp. anyOf[1] (Value):
+             * string. When the promotion code was created, as an RFC3339 timestamp. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Only this identified customer can redeem the code. The customer must belong to the
+             * same merchant and environment. A checkout may use its merchant-named or
+             * email-verified customer; a typed email does not identify a customer. Null when the
+             * code is unbound. anyOf[1] (Value): string. Only this identified customer can redeem
+             * the code. The customer must belong to the same merchant and environment. A checkout
+             * may use its merchant-named or email-verified customer; a typed email does not
+             * identify a customer. Null when the code is unbound. Example:
+             * "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * When the code stops being redeemable, as an absolute RFC3339 timestamp. Omitted when
+             * the code does not expire. anyOf[1] (Value): string. When the code stops being
+             * redeemable, as an absolute RFC3339 timestamp. Omitted when the code does not expire.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "expires_at"?: ((string) | (null));
+            /**
+             * Maximum number of times this code can be redeemed. Omitted when the code has no
+             * redemption limit. anyOf[1] (Value): integer. Maximum number of times this code can
+             * be redeemed. Omitted when the code has no redemption limit. Format: int64. anyOf[2]
+             * (Value): null.
+             */
+            "max_uses"?: ((number) | (null));
+            /**
+             * Identifier of the merchant that owns the promotion code. anyOf[1] (Value): string.
+             * Identifier of the merchant that owns the promotion code. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Key-value data you attach to the promotion code. anyOf[1] (Value): {@link
+             * MetadataMap}. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Unique identifier for the promotion code. anyOf[1] (Value): string. Unique
+             * identifier for the promotion code. Example: "pcode_01KEZF7C00JCC7QXWC262EF05T".
+             * anyOf[2] (Value): null.
+             */
+            "promotion_code_id"?: ((string) | (null));
+            /**
+             * Identifier of the promotion this code redeems. anyOf[1] (Value): string. Identifier
+             * of the promotion this code redeems. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
+             * anyOf[2] (Value): null.
+             */
+            "promotion_id"?: ((string) | (null));
+            /**
+             * Lifecycle status: active, inactive, or archived. Set active or inactive with PATCH;
+             * DELETE sets archived. An active code can still be unavailable: read available. Value
+             * enum: "active", "inactive", "archived". anyOf[1] (Value): string. Lifecycle status:
+             * active, inactive, or archived. Set active or inactive with PATCH; DELETE sets
+             * archived. An active code can still be unavailable: read available. Value enum:
+             * "active", "inactive", "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * IANA zone the code's times were entered in, used for display. expires_at is an
+             * absolute timestamp, so this does not change when the code expires. anyOf[1] (Value):
+             * string. IANA zone the code's times were entered in, used for display. expires_at is
+             * an absolute timestamp, so this does not change when the code expires. anyOf[2]
+             * (Value): null.
+             */
+            "timezone"?: ((string) | (null));
+            /**
+             * Why available is false. Present only when available is false. The code's own state
+             * is reported first; promotion_unavailable means the code is usable but its promotion
+             * is not. Value enum: "archived", "inactive", "expired", "exhausted",
+             * "promotion_unavailable". anyOf[1] (Value): string. Why available is false. Present
+             * only when available is false. The code's own state is reported first;
+             * promotion_unavailable means the code is usable but its promotion is not. Value enum:
+             * "archived", "inactive", "expired", "exhausted", "promotion_unavailable". anyOf[2]
+             * (Value): null.
+             */
+            "unavailable_reason"?: (("archived" | "inactive" | "expired" | "exhausted" | "promotion_unavailable" | (string & {}))
+                | (null));
+            /**
+             * When the promotion code was last updated, as an RFC3339 timestamp. anyOf[1] (Value):
+             * string. When the promotion code was last updated, as an RFC3339 timestamp. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Number of times this code has been redeemed. anyOf[1] (Value): integer. Number of
+             * times this code has been redeemed. Format: int64. anyOf[2] (Value): null.
+             */
+            "uses_count"?: ((number) | (null));
+            /**
+             * Persisted owned-state version. Clock-based availability and expanded resources do
+             * not advance this counter. anyOf[1] (Value): integer. Persisted owned-state version.
+             * Clock-based availability and expanded resources do not advance this counter. Format:
+             * uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "promotion_code.archived". */
+    "event_type"?: "promotion_code.archived";
 });

@@ -80,7 +80,7 @@ export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency, WeightRequestInpu
 export type { ClientOptions, CompleteFulfillmentRequestInput } from '../declarations/types-7.js';
 export type { AcceptFulfillmentRequestInput, Address, AddressRequestInput, AddressRequest } from '../declarations/types-0.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials, CreateServiceFulfillmentDetailsInput } from '../declarations/types-14.js';
 export type { DigitalFulfillmentDetails, DimensionsRequestInput, DispatchFulfillmentRequestInput } from '../declarations/types-25.js';
 export type { OrderLineItemModifier } from '../declarations/types-46.js';
 export type { MetadataMap, MetadataRequestInput, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
@@ -119,7 +119,6 @@ export type {
     CreateDigitalFulfillmentDetails
 } from '../declarations/types-9.js';
 export type { CreatePickupFulfillmentDetailsInput, CreatePackageItemRequestInput } from '../declarations/types-12.js';
-export type { CreateServiceFulfillmentDetailsInput } from '../declarations/types-14.js';
 export type { PackageCreateRequestInput, PackageCreateInputCreatedInput, PackageCreateInputShippedInput } from '../declarations/types-48.js';
 export type { ReturnShipmentLineItemAllocationRequestInput } from '../declarations/types-65.js';
 export type { HoldFulfillmentRequestInput } from '../declarations/types-31.js';
@@ -162,9 +161,10 @@ export {
     makeMarkFulfillmentNoShowRequest,
     makeMarkFulfillmentPackedRequest,
     makeMarkFulfillmentPickedRequest,
-    makeMarkFulfillmentPreparingRequest
+    makeMarkFulfillmentPreparingRequest,
+    makeMarkFulfillmentReadyRequest
 } from '../declarations/types-87.js';
-export { makeMarkFulfillmentReadyRequest, makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
 export { makePackageCreateInputCreated, makePackageCreateInputShipped, makePackageCreateRequest } from '../declarations/types-89.js';
 export { makeReleaseFulfillmentHoldRequest } from '../declarations/types-90.js';
 export { makeReturnShipmentLineItemAllocationRequest, makeScheduleFulfillmentRequest } from '../declarations/types-91.js';

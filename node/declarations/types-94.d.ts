@@ -6,7 +6,6 @@ import type {
     WorkloadIdentityOptions
 } from '../runtime.js';
 import type {
-    UpdateRefundRequestInput,
     UpdateReturnLineItemRequestInput,
     UpdateReturnPolicyRequestInput,
     UpdateReturnReasonRequestInput,
@@ -24,10 +23,10 @@ import type {
     UpdateSettingsRequestInput,
     UpdateShipmentRequestInput,
     UpdateSubscriptionLineItemRequestInput,
-    UpdateSubscriptionOfferRequestInput
+    UpdateSubscriptionOfferRequestInput,
+    UpdateSubscriptionPlanLineItemInputBundleInput
 } from './types-77.js';
 import type {
-    UpdateSubscriptionPlanLineItemInputBundleInput,
     UpdateSubscriptionPlanLineItemInputCustomInput,
     UpdateSubscriptionPlanLineItemInputVariantInput,
     UpdateSubscriptionPlanLineItemRequestInput,
@@ -53,7 +52,6 @@ import type {
     WorkloadIdentityClaimConditionRequestInput,
     WebhookVerificationOptions
 } from './types-79.js';
-export declare function makeUpdateRefundRequest(value: InputValue<UpdateRefundRequestInput>): Model<UpdateRefundRequestInput>;
 export declare function makeUpdateReturnLineItemRequest(value: InputValue<UpdateReturnLineItemRequestInput>): Model<UpdateReturnLineItemRequestInput>;
 export declare function makeUpdateReturnPolicyRequest(value: InputValue<UpdateReturnPolicyRequestInput>): Model<UpdateReturnPolicyRequestInput>;
 export declare function makeUpdateReturnReasonRequest(value: InputValue<UpdateReturnReasonRequestInput>): Model<UpdateReturnReasonRequestInput>;

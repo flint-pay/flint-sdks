@@ -61,7 +61,7 @@ export type {
     MetadataPatchRequest
 } from '../declarations/types-43.js';
 export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-44.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type { CategoryReference } from '../declarations/types-5.js';
 export type { TextModifierConfig } from '../declarations/types-74.js';
 export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';

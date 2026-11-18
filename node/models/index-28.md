@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# PaymentLinkUpdatedInstalledMerchantsEvent to PayoutDestinationListResponse
+# PaymentLinkUpdatedMerchantEvent to PayoutDestinationResponse
 
-- [PaymentLinkUpdatedInstalledMerchantsEvent](PaymentLinkUpdatedInstalledMerchantsEvent.md)
 - [PaymentLinkUpdatedMerchantEvent](PaymentLinkUpdatedMerchantEvent.md)
 - [PaymentMethod](PaymentMethod.md)
 - [PaymentMethodActivatedInstalledMerchantsEvent](PaymentMethodActivatedInstalledMerchantsEvent.md)
@@ -102,4 +101,5 @@
 - [PayoutDestinationDisabledInstalledMerchantsEvent](PayoutDestinationDisabledInstalledMerchantsEvent.md)
 - [PayoutDestinationDisabledMerchantEvent](PayoutDestinationDisabledMerchantEvent.md)
 - [PayoutDestinationListResponse](PayoutDestinationListResponse.md)
+- [PayoutDestinationResponse](PayoutDestinationResponse.md)
 

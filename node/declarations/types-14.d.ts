@@ -1,4 +1,4 @@
-import type { RiskPredicateNodeRequest, RiskPredicateNodeRequestInput } from './types-67.js';
+import type { RiskPredicateNodeRequestInput, RiskPredicateNodeRequest } from './types-67.js';
 import type { MetadataMap, MetadataRequestInput } from './types-43.js';
 import type { PackageCreateRequest, PackageCreateRequestInput } from './types-48.js';
 import type { ReturnResolutionLineItemRequest, ReturnShipmentLineItemAllocationRequestInput } from './types-65.js';
@@ -53,31 +53,7 @@ import type {
     WorkloadIdentityClaimConditionRequest,
     WorkloadIdentityClaimConditionRequestInput
 } from './types-79.js';
-/** The `stored_rule` variant of `CreateRiskPreviewRequest`. */
-export type CreateRiskPreviewRequestStoredRule = ({
-    /**
-     * Action to preview. In stored_rule mode, omitted or null keeps the saved action. Value enum:
-     * "allow", "block", "review", "require_3ds", null.
-     */
-    "action"?: "allow" | "block" | "review" | "require_3ds" | null | (string & {}) | null;
-    /** What to check: a rule in this request, or a saved rule. Value enum: "stored_rule". */
-    "mode": "stored_rule" | (string & {});
-    /**
-     * Predicate to preview. In stored_rule mode, omitted or null keeps the saved predicate.
-     * anyOf[1] (Value): {@link RiskPredicateNodeRequest}. A node in a risk rule condition: a
-     * comparison of an attribute, or an `all`, `any`, or `not` group of other nodes. anyOf[2]
-     * (Value): null.
-     */
-    "predicate"?: ((RiskPredicateNodeRequest) | (null) | (unknown));
-    /** ID of the saved rule to check. minLength: 1. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319". */
-    "risk_rule_id": string;
-})
-    & ({
-    /** What to check: a rule in this request, or a saved rule. Value enum: "stored_rule". */
-    "mode": "stored_rule" | (string & {});
-    /** ID of the saved rule to check. minLength: 1. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319". */
-    "risk_rule_id": string;
-});
+import type { CredentialProvider } from '../runtime.js';
 /** The `stored_rule` variant of `CreateRiskPreviewRequest`. */
 export type CreateRiskPreviewRequestStoredRuleInput = ({
     /**
@@ -4432,3 +4408,20 @@ export type CreateWorkloadIdentityRequestInput = {
      */
     "subject_match"?: "exact" | "glob";
 };
+export interface Credentials {
+    "checkout": {
+        "CheckoutSessionBearer": string | CredentialProvider;
+    };
+    "customer": {
+        "CustomerSessionBearer": string | CredentialProvider;
+    };
+    "invoice": {
+        "InvoiceAccessTokenBearer": string | CredentialProvider;
+    };
+    "merchant": {
+        "BearerAuth": string | CredentialProvider;
+    };
+    "onboarding": {
+        "OnboardingSessionBearer": string | CredentialProvider;
+    };
+}

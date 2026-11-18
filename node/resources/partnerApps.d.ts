@@ -119,7 +119,7 @@ export type { RotatePartnerAppSecretResponse, RotatePartnerAppSecretRequestInput
 export type { ClientOptions, CheckoutSessionsListCustomerVerificationsParams } from '../declarations/types-7.js';
 export type { AcceptPartnerAppPlatformTermsRequestInput, AcceptPartnerAppPlatformTermsRequest } from '../declarations/types-0.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-44.js';
 export type { ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-62.js';
 export type { PlatformFeeCap, PlatformFeeCapRequestInput } from '../declarations/types-55.js';

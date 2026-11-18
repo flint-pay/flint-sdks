@@ -1,10 +1,11 @@
-import type { InlineModifierGroupRequestInput, InlineModifierGroupRequest } from './types-31.js';
+import type { InlineModifierGroupRequest, InlineModifierGroupRequestInput } from './types-31.js';
 import type {
-    ModifierOverrideRequestInput,
     ModifierOverride,
+    ModifierOverrideRequestInput,
     ModifierGroupPreviousAttributes,
     ModifierOverridePreviousAttributes,
     ModifierSetGroupInputExisting,
+    ModifierSetGroupInputExistingInput,
     ModifierSet,
     MetadataMap,
     MerchantWebhookEnvelope,
@@ -19,78 +20,7 @@ import type { UpdateModifierSetRequestInput } from './types-76.js';
 import type { ReadinessMerchantAccountSession, ReadinessMerchantAccountSessionPreviousAttributes } from './types-60.js';
 import type { CLIDeviceRequestInput, CLIContextsRequestInput, CLIReauthorizeRequestInput } from './types-4.js';
 import type { ReadinessAction } from './types-59.js';
-/** The `existing` variant of `ModifierSetGroupInput`. */
-export type ModifierSetGroupInputExistingInput = ({
-    /**
-     * Overrides the group's name for this set. Omit it to use the group's name. minLength: 1.
-     * maxLength: 255.
-     */
-    "display_name"?: string;
-    /**
-     * Overrides the group's max_selected for this set. Omit it to use the group's value. Accepted
-     * only for list groups; if neither value is set, there is no limit. Format: int32.
-     */
-    "max_selected"?: number;
-    /**
-     * Overrides the group's min_selected for this set. Omit it to use the group's value. Accepted
-     * only for list groups; set min_selected: 1 to require a selection. If neither value is set,
-     * the minimum is 0. Format: int32.
-     */
-    "min_selected"?: number;
-    /**
-     * Modifier group owned by this set when source is inline. Read this group through GET
-     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
-     * defined inline when setting up a modifier set, with its name, rules for how many options can
-     * be selected, and its modifiers.
-     */
-    "modifier_group"?: InlineModifierGroupRequestInput;
-    /**
-     * Identifier of the independent modifier group referenced when source is existing. minLength:
-     * 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
-     */
-    "modifier_group_id": string;
-    /**
-     * Overrides for individual list modifiers in this set. A choice is offered only when its
-     * status is active and its override's available is not false. [] (Value): {@link
-     * ModifierOverrideRequestInput}. Settings for one modifier that apply only within a modifier
-     * set group, overriding the modifier group's own values.
-     */
-    "modifier_overrides"?: Array<ModifierOverrideRequestInput>;
-    /**
-     * Stable identifier of this group entry within the set. In a replacement request, include it
-     * to retain an entry or omit it to create one. minLength: 1. Example:
-     * "msg_01KEZF7C008GXTVA2AQ1SRFGFC".
-     */
-    "modifier_set_group_id"?: string;
-    /** Display position of this group within the set; lower values appear first. Format: int32. */
-    "position"?: number;
-    /**
-     * Overrides the group's text.required for this set. Omit it to use the group's value. Accepted
-     * only for text groups; for a list group, set min_selected: 1 to require a selection.
-     */
-    "required"?: boolean;
-    /** Overrides the group's show_on_fulfillment for this set. Omit it to use the group's value. */
-    "show_on_fulfillment"?: boolean;
-    /** Overrides the group's show_on_receipt for this set. Omit it to use the group's value. */
-    "show_on_receipt"?: boolean;
-    /**
-     * Use inline for a modifier group owned by this modifier set, or existing to reference an
-     * independent modifier group. Value enum: "existing".
-     */
-    "source": "existing";
-})
-    & (({
-    /** References an independent modifier group. Value enum: "existing". */
-    "source": "existing";
-    /**
-     * Identifier of the independent modifier group referenced when source is existing. minLength:
-     * 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
-     */
-    "modifier_group_id": string;
-})
-    & ({
-    "modifier_group"?: never;
-}));
+import type { OnboardingVerifyEmailRequestInput } from './types-45.js';
 /** The `inline` variant of `ModifierSetGroupInput`. */
 export type ModifierSetGroupInputInline = ({
     /**
@@ -4149,3 +4079,4 @@ export type OnboardingStateResponse = {
      */
     "request_id": string;
 };
+export type OnboardingVerifyEmailParams = (InputValue<OnboardingVerifyEmailRequestInput>);

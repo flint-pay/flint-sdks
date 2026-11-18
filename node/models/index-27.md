@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# PaymentIntentAuthorizationExpiringInstalledMerchantsEvent to PaymentLinkThemePatchRequestInput
+# PaymentIntentAuthorizationExpiringMerchantEvent to PaymentLinkUpdatedInstalledMerchantsEvent
 
-- [PaymentIntentAuthorizationExpiringInstalledMerchantsEvent](PaymentIntentAuthorizationExpiringInstalledMerchantsEvent.md)
 - [PaymentIntentAuthorizationExpiringMerchantEvent](PaymentIntentAuthorizationExpiringMerchantEvent.md)
 - [PaymentIntentCanceledInstalledMerchantsEvent](PaymentIntentCanceledInstalledMerchantsEvent.md)
 - [PaymentIntentCanceledMerchantEvent](PaymentIntentCanceledMerchantEvent.md)
@@ -102,4 +101,5 @@
 - [PaymentLinkThemeConfigInput](PaymentLinkThemeConfigInput.md)
 - [PaymentLinkThemePatchRequest](PaymentLinkThemePatchRequest.md)
 - [PaymentLinkThemePatchRequestInput](PaymentLinkThemePatchRequestInput.md)
+- [PaymentLinkUpdatedInstalledMerchantsEvent](PaymentLinkUpdatedInstalledMerchantsEvent.md)
 

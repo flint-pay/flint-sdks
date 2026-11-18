@@ -1,6 +1,5 @@
 import type { InputValue } from '../runtime.js';
 import type {
-    CreateSubscriptionAccessLinkRequestInput,
     CreateSubscriptionLineItemRequestInput,
     CreateSubscriptionRequestInput,
     CreateTaxCalculationCallbackRequestInput,
@@ -31,31 +30,7 @@ import type { MerchantWebhookEnvelope } from './types-43.js';
 import type { ResponseMeta } from './types-62.js';
 import type { Address } from './types-0.js';
 import type { ConnectTaxConnectionRequestInput } from './types-8.js';
-export type SubscriptionsCreateAccessLinkParams = (InputValue<CreateSubscriptionAccessLinkRequestInput>
-    | {
-    "purpose"?: never;
-    "return_url"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
+import type { DisconnectTaxConnectionRequestInput } from './types-25.js';
 export type SubscriptionsCreateLineItemParams = (CreateSubscriptionLineItemRequestInput)
     & {
     /**
@@ -2336,3 +2311,4 @@ export type TaxConnectionDisclosurePreviousAttributes = {
      */
     "version"?: ((string) | (null));
 };
+export type TaxConnectionDisconnectParams = (InputValue<DisconnectTaxConnectionRequestInput>);

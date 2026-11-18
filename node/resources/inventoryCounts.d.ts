@@ -54,7 +54,7 @@ export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { ApplyInventoryCountRequestInput } from '../declarations/types-0.js';
 export type { AuthMode, BackorderPolicy } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type { MetadataMap } from '../declarations/types-43.js';
 export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
@@ -64,7 +64,8 @@ export type { CreateInventoryCountRequestInput, CreateInventoryCountRequest } fr
 export type { InventorySourceSystem, InventorySourceSystemRequestInput } from '../declarations/types-33.js';
 export type { UpdateInventoryCountRequestInput } from '../declarations/types-76.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
-export { makeApplyInventoryCountRequest, makeCancelInventoryCountRequest } from '../declarations/types-80.js';
+export { makeApplyInventoryCountRequest } from '../declarations/types-79.js';
+export { makeCancelInventoryCountRequest } from '../declarations/types-80.js';
 export { makeCreateInventoryCountRequest } from '../declarations/types-82.js';
 export { makeInventoryCountObservationRequest } from '../declarations/types-86.js';
 export { makeInventorySourceSystemRequest } from '../declarations/types-87.js';

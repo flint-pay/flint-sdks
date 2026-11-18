@@ -39,7 +39,6 @@ export type {
     RiskRuleListResponse,
     RiskRulesUpdateParams,
     RiskPredicateNodeRequestInput,
-    RiskPredicateNodeNotRequestInput,
     RiskRuleIssue
 } from '../declarations/types-67.js';
 export type { RequestOptions } from '../declarations/types-61.js';
@@ -49,6 +48,7 @@ export type {
     RiskAttributeRegistryResponse,
     RiskPredicateNodeAllRequestInput,
     RiskPredicateNodeAnyRequestInput,
+    RiskPredicateNodeNotRequestInput,
     RiskPredicateNodeComparisonRequestInput,
     RiskPredicateNodeMoneyComparisonRequestInput,
     RiskPredicateNodeInRequestInput,
@@ -66,10 +66,9 @@ export type {
     RiskAttribute
 } from '../declarations/types-66.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type { CreateRiskRuleRequestInput } from '../declarations/types-14.js';
+export type { CreateRiskRuleRequestInput, Credentials } from '../declarations/types-14.js';
 export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
 export type { ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-62.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { UpdateRiskRuleRequestInput } from '../declarations/types-77.js';

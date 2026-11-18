@@ -1,5 +1,4 @@
-import type { MetadataMap, MerchantWebhookEnvelope } from './types-43.js';
-import type { PartnerWebhookEnvelope, PaymentClientAction } from './types-50.js';
+import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
 import type {
     MoneyMovementListMeta,
     MoneyValue,
@@ -12,6 +11,7 @@ import type {
 } from './types-44.js';
 import type { PayoutDestination, Payout } from './types-54.js';
 import type { ResponseMeta, ResourceReference } from './types-62.js';
+import type { PartnerWebhookEnvelope, PaymentClientAction, PaymentClientActionPreviousAttributes } from './types-50.js';
 import type { InputValue } from '../runtime.js';
 import type {
     DisputesAcceptParams,
@@ -20,517 +20,10 @@ import type {
     ExpandedPayoutSummary,
     ExpandedPayoutSummaryPreviousAttributes
 } from './types-26.js';
-import type { UpdatePayoutDestinationRequestInput } from './types-76.js';
-import type { UpdatePayoutSettingsRequestInput } from './types-77.js';
+import type { UpdatePayoutDestinationRequestInput, UpdatePayoutSettingsRequestInput } from './types-76.js';
 import type { CancelPayoutRequestInput } from './types-5.js';
 import type { CreatePayoutRequestInput } from './types-12.js';
-import type { PaymentClientActionPreviousAttributes } from './types-51.js';
 import type { Address, AddressPreviousAttributes } from './types-0.js';
-/**
- * The `payout_destination.disabled` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type PayoutDestinationDisabledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.available_payout_methods (Required): Array of string. Payout
-     * methods available through Flint for this destination. Only standard is currently available.
-     * [] enum: "standard". object.available_payout_methods[] (Value): string. Value enum:
-     * "standard". object.bank_name (Optional): string. Name of the bank, when your processor
-     * reports it. object.country (Optional): string. ISO 3166-1 alpha-2 country code. minLength:
-     * 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example: "US". object.created_at (Required): string.
-     * When the destination was added. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.currency (Required): string. ISO 4217 currency code. minLength: 3. maxLength: 3.
-     * pattern: ^[A-Z]{3}$. Example: "USD". object.disabled_at (Optional): string. When the
-     * destination was last disabled or archived. Absent if it never was. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.disabled_reason (Optional): string. Flint-normalized
-     * reason the payout destination cannot currently be used. Unknown provider/backend values are
-     * returned as destination_unavailable. Value enum: "destination_disabled",
-     * "destination_removed", "destination_unavailable", "destination_rejected",
-     * "destination_under_review", "requirements_past_due", "requirements_pending_verification".
-     * object.is_default_for_currency (Required): boolean. Whether this is the default destination
-     * for its currency. Scheduled payouts, and payouts created without payout_destination_id, go
-     * to the default, and only an active destination can be it. object.last4 (Optional): string.
-     * Last four digits of the account or card number. object.merchant_id (Required): string.
-     * Merchant that owns the destination. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     * object.metadata (Optional): {@link MetadataMap}. Caller-owned metadata. Values can't be
-     * empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and
-     * cannot be written through the public API. Caller-owned key-value data stored on a resource.
-     * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
-     * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
-     * satisfy them. object.payout_destination_id (Required): string. Stable identifier of the
-     * payout destination. Example: "pdest_01KEZF7C00M55HZDZXZP6YVE6B". object.status (Required):
-     * string. Current status. Archived: deleted, and still readable by ID. Value enum: "pending",
-     * "active", "verification_required", "disabled", "archived", "failed".
-     * object.status_updated_at (Optional): string. When Flint last recorded the destination's
-     * status. Format: date-time. Example: "2026-08-02T16:00:00Z". object.type (Required): string.
-     * Destination type. Unmapped destination types are returned as other. Value enum:
-     * "bank_account", "debit_card", "other". object.updated_at (Required): string. When the
-     * destination last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version
-     * (Required): integer. Persisted version of this resource's owned state. Expanded resources
-     * and external observations can change independently. Format: uint64. minimum: 1.
-     * previous_attributes (Optional): object. Previous values of changed top-level fields in
-     * data.object, at this delivery's API version. Nested changes include the whole previous
-     * top-level value. A value is null when the field was absent before the change. Omitted when
-     * Flint did not record the previous state, including synthetic test events.
-     * previous_attributes.available_payout_methods (Optional): Array of string or null. Payout
-     * methods available through Flint for this destination. Only standard is currently available.
-     * [] enum: "standard". previous_attributes.available_payout_methods.anyOf[1] (Value): Array of
-     * string. Payout methods available through Flint for this destination. Only standard is
-     * currently available. [] enum: "standard".
-     * previous_attributes.available_payout_methods.anyOf[1][] (Value): string. Value enum:
-     * "standard". previous_attributes.available_payout_methods.anyOf[2] (Value): null.
-     * previous_attributes.bank_name (Optional): string or null. Name of the bank, when your
-     * processor reports it. previous_attributes.bank_name.anyOf[1] (Value): string. Name of the
-     * bank, when your processor reports it. previous_attributes.bank_name.anyOf[2] (Value): null.
-     * previous_attributes.country (Optional): string or null. ISO 3166-1 alpha-2 country code.
-     * previous_attributes.country.anyOf[1] (Value): string. ISO 3166-1 alpha-2 country code.
-     * minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example: "US".
-     * previous_attributes.country.anyOf[2] (Value): null. previous_attributes.created_at
-     * (Optional): string or null. When the destination was added.
-     * previous_attributes.created_at.anyOf[1] (Value): string. When the destination was added.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
-     * (Value): null. previous_attributes.currency (Optional): string or null. ISO 4217 currency
-     * code. previous_attributes.currency.anyOf[1] (Value): string. ISO 4217 currency code.
-     * minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
-     * previous_attributes.currency.anyOf[2] (Value): null. previous_attributes.disabled_at
-     * (Optional): string or null. When the destination was last disabled or archived. Absent if it
-     * never was. previous_attributes.disabled_at.anyOf[1] (Value): string. When the destination
-     * was last disabled or archived. Absent if it never was. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.disabled_at.anyOf[2] (Value): null.
-     * previous_attributes.disabled_reason (Optional): string or null. Flint-normalized reason the
-     * payout destination cannot currently be used. Unknown provider/backend values are returned as
-     * destination_unavailable. Value enum: "destination_disabled", "destination_removed",
-     * "destination_unavailable", "destination_rejected", "destination_under_review",
-     * "requirements_past_due", "requirements_pending_verification".
-     * previous_attributes.disabled_reason.anyOf[1] (Value): string. Flint-normalized reason the
-     * payout destination cannot currently be used. Unknown provider/backend values are returned as
-     * destination_unavailable. Value enum: "destination_disabled", "destination_removed",
-     * "destination_unavailable", "destination_rejected", "destination_under_review",
-     * "requirements_past_due", "requirements_pending_verification".
-     * previous_attributes.disabled_reason.anyOf[2] (Value): null.
-     * previous_attributes.is_default_for_currency (Optional): boolean or null. Whether this is the
-     * default destination for its currency. Scheduled payouts, and payouts created without
-     * payout_destination_id, go to the default, and only an active destination can be it.
-     * previous_attributes.is_default_for_currency.anyOf[1] (Value): boolean. Whether this is the
-     * default destination for its currency. Scheduled payouts, and payouts created without
-     * payout_destination_id, go to the default, and only an active destination can be it.
-     * previous_attributes.is_default_for_currency.anyOf[2] (Value): null.
-     * previous_attributes.last4 (Optional): string or null. Last four digits of the account or
-     * card number. previous_attributes.last4.anyOf[1] (Value): string. Last four digits of the
-     * account or card number. previous_attributes.last4.anyOf[2] (Value): null.
-     * previous_attributes.merchant_id (Optional): string or null. Merchant that owns the
-     * destination. previous_attributes.merchant_id.anyOf[1] (Value): string. Merchant that owns
-     * the destination. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
-     * (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be empty
-     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
-     * written through the public API. previous_attributes.metadata.anyOf[1] (Value): {@link
-     * MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
-     * previous_attributes.payout_destination_id (Optional): string or null. Stable identifier of
-     * the payout destination. previous_attributes.payout_destination_id.anyOf[1] (Value): string.
-     * Stable identifier of the payout destination. Example: "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
-     * previous_attributes.payout_destination_id.anyOf[2] (Value): null. previous_attributes.status
-     * (Optional): string or null. Current status. Archived: deleted, and still readable by ID.
-     * Value enum: "pending", "active", "verification_required", "disabled", "archived", "failed".
-     * previous_attributes.status.anyOf[1] (Value): string. Current status. Archived: deleted, and
-     * still readable by ID. Value enum: "pending", "active", "verification_required", "disabled",
-     * "archived", "failed". previous_attributes.status.anyOf[2] (Value): null.
-     * previous_attributes.status_updated_at (Optional): string or null. When Flint last recorded
-     * the destination's status. previous_attributes.status_updated_at.anyOf[1] (Value): string.
-     * When Flint last recorded the destination's status. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.status_updated_at.anyOf[2] (Value): null.
-     * previous_attributes.type (Optional): string or null. Destination type. Unmapped destination
-     * types are returned as other. Value enum: "bank_account", "debit_card", "other".
-     * previous_attributes.type.anyOf[1] (Value): string. Destination type. Unmapped destination
-     * types are returned as other. Value enum: "bank_account", "debit_card", "other".
-     * previous_attributes.type.anyOf[2] (Value): null. previous_attributes.updated_at (Optional):
-     * string or null. When the destination last changed. previous_attributes.updated_at.anyOf[1]
-     * (Value): string. When the destination last changed. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value): null.
-     * previous_attributes.version (Optional): integer or null. Persisted version of this
-     * resource's owned state. Expanded resources and external observations can change
-     * independently. previous_attributes.version.anyOf[1] (Value): integer. Persisted version of
-     * this resource's owned state. Expanded resources and external observations can change
-     * independently. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value):
-     * null.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * available_payout_methods (Required): Array of string. Payout methods available through
-         * Flint for this destination. Only standard is currently available. [] enum: "standard".
-         * available_payout_methods[] (Value): string. Value enum: "standard". bank_name
-         * (Optional): string. Name of the bank, when your processor reports it. country
-         * (Optional): string. ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2.
-         * pattern: ^[A-Z]{2}$. Example: "US". created_at (Required): string. When the destination
-         * was added. Format: date-time. Example: "2026-08-02T16:00:00Z". currency (Required):
-         * string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
-         * Example: "USD". disabled_at (Optional): string. When the destination was last disabled
-         * or archived. Absent if it never was. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * disabled_reason (Optional): string. Flint-normalized reason the payout destination
-         * cannot currently be used. Unknown provider/backend values are returned as
-         * destination_unavailable. Value enum: "destination_disabled", "destination_removed",
-         * "destination_unavailable", "destination_rejected", "destination_under_review",
-         * "requirements_past_due", "requirements_pending_verification". is_default_for_currency
-         * (Required): boolean. Whether this is the default destination for its currency. Scheduled
-         * payouts, and payouts created without payout_destination_id, go to the default, and only
-         * an active destination can be it. last4 (Optional): string. Last four digits of the
-         * account or card number. merchant_id (Required): string. Merchant that owns the
-         * destination. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link
-         * MetadataMap}. Caller-owned metadata. Values can't be empty strings. Keys starting with
-         * flint_ are reserved for Flint, are not returned, and cannot be written through the
-         * public API. Caller-owned key-value data stored on a resource. Keys starting with flint_
-         * are reserved for Flint and are not returned. Writes follow the limits on MetadataInput
-         * and MetadataPatchInput; maps written before those limits may not satisfy them.
-         * payout_destination_id (Required): string. Stable identifier of the payout destination.
-         * Example: "pdest_01KEZF7C00M55HZDZXZP6YVE6B". status (Required): string. Current status.
-         * Archived: deleted, and still readable by ID. Value enum: "pending", "active",
-         * "verification_required", "disabled", "archived", "failed". status_updated_at (Optional):
-         * string. When Flint last recorded the destination's status. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". type (Required): string. Destination type. Unmapped destination
-         * types are returned as other. Value enum: "bank_account", "debit_card", "other".
-         * updated_at (Required): string. When the destination last changed. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". version (Required): integer. Persisted version of this
-         * resource's owned state. Expanded resources and external observations can change
-         * independently. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /**
-             * Payout methods available through Flint for this destination. Only standard is
-             * currently available. [] enum: "standard". [] (Value): string. Value enum:
-             * "standard".
-             */
-            "available_payout_methods": Array<"standard" | (string & {})>;
-            /** Name of the bank, when your processor reports it. */
-            "bank_name"?: string;
-            /**
-             * ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$.
-             * Example: "US".
-             */
-            "country"?: string;
-            /**
-             * When the destination was added. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "created_at": string;
-            /**
-             * ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example:
-             * "USD".
-             */
-            "currency": string;
-            /**
-             * When the destination was last disabled or archived. Absent if it never was. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "disabled_at"?: string;
-            /**
-             * Flint-normalized reason the payout destination cannot currently be used. Unknown
-             * provider/backend values are returned as destination_unavailable. Value enum:
-             * "destination_disabled", "destination_removed", "destination_unavailable",
-             * "destination_rejected", "destination_under_review", "requirements_past_due",
-             * "requirements_pending_verification".
-             */
-            "disabled_reason"?: "destination_disabled"
-                | "destination_removed"
-                | "destination_unavailable"
-                | "destination_rejected"
-                | "destination_under_review"
-                | "requirements_past_due"
-                | "requirements_pending_verification"
-                | (string & {});
-            /**
-             * Whether this is the default destination for its currency. Scheduled payouts, and
-             * payouts created without payout_destination_id, go to the default, and only an active
-             * destination can be it.
-             */
-            "is_default_for_currency": boolean;
-            /** Last four digits of the account or card number. */
-            "last4"?: string;
-            /** Merchant that owns the destination. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-            "merchant_id": string;
-            /**
-             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
-             * reserved for Flint, are not returned, and cannot be written through the public API.
-             * Caller-owned key-value data stored on a resource. Keys starting with flint_ are
-             * reserved for Flint and are not returned. Writes follow the limits on MetadataInput
-             * and MetadataPatchInput; maps written before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Stable identifier of the payout destination. Example:
-             * "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
-             */
-            "payout_destination_id": string;
-            /**
-             * Current status. Archived: deleted, and still readable by ID. Value enum: "pending",
-             * "active", "verification_required", "disabled", "archived", "failed".
-             */
-            "status": "pending" | "active" | "verification_required" | "disabled" | "archived" | "failed" | (string & {});
-            /**
-             * When Flint last recorded the destination's status. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "status_updated_at"?: string;
-            /**
-             * Destination type. Unmapped destination types are returned as other. Value enum:
-             * "bank_account", "debit_card", "other".
-             */
-            "type": "bank_account" | "debit_card" | "other" | (string & {});
-            /**
-             * When the destination last changed. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "updated_at": string;
-            /**
-             * Persisted version of this resource's owned state. Expanded resources and external
-             * observations can change independently. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. available_payout_methods (Optional): Array of
-         * string or null. Payout methods available through Flint for this destination. Only
-         * standard is currently available. [] enum: "standard". available_payout_methods.anyOf[1]
-         * (Value): Array of string. Payout methods available through Flint for this destination.
-         * Only standard is currently available. [] enum: "standard".
-         * available_payout_methods.anyOf[1][] (Value): string. Value enum: "standard".
-         * available_payout_methods.anyOf[2] (Value): null. bank_name (Optional): string or null.
-         * Name of the bank, when your processor reports it. bank_name.anyOf[1] (Value): string.
-         * Name of the bank, when your processor reports it. bank_name.anyOf[2] (Value): null.
-         * country (Optional): string or null. ISO 3166-1 alpha-2 country code. country.anyOf[1]
-         * (Value): string. ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern:
-         * ^[A-Z]{2}$. Example: "US". country.anyOf[2] (Value): null. created_at (Optional): string
-         * or null. When the destination was added. created_at.anyOf[1] (Value): string. When the
-         * destination was added. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. currency (Optional): string or null. ISO 4217
-         * currency code. currency.anyOf[1] (Value): string. ISO 4217 currency code. minLength: 3.
-         * maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". currency.anyOf[2] (Value): null.
-         * disabled_at (Optional): string or null. When the destination was last disabled or
-         * archived. Absent if it never was. disabled_at.anyOf[1] (Value): string. When the
-         * destination was last disabled or archived. Absent if it never was. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". disabled_at.anyOf[2] (Value): null. disabled_reason
-         * (Optional): string or null. Flint-normalized reason the payout destination cannot
-         * currently be used. Unknown provider/backend values are returned as
-         * destination_unavailable. Value enum: "destination_disabled", "destination_removed",
-         * "destination_unavailable", "destination_rejected", "destination_under_review",
-         * "requirements_past_due", "requirements_pending_verification". disabled_reason.anyOf[1]
-         * (Value): string. Flint-normalized reason the payout destination cannot currently be
-         * used. Unknown provider/backend values are returned as destination_unavailable. Value
-         * enum: "destination_disabled", "destination_removed", "destination_unavailable",
-         * "destination_rejected", "destination_under_review", "requirements_past_due",
-         * "requirements_pending_verification". disabled_reason.anyOf[2] (Value): null.
-         * is_default_for_currency (Optional): boolean or null. Whether this is the default
-         * destination for its currency. Scheduled payouts, and payouts created without
-         * payout_destination_id, go to the default, and only an active destination can be it.
-         * is_default_for_currency.anyOf[1] (Value): boolean. Whether this is the default
-         * destination for its currency. Scheduled payouts, and payouts created without
-         * payout_destination_id, go to the default, and only an active destination can be it.
-         * is_default_for_currency.anyOf[2] (Value): null. last4 (Optional): string or null. Last
-         * four digits of the account or card number. last4.anyOf[1] (Value): string. Last four
-         * digits of the account or card number. last4.anyOf[2] (Value): null. merchant_id
-         * (Optional): string or null. Merchant that owns the destination. merchant_id.anyOf[1]
-         * (Value): string. Merchant that owns the destination. Example:
-         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
-         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be empty
-         * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot
-         * be written through the public API. metadata.anyOf[1] (Value): {@link MetadataMap}.
-         * metadata.anyOf[2] (Value): null. payout_destination_id (Optional): string or null.
-         * Stable identifier of the payout destination. payout_destination_id.anyOf[1] (Value):
-         * string. Stable identifier of the payout destination. Example:
-         * "pdest_01KEZF7C00M55HZDZXZP6YVE6B". payout_destination_id.anyOf[2] (Value): null. status
-         * (Optional): string or null. Current status. Archived: deleted, and still readable by ID.
-         * Value enum: "pending", "active", "verification_required", "disabled", "archived",
-         * "failed". status.anyOf[1] (Value): string. Current status. Archived: deleted, and still
-         * readable by ID. Value enum: "pending", "active", "verification_required", "disabled",
-         * "archived", "failed". status.anyOf[2] (Value): null. status_updated_at (Optional):
-         * string or null. When Flint last recorded the destination's status.
-         * status_updated_at.anyOf[1] (Value): string. When Flint last recorded the destination's
-         * status. Format: date-time. Example: "2026-08-02T16:00:00Z". status_updated_at.anyOf[2]
-         * (Value): null. type (Optional): string or null. Destination type. Unmapped destination
-         * types are returned as other. Value enum: "bank_account", "debit_card", "other".
-         * type.anyOf[1] (Value): string. Destination type. Unmapped destination types are returned
-         * as other. Value enum: "bank_account", "debit_card", "other". type.anyOf[2] (Value):
-         * null. updated_at (Optional): string or null. When the destination last changed.
-         * updated_at.anyOf[1] (Value): string. When the destination last changed. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version
-         * (Optional): integer or null. Persisted version of this resource's owned state. Expanded
-         * resources and external observations can change independently. version.anyOf[1] (Value):
-         * integer. Persisted version of this resource's owned state. Expanded resources and
-         * external observations can change independently. Format: uint64. minimum: 1.
-         * version.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * Payout methods available through Flint for this destination. Only standard is
-             * currently available. [] enum: "standard". anyOf[1] (Value): Array of string. Payout
-             * methods available through Flint for this destination. Only standard is currently
-             * available. [] enum: "standard". anyOf[1][] (Value): string. Value enum: "standard".
-             * anyOf[2] (Value): null.
-             */
-            "available_payout_methods"?: ((Array<"standard" | (string & {})>) | (null));
-            /**
-             * Name of the bank, when your processor reports it. anyOf[1] (Value): string. Name of
-             * the bank, when your processor reports it. anyOf[2] (Value): null.
-             */
-            "bank_name"?: ((string) | (null));
-            /**
-             * ISO 3166-1 alpha-2 country code. anyOf[1] (Value): string. ISO 3166-1 alpha-2
-             * country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example: "US".
-             * anyOf[2] (Value): null.
-             */
-            "country"?: ((string) | (null));
-            /**
-             * When the destination was added. anyOf[1] (Value): string. When the destination was
-             * added. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * ISO 4217 currency code. anyOf[1] (Value): string. ISO 4217 currency code. minLength:
-             * 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". anyOf[2] (Value): null.
-             */
-            "currency"?: ((string) | (null));
-            /**
-             * When the destination was last disabled or archived. Absent if it never was. anyOf[1]
-             * (Value): string. When the destination was last disabled or archived. Absent if it
-             * never was. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
-             * null.
-             */
-            "disabled_at"?: ((string) | (null));
-            /**
-             * Flint-normalized reason the payout destination cannot currently be used. Unknown
-             * provider/backend values are returned as destination_unavailable. Value enum:
-             * "destination_disabled", "destination_removed", "destination_unavailable",
-             * "destination_rejected", "destination_under_review", "requirements_past_due",
-             * "requirements_pending_verification". anyOf[1] (Value): string. Flint-normalized
-             * reason the payout destination cannot currently be used. Unknown provider/backend
-             * values are returned as destination_unavailable. Value enum: "destination_disabled",
-             * "destination_removed", "destination_unavailable", "destination_rejected",
-             * "destination_under_review", "requirements_past_due",
-             * "requirements_pending_verification". anyOf[2] (Value): null.
-             */
-            "disabled_reason"?: (("destination_disabled"
-                | "destination_removed"
-                | "destination_unavailable"
-                | "destination_rejected"
-                | "destination_under_review"
-                | "requirements_past_due"
-                | "requirements_pending_verification"
-                | (string & {}))
-                | (null));
-            /**
-             * Whether this is the default destination for its currency. Scheduled payouts, and
-             * payouts created without payout_destination_id, go to the default, and only an active
-             * destination can be it. anyOf[1] (Value): boolean. Whether this is the default
-             * destination for its currency. Scheduled payouts, and payouts created without
-             * payout_destination_id, go to the default, and only an active destination can be it.
-             * anyOf[2] (Value): null.
-             */
-            "is_default_for_currency"?: ((boolean) | (null));
-            /**
-             * Last four digits of the account or card number. anyOf[1] (Value): string. Last four
-             * digits of the account or card number. anyOf[2] (Value): null.
-             */
-            "last4"?: ((string) | (null));
-            /**
-             * Merchant that owns the destination. anyOf[1] (Value): string. Merchant that owns the
-             * destination. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
-             */
-            "merchant_id"?: ((string) | (null));
-            /**
-             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
-             * reserved for Flint, are not returned, and cannot be written through the public API.
-             * anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
-             */
-            "metadata"?: ((MetadataMap) | (null));
-            /**
-             * Stable identifier of the payout destination. anyOf[1] (Value): string. Stable
-             * identifier of the payout destination. Example: "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
-             * anyOf[2] (Value): null.
-             */
-            "payout_destination_id"?: ((string) | (null));
-            /**
-             * Current status. Archived: deleted, and still readable by ID. Value enum: "pending",
-             * "active", "verification_required", "disabled", "archived", "failed". anyOf[1]
-             * (Value): string. Current status. Archived: deleted, and still readable by ID. Value
-             * enum: "pending", "active", "verification_required", "disabled", "archived",
-             * "failed". anyOf[2] (Value): null.
-             */
-            "status"?: (("pending" | "active" | "verification_required" | "disabled" | "archived" | "failed" | (string & {}))
-                | (null));
-            /**
-             * When Flint last recorded the destination's status. anyOf[1] (Value): string. When
-             * Flint last recorded the destination's status. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "status_updated_at"?: ((string) | (null));
-            /**
-             * Destination type. Unmapped destination types are returned as other. Value enum:
-             * "bank_account", "debit_card", "other". anyOf[1] (Value): string. Destination type.
-             * Unmapped destination types are returned as other. Value enum: "bank_account",
-             * "debit_card", "other". anyOf[2] (Value): null.
-             */
-            "type"?: (("bank_account" | "debit_card" | "other" | (string & {})) | (null));
-            /**
-             * When the destination last changed. anyOf[1] (Value): string. When the destination
-             * last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
-             * null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * Persisted version of this resource's owned state. Expanded resources and external
-             * observations can change independently. anyOf[1] (Value): integer. Persisted version
-             * of this resource's owned state. Expanded resources and external observations can
-             * change independently. Format: uint64. minimum: 1. anyOf[2] (Value): null.
-             */
-            "version"?: ((number) | (null));
-        });
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "payout_destination.disabled". */
-    "event_type"?: "payout_destination.disabled";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
 /**
  * The `payout_destination.disabled` webhook payload for the `merchant` event source. Fields shared
  * by merchant webhook payloads.
@@ -13984,4 +13477,57 @@ export type PlatformFeeMoneyInput = {
      * Example: "USD".
      */
     "currency": string;
+};
+/**
+ * A payout from your partner app's platform fee balance to your merchant balance. Owned by the
+ * merchant that owns the partner app.
+ */
+export type PlatformFeePayout = {
+    /**
+     * The amount transferred to your merchant balance. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /**
+     * The credit on your merchant ledger. Flint checks daily for the credit, so this field can be
+     * absent even after the payout succeeds. Linking the credit sends no payout event and doesn't
+     * advance version. Example: "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ".
+     */
+    "balance_transaction_id"?: string;
+    /** When Flint prepared the payout. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * Why the payout failed. Present only when status is failed. Can gain values; treat unknown
+     * values as payout_failed. Value enum: "merchant_cannot_receive", "payout_failed".
+     */
+    "failure_reason"?: "merchant_cannot_receive" | "payout_failed" | (string & {});
+    /**
+     * The partner app whose fee balance funded the payout. Example:
+     * "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
+     */
+    "partner_app_id": string;
+    /**
+     * Unique identifier for the platform fee payout. Example: "pfpo_01KEZF7C00H58B147FK286D4A4".
+     */
+    "platform_fee_payout_id": string;
+    /**
+     * Where the payout stands. succeeded and failed are final. Value enum: "pending", "succeeded",
+     * "failed".
+     */
+    "status": "pending" | "succeeded" | "failed" | (string & {});
+    /**
+     * When the transfer succeeded. Present only when status is succeeded. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z".
+     */
+    "succeeded_at"?: string;
+    /**
+     * When the payout's owned state last changed. Retry bookkeeping and observing the credit don't
+     * change it. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "updated_at": string;
+    /**
+     * Persisted version of this resource's owned state. Expanded resources and external
+     * observations can change independently. Format: uint64. minimum: 1.
+     */
+    "version": number;
 };

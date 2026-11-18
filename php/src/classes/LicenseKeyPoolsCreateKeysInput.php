@@ -34,7 +34,7 @@ final class LicenseKeyPoolsCreateKeysInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** The request body for: Add keys to a license key pool. Example: {"keys":["TEST-KEY-00000001"],"seller_authorization_confirmed":true}.
+    /** The request body for: Add keys to a license key pool.
      * @return array{'keys': list<string>, 'seller_authorization_confirmed': bool}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

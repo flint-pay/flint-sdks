@@ -68,12 +68,11 @@ export type {
     AdjustGiftCardBalanceRequestInput
 } from '../declarations/types-0.js';
 export type { CashOutGiftCardResult, CashOutGiftCardResultResponse, CashOutGiftCardRequestInput } from '../declarations/types-5.js';
-export type { GiftCard, GiftCardFundingDispute } from '../declarations/types-28.js';
+export type { GiftCard, GiftCardFundingDispute, GiftCardFundingLossResolution } from '../declarations/types-28.js';
 export type { CreateGiftCardResult, CreateGiftCardResultResponse, CreateGiftCardRequestInput } from '../declarations/types-10.js';
 export type {
     GiftCardListResponse,
     GiftCardLoad,
-    GiftCardFundingLossResolution,
     GiftCardFundingSource,
     GiftCardFundingSourceExternalPayment,
     GiftCardFundingSourceFlintPayment,
@@ -102,7 +101,7 @@ export type { RotateGiftCardCodeResult, RotateGiftCardCodeResultResponse, Rotate
 export type { ClientOptions, CloseGiftCardRequestInput, CloseGiftCardRequest } from '../declarations/types-7.js';
 export type { SignedMoneyRequestInput } from '../declarations/types-68.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-44.js';
 export type { ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-62.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';

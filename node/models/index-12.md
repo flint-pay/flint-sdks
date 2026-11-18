@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# DeliveryInventoryAssignmentRequestInput to DeliveryPricingStrategyCreateInputCalculated
+# DeliveryInventoryReservationSummary to DeliveryPricingStrategyCreateInputCalculatedInput
 
-- [DeliveryInventoryAssignmentRequestInput](DeliveryInventoryAssignmentRequestInput.md)
 - [DeliveryInventoryReservationSummary](DeliveryInventoryReservationSummary.md)
 - [DeliveryLocationSet](DeliveryLocationSet.md)
 - [DeliveryLocationSetArchivedInstalledMerchantsEvent](DeliveryLocationSetArchivedInstalledMerchantsEvent.md)
@@ -102,4 +101,5 @@
 - [DeliveryPricingStrategyCallerSupplied](DeliveryPricingStrategyCallerSupplied.md)
 - [DeliveryPricingStrategyCallerSuppliedPreviousAttributes](DeliveryPricingStrategyCallerSuppliedPreviousAttributes.md)
 - [DeliveryPricingStrategyCreateInputCalculated](DeliveryPricingStrategyCreateInputCalculated.md)
+- [DeliveryPricingStrategyCreateInputCalculatedInput](DeliveryPricingStrategyCreateInputCalculatedInput.md)
 

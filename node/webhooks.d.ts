@@ -63,13 +63,10 @@ export type {
     DeliveryProfileUpdatedEvent,
     DeliveryRateCallbackActivatedEvent,
     DeliveryRateCallbackArchivedEvent,
-    DeliveryRateCallbackCreatedEvent
+    DeliveryRateCallbackCreatedEvent,
+    DeliveryRateCallbackDeactivatedEvent
 } from './declarations/types-22.js';
-export type {
-    DeliveryRateCallbackDeactivatedEvent,
-    DeliveryRateCallbackUpdatedEvent,
-    DeliveryRevocationCreatedEvent
-} from './declarations/types-23.js';
+export type { DeliveryRateCallbackUpdatedEvent, DeliveryRevocationCreatedEvent } from './declarations/types-23.js';
 export type { DeliverySelectionCommittedEvent, DeliveryZoneArchivedEvent } from './declarations/types-24.js';
 export type {
     DeliveryZoneCreatedEvent,
@@ -149,7 +146,8 @@ export type {
     InvoiceIssuedEvent,
     InvoiceLateFeeAssessedEvent,
     InvoiceLateFeeDueEvent,
-    InvoiceLateFeeWaivedEvent
+    InvoiceLateFeeWaivedEvent,
+    InvoiceMarkedUncollectibleEvent
 } from './declarations/types-35.js';
 export type {
     InvoicePaymentAttemptCanceledEvent,
@@ -157,7 +155,6 @@ export type {
     InvoicePaymentAttemptFailedEvent,
     InvoicePaymentAttemptProcessingEvent,
     InvoicePaymentAttemptSucceededEvent,
-    InvoiceMarkedUncollectibleEvent,
     InvoiceOverdueEvent,
     InvoicePaidEvent,
     InvoicePartiallyPaidEvent,
@@ -191,17 +188,17 @@ export type {
     ModifierSetCreatedEvent
 } from './declarations/types-43.js';
 export type { ModifierSetUpdatedEvent } from './declarations/types-44.js';
-export type { OrderEditCanceledEvent, OrderEditCompletedEvent, OrderClosedEvent, OrderCreatedEvent } from './declarations/types-45.js';
 export type {
+    OrderEditCanceledEvent,
+    OrderEditCompletedEvent,
     OrderEditCreatedEvent,
-    OrderEditUpdatedEvent,
-    OrderInventoryExceptionCreatedEvent,
-    OrderInventoryExceptionResolvedEvent
-} from './declarations/types-46.js';
+    OrderClosedEvent,
+    OrderCreatedEvent
+} from './declarations/types-45.js';
+export type { OrderEditUpdatedEvent, OrderInventoryExceptionCreatedEvent, OrderInventoryExceptionResolvedEvent } from './declarations/types-46.js';
 export type { OrderPaidEvent, OrderPartiallyPaidEvent, OrderPartiallyRefundedEvent, OrderRefundedEvent } from './declarations/types-47.js';
-export type { OrderUpdatedEvent, PackageCreatedEvent } from './declarations/types-48.js';
+export type { OrderUpdatedEvent, PackageCreatedEvent, PackageUpdatedEvent } from './declarations/types-48.js';
 export type {
-    PackageUpdatedEvent,
     PartnerAppInstallCreatedEvent,
     PartnerAppInstallPermissionsUpdatedEvent,
     PartnerAppInstallRevokedEvent,
@@ -293,8 +290,12 @@ export type {
     ReturnInspectionSupersededEvent
 } from './declarations/types-63.js';
 export type { ReturnReceiptCreatedEvent, ReturnReceiptSupersededEvent, ReturnReceiptVerifiedEvent } from './declarations/types-64.js';
-export type { ReturnResolutionCreatedEvent, ReturnResolutionUpdatedEvent, ReturnReopenedEvent } from './declarations/types-65.js';
-export type { ReturnUpdatedEvent } from './declarations/types-66.js';
+export type {
+    ReturnResolutionCreatedEvent,
+    ReturnResolutionUpdatedEvent,
+    ReturnReopenedEvent,
+    ReturnUpdatedEvent
+} from './declarations/types-65.js';
 export type { ShipmentCreatedEvent, ShipmentUpdatedEvent, SubscriptionActivatedEvent } from './declarations/types-68.js';
 export type {
     SubscriptionDeliveryMigrationCompletedEvent,

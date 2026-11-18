@@ -6,7 +6,7 @@ import type { WorkloadIdentityAuthContext } from './types-79.js';
 import type { InputValue } from '../runtime.js';
 import type { DisputesAcceptParams, ExpandedOrderSummary, ExpandedOrderSummaryPreviousAttributes } from './types-26.js';
 import type { ResponseMeta, ResourceReference, ResourceReferencePreviousAttributes, ResolvePaymentLinkResponse } from './types-62.js';
-import type { Credentials } from './types-15.js';
+import type { Credentials } from './types-14.js';
 import type { MerchantWebhookEnvelope, MetadataMap, ModifierSet } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { CategoryReference, CategoryReferencePreviousAttributes } from './types-5.js';

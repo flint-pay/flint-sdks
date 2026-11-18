@@ -40,7 +40,7 @@ export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declara
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CancelPayoutRequestInput } from '../declarations/types-5.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type { MoneyValue, NextAction, MoneyValueInput, MoneyMovementListMeta, MoneyMovementHistoryMeta } from '../declarations/types-44.js';
 export type { MetadataMap, MetadataRequestInput } from '../declarations/types-43.js';
 export type { ExpandedPayoutSummary, ExpandedPayoutDestinationSummary } from '../declarations/types-26.js';

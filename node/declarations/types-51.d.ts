@@ -30,16 +30,6 @@ import type { InputValue } from '../runtime.js';
 import type { CancelPaymentIntentRequestInput, CapturePaymentIntentRequestInput } from './types-5.js';
 import type { ConfirmPaymentIntentRequestInput } from './types-8.js';
 import type { CreatePaymentIntentRequestInput } from './types-12.js';
-/**
- * How to finish a payment step. Flint's API returns a Stripe client secret only for
- * client_action_type stripe. With url, Stripe's authentication page receives what it needs to run
- * the challenge, including the client secret for hosted 3DS2. If a payment is confirmed with a
- * payment method Flint didn't approve, Flint doesn't count the charge, returns it to the buyer,
- * and the payment intent ends canceled with cancellation_reason payment_returned.
- */
-export type PaymentClientActionPreviousAttributes = (((PaymentClientActionURLPreviousAttributes)
-    | (PaymentClientActionStripePreviousAttributes)
-    | (unknown)));
 /** The `stripe` variant of `PaymentClientAction`. */
 export type PaymentClientActionStripe = {
     /**
@@ -28178,6 +28168,83 @@ export type PaymentIntentsGetParams = {
      * "order".
      */
     "expand"?: InputValue<("customer" | "invoice" | "order") | readonly ("customer" | "invoice" | "order")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type PaymentIntentsListActivitiesParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+    /**
+     * Filter by activity type. Values are trimmed and deduplicated in first-seen order; empty or
+     * unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "created", "updated", "status_changed", "failed", "canceled", "expired",
+     * "refund_created", "refund_status_changed", "dispute_status_changed", "receipt_sent",
+     * "receipt_queued", "receipt_delivery_failed". Value enum: "created", "updated",
+     * "status_changed", "failed", "canceled", "expired", "refund_created",
+     * "refund_status_changed", "dispute_status_changed", "receipt_sent", "receipt_queued",
+     * "receipt_delivery_failed". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
+     * "created", "updated", "status_changed", "failed", "canceled", "expired", "refund_created",
+     * "refund_status_changed", "dispute_status_changed", "receipt_sent", "receipt_queued",
+     * "receipt_delivery_failed". anyOf[1][] (Value): string. Value enum: "created", "updated",
+     * "status_changed", "failed", "canceled", "expired", "refund_created",
+     * "refund_status_changed", "dispute_status_changed", "receipt_sent", "receipt_queued",
+     * "receipt_delivery_failed". anyOf[2] (Value): string. Value enum: "created", "updated",
+     * "status_changed", "failed", "canceled", "expired", "refund_created",
+     * "refund_status_changed", "dispute_status_changed", "receipt_sent", "receipt_queued",
+     * "receipt_delivery_failed".
+     */
+    "activity_type"?: InputValue<("created"
+        | "updated"
+        | "status_changed"
+        | "failed"
+        | "canceled"
+        | "expired"
+        | "refund_created"
+        | "refund_status_changed"
+        | "dispute_status_changed"
+        | "receipt_sent"
+        | "receipt_queued"
+        | "receipt_delivery_failed")
+        | readonly ("created"
+        | "updated"
+        | "status_changed"
+        | "failed"
+        | "canceled"
+        | "expired"
+        | "refund_created"
+        | "refund_status_changed"
+        | "dispute_status_changed"
+        | "receipt_sent"
+        | "receipt_queued"
+        | "receipt_delivery_failed")[]>;
     /**
      * Merchant this request acts for. Required with an app-level partner app token; optional with
      * a merchant-bound one, which it must match. Other credentials may send it only with their own

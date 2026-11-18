@@ -38,7 +38,6 @@ export type {
     MoneyValue,
     NextAction,
     ModifierSetGroupRequestInput,
-    ModifierSetGroupInputExistingInput,
     ModifierSetGroupInputInlineInput
 } from '../declarations/types-44.js';
 export type { RequestOptions } from '../declarations/types-61.js';
@@ -53,6 +52,7 @@ export type {
     ModifierOverride,
     MetadataPatchRequestInput,
     ModifierRequestInput,
+    ModifierSetGroupInputExistingInput,
     MetadataPatchRequest
 } from '../declarations/types-43.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
@@ -67,7 +67,7 @@ export type {
 export type { CreateInlineModifierGroupRequestInput } from '../declarations/types-10.js';
 export type { TextModifierConfigRequestInput, TextModifierConfig, TextModifierConfigRequest } from '../declarations/types-74.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { UpdateModifierSetRequestInput } from '../declarations/types-76.js';
@@ -78,9 +78,9 @@ export {
     makeCreateModifierRequest,
     makeCreateModifierSetGroupInputExisting,
     makeCreateModifierSetGroupInputInline,
-    makeCreateModifierSetGroupRequest
+    makeCreateModifierSetGroupRequest,
+    makeCreateModifierSetRequest
 } from '../declarations/types-82.js';
-export { makeCreateModifierSetRequest } from '../declarations/types-83.js';
 export { makeInlineModifierGroupRequest } from '../declarations/types-86.js';
 export {
     makeMetadataPatchRequest,
@@ -92,7 +92,8 @@ export {
     makeModifierSetGroupRequest,
     makeMoneyValue
 } from '../declarations/types-88.js';
-export { makeTextModifierConfigRequest, makeUpdateModifierSetRequest } from '../declarations/types-93.js';
+export { makeTextModifierConfigRequest } from '../declarations/types-92.js';
+export { makeUpdateModifierSetRequest } from '../declarations/types-93.js';
 export interface ModifierSetsResource {
     /**
  * Creates a modifier set, a reusable collection of modifier groups that you attach to products,

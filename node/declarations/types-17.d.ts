@@ -1,5 +1,3 @@
-import type { InputValue } from '../runtime.js';
-import type { RefreshCustomerSessionRequestInput } from './types-60.js';
 import type { ResponseMeta } from './types-62.js';
 import type { MetadataMap, MerchantWebhookEnvelope } from './types-43.js';
 import type { Address, AddressPreviousAttributes } from './types-0.js';
@@ -11,7 +9,8 @@ import type {
 } from './types-26.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { TaxIdentity, TaxIdentityPreviousAttributes } from './types-74.js';
-import type { ConfirmCustomerVerificationRequestInput } from './types-8.js';
+import type { InputValue } from '../runtime.js';
+import type { ConfirmCustomerVerificationRequestInput } from './types-7.js';
 import type {
     CreateCustomerVerificationRequestInput,
     CreateCustomerAccessLinkRequestInput,
@@ -28,7 +27,6 @@ import type {
 } from './types-75.js';
 import type { GetReturnInspectionResponse, GetReturnResponse, GetReturnPolicyResponse, GetReturnReasonResponse } from './types-28.js';
 import type { ReturnLineDecision, ReturnLineDecisionInput } from './types-63.js';
-export type CustomerSessionsRefreshParams = (InputValue<RefreshCustomerSessionRequestInput>);
 /**
  * The result of revoking a customer's sessions: the customer ID and how many sessions were
  * revoked.
@@ -3476,4 +3474,23 @@ export type DeliveryAddressAdvisoryResource = {
     "suggested_address"?: Address;
     /** How far address verification got. Value enum: "needs_review", "unverifiable". */
     "verification_state": "needs_review" | "unverifiable" | (string & {});
+};
+export type DeliveryAddressAdvisoryResourcePreviousAttributes = {
+    /**
+     * Which address the advisory is about. Value enum: "destination_address", "buyer_location".
+     * anyOf[1] (Value): string. Which address the advisory is about. Value enum:
+     * "destination_address", "buyer_location". anyOf[2] (Value): null.
+     */
+    "role"?: (("destination_address" | "buyer_location" | (string & {})) | (null));
+    /**
+     * Omitted for a checkout session credential that doesn't act for the customer the buyer
+     * verified. anyOf[1] (Value): {@link AddressPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "suggested_address"?: ((AddressPreviousAttributes) | (null));
+    /**
+     * How far address verification got. Value enum: "needs_review", "unverifiable". anyOf[1]
+     * (Value): string. How far address verification got. Value enum: "needs_review",
+     * "unverifiable". anyOf[2] (Value): null.
+     */
+    "verification_state"?: (("needs_review" | "unverifiable" | (string & {})) | (null));
 };

@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# GiftCardFundingSourceAdjustment to ImageAttachmentPreviousAttributes
+# GiftCardFundingSourceAdjustmentPreviousAttributes to ImageInputFile
 
-- [GiftCardFundingSourceAdjustment](GiftCardFundingSourceAdjustment.md)
 - [GiftCardFundingSourceAdjustmentPreviousAttributes](GiftCardFundingSourceAdjustmentPreviousAttributes.md)
 - [GiftCardFundingSourceAdjustmentRequestInput](GiftCardFundingSourceAdjustmentRequestInput.md)
 - [GiftCardFundingSourceExternalPayment](GiftCardFundingSourceExternalPayment.md)
@@ -102,4 +101,5 @@
 - [Image](Image.md)
 - [ImageAttachment](ImageAttachment.md)
 - [ImageAttachmentPreviousAttributes](ImageAttachmentPreviousAttributes.md)
+- [ImageInputFile](ImageInputFile.md)
 

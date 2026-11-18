@@ -1,5 +1,17 @@
-import type { MoneyValue, MoneyValueInput, MoneyValuePreviousAttributes } from './types-44.js';
+import type { MoneyValueInput, MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
 import type { OrderGiftCardAllocationPreviousAttributes } from './types-46.js';
+import type {
+    RefundTenderAllocationInputGiftCardRedemption,
+    RefundChargeAllocation,
+    RefundChargeAllocationPreviousAttributes,
+    RefundLineItemAllocation,
+    RefundLineItemAllocationPreviousAttributes,
+    RefundTaxBreakdownRefund,
+    RefundTaxBreakdownRefundPreviousAttributes,
+    RefundTenderAllocation,
+    Refund,
+    RefundGiftCardCode
+} from './types-60.js';
 import type {
     ExpandedCustomerSummary,
     ExpandedCustomerSummaryPreviousAttributes,
@@ -11,17 +23,6 @@ import type {
 import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { PaymentRefund, PaymentRefundPreviousAttributes } from './types-53.js';
-import type {
-    RefundChargeAllocation,
-    RefundChargeAllocationPreviousAttributes,
-    RefundLineItemAllocation,
-    RefundLineItemAllocationPreviousAttributes,
-    RefundTaxBreakdownRefund,
-    RefundTaxBreakdownRefundPreviousAttributes,
-    RefundTenderAllocation,
-    Refund,
-    RefundGiftCardCode
-} from './types-60.js';
 import type { InputValue, RequestOptions as RuntimeRequestOptions, CredentialProvider } from '../runtime.js';
 import type { CreateRefundRequestInput, CreateReportRequestInput } from './types-13.js';
 import type { UpdateRefundRequestInput } from './types-77.js';
@@ -31,71 +32,7 @@ import type { ConfigurationVersionRequestInput } from './types-7.js';
 import type { PublicDownload, PublicDownloadPreviousAttributes } from './types-59.js';
 import type { InventoryProvenanceRequest, InventoryProvenanceRequestInput } from './types-32.js';
 import type { AuthMode } from './types-1.js';
-import type { Credentials } from './types-15.js';
-/** The `gift_card_redemption` variant of `RefundTenderAllocationInput`. */
-export type RefundTenderAllocationInputGiftCardRedemption = ({
-    /**
-     * Amount to refund to this tender. Above zero. For a gift card redemption it is in USD.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code. amount
-     * (Required): integer string. Use an integer string (decimal digits), not a floating-point
-     * number. Format: int64. minimum: 1. Amount in the currency's minor unit, such as cents for
-     * USD. Use an integer string (decimal digits), not a floating-point number. Format: int64.
-     * minimum: 0. currency (Required): string. ISO 4217 currency code for this amount. minLength:
-     * 3. maxLength: 3. pattern: ^[A-Z]{3}$.
-     */
-    "amount_money": ({
-        /**
-         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
-         * minimum: 1.
-         */
-        "amount"?: `${bigint}`;
-    })
-        & (Exclude<MoneyValue & object, readonly unknown[]>);
-    /**
-     * Where this allocation is refunded. original returns value to the tender that paid;
-     * new_gift_card issues new Flint gift cards. Payment intent store credit requires a succeeded
-     * USD card, Apple Pay, Google Pay, or Link payment that belongs to an order, with no open
-     * chargeback. Affirm, ACH debit, other payment options, non-USD payments, and payments without
-     * an order return INVALID_REQUEST with a NOT_ALLOWED detail. Payment chargebacks use the
-     * existing dispute refusal. Gift card redemption destinations are unaffected by the payment
-     * restrictions. Default: "original". Value enum: "original", "new_gift_card".
-     */
-    "destination"?: "original" | "new_gift_card" | (string & {});
-    /**
-     * The captured redemption to refund. Required for tender_type gift_card_redemption. minLength:
-     * 1. pattern: ^gcr_[0-9A-HJKMNP-TV-Z]{26}$. Example: "gcr_01KEZF7C002YD2G2J734RRZTWT".
-     */
-    "gift_card_redemption_id": string;
-    /**
-     * The succeeded payment intent to refund. Required for tender_type payment_intent. minLength:
-     * 1. pattern: ^pi_[0-9A-HJKMNP-TV-Z]{26}$. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-     */
-    "payment_intent_id"?: string;
-    /** Which kind of original tender to refund. Value enum: "gift_card_redemption". */
-    "tender_type": "gift_card_redemption" | (string & {});
-})
-    & (({
-    /**
-     * Amount to refund to this tender. Above zero. For a gift card redemption it is in USD.
-     * currency (Optional): any. Uses ISO 4217 currency codes. Value enum: "USD".
-     */
-    "amount_money"?: null
-        | boolean
-        | number
-        | string
-        | unknown[]
-        | ({
-        /** Uses ISO 4217 currency codes. Value enum: "USD". */
-        "currency"?: unknown;
-    });
-    /** Which kind of original tender to refund. Value enum: "gift_card_redemption". */
-    "tender_type"?: unknown;
-    /**
-     * The captured redemption to refund. Required for tender_type gift_card_redemption. minLength:
-     * 1. pattern: ^gcr_[0-9A-HJKMNP-TV-Z]{26}$. Example: "gcr_01KEZF7C002YD2G2J734RRZTWT".
-     */
-    "gift_card_redemption_id": string;
-}));
+import type { Credentials } from './types-14.js';
 /** The `gift_card_redemption` variant of `RefundTenderAllocationInput`. */
 export type RefundTenderAllocationInputGiftCardRedemptionInput = ({
     /**
@@ -5963,3 +5900,5 @@ export type ResendWebhookDeliveryRequest = {
     /** Your note explaining this action. minLength: 1. maxLength: 500. */
     "reason_message"?: string;
 };
+/** The request body for: Resend webhook delivery. */
+export type ResendWebhookDeliveryRequestInput = ResendWebhookDeliveryRequest;

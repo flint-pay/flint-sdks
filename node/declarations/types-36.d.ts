@@ -1,6 +1,7 @@
 import type { AddressPreviousAttributes } from './types-0.js';
 import type { ExpandedCustomerSummaryPreviousAttributes, ExpandedOrderSummaryPreviousAttributes } from './types-26.js';
-import type { InvoiceCollectionPreviousAttributes, InvoiceLateFeePreviousAttributes, InvoiceLateFeePolicy } from './types-35.js';
+import type { InvoiceCollectionPreviousAttributes } from './types-34.js';
+import type { InvoiceLateFeePreviousAttributes, InvoiceLateFeePolicy } from './types-35.js';
 import type {
     InvoicePaymentTermsSnapshotPreviousAttributes,
     InvoiceScheduleEntryPreviousAttributes,
@@ -9,157 +10,13 @@ import type {
     InvoicePaymentTermCalculationOnReceipt
 } from './types-37.js';
 import type { InvoiceSettlementAmountsPreviousAttributes, InvoiceSnapshotPreviousAttributes } from './types-38.js';
-import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
+import type { MetadataMap, MerchantWebhookEnvelope } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { PricingAmountsPreviousAttributes } from './types-56.js';
 import type { WebhookInvoice } from './types-79.js';
 import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
 import type { PaymentErrorSummary, PaymentErrorSummaryPreviousAttributes } from './types-51.js';
 import type { ResponseMeta } from './types-62.js';
-export type InvoiceMarkedUncollectibleEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": WebhookInvoice;
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "cc_emails"?: ((Array<string>) | (null));
-            "closed_at"?: ((string) | (null));
-            "collection"?: ((InvoiceCollectionPreviousAttributes) | (null));
-            "collection_block_status"?: (("none" | "inventory_blocked" | "resolved" | (string & {})) | (null));
-            "created_at"?: ((string) | (null));
-            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
-            "customer_id"?: ((string) | (null));
-            "delivery_mode"?: (("email" | "caller_managed" | (string & {})) | (null));
-            "due_date"?: ((string) | (null));
-            "external_reference_id"?: ((string) | (null));
-            "footer"?: ((string) | (null));
-            "invoice_id"?: ((string) | (null));
-            "invoice_number"?: ((string) | (null));
-            "is_overdue"?: ((boolean) | (null));
-            "issued_at"?: ((string) | (null));
-            "late_fees"?: ((Array<InvoiceLateFeePreviousAttributes>) | (null));
-            "memo"?: ((string) | (null));
-            "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null));
-            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
-            "order_id"?: ((string) | (null));
-            "paid_at"?: ((string) | (null));
-            "payment_due"?: ((InvoicePaymentDuePreviousAttributes) | (null));
-            "payment_terms_snapshot"?: ((InvoicePaymentTermsSnapshotPreviousAttributes) | (null));
-            "po_number"?: ((string) | (null));
-            "pricing_amounts"?: ((PricingAmountsPreviousAttributes) | (null));
-            "recipient_email"?: ((string) | (null));
-            "reference"?: ((string) | (null));
-            "refund_status"?: (("none" | "partially_refunded" | "refunded" | (string & {})) | (null));
-            "reminders_paused"?: ((boolean) | (null));
-            "reminders_paused_at"?: ((string) | (null));
-            "remit_to_address"?: ((AddressPreviousAttributes) | (null));
-            "schedule_entries"?: ((Array<InvoiceScheduleEntryPreviousAttributes>) | (null));
-            "scheduled_issue_at"?: ((string) | (null));
-            "service_date"?: ((string) | (null));
-            "settlement_amounts"?: ((InvoiceSettlementAmountsPreviousAttributes) | (null));
-            "snapshot"?: ((InvoiceSnapshotPreviousAttributes) | (null));
-            "status"?: (("draft"
-                | "open"
-                | "partially_paid"
-                | "paid"
-                | "voided"
-                | "uncollectible"
-                | "credited"
-                | (string & {}))
-                | (null));
-            "subscription_id"?: ((string) | (null));
-            "supported_actions"?: ((Array<"collect" | "issue" | "mark_uncollectible" | "void" | (string & {})>) | (null));
-            "timezone"?: ((string) | (null));
-            "uncollectible_at"?: ((string) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-            "viewed_at"?: ((string) | (null));
-            "voided_at"?: ((string) | (null));
-        });
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "invoice.marked_uncollectible";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": WebhookInvoice;
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "cc_emails"?: ((Array<string>) | (null));
-            "closed_at"?: ((string) | (null));
-            "collection"?: ((InvoiceCollectionPreviousAttributes) | (null));
-            "collection_block_status"?: (("none" | "inventory_blocked" | "resolved" | (string & {})) | (null));
-            "created_at"?: ((string) | (null));
-            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
-            "customer_id"?: ((string) | (null));
-            "delivery_mode"?: (("email" | "caller_managed" | (string & {})) | (null));
-            "due_date"?: ((string) | (null));
-            "external_reference_id"?: ((string) | (null));
-            "footer"?: ((string) | (null));
-            "invoice_id"?: ((string) | (null));
-            "invoice_number"?: ((string) | (null));
-            "is_overdue"?: ((boolean) | (null));
-            "issued_at"?: ((string) | (null));
-            "late_fees"?: ((Array<InvoiceLateFeePreviousAttributes>) | (null));
-            "memo"?: ((string) | (null));
-            "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null));
-            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
-            "order_id"?: ((string) | (null));
-            "paid_at"?: ((string) | (null));
-            "payment_due"?: ((InvoicePaymentDuePreviousAttributes) | (null));
-            "payment_terms_snapshot"?: ((InvoicePaymentTermsSnapshotPreviousAttributes) | (null));
-            "po_number"?: ((string) | (null));
-            "pricing_amounts"?: ((PricingAmountsPreviousAttributes) | (null));
-            "recipient_email"?: ((string) | (null));
-            "reference"?: ((string) | (null));
-            "refund_status"?: (("none" | "partially_refunded" | "refunded" | (string & {})) | (null));
-            "reminders_paused"?: ((boolean) | (null));
-            "reminders_paused_at"?: ((string) | (null));
-            "remit_to_address"?: ((AddressPreviousAttributes) | (null));
-            "schedule_entries"?: ((Array<InvoiceScheduleEntryPreviousAttributes>) | (null));
-            "scheduled_issue_at"?: ((string) | (null));
-            "service_date"?: ((string) | (null));
-            "settlement_amounts"?: ((InvoiceSettlementAmountsPreviousAttributes) | (null));
-            "snapshot"?: ((InvoiceSnapshotPreviousAttributes) | (null));
-            "status"?: (("draft"
-                | "open"
-                | "partially_paid"
-                | "paid"
-                | "voided"
-                | "uncollectible"
-                | "credited"
-                | (string & {}))
-                | (null));
-            "subscription_id"?: ((string) | (null));
-            "supported_actions"?: ((Array<"collect" | "issue" | "mark_uncollectible" | "void" | (string & {})>) | (null));
-            "timezone"?: ((string) | (null));
-            "uncollectible_at"?: ((string) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-            "viewed_at"?: ((string) | (null));
-            "voided_at"?: ((string) | (null));
-        });
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "invoice.marked_uncollectible";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "invoice.marked_uncollectible";
-});
 /**
  * The `invoice.marked_uncollectible` webhook payload for the `installed_merchants` event source.
  * Fields shared by partner webhook payloads.
@@ -14008,3 +13865,37 @@ export type InvoicePaymentTermCalculationDayOfNextMonthPreviousAttributes = ({
      */
     "type"?: (("day_of_next_month" | (string & {})) | (null));
 });
+/** The `day_of_next_month` variant of `InvoicePaymentTermCalculation`. */
+export type InvoicePaymentTermCalculationDayOfNextMonthRequestInput = ({
+    /**
+     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
+     * maximum: 31.
+     */
+    "day": number;
+    /**
+     * Calendar days after issue for net_days, or after the issue month's last day for
+     * days_after_month_end. Required only for those types. Format: int32. minimum: 0. maximum:
+     * 365.
+     */
+    "days"?: number;
+    /**
+     * How issue calculates the invoice's due date in the invoice timezone. Value enum:
+     * "day_of_next_month".
+     */
+    "type": "day_of_next_month";
+})
+    & (({
+    /**
+     * How issue calculates the invoice's due date in the invoice timezone. Value enum:
+     * "day_of_next_month".
+     */
+    "type": "day_of_next_month";
+    /**
+     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
+     * maximum: 31.
+     */
+    "day": number;
+})
+    & ({
+    "days"?: never;
+}));

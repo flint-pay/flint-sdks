@@ -1,10 +1,8 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { CheckoutLicenseKey } from '../declarations/types-6.js';
 import type { ClientOptions } from '../declarations/types-7.js';
 import type { LicenseKey } from '../declarations/types-38.js';
-import type { LicenseKeyListResponse, LicenseKeyResponse } from '../declarations/types-39.js';
+import type { LicenseKeyListResponse, LicenseKeyResponse, LicenseKeyValidation } from '../declarations/types-39.js';
 import type {
-    LicenseKeyValidation,
     LicenseKeyValidationResponse,
     LicenseKeyWithKey,
     LicenseKeyWithKeyResponse,
@@ -39,16 +37,15 @@ export type {
     LicenseKeysDisableParams,
     LicenseKeysGetParams,
     LicenseKeysListParams,
+    LicenseKeyWithKey,
     LicenseKeysLookupParams,
     LicenseKeysReinstateParams,
     LicenseKeysResendParams,
     LicenseKeysRevealParams,
-    LicenseKeyWithKey,
     LicenseKeyWithKeyResponse,
     LicenseKeysRotateKeyParams,
     LicenseKeysUpdateParams,
     LicenseKeysValidateParams,
-    LicenseKeyValidation,
     LicenseKeyValidationResponse,
     LookupLicenseKeyRequestInput,
     LicenseKeyVersionRequestInput,
@@ -56,15 +53,15 @@ export type {
 } from '../declarations/types-40.js';
 export type { RequestOptions, ResendLicenseKeyRequestInput } from '../declarations/types-61.js';
 export type { LicenseKey, LicenseKeyActivation } from '../declarations/types-38.js';
-export type { LicenseKeyResponse, LicenseKeyListResponse, LicenseKeyRestriction } from '../declarations/types-39.js';
+export type { LicenseKeyResponse, LicenseKeyListResponse, LicenseKeyValidation, LicenseKeyRestriction } from '../declarations/types-39.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
-export type { CheckoutLicenseKey, CheckoutBuyerContact } from '../declarations/types-6.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { DisableLicenseKeyRequestInput } from '../declarations/types-25.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type { ExpandedCustomerSummary, ExpandedOrderSummary } from '../declarations/types-26.js';
 export type { MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
+export type { CheckoutBuyerContact } from '../declarations/types-6.js';
 export type { DeferredPromotion } from '../declarations/types-17.js';
 export type { PricingAmounts } from '../declarations/types-56.js';
 export type { MoneyValue, NextAction } from '../declarations/types-44.js';
@@ -133,7 +130,7 @@ export interface LicenseKeysResource {
     /** Iterate items lazily.
      * @see https://developers.withflintpay.com/docs/api/license-keys#listLicenseKeys
      */
-    listItems(params?: LicenseKeysListParams, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant">>): AsyncGenerator<CheckoutLicenseKey>;
+    listItems(params?: LicenseKeysListParams, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant">>): AsyncGenerator<LicenseKeyWithKey>;
     /**
  * Finds a license key by its full value in your merchant and environment, regardless of status. A
  * malformed key returns 400 INVALID_REQUEST with detail INVALID_VALUE at key. An unknown key

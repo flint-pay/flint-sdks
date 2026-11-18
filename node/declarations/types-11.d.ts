@@ -1,22 +1,23 @@
-import type { AddressRequestInput, AddressRequest } from './types-0.js';
+import type { AddressRequest, AddressRequestInput } from './types-0.js';
 import type {
-    CreateInvoiceIssueRequestInput,
-    CreateInvoiceQuickPayRequestInput,
     CreateInvoiceIssueRequest,
     CreateInvoiceQuickPayRequest,
+    CreateInvoiceIssueRequestInput,
+    CreateInvoiceQuickPayRequestInput,
     CreateInlineModifierGroupRequestInput
 } from './types-10.js';
-import type { InvoiceCollectionRequestInput, InvoiceCollectionRequest } from './types-35.js';
-import type { InvoicePaymentDueRequestInput, InvoicePaymentDueRequest } from './types-36.js';
-import type { InvoiceScheduleEntryWriteInput, InvoiceScheduleEntryWrite } from './types-38.js';
+import type { InvoiceCollectionRequest, InvoiceCollectionRequestInput } from './types-35.js';
+import type { InvoicePaymentDueRequest, InvoicePaymentDueRequestInput } from './types-36.js';
+import type { InvoiceScheduleEntryWrite } from './types-37.js';
 import type {
-    MetadataRequestInput,
     MetadataMap,
+    MetadataRequestInput,
     MerchantSignupOwner,
     MerchantSignupOwnerRequestInput,
     ModifierOverride,
     ModifierOverrideRequestInput
 } from './types-43.js';
+import type { InvoiceScheduleEntryWriteInput } from './types-38.js';
 import type {
     LocationCoordinate,
     LocationCoordinateRequestInput,
@@ -45,7 +46,6 @@ import type {
     OrderLineItemModifierRequestModelInput
 } from './types-46.js';
 import type { RefundCharge, RefundDestinations, RefundChargeInput, RefundDestinationsInput, Refund } from './types-60.js';
-import type { CreateOrderLineItemRequestInput, CreateOrderLineItemVariant } from './types-12.js';
 import type { ResponseMeta } from './types-62.js';
 import type {
     Order,
@@ -55,127 +55,12 @@ import type {
     OrderDraftLineItemInventoryDemandRequestInput,
     OrderDraftLineItemTaxRequestModelInput
 } from './types-45.js';
+import type { CreateOrderLineItemVariant } from './types-12.js';
 import type { Dimensions, DimensionsRequestInput } from './types-25.js';
 import type { GiftCardPurchaseRequest, GiftCardPurchaseDetailsRequestInput } from './types-30.js';
 import type { ImageReferenceRequest, ImageReferenceRequestInput } from './types-31.js';
 import type { SubscribedLineRequest, SubscribedLineRequestModelInput } from './types-68.js';
 import type { Weight, WeightRequestInput } from './types-79.js';
-/** The request body for: Create invoice. */
-export type CreateInvoiceRequestInput = ({
-    /**
-     * Additional addresses copied on the invoice email and every reminder. [] (Value): string.
-     * minLength: 1.
-     */
-    "cc_emails"?: Array<string>;
-    /**
-     * How the invoice is collected. Omit it to use merchant_default. The invoice's collection
-     * object returns the resolved mode, and you can send it back unchanged on update. How an
-     * invoice is collected, used when creating or updating an invoice: a `mode`, an optional saved
-     * payment method, and a payment policy.
-     */
-    "collection"?: InvoiceCollectionRequestInput;
-    /**
-     * Caller-owned identifier for this resource in an external system. Use it as your sync key: it
-     * isn't printed on the invoice, and GET /v1/invoices filters on it by exact match. minLength:
-     * 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Fine print at the bottom of the invoice and PDF. Omit it to use the invoice settings
-     * default_footer. minLength: 1. maxLength: 2048.
-     */
-    "footer"?: string;
-    /**
-     * Issue the invoice immediately after creating it. An empty object uses merchant_default
-     * delivery. Cannot be combined with a scheduled_issue_at timestamp. Options for issuing an
-     * invoice as you create it. `delivery_mode` chooses how the invoice reaches its recipient.
-     */
-    "issue"?: CreateInvoiceIssueRequestInput;
-    /**
-     * Message to the customer, printed on the invoice and PDF. Omit it to use the invoice settings
-     * default_memo. minLength: 1. maxLength: 2048.
-     */
-    "memo"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * The open order to bill. It must have no payments, refunds, or other active invoice. Send
-     * exactly one of order_id or quick_pay. minLength: 1. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id"?: string;
-    /**
-     * When the invoice is due. Omit it to use merchant_default. The invoice's payment_due object
-     * returns the resolved type, and you can send it back unchanged on update. Default:
-     * {"type":"merchant_default"}. When an invoice is due, used when creating or updating an
-     * invoice: no due date, a calendar date, payment terms, or a default.
-     */
-    "payment_due"?: InvoicePaymentDueRequestInput;
-    /**
-     * The buyer's purchase order number, printed on the invoice and PDF. minLength: 1. maxLength:
-     * 255.
-     */
-    "po_number"?: string;
-    /**
-     * Order details for an invoice with no existing order. Flint creates the backing order from
-     * them. Send exactly one of order_id or quick_pay. Inline order details for creating an
-     * invoice as `quick_pay`: line items, discounts, notes, customer, tip, and inventory routing.
-     */
-    "quick_pay"?: CreateInvoiceQuickPayRequestInput;
-    /**
-     * Where Flint emails the invoice and its reminders. Defaults to the linked customer's email
-     * when omitted at creation. Send null to leave it unset at creation; PATCH null clears it.
-     * Required at issue when delivery resolves to email, and when you schedule the issue.
-     * minLength: 1.
-     */
-    "recipient_email"?: string | null;
-    /**
-     * Your reference for the invoice, printed on the invoice and PDF. Put the buyer's purchase
-     * order number in po_number instead. minLength: 1. maxLength: 255.
-     */
-    "reference"?: string;
-    /**
-     * Where the buyer sends offline payments, printed on the invoice. Omit it to use the invoice
-     * settings remit-to address. A complete postal address. State and postal_code are required for
-     * US addresses and optional for other countries. Send null or omit line2, state, and
-     * postal_code when the address has none.
-     */
-    "remit_to_address"?: AddressRequestInput;
-    /**
-     * Complete draft payment schedule with at most 14 entries. Validation errors identify the
-     * entry by index, such as schedule_entries[3].kind. Enum values are case-sensitive and must
-     * not contain surrounding whitespace. Omission preserves the current or default schedule; []
-     * clears the authored schedule. Null is not accepted. On PATCH, include
-     * invoice_schedule_entry_id to retain an entry and expected_version to detect concurrent
-     * edits. maxItems: 14. [] (Value): {@link InvoiceScheduleEntryWriteInput}. One payment
-     * schedule entry you supply when creating or updating an invoice. Set its kind, how much it
-     * collects, and when it is due.
-     */
-    "schedule_entries"?: Array<InvoiceScheduleEntryWriteInput>;
-    /**
-     * When Flint issues and delivers this draft, as an RFC 3339 timestamp in the future. A
-     * scheduled issue delivers by email, so the draft needs recipient_email. Cannot be combined
-     * with issue. null is the same as omitting it. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "scheduled_issue_at"?: string | globalThis.Date | null;
-    /**
-     * The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF print it
-     * as written, without timezone conversion. Format: date. minLength: 1. Example: "2026-08-02".
-     */
-    "service_date"?: string;
-    /** Selects the type branch. Value enum: "order", "quick_pay". */
-    "type": "order" | "quick_pay";
-})
-    & ((Exclude<CreateInvoiceRequestOrderInput & object, readonly unknown[]>)
-    | (Exclude<CreateInvoiceRequestQuickPayInput & object, readonly unknown[]>));
 /** The `order` variant of `CreateInvoiceRequest`. */
 export type CreateInvoiceRequestOrder = ({
     /**
@@ -4249,3 +4134,142 @@ export type CreateOrderLineItemRequest = ({
     | (Exclude<CreateOrderLineItemInputBundle & object, readonly unknown[]>)
     | (Exclude<CreateOrderLineItemInputCustom & object, readonly unknown[]>)
     | (Record<string, unknown>));
+/**
+ * A line item to add to an order: a catalog variant, a bundle, or a custom item with a name and
+ * unit price.
+ */
+export type CreateOrderLineItemRequestInput = ({
+    /**
+     * ID of the bundle to add. A catalog line item sends this or `variant_id`; a custom line item
+     * sends neither. minLength: 1. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /** Description of the item as it appears on the order. minLength: 1. */
+    "description"?: string;
+    /**
+     * Required on line items without variant_id or bundle_id, and rejected on catalog lines, which
+     * use the catalog's delivery settings. Send {"requirement": "none"} when nothing is delivered.
+     * For manual digital or service delivery, send requirement required, resolution_mode manual,
+     * and allowed_types containing digital or service. Fulfillment requirements you supply for an
+     * order line item, such as allowed fulfillment types, package size and weight, and origin.
+     */
+    "fulfillment"?: LineItemFulfillmentRequestModelInput;
+    /**
+     * Buyer-selected face value and recipient for a gift_card variant. The server freezes the
+     * offer and resolves consideration per unit. Omit to purchase the reference denomination
+     * without a recipient. Gift card details you supply for an order line item: the
+     * `face_value_money` and the `recipient` who receives the card.
+     */
+    "gift_card_purchase"?: GiftCardPurchaseDetailsRequestInput;
+    /**
+     * Image of the item as it appears on the order. A reference to an image by `url`, with
+     * optional `alt` text, used on an order line item.
+     */
+    "image"?: ImageReferenceRequestInput;
+    /**
+     * Inventory items and quantities each unit of the line takes from stock. [] (Value): {@link
+     * OrderDraftLineItemInventoryDemandRequestInput}. The quantity of one inventory item that each
+     * unit of a draft order line item uses, supplied when creating the line item.
+     */
+    "inventory_demands"?: Array<OrderDraftLineItemInventoryDemandRequestInput>;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Modifiers sold with the item, each chosen from the catalog or typed as text. [] (Value):
+     * {@link OrderLineItemModifierRequestModelInput}. A modifier selection you supply on a line
+     * item: a catalog modifier by ID or a text modifier, with a quantity. [].metadata (Optional):
+     * {@link MetadataRequestInput}. Caller-owned metadata for this selection, returned on the
+     * order line item's modifier. Values can't be empty strings. Keys starting with flint_ are
+     * reserved for Flint, are not returned, and cannot be written through the public API.
+     * Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings,
+     * and keys starting with flint_ are reserved for Flint. maxProperties: 50. [].modifier_id
+     * (Optional): string. ID of the existing modifier. Treated as an opaque resource reference;
+     * accepted spellings follow resource ID validation. Its resolved price and the resulting line
+     * subtotal must satisfy the order money ceiling. The amount and every computed order amount
+     * must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or
+     * calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the
+     * responsible input field. Lower payment option limits can apply. minLength: 1. Example:
+     * "mod_01KEZF7C00SAWDZBQJX5H0XW1S". [].order_line_item_modifier_id (Optional): string.
+     * Existing selection ID to retain during replacement. minLength: 1. pattern:
+     * ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Example: "olim_01KEZF7C00YP0WSZGRAD25EB1Z". [].quantity
+     * (Optional): integer. Whole-number quantity; fractional quantities are not supported. Format:
+     * int64. [].text (Optional): {@link TextModifierRequestInput}. The text to use. Send it with a
+     * `text` modifier. Text a buyer entered for a text modifier group on an order line item.
+     * [].type (Required): string. Selects the type branch. Value enum: "catalog", "text".
+     * [].oneOf[1] (Value): {@link OrderLineItemModifierInputCatalogRequestInput}. The `catalog`
+     * variant of `OrderLineItemModifierInput`. [].oneOf[2] (Value): {@link
+     * OrderLineItemModifierInputTextRequestInput}. The `text` variant of
+     * `OrderLineItemModifierInput`.
+     */
+    "modifiers"?: Array<(Exclude<OrderLineItemModifierRequestModelInput & object, readonly unknown[]>)
+        & (({
+        "order_line_item_modifier_id"?: never;
+    }))>;
+    /**
+     * Name of the item as it appears on the order. Surrounding whitespace is trimmed before length
+     * validation. A supplied value cannot be blank; use null where clearing is supported.
+     * minLength: 1. maxLength: 255.
+     */
+    "name"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital";
+    /**
+     * Number of units, from 1 through 9999. The extended line subtotal, including modifiers, must
+     * satisfy the order money ceiling. Format: int64. minimum: 1. maximum: 9999. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Selected recurring terms for this variant. Lines with the same cadence start one
+     * subscription after payment. Makes an order line a subscription purchase, with the
+     * subscription offer and billing interval.
+     */
+    "subscription"?: SubscribedLineRequestModelInput;
+    /**
+     * How tax applies to this line item. Tax settings you supply for a draft order line item: its
+     * tax category, whether it is taxable, and an optional tax calculation.
+     */
+    "tax"?: OrderDraftLineItemTaxRequestModelInput;
+    /** Selects the type branch. Value enum: "variant", "bundle", "custom". */
+    "type": "variant" | "bundle" | "custom";
+    /**
+     * Dimensions of one unit. Accepted only for custom lines without variant_id or bundle_id.
+     * Package or item dimensions as `length`, `width`, and `height` in the given `unit`.
+     */
+    "unit_dimensions"?: DimensionsRequestInput;
+    /**
+     * Price of one unit. The amount and every computed order amount must not exceed 99999999 minor
+     * units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with
+     * INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment
+     * option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "unit_price_money"?: MoneyValueInput;
+    /**
+     * Weight of one unit. Accepted only for custom lines without variant_id or bundle_id. A weight
+     * value in grams, kilograms, ounces, or pounds, used in delivery profile configuration.
+     */
+    "unit_weight"?: WeightRequestInput;
+    /**
+     * ID of the product variant to add. A catalog line item sends this or `bundle_id`; a custom
+     * line item sends neither. minLength: 1. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+})
+    & ((Exclude<CreateOrderLineItemInputVariantInput & object, readonly unknown[]>)
+    | (Exclude<CreateOrderLineItemInputBundleInput & object, readonly unknown[]>)
+    | (Exclude<CreateOrderLineItemInputCustomInput & object, readonly unknown[]>));

@@ -46,11 +46,6 @@ import type { LegalSettings } from './types-38.js';
 import type { PlatformFeeRequest, PlatformFeeRequestInput } from './types-56.js';
 import type { ThemeConfig, ThemeConfigRequestInput } from './types-74.js';
 import type { CreditNoteLineItemRequest, CreditNoteLineItemRequestInput } from './types-15.js';
-/** The request body for: Confirm a customer email verification. */
-export type ConfirmCustomerVerificationRequestInput = {
-    /** The six-digit code Flint sent to the customer's email. minLength: 1. pattern: ^[0-9]{6}$. */
-    "code": string;
-};
 /** The request body for: Confirm an email change. */
 export type ConfirmEmailChangeRequest = {
     /**
@@ -5210,4 +5205,17 @@ export type CreateCreditNoteRequestInput = {
      * "order_adjustment", "billing_error", "goodwill", "other".
      */
     "reason": "returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other";
+};
+/** The request body for: Create a custom domain. */
+export type CreateCustomDomainRequest = {
+    /**
+     * Hostname to configure, such as checkout.example.com or account.example.com. minLength: 1.
+     * maxLength: 253.
+     */
+    "hostname": string;
+    /**
+     * Whether the hostname serves checkout pages or the customer account Flint hosts. Value enum:
+     * "checkout", "customer_account".
+     */
+    "type": "checkout" | "customer_account" | (string & {});
 };

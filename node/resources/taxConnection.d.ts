@@ -8,10 +8,10 @@ import type {
     TaxConnectionCreateRegistrationParams,
     TaxConnectionDeleteRegistrationParams,
     TaxConnectionDisclosure,
-    TaxConnectionDisclosurePreviousAttributes
+    TaxConnectionDisclosurePreviousAttributes,
+    TaxConnectionDisconnectParams
 } from '../declarations/types-73.js';
 import type {
-    TaxConnectionDisconnectParams,
     TaxConnectionGetParams,
     TaxConnectionGetRegistrationParams,
     TaxConnectionListRegistrationsParams,
@@ -43,6 +43,7 @@ export type {
     TaxConnection,
     TaxConnectionCreateRegistrationParams,
     TaxConnectionDeleteRegistrationParams,
+    TaxConnectionDisconnectParams,
     TaxConnectionDisclosure,
     TaxConnectionDisclosurePreviousAttributes
 } from '../declarations/types-73.js';
@@ -51,7 +52,6 @@ export type {
     TaxConnectionResponse,
     TaxRegistration,
     TaxRegistrationResponse,
-    TaxConnectionDisconnectParams,
     TaxConnectionGetParams,
     TaxConnectionGetRegistrationParams,
     TaxConnectionListRegistrationsParams,
@@ -77,11 +77,10 @@ export type { ConnectTaxConnectionRequestInput } from '../declarations/types-8.j
 export type { AddressRequestInput, Address, AddressRequest } from '../declarations/types-0.js';
 export type { SellerTaxAttestationRequestInput, Settings, SellerTaxAttestationRequest } from '../declarations/types-67.js';
 export type { AuthMode, BrandingSettings, BuyerCapabilities } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials, CreateTaxRegistrationRequestInput } from '../declarations/types-14.js';
 export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession, ReceiptSettings } from '../declarations/types-60.js';
-export type { CreateTaxRegistrationRequestInput } from '../declarations/types-14.js';
 export type { CheckoutRecoveryEmailSettings, CheckoutSavedPaymentDetailsSettings } from '../declarations/types-6.js';
 export type {
     CustomerAccountSettings,

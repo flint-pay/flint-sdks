@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# SubscriptionUpdatedMerchantEvent to TicketVoidedInstalledMerchantsEvent
+# SubscriptionWindowMetrics to TicketVoidedMerchantEvent
 
-- [SubscriptionUpdatedMerchantEvent](SubscriptionUpdatedMerchantEvent.md)
 - [SubscriptionWindowMetrics](SubscriptionWindowMetrics.md)
 - [TaxBreakdown](TaxBreakdown.md)
 - [TaxBreakdownFlatAmount](TaxBreakdownFlatAmount.md)
@@ -102,4 +101,5 @@
 - [TicketUpdatedMerchantEvent](TicketUpdatedMerchantEvent.md)
 - [TicketVersionRequestInput](TicketVersionRequestInput.md)
 - [TicketVoidedInstalledMerchantsEvent](TicketVoidedInstalledMerchantsEvent.md)
+- [TicketVoidedMerchantEvent](TicketVoidedMerchantEvent.md)
 

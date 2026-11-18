@@ -1,5 +1,4 @@
 import type { InputValue, Model } from '../runtime.js';
-import type { SendPaymentIntentReceiptRequestInput } from './types-67.js';
 import type {
     SignWebhookEndpointDeliveryRequestInput,
     SignedMoneyRequestInput,
@@ -75,9 +74,9 @@ import type {
     TaxJurisdictionRequestInput,
     TaxJurisdictionRequestModelInput,
     TaxSettingsRequestInput,
-    TextModifierConfigPatchRequestInput
+    TextModifierConfigPatchRequestInput,
+    TextModifierConfigRequestInput
 } from './types-74.js';
-export declare function makeSendPaymentIntentReceiptRequest(value: InputValue<SendPaymentIntentReceiptRequestInput>): Model<SendPaymentIntentReceiptRequestInput>;
 export declare function makeSignWebhookEndpointDeliveryRequest(value: InputValue<SignWebhookEndpointDeliveryRequestInput>): Model<SignWebhookEndpointDeliveryRequestInput>;
 export declare function makeSignedMoneyRequest(value: InputValue<SignedMoneyRequestInput>): Model<SignedMoneyRequestInput>;
 export declare function makeSimulateDisputeRequest(value: InputValue<SimulateDisputeRequestInput>): Model<SimulateDisputeRequestInput>;
@@ -147,3 +146,4 @@ export declare function makeTaxJurisdictionRequest(value: InputValue<TaxJurisdic
 export declare function makeTaxJurisdictionRequestModel(value: InputValue<TaxJurisdictionRequestModelInput>): Model<TaxJurisdictionRequestModelInput>;
 export declare function makeTaxSettingsRequest(value: InputValue<TaxSettingsRequestInput>): Model<TaxSettingsRequestInput>;
 export declare function makeTextModifierConfigPatchRequest(value: InputValue<TextModifierConfigPatchRequestInput>): Model<TextModifierConfigPatchRequestInput>;
+export declare function makeTextModifierConfigRequest(value: InputValue<TextModifierConfigRequestInput>): Model<TextModifierConfigRequestInput>;

@@ -43,7 +43,6 @@ export type {
     PaymentLinkResolvePrefillRequestInput,
     PaymentLinkRedirectsPatchRequestInput,
     PaymentLinkThemePatchRequestInput,
-    PaymentLinkRedirectsPatchRequest,
     PaymentLinkThemePatchRequest
 } from '../declarations/types-53.js';
 export type { RequestOptions } from '../declarations/types-61.js';
@@ -80,7 +79,8 @@ export type {
     PaymentLinkLineItemPatchInputCustomFixedInput,
     PaymentLinkLineItemPatchInputCustomVariableInput,
     PaymentLinkPaymentPatchRequestInput,
-    PaymentLinkCustomTextPatchRequest
+    PaymentLinkCustomTextPatchRequest,
+    PaymentLinkRedirectsPatchRequest
 } from '../declarations/types-52.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type {
@@ -155,12 +155,11 @@ export type {
     InventoryRoutingSourceInputPolicyRevisionInput,
     InventoryRoutingSource
 } from '../declarations/types-33.js';
-export type { OrderLineItemTaxRequestInput, OrderPaymentAttemptPaymentMethodSave, OrderSettlementAmounts } from '../declarations/types-47.js';
+export type { OrderLineItemTaxRequestInput, OrderLineItemTax, OrderLineItemModifier, OrderGiftCardAllocation } from '../declarations/types-46.js';
 export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type { LegalSettings } from '../declarations/types-38.js';
 export type { ProductPriceRange } from '../declarations/types-57.js';
-export type { OrderLineItemTax, OrderLineItemModifier, OrderGiftCardAllocation } from '../declarations/types-46.js';
 export type { ExpandedSubscriptionPlanSummary, ExpandedCustomerSummary } from '../declarations/types-26.js';
 export type {
     SubscriptionIntervalOption,
@@ -208,6 +207,7 @@ export type {
     BuyerExpandedOrderSummary,
     BuyerExpandedPaymentIntentSummary
 } from '../declarations/types-2.js';
+export type { OrderPaymentAttemptPaymentMethodSave, OrderSettlementAmounts } from '../declarations/types-47.js';
 export type {
     PendingPaymentAction,
     PendingPaymentActionSubject,
@@ -261,9 +261,10 @@ export {
     makeCheckoutPromotionConfigRequest,
     makeCheckoutRedirectsRequest,
     makeCheckoutSubscriptionTermsRequest,
-    makeCheckoutTaxCalculationRequest
+    makeCheckoutTaxCalculationRequest,
+    makeCheckoutTaxConfigRequest
 } from '../declarations/types-80.js';
-export { makeCheckoutTaxConfigRequest, makeCheckoutTipConfigRequest } from '../declarations/types-81.js';
+export { makeCheckoutTipConfigRequest } from '../declarations/types-81.js';
 export { makeCreatePaymentLinkRequest } from '../declarations/types-83.js';
 export { makeDeliveryWindowRequest, makeImageInputFile, makeImageInputSourceURL, makeImageRequest } from '../declarations/types-86.js';
 export {
@@ -303,11 +304,16 @@ export {
     makeResolvePaymentLinkLineItemModifierInputCatalog,
     makeResolvePaymentLinkLineItemModifierInputText,
     makeResolvePaymentLinkLineItemModifierRequest,
-    makeResolvePaymentLinkLineItemModifiers
+    makeResolvePaymentLinkLineItemModifiers,
+    makeResolvePaymentLinkRequest
 } from '../declarations/types-90.js';
-export { makeResolvePaymentLinkRequest, makeResolvePaymentLinkTextModifierRequest } from '../declarations/types-91.js';
-export { makeSubscriptionGiftRecipientRequest, makeSubscriptionPlanChangeLineItemRequest } from '../declarations/types-92.js';
-export { makeTextModifierConfigRequest, makeTextModifierRequest, makeUpdatePaymentLinkRequest } from '../declarations/types-93.js';
+export { makeResolvePaymentLinkTextModifierRequest } from '../declarations/types-91.js';
+export {
+    makeSubscriptionGiftRecipientRequest,
+    makeSubscriptionPlanChangeLineItemRequest,
+    makeTextModifierConfigRequest
+} from '../declarations/types-92.js';
+export { makeTextModifierRequest, makeUpdatePaymentLinkRequest } from '../declarations/types-93.js';
 export interface PaymentLinksResource {
     /**
  * Creates a payment link for the authenticated merchant. Line items may use fixed prices,

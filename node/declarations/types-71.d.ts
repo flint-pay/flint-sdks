@@ -5,7 +5,8 @@ import type {
     ExpandedPaymentMethodSummaryPreviousAttributes,
     ExpandedSubscriptionPlanSummary,
     ExpandedSubscriptionPlanSummaryPreviousAttributes,
-    DisputesAcceptParams
+    DisputesAcceptParams,
+    ErrorDetail
 } from './types-26.js';
 import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
 import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
@@ -21,8 +22,7 @@ import type {
     SubscriptionDeliveryHold,
     SubscriptionDeliveryHoldPreviousAttributes,
     SubscriptionDeliveryMethodCounts,
-    SubscriptionChargeEstimate,
-    SubscriptionAddressVerification
+    SubscriptionChargeEstimate
 } from './types-69.js';
 import type {
     SubscriptionDeliveryPreviousAttributes,
@@ -37,6 +37,7 @@ import type {
     SubscriptionLineItem,
     SubscriptionLineItemPreviousAttributes,
     SubscriptionPausedDeliveryHold,
+    SubscriptionPausedDeliveryHoldPreviousAttributes,
     SubscriptionEndAfterCycles,
     SubscriptionDeliveryOption
 } from './types-70.js';
@@ -55,8 +56,8 @@ import type {
 import type { ImageAttachment, Image, ImagePreviousAttributes } from './types-31.js';
 import type { InventoryRoutingSource } from './types-33.js';
 import type { Order } from './types-45.js';
-import type { OrderPaymentAttempt, OrderLineItemTaxRequestInput } from './types-47.js';
-import type { Subscription } from './types-68.js';
+import type { OrderPaymentAttempt } from './types-47.js';
+import type { Subscription, SubscriptionAddressVerification } from './types-68.js';
 import type { BundleComponent, BundleComponentPreviousAttributes } from './types-1.js';
 import type { CategoryReference, CategoryReferencePreviousAttributes } from './types-5.js';
 import type {
@@ -65,23 +66,14 @@ import type {
     OrderLineItemModifierPreviousAttributes,
     OrderLineItemTaxPreviousAttributes,
     OrderLineItemModifierRequest,
-    OrderLineItemModifierRequestModelInput
+    OrderLineItemModifierRequestModelInput,
+    OrderLineItemTaxRequestInput
 } from './types-46.js';
 import type { SelectedProductOption, SelectedProductOptionPreviousAttributes } from './types-67.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateSubscriptionPlanRequestInput } from './types-14.js';
 import type { UpdateSubscriptionPlanRequestInput } from './types-78.js';
 import type { Address } from './types-0.js';
-export type SubscriptionPausedDeliveryHoldPreviousAttributes = {
-    /**
-     * Why the expired delivery hold paused the subscription. Value enum: "method_unavailable",
-     * "destination_not_served", "rate_unavailable", "other". anyOf[1] (Value): string. Why the
-     * expired delivery hold paused the subscription. Value enum: "method_unavailable",
-     * "destination_not_served", "rate_unavailable", "other". anyOf[2] (Value): null.
-     */
-    "reason"?: (("method_unavailable" | "destination_not_served" | "rate_unavailable" | "other" | (string & {}))
-        | (null));
-};
 export type SubscriptionPausedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
@@ -33949,4 +33941,26 @@ export type SubscriptionPreview = {
      * "sub_01KEZF7C00BVRE8YDBXQB74BBM".
      */
     "subscription_id"?: string;
+};
+/**
+ * An error found while previewing a subscription, with a `code`, message, and the parameter at
+ * fault.
+ */
+export type SubscriptionPreviewError = {
+    /** Stable code for this failure, as an error response would carry it. */
+    "code": string;
+    /**
+     * Individual failures behind this error, as an error response would list them. Omitted when
+     * there are none. [] (Value): {@link ErrorDetail}. One specific failure within an error, with
+     * a `code` and `message` plus fields that depend on the code, such as the `param`, resource,
+     * quantity, or amount involved.
+     */
+    "details"?: Array<ErrorDetail>;
+    /** What is wrong with the proposed subscription. */
+    "message": string;
+    /**
+     * Request field the failure applies to, as a path in the preview request, such as
+     * `subscription.terms.billing_interval`. Omitted when the failure isn't tied to one field.
+     */
+    "param"?: string;
 };

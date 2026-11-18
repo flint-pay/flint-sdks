@@ -8,6 +8,7 @@ namespace Flint;
  * @property-read ExpandedCustomerSummaryInput|array<array-key, mixed>|\stdClass $customer
  * @property-read string|null $customer_id
  * @property-read string|\DateTimeInterface|null $expires_at
+ * @property-read string $key
  * @property-read string|null $key_last4
  * @property-read string $license_key_id
  * @property-read string|null $license_key_pool_id
@@ -26,10 +27,9 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $updated_at
  * @property-read string $variant_id
  * @property-read int $version
- * @property-read string $key
  * Presence-aware input; omitted fields throw when accessed. */
 final class LicenseKeyWithKeyInput extends Model {
-    /** @param array{'activation_limit': int|null, 'active_activation_count': int, 'created_at': string|\DateTimeInterface, 'customer'?: ExpandedCustomerSummaryInput|array<array-key, mixed>|\stdClass, 'customer_id': string|null, 'expires_at': string|\DateTimeInterface|null, 'key_last4': string|null, 'license_key_id': string, 'license_key_pool_id': string|null, 'metadata': MetadataMapInput|array<array-key, mixed>|\stdClass, 'order'?: ExpandedOrderSummaryInput|array<array-key, mixed>|\stdClass, 'order_id': string|null, 'order_line_item_id': string|null, 'product_id': string, 'restrictions': list<LicenseKeyRestrictionInput|array<array-key, mixed>|\stdClass>, 'source': string, 'status': string, 'subscription_id': string|null, 'subscription_line_item_id': string|null, 'supported_actions': list<string>, 'unit_ordinal': int, 'updated_at': string|\DateTimeInterface, 'variant_id': string, 'version': int, 'key'?: string, ...}|object $values */
+    /** @param array{'activation_limit': int|null, 'active_activation_count': int, 'created_at': string|\DateTimeInterface, 'customer'?: ExpandedCustomerSummaryInput|array<array-key, mixed>|\stdClass, 'customer_id': string|null, 'expires_at': string|\DateTimeInterface|null, 'key'?: string, 'key_last4': string|null, 'license_key_id': string, 'license_key_pool_id': string|null, 'metadata': MetadataMapInput|array<array-key, mixed>|\stdClass, 'order'?: ExpandedOrderSummaryInput|array<array-key, mixed>|\stdClass, 'order_id': string|null, 'order_line_item_id': string|null, 'product_id': string, 'restrictions': list<LicenseKeyRestrictionInput|array<array-key, mixed>|\stdClass>, 'source': string, 'status': string, 'subscription_id': string|null, 'subscription_line_item_id': string|null, 'supported_actions': list<string>, 'unit_ordinal': int, 'updated_at': string|\DateTimeInterface, 'variant_id': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('LicenseKeyWithKeyInput')); }
     /** Maximum active installations. Null when activations are unlimited. Format: int32.
      * @return int|null
@@ -67,6 +67,12 @@ final class LicenseKeyWithKeyInput extends Model {
      */
     public function getExpiresAt(): string|\DateTimeInterface|null { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
+    /** The full key. Omitted when another credential replays the request, the recovery window has ended, or a rotation is replayed after the resource version changed.
+     * @return string
+     * @throws SdkError When key is omitted; use hasKey() or valueOrDefault().
+     */
+    public function getKey(): string { return $this->get('key'); }
+    public function hasKey(): bool { return $this->has('key'); }
     /** Last four characters of the assigned key. Null when the key is awaiting assignment.
      * @return string|null
      * @throws SdkError When key_last4 is omitted; use hasKeyLast4() or valueOrDefault().
@@ -175,10 +181,4 @@ final class LicenseKeyWithKeyInput extends Model {
      */
     public function getVersion(): int { return $this->get('version'); }
     public function hasVersion(): bool { return $this->has('version'); }
-    /** The full key. Omitted when another credential replays the request, the recovery window has ended, or a rotation is replayed after the resource version changed.
-     * @return string
-     * @throws SdkError When key is omitted; use hasKey() or valueOrDefault().
-     */
-    public function getKey(): string { return $this->get('key'); }
-    public function hasKey(): bool { return $this->has('key'); }
 }

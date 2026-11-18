@@ -55,7 +55,7 @@ export type {
     TextModifierConfigPatchRequest
 } from '../declarations/types-74.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { UpdateModifierGroupRequestInput } from '../declarations/types-76.js';
@@ -63,8 +63,8 @@ export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export type { CreateInlineModifierGroupRequestInput } from '../declarations/types-10.js';
 export { makeCreateInlineModifierGroupRequest, makeCreateModifierGroupRequest, makeCreateModifierRequest } from '../declarations/types-82.js';
 export { makeMetadataPatchRequest, makeMetadataRequest, makeModifierRequest, makeMoneyValue } from '../declarations/types-88.js';
-export { makeTextModifierConfigPatchRequest } from '../declarations/types-92.js';
-export { makeTextModifierConfigRequest, makeUpdateModifierGroupRequest } from '../declarations/types-93.js';
+export { makeTextModifierConfigPatchRequest, makeTextModifierConfigRequest } from '../declarations/types-92.js';
+export { makeUpdateModifierGroupRequest } from '../declarations/types-93.js';
 export interface ModifierGroupsResource {
     /**
  * Creates a modifier group, a set of choices that customize an item, such as toppings or a custom

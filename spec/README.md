@@ -14,6 +14,7 @@ The common profile's `overrides` are existing provider corrections and represent
 - Metadata `propertyNames` reject keys starting with `flint_` through `not`. They use the equivalent lookahead-free pattern instead.
 - Partner app credential branches forbid the other credential fields with `not: {}` schemas. They use `not` with `required` instead.
 - `DeliveryEligibilityExpression` and `DeliveryZoneConfiguration`, and their `Input` request forms, select one operator through recursive `$ref` alternatives that TypeScript can't type. Each alternative is replaced by its single required key; the closed parent keeps exactly one operator per node.
+- License key fields marked `x-flint-secret` also carry the generator's `x-sensitive` annotation for inspection redaction. The override for the reveal and rotation model flattens its two open object schemas without changing the fields or required values. This lets the example generator find safe IDs and print them in place of the full response.
 
 `../tests/full-http-cases.json` and `full-model-cases.json` are synthetic regression cases, not live transaction certification. The eight historical checkout-specific delivery cases now exercise the replacement delivery quote/selection endpoints with the same buyer/merchant and missing-credential coverage. The method inventory follows the current API paths; payment fixtures include required nullable refund deadlines and Elements payment options. `full-inventory.json` records the pinned export inventory. Do not add private provider definitions or real request/response data.
 

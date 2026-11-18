@@ -1,5 +1,4 @@
 import type {
-    DeliveryEligibilityExpressionRequest,
     DeliveryEligibilityExpressionRequestInput,
     DeliveryExternalPricingStrategy,
     DeliveryFixedPricingStrategy,
@@ -7,7 +6,7 @@ import type {
     DeliveryFixedPricingStrategyPreviousAttributes,
     DeliveryFixedPricingStrategyRequestInput
 } from './types-19.js';
-import type { MoneyValue, MoneyValueInput, MoneyValuePreviousAttributes } from './types-44.js';
+import type { MoneyValueInput, MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
 import type {
     DeliveryCalculatedPricingStrategy,
     DeliveryCalculatedPricingStrategyPreviousAttributes,
@@ -42,34 +41,6 @@ import type { MetadataMap, MerchantWebhookEnvelope } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { WebhookDeliveryProfile } from './types-78.js';
 import type { ResponseMeta } from './types-62.js';
-/**
- * A rate in a rate table pricing strategy you send when updating a delivery method. Include
- * `delivery_rate_id` to keep or update an existing rate.
- */
-export type DeliveryPricingRateRequest = {
-    /**
-     * Price by ISO 4217 currency code. Each key must equal the currency of its Money value. *
-     * (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an ISO
-     * 4217 currency code.
-     */
-    "currency_options": Record<string, MoneyValue>;
-    /**
-     * Stable rate identifier returned by Flint. Include it when updating or retaining an existing
-     * rate. minLength: 1. Example: "drate_01KEZF7C00FD0B4QEC0M00MJ4S".
-     */
-    "delivery_rate_id"?: string;
-    /**
-     * Rates are checked from the highest priority to the lowest. The first matching rate sets the
-     * price. Priorities must be unique and at least 0. Format: int32.
-     */
-    "priority": number;
-    /**
-     * Eligibility expression that decides whether this rate applies. The rate matches when the
-     * expression matches. A boolean expression containing exactly one operator or typed condition
-     * at each node. Expressions support at most 8 levels and 100 total nodes.
-     */
-    "when": DeliveryEligibilityExpressionRequest;
-};
 /**
  * A rate in a rate table pricing strategy you send when updating a delivery method. Include
  * `delivery_rate_id` to keep or update an existing rate.
@@ -3784,3 +3755,50 @@ export type DeliveryProfileConfigurationRequest = ({
     & ((Exclude<DeliveryProfileConfigurationInputNone & object, readonly unknown[]>)
     | (Exclude<DeliveryProfileConfigurationInputRequired & object, readonly unknown[]>)
     | (Record<string, unknown>));
+/**
+ * Delivery planning settings you supply when creating or updating a delivery profile. Which fields
+ * are allowed depends on `requirement` and `resolution_mode`.
+ */
+export type DeliveryProfileConfigurationRequestInput = ({
+    /**
+     * Required as a non-empty unique list when requirement is required. quote accepts shipment,
+     * pickup, and local_delivery. manual accepts digital and service. minItems: 1. uniqueItems:
+     * true. [] enum: "shipment", "pickup", "local_delivery", "digital", "service". [] (Value):
+     * string. Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
+     */
+    "allowed_types"?: Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service">;
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls which delivery obligations can share a choice group. Value enum:
+     * "combine_when_compatible", "separate_profile", "separate_line_item", "fulfill_alone".
+     */
+    "combination_policy"?: "combine_when_compatible" | "separate_profile" | "separate_line_item" | "fulfill_alone";
+    /**
+     * Required for quote resolution and forbidden for none or manual resolution. fixed_location
+     * requires location_id. inventory_routing forbids location_id and applies only to tracked
+     * inventory. method_origin forbids location_id. Origin policy you supply for a delivery
+     * profile: a fixed Location (`location_id`), inventory routing, or the origin set on the
+     * delivery method.
+     */
+    "origin_policy"?: DeliveryProfileOriginPolicyRequestInput;
+    /**
+     * Whether delivery planning applies. none forbids every other configuration field. required
+     * also requires resolution_mode and allowed_types, plus the fields required by that resolution
+     * mode. Value enum: "none", "required".
+     */
+    "requirement"?: "none" | "required";
+    /**
+     * Required when requirement is required. quote plans physical delivery and requires
+     * origin_policy, combination_policy, and splitting_policy. manual supports digital and service
+     * items and forbids physical planning fields. Value enum: "quote", "manual".
+     */
+    "resolution_mode"?: "quote" | "manual";
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls whether a line item quantity can be split across delivery assignments.
+     * Value enum: "whole_line_item", "quantity_split_allowed".
+     */
+    "splitting_policy"?: "whole_line_item" | "quantity_split_allowed";
+})
+    & ((Exclude<DeliveryProfileConfigurationInputNoneInput & object, readonly unknown[]>)
+    | (Exclude<DeliveryProfileConfigurationInputRequiredInput & object, readonly unknown[]>));

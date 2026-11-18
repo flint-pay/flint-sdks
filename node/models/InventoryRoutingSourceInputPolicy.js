@@ -1,5 +1,5 @@
-import { d987 as c0 } from '../descriptors/data/52.js?sdk=2fdad7cfcd1c92049468fb02e68ab24a81da669c248e8713cf6a7575952568a5';
-import { d987 as d987 } from '../descriptors/data/52.js?sdk=2fdad7cfcd1c92049468fb02e68ab24a81da669c248e8713cf6a7575952568a5';
+import { d987 as c0 } from '../descriptors/data/52.js?sdk=22459f40165c8f83629c1309c0555e659f12bdc99933459ef8de8ac0e4796ba2';
+import { d987 as d987 } from '../descriptors/data/52.js?sdk=22459f40165c8f83629c1309c0555e659f12bdc99933459ef8de8ac0e4796ba2';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
 const read = d987;
 let prepared;

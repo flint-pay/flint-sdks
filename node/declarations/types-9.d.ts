@@ -15,7 +15,7 @@ import type {
     DeliveryMethodOriginSelectorRequestInput,
     DeliveryPickupAvailabilityMaximumDistanceRequestInput
 } from './types-20.js';
-import type { CreateOrderLineItemRequest } from './types-11.js';
+import type { CreateOrderLineItemRequest, CreateOrderLineItemRequestInput } from './types-11.js';
 import type {
     DeliveryAddressRequest,
     DeliveryBuyerLocationRequest,
@@ -24,13 +24,8 @@ import type {
     DeliveryDistance
 } from './types-18.js';
 import type { InventoryRoutingSourceRequest, InventoryRoutingSourceRequestInput } from './types-33.js';
-import type { CreateOrderLineItemRequestInput, CreatePickupFulfillmentDetails } from './types-12.js';
-import type { DeliveryProfileConfigurationRequest } from './types-21.js';
-import type {
-    DeliveryProfileConfigurationRequestInput,
-    DeliveryRateCallbackConfiguration,
-    DeliveryRateCallbackConfigurationRequestInput
-} from './types-22.js';
+import type { DeliveryProfileConfigurationRequest, DeliveryProfileConfigurationRequestInput } from './types-21.js';
+import type { DeliveryRateCallbackConfiguration, DeliveryRateCallbackConfigurationRequestInput } from './types-22.js';
 import type { WebhookSigningMethod, WebhookSigningMethodInput } from './types-79.js';
 import type { DeliveryRevocationTarget } from './types-23.js';
 import type {
@@ -38,33 +33,20 @@ import type {
     DeliverySelectionInstructionsRequestInput,
     DeliverySelectionRecipientRequest,
     DeliverySelectionRecipientRequestInput,
-    DeliveryZoneConfigurationRequest
+    DeliveryZoneConfigurationRequest,
+    DeliveryZoneConfigurationRequestInput
 } from './types-24.js';
-import type { DeliveryZoneConfigurationRequestInput } from './types-25.js';
 import type { Sandbox } from './types-67.js';
 import type {
-    CreateFulfillmentRequestDigital,
     CreateFulfillmentRequestLocalDelivery,
     CreateFulfillmentRequestPickup,
     CreateFulfillmentRequestService,
     CreateFulfillmentRequestShipment
 } from './types-10.js';
+import type { CreatePickupFulfillmentDetails } from './types-12.js';
 import type { CreateServiceFulfillmentDetails } from './types-14.js';
 import type { FulfillmentLineItemRequest } from './types-27.js';
 import type { FulfillmentPackagingRequest, FulfillmentRecipientRequest } from './types-28.js';
-/** The request body for: Create a custom domain. */
-export type CreateCustomDomainRequest = {
-    /**
-     * Hostname to configure, such as checkout.example.com or account.example.com. minLength: 1.
-     * maxLength: 253.
-     */
-    "hostname": string;
-    /**
-     * Whether the hostname serves checkout pages or the customer account Flint hosts. Value enum:
-     * "checkout", "customer_account".
-     */
-    "type": "checkout" | "customer_account" | (string & {});
-};
 /** The request body for: Create a custom domain. */
 export type CreateCustomDomainRequestInput = {
     /**
@@ -2939,3 +2921,88 @@ export type CreateFulfillmentRequest = ({
     | (Exclude<CreateFulfillmentRequestDigital & object, readonly unknown[]>)
     | (Exclude<CreateFulfillmentRequestService & object, readonly unknown[]>)
     | (Record<string, unknown>));
+/**
+ * Provide at most one fulfillment details object: pickup_details, local_delivery_details,
+ * digital_details, or service_details. Shipment execution details belong to shipments and
+ * packages.
+ */
+export type CreateFulfillmentRequestDigital = ({
+    /**
+     * Customer receiving this fulfillment, when one is set. minLength: 1. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Device used for this fulfillment. It must be active. When location_id is also set, the
+     * device must belong to that Location. minLength: 1. Example:
+     * "dev_01KEZF7C0051ZP8MZSGHP989F6".
+     */
+    "device_id"?: string;
+    /**
+     * Details of a `digital` fulfillment, such as the download link. Digital fulfillment details
+     * you supply when creating a fulfillment: the delivery URL.
+     */
+    "digital_details"?: CreateDigitalFulfillmentDetails;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Order line items, with the quantity of each, that this fulfillment covers. minItems: 1. []
+     * (Value): {@link FulfillmentLineItemRequest}. An order line item and quantity to include when
+     * creating a fulfillment.
+     */
+    "line_items": Array<FulfillmentLineItemRequest>;
+    /**
+     * Details of a `local_delivery` fulfillment, such as the courier's tracking link. Local
+     * delivery details you supply when creating a fulfillment: courier, timing window,
+     * instructions, and tracking.
+     */
+    "local_delivery_details"?: CreateDeliveryFulfillmentDetails;
+    /**
+     * Merchant location responsible for this fulfillment. minLength: 1. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Paid order whose quantities this fulfillment delivers. minLength: 1. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id": string;
+    /**
+     * Details of a `pickup` fulfillment. Pickup details you supply when creating a fulfillment:
+     * the pickup address, location, window, instructions, and curbside details.
+     */
+    "pickup_details"?: CreatePickupFulfillmentDetails;
+    /**
+     * Who receives the fulfillment. Recipient details you supply when creating or updating a
+     * fulfillment: name, email, phone, address, and handling instructions.
+     */
+    "recipient"?: FulfillmentRecipientRequest;
+    /**
+     * Details of a `service` fulfillment. Service details you supply when creating a fulfillment:
+     * the scheduled start and end, timezone, and notes.
+     */
+    "service_details"?: CreateServiceFulfillmentDetails;
+    /**
+     * Creates an outbound shipment and packages atomically with a shipment fulfillment.
+     * single_package assigns every submitted line quantity to package; itemized requires explicit
+     * items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in
+     * the same call. Creates an outbound shipment with one package using `packaging:
+     * single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`.
+     * External reference and metadata are optional.
+     */
+    "shipment"?: FulfillmentPackagingRequest;
+    /** The kind of fulfillment. Value enum: "digital". */
+    "type": "digital" | (string & {});
+});

@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# RotateWebhookSecretRequest to SubscriptionBillingScheduleRequest
+# RotateWebhookSecretRequestInput to SubscriptionBillingScheduleRequestInput
 
-- [RotateWebhookSecretRequest](RotateWebhookSecretRequest.md)
 - [RotateWebhookSecretRequestInput](RotateWebhookSecretRequestInput.md)
 - [Sandbox](Sandbox.md)
 - [SandboxListResponse](SandboxListResponse.md)
@@ -102,4 +101,5 @@
 - [SubscriptionBillingScheduleInputFlint](SubscriptionBillingScheduleInputFlint.md)
 - [SubscriptionBillingScheduleInputFlintInput](SubscriptionBillingScheduleInputFlintInput.md)
 - [SubscriptionBillingScheduleRequest](SubscriptionBillingScheduleRequest.md)
+- [SubscriptionBillingScheduleRequestInput](SubscriptionBillingScheduleRequestInput.md)
 

@@ -1,6 +1,5 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
-    CreateModifierSetRequestInput,
     CreateOnboardingAccessLinkRequestInput,
     CreateOrderDiscountInput,
     CreateOrderDiscountManualInput,
@@ -8,10 +7,10 @@ import type {
     CreateOrderEditRequestInput,
     CreateOrderLineItemInputBundleInput,
     CreateOrderLineItemInputCustomInput,
-    CreateOrderLineItemInputVariantInput
+    CreateOrderLineItemInputVariantInput,
+    CreateOrderLineItemRequestInput
 } from './types-11.js';
 import type {
-    CreateOrderLineItemRequestInput,
     CreateOrderRequestInput,
     CreateOrderTipInput,
     CreateOrderTipAmountInput,
@@ -40,11 +39,11 @@ import type {
     CreatePromotionCodeRequestInput,
     CreatePromotionRequestInput,
     CreateReaderRequestInput,
-    CreateReceivablesAgingReportRequestInput
+    CreateReceivablesAgingReportRequestInput,
+    CreateRefundRequestAmountInput
 } from './types-12.js';
 import type {
     CreateRefundRequestInput,
-    CreateRefundRequestAmountInput,
     CreateRefundRequestCreditNoteInput,
     CreateRefundRequestFullInput,
     CreateRefundRequestTargetsInput,
@@ -67,9 +66,9 @@ import type {
     CreateReturnResolutionRequestInput,
     CreateReturnResolutionRequestCorrectionInput,
     CreateReturnResolutionRequestStandardInput,
-    CreateRiskListRequestInput
+    CreateRiskListRequestInput,
+    CreateRiskPreviewRequestInput
 } from './types-13.js';
-export declare function makeCreateModifierSetRequest(value: InputValue<CreateModifierSetRequestInput>): Model<CreateModifierSetRequestInput>;
 export declare function makeCreateOnboardingAccessLinkRequest(value: InputValue<CreateOnboardingAccessLinkRequestInput>): Model<CreateOnboardingAccessLinkRequestInput>;
 export declare function makeCreateOrderDiscount(value: InputValue<CreateOrderDiscountInput>): Model<CreateOrderDiscountInput>;
 export declare function makeCreateOrderDiscountManual(value: InputValue<CreateOrderDiscountManualInput>): Model<CreateOrderDiscountManualInput>;
@@ -135,3 +134,4 @@ export declare function makeCreateReturnResolutionRequest(value: InputValue<Crea
 export declare function makeCreateReturnResolutionRequestCorrection(value: InputValue<CreateReturnResolutionRequestCorrectionInput>): Model<CreateReturnResolutionRequestCorrectionInput>;
 export declare function makeCreateReturnResolutionRequestStandard(value: InputValue<CreateReturnResolutionRequestStandardInput>): Model<CreateReturnResolutionRequestStandardInput>;
 export declare function makeCreateRiskListRequest(value: InputValue<CreateRiskListRequestInput>): Model<CreateRiskListRequestInput>;
+export declare function makeCreateRiskPreviewRequest(value: InputValue<CreateRiskPreviewRequestInput>): Model<CreateRiskPreviewRequestInput>;

@@ -35,7 +35,7 @@ Activation also takes a device `name`. Release takes the activation ID as its fi
 
 The pinned public API removed the `feedbackReports.list`, `feedbackReports.create` and `feedbackReports.get` methods and their models. Remove these calls and imports before upgrading to this candidate.
 
-The generator compared this candidate with the published beta.6 baseline and reported 419 breaking, 3,571 review and 567 additive findings. In addition to the operation removals, the report flags narrower input schemas and changed PHP model classes.
+The compatibility comparison against the published beta.6 baseline also flags narrower input schemas and changed PHP model classes.
 
 ## Changes in 8.0.0-beta.6
 

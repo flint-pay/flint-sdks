@@ -27,7 +27,7 @@ final class LicenseKeysLookupInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** The full key to look up. Example: {"key":"TEST-LUMEN-7K2QX-9RMDT-4W8PC-6HNZB-E3VYJ"}.
+    /** The full key to look up.
      * @return array{'key': string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

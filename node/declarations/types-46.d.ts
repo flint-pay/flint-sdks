@@ -1,6 +1,6 @@
-import type { MerchantWebhookEnvelope, MetadataMap, MetadataRequestInput } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { WebhookOrderEdit, WebhookOrder, Weight, WeightPreviousAttributes } from './types-79.js';
+import type { MerchantWebhookEnvelope, MetadataMap, MetadataRequestInput } from './types-43.js';
 import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
 import type {
     OrderEdit,
@@ -15,9 +15,8 @@ import type {
     OrderCalculatedLineItemTaxPreviousAttributes
 } from './types-45.js';
 import type { ResponseMeta } from './types-62.js';
-import type { CreateOrderLineItemRequest } from './types-11.js';
+import type { CreateOrderLineItemRequest, CreateOrderLineItemRequestInput } from './types-11.js';
 import type { RefundCharge, RefundDestinations, RefundChargeInput, RefundDestinationsInput } from './types-60.js';
-import type { CreateOrderLineItemRequestInput } from './types-12.js';
 import type { InputValue } from '../runtime.js';
 import type { CheckoutBuyerContactPreviousAttributes } from './types-6.js';
 import type { CustomFieldAnswerPreviousAttributes } from './types-16.js';
@@ -55,32 +54,6 @@ import type { SelectedProductOption, SelectedProductOptionPreviousAttributes } f
 import type { SubscribedLine, SubscribedLinePreviousAttributes } from './types-68.js';
 import type { TextModifierRequest, TextModifierRequestInput, TextModifierRequestPreviousAttributes } from './types-74.js';
 import type { TaxCalculationRequest, TaxCalculationRequestModelInput } from './types-73.js';
-export type OrderEditCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": WebhookOrderEdit;
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "order_edit.created";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": WebhookOrderEdit;
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "order_edit.created";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "order_edit.created";
-});
 /**
  * The `order_edit.created` webhook payload for the `installed_merchants` event source. Fields
  * shared by partner webhook payloads.
@@ -9968,4 +9941,31 @@ export type OrderLineItemTaxPreviousAttributes = {
      * anyOf[2] (Value): null.
      */
     "taxable"?: ((boolean) | (null));
+};
+/** A line item's tax category and whether it is taxable. */
+export type OrderLineItemTaxRequestInput = {
+    /**
+     * Flint line-item tax category. A bundle line takes the stored category shared by all
+     * component variants when added; all must also share taxability. Unset uses the merchant
+     * default and equals only another unset category. Value enum: "general", "physical_goods",
+     * "digital_goods", "software", "saas", "services", "professional_services", "food",
+     * "prepared_food", "clothing", "medical_goods", "admission".
+     */
+    "line_item_tax_category"?: "general"
+        | "physical_goods"
+        | "digital_goods"
+        | "software"
+        | "saas"
+        | "services"
+        | "professional_services"
+        | "food"
+        | "prepared_food"
+        | "clothing"
+        | "medical_goods"
+        | "admission";
+    /**
+     * Whether the line is subject to tax. A bundle line takes the taxability shared by all
+     * component variants when added; they must also share their stored tax category.
+     */
+    "taxable"?: boolean;
 };

@@ -53,33 +53,6 @@ import type { DeliveryChargeTaxCalculationRequest } from './types-18.js';
 import type { TaxBreakdown } from './types-73.js';
 import type { TaxReverseCharge, TaxJurisdiction } from './types-74.js';
 import type { Address } from './types-0.js';
-/** A line item's tax category and whether it is taxable. */
-export type OrderLineItemTaxRequestInput = {
-    /**
-     * Flint line-item tax category. A bundle line takes the stored category shared by all
-     * component variants when added; all must also share taxability. Unset uses the merchant
-     * default and equals only another unset category. Value enum: "general", "physical_goods",
-     * "digital_goods", "software", "saas", "services", "professional_services", "food",
-     * "prepared_food", "clothing", "medical_goods", "admission".
-     */
-    "line_item_tax_category"?: "general"
-        | "physical_goods"
-        | "digital_goods"
-        | "software"
-        | "saas"
-        | "services"
-        | "professional_services"
-        | "food"
-        | "prepared_food"
-        | "clothing"
-        | "medical_goods"
-        | "admission";
-    /**
-     * Whether the line is subject to tax. A bundle line takes the taxability shared by all
-     * component variants when added; they must also share their stored tax category.
-     */
-    "taxable"?: boolean;
-};
 /** A page of `OrderLineItem` objects. */
 export type OrderLineItemsListResponse = {
     /**
@@ -15023,4 +14996,25 @@ export type OrderTaxLocationInputFullAddress = {
      * "shipping_address".
      */
     "address_type": "tax_address" | "billing_address" | "shipping_address" | (string & {});
+};
+/**
+ * The `billing_address` variant of `OrderTaxLocationInput`. The `shipping_address` variant of
+ * `OrderTaxLocationInput`. The `tax_address` variant of `OrderTaxLocationInput`.
+ */
+export type OrderTaxLocationInputFullAddressInput = {
+    /**
+     * The address to calculate tax from. A full street address you supply as an order's tax
+     * location.
+     */
+    "address": OrderTaxLocationFullAddressRequestInput;
+    /**
+     * Where the tax address comes from. The only accepted value is provided, which is the default.
+     * Default: "provided". Value enum: "provided".
+     */
+    "address_source"?: "provided";
+    /**
+     * The kind of address you are sending. Value enum: "tax_address", "billing_address",
+     * "shipping_address".
+     */
+    "address_type": "tax_address" | "billing_address" | "shipping_address";
 };

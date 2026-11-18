@@ -15,14 +15,10 @@ import type {
     PaymentIntentsConfirmParams,
     PaymentIntentsCreateParams,
     PaymentIntentsCreateResponse,
-    PaymentIntentsGetParams
+    PaymentIntentsGetParams,
+    PaymentIntentsListActivitiesParams
 } from '../declarations/types-51.js';
-import type {
-    PaymentIntentsListActivitiesParams,
-    PaymentIntentsListParams,
-    PaymentIntentsSendReceiptParams,
-    PaymentIntentsUpdateParams
-} from '../declarations/types-52.js';
+import type { PaymentIntentsListParams, PaymentIntentsSendReceiptParams, PaymentIntentsUpdateParams } from '../declarations/types-52.js';
 import type { RequestOptions } from '../declarations/types-61.js';
 import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
@@ -51,6 +47,7 @@ export type {
     PaymentIntentsCreateResponse,
     PaymentIntentsGetParams,
     PaymentIntentWithCollectionResponse,
+    PaymentIntentsListActivitiesParams,
     PaymentIntentActivityListResponse,
     PaymentIntentActivity,
     PaymentIntentListResponse,
@@ -67,12 +64,7 @@ export type {
 export type { RequestOptions } from '../declarations/types-61.js';
 export type { ConfirmPaymentIntentResponse, ConfirmPaymentIntentRequestInput } from '../declarations/types-8.js';
 export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
-export type {
-    PaymentIntentsListActivitiesParams,
-    PaymentIntentsListParams,
-    PaymentIntentsSendReceiptParams,
-    PaymentIntentsUpdateParams
-} from '../declarations/types-52.js';
+export type { PaymentIntentsListParams, PaymentIntentsSendReceiptParams, PaymentIntentsUpdateParams } from '../declarations/types-52.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type {
     CancelPaymentIntentRequestInput,
@@ -80,7 +72,7 @@ export type {
     CapturePaymentSplitRequestInput
 } from '../declarations/types-5.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type { PaymentAddOnFee, PaymentClientAction, PaymentActivityActor } from '../declarations/types-50.js';
 export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-44.js';
 export type { ExpandedCustomerSummary, ExpandedInvoiceSummary, ErrorRemediation, ExpandedOrderSummary } from '../declarations/types-26.js';
@@ -152,7 +144,7 @@ export {
     makePlatformFeeRequest
 } from '../declarations/types-89.js';
 export { makeReaderPaymentSourceTip } from '../declarations/types-90.js';
-export { makeSendPaymentIntentReceiptRequest } from '../declarations/types-92.js';
+export { makeSendPaymentIntentReceiptRequest } from '../declarations/types-91.js';
 export { makeUpdatePaymentIntentRequest } from '../declarations/types-93.js';
 export interface PaymentIntentsResource {
     /**

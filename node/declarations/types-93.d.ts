@@ -1,5 +1,5 @@
 import type { InputValue, Model } from '../runtime.js';
-import type { TextModifierConfigRequestInput, TextModifierRequestInput, ThemeConfigRequestInput } from './types-74.js';
+import type { TextModifierRequestInput, ThemeConfigRequestInput } from './types-74.js';
 import type {
     TicketVersionRequestInput,
     TippingSettingsPatchInput,
@@ -18,10 +18,10 @@ import type {
     UpdateDeliveryLocationSetRequestInput,
     UpdateDeliveryMethodRequestInput,
     UpdateDeliveryProfileRequestInput,
-    UpdateDeliveryRateCallbackRequestInput
+    UpdateDeliveryRateCallbackRequestInput,
+    UpdateDeliveryZoneRequestInput
 } from './types-75.js';
 import type {
-    UpdateDeliveryZoneRequestInput,
     UpdateDeviceRequestInput,
     UpdateDigitalFulfillmentDetailsInput,
     UpdateFulfillmentRequestInput,
@@ -52,10 +52,10 @@ import type {
     UpdatePaymentIntentRequestInput,
     UpdatePaymentLinkRequestInput,
     UpdatePaymentMethodDomainRequestInput,
-    UpdatePayoutDestinationRequestInput
+    UpdatePayoutDestinationRequestInput,
+    UpdatePayoutSettingsRequestInput
 } from './types-76.js';
 import type {
-    UpdatePayoutSettingsRequestInput,
     UpdatePickupFulfillmentDetailsInput,
     UpdatePriceListPriceRequestInput,
     UpdatePriceListRequestInput,
@@ -65,9 +65,9 @@ import type {
     UpdateProductVariantRequestInput,
     UpdatePromotionCodeRequestInput,
     UpdatePromotionRequestInput,
-    UpdateReaderRequestInput
+    UpdateReaderRequestInput,
+    UpdateRefundRequestInput
 } from './types-77.js';
-export declare function makeTextModifierConfigRequest(value: InputValue<TextModifierConfigRequestInput>): Model<TextModifierConfigRequestInput>;
 export declare function makeTextModifierRequest(value: InputValue<TextModifierRequestInput>): Model<TextModifierRequestInput>;
 export declare function makeThemeConfigRequest(value: InputValue<ThemeConfigRequestInput>): Model<ThemeConfigRequestInput>;
 export declare function makeTicketVersionRequest(value: InputValue<TicketVersionRequestInput>): Model<TicketVersionRequestInput>;
@@ -131,3 +131,4 @@ export declare function makeUpdateProductVariantRequest(value: InputValue<Update
 export declare function makeUpdatePromotionCodeRequest(value: InputValue<UpdatePromotionCodeRequestInput>): Model<UpdatePromotionCodeRequestInput>;
 export declare function makeUpdatePromotionRequest(value: InputValue<UpdatePromotionRequestInput>): Model<UpdatePromotionRequestInput>;
 export declare function makeUpdateReaderRequest(value: InputValue<UpdateReaderRequestInput>): Model<UpdateReaderRequestInput>;
+export declare function makeUpdateRefundRequest(value: InputValue<UpdateRefundRequestInput>): Model<UpdateRefundRequestInput>;

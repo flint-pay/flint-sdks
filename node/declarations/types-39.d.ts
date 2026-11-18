@@ -1,6 +1,6 @@
-import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
 import type { LicenseKeyActivation, LicenseKey } from './types-38.js';
 import type { ResponseMeta } from './types-62.js';
+import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { InputValue } from '../runtime.js';
 import type {
@@ -28,99 +28,8 @@ import type {
     PoolLicenseKeyConfigurationRequest,
     PoolLicenseKeyConfigurationRequestInput
 } from './types-56.js';
-import type { CheckoutLicenseKey } from './types-6.js';
+import type { LicenseKeyWithKey } from './types-40.js';
 import type { UpdateLicenseKeyPoolRequestInput } from './types-76.js';
-/**
- * The `license_key_activation.created` webhook payload for the `merchant` event source. Fields
- * shared by merchant webhook payloads.
- */
-export type LicenseKeyActivationCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.created_at (Required): string. When the activation was created.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.fingerprint (Required): string or
-     * null. The identifier supplied by the app. Null when absent or erased.
-     * object.last_validated_at (Required): string or null. When the activation was last checked,
-     * updated at most once an hour. Null when the activation has never been checked. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.license_key_activation_id (Required):
-     * string. The activation ID. Example: "lka_01KEZF7C00NZEZVCZW3SRDMHTZ". object.license_key_id
-     * (Required): string. The activated license key ID. Example: "lk_01KEZF7C000QD7VJ83G43V0NSN".
-     * object.name (Required): string or null. The name supplied by the app. Null when erased.
-     * object.product_id (Required): string. The product this installation can use. Example:
-     * "prod_01KEZF7C00BVSHCNWVH528HB66". object.released_at (Required): string or null. When the
-     * activation was released. Null when it is active. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.status (Required): string. The activation state. Value enum:
-     * "active", "released". object.supported_actions (Required): Array of string. Actions
-     * available for this activation. [] enum: "release". object.supported_actions[] (Value):
-     * string. Value enum: "release". object.variant_id (Required): string. The variant this
-     * installation can use. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * created_at (Required): string. When the activation was created. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". fingerprint (Required): string or null. The identifier
-         * supplied by the app. Null when absent or erased. last_validated_at (Required): string or
-         * null. When the activation was last checked, updated at most once an hour. Null when the
-         * activation has never been checked. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * license_key_activation_id (Required): string. The activation ID. Example:
-         * "lka_01KEZF7C00NZEZVCZW3SRDMHTZ". license_key_id (Required): string. The activated
-         * license key ID. Example: "lk_01KEZF7C000QD7VJ83G43V0NSN". name (Required): string or
-         * null. The name supplied by the app. Null when erased. product_id (Required): string. The
-         * product this installation can use. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
-         * released_at (Required): string or null. When the activation was released. Null when it
-         * is active. Format: date-time. Example: "2026-08-02T16:00:00Z". status (Required):
-         * string. The activation state. Value enum: "active", "released". supported_actions
-         * (Required): Array of string. Actions available for this activation. [] enum: "release".
-         * supported_actions[] (Value): string. Value enum: "release". variant_id (Required):
-         * string. The variant this installation can use. Example:
-         * "var_01KEZF7C004GSH2KT8CNYVMHGX".
-         */
-        "object": {
-            /**
-             * When the activation was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "created_at": string;
-            /** The identifier supplied by the app. Null when absent or erased. */
-            "fingerprint": string | null;
-            /**
-             * When the activation was last checked, updated at most once an hour. Null when the
-             * activation has never been checked. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "last_validated_at": string | null;
-            /** The activation ID. Example: "lka_01KEZF7C00NZEZVCZW3SRDMHTZ". */
-            "license_key_activation_id": string;
-            /** The activated license key ID. Example: "lk_01KEZF7C000QD7VJ83G43V0NSN". */
-            "license_key_id": string;
-            /** The name supplied by the app. Null when erased. */
-            "name": string | null;
-            /**
-             * The product this installation can use. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
-             */
-            "product_id": string;
-            /**
-             * When the activation was released. Null when it is active. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "released_at": string | null;
-            /** The activation state. Value enum: "active", "released". */
-            "status": "active" | "released" | (string & {});
-            /**
-             * Actions available for this activation. [] enum: "release". [] (Value): string. Value
-             * enum: "release".
-             */
-            "supported_actions": Array<"release" | (string & {})>;
-            /** The variant this installation can use. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". */
-            "variant_id": string;
-        };
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "license_key_activation.created". */
-    "event_type"?: "license_key_activation.created";
-});
 /** A page of `LicenseKeyActivation` objects. */
 export type LicenseKeyActivationListResponse = {
     /**
@@ -4087,9 +3996,9 @@ export type LicenseKeyExpiredMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
 export type LicenseKeyListResponse = {
     /**
      * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * CheckoutLicenseKey}. A listed license key with an optional holder-only key.
+     * LicenseKeyWithKey}. A listed license key with an optional holder-only key.
      */
-    "data": Array<CheckoutLicenseKey>;
+    "data": Array<LicenseKeyWithKey>;
     /**
      * Additional information about this response. Metadata returned with a response: the
      * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
@@ -8662,3 +8571,46 @@ export type LicenseKeyUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
     /** Value enum: "license_key.updated". */
     "event_type"?: "license_key.updated";
 });
+/** The result of checking a license key. */
+export type LicenseKeyValidation = {
+    /**
+     * Maximum active installations for the matched key. Null when unlimited. Omitted when no key
+     * matches. Format: int32.
+     */
+    "activation_limit"?: number | null;
+    /** The number of active installations for the matched key, when found. Format: int32. */
+    "active_activation_count"?: number;
+    /**
+     * The expiry of the matched key. Null when the key has no expiry. Omitted when no key matches.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "expires_at"?: string | null;
+    /**
+     * Why the key or activation could not be used. Value enum: "not_found", "disabled", "expired",
+     * "activation_not_found".
+     */
+    "invalid_reason"?: "not_found" | "disabled" | "expired" | "activation_not_found" | (string & {});
+    /** Whether the key and any supplied activation are active. */
+    "is_valid": boolean;
+    /**
+     * The active installation when the request supplied its ID and it belongs to this key. A
+     * top-level child of a license key representing an installation.
+     */
+    "license_key_activation"?: LicenseKeyActivation;
+    /** The matched license key ID, when found. Example: "lk_01KEZF7C000QD7VJ83G43V0NSN". */
+    "license_key_id"?: string;
+    /**
+     * The listed product that the key belongs to, when found. Example:
+     * "prod_01KEZF7C00BVSHCNWVH528HB66".
+     */
+    "product_id"?: string;
+    /**
+     * The effective status of the matched key, when found. Value enum: "pending", "active",
+     * "disabled", "expired".
+     */
+    "status"?: "pending" | "active" | "disabled" | "expired" | (string & {});
+    /**
+     * The variant that the key belongs to, when found. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+};

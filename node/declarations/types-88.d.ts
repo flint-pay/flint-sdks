@@ -1,6 +1,5 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
-    MarkFulfillmentReadyRequestInput,
     MarkPackageDeliveredRequestInput,
     MarkPackageDeliveryAttemptedRequestInput,
     MarkPackageExceptionRequestInput
@@ -20,10 +19,10 @@ import type {
     MetadataPatchRequestInput,
     MetadataRequestInput,
     ModifierOverrideRequestInput,
-    ModifierRequestInput
+    ModifierRequestInput,
+    ModifierSetGroupInputExistingInput
 } from './types-43.js';
 import type {
-    ModifierSetGroupInputExistingInput,
     ModifierSetGroupInputInlineInput,
     ModifierSetGroupRequestInput,
     MoneyValueInput,
@@ -63,10 +62,10 @@ import type {
     OrderLineItemModifierInputCatalogRequestInput,
     OrderLineItemModifierInputTextRequestInput,
     OrderLineItemModifierRequestModelInput,
-    OrderLineItemTaxAssignmentInput
+    OrderLineItemTaxAssignmentInput,
+    OrderLineItemTaxRequestInput
 } from './types-46.js';
 import type {
-    OrderLineItemTaxRequestInput,
     OrderPaymentIntentSelectionInput,
     OrderPaymentSourceCardSelectionInput,
     OrderPaymentSourceSelectionInput,
@@ -74,9 +73,9 @@ import type {
     OrderTaxCalculationInputExternalInput,
     OrderTaxCalculationRequestInput,
     OrderTaxComponentRequestInput,
-    OrderTaxExemptionInputCustomerInput
+    OrderTaxExemptionInputCustomerInput,
+    OrderTaxExemptionInputNoneInput
 } from './types-47.js';
-export declare function makeMarkFulfillmentReadyRequest(value: InputValue<MarkFulfillmentReadyRequestInput>): Model<MarkFulfillmentReadyRequestInput>;
 export declare function makeMarkPackageDeliveredRequest(value: InputValue<MarkPackageDeliveredRequestInput>): Model<MarkPackageDeliveredRequestInput>;
 export declare function makeMarkPackageDeliveryAttemptedRequest(value: InputValue<MarkPackageDeliveryAttemptedRequestInput>): Model<MarkPackageDeliveryAttemptedRequestInput>;
 export declare function makeMarkPackageExceptionRequest(value: InputValue<MarkPackageExceptionRequestInput>): Model<MarkPackageExceptionRequestInput>;
@@ -140,3 +139,4 @@ export declare function makeOrderTaxCalculationInputExternal(value: InputValue<O
 export declare function makeOrderTaxCalculationRequest(value: InputValue<OrderTaxCalculationRequestInput>): Model<OrderTaxCalculationRequestInput>;
 export declare function makeOrderTaxComponentRequest(value: InputValue<OrderTaxComponentRequestInput>): Model<OrderTaxComponentRequestInput>;
 export declare function makeOrderTaxExemptionInputCustomer(value: InputValue<OrderTaxExemptionInputCustomerInput>): Model<OrderTaxExemptionInputCustomerInput>;
+export declare function makeOrderTaxExemptionInputNone(value: InputValue<OrderTaxExemptionInputNoneInput>): Model<OrderTaxExemptionInputNoneInput>;

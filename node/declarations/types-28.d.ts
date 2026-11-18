@@ -1,4 +1,3 @@
-import type { InputValue } from '../runtime.js';
 import type { CreatePackageItemRequest, CreatePackageItemRequestInput } from './types-12.js';
 import type {
     FulfillmentItemizedPackagesRequest,
@@ -51,6 +50,7 @@ import type {
 } from './types-0.js';
 import type { ResponseMeta, ReturnDisposition } from './types-62.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
+import type { InputValue } from '../runtime.js';
 import type { CancelFulfillmentRequestInput } from './types-4.js';
 import type { CompleteFulfillmentRequestInput } from './types-7.js';
 import type { CreateFulfillmentRequestInput, CreateGiftCardFundingDispositionRequestInput } from './types-10.js';
@@ -69,136 +69,7 @@ import type { ReturnPolicy, ReturnPolicyRevision, ReturnReason, ReturnReceipt } 
 import type { ReturnResolution, ReturnResource } from './types-65.js';
 import type { GiftCardRestriction } from './types-30.js';
 import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
-import type { GiftCardFundingLossResolution, GiftCardFundingLossResolutionPreviousAttributes } from './types-29.js';
-export type FulfillmentNotificationsListParams = {
-    /**
-     * Optional fulfillment ID filter. pattern: ^ful_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-     */
-    "fulfillment_id"?: InputValue<string>;
-    /**
-     * Optional order ID filter. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id"?: InputValue<string>;
-    /**
-     * Optional fulfillment event ID filter. pattern: ^fev_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "fev_01KEZF7C002XK9D7X3239ERT51".
-     */
-    "fulfillment_event_id"?: InputValue<string>;
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Filter by notification channel. Values are trimmed and deduplicated in first-seen order;
-     * empty or unknown entries are rejected. Values within this filter are ORed; separate filters
-     * are ANDed. [] enum: "email". Value enum: "email". anyOf[1] (Value): Array of string.
-     * minItems: 1. [] enum: "email". anyOf[1][] (Value): string. Value enum: "email". anyOf[2]
-     * (Value): string. Value enum: "email".
-     */
-    "channel"?: InputValue<("email") | readonly ("email")[]>;
-    /**
-     * Filter by notification status. Values are trimmed and deduplicated in first-seen order;
-     * empty or unknown entries are rejected. Values within this filter are ORed; separate filters
-     * are ANDed. [] enum: "pending", "sent", "failed", "suppressed". Value enum: "pending",
-     * "sent", "failed", "suppressed". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
-     * "pending", "sent", "failed", "suppressed". anyOf[1][] (Value): string. Value enum:
-     * "pending", "sent", "failed", "suppressed". anyOf[2] (Value): string. Value enum: "pending",
-     * "sent", "failed", "suppressed".
-     */
-    "status"?: InputValue<("pending" | "sent" | "failed" | "suppressed")
-        | readonly ("pending" | "sent" | "failed" | "suppressed")[]>;
-    /**
-     * Filter by notification type. Values are trimmed and deduplicated in first-seen order; empty
-     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
-     * ANDed. [] enum: "fulfillment_canceled", "fulfillment_completed", "fulfillment_delivered",
-     * "fulfillment_dispatched", "fulfillment_failed", "fulfillment_no_show", "fulfillment_ready",
-     * "fulfillment_shipped", "shipment_delivered", "shipment_delivery_attempted",
-     * "shipment_exception", "shipment_out_for_delivery", "shipment_returned", "shipment_shipped".
-     * Value enum: "fulfillment_canceled", "fulfillment_completed", "fulfillment_delivered",
-     * "fulfillment_dispatched", "fulfillment_failed", "fulfillment_no_show", "fulfillment_ready",
-     * "fulfillment_shipped", "shipment_delivered", "shipment_delivery_attempted",
-     * "shipment_exception", "shipment_out_for_delivery", "shipment_returned", "shipment_shipped".
-     * anyOf[1] (Value): Array of string. minItems: 1. [] enum: "fulfillment_canceled",
-     * "fulfillment_completed", "fulfillment_delivered", "fulfillment_dispatched",
-     * "fulfillment_failed", "fulfillment_no_show", "fulfillment_ready", "fulfillment_shipped",
-     * "shipment_delivered", "shipment_delivery_attempted", "shipment_exception",
-     * "shipment_out_for_delivery", "shipment_returned", "shipment_shipped". anyOf[1][] (Value):
-     * string. Value enum: "fulfillment_canceled", "fulfillment_completed",
-     * "fulfillment_delivered", "fulfillment_dispatched", "fulfillment_failed",
-     * "fulfillment_no_show", "fulfillment_ready", "fulfillment_shipped", "shipment_delivered",
-     * "shipment_delivery_attempted", "shipment_exception", "shipment_out_for_delivery",
-     * "shipment_returned", "shipment_shipped". anyOf[2] (Value): string. Value enum:
-     * "fulfillment_canceled", "fulfillment_completed", "fulfillment_delivered",
-     * "fulfillment_dispatched", "fulfillment_failed", "fulfillment_no_show", "fulfillment_ready",
-     * "fulfillment_shipped", "shipment_delivered", "shipment_delivery_attempted",
-     * "shipment_exception", "shipment_out_for_delivery", "shipment_returned", "shipment_shipped".
-     */
-    "notification_type"?: InputValue<("fulfillment_canceled"
-        | "fulfillment_completed"
-        | "fulfillment_delivered"
-        | "fulfillment_dispatched"
-        | "fulfillment_failed"
-        | "fulfillment_no_show"
-        | "fulfillment_ready"
-        | "fulfillment_shipped"
-        | "shipment_delivered"
-        | "shipment_delivery_attempted"
-        | "shipment_exception"
-        | "shipment_out_for_delivery"
-        | "shipment_returned"
-        | "shipment_shipped")
-        | readonly ("fulfillment_canceled"
-        | "fulfillment_completed"
-        | "fulfillment_delivered"
-        | "fulfillment_dispatched"
-        | "fulfillment_failed"
-        | "fulfillment_no_show"
-        | "fulfillment_ready"
-        | "fulfillment_shipped"
-        | "shipment_delivered"
-        | "shipment_delivery_attempted"
-        | "shipment_exception"
-        | "shipment_out_for_delivery"
-        | "shipment_returned"
-        | "shipment_shipped")[]>;
-    /**
-     * Include related objects in the response. Supported expansions: order. Include the requested
-     * related resources using scoped batch reads for this page. Each relationship requires its
-     * existing target read scopes. Expansion changes the representation without changing
-     * pagination tokens. Limits: at most 10 unique expand paths per request. [] enum: "order".
-     * Value enum: "order". anyOf[1] (Value): Array of string. [] enum: "order". anyOf[1][]
-     * (Value): string. Value enum: "order". anyOf[2] (Value): string. Value enum: "order".
-     */
-    "expand"?: InputValue<("order") | readonly ("order")[]>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
+import type { GiftCardFundingLossResolutionPreviousAttributes } from './types-29.js';
 /**
  * The terminal outcome recorded for a fulfillment, such as a no-show, with its reason, notes, and
  * when it occurred.
@@ -5778,4 +5649,24 @@ export type GiftCardFundingDisputePreviousAttributes = {
      * stale write. Format: int64. anyOf[2] (Value): null.
      */
     "version"?: ((number) | (null));
+};
+/**
+ * How a lost funding dispute was resolved for a gift card load, such as honoring the card's value,
+ * with a reason message.
+ */
+export type GiftCardFundingLossResolution = {
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * What the merchant decided about the card's value after the funding payment lost a dispute.
+     * Value enum: "honor_value".
+     */
+    "disposition": "honor_value" | (string & {});
+    /**
+     * ID of the funding disposition recorded for the lost dispute. Example:
+     * "gfd_01KEZF7C0077Q8RK3Q4FD2DTW8".
+     */
+    "gift_card_funding_disposition_id": string;
+    /** The note you gave when you created the disposition. */
+    "reason_message": string;
 };

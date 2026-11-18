@@ -17,10 +17,10 @@ import type {
     OnboardingStartResponse,
     OnboardingStartResult,
     OnboardingState,
-    OnboardingStateResponse
+    OnboardingStateResponse,
+    OnboardingVerifyEmailParams
 } from '../declarations/types-44.js';
 import type {
-    OnboardingVerifyEmailParams,
     OnboardingVerifyEmailRequest,
     OnboardingVerifyEmailRequestInput,
     OnboardingVerifyEmailResponse,
@@ -51,6 +51,7 @@ export type {
     OnboardingStartParams,
     OnboardingStartResult,
     OnboardingStartResponse,
+    OnboardingVerifyEmailParams,
     OnboardingAdvanceRequest,
     OnboardingAdvanceRequestInput,
     OnboardingProfile,
@@ -66,7 +67,6 @@ export type { RequestOptions } from '../declarations/types-61.js';
 export type { AccessLink, AccessLinkResponse, Address } from '../declarations/types-0.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type {
-    OnboardingVerifyEmailParams,
     OnboardingVerifyEmailResult,
     OnboardingVerifyEmailResponse,
     OnboardingVerifyEmailRequest,
@@ -74,9 +74,9 @@ export type {
 } from '../declarations/types-45.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
-export type { ReadinessAction } from '../declarations/types-59.js';
-export type { ReadinessMerchantAccountSession, ReadinessRequirements, ReadinessRequirementError, ReadinessAxis } from '../declarations/types-60.js';
+export type { Credentials } from '../declarations/types-14.js';
+export type { ReadinessAction, ReadinessAxis } from '../declarations/types-59.js';
+export type { ReadinessMerchantAccountSession, ReadinessRequirements, ReadinessRequirementError } from '../declarations/types-60.js';
 export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { CreateOnboardingAccessLinkRequestInput, CreateOnboardingAccessLinkRequest } from '../declarations/types-11.js';
 export type { Merchant, MerchantReadiness } from '../declarations/types-42.js';

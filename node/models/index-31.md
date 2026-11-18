@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# PublicDownload to RefundTenderAllocationInputPaymentIntentInput
+# PublicDownloadPreviousAttributes to RefundTenderAllocationPreviousAttributes
 
-- [PublicDownload](PublicDownload.md)
 - [PublicDownloadPreviousAttributes](PublicDownloadPreviousAttributes.md)
 - [PublicPaymentLink](PublicPaymentLink.md)
 - [PublicPaymentLinkResponse](PublicPaymentLinkResponse.md)
@@ -102,4 +101,5 @@
 - [RefundTenderAllocationInputGiftCardRedemptionInput](RefundTenderAllocationInputGiftCardRedemptionInput.md)
 - [RefundTenderAllocationInputPaymentIntent](RefundTenderAllocationInputPaymentIntent.md)
 - [RefundTenderAllocationInputPaymentIntentInput](RefundTenderAllocationInputPaymentIntentInput.md)
+- [RefundTenderAllocationPreviousAttributes](RefundTenderAllocationPreviousAttributes.md)
 

@@ -1,5 +1,7 @@
-import type { LicenseKeyActivation, LicenseKey } from './types-38.js';
+import type { LicenseKeyValidation, LicenseKeyRestriction } from './types-39.js';
 import type { ResponseMeta, ReturnActivity, ReturnDisposition } from './types-62.js';
+import type { ExpandedCustomerSummary, ExpandedOrderSummary, DisputesAcceptParams } from './types-26.js';
+import type { MetadataMap } from './types-43.js';
 import type { InputValue } from '../runtime.js';
 import type { DisableLicenseKeyRequestInput } from './types-25.js';
 import type { ResendLicenseKeyRequestInput } from './types-61.js';
@@ -10,54 +12,9 @@ import type { ReturnInspection, ReturnLineItem } from './types-63.js';
 import type { ReturnPolicy, ReturnPolicyRevision, ReturnReason, ReturnReceipt } from './types-64.js';
 import type { ReturnResolution, ReturnResource } from './types-65.js';
 import type { Address, AcceptFulfillmentRequestInput } from './types-0.js';
-import type { MetadataMap } from './types-43.js';
 import type { CreateLocationRequestInput } from './types-11.js';
 import type { InventoryAllocationPoliciesDeleteParams } from './types-31.js';
-import type { DisputesAcceptParams } from './types-26.js';
 import type { MoneyValue, MoneyValueInput } from './types-44.js';
-/** The result of checking a license key. */
-export type LicenseKeyValidation = {
-    /**
-     * Maximum active installations for the matched key. Null when unlimited. Omitted when no key
-     * matches. Format: int32.
-     */
-    "activation_limit"?: number | null;
-    /** The number of active installations for the matched key, when found. Format: int32. */
-    "active_activation_count"?: number;
-    /**
-     * The expiry of the matched key. Null when the key has no expiry. Omitted when no key matches.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "expires_at"?: string | null;
-    /**
-     * Why the key or activation could not be used. Value enum: "not_found", "disabled", "expired",
-     * "activation_not_found".
-     */
-    "invalid_reason"?: "not_found" | "disabled" | "expired" | "activation_not_found" | (string & {});
-    /** Whether the key and any supplied activation are active. */
-    "is_valid": boolean;
-    /**
-     * The active installation when the request supplied its ID and it belongs to this key. A
-     * top-level child of a license key representing an installation.
-     */
-    "license_key_activation"?: LicenseKeyActivation;
-    /** The matched license key ID, when found. Example: "lk_01KEZF7C000QD7VJ83G43V0NSN". */
-    "license_key_id"?: string;
-    /**
-     * The listed product that the key belongs to, when found. Example:
-     * "prod_01KEZF7C00BVSHCNWVH528HB66".
-     */
-    "product_id"?: string;
-    /**
-     * The effective status of the matched key, when found. Value enum: "pending", "active",
-     * "disabled", "expired".
-     */
-    "status"?: "pending" | "active" | "disabled" | "expired" | (string & {});
-    /**
-     * The variant that the key belongs to, when found. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "variant_id"?: string;
-};
 /** A response containing `LicenseKeyValidation` data. */
 export type LicenseKeyValidationResponse = {
     /**
@@ -85,24 +42,116 @@ export type LicenseKeyVersionRequestInput = {
      */
     "expected_version"?: number;
 };
-/**
- * A merchant license key with its full credential when available to the caller. A license key
- * issued to a buyer, with its display suffix.
- */
-export type LicenseKeyWithKey = (Exclude<LicenseKey & object, readonly unknown[]>)
-    & ({
+/** A merchant license key with its full credential when available to the caller. */
+export type LicenseKeyWithKey = {
+    /** Maximum active installations. Null when activations are unlimited. Format: int32. */
+    "activation_limit": number | null;
+    /** Number of currently active installations. Format: int32. */
+    "active_activation_count": number;
+    /** When the license key was issued. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * Customer summary when requested with expand=customer. Null when the key has no customer.
+     * Omitted when no customer expansion is requested. A customer's summary fields, returned in
+     * place of a customer ID when the customer is expanded.
+     */
+    "customer"?: ExpandedCustomerSummary;
+    /**
+     * The current customer of the owning order or subscription. Null when the order has no linked
+     * customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id": string | null;
+    /**
+     * When the key expires. Null when no expiry is set. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "expires_at": string | null;
     /**
      * The full key. Omitted when another credential replays the request, the recovery window has
      * ended, or a rotation is replayed after the resource version changed.
      */
     "key"?: string;
-});
+    /** Last four characters of the assigned key. Null when the key is awaiting assignment. */
+    "key_last4": string | null;
+    /** Unique license key ID with the lk_ prefix. Example: "lk_01KEZF7C000QD7VJ83G43V0NSN". */
+    "license_key_id": string;
+    /**
+     * The source pool ID. Null when the key is generated. Example:
+     * "lkp_01KEZF7C00AQV1X2DPWG2NXS7H".
+     */
+    "license_key_pool_id": string | null;
+    /**
+     * Merchant-defined key-value pairs. Caller-owned key-value data stored on a resource. Keys
+     * starting with flint_ are reserved for Flint and are not returned. Writes follow the limits
+     * on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
+     * them.
+     */
+    "metadata": MetadataMap;
+    /**
+     * Order summary when requested with expand=order. Null when the key has no order. Omitted when
+     * no order expansion is requested. An order's summary fields, including status, payment and
+     * refund status, and pricing and settlement amounts, returned when the order is expanded.
+     */
+    "order"?: ExpandedOrderSummary;
+    /**
+     * The owning order or the order that started the subscription. Null when a subscription has no
+     * starting order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id": string | null;
+    /**
+     * The owning order line. Null when the key belongs to a subscription line. Example:
+     * "li_01KEZF7C008YPRCK7VDKTGWR31".
+     */
+    "order_line_item_id": string | null;
+    /** The product ID. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". */
+    "product_id": string;
+    /**
+     * Restrictions currently in force. [] (Value): {@link LicenseKeyRestriction}. One occurrence
+     * of a cause keeping the key disabled.
+     */
+    "restrictions": Array<LicenseKeyRestriction>;
+    /** How the key was supplied. Value enum: "generated", "pool". */
+    "source": "generated" | "pool" | (string & {});
+    /**
+     * Whether the key is usable. Expiry takes effect at expires_at. Value enum: "pending",
+     * "active", "disabled", "expired".
+     */
+    "status": "pending" | "active" | "disabled" | "expired" | (string & {});
+    /**
+     * The owning subscription. Null when the key belongs to an order line. Example:
+     * "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+     */
+    "subscription_id": string | null;
+    /**
+     * The owning subscription line. Null when the key belongs to an order line. Example:
+     * "sli_01KEZF7C00PPWVJ2N321V84ASA".
+     */
+    "subscription_line_item_id": string | null;
+    /**
+     * Lifecycle actions currently available for this key. [] enum: "disable", "reinstate". []
+     * (Value): string. Value enum: "disable", "reinstate".
+     */
+    "supported_actions": Array<"disable" | "reinstate" | (string & {})>;
+    /** The unit of the owning line, starting at 1. Format: int32. */
+    "unit_ordinal": number;
+    /**
+     * When the license key version last changed. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "updated_at": string;
+    /** The product variant ID. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". */
+    "variant_id": string;
+    /**
+     * Persisted version of this resource's owned state. Expanded resources and external
+     * observations can change independently. Format: uint64. minimum: 1.
+     */
+    "version": number;
+};
 /** A response containing `LicenseKeyWithKey` data. */
 export type LicenseKeyWithKeyResponse = {
     /**
      * Resource, collection, or operation result returned by this request. A merchant license key
-     * with its full credential when available to the caller. A license key issued to a buyer, with
-     * its display suffix.
+     * with its full credential when available to the caller.
      */
     "data": LicenseKeyWithKey;
     /**
@@ -1123,3 +1172,29 @@ export type MarkPackageDeliveredRequestInput = {
 export type MarkPackageDeliveryAttemptedRequestInput = MarkPackageDeliveredRequestInput;
 /** Records the package action mark_exception. */
 export type MarkPackageExceptionRequestInput = MarkPackageDeliveredRequestInput;
+/** Records the package action mark_in_transit. */
+export type MarkPackageInTransitRequest = {
+    /**
+     * Whether to send or suppress the buyer notification for this action. Value enum: "send",
+     * "suppress".
+     */
+    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
+    /**
+     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
+     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
+     * minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "expected_delivery_at"?: string | null;
+    /** Resource version the caller last read. Format: uint64. minimum: 1. */
+    "expected_version"?: number;
+    /**
+     * When the carrier scan or package action occurred, as an RFC 3339 timestamp. Format:
+     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "occurred_at"?: string;
+    /**
+     * Your internal note explaining this transition. Not included in buyer emails. minLength: 1.
+     * maxLength: 500.
+     */
+    "reason_message"?: string;
+};

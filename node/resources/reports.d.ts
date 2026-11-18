@@ -42,7 +42,7 @@ export type { CreateReportRequestInput } from '../declarations/types-13.js';
 export type { CreateIntervalReportRequestInput } from '../declarations/types-10.js';
 export type { CreateReceivablesAgingReportRequestInput } from '../declarations/types-12.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type { PublicDownload } from '../declarations/types-59.js';
 export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';

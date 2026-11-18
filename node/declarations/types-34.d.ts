@@ -10,6 +10,7 @@ import type {
 import type { ResourceType, ResponseMeta } from './types-62.js';
 import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
+import type { InventoryTransfer } from './types-33.js';
 import type { InventoryLevel } from './types-32.js';
 import type { InputValue } from '../runtime.js';
 import type { CancelInventoryTransferRequestInput } from './types-5.js';
@@ -20,7 +21,7 @@ import type { ReportInventoryTransferLossRequestInput } from './types-61.js';
 import type { ReturnInventoryTransferToOriginRequestInput } from './types-63.js';
 import type { UpdateInventoryTransferRequestInput } from './types-76.js';
 import type { Address, AddressPreviousAttributes } from './types-0.js';
-import type { InvoiceLateFee, InvoiceCollectionPreviousAttributes, InvoiceLateFeePreviousAttributes } from './types-35.js';
+import type { InvoiceLateFee, InvoiceLateFeePreviousAttributes } from './types-35.js';
 import type {
     InvoicePaymentDue,
     InvoicePaymentPolicy,
@@ -43,78 +44,6 @@ import type {
 import type { PricingAmounts, PricingAmountsPreviousAttributes } from './types-56.js';
 import type { MoneyValue } from './types-44.js';
 import type { WebhookInvoice } from './types-79.js';
-/** Stock moving between locations. */
-export type InventoryTransfer = {
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "closed_at"?: string;
-    /**
-     * How the transfer ended. `null` when the transfer isn't closed. Value enum: "received",
-     * "canceled", "received_with_cancellation", "returned", "lost", "mixed", null.
-     */
-    "closed_reason"?: "received"
-        | "canceled"
-        | "received_with_cancellation"
-        | "returned"
-        | "lost"
-        | "mixed"
-        | null
-        | (string & {})
-        | null;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "departed_at"?: string;
-    /** ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
-    "destination_location_id": string;
-    /**
-     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * The Idempotency-Key of the request that created this resource; on a movement, of the command
-     * that wrote it. Omitted when that request had no key.
-     */
-    "idempotency_key"?: string;
-    /**
-     * Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
-     * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
-     */
-    "inventory_transfer_id": string;
-    /**
-     * Owned collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH
-     * replaces the full collection. [] (Value): {@link InventoryTransferLine}. One line of an
-     * inventory transfer, with its quantities.
-     */
-    "lines": Array<InventoryTransferLine>;
-    /** Free-text note about the transfer. */
-    "note"?: string;
-    /** ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
-    "origin_location_id": string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "received_at"?: string;
-    /**
-     * Where the transfer stands, worked out from the quantities that have left the origin and have
-     * since been received, returned, or reported lost. Value enum: "draft", "in_transit",
-     * "partially_resolved", "closed".
-     */
-    "status": "draft" | "in_transit" | "partially_resolved" | "closed" | (string & {});
-    /**
-     * Actions that can change this transfer now. `depart` and `cancel` need units that haven't
-     * left the origin. `receive`, `return_to_origin`, and `report_loss` need units in transit.
-     * Empty once the transfer is closed. [] enum: "depart", "receive", "return_to_origin",
-     * "report_loss", "cancel". [] (Value): string. Value enum: "depart", "receive",
-     * "return_to_origin", "report_loss", "cancel".
-     */
-    "supported_actions": Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-    /**
-     * Current version of this resource's owned state. Send it as `expected_version` when changing
-     * the resource to reject a stale write. Format: uint64. minimum: 1.
-     */
-    "version": number;
-};
 /**
  * The inventory transfer state, version, and supported actions for a refused action. One specific
  * failure within an error, with a `code` and `message` plus fields that depend on the code, such
@@ -12065,3 +11994,29 @@ export type InvoiceCollectionInputMerchantDefaultInput = ({
 }) & ({
     "payment_policy"?: never;
 })));
+export type InvoiceCollectionPreviousAttributes = ({
+    /**
+     * How the invoice is collected, resolved when the draft was written. Value enum:
+     * "buyer_initiated", "automatic", "external". anyOf[1] (Value): string. How the invoice is
+     * collected, resolved when the draft was written. Value enum: "buyer_initiated", "automatic",
+     * "external". anyOf[2] (Value): null.
+     */
+    "mode"?: (("buyer_initiated" | "automatic" | "external" | (string & {})) | (null));
+    /**
+     * The saved card Flint charges. Present only with automatic. `null` when the draft will use
+     * the customer's default card, selected at issue. After issue it is the selected card.
+     * anyOf[1] (Value): string. The saved card Flint charges. Present only with automatic. `null`
+     * when the draft will use the customer's default card, selected at issue. After issue it is
+     * the selected card. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ". anyOf[2] (Value): null.
+     */
+    "payment_method_id"?: ((string) | (null));
+    /**
+     * The payment options the hosted invoice page offers. Present only with buyer_initiated.
+     * anyOf[1] (Value): {@link InvoicePaymentPolicyPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "payment_policy"?: ((InvoicePaymentPolicyPreviousAttributes) | (null));
+})
+    & (((Exclude<InvoiceCollectionBuyerInitiatedPreviousAttributes & object, readonly unknown[]>)
+    | (Exclude<InvoiceCollectionAutomaticPreviousAttributes & object, readonly unknown[]>)
+    | (Exclude<InvoiceCollectionExternalPreviousAttributes & object, readonly unknown[]>)
+    | (Record<string, unknown>)));

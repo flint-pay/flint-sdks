@@ -1,12 +1,3 @@
-import type {
-    ErrorDetail,
-    ExpandedCustomerSummary,
-    ExpandedCustomerSummaryPreviousAttributes,
-    ExpandedPaymentMethodSummary,
-    ExpandedPaymentMethodSummaryPreviousAttributes,
-    ExpandedSubscriptionPlanSummary,
-    ExpandedSubscriptionPlanSummaryPreviousAttributes
-} from './types-26.js';
 import type { ResponseMeta, ReturnActor } from './types-62.js';
 import type {
     SubscriptionCreatePreview,
@@ -23,12 +14,11 @@ import type {
 import type {
     SubscriptionPlanChangePreview,
     SubscriptionPreview,
-    SubscriptionPausedDeliveryHoldPreviousAttributes,
     SubscriptionPlanTermsRequest,
     SubscriptionPlanTermsRequestInput
 } from './types-71.js';
 import type { InputValue } from '../runtime.js';
-import type { CreateSubscriptionPreviewRequestInput } from './types-14.js';
+import type { CreateSubscriptionPreviewRequestInput, CreateSubscriptionAccessLinkRequestInput } from './types-14.js';
 import type {
     PromotionRecurrence,
     PromotionRecurrencePreviousAttributes,
@@ -39,6 +29,14 @@ import type { MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
 import type { Order } from './types-45.js';
 import type { OrderPaymentAttempt } from './types-47.js';
 import type { Subscription } from './types-68.js';
+import type {
+    ExpandedCustomerSummary,
+    ExpandedCustomerSummaryPreviousAttributes,
+    ExpandedPaymentMethodSummary,
+    ExpandedPaymentMethodSummaryPreviousAttributes,
+    ExpandedSubscriptionPlanSummary,
+    ExpandedSubscriptionPlanSummaryPreviousAttributes
+} from './types-26.js';
 import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { PaymentErrorSummary, PaymentErrorSummaryPreviousAttributes } from './types-51.js';
@@ -55,6 +53,7 @@ import type {
     SubscriptionLineItem,
     SubscriptionLineItemPreviousAttributes,
     SubscriptionPausedDeliveryHold,
+    SubscriptionPausedDeliveryHoldPreviousAttributes,
     SubscriptionOfferTermsRequest,
     SubscriptionOfferTermsRequestInput
 } from './types-70.js';
@@ -68,28 +67,6 @@ import type {
 import type { CheckoutTaxCalculation, CheckoutTaxCalculationPreviousAttributes } from './types-7.js';
 import type { CancelSubscriptionRequestInput } from './types-5.js';
 import type { ChangeSubscriptionPlanRequestInput, ChangeSubscriptionQuantityRequestInput } from './types-6.js';
-/**
- * An error found while previewing a subscription, with a `code`, message, and the parameter at
- * fault.
- */
-export type SubscriptionPreviewError = {
-    /** Stable code for this failure, as an error response would carry it. */
-    "code": string;
-    /**
-     * Individual failures behind this error, as an error response would list them. Omitted when
-     * there are none. [] (Value): {@link ErrorDetail}. One specific failure within an error, with
-     * a `code` and `message` plus fields that depend on the code, such as the `param`, resource,
-     * quantity, or amount involved.
-     */
-    "details"?: Array<ErrorDetail>;
-    /** What is wrong with the proposed subscription. */
-    "message": string;
-    /**
-     * Request field the failure applies to, as a path in the preview request, such as
-     * `subscription.terms.billing_interval`. Omitted when the failure isn't tied to one field.
-     */
-    "param"?: string;
-};
 /** The response for: Preview subscription. */
 export type SubscriptionPreviewResponse = {
     /**
@@ -23469,6 +23446,31 @@ export type SubscriptionsChangePlanParams = (InputValue<ChangeSubscriptionPlanRe
     "Flint-Sandbox-Id"?: InputValue<string>;
 };
 export type SubscriptionsChangeQuantityParams = (InputValue<ChangeSubscriptionQuantityRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type SubscriptionsCreateAccessLinkParams = (InputValue<CreateSubscriptionAccessLinkRequestInput>
+    | {
+    "purpose"?: never;
+    "return_url"?: never;
+})
     & {
     /**
      * Merchant this request acts for. Required with an app-level partner app token; optional with

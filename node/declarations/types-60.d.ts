@@ -1,4 +1,4 @@
-import type { ReadinessAction, ReadinessActionPreviousAttributes } from './types-59.js';
+import type { ReadinessActionPreviousAttributes } from './types-59.js';
 import type { InventoryProvenanceRequest, InventoryProvenanceRequestInput } from './types-32.js';
 import type {
     ExpandedCustomerSummary,
@@ -21,56 +21,6 @@ import type { CategoryReference, CategoryReferencePreviousAttributes } from './t
 import type { SelectedProductOption, SelectedProductOptionPreviousAttributes } from './types-67.js';
 import type { ResponseMeta } from './types-62.js';
 import type { OrderGiftCardAllocation } from './types-46.js';
-/**
- * Readiness for one area of a merchant account, with its `status`, the reason for it, and the
- * actions that would advance it.
- */
-export type ReadinessAxis = {
-    /**
-     * Steps that move this area toward `ready`. Empty when there is nothing to do. [] (Value):
-     * {@link ReadinessAction}. A step that moves a merchant capability or readiness axis forward,
-     * with the party that must do it (`owner`) and any required fields.
-     */
-    "next_actions": Array<ReadinessAction>;
-    /**
-     * Whether this area works now. `status_reason` says why when the status is neither `ready` nor
-     * `not_requested`. Value enum: "ready", "pending", "blocked", "not_requested",
-     * "not_available".
-     */
-    "status": "ready" | "pending" | "blocked" | "not_requested" | "not_available" | (string & {});
-    /**
-     * Why readiness has its current status. MERCHANT_NOT_READY uses onboarding_required for
-     * onboarding_not_started, requirements_due, requirements_past_due and pending_verification,
-     * and platform_review for Flint's own review. `null` when no reason applies. Value enum:
-     * "provisioning", "onboarding_not_started", "requirements_due", "requirements_past_due",
-     * "pending_verification", "account_rejected", "disabled_by_platform_policy",
-     * "billing_suspended", "platform_review", "processing_not_enabled",
-     * "platform_funding_unavailable", "tax_category_required", "service_unavailable",
-     * "payment_option_access_not_provisioned", "payment_option_activation_pending",
-     * "payment_option_not_in_plan", "payment_option_not_available", "capability_not_active",
-     * "other".
-     */
-    "status_reason"?: "provisioning"
-        | "onboarding_not_started"
-        | "requirements_due"
-        | "requirements_past_due"
-        | "pending_verification"
-        | "account_rejected"
-        | "disabled_by_platform_policy"
-        | "billing_suspended"
-        | "platform_review"
-        | "processing_not_enabled"
-        | "platform_funding_unavailable"
-        | "tax_category_required"
-        | "service_unavailable"
-        | "payment_option_access_not_provisioned"
-        | "payment_option_activation_pending"
-        | "payment_option_not_in_plan"
-        | "payment_option_not_available"
-        | "capability_not_active"
-        | "other"
-        | (string & {});
-};
 export type ReadinessAxisPreviousAttributes = {
     /**
      * Steps that move this area toward `ready`. Empty when there is nothing to do. anyOf[1]
@@ -14573,3 +14523,67 @@ export type RefundTenderAllocation = {
      */
     "tender_type": "payment_intent" | "gift_card_redemption" | (string & {});
 };
+/** The `gift_card_redemption` variant of `RefundTenderAllocationInput`. */
+export type RefundTenderAllocationInputGiftCardRedemption = ({
+    /**
+     * Amount to refund to this tender. Above zero. For a gift card redemption it is in USD.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code. amount
+     * (Required): integer string. Use an integer string (decimal digits), not a floating-point
+     * number. Format: int64. minimum: 1. Amount in the currency's minor unit, such as cents for
+     * USD. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * minimum: 0. currency (Required): string. ISO 4217 currency code for this amount. minLength:
+     * 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "amount_money": ({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}`;
+    })
+        & (Exclude<MoneyValue & object, readonly unknown[]>);
+    /**
+     * Where this allocation is refunded. original returns value to the tender that paid;
+     * new_gift_card issues new Flint gift cards. Payment intent store credit requires a succeeded
+     * USD card, Apple Pay, Google Pay, or Link payment that belongs to an order, with no open
+     * chargeback. Affirm, ACH debit, other payment options, non-USD payments, and payments without
+     * an order return INVALID_REQUEST with a NOT_ALLOWED detail. Payment chargebacks use the
+     * existing dispute refusal. Gift card redemption destinations are unaffected by the payment
+     * restrictions. Default: "original". Value enum: "original", "new_gift_card".
+     */
+    "destination"?: "original" | "new_gift_card" | (string & {});
+    /**
+     * The captured redemption to refund. Required for tender_type gift_card_redemption. minLength:
+     * 1. pattern: ^gcr_[0-9A-HJKMNP-TV-Z]{26}$. Example: "gcr_01KEZF7C002YD2G2J734RRZTWT".
+     */
+    "gift_card_redemption_id": string;
+    /**
+     * The succeeded payment intent to refund. Required for tender_type payment_intent. minLength:
+     * 1. pattern: ^pi_[0-9A-HJKMNP-TV-Z]{26}$. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id"?: string;
+    /** Which kind of original tender to refund. Value enum: "gift_card_redemption". */
+    "tender_type": "gift_card_redemption" | (string & {});
+})
+    & (({
+    /**
+     * Amount to refund to this tender. Above zero. For a gift card redemption it is in USD.
+     * currency (Optional): any. Uses ISO 4217 currency codes. Value enum: "USD".
+     */
+    "amount_money"?: null
+        | boolean
+        | number
+        | string
+        | unknown[]
+        | ({
+        /** Uses ISO 4217 currency codes. Value enum: "USD". */
+        "currency"?: unknown;
+    });
+    /** Which kind of original tender to refund. Value enum: "gift_card_redemption". */
+    "tender_type"?: unknown;
+    /**
+     * The captured redemption to refund. Required for tender_type gift_card_redemption. minLength:
+     * 1. pattern: ^gcr_[0-9A-HJKMNP-TV-Z]{26}$. Example: "gcr_01KEZF7C002YD2G2J734RRZTWT".
+     */
+    "gift_card_redemption_id": string;
+}));

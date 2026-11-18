@@ -1,3 +1,4 @@
+import type { GuestPurchaseLink } from './types-30.js';
 import type { ResponseMeta } from './types-62.js';
 import type { GiftCardFundingSource, GiftCardFundingSourceRequestInput } from './types-29.js';
 import type { MoneyValue, MoneyValueInput } from './types-44.js';
@@ -9,30 +10,13 @@ import type {
     MerchantWebhookEnvelope
 } from './types-43.js';
 import type { TextModifierConfigRequest, TextModifierConfigRequestInput } from './types-74.js';
-import type { InventorySourceSystem } from './types-33.js';
-import type { InventoryLevel, InventoryCountObservationProvenancePreviousAttributes } from './types-32.js';
+import type { InventorySourceSystem, InventorySourceSystemPreviousAttributes } from './types-33.js';
+import type { InventoryLevel } from './types-32.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateInventoryAdjustmentRequestInput, CreateInventoryAllocationPolicyRequestInput } from './types-10.js';
 import type { DisputesAcceptParams } from './types-26.js';
 import type { UpdateInventoryAllocationPolicyRequestInput } from './types-76.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
-/**
- * Result of linking a guest's purchases to a customer, with the customer, the email, and the
- * number of orders linked.
- */
-export type GuestPurchaseLink = {
-    /**
-     * ID of the customer the guest purchases now belong to. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id": string;
-    /** The verified email address whose guest purchases were linked. */
-    "email": string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "linked_at": string;
-    /** Number of guest orders linked to the customer by this request. Format: int64. */
-    "linked_order_count": number;
-};
 /** A response containing `GuestPurchaseLink` data. */
 export type GuestPurchaseLinkResponse = {
     /**
@@ -2747,4 +2731,25 @@ export type InventoryCountObservationProvenance = ({
      * Flint, with your source identifier when it applies. anyOf[2] (Value): null.
      */
     "source_system": ((InventorySourceSystem) | (null));
+});
+export type InventoryCountObservationProvenancePreviousAttributes = ({
+    /**
+     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
+     * anyOf[1] (Value): string. Your identifier for the actor who recorded the event. Don't put
+     * secrets in this field. maxLength: 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+     */
+    "external_actor_id"?: ((string) | (null));
+    /**
+     * When the event occurred, at most 5 minutes in the future. Required when source_system.type
+     * is pos, wms, erp, or other. anyOf[1] (Value): string. When the event occurred, at most 5
+     * minutes in the future. Required when source_system.type is pos, wms, erp, or other. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "occurred_at"?: ((string) | (null));
+    /**
+     * System the change came from, such as a point-of-sale or warehouse system. `null` when the
+     * request named no source system. anyOf[1] (Value): {@link
+     * InventorySourceSystemPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "source_system"?: ((InventorySourceSystemPreviousAttributes) | (null));
 });

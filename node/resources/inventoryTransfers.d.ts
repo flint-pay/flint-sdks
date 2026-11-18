@@ -1,7 +1,7 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
+import type { InventoryTransfer } from '../declarations/types-33.js';
 import type {
-    InventoryTransfer,
     InventoryTransferListResponse,
     InventoryTransferResponse,
     InventoryTransferResult,
@@ -37,7 +37,6 @@ export type {
     InventoryTransferResult,
     InventoryTransferResultResponse,
     InventoryTransfersCreateParams,
-    InventoryTransfer,
     InventoryTransferResponse,
     InventoryTransfersDepartParams,
     InventoryTransfersGetParams,
@@ -51,13 +50,13 @@ export type {
     InventoryTransferLine
 } from '../declarations/types-34.js';
 export type { RequestOptions, ReportInventoryTransferLossRequestInput } from '../declarations/types-61.js';
+export type { InventoryTransfer, InventorySourceSystemRequestInput } from '../declarations/types-33.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CancelInventoryTransferRequestInput } from '../declarations/types-5.js';
 export type { InventoryProvenanceRequestInput, InventoryLevel, InventoryItem } from '../declarations/types-32.js';
-export type { InventorySourceSystemRequestInput } from '../declarations/types-33.js';
 export type { AuthMode, BackorderPolicy } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type { MetadataMap } from '../declarations/types-43.js';
 export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';

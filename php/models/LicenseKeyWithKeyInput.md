@@ -4,8 +4,6 @@
 
 A merchant license key with its full credential when available to the caller.
 
-A license key issued to a buyer, with its display suffix.
-
 Request input.
 
 | Field | Presence | Type | Description |
@@ -16,6 +14,7 @@ Request input.
 | `customer` | Optional | [ExpandedCustomerSummaryInput](../models/ExpandedCustomerSummaryInput.md#expandedcustomersummaryinput) | Customer summary when requested with expand=customer. Null when the key has no customer. Omitted when no customer expansion is requested. A customer's summary fields, returned in place of a customer ID when the customer is expanded. |
 | `customer_id` | Required | string or null | The current customer of the owning order or subscription. Null when the order has no linked customer. Example: `"cus_01KEZF7C006X9JK6NZNA2SM9XD"`. |
 | `expires_at` | Required | string or null | When the key expires. Null when no expiry is set. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `key` | Optional | string | The full key. Omitted when another credential replays the request, the recovery window has ended, or a rotation is replayed after the resource version changed. |
 | `key_last4` | Required | string or null | Last four characters of the assigned key. Null when the key is awaiting assignment. |
 | `license_key_id` | Required | string | Unique license key ID with the lk_ prefix. Example: `"lk_01KEZF7C000QD7VJ83G43V0NSN"`. |
 | `license_key_pool_id` | Required | string or null | The source pool ID. Null when the key is generated. Example: `"lkp_01KEZF7C00AQV1X2DPWG2NXS7H"`. |
@@ -34,5 +33,4 @@ Request input.
 | `updated_at` | Required | string | When the license key version last changed. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `variant_id` | Required | string | The product variant ID. Example: `"var_01KEZF7C004GSH2KT8CNYVMHGX"`. |
 | `version` | Required | integer | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. Format: `uint64`. minimum: `1`. |
-| `key` | Optional | string | The full key. Omitted when another credential replays the request, the recovery window has ended, or a rotation is replayed after the resource version changed. |
 

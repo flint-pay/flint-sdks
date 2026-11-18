@@ -42,7 +42,6 @@ import type {
 } from './types-72.js';
 import type { DeliveryRecipientResourcePreviousAttributes } from './types-23.js';
 import type { DeliverySelectionRecipientRequest, DeliverySelectionRecipientRequestInput } from './types-24.js';
-import type { SubscriptionPausedDeliveryHoldPreviousAttributes } from './types-71.js';
 import type { BundleComponent, BundleComponentPreviousAttributes } from './types-1.js';
 import type { CategoryReference, CategoryReferencePreviousAttributes } from './types-5.js';
 import type { Image, ImagePreviousAttributes } from './types-31.js';
@@ -50,23 +49,6 @@ import type { OrderLineItemModifier, OrderLineItemModifierPreviousAttributes } f
 import type { SelectedProductOption, SelectedProductOptionPreviousAttributes } from './types-67.js';
 import type { Subscription } from './types-68.js';
 import type { UpdateSubscriptionOfferRequestInput } from './types-77.js';
-/** The number of subscriptions that failed a delivery method migration for one reason. */
-export type SubscriptionDeliveryMigrationFailureReasonCount = {
-    /** Number of subscriptions that failed for this reason. Format: int64. */
-    "count": number;
-    /**
-     * Why these subscriptions could not be moved. Value enum: "method_not_offered",
-     * "destination_not_served", "rate_unavailable", "method_unavailable", "no_longer_applicable",
-     * "not_movable".
-     */
-    "reason": "method_not_offered"
-        | "destination_not_served"
-        | "rate_unavailable"
-        | "method_unavailable"
-        | "no_longer_applicable"
-        | "not_movable"
-        | (string & {});
-};
 export type SubscriptionDeliveryMigrationFailureReasonCountPreviousAttributes = {
     /**
      * Number of subscriptions that failed for this reason. anyOf[1] (Value): integer. Number of
@@ -23753,4 +23735,14 @@ export type SubscriptionPausedDeliveryHold = {
      * "destination_not_served", "rate_unavailable", "other".
      */
     "reason": "method_unavailable" | "destination_not_served" | "rate_unavailable" | "other" | (string & {});
+};
+export type SubscriptionPausedDeliveryHoldPreviousAttributes = {
+    /**
+     * Why the expired delivery hold paused the subscription. Value enum: "method_unavailable",
+     * "destination_not_served", "rate_unavailable", "other". anyOf[1] (Value): string. Why the
+     * expired delivery hold paused the subscription. Value enum: "method_unavailable",
+     * "destination_not_served", "rate_unavailable", "other". anyOf[2] (Value): null.
+     */
+    "reason"?: (("method_unavailable" | "destination_not_served" | "rate_unavailable" | "other" | (string & {}))
+        | (null));
 };

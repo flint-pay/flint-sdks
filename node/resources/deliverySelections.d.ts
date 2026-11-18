@@ -69,7 +69,7 @@ export type {
     BundleComponent,
     BundleComponentVariantSummary
 } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type {
     CheckoutSession,
     CheckoutBuyerContact,
@@ -118,6 +118,7 @@ export type {
     ExpandedPaymentLinkSummary,
     ExpandedPackageSummary,
     ExpandedShipmentSummary,
+    ExpandedSubscriptionSummary,
     ExpandedSubscriptionPlanSummary,
     DisputesAcceptParams
 } from '../declarations/types-26.js';
@@ -241,13 +242,7 @@ export type {
     OrderDiscount,
     OrderCalculatedLineItemTax
 } from '../declarations/types-45.js';
-export type {
-    Fulfillment,
-    FulfillmentHold,
-    FulfillmentChargeLink,
-    FulfillmentLineItem,
-    ExpandedSubscriptionSummary
-} from '../declarations/types-27.js';
+export type { Fulfillment, FulfillmentHold, FulfillmentChargeLink, FulfillmentLineItem } from '../declarations/types-27.js';
 export type { DigitalFulfillmentDetails, Dimensions } from '../declarations/types-25.js';
 export type { TextModifierRequest, TaxJurisdiction, TaxReverseCharge } from '../declarations/types-74.js';
 export type { FulfillmentOutcome, FulfillmentRecipient, GiftCardCustomAmountBounds } from '../declarations/types-28.js';
@@ -273,8 +268,8 @@ export type {
 export type { TicketedEvent, Tip, TipPaymentIntentAllocation, TipValueSettlementAllocation } from '../declarations/types-75.js';
 export { makeAddressRequest } from '../declarations/types-79.js';
 export { makeCreateDeliverySelectionChoiceRequest, makeCreateDeliverySelectionRequest } from '../declarations/types-82.js';
-export { makeDeliverySelectionInstructionsRequest } from '../declarations/types-85.js';
-export { makeDeliverySelectionRecipientRequest, makeDeliveryWindowRequest } from '../declarations/types-86.js';
+export { makeDeliverySelectionInstructionsRequest, makeDeliverySelectionRecipientRequest } from '../declarations/types-85.js';
+export { makeDeliveryWindowRequest } from '../declarations/types-86.js';
 export { makeMoneyValue } from '../declarations/types-88.js';
 export { makeTextModifierRequest } from '../declarations/types-93.js';
 export interface DeliverySelectionsResource {

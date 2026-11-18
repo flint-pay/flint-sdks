@@ -1,6 +1,5 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
-    CheckoutTaxConfigRequestInput,
     CheckoutTipConfigRequestInput,
     CloseCheckoutSessionRequestInput,
     CloseGiftCardRequestInput,
@@ -10,10 +9,10 @@ import type {
     CompleteFulfillmentRequestInput,
     CompleteReturnRequestInput,
     ConfigurationVersionRequestInput,
-    ConfirmCheckoutSessionCustomerVerificationRequestInput
+    ConfirmCheckoutSessionCustomerVerificationRequestInput,
+    ConfirmCustomerVerificationRequestInput
 } from './types-7.js';
 import type {
-    ConfirmCustomerVerificationRequestInput,
     ConfirmEmailChangeRequestInput,
     ConfirmPaymentIntentRequestInput,
     ConfirmReturnResolutionRequestInput,
@@ -67,9 +66,9 @@ import type {
     CreateDeliveryRateCallbackRequestInput,
     CreateDeliveryRevocationRequestInput,
     CreateDeliveryRevocationTargetInput,
-    CreateDeliveryRevocationTargetDeliveryMethodRevisionInput
+    CreateDeliveryRevocationTargetDeliveryMethodRevisionInput,
+    CreateDeliveryRevocationTargetDeliveryRateCallbackRevisionInput
 } from './types-9.js';
-export declare function makeCheckoutTaxConfigRequest(value: InputValue<CheckoutTaxConfigRequestInput>): Model<CheckoutTaxConfigRequestInput>;
 export declare function makeCheckoutTipConfigRequest(value: InputValue<CheckoutTipConfigRequestInput>): Model<CheckoutTipConfigRequestInput>;
 export declare function makeCloseCheckoutSessionRequest(value: InputValue<CloseCheckoutSessionRequestInput>): Model<CloseCheckoutSessionRequestInput>;
 export declare function makeCloseGiftCardRequest(value: InputValue<CloseGiftCardRequestInput>): Model<CloseGiftCardRequestInput>;
@@ -135,3 +134,4 @@ export declare function makeCreateDeliveryRateCallbackRequest(value: InputValue<
 export declare function makeCreateDeliveryRevocationRequest(value: InputValue<CreateDeliveryRevocationRequestInput>): Model<CreateDeliveryRevocationRequestInput>;
 export declare function makeCreateDeliveryRevocationTarget(value: InputValue<CreateDeliveryRevocationTargetInput>): Model<CreateDeliveryRevocationTargetInput>;
 export declare function makeCreateDeliveryRevocationTargetDeliveryMethodRevision(value: InputValue<CreateDeliveryRevocationTargetDeliveryMethodRevisionInput>): Model<CreateDeliveryRevocationTargetDeliveryMethodRevisionInput>;
+export declare function makeCreateDeliveryRevocationTargetDeliveryRateCallbackRevision(value: InputValue<CreateDeliveryRevocationTargetDeliveryRateCallbackRevisionInput>): Model<CreateDeliveryRevocationTargetDeliveryRateCallbackRevisionInput>;

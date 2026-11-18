@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# WaiveInvoiceLateFeeRequest to WorkloadIdentityResponse
+# WaiveInvoiceLateFeeRequestInput to WorkloadIdentityResponse
 
-- [WaiveInvoiceLateFeeRequest](WaiveInvoiceLateFeeRequest.md)
 - [WaiveInvoiceLateFeeRequestInput](WaiveInvoiceLateFeeRequestInput.md)
 - [WaiveReturnLineInspectionRequest](WaiveReturnLineInspectionRequest.md)
 - [WaiveReturnLineInspectionRequestInput](WaiveReturnLineInspectionRequestInput.md)

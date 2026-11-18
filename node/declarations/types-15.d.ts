@@ -1,4 +1,3 @@
-import type { CredentialProvider, InputValue } from '../runtime.js';
 import type { ExpandedInvoiceSummary, ExpandedInvoiceSummaryPreviousAttributes, DisputesAcceptParams } from './types-26.js';
 import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
 import type {
@@ -11,27 +10,11 @@ import type { MerchantWebhookEnvelope } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { ResponseMeta } from './types-62.js';
 import type { Invoice } from './types-34.js';
+import type { InputValue } from '../runtime.js';
 import type { CreateCreditNoteAllocationRequestInput, CreateCreditNoteRequestInput } from './types-8.js';
 import type { IssueCreditNoteRequestInput, InvoicesMarkUncollectibleParams } from './types-38.js';
 import type { UpdateCreditNoteRequestInput } from './types-75.js';
 import type { CreateCustomDomainRequestInput } from './types-9.js';
-export interface Credentials {
-    "checkout": {
-        "CheckoutSessionBearer": string | CredentialProvider;
-    };
-    "customer": {
-        "CustomerSessionBearer": string | CredentialProvider;
-    };
-    "invoice": {
-        "InvoiceAccessTokenBearer": string | CredentialProvider;
-    };
-    "merchant": {
-        "BearerAuth": string | CredentialProvider;
-    };
-    "onboarding": {
-        "OnboardingSessionBearer": string | CredentialProvider;
-    };
-}
 /**
  * A correction against an issued invoice. Credit notes reduce what is owed; refunds return what
  * was already collected.
@@ -8043,3 +8026,4 @@ export type CustomDomainsCreateParams = (InputValue<CreateCustomDomainRequestInp
      */
     "Flint-Sandbox-Id"?: InputValue<string>;
 };
+export type CustomDomainsDeleteParams = DisputesAcceptParams;

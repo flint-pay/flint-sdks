@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# UpdatePaymentIntentRequestInput to VoidShipmentResult
+# UpdatePaymentLinkRequest to WaiveInvoiceLateFeeRequest
 
-- [UpdatePaymentIntentRequestInput](UpdatePaymentIntentRequestInput.md)
 - [UpdatePaymentLinkRequest](UpdatePaymentLinkRequest.md)
 - [UpdatePaymentLinkRequestInput](UpdatePaymentLinkRequestInput.md)
 - [UpdatePaymentMethodDomainRequest](UpdatePaymentMethodDomainRequest.md)
@@ -102,4 +101,5 @@
 - [VoidShipmentRequestInput](VoidShipmentRequestInput.md)
 - [VoidShipmentResponse](VoidShipmentResponse.md)
 - [VoidShipmentResult](VoidShipmentResult.md)
+- [WaiveInvoiceLateFeeRequest](WaiveInvoiceLateFeeRequest.md)
 

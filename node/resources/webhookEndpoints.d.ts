@@ -13,10 +13,10 @@ import type {
     WebhookEndpointsCreateParams,
     WebhookEndpointsCreateTestEventParams,
     WebhookEndpointsDeleteParams,
-    WebhookEndpointsGetParams
+    WebhookEndpointsGetParams,
+    WebhookEndpointsListParams
 } from '../declarations/types-78.js';
 import type {
-    WebhookEndpointsListParams,
     WebhookEndpointsRotateSecretParams,
     WebhookEndpointsSignDeliveryParams,
     WebhookEndpointsUpdateParams,
@@ -47,13 +47,13 @@ export type {
     WebhookEndpoint,
     WebhookEndpointResponse,
     WebhookEndpointsGetParams,
+    WebhookEndpointsListParams,
     WebhookEndpointListResponse,
     UpdateWebhookEndpointRequestInput
 } from '../declarations/types-78.js';
 export type { RequestOptions } from '../declarations/types-61.js';
 export type {
     _SdkWithoutIdempotency,
-    WebhookEndpointsListParams,
     WebhookEndpointsRotateSecretParams,
     WebhookEndpointsSignDeliveryParams,
     WebhookEndpointsUpdateParams,
@@ -66,9 +66,8 @@ export type {
     SignWebhookEndpointDeliveryRequest
 } from '../declarations/types-68.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type { CreateWebhookEndpointRequestInput, CreateWebhookTestEventRequestInput } from '../declarations/types-14.js';
+export type { CreateWebhookEndpointRequestInput, Credentials, CreateWebhookTestEventRequestInput } from '../declarations/types-14.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
 export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
