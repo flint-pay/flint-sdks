@@ -12,7 +12,7 @@
 | --- | --- | --- | --- |
 | `calculation_type` | Optional | string | How the tax is figured: a percentage of the taxable amount, or a fixed amount. Values: `"percentage"`. |
 | `flat_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. `flat_money`: [field definitions](../models/CreateOrderLineItem.md#createorderlineitem-variant-1taxcalculationcomponentsflat_money), [field definitions](../models/BuyerOrderLineItem.md#buyerorderlineitemtaxcalculationcomponentsflat_money). |
-| `jurisdiction` | Required | [TaxJurisdiction](../models/TaxJurisdiction.md#taxjurisdiction) | The taxing jurisdiction this component's tax is owed to. `jurisdiction`: [field definitions](../models/CreateOrderLineItem.md#createorderlineitem-variant-1taxcalculationcomponentsjurisdiction), [field definitions](../models/CreateOrderLineItemInputBundle.md#createorderlineiteminputbundletaxcalculationcomponentsjurisdiction), [field definitions](../models/BuyerOrderLineItem.md#buyerorderlineitemtaxcalculationcomponentsjurisdiction), [field definitions](../models/DeliveryChargeTaxCalculationRequest.md#deliverychargetaxcalculationrequest-variant-2componentsjurisdiction), [field definitions](../models/OrderCalculatedLineItemTax.md#ordercalculatedlineitemtax-variant-2calculationcomponentsjurisdiction). |
+| `jurisdiction` | Required | [TaxJurisdiction](../models/TaxJurisdiction.md#taxjurisdiction) | The taxing jurisdiction this component's tax is owed to. `jurisdiction`: [field definitions](../models/CreateOrderLineItem.md#createorderlineitem-variant-1taxcalculationcomponentsjurisdiction), [field definitions](../models/CreateOrderLineItemCustom.md#createorderlineitemcustom-variant-2taxcalculationcomponentsjurisdiction), [field definitions](../models/BuyerOrderLineItem.md#buyerorderlineitemtaxcalculationcomponentsjurisdiction), [field definitions](../models/DeliveryChargeTaxCalculationRequest.md#deliverychargetaxcalculationrequest-variant-2componentsjurisdiction), [field definitions](../models/OrderCalculatedLineItemTax.md#ordercalculatedlineitemtax-variant-2calculationcomponentsjurisdiction). |
 | `percent` | Required | number | Tax rate in percentage points, from 0 to 100 with up to four decimal places: `6.5` is 6.5%. Send it with a `percentage` component; a `flat_amount` component doesn't take it. minimum: `0`. maximum: `100`. multipleOf: `0.0001`. |
 | `tax_type` | Required | string | The kind of tax this component collects. Values: `"sales_tax"`, `"use_tax"`, `"vat"`, `"gst"`, `"hst"`, `"pst"`, `"qst"`. |
 | `taxability_reason` | Optional | string | Optional reverse-charge treatment. Requires percent 0 and a non-US jurisdiction. Values: `"reverse_charge"`. |
@@ -69,7 +69,7 @@ Field definitions: [CreateOrderLineItem variant 1.tax.calculation.components[].f
 
 ### TaxComponentRequest variant 2.jurisdiction
 
-Field definitions: [CreateOrderLineItemInputBundle.tax.calculation.components[].jurisdiction](../models/CreateOrderLineItemInputBundle.md#createorderlineiteminputbundletaxcalculationcomponentsjurisdiction).
+Field definitions: [CreateOrderLineItemCustom variant 2.tax.calculation.components[].jurisdiction](../models/CreateOrderLineItemCustom.md#createorderlineitemcustom-variant-2taxcalculationcomponentsjurisdiction).
 
 ### TaxComponentRequest variant 3.flat_money
 

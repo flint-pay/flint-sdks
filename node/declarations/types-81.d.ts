@@ -1,14 +1,26 @@
 import type { InputValue, Model } from '../runtime.js';
+import type { CallerSuppliedDeliveryOutcomeRequestUnavailableInput, CancelFulfillmentRequestInput } from './types-4.js';
 import type {
+    CancelGiftCardNotificationRequestInput,
+    CancelInventoryCountRequestInput,
+    CancelInventoryTransferRequestInput,
+    CancelMeSubscriptionRequestInput,
+    CancelOrderEditRequestInput,
+    CancelOrderPaymentAttemptRequestInput,
+    CancelPaymentIntentRequestInput,
+    CancelPayoutRequestInput,
+    CancelReturnDispositionRequestInput,
+    CancelReturnLineItemRequestInput,
+    CancelReturnRequestInput,
     CancelReturnResolutionRequestInput,
     CancelSubscriptionRequestInput,
     CapturePaymentIntentRequestInput,
     CapturePaymentSplitRequestInput,
     CashOutGiftCardRequestInput,
-    ChangeMeSubscriptionPlanRequestInput,
-    ChangeMeSubscriptionQuantityRequestInput
+    ChangeMeSubscriptionPlanRequestInput
 } from './types-5.js';
 import type {
+    ChangeMeSubscriptionQuantityRequestInput,
     ChangeSubscriptionPlanRequestInput,
     ChangeSubscriptionQuantityRequestInput,
     CheckInTicketRequestInput,
@@ -36,12 +48,12 @@ import type {
     CollectInvoiceRequestInput,
     CommitInventoryReservationRequestInput,
     CompleteFulfillmentRequestInput,
-    CompleteReturnRequestInput,
-    ConfigurationVersionRequestInput,
-    ConfirmCheckoutSessionCustomerVerificationRequestInput,
-    ConfirmCustomerVerificationRequestInput
+    CompleteReturnRequestInput
 } from './types-7.js';
 import type {
+    ConfigurationVersionRequestInput,
+    ConfirmCheckoutSessionCustomerVerificationRequestInput,
+    ConfirmCustomerVerificationRequestInput,
     ConfirmEmailChangeRequestInput,
     ConfirmPaymentIntentRequestInput,
     ConfirmReturnResolutionRequestInput,
@@ -56,21 +68,21 @@ import type {
     CreateCategoryRequestInput,
     CreateCheckoutDeliveryQuoteRequestInput,
     CreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequestInput,
-    CreateCheckoutSessionCustomerVerificationRequestInput,
-    CreateCheckoutSessionDiscountInput,
-    CreateCheckoutSessionGiftCardPurchaseVerificationRequestInput,
-    CreateCheckoutSessionInvoiceInput,
-    CreateCheckoutSessionOrderInput,
-    CreateCheckoutSessionPayToNewAddressVerificationRequestInput,
-    CreateCheckoutSessionQuickPayInput,
-    CreateCheckoutSessionRequestInput,
-    CreateCheckoutSessionReturnResolutionInput,
-    CreateCheckoutSessionSavePaymentMethodVerificationRequestInput,
-    CreateCheckoutSessionSubscriptionPlanInput,
-    CreateCheckoutSessionUseSavedPaymentMethodsByEmailRequestInput,
-    CreateCheckoutSessionUseSavedPaymentMethodsByRememberedBuyerRequestInput,
-    CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequestInput
+    CreateCheckoutSessionCustomerVerificationRequestInput
 } from './types-8.js';
+export declare function makeCallerSuppliedDeliveryOutcomeRequestUnavailable(value: InputValue<CallerSuppliedDeliveryOutcomeRequestUnavailableInput>): Model<CallerSuppliedDeliveryOutcomeRequestUnavailableInput>;
+export declare function makeCancelFulfillmentRequest(value: InputValue<CancelFulfillmentRequestInput>): Model<CancelFulfillmentRequestInput>;
+export declare function makeCancelGiftCardNotificationRequest(value: InputValue<CancelGiftCardNotificationRequestInput>): Model<CancelGiftCardNotificationRequestInput>;
+export declare function makeCancelInventoryCountRequest(value: InputValue<CancelInventoryCountRequestInput>): Model<CancelInventoryCountRequestInput>;
+export declare function makeCancelInventoryTransferRequest(value: InputValue<CancelInventoryTransferRequestInput>): Model<CancelInventoryTransferRequestInput>;
+export declare function makeCancelMeSubscriptionRequest(value: InputValue<CancelMeSubscriptionRequestInput>): Model<CancelMeSubscriptionRequestInput>;
+export declare function makeCancelOrderEditRequest(value: InputValue<CancelOrderEditRequestInput>): Model<CancelOrderEditRequestInput>;
+export declare function makeCancelOrderPaymentAttemptRequest(value: InputValue<CancelOrderPaymentAttemptRequestInput>): Model<CancelOrderPaymentAttemptRequestInput>;
+export declare function makeCancelPaymentIntentRequest(value: InputValue<CancelPaymentIntentRequestInput>): Model<CancelPaymentIntentRequestInput>;
+export declare function makeCancelPayoutRequest(value: InputValue<CancelPayoutRequestInput>): Model<CancelPayoutRequestInput>;
+export declare function makeCancelReturnDispositionRequest(value: InputValue<CancelReturnDispositionRequestInput>): Model<CancelReturnDispositionRequestInput>;
+export declare function makeCancelReturnLineItemRequest(value: InputValue<CancelReturnLineItemRequestInput>): Model<CancelReturnLineItemRequestInput>;
+export declare function makeCancelReturnRequest(value: InputValue<CancelReturnRequestInput>): Model<CancelReturnRequestInput>;
 export declare function makeCancelReturnResolutionRequest(value: InputValue<CancelReturnResolutionRequestInput>): Model<CancelReturnResolutionRequestInput>;
 export declare function makeCancelSubscriptionRequest(value: InputValue<CancelSubscriptionRequestInput>): Model<CancelSubscriptionRequestInput>;
 export declare function makeCapturePaymentIntentRequest(value: InputValue<CapturePaymentIntentRequestInput>): Model<CapturePaymentIntentRequestInput>;
@@ -123,16 +135,3 @@ export declare function makeCreateCheckoutDeliveryQuoteRequest(value: InputValue
 export declare function makeCreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequest(value: InputValue<CreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequestInput>): Model<CreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequestInput>;
 export declare function makeCreateCheckoutSessionCustomerVerificationRequest(value: InputValue<Exclude<CreateCheckoutSessionCustomerVerificationRequestInput & object, readonly unknown[]>>): Model<Exclude<CreateCheckoutSessionCustomerVerificationRequestInput & object, readonly unknown[]>>;
 export declare function makeCreateCheckoutSessionCustomerVerificationRequest(value: InputValue<CreateCheckoutSessionCustomerVerificationRequestInput>): Model<CreateCheckoutSessionCustomerVerificationRequestInput>;
-export declare function makeCreateCheckoutSessionDiscount(value: InputValue<CreateCheckoutSessionDiscountInput>): Model<CreateCheckoutSessionDiscountInput>;
-export declare function makeCreateCheckoutSessionGiftCardPurchaseVerificationRequest(value: InputValue<CreateCheckoutSessionGiftCardPurchaseVerificationRequestInput>): Model<CreateCheckoutSessionGiftCardPurchaseVerificationRequestInput>;
-export declare function makeCreateCheckoutSessionInvoice(value: InputValue<CreateCheckoutSessionInvoiceInput>): Model<CreateCheckoutSessionInvoiceInput>;
-export declare function makeCreateCheckoutSessionOrder(value: InputValue<CreateCheckoutSessionOrderInput>): Model<CreateCheckoutSessionOrderInput>;
-export declare function makeCreateCheckoutSessionPayToNewAddressVerificationRequest(value: InputValue<CreateCheckoutSessionPayToNewAddressVerificationRequestInput>): Model<CreateCheckoutSessionPayToNewAddressVerificationRequestInput>;
-export declare function makeCreateCheckoutSessionQuickPay(value: InputValue<CreateCheckoutSessionQuickPayInput>): Model<CreateCheckoutSessionQuickPayInput>;
-export declare function makeCreateCheckoutSessionRequest(value: InputValue<CreateCheckoutSessionRequestInput>): Model<CreateCheckoutSessionRequestInput>;
-export declare function makeCreateCheckoutSessionReturnResolution(value: InputValue<CreateCheckoutSessionReturnResolutionInput>): Model<CreateCheckoutSessionReturnResolutionInput>;
-export declare function makeCreateCheckoutSessionSavePaymentMethodVerificationRequest(value: InputValue<CreateCheckoutSessionSavePaymentMethodVerificationRequestInput>): Model<CreateCheckoutSessionSavePaymentMethodVerificationRequestInput>;
-export declare function makeCreateCheckoutSessionSubscriptionPlan(value: InputValue<CreateCheckoutSessionSubscriptionPlanInput>): Model<CreateCheckoutSessionSubscriptionPlanInput>;
-export declare function makeCreateCheckoutSessionUseSavedPaymentMethodsByEmailRequest(value: InputValue<CreateCheckoutSessionUseSavedPaymentMethodsByEmailRequestInput>): Model<CreateCheckoutSessionUseSavedPaymentMethodsByEmailRequestInput>;
-export declare function makeCreateCheckoutSessionUseSavedPaymentMethodsByRememberedBuyerRequest(value: InputValue<CreateCheckoutSessionUseSavedPaymentMethodsByRememberedBuyerRequestInput>): Model<CreateCheckoutSessionUseSavedPaymentMethodsByRememberedBuyerRequestInput>;
-export declare function makeCreateCheckoutSessionUseSavedPaymentMethodsVerificationRequest(value: InputValue<CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequestInput>): Model<CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequestInput>;

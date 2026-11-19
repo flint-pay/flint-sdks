@@ -1,7 +1,14 @@
 [Model index](../MODELS.md)
 
-# InventoryReservationHoldExpiredMerchantEvent to InvoiceDiscount
+# InventoryReservationCommittedInstalledMerchantsEvent to InvoiceDeliveryAttemptFailedInstalledMerchantsEvent
 
+- [InventoryReservationCommittedInstalledMerchantsEvent](InventoryReservationCommittedInstalledMerchantsEvent.md)
+- [InventoryReservationCommittedMerchantEvent](InventoryReservationCommittedMerchantEvent.md)
+- [InventoryReservationConsumedInstalledMerchantsEvent](InventoryReservationConsumedInstalledMerchantsEvent.md)
+- [InventoryReservationConsumedMerchantEvent](InventoryReservationConsumedMerchantEvent.md)
+- [InventoryReservationCreatedInstalledMerchantsEvent](InventoryReservationCreatedInstalledMerchantsEvent.md)
+- [InventoryReservationCreatedMerchantEvent](InventoryReservationCreatedMerchantEvent.md)
+- [InventoryReservationHoldExpiredInstalledMerchantsEvent](InventoryReservationHoldExpiredInstalledMerchantsEvent.md)
 - [InventoryReservationHoldExpiredMerchantEvent](InventoryReservationHoldExpiredMerchantEvent.md)
 - [InventoryReservationLine](InventoryReservationLine.md)
 - [InventoryReservationLinePreviousAttributes](InventoryReservationLinePreviousAttributes.md)
@@ -95,11 +102,4 @@
 - [InvoiceCreditedMerchantEvent](InvoiceCreditedMerchantEvent.md)
 - [InvoiceDeliveryAttempt](InvoiceDeliveryAttempt.md)
 - [InvoiceDeliveryAttemptFailedInstalledMerchantsEvent](InvoiceDeliveryAttemptFailedInstalledMerchantsEvent.md)
-- [InvoiceDeliveryAttemptFailedMerchantEvent](InvoiceDeliveryAttemptFailedMerchantEvent.md)
-- [InvoiceDeliveryAttemptListResponse](InvoiceDeliveryAttemptListResponse.md)
-- [InvoiceDeliveryAttemptSentInstalledMerchantsEvent](InvoiceDeliveryAttemptSentInstalledMerchantsEvent.md)
-- [InvoiceDeliveryAttemptSentMerchantEvent](InvoiceDeliveryAttemptSentMerchantEvent.md)
-- [InvoiceDeliveryAttemptSuppressedInstalledMerchantsEvent](InvoiceDeliveryAttemptSuppressedInstalledMerchantsEvent.md)
-- [InvoiceDeliveryAttemptSuppressedMerchantEvent](InvoiceDeliveryAttemptSuppressedMerchantEvent.md)
-- [InvoiceDiscount](InvoiceDiscount.md)
 

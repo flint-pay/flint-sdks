@@ -1,6 +1,13 @@
-import type { InputValue, CredentialProvider, Model } from '../runtime.js';
+import type { ResponseMeta, ResourceReference } from './types-62.js';
+import type { WebhookDeliveryAction } from './types-79.js';
+import type {
+    WebhookVerificationOptions as _SdkWebhookVerificationOptions,
+    InputValue,
+    CredentialProvider,
+    Model
+} from '../runtime.js';
+import type { CreateWorkloadIdentityRequestInput } from './types-15.js';
 import type { UpdateWorkloadIdentityRequestInput } from './types-78.js';
-import type { ResourceReference, ResponseMeta } from './types-62.js';
 import type {
     AcceptFulfillmentRequestInput,
     AcceptPartnerAppPlatformTermsRequestInput,
@@ -37,10 +44,10 @@ import type {
     BuyerPauseCapabilityInput,
     BuyerRetentionOfferRequestInput,
     BuyerReturnReplacementLineItemInputBundleInput,
-    BuyerReturnReplacementLineItemInputVariantInput,
-    BuyerReturnReplacementLineItemRequestInput
+    BuyerReturnReplacementLineItemInputVariantInput
 } from './types-3.js';
 import type {
+    BuyerReturnReplacementLineItemRequestInput,
     BuyerSkipCapabilityInput,
     CLIContextsRequestInput,
     CLIDeviceRequestInput,
@@ -48,23 +55,780 @@ import type {
     CallerSuppliedDeliveryMethodResultRequestInput,
     CallerSuppliedDeliveryOutcomeRequestInput,
     CallerSuppliedDeliveryOutcomeRequestAvailableInput,
-    CallerSuppliedDeliveryOutcomeRequestCannotCalculateInput,
-    CallerSuppliedDeliveryOutcomeRequestUnavailableInput,
-    CancelFulfillmentRequestInput,
-    CancelGiftCardNotificationRequestInput,
-    CancelInventoryCountRequestInput
+    CallerSuppliedDeliveryOutcomeRequestCannotCalculateInput
 } from './types-4.js';
-import type {
-    CancelInventoryTransferRequestInput,
-    CancelMeSubscriptionRequestInput,
-    CancelOrderEditRequestInput,
-    CancelOrderPaymentAttemptRequestInput,
-    CancelPaymentIntentRequestInput,
-    CancelPayoutRequestInput,
-    CancelReturnDispositionRequestInput,
-    CancelReturnLineItemRequestInput,
-    CancelReturnRequestInput
-} from './types-5.js';
+/**
+ * Sent on the webhook event stream before the server closes it, with the `reason`. After a
+ * backpressure disconnect, resume from `resume_cursor`.
+ */
+export type WebhookStreamDisconnect = {
+    /**
+     * Why Flint is closing the stream. Value enum: "ttl", "authorization_changed", "server_error",
+     * "backpressure", "sandbox_reset".
+     */
+    "reason": "ttl" | "authorization_changed" | "server_error" | "backpressure" | "sandbox_reset" | (string & {});
+    /**
+     * Last event sent before a backpressure disconnect. Reconnect using this value as
+     * Last-Event-ID or after.
+     */
+    "resume_cursor"?: string;
+};
+/**
+ * Sent on the webhook event stream when events could not be replayed from the requested cursor,
+ * with a `resume_cursor` to continue from.
+ */
+export type WebhookStreamGap = {
+    /**
+     * Why events could not be replayed from the requested position. Value enum:
+     * "cursor_unavailable", "payload_expired".
+     */
+    "reason": "cursor_unavailable" | "payload_expired" | (string & {});
+    /**
+     * Event ID from which replay was requested. Omitted when the requested position has no event
+     * ID.
+     */
+    "requested_cursor"?: string;
+    /**
+     * Event ID after which streaming continues following this gap. Omitted when the resume
+     * position has no event ID.
+     */
+    "resume_cursor"?: string;
+};
+/** Sent when a webhook event stream connects, with the current `cursor`. */
+export type WebhookStreamReady = {
+    /**
+     * Event ID after which this connection begins streaming. Omitted when the starting position
+     * has no event ID.
+     */
+    "cursor"?: string;
+};
+/**
+ * A synthetic event published to the webhook event stream for flint listen. Publication confirms
+ * the event was recorded, without confirming receipt by a running listener.
+ */
+export type WebhookStreamTestEvent = {
+    /** This event is available through the webhook event stream. Value enum: "listener_stream". */
+    "delivery_method": "listener_stream" | (string & {});
+    /** ID of the synthetic webhook event. Example: "whev_01KEZF7C00362MS3HV970TRZGS". */
+    "webhook_event_id": string;
+};
+/**
+ * Sent on the webhook event stream in place of an event that was withheld, such as when the caller
+ * lacks a required scope, with the `reason`.
+ */
+export type WebhookStreamWithheld = {
+    /**
+     * Type of the event whose payload was withheld. Value enum: "api_key.created",
+     * "api_key.revoked", "api_key.updated", "balance.updated", "balance_transaction.created",
+     * "balance_transaction.updated", "bundle.archived", "bundle.created", "bundle.updated",
+     * "category.created", "category.deleted", "category.updated", "checkout_session.closed",
+     * "checkout_session.created", "checkout_session.expired", "checkout_session.invalidated",
+     * "checkout_session.paid", "checkout_session.partially_paid", "checkout_session.updated",
+     * "credit_note.created", "credit_note.issued", "credit_note.updated", "credit_note.voided",
+     * "credit_note_allocation.created", "credit_note_allocation.reversed",
+     * "custom_domain.archived", "custom_domain.updated", "customer.created", "customer.deleted",
+     * "customer.updated", "customer_deletion_request.completed",
+     * "customer_deletion_request.created", "customer_deletion_request.failed",
+     * "customer_deletion_request.processing", "customer_deletion_request.rejected",
+     * "customer_email_preferences.updated", "delivery_location_set.archived",
+     * "delivery_location_set.created", "delivery_location_set.updated",
+     * "delivery_method.activated", "delivery_method.archived", "delivery_method.created",
+     * "delivery_method.deactivated", "delivery_method.updated", "delivery_profile.archived",
+     * "delivery_profile.created", "delivery_profile.updated", "delivery_rate_callback.activated",
+     * "delivery_rate_callback.archived", "delivery_rate_callback.created",
+     * "delivery_rate_callback.deactivated", "delivery_rate_callback.updated",
+     * "delivery_revocation.created", "delivery_selection.committed", "delivery_zone.archived",
+     * "delivery_zone.created", "delivery_zone.updated", "dispute.created",
+     * "dispute.inquiry_closed", "dispute.lost", "dispute.needs_response", "dispute.prevented",
+     * "dispute.updated", "dispute.won", "environment_grant.created", "environment_grant.revoked",
+     * "environment_grant.updated", "fraud_warning.created", "fraud_warning.updated",
+     * "fulfillment.canceled", "fulfillment.completed", "fulfillment.created",
+     * "fulfillment.failed", "fulfillment.updated", "fulfillment_event.created",
+     * "gift_card.created", "gift_card.updated", "gift_card_load.created",
+     * "gift_card_load.updated", "gift_card_notification.created",
+     * "gift_card_notification.updated", "gift_card_redemption.created",
+     * "gift_card_redemption.updated", "gift_card_transaction.created", "inventory_count.applied",
+     * "inventory_count.updated", "inventory_level.shortage_detected", "inventory_level.updated",
+     * "inventory_receipt.created", "inventory_reservation.action_required",
+     * "inventory_reservation.at_risk", "inventory_reservation.closed",
+     * "inventory_reservation.committed", "inventory_reservation.consumed",
+     * "inventory_reservation.created", "inventory_reservation.hold_expired",
+     * "inventory_reservation.released", "inventory_reservation.updated",
+     * "inventory_transfer.closed", "inventory_transfer.departed", "inventory_transfer.lost",
+     * "inventory_transfer.received", "inventory_transfer.returned", "inventory_transfer.updated",
+     * "invoice.collection_block_resolved", "invoice.collection_blocked", "invoice.created",
+     * "invoice.credited", "invoice.issue_failed", "invoice.issued", "invoice.late_fee_assessed",
+     * "invoice.late_fee_due", "invoice.late_fee_waived", "invoice.marked_uncollectible",
+     * "invoice.overdue", "invoice.paid", "invoice.partially_paid", "invoice.partially_refunded",
+     * "invoice.refunded", "invoice.reminder_due", "invoice.reopened", "invoice.sent",
+     * "invoice.updated", "invoice.voided", "invoice_delivery_attempt.failed",
+     * "invoice_delivery_attempt.sent", "invoice_delivery_attempt.suppressed",
+     * "invoice_manual_payment.created", "invoice_manual_payment.reversed",
+     * "invoice_payment_attempt.canceled", "invoice_payment_attempt.expired",
+     * "invoice_payment_attempt.failed", "invoice_payment_attempt.processing",
+     * "invoice_payment_attempt.succeeded", "license_key.created", "license_key.disabled",
+     * "license_key.expired", "license_key.updated", "license_key_activation.created",
+     * "license_key_activation.released", "license_key_pool.archived", "license_key_pool.created",
+     * "license_key_pool.low_stock", "license_key_pool.out_of_stock", "license_key_pool.updated",
+     * "merchant.readiness_updated", "merchant.updated", "merchant_billing_balance.updated",
+     * "merchant_billing_invoice.issued", "merchant_billing_invoice.updated",
+     * "modifier_group.archived", "modifier_group.created", "modifier_group.updated",
+     * "modifier_set.archived", "modifier_set.created", "modifier_set.updated", "order.closed",
+     * "order.created", "order.inventory_exception_created", "order.inventory_exception_resolved",
+     * "order.paid", "order.partially_paid", "order.partially_refunded", "order.refunded",
+     * "order.updated", "order_edit.canceled", "order_edit.completed", "order_edit.created",
+     * "order_edit.updated", "package.created", "package.updated", "partner_app.platform_approved",
+     * "partner_app.platform_limited", "partner_app.platform_rejected", "partner_app.updated",
+     * "partner_app_install.created", "partner_app_install.permissions_updated",
+     * "partner_app_install.revoked", "partner_app_install.updated",
+     * "payment_intent.authorization_expiring", "payment_intent.canceled",
+     * "payment_intent.created", "payment_intent.expired",
+     * "payment_intent.fulfillment_hold_updated", "payment_intent.payment_failed",
+     * "payment_intent.processing", "payment_intent.requires_action",
+     * "payment_intent.requires_capture", "payment_intent.succeeded", "payment_intent.updated",
+     * "payment_link.created", "payment_link.updated", "payment_method.activated",
+     * "payment_method.archived", "payment_method.failed", "payment_method.updated",
+     * "payment_review.closed", "payment_review.opened", "payment_review.reopened",
+     * "payment_split.canceled", "payment_split.created", "payment_split.failed",
+     * "payment_split.succeeded", "payment_split.updated", "payout.canceled", "payout.created",
+     * "payout.failed", "payout.reversed", "payout.succeeded", "payout.updated",
+     * "payout_destination.archived", "payout_destination.created", "payout_destination.disabled",
+     * "payout_destination.updated", "payout_settings.updated", "platform_fee.canceled",
+     * "platform_fee.created", "platform_fee.succeeded", "platform_fee.updated",
+     * "platform_fee_payout.created", "platform_fee_payout.failed",
+     * "platform_fee_payout.succeeded", "price_list.archived", "price_list.created",
+     * "price_list.updated", "product.archived", "product.created", "product.updated",
+     * "product_variant.archived", "product_variant.created", "product_variant.updated",
+     * "promotion.archived", "promotion.created", "promotion.updated", "promotion_code.archived",
+     * "promotion_code.created", "promotion_code.updated", "reader.archived", "reader.created",
+     * "reader.updated", "refund.created", "refund.failed", "refund.partially_succeeded",
+     * "refund.succeeded", "refund.updated", "report.failed", "report.succeeded",
+     * "return.canceled", "return.completed", "return.created", "return.decision_recorded",
+     * "return.reopened", "return.updated", "return_disposition.created",
+     * "return_disposition.updated", "return_inspection.acceptance_decided",
+     * "return_inspection.created", "return_inspection.superseded", "return_receipt.created",
+     * "return_receipt.superseded", "return_receipt.verified", "return_resolution.created",
+     * "return_resolution.updated", "shipment.created", "shipment.updated",
+     * "subscription.activated", "subscription.canceled", "subscription.cancellation_scheduled",
+     * "subscription.created", "subscription.cycle_skipped",
+     * "subscription.delivery_action_required", "subscription.delivery_pause_upcoming",
+     * "subscription.delivery_updated", "subscription.dunning_exhausted",
+     * "subscription.end_upcoming", "subscription.past_due", "subscription.paused",
+     * "subscription.payment_succeeded", "subscription.plan_change_canceled",
+     * "subscription.plan_change_scheduled", "subscription.plan_changed",
+     * "subscription.reactivated", "subscription.renewal_upcoming", "subscription.resumed",
+     * "subscription.trial_ending", "subscription.updated",
+     * "subscription_delivery_migration.completed", "subscription_payment_retry.created",
+     * "subscription_payment_retry.failed", "subscription_payment_retry.succeeded",
+     * "tax_calculation_callback.activated", "tax_calculation_callback.archived",
+     * "tax_calculation_callback.created", "tax_calculation_callback.deactivated",
+     * "tax_calculation_callback.updated", "tax_connection.updated", "test_clock.advancing",
+     * "test_clock.archived", "test_clock.created", "test_clock.failed", "test_clock.ready",
+     * "ticket.checked_in", "ticket.created", "ticket.updated", "ticket.voided".
+     */
+    "event_type": "api_key.created"
+        | "api_key.revoked"
+        | "api_key.updated"
+        | "balance.updated"
+        | "balance_transaction.created"
+        | "balance_transaction.updated"
+        | "bundle.archived"
+        | "bundle.created"
+        | "bundle.updated"
+        | "category.created"
+        | "category.deleted"
+        | "category.updated"
+        | "checkout_session.closed"
+        | "checkout_session.created"
+        | "checkout_session.expired"
+        | "checkout_session.invalidated"
+        | "checkout_session.paid"
+        | "checkout_session.partially_paid"
+        | "checkout_session.updated"
+        | "credit_note.created"
+        | "credit_note.issued"
+        | "credit_note.updated"
+        | "credit_note.voided"
+        | "credit_note_allocation.created"
+        | "credit_note_allocation.reversed"
+        | "custom_domain.archived"
+        | "custom_domain.updated"
+        | "customer.created"
+        | "customer.deleted"
+        | "customer.updated"
+        | "customer_deletion_request.completed"
+        | "customer_deletion_request.created"
+        | "customer_deletion_request.failed"
+        | "customer_deletion_request.processing"
+        | "customer_deletion_request.rejected"
+        | "customer_email_preferences.updated"
+        | "delivery_location_set.archived"
+        | "delivery_location_set.created"
+        | "delivery_location_set.updated"
+        | "delivery_method.activated"
+        | "delivery_method.archived"
+        | "delivery_method.created"
+        | "delivery_method.deactivated"
+        | "delivery_method.updated"
+        | "delivery_profile.archived"
+        | "delivery_profile.created"
+        | "delivery_profile.updated"
+        | "delivery_rate_callback.activated"
+        | "delivery_rate_callback.archived"
+        | "delivery_rate_callback.created"
+        | "delivery_rate_callback.deactivated"
+        | "delivery_rate_callback.updated"
+        | "delivery_revocation.created"
+        | "delivery_selection.committed"
+        | "delivery_zone.archived"
+        | "delivery_zone.created"
+        | "delivery_zone.updated"
+        | "dispute.created"
+        | "dispute.inquiry_closed"
+        | "dispute.lost"
+        | "dispute.needs_response"
+        | "dispute.prevented"
+        | "dispute.updated"
+        | "dispute.won"
+        | "environment_grant.created"
+        | "environment_grant.revoked"
+        | "environment_grant.updated"
+        | "fraud_warning.created"
+        | "fraud_warning.updated"
+        | "fulfillment.canceled"
+        | "fulfillment.completed"
+        | "fulfillment.created"
+        | "fulfillment.failed"
+        | "fulfillment.updated"
+        | "fulfillment_event.created"
+        | "gift_card.created"
+        | "gift_card.updated"
+        | "gift_card_load.created"
+        | "gift_card_load.updated"
+        | "gift_card_notification.created"
+        | "gift_card_notification.updated"
+        | "gift_card_redemption.created"
+        | "gift_card_redemption.updated"
+        | "gift_card_transaction.created"
+        | "inventory_count.applied"
+        | "inventory_count.updated"
+        | "inventory_level.shortage_detected"
+        | "inventory_level.updated"
+        | "inventory_receipt.created"
+        | "inventory_reservation.action_required"
+        | "inventory_reservation.at_risk"
+        | "inventory_reservation.closed"
+        | "inventory_reservation.committed"
+        | "inventory_reservation.consumed"
+        | "inventory_reservation.created"
+        | "inventory_reservation.hold_expired"
+        | "inventory_reservation.released"
+        | "inventory_reservation.updated"
+        | "inventory_transfer.closed"
+        | "inventory_transfer.departed"
+        | "inventory_transfer.lost"
+        | "inventory_transfer.received"
+        | "inventory_transfer.returned"
+        | "inventory_transfer.updated"
+        | "invoice.collection_block_resolved"
+        | "invoice.collection_blocked"
+        | "invoice.created"
+        | "invoice.credited"
+        | "invoice.issue_failed"
+        | "invoice.issued"
+        | "invoice.late_fee_assessed"
+        | "invoice.late_fee_due"
+        | "invoice.late_fee_waived"
+        | "invoice.marked_uncollectible"
+        | "invoice.overdue"
+        | "invoice.paid"
+        | "invoice.partially_paid"
+        | "invoice.partially_refunded"
+        | "invoice.refunded"
+        | "invoice.reminder_due"
+        | "invoice.reopened"
+        | "invoice.sent"
+        | "invoice.updated"
+        | "invoice.voided"
+        | "invoice_delivery_attempt.failed"
+        | "invoice_delivery_attempt.sent"
+        | "invoice_delivery_attempt.suppressed"
+        | "invoice_manual_payment.created"
+        | "invoice_manual_payment.reversed"
+        | "invoice_payment_attempt.canceled"
+        | "invoice_payment_attempt.expired"
+        | "invoice_payment_attempt.failed"
+        | "invoice_payment_attempt.processing"
+        | "invoice_payment_attempt.succeeded"
+        | "license_key.created"
+        | "license_key.disabled"
+        | "license_key.expired"
+        | "license_key.updated"
+        | "license_key_activation.created"
+        | "license_key_activation.released"
+        | "license_key_pool.archived"
+        | "license_key_pool.created"
+        | "license_key_pool.low_stock"
+        | "license_key_pool.out_of_stock"
+        | "license_key_pool.updated"
+        | "merchant.readiness_updated"
+        | "merchant.updated"
+        | "merchant_billing_balance.updated"
+        | "merchant_billing_invoice.issued"
+        | "merchant_billing_invoice.updated"
+        | "modifier_group.archived"
+        | "modifier_group.created"
+        | "modifier_group.updated"
+        | "modifier_set.archived"
+        | "modifier_set.created"
+        | "modifier_set.updated"
+        | "order.closed"
+        | "order.created"
+        | "order.inventory_exception_created"
+        | "order.inventory_exception_resolved"
+        | "order.paid"
+        | "order.partially_paid"
+        | "order.partially_refunded"
+        | "order.refunded"
+        | "order.updated"
+        | "order_edit.canceled"
+        | "order_edit.completed"
+        | "order_edit.created"
+        | "order_edit.updated"
+        | "package.created"
+        | "package.updated"
+        | "partner_app.platform_approved"
+        | "partner_app.platform_limited"
+        | "partner_app.platform_rejected"
+        | "partner_app.updated"
+        | "partner_app_install.created"
+        | "partner_app_install.permissions_updated"
+        | "partner_app_install.revoked"
+        | "partner_app_install.updated"
+        | "payment_intent.authorization_expiring"
+        | "payment_intent.canceled"
+        | "payment_intent.created"
+        | "payment_intent.expired"
+        | "payment_intent.fulfillment_hold_updated"
+        | "payment_intent.payment_failed"
+        | "payment_intent.processing"
+        | "payment_intent.requires_action"
+        | "payment_intent.requires_capture"
+        | "payment_intent.succeeded"
+        | "payment_intent.updated"
+        | "payment_link.created"
+        | "payment_link.updated"
+        | "payment_method.activated"
+        | "payment_method.archived"
+        | "payment_method.failed"
+        | "payment_method.updated"
+        | "payment_review.closed"
+        | "payment_review.opened"
+        | "payment_review.reopened"
+        | "payment_split.canceled"
+        | "payment_split.created"
+        | "payment_split.failed"
+        | "payment_split.succeeded"
+        | "payment_split.updated"
+        | "payout.canceled"
+        | "payout.created"
+        | "payout.failed"
+        | "payout.reversed"
+        | "payout.succeeded"
+        | "payout.updated"
+        | "payout_destination.archived"
+        | "payout_destination.created"
+        | "payout_destination.disabled"
+        | "payout_destination.updated"
+        | "payout_settings.updated"
+        | "platform_fee.canceled"
+        | "platform_fee.created"
+        | "platform_fee.succeeded"
+        | "platform_fee.updated"
+        | "platform_fee_payout.created"
+        | "platform_fee_payout.failed"
+        | "platform_fee_payout.succeeded"
+        | "price_list.archived"
+        | "price_list.created"
+        | "price_list.updated"
+        | "product.archived"
+        | "product.created"
+        | "product.updated"
+        | "product_variant.archived"
+        | "product_variant.created"
+        | "product_variant.updated"
+        | "promotion.archived"
+        | "promotion.created"
+        | "promotion.updated"
+        | "promotion_code.archived"
+        | "promotion_code.created"
+        | "promotion_code.updated"
+        | "reader.archived"
+        | "reader.created"
+        | "reader.updated"
+        | "refund.created"
+        | "refund.failed"
+        | "refund.partially_succeeded"
+        | "refund.succeeded"
+        | "refund.updated"
+        | "report.failed"
+        | "report.succeeded"
+        | "return.canceled"
+        | "return.completed"
+        | "return.created"
+        | "return.decision_recorded"
+        | "return.reopened"
+        | "return.updated"
+        | "return_disposition.created"
+        | "return_disposition.updated"
+        | "return_inspection.acceptance_decided"
+        | "return_inspection.created"
+        | "return_inspection.superseded"
+        | "return_receipt.created"
+        | "return_receipt.superseded"
+        | "return_receipt.verified"
+        | "return_resolution.created"
+        | "return_resolution.updated"
+        | "shipment.created"
+        | "shipment.updated"
+        | "subscription.activated"
+        | "subscription.canceled"
+        | "subscription.cancellation_scheduled"
+        | "subscription.created"
+        | "subscription.cycle_skipped"
+        | "subscription.delivery_action_required"
+        | "subscription.delivery_pause_upcoming"
+        | "subscription.delivery_updated"
+        | "subscription.dunning_exhausted"
+        | "subscription.end_upcoming"
+        | "subscription.past_due"
+        | "subscription.paused"
+        | "subscription.payment_succeeded"
+        | "subscription.plan_change_canceled"
+        | "subscription.plan_change_scheduled"
+        | "subscription.plan_changed"
+        | "subscription.reactivated"
+        | "subscription.renewal_upcoming"
+        | "subscription.resumed"
+        | "subscription.trial_ending"
+        | "subscription.updated"
+        | "subscription_delivery_migration.completed"
+        | "subscription_payment_retry.created"
+        | "subscription_payment_retry.failed"
+        | "subscription_payment_retry.succeeded"
+        | "tax_calculation_callback.activated"
+        | "tax_calculation_callback.archived"
+        | "tax_calculation_callback.created"
+        | "tax_calculation_callback.deactivated"
+        | "tax_calculation_callback.updated"
+        | "tax_connection.updated"
+        | "test_clock.advancing"
+        | "test_clock.archived"
+        | "test_clock.created"
+        | "test_clock.failed"
+        | "test_clock.ready"
+        | "ticket.checked_in"
+        | "ticket.created"
+        | "ticket.updated"
+        | "ticket.voided"
+        | (string & {});
+    /**
+     * Why the credential cannot read this event's payload. Value enum: "missing_resource_scope",
+     * "resource_unattributed", "partner_read_unsupported".
+     */
+    "reason": "missing_resource_scope" | "resource_unattributed" | "partner_read_unsupported" | (string & {});
+    /**
+     * Read scopes for the affected resource. Omitted when no public resource read scope is known.
+     * [] (Value): string.
+     */
+    "required_scopes"?: Array<string>;
+    /**
+     * ID of the affected resource. Omitted when Flint cannot form a public resource reference.
+     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "resource_id"?: string;
+    /**
+     * Public resource type affected by the event. Omitted when no public resource type is
+     * attributed. Example: "order". Value enum: "api_key", "api_request_log", "balance",
+     * "balance_transaction", "bundle", "bundle_component", "category", "checkout_session",
+     * "checkout_session_customer_verification", "credit_note", "credit_note_allocation",
+     * "custom_domain", "customer", "customer_address", "customer_deletion_request",
+     * "customer_email_preferences", "customer_session", "customer_tax_exemption",
+     * "customer_verification", "delivery_choice_group", "delivery_location_set",
+     * "delivery_method", "delivery_profile", "delivery_quote", "delivery_rate",
+     * "delivery_rate_callback", "delivery_revocation", "delivery_selection", "delivery_zone",
+     * "demo_session", "device", "discount", "dispute", "email_change_request",
+     * "environment_grant", "file", "flint_wallet", "flint_wallet_card", "fraud_warning",
+     * "fulfillment", "fulfillment_event", "fulfillment_notification", "gift_card",
+     * "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
+     * "gift_card_redemption", "gift_card_transaction", "image", "inventory_adjustment",
+     * "inventory_allocation_policy", "inventory_allocation_policy_revision", "inventory_count",
+     * "inventory_item", "inventory_level", "inventory_movement", "inventory_receipt",
+     * "inventory_reservation", "inventory_reservation_line", "inventory_transfer",
+     * "inventory_transfer_line", "invoice", "invoice_delivery_attempt", "invoice_late_fee",
+     * "invoice_line_item", "invoice_manual_payment", "invoice_payment_attempt",
+     * "invoice_payment_term", "license_key", "license_key_activation", "license_key_pool",
+     * "license_key_pool_key", "location", "merchant", "merchant_billing_balance",
+     * "merchant_billing_entry", "merchant_billing_invoice", "merchant_signup", "modifier",
+     * "modifier_group", "modifier_set", "order", "order_charge", "order_edit", "order_line_item",
+     * "order_line_item_modifier", "order_payment_attempt", "package", "package_item",
+     * "partner_app", "partner_app_credential", "partner_app_install", "payment_attempt",
+     * "payment_intent", "payment_link", "payment_link_custom_field", "payment_link_line_item",
+     * "payment_method", "payment_method_domain", "payment_review", "payment_split", "payout",
+     * "payout_destination", "payout_settings", "platform_fee", "platform_fee_balance_transaction",
+     * "platform_fee_payout", "price_list", "price_list_price", "product", "product_option",
+     * "product_option_value", "product_variant", "promotion", "promotion_code",
+     * "purchase_refund_allocation", "reader", "refund", "refund_allocation",
+     * "refund_line_item_adjustment", "remembered_buyer", "report", "report_download", "return",
+     * "return_activity", "return_disposition", "return_inspection", "return_inspection_line_item",
+     * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
+     * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
+     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
+     * "subscription_delivery_migration", "subscription_line_item", "subscription_offer",
+     * "subscription_payment_retry", "subscription_plan", "subscription_plan_line_item",
+     * "tax_calculation_callback", "tax_connection", "tax_registration", "test_clock", "ticket",
+     * "user", "webhook_delivery", "webhook_endpoint", "webhook_event", "workload_identity".
+     */
+    "resource_type"?: "api_key"
+        | "api_request_log"
+        | "balance"
+        | "balance_transaction"
+        | "bundle"
+        | "bundle_component"
+        | "category"
+        | "checkout_session"
+        | "checkout_session_customer_verification"
+        | "credit_note"
+        | "credit_note_allocation"
+        | "custom_domain"
+        | "customer"
+        | "customer_address"
+        | "customer_deletion_request"
+        | "customer_email_preferences"
+        | "customer_session"
+        | "customer_tax_exemption"
+        | "customer_verification"
+        | "delivery_choice_group"
+        | "delivery_location_set"
+        | "delivery_method"
+        | "delivery_profile"
+        | "delivery_quote"
+        | "delivery_rate"
+        | "delivery_rate_callback"
+        | "delivery_revocation"
+        | "delivery_selection"
+        | "delivery_zone"
+        | "demo_session"
+        | "device"
+        | "discount"
+        | "dispute"
+        | "email_change_request"
+        | "environment_grant"
+        | "file"
+        | "flint_wallet"
+        | "flint_wallet_card"
+        | "fraud_warning"
+        | "fulfillment"
+        | "fulfillment_event"
+        | "fulfillment_notification"
+        | "gift_card"
+        | "gift_card_funding_disposition"
+        | "gift_card_load"
+        | "gift_card_notification"
+        | "gift_card_redemption"
+        | "gift_card_transaction"
+        | "image"
+        | "inventory_adjustment"
+        | "inventory_allocation_policy"
+        | "inventory_allocation_policy_revision"
+        | "inventory_count"
+        | "inventory_item"
+        | "inventory_level"
+        | "inventory_movement"
+        | "inventory_receipt"
+        | "inventory_reservation"
+        | "inventory_reservation_line"
+        | "inventory_transfer"
+        | "inventory_transfer_line"
+        | "invoice"
+        | "invoice_delivery_attempt"
+        | "invoice_late_fee"
+        | "invoice_line_item"
+        | "invoice_manual_payment"
+        | "invoice_payment_attempt"
+        | "invoice_payment_term"
+        | "license_key"
+        | "license_key_activation"
+        | "license_key_pool"
+        | "license_key_pool_key"
+        | "location"
+        | "merchant"
+        | "merchant_billing_balance"
+        | "merchant_billing_entry"
+        | "merchant_billing_invoice"
+        | "merchant_signup"
+        | "modifier"
+        | "modifier_group"
+        | "modifier_set"
+        | "order"
+        | "order_charge"
+        | "order_edit"
+        | "order_line_item"
+        | "order_line_item_modifier"
+        | "order_payment_attempt"
+        | "package"
+        | "package_item"
+        | "partner_app"
+        | "partner_app_credential"
+        | "partner_app_install"
+        | "payment_attempt"
+        | "payment_intent"
+        | "payment_link"
+        | "payment_link_custom_field"
+        | "payment_link_line_item"
+        | "payment_method"
+        | "payment_method_domain"
+        | "payment_review"
+        | "payment_split"
+        | "payout"
+        | "payout_destination"
+        | "payout_settings"
+        | "platform_fee"
+        | "platform_fee_balance_transaction"
+        | "platform_fee_payout"
+        | "price_list"
+        | "price_list_price"
+        | "product"
+        | "product_option"
+        | "product_option_value"
+        | "product_variant"
+        | "promotion"
+        | "promotion_code"
+        | "purchase_refund_allocation"
+        | "reader"
+        | "refund"
+        | "refund_allocation"
+        | "refund_line_item_adjustment"
+        | "remembered_buyer"
+        | "report"
+        | "report_download"
+        | "return"
+        | "return_activity"
+        | "return_disposition"
+        | "return_inspection"
+        | "return_inspection_line_item"
+        | "return_line_item"
+        | "return_policy"
+        | "return_policy_revision"
+        | "return_reason"
+        | "return_receipt"
+        | "return_receipt_line_item"
+        | "return_resolution"
+        | "risk_list"
+        | "risk_list_item"
+        | "risk_rule"
+        | "sandbox"
+        | "settings"
+        | "shipment"
+        | "subscription"
+        | "subscription_delivery_migration"
+        | "subscription_line_item"
+        | "subscription_offer"
+        | "subscription_payment_retry"
+        | "subscription_plan"
+        | "subscription_plan_line_item"
+        | "tax_calculation_callback"
+        | "tax_connection"
+        | "tax_registration"
+        | "test_clock"
+        | "ticket"
+        | "user"
+        | "webhook_delivery"
+        | "webhook_endpoint"
+        | "webhook_event"
+        | "workload_identity"
+        | (string & {});
+    /**
+     * ID of the event whose payload was withheld. Use it as a resume cursor. Example:
+     * "whev_01KEZF7C00362MS3HV970TRZGS".
+     */
+    "webhook_event_id": string;
+};
+/** The response for: Create webhook test event. */
+export type WebhookTestEventResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. oneOf[1] (Value): {@link
+     * WebhookDeliveryAction}. The result of a webhook delivery action, such as a resend: the
+     * delivery, attempt, status, and any error details. oneOf[2] (Value): {@link
+     * WebhookStreamTestEvent}. A synthetic event published to the webhook event stream for flint
+     * listen. Publication confirms the event was recorded, without confirming receipt by a running
+     * listener.
+     */
+    "data": ((WebhookDeliveryAction) | (WebhookStreamTestEvent) | (Record<string, unknown>));
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type WebhookVerificationOptions = _SdkWebhookVerificationOptions;
+/**
+ * A weight value in grams, kilograms, ounces, or pounds, used in delivery profile configuration.
+ */
+export type Weight = {
+    /**
+     * Weight unit. Use gram, kilogram, ounce, or pound. Value enum: "gram", "kilogram", "ounce",
+     * "pound".
+     */
+    "unit": "gram" | "kilogram" | "ounce" | "pound" | (string & {});
+    /**
+     * Weight measured in the specified unit. maximum: 1000000. exclusiveMinimum: 0. multipleOf:
+     * 0.001.
+     */
+    "value": number;
+};
+export type WeightPreviousAttributes = {
+    /**
+     * Weight unit. Use gram, kilogram, ounce, or pound. Value enum: "gram", "kilogram", "ounce",
+     * "pound". anyOf[1] (Value): string. Weight unit. Use gram, kilogram, ounce, or pound. Value
+     * enum: "gram", "kilogram", "ounce", "pound". anyOf[2] (Value): null.
+     */
+    "unit"?: (("gram" | "kilogram" | "ounce" | "pound" | (string & {})) | (null));
+    /**
+     * Weight measured in the specified unit. anyOf[1] (Value): number. Weight measured in the
+     * specified unit. maximum: 1000000. exclusiveMinimum: 0. multipleOf: 0.001. anyOf[2] (Value):
+     * null.
+     */
+    "value"?: ((number) | (null));
+};
+/**
+ * A weight value in grams, kilograms, ounces, or pounds, used in delivery profile configuration.
+ */
+export type WeightRequestInput = {
+    /**
+     * Weight unit. Use gram, kilogram, ounce, or pound. Value enum: "gram", "kilogram", "ounce",
+     * "pound".
+     */
+    "unit": "gram" | "kilogram" | "ounce" | "pound";
+    /**
+     * Weight measured in the specified unit. maximum: 1000000. exclusiveMinimum: 0. multipleOf:
+     * 0.001.
+     */
+    "value": number;
+};
+export type WorkloadIdentitiesCreateParams = (InputValue<CreateWorkloadIdentityRequestInput>);
+export type WorkloadIdentitiesDeleteParams = {
+    /**
+     * Optional version most recently read. Format: int64. minimum: 1. maximum: 9007199254740991.
+     */
+    "expected_version"?: InputValue<number>;
+};
+export type WorkloadIdentitiesGetParams = {};
 export type WorkloadIdentitiesListParams = {
     /**
      * Filter by status. Omitted, the list leaves out archived rows; name archived to include them.
@@ -373,16 +1137,3 @@ export declare function makeCallerSuppliedDeliveryMethodResultRequest(value: Inp
 export declare function makeCallerSuppliedDeliveryOutcomeRequest(value: InputValue<CallerSuppliedDeliveryOutcomeRequestInput>): Model<CallerSuppliedDeliveryOutcomeRequestInput>;
 export declare function makeCallerSuppliedDeliveryOutcomeRequestAvailable(value: InputValue<CallerSuppliedDeliveryOutcomeRequestAvailableInput>): Model<CallerSuppliedDeliveryOutcomeRequestAvailableInput>;
 export declare function makeCallerSuppliedDeliveryOutcomeRequestCannotCalculate(value: InputValue<CallerSuppliedDeliveryOutcomeRequestCannotCalculateInput>): Model<CallerSuppliedDeliveryOutcomeRequestCannotCalculateInput>;
-export declare function makeCallerSuppliedDeliveryOutcomeRequestUnavailable(value: InputValue<CallerSuppliedDeliveryOutcomeRequestUnavailableInput>): Model<CallerSuppliedDeliveryOutcomeRequestUnavailableInput>;
-export declare function makeCancelFulfillmentRequest(value: InputValue<CancelFulfillmentRequestInput>): Model<CancelFulfillmentRequestInput>;
-export declare function makeCancelGiftCardNotificationRequest(value: InputValue<CancelGiftCardNotificationRequestInput>): Model<CancelGiftCardNotificationRequestInput>;
-export declare function makeCancelInventoryCountRequest(value: InputValue<CancelInventoryCountRequestInput>): Model<CancelInventoryCountRequestInput>;
-export declare function makeCancelInventoryTransferRequest(value: InputValue<CancelInventoryTransferRequestInput>): Model<CancelInventoryTransferRequestInput>;
-export declare function makeCancelMeSubscriptionRequest(value: InputValue<CancelMeSubscriptionRequestInput>): Model<CancelMeSubscriptionRequestInput>;
-export declare function makeCancelOrderEditRequest(value: InputValue<CancelOrderEditRequestInput>): Model<CancelOrderEditRequestInput>;
-export declare function makeCancelOrderPaymentAttemptRequest(value: InputValue<CancelOrderPaymentAttemptRequestInput>): Model<CancelOrderPaymentAttemptRequestInput>;
-export declare function makeCancelPaymentIntentRequest(value: InputValue<CancelPaymentIntentRequestInput>): Model<CancelPaymentIntentRequestInput>;
-export declare function makeCancelPayoutRequest(value: InputValue<CancelPayoutRequestInput>): Model<CancelPayoutRequestInput>;
-export declare function makeCancelReturnDispositionRequest(value: InputValue<CancelReturnDispositionRequestInput>): Model<CancelReturnDispositionRequestInput>;
-export declare function makeCancelReturnLineItemRequest(value: InputValue<CancelReturnLineItemRequestInput>): Model<CancelReturnLineItemRequestInput>;
-export declare function makeCancelReturnRequest(value: InputValue<CancelReturnRequestInput>): Model<CancelReturnRequestInput>;

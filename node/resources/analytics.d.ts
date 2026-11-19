@@ -38,7 +38,7 @@ export type { PaymentVolumeTimeseries, PaymentVolumeTimeseriesResponse, PaymentV
 export type { SubscriptionAnalytics, SubscriptionAnalyticsResponse } from '../declarations/types-69.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { SubscriptionSnapshotMetrics, SubscriptionStatusCounts } from '../declarations/types-72.js';

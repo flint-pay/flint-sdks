@@ -10,7 +10,7 @@ The request body for: Update payment intent. minProperties: `1`.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Payment amount. Can change only while status is requires_payment_method and before the first confirmation attempt. Cannot be cleared. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `amount_money`: [field definitions](../models/UpdatePaymentIntentRequest.md#updatepaymentintentrequestamount_money). |
+| `amount_money` | Optional | object | Payment amount. Can change only while status is requires_payment_method and before the first confirmation attempt. Cannot be cleared. `amount_money`: [field definitions](../models/UpdatePaymentIntentRequest.md#updatepaymentintentrequestamount_money). |
 | `customer_id` | Optional | string | Customer linked to this payment intent. Can change only while status is requires_payment_method. Cannot be cleared. minLength: `1`. Example: `"cus_01KEZF7C006X9JK6NZNA2SM9XD"`. |
 | `expected_version` | Optional | integer | Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the request before retrying. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. Omit it to keep the current value. minLength: `1`. maxLength: `255`. Example: `"warehouse-1842"`. |
@@ -20,9 +20,9 @@ The request body for: Update payment intent. minProperties: `1`.
 
 ### UpdatePaymentIntentRequest.amount_money
 
-Payment amount. Can change only while status is requires_payment_method and before the first confirmation attempt. Cannot be cleared. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+Payment amount. Can change only while status is requires_payment_method and before the first confirmation attempt. Cannot be cleared.
 
-Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
+Field definitions: [shared fields](CapturePaymentIntentRequest.md#capturepaymentintentrequestamount_money).
 
 ### UpdatePaymentIntentRequest.tip_money
 

@@ -12,6 +12,6 @@ Request input.
 | `license_key_pool_attestations` | Optional | Array of [ResourceTimelinePoolAttestationEntryInput](../models/ResourceTimelinePoolAttestationEntryInput.md#resourcetimelinepoolattestationentryinput) | Seller authorizations on this page, present for license key pools when any confirmations match the selected filters. |
 | `license_key_restriction_changes` | Optional | Array of [ResourceTimelineLicenseKeyRestrictionChangeEntryInput](../models/ResourceTimelineLicenseKeyRestrictionChangeEntryInput.md#resourcetimelinelicensekeyrestrictionchangeentryinput) | Restriction changes on this page. Present for license keys when the include filter selects restriction changes. |
 | `resource_id` | Required | string | ID of the resource this timeline is for. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
-| `resource_type` | Required | string | Type of the resource this timeline is for. Example: `"order"`. Values: [157 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). |
+| `resource_type` | Required | string | Type of the resource this timeline is for. Example: `"order"`. Values: [158 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). |
 | `test` | Required | boolean | `true` when the timeline is for test mode data and `false` for live data. |
 

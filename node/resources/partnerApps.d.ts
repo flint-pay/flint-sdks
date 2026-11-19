@@ -70,14 +70,19 @@ export type {
     PartnerAppsRotateSecretParams,
     PartnerAppWithRotatedSecret,
     PartnerAppsUpdateParams,
+    PartnerAppPlatform,
+    PartnerAppPlatformCapability,
+    PartnerAppPlatformCurrentTerms,
     PartnerAppPlatformLimits,
     PartnerAppPlatformUsage,
     PartnerAppPlatformReserve,
     PartnerAppPlatformTermsAcceptance,
     PartnerAppPlatformProfile,
+    PartnerAppPermissionManifestEntryRequestInput,
     PartnerAppPlatformProfileRequestInput,
     PartnerEnvironmentGrant,
-    PartnerEnvironmentGrantPaymentSplits
+    PartnerEnvironmentGrantPaymentSplits,
+    PartnerAppPlatformContact
 } from '../declarations/types-50.js';
 export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-62.js';
 export type {
@@ -94,11 +99,7 @@ export type {
     PartnerAppMerchantActionRouting,
     PartnerAppPaymentSplits,
     PartnerAppPermissionManifestEntry,
-    PartnerAppPlatform,
-    PartnerAppPlatformCapability,
-    PartnerAppPlatformCurrentTerms,
     PartnerAppPaymentSplitsRequestInput,
-    PartnerAppPermissionManifestEntryRequestInput,
     PartnerAppCredentialPublicKeyRequestInput,
     PartnerAppCredentialJWKSURLRequestInput,
     PartnerAppCredentialWorkloadIdentityRequestInput,
@@ -107,7 +108,6 @@ export type {
     PartnerAppCredentialWorkloadIdentity,
     PartnerAppMerchantReadiness,
     PartnerAppMerchantReadinessAxis,
-    PartnerAppPlatformContact,
     PartnerAppCredentialPublicKeyRequest
 } from '../declarations/types-49.js';
 export type {
@@ -119,9 +119,9 @@ export type { RotatePartnerAppSecretResponse, RotatePartnerAppSecretRequestInput
 export type { ClientOptions, CheckoutSessionsListCustomerVerificationsParams } from '../declarations/types-7.js';
 export type { AcceptPartnerAppPlatformTermsRequestInput, AcceptPartnerAppPlatformTermsRequest } from '../declarations/types-0.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-44.js';
-export type { PlatformFeeCap, PlatformFeeCapRequestInput } from '../declarations/types-55.js';
+export type { PlatformFeeCap, PlatformFeeCapRequestInput } from '../declarations/types-56.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type {
     CreatePartnerAppRequestInput,
@@ -130,7 +130,7 @@ export type {
     CreatePartnerAppCredentialJWKSURLRequestInput,
     CreatePartnerAppCredentialWorkloadIdentityRequestInput
 } from '../declarations/types-12.js';
-export type { UpdatePartnerAppRequestInput } from '../declarations/types-76.js';
+export type { UpdatePartnerAppRequestInput } from '../declarations/types-77.js';
 export { makeAcceptPartnerAppPlatformTermsRequest } from '../declarations/types-80.js';
 export {
     makeCreatePartnerAppCredentialJWKSURLRequest,
@@ -150,7 +150,8 @@ export {
 } from '../declarations/types-89.js';
 export { makePlatformFeeCapRequest } from '../declarations/types-90.js';
 export { makeRotatePartnerAppSecretRequest } from '../declarations/types-92.js';
-export { makeUpdatePartnerAppRequest, makeWorkloadIdentityClaimConditionRequest } from '../declarations/types-94.js';
+export { makeUpdatePartnerAppRequest } from '../declarations/types-94.js';
+export { makeWorkloadIdentityClaimConditionRequest } from '../declarations/types-95.js';
 export interface PartnerAppsResource {
     /**
  * Records that the authenticated credential accepted the current version of Flint's platform terms

@@ -1,16 +1,16 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
 import type { RequestOptions } from '../declarations/types-62.js';
+import type { SubscriptionOffer } from '../declarations/types-70.js';
 import type {
-    SubscriptionOffer,
     SubscriptionOfferListResponse,
     SubscriptionOfferResponse,
     SubscriptionOffersCreateParams,
     SubscriptionOffersDeleteParams,
     SubscriptionOffersGetParams,
-    SubscriptionOffersListParams
-} from '../declarations/types-70.js';
-import type { SubscriptionOffersUpdateParams } from '../declarations/types-71.js';
+    SubscriptionOffersListParams,
+    SubscriptionOffersUpdateParams
+} from '../declarations/types-71.js';
 import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
@@ -28,29 +28,28 @@ export type {
 } from '../runtime.js';
 export type {
     SubscriptionOffersCreateParams,
-    SubscriptionOffer,
     SubscriptionOfferResponse,
     SubscriptionOffersDeleteParams,
     SubscriptionOffersGetParams,
     SubscriptionOffersListParams,
     SubscriptionOfferListResponse,
-    SubscriptionIntervalOptionRequestInput,
-    SubscriptionIntervalOption
-} from '../declarations/types-70.js';
+    SubscriptionOffersUpdateParams
+} from '../declarations/types-71.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { SubscriptionOffer, SubscriptionIntervalOptionRequestInput, SubscriptionIntervalOption } from '../declarations/types-70.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
-export type { SubscriptionOffersUpdateParams } from '../declarations/types-71.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type { CreateSubscriptionOfferRequestInput, Credentials } from '../declarations/types-14.js';
+export type { CreateSubscriptionOfferRequestInput } from '../declarations/types-14.js';
 export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { AuthMode } from '../declarations/types-1.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { UpdateSubscriptionOfferRequestInput } from '../declarations/types-78.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeCreateSubscriptionOfferRequest } from '../declarations/types-84.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
-export { makeSubscriptionIntervalOptionRequest } from '../declarations/types-92.js';
+export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeSubscriptionIntervalOptionRequest } from '../declarations/types-93.js';
 export { makeUpdateSubscriptionOfferRequest } from '../declarations/types-94.js';
 export interface SubscriptionOffersResource {
     /**

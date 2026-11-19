@@ -50,7 +50,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `description` | Optional | string or null | Text about what the link sells, returned to buyers when they open it. `description`: [declared alternatives](../models/ExpandedPaymentLinkSummaryPreviousAttributes.md#expandedpaymentlinksummarypreviousattributesdescription). |
 | `donation_max_amount_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Largest amount a buyer can give on a donation link. Must be greater than zero and greater than or equal to donation_min_amount_money. Omit on create for no maximum. `donation_max_amount_money`: [declared alternatives](../models/PaymentLinkUpdatedInstalledMerchantsEvent.md#paymentlinkupdatedinstalledmerchantseventdataprevious_attributesdonation_max_amount_money). |
 | `donation_min_amount_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Smallest amount a buyer can give on a donation link. `donation_min_amount_money`: [declared alternatives](../models/PaymentLinkUpdatedInstalledMerchantsEvent.md#paymentlinkupdatedinstalledmerchantseventdataprevious_attributesdonation_min_amount_money). |
-| `donation_suggested_amount_money_options` | Optional | Array of [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Amounts a donation link offers as one-tap choices. `donation_suggested_amount_money_options`: [declared alternatives](../models/PaymentLinkUpdatedInstalledMerchantsEvent.md#paymentlinkupdatedinstalledmerchantseventdataprevious_attributesdonation_suggested_amount_money_options). |
+| `donation_suggested_amount_money_options` | Optional | Array of [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Amounts a donation link offers as one-tap choices. Use the same currency for all suggested amounts and both bounds. `donation_suggested_amount_money_options`: [declared alternatives](../models/PaymentLinkUpdatedInstalledMerchantsEvent.md#paymentlinkupdatedinstalledmerchantseventdataprevious_attributesdonation_suggested_amount_money_options). |
 | `event_config` | Optional | [PaymentLinkEventConfigPreviousAttributes](../models/PaymentLinkEventConfigPreviousAttributes.md#paymentlinkeventconfigpreviousattributes) or null | Event details for an `event` link: when and where it takes place and how many tickets it sells. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. `external_reference_id`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesexternal_reference_id). |
 | `image` | Optional | [ImageAttachmentPreviousAttributes](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributes) or null | Image shown to buyers with the link. |
@@ -193,15 +193,15 @@ Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_mon
 
 ### PaymentLinkUpdatedInstalledMerchantsEvent.data.previous_attributes.donation_suggested_amount_money_options variant 1
 
-anyOf variant 1: Amounts a donation link offers as one-tap choices..
+anyOf variant 1: Amounts a donation link offers as one-tap choices. Use the same currency for all suggested amounts and both bounds..
 
-- Value shape: Array of [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes). Amounts a donation link offers as one-tap choices. 
+- Value shape: Array of [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes). Amounts a donation link offers as one-tap choices. Use the same currency for all suggested amounts and both bounds. 
 
 ### PaymentLinkUpdatedInstalledMerchantsEvent.data.previous_attributes.donation_suggested_amount_money_options variant 2
 
 anyOf variant 2.
 
-- Value shape: null. Amounts a donation link offers as one-tap choices. 
+- Value shape: null. Amounts a donation link offers as one-tap choices. Use the same currency for all suggested amounts and both bounds. 
 
 ### PaymentLinkUpdatedInstalledMerchantsEvent.data.previous_attributes.donation_suggested_amount_money_options variant 1.[] fields 1
 

@@ -96,7 +96,7 @@ final class PaymentLinkUpdatedMerchantEventDataPreviousAttributes extends Model 
      */
     public function getDonationMinAmountMoney(): MoneyValuePreviousAttributes|null { return $this->get('donation_min_amount_money'); }
     public function hasDonationMinAmountMoney(): bool { return $this->has('donation_min_amount_money'); }
-    /** Amounts a donation link offers as one-tap choices. anyOf[1] (Value): Array of {@see MoneyValuePreviousAttributes}. Amounts a donation link offers as one-tap choices. anyOf[1][] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+    /** Amounts a donation link offers as one-tap choices. Use the same currency for all suggested amounts and both bounds. anyOf[1] (Value): Array of {@see MoneyValuePreviousAttributes}. Amounts a donation link offers as one-tap choices. Use the same currency for all suggested amounts and both bounds. anyOf[1][] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      * @return list<MoneyValuePreviousAttributes>|null
      */
     public function getDonationSuggestedAmountMoneyOptions(): array|null { return $this->get('donation_suggested_amount_money_options'); }

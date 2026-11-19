@@ -14,5 +14,4 @@ const result = await client.webhookEndpoints.createTestEvent(
   },
   { idempotencyKey: idempotencyKey },
 );
-console.log(result.webhook_delivery_attempt_id);
-console.log(result.webhook_delivery_id);
+console.log(result);

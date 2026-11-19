@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# ReturnCanceledMerchantEventInput to ReturnReopenedInstalledMerchantsEventInput
+# RetryReturnResolutionResponseInput to ReturnReceiptVerifiedMerchantEventInput
 
+- [RetryReturnResolutionResponseInput](RetryReturnResolutionResponseInput.md)
+- [ReturnActivityInput](ReturnActivityInput.md)
+- [ReturnActorInput](ReturnActorInput.md)
+- [ReturnActorPreviousAttributesInput](ReturnActorPreviousAttributesInput.md)
+- [ReturnCanceledInstalledMerchantsEventInput](ReturnCanceledInstalledMerchantsEventInput.md)
 - [ReturnCanceledMerchantEventInput](ReturnCanceledMerchantEventInput.md)
 - [ReturnCompletedInstalledMerchantsEventInput](ReturnCompletedInstalledMerchantsEventInput.md)
 - [ReturnCompletedMerchantEventInput](ReturnCompletedMerchantEventInput.md)
@@ -97,9 +102,4 @@
 - [ReturnReceiptSupersededMerchantEventInput](ReturnReceiptSupersededMerchantEventInput.md)
 - [ReturnReceiptVerifiedInstalledMerchantsEventInput](ReturnReceiptVerifiedInstalledMerchantsEventInput.md)
 - [ReturnReceiptVerifiedMerchantEventInput](ReturnReceiptVerifiedMerchantEventInput.md)
-- [ReturnRefundEstimateInput](ReturnRefundEstimateInput.md)
-- [ReturnRefundTenderEstimateInput](ReturnRefundTenderEstimateInput.md)
-- [ReturnRefundTenderEstimateGiftCardRedemptionInput](ReturnRefundTenderEstimateGiftCardRedemptionInput.md)
-- [ReturnRefundTenderEstimatePaymentIntentInput](ReturnRefundTenderEstimatePaymentIntentInput.md)
-- [ReturnReopenedInstalledMerchantsEventInput](ReturnReopenedInstalledMerchantsEventInput.md)
 

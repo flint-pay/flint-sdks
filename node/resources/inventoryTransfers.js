@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/inventoryTransfers.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
+import r0 from '../descriptors/resources/inventoryTransfers.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
+import settings from '../descriptors/settings.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["cancelInventoryTransfer"]:r0,["createInventoryTransfer"]:r0,["departInventoryTransfer"]:r0,["getInventoryTransfer"]:r0,["listInventoryTransfers"]:r0,["receiveInventoryTransfer"]:r0,["reportInventoryTransferLoss"]:r0,["returnInventoryTransferToOrigin"]:r0,["updateInventoryTransfer"]:r0});
 export class Client {
@@ -183,6 +183,7 @@ export { makeDepartInventoryTransferRequest } from '../models/DepartInventoryTra
 export { makeInventoryProvenanceRequest } from '../models/InventoryProvenanceRequest.js';
 export { makeInventorySourceSystemRequest } from '../models/InventorySourceSystemRequest.js';
 export { makeInventoryTransferLineRequest } from '../models/InventoryTransferLineRequest.js';
+export { makeMetadataMap } from '../models/MetadataMap.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeReceiveInventoryTransferRequest } from '../models/ReceiveInventoryTransferRequest.js';
 export { makeReportInventoryTransferLossRequest } from '../models/ReportInventoryTransferLossRequest.js';

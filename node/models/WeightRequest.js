@@ -1,7 +1,7 @@
-import { d8680 as c0 } from '../descriptors/data/388.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
-import { d8680 as d8680 } from '../descriptors/data/388.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
+import { d8690 as c0 } from '../descriptors/data/387.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
+import { d8690 as d8690 } from '../descriptors/data/387.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d8680;
+const read = d8690;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["WeightRequest"]:c0()}); }
 export { codec as _validate };

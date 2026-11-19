@@ -1,8 +1,8 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { SubscriptionDeliveryMigration } from '../declarations/types-69.js';
 import type {
+    SubscriptionDeliveryMigration,
     SubscriptionDeliveryMigrationFailure,
     SubscriptionDeliveryMigrationFailureListResponse,
     SubscriptionDeliveryMigrationListResponse,
@@ -29,6 +29,7 @@ export type {
 } from '../runtime.js';
 export type {
     SubscriptionDeliveryMigrationsCreateParams,
+    SubscriptionDeliveryMigration,
     SubscriptionDeliveryMigrationResponse,
     SubscriptionDeliveryMigrationsGetParams,
     SubscriptionDeliveryMigrationsListFailuresParams,
@@ -39,15 +40,11 @@ export type {
     SubscriptionDeliveryMigrationFailureReasonCount
 } from '../declarations/types-70.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
-export type { SubscriptionDeliveryMigration } from '../declarations/types-69.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type {
-    CreateSubscriptionDeliveryMigrationRequestInput,
-    Credentials,
-    CreateSubscriptionDeliveryMigrationRequest
-} from '../declarations/types-14.js';
+export type { CreateSubscriptionDeliveryMigrationRequestInput, CreateSubscriptionDeliveryMigrationRequest } from '../declarations/types-14.js';
 export type { AuthMode } from '../declarations/types-1.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';

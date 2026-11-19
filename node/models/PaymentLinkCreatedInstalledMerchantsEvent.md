@@ -46,7 +46,7 @@ Field definitions: [PaymentLink.custom_text](../models/PaymentLink.md#paymentlin
 
 ### PaymentLinkCreatedInstalledMerchantsEvent.data.object.donation_max_amount_money
 
-Field definitions: [CreatePaymentLinkRequest.donation_max_amount_money](../models/CreatePaymentLinkRequest.md#createpaymentlinkrequestdonation_max_amount_money).
+Field definitions: [PaymentLink.donation_max_amount_money](../models/PaymentLink.md#paymentlinkdonation_max_amount_money).
 
 ### PaymentLinkCreatedInstalledMerchantsEvent.data.object.donation_min_amount_money
 

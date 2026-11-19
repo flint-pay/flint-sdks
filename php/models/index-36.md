@@ -1,7 +1,16 @@
 [Model index](../MODELS.md)
 
-# GiftCardFundingDispositionResponse to GiftCardLoadResponse
+# DeliveryRevocationResponse to APIRequestLogDetailResponse
 
+- [DeliveryRevocationResponse](DeliveryRevocationResponse.md)
+- [DeliverySelectionResultResponse](DeliverySelectionResultResponse.md)
+- [DeliveryZoneResponse](DeliveryZoneResponse.md)
+- [DemoSessionResponse](DemoSessionResponse.md)
+- [DeviceResponse](DeviceResponse.md)
+- [DiscountPreviewResponse](DiscountPreviewResponse.md)
+- [DisputeResponseSessionResponse](DisputeResponseSessionResponse.md)
+- [FulfillmentEventResourceResponse](FulfillmentEventResourceResponse.md)
+- [CreateGiftCardResultResponse](CreateGiftCardResultResponse.md)
 - [GiftCardFundingDispositionResponse](GiftCardFundingDispositionResponse.md)
 - [CreateGiftCardLoadResultResponse](CreateGiftCardLoadResultResponse.md)
 - [InventoryAdjustmentResultResponse](InventoryAdjustmentResultResponse.md)
@@ -73,7 +82,7 @@
 - [TaxRegistrationResponse](TaxRegistrationResponse.md)
 - [WebhookDeliveryResponse](WebhookDeliveryResponse.md)
 - [WebhookEndpointWithSecretResponse](WebhookEndpointWithSecretResponse.md)
-- [WebhookDeliveryActionResponse](WebhookDeliveryActionResponse.md)
+- [WebhookTestEventResponse](WebhookTestEventResponse.md)
 - [WorkloadIdentityResponse](WorkloadIdentityResponse.md)
 - [DecideReturnResponse](DecideReturnResponse.md)
 - [DecideReturnInspectionLineItemResponse](DecideReturnInspectionLineItemResponse.md)
@@ -93,13 +102,4 @@
 - [AnalyticsOverviewResponse](AnalyticsOverviewResponse.md)
 - [APIKeyResponse](APIKeyResponse.md)
 - [APIRequestLogDetailResponse](APIRequestLogDetailResponse.md)
-- [AuthContextResponse](AuthContextResponse.md)
-- [BalanceTransactionResponse](BalanceTransactionResponse.md)
-- [CreditNoteAllocationResponse](CreditNoteAllocationResponse.md)
-- [CustomerEmailPreferencesResponse](CustomerEmailPreferencesResponse.md)
-- [DeliverySelectionResponse](DeliverySelectionResponse.md)
-- [SettingsResponse](SettingsResponse.md)
-- [FraudWarningResponse](FraudWarningResponse.md)
-- [FulfillmentNotificationResponse](FulfillmentNotificationResponse.md)
-- [GiftCardLoadResponse](GiftCardLoadResponse.md)
 

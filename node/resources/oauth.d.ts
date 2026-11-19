@@ -56,25 +56,24 @@ export type {
     CLIContextsRequestInput,
     CLIReauthorizeRequestInput
 } from '../declarations/types-4.js';
-export type { PartnerAuthorizePreview, PartnerAuthorizePreviewResponse } from '../declarations/types-50.js';
+export type { PartnerAuthorizePreview, PartnerAuthorizePreviewResponse, PartnerAppPlatformContact } from '../declarations/types-50.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { ContextSummary } from '../declarations/types-8.js';
-export type { PartnerAppPaymentSplits, PartnerAppPlatformContact, PartnerAppPermissionManifestEntry } from '../declarations/types-49.js';
-export type { PlatformFeeCap } from '../declarations/types-55.js';
+export type { PartnerAppPaymentSplits, PartnerAppPermissionManifestEntry } from '../declarations/types-49.js';
+export type { PlatformFeeCap } from '../declarations/types-56.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export { makeCLIContextsRequest, makeCLIDeviceRequest, makeCLIReauthorizeRequest } from '../declarations/types-80.js';
+export { makeMoneyValue, makeOAuthRevokeRequest } from '../declarations/types-88.js';
 export {
-    makeMoneyValue,
-    makeOAuthRevokeRequest,
     makeOAuthTokenRequest,
     makeOAuthTokenRequestAuthorizationCode,
     makeOAuthTokenRequestClientCredentials,
     makeOAuthTokenRequestDeviceCode,
     makeOAuthTokenRequestRefreshToken,
     makeOAuthTokenRequestTokenExchange
-} from '../declarations/types-88.js';
+} from '../declarations/types-89.js';
 export interface OauthResource {
     /**
  * First-party public client flint-cli. Uses application/x-www-form-urlencoded and flat OAuth JSON.

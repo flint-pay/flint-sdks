@@ -16,9 +16,9 @@ The request body for: Update payment link. minProperties: `1`.
 | `custom_text` | Optional | [PaymentLinkCustomTextPatchRequest](../models/PaymentLinkCustomTextPatchRequest.md#paymentlinkcustomtextpatchrequest) | Custom text for checkouts started from this link. Changes to a payment link's custom checkout text. Send null to clear a field. |
 | `delivery_method_ids` | Optional | Array of string | Complete delivery method selection for the link. A link without delivery methods offers settings.checkout.default_delivery_method_ids when its order has items to deliver. Send an empty array to clear the selection. Omit it on PATCH to leave the selection unchanged. Null and duplicate IDs are not accepted. Create, activation, and edits to items, delivery methods, or inventory routing require explicit methods or checkout defaults to cover the items' delivery profiles; otherwise ACTION_NOT_ALLOWED with reason configuration_required is returned. maxItems: `25`. uniqueItems: `true`. Items: minLength: `1`. Example: `"dmet_01KEZF7C00YSG3X2D1TZJ36TM0"`. |
 | `description` | Optional | string or null | Text about what the link sells, returned to buyers when they open it. Send null to clear. minLength: `1`. maxLength: `2048`. |
-| `donation_max_amount_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Maximum donation amount. Must be greater than zero and greater than or equal to donation_min_amount_money. Send null to clear the maximum. `donation_max_amount_money`: [declared alternatives](../models/UpdatePaymentLinkRequest.md#updatepaymentlinkrequestdonation_max_amount_money). |
+| `donation_max_amount_money` | Optional | object or null | Maximum donation amount. Must be greater than zero and greater than or equal to donation_min_amount_money. Send null to clear the maximum. `donation_max_amount_money`: [field definitions](../models/UpdatePaymentLinkRequest.md#updatepaymentlinkrequestdonation_max_amount_money). |
 | `donation_min_amount_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Minimum donation amount. Send null to clear the minimum. Send null to clear. `donation_min_amount_money`: [declared alternatives](../models/UpdatePaymentLinkRequest.md#updatepaymentlinkrequestdonation_min_amount_money). |
-| `donation_suggested_amount_money_options` | Optional | Array of [MoneyValue](../models/MoneyValue.md#moneyvalue) | Suggested donation amounts. Send an empty array to clear suggested amounts. `donation_suggested_amount_money_options[]`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
+| `donation_suggested_amount_money_options` | Optional | Array of object | Suggested donation amounts. Send an empty array to clear suggested amounts. `donation_suggested_amount_money_options[]`: [field definitions](../models/CreatePaymentLinkRequest.md#createpaymentlinkrequestdonation_suggested_amount_money_options). |
 | `event_config` | Optional | [PaymentLinkEventConfigPatchRequest](../models/PaymentLinkEventConfigPatchRequest.md#paymentlinkeventconfigpatchrequest) | Event configuration patch. Omit to leave unchanged. The whole configuration cannot be cleared; null is not accepted. Changes to an event payment link's settings. Send null on a nullable field to clear it. |
 | `expected_version` | Optional | integer | Payment link version last read by the caller. Required when line_items, custom_fields, or delivery_method_ids is present. Required when any of these fields is present: line_items, custom_fields, delivery_method_ids. Format: `int64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear. minLength: `1`. maxLength: `255`. Example: `"warehouse-1842"`. |
@@ -49,20 +49,7 @@ Field definitions: [CreateCheckoutSessionOrder.buyer_fields](../models/CreateChe
 
 Maximum donation amount. Must be greater than zero and greater than or equal to donation_min_amount_money. Send null to clear the maximum.
 
-Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
-
-### UpdatePaymentLinkRequest.donation_max_amount_money variant 1
-
-anyOf MoneyValue: Monetary amount represented as integer minor units plus an ISO 4217 currency code..
-
-- Required: `amount`, `currency`.
-
-### UpdatePaymentLinkRequest.donation_max_amount_money variant 2
-
-anyOf variant 2.
-
-- Undeclared: `amount`, `currency`.
-- Value shape: null. Maximum donation amount. Must be greater than zero and greater than or equal to donation_min_amount_money. Send null to clear the maximum. 
+Field definitions: [shared fields](CapturePaymentIntentRequest.md#capturepaymentintentrequestamount_money).
 
 ### UpdatePaymentLinkRequest.donation_min_amount_money
 
@@ -85,7 +72,7 @@ anyOf variant 2.
 
 ### UpdatePaymentLinkRequest.donation_suggested_amount_money_options[]
 
-Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options).
+Field definitions: [CreatePaymentLinkRequest.donation_suggested_amount_money_options[]](../models/CreatePaymentLinkRequest.md#createpaymentlinkrequestdonation_suggested_amount_money_options).
 
 ### UpdatePaymentLinkRequest.legal
 

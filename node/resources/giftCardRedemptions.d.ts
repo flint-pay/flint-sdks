@@ -47,7 +47,7 @@ export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning }
 export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { GiftCard } from '../declarations/types-28.js';
 export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';

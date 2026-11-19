@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read string|\DateTimeInterface|null $blocked_since
  * @property-read string|null $capability
  * @property-read string|null $domain
  * @property-read list<ReadinessActionPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null $next_actions
@@ -10,8 +11,14 @@ namespace Flint;
  * @property-read string|null $status_reason
  * Presence-aware input; omitted fields throw when accessed. */
 final class CapabilityReadinessPreviousAttributesInput extends Model {
-    /** @param array{'capability'?: string|null, 'domain'?: string|null, 'next_actions'?: list<ReadinessActionPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'requirements'?: ReadinessRequirementsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'status'?: string|null, 'status_reason'?: string|null, ...}|object $values */
+    /** @param array{'blocked_since'?: string|\DateTimeInterface|null, 'capability'?: string|null, 'domain'?: string|null, 'next_actions'?: list<ReadinessActionPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'requirements'?: ReadinessRequirementsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'status'?: string|null, 'status_reason'?: string|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CapabilityReadinessPreviousAttributesInput')); }
+    /** Start of the current continuous blocked period, as an RFC 3339 UTC timestamp. A change to the reason preserves the start. Flint may treat a brief unblock that it didn't publish as part of the same blocked period. Omitted when the status is not blocked or the start is unknown. anyOf[1] (Value): string. Start of the current continuous blocked period, as an RFC 3339 UTC timestamp. A change to the reason preserves the start. Flint may treat a brief unblock that it didn't publish as part of the same blocked period. Omitted when the status is not blocked or the start is unknown. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     * @return string|\DateTimeInterface|null
+     * @throws SdkError When blocked_since is omitted; use hasBlockedSince() or valueOrDefault().
+     */
+    public function getBlockedSince(): mixed { return $this->get('blocked_since'); }
+    public function hasBlockedSince(): bool { return $this->has('blocked_since'); }
     /** Flint-owned capability name. Payment capabilities describe transaction acceptance readiness; money movement capabilities describe payout and balance movement readiness. Value enum: "accept_card_payments", "save_payment_methods", "accept_affirm_payments", "accept_ach_debit_payments", "receive_payouts", "create_standard_payouts", "manage_payout_destinations", "manage_payout_settings". anyOf[1] (Value): string. Flint-owned capability name. Payment capabilities describe transaction acceptance readiness; money movement capabilities describe payout and balance movement readiness. Value enum: "accept_card_payments", "save_payment_methods", "accept_affirm_payments", "accept_ach_debit_payments", "receive_payouts", "create_standard_payouts", "manage_payout_destinations", "manage_payout_settings". anyOf[2] (Value): null.
      * @return string|null
      * @throws SdkError When capability is omitted; use hasCapability() or valueOrDefault().

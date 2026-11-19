@@ -1,10 +1,48 @@
 import type {
+    GetReturnResponse,
+    FulfillmentSettings,
+    FulfillmentSettingsRequestInput,
+    GetReturnReceiptResponse
+} from './types-28.js';
+import type { RiskPredicateNodeRequest, RiskPredicateNodeRequestInput } from './types-67.js';
+import type { BrandingSettingsRequest, BrandingSettingsRequestInput, BundleComponent } from './types-1.js';
+import type {
+    CheckoutSettings,
+    CheckoutSettingsRequestInput,
+    CheckoutSessionTax,
+    CheckoutSubscriptionTerms,
+    CheckoutTheme,
+    CheckoutTipConfig
+} from './types-7.js';
+import type {
+    CustomerAccountSettings,
+    CustomerEmailDeliverySettings,
+    CustomerAccountSettingsRequestInput,
+    CustomerEmailDeliverySettingsRequestInput,
+    CustomFieldAnswer
+} from './types-16.js';
+import type { InventorySettingsRequest, InventorySettingsRequestInput, InventoryRoutingSourceRequestInput } from './types-34.js';
+import type { InvoiceSettingsPatch, InvoiceSettingsPatchInput } from './types-38.js';
+import type { LegalSettingsRequest, LegalSettingsRequestInput, KnownWebhookEvent, LegalSettings } from './types-39.js';
+import type {
     MetadataPatchRequest,
     MetadataPatchRequestInput,
     MerchantSignupTermsAcceptanceRequest,
     MerchantSignupTermsAcceptanceRequestInput,
     MetadataMap
 } from './types-43.js';
+import type { PaymentLimitSettingsPatch, PaymentLimitSettingsPatchInput } from './types-52.js';
+import type { PaymentSettingsPatch, PaymentSettingsPatchInput } from './types-54.js';
+import type { PromotionSettings, PromotionSettingsRequestInput } from './types-59.js';
+import type { ReceiptSettingsPatch, ReceiptSettingsPatchInput } from './types-60.js';
+import type {
+    SubscriptionSettings,
+    SubscriptionSettingsRequestInput,
+    SubscriptionTaxRequest,
+    SubscriptionTaxRequestInput
+} from './types-72.js';
+import type { TaxIdentityPatch, TaxSettingsRequest, TaxIdentityPatchInput, TaxSettingsRequestInput } from './types-74.js';
+import type { TippingSettingsPatch, TippingSettingsPatchInput } from './types-75.js';
 import type {
     SubscriptionIntervalOption,
     SubscriptionIntervalOptionRequestInput,
@@ -18,25 +56,25 @@ import type {
     SubscriptionGiftRecipientRequestInput
 } from './types-70.js';
 import type { MoneyValue, MoneyValueInput } from './types-44.js';
-import type { OrderLineItemModifierRequest, OrderLineItemTax, OrderLineItemModifierRequestModelInput } from './types-46.js';
-import type { OrderLineItemTaxRequestInput } from './types-47.js';
+import type {
+    OrderLineItemModifierRequest,
+    OrderLineItemTax,
+    OrderLineItemModifierRequestModelInput,
+    OrderLineItemTaxRequestInput
+} from './types-47.js';
 import type { ImageRequest, ImageRequestInput, ImageAttachment } from './types-31.js';
-import type { InventoryRoutingSourceRequest, InventoryRoutingSourceRequestInput } from './types-33.js';
+import type { InventoryRoutingSourceRequest } from './types-33.js';
 import type { SubscriptionPlanChangeOption, SubscriptionPlanChangeOptionRequestInput } from './types-71.js';
 import type { SubscriptionBillingScheduleUpdateRequest, SubscriptionBillingScheduleUpdateRequestInput } from './types-69.js';
-import type { SubscriptionTaxRequest, SubscriptionTaxRequestInput } from './types-72.js';
 import type {
     TaxCalculationCallbackConfigurationPatchRequest,
     TaxCalculationCallbackConfigurationPatchRequestInput
 } from './types-73.js';
 import type { WebhookSigningMethod, WebhookSigningMethodInput, WebhookSnapshotOrderPaymentAttempt } from './types-79.js';
 import type { WorkloadIdentityClaimConditionRequest, WorkloadIdentityClaimConditionRequestInput } from './types-80.js';
-import type { KnownWebhookEvent, LegalSettings } from './types-38.js';
-import type { GetReturnReceiptResponse, GetReturnResponse } from './types-28.js';
-import type { ResponseMeta, ResendWebhookDeliveryRequestInput, ResourceReference } from './types-62.js';
+import type { ResponseMeta, ResendWebhookDeliveryRequestInput } from './types-62.js';
 import type { Package } from './types-48.js';
 import type { Shipment, SetupCollection } from './types-68.js';
-import type { BundleComponent } from './types-1.js';
 import type { CategoryReference } from './types-5.js';
 import type { BuyerRefund } from './types-3.js';
 import type {
@@ -51,8 +89,6 @@ import type {
     CheckoutPromotionConfig,
     CheckoutRedirects
 } from './types-6.js';
-import type { CheckoutSessionTax, CheckoutSubscriptionTerms, CheckoutTheme, CheckoutTipConfig } from './types-7.js';
-import type { CustomFieldAnswer } from './types-16.js';
 import type {
     ExpandedCustomerSummary,
     ExpandedInvoiceSummary,
@@ -65,7 +101,523 @@ import type { PaymentCollection } from './types-51.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateWebhookDeliveryRequestInput } from './types-14.js';
 import type { CustomersListAddressesParams } from './types-17.js';
-import type { DeliveryProfileConfiguration } from './types-21.js';
+export type UpdateReturnResponse = GetReturnResponse;
+/** The request body for: Update a risk list. minProperties: 1. */
+export type UpdateRiskListRequest = {
+    /**
+     * Version last read from the resource returned in `data` (the primary resource for a result
+     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
+     * the operation and fields being changed. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Name of a merchant-created risk list. It can't be cleared. Surrounding whitespace is trimmed
+     * before length validation. A supplied value cannot be blank; use null where clearing is
+     * supported. minLength: 1.
+     */
+    "name": string;
+};
+/** The request body for: Update a risk list. minProperties: 1. */
+export type UpdateRiskListRequestInput = UpdateRiskListRequest;
+/** The request body for: Update a risk rule. minProperties: 1. */
+export type UpdateRiskRuleRequest = ({
+    /**
+     * What Flint does with a payment the rule matches. Value enum: "allow", "block", "review",
+     * "require_3ds".
+     */
+    "action"?: "allow" | "block" | "review" | "require_3ds" | (string & {});
+    /**
+     * Your note on what the rule is for. Limited to 512 characters (Unicode code points). Leading
+     * and trailing whitespace is trimmed. minLength: 1. maxLength: 512.
+     */
+    "description"?: string;
+    /** Optional risk rule version last read by the caller. Format: int64. minimum: 1. */
+    "expected_version"?: number;
+    /**
+     * The condition a payment must meet for the rule to match. A node in a risk rule condition: a
+     * comparison of an attribute, or an `all`, `any`, or `not` group of other nodes.
+     */
+    "predicate"?: RiskPredicateNodeRequest;
+    /** Whether the rule runs. Value enum: "active", "inactive". */
+    "status"?: "active" | "inactive" | (string & {});
+})
+    & (({
+    /**
+     * What Flint does with a payment the rule matches. Value enum: "allow", "block", "review",
+     * "require_3ds".
+     */
+    "action": "allow" | "block" | "review" | "require_3ds" | (string & {});
+})
+    | ({
+    /**
+     * The condition a payment must meet for the rule to match. A node in a risk rule condition: a
+     * comparison of an attribute, or an `all`, `any`, or `not` group of other nodes.
+     */
+    "predicate": RiskPredicateNodeRequest;
+})
+    | ({
+    /**
+     * Your note on what the rule is for. Limited to 512 characters (Unicode code points). Leading
+     * and trailing whitespace is trimmed. minLength: 1. maxLength: 512.
+     */
+    "description": string;
+})
+    | ({
+    /** Whether the rule runs. Value enum: "active", "inactive". */
+    "status": "active" | "inactive" | (string & {});
+})
+    | (Record<string, unknown>));
+/** The request body for: Update a risk rule. minProperties: 1. */
+export type UpdateRiskRuleRequestInput = ({
+    /**
+     * What Flint does with a payment the rule matches. Value enum: "allow", "block", "review",
+     * "require_3ds".
+     */
+    "action"?: "allow" | "block" | "review" | "require_3ds";
+    /**
+     * Your note on what the rule is for. Limited to 512 characters (Unicode code points). Leading
+     * and trailing whitespace is trimmed. minLength: 1. maxLength: 512.
+     */
+    "description"?: string;
+    /** Optional risk rule version last read by the caller. Format: int64. minimum: 1. */
+    "expected_version"?: number;
+    /**
+     * The condition a payment must meet for the rule to match. A node in a risk rule condition: a
+     * comparison of an attribute, or an `all`, `any`, or `not` group of other nodes.
+     */
+    "predicate"?: RiskPredicateNodeRequestInput;
+    /** Whether the rule runs. Value enum: "active", "inactive". */
+    "status"?: "active" | "inactive";
+})
+    & (({
+    /**
+     * What Flint does with a payment the rule matches. Value enum: "allow", "block", "review",
+     * "require_3ds".
+     */
+    "action": "allow" | "block" | "review" | "require_3ds";
+})
+    | ({
+    /**
+     * The condition a payment must meet for the rule to match. A node in a risk rule condition: a
+     * comparison of an attribute, or an `all`, `any`, or `not` group of other nodes.
+     */
+    "predicate": RiskPredicateNodeRequestInput;
+})
+    | ({
+    /**
+     * Your note on what the rule is for. Limited to 512 characters (Unicode code points). Leading
+     * and trailing whitespace is trimmed. minLength: 1. maxLength: 512.
+     */
+    "description": string;
+})
+    | ({
+    /** Whether the rule runs. Value enum: "active", "inactive". */
+    "status": "active" | "inactive";
+}));
+/**
+ * Service fulfillment fields to change when updating a fulfillment: scheduled times, completion
+ * time, and notes. Send null to clear a field.
+ */
+export type UpdateServiceFulfillmentDetails = {
+    /**
+     * RFC3339 timestamp. Send null to clear it. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "completed_at"?: string | null;
+    /** Send null to clear it. minLength: 1. */
+    "notes"?: string | null;
+    /**
+     * RFC3339 timestamp. Send null to clear it. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "scheduled_end_at"?: string | null;
+    /**
+     * RFC3339 timestamp. Send null to clear it. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "scheduled_start_at"?: string | null;
+    /** Uses an IANA time zone name. minLength: 1. */
+    "timezone"?: string;
+};
+/**
+ * Service fulfillment fields to change when updating a fulfillment: scheduled times, completion
+ * time, and notes. Send null to clear a field.
+ */
+export type UpdateServiceFulfillmentDetailsInput = {
+    /**
+     * RFC3339 timestamp. Send null to clear it. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "completed_at"?: string | globalThis.Date | null;
+    /** Send null to clear it. minLength: 1. */
+    "notes"?: string | null;
+    /**
+     * RFC3339 timestamp. Send null to clear it. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "scheduled_end_at"?: string | globalThis.Date | null;
+    /**
+     * RFC3339 timestamp. Send null to clear it. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "scheduled_start_at"?: string | globalThis.Date | null;
+    /** Uses an IANA time zone name. minLength: 1. */
+    "timezone"?: string;
+};
+/** The request body for: Update merchant settings. minProperties: 1. */
+export type UpdateSettingsRequest = ({
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
+     * remove every value you set in this section. anyOf[1] (Value): {@link
+     * BrandingSettingsRequest}. Branding values to change when updating settings. Send null for a
+     * color or `font_family` to clear it. anyOf[2] (Value): null.
+     */
+    "branding"?: ((BrandingSettingsRequest) | (null));
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
+     * remove every value you set in this section. anyOf[1] (Value): {@link CheckoutSettings}.
+     * Merchant defaults for checkout: delivery methods, expiration, payment options, required
+     * contact fields, promotion codes, recovery email, and saved payment details. anyOf[2]
+     * (Value): null.
+     */
+    "checkout"?: ((CheckoutSettings) | (null));
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
+     * remove every value you set in this section. Flint then serves the default Flint-hosted
+     * account, and GET /v1/settings omits customer_account. anyOf[1] (Value): {@link
+     * CustomerAccountSettings}. Customer account settings: hosted mode, merchant account URL,
+     * presentation, route templates, and what buyers may do to their own subscriptions. anyOf[2]
+     * (Value): null.
+     */
+    "customer_account"?: ((CustomerAccountSettings) | (null));
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
+     * remove every value you set in this section. anyOf[1] (Value): {@link
+     * CustomerEmailDeliverySettings}. For each kind of customer email, whether Flint sends it or
+     * the merchant sends it. anyOf[2] (Value): null.
+     */
+    "customer_email_delivery"?: ((CustomerEmailDeliverySettings) | (null));
+    /**
+     * The Settings.version last read by the caller. Required when tax_identity is present,
+     * including null. Stale versions return VERSION_CONFLICT. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
+     * remove every value you set in this section. anyOf[1] (Value): {@link FulfillmentSettings}.
+     * Merchant fulfillment settings, including whether fulfillments require approval
+     * (`approval_required`). anyOf[2] (Value): null.
+     */
+    "fulfillment"?: ((FulfillmentSettings) | (null));
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
+     * remove every value you set in this section. anyOf[1] (Value): {@link
+     * InventorySettingsRequest}. Inventory settings to change: the `low_stock_threshold`, how
+     * inventory failures are handled for each order source, and the `default_routing_source` for
+     * requests that omit one. anyOf[2] (Value): null.
+     */
+    "inventory"?: ((InventorySettingsRequest) | (null));
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
+     * remove every value you set in this section. anyOf[1] (Value): {@link InvoiceSettingsPatch}.
+     * Changes to a merchant's invoice settings. Send only the fields to change, and send null on a
+     * nullable field to clear it. minProperties: 1. anyOf[2] (Value): null.
+     */
+    "invoices"?: ((InvoiceSettingsPatch) | (null));
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
+     * remove every value you set in this section. anyOf[1] (Value): {@link LegalSettingsRequest}.
+     * Changes to a merchant's legal settings. Send null on a URL to clear it. anyOf[2] (Value):
+     * null.
+     */
+    "legal"?: ((LegalSettingsRequest) | (null));
+    /**
+     * Merged by key. Caller-owned metadata. Omit this field to leave metadata unchanged. Send an
+     * object to merge by key, set a key to null to remove it, or set metadata to null to clear all
+     * caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys
+     * starting with flint_ are reserved for Flint, are not returned, and cannot be written through
+     * the public API. anyOf[1] (Value): {@link MetadataPatchRequest}. Changes to a caller-owned
+     * metadata map. Omit the field to leave metadata unchanged. Each key sets a value, a null
+     * value deletes the key, and an empty object makes no change; send null for the whole field to
+     * clear all caller-owned metadata. The resulting map is limited the same way as MetadataInput:
+     * Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096
+     * Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key
+     * that does not exist is allowed, so the number of operations is not itself the stored-map
+     * limit. Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
+     * anyOf[2] (Value): null.
+     */
+    "metadata"?: ((MetadataPatchRequest) | (null));
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
+     * remove every value you set in this section. Clearing merchant limits preserves Flint support
+     * approvals. Cleared maps are omitted from reads. anyOf[1] (Value): {@link
+     * PaymentLimitSettingsPatch}. Changes to a merchant's payment amount limits. Each map replaces
+     * the existing one, and null clears it. minProperties: 1. anyOf[2] (Value): null.
+     */
+    "payment_limits"?: ((PaymentLimitSettingsPatch) | (null));
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Changes the
+     * statement text for new payments. Changes to the statement text for new payments.
+     */
+    "payments"?: PaymentSettingsPatch;
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
+     * remove every value you set in this section. anyOf[1] (Value): {@link PromotionSettings}.
+     * Merchant promotion settings: whether automatic promotions and codes are enabled, and how
+     * many promotions can apply to one order. anyOf[2] (Value): null.
+     */
+    "promotions"?: ((PromotionSettings) | (null));
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
+     * remove every value you set in this section. anyOf[1] (Value): {@link ReceiptSettingsPatch}.
+     * Changes to the merchant-provided text on payment receipt emails and PDFs. Send null for
+     * footer_text to remove it. minProperties: 1. anyOf[2] (Value): null.
+     */
+    "receipts"?: ((ReceiptSettingsPatch) | (null));
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
+     * remove every value you set in this section. anyOf[1] (Value): {@link SubscriptionSettings}.
+     * Subscription settings: the default billing schedule owner, dunning retry days and end
+     * action, and the backorder email. anyOf[2] (Value): null.
+     */
+    "subscriptions"?: ((SubscriptionSettings) | (null));
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
+     * remove every value you set in this section. anyOf[1] (Value): {@link TaxSettingsRequest}.
+     * Tax settings to change when updating settings. Send null for a category to clear it.
+     * anyOf[2] (Value): null.
+     */
+    "tax"?: ((TaxSettingsRequest) | (null));
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
+     * remove every value you set in this section. Legal identity displayed on invoices, credit
+     * notes, and receipts. Requires expected_version whenever present. anyOf[1] (Value): {@link
+     * TaxIdentityPatch}. Merchant-provided legal identity displayed on invoices and credit notes.
+     * Flint does not verify IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU
+     * or NZ destination to its tax provider, which can apply a reverse charge; other IDs do not
+     * change tax treatment. Tax IDs are an owned collection in display order; replacing the array
+     * requires the parent's expected_version. Existing entries retain their document_tax_id; omit
+     * an entry to remove it, or omit its ID to add one. anyOf[2] (Value): null.
+     */
+    "tax_identity"?: ((TaxIdentityPatch) | (null));
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
+     * remove every value you set in this section. anyOf[1] (Value): {@link TippingSettingsPatch}.
+     * Tipping settings to change when updating settings. Omit a field to keep it; send null to
+     * clear a preselected tip. minProperties: 1. anyOf[2] (Value): null.
+     */
+    "tipping"?: ((TippingSettingsPatch) | (null));
+});
+/** The request body for: Update merchant settings. minProperties: 1. */
+export type UpdateSettingsRequestInput = ({
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
+     * remove every value you set in this section. anyOf[1] (Value): {@link
+     * BrandingSettingsRequestInput}. Branding values to change when updating settings. Send null
+     * for a color or `font_family` to clear it. anyOf[2] (Value): null.
+     */
+    "branding"?: ((BrandingSettingsRequestInput) | (null));
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
+     * remove every value you set in this section. anyOf[1] (Value): {@link
+     * CheckoutSettingsRequestInput}. Merchant defaults for checkout: delivery methods, expiration,
+     * payment options, required contact fields, promotion codes, recovery email, and saved payment
+     * details. anyOf[2] (Value): null.
+     */
+    "checkout"?: ((CheckoutSettingsRequestInput) | (null));
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
+     * remove every value you set in this section. Flint then serves the default Flint-hosted
+     * account, and GET /v1/settings omits customer_account. anyOf[1] (Value): {@link
+     * CustomerAccountSettingsRequestInput}. Customer account settings: hosted mode, merchant
+     * account URL, presentation, route templates, and what buyers may do to their own
+     * subscriptions. anyOf[2] (Value): null.
+     */
+    "customer_account"?: ((CustomerAccountSettingsRequestInput) | (null));
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
+     * remove every value you set in this section. anyOf[1] (Value): {@link
+     * CustomerEmailDeliverySettingsRequestInput}. For each kind of customer email, whether Flint
+     * sends it or the merchant sends it. anyOf[2] (Value): null.
+     */
+    "customer_email_delivery"?: ((CustomerEmailDeliverySettingsRequestInput) | (null));
+    /**
+     * The Settings.version last read by the caller. Required when tax_identity is present,
+     * including null. Stale versions return VERSION_CONFLICT. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
+     * remove every value you set in this section. anyOf[1] (Value): {@link
+     * FulfillmentSettingsRequestInput}. Merchant fulfillment settings, including whether
+     * fulfillments require approval (`approval_required`). anyOf[2] (Value): null.
+     */
+    "fulfillment"?: ((FulfillmentSettingsRequestInput) | (null));
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
+     * remove every value you set in this section. anyOf[1] (Value): {@link
+     * InventorySettingsRequestInput}. Inventory settings to change: the `low_stock_threshold`, how
+     * inventory failures are handled for each order source, and the `default_routing_source` for
+     * requests that omit one. anyOf[2] (Value): null.
+     */
+    "inventory"?: ((InventorySettingsRequestInput) | (null));
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
+     * remove every value you set in this section. anyOf[1] (Value): {@link
+     * InvoiceSettingsPatchInput}. Changes to a merchant's invoice settings. Send only the fields
+     * to change, and send null on a nullable field to clear it. minProperties: 1. anyOf[2]
+     * (Value): null.
+     */
+    "invoices"?: ((InvoiceSettingsPatchInput) | (null));
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
+     * remove every value you set in this section. anyOf[1] (Value): {@link
+     * LegalSettingsRequestInput}. Changes to a merchant's legal settings. Send null on a URL to
+     * clear it. anyOf[2] (Value): null.
+     */
+    "legal"?: ((LegalSettingsRequestInput) | (null));
+    /**
+     * Merged by key. Caller-owned metadata. Omit this field to leave metadata unchanged. Send an
+     * object to merge by key, set a key to null to remove it, or set metadata to null to clear all
+     * caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys
+     * starting with flint_ are reserved for Flint, are not returned, and cannot be written through
+     * the public API. anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a
+     * caller-owned metadata map. Omit the field to leave metadata unchanged. Each key sets a
+     * value, a null value deletes the key, and an empty object makes no change; send null for the
+     * whole field to clear all caller-owned metadata. The resulting map is limited the same way as
+     * MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
+     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting
+     * a key that does not exist is allowed, so the number of operations is not itself the
+     * stored-map limit. Values can't be empty strings, and keys starting with flint_ are reserved
+     * for Flint. anyOf[2] (Value): null.
+     */
+    "metadata"?: ((MetadataPatchRequestInput) | (null));
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
+     * remove every value you set in this section. Clearing merchant limits preserves Flint support
+     * approvals. Cleared maps are omitted from reads. anyOf[1] (Value): {@link
+     * PaymentLimitSettingsPatchInput}. Changes to a merchant's payment amount limits. Each map
+     * replaces the existing one, and null clears it. minProperties: 1. anyOf[2] (Value): null.
+     */
+    "payment_limits"?: ((PaymentLimitSettingsPatchInput) | (null));
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Changes the
+     * statement text for new payments. Changes to the statement text for new payments.
+     */
+    "payments"?: PaymentSettingsPatchInput;
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
+     * remove every value you set in this section. anyOf[1] (Value): {@link
+     * PromotionSettingsRequestInput}. Merchant promotion settings: whether automatic promotions
+     * and codes are enabled, and how many promotions can apply to one order. anyOf[2] (Value):
+     * null.
+     */
+    "promotions"?: ((PromotionSettingsRequestInput) | (null));
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
+     * remove every value you set in this section. anyOf[1] (Value): {@link
+     * ReceiptSettingsPatchInput}. Changes to the merchant-provided text on payment receipt emails
+     * and PDFs. Send null for footer_text to remove it. minProperties: 1. anyOf[2] (Value): null.
+     */
+    "receipts"?: ((ReceiptSettingsPatchInput) | (null));
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
+     * remove every value you set in this section. anyOf[1] (Value): {@link
+     * SubscriptionSettingsRequestInput}. Subscription settings: the default billing schedule
+     * owner, dunning retry days and end action, and the backorder email. anyOf[2] (Value): null.
+     */
+    "subscriptions"?: ((SubscriptionSettingsRequestInput) | (null));
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
+     * remove every value you set in this section. anyOf[1] (Value): {@link
+     * TaxSettingsRequestInput}. Tax settings to change when updating settings. Send null for a
+     * category to clear it. anyOf[2] (Value): null.
+     */
+    "tax"?: ((TaxSettingsRequestInput) | (null));
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
+     * remove every value you set in this section. Legal identity displayed on invoices, credit
+     * notes, and receipts. Requires expected_version whenever present. anyOf[1] (Value): {@link
+     * TaxIdentityPatchInput}. Merchant-provided legal identity displayed on invoices and credit
+     * notes. Flint does not verify IDs. On a customer, automatic tax sends the tax ID for an EU,
+     * GB, AU or NZ destination to its tax provider, which can apply a reverse charge; other IDs do
+     * not change tax treatment. Tax IDs are an owned collection in display order; replacing the
+     * array requires the parent's expected_version. Existing entries retain their document_tax_id;
+     * omit an entry to remove it, or omit its ID to add one. anyOf[2] (Value): null.
+     */
+    "tax_identity"?: ((TaxIdentityPatchInput) | (null));
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
+     * remove every value you set in this section. anyOf[1] (Value): {@link
+     * TippingSettingsPatchInput}. Tipping settings to change when updating settings. Omit a field
+     * to keep it; send null to clear a preselected tip. minProperties: 1. anyOf[2] (Value): null.
+     */
+    "tipping"?: ((TippingSettingsPatchInput) | (null));
+});
+/** The request body for: Update shipment. minProperties: 1. */
+export type UpdateShipmentRequest = {
+    /** Optional resource version last read by the caller. Format: uint64. minimum: 1. */
+    "expected_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. Requires external_system.
+     * External references are not unique. Use Idempotency-Key for retries. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string | null;
+    /**
+     * Name of the external system that external_reference_id belongs to. External references are
+     * not unique. Use Idempotency-Key for retries. Send null to clear it. minLength: 1.
+     */
+    "external_system"?: string | null;
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. anyOf[1] (Value): {@link MetadataPatchRequest}. Changes to a caller-owned metadata map.
+     * Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes the
+     * key, and an empty object makes no change; send null for the whole field to clear all
+     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
+     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
+     * (Value): null.
+     */
+    "metadata"?: ((MetadataPatchRequest) | (null));
+};
+/** The request body for: Update shipment. minProperties: 1. */
+export type UpdateShipmentRequestInput = {
+    /** Optional resource version last read by the caller. Format: uint64. minimum: 1. */
+    "expected_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. Requires external_system.
+     * External references are not unique. Use Idempotency-Key for retries. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string | null;
+    /**
+     * Name of the external system that external_reference_id belongs to. External references are
+     * not unique. Use Idempotency-Key for retries. Send null to clear it. minLength: 1.
+     */
+    "external_system"?: string | null;
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a caller-owned metadata
+     * map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes
+     * the key, and an empty object makes no change; send null for the whole field to clear all
+     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
+     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
+     * (Value): null.
+     */
+    "metadata"?: ((MetadataPatchRequestInput) | (null));
+};
 /** The request body for: Update subscription line item. minProperties: 1. */
 export type UpdateSubscriptionLineItemRequest = {
     /**
@@ -3574,479 +4126,3 @@ export type WebhookDelivery = {
     /** ID of the event this delivery sends. Example: "whev_01KEZF7C00362MS3HV970TRZGS". */
     "webhook_event_id": string;
 };
-/**
- * The result of a webhook delivery action, such as a resend: the delivery, attempt, status, and
- * any error details.
- */
-export type WebhookDeliveryAction = {
-    /**
-     * Sequence number of this attempt within the delivery, including automatic and manual
-     * attempts. Format: int32.
-     */
-    "attempt_number": number;
-    /**
-     * Outcome of the individual attempt made by this action. Value enum: "pending", "delivered",
-     * "failed".
-     */
-    "attempt_status": "pending" | "delivered" | "failed" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "completed_at"?: string;
-    /**
-     * Current state of the delivery after this action. Value enum: "pending", "delivered",
-     * "failed", "suppressed".
-     */
-    "delivery_status": "pending" | "delivered" | "failed" | "suppressed" | (string & {});
-    /**
-     * What caused Flint to make this delivery attempt. Value enum: "automatic_delivery",
-     * "automatic_retry", "manual_resend", "manual_delivery", "test_event".
-     */
-    "delivery_trigger": "automatic_delivery"
-        | "automatic_retry"
-        | "manual_resend"
-        | "manual_delivery"
-        | "test_event"
-        | (string & {});
-    /** Duration of this delivery attempt in milliseconds. Format: int64. */
-    "duration_milliseconds"?: number;
-    /**
-     * The kind of failure for this attempt. Present only when this attempt's `attempt_status` is
-     * `failed`. Value enum: "webhook_timeout", "webhook_dns", "webhook_tls", "webhook_connection",
-     * "webhook_blocked_target", "webhook_request", "webhook_redirect", "webhook_http_4xx",
-     * "webhook_http_5xx", "webhook_payload_render", "webhook_delivery".
-     */
-    "error_category"?: "webhook_timeout"
-        | "webhook_dns"
-        | "webhook_tls"
-        | "webhook_connection"
-        | "webhook_blocked_target"
-        | "webhook_request"
-        | "webhook_redirect"
-        | "webhook_http_4xx"
-        | "webhook_http_5xx"
-        | "webhook_payload_render"
-        | "webhook_delivery"
-        | (string & {});
-    /**
-     * A concise explanation of the failure for this attempt. Present only when this attempt's
-     * `attempt_status` is `failed`.
-     */
-    "error_summary"?: string;
-    /** The note supplied when this action was requested. */
-    "reason_message"?: string;
-    /** The next step to resolve the failed delivery attempt. */
-    "recommended_action"?: string;
-    /** Receiver response body excerpt. Omitted unless the caller can read the event's resource. */
-    "response_body_excerpt"?: string;
-    /** Receiver response content type. Omitted unless the caller can read the event's resource. */
-    "response_content_type"?: string;
-    /**
-     * Receiver response headers, keyed by lowercase header name. Repeated values are joined with
-     * ", ". Sensitive values read [REDACTED]. Absent when no response was received, after the
-     * 14-day response-detail retention, or unless the caller can read the event's resource. *
-     * (Value): string.
-     */
-    "response_headers"?: Record<string, string>;
-    /**
-     * Whether sending this delivery again without changing your endpoint is likely to succeed.
-     * While the delivery is pending, Flint retries automatically either way.
-     */
-    "retryable"?: boolean;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "started_at"?: string;
-    /**
-     * HTTP status returned by the receiver. Omitted when no HTTP response was received. Format:
-     * int32.
-     */
-    "status_code"?: number;
-    /**
-     * ID of this individual attempt to send the event. Example: "watt_01KEZF7C00RG6XMCAFJB8HH55R".
-     */
-    "webhook_delivery_attempt_id": string;
-    /**
-     * ID of the endpoint delivery this attempt belongs to. Example:
-     * "wdel_01KEZF7C001DWSNDCDZHCTBN0A".
-     */
-    "webhook_delivery_id": string;
-    /** ID of the event sent by this attempt. Example: "whev_01KEZF7C00362MS3HV970TRZGS". */
-    "webhook_event_id": string;
-};
-/** A response containing `WebhookDeliveryAction` data. */
-export type WebhookDeliveryActionResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. The result of a webhook
-     * delivery action, such as a resend: the delivery, attempt, status, and any error details.
-     */
-    "data": WebhookDeliveryAction;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * One attempt to deliver a webhook event to an endpoint, with its status, timing, response code,
- * and error details.
- */
-export type WebhookDeliveryAttempt = {
-    /**
-     * API version used for this delivery attempt. Omitted when the version was not recorded or
-     * payload rendering failed. Format: date. Example: "2026-08-02".
-     */
-    "api_version"?: string;
-    /**
-     * Sequence number of this attempt within the delivery, including automatic and manual
-     * attempts. Format: int32.
-     */
-    "attempt_number": number;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "completed_at"?: string;
-    /**
-     * What caused Flint to make this delivery attempt. Value enum: "automatic_delivery",
-     * "automatic_retry", "manual_resend", "manual_delivery", "test_event".
-     */
-    "delivery_trigger": "automatic_delivery"
-        | "automatic_retry"
-        | "manual_resend"
-        | "manual_delivery"
-        | "test_event"
-        | (string & {});
-    /** Duration of this delivery attempt in milliseconds. Format: int64. */
-    "duration_milliseconds"?: number;
-    /**
-     * The kind of failure for this attempt. Present only when this attempt's `status` is `failed`.
-     * Value enum: "webhook_timeout", "webhook_dns", "webhook_tls", "webhook_connection",
-     * "webhook_blocked_target", "webhook_request", "webhook_redirect", "webhook_http_4xx",
-     * "webhook_http_5xx", "webhook_payload_render", "webhook_delivery".
-     */
-    "error_category"?: "webhook_timeout"
-        | "webhook_dns"
-        | "webhook_tls"
-        | "webhook_connection"
-        | "webhook_blocked_target"
-        | "webhook_request"
-        | "webhook_redirect"
-        | "webhook_http_4xx"
-        | "webhook_http_5xx"
-        | "webhook_payload_render"
-        | "webhook_delivery"
-        | (string & {});
-    /**
-     * A concise explanation of the failure for this attempt. Present only when this attempt's
-     * `status` is `failed`.
-     */
-    "error_summary"?: string;
-    /** The note supplied when this action was requested. */
-    "reason_message"?: string;
-    /** The next step to resolve the failed delivery attempt. */
-    "recommended_action"?: string;
-    /** Receiver response body excerpt. Omitted unless the caller can read the event's resource. */
-    "response_body_excerpt"?: string;
-    /** Receiver response content type. Omitted unless the caller can read the event's resource. */
-    "response_content_type"?: string;
-    /**
-     * Receiver response headers, keyed by lowercase header name. Repeated values are joined with
-     * ", ". Sensitive values read [REDACTED]. Absent when no response was received, after the
-     * 14-day response-detail retention, or unless the caller can read the event's resource. *
-     * (Value): string.
-     */
-    "response_headers"?: Record<string, string>;
-    /**
-     * Whether sending this delivery again without changing your endpoint is likely to succeed.
-     * While the delivery is pending, Flint retries automatically either way.
-     */
-    "retryable"?: boolean;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "started_at"?: string;
-    /**
-     * Outcome of this individual delivery attempt. Value enum: "pending", "delivered", "failed".
-     */
-    "status": "pending" | "delivered" | "failed" | (string & {});
-    /**
-     * HTTP status returned by the receiver. Omitted when no HTTP response was received. Format:
-     * int32.
-     */
-    "status_code"?: number;
-    /**
-     * ID of this individual attempt to send the event. Example: "watt_01KEZF7C00RG6XMCAFJB8HH55R".
-     */
-    "webhook_delivery_attempt_id": string;
-    /**
-     * ID of the endpoint delivery this attempt belongs to. Example:
-     * "wdel_01KEZF7C001DWSNDCDZHCTBN0A".
-     */
-    "webhook_delivery_id": string;
-    /** ID of the event sent by this attempt. Example: "whev_01KEZF7C00362MS3HV970TRZGS". */
-    "webhook_event_id": string;
-};
-/** A page of `WebhookDeliveryAttempt` objects. */
-export type WebhookDeliveryAttemptListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * WebhookDeliveryAttempt}. One attempt to deliver a webhook event to an endpoint, with its
-     * status, timing, response code, and error details.
-     */
-    "data": Array<WebhookDeliveryAttempt>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A page of `WebhookDelivery` objects. */
-export type WebhookDeliveryListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * WebhookDelivery}. An attempt to deliver an event to a webhook endpoint.
-     */
-    "data": Array<WebhookDelivery>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * The resource snapshot, without expansions. Webhooks omit these fields: `diagnostics`,
- * `unconfigured_assignment`.
- */
-export type WebhookDeliveryProfile = ({
-    /**
-     * Current delivery requirement and grouping policy. Whether delivery planning applies to items
-     * under a delivery profile, and if so the allowed delivery types, resolution mode, origin
-     * policy, and grouping and splitting rules.
-     */
-    "configuration": DeliveryProfileConfiguration;
-    /** Time the profile was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /**
-     * Immutable revision used for new line-item snapshots. Example:
-     * "dprofr_01KEZF7C00K1P3FXGHCF46YQ1F".
-     */
-    "current_delivery_profile_revision_id": string;
-    /** Stable delivery profile ID. Example: "dprof_01KEZF7C0020J13FQYNY9854R0". */
-    "delivery_profile_id": string;
-    /**
-     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /** True only when this profile is the current physical catalog default. */
-    "is_default": boolean;
-    /**
-     * Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting with
-     * flint_ are reserved for Flint and are not returned. Writes follow the limits on
-     * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
-     */
-    "metadata"?: MetadataMap;
-    /** Merchant-facing profile name. */
-    "name": string;
-    /** Current profile lifecycle status. Value enum: "active", "archived". */
-    "status": "active" | "archived" | (string & {});
-    /** Time the profile last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-    /** Optimistic-concurrency version for profile writes. Format: uint64. minimum: 1. */
-    "version": number;
-});
-/** A response containing `WebhookDelivery` data. */
-export type WebhookDeliveryResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. An attempt to deliver an
-     * event to a webhook endpoint.
-     */
-    "data": WebhookDelivery;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * A merchant webhook endpoint belongs to the live mode or sandbox of the credential that created
- * it and receives only that environment's events. Partner endpoints select sources with
- * event_sources and installed_merchant_modes.
- */
-export type WebhookEndpoint = ({
-    /**
-     * A dated API version pins this endpoint. The value default follows the endpoint owner's
-     * merchant default at delivery time, including retries. Deliveries never use a newer version
-     * than the event's recorded version.
-     */
-    "api_version": string;
-    /** When api_version last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "api_version_changed_at"?: string;
-    /**
-     * Version this endpoint used before its last upgrade. Present while a rollback is available.
-     * To roll back, send it as api_version.
-     */
-    "api_version_previous"?: string;
-    /**
-     * When the rollback offer for api_version_previous ends. You can still set any supported
-     * version afterward. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "api_version_rollback_expires_at"?: string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /**
-     * The API key, user, partner app, or workload identity that created this endpoint. An API key
-     * creator can belong to another mode, such as a live key that creates a sandbox endpoint.
-     * Absent when the creator is unavailable, including endpoints created before attribution was
-     * recorded. A reference to another resource by `resource_type` and `resource_id`.
-     */
-    "created_by"?: ResourceReference;
-    /** Your description of this endpoint. Omitted when none is set. */
-    "description"?: string;
-    /**
-     * Subscribed event types. ["*"] includes every type the endpoint's event_sources deliver,
-     * including types added later; * is not available with installed_merchants. Stored
-     * subscriptions map previous names permanently and drop removed names on read. Empty when no
-     * current subscriptions remain. See the [changelog](/docs/changelog). [] (Value): string.
-     * minLength: 1.
-     */
-    "enabled_events": Array<string>;
-    /**
-     * Event sources this endpoint receives. Defaults to merchant. Use partner_app for app
-     * lifecycle events and installed_merchants for events from merchants that installed the
-     * partner app. [] enum: "merchant", "partner_app", "installed_merchants". [] (Value): string.
-     * Value enum: "merchant", "partner_app", "installed_merchants".
-     */
-    "event_sources"?: Array<"merchant" | "partner_app" | "installed_merchants" | (string & {})>;
-    /**
-     * Modes of installed-merchant events this endpoint receives. Required when event_sources
-     * includes installed_merchants and omitted otherwise. Partner app lifecycle events are
-     * delivered regardless of these modes. minItems: 1. maxItems: 2. uniqueItems: true. [] enum:
-     * "test", "live". [] (Value): string. Value enum: "test", "live".
-     */
-    "installed_merchant_modes"?: Array<"test" | "live" | (string & {})>;
-    /**
-     * Partner app that owns partner_app or installed_merchants event sources. Example:
-     * "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
-     */
-    "partner_app_id"?: string;
-    /**
-     * The connected app install this endpoint is linked to. The endpoint is deleted when that
-     * install is revoked or loses its grant for this endpoint's environment. Null when the
-     * endpoint is not linked to a connected app. Never changes. pattern:
-     * ^pinst_[0-9A-HJKMNP-TV-Z]{26}$. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-     */
-    "partner_app_install_id": string | null;
-    /**
-     * When the replaced signing secret stops signing deliveries. Present only during a rotation
-     * overlap. Until then each delivery carries a signature from both secrets. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z".
-     */
-    "previous_secret_expires_at"?: string;
-    /**
-     * Methods Flint uses to sign deliveries to this endpoint. minItems: 1. uniqueItems: true. []
-     * enum: "jwt", "hmac". [] (Value): string. How Flint signs requests to this endpoint. Value
-     * enum: "jwt", "hmac".
-     */
-    "signing_methods": Array<"jwt" | "hmac" | (string & {})>;
-    /**
-     * Availability of this endpoint. Deleted is returned only by DELETE. Value enum: "active",
-     * "inactive", "deleted".
-     */
-    "status": "active" | "inactive" | "deleted" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-    /** Public HTTPS URL that receives webhook deliveries. */
-    "url": string;
-    /**
-     * Current version of this resource's owned state. Send it as `expected_version` when changing
-     * the resource to reject a stale write. Format: uint64. minimum: 1.
-     */
-    "version": number;
-    /**
-     * Unique identifier for this webhook endpoint, prefixed `whep_`. Example:
-     * "whep_01KEZF7C006FXYTAJRZCGCBJTN".
-     */
-    "webhook_endpoint_id": string;
-});
-/** A page of `WebhookEndpoint` objects. */
-export type WebhookEndpointListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * WebhookEndpoint}. A merchant webhook endpoint belongs to the live mode or sandbox of the
-     * credential that created it and receives only that environment's events. Partner endpoints
-     * select sources with event_sources and installed_merchant_modes.
-     */
-    "data": Array<WebhookEndpoint>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `WebhookEndpoint` data. */
-export type WebhookEndpointResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A merchant webhook
-     * endpoint belongs to the live mode or sandbox of the credential that created it and receives
-     * only that environment's events. Partner endpoints select sources with event_sources and
-     * installed_merchant_modes.
-     */
-    "data": WebhookEndpoint;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * A webhook endpoint with its one-time signing secret, returned on create with hmac, when PATCH
- * first enables hmac, or when its secret is rotated. A merchant webhook endpoint belongs to the
- * live mode or sandbox of the credential that created it and receives only that environment's
- * events. Partner endpoints select sources with event_sources and installed_merchant_modes.
- */
-export type WebhookEndpointWithSecret = (Exclude<WebhookEndpoint & object, readonly unknown[]>)
-    & ({
-    /**
-     * One-time signing secret. Present on create when hmac is enabled, on PATCH when hmac is first
-     * enabled, and on rotation; omitted on an idempotent replay after the secret retention period.
-     */
-    "secret"?: string;
-});

@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# CreateReturnPreviewRequestResolution to CreditNoteAllocationReversedInstalledMerchantsEvent
+# CreateReturnPreviewDataResolution to CreditNoteAllocationCreatedMerchantEvent
 
+- [CreateReturnPreviewDataResolution](CreateReturnPreviewDataResolution.md)
+- [CreateReturnPreviewRequest](CreateReturnPreviewRequest.md)
+- [CreateReturnPreviewRequestInput](CreateReturnPreviewRequestInput.md)
+- [CreateReturnPreviewRequestEligibility](CreateReturnPreviewRequestEligibility.md)
+- [CreateReturnPreviewRequestEligibilityInput](CreateReturnPreviewRequestEligibilityInput.md)
 - [CreateReturnPreviewRequestResolution](CreateReturnPreviewRequestResolution.md)
 - [CreateReturnPreviewRequestResolutionInput](CreateReturnPreviewRequestResolutionInput.md)
 - [CreateReturnPreviewResponse](CreateReturnPreviewResponse.md)
@@ -97,9 +102,4 @@
 - [CreditNoteAllocation](CreditNoteAllocation.md)
 - [CreditNoteAllocationCreatedInstalledMerchantsEvent](CreditNoteAllocationCreatedInstalledMerchantsEvent.md)
 - [CreditNoteAllocationCreatedMerchantEvent](CreditNoteAllocationCreatedMerchantEvent.md)
-- [CreditNoteAllocationListResponse](CreditNoteAllocationListResponse.md)
-- [CreditNoteAllocationResponse](CreditNoteAllocationResponse.md)
-- [CreditNoteAllocationResult](CreditNoteAllocationResult.md)
-- [CreditNoteAllocationResultResponse](CreditNoteAllocationResultResponse.md)
-- [CreditNoteAllocationReversedInstalledMerchantsEvent](CreditNoteAllocationReversedInstalledMerchantsEvent.md)
 

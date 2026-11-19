@@ -52,7 +52,7 @@ export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CheckInTicketRequestInput, CheckoutBuyerContact, CheckInTicketRequest } from '../declarations/types-6.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { ExpandedOrderSummary } from '../declarations/types-26.js';
 export type { DeferredPromotion } from '../declarations/types-17.js';
 export type { PricingAmounts } from '../declarations/types-56.js';
@@ -65,7 +65,7 @@ export type { UpdateTicketRequestInput, UpdateTicketRequest } from '../declarati
 export { makeCheckInTicketRequest } from '../declarations/types-81.js';
 export { makeLookupTicketRequest, makeMoneyValue } from '../declarations/types-88.js';
 export { makeTicketVersionRequest } from '../declarations/types-93.js';
-export { makeUpdateTicketRequest } from '../declarations/types-94.js';
+export { makeUpdateTicketRequest } from '../declarations/types-95.js';
 export interface TicketsResource {
     /**
  * Admits an issued ticket. Concurrent check-ins of one ticket admit it once: the others return 409

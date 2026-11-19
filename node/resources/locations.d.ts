@@ -45,7 +45,7 @@ export type { CreateLocationRequestInput } from '../declarations/types-11.js';
 export type { AddressRequestInput, Address, AddressRequest } from '../declarations/types-0.js';
 export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { UpdateLocationRequestInput } from '../declarations/types-76.js';
@@ -53,8 +53,14 @@ export type { InventoryAllocationPoliciesDeleteParams } from '../declarations/ty
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeAddressRequest } from '../declarations/types-80.js';
 export { makeCreateLocationRequest } from '../declarations/types-83.js';
-export { makeLocationCoordinateRequest, makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
-export { makeUpdateLocationRequest } from '../declarations/types-93.js';
+export {
+    makeLocationCoordinateRequest,
+    makeMetadataMap,
+    makeMetadataPatchRequest,
+    makeMetadataRequest,
+    makeMoneyValue
+} from '../declarations/types-88.js';
+export { makeUpdateLocationRequest } from '../declarations/types-94.js';
 export interface LocationsResource {
     /**
  * Create a Location. Sending inventory_allocation_enabled also requires

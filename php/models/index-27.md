@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# RefundGiftCardDestinationPreviousAttributesInput to ReturnCanceledInstalledMerchantsEventInput
+# RefundDestinationsInput to RetryReturnResolutionRequestInput
 
+- [RefundDestinationsInput](RefundDestinationsInput.md)
+- [RefundFailedInstalledMerchantsEventInput](RefundFailedInstalledMerchantsEventInput.md)
+- [RefundFailedMerchantEventInput](RefundFailedMerchantEventInput.md)
+- [RefundGiftCardCodeInput](RefundGiftCardCodeInput.md)
+- [RefundGiftCardDestinationInput](RefundGiftCardDestinationInput.md)
 - [RefundGiftCardDestinationPreviousAttributesInput](RefundGiftCardDestinationPreviousAttributesInput.md)
 - [RefundLineItemInput](RefundLineItemInput.md)
 - [RefundLineItemAdjustmentInput](RefundLineItemAdjustmentInput.md)
@@ -97,9 +102,4 @@
 - [RetryReturnDispositionRequestInput](RetryReturnDispositionRequestInput.md)
 - [RetryReturnDispositionResponseInput](RetryReturnDispositionResponseInput.md)
 - [RetryReturnResolutionRequestInput](RetryReturnResolutionRequestInput.md)
-- [RetryReturnResolutionResponseInput](RetryReturnResolutionResponseInput.md)
-- [ReturnActivityInput](ReturnActivityInput.md)
-- [ReturnActorInput](ReturnActorInput.md)
-- [ReturnActorPreviousAttributesInput](ReturnActorPreviousAttributesInput.md)
-- [ReturnCanceledInstalledMerchantsEventInput](ReturnCanceledInstalledMerchantsEventInput.md)
 

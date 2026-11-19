@@ -373,6 +373,7 @@
   "getPaymentIntent": "paymentIntents.get",
   "updatePaymentIntent": "paymentIntents.update",
   "listPaymentIntentActivities": "paymentIntents.listActivities",
+  "blockPaymentIntentAttemptSignals": "paymentIntents.blockAttemptSignals",
   "cancelPaymentIntent": "paymentIntents.cancel",
   "capturePaymentIntent": "paymentIntents.capture",
   "confirmPaymentIntent": "paymentIntents.confirm",

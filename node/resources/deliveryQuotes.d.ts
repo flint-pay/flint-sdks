@@ -49,6 +49,7 @@ export type {
     DeliveryBuyerLocationResource,
     DeliveryBuyerLocationResourceAddress,
     DeliveryBuyerLocationResourceCoordinate,
+    DeliveryAddressAdvisoryResource,
     DeliveryCandidateOutcomeResource,
     DeliveryArrivalEstimate,
     DeliveryCandidateOutcomeResourceAvailable,
@@ -77,10 +78,9 @@ export type {
 export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { DeliveryWindowRequestInput, DeliveryWindowRequest, DeliveryShipmentDetails } from '../declarations/types-24.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { Address } from '../declarations/types-0.js';
 export type { LocationCoordinate } from '../declarations/types-40.js';
-export type { DeliveryAddressAdvisoryResource } from '../declarations/types-17.js';
 export type { DeliveryOptionProjection, DeliveryPlan, DeliveryPickupDetails, DeliveryPendingCallerRateRequest } from '../declarations/types-20.js';
 export type { BuyerInstructionsConfig } from '../declarations/types-2.js';
 export type { DeliveryRecipientRequirement } from '../declarations/types-23.js';
@@ -90,10 +90,9 @@ export {
     makeCallerSuppliedDeliveryMethodResultRequest,
     makeCallerSuppliedDeliveryOutcomeRequest,
     makeCallerSuppliedDeliveryOutcomeRequestAvailable,
-    makeCallerSuppliedDeliveryOutcomeRequestCannotCalculate,
-    makeCallerSuppliedDeliveryOutcomeRequestUnavailable
+    makeCallerSuppliedDeliveryOutcomeRequestCannotCalculate
 } from '../declarations/types-80.js';
-export { makeCreateCheckoutDeliveryQuoteRequest } from '../declarations/types-81.js';
+export { makeCallerSuppliedDeliveryOutcomeRequestUnavailable, makeCreateCheckoutDeliveryQuoteRequest } from '../declarations/types-81.js';
 export {
     makeDeliveryAddressRequest,
     makeDeliveryBuyerLocationInputAddress,

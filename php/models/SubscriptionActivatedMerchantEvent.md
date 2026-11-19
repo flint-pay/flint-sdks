@@ -265,6 +265,10 @@ Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes
 
 Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
 
+### SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes.payment_link_id
+
+Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes.payment_link_id](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributespayment_link_id).
+
 ### SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes.payment_method
 
 Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes.payment_method](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributespayment_method).

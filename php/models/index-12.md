@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# DeliveryWindowResourceInput to ExpandedPayoutSummaryInput
+# DeliveryWeeklyIntervalRequestInput to ExpandedPaymentLinkSummaryPreviousAttributesInput
 
+- [DeliveryWeeklyIntervalRequestInput](DeliveryWeeklyIntervalRequestInput.md)
+- [DeliveryWeightUnitPriceInput](DeliveryWeightUnitPriceInput.md)
+- [DeliveryWeightUnitPricePreviousAttributesInput](DeliveryWeightUnitPricePreviousAttributesInput.md)
+- [DeliveryWeightUnitPriceRequestInput](DeliveryWeightUnitPriceRequestInput.md)
+- [DeliveryWindowRequestInput](DeliveryWindowRequestInput.md)
 - [DeliveryWindowResourceInput](DeliveryWindowResourceInput.md)
 - [DeliveryWindowResourcePreviousAttributesInput](DeliveryWindowResourcePreviousAttributesInput.md)
 - [DeliveryWindowTimeConditionInput](DeliveryWindowTimeConditionInput.md)
@@ -97,9 +102,4 @@
 - [ExpandedPaymentIntentSummaryPreviousAttributesInput](ExpandedPaymentIntentSummaryPreviousAttributesInput.md)
 - [ExpandedPaymentLinkSummaryInput](ExpandedPaymentLinkSummaryInput.md)
 - [ExpandedPaymentLinkSummaryPreviousAttributesInput](ExpandedPaymentLinkSummaryPreviousAttributesInput.md)
-- [ExpandedPaymentMethodSummaryInput](ExpandedPaymentMethodSummaryInput.md)
-- [ExpandedPaymentMethodSummaryPreviousAttributesInput](ExpandedPaymentMethodSummaryPreviousAttributesInput.md)
-- [ExpandedPayoutDestinationSummaryInput](ExpandedPayoutDestinationSummaryInput.md)
-- [ExpandedPayoutDestinationSummaryPreviousAttributesInput](ExpandedPayoutDestinationSummaryPreviousAttributesInput.md)
-- [ExpandedPayoutSummaryInput](ExpandedPayoutSummaryInput.md)
 

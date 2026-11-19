@@ -8,14 +8,14 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `object` | Required | [MerchantUpdatedMerchantEventDataObject](../models/MerchantUpdatedMerchantEventDataObject.md#merchantupdatedmerchanteventdataobject) | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `banners`. `object`: [field definitions](../models/MerchantUpdatedMerchantEventData.md#merchantupdatedmerchanteventdataobject-fields-1). |
+| `object` | Required | [MerchantUpdatedMerchantEventDataObject](../models/MerchantUpdatedMerchantEventDataObject.md#merchantupdatedmerchanteventdataobject) | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `banners`, `timezone_inferred`. `object`: [field definitions](../models/MerchantUpdatedMerchantEventData.md#merchantupdatedmerchanteventdataobject-fields-1). |
 | `previous_attributes` | Optional | [MerchantUpdatedMerchantEventDataPreviousAttributes](../models/MerchantUpdatedMerchantEventDataPreviousAttributes.md#merchantupdatedmerchanteventdatapreviousattributes) | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
 
 ### MerchantUpdatedMerchantEventData.object fields 1
 
-The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `banners`.
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `banners`, `timezone_inferred`.
 
-Field definitions: [shared fields](MerchantResponse.md#merchantresponsedata).
+Field definitions: [shared fields](MerchantReadinessUpdatedMerchantEventData.md#merchantreadinessupdatedmerchanteventdataobject-fields-1).
 
 ### MerchantUpdatedMerchantEventData.object fields 1.address
 

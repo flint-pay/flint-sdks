@@ -8,6 +8,7 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `blocked_since` | Optional | string or null | Start of the current continuous blocked period, as an RFC 3339 UTC timestamp. A change to the reason preserves the start. Flint may treat a brief unblock that it didn't publish as part of the same blocked period. Omitted when the status is not blocked or the start is unknown. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `capability` | Required | string | Flint-owned capability name. Payment capabilities describe transaction acceptance readiness; money movement capabilities describe payout and balance movement readiness. Values: [8 declared values](#capabilityreadinessinput-capability-values). |
 | `domain` | Required | string | Product domain this capability belongs to: payments for payment acceptance or money_movement for balances and payouts. Values: `"money_movement"`, `"payments"`. |
 | `next_actions` | Required | Array of [ReadinessActionInput](../models/ReadinessActionInput.md#readinessactioninput) | Actions that can remediate or refresh this capability when Flint can suggest one. |

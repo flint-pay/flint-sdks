@@ -1,7 +1,11 @@
 [Model index](../MODELS.md)
 
-# CreateCheckoutSessionSavePaymentMethodVerificationRequest to CreateGiftCardRedemptionRequestAutomatic
+# CreateCheckoutSessionRequest to CreateGiftCardNotificationRequest
 
+- [CreateCheckoutSessionRequest](CreateCheckoutSessionRequest.md)
+- [CreateCheckoutSessionRequestInput](CreateCheckoutSessionRequestInput.md)
+- [CreateCheckoutSessionReturnResolution](CreateCheckoutSessionReturnResolution.md)
+- [CreateCheckoutSessionReturnResolutionInput](CreateCheckoutSessionReturnResolutionInput.md)
 - [CreateCheckoutSessionSavePaymentMethodVerificationRequest](CreateCheckoutSessionSavePaymentMethodVerificationRequest.md)
 - [CreateCheckoutSessionSavePaymentMethodVerificationRequestInput](CreateCheckoutSessionSavePaymentMethodVerificationRequestInput.md)
 - [CreateCheckoutSessionSubscriptionPlan](CreateCheckoutSessionSubscriptionPlan.md)
@@ -98,8 +102,4 @@
 - [CreateGiftCardLoadResult](CreateGiftCardLoadResult.md)
 - [CreateGiftCardLoadResultResponse](CreateGiftCardLoadResultResponse.md)
 - [CreateGiftCardNotificationRequest](CreateGiftCardNotificationRequest.md)
-- [CreateGiftCardNotificationRequestInput](CreateGiftCardNotificationRequestInput.md)
-- [CreateGiftCardRedemptionRequest](CreateGiftCardRedemptionRequest.md)
-- [CreateGiftCardRedemptionRequestInput](CreateGiftCardRedemptionRequestInput.md)
-- [CreateGiftCardRedemptionRequestAutomatic](CreateGiftCardRedemptionRequestAutomatic.md)
 

@@ -57,18 +57,18 @@ export type { GetReturnDispositionResponse } from '../declarations/types-28.js';
 export type { ListReturnDispositionsResponse } from '../declarations/types-40.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { MetadataMap, MetadataRequestInput } from '../declarations/types-43.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
-export { makeCancelReturnDispositionRequest } from '../declarations/types-80.js';
+export { makeCancelReturnDispositionRequest } from '../declarations/types-81.js';
 export {
     makeCreateReturnDispositionRequest,
     makeCreateReturnDispositionRequestInspectionLine,
     makeCreateReturnDispositionRequestReceiptLine
 } from '../declarations/types-84.js';
-export { makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeMetadataMap, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
 export { makeRetryReturnDispositionRequest } from '../declarations/types-91.js';
 export interface ReturnDispositionsResource {
     /**

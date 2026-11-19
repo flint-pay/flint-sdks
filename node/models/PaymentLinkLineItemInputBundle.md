@@ -24,7 +24,7 @@ The `bundle` variant of `PaymentLinkLineItemInput`.
 | `name` | Optional | string | Name of an ad hoc line item. Catalog lines take the catalog name. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `255`. |
 | `product_type` | Optional | string | Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does not change tax, delivery, or inventory. On an order line PATCH, omission preserves the classification. Catalog lines use their product's type and reject this input. Values: `"physical"`, `"service"`, `"fee"`, `"digital"`. |
 | `quantity` | Optional | integer | Whole-number default quantity; fractional quantities are not supported. Omission uses 1. Must be at least 1 for standard links; event tiers also accept 0. Format: `int32`. Default: `1`. |
-| `suggested_unit_price_money_options` | Optional | Array of [MoneyValue](../models/MoneyValue.md#moneyvalue) | Unit prices offered as one-tap choices when the buyer sets the price. `suggested_unit_price_money_options[]`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
+| `suggested_unit_price_money_options` | Optional | Array of [MoneyValue](../models/MoneyValue.md#moneyvalue) | Unit prices offered as one-tap choices when the buyer sets the price. Use the same currency for the price, bounds, and suggested prices. `suggested_unit_price_money_options[]`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
 | `tax` | Optional | [OrderLineItemTax](../models/OrderLineItemTax.md#orderlineitemtax) | Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax category and whether it is taxable. `tax`: [field definitions](../models/PaymentLinkLineItemInputBundle.md#paymentlinklineiteminputbundletax). |
 | `type` | Required | string | How the line item is defined. Values: `"bundle"`. |
 | `unit_price_money` | Optional | object | Price of one unit of a `custom_fixed` line item. `unit_price_money`: [field definitions](../models/PaymentLinkLineItemInputBundle.md#paymentlinklineiteminputbundleunit_price_money). |
@@ -71,8 +71,5 @@ Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line it
 
 Price of one unit of a `custom_fixed` line item.
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `amount` | Required | integer string | Positive amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
-| `currency` | Required | string | ISO 4217 currency code for this amount. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Example: `"USD"`. |
+Field definitions: [shared fields](CapturePaymentIntentRequest.md#capturepaymentintentrequestamount_money).
 

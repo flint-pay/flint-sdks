@@ -8,7 +8,7 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Amount to request from the buyer, including any standalone tip_money. Required for standalone payments. On an order, uses the order currency and defaults to its remaining balance; the amount cannot exceed 99999999 minor units, and existing automatic tax rules apply. With capture_method manual, this is the hold amount, and you can capture less later. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `amount_money` | Optional | object | Amount to request from the buyer, including any standalone tip_money. Required for standalone payments. On an order, uses the order currency and defaults to its remaining balance; the amount cannot exceed 99999999 minor units, and existing automatic tax rules apply. With capture_method manual, this is the hold amount, and you can capture less later. `amount_money`: [field definitions](../models/CreatePaymentIntentRequestInput.md#createpaymentintentrequestinputamount_money). |
 | `capture_method` | Optional | string | automatic collects the payment when it is confirmed. manual places a hold at confirmation that you capture or cancel later. Defaults to automatic. Default: `"automatic"`. Values: `"automatic"`, `"manual"`. |
 | `customer_id` | Optional | string | Customer to link to this payment intent. minLength: `1`. Example: `"cus_01KEZF7C006X9JK6NZNA2SM9XD"`. |
 | `expected_order_version` | Optional | integer | Optional order version from the last order read. Accepted only with order_id; the create fails with VERSION_CONFLICT if the order changed. Format: `int64`. minimum: `1`. |
@@ -24,4 +24,10 @@ Request input.
 | `splits` | Optional | Array of [PaymentSplitRequestInput](../models/PaymentSplitRequestInput.md#paymentsplitrequestinput) | Divide this payment's funds between the collecting merchant and sellers; this is separate from split tender, where a buyer uses several payment methods. Only the collecting merchant's own credentials can send splits. Each install must belong to the same app owned by the collecting merchant, with the seller's approval in this mode and readiness to receive payouts. Test mode needs no platform review; live mode requires the app's active payment_splits capability and Flint support for the collecting account. Can't be combined with platform_fee or saved payment credentials. The total must fit after the largest Flint fee for the offered payment options, leaving one minor unit for the collecting merchant; otherwise INVALID_REQUEST with INVALID_VALUE on splits and maximum_money. Fixed after create, except capture's final amounts. Part of the idempotency fingerprint. minItems: `1`. maxItems: `25`. |
 | `tip_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Portion of amount_money that is a tip. Uses amount_money's currency and is at most amount_money. Not accepted on order-linked payment intents. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `transaction_purpose` | Optional | string | Why the bank debit is taken. Required when payment_options includes ach_debit, and rejected with INVALID_REQUEST and NOT_ALLOWED on transaction_purpose otherwise. Values: `"goods"`, `"services"`, `"other"`. |
+
+### CreatePaymentIntentRequestInput.amount_money
+
+Amount to request from the buyer, including any standalone tip_money. Required for standalone payments. On an order, uses the order currency and defaults to its remaining balance; the amount cannot exceed 99999999 minor units, and existing automatic tax rules apply. With capture_method manual, this is the hold amount, and you can capture less later.
+
+Field definitions: [shared fields](CapturePaymentIntentRequestInput.md#capturepaymentintentrequestinputamount_money).
 

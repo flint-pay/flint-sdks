@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# OAuthTokenRequestInput to OrderInventoryExceptionResolvedMerchantEventInput
+# MoneyValueInput to OrderHandoverPreviousAttributesInput
 
+- [MoneyValueInput](MoneyValueInput.md)
+- [MoneyValuePreviousAttributesInput](MoneyValuePreviousAttributesInput.md)
+- [NextActionInput](NextActionInput.md)
+- [NextActionPreviousAttributesInput](NextActionPreviousAttributesInput.md)
+- [OAuthRevokeRequestInput](OAuthRevokeRequestInput.md)
 - [OAuthTokenRequestInput](OAuthTokenRequestInput.md)
 - [OAuthTokenRequestAuthorizationCodeInput](OAuthTokenRequestAuthorizationCodeInput.md)
 - [OAuthTokenRequestClientCredentialsInput](OAuthTokenRequestClientCredentialsInput.md)
@@ -97,9 +102,4 @@
 - [OrderGiftCardSettlementPreviousAttributesInput](OrderGiftCardSettlementPreviousAttributesInput.md)
 - [OrderHandoverInput](OrderHandoverInput.md)
 - [OrderHandoverPreviousAttributesInput](OrderHandoverPreviousAttributesInput.md)
-- [OrderHandoverRequestInput](OrderHandoverRequestInput.md)
-- [OrderInventoryExceptionCreatedInstalledMerchantsEventInput](OrderInventoryExceptionCreatedInstalledMerchantsEventInput.md)
-- [OrderInventoryExceptionCreatedMerchantEventInput](OrderInventoryExceptionCreatedMerchantEventInput.md)
-- [OrderInventoryExceptionResolvedInstalledMerchantsEventInput](OrderInventoryExceptionResolvedInstalledMerchantsEventInput.md)
-- [OrderInventoryExceptionResolvedMerchantEventInput](OrderInventoryExceptionResolvedMerchantEventInput.md)
 

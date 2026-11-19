@@ -1,7 +1,19 @@
 [Model index](../MODELS.md)
 
-# InvoiceCollectionAutomatic to CustomerTaxExemptionCoverageStates
+# CheckoutTaxCalculation to CustomDomainDNSRecord
 
+- [CheckoutTaxCalculation](CheckoutTaxCalculation.md)
+- [CheckoutSessionTax](CheckoutSessionTax.md)
+- [CheckoutTheme](CheckoutTheme.md)
+- [CheckoutTipConfig](CheckoutTipConfig.md)
+- [CheckoutSession](CheckoutSession.md)
+- [InvoiceCollectionBuyerInitiatedPaymentPolicyPaymentOptionLimitsItemMaxTotalMoney](InvoiceCollectionBuyerInitiatedPaymentPolicyPaymentOptionLimitsItemMaxTotalMoney.md)
+- [InvoiceCollectionBuyerInitiatedPaymentPolicyPaymentOptionLimitsItem](InvoiceCollectionBuyerInitiatedPaymentPolicyPaymentOptionLimitsItem.md)
+- [InvoiceCollectionBuyerInitiatedPaymentPolicy](InvoiceCollectionBuyerInitiatedPaymentPolicy.md)
+- [InvoiceCollectionBuyerInitiated](InvoiceCollectionBuyerInitiated.md)
+- [InvoiceCollectionAutomaticPaymentPolicyPaymentOptionLimitsItemMaxTotalMoney](InvoiceCollectionAutomaticPaymentPolicyPaymentOptionLimitsItemMaxTotalMoney.md)
+- [InvoiceCollectionAutomaticPaymentPolicyPaymentOptionLimitsItem](InvoiceCollectionAutomaticPaymentPolicyPaymentOptionLimitsItem.md)
+- [InvoiceCollectionAutomaticPaymentPolicy](InvoiceCollectionAutomaticPaymentPolicy.md)
 - [InvoiceCollectionAutomatic](InvoiceCollectionAutomatic.md)
 - [InvoiceCollectionExternalPaymentPolicyPaymentOptionLimitsItemMaxTotalMoney](InvoiceCollectionExternalPaymentPolicyPaymentOptionLimitsItemMaxTotalMoney.md)
 - [InvoiceCollectionExternalPaymentPolicyPaymentOptionLimitsItem](InvoiceCollectionExternalPaymentPolicyPaymentOptionLimitsItem.md)
@@ -90,16 +102,4 @@
 - [CreditNoteAllocation](CreditNoteAllocation.md)
 - [CreditNoteAllocationResult](CreditNoteAllocationResult.md)
 - [CustomDomainDNSRecord](CustomDomainDNSRecord.md)
-- [CustomDomain](CustomDomain.md)
-- [CustomerReceivableBalance](CustomerReceivableBalance.md)
-- [CustomerReceivables](CustomerReceivables.md)
-- [Customer](Customer.md)
-- [CustomerAccessLinkResponseDataLink](CustomerAccessLinkResponseDataLink.md)
-- [CustomerAccessLinkResponseDataEmail](CustomerAccessLinkResponseDataEmail.md)
-- [CustomerAddress](CustomerAddress.md)
-- [ErrorResourceReference](ErrorResourceReference.md)
-- [CustomerDeletionRequest](CustomerDeletionRequest.md)
-- [CustomerSessionWithSecret](CustomerSessionWithSecret.md)
-- [CustomerTaxExemptionCoverageAllStates](CustomerTaxExemptionCoverageAllStates.md)
-- [CustomerTaxExemptionCoverageStates](CustomerTaxExemptionCoverageStates.md)
 

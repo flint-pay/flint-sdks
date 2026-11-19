@@ -1,11 +1,11 @@
-import { d9277 as c0 } from '../descriptors/data/422.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
-import { d8341 as c1, d8342 as c2, d8344 as c3, d8346 as c4 } from '../descriptors/data/370.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
-import { d9292 as c5, d9293 as c6, d9294 as c7, d9295 as c8, d9296 as c9, d9297 as c10, d9298 as c11 } from '../descriptors/data/423.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
-import { d9277 as d9277 } from '../descriptors/data/422.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
+import { d9290 as c0 } from '../descriptors/data/421.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
+import { d8352 as c1, d8353 as c2, d8355 as c3, d8357 as c4 } from '../descriptors/data/369.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
+import { d9305 as c5, d9306 as c6, d9307 as c7, d9308 as c8, d9309 as c9, d9310 as c10, d9311 as c11 } from '../descriptors/data/422.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
+import { d9290 as d9290 } from '../descriptors/data/421.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d9277;
+const read = d9290;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["InvoicePaymentDueRequest"]:c0(),["SharedCodec1610"]:c1(),["SharedCodec1611"]:c2(),["SharedCodec1613"]:c3(),["SharedCodec1615"]:c4(),["SharedCodec1618"]:c5(),["SharedCodec1619"]:c6(),["SharedCodec1626"]:c7(),["SharedCodec1627"]:c8(),["SharedCodec1628"]:c9(),["SharedCodec1629"]:c10(),["SharedCodec1630"]:c11()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["InvoicePaymentDueRequest"]:c0(),["SharedCodec1611"]:c1(),["SharedCodec1612"]:c2(),["SharedCodec1614"]:c3(),["SharedCodec1616"]:c4(),["SharedCodec1619"]:c5(),["SharedCodec1620"]:c6(),["SharedCodec1627"]:c7(),["SharedCodec1628"]:c8(),["SharedCodec1629"]:c9(),["SharedCodec1630"]:c10(),["SharedCodec1631"]:c11()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeInvoicePaymentDueRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

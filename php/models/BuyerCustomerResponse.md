@@ -36,7 +36,7 @@ Resource, collection, or operation result returned by this request. A merchant's
 
 The customer's default billing address: a copy of the saved address marked is_default_billing. Read-only; change it with is_default_billing through /v1/me/addresses. `null` when no saved address is the billing default.
 
-Field definitions: [shared fields](SubscriptionResponse.md#subscriptionresponsedatadeliverydestinationaddress).
+Field definitions: [shared fields](OrderResponse.md#orderresponsedatacheckout_billing_contactaddress).
 
 ### BuyerCustomerResponse.data.billing_address variant 1
 
@@ -56,7 +56,7 @@ anyOf variant 2.
 
 The customer's default shipping address: a copy of the saved address marked is_default_shipping. Read-only; change it with is_default_shipping through /v1/me/addresses. `null` when no saved address is the shipping default.
 
-Field definitions: [shared fields](SubscriptionResponse.md#subscriptionresponsedatadeliverydestinationaddress).
+Field definitions: [shared fields](OrderResponse.md#orderresponsedatacheckout_billing_contactaddress).
 
 ### BuyerCustomerResponse.data.shipping_address variant 1
 

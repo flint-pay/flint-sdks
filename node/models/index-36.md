@@ -1,7 +1,15 @@
 [Model index](../MODELS.md)
 
-# SubscriptionBillingHoldPreviousAttributes to SubscriptionOfferTermsRequestInput
+# Subscription to SubscriptionLineItemsListResponse
 
+- [Subscription](Subscription.md)
+- [SubscriptionActivatedInstalledMerchantsEvent](SubscriptionActivatedInstalledMerchantsEvent.md)
+- [SubscriptionActivatedMerchantEvent](SubscriptionActivatedMerchantEvent.md)
+- [SubscriptionAddressVerification](SubscriptionAddressVerification.md)
+- [SubscriptionAddressVerificationPreviousAttributes](SubscriptionAddressVerificationPreviousAttributes.md)
+- [SubscriptionAnalytics](SubscriptionAnalytics.md)
+- [SubscriptionAnalyticsResponse](SubscriptionAnalyticsResponse.md)
+- [SubscriptionBillingHold](SubscriptionBillingHold.md)
 - [SubscriptionBillingHoldPreviousAttributes](SubscriptionBillingHoldPreviousAttributes.md)
 - [SubscriptionBillingScheduleInputExternal](SubscriptionBillingScheduleInputExternal.md)
 - [SubscriptionBillingScheduleInputExternalInput](SubscriptionBillingScheduleInputExternalInput.md)
@@ -94,12 +102,4 @@
 - [SubscriptionLineItem](SubscriptionLineItem.md)
 - [SubscriptionLineItemPreviousAttributes](SubscriptionLineItemPreviousAttributes.md)
 - [SubscriptionLineItemsListResponse](SubscriptionLineItemsListResponse.md)
-- [SubscriptionListResponse](SubscriptionListResponse.md)
-- [SubscriptionOffer](SubscriptionOffer.md)
-- [SubscriptionOfferLineItemRequest](SubscriptionOfferLineItemRequest.md)
-- [SubscriptionOfferLineItemRequestInput](SubscriptionOfferLineItemRequestInput.md)
-- [SubscriptionOfferListResponse](SubscriptionOfferListResponse.md)
-- [SubscriptionOfferResponse](SubscriptionOfferResponse.md)
-- [SubscriptionOfferTermsRequest](SubscriptionOfferTermsRequest.md)
-- [SubscriptionOfferTermsRequestInput](SubscriptionOfferTermsRequestInput.md)
 

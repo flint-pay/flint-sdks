@@ -1,53 +1,55 @@
-import type { ResponseMeta, ReturnActor, ReturnCompletionBlocker } from './types-62.js';
-import type { WebhookEndpointWithSecret, UpdateWebhookEndpointRequestInput } from './types-78.js';
-import type { InputValue, EventStream, WebhookVerificationOptions as _SdkWebhookVerificationOptions } from '../runtime.js';
-import type {
-    CreateWebhookEndpointRequestInput,
-    CreateWebhookTestEventRequestInput,
-    CreateWorkloadIdentityRequestInput
-} from './types-14.js';
+import type { ResponseMeta, ResourceReference, ReturnActor } from './types-62.js';
+import type { WebhookDelivery, UpdateWebhookEndpointRequestInput } from './types-78.js';
+import type { DeliveryProfileConfiguration } from './types-21.js';
+import type { MetadataMap, MerchantReadiness } from './types-43.js';
+import type { InputValue, EventStream } from '../runtime.js';
+import type { CreateWebhookEndpointRequestInput } from './types-14.js';
+import type { CreateWebhookTestEventRequestInput } from './types-15.js';
 import type {
     DisputesAcceptParams,
     ExpandedCustomerSummary,
     ExpandedOrderSummary,
     ExpandedPaymentIntentSummary,
-    ExpandedSubscriptionPlanSummary,
-    ExpandedSubscriptionSummary,
     ExpandedInvoiceSummary,
     ExpandedPackageSummary,
-    ExpandedShipmentSummary,
     ExpandedPayoutDestinationSummary,
     ExpandedPayoutSummary,
     ExpandedPaymentMethodSummary
 } from './types-26.js';
-import type { RotateWebhookSecretRequestInput, SelectedProductOption, ServiceFulfillmentDetails } from './types-67.js';
-import type { SignWebhookEndpointDeliveryRequestInput, ShipmentFulfillmentDetails } from './types-68.js';
+import type { RotateWebhookSecretRequestInput } from './types-67.js';
+import type {
+    SignWebhookEndpointDeliveryRequestInput,
+    SelectedProductOption,
+    ServiceFulfillmentDetails,
+    ShipmentFulfillmentDetails
+} from './types-68.js';
 import type { Address } from './types-0.js';
-import type { InvoiceCollection, InventoryTransferLine } from './types-34.js';
+import type { InvoiceCollection, InventorySourceSystem, InventoryTransferLine } from './types-34.js';
 import type { InvoiceLateFee } from './types-35.js';
 import type { InvoicePaymentDue } from './types-36.js';
-import type { InvoicePaymentTermsSnapshot, InvoiceScheduleEntry } from './types-37.js';
-import type { InvoiceSettlementAmounts, InvoiceSnapshot } from './types-38.js';
-import type { MetadataMap } from './types-43.js';
+import type { InvoicePaymentTermsSnapshot } from './types-37.js';
+import type { InvoiceScheduleEntry, InvoiceSettlementAmounts, InvoiceSnapshot } from './types-38.js';
 import type { PricingAmounts } from './types-56.js';
-import type { ImageAttachment, InventoryCountLine, InventoryActionRequired, Image } from './types-31.js';
-import type { MerchantReadiness } from './types-42.js';
-import type { CheckoutBuyerContact } from './types-6.js';
+import type { ImageAttachment, InventoryActionRequired, Image } from './types-31.js';
+import type { CheckoutBillingContact, CheckoutBuyerContact } from './types-6.js';
 import type { CustomFieldAnswer } from './types-16.js';
 import type { DeferredPromotion } from './types-17.js';
 import type {
-    InventoryRoutingSource,
-    InventorySourceSystem,
-    InventoryReservationLine,
-    InventoryReservationOwner
-} from './types-33.js';
+    ExpandedSubscriptionPlanSummary,
+    ExpandedSubscriptionSummary,
+    FailedPaymentAttempt,
+    ExpandedShipmentSummary,
+    FulfillmentChargeLink,
+    FulfillmentHold,
+    FulfillmentLineItem
+} from './types-27.js';
+import type { InventoryRoutingSource, InventoryReservationLine, InventoryReservationOwner } from './types-33.js';
 import type {
     OrderAuthorizationAmounts,
     OrderCharge,
     OrderDeliveryDestination,
     OrderDeliverySummary,
-    OrderDiscount,
-    OrderEditChargeRefund
+    OrderDiscount
 } from './types-45.js';
 import type {
     OrderGiftCardEstimate,
@@ -55,6 +57,7 @@ import type {
     OrderGiftCardSettlement,
     OrderHandover,
     OrderLineItem,
+    OrderEditChargeRefund,
     OrderEditLineAddition,
     OrderEditLineRemoval,
     OrderLineItemModifier
@@ -68,29 +71,27 @@ import type {
 } from './types-47.js';
 import type { TicketedEvent, Tip } from './types-75.js';
 import type { MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
-import type {
-    PartnerEnvironmentGrant,
-    PaymentAttemptGiftCardRedemption,
-    PaymentAttemptPaymentIntent,
-    PaymentAttemptGiftCardRedemptionPreviousAttributes,
-    PaymentAttemptPaymentIntentPreviousAttributes
-} from './types-50.js';
-import type { FailedPaymentAttempt, FulfillmentChargeLink, FulfillmentHold, FulfillmentLineItem } from './types-27.js';
+import type { PartnerEnvironmentGrant } from './types-50.js';
 import type {
     PaymentErrorSummary,
     PaymentFulfillmentHold,
     PaymentIntentOvercapture,
     PaymentIntentPlatformFee,
+    PaymentAttemptGiftCardRedemption,
+    PaymentAttemptPaymentIntent,
+    PaymentAttemptGiftCardRedemptionPreviousAttributes,
+    PaymentAttemptPaymentIntentPreviousAttributes,
     PaymentErrorSummaryPreviousAttributes
 } from './types-51.js';
 import type { PaymentRisk, PaymentSourceSummary, PaymentSplit } from './types-54.js';
 import type { CategoryReference } from './types-5.js';
 import type { ProductOption, ProductPriceRange, ProductVariant, PromotionApplicationMethod } from './types-57.js';
 import type { Dimensions, DigitalFulfillmentDetails } from './types-25.js';
-import type { GiftCardProductConfiguration } from './types-29.js';
+import type { GiftCardProductConfiguration, GiftCardRestriction } from './types-30.js';
 import type { LicenseKeyConfiguration } from './types-39.js';
-import type { QuantityPriceBreak, PromotionSchedule, ReaderConnectivity } from './types-59.js';
-import type { PromotionCodesSummary, PromotionCombinesWith, PromotionExclusivity, PromotionRuleGroup } from './types-58.js';
+import type { QuantityPriceBreak, PromotionRuleGroup, PromotionSchedule, ReaderConnectivity } from './types-59.js';
+import type { Weight } from './types-80.js';
+import type { PromotionCodesSummary, PromotionCombinesWith, PromotionExclusivity } from './types-58.js';
 import type { DeliveryFulfillmentDetails } from './types-19.js';
 import type { FulfillmentOutcome, FulfillmentRecipient } from './types-28.js';
 import type {
@@ -99,34 +100,34 @@ import type {
     PendingPaymentActionPreviousAttributes,
     PayoutTraceID
 } from './types-55.js';
-import type { GiftCardRestriction } from './types-30.js';
-import type { InventoryCountObservationProvenance, InventoryReceiptLine } from './types-32.js';
+import type { InventoryCountLine, InventoryCountObservationProvenance, InventoryReceiptLine } from './types-32.js';
 import type { PaymentRefund } from './types-53.js';
-import type { RefundChargeAllocation, RefundLineItemAllocation, RefundTaxBreakdownRefund } from './types-60.js';
-import type { RefundTenderAllocation, RefundUnissuedGiftCardRecovery } from './types-61.js';
+import type { RefundChargeAllocation, RefundLineItemAllocation } from './types-60.js';
+import type { RefundTaxBreakdownRefund, RefundTenderAllocation, RefundUnissuedGiftCardRecovery } from './types-61.js';
 import type {
+    ReturnCompletionBlocker,
     ReturnFinancialSummary,
     ReturnHandoffRequirement,
-    ReturnInspectionLineItem,
-    ReturnLineItemEligibility,
-    ReturnLineItemValue
+    ReturnInspectionLineItem
 } from './types-63.js';
-import type { ReturnPolicyEvaluation, ReturnReason, ReturnReceiptLineItem } from './types-64.js';
 import type {
-    ReturnSourceSystem,
+    ReturnPolicyEvaluation,
+    ReturnLineItemEligibility,
+    ReturnLineItemValue,
+    ReturnReason,
+    ReturnReceiptLineItem
+} from './types-64.js';
+import type { ReturnSourceSystem } from './types-66.js';
+import type { BundleComponent } from './types-1.js';
+import type {
     ReturnReplacementLineItem,
     ReturnResolutionAdjustment,
     ReturnResolutionExecutionBlocker,
     ReturnResolutionLineItem
 } from './types-65.js';
-import type { BundleComponent } from './types-1.js';
+import type { SubscriptionBillingHold, SubscriptionCancellationDetails, SubscriptionDelivery } from './types-69.js';
 import type {
-    SubscriptionBillingHold,
-    SubscriptionCancellationDetails,
-    SubscriptionDelivery,
-    SubscriptionDeliveryHold
-} from './types-69.js';
-import type {
+    SubscriptionDeliveryHold,
     SubscriptionEndAfter,
     SubscriptionGiftRecipient,
     SubscriptionIntervalOption,
@@ -138,9 +139,485 @@ import type {
     SubscriptionPromotion,
     SubscriptionScheduledPlanChange,
     SubscriptionServiceLocation,
-    SubscriptionTax,
-    SubscriptionUpcomingDeliveryHold
+    SubscriptionTax
 } from './types-72.js';
+import type { SubscriptionUpcomingDeliveryHold } from './types-73.js';
+/**
+ * The result of a webhook delivery action, such as a resend: the delivery, attempt, status, and
+ * any error details.
+ */
+export type WebhookDeliveryAction = {
+    /**
+     * Sequence number of this attempt within the delivery, including automatic and manual
+     * attempts. Format: int32.
+     */
+    "attempt_number": number;
+    /**
+     * Outcome of the individual attempt made by this action. Value enum: "pending", "delivered",
+     * "failed".
+     */
+    "attempt_status": "pending" | "delivered" | "failed" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "completed_at"?: string;
+    /**
+     * Current state of the delivery after this action. Value enum: "pending", "delivered",
+     * "failed", "suppressed".
+     */
+    "delivery_status": "pending" | "delivered" | "failed" | "suppressed" | (string & {});
+    /**
+     * What caused Flint to make this delivery attempt. Value enum: "automatic_delivery",
+     * "automatic_retry", "manual_resend", "manual_delivery", "test_event".
+     */
+    "delivery_trigger": "automatic_delivery"
+        | "automatic_retry"
+        | "manual_resend"
+        | "manual_delivery"
+        | "test_event"
+        | (string & {});
+    /** Duration of this delivery attempt in milliseconds. Format: int64. */
+    "duration_milliseconds"?: number;
+    /**
+     * The kind of failure for this attempt. Present only when this attempt's `attempt_status` is
+     * `failed`. Value enum: "webhook_timeout", "webhook_dns", "webhook_tls", "webhook_connection",
+     * "webhook_blocked_target", "webhook_request", "webhook_redirect", "webhook_http_4xx",
+     * "webhook_http_5xx", "webhook_payload_render", "webhook_delivery".
+     */
+    "error_category"?: "webhook_timeout"
+        | "webhook_dns"
+        | "webhook_tls"
+        | "webhook_connection"
+        | "webhook_blocked_target"
+        | "webhook_request"
+        | "webhook_redirect"
+        | "webhook_http_4xx"
+        | "webhook_http_5xx"
+        | "webhook_payload_render"
+        | "webhook_delivery"
+        | (string & {});
+    /**
+     * A concise explanation of the failure for this attempt. Present only when this attempt's
+     * `attempt_status` is `failed`.
+     */
+    "error_summary"?: string;
+    /** The note supplied when this action was requested. */
+    "reason_message"?: string;
+    /** The next step to resolve the failed delivery attempt. */
+    "recommended_action"?: string;
+    /** Receiver response body excerpt. Omitted unless the caller can read the event's resource. */
+    "response_body_excerpt"?: string;
+    /** Receiver response content type. Omitted unless the caller can read the event's resource. */
+    "response_content_type"?: string;
+    /**
+     * Receiver response headers, keyed by lowercase header name. Repeated values are joined with
+     * ", ". Sensitive values read [REDACTED]. Absent when no response was received, after the
+     * 14-day response-detail retention, or unless the caller can read the event's resource. *
+     * (Value): string.
+     */
+    "response_headers"?: Record<string, string>;
+    /**
+     * Whether sending this delivery again without changing your endpoint is likely to succeed.
+     * While the delivery is pending, Flint retries automatically either way.
+     */
+    "retryable"?: boolean;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "started_at"?: string;
+    /**
+     * HTTP status returned by the receiver. Omitted when no HTTP response was received. Format:
+     * int32.
+     */
+    "status_code"?: number;
+    /**
+     * ID of this individual attempt to send the event. Example: "watt_01KEZF7C00RG6XMCAFJB8HH55R".
+     */
+    "webhook_delivery_attempt_id": string;
+    /**
+     * ID of the endpoint delivery this attempt belongs to. Example:
+     * "wdel_01KEZF7C001DWSNDCDZHCTBN0A".
+     */
+    "webhook_delivery_id": string;
+    /** ID of the event sent by this attempt. Example: "whev_01KEZF7C00362MS3HV970TRZGS". */
+    "webhook_event_id": string;
+};
+/** A response containing `WebhookDeliveryAction` data. */
+export type WebhookDeliveryActionResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. The result of a webhook
+     * delivery action, such as a resend: the delivery, attempt, status, and any error details.
+     */
+    "data": WebhookDeliveryAction;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * One attempt to deliver a webhook event to an endpoint, with its status, timing, response code,
+ * and error details.
+ */
+export type WebhookDeliveryAttempt = {
+    /**
+     * API version used for this delivery attempt. Omitted when the version was not recorded or
+     * payload rendering failed. Format: date. Example: "2026-08-02".
+     */
+    "api_version"?: string;
+    /**
+     * Sequence number of this attempt within the delivery, including automatic and manual
+     * attempts. Format: int32.
+     */
+    "attempt_number": number;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "completed_at"?: string;
+    /**
+     * What caused Flint to make this delivery attempt. Value enum: "automatic_delivery",
+     * "automatic_retry", "manual_resend", "manual_delivery", "test_event".
+     */
+    "delivery_trigger": "automatic_delivery"
+        | "automatic_retry"
+        | "manual_resend"
+        | "manual_delivery"
+        | "test_event"
+        | (string & {});
+    /** Duration of this delivery attempt in milliseconds. Format: int64. */
+    "duration_milliseconds"?: number;
+    /**
+     * The kind of failure for this attempt. Present only when this attempt's `status` is `failed`.
+     * Value enum: "webhook_timeout", "webhook_dns", "webhook_tls", "webhook_connection",
+     * "webhook_blocked_target", "webhook_request", "webhook_redirect", "webhook_http_4xx",
+     * "webhook_http_5xx", "webhook_payload_render", "webhook_delivery".
+     */
+    "error_category"?: "webhook_timeout"
+        | "webhook_dns"
+        | "webhook_tls"
+        | "webhook_connection"
+        | "webhook_blocked_target"
+        | "webhook_request"
+        | "webhook_redirect"
+        | "webhook_http_4xx"
+        | "webhook_http_5xx"
+        | "webhook_payload_render"
+        | "webhook_delivery"
+        | (string & {});
+    /**
+     * A concise explanation of the failure for this attempt. Present only when this attempt's
+     * `status` is `failed`.
+     */
+    "error_summary"?: string;
+    /** The note supplied when this action was requested. */
+    "reason_message"?: string;
+    /** The next step to resolve the failed delivery attempt. */
+    "recommended_action"?: string;
+    /** Receiver response body excerpt. Omitted unless the caller can read the event's resource. */
+    "response_body_excerpt"?: string;
+    /** Receiver response content type. Omitted unless the caller can read the event's resource. */
+    "response_content_type"?: string;
+    /**
+     * Receiver response headers, keyed by lowercase header name. Repeated values are joined with
+     * ", ". Sensitive values read [REDACTED]. Absent when no response was received, after the
+     * 14-day response-detail retention, or unless the caller can read the event's resource. *
+     * (Value): string.
+     */
+    "response_headers"?: Record<string, string>;
+    /**
+     * Whether sending this delivery again without changing your endpoint is likely to succeed.
+     * While the delivery is pending, Flint retries automatically either way.
+     */
+    "retryable"?: boolean;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "started_at"?: string;
+    /**
+     * Outcome of this individual delivery attempt. Value enum: "pending", "delivered", "failed".
+     */
+    "status": "pending" | "delivered" | "failed" | (string & {});
+    /**
+     * HTTP status returned by the receiver. Omitted when no HTTP response was received. Format:
+     * int32.
+     */
+    "status_code"?: number;
+    /**
+     * ID of this individual attempt to send the event. Example: "watt_01KEZF7C00RG6XMCAFJB8HH55R".
+     */
+    "webhook_delivery_attempt_id": string;
+    /**
+     * ID of the endpoint delivery this attempt belongs to. Example:
+     * "wdel_01KEZF7C001DWSNDCDZHCTBN0A".
+     */
+    "webhook_delivery_id": string;
+    /** ID of the event sent by this attempt. Example: "whev_01KEZF7C00362MS3HV970TRZGS". */
+    "webhook_event_id": string;
+};
+/** A page of `WebhookDeliveryAttempt` objects. */
+export type WebhookDeliveryAttemptListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * WebhookDeliveryAttempt}. One attempt to deliver a webhook event to an endpoint, with its
+     * status, timing, response code, and error details.
+     */
+    "data": Array<WebhookDeliveryAttempt>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A page of `WebhookDelivery` objects. */
+export type WebhookDeliveryListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * WebhookDelivery}. An attempt to deliver an event to a webhook endpoint.
+     */
+    "data": Array<WebhookDelivery>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * The resource snapshot, without expansions. Webhooks omit these fields: `diagnostics`,
+ * `unconfigured_assignment`.
+ */
+export type WebhookDeliveryProfile = ({
+    /**
+     * Current delivery requirement and grouping policy. Whether delivery planning applies to items
+     * under a delivery profile, and if so the allowed delivery types, resolution mode, origin
+     * policy, and grouping and splitting rules.
+     */
+    "configuration": DeliveryProfileConfiguration;
+    /** Time the profile was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * Immutable revision used for new line-item snapshots. Example:
+     * "dprofr_01KEZF7C00K1P3FXGHCF46YQ1F".
+     */
+    "current_delivery_profile_revision_id": string;
+    /** Stable delivery profile ID. Example: "dprof_01KEZF7C0020J13FQYNY9854R0". */
+    "delivery_profile_id": string;
+    /**
+     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /** True only when this profile is the current physical catalog default. */
+    "is_default": boolean;
+    /**
+     * Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting with
+     * flint_ are reserved for Flint and are not returned. Writes follow the limits on
+     * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /** Merchant-facing profile name. */
+    "name": string;
+    /** Current profile lifecycle status. Value enum: "active", "archived". */
+    "status": "active" | "archived" | (string & {});
+    /** Time the profile last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /** Optimistic-concurrency version for profile writes. Format: uint64. minimum: 1. */
+    "version": number;
+});
+/** A response containing `WebhookDelivery` data. */
+export type WebhookDeliveryResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. An attempt to deliver an
+     * event to a webhook endpoint.
+     */
+    "data": WebhookDelivery;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * A merchant webhook endpoint belongs to the live mode or sandbox of the credential that created
+ * it and receives only that environment's events. Partner endpoints select sources with
+ * event_sources and installed_merchant_modes.
+ */
+export type WebhookEndpoint = ({
+    /**
+     * A dated API version pins this endpoint. The value default follows the endpoint owner's
+     * merchant default at delivery time, including retries. Deliveries never use a newer version
+     * than the event's recorded version.
+     */
+    "api_version": string;
+    /** When api_version last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "api_version_changed_at"?: string;
+    /**
+     * Version this endpoint used before its last upgrade. Present while a rollback is available.
+     * To roll back, send it as api_version.
+     */
+    "api_version_previous"?: string;
+    /**
+     * When the rollback offer for api_version_previous ends. You can still set any supported
+     * version afterward. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "api_version_rollback_expires_at"?: string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * The API key, user, partner app, or workload identity that created this endpoint. An API key
+     * creator can belong to another mode, such as a live key that creates a sandbox endpoint.
+     * Absent when the creator is unavailable, including endpoints created before attribution was
+     * recorded. A reference to another resource by `resource_type` and `resource_id`.
+     */
+    "created_by"?: ResourceReference;
+    /** Your description of this endpoint. Omitted when none is set. */
+    "description"?: string;
+    /**
+     * Subscribed event types. ["*"] includes every type the endpoint's event_sources deliver,
+     * including types added later; * is not available with installed_merchants. Stored
+     * subscriptions map previous names permanently and drop removed names on read. Empty when no
+     * current subscriptions remain. See the [changelog](/docs/changelog). [] (Value): string.
+     * minLength: 1.
+     */
+    "enabled_events": Array<string>;
+    /**
+     * Event sources this endpoint receives. Defaults to merchant. Use partner_app for app
+     * lifecycle events and installed_merchants for events from merchants that installed the
+     * partner app. [] enum: "merchant", "partner_app", "installed_merchants". [] (Value): string.
+     * Value enum: "merchant", "partner_app", "installed_merchants".
+     */
+    "event_sources"?: Array<"merchant" | "partner_app" | "installed_merchants" | (string & {})>;
+    /**
+     * Modes of installed-merchant events this endpoint receives. Required when event_sources
+     * includes installed_merchants and omitted otherwise. Partner app lifecycle events are
+     * delivered regardless of these modes. minItems: 1. maxItems: 2. uniqueItems: true. [] enum:
+     * "test", "live". [] (Value): string. Value enum: "test", "live".
+     */
+    "installed_merchant_modes"?: Array<"test" | "live" | (string & {})>;
+    /**
+     * Partner app that owns partner_app or installed_merchants event sources. Example:
+     * "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
+     */
+    "partner_app_id"?: string;
+    /**
+     * The connected app install this endpoint is linked to. The endpoint is deleted when that
+     * install is revoked or loses its grant for this endpoint's environment. Null when the
+     * endpoint is not linked to a connected app. Never changes. pattern:
+     * ^pinst_[0-9A-HJKMNP-TV-Z]{26}$. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+     */
+    "partner_app_install_id": string | null;
+    /**
+     * When the replaced signing secret stops signing deliveries. Present only during a rotation
+     * overlap. Until then each delivery carries a signature from both secrets. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z".
+     */
+    "previous_secret_expires_at"?: string;
+    /**
+     * Methods Flint uses to sign deliveries to this endpoint. minItems: 1. uniqueItems: true. []
+     * enum: "jwt", "hmac". [] (Value): string. How Flint signs requests to this endpoint. Value
+     * enum: "jwt", "hmac".
+     */
+    "signing_methods": Array<"jwt" | "hmac" | (string & {})>;
+    /**
+     * Availability of this endpoint. Deleted is returned only by DELETE. Value enum: "active",
+     * "inactive", "deleted".
+     */
+    "status": "active" | "inactive" | "deleted" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /** Public HTTPS URL that receives webhook deliveries. */
+    "url": string;
+    /**
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. Format: uint64. minimum: 1.
+     */
+    "version": number;
+    /**
+     * Unique identifier for this webhook endpoint, prefixed `whep_`. Example:
+     * "whep_01KEZF7C006FXYTAJRZCGCBJTN".
+     */
+    "webhook_endpoint_id": string;
+});
+/** A page of `WebhookEndpoint` objects. */
+export type WebhookEndpointListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * WebhookEndpoint}. A merchant webhook endpoint belongs to the live mode or sandbox of the
+     * credential that created it and receives only that environment's events. Partner endpoints
+     * select sources with event_sources and installed_merchant_modes.
+     */
+    "data": Array<WebhookEndpoint>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `WebhookEndpoint` data. */
+export type WebhookEndpointResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A merchant webhook
+     * endpoint belongs to the live mode or sandbox of the credential that created it and receives
+     * only that environment's events. Partner endpoints select sources with event_sources and
+     * installed_merchant_modes.
+     */
+    "data": WebhookEndpoint;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * A webhook endpoint with its one-time signing secret, returned on create with hmac, when PATCH
+ * first enables hmac, or when its secret is rotated. A merchant webhook endpoint belongs to the
+ * live mode or sandbox of the credential that created it and receives only that environment's
+ * events. Partner endpoints select sources with event_sources and installed_merchant_modes.
+ */
+export type WebhookEndpointWithSecret = (Exclude<WebhookEndpoint & object, readonly unknown[]>)
+    & ({
+    /**
+     * One-time signing secret. Present on create when hmac is enabled, on PATCH when hmac is first
+     * enabled, and on rotation; omitted on an idempotent replay after the secret retention period.
+     */
+    "secret"?: string;
+});
 /** A response containing `WebhookEndpointWithSecret` data. */
 export type WebhookEndpointWithSecretResponse = {
     /**
@@ -746,10 +1223,10 @@ export type WebhookEvent = ({
      * "merchant_billing_entry", "merchant_billing_invoice", "merchant_signup", "modifier",
      * "modifier_group", "modifier_set", "order", "order_charge", "order_edit", "order_line_item",
      * "order_line_item_modifier", "order_payment_attempt", "package", "package_item",
-     * "partner_app", "partner_app_credential", "partner_app_install", "payment_intent",
-     * "payment_link", "payment_link_custom_field", "payment_link_line_item", "payment_method",
-     * "payment_method_domain", "payment_review", "payment_split", "payout", "payout_destination",
-     * "payout_settings", "platform_fee", "platform_fee_balance_transaction",
+     * "partner_app", "partner_app_credential", "partner_app_install", "payment_attempt",
+     * "payment_intent", "payment_link", "payment_link_custom_field", "payment_link_line_item",
+     * "payment_method", "payment_method_domain", "payment_review", "payment_split", "payout",
+     * "payout_destination", "payout_settings", "platform_fee", "platform_fee_balance_transaction",
      * "platform_fee_payout", "price_list", "price_list_price", "product", "product_option",
      * "product_option_value", "product_variant", "promotion", "promotion_code",
      * "purchase_refund_allocation", "reader", "refund", "refund_allocation",
@@ -855,6 +1332,7 @@ export type WebhookEvent = ({
         | "partner_app"
         | "partner_app_credential"
         | "partner_app_install"
+        | "payment_attempt"
         | "payment_intent"
         | "payment_link"
         | "payment_link_custom_field"
@@ -1472,10 +1950,10 @@ export type WebhookEventType = {
      * "merchant_billing_entry", "merchant_billing_invoice", "merchant_signup", "modifier",
      * "modifier_group", "modifier_set", "order", "order_charge", "order_edit", "order_line_item",
      * "order_line_item_modifier", "order_payment_attempt", "package", "package_item",
-     * "partner_app", "partner_app_credential", "partner_app_install", "payment_intent",
-     * "payment_link", "payment_link_custom_field", "payment_link_line_item", "payment_method",
-     * "payment_method_domain", "payment_review", "payment_split", "payout", "payout_destination",
-     * "payout_settings", "platform_fee", "platform_fee_balance_transaction",
+     * "partner_app", "partner_app_credential", "partner_app_install", "payment_attempt",
+     * "payment_intent", "payment_link", "payment_link_custom_field", "payment_link_line_item",
+     * "payment_method", "payment_method_domain", "payment_review", "payment_split", "payout",
+     * "payout_destination", "payout_settings", "platform_fee", "platform_fee_balance_transaction",
      * "platform_fee_payout", "price_list", "price_list_price", "product", "product_option",
      * "product_option_value", "product_variant", "promotion", "promotion_code",
      * "purchase_refund_allocation", "reader", "refund", "refund_allocation",
@@ -1581,6 +2059,7 @@ export type WebhookEventType = {
         | "partner_app"
         | "partner_app_credential"
         | "partner_app_install"
+        | "payment_attempt"
         | "payment_intent"
         | "payment_link"
         | "payment_link_custom_field"
@@ -4632,7 +5111,10 @@ export type WebhookInvoice = ({
     /** When the invoice was voided. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "voided_at"?: string;
 });
-/** The resource snapshot, without expansions. Webhooks omit these fields: `banners`. */
+/**
+ * The resource snapshot, without expansions. Webhooks omit these fields: `banners`,
+ * `timezone_inferred`.
+ */
 export type WebhookMerchant = ({
     /**
      * The merchant's business address. A postal address. Every address has country. Addresses
@@ -4723,10 +5205,9 @@ export type WebhookMerchant = ({
     /** Support page shown to buyers. */
     "support_url"?: string;
     /**
-     * Business IANA time zone, such as America/New_York. Used for invoice deadlines, new
-     * locations, notifications, and reporting when a request omits its time zone. Omitted when
-     * unset; UTC then applies until the first live Location sets it. Sandbox Locations do not set
-     * the business time zone. Existing resources keep their saved time zone.
+     * Business IANA time zone, such as America/New_York. If no zone is saved, GET /v1/merchant
+     * returns a zone inferred from live business geography when one is available, and omits the
+     * field otherwise. Existing resources keep their saved time zone.
      */
     "timezone"?: string;
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
@@ -4771,6 +5252,11 @@ export type WebhookOrder = ({
      * an order.
      */
     "charges": Array<OrderCharge>;
+    /**
+     * Billing name and address collected in Checkout for a successful payment. Omitted for buyer
+     * credentials and when Checkout did not collect the details.
+     */
+    "checkout_billing_contact"?: CheckoutBillingContact;
     /**
      * IDs of the checkout sessions opened for this order. [] (Value): string. Example:
      * "cs_01KEZF7C004JRWFW43H037MQRN".
@@ -5041,8 +5527,8 @@ export type WebhookOrder = ({
      */
     "payment_intents"?: Array<ExpandedPaymentIntentSummary>;
     /**
-     * Payment link whose checkout created this order. Absent for orders that did not come from a
-     * payment link. Filter GET /v1/orders by payment_link_id to list a link's orders. Example:
+     * Payment link that created this order or started the subscription it renews. Absent for other
+     * orders. Filter GET /v1/orders by payment_link_id to list a link's orders. Example:
      * "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
      */
     "payment_link_id"?: string;
@@ -9455,6 +9941,11 @@ export type WebhookSnapshotSubscription = {
      */
     "paused_delivery_hold": ((SubscriptionPausedDeliveryHold) | (null));
     /**
+     * The payment link that started this subscription, when there was one. Example:
+     * "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+     */
+    "payment_link_id"?: string;
+    /**
      * Present only when `expand` includes `payment_method`; `null` when expanded and there is no
      * related payment method. anyOf[1] (Value): {@link ExpandedPaymentMethodSummary}. A payment
      * method's summary fields, including type, status, and card details, returned when the payment
@@ -9643,742 +10134,3 @@ export type WebhookSnapshotSubscription = {
      */
     "version": number;
 };
-/**
- * Sent on the webhook event stream before the server closes it, with the `reason`. After a
- * backpressure disconnect, resume from `resume_cursor`.
- */
-export type WebhookStreamDisconnect = {
-    /**
-     * Why Flint is closing the stream. Value enum: "ttl", "authorization_changed", "server_error",
-     * "backpressure", "sandbox_reset".
-     */
-    "reason": "ttl" | "authorization_changed" | "server_error" | "backpressure" | "sandbox_reset" | (string & {});
-    /**
-     * Last event sent before a backpressure disconnect. Reconnect using this value as
-     * Last-Event-ID or after.
-     */
-    "resume_cursor"?: string;
-};
-/**
- * Sent on the webhook event stream when events could not be replayed from the requested cursor,
- * with a `resume_cursor` to continue from.
- */
-export type WebhookStreamGap = {
-    /**
-     * Why events could not be replayed from the requested position. Value enum:
-     * "cursor_unavailable", "payload_expired".
-     */
-    "reason": "cursor_unavailable" | "payload_expired" | (string & {});
-    /**
-     * Event ID from which replay was requested. Omitted when the requested position has no event
-     * ID.
-     */
-    "requested_cursor"?: string;
-    /**
-     * Event ID after which streaming continues following this gap. Omitted when the resume
-     * position has no event ID.
-     */
-    "resume_cursor"?: string;
-};
-/** Sent when a webhook event stream connects, with the current `cursor`. */
-export type WebhookStreamReady = {
-    /**
-     * Event ID after which this connection begins streaming. Omitted when the starting position
-     * has no event ID.
-     */
-    "cursor"?: string;
-};
-/**
- * Sent on the webhook event stream in place of an event that was withheld, such as when the caller
- * lacks a required scope, with the `reason`.
- */
-export type WebhookStreamWithheld = {
-    /**
-     * Type of the event whose payload was withheld. Value enum: "api_key.created",
-     * "api_key.revoked", "api_key.updated", "balance.updated", "balance_transaction.created",
-     * "balance_transaction.updated", "bundle.archived", "bundle.created", "bundle.updated",
-     * "category.created", "category.deleted", "category.updated", "checkout_session.closed",
-     * "checkout_session.created", "checkout_session.expired", "checkout_session.invalidated",
-     * "checkout_session.paid", "checkout_session.partially_paid", "checkout_session.updated",
-     * "credit_note.created", "credit_note.issued", "credit_note.updated", "credit_note.voided",
-     * "credit_note_allocation.created", "credit_note_allocation.reversed",
-     * "custom_domain.archived", "custom_domain.updated", "customer.created", "customer.deleted",
-     * "customer.updated", "customer_deletion_request.completed",
-     * "customer_deletion_request.created", "customer_deletion_request.failed",
-     * "customer_deletion_request.processing", "customer_deletion_request.rejected",
-     * "customer_email_preferences.updated", "delivery_location_set.archived",
-     * "delivery_location_set.created", "delivery_location_set.updated",
-     * "delivery_method.activated", "delivery_method.archived", "delivery_method.created",
-     * "delivery_method.deactivated", "delivery_method.updated", "delivery_profile.archived",
-     * "delivery_profile.created", "delivery_profile.updated", "delivery_rate_callback.activated",
-     * "delivery_rate_callback.archived", "delivery_rate_callback.created",
-     * "delivery_rate_callback.deactivated", "delivery_rate_callback.updated",
-     * "delivery_revocation.created", "delivery_selection.committed", "delivery_zone.archived",
-     * "delivery_zone.created", "delivery_zone.updated", "dispute.created",
-     * "dispute.inquiry_closed", "dispute.lost", "dispute.needs_response", "dispute.prevented",
-     * "dispute.updated", "dispute.won", "environment_grant.created", "environment_grant.revoked",
-     * "environment_grant.updated", "fraud_warning.created", "fraud_warning.updated",
-     * "fulfillment.canceled", "fulfillment.completed", "fulfillment.created",
-     * "fulfillment.failed", "fulfillment.updated", "fulfillment_event.created",
-     * "gift_card.created", "gift_card.updated", "gift_card_load.created",
-     * "gift_card_load.updated", "gift_card_notification.created",
-     * "gift_card_notification.updated", "gift_card_redemption.created",
-     * "gift_card_redemption.updated", "gift_card_transaction.created", "inventory_count.applied",
-     * "inventory_count.updated", "inventory_level.shortage_detected", "inventory_level.updated",
-     * "inventory_receipt.created", "inventory_reservation.action_required",
-     * "inventory_reservation.at_risk", "inventory_reservation.closed",
-     * "inventory_reservation.committed", "inventory_reservation.consumed",
-     * "inventory_reservation.created", "inventory_reservation.hold_expired",
-     * "inventory_reservation.released", "inventory_reservation.updated",
-     * "inventory_transfer.closed", "inventory_transfer.departed", "inventory_transfer.lost",
-     * "inventory_transfer.received", "inventory_transfer.returned", "inventory_transfer.updated",
-     * "invoice.collection_block_resolved", "invoice.collection_blocked", "invoice.created",
-     * "invoice.credited", "invoice.issue_failed", "invoice.issued", "invoice.late_fee_assessed",
-     * "invoice.late_fee_due", "invoice.late_fee_waived", "invoice.marked_uncollectible",
-     * "invoice.overdue", "invoice.paid", "invoice.partially_paid", "invoice.partially_refunded",
-     * "invoice.refunded", "invoice.reminder_due", "invoice.reopened", "invoice.sent",
-     * "invoice.updated", "invoice.voided", "invoice_delivery_attempt.failed",
-     * "invoice_delivery_attempt.sent", "invoice_delivery_attempt.suppressed",
-     * "invoice_manual_payment.created", "invoice_manual_payment.reversed",
-     * "invoice_payment_attempt.canceled", "invoice_payment_attempt.expired",
-     * "invoice_payment_attempt.failed", "invoice_payment_attempt.processing",
-     * "invoice_payment_attempt.succeeded", "license_key.created", "license_key.disabled",
-     * "license_key.expired", "license_key.updated", "license_key_activation.created",
-     * "license_key_activation.released", "license_key_pool.archived", "license_key_pool.created",
-     * "license_key_pool.low_stock", "license_key_pool.out_of_stock", "license_key_pool.updated",
-     * "merchant.readiness_updated", "merchant.updated", "merchant_billing_balance.updated",
-     * "merchant_billing_invoice.issued", "merchant_billing_invoice.updated",
-     * "modifier_group.archived", "modifier_group.created", "modifier_group.updated",
-     * "modifier_set.archived", "modifier_set.created", "modifier_set.updated", "order.closed",
-     * "order.created", "order.inventory_exception_created", "order.inventory_exception_resolved",
-     * "order.paid", "order.partially_paid", "order.partially_refunded", "order.refunded",
-     * "order.updated", "order_edit.canceled", "order_edit.completed", "order_edit.created",
-     * "order_edit.updated", "package.created", "package.updated", "partner_app.platform_approved",
-     * "partner_app.platform_limited", "partner_app.platform_rejected", "partner_app.updated",
-     * "partner_app_install.created", "partner_app_install.permissions_updated",
-     * "partner_app_install.revoked", "partner_app_install.updated",
-     * "payment_intent.authorization_expiring", "payment_intent.canceled",
-     * "payment_intent.created", "payment_intent.expired",
-     * "payment_intent.fulfillment_hold_updated", "payment_intent.payment_failed",
-     * "payment_intent.processing", "payment_intent.requires_action",
-     * "payment_intent.requires_capture", "payment_intent.succeeded", "payment_intent.updated",
-     * "payment_link.created", "payment_link.updated", "payment_method.activated",
-     * "payment_method.archived", "payment_method.failed", "payment_method.updated",
-     * "payment_review.closed", "payment_review.opened", "payment_review.reopened",
-     * "payment_split.canceled", "payment_split.created", "payment_split.failed",
-     * "payment_split.succeeded", "payment_split.updated", "payout.canceled", "payout.created",
-     * "payout.failed", "payout.reversed", "payout.succeeded", "payout.updated",
-     * "payout_destination.archived", "payout_destination.created", "payout_destination.disabled",
-     * "payout_destination.updated", "payout_settings.updated", "platform_fee.canceled",
-     * "platform_fee.created", "platform_fee.succeeded", "platform_fee.updated",
-     * "platform_fee_payout.created", "platform_fee_payout.failed",
-     * "platform_fee_payout.succeeded", "price_list.archived", "price_list.created",
-     * "price_list.updated", "product.archived", "product.created", "product.updated",
-     * "product_variant.archived", "product_variant.created", "product_variant.updated",
-     * "promotion.archived", "promotion.created", "promotion.updated", "promotion_code.archived",
-     * "promotion_code.created", "promotion_code.updated", "reader.archived", "reader.created",
-     * "reader.updated", "refund.created", "refund.failed", "refund.partially_succeeded",
-     * "refund.succeeded", "refund.updated", "report.failed", "report.succeeded",
-     * "return.canceled", "return.completed", "return.created", "return.decision_recorded",
-     * "return.reopened", "return.updated", "return_disposition.created",
-     * "return_disposition.updated", "return_inspection.acceptance_decided",
-     * "return_inspection.created", "return_inspection.superseded", "return_receipt.created",
-     * "return_receipt.superseded", "return_receipt.verified", "return_resolution.created",
-     * "return_resolution.updated", "shipment.created", "shipment.updated",
-     * "subscription.activated", "subscription.canceled", "subscription.cancellation_scheduled",
-     * "subscription.created", "subscription.cycle_skipped",
-     * "subscription.delivery_action_required", "subscription.delivery_pause_upcoming",
-     * "subscription.delivery_updated", "subscription.dunning_exhausted",
-     * "subscription.end_upcoming", "subscription.past_due", "subscription.paused",
-     * "subscription.payment_succeeded", "subscription.plan_change_canceled",
-     * "subscription.plan_change_scheduled", "subscription.plan_changed",
-     * "subscription.reactivated", "subscription.renewal_upcoming", "subscription.resumed",
-     * "subscription.trial_ending", "subscription.updated",
-     * "subscription_delivery_migration.completed", "subscription_payment_retry.created",
-     * "subscription_payment_retry.failed", "subscription_payment_retry.succeeded",
-     * "tax_calculation_callback.activated", "tax_calculation_callback.archived",
-     * "tax_calculation_callback.created", "tax_calculation_callback.deactivated",
-     * "tax_calculation_callback.updated", "tax_connection.updated", "test_clock.advancing",
-     * "test_clock.archived", "test_clock.created", "test_clock.failed", "test_clock.ready",
-     * "ticket.checked_in", "ticket.created", "ticket.updated", "ticket.voided".
-     */
-    "event_type": "api_key.created"
-        | "api_key.revoked"
-        | "api_key.updated"
-        | "balance.updated"
-        | "balance_transaction.created"
-        | "balance_transaction.updated"
-        | "bundle.archived"
-        | "bundle.created"
-        | "bundle.updated"
-        | "category.created"
-        | "category.deleted"
-        | "category.updated"
-        | "checkout_session.closed"
-        | "checkout_session.created"
-        | "checkout_session.expired"
-        | "checkout_session.invalidated"
-        | "checkout_session.paid"
-        | "checkout_session.partially_paid"
-        | "checkout_session.updated"
-        | "credit_note.created"
-        | "credit_note.issued"
-        | "credit_note.updated"
-        | "credit_note.voided"
-        | "credit_note_allocation.created"
-        | "credit_note_allocation.reversed"
-        | "custom_domain.archived"
-        | "custom_domain.updated"
-        | "customer.created"
-        | "customer.deleted"
-        | "customer.updated"
-        | "customer_deletion_request.completed"
-        | "customer_deletion_request.created"
-        | "customer_deletion_request.failed"
-        | "customer_deletion_request.processing"
-        | "customer_deletion_request.rejected"
-        | "customer_email_preferences.updated"
-        | "delivery_location_set.archived"
-        | "delivery_location_set.created"
-        | "delivery_location_set.updated"
-        | "delivery_method.activated"
-        | "delivery_method.archived"
-        | "delivery_method.created"
-        | "delivery_method.deactivated"
-        | "delivery_method.updated"
-        | "delivery_profile.archived"
-        | "delivery_profile.created"
-        | "delivery_profile.updated"
-        | "delivery_rate_callback.activated"
-        | "delivery_rate_callback.archived"
-        | "delivery_rate_callback.created"
-        | "delivery_rate_callback.deactivated"
-        | "delivery_rate_callback.updated"
-        | "delivery_revocation.created"
-        | "delivery_selection.committed"
-        | "delivery_zone.archived"
-        | "delivery_zone.created"
-        | "delivery_zone.updated"
-        | "dispute.created"
-        | "dispute.inquiry_closed"
-        | "dispute.lost"
-        | "dispute.needs_response"
-        | "dispute.prevented"
-        | "dispute.updated"
-        | "dispute.won"
-        | "environment_grant.created"
-        | "environment_grant.revoked"
-        | "environment_grant.updated"
-        | "fraud_warning.created"
-        | "fraud_warning.updated"
-        | "fulfillment.canceled"
-        | "fulfillment.completed"
-        | "fulfillment.created"
-        | "fulfillment.failed"
-        | "fulfillment.updated"
-        | "fulfillment_event.created"
-        | "gift_card.created"
-        | "gift_card.updated"
-        | "gift_card_load.created"
-        | "gift_card_load.updated"
-        | "gift_card_notification.created"
-        | "gift_card_notification.updated"
-        | "gift_card_redemption.created"
-        | "gift_card_redemption.updated"
-        | "gift_card_transaction.created"
-        | "inventory_count.applied"
-        | "inventory_count.updated"
-        | "inventory_level.shortage_detected"
-        | "inventory_level.updated"
-        | "inventory_receipt.created"
-        | "inventory_reservation.action_required"
-        | "inventory_reservation.at_risk"
-        | "inventory_reservation.closed"
-        | "inventory_reservation.committed"
-        | "inventory_reservation.consumed"
-        | "inventory_reservation.created"
-        | "inventory_reservation.hold_expired"
-        | "inventory_reservation.released"
-        | "inventory_reservation.updated"
-        | "inventory_transfer.closed"
-        | "inventory_transfer.departed"
-        | "inventory_transfer.lost"
-        | "inventory_transfer.received"
-        | "inventory_transfer.returned"
-        | "inventory_transfer.updated"
-        | "invoice.collection_block_resolved"
-        | "invoice.collection_blocked"
-        | "invoice.created"
-        | "invoice.credited"
-        | "invoice.issue_failed"
-        | "invoice.issued"
-        | "invoice.late_fee_assessed"
-        | "invoice.late_fee_due"
-        | "invoice.late_fee_waived"
-        | "invoice.marked_uncollectible"
-        | "invoice.overdue"
-        | "invoice.paid"
-        | "invoice.partially_paid"
-        | "invoice.partially_refunded"
-        | "invoice.refunded"
-        | "invoice.reminder_due"
-        | "invoice.reopened"
-        | "invoice.sent"
-        | "invoice.updated"
-        | "invoice.voided"
-        | "invoice_delivery_attempt.failed"
-        | "invoice_delivery_attempt.sent"
-        | "invoice_delivery_attempt.suppressed"
-        | "invoice_manual_payment.created"
-        | "invoice_manual_payment.reversed"
-        | "invoice_payment_attempt.canceled"
-        | "invoice_payment_attempt.expired"
-        | "invoice_payment_attempt.failed"
-        | "invoice_payment_attempt.processing"
-        | "invoice_payment_attempt.succeeded"
-        | "license_key.created"
-        | "license_key.disabled"
-        | "license_key.expired"
-        | "license_key.updated"
-        | "license_key_activation.created"
-        | "license_key_activation.released"
-        | "license_key_pool.archived"
-        | "license_key_pool.created"
-        | "license_key_pool.low_stock"
-        | "license_key_pool.out_of_stock"
-        | "license_key_pool.updated"
-        | "merchant.readiness_updated"
-        | "merchant.updated"
-        | "merchant_billing_balance.updated"
-        | "merchant_billing_invoice.issued"
-        | "merchant_billing_invoice.updated"
-        | "modifier_group.archived"
-        | "modifier_group.created"
-        | "modifier_group.updated"
-        | "modifier_set.archived"
-        | "modifier_set.created"
-        | "modifier_set.updated"
-        | "order.closed"
-        | "order.created"
-        | "order.inventory_exception_created"
-        | "order.inventory_exception_resolved"
-        | "order.paid"
-        | "order.partially_paid"
-        | "order.partially_refunded"
-        | "order.refunded"
-        | "order.updated"
-        | "order_edit.canceled"
-        | "order_edit.completed"
-        | "order_edit.created"
-        | "order_edit.updated"
-        | "package.created"
-        | "package.updated"
-        | "partner_app.platform_approved"
-        | "partner_app.platform_limited"
-        | "partner_app.platform_rejected"
-        | "partner_app.updated"
-        | "partner_app_install.created"
-        | "partner_app_install.permissions_updated"
-        | "partner_app_install.revoked"
-        | "partner_app_install.updated"
-        | "payment_intent.authorization_expiring"
-        | "payment_intent.canceled"
-        | "payment_intent.created"
-        | "payment_intent.expired"
-        | "payment_intent.fulfillment_hold_updated"
-        | "payment_intent.payment_failed"
-        | "payment_intent.processing"
-        | "payment_intent.requires_action"
-        | "payment_intent.requires_capture"
-        | "payment_intent.succeeded"
-        | "payment_intent.updated"
-        | "payment_link.created"
-        | "payment_link.updated"
-        | "payment_method.activated"
-        | "payment_method.archived"
-        | "payment_method.failed"
-        | "payment_method.updated"
-        | "payment_review.closed"
-        | "payment_review.opened"
-        | "payment_review.reopened"
-        | "payment_split.canceled"
-        | "payment_split.created"
-        | "payment_split.failed"
-        | "payment_split.succeeded"
-        | "payment_split.updated"
-        | "payout.canceled"
-        | "payout.created"
-        | "payout.failed"
-        | "payout.reversed"
-        | "payout.succeeded"
-        | "payout.updated"
-        | "payout_destination.archived"
-        | "payout_destination.created"
-        | "payout_destination.disabled"
-        | "payout_destination.updated"
-        | "payout_settings.updated"
-        | "platform_fee.canceled"
-        | "platform_fee.created"
-        | "platform_fee.succeeded"
-        | "platform_fee.updated"
-        | "platform_fee_payout.created"
-        | "platform_fee_payout.failed"
-        | "platform_fee_payout.succeeded"
-        | "price_list.archived"
-        | "price_list.created"
-        | "price_list.updated"
-        | "product.archived"
-        | "product.created"
-        | "product.updated"
-        | "product_variant.archived"
-        | "product_variant.created"
-        | "product_variant.updated"
-        | "promotion.archived"
-        | "promotion.created"
-        | "promotion.updated"
-        | "promotion_code.archived"
-        | "promotion_code.created"
-        | "promotion_code.updated"
-        | "reader.archived"
-        | "reader.created"
-        | "reader.updated"
-        | "refund.created"
-        | "refund.failed"
-        | "refund.partially_succeeded"
-        | "refund.succeeded"
-        | "refund.updated"
-        | "report.failed"
-        | "report.succeeded"
-        | "return.canceled"
-        | "return.completed"
-        | "return.created"
-        | "return.decision_recorded"
-        | "return.reopened"
-        | "return.updated"
-        | "return_disposition.created"
-        | "return_disposition.updated"
-        | "return_inspection.acceptance_decided"
-        | "return_inspection.created"
-        | "return_inspection.superseded"
-        | "return_receipt.created"
-        | "return_receipt.superseded"
-        | "return_receipt.verified"
-        | "return_resolution.created"
-        | "return_resolution.updated"
-        | "shipment.created"
-        | "shipment.updated"
-        | "subscription.activated"
-        | "subscription.canceled"
-        | "subscription.cancellation_scheduled"
-        | "subscription.created"
-        | "subscription.cycle_skipped"
-        | "subscription.delivery_action_required"
-        | "subscription.delivery_pause_upcoming"
-        | "subscription.delivery_updated"
-        | "subscription.dunning_exhausted"
-        | "subscription.end_upcoming"
-        | "subscription.past_due"
-        | "subscription.paused"
-        | "subscription.payment_succeeded"
-        | "subscription.plan_change_canceled"
-        | "subscription.plan_change_scheduled"
-        | "subscription.plan_changed"
-        | "subscription.reactivated"
-        | "subscription.renewal_upcoming"
-        | "subscription.resumed"
-        | "subscription.trial_ending"
-        | "subscription.updated"
-        | "subscription_delivery_migration.completed"
-        | "subscription_payment_retry.created"
-        | "subscription_payment_retry.failed"
-        | "subscription_payment_retry.succeeded"
-        | "tax_calculation_callback.activated"
-        | "tax_calculation_callback.archived"
-        | "tax_calculation_callback.created"
-        | "tax_calculation_callback.deactivated"
-        | "tax_calculation_callback.updated"
-        | "tax_connection.updated"
-        | "test_clock.advancing"
-        | "test_clock.archived"
-        | "test_clock.created"
-        | "test_clock.failed"
-        | "test_clock.ready"
-        | "ticket.checked_in"
-        | "ticket.created"
-        | "ticket.updated"
-        | "ticket.voided"
-        | (string & {});
-    /**
-     * Why the credential cannot read this event's payload. Value enum: "missing_resource_scope",
-     * "resource_unattributed", "partner_read_unsupported".
-     */
-    "reason": "missing_resource_scope" | "resource_unattributed" | "partner_read_unsupported" | (string & {});
-    /**
-     * Read scopes for the affected resource. Omitted when no public resource read scope is known.
-     * [] (Value): string.
-     */
-    "required_scopes"?: Array<string>;
-    /**
-     * ID of the affected resource. Omitted when Flint cannot form a public resource reference.
-     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "resource_id"?: string;
-    /**
-     * Public resource type affected by the event. Omitted when no public resource type is
-     * attributed. Example: "order". Value enum: "api_key", "api_request_log", "balance",
-     * "balance_transaction", "bundle", "bundle_component", "category", "checkout_session",
-     * "checkout_session_customer_verification", "credit_note", "credit_note_allocation",
-     * "custom_domain", "customer", "customer_address", "customer_deletion_request",
-     * "customer_email_preferences", "customer_session", "customer_tax_exemption",
-     * "customer_verification", "delivery_choice_group", "delivery_location_set",
-     * "delivery_method", "delivery_profile", "delivery_quote", "delivery_rate",
-     * "delivery_rate_callback", "delivery_revocation", "delivery_selection", "delivery_zone",
-     * "demo_session", "device", "discount", "dispute", "email_change_request",
-     * "environment_grant", "file", "flint_wallet", "flint_wallet_card", "fraud_warning",
-     * "fulfillment", "fulfillment_event", "fulfillment_notification", "gift_card",
-     * "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
-     * "gift_card_redemption", "gift_card_transaction", "image", "inventory_adjustment",
-     * "inventory_allocation_policy", "inventory_allocation_policy_revision", "inventory_count",
-     * "inventory_item", "inventory_level", "inventory_movement", "inventory_receipt",
-     * "inventory_reservation", "inventory_reservation_line", "inventory_transfer",
-     * "inventory_transfer_line", "invoice", "invoice_delivery_attempt", "invoice_late_fee",
-     * "invoice_line_item", "invoice_manual_payment", "invoice_payment_attempt",
-     * "invoice_payment_term", "license_key", "license_key_activation", "license_key_pool",
-     * "license_key_pool_key", "location", "merchant", "merchant_billing_balance",
-     * "merchant_billing_entry", "merchant_billing_invoice", "merchant_signup", "modifier",
-     * "modifier_group", "modifier_set", "order", "order_charge", "order_edit", "order_line_item",
-     * "order_line_item_modifier", "order_payment_attempt", "package", "package_item",
-     * "partner_app", "partner_app_credential", "partner_app_install", "payment_intent",
-     * "payment_link", "payment_link_custom_field", "payment_link_line_item", "payment_method",
-     * "payment_method_domain", "payment_review", "payment_split", "payout", "payout_destination",
-     * "payout_settings", "platform_fee", "platform_fee_balance_transaction",
-     * "platform_fee_payout", "price_list", "price_list_price", "product", "product_option",
-     * "product_option_value", "product_variant", "promotion", "promotion_code",
-     * "purchase_refund_allocation", "reader", "refund", "refund_allocation",
-     * "refund_line_item_adjustment", "remembered_buyer", "report", "report_download", "return",
-     * "return_activity", "return_disposition", "return_inspection", "return_inspection_line_item",
-     * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
-     * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
-     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
-     * "subscription_delivery_migration", "subscription_line_item", "subscription_offer",
-     * "subscription_payment_retry", "subscription_plan", "subscription_plan_line_item",
-     * "tax_calculation_callback", "tax_connection", "tax_registration", "test_clock", "ticket",
-     * "user", "webhook_delivery", "webhook_endpoint", "webhook_event", "workload_identity".
-     */
-    "resource_type"?: "api_key"
-        | "api_request_log"
-        | "balance"
-        | "balance_transaction"
-        | "bundle"
-        | "bundle_component"
-        | "category"
-        | "checkout_session"
-        | "checkout_session_customer_verification"
-        | "credit_note"
-        | "credit_note_allocation"
-        | "custom_domain"
-        | "customer"
-        | "customer_address"
-        | "customer_deletion_request"
-        | "customer_email_preferences"
-        | "customer_session"
-        | "customer_tax_exemption"
-        | "customer_verification"
-        | "delivery_choice_group"
-        | "delivery_location_set"
-        | "delivery_method"
-        | "delivery_profile"
-        | "delivery_quote"
-        | "delivery_rate"
-        | "delivery_rate_callback"
-        | "delivery_revocation"
-        | "delivery_selection"
-        | "delivery_zone"
-        | "demo_session"
-        | "device"
-        | "discount"
-        | "dispute"
-        | "email_change_request"
-        | "environment_grant"
-        | "file"
-        | "flint_wallet"
-        | "flint_wallet_card"
-        | "fraud_warning"
-        | "fulfillment"
-        | "fulfillment_event"
-        | "fulfillment_notification"
-        | "gift_card"
-        | "gift_card_funding_disposition"
-        | "gift_card_load"
-        | "gift_card_notification"
-        | "gift_card_redemption"
-        | "gift_card_transaction"
-        | "image"
-        | "inventory_adjustment"
-        | "inventory_allocation_policy"
-        | "inventory_allocation_policy_revision"
-        | "inventory_count"
-        | "inventory_item"
-        | "inventory_level"
-        | "inventory_movement"
-        | "inventory_receipt"
-        | "inventory_reservation"
-        | "inventory_reservation_line"
-        | "inventory_transfer"
-        | "inventory_transfer_line"
-        | "invoice"
-        | "invoice_delivery_attempt"
-        | "invoice_late_fee"
-        | "invoice_line_item"
-        | "invoice_manual_payment"
-        | "invoice_payment_attempt"
-        | "invoice_payment_term"
-        | "license_key"
-        | "license_key_activation"
-        | "license_key_pool"
-        | "license_key_pool_key"
-        | "location"
-        | "merchant"
-        | "merchant_billing_balance"
-        | "merchant_billing_entry"
-        | "merchant_billing_invoice"
-        | "merchant_signup"
-        | "modifier"
-        | "modifier_group"
-        | "modifier_set"
-        | "order"
-        | "order_charge"
-        | "order_edit"
-        | "order_line_item"
-        | "order_line_item_modifier"
-        | "order_payment_attempt"
-        | "package"
-        | "package_item"
-        | "partner_app"
-        | "partner_app_credential"
-        | "partner_app_install"
-        | "payment_intent"
-        | "payment_link"
-        | "payment_link_custom_field"
-        | "payment_link_line_item"
-        | "payment_method"
-        | "payment_method_domain"
-        | "payment_review"
-        | "payment_split"
-        | "payout"
-        | "payout_destination"
-        | "payout_settings"
-        | "platform_fee"
-        | "platform_fee_balance_transaction"
-        | "platform_fee_payout"
-        | "price_list"
-        | "price_list_price"
-        | "product"
-        | "product_option"
-        | "product_option_value"
-        | "product_variant"
-        | "promotion"
-        | "promotion_code"
-        | "purchase_refund_allocation"
-        | "reader"
-        | "refund"
-        | "refund_allocation"
-        | "refund_line_item_adjustment"
-        | "remembered_buyer"
-        | "report"
-        | "report_download"
-        | "return"
-        | "return_activity"
-        | "return_disposition"
-        | "return_inspection"
-        | "return_inspection_line_item"
-        | "return_line_item"
-        | "return_policy"
-        | "return_policy_revision"
-        | "return_reason"
-        | "return_receipt"
-        | "return_receipt_line_item"
-        | "return_resolution"
-        | "risk_list"
-        | "risk_list_item"
-        | "risk_rule"
-        | "sandbox"
-        | "settings"
-        | "shipment"
-        | "subscription"
-        | "subscription_delivery_migration"
-        | "subscription_line_item"
-        | "subscription_offer"
-        | "subscription_payment_retry"
-        | "subscription_plan"
-        | "subscription_plan_line_item"
-        | "tax_calculation_callback"
-        | "tax_connection"
-        | "tax_registration"
-        | "test_clock"
-        | "ticket"
-        | "user"
-        | "webhook_delivery"
-        | "webhook_endpoint"
-        | "webhook_event"
-        | "workload_identity"
-        | (string & {});
-    /**
-     * ID of the event whose payload was withheld. Use it as a resume cursor. Example:
-     * "whev_01KEZF7C00362MS3HV970TRZGS".
-     */
-    "webhook_event_id": string;
-};
-export type WebhookVerificationOptions = _SdkWebhookVerificationOptions;
-/**
- * A weight value in grams, kilograms, ounces, or pounds, used in delivery profile configuration.
- */
-export type Weight = {
-    /**
-     * Weight unit. Use gram, kilogram, ounce, or pound. Value enum: "gram", "kilogram", "ounce",
-     * "pound".
-     */
-    "unit": "gram" | "kilogram" | "ounce" | "pound" | (string & {});
-    /**
-     * Weight measured in the specified unit. maximum: 1000000. exclusiveMinimum: 0. multipleOf:
-     * 0.001.
-     */
-    "value": number;
-};
-export type WeightPreviousAttributes = {
-    /**
-     * Weight unit. Use gram, kilogram, ounce, or pound. Value enum: "gram", "kilogram", "ounce",
-     * "pound". anyOf[1] (Value): string. Weight unit. Use gram, kilogram, ounce, or pound. Value
-     * enum: "gram", "kilogram", "ounce", "pound". anyOf[2] (Value): null.
-     */
-    "unit"?: (("gram" | "kilogram" | "ounce" | "pound" | (string & {})) | (null));
-    /**
-     * Weight measured in the specified unit. anyOf[1] (Value): number. Weight measured in the
-     * specified unit. maximum: 1000000. exclusiveMinimum: 0. multipleOf: 0.001. anyOf[2] (Value):
-     * null.
-     */
-    "value"?: ((number) | (null));
-};
-/**
- * A weight value in grams, kilograms, ounces, or pounds, used in delivery profile configuration.
- */
-export type WeightRequestInput = {
-    /**
-     * Weight unit. Use gram, kilogram, ounce, or pound. Value enum: "gram", "kilogram", "ounce",
-     * "pound".
-     */
-    "unit": "gram" | "kilogram" | "ounce" | "pound";
-    /**
-     * Weight measured in the specified unit. maximum: 1000000. exclusiveMinimum: 0. multipleOf:
-     * 0.001.
-     */
-    "value": number;
-};
-export type WorkloadIdentitiesCreateParams = (InputValue<CreateWorkloadIdentityRequestInput>);
-export type WorkloadIdentitiesDeleteParams = {
-    /**
-     * Optional version most recently read. Format: int64. minimum: 1. maximum: 9007199254740991.
-     */
-    "expected_version"?: InputValue<number>;
-};
-export type WorkloadIdentitiesGetParams = {};

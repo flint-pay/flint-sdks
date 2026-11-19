@@ -1,7 +1,11 @@
 [Model index](../MODELS.md)
 
-# CheckoutSessionTaxPreviousAttributes to CreateCheckoutSessionReturnResolutionInput
+# CheckoutSessionPartiallyPaidMerchantEvent to CreateCheckoutSessionQuickPayInput
 
+- [CheckoutSessionPartiallyPaidMerchantEvent](CheckoutSessionPartiallyPaidMerchantEvent.md)
+- [CheckoutSessionPlatformFee](CheckoutSessionPlatformFee.md)
+- [CheckoutSessionResponse](CheckoutSessionResponse.md)
+- [CheckoutSessionTax](CheckoutSessionTax.md)
 - [CheckoutSessionTaxPreviousAttributes](CheckoutSessionTaxPreviousAttributes.md)
 - [CheckoutSessionUpdatedInstalledMerchantsEvent](CheckoutSessionUpdatedInstalledMerchantsEvent.md)
 - [CheckoutSessionUpdatedMerchantEvent](CheckoutSessionUpdatedMerchantEvent.md)
@@ -98,8 +102,4 @@
 - [CreateCheckoutSessionPayToNewAddressVerificationRequestInput](CreateCheckoutSessionPayToNewAddressVerificationRequestInput.md)
 - [CreateCheckoutSessionQuickPay](CreateCheckoutSessionQuickPay.md)
 - [CreateCheckoutSessionQuickPayInput](CreateCheckoutSessionQuickPayInput.md)
-- [CreateCheckoutSessionRequest](CreateCheckoutSessionRequest.md)
-- [CreateCheckoutSessionRequestInput](CreateCheckoutSessionRequestInput.md)
-- [CreateCheckoutSessionReturnResolution](CreateCheckoutSessionReturnResolution.md)
-- [CreateCheckoutSessionReturnResolutionInput](CreateCheckoutSessionReturnResolutionInput.md)
 

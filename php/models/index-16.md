@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# InventoryTransferInput to InvoicePaidMerchantEventInput
+# InventorySettingsInput to InvoiceMarkedUncollectibleInstalledMerchantsEventInput
 
+- [InventorySettingsInput](InventorySettingsInput.md)
+- [InventorySettingsRequestInput](InventorySettingsRequestInput.md)
+- [InventorySourceSystemInput](InventorySourceSystemInput.md)
+- [InventorySourceSystemPreviousAttributesInput](InventorySourceSystemPreviousAttributesInput.md)
+- [InventorySourceSystemRequestInput](InventorySourceSystemRequestInput.md)
 - [InventoryTransferInput](InventoryTransferInput.md)
 - [InventoryTransferActionConflictErrorDetailInput](InventoryTransferActionConflictErrorDetailInput.md)
 - [InventoryTransferActionConflictErrorEnvelopeInput](InventoryTransferActionConflictErrorEnvelopeInput.md)
@@ -97,9 +102,4 @@
 - [InvoiceManualPaymentReversedInstalledMerchantsEventInput](InvoiceManualPaymentReversedInstalledMerchantsEventInput.md)
 - [InvoiceManualPaymentReversedMerchantEventInput](InvoiceManualPaymentReversedMerchantEventInput.md)
 - [InvoiceMarkedUncollectibleInstalledMerchantsEventInput](InvoiceMarkedUncollectibleInstalledMerchantsEventInput.md)
-- [InvoiceMarkedUncollectibleMerchantEventInput](InvoiceMarkedUncollectibleMerchantEventInput.md)
-- [InvoiceOverdueInstalledMerchantsEventInput](InvoiceOverdueInstalledMerchantsEventInput.md)
-- [InvoiceOverdueMerchantEventInput](InvoiceOverdueMerchantEventInput.md)
-- [InvoicePaidInstalledMerchantsEventInput](InvoicePaidInstalledMerchantsEventInput.md)
-- [InvoicePaidMerchantEventInput](InvoicePaidMerchantEventInput.md)
 

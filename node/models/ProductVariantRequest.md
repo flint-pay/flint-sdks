@@ -104,7 +104,7 @@ Field definitions: [shared fields](Dimensions.md#dimensions).
 
 Base unit price in the currency's smallest unit. It applies below the first quantity price break.
 
-Field definitions: [shared fields](PaymentLinkLineItemInputBundle.md#paymentlinklineiteminputbundleunit_price_money).
+Field definitions: [shared fields](CapturePaymentIntentRequest.md#capturepaymentintentrequestamount_money).
 
 ### ProductVariantRequest.unit_weight
 

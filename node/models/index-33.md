@@ -1,7 +1,15 @@
 [Model index](../MODELS.md)
 
-# ReturnCreatedInstalledMerchantsEvent to ReturnReceiptLineItemRequest
+# ReturnActor to ReturnReceiptLineItem
 
+- [ReturnActor](ReturnActor.md)
+- [ReturnActorPreviousAttributes](ReturnActorPreviousAttributes.md)
+- [ReturnCanceledInstalledMerchantsEvent](ReturnCanceledInstalledMerchantsEvent.md)
+- [ReturnCanceledMerchantEvent](ReturnCanceledMerchantEvent.md)
+- [ReturnCompletedInstalledMerchantsEvent](ReturnCompletedInstalledMerchantsEvent.md)
+- [ReturnCompletedMerchantEvent](ReturnCompletedMerchantEvent.md)
+- [ReturnCompletionBlocker](ReturnCompletionBlocker.md)
+- [ReturnCompletionBlockerPreviousAttributes](ReturnCompletionBlockerPreviousAttributes.md)
 - [ReturnCreatedInstalledMerchantsEvent](ReturnCreatedInstalledMerchantsEvent.md)
 - [ReturnCreatedMerchantEvent](ReturnCreatedMerchantEvent.md)
 - [ReturnDecisionRecordedInstalledMerchantsEvent](ReturnDecisionRecordedInstalledMerchantsEvent.md)
@@ -94,12 +102,4 @@
 - [ReturnReceiptCreatedInstalledMerchantsEvent](ReturnReceiptCreatedInstalledMerchantsEvent.md)
 - [ReturnReceiptCreatedMerchantEvent](ReturnReceiptCreatedMerchantEvent.md)
 - [ReturnReceiptLineItem](ReturnReceiptLineItem.md)
-- [ReturnReceiptLineItemInputExcess](ReturnReceiptLineItemInputExcess.md)
-- [ReturnReceiptLineItemInputExcessInput](ReturnReceiptLineItemInputExcessInput.md)
-- [ReturnReceiptLineItemInputMatched](ReturnReceiptLineItemInputMatched.md)
-- [ReturnReceiptLineItemInputMatchedInput](ReturnReceiptLineItemInputMatchedInput.md)
-- [ReturnReceiptLineItemInputUnverified](ReturnReceiptLineItemInputUnverified.md)
-- [ReturnReceiptLineItemInputUnverifiedInput](ReturnReceiptLineItemInputUnverifiedInput.md)
-- [ReturnReceiptLineItemPreviousAttributes](ReturnReceiptLineItemPreviousAttributes.md)
-- [ReturnReceiptLineItemRequest](ReturnReceiptLineItemRequest.md)
 

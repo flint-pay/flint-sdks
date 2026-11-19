@@ -9,7 +9,7 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `amount` | Optional | integer string or null | Signed amount in the currency's minor unit, such as cents for USD. `amount`: [declared alternatives](../models/SignedMoneyPreviousAttributes.md#signedmoneypreviousattributesamount). |
-| `currency` | Optional | string or null | ISO 4217 currency code for this amount. `currency`: [declared alternatives](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributescurrency). |
+| `currency` | Optional | string or null | Three-letter uppercase ISO 4217 currency code for this amount, such as USD. `currency`: [declared alternatives](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributescurrency). |
 
 ### SignedMoneyPreviousAttributes.amount
 

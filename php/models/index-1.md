@@ -1,6 +1,6 @@
 [Model index](../MODELS.md)
 
-# AcceptFulfillmentRequestInput to BuyerCustomerSessionResponseInput
+# AcceptFulfillmentRequestInput to BuyerCustomerResponseInput
 
 - [AcceptFulfillmentRequestInput](AcceptFulfillmentRequestInput.md)
 - [AcceptPartnerAppPlatformTermsRequestInput](AcceptPartnerAppPlatformTermsRequestInput.md)
@@ -61,6 +61,8 @@
 - [BalanceTransactionUpdatedMerchantEventInput](BalanceTransactionUpdatedMerchantEventInput.md)
 - [BalanceUpdatedInstalledMerchantsEventInput](BalanceUpdatedInstalledMerchantsEventInput.md)
 - [BalanceUpdatedMerchantEventInput](BalanceUpdatedMerchantEventInput.md)
+- [BlockFailedAttemptSignalsResponseInput](BlockFailedAttemptSignalsResponseInput.md)
+- [BlockFailedAttemptSignalsResultInput](BlockFailedAttemptSignalsResultInput.md)
 - [BrandingSettingsInput](BrandingSettingsInput.md)
 - [BrandingSettingsRequestInput](BrandingSettingsRequestInput.md)
 - [BundleInput](BundleInput.md)
@@ -100,6 +102,4 @@
 - [BuyerCustomerDeletionRequestListResponseInput](BuyerCustomerDeletionRequestListResponseInput.md)
 - [BuyerCustomerDeletionRequestResponseInput](BuyerCustomerDeletionRequestResponseInput.md)
 - [BuyerCustomerResponseInput](BuyerCustomerResponseInput.md)
-- [BuyerCustomerSessionInput](BuyerCustomerSessionInput.md)
-- [BuyerCustomerSessionResponseInput](BuyerCustomerSessionResponseInput.md)
 

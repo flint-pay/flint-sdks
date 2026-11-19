@@ -1,7 +1,7 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { InvoicePaymentTerm } from '../declarations/types-36.js';
 import type {
+    InvoicePaymentTerm,
     InvoicePaymentTermListResponse,
     InvoicePaymentTermResponse,
     InvoicePaymentTermsCreateParams,
@@ -30,6 +30,7 @@ export type {
 } from '../runtime.js';
 export type {
     InvoicePaymentTermsCreateParams,
+    InvoicePaymentTerm,
     InvoicePaymentTermResponse,
     InvoicePaymentTermsDeleteParams,
     InvoicePaymentTermsGetParams,
@@ -42,25 +43,22 @@ export type {
     InvoicePaymentTermCalculationOnReceiptRequestInput,
     InvoicePaymentTermCalculationNetDaysRequestInput,
     InvoicePaymentTermCalculationDaysAfterMonthEndRequestInput,
+    InvoicePaymentTermCalculationDayOfMonthRequestInput,
     InvoicePaymentTermCalculationDayOfNextMonthRequestInput,
+    InvoicePaymentTermCalculation,
     InvoicePaymentTermCalculationOnReceipt,
     InvoicePaymentTermCalculationNetDays,
     InvoicePaymentTermCalculationDaysAfterMonthEnd,
+    InvoicePaymentTermCalculationDayOfMonth,
+    InvoicePaymentTermCalculationDayOfNextMonth,
     InvoicePaymentTermCalculationPreviousAttributes,
     InvoicePaymentTermCalculationOnReceiptPreviousAttributes,
     InvoicePaymentTermCalculationNetDaysPreviousAttributes,
     InvoicePaymentTermCalculationDaysAfterMonthEndPreviousAttributes,
+    InvoicePaymentTermCalculationDayOfMonthPreviousAttributes,
     InvoicePaymentTermCalculationDayOfNextMonthPreviousAttributes
 } from '../declarations/types-37.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
-export type {
-    InvoicePaymentTerm,
-    InvoicePaymentTermCalculationDayOfMonthRequestInput,
-    InvoicePaymentTermCalculation,
-    InvoicePaymentTermCalculationDayOfMonth,
-    InvoicePaymentTermCalculationDayOfNextMonth,
-    InvoicePaymentTermCalculationDayOfMonthPreviousAttributes
-} from '../declarations/types-36.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateInvoicePaymentTermRequestInput } from '../declarations/types-10.js';
@@ -77,7 +75,7 @@ export type {
 } from '../declarations/types-35.js';
 export type { MoneyValueInput, MoneyValue, NextAction, MoneyValuePreviousAttributes } from '../declarations/types-44.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { UpdateInvoicePaymentTermRequestInput } from '../declarations/types-76.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
@@ -85,16 +83,18 @@ export { makeCreateInvoicePaymentTermRequest } from '../declarations/types-83.js
 export {
     makeInvoiceLateFeePolicyFixedRequest,
     makeInvoiceLateFeePolicyPercentageRequest,
-    makeInvoiceLateFeePolicyRequest,
+    makeInvoiceLateFeePolicyRequest
+} from '../declarations/types-87.js';
+export {
     makeInvoicePaymentTermCalculationDayOfMonthRequest,
     makeInvoicePaymentTermCalculationDayOfNextMonthRequest,
     makeInvoicePaymentTermCalculationDaysAfterMonthEndRequest,
     makeInvoicePaymentTermCalculationNetDaysRequest,
     makeInvoicePaymentTermCalculationOnReceiptRequest,
-    makeInvoicePaymentTermCalculationRequest
-} from '../declarations/types-87.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
-export { makeUpdateInvoicePaymentTermRequest } from '../declarations/types-93.js';
+    makeInvoicePaymentTermCalculationRequest,
+    makeMoneyValue
+} from '../declarations/types-88.js';
+export { makeUpdateInvoicePaymentTermRequest } from '../declarations/types-94.js';
 export interface InvoicePaymentTermsResource {
     /**
  * Creates a reusable payment term that decides when an invoice is due, for example on receipt, net

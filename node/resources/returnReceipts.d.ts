@@ -32,42 +32,43 @@ export type {
     ReturnReceiptsGetParams,
     ReturnReceiptsListParams,
     ReturnReceiptsVerifyLineItemParams,
-    ReturnSourceSystem
-} from '../declarations/types-65.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
-export type { RequestOptions, ReturnActor, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
-export type {
-    ReturnReceipt,
     ReturnReceiptLineItemRequestInput,
     ReturnReceiptLineItemInputMatchedInput,
     ReturnReceiptLineItemInputUnverifiedInput,
-    ReturnReceiptLineItemInputExcessInput,
-    ReturnReceiptLineItem
-} from '../declarations/types-64.js';
+    ReturnReceiptLineItemInputExcessInput
+} from '../declarations/types-65.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
+export type { RequestOptions, ReturnActor, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { ReturnReceipt, ReturnReceiptLineItem } from '../declarations/types-64.js';
 export type { CreateReturnReceiptResponse, CreateReturnReceiptRequestInput } from '../declarations/types-13.js';
 export type { GetReturnReceiptResponse } from '../declarations/types-28.js';
 export type { ListReturnReceiptsResponse } from '../declarations/types-40.js';
 export type { VerifyReturnReceiptLineItemResponse, VerifyReturnReceiptLineItemRequestInput } from '../declarations/types-78.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type { ReturnUnverifiedItemInput, ReturnSourceSystemRequestInput, ReturnUnverifiedItem } from '../declarations/types-66.js';
+export type {
+    ReturnUnverifiedItemInput,
+    ReturnSourceSystemRequestInput,
+    ReturnUnverifiedItem,
+    ReturnSourceSystem
+} from '../declarations/types-66.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { ReturnDisposition } from '../declarations/types-63.js';
 export type { MetadataMap } from '../declarations/types-43.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeCreateReturnReceiptRequest } from '../declarations/types-84.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeMetadataMap, makeMoneyValue } from '../declarations/types-88.js';
 export {
     makeReturnReceiptLineItemInputExcess,
     makeReturnReceiptLineItemInputMatched,
     makeReturnReceiptLineItemInputUnverified,
     makeReturnReceiptLineItemRequest,
-    makeReturnSourceSystemRequest
-} from '../declarations/types-91.js';
-export { makeReturnUnverifiedItem } from '../declarations/types-92.js';
-export { makeVerifyReturnReceiptLineItemRequest } from '../declarations/types-94.js';
+    makeReturnSourceSystemRequest,
+    makeReturnUnverifiedItem
+} from '../declarations/types-92.js';
+export { makeVerifyReturnReceiptLineItemRequest } from '../declarations/types-95.js';
 export interface ReturnReceiptsResource {
     /**
  * Record an immutable merchandise receipt observation. Corrections supersede an earlier receipt

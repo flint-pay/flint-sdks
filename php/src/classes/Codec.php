@@ -215,7 +215,7 @@ final class Codec
         return self::$validationFailures[$error] ?? null;
     }
 
-    private const VALIDATION_MESSAGES = '{"required":"{param} is required","discriminator":"{param} is required: one of {allowed}","enum":"{param} must be one of {allowed}; received {value}{suggestion}","unknown":"{param} is not a field of {where}{suggestion}","notAllowed":"{param} can\'t be sent: {reason}","invalid":"{param} must be {expectation}","minimum":"{param} must be at least {limit}; received a number","maximum":"{param} must be at most {limit}; received a number","exclusiveMinimum":"{param} must be greater than {limit}; received a number","exclusiveMaximum":"{param} must be less than {limit}; received a number","multipleOf":"{param} must be a multiple of {limit}; received a number","minLength":"{param} must be a string with at least {limit} characters; received a string of length {length}","maxLength":"{param} must be a string with at most {limit} characters; received a string of length {length}","minItems":"{param} must be an array with at least {limit} items; received an array of length {length}","maxItems":"{param} must be an array with at most {limit} items; received an array of length {length}","minProperties":"{param} must be an object with at least {limit} fields; received an object with {length} fields","maxProperties":"{param} must be an object with at most {limit} fields; received an object with {length} fields","pattern":"{param} must be a string matching the required pattern; received a string","uniqueItems":"{param} must be an array of unique items; received an array","contains":"{param} must be an array containing the required shape; received an array","union":"{param} matches none of its {count} shapes; closest is {shape}: {failure}"}';
+    private const VALIDATION_MESSAGES = '{"required":"{param} is required","discriminator":"{param} is required: one of {allowed}","enum":"{param} must be one of {allowed}; received {value}{suggestion}","unknown":"{param} is not a field of {where}{suggestion}","notAllowed":"{param} can\'t be sent: {reason}","invalid":"{param} must be {expectation}","minimum":"{param} must be at least {limit}; received a number","maximum":"{param} must be at most {limit}; received a number","exclusiveMinimum":"{param} must be greater than {limit}; received a number","exclusiveMaximum":"{param} must be less than {limit}; received a number","multipleOf":"{param} must be a multiple of {limit}; received a number","minLength":"{param} must be a string with at least {limit} characters; received a string of length {length}","maxLength":"{param} must be a string with at most {limit} characters; received a string of length {length}","minItems":"{param} must be an array with at least {limit} items; received an array of length {length}","maxItems":"{param} must be an array with at most {limit} items; received an array of length {length}","minProperties":"{param} must be an object with at least {limit} fields; received an object with {length} fields","maxProperties":"{param} must be an object with at most {limit} fields; received an object with {length} fields","uppercaseCurrency":"{param} must be a three-letter uppercase ISO 4217 code such as USD.","pattern":"{param} must be a string matching the required pattern; received a string","uniqueItems":"{param} must be an array of unique items; received an array","contains":"{param} must be an array containing the required shape; received an array","union":"{param} matches none of its {count} shapes; closest is {shape}: {failure}"}';
     private static bool $sensitive = false;
     private static array $redactFields = [];
 
@@ -1865,6 +1865,7 @@ final class Codec
         int $depth = 0,
         bool $validateConstraints = true,
         bool $allowUnknownResponseFields = false,
+        bool $dictionaryValue = false,
     ): mixed {
         $previousSensitive = self::$sensitive;
         self::$sensitive = $previousSensitive || ($s['sensitive'] ?? false);
@@ -1884,6 +1885,7 @@ final class Codec
         int $depth = 0,
         bool $validateConstraints = true,
         bool $allowUnknownResponseFields = false,
+        bool $dictionaryValue = false,
     ): mixed {
         if ($depth > 256) {
             self::fail(
@@ -1915,6 +1917,7 @@ final class Codec
                 $depth + 1,
                 $validateConstraints,
                 $allowUnknownResponseFields,
+                $dictionaryValue,
             );
         }
         if ($value instanceof Model) {
@@ -1942,6 +1945,7 @@ final class Codec
                 $depth + 1,
                 $validateConstraints,
                 $allowUnknownResponseFields,
+                $dictionaryValue,
             );
             // A successful match already executed the complete branch. Reuse
             // it only in matching mode, with the same unknown-field policy.
@@ -1954,6 +1958,7 @@ final class Codec
                 $definitions,
                 $depth,
                 $validateConstraints,
+                $dictionaryValue,
             ) {
                 try {
                     $result = self::executeNode(
@@ -1966,6 +1971,7 @@ final class Codec
                         $depth + 1,
                         $validateConstraints,
                         $allowUnknownFields,
+                        $dictionaryValue,
                     );
                     $matched[] = [$branch, $allowUnknownFields, $result];
                     return true;
@@ -2003,6 +2009,7 @@ final class Codec
                         $depth + 1,
                         $validateConstraints,
                         $allowUnknownResponseFields,
+                        $dictionaryValue,
                     ),
                     $path,
                     $value,
@@ -2049,6 +2056,7 @@ final class Codec
                             $depth + 1,
                             $validateConstraints,
                             $tolerateUnknownFields,
+                            $dictionaryValue,
                         );
                     }
                     $result = self::combine($result, $branchResult, $path, $value);
@@ -2278,6 +2286,7 @@ final class Codec
                         $depth + 1,
                         $validateConstraints,
                         $allowUnknownResponseFields,
+                        true,
                     );
                 } else {
                     $out->{$key} = $v;
@@ -2401,7 +2410,14 @@ final class Codec
                 if (isset($s['checks']['pattern'])) {
                     $pattern = $s['phpPattern'];
                     if (preg_match($pattern, $value) !== 1) {
-                        self::issue($path, 'pattern');
+                        self::issue(
+                            $path,
+                            $s['checks']['pattern'] === '^[A-Z]{3}$' &&
+                            !$dictionaryValue &&
+                            ($path === 'currency' || str_ends_with($path, '.currency'))
+                                ? 'uppercaseCurrency'
+                                : 'pattern',
+                        );
                     }
                 }
             }

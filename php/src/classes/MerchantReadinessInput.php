@@ -7,9 +7,10 @@ namespace Flint;
  * @property-read ReadinessAxisInput|array<array-key, mixed>|\stdClass $payments
  * @property-read ReadinessAxisInput|array<array-key, mixed>|\stdClass $payouts
  * @property-read ReadinessRequirementsInput|array<array-key, mixed>|\stdClass $requirements
+ * @property-read bool $review_blocks_captures
  * Presence-aware input; omitted fields throw when accessed. */
 final class MerchantReadinessInput extends Model {
-    /** @param array{'capabilities': list<CapabilityReadinessInput|array<array-key, mixed>|\stdClass>, 'observed_at': string|\DateTimeInterface, 'payments': ReadinessAxisInput|array<array-key, mixed>|\stdClass, 'payouts': ReadinessAxisInput|array<array-key, mixed>|\stdClass, 'requirements': ReadinessRequirementsInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'capabilities': list<CapabilityReadinessInput|array<array-key, mixed>|\stdClass>, 'observed_at': string|\DateTimeInterface, 'payments': ReadinessAxisInput|array<array-key, mixed>|\stdClass, 'payouts': ReadinessAxisInput|array<array-key, mixed>|\stdClass, 'requirements': ReadinessRequirementsInput|array<array-key, mixed>|\stdClass, 'review_blocks_captures'?: bool, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MerchantReadinessInput')); }
     /** Readiness of each payment and money movement capability, with its own status, requirements, and next actions. [] (Value): {@see CapabilityReadinessInput}. Merchant capability readiness for a payment or money movement capability.
      * @return list<CapabilityReadinessInput|array<array-key, mixed>|\stdClass>
@@ -41,4 +42,10 @@ final class MerchantReadinessInput extends Model {
      */
     public function getRequirements(): mixed { return $this->get('requirements'); }
     public function hasRequirements(): bool { return $this->has('requirements'); }
+    /** review_blocks_captures
+     * @return bool
+     * @throws SdkError When review_blocks_captures is omitted; use hasReviewBlocksCaptures() or valueOrDefault().
+     */
+    public function getReviewBlocksCaptures(): bool { return $this->get('review_blocks_captures'); }
+    public function hasReviewBlocksCaptures(): bool { return $this->has('review_blocks_captures'); }
 }

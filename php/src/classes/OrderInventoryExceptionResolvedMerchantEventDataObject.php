@@ -7,6 +7,7 @@ namespace Flint;
  * @property-read ?CheckoutBuyerContact $buyer_contact
  * @property-read ?string $buyer_note
  * @property-read list<OrderCharge> $charges
+ * @property-read ?CheckoutBillingContact $checkout_billing_contact
  * @property-read list<string> $checkout_session_ids
  * @property-read string|null $client_reference
  * @property-read ?string $closed_at
@@ -72,7 +73,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class OrderInventoryExceptionResolvedMerchantEventDataObject extends Model {
-    /** @param array{'active_payment_review_id'?: string|null, 'authorization_amounts'?: mixed, 'buyer_contact'?: mixed, 'buyer_note'?: string, 'charges': list<mixed>, 'checkout_session_ids': list<string>, 'client_reference'?: string|null, 'closed_at'?: string, 'closed_reason'?: string, 'closed_reason_message'?: string, 'created_at': string, 'custom_field_answers'?: list<mixed>, 'customer'?: mixed, 'customer_id'?: string, 'deferred_promotions': list<mixed>, 'delivery'?: mixed, 'delivery_destination'?: mixed, 'discounts': list<mixed>, 'dispute_status'?: string, 'external_reference_id'?: string, 'fulfillment_status'?: string, 'fulfillments': list<mixed>, 'gift_card_estimate'?: mixed, 'gift_card_settlements': list<mixed>, 'gift_card_tender_enabled': bool, 'gift_cards': list<mixed>, 'governing_delivery_selection_id': string|null, 'handover'?: mixed, 'internal_note'?: string, 'inventory_exception_reason'?: string, 'inventory_exception_resolution_message'?: string, 'inventory_exception_status'?: string, 'inventory_reservation_id'?: string, 'inventory_routing_source'?: mixed, 'invoice_id': string|null, 'line_items': list<mixed>, 'merchant_id': string, 'metadata'?: mixed, 'order_id': string, 'order_number'?: string, 'origin'?: string, 'paid_at': string|null, 'payment_intent_ids': list<string>, 'payment_intents'?: list<mixed>, 'payment_link_id'?: string, 'payment_status': string, 'pending_order_edit_id'?: string|null, 'prepayment_order_id': string|null, 'pricing_amounts': mixed, 'refund_ids': list<string>, 'refund_status': string, 'return_credit_settlements': list<mixed>, 'return_resolution_id'?: string, 'settlement_amounts': mixed, 'status': string, 'subscription'?: mixed, 'subscription_cycle'?: int, 'subscription_delivery_changed_at'?: string, 'subscription_delivery_number': int|null, 'subscription_id'?: string, 'subscription_plan'?: mixed, 'subscription_plan_id'?: string, 'supported_actions'?: list<string>, 'tax': mixed, 'ticketed_event'?: mixed, 'tips': list<mixed>, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'active_payment_review_id'?: string|null, 'authorization_amounts'?: mixed, 'buyer_contact'?: mixed, 'buyer_note'?: string, 'charges': list<mixed>, 'checkout_billing_contact'?: mixed, 'checkout_session_ids': list<string>, 'client_reference'?: string|null, 'closed_at'?: string, 'closed_reason'?: string, 'closed_reason_message'?: string, 'created_at': string, 'custom_field_answers'?: list<mixed>, 'customer'?: mixed, 'customer_id'?: string, 'deferred_promotions': list<mixed>, 'delivery'?: mixed, 'delivery_destination'?: mixed, 'discounts': list<mixed>, 'dispute_status'?: string, 'external_reference_id'?: string, 'fulfillment_status'?: string, 'fulfillments': list<mixed>, 'gift_card_estimate'?: mixed, 'gift_card_settlements': list<mixed>, 'gift_card_tender_enabled': bool, 'gift_cards': list<mixed>, 'governing_delivery_selection_id': string|null, 'handover'?: mixed, 'internal_note'?: string, 'inventory_exception_reason'?: string, 'inventory_exception_resolution_message'?: string, 'inventory_exception_status'?: string, 'inventory_reservation_id'?: string, 'inventory_routing_source'?: mixed, 'invoice_id': string|null, 'line_items': list<mixed>, 'merchant_id': string, 'metadata'?: mixed, 'order_id': string, 'order_number'?: string, 'origin'?: string, 'paid_at': string|null, 'payment_intent_ids': list<string>, 'payment_intents'?: list<mixed>, 'payment_link_id'?: string, 'payment_status': string, 'pending_order_edit_id'?: string|null, 'prepayment_order_id': string|null, 'pricing_amounts': mixed, 'refund_ids': list<string>, 'refund_status': string, 'return_credit_settlements': list<mixed>, 'return_resolution_id'?: string, 'settlement_amounts': mixed, 'status': string, 'subscription'?: mixed, 'subscription_cycle'?: int, 'subscription_delivery_changed_at'?: string, 'subscription_delivery_number': int|null, 'subscription_id'?: string, 'subscription_plan'?: mixed, 'subscription_plan_id'?: string, 'supported_actions'?: list<string>, 'tax': mixed, 'ticketed_event'?: mixed, 'tips': list<mixed>, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderInventoryExceptionResolvedMerchantEventDataObject')); }
     /** The earliest open or resolving payment review on this order's counted payments. `null` when no review is open or resolving. List reviews with GET /v1/payment-reviews?order_id=&status=open. Omitted for buyer credentials. Always present with merchant credentials.
      * @return string|null
@@ -99,6 +100,11 @@ final class OrderInventoryExceptionResolvedMerchantEventDataObject extends Model
      */
     public function getCharges(): array { return $this->get('charges'); }
     public function hasCharges(): bool { return $this->has('charges'); }
+    /** Billing name and address collected in Checkout for a successful payment. Omitted for buyer credentials and when Checkout did not collect the details.
+     * @return ?CheckoutBillingContact
+     */
+    public function getCheckoutBillingContact(): ?CheckoutBillingContact { return $this->get('checkout_billing_contact'); }
+    public function hasCheckoutBillingContact(): bool { return $this->has('checkout_billing_contact'); }
     /** IDs of the checkout sessions opened for this order. [] (Value): string.
      * @return list<string>
      */
@@ -294,7 +300,7 @@ final class OrderInventoryExceptionResolvedMerchantEventDataObject extends Model
      */
     public function getPaymentIntents(): ?array { return $this->get('payment_intents'); }
     public function hasPaymentIntents(): bool { return $this->has('payment_intents'); }
-    /** Payment link whose checkout created this order. Absent for orders that did not come from a payment link. Filter GET /v1/orders by payment_link_id to list a link's orders.
+    /** Payment link that created this order or started the subscription it renews. Absent for other orders. Filter GET /v1/orders by payment_link_id to list a link's orders.
      * @return ?string
      */
     public function getPaymentLinkId(): ?string { return $this->get('payment_link_id'); }

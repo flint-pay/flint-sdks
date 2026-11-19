@@ -213,7 +213,7 @@ final class BuyerOrder extends Model {
      */
     public function getPaymentIntentIds(): array { return $this->get('payment_intent_ids'); }
     public function hasPaymentIntentIds(): bool { return $this->has('payment_intent_ids'); }
-    /** Payment link whose checkout created this order. Absent for orders that did not come from a payment link. Filter GET /v1/orders by payment_link_id to list a link's orders.
+    /** Payment link that created this order or started the subscription it renews. Absent for other orders. Filter GET /v1/orders by payment_link_id to list a link's orders.
      * @return ?string
      */
     public function getPaymentLinkId(): ?string { return $this->get('payment_link_id'); }

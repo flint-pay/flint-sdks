@@ -14,7 +14,7 @@ final class SubscriptionBillingHold extends Model {
      */
     public function getDetectedAt(): string { return $this->get('detected_at'); }
     public function hasDetectedAt(): bool { return $this->has('detected_at'); }
-    /** Why subscription billing cannot proceed. Treat unrecognized values as other. Value enum: "configuration", "retrying", "other".
+    /** Why subscription billing cannot proceed. Treat unrecognized values as other. Value enum: "configuration", "retrying", "platform_review", "flint_restriction", "other".
      * @return string
      */
     public function getReason(): string { return $this->get('reason'); }

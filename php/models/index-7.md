@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# CreateReturnReasonRequestInput to CustomerAccountSettingsRequestInput
+# CreateReturnPreviewDataResolutionInput to CustomerAccountPresentationInput
 
+- [CreateReturnPreviewDataResolutionInput](CreateReturnPreviewDataResolutionInput.md)
+- [CreateReturnPreviewRequestInput](CreateReturnPreviewRequestInput.md)
+- [CreateReturnPreviewRequestEligibilityInput](CreateReturnPreviewRequestEligibilityInput.md)
+- [CreateReturnPreviewRequestResolutionInput](CreateReturnPreviewRequestResolutionInput.md)
+- [CreateReturnPreviewResponseInput](CreateReturnPreviewResponseInput.md)
 - [CreateReturnReasonRequestInput](CreateReturnReasonRequestInput.md)
 - [CreateReturnReasonResponseInput](CreateReturnReasonResponseInput.md)
 - [CreateReturnReceiptRequestInput](CreateReturnReceiptRequestInput.md)
@@ -97,9 +102,4 @@
 - [CustomerAccessLinkResponseInput](CustomerAccessLinkResponseInput.md)
 - [CustomerAccessLinkReturnedInput](CustomerAccessLinkReturnedInput.md)
 - [CustomerAccountPresentationInput](CustomerAccountPresentationInput.md)
-- [CustomerAccountPresentationRequestInput](CustomerAccountPresentationRequestInput.md)
-- [CustomerAccountRouteTemplatesInput](CustomerAccountRouteTemplatesInput.md)
-- [CustomerAccountRouteTemplatesRequestInput](CustomerAccountRouteTemplatesRequestInput.md)
-- [CustomerAccountSettingsInput](CustomerAccountSettingsInput.md)
-- [CustomerAccountSettingsRequestInput](CustomerAccountSettingsRequestInput.md)
 

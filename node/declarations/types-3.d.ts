@@ -1,24 +1,6 @@
-import type { MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
-import type { OrderCalculatedChargeTax, OrderCalculatedLineItemTax } from './types-45.js';
-import type { BundleComponent, BuyerAction } from './types-1.js';
-import type { CategoryReference, CardDetails } from './types-5.js';
-import type { Dimensions } from './types-25.js';
-import type { GiftCardPurchaseSnapshot } from './types-30.js';
-import type { Image } from './types-31.js';
-import type { LineItemInventorySnapshot } from './types-40.js';
 import type {
-    OrderLineItemFulfillmentQuantities,
-    OrderLineItemFulfillmentRequirements,
-    OrderLineItemRefundable
-} from './types-46.js';
-import type { OrderLineSubscriptionOfferSummary, OrderPaymentAttemptPaymentMethodSave } from './types-47.js';
-import type { PurchasedGiftCard } from './types-59.js';
-import type { SelectedProductOption } from './types-67.js';
-import type { SubscribedLine, StripeClientSetup } from './types-68.js';
-import type { Weight } from './types-79.js';
-import type { TextModifierRequest, TaxReverseCharge } from './types-74.js';
-import type {
-    BuyerOrder,
+    BuyerLicenseKey,
+    BuyerFulfillment,
     BuyerErrorRemediation,
     BuyerExpandedPaymentIntentSummary,
     BuyerExpandedPaymentIntentSummaryPreviousAttributes,
@@ -26,31 +8,401 @@ import type {
     BuyerExpandedOrderSummaryPreviousAttributes
 } from './types-2.js';
 import type { ResponseMeta } from './types-62.js';
-import type { PaymentAttemptGiftCardRedemption } from './types-50.js';
+import type { BuyerAction, BundleComponent } from './types-1.js';
+import type { BuyerSetupCollection, BuyerTip, BuyerSelectableOrderPaymentIntent, BuyerReturnResolutionPreview } from './types-4.js';
+import type { CheckoutBuyerContact } from './types-6.js';
+import type { DeferredPromotion, CustomerTaxExemptionCoverage } from './types-17.js';
+import type {
+    OrderAuthorizationAmounts,
+    OrderDeliveryDestination,
+    OrderDeliverySummary,
+    OrderDiscount,
+    OrderCalculatedChargeTax,
+    OrderCalculatedLineItemTax
+} from './types-45.js';
+import type {
+    OrderGiftCardEstimate,
+    OrderGiftCardSelection,
+    OrderGiftCardSettlement,
+    OrderLineItemFulfillmentQuantities,
+    OrderLineItemFulfillmentRequirements
+} from './types-46.js';
+import type {
+    OrderReturnCreditSettlement,
+    OrderSettlementAmounts,
+    OrderLineItemRefundable,
+    OrderLineSubscriptionOfferSummary,
+    OrderPaymentAttemptPaymentMethodSave
+} from './types-47.js';
+import type { PricingAmounts } from './types-56.js';
+import type { TicketedEvent, TextModifierRequest } from './types-75.js';
+import type { MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
+import type { CategoryReference, CardDetails } from './types-5.js';
+import type { Dimensions } from './types-25.js';
+import type { GiftCardPurchaseSnapshot } from './types-30.js';
+import type { Image } from './types-31.js';
+import type { LineItemInventorySnapshot } from './types-40.js';
+import type { PurchasedGiftCard } from './types-59.js';
+import type { SelectedProductOption, StripeClientSetup } from './types-68.js';
+import type { SubscribedLine } from './types-69.js';
+import type { Weight } from './types-80.js';
+import type { PaymentAttemptGiftCardRedemption, PaymentErrorSummary, PaymentFulfillmentHold } from './types-51.js';
 import type { PendingPaymentAction } from './types-55.js';
 import type { DeliveryChargeTaxCalculationRequest } from './types-18.js';
 import type { TaxBreakdown } from './types-73.js';
-import type { CustomerTaxExemptionCoverage } from './types-17.js';
+import type { TaxReverseCharge } from './types-74.js';
 import type { Address } from './types-0.js';
-import type {
-    ReturnHandoffRequirementLineItem,
-    ReturnFinancialSummary,
-    ReturnEligibilitySelection,
-    ReturnLineItemValue,
-    ReturnLineItemDecisionProposal
-} from './types-63.js';
-import type { BuyerSelectableOrderPaymentIntent, BuyerReturnResolutionPreview } from './types-4.js';
-import type { PaymentErrorSummary, PaymentFulfillmentHold } from './types-51.js';
+import type { ReturnHandoffRequirementLineItem, ReturnFinancialSummary, ReturnEligibilitySelection } from './types-63.js';
 import type { PaymentSourceSummary } from './types-54.js';
 import type { ExpandedCustomerSummary, ExpandedCustomerSummaryPreviousAttributes } from './types-26.js';
-import type { RefundLineItemAllocation, RefundTaxBreakdownRefund, RefundLineItemAllocationPreviousAttributes } from './types-60.js';
+import type { RefundLineItemAllocation, RefundLineItemAllocationPreviousAttributes } from './types-60.js';
 import type {
+    RefundTaxBreakdownRefund,
     RefundTenderAllocation,
     RefundTaxBreakdownRefundPreviousAttributes,
     RefundTenderAllocationPreviousAttributes
 } from './types-61.js';
-import type { ReturnReasonSummary, ReturnPolicyAdjustmentProposal } from './types-64.js';
+import type {
+    ReturnReasonSummary,
+    ReturnLineItemValue,
+    ReturnLineItemDecisionProposal,
+    ReturnPolicyAdjustmentProposal
+} from './types-64.js';
 import type { ReturnRefundTenderEstimate } from './types-65.js';
+/** A response containing `BuyerLicenseKey` data. */
+export type BuyerLicenseKeyResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A license key issued to
+     * the current buyer.
+     */
+    "data": BuyerLicenseKey;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A customer's purchase and its payment and fulfillment progress. */
+export type BuyerOrder = {
+    /**
+     * The payment attempt currently collecting this order. Omitted when no attempt is active or
+     * its collection surface belongs to another caller. An attempt to pay an order.
+     */
+    "active_payment_attempt"?: BuyerOrderPaymentAttempt;
+    /**
+     * The amounts authorized and still capturable on the order's payments. The amounts authorized
+     * and still capturable on an order's payments, with the authorization expiry.
+     */
+    "authorization_amounts"?: OrderAuthorizationAmounts;
+    /**
+     * What the buyer can do with the order, in this order: start_return, then resend_receipt. A
+     * buyer's read through a customer session on /v1/me, a checkout credential on GET
+     * /v1/orders/{order_id}, or Flint's buyer account lists both every time. Merchant order
+     * responses omit this field. A list of orders leaves start_return out, since only a read of
+     * one order checks return eligibility. start_return is due when the last open return window
+     * ends. Example: []. [] (Value): {@link BuyerAction}. One thing a buyer can do with an order,
+     * subscription, invoice or return they read through /v1/me. Show the actions with is_required
+     * as what needs the buyer's attention, and the first available action as the primary action on
+     * the resource's page in your account.
+     */
+    "buyer_actions": Array<BuyerAction>;
+    /**
+     * Email and phone saved when payment started, from the pay request's buyer_contact or the
+     * paying checkout session's saved contact. It does not change the linked customer. Buyer
+     * contact supplied with payment or saved during checkout.
+     */
+    "buyer_contact"?: CheckoutBuyerContact;
+    /** A note to the buyer. */
+    "buyer_note"?: string;
+    /**
+     * Charges added to the order, such as delivery or service fees, each with its applied amount,
+     * tax, and refunded amount. [] (Value): {@link BuyerOrderCharge}. An additional charge applied
+     * to an order.
+     */
+    "charges": Array<BuyerOrderCharge>;
+    /**
+     * IDs of the checkout sessions opened for this order. [] (Value): string. Example:
+     * "cs_01KEZF7C004JRWFW43H037MQRN".
+     */
+    "checkout_session_ids": Array<string>;
+    /**
+     * When the order closed. Present exactly when status is closed. Set once at the transition and
+     * never changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "closed_at"?: string;
+    /**
+     * Why the order closed. Present exactly when status is closed. Set once at closure.
+     * Unrecognized reasons are returned as other; new values may be added. Value enum:
+     * "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
+     * "superseded", "return_resolution_canceled", "other".
+     */
+    "closed_reason"?: "invoice_voided"
+        | "paid"
+        | "closed_by_merchant"
+        | "checkout_expired"
+        | "written_off"
+        | "superseded"
+        | "return_resolution_canceled"
+        | "other"
+        | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /** ID of the customer this order belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
+    "customer_id"?: string;
+    /**
+     * Promotions accepted at subscription signup. They attach when the subscription is provisioned
+     * and first discount its first charged cycle. They do not discount this order and are separate
+     * from discounts and order totals. Always present; empty when no promotions are deferred. []
+     * (Value): {@link DeferredPromotion}. A promotion accepted at subscription signup for the
+     * subscription's first charged cycle. It does not discount the signup order.
+     */
+    "deferred_promotions": Array<DeferredPromotion>;
+    /**
+     * Method, type and recipient of governing_delivery_selection_id. The address remains in
+     * delivery_destination. Omitted when no shipment or local-delivery selection governs the
+     * order. Method, type and recipient of governing_delivery_selection_id. delivery_destination
+     * contains the resolved address. These values describe the same selection.
+     */
+    "delivery"?: OrderDeliverySummary;
+    /**
+     * The shipment or local-delivery destination committed for this order. Payment freezes this
+     * value; fulfillment recipient changes do not replace it. Omitted for a checkout session
+     * credential that doesn't act for the customer the buyer verified. Where an order is
+     * delivered: the address, the recipient, and where the destination came from.
+     */
+    "delivery_destination"?: OrderDeliveryDestination;
+    /**
+     * Discounts applied to the order, each with its amount, status, and the line items and charges
+     * it covers. [] (Value): {@link OrderDiscount}. A discount applied to an order, with its
+     * amount, status, and the line items and charges it covers. It comes from a manual discount or
+     * a promotion.
+     */
+    "discounts": Array<OrderDiscount>;
+    /**
+     * Aggregate progress across the order's fulfillment quantities. Value enum: "not_fulfilled",
+     * "partially_fulfilled", "fulfilled", "canceled", "not_applicable", "closed".
+     */
+    "fulfillment_status"?: "not_fulfilled"
+        | "partially_fulfilled"
+        | "fulfilled"
+        | "canceled"
+        | "not_applicable"
+        | "closed"
+        | (string & {});
+    /**
+     * Fulfillments created for the order, each covering a set of its line items. [] (Value):
+     * {@link BuyerFulfillment}. Work required to deliver an order's items.
+     */
+    "fulfillments": Array<BuyerFulfillment>;
+    /**
+     * An estimate of how the order balance splits between gift cards and the payment processor. An
+     * estimate of how an order total splits between gift cards and the payment processor, and
+     * whether gift cards can pay it.
+     */
+    "gift_card_estimate"?: OrderGiftCardEstimate;
+    /**
+     * The gift card redemptions applied to the order's payments. [] (Value): {@link
+     * OrderGiftCardSettlement}. A gift card redemption applied to an order payment, with the
+     * amount, tip, and gift card.
+     */
+    "gift_card_settlements": Array<OrderGiftCardSettlement>;
+    /**
+     * Whether gift cards can pay for this order now. Gift cards pay only USD orders that still
+     * accept changes, are not subscription purchases, and whose merchant has at least one gift
+     * card that is not closed in this environment. Gift cards cannot fund gift card purchases;
+     * this is false when those purchases leave no amount eligible for gift card tender. Recomputed
+     * on each read; a spent but open card still counts.
+     */
+    "gift_card_tender_enabled": boolean;
+    /**
+     * Gift cards available to pay the order, with each card's available balance. [] (Value):
+     * {@link OrderGiftCardSelection}. A gift card available to pay an order, with its available
+     * balance and the last four characters of its code.
+     */
+    "gift_cards": Array<OrderGiftCardSelection>;
+    /**
+     * ID of the delivery selection that governs this order, including pickup choices without a
+     * delivery destination: the checkout's provisional selection before payment, and the selection
+     * a payment committed after. Read it with GET /v1/delivery-selections/{delivery_selection_id}.
+     * Null when no selection governs the order. While set, change the destination through the
+     * delivery selection. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
+     */
+    "governing_delivery_selection_id": string | null;
+    /**
+     * The invoice associated with this order. Null when the order has no invoice. A replacement
+     * invoice replaces this ID; voiding an invoice preserves it. Example:
+     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+     */
+    "invoice_id": string | null;
+    /**
+     * Items the order sells, each with its pricing, tax, and fulfillment quantities. [] (Value):
+     * {@link BuyerOrderLineItem}. An item purchased in an order.
+     */
+    "line_items": Array<BuyerOrderLineItem>;
+    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+    "merchant_id": string;
+    /**
+     * Unique identifier for this order, prefixed `ord_`. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id": string;
+    /** Human-readable order number for receipts and merchant reference. */
+    "order_number"?: string;
+    /**
+     * How the order was created. invoice means a Quick Pay invoice created the order; attaching an
+     * invoice to an existing order preserves its origin. Value enum: "virtual_terminal",
+     * "payment_link", "checkout", "api", "subscription", "invoice".
+     */
+    "origin"?: "virtual_terminal"
+        | "payment_link"
+        | "checkout"
+        | "api"
+        | "subscription"
+        | "invoice"
+        | (string & {});
+    /**
+     * When `payment_status` became `paid`, including a final capture that releases the remaining
+     * balance. Set once and never changed, including after refunds. `null` when `payment_status`
+     * isn't `paid`, including an order whose balance was written off without being paid. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "paid_at": string | null;
+    /**
+     * Payment options and collection instructions for the order's outstanding balance. Omitted
+     * when collection is unavailable to this caller. What a client needs to collect payment for a
+     * buyer's order. The `stripe` field holds the Stripe values.
+     */
+    "payment_collection"?: BuyerPaymentCollection;
+    /**
+     * IDs of the payment intents created to collect this order. [] (Value): string. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_ids": Array<string>;
+    /**
+     * Payment link that created this order or started the subscription it renews. Absent for other
+     * orders. Filter GET /v1/orders by payment_link_id to list a link's orders. Example:
+     * "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+     */
+    "payment_link_id"?: string;
+    /**
+     * Collection progress. An invoice write-off also completes collection without receiving the
+     * written-off amount. Value enum: "unpaid", "partially_paid", "paid".
+     */
+    "payment_status": "unpaid" | "partially_paid" | "paid" | (string & {});
+    /**
+     * Order that paid for this prepaid delivery. Null when this is not a prepaid delivery order.
+     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "prepayment_order_id": string | null;
+    /**
+     * The order's money totals: subtotal, discounts, charges, tax, requested tip, and total. The
+     * money totals for an order or invoice: subtotal, discounts, charges, tax, requested tip, and
+     * total.
+     */
+    "pricing_amounts": PricingAmounts;
+    /**
+     * IDs of the refunds that name this order. This includes refunds Flint makes to return a
+     * payment it couldn't accept (`reason` `payment_returned`), which never count toward
+     * `refund_status` or the order's refunded amounts. [] (Value): string. Example:
+     * "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     */
+    "refund_ids": Array<string>;
+    /**
+     * Refund progress for collected money. Refunds with `reason` `payment_returned` return money
+     * the order never received and don't count. Value enum: "none", "partially_refunded",
+     * "refunded".
+     */
+    "refund_status": "none" | "partially_refunded" | "refunded" | (string & {});
+    /**
+     * Value applied to this order from items the buyer returned, such as an exchange's replacement
+     * order. Included in settlement_amounts.paid_money. [] (Value): {@link
+     * OrderReturnCreditSettlement}. A return credit applied to an order payment, with the amount
+     * and the return and resolution it came from.
+     */
+    "return_credit_settlements": Array<OrderReturnCreditSettlement>;
+    /**
+     * ID of the return resolution that created this order as a replacement. Omitted for orders a
+     * return did not create. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+     */
+    "return_resolution_id"?: string;
+    /**
+     * How much of the order has been paid, refunded, credited, written off, and settled as tips,
+     * and what is still outstanding. The bill settlement amounts plus order overpayments, settled
+     * tips, debt discharged by final capture, and value order edits removed. Money collected,
+     * returned, waived, and still owed on a bill.
+     */
+    "settlement_amounts": OrderSettlementAmounts;
+    /**
+     * Instructions for saving a payment method for a subscription order. Omitted when setup is
+     * unavailable. Client guidance for saving a payment method on the merchant's connected
+     * account.
+     */
+    "setup_collection"?: BuyerSetupCollection;
+    /**
+     * Whether the order still accepts changes and new payments. Refunds, fulfillment, disputes,
+     * returns, and metadata or note edits continue on a closed order. Value enum: "open",
+     * "closed".
+     */
+    "status": "open" | "closed" | (string & {});
+    /**
+     * Charged subscription cycle associated with this order. Signup is cycle 1; unpaid retries and
+     * skipped renewals do not advance the cycle. Format: uint64. minimum: 0.
+     */
+    "subscription_cycle"?: number;
+    /**
+     * Time the subscriber changed delivery after this paid renewal was prepared. The order keeps
+     * its committed destination until you correct it or refund and replace it. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z".
+     */
+    "subscription_delivery_changed_at"?: string;
+    /**
+     * Position of this delivery among the deliveries one charge paid for, starting at 2. Null when
+     * this is not a prepaid delivery order. Format: uint32. minimum: 2. maximum: 24.
+     */
+    "subscription_delivery_number": number | null;
+    /**
+     * ID of the subscription this order bills. Absent on an order that isn't from a subscription.
+     * Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+     */
+    "subscription_id"?: string;
+    /**
+     * ID of the subscription plan this order bills. Absent on an order that isn't from a
+     * subscription. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
+     */
+    "subscription_plan_id"?: string;
+    /**
+     * The order's tax state: whether tax is enabled, its status, location, exemption, and
+     * per-jurisdiction rows. Tax details on a buyer's order: whether tax is enabled, its mode and
+     * status, location, exemption, and tax breakdowns.
+     */
+    "tax": BuyerOrderTax;
+    /**
+     * Event and tickets this order sold through an event payment link. Absent on other orders.
+     * Event details for a ticketed order: name, location, start time, time zone, and the tickets
+     * issued.
+     */
+    "ticketed_event"?: TicketedEvent;
+    /**
+     * Tips on the order, each with its requested, settled, and refunded amounts. A tip cleared
+     * before payment stays listed as canceled. [] (Value): {@link BuyerTip}. A tip on a buyer's
+     * order, with its requested, effective, settled, and refunded amounts and how it was allocated
+     * to payments.
+     */
+    "tips": Array<BuyerTip>;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Order version for optimistic concurrency. Send this value as the expected version when
+     * changing the order. Increases with every change to the order. Ignore an order webhook
+     * snapshot whose version is lower than one you have already applied. Format: int64.
+     */
+    "version": number;
+};
 /** An additional charge applied to an order. */
 export type BuyerOrderCharge = {
     /**
@@ -3518,52 +3870,3 @@ export type BuyerReturnReplacementLineItemInputVariantInput = ({
     & (({
     "bundle_id"?: never;
 })));
-/**
- * A catalog variant or bundle and quantity the buyer requests as a replacement in a Return
- * resolution preview.
- */
-export type BuyerReturnReplacementLineItemRequest = ({
-    /**
-     * ID of the bundle to send. Used when `type` is `bundle`. minLength: 1. Example:
-     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
-     */
-    "bundle_id"?: string;
-    /**
-     * Whole-number quantity; fractional quantities are not supported. Format: int64. minimum: 1.
-     */
-    "quantity": number;
-    /** The catalog source of the replacement merchandise. Value enum: "variant", "bundle". */
-    "type": "variant" | "bundle" | (string & {});
-    /**
-     * ID of the variant to send. Used when `type` is `variant`. minLength: 1. Example:
-     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "variant_id"?: string;
-})
-    & ((Exclude<BuyerReturnReplacementLineItemInputVariant & object, readonly unknown[]>)
-    | (Exclude<BuyerReturnReplacementLineItemInputBundle & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * A catalog variant or bundle and quantity the buyer requests as a replacement in a Return
- * resolution preview.
- */
-export type BuyerReturnReplacementLineItemRequestInput = ({
-    /**
-     * ID of the bundle to send. Used when `type` is `bundle`. minLength: 1. Example:
-     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
-     */
-    "bundle_id"?: string;
-    /**
-     * Whole-number quantity; fractional quantities are not supported. Format: int64. minimum: 1.
-     */
-    "quantity": number;
-    /** The catalog source of the replacement merchandise. Value enum: "variant", "bundle". */
-    "type": "variant" | "bundle";
-    /**
-     * ID of the variant to send. Used when `type` is `variant`. minLength: 1. Example:
-     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "variant_id"?: string;
-})
-    & ((Exclude<BuyerReturnReplacementLineItemInputVariantInput & object, readonly unknown[]>)
-    | (Exclude<BuyerReturnReplacementLineItemInputBundleInput & object, readonly unknown[]>));

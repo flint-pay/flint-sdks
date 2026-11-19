@@ -1,62 +1,1420 @@
-import type { MetadataPatchRequest, MetadataPatchRequestInput } from './types-43.js';
+import type { CreateOrderTipInput } from './types-12.js';
+import type { InventoryRoutingSourceRequestInput } from './types-34.js';
+import type { MetadataPatchRequestInput, MetadataPatchRequest } from './types-43.js';
+import type { OrderDeliveryDestinationRequestInput, OrderDeliveryRequestInput } from './types-45.js';
+import type { OrderHandoverRequestInput } from './types-46.js';
+import type { OrderTaxUpdateRequestInput } from './types-48.js';
+import type { Dimensions, DimensionsRequestInput } from './types-25.js';
+import type { Weight, WeightRequestInput } from './types-80.js';
+import type { PartnerAppPaymentSplits, PartnerAppPermissionManifestEntry, PartnerAppPaymentSplitsRequestInput } from './types-49.js';
+import type {
+    PartnerAppPlatformProfile,
+    PartnerAppPermissionManifestEntryRequestInput,
+    PartnerAppPlatformProfileRequestInput
+} from './types-50.js';
+import type { PlatformFeeCap, PlatformFeeCapRequestInput } from './types-56.js';
 import type { MoneyValue, MoneyValueInput } from './types-44.js';
+import type {
+    CheckoutBuyerFields,
+    CheckoutPromotionConfig,
+    CheckoutBuyerFieldsRequestInput,
+    CheckoutPromotionConfigRequestInput
+} from './types-6.js';
+import type {
+    CheckoutTaxConfig,
+    CheckoutTipConfig,
+    CheckoutTaxConfigRequestInput,
+    CheckoutTipConfigRequestInput
+} from './types-7.js';
+import type { ImageRequest, ImageRequestInput } from './types-31.js';
+import type { InventoryRoutingSourceRequest } from './types-33.js';
+import type { LegalSettingsRequest, LicenseKeyConfigurationRequest, LicenseKeyConfigurationRequestInput } from './types-39.js';
+import type {
+    PaymentLinkCustomFieldPatchRequest,
+    PaymentLinkCustomTextPatchRequest,
+    PaymentLinkEventConfigPatchRequest,
+    PaymentLinkLineItemPatchRequest,
+    PaymentLinkCustomFieldPatchRequestInput,
+    PaymentLinkCustomTextPatchRequestInput,
+    PaymentLinkEventConfigPatchRequestInput,
+    PaymentLinkLegalPatchRequestInput
+} from './types-52.js';
+import type {
+    PaymentLinkPaymentPatchRequest,
+    PaymentLinkRedirectsPatchRequest,
+    PaymentLinkThemePatchRequest,
+    PaymentLinkLineItemPatchRequestInput,
+    PaymentLinkPaymentPatchRequestInput,
+    PaymentLinkRedirectsPatchRequestInput,
+    PaymentLinkThemePatchRequestInput
+} from './types-53.js';
 import type { AddressRequest, AddressRequestInput } from './types-0.js';
 import type {
     QuantityPriceBreak,
     QuantityPriceBreakRequestInput,
+    PromotionRuleGroupRequest,
     PromotionSchedulePatch,
-    PromotionSchedulePatchInput,
-    PromotionSettings,
-    PromotionSettingsRequestInput
+    PromotionRuleGroupRequestInput,
+    PromotionSchedulePatchInput
 } from './types-59.js';
-import type { ImageRequest, ImageRequestInput } from './types-31.js';
-import type { Dimensions, DimensionsRequestInput } from './types-25.js';
-import type { GiftCardProductConfiguration } from './types-29.js';
+import type { GiftCardProductConfiguration, GiftCardProductConfigurationRequestInput } from './types-30.js';
 import type { InventoryItemCreateRequest, InventoryItemCreateRequestInput } from './types-32.js';
-import type { LicenseKeyConfigurationRequest, LicenseKeyConfigurationRequestInput } from './types-39.js';
 import type {
     ProductVariantSelectedOptionRequest,
     ProductVariantSelectedOptionRequestInput,
     PromotionApplicationMethodPatch,
     PromotionApplicationMethodPatchInput
 } from './types-57.js';
-import type { Weight, WeightRequestInput } from './types-79.js';
-import type { GiftCardProductConfigurationRequestInput } from './types-30.js';
 import type {
     PromotionCombinesWithPatch,
     PromotionExclusivityPatch,
-    PromotionRuleGroupRequest,
     PromotionCombinesWithPatchInput,
-    PromotionExclusivityPatchInput,
-    PromotionRuleGroupRequestInput
+    PromotionExclusivityPatchInput
 } from './types-58.js';
-import type {
-    GetReturnResponse,
-    GetReturnPolicyResponse,
-    GetReturnReasonResponse,
-    GetReturnResolutionResponse,
-    FulfillmentSettings,
-    FulfillmentSettingsRequestInput
-} from './types-28.js';
+import type { GetReturnResponse, GetReturnPolicyResponse, GetReturnReasonResponse, GetReturnResolutionResponse } from './types-28.js';
 import type { LineItemFulfillmentRequest, LineItemFulfillmentRequestModelInput } from './types-40.js';
 import type { ReturnReplacementTaxRequest, ReturnReplacementTaxRequestInput } from './types-65.js';
-import type { RiskPredicateNodeRequest, RiskPredicateNodeRequestInput } from './types-67.js';
-import type { BrandingSettingsRequest, BrandingSettingsRequestInput } from './types-1.js';
-import type { CheckoutSettings, CheckoutSettingsRequestInput } from './types-7.js';
-import type {
-    CustomerAccountSettings,
-    CustomerEmailDeliverySettings,
-    CustomerAccountSettingsRequestInput,
-    CustomerEmailDeliverySettingsRequestInput
-} from './types-16.js';
-import type { InventorySettingsRequest, InventorySettingsRequestInput } from './types-33.js';
-import type { InvoiceSettingsPatch, LegalSettingsRequest, InvoiceSettingsPatchInput, LegalSettingsRequestInput } from './types-38.js';
-import type { PaymentLimitSettingsPatch, PaymentLimitSettingsPatchInput } from './types-52.js';
-import type { PaymentSettingsPatch, PaymentSettingsPatchInput } from './types-54.js';
-import type { ReceiptSettingsPatch, ReceiptSettingsPatchInput } from './types-60.js';
-import type { SubscriptionSettings, SubscriptionSettingsRequestInput } from './types-72.js';
-import type { TaxIdentityPatch, TaxSettingsRequest, TaxIdentityPatchInput, TaxSettingsRequestInput } from './types-74.js';
-import type { TippingSettingsPatch, TippingSettingsPatchInput } from './types-75.js';
+/** The request body for: Update order. minProperties: 1. */
+export type UpdateOrderRequestInput = ({
+    /**
+     * Buyer-provided note about this order, such as a gift message or purchase preference. Send
+     * null to clear it. Surrounding whitespace is trimmed before length validation. A supplied
+     * value cannot be blank; use null where clearing is supported. minLength: 1. maxLength: 1000.
+     */
+    "buyer_note"?: string | null;
+    /**
+     * Defaults to keep, preserving frozen prices. Send reprice with an explicit non-null
+     * customer_id to refresh every catalog variant line on an open, unpaid order. Reassigning
+     * resolves the new customer’s direct list, then segment list, then variant pricing.
+     * Subscription-owned prices remain locked. If any catalog line’s variant is no longer for
+     * sale, reprice is refused; remove that line first. Default: "keep". Value enum: "keep",
+     * "reprice".
+     */
+    "catalog_price_behavior"?: "keep" | "reprice";
+    /**
+     * Customer to attach. Cannot be null or cleared. Reassignment requires catalog_price_behavior:
+     * reprice, which resolves the new customer’s direct list, then segment list, then variant
+     * pricing. minLength: 1. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Complete replacement delivery preference. Omit to leave unchanged. Requires
+     * expected_version, orders-write and delivery-write. Send null to clear a provisional
+     * direct-order selection, its charge and hold. Draft invoice orders are allowed until issue;
+     * checkout-owned, subscription-owned, paid and locked orders are refused. Change delivery
+     * separately from delivery_destination, handover and shipping charge calculations. anyOf[1]
+     * (Value): {@link OrderDeliveryRequestInput}. Complete delivery preference to quote and select
+     * together with the order's delivery charge and inventory hold. anyOf[2] (Value): null.
+     */
+    "delivery"?: ((OrderDeliveryRequestInput) | (null));
+    /**
+     * Complete replacement destination. Allowed while the order is open and unpaid and no delivery
+     * selection controls it. A merchant may also correct a paid subscription signup or renewal
+     * before shipment by sending expected_version, when the committed delivery methods remain
+     * eligible and shipping and tax totals stay the same. A paid destination cannot be cleared.
+     * Send null to clear an unpaid order's delivery destination. anyOf[1] (Value): {@link
+     * OrderDeliveryDestinationRequestInput}. The delivery destination you set when creating or
+     * updating an order, with an address and an optional recipient. anyOf[2] (Value): null.
+     */
+    "delivery_destination"?: ((OrderDeliveryDestinationRequestInput) | (null));
+    /**
+     * Order version from the last order read. Required when sending delivery or correcting a paid
+     * delivery destination. Optional for other updates; when supplied, the update fails if the
+     * order changed. Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear
+     * external_reference_id. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string | null;
+    /**
+     * Carry-out handover to set or replace. Allowed while the order is open, nothing is paid, and
+     * no checkout session or delivery selection controls its delivery. Can't be combined with
+     * delivery_destination. Send null to clear it. anyOf[1] (Value): {@link
+     * OrderHandoverRequestInput}. Every physical item is handed to the buyer at this location when
+     * the order is paid. Replaces a delivery selection. anyOf[2] (Value): null.
+     */
+    "handover"?: ((OrderHandoverRequestInput) | (null));
+    /**
+     * Internal note about this order, visible only to the merchant. Send null to clear it.
+     * Surrounding whitespace is trimmed before length validation. A supplied value cannot be
+     * blank; use null where clearing is supported. minLength: 1. maxLength: 1000.
+     */
+    "internal_note"?: string | null;
+    /**
+     * Where tracked demand is routed. When no source is stored or sent, Flint uses
+     * settings.inventory.default_routing_source, then the only active Location with
+     * inventory_allocation_enabled if exactly one exists in the current environment. Zero or
+     * multiple eligible Locations require an explicit source or merchant default. The order stores
+     * the resolved source. Where you want inventory routed from: a fixed Location, an inventory
+     * allocation policy, or one policy revision, selected by `type`.
+     */
+    "inventory_routing_source"?: InventoryRoutingSourceRequestInput;
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. Send null to clear caller-owned metadata and preserve Flint-managed keys. anyOf[1]
+     * (Value): {@link MetadataPatchRequestInput}. Changes to a caller-owned metadata map. Omit the
+     * field to leave metadata unchanged. Each key sets a value, a null value deletes the key, and
+     * an empty object makes no change; send null for the whole field to clear all caller-owned
+     * metadata. The resulting map is limited the same way as MetadataInput: Up to 50 key-value
+     * pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and
+     * keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not exist is
+     * allowed, so the number of operations is not itself the stored-map limit. Values can't be
+     * empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2] (Value): null.
+     */
+    "metadata"?: ((MetadataPatchRequestInput) | (null));
+    /**
+     * Requested tip to set or replace. Send null to clear the current requested tip. Refused with
+     * ACTION_NOT_ALLOWED and reason payment_collected once a payment's capture has set its own
+     * tip. anyOf[1] (Value): {@link CreateOrderTipInput}. Requested tip expressed as either a flat
+     * amount or a percentage. Send exactly one of amount_money or percent. anyOf[2] (Value): null.
+     */
+    "requested_tip"?: ((CreateOrderTipInput) | (null));
+    /**
+     * Tax settings for the order. Changes to an order's tax settings: whether tax is enabled, the
+     * calculation, the location, the exemption selection, and per-line-item or per-charge
+     * calculations.
+     */
+    "tax"?: OrderTaxUpdateRequestInput;
+});
+/** The request body for: Update package item. minProperties: 1. */
+export type UpdatePackageItemRequest = {
+    /**
+     * Bundle component to pack on this order line in the fulfillment. Every PATCH of a bundle line
+     * requires its component ID, including when the fulfillment has only one component for the
+     * line. Send null for a non-bundle line. minLength: 1. Example:
+     * "bunc_01KEZF7C00CQASEZGAPEANTGD1".
+     */
+    "bundle_component_id"?: string | null;
+    /**
+     * Version last read from the resource returned in `data` (the primary resource for a result
+     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
+     * the operation and fields being changed. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. anyOf[1] (Value): {@link MetadataPatchRequest}. Changes to a caller-owned metadata map.
+     * Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes the
+     * key, and an empty object makes no change; send null for the whole field to clear all
+     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
+     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
+     * (Value): null.
+     */
+    "metadata"?: ((MetadataPatchRequest) | (null));
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity"?: number;
+};
+/** The request body for: Update package item. minProperties: 1. */
+export type UpdatePackageItemRequestInput = {
+    /**
+     * Bundle component to pack on this order line in the fulfillment. Every PATCH of a bundle line
+     * requires its component ID, including when the fulfillment has only one component for the
+     * line. Send null for a non-bundle line. minLength: 1. Example:
+     * "bunc_01KEZF7C00CQASEZGAPEANTGD1".
+     */
+    "bundle_component_id"?: string | null;
+    /**
+     * Version last read from the resource returned in `data` (the primary resource for a result
+     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
+     * the operation and fields being changed. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a caller-owned metadata
+     * map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes
+     * the key, and an empty object makes no change; send null for the whole field to clear all
+     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
+     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
+     * (Value): null.
+     */
+    "metadata"?: ((MetadataPatchRequestInput) | (null));
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity"?: number;
+};
+/** The request body for: Update package. minProperties: 1. */
+export type UpdatePackageRequest = {
+    /** Send null to clear it. minLength: 1. */
+    "carrier"?: string | null;
+    /**
+     * Dimensions of the package. anyOf[1] (Value): {@link Dimensions}. Package or item dimensions
+     * as `length`, `width`, and `height` in the given `unit`. anyOf[2] (Value): null.
+     */
+    "dimensions"?: ((Dimensions) | (null));
+    /**
+     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
+     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
+     * minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "expected_delivery_at"?: string | null;
+    /** Optional resource version last read by the caller. Format: uint64. minimum: 1. */
+    "expected_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. Requires external_system.
+     * External references are not unique. Use Idempotency-Key for retries. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string | null;
+    /**
+     * Name of the external system that external_reference_id belongs to. External references are
+     * not unique. Use Idempotency-Key for retries. Send null to clear it. minLength: 1.
+     */
+    "external_system"?: string | null;
+    /**
+     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
+     * external_system for provenance. Flint does not host the label file. Send null to clear it.
+     * minLength: 1.
+     */
+    "label_url"?: string | null;
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. anyOf[1] (Value): {@link MetadataPatchRequest}. Changes to a caller-owned metadata map.
+     * Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes the
+     * key, and an empty object makes no change; send null for the whole field to clear all
+     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
+     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
+     * (Value): null.
+     */
+    "metadata"?: ((MetadataPatchRequest) | (null));
+    /** Send null to clear it. minLength: 1. */
+    "service_code"?: string | null;
+    /** Send null to clear it. minLength: 1. */
+    "status_reason"?: string | null;
+    /** Send null to clear it. minLength: 1. */
+    "tracking_number"?: string | null;
+    /**
+     * Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. Send null to
+     * clear it. minLength: 1.
+     */
+    "tracking_url"?: string | null;
+    /**
+     * Weight of the package. anyOf[1] (Value): {@link Weight}. A weight value in grams, kilograms,
+     * ounces, or pounds, used in delivery profile configuration. anyOf[2] (Value): null.
+     */
+    "weight"?: ((Weight) | (null));
+};
+/** The request body for: Update package. minProperties: 1. */
+export type UpdatePackageRequestInput = {
+    /** Send null to clear it. minLength: 1. */
+    "carrier"?: string | null;
+    /**
+     * Dimensions of the package. anyOf[1] (Value): {@link DimensionsRequestInput}. Package or item
+     * dimensions as `length`, `width`, and `height` in the given `unit`. anyOf[2] (Value): null.
+     */
+    "dimensions"?: ((DimensionsRequestInput) | (null));
+    /**
+     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
+     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
+     * minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "expected_delivery_at"?: string | globalThis.Date | null;
+    /** Optional resource version last read by the caller. Format: uint64. minimum: 1. */
+    "expected_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. Requires external_system.
+     * External references are not unique. Use Idempotency-Key for retries. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string | null;
+    /**
+     * Name of the external system that external_reference_id belongs to. External references are
+     * not unique. Use Idempotency-Key for retries. Send null to clear it. minLength: 1.
+     */
+    "external_system"?: string | null;
+    /**
+     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
+     * external_system for provenance. Flint does not host the label file. Send null to clear it.
+     * minLength: 1.
+     */
+    "label_url"?: string | null;
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a caller-owned metadata
+     * map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes
+     * the key, and an empty object makes no change; send null for the whole field to clear all
+     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
+     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
+     * (Value): null.
+     */
+    "metadata"?: ((MetadataPatchRequestInput) | (null));
+    /** Send null to clear it. minLength: 1. */
+    "service_code"?: string | null;
+    /** Send null to clear it. minLength: 1. */
+    "status_reason"?: string | null;
+    /** Send null to clear it. minLength: 1. */
+    "tracking_number"?: string | null;
+    /**
+     * Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. Send null to
+     * clear it. minLength: 1.
+     */
+    "tracking_url"?: string | null;
+    /**
+     * Weight of the package. anyOf[1] (Value): {@link WeightRequestInput}. A weight value in
+     * grams, kilograms, ounces, or pounds, used in delivery profile configuration. anyOf[2]
+     * (Value): null.
+     */
+    "weight"?: ((WeightRequestInput) | (null));
+};
+/** The request body for: Update partner app. minProperties: 1. */
+export type UpdatePartnerAppRequest = ({
+    /**
+     * The API version to use for requests the app's tokens make without a Flint-Version header, as
+     * a supported release date. A retired or unknown version is rejected, and `null` is rejected.
+     * A change starts a 72-hour window in which `api_version_previous` offers a rollback. Send
+     * expected_api_version to apply the change only if the current version is the one you read.
+     * minLength: 1.
+     */
+    "api_version"?: string;
+    /**
+     * Set true to issue a client secret when secret authentication is disabled. The response
+     * returns the secret once; setting true when already enabled does not rotate or reveal it. Set
+     * false to end current and previous secrets immediately.
+     */
+    "client_secret_enabled"?: boolean;
+    /**
+     * Replaces the default requested permission IDs. Each ID must exist in the manifest. []
+     * (Value): string. minLength: 1.
+     */
+    "default_requested_permissions"?: Array<string>;
+    /**
+     * Apply api_version only if this matches the resource's current api_version. A mismatch
+     * returns HTTP 409. Requires api_version; null is not accepted. minLength: 1.
+     */
+    "expected_api_version"?: string;
+    /**
+     * Apply only if this matches the app’s current version. Required with permission_manifest,
+     * platform_fee_cap, merchant_action_url and payment_splits; a mismatch returns HTTP 409
+     * VERSION_CONFLICT. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Where Flint sends an owner of a merchant this app created through a merchant signup when an
+     * email asks them to act, such as to finish verification. An absolute `https` URL of at most
+     * 2,048 characters, without userinfo or a fragment. It may have a query: Flint adds `flint_*`
+     * query parameters and replaces any it already has. Once the app has a `platform_profile`, its
+     * registrable domain must equal that of `platform_profile.website_url`, or the write fails
+     * with 400 `INVALID_VALUE` at the field written. Setting it requests the `create_merchants`
+     * platform capability. After Flint first approves or limits the platform, a change to another
+     * registrable domain routes after 72 hours, and every change is emailed to the owning
+     * merchant's owners and admins. Requires expected_version, because it decides where every
+     * merchant the app created is sent from Flint's emails. Send null to clear it: emails then
+     * lead to Flint, and new merchant signups are refused until you set it again. Format: uri.
+     * minLength: 1. maxLength: 2048. pattern: ^https://. Example: "https://example.com/receipt".
+     */
+    "merchant_action_url"?: string | null;
+    /**
+     * The app's name, shown to merchants on the consent screen and in Flint's emails, at most 100
+     * characters, without links or email addresses. Surrounding whitespace is trimmed before
+     * length validation. A supplied value cannot be blank; use null where clearing is supported.
+     * minLength: 1. maxLength: 100.
+     */
+    "name"?: string;
+    /**
+     * Replaces the whole payment_splits declaration. Sellers that already approved keep the seller
+     * terms they approved; merchants that authorize afterwards approve the new seller_terms_url.
+     * Send null to remove it, which ends every seller's approval at once: a seller must authorize
+     * the app again after you declare it again. Requires expected_version. Setting it doesn't need
+     * platform approval, and an unchanged declaration changes nothing. anyOf[1] (Value): {@link
+     * PartnerAppPaymentSplits}. The whole payment_splits declaration. Every field is required, and
+     * a write replaces the declaration whole. anyOf[2] (Value): null.
+     */
+    "payment_splits"?: ((PartnerAppPaymentSplits) | (null));
+    /**
+     * Replaces the whole manifest. Existing permissions can drop scopes but cannot gain them;
+     * existing grants narrow immediately. Requires expected_version. [] (Value): {@link
+     * PartnerAppPermissionManifestEntry}. One permission a partner app can request, with a title,
+     * a description, and the Flint scopes it grants.
+     */
+    "permission_manifest"?: Array<PartnerAppPermissionManifestEntry>;
+    /**
+     * Replaces the whole platform fee cap. Lowering percent or a maximum, or removing a currency,
+     * lowers the cap every merchant approved at once. Raising either, or adding a currency,
+     * changes no install: each merchant must authorize the app again to approve the higher cap.
+     * Send null to remove the cap from the app and every install. Requires expected_version.
+     * Setting it doesn't need platform approval, and an unchanged cap changes nothing. anyOf[1]
+     * (Value): {@link PlatformFeeCap}. The whole platform fee cap. The largest platform fee on a
+     * payment is percent of the amount it collects, rounded half up to the minor unit, plus the
+     * currency's fixed part if it has one, and never more than the currency's maximum: a cap of 1%
+     * + 0.30 USD with a 5.00 USD maximum allows up to 1.30 USD on a 100.00 USD payment. percent
+     * and maximum_fee_currency_options are required. A write replaces the cap whole, so a cap sent
+     * without fixed_fee_currency_options has no fixed part. anyOf[2] (Value): null.
+     */
+    "platform_fee_cap"?: ((PlatformFeeCap) | (null));
+    /**
+     * Replaces the whole platform profile, which Flint reviews before it approves the app as a
+     * platform. support_email, website_url and support_phone are shown to merchants on the consent
+     * screen and install resource. Every field is validated together. Send null to remove it while
+     * platform.status is not_started; afterwards null returns 400 INVALID_REQUEST with detail
+     * NOT_ALLOWED, and edits are recorded for Flint's review without changing platform.status. An
+     * unchanged profile changes nothing. anyOf[1] (Value): {@link PartnerAppPlatformProfile}. The
+     * whole platform profile. support_email, website_url and support_phone are shown to merchants
+     * on the consent screen and install resource. Every field is required except support_phone,
+     * and a write replaces the profile whole. anyOf[2] (Value): null.
+     */
+    "platform_profile"?: ((PartnerAppPlatformProfile) | (null));
+    /** Replaces the entire list of registered redirect URIs. [] (Value): string. minLength: 1. */
+    "redirect_uris"?: Array<string>;
+})
+    & ((({
+    /**
+     * Set true to issue a client secret when secret authentication is disabled. The response
+     * returns the secret once; setting true when already enabled does not rotate or reveal it. Set
+     * false to end current and previous secrets immediately.
+     */
+    "client_secret_enabled": boolean;
+})
+    | ({
+    /**
+     * The app's name, shown to merchants on the consent screen and in Flint's emails, at most 100
+     * characters, without links or email addresses. Surrounding whitespace is trimmed before
+     * length validation. A supplied value cannot be blank; use null where clearing is supported.
+     * minLength: 1. maxLength: 100.
+     */
+    "name": string;
+})
+    | ({
+    /** Replaces the entire list of registered redirect URIs. [] (Value): string. minLength: 1. */
+    "redirect_uris": Array<string>;
+})
+    | ({
+    /**
+     * Replaces the whole manifest. Existing permissions can drop scopes but cannot gain them;
+     * existing grants narrow immediately. Requires expected_version. [] (Value): {@link
+     * PartnerAppPermissionManifestEntry}. One permission a partner app can request, with a title,
+     * a description, and the Flint scopes it grants.
+     */
+    "permission_manifest": Array<PartnerAppPermissionManifestEntry>;
+})
+    | ({
+    /**
+     * Replaces the default requested permission IDs. Each ID must exist in the manifest. []
+     * (Value): string. minLength: 1.
+     */
+    "default_requested_permissions": Array<string>;
+})
+    | ({
+    /**
+     * The API version to use for requests the app's tokens make without a Flint-Version header, as
+     * a supported release date. A retired or unknown version is rejected, and `null` is rejected.
+     * A change starts a 72-hour window in which `api_version_previous` offers a rollback. Send
+     * expected_api_version to apply the change only if the current version is the one you read.
+     * minLength: 1.
+     */
+    "api_version": string;
+})
+    | ({
+    /**
+     * Replaces the whole platform profile, which Flint reviews before it approves the app as a
+     * platform. support_email, website_url and support_phone are shown to merchants on the consent
+     * screen and install resource. Every field is validated together. Send null to remove it while
+     * platform.status is not_started; afterwards null returns 400 INVALID_REQUEST with detail
+     * NOT_ALLOWED, and edits are recorded for Flint's review without changing platform.status. An
+     * unchanged profile changes nothing. anyOf[1] (Value): {@link PartnerAppPlatformProfile}. The
+     * whole platform profile. support_email, website_url and support_phone are shown to merchants
+     * on the consent screen and install resource. Every field is required except support_phone,
+     * and a write replaces the profile whole. anyOf[2] (Value): null.
+     */
+    "platform_profile": ((PartnerAppPlatformProfile) | (null));
+})
+    | ({
+    /**
+     * Replaces the whole platform fee cap. Lowering percent or a maximum, or removing a currency,
+     * lowers the cap every merchant approved at once. Raising either, or adding a currency,
+     * changes no install: each merchant must authorize the app again to approve the higher cap.
+     * Send null to remove the cap from the app and every install. Requires expected_version.
+     * Setting it doesn't need platform approval, and an unchanged cap changes nothing. anyOf[1]
+     * (Value): {@link PlatformFeeCap}. The whole platform fee cap. The largest platform fee on a
+     * payment is percent of the amount it collects, rounded half up to the minor unit, plus the
+     * currency's fixed part if it has one, and never more than the currency's maximum: a cap of 1%
+     * + 0.30 USD with a 5.00 USD maximum allows up to 1.30 USD on a 100.00 USD payment. percent
+     * and maximum_fee_currency_options are required. A write replaces the cap whole, so a cap sent
+     * without fixed_fee_currency_options has no fixed part. anyOf[2] (Value): null.
+     */
+    "platform_fee_cap": ((PlatformFeeCap) | (null));
+})
+    | ({
+    /**
+     * Where Flint sends an owner of a merchant this app created through a merchant signup when an
+     * email asks them to act, such as to finish verification. An absolute `https` URL of at most
+     * 2,048 characters, without userinfo or a fragment. It may have a query: Flint adds `flint_*`
+     * query parameters and replaces any it already has. Once the app has a `platform_profile`, its
+     * registrable domain must equal that of `platform_profile.website_url`, or the write fails
+     * with 400 `INVALID_VALUE` at the field written. Setting it requests the `create_merchants`
+     * platform capability. After Flint first approves or limits the platform, a change to another
+     * registrable domain routes after 72 hours, and every change is emailed to the owning
+     * merchant's owners and admins. Requires expected_version, because it decides where every
+     * merchant the app created is sent from Flint's emails. Send null to clear it: emails then
+     * lead to Flint, and new merchant signups are refused until you set it again. Format: uri.
+     * minLength: 1. maxLength: 2048. pattern: ^https://. Example: "https://example.com/receipt".
+     */
+    "merchant_action_url": string | null;
+})
+    | ({
+    /**
+     * Replaces the whole payment_splits declaration. Sellers that already approved keep the seller
+     * terms they approved; merchants that authorize afterwards approve the new seller_terms_url.
+     * Send null to remove it, which ends every seller's approval at once: a seller must authorize
+     * the app again after you declare it again. Requires expected_version. Setting it doesn't need
+     * platform approval, and an unchanged declaration changes nothing. anyOf[1] (Value): {@link
+     * PartnerAppPaymentSplits}. The whole payment_splits declaration. Every field is required, and
+     * a write replaces the declaration whole. anyOf[2] (Value): null.
+     */
+    "payment_splits": ((PartnerAppPaymentSplits) | (null));
+})
+    | (Record<string, unknown>)));
+/** The request body for: Update partner app. minProperties: 1. */
+export type UpdatePartnerAppRequestInput = ({
+    /**
+     * The API version to use for requests the app's tokens make without a Flint-Version header, as
+     * a supported release date. A retired or unknown version is rejected, and `null` is rejected.
+     * A change starts a 72-hour window in which `api_version_previous` offers a rollback. Send
+     * expected_api_version to apply the change only if the current version is the one you read.
+     * minLength: 1.
+     */
+    "api_version"?: string;
+    /**
+     * Set true to issue a client secret when secret authentication is disabled. The response
+     * returns the secret once; setting true when already enabled does not rotate or reveal it. Set
+     * false to end current and previous secrets immediately.
+     */
+    "client_secret_enabled"?: boolean;
+    /**
+     * Replaces the default requested permission IDs. Each ID must exist in the manifest. []
+     * (Value): string. minLength: 1.
+     */
+    "default_requested_permissions"?: Array<string>;
+    /**
+     * Apply api_version only if this matches the resource's current api_version. A mismatch
+     * returns HTTP 409. Requires api_version; null is not accepted. minLength: 1.
+     */
+    "expected_api_version"?: string;
+    /**
+     * Apply only if this matches the app’s current version. Required with permission_manifest,
+     * platform_fee_cap, merchant_action_url and payment_splits; a mismatch returns HTTP 409
+     * VERSION_CONFLICT. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Where Flint sends an owner of a merchant this app created through a merchant signup when an
+     * email asks them to act, such as to finish verification. An absolute `https` URL of at most
+     * 2,048 characters, without userinfo or a fragment. It may have a query: Flint adds `flint_*`
+     * query parameters and replaces any it already has. Once the app has a `platform_profile`, its
+     * registrable domain must equal that of `platform_profile.website_url`, or the write fails
+     * with 400 `INVALID_VALUE` at the field written. Setting it requests the `create_merchants`
+     * platform capability. After Flint first approves or limits the platform, a change to another
+     * registrable domain routes after 72 hours, and every change is emailed to the owning
+     * merchant's owners and admins. Requires expected_version, because it decides where every
+     * merchant the app created is sent from Flint's emails. Send null to clear it: emails then
+     * lead to Flint, and new merchant signups are refused until you set it again. Format: uri.
+     * minLength: 1. maxLength: 2048. pattern: ^https://. Example: "https://example.com/receipt".
+     */
+    "merchant_action_url"?: string | null;
+    /**
+     * The app's name, shown to merchants on the consent screen and in Flint's emails, at most 100
+     * characters, without links or email addresses. Surrounding whitespace is trimmed before
+     * length validation. A supplied value cannot be blank; use null where clearing is supported.
+     * minLength: 1. maxLength: 100.
+     */
+    "name"?: string;
+    /**
+     * Replaces the whole payment_splits declaration. Sellers that already approved keep the seller
+     * terms they approved; merchants that authorize afterwards approve the new seller_terms_url.
+     * Send null to remove it, which ends every seller's approval at once: a seller must authorize
+     * the app again after you declare it again. Requires expected_version. Setting it doesn't need
+     * platform approval, and an unchanged declaration changes nothing. anyOf[1] (Value): {@link
+     * PartnerAppPaymentSplitsRequestInput}. The whole payment_splits declaration. Every field is
+     * required, and a write replaces the declaration whole. anyOf[2] (Value): null.
+     */
+    "payment_splits"?: ((PartnerAppPaymentSplitsRequestInput) | (null));
+    /**
+     * Replaces the whole manifest. Existing permissions can drop scopes but cannot gain them;
+     * existing grants narrow immediately. Requires expected_version. [] (Value): {@link
+     * PartnerAppPermissionManifestEntryRequestInput}. One permission a partner app can request,
+     * with a title, a description, and the Flint scopes it grants.
+     */
+    "permission_manifest"?: Array<PartnerAppPermissionManifestEntryRequestInput>;
+    /**
+     * Replaces the whole platform fee cap. Lowering percent or a maximum, or removing a currency,
+     * lowers the cap every merchant approved at once. Raising either, or adding a currency,
+     * changes no install: each merchant must authorize the app again to approve the higher cap.
+     * Send null to remove the cap from the app and every install. Requires expected_version.
+     * Setting it doesn't need platform approval, and an unchanged cap changes nothing. anyOf[1]
+     * (Value): {@link PlatformFeeCapRequestInput}. The whole platform fee cap. The largest
+     * platform fee on a payment is percent of the amount it collects, rounded half up to the minor
+     * unit, plus the currency's fixed part if it has one, and never more than the currency's
+     * maximum: a cap of 1% + 0.30 USD with a 5.00 USD maximum allows up to 1.30 USD on a 100.00
+     * USD payment. percent and maximum_fee_currency_options are required. A write replaces the cap
+     * whole, so a cap sent without fixed_fee_currency_options has no fixed part. anyOf[2] (Value):
+     * null.
+     */
+    "platform_fee_cap"?: ((PlatformFeeCapRequestInput) | (null));
+    /**
+     * Replaces the whole platform profile, which Flint reviews before it approves the app as a
+     * platform. support_email, website_url and support_phone are shown to merchants on the consent
+     * screen and install resource. Every field is validated together. Send null to remove it while
+     * platform.status is not_started; afterwards null returns 400 INVALID_REQUEST with detail
+     * NOT_ALLOWED, and edits are recorded for Flint's review without changing platform.status. An
+     * unchanged profile changes nothing. anyOf[1] (Value): {@link
+     * PartnerAppPlatformProfileRequestInput}. The whole platform profile. support_email,
+     * website_url and support_phone are shown to merchants on the consent screen and install
+     * resource. Every field is required except support_phone, and a write replaces the profile
+     * whole. anyOf[2] (Value): null.
+     */
+    "platform_profile"?: ((PartnerAppPlatformProfileRequestInput) | (null));
+    /** Replaces the entire list of registered redirect URIs. [] (Value): string. minLength: 1. */
+    "redirect_uris"?: Array<string>;
+})
+    & ((({
+    /**
+     * Set true to issue a client secret when secret authentication is disabled. The response
+     * returns the secret once; setting true when already enabled does not rotate or reveal it. Set
+     * false to end current and previous secrets immediately.
+     */
+    "client_secret_enabled": boolean;
+})
+    | ({
+    /**
+     * The app's name, shown to merchants on the consent screen and in Flint's emails, at most 100
+     * characters, without links or email addresses. Surrounding whitespace is trimmed before
+     * length validation. A supplied value cannot be blank; use null where clearing is supported.
+     * minLength: 1. maxLength: 100.
+     */
+    "name": string;
+})
+    | ({
+    /** Replaces the entire list of registered redirect URIs. [] (Value): string. minLength: 1. */
+    "redirect_uris": Array<string>;
+})
+    | ({
+    /**
+     * Replaces the whole manifest. Existing permissions can drop scopes but cannot gain them;
+     * existing grants narrow immediately. Requires expected_version. [] (Value): {@link
+     * PartnerAppPermissionManifestEntryRequestInput}. One permission a partner app can request,
+     * with a title, a description, and the Flint scopes it grants.
+     */
+    "permission_manifest": Array<PartnerAppPermissionManifestEntryRequestInput>;
+})
+    | ({
+    /**
+     * Replaces the default requested permission IDs. Each ID must exist in the manifest. []
+     * (Value): string. minLength: 1.
+     */
+    "default_requested_permissions": Array<string>;
+})
+    | ({
+    /**
+     * The API version to use for requests the app's tokens make without a Flint-Version header, as
+     * a supported release date. A retired or unknown version is rejected, and `null` is rejected.
+     * A change starts a 72-hour window in which `api_version_previous` offers a rollback. Send
+     * expected_api_version to apply the change only if the current version is the one you read.
+     * minLength: 1.
+     */
+    "api_version": string;
+})
+    | ({
+    /**
+     * Replaces the whole platform profile, which Flint reviews before it approves the app as a
+     * platform. support_email, website_url and support_phone are shown to merchants on the consent
+     * screen and install resource. Every field is validated together. Send null to remove it while
+     * platform.status is not_started; afterwards null returns 400 INVALID_REQUEST with detail
+     * NOT_ALLOWED, and edits are recorded for Flint's review without changing platform.status. An
+     * unchanged profile changes nothing. anyOf[1] (Value): {@link
+     * PartnerAppPlatformProfileRequestInput}. The whole platform profile. support_email,
+     * website_url and support_phone are shown to merchants on the consent screen and install
+     * resource. Every field is required except support_phone, and a write replaces the profile
+     * whole. anyOf[2] (Value): null.
+     */
+    "platform_profile": ((PartnerAppPlatformProfileRequestInput) | (null));
+})
+    | ({
+    /**
+     * Replaces the whole platform fee cap. Lowering percent or a maximum, or removing a currency,
+     * lowers the cap every merchant approved at once. Raising either, or adding a currency,
+     * changes no install: each merchant must authorize the app again to approve the higher cap.
+     * Send null to remove the cap from the app and every install. Requires expected_version.
+     * Setting it doesn't need platform approval, and an unchanged cap changes nothing. anyOf[1]
+     * (Value): {@link PlatformFeeCapRequestInput}. The whole platform fee cap. The largest
+     * platform fee on a payment is percent of the amount it collects, rounded half up to the minor
+     * unit, plus the currency's fixed part if it has one, and never more than the currency's
+     * maximum: a cap of 1% + 0.30 USD with a 5.00 USD maximum allows up to 1.30 USD on a 100.00
+     * USD payment. percent and maximum_fee_currency_options are required. A write replaces the cap
+     * whole, so a cap sent without fixed_fee_currency_options has no fixed part. anyOf[2] (Value):
+     * null.
+     */
+    "platform_fee_cap": ((PlatformFeeCapRequestInput) | (null));
+})
+    | ({
+    /**
+     * Where Flint sends an owner of a merchant this app created through a merchant signup when an
+     * email asks them to act, such as to finish verification. An absolute `https` URL of at most
+     * 2,048 characters, without userinfo or a fragment. It may have a query: Flint adds `flint_*`
+     * query parameters and replaces any it already has. Once the app has a `platform_profile`, its
+     * registrable domain must equal that of `platform_profile.website_url`, or the write fails
+     * with 400 `INVALID_VALUE` at the field written. Setting it requests the `create_merchants`
+     * platform capability. After Flint first approves or limits the platform, a change to another
+     * registrable domain routes after 72 hours, and every change is emailed to the owning
+     * merchant's owners and admins. Requires expected_version, because it decides where every
+     * merchant the app created is sent from Flint's emails. Send null to clear it: emails then
+     * lead to Flint, and new merchant signups are refused until you set it again. Format: uri.
+     * minLength: 1. maxLength: 2048. pattern: ^https://. Example: "https://example.com/receipt".
+     */
+    "merchant_action_url": string | null;
+})
+    | ({
+    /**
+     * Replaces the whole payment_splits declaration. Sellers that already approved keep the seller
+     * terms they approved; merchants that authorize afterwards approve the new seller_terms_url.
+     * Send null to remove it, which ends every seller's approval at once: a seller must authorize
+     * the app again after you declare it again. Requires expected_version. Setting it doesn't need
+     * platform approval, and an unchanged declaration changes nothing. anyOf[1] (Value): {@link
+     * PartnerAppPaymentSplitsRequestInput}. The whole payment_splits declaration. Every field is
+     * required, and a write replaces the declaration whole. anyOf[2] (Value): null.
+     */
+    "payment_splits": ((PartnerAppPaymentSplitsRequestInput) | (null));
+})));
+/** The request body for: Update payment intent. minProperties: 1. */
+export type UpdatePaymentIntentRequest = {
+    /**
+     * Payment amount. Can change only while status is requires_payment_method and before the first
+     * confirmation attempt. Cannot be cleared. amount (Required): integer string. Positive amount
+     * in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits),
+     * not a floating-point number. Format: int64. minimum: 1. currency (Required): string.
+     * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3.
+     * maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     */
+    "amount_money"?: {
+        /**
+         * Positive amount in the currency's minor unit, such as cents for USD. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}`;
+        /**
+         * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength:
+         * 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+         */
+        "currency": string;
+    };
+    /**
+     * Customer linked to this payment intent. Can change only while status is
+     * requires_payment_method. Cannot be cleared. minLength: 1. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with
+     * the current version. Retrieve the resource and rebuild the request before retrying. Format:
+     * uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear it. Omit
+     * it to keep the current value. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string | null;
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. anyOf[1] (Value): {@link MetadataPatchRequest}. Changes to a caller-owned metadata map.
+     * Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes the
+     * key, and an empty object makes no change; send null for the whole field to clear all
+     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
+     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
+     * (Value): null.
+     */
+    "metadata"?: ((MetadataPatchRequest) | (null));
+    /**
+     * Send null to clear it. Omit it to keep the current value. The local part before @ must be at
+     * most 64 octets (UTF-8 bytes). Format: email. minLength: 1. maxLength: 255. Example:
+     * "buyer@example.com".
+     */
+    "receipt_email"?: string | null;
+    /**
+     * Portion of amount_money that is a tip. Uses amount_money's currency and is at most
+     * amount_money. Not accepted on order-linked payment intents. Send null to clear the tip; omit
+     * it to keep the current value. anyOf[1] (Value): {@link MoneyValue}. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
+     */
+    "tip_money"?: ((MoneyValue) | (null));
+};
+/** The request body for: Update payment intent. minProperties: 1. */
+export type UpdatePaymentIntentRequestInput = {
+    /**
+     * Payment amount. Can change only while status is requires_payment_method and before the first
+     * confirmation attempt. Cannot be cleared. amount (Required): integer string. Positive amount
+     * in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits),
+     * not a floating-point number. Format: int64. minimum: 1. currency (Required): string.
+     * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3.
+     * maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     */
+    "amount_money"?: {
+        /**
+         * Positive amount in the currency's minor unit, such as cents for USD. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}` | bigint;
+        /**
+         * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength:
+         * 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+         */
+        "currency": string;
+    };
+    /**
+     * Customer linked to this payment intent. Can change only while status is
+     * requires_payment_method. Cannot be cleared. minLength: 1. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with
+     * the current version. Retrieve the resource and rebuild the request before retrying. Format:
+     * uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear it. Omit
+     * it to keep the current value. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string | null;
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a caller-owned metadata
+     * map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes
+     * the key, and an empty object makes no change; send null for the whole field to clear all
+     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
+     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
+     * (Value): null.
+     */
+    "metadata"?: ((MetadataPatchRequestInput) | (null));
+    /**
+     * Send null to clear it. Omit it to keep the current value. The local part before @ must be at
+     * most 64 octets (UTF-8 bytes). Format: email. minLength: 1. maxLength: 255. Example:
+     * "buyer@example.com".
+     */
+    "receipt_email"?: string | null;
+    /**
+     * Portion of amount_money that is a tip. Uses amount_money's currency and is at most
+     * amount_money. Not accepted on order-linked payment intents. Send null to clear the tip; omit
+     * it to keep the current value. anyOf[1] (Value): {@link MoneyValueInput}. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
+     */
+    "tip_money"?: ((MoneyValueInput) | (null));
+};
+/** The request body for: Update payment link. minProperties: 1. */
+export type UpdatePaymentLinkRequest = ({
+    /** What checkout asks the buyer for. Each field you leave out uses your checkout settings. */
+    "buyer_fields"?: CheckoutBuyerFields;
+    /**
+     * Seconds each checkout session the link starts stays open, from 60 to 86,400. Omit it to use
+     * your checkout settings, or 24 hours. It doesn't end the link; use sales_end_at for that.
+     * Format: int64. minimum: 60. maximum: 86400.
+     */
+    "checkout_session_expires_in_seconds"?: number;
+    /**
+     * Replaces all custom fields atomically. Include an existing payment_link_custom_field_id to
+     * retain that member, omit the ID to create a member, and omit a previous member to remove it.
+     * Send an empty array to clear all custom fields, omit custom_fields to leave it unchanged,
+     * and do not send null. maxItems: 20. [] (Value): {@link PaymentLinkCustomFieldPatchRequest}.
+     * A custom field in a payment link update. Include its ID to change an existing field, or omit
+     * the ID to add a new one.
+     */
+    "custom_fields"?: Array<PaymentLinkCustomFieldPatchRequest>;
+    /**
+     * Custom text for checkouts started from this link. Changes to a payment link's custom
+     * checkout text. Send null to clear a field.
+     */
+    "custom_text"?: PaymentLinkCustomTextPatchRequest;
+    /**
+     * Complete delivery method selection for the link. A link without delivery methods offers
+     * settings.checkout.default_delivery_method_ids when its order has items to deliver. Send an
+     * empty array to clear the selection. Omit it on PATCH to leave the selection unchanged. Null
+     * and duplicate IDs are not accepted. Create, activation, and edits to items, delivery
+     * methods, or inventory routing require explicit methods or checkout defaults to cover the
+     * items' delivery profiles; otherwise ACTION_NOT_ALLOWED with reason configuration_required is
+     * returned. maxItems: 25. uniqueItems: true. [] (Value): string. minLength: 1. Example:
+     * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "delivery_method_ids"?: Array<string>;
+    /**
+     * Text about what the link sells, returned to buyers when they open it. Send null to clear.
+     * minLength: 1. maxLength: 2048.
+     */
+    "description"?: string | null;
+    /**
+     * Maximum donation amount. Must be greater than zero and greater than or equal to
+     * donation_min_amount_money. Send null to clear the maximum. amount (Required): integer
+     * string. Positive amount in the currency's minor unit, such as cents for USD. Use an integer
+     * string (decimal digits), not a floating-point number. Format: int64. minimum: 1. currency
+     * (Required): string. Three-letter uppercase ISO 4217 currency code for this amount, such as
+     * USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     */
+    "donation_max_amount_money"?: {
+        /**
+         * Positive amount in the currency's minor unit, such as cents for USD. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}`;
+        /**
+         * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength:
+         * 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+         */
+        "currency": string;
+    }
+        | null;
+    /**
+     * Minimum donation amount. Send null to clear the minimum. Send null to clear. anyOf[1]
+     * (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code. anyOf[2] (Value): null.
+     */
+    "donation_min_amount_money"?: ((MoneyValue) | (null));
+    /**
+     * Suggested donation amounts. Send an empty array to clear suggested amounts. [] (Value):
+     * object. [].amount (Required): integer string. Positive amount in the currency's minor unit,
+     * such as cents for USD. Use an integer string (decimal digits), not a floating-point number.
+     * Format: int64. minimum: 1. [].currency (Required): string. Three-letter uppercase ISO 4217
+     * currency code for this amount, such as USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     * Example: "USD".
+     */
+    "donation_suggested_amount_money_options"?: Array<{
+        /**
+         * Positive amount in the currency's minor unit, such as cents for USD. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}`;
+        /**
+         * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength:
+         * 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+         */
+        "currency": string;
+    }>;
+    /**
+     * Event configuration patch. Omit to leave unchanged. The whole configuration cannot be
+     * cleared; null is not accepted. Changes to an event payment link's settings. Send null on a
+     * nullable field to clear it.
+     */
+    "event_config"?: PaymentLinkEventConfigPatchRequest;
+    /**
+     * Payment link version last read by the caller. Required when line_items, custom_fields, or
+     * delivery_method_ids is present. Required when any of these fields is present: line_items,
+     * custom_fields, delivery_method_ids. Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string | null;
+    /**
+     * Image shown to buyers with the link. Send null to clear. anyOf[1] (Value): {@link
+     * ImageRequest}. An image you supply by `source_url`, with optional `alt` text and external
+     * reference. anyOf[2] (Value): null.
+     */
+    "image"?: ((ImageRequest) | (null) | (unknown));
+    /**
+     * Message to show the buyer when the link is inactive. Send null to clear. minLength: 1.
+     * maxLength: 500.
+     */
+    "inactive_message"?: string | null;
+    /**
+     * Routing source for tracked demand. When omitted, Flint stores
+     * settings.inventory.default_routing_source if set. Otherwise, exactly one active Location
+     * with inventory_allocation_enabled in the current environment supplies the demand; this
+     * implicit source is not stored and is resolved again on use. Zero or multiple eligible
+     * Locations require an explicit source or merchant default. Create, activation, and
+     * sellability edits require at least one active routing location with
+     * inventory_allocation_enabled; temporary stock shortages do not prevent these writes. Where
+     * you want inventory routed from: a fixed Location, an inventory allocation policy, or one
+     * policy revision, selected by `type`.
+     */
+    "inventory_routing_source"?: InventoryRoutingSourceRequest;
+    /**
+     * The terms and policy links checkouts started from this link show the buyer. Changes to a
+     * payment link's legal links and terms setting. Send null on a URL to clear it.
+     */
+    "legal"?: LegalSettingsRequest;
+    /**
+     * Replaces all line items atomically. Include an existing payment_link_line_item_id to retain
+     * that member, omit the ID to create a member, and omit a previous member to remove it. Omit
+     * line_items to leave it unchanged. Null is not accepted. minItems: 1. [] (Value): {@link
+     * PaymentLinkLineItemPatchRequest}. A line item in a payment link update. Include its ID to
+     * change an existing line item, or omit the ID to add a new one.
+     */
+    "line_items"?: Array<PaymentLinkLineItemPatchRequest>;
+    /**
+     * Most payments the link accepts, counted by `completed_count`. Absent means no limit. Once
+     * the limit is reached, resolving the link fails with a request error. It can't be set below
+     * `completed_count`. Send null to clear. Format: int32.
+     */
+    "max_completions"?: number | null;
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. Send null to clear. At most 44 pairs, because Flint reserves 6 of the order's 50
+     * metadata pairs. Metadata keys and values plus Flint's metadata must fit within 32768 UTF-8
+     * bytes. Custom fields don't count toward either limit. These limits apply to standard and
+     * plan links and are checked against the merged configuration on update. This operation also
+     * limits the metadata object you send, before merging: at most 50 keys, counting null
+     * deletions, each key 1 to 256 Unicode code points, and at most 32768 UTF-8 bytes of keys plus
+     * values. anyOf[1] (Value): {@link MetadataPatchRequest}. Changes to a caller-owned metadata
+     * map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes
+     * the key, and an empty object makes no change; send null for the whole field to clear all
+     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
+     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
+     * 50. Changes to a caller-owned metadata map. Omit the field to leave metadata unchanged. Each
+     * key sets a value, a null value deletes the key, and an empty object makes no change; send
+     * null for the whole field to clear all caller-owned metadata. The resulting map is limited
+     * the same way as MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code
+     * points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768
+     * UTF-8 bytes. Deleting a key that does not exist is allowed, so the number of operations is
+     * not itself the stored-map limit. Values can't be empty strings, and keys starting with
+     * flint_ are reserved for Flint. anyOf[1].* (Value): string or null. minLength: 1. maxLength:
+     * 4096. anyOf[2] (Value): null.
+     */
+    "metadata"?: (((Exclude<MetadataPatchRequest & object, readonly unknown[]>)) | (null) | (unknown));
+    /**
+     * Name of the payment link. Surrounding whitespace is trimmed before length validation. A
+     * supplied value cannot be blank; use null where clearing is supported. minLength: 1.
+     * maxLength: 255.
+     */
+    "name"?: string;
+    /**
+     * Whether to email existing ticket holders when event_at, timezone, or venue changes. Defaults
+     * to true for each update. Unchanged event details send no notice.
+     */
+    "notify_ticket_holders"?: boolean;
+    /**
+     * Payment options for checkouts started from this link. Changes to a payment link's payment
+     * settings. Send null on the payment note to clear it.
+     */
+    "payments"?: PaymentLinkPaymentPatchRequest;
+    /**
+     * Whether automatic promotions apply to checkouts started from this link and whether buyers
+     * can enter promotion codes. Promotion settings for a checkout: whether automatic promotions
+     * apply and whether the buyer can apply promotion codes.
+     */
+    "promotion_config"?: CheckoutPromotionConfig;
+    /**
+     * Where checkout sessions started from this payment link send the buyer after payment,
+     * cancellation, or expiration. Changes to a payment link's hosted checkout destinations. Omit
+     * a URL to leave it unchanged, or send null to clear it.
+     */
+    "redirects"?: PaymentLinkRedirectsPatchRequest;
+    /**
+     * RFC3339 timestamp after which the link stops starting checkouts and resolve fails with
+     * `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on their own,
+     * except that an event link without sales_end_at stops selling at event_config.event_at. A
+     * checkout opened before the end can still start payment for up to 15 minutes after it. Send
+     * null to clear it. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "sales_end_at"?: string | null;
+    /**
+     * RFC3339 timestamp when buyers can first start a checkout from this link. Stored to
+     * nanosecond precision. Before it, resolve fails with ACTION_NOT_ALLOWED and reason
+     * sales_not_started. Must be earlier than the link’s sales end, including the event start when
+     * no explicit end is set. Send null to clear it. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "sales_start_at"?: string | null;
+    /** Whether the link can start new checkouts. Value enum: "active", "inactive". */
+    "status"?: "active" | "inactive" | (string & {});
+    /**
+     * Tax settings for checkouts started from this link. Whether tax is collected for a checkout
+     * session or payment link.
+     */
+    "tax"?: CheckoutTaxConfig;
+    /**
+     * The title and colors for checkouts started from this link, over your branding settings.
+     * Changes to a payment link's checkout theme. Send null on a field to clear it.
+     */
+    "theme"?: PaymentLinkThemePatchRequest;
+    /**
+     * Tip options for checkouts started from this link. Tip settings for a checkout: whether tips
+     * are enabled, the percent or fixed amount options, the default tip, and custom tips.
+     */
+    "tip"?: CheckoutTipConfig;
+});
+/** The request body for: Update payment link. minProperties: 1. */
+export type UpdatePaymentLinkRequestInput = ({
+    /** What checkout asks the buyer for. Each field you leave out uses your checkout settings. */
+    "buyer_fields"?: CheckoutBuyerFieldsRequestInput;
+    /**
+     * Seconds each checkout session the link starts stays open, from 60 to 86,400. Omit it to use
+     * your checkout settings, or 24 hours. It doesn't end the link; use sales_end_at for that.
+     * Format: int64. minimum: 60. maximum: 86400.
+     */
+    "checkout_session_expires_in_seconds"?: number;
+    /**
+     * Replaces all custom fields atomically. Include an existing payment_link_custom_field_id to
+     * retain that member, omit the ID to create a member, and omit a previous member to remove it.
+     * Send an empty array to clear all custom fields, omit custom_fields to leave it unchanged,
+     * and do not send null. maxItems: 20. [] (Value): {@link
+     * PaymentLinkCustomFieldPatchRequestInput}. A custom field in a payment link update. Include
+     * its ID to change an existing field, or omit the ID to add a new one.
+     */
+    "custom_fields"?: Array<PaymentLinkCustomFieldPatchRequestInput>;
+    /**
+     * Custom text for checkouts started from this link. Changes to a payment link's custom
+     * checkout text. Send null to clear a field.
+     */
+    "custom_text"?: PaymentLinkCustomTextPatchRequestInput;
+    /**
+     * Complete delivery method selection for the link. A link without delivery methods offers
+     * settings.checkout.default_delivery_method_ids when its order has items to deliver. Send an
+     * empty array to clear the selection. Omit it on PATCH to leave the selection unchanged. Null
+     * and duplicate IDs are not accepted. Create, activation, and edits to items, delivery
+     * methods, or inventory routing require explicit methods or checkout defaults to cover the
+     * items' delivery profiles; otherwise ACTION_NOT_ALLOWED with reason configuration_required is
+     * returned. maxItems: 25. uniqueItems: true. [] (Value): string. minLength: 1. Example:
+     * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "delivery_method_ids"?: Array<string>;
+    /**
+     * Text about what the link sells, returned to buyers when they open it. Send null to clear.
+     * minLength: 1. maxLength: 2048.
+     */
+    "description"?: string | null;
+    /**
+     * Maximum donation amount. Must be greater than zero and greater than or equal to
+     * donation_min_amount_money. Send null to clear the maximum. amount (Required): integer
+     * string. Positive amount in the currency's minor unit, such as cents for USD. Use an integer
+     * string (decimal digits), not a floating-point number. Format: int64. minimum: 1. currency
+     * (Required): string. Three-letter uppercase ISO 4217 currency code for this amount, such as
+     * USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     */
+    "donation_max_amount_money"?: {
+        /**
+         * Positive amount in the currency's minor unit, such as cents for USD. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}` | bigint;
+        /**
+         * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength:
+         * 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+         */
+        "currency": string;
+    }
+        | null;
+    /**
+     * Minimum donation amount. Send null to clear the minimum. Send null to clear. anyOf[1]
+     * (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units plus an
+     * ISO 4217 currency code. anyOf[2] (Value): null.
+     */
+    "donation_min_amount_money"?: ((MoneyValueInput) | (null));
+    /**
+     * Suggested donation amounts. Send an empty array to clear suggested amounts. [] (Value):
+     * object. [].amount (Required): integer string. Positive amount in the currency's minor unit,
+     * such as cents for USD. Use an integer string (decimal digits), not a floating-point number.
+     * Format: int64. minimum: 1. [].currency (Required): string. Three-letter uppercase ISO 4217
+     * currency code for this amount, such as USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     * Example: "USD".
+     */
+    "donation_suggested_amount_money_options"?: Array<{
+        /**
+         * Positive amount in the currency's minor unit, such as cents for USD. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}` | bigint;
+        /**
+         * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength:
+         * 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+         */
+        "currency": string;
+    }>;
+    /**
+     * Event configuration patch. Omit to leave unchanged. The whole configuration cannot be
+     * cleared; null is not accepted. Changes to an event payment link's settings. Send null on a
+     * nullable field to clear it.
+     */
+    "event_config"?: PaymentLinkEventConfigPatchRequestInput;
+    /**
+     * Payment link version last read by the caller. Required when line_items, custom_fields, or
+     * delivery_method_ids is present. Required when any of these fields is present: line_items,
+     * custom_fields, delivery_method_ids. Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string | null;
+    /**
+     * Image shown to buyers with the link. Send null to clear. anyOf[1] (Value): {@link
+     * ImageRequestInput}. An image you supply by `source_url`, with optional `alt` text and
+     * external reference. anyOf[2] (Value): null.
+     */
+    "image"?: ((ImageRequestInput) | (null));
+    /**
+     * Message to show the buyer when the link is inactive. Send null to clear. minLength: 1.
+     * maxLength: 500.
+     */
+    "inactive_message"?: string | null;
+    /**
+     * Routing source for tracked demand. When omitted, Flint stores
+     * settings.inventory.default_routing_source if set. Otherwise, exactly one active Location
+     * with inventory_allocation_enabled in the current environment supplies the demand; this
+     * implicit source is not stored and is resolved again on use. Zero or multiple eligible
+     * Locations require an explicit source or merchant default. Create, activation, and
+     * sellability edits require at least one active routing location with
+     * inventory_allocation_enabled; temporary stock shortages do not prevent these writes. Where
+     * you want inventory routed from: a fixed Location, an inventory allocation policy, or one
+     * policy revision, selected by `type`.
+     */
+    "inventory_routing_source"?: InventoryRoutingSourceRequestInput;
+    /**
+     * The terms and policy links checkouts started from this link show the buyer. Changes to a
+     * payment link's legal links and terms setting. Send null on a URL to clear it.
+     */
+    "legal"?: PaymentLinkLegalPatchRequestInput;
+    /**
+     * Replaces all line items atomically. Include an existing payment_link_line_item_id to retain
+     * that member, omit the ID to create a member, and omit a previous member to remove it. Omit
+     * line_items to leave it unchanged. Null is not accepted. minItems: 1. [] (Value): {@link
+     * PaymentLinkLineItemPatchRequestInput}. A line item in a payment link update. Include its ID
+     * to change an existing line item, or omit the ID to add a new one.
+     */
+    "line_items"?: Array<PaymentLinkLineItemPatchRequestInput>;
+    /**
+     * Most payments the link accepts, counted by `completed_count`. Absent means no limit. Once
+     * the limit is reached, resolving the link fails with a request error. It can't be set below
+     * `completed_count`. Send null to clear. Format: int32.
+     */
+    "max_completions"?: number | null;
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. Send null to clear. At most 44 pairs, because Flint reserves 6 of the order's 50
+     * metadata pairs. Metadata keys and values plus Flint's metadata must fit within 32768 UTF-8
+     * bytes. Custom fields don't count toward either limit. These limits apply to standard and
+     * plan links and are checked against the merged configuration on update. This operation also
+     * limits the metadata object you send, before merging: at most 50 keys, counting null
+     * deletions, each key 1 to 256 Unicode code points, and at most 32768 UTF-8 bytes of keys plus
+     * values. anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a caller-owned
+     * metadata map. Omit the field to leave metadata unchanged. Each key sets a value, a null
+     * value deletes the key, and an empty object makes no change; send null for the whole field to
+     * clear all caller-owned metadata. The resulting map is limited the same way as MetadataInput:
+     * Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096
+     * Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key
+     * that does not exist is allowed, so the number of operations is not itself the stored-map
+     * limit. Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
+     * maxProperties: 50. Changes to a caller-owned metadata map. Omit the field to leave metadata
+     * unchanged. Each key sets a value, a null value deletes the key, and an empty object makes no
+     * change; send null for the whole field to clear all caller-owned metadata. The resulting map
+     * is limited the same way as MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256
+     * Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at
+     * most 32768 UTF-8 bytes. Deleting a key that does not exist is allowed, so the number of
+     * operations is not itself the stored-map limit. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. anyOf[1].* (Value): string or null. minLength:
+     * 1. maxLength: 4096. anyOf[2] (Value): null.
+     */
+    "metadata"?: (((Exclude<MetadataPatchRequestInput & object, readonly unknown[]>)) | (null));
+    /**
+     * Name of the payment link. Surrounding whitespace is trimmed before length validation. A
+     * supplied value cannot be blank; use null where clearing is supported. minLength: 1.
+     * maxLength: 255.
+     */
+    "name"?: string;
+    /**
+     * Whether to email existing ticket holders when event_at, timezone, or venue changes. Defaults
+     * to true for each update. Unchanged event details send no notice.
+     */
+    "notify_ticket_holders"?: boolean;
+    /**
+     * Payment options for checkouts started from this link. Changes to a payment link's payment
+     * settings. Send null on the payment note to clear it.
+     */
+    "payments"?: PaymentLinkPaymentPatchRequestInput;
+    /**
+     * Whether automatic promotions apply to checkouts started from this link and whether buyers
+     * can enter promotion codes. Promotion settings for a checkout: whether automatic promotions
+     * apply and whether the buyer can apply promotion codes.
+     */
+    "promotion_config"?: CheckoutPromotionConfigRequestInput;
+    /**
+     * Where checkout sessions started from this payment link send the buyer after payment,
+     * cancellation, or expiration. Changes to a payment link's hosted checkout destinations. Omit
+     * a URL to leave it unchanged, or send null to clear it.
+     */
+    "redirects"?: PaymentLinkRedirectsPatchRequestInput;
+    /**
+     * RFC3339 timestamp after which the link stops starting checkouts and resolve fails with
+     * `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on their own,
+     * except that an event link without sales_end_at stops selling at event_config.event_at. A
+     * checkout opened before the end can still start payment for up to 15 minutes after it. Send
+     * null to clear it. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "sales_end_at"?: string | globalThis.Date | null;
+    /**
+     * RFC3339 timestamp when buyers can first start a checkout from this link. Stored to
+     * nanosecond precision. Before it, resolve fails with ACTION_NOT_ALLOWED and reason
+     * sales_not_started. Must be earlier than the link’s sales end, including the event start when
+     * no explicit end is set. Send null to clear it. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "sales_start_at"?: string | globalThis.Date | null;
+    /** Whether the link can start new checkouts. Value enum: "active", "inactive". */
+    "status"?: "active" | "inactive";
+    /**
+     * Tax settings for checkouts started from this link. Whether tax is collected for a checkout
+     * session or payment link.
+     */
+    "tax"?: CheckoutTaxConfigRequestInput;
+    /**
+     * The title and colors for checkouts started from this link, over your branding settings.
+     * Changes to a payment link's checkout theme. Send null on a field to clear it.
+     */
+    "theme"?: PaymentLinkThemePatchRequestInput;
+    /**
+     * Tip options for checkouts started from this link. Tip settings for a checkout: whether tips
+     * are enabled, the percent or fixed amount options, the default tip, and custom tips.
+     */
+    "tip"?: CheckoutTipConfigRequestInput;
+});
 /** The request body for: Update payment method domain. minProperties: 1. */
 export type UpdatePaymentMethodDomainRequest = {
     /**
@@ -1043,8 +2401,9 @@ export type UpdateProductVariantRequest = ({
      * Base unit price in the currency's smallest unit. It applies below the first quantity price
      * break. amount (Required): integer string. Positive amount in the currency's minor unit, such
      * as cents for USD. Use an integer string (decimal digits), not a floating-point number.
-     * Format: int64. minimum: 1. currency (Required): string. ISO 4217 currency code for this
-     * amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     * Format: int64. minimum: 1. currency (Required): string. Three-letter uppercase ISO 4217
+     * currency code for this amount, such as USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     * Example: "USD".
      */
     "unit_price_money"?: {
         /**
@@ -1053,8 +2412,8 @@ export type UpdateProductVariantRequest = ({
          */
         "amount": `${bigint}`;
         /**
-         * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
-         * Example: "USD".
+         * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength:
+         * 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
          */
         "currency": string;
     };
@@ -1232,8 +2591,9 @@ export type UpdateProductVariantRequestInput = ({
      * Base unit price in the currency's smallest unit. It applies below the first quantity price
      * break. amount (Required): integer string. Positive amount in the currency's minor unit, such
      * as cents for USD. Use an integer string (decimal digits), not a floating-point number.
-     * Format: int64. minimum: 1. currency (Required): string. ISO 4217 currency code for this
-     * amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     * Format: int64. minimum: 1. currency (Required): string. Three-letter uppercase ISO 4217
+     * currency code for this amount, such as USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     * Example: "USD".
      */
     "unit_price_money"?: {
         /**
@@ -1242,8 +2602,8 @@ export type UpdateProductVariantRequestInput = ({
          */
         "amount": `${bigint}` | bigint;
         /**
-         * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
-         * Example: "USD".
+         * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength:
+         * 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
          */
         "currency": string;
     };
@@ -2778,520 +4138,3 @@ export type UpdateReturnResolutionRequestInput = ({
     "replacement_line_items"?: Array<UpdateReturnReplacementLineItemRequestInput>;
 });
 export type UpdateReturnResolutionResponse = GetReturnResolutionResponse;
-export type UpdateReturnResponse = GetReturnResponse;
-/** The request body for: Update a risk list. minProperties: 1. */
-export type UpdateRiskListRequest = {
-    /**
-     * Version last read from the resource returned in `data` (the primary resource for a result
-     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
-     * the operation and fields being changed. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Name of a merchant-created risk list. It can't be cleared. Surrounding whitespace is trimmed
-     * before length validation. A supplied value cannot be blank; use null where clearing is
-     * supported. minLength: 1.
-     */
-    "name": string;
-};
-/** The request body for: Update a risk list. minProperties: 1. */
-export type UpdateRiskListRequestInput = UpdateRiskListRequest;
-/** The request body for: Update a risk rule. minProperties: 1. */
-export type UpdateRiskRuleRequest = ({
-    /**
-     * What Flint does with a payment the rule matches. Value enum: "allow", "block", "review",
-     * "require_3ds".
-     */
-    "action"?: "allow" | "block" | "review" | "require_3ds" | (string & {});
-    /**
-     * Your note on what the rule is for. Limited to 512 characters (Unicode code points). Leading
-     * and trailing whitespace is trimmed. minLength: 1. maxLength: 512.
-     */
-    "description"?: string;
-    /** Optional risk rule version last read by the caller. Format: int64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * The condition a payment must meet for the rule to match. A node in a risk rule condition: a
-     * comparison of an attribute, or an `all`, `any`, or `not` group of other nodes.
-     */
-    "predicate"?: RiskPredicateNodeRequest;
-    /** Whether the rule runs. Value enum: "active", "inactive". */
-    "status"?: "active" | "inactive" | (string & {});
-})
-    & (({
-    /**
-     * What Flint does with a payment the rule matches. Value enum: "allow", "block", "review",
-     * "require_3ds".
-     */
-    "action": "allow" | "block" | "review" | "require_3ds" | (string & {});
-})
-    | ({
-    /**
-     * The condition a payment must meet for the rule to match. A node in a risk rule condition: a
-     * comparison of an attribute, or an `all`, `any`, or `not` group of other nodes.
-     */
-    "predicate": RiskPredicateNodeRequest;
-})
-    | ({
-    /**
-     * Your note on what the rule is for. Limited to 512 characters (Unicode code points). Leading
-     * and trailing whitespace is trimmed. minLength: 1. maxLength: 512.
-     */
-    "description": string;
-})
-    | ({
-    /** Whether the rule runs. Value enum: "active", "inactive". */
-    "status": "active" | "inactive" | (string & {});
-})
-    | (Record<string, unknown>));
-/** The request body for: Update a risk rule. minProperties: 1. */
-export type UpdateRiskRuleRequestInput = ({
-    /**
-     * What Flint does with a payment the rule matches. Value enum: "allow", "block", "review",
-     * "require_3ds".
-     */
-    "action"?: "allow" | "block" | "review" | "require_3ds";
-    /**
-     * Your note on what the rule is for. Limited to 512 characters (Unicode code points). Leading
-     * and trailing whitespace is trimmed. minLength: 1. maxLength: 512.
-     */
-    "description"?: string;
-    /** Optional risk rule version last read by the caller. Format: int64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * The condition a payment must meet for the rule to match. A node in a risk rule condition: a
-     * comparison of an attribute, or an `all`, `any`, or `not` group of other nodes.
-     */
-    "predicate"?: RiskPredicateNodeRequestInput;
-    /** Whether the rule runs. Value enum: "active", "inactive". */
-    "status"?: "active" | "inactive";
-})
-    & (({
-    /**
-     * What Flint does with a payment the rule matches. Value enum: "allow", "block", "review",
-     * "require_3ds".
-     */
-    "action": "allow" | "block" | "review" | "require_3ds";
-})
-    | ({
-    /**
-     * The condition a payment must meet for the rule to match. A node in a risk rule condition: a
-     * comparison of an attribute, or an `all`, `any`, or `not` group of other nodes.
-     */
-    "predicate": RiskPredicateNodeRequestInput;
-})
-    | ({
-    /**
-     * Your note on what the rule is for. Limited to 512 characters (Unicode code points). Leading
-     * and trailing whitespace is trimmed. minLength: 1. maxLength: 512.
-     */
-    "description": string;
-})
-    | ({
-    /** Whether the rule runs. Value enum: "active", "inactive". */
-    "status": "active" | "inactive";
-}));
-/**
- * Service fulfillment fields to change when updating a fulfillment: scheduled times, completion
- * time, and notes. Send null to clear a field.
- */
-export type UpdateServiceFulfillmentDetails = {
-    /**
-     * RFC3339 timestamp. Send null to clear it. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "completed_at"?: string | null;
-    /** Send null to clear it. minLength: 1. */
-    "notes"?: string | null;
-    /**
-     * RFC3339 timestamp. Send null to clear it. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "scheduled_end_at"?: string | null;
-    /**
-     * RFC3339 timestamp. Send null to clear it. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "scheduled_start_at"?: string | null;
-    /** Uses an IANA time zone name. minLength: 1. */
-    "timezone"?: string;
-};
-/**
- * Service fulfillment fields to change when updating a fulfillment: scheduled times, completion
- * time, and notes. Send null to clear a field.
- */
-export type UpdateServiceFulfillmentDetailsInput = {
-    /**
-     * RFC3339 timestamp. Send null to clear it. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "completed_at"?: string | globalThis.Date | null;
-    /** Send null to clear it. minLength: 1. */
-    "notes"?: string | null;
-    /**
-     * RFC3339 timestamp. Send null to clear it. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "scheduled_end_at"?: string | globalThis.Date | null;
-    /**
-     * RFC3339 timestamp. Send null to clear it. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "scheduled_start_at"?: string | globalThis.Date | null;
-    /** Uses an IANA time zone name. minLength: 1. */
-    "timezone"?: string;
-};
-/** The request body for: Update merchant settings. minProperties: 1. */
-export type UpdateSettingsRequest = ({
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link
-     * BrandingSettingsRequest}. Branding values to change when updating settings. Send null for a
-     * color or `font_family` to clear it. anyOf[2] (Value): null.
-     */
-    "branding"?: ((BrandingSettingsRequest) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link CheckoutSettings}.
-     * Merchant defaults for checkout: delivery methods, expiration, payment options, required
-     * contact fields, promotion codes, recovery email, and saved payment details. anyOf[2]
-     * (Value): null.
-     */
-    "checkout"?: ((CheckoutSettings) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. Flint then serves the default Flint-hosted
-     * account, and GET /v1/settings omits customer_account. anyOf[1] (Value): {@link
-     * CustomerAccountSettings}. Customer account settings: hosted mode, merchant account URL,
-     * presentation, route templates, and what buyers may do to their own subscriptions. anyOf[2]
-     * (Value): null.
-     */
-    "customer_account"?: ((CustomerAccountSettings) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link
-     * CustomerEmailDeliverySettings}. For each kind of customer email, whether Flint sends it or
-     * the merchant sends it. anyOf[2] (Value): null.
-     */
-    "customer_email_delivery"?: ((CustomerEmailDeliverySettings) | (null));
-    /**
-     * The Settings.version last read by the caller. Required when tax_identity is present,
-     * including null. Stale versions return VERSION_CONFLICT. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link FulfillmentSettings}.
-     * Merchant fulfillment settings, including whether fulfillments require approval
-     * (`approval_required`). anyOf[2] (Value): null.
-     */
-    "fulfillment"?: ((FulfillmentSettings) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link
-     * InventorySettingsRequest}. Inventory settings to change: the `low_stock_threshold`, how
-     * inventory failures are handled for each order source, and the `default_routing_source` for
-     * requests that omit one. anyOf[2] (Value): null.
-     */
-    "inventory"?: ((InventorySettingsRequest) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link InvoiceSettingsPatch}.
-     * Changes to a merchant's invoice settings. Send only the fields to change, and send null on a
-     * nullable field to clear it. minProperties: 1. anyOf[2] (Value): null.
-     */
-    "invoices"?: ((InvoiceSettingsPatch) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link LegalSettingsRequest}.
-     * Changes to a merchant's legal settings. Send null on a URL to clear it. anyOf[2] (Value):
-     * null.
-     */
-    "legal"?: ((LegalSettingsRequest) | (null));
-    /**
-     * Merged by key. Caller-owned metadata. Omit this field to leave metadata unchanged. Send an
-     * object to merge by key, set a key to null to remove it, or set metadata to null to clear all
-     * caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys
-     * starting with flint_ are reserved for Flint, are not returned, and cannot be written through
-     * the public API. anyOf[1] (Value): {@link MetadataPatchRequest}. Changes to a caller-owned
-     * metadata map. Omit the field to leave metadata unchanged. Each key sets a value, a null
-     * value deletes the key, and an empty object makes no change; send null for the whole field to
-     * clear all caller-owned metadata. The resulting map is limited the same way as MetadataInput:
-     * Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096
-     * Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key
-     * that does not exist is allowed, so the number of operations is not itself the stored-map
-     * limit. Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
-     * anyOf[2] (Value): null.
-     */
-    "metadata"?: ((MetadataPatchRequest) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. Clearing merchant limits preserves Flint support
-     * approvals. Cleared maps are omitted from reads. anyOf[1] (Value): {@link
-     * PaymentLimitSettingsPatch}. Changes to a merchant's payment amount limits. Each map replaces
-     * the existing one, and null clears it. minProperties: 1. anyOf[2] (Value): null.
-     */
-    "payment_limits"?: ((PaymentLimitSettingsPatch) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Changes the
-     * statement text for new payments. Changes to the statement text for new payments.
-     */
-    "payments"?: PaymentSettingsPatch;
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link PromotionSettings}.
-     * Merchant promotion settings: whether automatic promotions and codes are enabled, and how
-     * many promotions can apply to one order. anyOf[2] (Value): null.
-     */
-    "promotions"?: ((PromotionSettings) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link ReceiptSettingsPatch}.
-     * Changes to the merchant-provided text on payment receipt emails and PDFs. Send null for
-     * footer_text to remove it. minProperties: 1. anyOf[2] (Value): null.
-     */
-    "receipts"?: ((ReceiptSettingsPatch) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link SubscriptionSettings}.
-     * Subscription settings: the default billing schedule owner, dunning retry days and end
-     * action, and the backorder email. anyOf[2] (Value): null.
-     */
-    "subscriptions"?: ((SubscriptionSettings) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link TaxSettingsRequest}.
-     * Tax settings to change when updating settings. Send null for a category to clear it.
-     * anyOf[2] (Value): null.
-     */
-    "tax"?: ((TaxSettingsRequest) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. Legal identity displayed on invoices, credit
-     * notes, and receipts. Requires expected_version whenever present. anyOf[1] (Value): {@link
-     * TaxIdentityPatch}. Merchant-provided legal identity displayed on invoices and credit notes.
-     * Flint does not verify IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU
-     * or NZ destination to its tax provider, which can apply a reverse charge; other IDs do not
-     * change tax treatment. Tax IDs are an owned collection in display order; replacing the array
-     * requires the parent's expected_version. Existing entries retain their document_tax_id; omit
-     * an entry to remove it, or omit its ID to add one. anyOf[2] (Value): null.
-     */
-    "tax_identity"?: ((TaxIdentityPatch) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link TippingSettingsPatch}.
-     * Tipping settings to change when updating settings. Omit a field to keep it; send null to
-     * clear a preselected tip. minProperties: 1. anyOf[2] (Value): null.
-     */
-    "tipping"?: ((TippingSettingsPatch) | (null));
-});
-/** The request body for: Update merchant settings. minProperties: 1. */
-export type UpdateSettingsRequestInput = ({
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link
-     * BrandingSettingsRequestInput}. Branding values to change when updating settings. Send null
-     * for a color or `font_family` to clear it. anyOf[2] (Value): null.
-     */
-    "branding"?: ((BrandingSettingsRequestInput) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link
-     * CheckoutSettingsRequestInput}. Merchant defaults for checkout: delivery methods, expiration,
-     * payment options, required contact fields, promotion codes, recovery email, and saved payment
-     * details. anyOf[2] (Value): null.
-     */
-    "checkout"?: ((CheckoutSettingsRequestInput) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. Flint then serves the default Flint-hosted
-     * account, and GET /v1/settings omits customer_account. anyOf[1] (Value): {@link
-     * CustomerAccountSettingsRequestInput}. Customer account settings: hosted mode, merchant
-     * account URL, presentation, route templates, and what buyers may do to their own
-     * subscriptions. anyOf[2] (Value): null.
-     */
-    "customer_account"?: ((CustomerAccountSettingsRequestInput) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link
-     * CustomerEmailDeliverySettingsRequestInput}. For each kind of customer email, whether Flint
-     * sends it or the merchant sends it. anyOf[2] (Value): null.
-     */
-    "customer_email_delivery"?: ((CustomerEmailDeliverySettingsRequestInput) | (null));
-    /**
-     * The Settings.version last read by the caller. Required when tax_identity is present,
-     * including null. Stale versions return VERSION_CONFLICT. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link
-     * FulfillmentSettingsRequestInput}. Merchant fulfillment settings, including whether
-     * fulfillments require approval (`approval_required`). anyOf[2] (Value): null.
-     */
-    "fulfillment"?: ((FulfillmentSettingsRequestInput) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link
-     * InventorySettingsRequestInput}. Inventory settings to change: the `low_stock_threshold`, how
-     * inventory failures are handled for each order source, and the `default_routing_source` for
-     * requests that omit one. anyOf[2] (Value): null.
-     */
-    "inventory"?: ((InventorySettingsRequestInput) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link
-     * InvoiceSettingsPatchInput}. Changes to a merchant's invoice settings. Send only the fields
-     * to change, and send null on a nullable field to clear it. minProperties: 1. anyOf[2]
-     * (Value): null.
-     */
-    "invoices"?: ((InvoiceSettingsPatchInput) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link
-     * LegalSettingsRequestInput}. Changes to a merchant's legal settings. Send null on a URL to
-     * clear it. anyOf[2] (Value): null.
-     */
-    "legal"?: ((LegalSettingsRequestInput) | (null));
-    /**
-     * Merged by key. Caller-owned metadata. Omit this field to leave metadata unchanged. Send an
-     * object to merge by key, set a key to null to remove it, or set metadata to null to clear all
-     * caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys
-     * starting with flint_ are reserved for Flint, are not returned, and cannot be written through
-     * the public API. anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a
-     * caller-owned metadata map. Omit the field to leave metadata unchanged. Each key sets a
-     * value, a null value deletes the key, and an empty object makes no change; send null for the
-     * whole field to clear all caller-owned metadata. The resulting map is limited the same way as
-     * MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
-     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting
-     * a key that does not exist is allowed, so the number of operations is not itself the
-     * stored-map limit. Values can't be empty strings, and keys starting with flint_ are reserved
-     * for Flint. anyOf[2] (Value): null.
-     */
-    "metadata"?: ((MetadataPatchRequestInput) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. Clearing merchant limits preserves Flint support
-     * approvals. Cleared maps are omitted from reads. anyOf[1] (Value): {@link
-     * PaymentLimitSettingsPatchInput}. Changes to a merchant's payment amount limits. Each map
-     * replaces the existing one, and null clears it. minProperties: 1. anyOf[2] (Value): null.
-     */
-    "payment_limits"?: ((PaymentLimitSettingsPatchInput) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Changes the
-     * statement text for new payments. Changes to the statement text for new payments.
-     */
-    "payments"?: PaymentSettingsPatchInput;
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link
-     * PromotionSettingsRequestInput}. Merchant promotion settings: whether automatic promotions
-     * and codes are enabled, and how many promotions can apply to one order. anyOf[2] (Value):
-     * null.
-     */
-    "promotions"?: ((PromotionSettingsRequestInput) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link
-     * ReceiptSettingsPatchInput}. Changes to the merchant-provided text on payment receipt emails
-     * and PDFs. Send null for footer_text to remove it. minProperties: 1. anyOf[2] (Value): null.
-     */
-    "receipts"?: ((ReceiptSettingsPatchInput) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link
-     * SubscriptionSettingsRequestInput}. Subscription settings: the default billing schedule
-     * owner, dunning retry days and end action, and the backorder email. anyOf[2] (Value): null.
-     */
-    "subscriptions"?: ((SubscriptionSettingsRequestInput) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link
-     * TaxSettingsRequestInput}. Tax settings to change when updating settings. Send null for a
-     * category to clear it. anyOf[2] (Value): null.
-     */
-    "tax"?: ((TaxSettingsRequestInput) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. Legal identity displayed on invoices, credit
-     * notes, and receipts. Requires expected_version whenever present. anyOf[1] (Value): {@link
-     * TaxIdentityPatchInput}. Merchant-provided legal identity displayed on invoices and credit
-     * notes. Flint does not verify IDs. On a customer, automatic tax sends the tax ID for an EU,
-     * GB, AU or NZ destination to its tax provider, which can apply a reverse charge; other IDs do
-     * not change tax treatment. Tax IDs are an owned collection in display order; replacing the
-     * array requires the parent's expected_version. Existing entries retain their document_tax_id;
-     * omit an entry to remove it, or omit its ID to add one. anyOf[2] (Value): null.
-     */
-    "tax_identity"?: ((TaxIdentityPatchInput) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link
-     * TippingSettingsPatchInput}. Tipping settings to change when updating settings. Omit a field
-     * to keep it; send null to clear a preselected tip. minProperties: 1. anyOf[2] (Value): null.
-     */
-    "tipping"?: ((TippingSettingsPatchInput) | (null));
-});
-/** The request body for: Update shipment. minProperties: 1. */
-export type UpdateShipmentRequest = {
-    /** Optional resource version last read by the caller. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. Send null to clear it.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. Send null to clear it. minLength: 1.
-     */
-    "external_system"?: string | null;
-    /**
-     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
-     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
-     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
-     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
-     * API. anyOf[1] (Value): {@link MetadataPatchRequest}. Changes to a caller-owned metadata map.
-     * Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes the
-     * key, and an empty object makes no change; send null for the whole field to clear all
-     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
-     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
-     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
-     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
-     * (Value): null.
-     */
-    "metadata"?: ((MetadataPatchRequest) | (null));
-};
-/** The request body for: Update shipment. minProperties: 1. */
-export type UpdateShipmentRequestInput = {
-    /** Optional resource version last read by the caller. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. Send null to clear it.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. Send null to clear it. minLength: 1.
-     */
-    "external_system"?: string | null;
-    /**
-     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
-     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
-     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
-     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
-     * API. anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a caller-owned metadata
-     * map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes
-     * the key, and an empty object makes no change; send null for the whole field to clear all
-     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
-     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
-     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
-     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
-     * (Value): null.
-     */
-    "metadata"?: ((MetadataPatchRequestInput) | (null));
-};

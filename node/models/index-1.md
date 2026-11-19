@@ -1,6 +1,6 @@
 [Model index](../MODELS.md)
 
-# AcceptFulfillmentRequestInput to BuyerCreateReturnPreviewRequest
+# AcceptFulfillmentRequestInput to BuyerCheckoutSessionLaunchResponse
 
 - [AcceptFulfillmentRequestInput](AcceptFulfillmentRequestInput.md)
 - [AcceptPartnerAppPlatformTermsRequest](AcceptPartnerAppPlatformTermsRequest.md)
@@ -73,6 +73,8 @@
 - [BalanceTransactionUpdatedMerchantEvent](BalanceTransactionUpdatedMerchantEvent.md)
 - [BalanceUpdatedInstalledMerchantsEvent](BalanceUpdatedInstalledMerchantsEvent.md)
 - [BalanceUpdatedMerchantEvent](BalanceUpdatedMerchantEvent.md)
+- [BlockFailedAttemptSignalsResponse](BlockFailedAttemptSignalsResponse.md)
+- [BlockFailedAttemptSignalsResult](BlockFailedAttemptSignalsResult.md)
 - [BrandingSettings](BrandingSettings.md)
 - [BrandingSettingsRequest](BrandingSettingsRequest.md)
 - [BrandingSettingsRequestInput](BrandingSettingsRequestInput.md)
@@ -100,6 +102,4 @@
 - [BuyerCheckoutProblemResource](BuyerCheckoutProblemResource.md)
 - [BuyerCheckoutSession](BuyerCheckoutSession.md)
 - [BuyerCheckoutSessionLaunchResponse](BuyerCheckoutSessionLaunchResponse.md)
-- [BuyerCheckoutSessionWithSecret](BuyerCheckoutSessionWithSecret.md)
-- [BuyerCreateReturnPreviewRequest](BuyerCreateReturnPreviewRequest.md)
 

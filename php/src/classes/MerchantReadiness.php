@@ -7,9 +7,10 @@ namespace Flint;
  * @property-read ReadinessAxis $payments
  * @property-read ReadinessAxis $payouts
  * @property-read ReadinessRequirements $requirements
+ * @property-read ?bool $review_blocks_captures
  * Presence-aware response; omitted optional fields return null. */
 final class MerchantReadiness extends Model {
-    /** @param array{'capabilities': list<mixed>, 'observed_at': string, 'payments': mixed, 'payouts': mixed, 'requirements': mixed, ...}|object $values */
+    /** @param array{'capabilities': list<mixed>, 'observed_at': string, 'payments': mixed, 'payouts': mixed, 'requirements': mixed, 'review_blocks_captures'?: bool, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MerchantReadiness')); }
     /** Readiness of each payment and money movement capability, with its own status, requirements, and next actions. [] (Value): {@see CapabilityReadiness}. Merchant capability readiness for a payment or money movement capability.
      * @return list<CapabilityReadiness>
@@ -36,4 +37,9 @@ final class MerchantReadiness extends Model {
      */
     public function getRequirements(): ReadinessRequirements { return $this->get('requirements'); }
     public function hasRequirements(): bool { return $this->has('requirements'); }
+    /** review_blocks_captures
+     * @return ?bool
+     */
+    public function getReviewBlocksCaptures(): ?bool { return $this->get('review_blocks_captures'); }
+    public function hasReviewBlocksCaptures(): bool { return $this->has('review_blocks_captures'); }
 }

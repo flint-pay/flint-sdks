@@ -38,7 +38,7 @@ export type {
     DeliveryPickupAvailabilityLocationSummary,
     DeliveryPickupAvailabilityDiagnostic
 } from '../declarations/types-20.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+export type { _SdkWithoutIdempotency, WeightRequestInput, Weight } from '../declarations/types-80.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type {
@@ -56,6 +56,7 @@ export type {
     DeliveryBuyerLocationResourceAddress,
     DeliveryBuyerLocationResourceCoordinate,
     DeliveryCandidateOutcomeResource,
+    DeliveryAddressAdvisoryResource,
     DeliveryArrivalEstimate,
     DeliveryCandidateOutcomeResourceAvailable,
     DeliveryCandidateOutcomeResourceUnavailable,
@@ -64,8 +65,8 @@ export type {
     DeliveryCandidateOutcomeResourceRequiresCheckoutContext,
     DeliveryAddressRequest
 } from '../declarations/types-18.js';
+export type { InventoryRoutingSourceRequestInput } from '../declarations/types-34.js';
 export type {
-    InventoryRoutingSourceRequestInput,
     InventoryRoutingSourceInputFixedLocationInput,
     InventoryRoutingSourceInputPolicyInput,
     InventoryRoutingSourceInputPolicyRevisionInput
@@ -73,12 +74,9 @@ export type {
 export type {
     CreateOrderLineItemRequestInput,
     CreateOrderLineItemInputVariantInput,
-    CreateOrderLineItemInputBundleInput,
     CreateOrderLineItemInputCustomInput,
-    CreateOrderLineItem,
-    CreateOrderLineItemBundle,
-    CreateOrderLineItemCustom
-} from '../declarations/types-11.js';
+    CreateOrderLineItemVariant
+} from '../declarations/types-12.js';
 export type {
     LineItemFulfillmentRequestModelInput,
     LineItemFulfillmentOriginRequestModelInput,
@@ -104,22 +102,25 @@ export type {
     OrderCalculatedLineItemTax
 } from '../declarations/types-45.js';
 export type { MetadataRequestInput, MetadataMap } from '../declarations/types-43.js';
+export type { OrderLineItemModifierRequestModelInput, OrderLineItemModifierRequest } from '../declarations/types-47.js';
+export type { TextModifierRequestInput, TextModifierRequest } from '../declarations/types-75.js';
 export type {
-    OrderLineItemModifierRequestModelInput,
     OrderLineItemModifierInputCatalogRequestInput,
     OrderLineItemModifierInputTextRequestInput,
-    OrderLineItemModifierRequest,
     OrderLineItemModifierInputCatalog,
     OrderLineItemModifierInputText
 } from '../declarations/types-46.js';
-export type { TextModifierRequestInput, TextModifierRequest, TaxJurisdiction } from '../declarations/types-74.js';
-export type { SubscribedLineRequestModelInput } from '../declarations/types-69.js';
+export type { SubscribedLineRequestModelInput, SubscribedLineRequest } from '../declarations/types-69.js';
 export type { DimensionsRequestInput, Dimensions } from '../declarations/types-25.js';
-export type { WeightRequestInput, Weight } from '../declarations/types-79.js';
+export type {
+    CreateOrderLineItemInputBundleInput,
+    CreateOrderLineItem,
+    CreateOrderLineItemBundle,
+    CreateOrderLineItemCustom
+} from '../declarations/types-11.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { Address } from '../declarations/types-0.js';
-export type { DeliveryAddressAdvisoryResource } from '../declarations/types-17.js';
 export type {
     DeliveryInputRequirement,
     DeliveryInputConstraint,
@@ -131,9 +132,7 @@ export type { DeliveryWindowRequest, DeliveryShipmentDetails } from '../declarat
 export type { BuyerInstructionsConfig } from '../declarations/types-2.js';
 export type { DeliveryQuoteExecutionLegResource, DeliveryQuoteLineItemResource } from '../declarations/types-22.js';
 export type { DeliveryRecipientRequirement } from '../declarations/types-23.js';
-export type { SubscribedLineRequest } from '../declarations/types-68.js';
-export type { TaxCalculationRequest, TaxComponentRequest } from '../declarations/types-73.js';
-export type { CreateOrderLineItemVariant } from '../declarations/types-12.js';
+export type { TaxCalculationRequest, TaxComponentRequest, TaxJurisdiction } from '../declarations/types-74.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export {
     makeCreateDeliveryOptionsPreviewRequest,
@@ -157,7 +156,9 @@ export {
 export { makeDeliveryWindowRequest, makeDimensionsRequest } from '../declarations/types-86.js';
 export {
     makeGiftCardPurchaseDetailsRequest,
+    makeGiftCardPurchaseRecipient,
     makeGiftCardPurchaseRecipientRequest,
+    makeGiftCardPurchaseRequest,
     makeImageReferenceRequest,
     makeInventoryRoutingSourceInputFixedLocation,
     makeInventoryRoutingSourceInputPolicy,
@@ -167,6 +168,7 @@ export {
 export {
     makeLineItemFulfillmentOriginRequestModel,
     makeLineItemFulfillmentRequestModel,
+    makeMetadataMap,
     makeMetadataRequest,
     makeMoneyValue
 } from '../declarations/types-88.js';
@@ -182,7 +184,7 @@ export {
 } from '../declarations/types-89.js';
 export { makeSubscribedLineRequestModel } from '../declarations/types-92.js';
 export { makeTextModifierRequest } from '../declarations/types-93.js';
-export { makeWeightRequest } from '../declarations/types-94.js';
+export { makeWeightRequest } from '../declarations/types-95.js';
 export interface DeliveryPreviewsResource {
     /**
  * Computes delivery options with mode delivery_options or up to 25 pickup locations with mode

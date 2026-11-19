@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# CreateOrderLineItemInputBundleInput to CreateReturnPreviewRequestEligibilityInput
+# CreateOrderLineItem to CreateReturnPreviewDataEligibility
 
+- [CreateOrderLineItem](CreateOrderLineItem.md)
+- [CreateOrderLineItemBundle](CreateOrderLineItemBundle.md)
+- [CreateOrderLineItemCustom](CreateOrderLineItemCustom.md)
+- [CreateOrderLineItemCustomRequestInput](CreateOrderLineItemCustomRequestInput.md)
+- [CreateOrderLineItemInputBundle](CreateOrderLineItemInputBundle.md)
 - [CreateOrderLineItemInputBundleInput](CreateOrderLineItemInputBundleInput.md)
 - [CreateOrderLineItemInputCustom](CreateOrderLineItemInputCustom.md)
 - [CreateOrderLineItemInputCustomInput](CreateOrderLineItemInputCustomInput.md)
@@ -97,9 +102,4 @@
 - [CreateReturnPolicyRequestInput](CreateReturnPolicyRequestInput.md)
 - [CreateReturnPreviewData](CreateReturnPreviewData.md)
 - [CreateReturnPreviewDataEligibility](CreateReturnPreviewDataEligibility.md)
-- [CreateReturnPreviewDataResolution](CreateReturnPreviewDataResolution.md)
-- [CreateReturnPreviewRequest](CreateReturnPreviewRequest.md)
-- [CreateReturnPreviewRequestInput](CreateReturnPreviewRequestInput.md)
-- [CreateReturnPreviewRequestEligibility](CreateReturnPreviewRequestEligibility.md)
-- [CreateReturnPreviewRequestEligibilityInput](CreateReturnPreviewRequestEligibilityInput.md)
 

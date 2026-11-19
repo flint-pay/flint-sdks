@@ -1,7 +1,14 @@
 [Model index](../MODELS.md)
 
-# InvoiceDiscountPreviousAttributes to InvoicePaymentTermCalculationOnReceiptRequestInput
+# InvoiceDeliveryAttemptFailedMerchantEvent to InvoicePaymentTermCalculationDaysAfterMonthEndPreviousAttributes
 
+- [InvoiceDeliveryAttemptFailedMerchantEvent](InvoiceDeliveryAttemptFailedMerchantEvent.md)
+- [InvoiceDeliveryAttemptListResponse](InvoiceDeliveryAttemptListResponse.md)
+- [InvoiceDeliveryAttemptSentInstalledMerchantsEvent](InvoiceDeliveryAttemptSentInstalledMerchantsEvent.md)
+- [InvoiceDeliveryAttemptSentMerchantEvent](InvoiceDeliveryAttemptSentMerchantEvent.md)
+- [InvoiceDeliveryAttemptSuppressedInstalledMerchantsEvent](InvoiceDeliveryAttemptSuppressedInstalledMerchantsEvent.md)
+- [InvoiceDeliveryAttemptSuppressedMerchantEvent](InvoiceDeliveryAttemptSuppressedMerchantEvent.md)
+- [InvoiceDiscount](InvoiceDiscount.md)
 - [InvoiceDiscountPreviousAttributes](InvoiceDiscountPreviousAttributes.md)
 - [InvoiceDocumentRow](InvoiceDocumentRow.md)
 - [InvoiceIssuedInstalledMerchantsEvent](InvoiceIssuedInstalledMerchantsEvent.md)
@@ -95,11 +102,4 @@
 - [InvoicePaymentTermCalculationDayOfNextMonthRequestInput](InvoicePaymentTermCalculationDayOfNextMonthRequestInput.md)
 - [InvoicePaymentTermCalculationDaysAfterMonthEnd](InvoicePaymentTermCalculationDaysAfterMonthEnd.md)
 - [InvoicePaymentTermCalculationDaysAfterMonthEndPreviousAttributes](InvoicePaymentTermCalculationDaysAfterMonthEndPreviousAttributes.md)
-- [InvoicePaymentTermCalculationDaysAfterMonthEndRequestInput](InvoicePaymentTermCalculationDaysAfterMonthEndRequestInput.md)
-- [InvoicePaymentTermCalculationNetDays](InvoicePaymentTermCalculationNetDays.md)
-- [InvoicePaymentTermCalculationNetDaysPreviousAttributes](InvoicePaymentTermCalculationNetDaysPreviousAttributes.md)
-- [InvoicePaymentTermCalculationNetDaysRequestInput](InvoicePaymentTermCalculationNetDaysRequestInput.md)
-- [InvoicePaymentTermCalculationOnReceipt](InvoicePaymentTermCalculationOnReceipt.md)
-- [InvoicePaymentTermCalculationOnReceiptPreviousAttributes](InvoicePaymentTermCalculationOnReceiptPreviousAttributes.md)
-- [InvoicePaymentTermCalculationOnReceiptRequestInput](InvoicePaymentTermCalculationOnReceiptRequestInput.md)
 

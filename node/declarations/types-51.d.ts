@@ -1,6 +1,9 @@
-import type { StripePaymentClientAction, StripePaymentClientActionPreviousAttributes } from './types-68.js';
+import type { Order } from './types-45.js';
+import type { OrderPaymentAttempt } from './types-47.js';
 import type { MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
-import type { SelectableOrderPaymentIntent, SelectableOrderPaymentIntentPreviousAttributes } from './types-67.js';
+import type { StripePaymentClientAction, StripePaymentClientActionPreviousAttributes } from './types-69.js';
+import type { SelectableOrderPaymentIntent } from './types-67.js';
+import type { SelectableOrderPaymentIntentPreviousAttributes } from './types-68.js';
 import type {
     ErrorRemediation,
     ErrorRemediationPreviousAttributes,
@@ -13,7 +16,6 @@ import type {
 } from './types-26.js';
 import type { FailedPaymentAttempt, FailedPaymentAttemptPreviousAttributes } from './types-27.js';
 import type { MetadataMap, MerchantWebhookEnvelope } from './types-43.js';
-import type { PaymentAddOnFee, PaymentActivityActor, PartnerWebhookEnvelope } from './types-50.js';
 import type { PaymentProcessingFeeDetail } from './types-53.js';
 import type {
     PaymentRisk,
@@ -24,12 +26,499 @@ import type {
     PaymentSplitPreviousAttributes
 } from './types-54.js';
 import type { ResponseMeta } from './types-62.js';
+import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { WebhookPaymentIntent } from './types-79.js';
-import type { PendingPaymentAction } from './types-55.js';
-import type { InputValue } from '../runtime.js';
-import type { CancelPaymentIntentRequestInput, CapturePaymentIntentRequestInput } from './types-5.js';
-import type { ConfirmPaymentIntentRequestInput } from './types-8.js';
-import type { CreatePaymentIntentRequestInput } from './types-12.js';
+/**
+ * The order is the primary resource and expected_version target; order_payment_attempt records the
+ * payment outcome.
+ */
+export type PayOrderResult = {
+    /**
+     * The order after the payment request. Send its `version` as `expected_version` in your next
+     * change to the order. A customer's purchase and its payment and fulfillment progress.
+     */
+    "order": Order;
+    /**
+     * The payment attempt for this request. Read its `status` and `pending_actions` to decide what
+     * to do next. An attempt to pay an order.
+     */
+    "order_payment_attempt"?: OrderPaymentAttempt;
+};
+/**
+ * The merchant identity that initiated the action. Labels are recorded with the activity and do
+ * not change when the identity is renamed or removed.
+ */
+export type PaymentActivityActor = {
+    /**
+     * Teammate name (or email), API key name, or app name. Empty when a display label was
+     * unavailable; use resource_id as a fallback.
+     */
+    "label": string;
+    /**
+     * Flint ID of the identity that initiated the action. Key creators and app installers are not
+     * the actor. Example: "usr_01KEZF7C00YC8757ZYP9727JM0".
+     */
+    "resource_id": string;
+    /**
+     * The acting identity's resource type. Today one of `user` (a teammate acting through
+     * Dashboard or a CLI login), `api_key` (an API key, not its creator), `partner_app_install`
+     * (an installed partner app, not its installer), or `partner_app` (a partner app acting on its
+     * own resources). Accept other resource types. Value enum: "api_key", "api_request_log",
+     * "balance", "balance_transaction", "bundle", "bundle_component", "category",
+     * "checkout_session", "checkout_session_customer_verification", "credit_note",
+     * "credit_note_allocation", "custom_domain", "customer", "customer_address",
+     * "customer_deletion_request", "customer_email_preferences", "customer_session",
+     * "customer_tax_exemption", "customer_verification", "delivery_choice_group",
+     * "delivery_location_set", "delivery_method", "delivery_profile", "delivery_quote",
+     * "delivery_rate", "delivery_rate_callback", "delivery_revocation", "delivery_selection",
+     * "delivery_zone", "demo_session", "device", "discount", "dispute", "email_change_request",
+     * "environment_grant", "file", "flint_wallet", "flint_wallet_card", "fraud_warning",
+     * "fulfillment", "fulfillment_event", "fulfillment_notification", "gift_card",
+     * "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
+     * "gift_card_redemption", "gift_card_transaction", "image", "inventory_adjustment",
+     * "inventory_allocation_policy", "inventory_allocation_policy_revision", "inventory_count",
+     * "inventory_item", "inventory_level", "inventory_movement", "inventory_receipt",
+     * "inventory_reservation", "inventory_reservation_line", "inventory_transfer",
+     * "inventory_transfer_line", "invoice", "invoice_delivery_attempt", "invoice_late_fee",
+     * "invoice_line_item", "invoice_manual_payment", "invoice_payment_attempt",
+     * "invoice_payment_term", "license_key", "license_key_activation", "license_key_pool",
+     * "license_key_pool_key", "location", "merchant", "merchant_billing_balance",
+     * "merchant_billing_entry", "merchant_billing_invoice", "merchant_signup", "modifier",
+     * "modifier_group", "modifier_set", "order", "order_charge", "order_edit", "order_line_item",
+     * "order_line_item_modifier", "order_payment_attempt", "package", "package_item",
+     * "partner_app", "partner_app_credential", "partner_app_install", "payment_attempt",
+     * "payment_intent", "payment_link", "payment_link_custom_field", "payment_link_line_item",
+     * "payment_method", "payment_method_domain", "payment_review", "payment_split", "payout",
+     * "payout_destination", "payout_settings", "platform_fee", "platform_fee_balance_transaction",
+     * "platform_fee_payout", "price_list", "price_list_price", "product", "product_option",
+     * "product_option_value", "product_variant", "promotion", "promotion_code",
+     * "purchase_refund_allocation", "reader", "refund", "refund_allocation",
+     * "refund_line_item_adjustment", "remembered_buyer", "report", "report_download", "return",
+     * "return_activity", "return_disposition", "return_inspection", "return_inspection_line_item",
+     * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
+     * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
+     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
+     * "subscription_delivery_migration", "subscription_line_item", "subscription_offer",
+     * "subscription_payment_retry", "subscription_plan", "subscription_plan_line_item",
+     * "tax_calculation_callback", "tax_connection", "tax_registration", "test_clock", "ticket",
+     * "user", "webhook_delivery", "webhook_endpoint", "webhook_event", "workload_identity".
+     */
+    "resource_type": "api_key"
+        | "api_request_log"
+        | "balance"
+        | "balance_transaction"
+        | "bundle"
+        | "bundle_component"
+        | "category"
+        | "checkout_session"
+        | "checkout_session_customer_verification"
+        | "credit_note"
+        | "credit_note_allocation"
+        | "custom_domain"
+        | "customer"
+        | "customer_address"
+        | "customer_deletion_request"
+        | "customer_email_preferences"
+        | "customer_session"
+        | "customer_tax_exemption"
+        | "customer_verification"
+        | "delivery_choice_group"
+        | "delivery_location_set"
+        | "delivery_method"
+        | "delivery_profile"
+        | "delivery_quote"
+        | "delivery_rate"
+        | "delivery_rate_callback"
+        | "delivery_revocation"
+        | "delivery_selection"
+        | "delivery_zone"
+        | "demo_session"
+        | "device"
+        | "discount"
+        | "dispute"
+        | "email_change_request"
+        | "environment_grant"
+        | "file"
+        | "flint_wallet"
+        | "flint_wallet_card"
+        | "fraud_warning"
+        | "fulfillment"
+        | "fulfillment_event"
+        | "fulfillment_notification"
+        | "gift_card"
+        | "gift_card_funding_disposition"
+        | "gift_card_load"
+        | "gift_card_notification"
+        | "gift_card_redemption"
+        | "gift_card_transaction"
+        | "image"
+        | "inventory_adjustment"
+        | "inventory_allocation_policy"
+        | "inventory_allocation_policy_revision"
+        | "inventory_count"
+        | "inventory_item"
+        | "inventory_level"
+        | "inventory_movement"
+        | "inventory_receipt"
+        | "inventory_reservation"
+        | "inventory_reservation_line"
+        | "inventory_transfer"
+        | "inventory_transfer_line"
+        | "invoice"
+        | "invoice_delivery_attempt"
+        | "invoice_late_fee"
+        | "invoice_line_item"
+        | "invoice_manual_payment"
+        | "invoice_payment_attempt"
+        | "invoice_payment_term"
+        | "license_key"
+        | "license_key_activation"
+        | "license_key_pool"
+        | "license_key_pool_key"
+        | "location"
+        | "merchant"
+        | "merchant_billing_balance"
+        | "merchant_billing_entry"
+        | "merchant_billing_invoice"
+        | "merchant_signup"
+        | "modifier"
+        | "modifier_group"
+        | "modifier_set"
+        | "order"
+        | "order_charge"
+        | "order_edit"
+        | "order_line_item"
+        | "order_line_item_modifier"
+        | "order_payment_attempt"
+        | "package"
+        | "package_item"
+        | "partner_app"
+        | "partner_app_credential"
+        | "partner_app_install"
+        | "payment_attempt"
+        | "payment_intent"
+        | "payment_link"
+        | "payment_link_custom_field"
+        | "payment_link_line_item"
+        | "payment_method"
+        | "payment_method_domain"
+        | "payment_review"
+        | "payment_split"
+        | "payout"
+        | "payout_destination"
+        | "payout_settings"
+        | "platform_fee"
+        | "platform_fee_balance_transaction"
+        | "platform_fee_payout"
+        | "price_list"
+        | "price_list_price"
+        | "product"
+        | "product_option"
+        | "product_option_value"
+        | "product_variant"
+        | "promotion"
+        | "promotion_code"
+        | "purchase_refund_allocation"
+        | "reader"
+        | "refund"
+        | "refund_allocation"
+        | "refund_line_item_adjustment"
+        | "remembered_buyer"
+        | "report"
+        | "report_download"
+        | "return"
+        | "return_activity"
+        | "return_disposition"
+        | "return_inspection"
+        | "return_inspection_line_item"
+        | "return_line_item"
+        | "return_policy"
+        | "return_policy_revision"
+        | "return_reason"
+        | "return_receipt"
+        | "return_receipt_line_item"
+        | "return_resolution"
+        | "risk_list"
+        | "risk_list_item"
+        | "risk_rule"
+        | "sandbox"
+        | "settings"
+        | "shipment"
+        | "subscription"
+        | "subscription_delivery_migration"
+        | "subscription_line_item"
+        | "subscription_offer"
+        | "subscription_payment_retry"
+        | "subscription_plan"
+        | "subscription_plan_line_item"
+        | "tax_calculation_callback"
+        | "tax_connection"
+        | "tax_registration"
+        | "test_clock"
+        | "ticket"
+        | "user"
+        | "webhook_delivery"
+        | "webhook_endpoint"
+        | "webhook_event"
+        | "workload_identity"
+        | (string & {});
+};
+/** A Flint fee added to a payment intent, with the fee type and amount. */
+export type PaymentAddOnFee = {
+    /**
+     * Amount of this fee. Added to the payment's `fee_money` on its balance transaction. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /**
+     * The Flint feature this fee pays for. A payment carries at most one of invoice_collection and
+     * subscription_collection. Can gain values: sum every entry rather than matching only the
+     * types you know. Value enum: "invoice_collection", "subscription_collection",
+     * "automatic_tax".
+     */
+    "fee_type": "invoice_collection" | "subscription_collection" | "automatic_tax" | (string & {});
+};
+/**
+ * A gift card redemption made as part of an order payment attempt, with the amount, tip, and gift
+ * card.
+ */
+export type PaymentAttemptGiftCardRedemption = {
+    /**
+     * The amount reserved on the gift card for this attempt, in USD, including `tip_money`. It is
+     * taken from the card only if the attempt succeeds. A failed or canceled attempt releases it.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /** ID of the gift card redeemed. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". */
+    "gift_card_id": string;
+    /**
+     * ID of the redemption that holds this amount on the gift card. Example:
+     * "gcr_01KEZF7C002YD2G2J734RRZTWT".
+     */
+    "gift_card_redemption_id": string;
+    /** Last four characters of the card's current code. */
+    "last4": string;
+    /**
+     * The part of `amount_money` that is a tip. Zero when the redemption carries no tip. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "tip_money": MoneyValue;
+};
+export type PaymentAttemptGiftCardRedemptionPreviousAttributes = {
+    /**
+     * The amount reserved on the gift card for this attempt, in USD, including `tip_money`. It is
+     * taken from the card only if the attempt succeeds. A failed or canceled attempt releases it.
+     * anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * ID of the gift card redeemed. anyOf[1] (Value): string. ID of the gift card redeemed.
+     * Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". anyOf[2] (Value): null.
+     */
+    "gift_card_id"?: ((string) | (null));
+    /**
+     * ID of the redemption that holds this amount on the gift card. anyOf[1] (Value): string. ID
+     * of the redemption that holds this amount on the gift card. Example:
+     * "gcr_01KEZF7C002YD2G2J734RRZTWT". anyOf[2] (Value): null.
+     */
+    "gift_card_redemption_id"?: ((string) | (null));
+    /**
+     * Last four characters of the card's current code. anyOf[1] (Value): string. Last four
+     * characters of the card's current code. anyOf[2] (Value): null.
+     */
+    "last4"?: ((string) | (null));
+    /**
+     * The part of `amount_money` that is a tip. Zero when the redemption carries no tip. anyOf[1]
+     * (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "tip_money"?: ((MoneyValuePreviousAttributes) | (null));
+};
+/**
+ * A payment intent used as one leg of an order payment attempt, with its amount, status, tip, and
+ * latest error.
+ */
+export type PaymentAttemptPaymentIntent = {
+    /**
+     * The amount requested from the buyer, including any tip_money. Capturing doesn't change it:
+     * after a partial capture it still shows the requested amount, and captured_money shows what
+     * was collected. On a standalone payment intent, PATCH can change it only before the first
+     * confirmation attempt. An amount_money or tip_money change that leaves too little for stored
+     * splits returns LIMIT_EXCEEDED at the changed field with minimum_money. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /**
+     * Effective Flint capture deadline, equal to the earlier of the provider capture deadline and
+     * this attempt's sealed resource guarantee. Capture is refused at or after this time, even
+     * while status is requires_capture. Omitted until a hold is placed. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z".
+     */
+    "authorization_expires_at"?: string;
+    /**
+     * Payment intent's stored capturable amount. A positive amount does not override
+     * authorization_expires_at or the payment status. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
+     */
+    "capturable_money"?: MoneyValue;
+    /**
+     * Money collected through this payment, once nothing more can be collected. Positive when
+     * money was collected, including a payment Flint couldn't accept and is refunding (the payment
+     * intent's cancellation_reason is payment_returned). Zero when nothing was collected, for
+     * example after a decline or a released authorization. Absent while the outcome can still
+     * change, such as an ACH debit that hasn't settled or an open hold. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "captured_money"?: MoneyValue;
+    /**
+     * The most recent payment error recorded on this payment, when it has a public error code.
+     * Absent when none is recorded. A summary of why a payment attempt failed, with a normalized
+     * error code, a message, the failure time, and remediation.
+     */
+    "last_payment_error"?: PaymentErrorSummary;
+    /** Flint payment intent ID. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". */
+    "payment_intent_id": string;
+    /**
+     * The reader the payment is or was last presented on. Set when Flint presents it and kept
+     * afterward. While processing or requires_action with a reader_id and no
+     * payment_source.card.card_present, the payment is on that reader now. After a card is read,
+     * the payment can stay processing while Flint captures it. Example:
+     * "rdr_01KEZF7C007JA0G24M7SD6P46C".
+     */
+    "reader_id"?: string;
+    /**
+     * Payment option used by this leg, using the same values as
+     * PaymentIntent.selected_payment_option. Fixed when the attempt becomes terminal. Omitted when
+     * no payment option has been selected. Value enum: "card", "apple_pay", "google_pay",
+     * "affirm", "ach_debit", "card_present".
+     */
+    "selected_payment_option"?: "card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | "card_present" | (string & {});
+    /**
+     * Lifecycle status. requires_payment_method covers both a new payment intent and one whose
+     * last attempt failed, so read last_payment_error with it. succeeded, canceled, and expired
+     * are final. Refunds and disputes never change status. Value enum: "requires_payment_method",
+     * "requires_confirmation", "requires_action", "processing", "requires_capture", "canceled",
+     * "succeeded", "expired".
+     */
+    "status": "requires_payment_method"
+        | "requires_confirmation"
+        | "requires_action"
+        | "processing"
+        | "requires_capture"
+        | "canceled"
+        | "succeeded"
+        | "expired"
+        | (string & {});
+    /**
+     * The part of `amount_money` that is a tip. Zero when the payment carries no tip. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "tip_money": MoneyValue;
+};
+export type PaymentAttemptPaymentIntentPreviousAttributes = {
+    /**
+     * The amount requested from the buyer, including any tip_money. Capturing doesn't change it:
+     * after a partial capture it still shows the requested amount, and captured_money shows what
+     * was collected. On a standalone payment intent, PATCH can change it only before the first
+     * confirmation attempt. An amount_money or tip_money change that leaves too little for stored
+     * splits returns LIMIT_EXCEEDED at the changed field with minimum_money. anyOf[1] (Value):
+     * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Effective Flint capture deadline, equal to the earlier of the provider capture deadline and
+     * this attempt's sealed resource guarantee. Capture is refused at or after this time, even
+     * while status is requires_capture. Omitted until a hold is placed. anyOf[1] (Value): string.
+     * Effective Flint capture deadline, equal to the earlier of the provider capture deadline and
+     * this attempt's sealed resource guarantee. Capture is refused at or after this time, even
+     * while status is requires_capture. Omitted until a hold is placed. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "authorization_expires_at"?: ((string) | (null));
+    /**
+     * Payment intent's stored capturable amount. A positive amount does not override
+     * authorization_expires_at or the payment status. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "capturable_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Money collected through this payment, once nothing more can be collected. Positive when
+     * money was collected, including a payment Flint couldn't accept and is refunding (the payment
+     * intent's cancellation_reason is payment_returned). Zero when nothing was collected, for
+     * example after a decline or a released authorization. Absent while the outcome can still
+     * change, such as an ACH debit that hasn't settled or an open hold. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "captured_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * The most recent payment error recorded on this payment, when it has a public error code.
+     * Absent when none is recorded. anyOf[1] (Value): {@link
+     * PaymentErrorSummaryPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "last_payment_error"?: ((PaymentErrorSummaryPreviousAttributes) | (null));
+    /**
+     * Flint payment intent ID. anyOf[1] (Value): string. Flint payment intent ID. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2] (Value): null.
+     */
+    "payment_intent_id"?: ((string) | (null));
+    /**
+     * The reader the payment is or was last presented on. Set when Flint presents it and kept
+     * afterward. While processing or requires_action with a reader_id and no
+     * payment_source.card.card_present, the payment is on that reader now. After a card is read,
+     * the payment can stay processing while Flint captures it. anyOf[1] (Value): string. The
+     * reader the payment is or was last presented on. Set when Flint presents it and kept
+     * afterward. While processing or requires_action with a reader_id and no
+     * payment_source.card.card_present, the payment is on that reader now. After a card is read,
+     * the payment can stay processing while Flint captures it. Example:
+     * "rdr_01KEZF7C007JA0G24M7SD6P46C". anyOf[2] (Value): null.
+     */
+    "reader_id"?: ((string) | (null));
+    /**
+     * Payment option used by this leg, using the same values as
+     * PaymentIntent.selected_payment_option. Fixed when the attempt becomes terminal. Omitted when
+     * no payment option has been selected. Value enum: "card", "apple_pay", "google_pay",
+     * "affirm", "ach_debit", "card_present". anyOf[1] (Value): string. Payment option used by this
+     * leg, using the same values as PaymentIntent.selected_payment_option. Fixed when the attempt
+     * becomes terminal. Omitted when no payment option has been selected. Value enum: "card",
+     * "apple_pay", "google_pay", "affirm", "ach_debit", "card_present". anyOf[2] (Value): null.
+     */
+    "selected_payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | "card_present" | (string & {}))
+        | (null));
+    /**
+     * Lifecycle status. requires_payment_method covers both a new payment intent and one whose
+     * last attempt failed, so read last_payment_error with it. succeeded, canceled, and expired
+     * are final. Refunds and disputes never change status. Value enum: "requires_payment_method",
+     * "requires_confirmation", "requires_action", "processing", "requires_capture", "canceled",
+     * "succeeded", "expired". anyOf[1] (Value): string. Lifecycle status. requires_payment_method
+     * covers both a new payment intent and one whose last attempt failed, so read
+     * last_payment_error with it. succeeded, canceled, and expired are final. Refunds and disputes
+     * never change status. Value enum: "requires_payment_method", "requires_confirmation",
+     * "requires_action", "processing", "requires_capture", "canceled", "succeeded", "expired".
+     * anyOf[2] (Value): null.
+     */
+    "status"?: (("requires_payment_method"
+        | "requires_confirmation"
+        | "requires_action"
+        | "processing"
+        | "requires_capture"
+        | "canceled"
+        | "succeeded"
+        | "expired"
+        | (string & {}))
+        | (null));
+    /**
+     * The part of `amount_money` that is a tip. Zero when the payment carries no tip. anyOf[1]
+     * (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "tip_money"?: ((MoneyValuePreviousAttributes) | (null));
+};
+/**
+ * How to finish a payment step. Flint's API returns a Stripe client secret only for
+ * client_action_type stripe. With url, Stripe's authentication page receives what it needs to run
+ * the challenge, including the client secret for hosted 3DS2. If a payment is confirmed with a
+ * payment method Flint didn't approve, Flint doesn't count the charge, returns it to the buyer,
+ * and the payment intent ends canceled with cancellation_reason payment_returned.
+ */
+export type PaymentClientAction = ((PaymentClientActionURL) | (PaymentClientActionStripe) | (Record<string, unknown>));
 /**
  * How to finish a payment step. Flint's API returns a Stripe client secret only for
  * client_action_type stripe. With url, Stripe's authentication page receives what it needs to run
@@ -27691,1602 +28180,3 @@ export type PaymentIntentUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
         "sandbox_id"?: string;
     });
 });
-/**
- * The `payment_intent.updated` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type PaymentIntentUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link WebhookPaymentIntent}. The resource snapshot, without expansions.
-     * Webhooks omit these fields: `processing_fee_money`, `processing_fee_details`, `add_on_fees`,
-     * `merchant_net_money`, `payment_collection`, `remaining_refundable_money`.
-     * previous_attributes (Optional): object. Previous values of changed top-level fields in
-     * data.object, at this delivery's API version. Nested changes include the whole previous
-     * top-level value. A value is null when the field was absent before the change. Omitted when
-     * Flint did not record the previous state, including synthetic test events.
-     * previous_attributes.amount_money (Optional): {@link MoneyValuePreviousAttributes} or null.
-     * The amount requested from the buyer, including any tip_money. Capturing doesn't change it:
-     * after a partial capture it still shows the requested amount, and captured_money shows what
-     * was collected. On a standalone payment intent, PATCH can change it only before the first
-     * confirmation attempt. An amount_money or tip_money change that leaves too little for stored
-     * splits returns LIMIT_EXCEEDED at the changed field with minimum_money.
-     * previous_attributes.amount_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-     * previous_attributes.amount_money.anyOf[2] (Value): null.
-     * previous_attributes.authorization_expires_at (Optional): string or null. Effective Flint
-     * deadline to capture a manual-capture hold: the earlier of the provider capture deadline and
-     * any order resource guarantee. Order guarantees last at most 24 hours from the payment
-     * attempt start and may end earlier. Capture is refused at or after this time, even while
-     * status is requires_capture. Omitted until a hold is placed.
-     * previous_attributes.authorization_expires_at.anyOf[1] (Value): string. Effective Flint
-     * deadline to capture a manual-capture hold: the earlier of the provider capture deadline and
-     * any order resource guarantee. Order guarantees last at most 24 hours from the payment
-     * attempt start and may end earlier. Capture is refused at or after this time, even while
-     * status is requires_capture. Omitted until a hold is placed. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.authorization_expires_at.anyOf[2] (Value): null.
-     * previous_attributes.authorized_at (Optional): string or null. When the processor authorized
-     * the payment. Absent until then. previous_attributes.authorized_at.anyOf[1] (Value): string.
-     * When the processor authorized the payment. Absent until then. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.authorized_at.anyOf[2] (Value): null.
-     * previous_attributes.authorized_money (Optional): {@link MoneyValuePreviousAttributes} or
-     * null. The amount the processor authorized. It always equals amount_money and doesn't change
-     * once set, even when a capture collects more. On a payment intent canceled with
-     * cancellation_reason payment_returned, it equals the authorization Flint released instead.
-     * Absent until the payment is authorized, and on payments canceled before authorization.
-     * previous_attributes.authorized_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-     * previous_attributes.authorized_money.anyOf[2] (Value): null.
-     * previous_attributes.cancellation_reason (Optional): string or null. Flint-normalized reason
-     * the payment intent was canceled. Present only while status is canceled. A cancellation
-     * without a specific reason returns payment_canceled. Absent while last_payment_error.code is
-     * payment_blocked and Flint has not identified money to return. Unknown processor values are
-     * returned as payment_canceled. Value enum: "requested_by_customer", "duplicate",
-     * "fraudulent", "abandoned", "invoice_payment_failed", "invoice_voided", "order_closed",
-     * "payment_canceled", "payment_returned". previous_attributes.cancellation_reason.anyOf[1]
-     * (Value): string. Flint-normalized reason the payment intent was canceled. Present only while
-     * status is canceled. A cancellation without a specific reason returns payment_canceled.
-     * Absent while last_payment_error.code is payment_blocked and Flint has not identified money
-     * to return. Unknown processor values are returned as payment_canceled. Value enum:
-     * "requested_by_customer", "duplicate", "fraudulent", "abandoned", "invoice_payment_failed",
-     * "invoice_voided", "order_closed", "payment_canceled", "payment_returned".
-     * previous_attributes.cancellation_reason.anyOf[2] (Value): null.
-     * previous_attributes.capturable_money (Optional): {@link MoneyValuePreviousAttributes} or
-     * null. The part of the authorization you can still capture. Positive only while status is
-     * requires_capture, and zero after you capture or cancel or the authorization expires. The
-     * authorization lapses at authorization_expires_at, and a capture attempted after that fails
-     * even if this is positive. Absent until the payment is authorized.
-     * previous_attributes.capturable_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-     * previous_attributes.capturable_money.anyOf[2] (Value): null.
-     * previous_attributes.capture_method (Optional): string or null. When money is collected.
-     * Defaults to automatic. Value enum: "automatic", "manual".
-     * previous_attributes.capture_method.anyOf[1] (Value): string. When money is collected.
-     * Defaults to automatic. Value enum: "automatic", "manual".
-     * previous_attributes.capture_method.anyOf[2] (Value): null. previous_attributes.captured_at
-     * (Optional): string or null. When money was captured. For automatic capture, this is when the
-     * payment succeeded. Absent until capture. previous_attributes.captured_at.anyOf[1] (Value):
-     * string. When money was captured. For automatic capture, this is when the payment succeeded.
-     * Absent until capture. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.captured_at.anyOf[2] (Value): null. previous_attributes.captured_money
-     * (Optional): {@link MoneyValuePreviousAttributes} or null. The amount collected from the
-     * buyer, including captured_tip_money. Reconcile revenue and print receipts from this amount,
-     * not amount_money. Zero while a hold is open, and positive whenever status is succeeded.
-     * After an overcapture it is above authorized_money. Also positive on a payment intent
-     * canceled with cancellation_reason payment_returned: Flint captured the money and is
-     * returning it through a refund with reason payment_returned. processing_fee_money,
-     * merchant_net_money, and refunds are based on it. Absent until the payment is authorized.
-     * previous_attributes.captured_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-     * previous_attributes.captured_money.anyOf[2] (Value): null.
-     * previous_attributes.captured_tip_money (Optional): {@link MoneyValuePreviousAttributes} or
-     * null. The part of captured_money that is a tip: the capture's tip_money when it sent one,
-     * otherwise the tip the authorization carried, at most captured_money. tip_money keeps the tip
-     * the authorization carried. Refunds return it last. Absent until the payment is captured.
-     * previous_attributes.captured_tip_money.anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.captured_tip_money.anyOf[2] (Value):
-     * null. previous_attributes.checkout_session_id (Optional): string or null. Flint checkout
-     * session ID associated with this payment, when present.
-     * previous_attributes.checkout_session_id.anyOf[1] (Value): string. Flint checkout session ID
-     * associated with this payment, when present. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
-     * previous_attributes.checkout_session_id.anyOf[2] (Value): null.
-     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.customer (Optional): {@link
-     * ExpandedCustomerSummaryPreviousAttributes} or null. The linked customer. Returned only with
-     * expand=customer. Present only when `expand` includes `customer`; `null` when expanded and
-     * there is no related customer. previous_attributes.customer.anyOf[1] (Value): {@link
-     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
-     * null. previous_attributes.customer_id (Optional): string or null. Customer linked to this
-     * payment intent. previous_attributes.customer_id.anyOf[1] (Value): string. Customer linked to
-     * this payment intent. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * previous_attributes.customer_id.anyOf[2] (Value): null.
-     * previous_attributes.customer_presence (Optional): string or null. Whether the customer was
-     * present for the most recent confirmation. absent means Flint charged a saved card without
-     * them, as a merchant-initiated payment on its stored credential. Subscription renewals and
-     * automatic invoice charges are absent, and other payments are absent only when confirmed or
-     * paid with customer_presence absent. A customer who pays any of them with a card they enter
-     * makes it present. Each confirmation sets it again. Value enum: "present", "absent".
-     * previous_attributes.customer_presence.anyOf[1] (Value): string. Whether the customer was
-     * present for the most recent confirmation. absent means Flint charged a saved card without
-     * them, as a merchant-initiated payment on its stored credential. Subscription renewals and
-     * automatic invoice charges are absent, and other payments are absent only when confirmed or
-     * paid with customer_presence absent. A customer who pays any of them with a card they enter
-     * makes it present. Each confirmation sets it again. Value enum: "present", "absent".
-     * previous_attributes.customer_presence.anyOf[2] (Value): null.
-     * previous_attributes.dispute_status (Optional): string or null. Dispute state of this
-     * payment. none means no dispute or inquiry is open or recorded. The inquiry_ values track an
-     * issuer inquiry or early warning that isn't a chargeback. Read the dispute with GET
-     * /v1/disputes for its deadline and evidence. Value enum: "none", "inquiry_needs_response",
-     * "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won", "lost",
-     * "prevented", "other". previous_attributes.dispute_status.anyOf[1] (Value): string. Dispute
-     * state of this payment. none means no dispute or inquiry is open or recorded. The inquiry_
-     * values track an issuer inquiry or early warning that isn't a chargeback. Read the dispute
-     * with GET /v1/disputes for its deadline and evidence. Value enum: "none",
-     * "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response",
-     * "under_review", "won", "lost", "prevented", "other".
-     * previous_attributes.dispute_status.anyOf[2] (Value): null.
-     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
-     * identifier for this resource in an external system. `null` when no external reference ID has
-     * been set on the payment intent. previous_attributes.external_reference_id.anyOf[1] (Value):
-     * string. Caller-owned identifier for this resource in an external system. `null` when no
-     * external reference ID has been set on the payment intent. minLength: 1. maxLength: 255.
-     * Example: "warehouse-1842". previous_attributes.external_reference_id.anyOf[2] (Value): null.
-     * previous_attributes.failed_attempt_count (Optional): integer or null. All-time
-     * failed-attempt count. Present on merchant reads; omitted for buyer credentials.
-     * previous_attributes.failed_attempt_count.anyOf[1] (Value): integer. All-time failed-attempt
-     * count. Present on merchant reads; omitted for buyer credentials. Format: int64.
-     * previous_attributes.failed_attempt_count.anyOf[2] (Value): null.
-     * previous_attributes.failed_attempts (Optional): Array of {@link
-     * FailedPaymentAttemptPreviousAttributes} or null. Newest 50 failed attempts, newest first,
-     * with merchant-only card and buyer evidence frozen at admission. Older attempts can be
-     * included in failed_attempt_count. previous_attributes.failed_attempts.anyOf[1] (Value):
-     * Array of {@link FailedPaymentAttemptPreviousAttributes}. Newest 50 failed attempts, newest
-     * first, with merchant-only card and buyer evidence frozen at admission. Older attempts can be
-     * included in failed_attempt_count. previous_attributes.failed_attempts.anyOf[1][] (Value):
-     * {@link FailedPaymentAttemptPreviousAttributes}. previous_attributes.failed_attempts.anyOf[2]
-     * (Value): null. previous_attributes.fulfillment_hold (Optional): {@link
-     * PaymentFulfillmentHoldPreviousAttributes} or null. Present when a payment provider asked
-     * Flint to pause fulfillment for this payment. While its status is active, open fulfillments
-     * on the order are on hold with reason payment_review. payment_intent.fulfillment_hold_updated
-     * is sent when the hold starts and when it lifts.
-     * previous_attributes.fulfillment_hold.anyOf[1] (Value): {@link
-     * PaymentFulfillmentHoldPreviousAttributes}. previous_attributes.fulfillment_hold.anyOf[2]
-     * (Value): null. previous_attributes.idempotency_key (Optional): string or null. The
-     * Idempotency-Key of the request that created this resource. `null` when that request sent no
-     * key, Flint created the resource, the reader isn't the caller that created it (another app
-     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
-     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
-     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
-     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
-     * shared with merchants get `null`. `/v1/me` responses do not include this field.
-     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
-     * request that created this resource. `null` when that request sent no key, Flint created the
-     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
-     * merchant reading an app's or buyer's record), or the caller that created an older record is
-     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
-     * replayed responses and webhook events, can return `null`. To find a key that a replay
-     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
-     * `null`. `/v1/me` responses do not include this field.
-     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.invoice
-     * (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice.
-     * Returned only with expand=invoice. Present only when `expand` includes `invoice`; `null`
-     * when expanded and there is no related invoice. previous_attributes.invoice.anyOf[1] (Value):
-     * {@link ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2]
-     * (Value): null. previous_attributes.invoice_id (Optional): string or null. Invoice this
-     * payment intent collects, when it pays an invoice. previous_attributes.invoice_id.anyOf[1]
-     * (Value): string. Invoice this payment intent collects, when it pays an invoice. Example:
-     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
-     * previous_attributes.invoice_schedule_entry_id (Optional): string or null. The invoice
-     * installment this payment collects. previous_attributes.invoice_schedule_entry_id.anyOf[1]
-     * (Value): string. The invoice installment this payment collects. Example:
-     * "invse_01KEZF7C006JCPQBD8VZ0RNT6R". previous_attributes.invoice_schedule_entry_id.anyOf[2]
-     * (Value): null. previous_attributes.last_payment_error (Optional): {@link
-     * PaymentErrorSummaryPreviousAttributes} or null. Most recent payment error. Null when no
-     * payment error is recorded. previous_attributes.last_payment_error.anyOf[1] (Value): {@link
-     * PaymentErrorSummaryPreviousAttributes}. previous_attributes.last_payment_error.anyOf[2]
-     * (Value): null. previous_attributes.latest_order_payment_attempt_id (Optional): string or
-     * null. The order payment attempt that most recently used this payment intent. Start times
-     * count to the second; of attempts that started in the same second, the one with the highest
-     * order_payment_attempt_id is named. `null` when no attempt has used it yet; omitted for
-     * payment intents without an order. It changes only when an attempt starts using this payment
-     * intent, which advances version. Returned with merchant credentials; omitted with buyer and
-     * checkout credentials. previous_attributes.latest_order_payment_attempt_id.anyOf[1] (Value):
-     * string. The order payment attempt that most recently used this payment intent. Start times
-     * count to the second; of attempts that started in the same second, the one with the highest
-     * order_payment_attempt_id is named. `null` when no attempt has used it yet; omitted for
-     * payment intents without an order. It changes only when an attempt starts using this payment
-     * intent, which advances version. Returned with merchant credentials; omitted with buyer and
-     * checkout credentials. Example: "opat_01KEZF7C00B5PW9F2R8A4YSH5D".
-     * previous_attributes.latest_order_payment_attempt_id.anyOf[2] (Value): null.
-     * previous_attributes.merchant_id (Optional): string or null. Merchant that owns this payment
-     * intent. previous_attributes.merchant_id.anyOf[1] (Value): string. Merchant that owns this
-     * payment intent. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
-     * (Optional): {@link MetadataMap} or null. Caller-owned metadata. Keys starting with flint_
-     * are reserved for Flint and aren't returned. Always present with merchant credentials.
-     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
-     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.order (Optional):
-     * {@link ExpandedOrderSummaryPreviousAttributes} or null. The linked order. Returned only with
-     * expand=order. Present only when `expand` includes `order`; `null` when expanded and there is
-     * no related order. previous_attributes.order.anyOf[1] (Value): {@link
-     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value): null.
-     * previous_attributes.order_edit_id (Optional): string or null. The order edit whose balance
-     * this payment collects. Omitted when this payment doesn't collect an edit's balance.
-     * previous_attributes.order_edit_id.anyOf[1] (Value): string. The order edit whose balance
-     * this payment collects. Omitted when this payment doesn't collect an edit's balance. Example:
-     * "oed_01KEZF7C00A6BQ4TBGWFDJ944A". previous_attributes.order_edit_id.anyOf[2] (Value): null.
-     * previous_attributes.order_id (Optional): string or null. Order this payment intent belongs
-     * to. Create it through the order and confirm it with POST /v1/orders/{order_id}/pay. Capture
-     * and cancel use POST /v1/payment-intents/{payment_intent_id}/capture or /cancel for every
-     * payment intent. Order-owned intents accept PATCH for metadata and external_reference_id.
-     * previous_attributes.order_id.anyOf[1] (Value): string. Order this payment intent belongs to.
-     * Create it through the order and confirm it with POST /v1/orders/{order_id}/pay. Capture and
-     * cancel use POST /v1/payment-intents/{payment_intent_id}/capture or /cancel for every payment
-     * intent. Order-owned intents accept PATCH for metadata and external_reference_id. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
-     * previous_attributes.overcapture (Optional): {@link
-     * PaymentIntentOvercapturePreviousAttributes} or null. Whether one capture can collect more
-     * than the authorization, and the most it can collect. Present once a payment with
-     * request_overcapture true is authorized. Read it to show the limit; capture enforces it.
-     * previous_attributes.overcapture.anyOf[1] (Value): {@link
-     * PaymentIntentOvercapturePreviousAttributes}. previous_attributes.overcapture.anyOf[2]
-     * (Value): null. previous_attributes.payment_flow (Optional): string or null. How the payment
-     * was started. Fixed when the payment intent is created. Value enum: "checkout",
-     * "payment_link", "invoice", "subscription_initial", "subscription_renewal",
-     * "virtual_terminal", "api". previous_attributes.payment_flow.anyOf[1] (Value): string. How
-     * the payment was started. Fixed when the payment intent is created. Value enum: "checkout",
-     * "payment_link", "invoice", "subscription_initial", "subscription_renewal",
-     * "virtual_terminal", "api". previous_attributes.payment_flow.anyOf[2] (Value): null.
-     * previous_attributes.payment_intent_id (Optional): string or null. Flint payment intent ID.
-     * previous_attributes.payment_intent_id.anyOf[1] (Value): string. Flint payment intent ID.
-     * Example: "pi_01KEZF7C00G8H9D509YEV22P7R". previous_attributes.payment_intent_id.anyOf[2]
-     * (Value): null. previous_attributes.payment_options (Optional): Array of string or null.
-     * Payment options the buyer can use for this payment. [] enum: "card", "apple_pay",
-     * "google_pay", "affirm", "ach_debit", "card_present".
-     * previous_attributes.payment_options.anyOf[1] (Value): Array of string. Payment options the
-     * buyer can use for this payment. [] enum: "card", "apple_pay", "google_pay", "affirm",
-     * "ach_debit", "card_present". previous_attributes.payment_options.anyOf[1][] (Value): string.
-     * Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", "card_present".
-     * previous_attributes.payment_options.anyOf[2] (Value): null.
-     * previous_attributes.payment_source (Optional): {@link
-     * PaymentSourceSummaryPreviousAttributes} or null. Summary of the card or bank account used
-     * for the payment. Absent until a payment source is attached.
-     * previous_attributes.payment_source.anyOf[1] (Value): {@link
-     * PaymentSourceSummaryPreviousAttributes}. previous_attributes.payment_source.anyOf[2]
-     * (Value): null. previous_attributes.platform_fee (Optional): {@link
-     * PaymentIntentPlatformFeePreviousAttributes} or null. The platform fee a partner app charges
-     * on this payment, when it created the payment with an install token and a fee. Absent when
-     * the payment carries none. Returned only to merchant credentials; omitted for buyer and
-     * checkout credentials. previous_attributes.platform_fee.anyOf[1] (Value): {@link
-     * PaymentIntentPlatformFeePreviousAttributes}. previous_attributes.platform_fee.anyOf[2]
-     * (Value): null. previous_attributes.reader_id (Optional): string or null. The reader the
-     * payment is or was last presented on. Set when Flint presents it and kept afterward. While
-     * processing or requires_action with a reader_id and no payment_source.card.card_present, the
-     * payment is on that reader now. After a card is read, the payment can stay processing while
-     * Flint captures it. previous_attributes.reader_id.anyOf[1] (Value): string. The reader the
-     * payment is or was last presented on. Set when Flint presents it and kept afterward. While
-     * processing or requires_action with a reader_id and no payment_source.card.card_present, the
-     * payment is on that reader now. After a card is read, the payment can stay processing while
-     * Flint captures it. Example: "rdr_01KEZF7C007JA0G24M7SD6P46C".
-     * previous_attributes.reader_id.anyOf[2] (Value): null. previous_attributes.receipt_email
-     * (Optional): string or null. Email address for this payment's receipt. When it isn't set,
-     * Flint uses the customer's email. `null` when no receipt email has been set on the payment
-     * intent. previous_attributes.receipt_email.anyOf[1] (Value): string. Email address for this
-     * payment's receipt. When it isn't set, Flint uses the customer's email. `null` when no
-     * receipt email has been set on the payment intent. Format: email. maxLength: 255. Example:
-     * "buyer@example.com". previous_attributes.receipt_email.anyOf[2] (Value): null.
-     * previous_attributes.refund_expires_at (Optional): string or null. Last time Flint can refund
-     * this payment through the original payment method. A refund submitted at exactly this time is
-     * accepted; after it, refunds through the original payment method are refused. Today only
-     * Affirm has a refund window: 120 days after the payment settles. `null` when the method has
-     * no refund window, the payment has not succeeded with captured money, or its capture time is
-     * missing. Always present with merchant credentials.
-     * previous_attributes.refund_expires_at.anyOf[1] (Value): string. Last time Flint can refund
-     * this payment through the original payment method. A refund submitted at exactly this time is
-     * accepted; after it, refunds through the original payment method are refused. Today only
-     * Affirm has a refund window: 120 days after the payment settles. `null` when the method has
-     * no refund window, the payment has not succeeded with captured money, or its capture time is
-     * missing. Always present with merchant credentials. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.refund_expires_at.anyOf[2] (Value): null.
-     * previous_attributes.refund_status (Optional): string or null. How much of captured_money has
-     * been refunded, including value issued as store credit, based on refunded_money. Value enum:
-     * "none", "partially_refunded", "refunded". previous_attributes.refund_status.anyOf[1]
-     * (Value): string. How much of captured_money has been refunded, including value issued as
-     * store credit, based on refunded_money. Value enum: "none", "partially_refunded", "refunded".
-     * previous_attributes.refund_status.anyOf[2] (Value): null. previous_attributes.refunded_money
-     * (Optional): {@link MoneyValuePreviousAttributes} or null. Total refunded against
-     * captured_money, including value issued as store credit and processor refunds still pending.
-     * Failed and canceled refunds aren't counted. Zero when nothing has been refunded.
-     * previous_attributes.refunded_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-     * previous_attributes.refunded_money.anyOf[2] (Value): null.
-     * previous_attributes.released_money (Optional): {@link MoneyValuePreviousAttributes} or null.
-     * The part of the authorization returned to the buyer without being charged: the uncaptured
-     * remainder after a partial capture, or the whole authorization after a cancellation or
-     * expiry. It was never collected, so it needs no refund and can't be captured later. Zero
-     * after a capture at or above the authorization. Absent until the payment is authorized.
-     * previous_attributes.released_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-     * previous_attributes.released_money.anyOf[2] (Value): null.
-     * previous_attributes.request_overcapture (Optional): boolean or null. Whether one capture may
-     * collect more than the authorization where the card network allows it. Fixed at create.
-     * Always present with merchant credentials; omitted with buyer and checkout credentials.
-     * previous_attributes.request_overcapture.anyOf[1] (Value): boolean. Whether one capture may
-     * collect more than the authorization where the card network allows it. Fixed at create.
-     * Always present with merchant credentials; omitted with buyer and checkout credentials.
-     * previous_attributes.request_overcapture.anyOf[2] (Value): null.
-     * previous_attributes.return_id (Optional): string or null. Flint return ID associated with
-     * this payment, when present. previous_attributes.return_id.anyOf[1] (Value): string. Flint
-     * return ID associated with this payment, when present. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X". previous_attributes.return_id.anyOf[2] (Value): null.
-     * previous_attributes.return_resolution_id (Optional): string or null. The return resolution
-     * whose balance this payment collects. Set for exchange balances and corrections.
-     * previous_attributes.return_resolution_id.anyOf[1] (Value): string. The return resolution
-     * whose balance this payment collects. Set for exchange balances and corrections. Example:
-     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". previous_attributes.return_resolution_id.anyOf[2]
-     * (Value): null. previous_attributes.risk (Optional): {@link PaymentRiskPreviousAttributes} or
-     * null. Risk assessment. Always present with merchant credentials. `null` when the payment
-     * intent's latest payment attempt has no completed risk assessment, such as before its first
-     * confirmation. Omitted with the checkout credential. previous_attributes.risk.anyOf[1]
-     * (Value): {@link PaymentRiskPreviousAttributes}. previous_attributes.risk.anyOf[2] (Value):
-     * null. previous_attributes.selected_payment_option (Optional): string or null. The payment
-     * option the most recent confirmation used. Absent until the payment intent is first
-     * confirmed. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit",
-     * "card_present". previous_attributes.selected_payment_option.anyOf[1] (Value): string. The
-     * payment option the most recent confirmation used. Absent until the payment intent is first
-     * confirmed. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit",
-     * "card_present". previous_attributes.selected_payment_option.anyOf[2] (Value): null.
-     * previous_attributes.splits (Optional): Array of {@link PaymentSplitPreviousAttributes} or
-     * null. Top-level PaymentSplit children in their current state, embedded whole. Empty when the
-     * payment has no splits. Child changes do not send payment_intent.updated. Omitted for buyer
-     * and checkout credentials. previous_attributes.splits.anyOf[1] (Value): Array of {@link
-     * PaymentSplitPreviousAttributes}. Top-level PaymentSplit children in their current state,
-     * embedded whole. Empty when the payment has no splits. Child changes do not send
-     * payment_intent.updated. Omitted for buyer and checkout credentials.
-     * previous_attributes.splits.anyOf[1][] (Value): {@link PaymentSplitPreviousAttributes}.
-     * previous_attributes.splits.anyOf[2] (Value): null. previous_attributes.statement_descriptor
-     * (Optional): string or null. The text shown on the buyer's card or bank statement for this
-     * payment. `null` until the charge is created. `null` when the provider supplies no
-     * descriptor. Frozen when the charge is created.
-     * previous_attributes.statement_descriptor.anyOf[1] (Value): string. The text shown on the
-     * buyer's card or bank statement for this payment. `null` until the charge is created. `null`
-     * when the provider supplies no descriptor. Frozen when the charge is created.
-     * previous_attributes.statement_descriptor.anyOf[2] (Value): null. previous_attributes.status
-     * (Optional): string or null. Lifecycle status. requires_payment_method covers both a new
-     * payment intent and one whose last attempt failed, so read last_payment_error with it.
-     * succeeded, canceled, and expired are final. Refunds and disputes never change status. Value
-     * enum: "requires_payment_method", "requires_confirmation", "requires_action", "processing",
-     * "requires_capture", "canceled", "succeeded", "expired". previous_attributes.status.anyOf[1]
-     * (Value): string. Lifecycle status. requires_payment_method covers both a new payment intent
-     * and one whose last attempt failed, so read last_payment_error with it. succeeded, canceled,
-     * and expired are final. Refunds and disputes never change status. Value enum:
-     * "requires_payment_method", "requires_confirmation", "requires_action", "processing",
-     * "requires_capture", "canceled", "succeeded", "expired". previous_attributes.status.anyOf[2]
-     * (Value): null. previous_attributes.subscription_id (Optional): string or null. The
-     * subscription whose billing charged this payment: its first charge, a renewal, a retry or a
-     * setup fee. Not set for the checkout payment that created a subscription.
-     * previous_attributes.subscription_id.anyOf[1] (Value): string. The subscription whose billing
-     * charged this payment: its first charge, a renewal, a retry or a setup fee. Not set for the
-     * checkout payment that created a subscription. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
-     * previous_attributes.subscription_id.anyOf[2] (Value): null.
-     * previous_attributes.support_reference (Optional): string or null. Opaque payment reference
-     * to share with merchant support. Do not parse its format.
-     * previous_attributes.support_reference.anyOf[1] (Value): string. Opaque payment reference to
-     * share with merchant support. Do not parse its format.
-     * previous_attributes.support_reference.anyOf[2] (Value): null.
-     * previous_attributes.supported_actions (Optional): Array of string or null. Verbs this
-     * payment intent accepts now, each a POST to /v1/payment-intents/{payment_intent_id}/{action}.
-     * The list includes stored order facts and can change without a payment intent version change.
-     * Order legs list confirm when a single leg can pay the order or an open attempt can continue
-     * it. Several unpaid legs, selected gift cards, or automatic tax with a leg below the balance
-     * require pay_order instead. Invoice payments list only cancel. An unused first-period
-     * subscription payment lists cancel once the subscription is canceled. Order edit payments
-     * list confirm while awaiting payment details or action. A listed action can still be refused
-     * due to an open risk review, an order payment attempt, a closed order, or the merchant
-     * account. A managed_by_owner refusal names the owner and its command in
-     * remediation.next_actions. The merchant list is credential-independent. Checkout credentials
-     * receive that list filtered to confirm and cancel on their own session's intents, never
-     * capture. Customer sessions omit this field. New actions may be added. [] enum: "confirm",
-     * "capture", "cancel". previous_attributes.supported_actions.anyOf[1] (Value): Array of
-     * string. Verbs this payment intent accepts now, each a POST to
-     * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts and
-     * can change without a payment intent version change. Order legs list confirm when a single
-     * leg can pay the order or an open attempt can continue it. Several unpaid legs, selected gift
-     * cards, or automatic tax with a leg below the balance require pay_order instead. Invoice
-     * payments list only cancel. An unused first-period subscription payment lists cancel once the
-     * subscription is canceled. Order edit payments list confirm while awaiting payment details or
-     * action. A listed action can still be refused due to an open risk review, an order payment
-     * attempt, a closed order, or the merchant account. A managed_by_owner refusal names the owner
-     * and its command in remediation.next_actions. The merchant list is credential-independent.
-     * Checkout credentials receive that list filtered to confirm and cancel on their own session's
-     * intents, never capture. Customer sessions omit this field. New actions may be added. []
-     * enum: "confirm", "capture", "cancel". previous_attributes.supported_actions.anyOf[1][]
-     * (Value): string. Value enum: "confirm", "capture", "cancel".
-     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.tip_money
-     * (Optional): {@link MoneyValuePreviousAttributes} or null. Portion of amount_money that is a
-     * tip. Uses amount_money's currency and is at most amount_money. `null` when no tip is set,
-     * and for an order payment until its payment attempt has moved past requires_payment_method
-     * and requires_confirmation. An order payment without a tip can return an amount of 0 instead.
-     * previous_attributes.tip_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-     * previous_attributes.tip_money.anyOf[2] (Value): null.
-     * previous_attributes.transaction_purpose (Optional): string or null. Why a bank debit is
-     * taken. Set only when payment_options includes ach_debit, and fixed once the payment intent
-     * exists. Value enum: "goods", "services", "other".
-     * previous_attributes.transaction_purpose.anyOf[1] (Value): string. Why a bank debit is taken.
-     * Set only when payment_options includes ach_debit, and fixed once the payment intent exists.
-     * Value enum: "goods", "services", "other". previous_attributes.transaction_purpose.anyOf[2]
-     * (Value): null. previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
-     * null. previous_attributes.version (Optional): integer or null. Persisted version of this
-     * resource's owned state. Expanded resources and external observations can change
-     * independently. previous_attributes.version.anyOf[1] (Value): integer. Persisted version of
-     * this resource's owned state. Expanded resources and external observations can change
-     * independently. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value):
-     * null.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit these fields:
-         * `processing_fee_money`, `processing_fee_details`, `add_on_fees`, `merchant_net_money`,
-         * `payment_collection`, `remaining_refundable_money`.
-         */
-        "object": WebhookPaymentIntent;
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. amount_money (Optional): {@link
-         * MoneyValuePreviousAttributes} or null. The amount requested from the buyer, including
-         * any tip_money. Capturing doesn't change it: after a partial capture it still shows the
-         * requested amount, and captured_money shows what was collected. On a standalone payment
-         * intent, PATCH can change it only before the first confirmation attempt. An amount_money
-         * or tip_money change that leaves too little for stored splits returns LIMIT_EXCEEDED at
-         * the changed field with minimum_money. amount_money.anyOf[1] (Value): {@link
-         * MoneyValuePreviousAttributes}. amount_money.anyOf[2] (Value): null.
-         * authorization_expires_at (Optional): string or null. Effective Flint deadline to capture
-         * a manual-capture hold: the earlier of the provider capture deadline and any order
-         * resource guarantee. Order guarantees last at most 24 hours from the payment attempt
-         * start and may end earlier. Capture is refused at or after this time, even while status
-         * is requires_capture. Omitted until a hold is placed. authorization_expires_at.anyOf[1]
-         * (Value): string. Effective Flint deadline to capture a manual-capture hold: the earlier
-         * of the provider capture deadline and any order resource guarantee. Order guarantees last
-         * at most 24 hours from the payment attempt start and may end earlier. Capture is refused
-         * at or after this time, even while status is requires_capture. Omitted until a hold is
-         * placed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * authorization_expires_at.anyOf[2] (Value): null. authorized_at (Optional): string or
-         * null. When the processor authorized the payment. Absent until then.
-         * authorized_at.anyOf[1] (Value): string. When the processor authorized the payment.
-         * Absent until then. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * authorized_at.anyOf[2] (Value): null. authorized_money (Optional): {@link
-         * MoneyValuePreviousAttributes} or null. The amount the processor authorized. It always
-         * equals amount_money and doesn't change once set, even when a capture collects more. On a
-         * payment intent canceled with cancellation_reason payment_returned, it equals the
-         * authorization Flint released instead. Absent until the payment is authorized, and on
-         * payments canceled before authorization. authorized_money.anyOf[1] (Value): {@link
-         * MoneyValuePreviousAttributes}. authorized_money.anyOf[2] (Value): null.
-         * cancellation_reason (Optional): string or null. Flint-normalized reason the payment
-         * intent was canceled. Present only while status is canceled. A cancellation without a
-         * specific reason returns payment_canceled. Absent while last_payment_error.code is
-         * payment_blocked and Flint has not identified money to return. Unknown processor values
-         * are returned as payment_canceled. Value enum: "requested_by_customer", "duplicate",
-         * "fraudulent", "abandoned", "invoice_payment_failed", "invoice_voided", "order_closed",
-         * "payment_canceled", "payment_returned". cancellation_reason.anyOf[1] (Value): string.
-         * Flint-normalized reason the payment intent was canceled. Present only while status is
-         * canceled. A cancellation without a specific reason returns payment_canceled. Absent
-         * while last_payment_error.code is payment_blocked and Flint has not identified money to
-         * return. Unknown processor values are returned as payment_canceled. Value enum:
-         * "requested_by_customer", "duplicate", "fraudulent", "abandoned",
-         * "invoice_payment_failed", "invoice_voided", "order_closed", "payment_canceled",
-         * "payment_returned". cancellation_reason.anyOf[2] (Value): null. capturable_money
-         * (Optional): {@link MoneyValuePreviousAttributes} or null. The part of the authorization
-         * you can still capture. Positive only while status is requires_capture, and zero after
-         * you capture or cancel or the authorization expires. The authorization lapses at
-         * authorization_expires_at, and a capture attempted after that fails even if this is
-         * positive. Absent until the payment is authorized. capturable_money.anyOf[1] (Value):
-         * {@link MoneyValuePreviousAttributes}. capturable_money.anyOf[2] (Value): null.
-         * capture_method (Optional): string or null. When money is collected. Defaults to
-         * automatic. Value enum: "automatic", "manual". capture_method.anyOf[1] (Value): string.
-         * When money is collected. Defaults to automatic. Value enum: "automatic", "manual".
-         * capture_method.anyOf[2] (Value): null. captured_at (Optional): string or null. When
-         * money was captured. For automatic capture, this is when the payment succeeded. Absent
-         * until capture. captured_at.anyOf[1] (Value): string. When money was captured. For
-         * automatic capture, this is when the payment succeeded. Absent until capture. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". captured_at.anyOf[2] (Value): null.
-         * captured_money (Optional): {@link MoneyValuePreviousAttributes} or null. The amount
-         * collected from the buyer, including captured_tip_money. Reconcile revenue and print
-         * receipts from this amount, not amount_money. Zero while a hold is open, and positive
-         * whenever status is succeeded. After an overcapture it is above authorized_money. Also
-         * positive on a payment intent canceled with cancellation_reason payment_returned: Flint
-         * captured the money and is returning it through a refund with reason payment_returned.
-         * processing_fee_money, merchant_net_money, and refunds are based on it. Absent until the
-         * payment is authorized. captured_money.anyOf[1] (Value): {@link
-         * MoneyValuePreviousAttributes}. captured_money.anyOf[2] (Value): null. captured_tip_money
-         * (Optional): {@link MoneyValuePreviousAttributes} or null. The part of captured_money
-         * that is a tip: the capture's tip_money when it sent one, otherwise the tip the
-         * authorization carried, at most captured_money. tip_money keeps the tip the authorization
-         * carried. Refunds return it last. Absent until the payment is captured.
-         * captured_tip_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-         * captured_tip_money.anyOf[2] (Value): null. checkout_session_id (Optional): string or
-         * null. Flint checkout session ID associated with this payment, when present.
-         * checkout_session_id.anyOf[1] (Value): string. Flint checkout session ID associated with
-         * this payment, when present. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
-         * checkout_session_id.anyOf[2] (Value): null. created_at (Optional): string or null.
-         * RFC3339 timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer
-         * (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. The linked
-         * customer. Returned only with expand=customer. Present only when `expand` includes
-         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
-         * (Value): {@link ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value):
-         * null. customer_id (Optional): string or null. Customer linked to this payment intent.
-         * customer_id.anyOf[1] (Value): string. Customer linked to this payment intent. Example:
-         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. customer_presence
-         * (Optional): string or null. Whether the customer was present for the most recent
-         * confirmation. absent means Flint charged a saved card without them, as a
-         * merchant-initiated payment on its stored credential. Subscription renewals and automatic
-         * invoice charges are absent, and other payments are absent only when confirmed or paid
-         * with customer_presence absent. A customer who pays any of them with a card they enter
-         * makes it present. Each confirmation sets it again. Value enum: "present", "absent".
-         * customer_presence.anyOf[1] (Value): string. Whether the customer was present for the
-         * most recent confirmation. absent means Flint charged a saved card without them, as a
-         * merchant-initiated payment on its stored credential. Subscription renewals and automatic
-         * invoice charges are absent, and other payments are absent only when confirmed or paid
-         * with customer_presence absent. A customer who pays any of them with a card they enter
-         * makes it present. Each confirmation sets it again. Value enum: "present", "absent".
-         * customer_presence.anyOf[2] (Value): null. dispute_status (Optional): string or null.
-         * Dispute state of this payment. none means no dispute or inquiry is open or recorded. The
-         * inquiry_ values track an issuer inquiry or early warning that isn't a chargeback. Read
-         * the dispute with GET /v1/disputes for its deadline and evidence. Value enum: "none",
-         * "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response",
-         * "under_review", "won", "lost", "prevented", "other". dispute_status.anyOf[1] (Value):
-         * string. Dispute state of this payment. none means no dispute or inquiry is open or
-         * recorded. The inquiry_ values track an issuer inquiry or early warning that isn't a
-         * chargeback. Read the dispute with GET /v1/disputes for its deadline and evidence. Value
-         * enum: "none", "inquiry_needs_response", "inquiry_under_review", "inquiry_closed",
-         * "needs_response", "under_review", "won", "lost", "prevented", "other".
-         * dispute_status.anyOf[2] (Value): null. external_reference_id (Optional): string or null.
-         * Caller-owned identifier for this resource in an external system. `null` when no external
-         * reference ID has been set on the payment intent. external_reference_id.anyOf[1] (Value):
-         * string. Caller-owned identifier for this resource in an external system. `null` when no
-         * external reference ID has been set on the payment intent. minLength: 1. maxLength: 255.
-         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
-         * failed_attempt_count (Optional): integer or null. All-time failed-attempt count. Present
-         * on merchant reads; omitted for buyer credentials. failed_attempt_count.anyOf[1] (Value):
-         * integer. All-time failed-attempt count. Present on merchant reads; omitted for buyer
-         * credentials. Format: int64. failed_attempt_count.anyOf[2] (Value): null. failed_attempts
-         * (Optional): Array of {@link FailedPaymentAttemptPreviousAttributes} or null. Newest 50
-         * failed attempts, newest first, with merchant-only card and buyer evidence frozen at
-         * admission. Older attempts can be included in failed_attempt_count.
-         * failed_attempts.anyOf[1] (Value): Array of {@link
-         * FailedPaymentAttemptPreviousAttributes}. Newest 50 failed attempts, newest first, with
-         * merchant-only card and buyer evidence frozen at admission. Older attempts can be
-         * included in failed_attempt_count. failed_attempts.anyOf[1][] (Value): {@link
-         * FailedPaymentAttemptPreviousAttributes}. failed_attempts.anyOf[2] (Value): null.
-         * fulfillment_hold (Optional): {@link PaymentFulfillmentHoldPreviousAttributes} or null.
-         * Present when a payment provider asked Flint to pause fulfillment for this payment. While
-         * its status is active, open fulfillments on the order are on hold with reason
-         * payment_review. payment_intent.fulfillment_hold_updated is sent when the hold starts and
-         * when it lifts. fulfillment_hold.anyOf[1] (Value): {@link
-         * PaymentFulfillmentHoldPreviousAttributes}. fulfillment_hold.anyOf[2] (Value): null.
-         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
-         * created this resource. `null` when that request sent no key, Flint created the resource,
-         * the reader isn't the caller that created it (another app install, a buyer, or the
-         * merchant reading an app's or buyer's record), or the caller that created an older record
-         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
-         * including replayed responses and webhook events, can return `null`. To find a key that a
-         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
-         * merchants get `null`. `/v1/me` responses do not include this field.
-         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
-         * created this resource. `null` when that request sent no key, Flint created the resource,
-         * the reader isn't the caller that created it (another app install, a buyer, or the
-         * merchant reading an app's or buyer's record), or the caller that created an older record
-         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
-         * including replayed responses and webhook events, can return `null`. To find a key that a
-         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
-         * merchants get `null`. `/v1/me` responses do not include this field.
-         * idempotency_key.anyOf[2] (Value): null. invoice (Optional): {@link
-         * ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice. Returned only
-         * with expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded
-         * and there is no related invoice. invoice.anyOf[1] (Value): {@link
-         * ExpandedInvoiceSummaryPreviousAttributes}. invoice.anyOf[2] (Value): null. invoice_id
-         * (Optional): string or null. Invoice this payment intent collects, when it pays an
-         * invoice. invoice_id.anyOf[1] (Value): string. Invoice this payment intent collects, when
-         * it pays an invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2]
-         * (Value): null. invoice_schedule_entry_id (Optional): string or null. The invoice
-         * installment this payment collects. invoice_schedule_entry_id.anyOf[1] (Value): string.
-         * The invoice installment this payment collects. Example:
-         * "invse_01KEZF7C006JCPQBD8VZ0RNT6R". invoice_schedule_entry_id.anyOf[2] (Value): null.
-         * last_payment_error (Optional): {@link PaymentErrorSummaryPreviousAttributes} or null.
-         * Most recent payment error. Null when no payment error is recorded.
-         * last_payment_error.anyOf[1] (Value): {@link PaymentErrorSummaryPreviousAttributes}.
-         * last_payment_error.anyOf[2] (Value): null. latest_order_payment_attempt_id (Optional):
-         * string or null. The order payment attempt that most recently used this payment intent.
-         * Start times count to the second; of attempts that started in the same second, the one
-         * with the highest order_payment_attempt_id is named. `null` when no attempt has used it
-         * yet; omitted for payment intents without an order. It changes only when an attempt
-         * starts using this payment intent, which advances version. Returned with merchant
-         * credentials; omitted with buyer and checkout credentials.
-         * latest_order_payment_attempt_id.anyOf[1] (Value): string. The order payment attempt that
-         * most recently used this payment intent. Start times count to the second; of attempts
-         * that started in the same second, the one with the highest order_payment_attempt_id is
-         * named. `null` when no attempt has used it yet; omitted for payment intents without an
-         * order. It changes only when an attempt starts using this payment intent, which advances
-         * version. Returned with merchant credentials; omitted with buyer and checkout
-         * credentials. Example: "opat_01KEZF7C00B5PW9F2R8A4YSH5D".
-         * latest_order_payment_attempt_id.anyOf[2] (Value): null. merchant_id (Optional): string
-         * or null. Merchant that owns this payment intent. merchant_id.anyOf[1] (Value): string.
-         * Merchant that owns this payment intent. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-         * merchant_id.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or null.
-         * Caller-owned metadata. Keys starting with flint_ are reserved for Flint and aren't
-         * returned. Always present with merchant credentials. metadata.anyOf[1] (Value): {@link
-         * MetadataMap}. metadata.anyOf[2] (Value): null. order (Optional): {@link
-         * ExpandedOrderSummaryPreviousAttributes} or null. The linked order. Returned only with
-         * expand=order. Present only when `expand` includes `order`; `null` when expanded and
-         * there is no related order. order.anyOf[1] (Value): {@link
-         * ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2] (Value): null. order_edit_id
-         * (Optional): string or null. The order edit whose balance this payment collects. Omitted
-         * when this payment doesn't collect an edit's balance. order_edit_id.anyOf[1] (Value):
-         * string. The order edit whose balance this payment collects. Omitted when this payment
-         * doesn't collect an edit's balance. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
-         * order_edit_id.anyOf[2] (Value): null. order_id (Optional): string or null. Order this
-         * payment intent belongs to. Create it through the order and confirm it with POST
-         * /v1/orders/{order_id}/pay. Capture and cancel use POST
-         * /v1/payment-intents/{payment_intent_id}/capture or /cancel for every payment intent.
-         * Order-owned intents accept PATCH for metadata and external_reference_id.
-         * order_id.anyOf[1] (Value): string. Order this payment intent belongs to. Create it
-         * through the order and confirm it with POST /v1/orders/{order_id}/pay. Capture and cancel
-         * use POST /v1/payment-intents/{payment_intent_id}/capture or /cancel for every payment
-         * intent. Order-owned intents accept PATCH for metadata and external_reference_id.
-         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null. overcapture
-         * (Optional): {@link PaymentIntentOvercapturePreviousAttributes} or null. Whether one
-         * capture can collect more than the authorization, and the most it can collect. Present
-         * once a payment with request_overcapture true is authorized. Read it to show the limit;
-         * capture enforces it. overcapture.anyOf[1] (Value): {@link
-         * PaymentIntentOvercapturePreviousAttributes}. overcapture.anyOf[2] (Value): null.
-         * payment_flow (Optional): string or null. How the payment was started. Fixed when the
-         * payment intent is created. Value enum: "checkout", "payment_link", "invoice",
-         * "subscription_initial", "subscription_renewal", "virtual_terminal", "api".
-         * payment_flow.anyOf[1] (Value): string. How the payment was started. Fixed when the
-         * payment intent is created. Value enum: "checkout", "payment_link", "invoice",
-         * "subscription_initial", "subscription_renewal", "virtual_terminal", "api".
-         * payment_flow.anyOf[2] (Value): null. payment_intent_id (Optional): string or null. Flint
-         * payment intent ID. payment_intent_id.anyOf[1] (Value): string. Flint payment intent ID.
-         * Example: "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intent_id.anyOf[2] (Value): null.
-         * payment_options (Optional): Array of string or null. Payment options the buyer can use
-         * for this payment. [] enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit",
-         * "card_present". payment_options.anyOf[1] (Value): Array of string. Payment options the
-         * buyer can use for this payment. [] enum: "card", "apple_pay", "google_pay", "affirm",
-         * "ach_debit", "card_present". payment_options.anyOf[1][] (Value): string. Value enum:
-         * "card", "apple_pay", "google_pay", "affirm", "ach_debit", "card_present".
-         * payment_options.anyOf[2] (Value): null. payment_source (Optional): {@link
-         * PaymentSourceSummaryPreviousAttributes} or null. Summary of the card or bank account
-         * used for the payment. Absent until a payment source is attached. payment_source.anyOf[1]
-         * (Value): {@link PaymentSourceSummaryPreviousAttributes}. payment_source.anyOf[2]
-         * (Value): null. platform_fee (Optional): {@link
-         * PaymentIntentPlatformFeePreviousAttributes} or null. The platform fee a partner app
-         * charges on this payment, when it created the payment with an install token and a fee.
-         * Absent when the payment carries none. Returned only to merchant credentials; omitted for
-         * buyer and checkout credentials. platform_fee.anyOf[1] (Value): {@link
-         * PaymentIntentPlatformFeePreviousAttributes}. platform_fee.anyOf[2] (Value): null.
-         * reader_id (Optional): string or null. The reader the payment is or was last presented
-         * on. Set when Flint presents it and kept afterward. While processing or requires_action
-         * with a reader_id and no payment_source.card.card_present, the payment is on that reader
-         * now. After a card is read, the payment can stay processing while Flint captures it.
-         * reader_id.anyOf[1] (Value): string. The reader the payment is or was last presented on.
-         * Set when Flint presents it and kept afterward. While processing or requires_action with
-         * a reader_id and no payment_source.card.card_present, the payment is on that reader now.
-         * After a card is read, the payment can stay processing while Flint captures it. Example:
-         * "rdr_01KEZF7C007JA0G24M7SD6P46C". reader_id.anyOf[2] (Value): null. receipt_email
-         * (Optional): string or null. Email address for this payment's receipt. When it isn't set,
-         * Flint uses the customer's email. `null` when no receipt email has been set on the
-         * payment intent. receipt_email.anyOf[1] (Value): string. Email address for this payment's
-         * receipt. When it isn't set, Flint uses the customer's email. `null` when no receipt
-         * email has been set on the payment intent. Format: email. maxLength: 255. Example:
-         * "buyer@example.com". receipt_email.anyOf[2] (Value): null. refund_expires_at (Optional):
-         * string or null. Last time Flint can refund this payment through the original payment
-         * method. A refund submitted at exactly this time is accepted; after it, refunds through
-         * the original payment method are refused. Today only Affirm has a refund window: 120 days
-         * after the payment settles. `null` when the method has no refund window, the payment has
-         * not succeeded with captured money, or its capture time is missing. Always present with
-         * merchant credentials. refund_expires_at.anyOf[1] (Value): string. Last time Flint can
-         * refund this payment through the original payment method. A refund submitted at exactly
-         * this time is accepted; after it, refunds through the original payment method are
-         * refused. Today only Affirm has a refund window: 120 days after the payment settles.
-         * `null` when the method has no refund window, the payment has not succeeded with captured
-         * money, or its capture time is missing. Always present with merchant credentials. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". refund_expires_at.anyOf[2] (Value): null.
-         * refund_status (Optional): string or null. How much of captured_money has been refunded,
-         * including value issued as store credit, based on refunded_money. Value enum: "none",
-         * "partially_refunded", "refunded". refund_status.anyOf[1] (Value): string. How much of
-         * captured_money has been refunded, including value issued as store credit, based on
-         * refunded_money. Value enum: "none", "partially_refunded", "refunded".
-         * refund_status.anyOf[2] (Value): null. refunded_money (Optional): {@link
-         * MoneyValuePreviousAttributes} or null. Total refunded against captured_money, including
-         * value issued as store credit and processor refunds still pending. Failed and canceled
-         * refunds aren't counted. Zero when nothing has been refunded. refunded_money.anyOf[1]
-         * (Value): {@link MoneyValuePreviousAttributes}. refunded_money.anyOf[2] (Value): null.
-         * released_money (Optional): {@link MoneyValuePreviousAttributes} or null. The part of the
-         * authorization returned to the buyer without being charged: the uncaptured remainder
-         * after a partial capture, or the whole authorization after a cancellation or expiry. It
-         * was never collected, so it needs no refund and can't be captured later. Zero after a
-         * capture at or above the authorization. Absent until the payment is authorized.
-         * released_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-         * released_money.anyOf[2] (Value): null. request_overcapture (Optional): boolean or null.
-         * Whether one capture may collect more than the authorization where the card network
-         * allows it. Fixed at create. Always present with merchant credentials; omitted with buyer
-         * and checkout credentials. request_overcapture.anyOf[1] (Value): boolean. Whether one
-         * capture may collect more than the authorization where the card network allows it. Fixed
-         * at create. Always present with merchant credentials; omitted with buyer and checkout
-         * credentials. request_overcapture.anyOf[2] (Value): null. return_id (Optional): string or
-         * null. Flint return ID associated with this payment, when present. return_id.anyOf[1]
-         * (Value): string. Flint return ID associated with this payment, when present. Example:
-         * "ret_01KEZF7C00PG93650ZKVQNGF7X". return_id.anyOf[2] (Value): null. return_resolution_id
-         * (Optional): string or null. The return resolution whose balance this payment collects.
-         * Set for exchange balances and corrections. return_resolution_id.anyOf[1] (Value):
-         * string. The return resolution whose balance this payment collects. Set for exchange
-         * balances and corrections. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
-         * return_resolution_id.anyOf[2] (Value): null. risk (Optional): {@link
-         * PaymentRiskPreviousAttributes} or null. Risk assessment. Always present with merchant
-         * credentials. `null` when the payment intent's latest payment attempt has no completed
-         * risk assessment, such as before its first confirmation. Omitted with the checkout
-         * credential. risk.anyOf[1] (Value): {@link PaymentRiskPreviousAttributes}. risk.anyOf[2]
-         * (Value): null. selected_payment_option (Optional): string or null. The payment option
-         * the most recent confirmation used. Absent until the payment intent is first confirmed.
-         * Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", "card_present".
-         * selected_payment_option.anyOf[1] (Value): string. The payment option the most recent
-         * confirmation used. Absent until the payment intent is first confirmed. Value enum:
-         * "card", "apple_pay", "google_pay", "affirm", "ach_debit", "card_present".
-         * selected_payment_option.anyOf[2] (Value): null. splits (Optional): Array of {@link
-         * PaymentSplitPreviousAttributes} or null. Top-level PaymentSplit children in their
-         * current state, embedded whole. Empty when the payment has no splits. Child changes do
-         * not send payment_intent.updated. Omitted for buyer and checkout credentials.
-         * splits.anyOf[1] (Value): Array of {@link PaymentSplitPreviousAttributes}. Top-level
-         * PaymentSplit children in their current state, embedded whole. Empty when the payment has
-         * no splits. Child changes do not send payment_intent.updated. Omitted for buyer and
-         * checkout credentials. splits.anyOf[1][] (Value): {@link PaymentSplitPreviousAttributes}.
-         * splits.anyOf[2] (Value): null. statement_descriptor (Optional): string or null. The text
-         * shown on the buyer's card or bank statement for this payment. `null` until the charge is
-         * created. `null` when the provider supplies no descriptor. Frozen when the charge is
-         * created. statement_descriptor.anyOf[1] (Value): string. The text shown on the buyer's
-         * card or bank statement for this payment. `null` until the charge is created. `null` when
-         * the provider supplies no descriptor. Frozen when the charge is created.
-         * statement_descriptor.anyOf[2] (Value): null. status (Optional): string or null.
-         * Lifecycle status. requires_payment_method covers both a new payment intent and one whose
-         * last attempt failed, so read last_payment_error with it. succeeded, canceled, and
-         * expired are final. Refunds and disputes never change status. Value enum:
-         * "requires_payment_method", "requires_confirmation", "requires_action", "processing",
-         * "requires_capture", "canceled", "succeeded", "expired". status.anyOf[1] (Value): string.
-         * Lifecycle status. requires_payment_method covers both a new payment intent and one whose
-         * last attempt failed, so read last_payment_error with it. succeeded, canceled, and
-         * expired are final. Refunds and disputes never change status. Value enum:
-         * "requires_payment_method", "requires_confirmation", "requires_action", "processing",
-         * "requires_capture", "canceled", "succeeded", "expired". status.anyOf[2] (Value): null.
-         * subscription_id (Optional): string or null. The subscription whose billing charged this
-         * payment: its first charge, a renewal, a retry or a setup fee. Not set for the checkout
-         * payment that created a subscription. subscription_id.anyOf[1] (Value): string. The
-         * subscription whose billing charged this payment: its first charge, a renewal, a retry or
-         * a setup fee. Not set for the checkout payment that created a subscription. Example:
-         * "sub_01KEZF7C00BVRE8YDBXQB74BBM". subscription_id.anyOf[2] (Value): null.
-         * support_reference (Optional): string or null. Opaque payment reference to share with
-         * merchant support. Do not parse its format. support_reference.anyOf[1] (Value): string.
-         * Opaque payment reference to share with merchant support. Do not parse its format.
-         * support_reference.anyOf[2] (Value): null. supported_actions (Optional): Array of string
-         * or null. Verbs this payment intent accepts now, each a POST to
-         * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts
-         * and can change without a payment intent version change. Order legs list confirm when a
-         * single leg can pay the order or an open attempt can continue it. Several unpaid legs,
-         * selected gift cards, or automatic tax with a leg below the balance require pay_order
-         * instead. Invoice payments list only cancel. An unused first-period subscription payment
-         * lists cancel once the subscription is canceled. Order edit payments list confirm while
-         * awaiting payment details or action. A listed action can still be refused due to an open
-         * risk review, an order payment attempt, a closed order, or the merchant account. A
-         * managed_by_owner refusal names the owner and its command in remediation.next_actions.
-         * The merchant list is credential-independent. Checkout credentials receive that list
-         * filtered to confirm and cancel on their own session's intents, never capture. Customer
-         * sessions omit this field. New actions may be added. [] enum: "confirm", "capture",
-         * "cancel". supported_actions.anyOf[1] (Value): Array of string. Verbs this payment intent
-         * accepts now, each a POST to /v1/payment-intents/{payment_intent_id}/{action}. The list
-         * includes stored order facts and can change without a payment intent version change.
-         * Order legs list confirm when a single leg can pay the order or an open attempt can
-         * continue it. Several unpaid legs, selected gift cards, or automatic tax with a leg below
-         * the balance require pay_order instead. Invoice payments list only cancel. An unused
-         * first-period subscription payment lists cancel once the subscription is canceled. Order
-         * edit payments list confirm while awaiting payment details or action. A listed action can
-         * still be refused due to an open risk review, an order payment attempt, a closed order,
-         * or the merchant account. A managed_by_owner refusal names the owner and its command in
-         * remediation.next_actions. The merchant list is credential-independent. Checkout
-         * credentials receive that list filtered to confirm and cancel on their own session's
-         * intents, never capture. Customer sessions omit this field. New actions may be added. []
-         * enum: "confirm", "capture", "cancel". supported_actions.anyOf[1][] (Value): string.
-         * Value enum: "confirm", "capture", "cancel". supported_actions.anyOf[2] (Value): null.
-         * tip_money (Optional): {@link MoneyValuePreviousAttributes} or null. Portion of
-         * amount_money that is a tip. Uses amount_money's currency and is at most amount_money.
-         * `null` when no tip is set, and for an order payment until its payment attempt has moved
-         * past requires_payment_method and requires_confirmation. An order payment without a tip
-         * can return an amount of 0 instead. tip_money.anyOf[1] (Value): {@link
-         * MoneyValuePreviousAttributes}. tip_money.anyOf[2] (Value): null. transaction_purpose
-         * (Optional): string or null. Why a bank debit is taken. Set only when payment_options
-         * includes ach_debit, and fixed once the payment intent exists. Value enum: "goods",
-         * "services", "other". transaction_purpose.anyOf[1] (Value): string. Why a bank debit is
-         * taken. Set only when payment_options includes ach_debit, and fixed once the payment
-         * intent exists. Value enum: "goods", "services", "other". transaction_purpose.anyOf[2]
-         * (Value): null. updated_at (Optional): string or null. RFC3339 timestamp.
-         * updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
-         * or null. Persisted version of this resource's owned state. Expanded resources and
-         * external observations can change independently. version.anyOf[1] (Value): integer.
-         * Persisted version of this resource's owned state. Expanded resources and external
-         * observations can change independently. Format: uint64. minimum: 1. version.anyOf[2]
-         * (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * The amount requested from the buyer, including any tip_money. Capturing doesn't
-             * change it: after a partial capture it still shows the requested amount, and
-             * captured_money shows what was collected. On a standalone payment intent, PATCH can
-             * change it only before the first confirmation attempt. An amount_money or tip_money
-             * change that leaves too little for stored splits returns LIMIT_EXCEEDED at the
-             * changed field with minimum_money. anyOf[1] (Value): {@link
-             * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * Effective Flint deadline to capture a manual-capture hold: the earlier of the
-             * provider capture deadline and any order resource guarantee. Order guarantees last at
-             * most 24 hours from the payment attempt start and may end earlier. Capture is refused
-             * at or after this time, even while status is requires_capture. Omitted until a hold
-             * is placed. anyOf[1] (Value): string. Effective Flint deadline to capture a
-             * manual-capture hold: the earlier of the provider capture deadline and any order
-             * resource guarantee. Order guarantees last at most 24 hours from the payment attempt
-             * start and may end earlier. Capture is refused at or after this time, even while
-             * status is requires_capture. Omitted until a hold is placed. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "authorization_expires_at"?: ((string) | (null));
-            /**
-             * When the processor authorized the payment. Absent until then. anyOf[1] (Value):
-             * string. When the processor authorized the payment. Absent until then. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "authorized_at"?: ((string) | (null));
-            /**
-             * The amount the processor authorized. It always equals amount_money and doesn't
-             * change once set, even when a capture collects more. On a payment intent canceled
-             * with cancellation_reason payment_returned, it equals the authorization Flint
-             * released instead. Absent until the payment is authorized, and on payments canceled
-             * before authorization. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-             * anyOf[2] (Value): null.
-             */
-            "authorized_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * Flint-normalized reason the payment intent was canceled. Present only while status
-             * is canceled. A cancellation without a specific reason returns payment_canceled.
-             * Absent while last_payment_error.code is payment_blocked and Flint has not identified
-             * money to return. Unknown processor values are returned as payment_canceled. Value
-             * enum: "requested_by_customer", "duplicate", "fraudulent", "abandoned",
-             * "invoice_payment_failed", "invoice_voided", "order_closed", "payment_canceled",
-             * "payment_returned". anyOf[1] (Value): string. Flint-normalized reason the payment
-             * intent was canceled. Present only while status is canceled. A cancellation without a
-             * specific reason returns payment_canceled. Absent while last_payment_error.code is
-             * payment_blocked and Flint has not identified money to return. Unknown processor
-             * values are returned as payment_canceled. Value enum: "requested_by_customer",
-             * "duplicate", "fraudulent", "abandoned", "invoice_payment_failed", "invoice_voided",
-             * "order_closed", "payment_canceled", "payment_returned". anyOf[2] (Value): null.
-             */
-            "cancellation_reason"?: (("requested_by_customer"
-                | "duplicate"
-                | "fraudulent"
-                | "abandoned"
-                | "invoice_payment_failed"
-                | "invoice_voided"
-                | "order_closed"
-                | "payment_canceled"
-                | "payment_returned"
-                | (string & {}))
-                | (null));
-            /**
-             * The part of the authorization you can still capture. Positive only while status is
-             * requires_capture, and zero after you capture or cancel or the authorization expires.
-             * The authorization lapses at authorization_expires_at, and a capture attempted after
-             * that fails even if this is positive. Absent until the payment is authorized.
-             * anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "capturable_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * When money is collected. Defaults to automatic. Value enum: "automatic", "manual".
-             * anyOf[1] (Value): string. When money is collected. Defaults to automatic. Value
-             * enum: "automatic", "manual". anyOf[2] (Value): null.
-             */
-            "capture_method"?: (("automatic" | "manual" | (string & {})) | (null));
-            /**
-             * When money was captured. For automatic capture, this is when the payment succeeded.
-             * Absent until capture. anyOf[1] (Value): string. When money was captured. For
-             * automatic capture, this is when the payment succeeded. Absent until capture. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "captured_at"?: ((string) | (null));
-            /**
-             * The amount collected from the buyer, including captured_tip_money. Reconcile revenue
-             * and print receipts from this amount, not amount_money. Zero while a hold is open,
-             * and positive whenever status is succeeded. After an overcapture it is above
-             * authorized_money. Also positive on a payment intent canceled with
-             * cancellation_reason payment_returned: Flint captured the money and is returning it
-             * through a refund with reason payment_returned. processing_fee_money,
-             * merchant_net_money, and refunds are based on it. Absent until the payment is
-             * authorized. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2]
-             * (Value): null.
-             */
-            "captured_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * The part of captured_money that is a tip: the capture's tip_money when it sent one,
-             * otherwise the tip the authorization carried, at most captured_money. tip_money keeps
-             * the tip the authorization carried. Refunds return it last. Absent until the payment
-             * is captured. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2]
-             * (Value): null.
-             */
-            "captured_tip_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * Flint checkout session ID associated with this payment, when present. anyOf[1]
-             * (Value): string. Flint checkout session ID associated with this payment, when
-             * present. Example: "cs_01KEZF7C004JRWFW43H037MQRN". anyOf[2] (Value): null.
-             */
-            "checkout_session_id"?: ((string) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * The linked customer. Returned only with expand=customer. Present only when `expand`
-             * includes `customer`; `null` when expanded and there is no related customer. anyOf[1]
-             * (Value): {@link ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
-            /**
-             * Customer linked to this payment intent. anyOf[1] (Value): string. Customer linked to
-             * this payment intent. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value):
-             * null.
-             */
-            "customer_id"?: ((string) | (null));
-            /**
-             * Whether the customer was present for the most recent confirmation. absent means
-             * Flint charged a saved card without them, as a merchant-initiated payment on its
-             * stored credential. Subscription renewals and automatic invoice charges are absent,
-             * and other payments are absent only when confirmed or paid with customer_presence
-             * absent. A customer who pays any of them with a card they enter makes it present.
-             * Each confirmation sets it again. Value enum: "present", "absent". anyOf[1] (Value):
-             * string. Whether the customer was present for the most recent confirmation. absent
-             * means Flint charged a saved card without them, as a merchant-initiated payment on
-             * its stored credential. Subscription renewals and automatic invoice charges are
-             * absent, and other payments are absent only when confirmed or paid with
-             * customer_presence absent. A customer who pays any of them with a card they enter
-             * makes it present. Each confirmation sets it again. Value enum: "present", "absent".
-             * anyOf[2] (Value): null.
-             */
-            "customer_presence"?: (("present" | "absent" | (string & {})) | (null));
-            /**
-             * Dispute state of this payment. none means no dispute or inquiry is open or recorded.
-             * The inquiry_ values track an issuer inquiry or early warning that isn't a
-             * chargeback. Read the dispute with GET /v1/disputes for its deadline and evidence.
-             * Value enum: "none", "inquiry_needs_response", "inquiry_under_review",
-             * "inquiry_closed", "needs_response", "under_review", "won", "lost", "prevented",
-             * "other". anyOf[1] (Value): string. Dispute state of this payment. none means no
-             * dispute or inquiry is open or recorded. The inquiry_ values track an issuer inquiry
-             * or early warning that isn't a chargeback. Read the dispute with GET /v1/disputes for
-             * its deadline and evidence. Value enum: "none", "inquiry_needs_response",
-             * "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won",
-             * "lost", "prevented", "other". anyOf[2] (Value): null.
-             */
-            "dispute_status"?: (("none"
-                | "inquiry_needs_response"
-                | "inquiry_under_review"
-                | "inquiry_closed"
-                | "needs_response"
-                | "under_review"
-                | "won"
-                | "lost"
-                | "prevented"
-                | "other"
-                | (string & {}))
-                | (null));
-            /**
-             * Caller-owned identifier for this resource in an external system. `null` when no
-             * external reference ID has been set on the payment intent. anyOf[1] (Value): string.
-             * Caller-owned identifier for this resource in an external system. `null` when no
-             * external reference ID has been set on the payment intent. minLength: 1. maxLength:
-             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
-             */
-            "external_reference_id"?: ((string) | (null));
-            /**
-             * All-time failed-attempt count. Present on merchant reads; omitted for buyer
-             * credentials. anyOf[1] (Value): integer. All-time failed-attempt count. Present on
-             * merchant reads; omitted for buyer credentials. Format: int64. anyOf[2] (Value):
-             * null.
-             */
-            "failed_attempt_count"?: ((number) | (null));
-            /**
-             * Newest 50 failed attempts, newest first, with merchant-only card and buyer evidence
-             * frozen at admission. Older attempts can be included in failed_attempt_count.
-             * anyOf[1] (Value): Array of {@link FailedPaymentAttemptPreviousAttributes}. Newest 50
-             * failed attempts, newest first, with merchant-only card and buyer evidence frozen at
-             * admission. Older attempts can be included in failed_attempt_count. anyOf[1][]
-             * (Value): {@link FailedPaymentAttemptPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "failed_attempts"?: ((Array<FailedPaymentAttemptPreviousAttributes>) | (null));
-            /**
-             * Present when a payment provider asked Flint to pause fulfillment for this payment.
-             * While its status is active, open fulfillments on the order are on hold with reason
-             * payment_review. payment_intent.fulfillment_hold_updated is sent when the hold starts
-             * and when it lifts. anyOf[1] (Value): {@link
-             * PaymentFulfillmentHoldPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "fulfillment_hold"?: ((PaymentFulfillmentHoldPreviousAttributes) | (null));
-            /**
-             * The Idempotency-Key of the request that created this resource. `null` when that
-             * request sent no key, Flint created the resource, the reader isn't the caller that
-             * created it (another app install, a buyer, or the merchant reading an app's or
-             * buyer's record), or the caller that created an older record is unknown. Filter its
-             * list with `idempotency_key` to find it. Recorded payloads, including replayed
-             * responses and webhook events, can return `null`. To find a key that a replay returns
-             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
-             * `null`. `/v1/me` responses do not include this field. anyOf[1] (Value): string. The
-             * Idempotency-Key of the request that created this resource. `null` when that request
-             * sent no key, Flint created the resource, the reader isn't the caller that created it
-             * (another app install, a buyer, or the merchant reading an app's or buyer's record),
-             * or the caller that created an older record is unknown. Filter its list with
-             * `idempotency_key` to find it. Recorded payloads, including replayed responses and
-             * webhook events, can return `null`. To find a key that a replay returns as `null`,
-             * read the resource. Buyer sessions on routes shared with merchants get `null`.
-             * `/v1/me` responses do not include this field. anyOf[2] (Value): null.
-             */
-            "idempotency_key"?: ((string) | (null));
-            /**
-             * The linked invoice. Returned only with expand=invoice. Present only when `expand`
-             * includes `invoice`; `null` when expanded and there is no related invoice. anyOf[1]
-             * (Value): {@link ExpandedInvoiceSummaryPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "invoice"?: ((ExpandedInvoiceSummaryPreviousAttributes) | (null));
-            /**
-             * Invoice this payment intent collects, when it pays an invoice. anyOf[1] (Value):
-             * string. Invoice this payment intent collects, when it pays an invoice. Example:
-             * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
-             */
-            "invoice_id"?: ((string) | (null));
-            /**
-             * The invoice installment this payment collects. anyOf[1] (Value): string. The invoice
-             * installment this payment collects. Example: "invse_01KEZF7C006JCPQBD8VZ0RNT6R".
-             * anyOf[2] (Value): null.
-             */
-            "invoice_schedule_entry_id"?: ((string) | (null));
-            /**
-             * Most recent payment error. Null when no payment error is recorded. anyOf[1] (Value):
-             * {@link PaymentErrorSummaryPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "last_payment_error"?: ((PaymentErrorSummaryPreviousAttributes) | (null));
-            /**
-             * The order payment attempt that most recently used this payment intent. Start times
-             * count to the second; of attempts that started in the same second, the one with the
-             * highest order_payment_attempt_id is named. `null` when no attempt has used it yet;
-             * omitted for payment intents without an order. It changes only when an attempt starts
-             * using this payment intent, which advances version. Returned with merchant
-             * credentials; omitted with buyer and checkout credentials. anyOf[1] (Value): string.
-             * The order payment attempt that most recently used this payment intent. Start times
-             * count to the second; of attempts that started in the same second, the one with the
-             * highest order_payment_attempt_id is named. `null` when no attempt has used it yet;
-             * omitted for payment intents without an order. It changes only when an attempt starts
-             * using this payment intent, which advances version. Returned with merchant
-             * credentials; omitted with buyer and checkout credentials. Example:
-             * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". anyOf[2] (Value): null.
-             */
-            "latest_order_payment_attempt_id"?: ((string) | (null));
-            /**
-             * Merchant that owns this payment intent. anyOf[1] (Value): string. Merchant that owns
-             * this payment intent. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value):
-             * null.
-             */
-            "merchant_id"?: ((string) | (null));
-            /**
-             * Caller-owned metadata. Keys starting with flint_ are reserved for Flint and aren't
-             * returned. Always present with merchant credentials. anyOf[1] (Value): {@link
-             * MetadataMap}. anyOf[2] (Value): null.
-             */
-            "metadata"?: ((MetadataMap) | (null));
-            /**
-             * The linked order. Returned only with expand=order. Present only when `expand`
-             * includes `order`; `null` when expanded and there is no related order. anyOf[1]
-             * (Value): {@link ExpandedOrderSummaryPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
-            /**
-             * The order edit whose balance this payment collects. Omitted when this payment
-             * doesn't collect an edit's balance. anyOf[1] (Value): string. The order edit whose
-             * balance this payment collects. Omitted when this payment doesn't collect an edit's
-             * balance. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A". anyOf[2] (Value): null.
-             */
-            "order_edit_id"?: ((string) | (null));
-            /**
-             * Order this payment intent belongs to. Create it through the order and confirm it
-             * with POST /v1/orders/{order_id}/pay. Capture and cancel use POST
-             * /v1/payment-intents/{payment_intent_id}/capture or /cancel for every payment intent.
-             * Order-owned intents accept PATCH for metadata and external_reference_id. anyOf[1]
-             * (Value): string. Order this payment intent belongs to. Create it through the order
-             * and confirm it with POST /v1/orders/{order_id}/pay. Capture and cancel use POST
-             * /v1/payment-intents/{payment_intent_id}/capture or /cancel for every payment intent.
-             * Order-owned intents accept PATCH for metadata and external_reference_id. Example:
-             * "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
-             */
-            "order_id"?: ((string) | (null));
-            /**
-             * Whether one capture can collect more than the authorization, and the most it can
-             * collect. Present once a payment with request_overcapture true is authorized. Read it
-             * to show the limit; capture enforces it. anyOf[1] (Value): {@link
-             * PaymentIntentOvercapturePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "overcapture"?: ((PaymentIntentOvercapturePreviousAttributes) | (null));
-            /**
-             * How the payment was started. Fixed when the payment intent is created. Value enum:
-             * "checkout", "payment_link", "invoice", "subscription_initial",
-             * "subscription_renewal", "virtual_terminal", "api". anyOf[1] (Value): string. How the
-             * payment was started. Fixed when the payment intent is created. Value enum:
-             * "checkout", "payment_link", "invoice", "subscription_initial",
-             * "subscription_renewal", "virtual_terminal", "api". anyOf[2] (Value): null.
-             */
-            "payment_flow"?: (("checkout"
-                | "payment_link"
-                | "invoice"
-                | "subscription_initial"
-                | "subscription_renewal"
-                | "virtual_terminal"
-                | "api"
-                | (string & {}))
-                | (null));
-            /**
-             * Flint payment intent ID. anyOf[1] (Value): string. Flint payment intent ID. Example:
-             * "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2] (Value): null.
-             */
-            "payment_intent_id"?: ((string) | (null));
-            /**
-             * Payment options the buyer can use for this payment. [] enum: "card", "apple_pay",
-             * "google_pay", "affirm", "ach_debit", "card_present". anyOf[1] (Value): Array of
-             * string. Payment options the buyer can use for this payment. [] enum: "card",
-             * "apple_pay", "google_pay", "affirm", "ach_debit", "card_present". anyOf[1][]
-             * (Value): string. Value enum: "card", "apple_pay", "google_pay", "affirm",
-             * "ach_debit", "card_present". anyOf[2] (Value): null.
-             */
-            "payment_options"?: ((Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | "card_present" | (string & {})>)
-                | (null));
-            /**
-             * Summary of the card or bank account used for the payment. Absent until a payment
-             * source is attached. anyOf[1] (Value): {@link
-             * PaymentSourceSummaryPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "payment_source"?: ((PaymentSourceSummaryPreviousAttributes) | (null));
-            /**
-             * The platform fee a partner app charges on this payment, when it created the payment
-             * with an install token and a fee. Absent when the payment carries none. Returned only
-             * to merchant credentials; omitted for buyer and checkout credentials. anyOf[1]
-             * (Value): {@link PaymentIntentPlatformFeePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "platform_fee"?: ((PaymentIntentPlatformFeePreviousAttributes) | (null));
-            /**
-             * The reader the payment is or was last presented on. Set when Flint presents it and
-             * kept afterward. While processing or requires_action with a reader_id and no
-             * payment_source.card.card_present, the payment is on that reader now. After a card is
-             * read, the payment can stay processing while Flint captures it. anyOf[1] (Value):
-             * string. The reader the payment is or was last presented on. Set when Flint presents
-             * it and kept afterward. While processing or requires_action with a reader_id and no
-             * payment_source.card.card_present, the payment is on that reader now. After a card is
-             * read, the payment can stay processing while Flint captures it. Example:
-             * "rdr_01KEZF7C007JA0G24M7SD6P46C". anyOf[2] (Value): null.
-             */
-            "reader_id"?: ((string) | (null));
-            /**
-             * Email address for this payment's receipt. When it isn't set, Flint uses the
-             * customer's email. `null` when no receipt email has been set on the payment intent.
-             * anyOf[1] (Value): string. Email address for this payment's receipt. When it isn't
-             * set, Flint uses the customer's email. `null` when no receipt email has been set on
-             * the payment intent. Format: email. maxLength: 255. Example: "buyer@example.com".
-             * anyOf[2] (Value): null.
-             */
-            "receipt_email"?: ((string) | (null));
-            /**
-             * Last time Flint can refund this payment through the original payment method. A
-             * refund submitted at exactly this time is accepted; after it, refunds through the
-             * original payment method are refused. Today only Affirm has a refund window: 120 days
-             * after the payment settles. `null` when the method has no refund window, the payment
-             * has not succeeded with captured money, or its capture time is missing. Always
-             * present with merchant credentials. anyOf[1] (Value): string. Last time Flint can
-             * refund this payment through the original payment method. A refund submitted at
-             * exactly this time is accepted; after it, refunds through the original payment method
-             * are refused. Today only Affirm has a refund window: 120 days after the payment
-             * settles. `null` when the method has no refund window, the payment has not succeeded
-             * with captured money, or its capture time is missing. Always present with merchant
-             * credentials. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
-             * null.
-             */
-            "refund_expires_at"?: ((string) | (null));
-            /**
-             * How much of captured_money has been refunded, including value issued as store
-             * credit, based on refunded_money. Value enum: "none", "partially_refunded",
-             * "refunded". anyOf[1] (Value): string. How much of captured_money has been refunded,
-             * including value issued as store credit, based on refunded_money. Value enum: "none",
-             * "partially_refunded", "refunded". anyOf[2] (Value): null.
-             */
-            "refund_status"?: (("none" | "partially_refunded" | "refunded" | (string & {})) | (null));
-            /**
-             * Total refunded against captured_money, including value issued as store credit and
-             * processor refunds still pending. Failed and canceled refunds aren't counted. Zero
-             * when nothing has been refunded. anyOf[1] (Value): {@link
-             * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "refunded_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * The part of the authorization returned to the buyer without being charged: the
-             * uncaptured remainder after a partial capture, or the whole authorization after a
-             * cancellation or expiry. It was never collected, so it needs no refund and can't be
-             * captured later. Zero after a capture at or above the authorization. Absent until the
-             * payment is authorized. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-             * anyOf[2] (Value): null.
-             */
-            "released_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * Whether one capture may collect more than the authorization where the card network
-             * allows it. Fixed at create. Always present with merchant credentials; omitted with
-             * buyer and checkout credentials. anyOf[1] (Value): boolean. Whether one capture may
-             * collect more than the authorization where the card network allows it. Fixed at
-             * create. Always present with merchant credentials; omitted with buyer and checkout
-             * credentials. anyOf[2] (Value): null.
-             */
-            "request_overcapture"?: ((boolean) | (null));
-            /**
-             * Flint return ID associated with this payment, when present. anyOf[1] (Value):
-             * string. Flint return ID associated with this payment, when present. Example:
-             * "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value): null.
-             */
-            "return_id"?: ((string) | (null));
-            /**
-             * The return resolution whose balance this payment collects. Set for exchange balances
-             * and corrections. anyOf[1] (Value): string. The return resolution whose balance this
-             * payment collects. Set for exchange balances and corrections. Example:
-             * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". anyOf[2] (Value): null.
-             */
-            "return_resolution_id"?: ((string) | (null));
-            /**
-             * Risk assessment. Always present with merchant credentials. `null` when the payment
-             * intent's latest payment attempt has no completed risk assessment, such as before its
-             * first confirmation. Omitted with the checkout credential. anyOf[1] (Value): {@link
-             * PaymentRiskPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "risk"?: ((PaymentRiskPreviousAttributes) | (null));
-            /**
-             * The payment option the most recent confirmation used. Absent until the payment
-             * intent is first confirmed. Value enum: "card", "apple_pay", "google_pay", "affirm",
-             * "ach_debit", "card_present". anyOf[1] (Value): string. The payment option the most
-             * recent confirmation used. Absent until the payment intent is first confirmed. Value
-             * enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", "card_present".
-             * anyOf[2] (Value): null.
-             */
-            "selected_payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | "card_present" | (string & {}))
-                | (null));
-            /**
-             * Top-level PaymentSplit children in their current state, embedded whole. Empty when
-             * the payment has no splits. Child changes do not send payment_intent.updated. Omitted
-             * for buyer and checkout credentials. anyOf[1] (Value): Array of {@link
-             * PaymentSplitPreviousAttributes}. Top-level PaymentSplit children in their current
-             * state, embedded whole. Empty when the payment has no splits. Child changes do not
-             * send payment_intent.updated. Omitted for buyer and checkout credentials. anyOf[1][]
-             * (Value): {@link PaymentSplitPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "splits"?: ((Array<PaymentSplitPreviousAttributes>) | (null));
-            /**
-             * The text shown on the buyer's card or bank statement for this payment. `null` until
-             * the charge is created. `null` when the provider supplies no descriptor. Frozen when
-             * the charge is created. anyOf[1] (Value): string. The text shown on the buyer's card
-             * or bank statement for this payment. `null` until the charge is created. `null` when
-             * the provider supplies no descriptor. Frozen when the charge is created. anyOf[2]
-             * (Value): null.
-             */
-            "statement_descriptor"?: ((string) | (null));
-            /**
-             * Lifecycle status. requires_payment_method covers both a new payment intent and one
-             * whose last attempt failed, so read last_payment_error with it. succeeded, canceled,
-             * and expired are final. Refunds and disputes never change status. Value enum:
-             * "requires_payment_method", "requires_confirmation", "requires_action", "processing",
-             * "requires_capture", "canceled", "succeeded", "expired". anyOf[1] (Value): string.
-             * Lifecycle status. requires_payment_method covers both a new payment intent and one
-             * whose last attempt failed, so read last_payment_error with it. succeeded, canceled,
-             * and expired are final. Refunds and disputes never change status. Value enum:
-             * "requires_payment_method", "requires_confirmation", "requires_action", "processing",
-             * "requires_capture", "canceled", "succeeded", "expired". anyOf[2] (Value): null.
-             */
-            "status"?: (("requires_payment_method"
-                | "requires_confirmation"
-                | "requires_action"
-                | "processing"
-                | "requires_capture"
-                | "canceled"
-                | "succeeded"
-                | "expired"
-                | (string & {}))
-                | (null));
-            /**
-             * The subscription whose billing charged this payment: its first charge, a renewal, a
-             * retry or a setup fee. Not set for the checkout payment that created a subscription.
-             * anyOf[1] (Value): string. The subscription whose billing charged this payment: its
-             * first charge, a renewal, a retry or a setup fee. Not set for the checkout payment
-             * that created a subscription. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM". anyOf[2]
-             * (Value): null.
-             */
-            "subscription_id"?: ((string) | (null));
-            /**
-             * Opaque payment reference to share with merchant support. Do not parse its format.
-             * anyOf[1] (Value): string. Opaque payment reference to share with merchant support.
-             * Do not parse its format. anyOf[2] (Value): null.
-             */
-            "support_reference"?: ((string) | (null));
-            /**
-             * Verbs this payment intent accepts now, each a POST to
-             * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order
-             * facts and can change without a payment intent version change. Order legs list
-             * confirm when a single leg can pay the order or an open attempt can continue it.
-             * Several unpaid legs, selected gift cards, or automatic tax with a leg below the
-             * balance require pay_order instead. Invoice payments list only cancel. An unused
-             * first-period subscription payment lists cancel once the subscription is canceled.
-             * Order edit payments list confirm while awaiting payment details or action. A listed
-             * action can still be refused due to an open risk review, an order payment attempt, a
-             * closed order, or the merchant account. A managed_by_owner refusal names the owner
-             * and its command in remediation.next_actions. The merchant list is
-             * credential-independent. Checkout credentials receive that list filtered to confirm
-             * and cancel on their own session's intents, never capture. Customer sessions omit
-             * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
-             * anyOf[1] (Value): Array of string. Verbs this payment intent accepts now, each a
-             * POST to /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored
-             * order facts and can change without a payment intent version change. Order legs list
-             * confirm when a single leg can pay the order or an open attempt can continue it.
-             * Several unpaid legs, selected gift cards, or automatic tax with a leg below the
-             * balance require pay_order instead. Invoice payments list only cancel. An unused
-             * first-period subscription payment lists cancel once the subscription is canceled.
-             * Order edit payments list confirm while awaiting payment details or action. A listed
-             * action can still be refused due to an open risk review, an order payment attempt, a
-             * closed order, or the merchant account. A managed_by_owner refusal names the owner
-             * and its command in remediation.next_actions. The merchant list is
-             * credential-independent. Checkout credentials receive that list filtered to confirm
-             * and cancel on their own session's intents, never capture. Customer sessions omit
-             * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
-             * anyOf[1][] (Value): string. Value enum: "confirm", "capture", "cancel". anyOf[2]
-             * (Value): null.
-             */
-            "supported_actions"?: ((Array<"confirm" | "capture" | "cancel" | (string & {})>) | (null));
-            /**
-             * Portion of amount_money that is a tip. Uses amount_money's currency and is at most
-             * amount_money. `null` when no tip is set, and for an order payment until its payment
-             * attempt has moved past requires_payment_method and requires_confirmation. An order
-             * payment without a tip can return an amount of 0 instead. anyOf[1] (Value): {@link
-             * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "tip_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * Why a bank debit is taken. Set only when payment_options includes ach_debit, and
-             * fixed once the payment intent exists. Value enum: "goods", "services", "other".
-             * anyOf[1] (Value): string. Why a bank debit is taken. Set only when payment_options
-             * includes ach_debit, and fixed once the payment intent exists. Value enum: "goods",
-             * "services", "other". anyOf[2] (Value): null.
-             */
-            "transaction_purpose"?: (("goods" | "services" | "other" | (string & {})) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * Persisted version of this resource's owned state. Expanded resources and external
-             * observations can change independently. anyOf[1] (Value): integer. Persisted version
-             * of this resource's owned state. Expanded resources and external observations can
-             * change independently. Format: uint64. minimum: 1. anyOf[2] (Value): null.
-             */
-            "version"?: ((number) | (null));
-        });
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "payment_intent.updated". */
-    "event_type"?: "payment_intent.updated";
-});
-/**
- * One payment from a buyer, standalone or as a leg of an order. amount_money is the amount
- * requested. Once the payment is authorized, authorized_money equals amount_money (on a payment
- * intent canceled with cancellation_reason payment_returned, the authorization Flint released) and
- * splits into captured_money (collected), capturable_money (still on hold), and released_money
- * (returned without being charged), so authorized_money equals the sum of those three whenever the
- * capture is at most the authorization. An overcapture (see request_overcapture) has
- * capturable_money and released_money zero and captured_money above authorized_money. Reconcile
- * revenue from captured_money.
- */
-export type PaymentIntentWithAction = (Exclude<PaymentIntent & object, readonly unknown[]>)
-    & ({
-    /**
-     * Typed browser authority for this payment's current action, including an order leg. Complete
-     * it, then call the same confirm endpoint without payment_source. `null` when no buyer action
-     * is needed or Flint cannot produce the action yet. If status is requires_action and this is
-     * `null`, call confirm again without payment_source. anyOf[1] (Value): {@link
-     * PendingPaymentAction}. Client-side action required before continuing a payment. Resume an
-     * order through PayOrder with order_payment_attempt_id, or continue a standalone PaymentIntent
-     * through its confirm endpoint without a replacement credential. anyOf[2] (Value): null.
-     */
-    "current_payment_action": ((PendingPaymentAction) | (null));
-});
-/**
- * One payment from a buyer, standalone or as a leg of an order. amount_money is the amount
- * requested. Once the payment is authorized, authorized_money equals amount_money (on a payment
- * intent canceled with cancellation_reason payment_returned, the authorization Flint released) and
- * splits into captured_money (collected), capturable_money (still on hold), and released_money
- * (returned without being charged), so authorized_money equals the sum of those three whenever the
- * capture is at most the authorization. An overcapture (see request_overcapture) has
- * capturable_money and released_money zero and captured_money above authorized_money. Reconcile
- * revenue from captured_money.
- */
-export type PaymentIntentWithCollection = (Exclude<PaymentIntent & object, readonly unknown[]>)
-    & ({
-    /**
-     * Setup details your client uses to collect the buyer's payment details. Returned on both
-     * standalone and order-owned creates except card_present payments, which have no
-     * payment_collection. On GET, returned only for a standalone intent in requires_payment_method
-     * or requires_confirmation, and omitted for an intent owned by a checkout session when read
-     * with merchant credentials. Order-owned intents never include it on GET; use
-     * Order.payment_collection, whose selectable_payment_intents lists the staged payments.
-     * Client-side details for collecting payment from the buyer, such as the Stripe settings to
-     * initialize Stripe.js.
-     */
-    "payment_collection"?: PaymentCollection;
-});
-/** A response containing `PaymentIntentWithCollection` data. */
-export type PaymentIntentWithCollectionResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. One payment from a
-     * buyer, standalone or as a leg of an order. amount_money is the amount requested. Once the
-     * payment is authorized, authorized_money equals amount_money (on a payment intent canceled
-     * with cancellation_reason payment_returned, the authorization Flint released) and splits into
-     * captured_money (collected), capturable_money (still on hold), and released_money (returned
-     * without being charged), so authorized_money equals the sum of those three whenever the
-     * capture is at most the authorization. An overcapture (see request_overcapture) has
-     * capturable_money and released_money zero and captured_money above authorized_money.
-     * Reconcile revenue from captured_money.
-     */
-    "data": PaymentIntentWithCollection;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type PaymentIntentsCancelParams = (InputValue<CancelPaymentIntentRequestInput>
-    | {
-    "cancellation_reason"?: never;
-    "expected_version"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type PaymentIntentsCaptureParams = (InputValue<CapturePaymentIntentRequestInput>
-    | {
-    "amount_money"?: never;
-    "expected_version"?: never;
-    "final_amount_money"?: never;
-    "platform_fee"?: never;
-    "splits"?: never;
-    "tip_money"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type PaymentIntentsConfirmParams = (InputValue<ConfirmPaymentIntentRequestInput>
-    | {
-    "buyer_ip_address"?: never;
-    "client_action_type"?: never;
-    "expected_version"?: never;
-    "payment_return_url"?: never;
-    "payment_source"?: never;
-    "save_payment_method"?: never;
-})
-    & {
-    /**
-     * An optional stable random device identifier, independent of the payment intent. Keep it for
-     * subsequent payments from the same device; it grants no access. pattern: ^[a-f0-9]{32}$.
-     */
-    "Flint-Buyer-Device"?: InputValue<string>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type PaymentIntentsCreateParams = (InputValue<CreatePaymentIntentRequestInput>
-    | {
-    "amount_money"?: never;
-    "capture_method"?: never;
-    "customer_id"?: never;
-    "expected_order_version"?: never;
-    "external_reference_id"?: never;
-    "metadata"?: never;
-    "order_id"?: never;
-    "payment_options"?: never;
-    "payment_return_url"?: never;
-    "payment_source_selection"?: never;
-    "platform_fee"?: never;
-    "receipt_email"?: never;
-    "request_overcapture"?: never;
-    "splits"?: never;
-    "tip_money"?: never;
-    "transaction_purpose"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};

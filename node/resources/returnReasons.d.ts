@@ -1,7 +1,7 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
 import type { CreateReturnReasonResponse } from '../declarations/types-13.js';
-import type { DeleteReturnReasonResponse } from '../declarations/types-17.js';
+import type { DeleteReturnReasonResponse } from '../declarations/types-18.js';
 import type { GetReturnReasonResponse } from '../declarations/types-28.js';
 import type { ListReturnReasonsResponse } from '../declarations/types-40.js';
 import type { RequestOptions } from '../declarations/types-62.js';
@@ -39,14 +39,14 @@ export type {
 } from '../declarations/types-64.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { CreateReturnReasonResponse, CreateReturnReasonRequestInput, CreateReturnReasonRequest } from '../declarations/types-13.js';
-export type { DeleteReturnReasonResponse } from '../declarations/types-17.js';
+export type { DeleteReturnReasonResponse } from '../declarations/types-18.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { GetReturnReasonResponse } from '../declarations/types-28.js';
 export type { ListReturnReasonsResponse } from '../declarations/types-40.js';
 export type { UpdateReturnReasonResponse, UpdateReturnReasonRequestInput } from '../declarations/types-77.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';

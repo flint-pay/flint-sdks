@@ -15,7 +15,7 @@ The `custom` variant of `SubscriptionPlanLineItemInput`.
 | `description` | Optional | string | Description of the line. Optional on a custom line, and not allowed on a variant or bundle line, which take the catalog description. minLength: `1`. |
 | `max_quantity` | Optional | integer | Maximum buyer quantity. Defaults to 9999. Merchants may set any line quantity from 1 to 9999. Whole-number quantity; fractional quantities are not supported. Format: `int32`. minimum: `1`. maximum: `9999`. Default: `9999`. |
 | `min_quantity` | Optional | integer | Minimum buyer quantity. Defaults to 1. The bounds must enclose the plan line quantity. Whole-number quantity; fractional quantities are not supported. Format: `int32`. minimum: `1`. maximum: `9999`. Default: `1`. |
-| `modifiers` | Optional | Array of [OrderLineItemModifierRequest](../models/OrderLineItemModifierRequest.md#orderlineitemmodifierrequest) | Modifiers to apply to a variant or bundle line. Omit to apply the catalog item's default modifiers; send an empty array to skip the defaults. Not allowed on a custom line, and `null` is rejected. Items: A modifier selection you supply on a line item: a catalog modifier by ID or a text modifier, with a quantity. `modifiers[]`: [declared alternatives](../models/CreateOrderLineItemInputBundle.md#createorderlineiteminputbundlemodifiers). |
+| `modifiers` | Optional | Array of [OrderLineItemModifierRequest](../models/OrderLineItemModifierRequest.md#orderlineitemmodifierrequest) | Modifiers to apply to a variant or bundle line. Omit to apply the catalog item's default modifiers; send an empty array to skip the defaults. Not allowed on a custom line, and `null` is rejected. Items: A modifier selection you supply on a line item: a catalog modifier by ID or a text modifier, with a quantity. `modifiers[]`: [declared alternatives](../models/CreateOrderLineItemCustom.md#createorderlineitemcustom-variant-2modifiers). |
 | `name` | Required | string | Name of the line. Required for a custom line, and not allowed on a variant or bundle line, which take the catalog name. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. |
 | `quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. Default: `1`. |
 | `swap_variant_ids` | Optional | Array of string | Variants a subscriber can swap this line to. Only for a variant line. At most 25, with no repeats, none equal to the line's own variant, and all from the same product. Omit for none. maxItems: `25`. uniqueItems: `true`. Items: minLength: `1`. pattern: `^var_[0-9A-HJKMNP-TV-Z]{26}$`. Example: `"var_01KEZF7C004GSH2KT8CNYVMHGX"`. |
@@ -26,7 +26,7 @@ The `custom` variant of `SubscriptionPlanLineItemInput`.
 
 ### SubscriptionPlanLineItemInputCustom.modifiers[]
 
-Declared alternatives: [CreateOrderLineItemInputBundle.modifiers[]](../models/CreateOrderLineItemInputBundle.md#createorderlineiteminputbundlemodifiers).
+Declared alternatives: [CreateOrderLineItemCustom variant 2.modifiers[]](../models/CreateOrderLineItemCustom.md#createorderlineitemcustom-variant-2modifiers).
 
 ### SubscriptionPlanLineItemInputCustom.tax
 

@@ -1495,10 +1495,19 @@ class Runtime
         }
         foreach (array_keys($input) as $key) {
             if ($key !== 'body' && !in_array($key, array_column($op['parameters'], 'name'), true)) {
+                $suggestion = '';
+                if ($key === 'limit') {
+                    foreach ($op['parameters'] as $parameter) {
+                        if ($parameter['in'] === 'query' && $parameter['name'] === 'page_size') {
+                            $suggestion = ' (did you mean "page_size"?)';
+                            break;
+                        }
+                    }
+                }
                 self::inputError(
                     (string) $key,
                     'UNKNOWN_FIELD',
-                    $key . ' is not a field of this input',
+                    $key . ' is not a field of this input' . $suggestion,
                 );
             }
         }

@@ -1,8 +1,12 @@
 [Model index](../MODELS.md)
 
-# CheckInTicketRequestInput to CompleteFulfillmentRequestInput
+# ChangeSubscriptionPlanRequestInput to CollectInvoiceRequestInput
 
+- [ChangeSubscriptionPlanRequestInput](ChangeSubscriptionPlanRequestInput.md)
+- [ChangeSubscriptionQuantityRequestInput](ChangeSubscriptionQuantityRequestInput.md)
 - [CheckInTicketRequestInput](CheckInTicketRequestInput.md)
+- [CheckoutBillingContactInput](CheckoutBillingContactInput.md)
+- [CheckoutBillingContactPreviousAttributesInput](CheckoutBillingContactPreviousAttributesInput.md)
 - [CheckoutBuyerContactInput](CheckoutBuyerContactInput.md)
 - [CheckoutBuyerContactPreviousAttributesInput](CheckoutBuyerContactPreviousAttributesInput.md)
 - [CheckoutBuyerContactRequestInput](CheckoutBuyerContactRequestInput.md)
@@ -98,8 +102,4 @@
 - [CloseGiftCardRequestInput](CloseGiftCardRequestInput.md)
 - [CloseOrderRequestInput](CloseOrderRequestInput.md)
 - [CollectInvoiceRequestInput](CollectInvoiceRequestInput.md)
-- [CollectInvoiceResponseInput](CollectInvoiceResponseInput.md)
-- [CollectInvoiceResultInput](CollectInvoiceResultInput.md)
-- [CommitInventoryReservationRequestInput](CommitInventoryReservationRequestInput.md)
-- [CompleteFulfillmentRequestInput](CompleteFulfillmentRequestInput.md)
 

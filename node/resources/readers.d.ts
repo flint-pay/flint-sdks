@@ -5,15 +5,17 @@ import type {
     ReaderConnectionSession,
     ReaderConnectionSessionResponse,
     ReaderListResponse,
-    ReaderResponse,
+    ReaderResponse
+} from '../declarations/types-59.js';
+import type {
     ReadersCreateConnectionSessionParams,
     ReadersCreateParams,
     ReadersDeleteParams,
     ReadersGetParams,
     ReadersListParams,
-    ReadersSimulateParams
-} from '../declarations/types-59.js';
-import type { ReadersUpdateParams } from '../declarations/types-60.js';
+    ReadersSimulateParams,
+    ReadersUpdateParams
+} from '../declarations/types-60.js';
 import type { RequestOptions } from '../declarations/types-62.js';
 import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
@@ -32,35 +34,39 @@ export type {
 } from '../runtime.js';
 export type {
     ReadersCreateParams,
-    Reader,
-    ReaderResponse,
     ReadersCreateConnectionSessionParams,
-    ReaderConnectionSession,
-    ReaderConnectionSessionResponse,
     ReadersDeleteParams,
     ReadersGetParams,
     ReadersListParams,
-    ReaderListResponse,
     ReadersSimulateParams,
+    ReadersUpdateParams,
+    ReadinessMerchantAccountSession
+} from '../declarations/types-60.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type {
+    Reader,
+    ReaderResponse,
+    ReaderConnectionSession,
+    ReaderConnectionSessionResponse,
+    ReaderListResponse,
     ReaderConnectivity,
     ReaderConnectionSessionClientSession,
     ReaderConnectionSessionStripe
 } from '../declarations/types-59.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
-export type { ReadersUpdateParams, ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateReaderRequestInput } from '../declarations/types-12.js';
-export type { CreateSmartReaderRequestInput, CreateTapToPayReaderRequestInput, Credentials } from '../declarations/types-14.js';
+export type { CreateSmartReaderRequestInput, CreateTapToPayReaderRequestInput } from '../declarations/types-14.js';
 export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { AuthMode } from '../declarations/types-1.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { NextAction, MoneyValue, MoneyValueInput } from '../declarations/types-44.js';
 export type { SimulateReaderRequestInput } from '../declarations/types-68.js';
 export type { UpdateReaderRequestInput } from '../declarations/types-77.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
-export { makeCreateReaderRequest } from '../declarations/types-83.js';
-export { makeCreateSmartReaderRequest, makeCreateTapToPayReaderRequest } from '../declarations/types-84.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeCreateReaderRequest, makeCreateSmartReaderRequest } from '../declarations/types-84.js';
+export { makeCreateTapToPayReaderRequest } from '../declarations/types-85.js';
+export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
 export { makeSimulateReaderRequest } from '../declarations/types-92.js';
 export { makeUpdateReaderRequest } from '../declarations/types-94.js';
 export interface ReadersResource {

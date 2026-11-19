@@ -1,7 +1,11 @@
 [Model index](../MODELS.md)
 
-# CreateGiftCardRedemptionRequestAutomaticInput to CreateOrderLineItemInputBundle
+# CreateGiftCardNotificationRequestInput to CreateOrderEditResult
 
+- [CreateGiftCardNotificationRequestInput](CreateGiftCardNotificationRequestInput.md)
+- [CreateGiftCardRedemptionRequest](CreateGiftCardRedemptionRequest.md)
+- [CreateGiftCardRedemptionRequestInput](CreateGiftCardRedemptionRequestInput.md)
+- [CreateGiftCardRedemptionRequestAutomatic](CreateGiftCardRedemptionRequestAutomatic.md)
 - [CreateGiftCardRedemptionRequestAutomaticInput](CreateGiftCardRedemptionRequestAutomaticInput.md)
 - [CreateGiftCardRedemptionRequestManual](CreateGiftCardRedemptionRequestManual.md)
 - [CreateGiftCardRedemptionRequestManualInput](CreateGiftCardRedemptionRequestManualInput.md)
@@ -98,8 +102,4 @@
 - [CreateOrderEditRequestInput](CreateOrderEditRequestInput.md)
 - [CreateOrderEditResponse](CreateOrderEditResponse.md)
 - [CreateOrderEditResult](CreateOrderEditResult.md)
-- [CreateOrderLineItem](CreateOrderLineItem.md)
-- [CreateOrderLineItemBundle](CreateOrderLineItemBundle.md)
-- [CreateOrderLineItemCustom](CreateOrderLineItemCustom.md)
-- [CreateOrderLineItemInputBundle](CreateOrderLineItemInputBundle.md)
 

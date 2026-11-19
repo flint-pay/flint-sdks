@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# BuyerCreateReturnPreviewRequestInput to BuyerRememberedBuyer
+# BuyerCheckoutSessionWithSecret to BuyerRefundPreviousAttributes
 
+- [BuyerCheckoutSessionWithSecret](BuyerCheckoutSessionWithSecret.md)
+- [BuyerCreateReturnPreviewRequest](BuyerCreateReturnPreviewRequest.md)
 - [BuyerCreateReturnPreviewRequestInput](BuyerCreateReturnPreviewRequestInput.md)
 - [BuyerCreateReturnPreviewRequestEligibility](BuyerCreateReturnPreviewRequestEligibility.md)
 - [BuyerCreateReturnPreviewRequestEligibilityInput](BuyerCreateReturnPreviewRequestEligibilityInput.md)
@@ -100,6 +102,4 @@
 - [BuyerRefund](BuyerRefund.md)
 - [BuyerRefundListResponse](BuyerRefundListResponse.md)
 - [BuyerRefundPreviousAttributes](BuyerRefundPreviousAttributes.md)
-- [BuyerRefundResponse](BuyerRefundResponse.md)
-- [BuyerRememberedBuyer](BuyerRememberedBuyer.md)
 

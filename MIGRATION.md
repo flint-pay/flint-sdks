@@ -1,6 +1,6 @@
 # SDK 8.0.0
 
-This guide covers upgrading from `7.0.0` to the `8.0.0-beta.8` prerelease. The breaking changes have no deprecated aliases or compatibility overloads. Install `@flintpay/node@8.0.0-beta.8` or `flintpay/flint:8.0.0-beta.8`. The API date is `2026-09-07`; see `sdk.lock.json` for the pinned Flint `main` revision. Stable releases pin the backend commit serving production.
+This guide covers upgrading from `7.0.0` to the `8.0.0-beta.9` prerelease. The breaking changes have no deprecated aliases or compatibility overloads. Install `@flintpay/node@8.0.0-beta.9` or `flintpay/flint:8.0.0-beta.9`. The API date is `2026-09-07`; see `sdk.lock.json` for the pinned Flint `main` revision. Stable releases pin the backend commit serving production.
 
 TypeScript reports most of these changes as compile errors, so run `tsc` after upgrading and work through the output. PHP reports them when the call runs; use the search patterns in [Finding call sites](#finding-call-sites).
 
@@ -14,6 +14,15 @@ What changed, most common first:
 - [Results](#results-carry-lastresponse): results carry `lastResponse`, and the `*WithResponse` methods are removed.
 - [Credentials](#credentials): a credential option passed empty throws instead of falling back to the environment.
 - [Type names](#type-names), [examples](#examples-and-the-default-host), [packaging](#packaging) and [API contract changes](#api-contract-changes-in-800).
+
+## Changes in 8.0.0-beta.9
+
+- Pass currency codes such as `USD` and use `page_size` on list calls. Both SDKs now explain these corrections when they reject the request locally.
+- Supply both `amount` and `currency` when setting payment intent amounts, Quick Pay prices, or payment-link price overrides. The generated request models now enforce the documented money shape.
+- When updating a Quick Pay invoice draft with `invoices.update`, send `quick_pay` with `expected_order_version` from the invoice's order. Use the current version after each update.
+- Use the same currency for the minimum, maximum, and suggested amounts on donation links. A maximum and each suggested amount must be positive. Send `null` to clear the maximum on an update.
+- Handle both results from `webhookEndpoints.createTestEvent`. When `delivery_method` is `listener_stream`, read the `webhook_event_id`. This result confirms publication to the stream.
+- Check for `checkout_billing_contact` before reading billing details on order responses or order webhook snapshots. Re-run TypeScript type checking or PHP integration tests for affected model and webhook handlers.
 
 ## Changes in 8.0.0-beta.8
 

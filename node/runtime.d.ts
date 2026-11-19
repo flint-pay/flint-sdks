@@ -384,6 +384,7 @@ type CodecMode = {
 export type CodecContext = CodecMode
     & {
     path?: string;
+    dictionaryValue?: boolean;
     sensitive?: boolean;
     redactFields?: string[];
     definitions?: Readonly<Record<string, CodecPlan>>;

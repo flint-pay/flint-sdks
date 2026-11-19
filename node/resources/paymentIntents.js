@@ -5,16 +5,28 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/paymentIntents.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
+import r0 from '../descriptors/resources/paymentIntents.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
+import settings from '../descriptors/settings.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["cancelPaymentIntent"]:r0,["capturePaymentIntent"]:r0,["confirmPaymentIntent"]:r0,["createPaymentIntent"]:r0,["getPaymentIntent"]:r0,["listPaymentIntentActivities"]:r0,["listPaymentIntents"]:r0,["sendPaymentIntentReceipt"]:r0,["updatePaymentIntent"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["blockPaymentIntentAttemptSignals"]:r0,["cancelPaymentIntent"]:r0,["capturePaymentIntent"]:r0,["confirmPaymentIntent"]:r0,["createPaymentIntent"]:r0,["getPaymentIntent"]:r0,["listPaymentIntentActivities"]:r0,["listPaymentIntents"]:r0,["sendPaymentIntentReceipt"]:r0,["updatePaymentIntent"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.paymentIntents = Object.freeze({
+      blockAttemptSignals: async (payment_intent_id, payment_attempt_id, params, options) => this.#runtime.request("blockPaymentIntentAttemptSignals", _sdkRequestInput([
+  "payment_intent_id",
+  "payment_attempt_id"
+], [payment_intent_id, payment_attempt_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("blockPaymentIntentAttemptSignals", result, path))),
       cancel: async (payment_intent_id, params, options) => this.#runtime.request("cancelPaymentIntent", _sdkRequestInput([
   "payment_intent_id"
 ], [payment_intent_id], [
@@ -275,6 +287,7 @@ export { makeCapturePaymentIntentRequest } from '../models/CapturePaymentIntentR
 export { makeCapturePaymentSplitRequest } from '../models/CapturePaymentSplitRequest.js';
 export { makeConfirmPaymentIntentRequest } from '../models/ConfirmPaymentIntentRequest.js';
 export { makeCreatePaymentIntentRequest } from '../models/CreatePaymentIntentRequest.js';
+export { makeMetadataMap } from '../models/MetadataMap.js';
 export { makeMetadataPatchRequest } from '../models/MetadataPatchRequest.js';
 export { makeMetadataRequest } from '../models/MetadataRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';

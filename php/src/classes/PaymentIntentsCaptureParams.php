@@ -2,21 +2,21 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $amount_money
+ * @property-read array{'amount': string, 'currency': string}|object $amount_money
  * @property-read int $expected_version
- * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $final_amount_money
+ * @property-read array{'amount': string, 'currency': string}|object $final_amount_money
  * @property-read PlatformFeeRequestInput|array<array-key, mixed>|\stdClass $platform_fee
  * @property-read list<CapturePaymentSplitRequestInput|array<array-key, mixed>|\stdClass> $splits
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $tip_money
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentIntentsCaptureParams extends Model {
-    /** @param array{'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'expected_version'?: int, 'final_amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'platform_fee'?: PlatformFeeRequestInput|array<array-key, mixed>|\stdClass, 'splits'?: list<CapturePaymentSplitRequestInput|array<array-key, mixed>|\stdClass>, 'tip_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
+    /** @param array{'amount_money'?: array{'amount': string, 'currency': string}|object, 'expected_version'?: int, 'final_amount_money'?: array{'amount': string, 'currency': string}|object, 'platform_fee'?: PlatformFeeRequestInput|array<array-key, mixed>|\stdClass, 'splits'?: list<CapturePaymentSplitRequestInput|array<array-key, mixed>|\stdClass>, 'tip_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentIntentsCaptureParams')); }
-    /** Amount to capture, in the authorization's currency. Omit it to capture all of capturable_money. A smaller amount is a partial capture: Flint releases the rest in the same request, and the payment intent can't be captured again. Must be greater than zero and at most capturable_money. Affirm payments can only be captured in full. Can't be combined with final_amount_money or tip_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
+    /** Amount to capture, in the authorization's currency. Omit it to capture all of capturable_money. A smaller amount is a partial capture: Flint releases the rest in the same request, and the payment intent can't be captured again. Must be greater than zero and at most capturable_money. Affirm payments can only be captured in full. Can't be combined with final_amount_money or tip_money. amount (Required): integer string. Positive amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1. currency (Required): string. Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     * @return array{'amount': string, 'currency': string}|object
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */
-    public function getAmountMoney(): mixed { return $this->get('amount_money'); }
+    public function getAmountMoney(): array|object { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
     /** Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the request before retrying. Format: uint64. minimum: 1.
      * @return int
@@ -24,11 +24,11 @@ final class PaymentIntentsCaptureParams extends Model {
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** The bill without the tip. The capture collects final_amount_money plus tip_money in one charge. With only tip_money, the bill is the authorization minus the tip it carries; when the authorization is all tip, final_amount_money is required. Must be greater than zero, in the payment's currency. On an order's payment, it is at most the authorization minus the tip it carries, so the order's items, charges and tax can't grow; above it LIMIT_EXCEEDED with maximum_money on final_amount_money. The order releases the difference. Not accepted on Affirm or ACH debit payments. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
+    /** The bill without the tip. The capture collects final_amount_money plus tip_money in one charge. With only tip_money, the bill is the authorization minus the tip it carries; when the authorization is all tip, final_amount_money is required. Must be greater than zero, in the payment's currency. On an order's payment, it is at most the authorization minus the tip it carries, so the order's items, charges and tax can't grow; above it LIMIT_EXCEEDED with maximum_money on final_amount_money. The order releases the difference. Not accepted on Affirm or ACH debit payments. amount (Required): integer string. Positive amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1. currency (Required): string. Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     * @return array{'amount': string, 'currency': string}|object
      * @throws SdkError When final_amount_money is omitted; use hasFinalAmountMoney() or valueOrDefault().
      */
-    public function getFinalAmountMoney(): mixed { return $this->get('final_amount_money'); }
+    public function getFinalAmountMoney(): array|object { return $this->get('final_amount_money'); }
     public function hasFinalAmountMoney(): bool { return $this->has('final_amount_money'); }
     /** A platform fee your partner app charges on this payment, set when you know the final bill and tip. Only the partner app install token that created the payment can send it; from any other credential it is INVALID_REQUEST with NOT_ALLOWED on platform_fee. It replaces the fee the payment was created with, or adds one if it had none, after the same consent, capability and currency checks as at create: amount_money.amount must be at least 1 minor unit, otherwise INVALID_REQUEST with INVALID_VALUE on platform_fee.amount_money.amount. Its currency must match the payment's currency, otherwise INVALID_REQUEST with INVALID_VALUE on platform_fee.amount_money. Omit platform_fee to keep the existing fee. Without an approved cap in this currency it is ACTION_NOT_ALLOWED with reason platform_fee_consent_required; in live mode the partner app's platform_fees capability must be active. A fee that already ended is ACTION_NOT_ALLOWED with reason terminal_status. The cap and Flint's own fees apply to the captured total, so Flint lowers the fee rather than refusing the capture. A payment that belongs to an order can't take it at capture: INVALID_REQUEST with NOT_ALLOWED on platform_fee. Part of the request fingerprint. See [Platform fees](/docs/guides/platform-fees). A platform fee the partner app charges on the payment, beside Flint's fees. The installed merchant pays it, and Flint takes no share of it.
      * @return PlatformFeeRequestInput|array<array-key, mixed>|\stdClass

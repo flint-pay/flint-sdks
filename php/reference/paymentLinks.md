@@ -31,9 +31,9 @@ Body model: [CreatePaymentLinkRequestInput](../models/CreatePaymentLinkRequestIn
 | `custom_text` | Optional | [PaymentLinkCustomTextConfigInput](../models/PaymentLinkCustomTextConfigInput.md#paymentlinkcustomtextconfiginput) | Custom text for checkouts started from this link. Custom text shown on a payment link's checkout, such as the order summary message and shipping address label. |
 | `delivery_method_ids` | Optional | Array of string | Complete delivery method selection for the link. A link without delivery methods offers settings.checkout.default_delivery_method_ids when its order has items to deliver. Send an empty array to clear the selection. Omit it on PATCH to leave the selection unchanged. Null and duplicate IDs are not accepted. Create, activation, and edits to items, delivery methods, or inventory routing require explicit methods or checkout defaults to cover the items' delivery profiles; otherwise ACTION_NOT_ALLOWED with reason configuration_required is returned. maxItems: `25`. uniqueItems: `true`. Items: minLength: `1`. |
 | `description` | Optional | string | Text about what the link sells, returned to buyers when they open it. minLength: `1`. maxLength: `2048`. |
-| `donation_max_amount_money` | Optional | [MoneyValueInput](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) | Largest amount a buyer can give on a donation link. Must be greater than zero and greater than or equal to donation_min_amount_money. Omit on create for no maximum. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `donation_max_amount_money` | Optional | object | Largest amount a buyer can give on a donation link. Must be greater than zero and greater than or equal to donation_min_amount_money. Omit on create for no maximum. |
 | `donation_min_amount_money` | Optional | [MoneyValueInput](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) | Smallest amount a buyer can give on a donation link. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `donation_suggested_amount_money_options` | Optional | Array of [MoneyValueInput](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) | Amounts a donation link offers as one-tap choices. |
+| `donation_suggested_amount_money_options` | Optional | Array of object | Amounts a donation link offers as one-tap choices. Use the same currency for all suggested amounts and both bounds. |
 | `event_config` | Optional | [PaymentLinkEventConfigRequestInput](../models/PaymentLinkEventConfigRequestInput.md#paymentlinkeventconfigrequestinput) | Event details for an `event` link: when and where it takes place and how many tickets it sells. Event settings you supply when creating an event payment link. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `image` | Optional | [ImageRequestInput](../models/ImageRequestInput.md#imagerequestinput) | Image shown to buyers with the link. An image you supply by `source_url`, with optional `alt` text and external reference. |
@@ -297,7 +297,7 @@ Body model: [ResolvePaymentLinkRequestInput](../models/ResolvePaymentLinkRequest
 | `quantity_overrides` | Optional | Map of integer | Quantities keyed by line item key (line_items[].key), each within that item's min_quantity and max_quantity. Event tiers accept 0. Whole-number quantities; fractional quantities are not supported. Map values: Whole-number quantity value; fractional quantities are not supported. Format: `int32`. |
 | `resolution_context` | Required | string | Private resolution context returned by GET /v1/payment-links/{payment_link_id}/public. Send it unchanged when resolving the same link; read the link again after checkout_start_due_at. minLength: `1`. |
 | `subscription_terms` | Optional | [CheckoutSubscriptionTermsRequestInput](../models/CheckoutSubscriptionTermsRequestInput.md#checkoutsubscriptiontermsrequestinput) | Buyer choices for a subscription plan link. Line quantities must obey the plan line adjustment policy exposed by subscription_preview.line_items. Subscription choices for a checkout session: billing interval, interval count, line quantities, and gift recipient. |
-| `unit_price_overrides` | Optional | Map of [MoneyValueInput](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) | Prices keyed by line item key, for items with allow_unit_price_adjustment, between min_unit_price_money and max_unit_price_money. A donation link has one line item, keyed donation. |
+| `unit_price_overrides` | Optional | Map of object | Positive prices keyed by line item key, for items with allow_unit_price_adjustment, between min_unit_price_money and max_unit_price_money. A donation link has one line item, keyed donation. |
 | `variant_selections` | Optional | Map of string | Variant IDs keyed by line item key (line_items[].key), for lines with variant_ids. Each selection must be offered by that line and priced in its current currency. Omit a key to use default_variant_id; a line without a default requires a selection. Null is not accepted. Map values: minLength: `1`. pattern: `^var_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
@@ -339,7 +339,31 @@ Authentication modes: none (anonymous). [Credential setup](../RUNTIME.md#authent
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->paymentLinks->resolve('pl_01KEZF7C007WDMA5P9BPZ8J2AM', [
-  'resolution_context' => 'example',
+  'custom_field_values' => (object) [
+    'meal_preference' => 'Vegetarian',
+  ],
+  'modifiers' => (object) [
+    'general-admission' => (object) [
+      'modifiers' => [
+        (object) [
+          'modifier_id' => 'mod_01KEZF7C00HP1041X7TDG6WRV5',
+          'quantity' => 1,
+          'type' => 'catalog',
+        ],
+        (object) [
+          'text' => (object) [
+            'modifier_group_id' => 'mg_01KEZF7C00VBHD29DTPF4QBB6V',
+            'value' => 'Extra hot',
+          ],
+          'type' => 'text',
+        ],
+      ],
+    ],
+  ],
+  'quantity_overrides' => (object) [
+    'general-admission' => 2,
+  ],
+  'resolution_context' => 'plrc_v1.example_signed_resolution_context',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
@@ -375,9 +399,9 @@ Body model: [UpdatePaymentLinkRequestInput](../models/UpdatePaymentLinkRequestIn
 | `custom_text` | Optional | [PaymentLinkCustomTextPatchRequestInput](../models/PaymentLinkCustomTextPatchRequestInput.md#paymentlinkcustomtextpatchrequestinput) | Custom text for checkouts started from this link. Changes to a payment link's custom checkout text. Send null to clear a field. |
 | `delivery_method_ids` | Optional | Array of string | Complete delivery method selection for the link. A link without delivery methods offers settings.checkout.default_delivery_method_ids when its order has items to deliver. Send an empty array to clear the selection. Omit it on PATCH to leave the selection unchanged. Null and duplicate IDs are not accepted. Create, activation, and edits to items, delivery methods, or inventory routing require explicit methods or checkout defaults to cover the items' delivery profiles; otherwise ACTION_NOT_ALLOWED with reason configuration_required is returned. maxItems: `25`. uniqueItems: `true`. Items: minLength: `1`. |
 | `description` | Optional | string or null | Text about what the link sells, returned to buyers when they open it. Send null to clear. minLength: `1`. maxLength: `2048`. |
-| `donation_max_amount_money` | Optional | [MoneyValueInput](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) or null | Maximum donation amount. Must be greater than zero and greater than or equal to donation_min_amount_money. Send null to clear the maximum. |
+| `donation_max_amount_money` | Optional | object or null | Maximum donation amount. Must be greater than zero and greater than or equal to donation_min_amount_money. Send null to clear the maximum. |
 | `donation_min_amount_money` | Optional | [MoneyValueInput](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) or null | Minimum donation amount. Send null to clear the minimum. Send null to clear. |
-| `donation_suggested_amount_money_options` | Optional | Array of [MoneyValueInput](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) | Suggested donation amounts. Send an empty array to clear suggested amounts. |
+| `donation_suggested_amount_money_options` | Optional | Array of object | Suggested donation amounts. Send an empty array to clear suggested amounts. |
 | `event_config` | Optional | [PaymentLinkEventConfigPatchRequestInput](../models/PaymentLinkEventConfigPatchRequestInput.md#paymentlinkeventconfigpatchrequestinput) | Event configuration patch. Omit to leave unchanged. The whole configuration cannot be cleared; null is not accepted. Changes to an event payment link's settings. Send null on a nullable field to clear it. |
 | `expected_version` | Optional | integer | Payment link version last read by the caller. Required when line_items, custom_fields, or delivery_method_ids is present. Required when any of these fields is present: line_items, custom_fields, delivery_method_ids. Format: `int64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear. minLength: `1`. maxLength: `255`. |

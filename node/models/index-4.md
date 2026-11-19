@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# CancelReturnRequest to CheckoutSessionTax
+# CancelReturnLineItemRequest to CheckoutSessionPartiallyPaidInstalledMerchantsEvent
 
+- [CancelReturnLineItemRequest](CancelReturnLineItemRequest.md)
+- [CancelReturnLineItemRequestInput](CancelReturnLineItemRequestInput.md)
 - [CancelReturnRequest](CancelReturnRequest.md)
 - [CancelReturnRequestInput](CancelReturnRequestInput.md)
 - [CancelReturnResolutionRequestInput](CancelReturnResolutionRequestInput.md)
@@ -41,6 +43,8 @@
 - [ChangeSubscriptionQuantityRequestInput](ChangeSubscriptionQuantityRequestInput.md)
 - [CheckInTicketRequest](CheckInTicketRequest.md)
 - [CheckInTicketRequestInput](CheckInTicketRequestInput.md)
+- [CheckoutBillingContact](CheckoutBillingContact.md)
+- [CheckoutBillingContactPreviousAttributes](CheckoutBillingContactPreviousAttributes.md)
 - [CheckoutBuyerContact](CheckoutBuyerContact.md)
 - [CheckoutBuyerContactPreviousAttributes](CheckoutBuyerContactPreviousAttributes.md)
 - [CheckoutBuyerContactRequest](CheckoutBuyerContactRequest.md)
@@ -98,8 +102,4 @@
 - [CheckoutSessionPaidInstalledMerchantsEvent](CheckoutSessionPaidInstalledMerchantsEvent.md)
 - [CheckoutSessionPaidMerchantEvent](CheckoutSessionPaidMerchantEvent.md)
 - [CheckoutSessionPartiallyPaidInstalledMerchantsEvent](CheckoutSessionPartiallyPaidInstalledMerchantsEvent.md)
-- [CheckoutSessionPartiallyPaidMerchantEvent](CheckoutSessionPartiallyPaidMerchantEvent.md)
-- [CheckoutSessionPlatformFee](CheckoutSessionPlatformFee.md)
-- [CheckoutSessionResponse](CheckoutSessionResponse.md)
-- [CheckoutSessionTax](CheckoutSessionTax.md)
 

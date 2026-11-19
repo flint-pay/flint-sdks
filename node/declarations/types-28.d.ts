@@ -1,23 +1,35 @@
-import type { CreatePackageItemRequest, CreatePackageItemRequestInput } from './types-12.js';
 import type {
+    ExpandedOrderSummary,
+    ExpandedOrderSummaryPreviousAttributes,
+    ExpandedPackageSummaryPreviousAttributes,
+    ExpandedPackageSummary
+} from './types-26.js';
+import type { MetadataMap, MetadataRequestInput, MerchantWebhookEnvelope } from './types-43.js';
+import type { ResponseMeta } from './types-62.js';
+import type { InputValue } from '../runtime.js';
+import type {
+    FulfillmentEventsGetParams,
     FulfillmentItemizedPackagesRequest,
     FulfillmentItemizedPackagesRequestInput,
+    ExpandedShipmentSummaryPreviousAttributes,
     FulfillmentChargeLinkPreviousAttributes,
     FulfillmentHoldPreviousAttributes,
     FulfillmentLineItemPreviousAttributes,
     Fulfillment,
+    ExpandedShipmentSummary,
     FulfillmentChargeLink,
     FulfillmentHold,
     FulfillmentLineItem,
     FailFulfillmentRequestInput
 } from './types-27.js';
-import type { MetadataMap, MetadataRequestInput, MerchantWebhookEnvelope } from './types-43.js';
+import type { CreatePackageItemRequest, CreatePackageItemRequestInput } from './types-12.js';
 import type { PackageCreateRequest, PackageCreateRequestInput } from './types-48.js';
 import type {
     SinglePackageCreateRequest,
     SinglePackageCreateRequestInput,
     ServiceFulfillmentDetailsPreviousAttributes,
     ShipmentFulfillmentDetailsPreviousAttributes,
+    ServiceFulfillmentDetails,
     ShipmentFulfillmentDetails,
     StartFulfillmentRequestInput
 } from './types-68.js';
@@ -27,15 +39,6 @@ import type {
     DigitalFulfillmentDetails,
     DispatchFulfillmentRequestInput
 } from './types-25.js';
-import type {
-    ExpandedOrderSummaryPreviousAttributes,
-    ExpandedPackageSummaryPreviousAttributes,
-    ExpandedShipmentSummaryPreviousAttributes,
-    ExpandedOrderSummary,
-    ExpandedPackageSummary,
-    ExpandedShipmentSummary,
-    DisputesAcceptParams
-} from './types-26.js';
 import type { PickupFulfillmentDetailsPreviousAttributes, PickupFulfillmentDetails } from './types-55.js';
 import type {
     Address,
@@ -44,10 +47,7 @@ import type {
     AddressRequestInput,
     AcceptFulfillmentRequestInput
 } from './types-0.js';
-import type { ResponseMeta } from './types-62.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
-import type { ServiceFulfillmentDetails, ScheduleFulfillmentRequestInput } from './types-67.js';
-import type { InputValue } from '../runtime.js';
 import type { CancelFulfillmentRequestInput } from './types-4.js';
 import type { CompleteFulfillmentRequestInput } from './types-7.js';
 import type { CreateFulfillmentRequestInput, CreateGiftCardFundingDispositionRequestInput } from './types-10.js';
@@ -58,15 +58,318 @@ import type {
     MarkFulfillmentPickedRequestInput,
     MarkFulfillmentPreparingRequestInput,
     MarkFulfillmentReadyRequestInput
-} from './types-40.js';
+} from './types-41.js';
 import type { ReleaseFulfillmentHoldRequestInput } from './types-61.js';
+import type { ScheduleFulfillmentRequestInput } from './types-67.js';
 import type { UpdateFulfillmentRequestInput } from './types-76.js';
-import type { ReturnDisposition, ReturnInspection, ReturnLineItem } from './types-63.js';
-import type { ReturnPolicy, ReturnPolicyRevision, ReturnReason, ReturnReceipt } from './types-64.js';
-import type { ReturnResolution, ReturnResource } from './types-65.js';
+import type { ReturnDisposition, ReturnInspection } from './types-63.js';
+import type { ReturnLineItem, ReturnPolicy, ReturnPolicyRevision, ReturnReason, ReturnReceipt } from './types-64.js';
+import type { ReturnResolution } from './types-65.js';
+import type { ReturnResource } from './types-66.js';
 import type { GiftCardRestriction } from './types-30.js';
 import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
-import type { GiftCardFundingLossResolutionPreviousAttributes } from './types-29.js';
+/** A message sent about an order's fulfillment. */
+export type FulfillmentNotification = {
+    /**
+     * How Flint sends this notification. - `email`: Sends the notification to recipient_email.
+     * Value enum: "email".
+     */
+    "channel": "email" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "failed_at"?: string;
+    /**
+     * ID of the fulfillment event that triggered the notification. Example:
+     * "fev_01KEZF7C002XK9D7X3239ERT51".
+     */
+    "fulfillment_event_id"?: string;
+    /**
+     * ID of the fulfillment the notification is about. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+     */
+    "fulfillment_id": string;
+    /**
+     * Unique identifier for this fulfillment notification, prefixed `fnt_`. Example:
+     * "fnt_01KEZF7C00QD91RXQH2E7H9K5E".
+     */
+    "fulfillment_notification_id": string;
+    /**
+     * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * The buyer update this notification communicates. - `fulfillment_ready`: The fulfillment is
+     * ready for pickup. - `fulfillment_dispatched`: The fulfillment was dispatched. -
+     * `fulfillment_completed`: The fulfillment was completed. - `fulfillment_canceled`: The
+     * fulfillment was canceled. - `fulfillment_failed`: The fulfillment failed. -
+     * `fulfillment_no_show`: A service appointment was missed. - `fulfillment_shipped`: The
+     * fulfillment was shipped. - `fulfillment_delivered`: The fulfillment was delivered. -
+     * `shipment_shipped`: A shipment was shipped. - `shipment_out_for_delivery`: A shipment is out
+     * for delivery. - `shipment_delivered`: A shipment was delivered. -
+     * `shipment_delivery_attempted`: A carrier attempted to deliver a shipment. -
+     * `shipment_exception`: A shipment has a delivery exception. - `shipment_returned`: A shipment
+     * was returned. Value enum: "fulfillment_ready", "fulfillment_dispatched",
+     * "fulfillment_completed", "fulfillment_canceled", "fulfillment_failed",
+     * "fulfillment_no_show", "fulfillment_shipped", "fulfillment_delivered", "shipment_shipped",
+     * "shipment_out_for_delivery", "shipment_delivered", "shipment_delivery_attempted",
+     * "shipment_exception", "shipment_returned".
+     */
+    "notification_type": "fulfillment_ready"
+        | "fulfillment_dispatched"
+        | "fulfillment_completed"
+        | "fulfillment_canceled"
+        | "fulfillment_failed"
+        | "fulfillment_no_show"
+        | "fulfillment_shipped"
+        | "fulfillment_delivered"
+        | "shipment_shipped"
+        | "shipment_out_for_delivery"
+        | "shipment_delivered"
+        | "shipment_delivery_attempted"
+        | "shipment_exception"
+        | "shipment_returned"
+        | (string & {});
+    /**
+     * Present only when `expand` includes `order`; `null` when expanded and there is no related
+     * order. anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields, including
+     * status, payment and refund status, and pricing and settlement amounts, returned when the
+     * order is expanded. anyOf[2] (Value): null.
+     */
+    "order"?: ((ExpandedOrderSummary) | (null));
+    /** ID of the order the notification is about. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+    "order_id": string;
+    /**
+     * ID of the package the notification is about, when it concerns a package. Example:
+     * "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R".
+     */
+    "package_id"?: string;
+    /**
+     * ID of the customer the notification was sent to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "recipient_customer_id"?: string;
+    /** Email address the notification was sent to. */
+    "recipient_email"?: string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "sent_at"?: string;
+    /**
+     * ID of the shipment the notification is about, when it concerns a shipment. Example:
+     * "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
+     */
+    "shipment_id"?: string;
+    /**
+     * Whether the notification's email is waiting to send, was sent, failed, or was suppressed.
+     * Value enum: "pending", "sent", "failed", "suppressed".
+     */
+    "status": "pending" | "sent" | "failed" | "suppressed" | (string & {});
+    /**
+     * Why Flint chose not to send this notification. - `source_suppressed`: The originating
+     * request suppressed buyer messaging. - `default_suppressed`: The configured default
+     * suppressed buyer messaging. - `recipient_missing`: No usable recipient was available. -
+     * `template_not_configured`: No notification template was configured. -
+     * `merchant_managed_email`: The merchant's integration owns this email. -
+     * `recipient_unsubscribed`: The recipient opted out of this notification. -
+     * `sandbox_daily_limit_reached`: Not sent because the sandbox reached its daily limit of buyer
+     * emails to addresses outside your team. Send to a team address, or wait for the next UTC day.
+     * Value enum: "source_suppressed", "default_suppressed", "recipient_missing",
+     * "template_not_configured", "merchant_managed_email", "recipient_unsubscribed",
+     * "sandbox_daily_limit_reached".
+     */
+    "suppression_reason"?: "source_suppressed"
+        | "default_suppressed"
+        | "recipient_missing"
+        | "template_not_configured"
+        | "merchant_managed_email"
+        | "recipient_unsubscribed"
+        | "sandbox_daily_limit_reached"
+        | (string & {});
+    /**
+     * What created this notification. - `fulfillment_status_updated`: Created by a fulfillment
+     * status transition. - `fulfillment_event_created`: Created by a fulfillment timeline event.
+     * Value enum: "fulfillment_status_updated", "fulfillment_event_created".
+     */
+    "trigger_type": "fulfillment_status_updated" | "fulfillment_event_created" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+};
+/** A page of `FulfillmentNotification` objects. */
+export type FulfillmentNotificationListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * FulfillmentNotification}. A message sent about an order's fulfillment.
+     */
+    "data": Array<FulfillmentNotification>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `FulfillmentNotification` data. */
+export type FulfillmentNotificationResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A message sent about an
+     * order's fulfillment.
+     */
+    "data": FulfillmentNotification;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type FulfillmentNotificationsGetParams = FulfillmentEventsGetParams;
+export type FulfillmentNotificationsListParams = {
+    /**
+     * Optional fulfillment ID filter. pattern: ^ful_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+     */
+    "fulfillment_id"?: InputValue<string>;
+    /**
+     * Optional order ID filter. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: InputValue<string>;
+    /**
+     * Optional fulfillment event ID filter. pattern: ^fev_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "fev_01KEZF7C002XK9D7X3239ERT51".
+     */
+    "fulfillment_event_id"?: InputValue<string>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Filter by notification channel. Values are trimmed and deduplicated in first-seen order;
+     * empty or unknown entries are rejected. Values within this filter are ORed; separate filters
+     * are ANDed. [] enum: "email". Value enum: "email". anyOf[1] (Value): Array of string.
+     * minItems: 1. [] enum: "email". anyOf[1][] (Value): string. Value enum: "email". anyOf[2]
+     * (Value): string. Value enum: "email".
+     */
+    "channel"?: InputValue<("email") | readonly ("email")[]>;
+    /**
+     * Filter by notification status. Values are trimmed and deduplicated in first-seen order;
+     * empty or unknown entries are rejected. Values within this filter are ORed; separate filters
+     * are ANDed. [] enum: "pending", "sent", "failed", "suppressed". Value enum: "pending",
+     * "sent", "failed", "suppressed". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
+     * "pending", "sent", "failed", "suppressed". anyOf[1][] (Value): string. Value enum:
+     * "pending", "sent", "failed", "suppressed". anyOf[2] (Value): string. Value enum: "pending",
+     * "sent", "failed", "suppressed".
+     */
+    "status"?: InputValue<("pending" | "sent" | "failed" | "suppressed")
+        | readonly ("pending" | "sent" | "failed" | "suppressed")[]>;
+    /**
+     * Filter by notification type. Values are trimmed and deduplicated in first-seen order; empty
+     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "fulfillment_canceled", "fulfillment_completed", "fulfillment_delivered",
+     * "fulfillment_dispatched", "fulfillment_failed", "fulfillment_no_show", "fulfillment_ready",
+     * "fulfillment_shipped", "shipment_delivered", "shipment_delivery_attempted",
+     * "shipment_exception", "shipment_out_for_delivery", "shipment_returned", "shipment_shipped".
+     * Value enum: "fulfillment_canceled", "fulfillment_completed", "fulfillment_delivered",
+     * "fulfillment_dispatched", "fulfillment_failed", "fulfillment_no_show", "fulfillment_ready",
+     * "fulfillment_shipped", "shipment_delivered", "shipment_delivery_attempted",
+     * "shipment_exception", "shipment_out_for_delivery", "shipment_returned", "shipment_shipped".
+     * anyOf[1] (Value): Array of string. minItems: 1. [] enum: "fulfillment_canceled",
+     * "fulfillment_completed", "fulfillment_delivered", "fulfillment_dispatched",
+     * "fulfillment_failed", "fulfillment_no_show", "fulfillment_ready", "fulfillment_shipped",
+     * "shipment_delivered", "shipment_delivery_attempted", "shipment_exception",
+     * "shipment_out_for_delivery", "shipment_returned", "shipment_shipped". anyOf[1][] (Value):
+     * string. Value enum: "fulfillment_canceled", "fulfillment_completed",
+     * "fulfillment_delivered", "fulfillment_dispatched", "fulfillment_failed",
+     * "fulfillment_no_show", "fulfillment_ready", "fulfillment_shipped", "shipment_delivered",
+     * "shipment_delivery_attempted", "shipment_exception", "shipment_out_for_delivery",
+     * "shipment_returned", "shipment_shipped". anyOf[2] (Value): string. Value enum:
+     * "fulfillment_canceled", "fulfillment_completed", "fulfillment_delivered",
+     * "fulfillment_dispatched", "fulfillment_failed", "fulfillment_no_show", "fulfillment_ready",
+     * "fulfillment_shipped", "shipment_delivered", "shipment_delivery_attempted",
+     * "shipment_exception", "shipment_out_for_delivery", "shipment_returned", "shipment_shipped".
+     */
+    "notification_type"?: InputValue<("fulfillment_canceled"
+        | "fulfillment_completed"
+        | "fulfillment_delivered"
+        | "fulfillment_dispatched"
+        | "fulfillment_failed"
+        | "fulfillment_no_show"
+        | "fulfillment_ready"
+        | "fulfillment_shipped"
+        | "shipment_delivered"
+        | "shipment_delivery_attempted"
+        | "shipment_exception"
+        | "shipment_out_for_delivery"
+        | "shipment_returned"
+        | "shipment_shipped")
+        | readonly ("fulfillment_canceled"
+        | "fulfillment_completed"
+        | "fulfillment_delivered"
+        | "fulfillment_dispatched"
+        | "fulfillment_failed"
+        | "fulfillment_no_show"
+        | "fulfillment_ready"
+        | "fulfillment_shipped"
+        | "shipment_delivered"
+        | "shipment_delivery_attempted"
+        | "shipment_exception"
+        | "shipment_out_for_delivery"
+        | "shipment_returned"
+        | "shipment_shipped")[]>;
+    /**
+     * Include related objects in the response. Supported expansions: order. Include the requested
+     * related resources using scoped batch reads for this page. Each relationship requires its
+     * existing target read scopes. Expansion changes the representation without changing
+     * pagination tokens. Limits: at most 10 unique expand paths per request. [] enum: "order".
+     * Value enum: "order". anyOf[1] (Value): Array of string. [] enum: "order". anyOf[1][]
+     * (Value): string. Value enum: "order". anyOf[2] (Value): string. Value enum: "order".
+     */
+    "expand"?: InputValue<("order") | readonly ("order")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
 /**
  * The terminal outcome recorded for a fulfillment, such as a no-show, with its reason, notes, and
  * when it occurred.
@@ -5780,159 +6083,4 @@ export type GiftCardFundingDispositionsCreateParams = (InputValue<CreateGiftCard
      * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
      */
     "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type GiftCardFundingDispositionsGetParams = DisputesAcceptParams;
-export type GiftCardFundingDispositionsListParams = {
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Exact, case-sensitive filter. maxLength: 255. pattern: ^du_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "du_01KEZF7C00DEJSF1KTXRT4BBQD".
-     */
-    "dispute_id"?: InputValue<string>;
-    /**
-     * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
-     * exact and case-sensitive. Returns only resources created in your caller namespace, plus
-     * resources created before caller scoping under the original key. Returns current authorized
-     * resources, not the recorded response. A pending resource does not prove that the operation
-     * succeeded, and an empty list does not prove that it had no effect. A match can show
-     * `idempotency_key: null` when that request sent no key, Flint created the resource, the
-     * reader isn't the caller that created it (another app install, a buyer, or the merchant
-     * reading an app's or buyer's record), or the caller that created an older record is unknown.
-     * minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
-     */
-    "idempotency_key"?: InputValue<string>;
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-/**
- * A dispute on the payment that funded a gift card load, with its status and any loss resolution.
- */
-export type GiftCardFundingDispute = {
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /**
-     * The dispute on the payment that funded this load. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD".
-     */
-    "dispute_id": string;
-    /**
-     * true when the dispute is lost and no funding disposition exists for it yet. Create one with
-     * POST /v1/gift-card-funding-dispositions.
-     */
-    "requires_resolution": boolean;
-    /**
-     * The funding disposition recorded for this lost dispute. `null` when you have not created one
-     * yet. anyOf[1] (Value): {@link GiftCardFundingLossResolution}. How a lost funding dispute was
-     * resolved for a gift card load, such as honoring the card's value, with a reason message.
-     * anyOf[2] (Value): null.
-     */
-    "resolution": ((GiftCardFundingLossResolution) | (null));
-    /**
-     * Where the dispute on the funding payment stands. Spending of the value it funded stays
-     * restricted while it is `open` or `lost`. Value enum: "open", "won", "lost".
-     */
-    "status": "open" | "won" | "lost" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-    /**
-     * Current version of this resource's owned state. Send it as `expected_version` when changing
-     * the resource to reject a stale write. Format: int64.
-     */
-    "version": number;
-};
-export type GiftCardFundingDisputePreviousAttributes = {
-    /**
-     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "created_at"?: ((string) | (null));
-    /**
-     * The dispute on the payment that funded this load. anyOf[1] (Value): string. The dispute on
-     * the payment that funded this load. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". anyOf[2]
-     * (Value): null.
-     */
-    "dispute_id"?: ((string) | (null));
-    /**
-     * true when the dispute is lost and no funding disposition exists for it yet. Create one with
-     * POST /v1/gift-card-funding-dispositions. anyOf[1] (Value): boolean. true when the dispute is
-     * lost and no funding disposition exists for it yet. Create one with POST
-     * /v1/gift-card-funding-dispositions. anyOf[2] (Value): null.
-     */
-    "requires_resolution"?: ((boolean) | (null));
-    /**
-     * The funding disposition recorded for this lost dispute. `null` when you have not created one
-     * yet. anyOf[1] (Value): {@link GiftCardFundingLossResolutionPreviousAttributes}. anyOf[2]
-     * (Value): null.
-     */
-    "resolution"?: ((GiftCardFundingLossResolutionPreviousAttributes) | (null));
-    /**
-     * Where the dispute on the funding payment stands. Spending of the value it funded stays
-     * restricted while it is `open` or `lost`. Value enum: "open", "won", "lost". anyOf[1]
-     * (Value): string. Where the dispute on the funding payment stands. Spending of the value it
-     * funded stays restricted while it is `open` or `lost`. Value enum: "open", "won", "lost".
-     * anyOf[2] (Value): null.
-     */
-    "status"?: (("open" | "won" | "lost" | (string & {})) | (null));
-    /**
-     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "updated_at"?: ((string) | (null));
-    /**
-     * Current version of this resource's owned state. Send it as `expected_version` when changing
-     * the resource to reject a stale write. anyOf[1] (Value): integer. Current version of this
-     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
-     * stale write. Format: int64. anyOf[2] (Value): null.
-     */
-    "version"?: ((number) | (null));
-};
-/**
- * How a lost funding dispute was resolved for a gift card load, such as honoring the card's value,
- * with a reason message.
- */
-export type GiftCardFundingLossResolution = {
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /**
-     * What the merchant decided about the card's value after the funding payment lost a dispute.
-     * Value enum: "honor_value".
-     */
-    "disposition": "honor_value" | (string & {});
-    /**
-     * ID of the funding disposition recorded for the lost dispute. Example:
-     * "gfd_01KEZF7C0077Q8RK3Q4FD2DTW8".
-     */
-    "gift_card_funding_disposition_id": string;
-    /** The note you gave when you created the disposition. */
-    "reason_message": string;
 };

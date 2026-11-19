@@ -1,7 +1,19 @@
 [Model index](../MODELS.md)
 
-# PlatformFeePayoutFailedEventData to BalanceTransactionCreatedMerchantEvent
+# PaymentSplitSucceededEventDataPreviousAttributes to BalanceUpdatedMerchantEventDataPreviousAttributes
 
+- [PaymentSplitSucceededEventDataPreviousAttributes](PaymentSplitSucceededEventDataPreviousAttributes.md)
+- [PaymentSplitSucceededEventData](PaymentSplitSucceededEventData.md)
+- [PaymentSplitSucceededEventRequest](PaymentSplitSucceededEventRequest.md)
+- [PaymentSplitUpdatedEventDataObject](PaymentSplitUpdatedEventDataObject.md)
+- [PaymentSplitUpdatedEventDataPreviousAttributes](PaymentSplitUpdatedEventDataPreviousAttributes.md)
+- [PaymentSplitUpdatedEventData](PaymentSplitUpdatedEventData.md)
+- [PaymentSplitUpdatedEventRequest](PaymentSplitUpdatedEventRequest.md)
+- [PlatformFeePayoutCreatedEventDataObject](PlatformFeePayoutCreatedEventDataObject.md)
+- [PlatformFeePayoutCreatedEventData](PlatformFeePayoutCreatedEventData.md)
+- [PlatformFeePayoutCreatedEventRequest](PlatformFeePayoutCreatedEventRequest.md)
+- [PlatformFeePayoutFailedEventDataObject](PlatformFeePayoutFailedEventDataObject.md)
+- [PlatformFeePayoutFailedEventDataPreviousAttributes](PlatformFeePayoutFailedEventDataPreviousAttributes.md)
 - [PlatformFeePayoutFailedEventData](PlatformFeePayoutFailedEventData.md)
 - [PlatformFeePayoutFailedEventRequest](PlatformFeePayoutFailedEventRequest.md)
 - [PlatformFeePayoutSucceededEventDataObject](PlatformFeePayoutSucceededEventDataObject.md)
@@ -90,16 +102,4 @@
 - [BalanceUpdatedMerchantEventDataObject](BalanceUpdatedMerchantEventDataObject.md)
 - [SignedMoneyPreviousAttributes](SignedMoneyPreviousAttributes.md)
 - [BalanceUpdatedMerchantEventDataPreviousAttributes](BalanceUpdatedMerchantEventDataPreviousAttributes.md)
-- [BalanceUpdatedMerchantEventData](BalanceUpdatedMerchantEventData.md)
-- [BalanceUpdatedMerchantEventRequest](BalanceUpdatedMerchantEventRequest.md)
-- [BalanceUpdatedMerchantEvent](BalanceUpdatedMerchantEvent.md)
-- [BalanceUpdatedInstalledMerchantsEventDataObject](BalanceUpdatedInstalledMerchantsEventDataObject.md)
-- [BalanceUpdatedInstalledMerchantsEventDataPreviousAttributes](BalanceUpdatedInstalledMerchantsEventDataPreviousAttributes.md)
-- [BalanceUpdatedInstalledMerchantsEventData](BalanceUpdatedInstalledMerchantsEventData.md)
-- [BalanceUpdatedInstalledMerchantsEventSource](BalanceUpdatedInstalledMerchantsEventSource.md)
-- [BalanceUpdatedInstalledMerchantsEvent](BalanceUpdatedInstalledMerchantsEvent.md)
-- [BalanceTransactionCreatedMerchantEventDataObject](BalanceTransactionCreatedMerchantEventDataObject.md)
-- [BalanceTransactionCreatedMerchantEventData](BalanceTransactionCreatedMerchantEventData.md)
-- [BalanceTransactionCreatedMerchantEventRequest](BalanceTransactionCreatedMerchantEventRequest.md)
-- [BalanceTransactionCreatedMerchantEvent](BalanceTransactionCreatedMerchantEvent.md)
 

@@ -63,7 +63,7 @@ final class CreateLocationRequestInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** IANA time zone for the Location's local schedules, such as `America/New_York`. Defaults to the merchant's timezone, then UTC, and is saved on the Location at creation. A live Location sets an unset merchant business time zone; sandbox Locations do not. minLength: 1.
+    /** IANA time zone for the Location's local schedules, such as `America/New_York`. Defaults to the merchant's timezone, a zone inferred from the Location address, then UTC. An explicit time zone on a live Location also sets an unset business time zone. minLength: 1.
      * @return string
      * @throws SdkError When timezone is omitted; use hasTimezone() or valueOrDefault().
      */

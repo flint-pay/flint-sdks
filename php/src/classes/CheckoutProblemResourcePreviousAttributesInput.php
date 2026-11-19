@@ -16,7 +16,7 @@ final class CheckoutProblemResourcePreviousAttributesInput extends Model {
      */
     public function getBlocksCompletion(): mixed { return $this->get('blocks_completion'); }
     public function hasBlocksCompletion(): bool { return $this->has('blocks_completion'); }
-    /** Which condition affects the checkout. Value enum: "delivery_selection_stale", "delivery_selection_invalid", "delivery_unreadable", "payment_in_progress". anyOf[1] (Value): string. Which condition affects the checkout. Value enum: "delivery_selection_stale", "delivery_selection_invalid", "delivery_unreadable", "payment_in_progress". anyOf[2] (Value): null.
+    /** Which condition affects the checkout. Value enum: "delivery_selection_stale", "delivery_selection_invalid", "delivery_unreadable", "payment_in_progress", "processor_payments_paused". anyOf[1] (Value): string. Which condition affects the checkout. Value enum: "delivery_selection_stale", "delivery_selection_invalid", "delivery_unreadable", "payment_in_progress", "processor_payments_paused". anyOf[2] (Value): null.
      * @return string|null
      * @throws SdkError When code is omitted; use hasCode() or valueOrDefault().
      */

@@ -6,7 +6,7 @@ import type {
     FulfillmentNotificationResponse,
     FulfillmentNotificationsGetParams,
     FulfillmentNotificationsListParams
-} from '../declarations/types-27.js';
+} from '../declarations/types-28.js';
 import type { RequestOptions } from '../declarations/types-62.js';
 import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
@@ -28,14 +28,13 @@ export type {
     FulfillmentNotification,
     FulfillmentNotificationResponse,
     FulfillmentNotificationsListParams,
-    FulfillmentNotificationListResponse,
-    FulfillmentEventsGetParams
-} from '../declarations/types-27.js';
+    FulfillmentNotificationListResponse
+} from '../declarations/types-28.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { MetadataMap } from '../declarations/types-43.js';
 export type { ExpandedOrderSummary } from '../declarations/types-26.js';
 export type { CheckoutBuyerContact } from '../declarations/types-6.js';
@@ -45,7 +44,8 @@ export type { MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { OrderSettlementAmounts } from '../declarations/types-47.js';
 export type { SettlementAmounts } from '../declarations/types-68.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export type { FulfillmentEventsGetParams } from '../declarations/types-27.js';
+export { makeMetadataMap, makeMoneyValue } from '../declarations/types-88.js';
 export interface FulfillmentNotificationsResource {
     /**
  * Retrieves one fulfillment notification audit record by ID.

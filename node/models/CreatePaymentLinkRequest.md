@@ -16,9 +16,9 @@ The request body for: Create payment link.
 | `custom_text` | Optional | [CheckoutCustomTextConfig](../models/CheckoutCustomTextConfig.md#checkoutcustomtextconfig) | Custom text for checkouts started from this link. Custom text shown on a payment link's checkout, such as the order summary message and shipping address label. `custom_text`: [field definitions](../models/CreatePaymentLinkRequest.md#createpaymentlinkrequestcustom_text). |
 | `delivery_method_ids` | Optional | Array of string | Complete delivery method selection for the link. A link without delivery methods offers settings.checkout.default_delivery_method_ids when its order has items to deliver. Send an empty array to clear the selection. Omit it on PATCH to leave the selection unchanged. Null and duplicate IDs are not accepted. Create, activation, and edits to items, delivery methods, or inventory routing require explicit methods or checkout defaults to cover the items' delivery profiles; otherwise ACTION_NOT_ALLOWED with reason configuration_required is returned. maxItems: `25`. uniqueItems: `true`. Items: minLength: `1`. Example: `"dmet_01KEZF7C00YSG3X2D1TZJ36TM0"`. |
 | `description` | Optional | string | Text about what the link sells, returned to buyers when they open it. minLength: `1`. maxLength: `2048`. |
-| `donation_max_amount_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Largest amount a buyer can give on a donation link. Must be greater than zero and greater than or equal to donation_min_amount_money. Omit on create for no maximum. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `donation_max_amount_money`: [field definitions](../models/CreatePaymentLinkRequest.md#createpaymentlinkrequestdonation_max_amount_money). |
+| `donation_max_amount_money` | Optional | object | Largest amount a buyer can give on a donation link. Must be greater than zero and greater than or equal to donation_min_amount_money. Omit on create for no maximum. `donation_max_amount_money`: [field definitions](../models/CreatePaymentLinkRequest.md#createpaymentlinkrequestdonation_max_amount_money). |
 | `donation_min_amount_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Smallest amount a buyer can give on a donation link. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `donation_min_amount_money`: [field definitions](../models/CreatePaymentLinkRequest.md#createpaymentlinkrequestdonation_min_amount_money). |
-| `donation_suggested_amount_money_options` | Optional | Array of [MoneyValue](../models/MoneyValue.md#moneyvalue) | Amounts a donation link offers as one-tap choices. `donation_suggested_amount_money_options[]`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
+| `donation_suggested_amount_money_options` | Optional | Array of object | Amounts a donation link offers as one-tap choices. Use the same currency for all suggested amounts and both bounds. `donation_suggested_amount_money_options[]`: [field definitions](../models/CreatePaymentLinkRequest.md#createpaymentlinkrequestdonation_suggested_amount_money_options). |
 | `event_config` | Optional | [PaymentLinkEventConfigRequest](../models/PaymentLinkEventConfigRequest.md#paymentlinkeventconfigrequest) | Event details for an `event` link: when and where it takes place and how many tickets it sells. Event settings you supply when creating an event payment link. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. Example: `"warehouse-1842"`. |
 | `image` | Optional | [ImageRequest](../models/ImageRequest.md#imagerequest) | Image shown to buyers with the link. An image you supply by `source_url`, with optional `alt` text and external reference. |
@@ -52,9 +52,9 @@ Field definitions: [shared fields](PaymentLinkCustomTextConfigInput.md#paymentli
 
 ### CreatePaymentLinkRequest.donation_max_amount_money
 
-Largest amount a buyer can give on a donation link. Must be greater than zero and greater than or equal to donation_min_amount_money. Omit on create for no maximum. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+Largest amount a buyer can give on a donation link. Must be greater than zero and greater than or equal to donation_min_amount_money. Omit on create for no maximum.
 
-Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
+Field definitions: [shared fields](CapturePaymentIntentRequest.md#capturepaymentintentrequestamount_money).
 
 ### CreatePaymentLinkRequest.donation_min_amount_money
 
@@ -64,7 +64,7 @@ Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
 
 ### CreatePaymentLinkRequest.donation_suggested_amount_money_options[]
 
-Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options).
+Field definitions: [shared fields](CapturePaymentIntentRequest.md#capturepaymentintentrequestamount_money).
 
 ### CreatePaymentLinkRequest.legal
 

@@ -108,6 +108,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `pause_reason` | Optional | string or null | Why the subscription is paused: merchant for a pause made with your API key or dashboard, buyer for the buyer's own pause, delivery_action_required for a pause during or after a delivery hold, and payment_failed when renewal payment retries ran out and your dunning settings pause the subscription. Omitted when the subscription is not paused. Values: `"buyer"`, `"delivery_action_required"`, `"merchant"`, `"payment_failed"`. `pause_reason`: [declared alternatives](../models/SubscriptionActivatedInstalledMerchantsEvent.md#subscriptionactivatedinstalledmerchantseventdataprevious_attributespause_reason). |
 | `paused_at` | Optional | string or null | RFC3339 timestamp. `paused_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
 | `paused_delivery_hold` | Optional | [SubscriptionPausedDeliveryHoldPreviousAttributes](../models/SubscriptionPausedDeliveryHoldPreviousAttributes.md#subscriptionpauseddeliveryholdpreviousattributes) or null | The delivery hold that expired and paused the subscription. Null when no stored expiry reason exists, including a manual pause during an active hold, or the subscription is no longer paused for delivery action. |
+| `payment_link_id` | Optional | string or null | The payment link that started this subscription, when there was one. `payment_link_id`: [declared alternatives](../models/SubscriptionActivatedInstalledMerchantsEvent.md#subscriptionactivatedinstalledmerchantseventdataprevious_attributespayment_link_id). |
 | `payment_method` | Optional | [ExpandedPaymentMethodSummaryPreviousAttributes](../models/ExpandedPaymentMethodSummaryPreviousAttributes.md#expandedpaymentmethodsummarypreviousattributes) or null | Present only when `expand` includes `payment_method`; `null` when expanded and there is no related payment method. |
 | `payment_method_due_at` | Optional | string or null | First charge boundary while no card is bound: the later of trial_end_at and next_billing_at during a trial, or the next billing date for an imported period, even when that cycle's charge is zero. Recomputed when the schedule changes. A trial still without a card at its boundary cancels without an order or payment attempt. At that boundary, an imported subscription with a positive charge that still has no card enters its normal dunning schedule without a payment attempt. For an imported subscription, a zero charge completes the renewal without a card and the deadline advances to the following boundary. Null when a card is bound, collection is not scheduled (paused, canceled, or set to cancel at period end), an active or trialing subscription is in its final end_after cycle, or an external schedule has no known boundary. `payment_method_due_at`: [declared alternatives](../models/SubscriptionActivatedInstalledMerchantsEvent.md#subscriptionactivatedinstalledmerchantseventdataprevious_attributespayment_method_due_at). |
 | `payment_method_id` | Optional | string or null | Saved payment method used for renewal charges. Null when no card is bound. Bind a card to this subscription with PATCH; changing the customer's default alone does not bind it. `payment_method_id`: [declared alternatives](../models/SubscriptionActivatedInstalledMerchantsEvent.md#subscriptionactivatedinstalledmerchantseventdataprevious_attributespayment_method_id). |
@@ -501,6 +502,20 @@ anyOf variant 2.
 ### SubscriptionActivatedInstalledMerchantsEvent.data.previous_attributes.paused_at
 
 Declared alternatives: [ApiKeyRevokedEvent.data.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at).
+
+### SubscriptionActivatedInstalledMerchantsEvent.data.previous_attributes.payment_link_id
+
+### SubscriptionActivatedInstalledMerchantsEvent.data.previous_attributes.payment_link_id variant 1
+
+anyOf variant 1: The payment link that started this subscription, when there was one..
+
+- Value shape: string. The payment link that started this subscription, when there was one. The payment link that started this subscription, when there was one. Example: `"pl_01KEZF7C007WDMA5P9BPZ8J2AM"`. 
+
+### SubscriptionActivatedInstalledMerchantsEvent.data.previous_attributes.payment_link_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The payment link that started this subscription, when there was one. 
 
 ### SubscriptionActivatedInstalledMerchantsEvent.data.previous_attributes.payment_method_due_at
 

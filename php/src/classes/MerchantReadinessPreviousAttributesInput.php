@@ -7,9 +7,10 @@ namespace Flint;
  * @property-read ReadinessAxisPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $payments
  * @property-read ReadinessAxisPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $payouts
  * @property-read ReadinessRequirementsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $requirements
+ * @property-read bool|null $review_blocks_captures
  * Presence-aware input; omitted fields throw when accessed. */
 final class MerchantReadinessPreviousAttributesInput extends Model {
-    /** @param array{'capabilities'?: list<CapabilityReadinessPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'observed_at'?: string|\DateTimeInterface|null, 'payments'?: ReadinessAxisPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'payouts'?: ReadinessAxisPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'requirements'?: ReadinessRequirementsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, ...}|object $values */
+    /** @param array{'capabilities'?: list<CapabilityReadinessPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'observed_at'?: string|\DateTimeInterface|null, 'payments'?: ReadinessAxisPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'payouts'?: ReadinessAxisPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'requirements'?: ReadinessRequirementsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'review_blocks_captures'?: bool|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MerchantReadinessPreviousAttributesInput')); }
     /** Readiness of each payment and money movement capability, with its own status, requirements, and next actions. anyOf[1] (Value): Array of {@see CapabilityReadinessPreviousAttributesInput}. Readiness of each payment and money movement capability, with its own status, requirements, and next actions. anyOf[1][] (Value): {@see CapabilityReadinessPreviousAttributesInput}. anyOf[2] (Value): null.
      * @return list<CapabilityReadinessPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null
@@ -41,4 +42,10 @@ final class MerchantReadinessPreviousAttributesInput extends Model {
      */
     public function getRequirements(): mixed { return $this->get('requirements'); }
     public function hasRequirements(): bool { return $this->has('requirements'); }
+    /**  anyOf[1] (Value): boolean. anyOf[2] (Value): null.
+     * @return bool|null
+     * @throws SdkError When review_blocks_captures is omitted; use hasReviewBlocksCaptures() or valueOrDefault().
+     */
+    public function getReviewBlocksCaptures(): mixed { return $this->get('review_blocks_captures'); }
+    public function hasReviewBlocksCaptures(): bool { return $this->has('review_blocks_captures'); }
 }

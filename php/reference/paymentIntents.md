@@ -2,6 +2,75 @@
 
 # paymentIntents
 
+### paymentIntents.blockAttemptSignals
+
+Adds the retained card fingerprint, email, and IP address from a failed or blocked attempt to the default block lists in one transaction. The result names the list item types present after the call. Existing entries are kept. Flint skips missing or unlistable signals and omits IP addresses for virtual-terminal payments. Future payments are checked when the default block rule is active.
+
+`POST /v1/payment-intents/{payment_intent_id}/attempts/{payment_attempt_id}/block-signals`
+
+Signature:
+
+```text
+blockAttemptSignals(string|
+  Model $payment_intent_id,
+ string|
+  Model $payment_attempt_id,
+ array|
+  Model|
+  null $params = null,
+ ?RequestOptions $options = null)
+```
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `payment_intent_id` | Required | string | Flint payment intent ID. Must be a valid ID with prefix pi_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
+| `payment_attempt_id` | Required | string | Flint attempt ID from the payment intent's failed attempts. Must be a valid ID with prefix pia_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
+
+#### Response
+
+Returned payload: [BlockFailedAttemptSignalsResult](../models/BlockFailedAttemptSignalsResult.md#blockfailedattemptsignalsresult).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
+
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```php
+// Persist this key with the action before sending; reuse it for every resubmission.
+$idempotencyKey = bin2hex(random_bytes(16));
+
+$result = $client->paymentIntents->blockAttemptSignals('pi_01KEZF7C00G8H9D509YEV22P7R', 'pia_01KEZF7C00CGGHWWR7KPCGNJRM', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+```
+
+[Complete runnable example](../examples/paymentIntents-blockAttemptSignals.php)
+
 ### paymentIntents.cancel
 
 Cancels a standalone or order-owned payment intent. Read supported_actions for the actions its stored state accepts. Canceling a hold moves all of capturable_money to released_money, and nothing is charged. A processing payment intent fails with `ACTION_NOT_ALLOWED` and reason `in_progress`; refund a succeeded one instead. Flint derives the owning order payment attempt. A leg held by an active order payment attempt may be refused. Omitting cancellation_reason returns payment_canceled as the public reason. A fresh request for a canceled or expired payment returns ACTION_NOT_ALLOWED with reason already_applied; a same-key retry replays or recovers its original result. After a subscription is canceled, a merchant credential can cancel an unconfirmed first-period intent that remains open. A checkout credential can cancel only its own order leg, with requested_by_customer or abandoned when a reason is supplied.
@@ -94,9 +163,9 @@ Body model: [CapturePaymentIntentRequestInput](../models/CapturePaymentIntentReq
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Optional | [MoneyValueInput](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) | Amount to capture, in the authorization's currency. Omit it to capture all of capturable_money. A smaller amount is a partial capture: Flint releases the rest in the same request, and the payment intent can't be captured again. Must be greater than zero and at most capturable_money. Affirm payments can only be captured in full. Can't be combined with final_amount_money or tip_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `amount_money` | Optional | object | Amount to capture, in the authorization's currency. Omit it to capture all of capturable_money. A smaller amount is a partial capture: Flint releases the rest in the same request, and the payment intent can't be captured again. Must be greater than zero and at most capturable_money. Affirm payments can only be captured in full. Can't be combined with final_amount_money or tip_money. |
 | `expected_version` | Optional | integer | Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the request before retrying. Format: `uint64`. minimum: `1`. |
-| `final_amount_money` | Optional | [MoneyValueInput](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) | The bill without the tip. The capture collects final_amount_money plus tip_money in one charge. With only tip_money, the bill is the authorization minus the tip it carries; when the authorization is all tip, final_amount_money is required. Must be greater than zero, in the payment's currency. On an order's payment, it is at most the authorization minus the tip it carries, so the order's items, charges and tax can't grow; above it LIMIT_EXCEEDED with maximum_money on final_amount_money. The order releases the difference. Not accepted on Affirm or ACH debit payments. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `final_amount_money` | Optional | object | The bill without the tip. The capture collects final_amount_money plus tip_money in one charge. With only tip_money, the bill is the authorization minus the tip it carries; when the authorization is all tip, final_amount_money is required. Must be greater than zero, in the payment's currency. On an order's payment, it is at most the authorization minus the tip it carries, so the order's items, charges and tax can't grow; above it LIMIT_EXCEEDED with maximum_money on final_amount_money. The order releases the difference. Not accepted on Affirm or ACH debit payments. |
 | `platform_fee` | Optional | [PlatformFeeRequestInput](../models/PlatformFeeRequestInput.md#platformfeerequestinput) | A platform fee your partner app charges on this payment, set when you know the final bill and tip. Only the partner app install token that created the payment can send it; from any other credential it is INVALID_REQUEST with NOT_ALLOWED on platform_fee. It replaces the fee the payment was created with, or adds one if it had none, after the same consent, capability and currency checks as at create: amount_money.amount must be at least 1 minor unit, otherwise INVALID_REQUEST with INVALID_VALUE on platform_fee.amount_money.amount. Its currency must match the payment's currency, otherwise INVALID_REQUEST with INVALID_VALUE on platform_fee.amount_money. Omit platform_fee to keep the existing fee. Without an approved cap in this currency it is ACTION_NOT_ALLOWED with reason platform_fee_consent_required; in live mode the partner app's platform_fees capability must be active. A fee that already ended is ACTION_NOT_ALLOWED with reason terminal_status. The cap and Flint's own fees apply to the captured total, so Flint lowers the fee rather than refusing the capture. A payment that belongs to an order can't take it at capture: INVALID_REQUEST with NOT_ALLOWED on platform_fee. Part of the request fingerprint. See Platform fees. A platform fee the partner app charges on the payment, beside Flint's fees. The installed merchant pays it, and Flint takes no share of it. |
 | `splits` | Optional | Array of [CapturePaymentSplitRequestInput](../models/CapturePaymentSplitRequestInput.md#capturepaymentsplitrequestinput) | Final split amounts for this capture. List every split that isn't canceled, once each, with an amount above zero in the payment's currency. Omit splits to keep the stored amounts. The total must fit after Flint's fees and one minor unit for the collecting merchant; otherwise INVALID_REQUEST with INVALID_VALUE on splits and maximum_money. An amount_money too small for the stored splits is LIMIT_EXCEEDED with minimum_money. A payment created without splits can't gain them. Part of the idempotency fingerprint. minItems: `1`. maxItems: `25`. |
 | `tip_money` | Optional | [MoneyValueInput](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) | The tip, replacing the tip the authorization carries. Zero captures without a tip. With only final_amount_money, the tip is the one the authorization carries, or zero. At most the larger of 1,000.00 USD and final_amount_money; on an order's payment, the larger of 1,000.00 USD and the payment's share of the order's subtotal after discounts. Above it INVALID_REQUEST with INVALID_VALUE on tip_money and maximum_money. On an order's payment, keeping or lowering the tip the authorization carries is never refused, and the tip becomes this payment's part of the order's tip. A payment that doesn't carry part of the order's requested tip can't add a tip above zero beside it: INVALID_REQUEST with NOT_ALLOWED on tip_money. On an order, the bill can't grow, so without overcapture a tip fits only within what the bill leaves of the hold. The total is at most overcapture.maximum_capturable_money when overcapture is available, else capturable_money; above it LIMIT_EXCEEDED with maximum_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
@@ -237,7 +306,7 @@ Body model: [CreatePaymentIntentRequestInput](../models/CreatePaymentIntentReque
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Optional | [MoneyValueInput](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) | Amount to request from the buyer, including any standalone tip_money. Required for standalone payments. On an order, uses the order currency and defaults to its remaining balance; the amount cannot exceed 99999999 minor units, and existing automatic tax rules apply. With capture_method manual, this is the hold amount, and you can capture less later. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `amount_money` | Optional | object | Amount to request from the buyer, including any standalone tip_money. Required for standalone payments. On an order, uses the order currency and defaults to its remaining balance; the amount cannot exceed 99999999 minor units, and existing automatic tax rules apply. With capture_method manual, this is the hold amount, and you can capture less later. |
 | `capture_method` | Optional | string | automatic collects the payment when it is confirmed. manual places a hold at confirmation that you capture or cancel later. Defaults to automatic. Default: `"automatic"`. Values: `"automatic"`, `"manual"`. |
 | `customer_id` | Optional | string | Customer to link to this payment intent. minLength: `1`. |
 | `expected_order_version` | Optional | integer | Optional order version from the last order read. Accepted only with order_id; the create fails with VERSION_CONFLICT if the order changed. Format: `int64`. minimum: `1`. |
@@ -746,7 +815,7 @@ Body model: [UpdatePaymentIntentRequestInput](../models/UpdatePaymentIntentReque
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Optional | [MoneyValueInput](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) | Payment amount. Can change only while status is requires_payment_method and before the first confirmation attempt. Cannot be cleared. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `amount_money` | Optional | object | Payment amount. Can change only while status is requires_payment_method and before the first confirmation attempt. Cannot be cleared. |
 | `customer_id` | Optional | string | Customer linked to this payment intent. Can change only while status is requires_payment_method. Cannot be cleared. minLength: `1`. |
 | `expected_version` | Optional | integer | Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the request before retrying. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. Omit it to keep the current value. minLength: `1`. maxLength: `255`. |

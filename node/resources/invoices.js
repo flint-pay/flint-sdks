@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/invoices.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
+import r0 from '../descriptors/resources/invoices.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
+import settings from '../descriptors/settings.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["cancelInvoicePaymentAttempt"]:r0,["collectInvoice"]:r0,["createInvoice"]:r0,["createInvoiceLateFee"]:r0,["createInvoiceManualPayment"]:r0,["getInvoice"]:r0,["getInvoiceManualPayment"]:r0,["getInvoicePaymentAttempt"]:r0,["getInvoicePDF"]:r0,["issueInvoice"]:r0,["listInvoiceActivities"]:r0,["listInvoiceDeliveryAttempts"]:r0,["listInvoiceLateFees"]:r0,["listInvoiceManualPayments"]:r0,["listInvoicePaymentAttempts"]:r0,["listInvoices"]:r0,["markInvoiceUncollectible"]:r0,["regenerateInvoicePublicLink"]:r0,["reverseInvoiceManualPayment"]:r0,["sendInvoiceReminder"]:r0,["updateInvoice"]:r0,["voidInvoice"]:r0,["waiveInvoiceLateFee"]:r0});
 export class Client {
@@ -508,6 +508,7 @@ export { makeCreateInvoiceRequestQuickPay } from '../models/CreateInvoiceRequest
 export { makeCreateOrderDiscount } from '../models/CreateOrderDiscount.js';
 export { makeCreateOrderDiscountManual } from '../models/CreateOrderDiscountManual.js';
 export { makeCreateOrderDiscountPromotion } from '../models/CreateOrderDiscountPromotion.js';
+export { makeCreateOrderLineItemCustomRequest } from '../models/CreateOrderLineItemCustomRequest.js';
 export { makeCreateOrderLineItemInputBundle } from '../models/CreateOrderLineItemInputBundle.js';
 export { makeCreateOrderLineItemInputCustom } from '../models/CreateOrderLineItemInputCustom.js';
 export { makeCreateOrderLineItemInputVariant } from '../models/CreateOrderLineItemInputVariant.js';
@@ -521,7 +522,9 @@ export { makeCustomerTaxExemptionCoverageStatesRequest } from '../models/Custome
 export { makeDeliveryChargeTaxCalculationRequestModel } from '../models/DeliveryChargeTaxCalculationRequestModel.js';
 export { makeDimensionsRequest } from '../models/DimensionsRequest.js';
 export { makeGiftCardPurchaseDetailsRequest } from '../models/GiftCardPurchaseDetailsRequest.js';
+export { makeGiftCardPurchaseRecipient } from '../models/GiftCardPurchaseRecipient.js';
 export { makeGiftCardPurchaseRecipientRequest } from '../models/GiftCardPurchaseRecipientRequest.js';
+export { makeGiftCardPurchaseRequest } from '../models/GiftCardPurchaseRequest.js';
 export { makeImageReferenceRequest } from '../models/ImageReferenceRequest.js';
 export { makeInventoryRoutingSourceInputFixedLocation } from '../models/InventoryRoutingSourceInputFixedLocation.js';
 export { makeInventoryRoutingSourceInputPolicy } from '../models/InventoryRoutingSourceInputPolicy.js';
@@ -556,6 +559,7 @@ export { makeIssueInvoiceRequest } from '../models/IssueInvoiceRequest.js';
 export { makeLineItemFulfillmentOriginRequestModel } from '../models/LineItemFulfillmentOriginRequestModel.js';
 export { makeLineItemFulfillmentRequestModel } from '../models/LineItemFulfillmentRequestModel.js';
 export { makeManualDiscountRequest } from '../models/ManualDiscountRequest.js';
+export { makeMetadataMap } from '../models/MetadataMap.js';
 export { makeMetadataPatchRequest } from '../models/MetadataPatchRequest.js';
 export { makeMetadataRequest } from '../models/MetadataRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
@@ -593,6 +597,7 @@ export { makeSubscribedLineRequestModel } from '../models/SubscribedLineRequestM
 export { makeTaxComponentRequestModel } from '../models/TaxComponentRequestModel.js';
 export { makeTaxJurisdictionRequestModel } from '../models/TaxJurisdictionRequestModel.js';
 export { makeTextModifierRequest } from '../models/TextModifierRequest.js';
+export { makeUpdateInvoiceQuickPayRequest } from '../models/UpdateInvoiceQuickPayRequest.js';
 export { makeUpdateInvoiceRequest } from '../models/UpdateInvoiceRequest.js';
 export { makeWaiveInvoiceLateFeeRequest } from '../models/WaiveInvoiceLateFeeRequest.js';
 export { makeWeightRequest } from '../models/WeightRequest.js';

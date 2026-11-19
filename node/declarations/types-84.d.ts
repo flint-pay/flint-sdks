@@ -1,6 +1,22 @@
 import type { InputValue, Model } from '../runtime.js';
-import type { CreateRefundRequestAmountInput } from './types-12.js';
 import type {
+    CreatePayoutRequestInput,
+    CreatePickupFulfillmentDetailsInput,
+    CreatePriceListPricesRequestInput,
+    CreatePriceListRequestInput,
+    CreateProductOptionRequestInput,
+    CreateProductOptionValueRequestInput,
+    CreateProductRequestInput,
+    CreateProductRequestOptionedInput,
+    CreateProductRequestSimpleInput,
+    CreatePromotionCodeRequestInput,
+    CreatePromotionRequestInput,
+    CreateReaderRequestInput
+} from './types-12.js';
+import type {
+    CreateReceivablesAgingReportRequestInput,
+    CreateRefundRequestInput,
+    CreateRefundRequestAmountInput,
     CreateRefundRequestCreditNoteInput,
     CreateRefundRequestFullInput,
     CreateRefundRequestTargetsInput,
@@ -23,11 +39,11 @@ import type {
     CreateReturnResolutionRequestInput,
     CreateReturnResolutionRequestCorrectionInput,
     CreateReturnResolutionRequestStandardInput,
-    CreateRiskListRequestInput,
-    CreateRiskPreviewRequestInput,
-    CreateRiskPreviewRequestInlineInput
+    CreateRiskListRequestInput
 } from './types-13.js';
 import type {
+    CreateRiskPreviewRequestInput,
+    CreateRiskPreviewRequestInlineInput,
     CreateRiskPreviewRequestStoredRuleInput,
     CreateRiskRuleRequestInput,
     CreateSandboxRequestInput,
@@ -51,24 +67,23 @@ import type {
     CreateSubscriptionPreviewRequestPlanChangeInput,
     CreateSubscriptionPreviewRequestPromotionApplyInput,
     CreateSubscriptionPreviewRequestQuantityChangeInput,
-    CreateSubscriptionRequestInput,
-    CreateTapToPayReaderRequestInput,
-    CreateTaxCalculationCallbackRequestInput,
-    CreateTaxRegistrationRequestInput,
-    CreateTestClockRequestInput,
-    CreateWebhookDeliveryRequestInput,
-    CreateWebhookEndpointRequestInput,
-    CreateWebhookTestEventRequestInput,
-    CreateWorkloadIdentityRequestInput
+    CreateSubscriptionRequestInput
 } from './types-14.js';
-import type {
-    CreditNoteCorrectionRequestAmountRequestInput,
-    CreditNoteCorrectionRequestModelInput,
-    CreditNoteCorrectionRequestQuantityRequestInput,
-    CreditNoteIssueAllocationRequestInput,
-    CreditNoteLineItemRequestInput,
-    CreditNoteRefundRequestInput
-} from './types-15.js';
+export declare function makeCreatePayoutRequest(value: InputValue<CreatePayoutRequestInput>): Model<CreatePayoutRequestInput>;
+export declare function makeCreatePickupFulfillmentDetails(value: InputValue<CreatePickupFulfillmentDetailsInput>): Model<CreatePickupFulfillmentDetailsInput>;
+export declare function makeCreatePriceListPricesRequest(value: InputValue<CreatePriceListPricesRequestInput>): Model<CreatePriceListPricesRequestInput>;
+export declare function makeCreatePriceListRequest(value: InputValue<CreatePriceListRequestInput>): Model<CreatePriceListRequestInput>;
+export declare function makeCreateProductOptionRequest(value: InputValue<CreateProductOptionRequestInput>): Model<CreateProductOptionRequestInput>;
+export declare function makeCreateProductOptionValueRequest(value: InputValue<CreateProductOptionValueRequestInput>): Model<CreateProductOptionValueRequestInput>;
+export declare function makeCreateProductRequest(value: InputValue<CreateProductRequestInput>): Model<CreateProductRequestInput>;
+export declare function makeCreateProductRequestOptioned(value: InputValue<CreateProductRequestOptionedInput>): Model<CreateProductRequestOptionedInput>;
+export declare function makeCreateProductRequestSimple(value: InputValue<CreateProductRequestSimpleInput>): Model<CreateProductRequestSimpleInput>;
+export declare function makeCreatePromotionCodeRequest(value: InputValue<CreatePromotionCodeRequestInput>): Model<CreatePromotionCodeRequestInput>;
+export declare function makeCreatePromotionRequest(value: InputValue<CreatePromotionRequestInput>): Model<CreatePromotionRequestInput>;
+export declare function makeCreateReaderRequest(value: InputValue<Exclude<CreateReaderRequestInput & object, readonly unknown[]>>): Model<Exclude<CreateReaderRequestInput & object, readonly unknown[]>>;
+export declare function makeCreateReaderRequest(value: InputValue<CreateReaderRequestInput>): Model<CreateReaderRequestInput>;
+export declare function makeCreateReceivablesAgingReportRequest(value: InputValue<CreateReceivablesAgingReportRequestInput>): Model<CreateReceivablesAgingReportRequestInput>;
+export declare function makeCreateRefundRequest(value: InputValue<CreateRefundRequestInput>): Model<CreateRefundRequestInput>;
 export declare function makeCreateRefundRequestAmount(value: InputValue<CreateRefundRequestAmountInput>): Model<CreateRefundRequestAmountInput>;
 export declare function makeCreateRefundRequestCreditNote(value: InputValue<CreateRefundRequestCreditNoteInput>): Model<CreateRefundRequestCreditNoteInput>;
 export declare function makeCreateRefundRequestFull(value: InputValue<CreateRefundRequestFullInput>): Model<CreateRefundRequestFullInput>;
@@ -120,17 +135,3 @@ export declare function makeCreateSubscriptionPreviewRequestPlanChange(value: In
 export declare function makeCreateSubscriptionPreviewRequestPromotionApply(value: InputValue<CreateSubscriptionPreviewRequestPromotionApplyInput>): Model<CreateSubscriptionPreviewRequestPromotionApplyInput>;
 export declare function makeCreateSubscriptionPreviewRequestQuantityChange(value: InputValue<CreateSubscriptionPreviewRequestQuantityChangeInput>): Model<CreateSubscriptionPreviewRequestQuantityChangeInput>;
 export declare function makeCreateSubscriptionRequest(value: InputValue<CreateSubscriptionRequestInput>): Model<CreateSubscriptionRequestInput>;
-export declare function makeCreateTapToPayReaderRequest(value: InputValue<CreateTapToPayReaderRequestInput>): Model<CreateTapToPayReaderRequestInput>;
-export declare function makeCreateTaxCalculationCallbackRequest(value: InputValue<CreateTaxCalculationCallbackRequestInput>): Model<CreateTaxCalculationCallbackRequestInput>;
-export declare function makeCreateTaxRegistrationRequest(value: InputValue<CreateTaxRegistrationRequestInput>): Model<CreateTaxRegistrationRequestInput>;
-export declare function makeCreateTestClockRequest(value: InputValue<CreateTestClockRequestInput>): Model<CreateTestClockRequestInput>;
-export declare function makeCreateWebhookDeliveryRequest(value: InputValue<CreateWebhookDeliveryRequestInput>): Model<CreateWebhookDeliveryRequestInput>;
-export declare function makeCreateWebhookEndpointRequest(value: InputValue<CreateWebhookEndpointRequestInput>): Model<CreateWebhookEndpointRequestInput>;
-export declare function makeCreateWebhookTestEventRequest(value: InputValue<CreateWebhookTestEventRequestInput>): Model<CreateWebhookTestEventRequestInput>;
-export declare function makeCreateWorkloadIdentityRequest(value: InputValue<CreateWorkloadIdentityRequestInput>): Model<CreateWorkloadIdentityRequestInput>;
-export declare function makeCreditNoteCorrectionRequestAmountRequest(value: InputValue<CreditNoteCorrectionRequestAmountRequestInput>): Model<CreditNoteCorrectionRequestAmountRequestInput>;
-export declare function makeCreditNoteCorrectionRequestModel(value: InputValue<CreditNoteCorrectionRequestModelInput>): Model<CreditNoteCorrectionRequestModelInput>;
-export declare function makeCreditNoteCorrectionRequestQuantityRequest(value: InputValue<CreditNoteCorrectionRequestQuantityRequestInput>): Model<CreditNoteCorrectionRequestQuantityRequestInput>;
-export declare function makeCreditNoteIssueAllocationRequest(value: InputValue<CreditNoteIssueAllocationRequestInput>): Model<CreditNoteIssueAllocationRequestInput>;
-export declare function makeCreditNoteLineItemRequest(value: InputValue<CreditNoteLineItemRequestInput>): Model<CreditNoteLineItemRequestInput>;
-export declare function makeCreditNoteRefundRequest(value: InputValue<CreditNoteRefundRequestInput>): Model<CreditNoteRefundRequestInput>;

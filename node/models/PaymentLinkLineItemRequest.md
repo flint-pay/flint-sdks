@@ -18,13 +18,13 @@ A line item you add to a payment link when creating it, from a catalog variant, 
 | `key` | Optional | string | Keys the resolve override maps. Stable line item key used in checkout overrides. Must not have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when omitted, skipping numbers already used by explicit keys; retained for an existing line item when omitted on update. minLength: `1`. maxLength: `100`. |
 | `max_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
 | `max_total_quantity` | Optional | integer | Optional whole-number admission capacity across all orders for an event tier; fractional quantities are not supported. Must be at least 1 and cannot exceed event_config.max_total_quantity when the event is capped. Omit for no tier cap; omitting it in a line_items replacement removes an existing cap. Format: `int32`. minimum: `1`. |
-| `max_unit_price_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Must be greater than zero and greater than or equal to min_unit_price_money. Omit for no maximum. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `max_unit_price_money`: [field definitions](../models/PaymentLinkLineItem.md#paymentlinklineitemmax_unit_price_money). |
+| `max_unit_price_money` | Optional | Varies by condition | Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Must be greater than zero and greater than or equal to min_unit_price_money. Omit for no maximum. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `max_unit_price_money`: [field definitions](../models/PaymentLinkLineItem.md#paymentlinklineitemmax_unit_price_money), [field definitions](../models/PaymentLinkLineItemInputCustomVariable.md#paymentlinklineiteminputcustomvariablemax_unit_price_money). |
 | `min_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
 | `min_unit_price_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `min_unit_price_money`: [field definitions](../models/PaymentLinkLineItem.md#paymentlinklineitemmin_unit_price_money). |
 | `name` | Conditional | string | Name of an ad hoc line item. Catalog lines take the catalog name. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `255`. |
 | `product_type` | Optional | string | Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does not change tax, delivery, or inventory. On an order line PATCH, omission preserves the classification. Catalog lines use their product's type and reject this input. Values: `"physical"`, `"service"`, `"fee"`, `"digital"`. |
 | `quantity` | Optional | integer | Whole-number default quantity; fractional quantities are not supported. Omission uses 1. Must be at least 1 for standard links; event tiers also accept 0. Format: `int32`. Default: `1`. |
-| `suggested_unit_price_money_options` | Optional | Array of [MoneyValue](../models/MoneyValue.md#moneyvalue) | Unit prices offered as one-tap choices when the buyer sets the price. `suggested_unit_price_money_options[]`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
+| `suggested_unit_price_money_options` | Optional | Array of [MoneyValue](../models/MoneyValue.md#moneyvalue) | Unit prices offered as one-tap choices when the buyer sets the price. Use the same currency for the price, bounds, and suggested prices. `suggested_unit_price_money_options[]`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
 | `tax` | Optional | [OrderLineItemTax](../models/OrderLineItemTax.md#orderlineitemtax) | Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax category and whether it is taxable. `tax`: [field definitions](../models/PaymentLinkLineItemInputBundle.md#paymentlinklineiteminputbundletax). |
 | `type` | Required | string | How the line item is defined. Values: `"variant"`, `"bundle"`, `"custom_fixed"`, `"custom_variable"`. |
 | `unit_price_money` | Conditional | object | Price of one unit of a `custom_fixed` line item. `unit_price_money`: [field definitions](../models/PaymentLinkLineItemInputBundle.md#paymentlinklineiteminputbundleunit_price_money). |
@@ -38,6 +38,7 @@ oneOf with type: "variant": The `variant` variant of `PaymentLinkLineItemInput`.
 - Condition: not (at least one(present(`bundle_id`); present(`name`); present(`unit_price_money`); present(`description`); present(`tax`); present(`allow_unit_price_adjustment`); present(`min_unit_price_money`); present(`max_unit_price_money`); present(`suggested_unit_price_money_options`); present(`product_type`); present(`variant_id`, `variant_ids`))).
 - Required: `variant_id`.
 - Optional: `allow_unit_price_adjustment`, `bundle_id`, `name`, `unit_price_money`, `variant_ids`.
+- Constraints for `max_unit_price_money`: [MoneyValue](../models/MoneyValue.md#moneyvalue).
 - Constraints for `type`: Values: `"variant"`.
 
 ### PaymentLinkLineItemRequest variant 2: `type` = `"variant"`
@@ -47,6 +48,7 @@ oneOf with type: "variant": The `variant` variant of `PaymentLinkLineItemInput`.
 - Condition: not (at least one(present(`bundle_id`); present(`name`); present(`unit_price_money`); present(`description`); present(`tax`); present(`allow_unit_price_adjustment`); present(`min_unit_price_money`); present(`max_unit_price_money`); present(`suggested_unit_price_money_options`); present(`product_type`); present(`variant_id`, `variant_ids`))).
 - Required: `variant_ids`.
 - Optional: `allow_unit_price_adjustment`, `bundle_id`, `name`, `unit_price_money`, `variant_id`.
+- Constraints for `max_unit_price_money`: [MoneyValue](../models/MoneyValue.md#moneyvalue).
 - Constraints for `type`: Values: `"variant"`.
 
 ### PaymentLinkLineItemRequest variant 3: `type` = `"bundle"`
@@ -56,6 +58,7 @@ oneOf with type: "bundle": The `bundle` variant of `PaymentLinkLineItemInput`..
 - Condition: not (at least one(present(`variant_id`); present(`variant_ids`); present(`default_variant_id`); present(`name`); present(`unit_price_money`); present(`description`); present(`tax`); present(`allow_unit_price_adjustment`); present(`min_unit_price_money`); present(`max_unit_price_money`); present(`suggested_unit_price_money_options`); present(`product_type`))).
 - Required: `bundle_id`.
 - Optional: `allow_unit_price_adjustment`, `name`, `unit_price_money`, `variant_id`, `variant_ids`.
+- Constraints for `max_unit_price_money`: [MoneyValue](../models/MoneyValue.md#moneyvalue).
 - Constraints for `type`: Values: `"bundle"`.
 
 ### PaymentLinkLineItemRequest variant 4: `allow_unit_price_adjustment` = `false`, `type` = `"custom_fixed"`
@@ -66,6 +69,7 @@ oneOf with type: "custom_fixed": The `custom_fixed` variant of `PaymentLinkLineI
 - Required: `name`, `unit_price_money`.
 - Optional: `allow_unit_price_adjustment`, `bundle_id`, `variant_id`, `variant_ids`.
 - Constraints for `allow_unit_price_adjustment`: Values: `false`.
+- Constraints for `max_unit_price_money`: [MoneyValue](../models/MoneyValue.md#moneyvalue).
 - Constraints for `type`: Values: `"custom_fixed"`.
 
 ### PaymentLinkLineItemRequest variant 5: `allow_unit_price_adjustment` = `true`, `type` = `"custom_variable"`
@@ -76,9 +80,10 @@ oneOf with type: "custom_variable": The `custom_variable` variant of `PaymentLin
 - Required: `allow_unit_price_adjustment`, `name`.
 - Optional: `bundle_id`, `unit_price_money`, `variant_id`, `variant_ids`.
 - Constraints for `allow_unit_price_adjustment`: Values: `true`.
+- Constraints for `max_unit_price_money`: [MoneyValue](../models/MoneyValue.md#moneyvalue) and object.
 - Constraints for `type`: Values: `"custom_variable"`.
 
-### PaymentLinkLineItemRequest.max_unit_price_money
+### PaymentLinkLineItemRequest variant 1.max_unit_price_money
 
 Field definitions: [PaymentLinkLineItem.max_unit_price_money](../models/PaymentLinkLineItem.md#paymentlinklineitemmax_unit_price_money).
 
@@ -97,4 +102,20 @@ Field definitions: [PaymentLinkLineItemInputBundle.tax](../models/PaymentLinkLin
 ### PaymentLinkLineItemRequest.unit_price_money
 
 Field definitions: [PaymentLinkLineItemInputBundle.unit_price_money](../models/PaymentLinkLineItemInputBundle.md#paymentlinklineiteminputbundleunit_price_money).
+
+### PaymentLinkLineItemRequest variant 2.max_unit_price_money
+
+Field definitions: [PaymentLinkLineItem.max_unit_price_money](../models/PaymentLinkLineItem.md#paymentlinklineitemmax_unit_price_money).
+
+### PaymentLinkLineItemRequest variant 3.max_unit_price_money
+
+Field definitions: [PaymentLinkLineItem.max_unit_price_money](../models/PaymentLinkLineItem.md#paymentlinklineitemmax_unit_price_money).
+
+### PaymentLinkLineItemRequest variant 4.max_unit_price_money
+
+Field definitions: [PaymentLinkLineItem.max_unit_price_money](../models/PaymentLinkLineItem.md#paymentlinklineitemmax_unit_price_money).
+
+### PaymentLinkLineItemRequest variant 5.max_unit_price_money
+
+Field definitions: [PaymentLinkLineItemInputCustomVariable.max_unit_price_money](../models/PaymentLinkLineItemInputCustomVariable.md#paymentlinklineiteminputcustomvariablemax_unit_price_money).
 

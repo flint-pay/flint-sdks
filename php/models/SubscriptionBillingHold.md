@@ -9,6 +9,6 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `detected_at` | Required | string | When Flint first detected this billing hold. Format: `date-time`. |
-| `reason` | Required | string | Why subscription billing cannot proceed. Treat unrecognized values as other. Values: `"configuration"`, `"retrying"`, `"other"`. |
+| `reason` | Required | string | Why subscription billing cannot proceed. Treat unrecognized values as other. Values: `"configuration"`, `"retrying"`, `"platform_review"`, `"flint_restriction"`, `"other"`. |
 | `retry_at` | Optional | string | When Flint next plans to retry a temporary billing issue, when scheduled. This is not a card decline retry. Format: `date-time`. |
 

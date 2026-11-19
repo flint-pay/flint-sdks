@@ -35,7 +35,7 @@ export type {
     BrandingSettingsRequestInput,
     BuyerCapabilitiesRequestInput
 } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type {
     CheckoutRecoveryEmailSettings,
     CheckoutSavedPaymentDetailsSettings,
@@ -62,31 +62,30 @@ export type { BuyerSkipCapability, BuyerSkipCapabilityInput } from '../declarati
 export type { FulfillmentSettings, FulfillmentSettingsRequestInput } from '../declarations/types-28.js';
 export type {
     InventorySettings,
-    InventoryRoutingSource,
+    InvoiceAutopayRetryPolicy,
     InventorySettingsRequestInput,
     InventoryRoutingSourceRequestInput,
+    InvoiceAutopayRetryPolicyInput
+} from '../declarations/types-34.js';
+export type {
+    InventoryRoutingSource,
     InventoryRoutingSourceInputFixedLocationInput,
     InventoryRoutingSourceInputPolicyInput,
     InventoryRoutingSourceInputPolicyRevisionInput
 } from '../declarations/types-33.js';
 export type { InventoryOriginPolicy, InventoryOriginPolicyRequestInput } from '../declarations/types-32.js';
-export type {
-    InvoiceSettings,
-    LegalSettings,
-    InvoiceSettingsPatchInput,
-    LegalSettingsRequestInput,
-    LegalSettingsRequest
-} from '../declarations/types-38.js';
-export type { InvoiceAutopayRetryPolicy, InvoiceAutopayRetryPolicyInput } from '../declarations/types-34.js';
-export type {
-    InvoicePaymentPolicy,
-    InvoicePaymentOptionLimit,
-    InvoicePaymentPolicyRequestInput,
-    InvoicePaymentOptionLimitRequestInput
-} from '../declarations/types-36.js';
+export type { InvoiceSettings, InvoiceSettingsPatchInput } from '../declarations/types-38.js';
+export type { InvoicePaymentPolicy, InvoicePaymentOptionLimit, InvoicePaymentOptionLimitRequestInput } from '../declarations/types-36.js';
 export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-44.js';
-export type { InvoiceReminderPolicy, InvoiceReminderRule, InvoiceReminderPolicyInput, InvoiceReminderRuleInput } from '../declarations/types-37.js';
+export type {
+    InvoiceReminderPolicy,
+    InvoiceReminderRule,
+    InvoicePaymentPolicyRequestInput,
+    InvoiceReminderPolicyInput,
+    InvoiceReminderRuleInput
+} from '../declarations/types-37.js';
 export type { Address, AddressRequestInput, AddressRequest } from '../declarations/types-0.js';
+export type { LegalSettings, LegalSettingsRequestInput, LegalSettingsRequest } from '../declarations/types-39.js';
 export type { MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { PaymentLimitSettings, PaymentLimitSettingsPatchInput } from '../declarations/types-52.js';
 export type { PaymentSettings, PaymentSettingsPatchInput, PaymentSettingsPatch } from '../declarations/types-54.js';
@@ -108,7 +107,7 @@ export type {
 } from '../declarations/types-74.js';
 export type { DocumentTaxID, DocumentTaxIDRequestInput, DisputesAcceptParams } from '../declarations/types-26.js';
 export type { TippingSettings, TippingSettingsPatchInput } from '../declarations/types-75.js';
-export type { UpdateSettingsRequestInput } from '../declarations/types-77.js';
+export type { UpdateSettingsRequestInput } from '../declarations/types-78.js';
 export {
     makeAddressRequest,
     makeBrandingSettingsRequest,
@@ -128,8 +127,9 @@ export {
     makeCustomerAccountSettingsRequest,
     makeCustomerEmailDeliverySettingsRequest
 } from '../declarations/types-85.js';
-export { makeDocumentTaxIDRequest, makeFulfillmentSettingsRequest } from '../declarations/types-86.js';
+export { makeDocumentTaxIDRequest } from '../declarations/types-86.js';
 export {
+    makeFulfillmentSettingsRequest,
     makeInventoryOriginPolicyRequest,
     makeInventoryRoutingSourceInputFixedLocation,
     makeInventoryRoutingSourceInputPolicy,
@@ -137,14 +137,20 @@ export {
     makeInventoryRoutingSourceRequest,
     makeInventorySettingsRequest,
     makeInvoiceAutopayRetryPolicy,
-    makeInvoicePaymentOptionLimitRequest,
+    makeInvoicePaymentOptionLimitRequest
+} from '../declarations/types-87.js';
+export {
     makeInvoicePaymentPolicyRequest,
     makeInvoiceReminderPolicy,
-    makeInvoiceReminderRule
-} from '../declarations/types-87.js';
-export { makeInvoiceSettingsPatch, makeLegalSettingsRequest, makeMetadataPatchRequest, makeMoneyValue } from '../declarations/types-88.js';
-export { makePaymentLimitSettingsPatch } from '../declarations/types-89.js';
-export { makePaymentSettingsPatch, makePromotionSettingsRequest, makeReceiptSettingsPatch } from '../declarations/types-90.js';
+    makeInvoiceReminderRule,
+    makeInvoiceSettingsPatch,
+    makeLegalSettingsRequest,
+    makeMetadataMap,
+    makeMetadataPatchRequest,
+    makeMoneyValue
+} from '../declarations/types-88.js';
+export { makePaymentLimitSettingsPatch, makePaymentSettingsPatch } from '../declarations/types-90.js';
+export { makePromotionSettingsRequest, makeReceiptSettingsPatch } from '../declarations/types-91.js';
 export {
     makeSubscriptionSettingsRequest,
     makeTaxDefaultCalculationRequest,

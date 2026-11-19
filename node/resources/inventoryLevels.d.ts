@@ -37,13 +37,13 @@ export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode, BackorderPolicy } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { MetadataMap } from '../declarations/types-43.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { UpdateInventoryLevelRequestInput, UpdateInventoryLevelRequest } from '../declarations/types-76.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
-export { makeUpdateInventoryLevelRequest } from '../declarations/types-93.js';
+export { makeMetadataMap, makeMoneyValue } from '../declarations/types-88.js';
+export { makeUpdateInventoryLevelRequest } from '../declarations/types-94.js';
 export interface InventoryLevelsResource {
     /**
  * Retrieve an inventory level's current quantities and version by ID.

@@ -1,4 +1,8 @@
+import type { CustomDomain, CustomDomainDNSRecord, CustomDomainDNSRecordPreviousAttributes } from './types-15.js';
+import type { ResponseMeta, ResolveCustomerDeletionRequestInput } from './types-62.js';
+import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
 import type { InputValue } from '../runtime.js';
+import type { CreateCustomDomainRequestInput, CreateCustomerDeletionRequestInput } from './types-9.js';
 import type {
     DisputesAcceptParams,
     ExpandedPaymentMethodSummary,
@@ -6,14 +10,137 @@ import type {
     ErrorResourceReferencePreviousAttributes
 } from './types-26.js';
 import type { Address } from './types-0.js';
-import type { MetadataMap, MerchantWebhookEnvelope } from './types-43.js';
 import type { TaxIdentity } from './types-74.js';
-import type { ResponseMeta, ResolveCustomerDeletionRequestInput } from './types-62.js';
 import type { BuyerCapabilities, BuyerCapabilitiesRequestInput } from './types-1.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
-import type { CreateCustomerDeletionRequestInput, CreateCustomerSessionRequestInput } from './types-9.js';
 import type { MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
-import type { RefreshCustomerSessionRequestInput } from './types-60.js';
+/** A page of `CustomDomain` objects. */
+export type CustomDomainListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * CustomDomain}. A merchant hostname for hosted checkout or customer account pages.
+     */
+    "data": Array<CustomDomain>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `CustomDomain` data. */
+export type CustomDomainResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A merchant hostname for
+     * hosted checkout or customer account pages.
+     */
+    "data": CustomDomain;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type CustomDomainUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "active_payment_attempt_count": number | null;
+            "created_at": string;
+            "custom_domain_id": string;
+            "dns_records": Array<CustomDomainDNSRecord>;
+            "hostname": string;
+            "last_checked_at": string | null;
+            "payment_method_domain_id": string | null;
+            "redirect_expires_at": string | null;
+            "status": "provisioning" | "active" | "attention_required" | "inactive" | "archived" | (string & {});
+            "status_reason": "dns_record_missing"
+                | "dns_record_mismatch"
+                | "ownership_record_missing"
+                | "ownership_record_mismatch"
+                | "caa_record_blocks_certificate"
+                | "proxied_by_another_provider"
+                | "certificate_pending"
+                | "custom_domains_inactive"
+                | "other"
+                | null
+                | (string & {})
+                | null;
+            "type": "checkout" | "customer_account" | (string & {});
+            "updated_at": string;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "active_payment_attempt_count"?: ((number) | (null));
+            "created_at"?: ((string) | (null));
+            "custom_domain_id"?: ((string) | (null));
+            "dns_records"?: ((Array<CustomDomainDNSRecordPreviousAttributes>) | (null));
+            "hostname"?: ((string) | (null));
+            "last_checked_at"?: ((string) | (null));
+            "payment_method_domain_id"?: ((string) | (null));
+            "redirect_expires_at"?: ((string) | (null));
+            "status"?: (("provisioning" | "active" | "attention_required" | "inactive" | "archived" | (string & {}))
+                | (null));
+            "status_reason"?: (("dns_record_missing"
+                | "dns_record_mismatch"
+                | "ownership_record_missing"
+                | "ownership_record_mismatch"
+                | "caa_record_blocks_certificate"
+                | "proxied_by_another_provider"
+                | "certificate_pending"
+                | "custom_domains_inactive"
+                | "other"
+                | null
+                | (string & {}))
+                | (null));
+            "type"?: (("checkout" | "customer_account" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+        });
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "custom_domain.updated";
+})
+    & {
+    "event_type": "custom_domain.updated";
+});
+export type CustomDomainsCreateParams = (InputValue<CreateCustomDomainRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type CustomDomainsDeleteParams = DisputesAcceptParams;
 export type CustomDomainsGetParams = DisputesAcceptParams;
 export type CustomDomainsListParams = {
     /**
@@ -3684,70 +3811,3 @@ export type CustomerSession = {
      */
     "supported_actions": Array<"revoke" | (string & {})>;
 };
-/** A customer session's state without its authentication credentials. */
-export type CustomerSessionResponse = {
-    /**
-     * The customer session, including its status and credential expiry times. A credential for the
-     * /v1/me routes that acts as one customer. By default it can read and change the customer's
-     * account and commerce data, including saved payment methods and account deletion requests.
-     * Explicit capabilities or access-link resource grants narrow that authority.
-     */
-    "data": CustomerSession;
-    /**
-     * Metadata about this response, including idempotency replay and warnings when present.
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * ID of this API request. Include it when asking Flint to investigate the response. maxLength:
-     * 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * A customer session with its `secret` and `refresh_token`, returned only when the session is
- * created or refreshed. A credential for the /v1/me routes that acts as one customer. By default
- * it can read and change the customer's account and commerce data, including saved payment methods
- * and account deletion requests. Explicit capabilities or access-link resource grants narrow that
- * authority.
- */
-export type CustomerSessionWithSecret = (Exclude<CustomerSession & object, readonly unknown[]>)
-    & ({
-    /**
-     * Single-use refresh token. Returned only on create and refresh; retry rotation with the same
-     * Idempotency-Key. Returned only to the credential that created it, and omitted when another
-     * credential replays the request.
-     */
-    "refresh_token"?: string;
-    /**
-     * Current server-held customer session secret. Returned only on create and refresh. Returned
-     * only to the credential that created it, and omitted when another credential replays the
-     * request.
-     */
-    "secret"?: string;
-});
-/** A response containing `CustomerSessionWithSecret` data. */
-export type CustomerSessionWithSecretResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A customer session with
-     * its `secret` and `refresh_token`, returned only when the session is created or refreshed. A
-     * credential for the /v1/me routes that acts as one customer. By default it can read and
-     * change the customer's account and commerce data, including saved payment methods and account
-     * deletion requests. Explicit capabilities or access-link resource grants narrow that
-     * authority.
-     */
-    "data": CustomerSessionWithSecret;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type CustomerSessionsCreateParams = (InputValue<CreateCustomerSessionRequestInput>);
-export type CustomerSessionsRefreshParams = (InputValue<RefreshCustomerSessionRequestInput>);

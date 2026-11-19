@@ -1,12 +1,15 @@
 import type {
+    DeliveryEligibilityExpression,
+    DeliveryEligibilityExpressionRequest,
     DeliveryEligibilityExpressionRequestInput,
+    DeliveryEligibilityExpressionPreviousAttributes,
     DeliveryExternalPricingStrategy,
     DeliveryFixedPricingStrategy,
     DeliveryExternalPricingStrategyPreviousAttributes,
     DeliveryFixedPricingStrategyPreviousAttributes,
     DeliveryFixedPricingStrategyRequestInput
 } from './types-19.js';
-import type { MoneyValueInput, MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
+import type { MoneyValue, MoneyValueInput, MoneyValuePreviousAttributes } from './types-44.js';
 import type {
     DeliveryCalculatedPricingStrategy,
     DeliveryCalculatedPricingStrategyPreviousAttributes,
@@ -32,15 +35,149 @@ import type {
 import type {
     DeliveryProfileDiagnostics,
     DeliveryProfileUnconfiguredAssignment,
+    DeliveryProfileConfigurationPreviousAttributes,
     DeliveryProfileOriginPolicy,
     DeliveryProfileOriginPolicyRequest,
-    DeliveryProfileOriginPolicyRequestInput,
-    DeliveryProfileOriginPolicyPreviousAttributes
+    DeliveryProfileOriginPolicyRequestInput
 } from './types-22.js';
 import type { MetadataMap, MerchantWebhookEnvelope } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
-import type { WebhookDeliveryProfile } from './types-78.js';
+import type { WebhookDeliveryProfile } from './types-79.js';
 import type { ResponseMeta } from './types-62.js';
+/**
+ * One rate in a rate table pricing strategy: a `when` condition, a `priority`, and a price per
+ * currency. The first matching rate by priority sets the price.
+ */
+export type DeliveryPricingRate = {
+    /**
+     * Price by ISO 4217 currency code. Each key must equal the currency of its Money value. *
+     * (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code.
+     */
+    "currency_options": Record<string, MoneyValue>;
+    /** ID of this rate. Flint assigns it. Example: "drate_01KEZF7C00FD0B4QEC0M00MJ4S". */
+    "delivery_rate_id": string;
+    /**
+     * Rates are checked from the highest priority to the lowest. The first matching rate sets the
+     * price. Priorities must be unique and at least 0. Format: int32.
+     */
+    "priority": number;
+    /**
+     * Eligibility expression that decides whether this rate applies. The rate matches when the
+     * expression matches. `null` when a stored rate has no condition. Flint requires a condition
+     * on every rate, so expect an expression. anyOf[1] (Value): {@link
+     * DeliveryEligibilityExpression}. A boolean expression containing exactly one operator or
+     * typed condition at each node. Expressions support at most 8 levels and 100 total nodes.
+     * anyOf[2] (Value): null.
+     */
+    "when": ((DeliveryEligibilityExpression) | (null) | (unknown));
+};
+/**
+ * A rate to add when creating a rate table pricing strategy: a `when` condition, a `priority`, and
+ * a price per currency.
+ */
+export type DeliveryPricingRateCreateRequest = {
+    /**
+     * Price by ISO 4217 currency code. Each key must equal the currency of its Money value. *
+     * (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code.
+     */
+    "currency_options": Record<string, MoneyValue>;
+    /**
+     * Rates are checked from the highest priority to the lowest. The first matching rate sets the
+     * price. Priorities must be unique and at least 0. Format: int32.
+     */
+    "priority": number;
+    /**
+     * Eligibility expression that decides whether this rate applies. The rate matches when the
+     * expression matches. A boolean expression containing exactly one operator or typed condition
+     * at each node. Expressions support at most 8 levels and 100 total nodes.
+     */
+    "when": DeliveryEligibilityExpressionRequest;
+};
+/**
+ * A rate to add when creating a rate table pricing strategy: a `when` condition, a `priority`, and
+ * a price per currency.
+ */
+export type DeliveryPricingRateCreateRequestInput = {
+    /**
+     * Price by ISO 4217 currency code. Each key must equal the currency of its Money value. *
+     * (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units plus an
+     * ISO 4217 currency code.
+     */
+    "currency_options": Record<string, MoneyValueInput>;
+    /**
+     * Rates are checked from the highest priority to the lowest. The first matching rate sets the
+     * price. Priorities must be unique and at least 0. Format: int32.
+     */
+    "priority": number;
+    /**
+     * Eligibility expression that decides whether this rate applies. The rate matches when the
+     * expression matches. A boolean expression containing exactly one operator or typed condition
+     * at each node. Expressions support at most 8 levels and 100 total nodes.
+     */
+    "when": DeliveryEligibilityExpressionRequestInput;
+};
+export type DeliveryPricingRatePreviousAttributes = {
+    /**
+     * Price by ISO 4217 currency code. Each key must equal the currency of its Money value.
+     * anyOf[1] (Value): Map of {@link MoneyValuePreviousAttributes}. anyOf[1].* (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "currency_options"?: ((Record<string, MoneyValuePreviousAttributes>) | (null));
+    /**
+     * ID of this rate. Flint assigns it. anyOf[1] (Value): string. ID of this rate. Flint assigns
+     * it. Example: "drate_01KEZF7C00FD0B4QEC0M00MJ4S". anyOf[2] (Value): null.
+     */
+    "delivery_rate_id"?: ((string) | (null));
+    /**
+     * Rates are checked from the highest priority to the lowest. The first matching rate sets the
+     * price. Priorities must be unique and at least 0. anyOf[1] (Value): integer. Rates are
+     * checked from the highest priority to the lowest. The first matching rate sets the price.
+     * Priorities must be unique and at least 0. Format: int32. anyOf[2] (Value): null.
+     */
+    "priority"?: ((number) | (null));
+    /**
+     * Eligibility expression that decides whether this rate applies. The rate matches when the
+     * expression matches. `null` when a stored rate has no condition. Flint requires a condition
+     * on every rate, so expect an expression. anyOf[1] (Value): ({@link
+     * DeliveryEligibilityExpressionPreviousAttributes} or null). Eligibility expression that
+     * decides whether this rate applies. The rate matches when the expression matches. `null` when
+     * a stored rate has no condition. Flint requires a condition on every rate, so expect an
+     * expression. anyOf[1].anyOf[1] (Value): {@link
+     * DeliveryEligibilityExpressionPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2]
+     * (Value): null.
+     */
+    "when"?: (((((DeliveryEligibilityExpressionPreviousAttributes) | (null)))) | (null) | (unknown));
+};
+/**
+ * A rate in a rate table pricing strategy you send when updating a delivery method. Include
+ * `delivery_rate_id` to keep or update an existing rate.
+ */
+export type DeliveryPricingRateRequest = {
+    /**
+     * Price by ISO 4217 currency code. Each key must equal the currency of its Money value. *
+     * (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code.
+     */
+    "currency_options": Record<string, MoneyValue>;
+    /**
+     * Stable rate identifier returned by Flint. Include it when updating or retaining an existing
+     * rate. minLength: 1. Example: "drate_01KEZF7C00FD0B4QEC0M00MJ4S".
+     */
+    "delivery_rate_id"?: string;
+    /**
+     * Rates are checked from the highest priority to the lowest. The first matching rate sets the
+     * price. Priorities must be unique and at least 0. Format: int32.
+     */
+    "priority": number;
+    /**
+     * Eligibility expression that decides whether this rate applies. The rate matches when the
+     * expression matches. A boolean expression containing exactly one operator or typed condition
+     * at each node. Expressions support at most 8 levels and 100 total nodes.
+     */
+    "when": DeliveryEligibilityExpressionRequest;
+};
 /**
  * A rate in a rate table pricing strategy you send when updating a delivery method. Include
  * `delivery_rate_id` to keep or update an existing rate.
@@ -3548,257 +3685,3 @@ export type DeliveryProfileConfigurationInputQuoteInput = ({
      */
     "splitting_policy": "whole_line_item" | "quantity_split_allowed";
 });
-/** The `required` variant of `DeliveryProfileConfigurationInput`. */
-export type DeliveryProfileConfigurationInputRequired = ({
-    /**
-     * Required as a non-empty unique list when requirement is required. quote accepts shipment,
-     * pickup, and local_delivery. manual accepts digital and service. minItems: 1. uniqueItems:
-     * true. [] enum: "shipment", "pickup", "local_delivery", "digital", "service". [] (Value):
-     * string. Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
-     */
-    "allowed_types"?: Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service" | (string & {})>;
-    /**
-     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
-     * manual. Controls which delivery obligations can share a choice group. Value enum:
-     * "combine_when_compatible", "separate_profile", "separate_line_item", "fulfill_alone".
-     */
-    "combination_policy"?: "combine_when_compatible"
-        | "separate_profile"
-        | "separate_line_item"
-        | "fulfill_alone"
-        | (string & {});
-    /**
-     * Required for quote resolution and forbidden for none or manual resolution. fixed_location
-     * requires location_id. inventory_routing forbids location_id and applies only to tracked
-     * inventory. method_origin forbids location_id. Origin policy you supply for a delivery
-     * profile: a fixed Location (`location_id`), inventory routing, or the origin set on the
-     * delivery method.
-     */
-    "origin_policy"?: DeliveryProfileOriginPolicyRequest;
-    /**
-     * Whether delivery planning applies. none forbids every other configuration field. required
-     * also requires resolution_mode and allowed_types, plus the fields required by that resolution
-     * mode. Value enum: "required".
-     */
-    "requirement": "required" | (string & {});
-    /**
-     * Required when requirement is required. quote plans physical delivery and requires
-     * origin_policy, combination_policy, and splitting_policy. manual supports digital and service
-     * items and forbids physical planning fields. Value enum: "quote", "manual".
-     */
-    "resolution_mode": "quote" | "manual" | (string & {});
-    /**
-     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
-     * manual. Controls whether a line item quantity can be split across delivery assignments.
-     * Value enum: "whole_line_item", "quantity_split_allowed".
-     */
-    "splitting_policy"?: "whole_line_item" | "quantity_split_allowed" | (string & {});
-})
-    & ((Exclude<DeliveryProfileConfigurationInputQuote & object, readonly unknown[]>)
-    | (Exclude<DeliveryProfileConfigurationInputManual & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/** The `required` variant of `DeliveryProfileConfigurationInput`. */
-export type DeliveryProfileConfigurationInputRequiredInput = ({
-    /**
-     * Required as a non-empty unique list when requirement is required. quote accepts shipment,
-     * pickup, and local_delivery. manual accepts digital and service. minItems: 1. uniqueItems:
-     * true. [] enum: "shipment", "pickup", "local_delivery", "digital", "service". [] (Value):
-     * string. Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
-     */
-    "allowed_types"?: Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service">;
-    /**
-     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
-     * manual. Controls which delivery obligations can share a choice group. Value enum:
-     * "combine_when_compatible", "separate_profile", "separate_line_item", "fulfill_alone".
-     */
-    "combination_policy"?: "combine_when_compatible" | "separate_profile" | "separate_line_item" | "fulfill_alone";
-    /**
-     * Required for quote resolution and forbidden for none or manual resolution. fixed_location
-     * requires location_id. inventory_routing forbids location_id and applies only to tracked
-     * inventory. method_origin forbids location_id. Origin policy you supply for a delivery
-     * profile: a fixed Location (`location_id`), inventory routing, or the origin set on the
-     * delivery method.
-     */
-    "origin_policy"?: DeliveryProfileOriginPolicyRequestInput;
-    /**
-     * Whether delivery planning applies. none forbids every other configuration field. required
-     * also requires resolution_mode and allowed_types, plus the fields required by that resolution
-     * mode. Value enum: "required".
-     */
-    "requirement": "required";
-    /**
-     * Required when requirement is required. quote plans physical delivery and requires
-     * origin_policy, combination_policy, and splitting_policy. manual supports digital and service
-     * items and forbids physical planning fields. Value enum: "quote", "manual".
-     */
-    "resolution_mode": "quote" | "manual";
-    /**
-     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
-     * manual. Controls whether a line item quantity can be split across delivery assignments.
-     * Value enum: "whole_line_item", "quantity_split_allowed".
-     */
-    "splitting_policy"?: "whole_line_item" | "quantity_split_allowed";
-})
-    & ((Exclude<DeliveryProfileConfigurationInputQuoteInput & object, readonly unknown[]>)
-    | (Exclude<DeliveryProfileConfigurationInputManualInput & object, readonly unknown[]>));
-export type DeliveryProfileConfigurationPreviousAttributes = {
-    /**
-     * Required as a non-empty unique list when requirement is required. quote accepts shipment,
-     * pickup, and local_delivery. manual accepts digital and service. [] enum: "shipment",
-     * "pickup", "local_delivery", "digital", "service". anyOf[1] (Value): Array of string.
-     * Required as a non-empty unique list when requirement is required. quote accepts shipment,
-     * pickup, and local_delivery. manual accepts digital and service. [] enum: "shipment",
-     * "pickup", "local_delivery", "digital", "service". anyOf[1][] (Value): string. Value enum:
-     * "shipment", "pickup", "local_delivery", "digital", "service". anyOf[2] (Value): null.
-     */
-    "allowed_types"?: ((Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service" | (string & {})>) | (null));
-    /**
-     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
-     * manual. Controls which delivery obligations can share a choice group. Value enum:
-     * "combine_when_compatible", "separate_profile", "separate_line_item", "fulfill_alone".
-     * anyOf[1] (Value): string. Required for quote resolution and forbidden when requirement is
-     * none or resolution_mode is manual. Controls which delivery obligations can share a choice
-     * group. Value enum: "combine_when_compatible", "separate_profile", "separate_line_item",
-     * "fulfill_alone". anyOf[2] (Value): null.
-     */
-    "combination_policy"?: (("combine_when_compatible"
-        | "separate_profile"
-        | "separate_line_item"
-        | "fulfill_alone"
-        | (string & {}))
-        | (null));
-    /**
-     * Required for quote resolution and forbidden for none or manual resolution. fixed_location
-     * requires location_id. inventory_routing forbids location_id and applies only to tracked
-     * inventory. method_origin forbids location_id. anyOf[1] (Value): {@link
-     * DeliveryProfileOriginPolicyPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "origin_policy"?: ((DeliveryProfileOriginPolicyPreviousAttributes) | (null));
-    /**
-     * Whether delivery planning applies. none forbids every other configuration field. required
-     * also requires resolution_mode and allowed_types, plus the fields required by that resolution
-     * mode. Value enum: "none", "required". anyOf[1] (Value): string. Whether delivery planning
-     * applies. none forbids every other configuration field. required also requires
-     * resolution_mode and allowed_types, plus the fields required by that resolution mode. Value
-     * enum: "none", "required". anyOf[2] (Value): null.
-     */
-    "requirement"?: (("none" | "required" | (string & {})) | (null));
-    /**
-     * Required when requirement is required. quote plans physical delivery and requires
-     * origin_policy, combination_policy, and splitting_policy. manual supports digital and service
-     * items and forbids physical planning fields. Value enum: "quote", "manual". anyOf[1] (Value):
-     * string. Required when requirement is required. quote plans physical delivery and requires
-     * origin_policy, combination_policy, and splitting_policy. manual supports digital and service
-     * items and forbids physical planning fields. Value enum: "quote", "manual". anyOf[2] (Value):
-     * null.
-     */
-    "resolution_mode"?: (("quote" | "manual" | (string & {})) | (null));
-    /**
-     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
-     * manual. Controls whether a line item quantity can be split across delivery assignments.
-     * Value enum: "whole_line_item", "quantity_split_allowed". anyOf[1] (Value): string. Required
-     * for quote resolution and forbidden when requirement is none or resolution_mode is manual.
-     * Controls whether a line item quantity can be split across delivery assignments. Value enum:
-     * "whole_line_item", "quantity_split_allowed". anyOf[2] (Value): null.
-     */
-    "splitting_policy"?: (("whole_line_item" | "quantity_split_allowed" | (string & {})) | (null));
-};
-/**
- * Delivery planning settings you supply when creating or updating a delivery profile. Which fields
- * are allowed depends on `requirement` and `resolution_mode`.
- */
-export type DeliveryProfileConfigurationRequest = ({
-    /**
-     * Required as a non-empty unique list when requirement is required. quote accepts shipment,
-     * pickup, and local_delivery. manual accepts digital and service. minItems: 1. uniqueItems:
-     * true. [] enum: "shipment", "pickup", "local_delivery", "digital", "service". [] (Value):
-     * string. Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
-     */
-    "allowed_types"?: Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service" | (string & {})>;
-    /**
-     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
-     * manual. Controls which delivery obligations can share a choice group. Value enum:
-     * "combine_when_compatible", "separate_profile", "separate_line_item", "fulfill_alone".
-     */
-    "combination_policy"?: "combine_when_compatible"
-        | "separate_profile"
-        | "separate_line_item"
-        | "fulfill_alone"
-        | (string & {});
-    /**
-     * Required for quote resolution and forbidden for none or manual resolution. fixed_location
-     * requires location_id. inventory_routing forbids location_id and applies only to tracked
-     * inventory. method_origin forbids location_id. Origin policy you supply for a delivery
-     * profile: a fixed Location (`location_id`), inventory routing, or the origin set on the
-     * delivery method.
-     */
-    "origin_policy"?: DeliveryProfileOriginPolicyRequest;
-    /**
-     * Whether delivery planning applies. none forbids every other configuration field. required
-     * also requires resolution_mode and allowed_types, plus the fields required by that resolution
-     * mode. Value enum: "none", "required".
-     */
-    "requirement"?: "none" | "required" | (string & {});
-    /**
-     * Required when requirement is required. quote plans physical delivery and requires
-     * origin_policy, combination_policy, and splitting_policy. manual supports digital and service
-     * items and forbids physical planning fields. Value enum: "quote", "manual".
-     */
-    "resolution_mode"?: "quote" | "manual" | (string & {});
-    /**
-     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
-     * manual. Controls whether a line item quantity can be split across delivery assignments.
-     * Value enum: "whole_line_item", "quantity_split_allowed".
-     */
-    "splitting_policy"?: "whole_line_item" | "quantity_split_allowed" | (string & {});
-})
-    & ((Exclude<DeliveryProfileConfigurationInputNone & object, readonly unknown[]>)
-    | (Exclude<DeliveryProfileConfigurationInputRequired & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * Delivery planning settings you supply when creating or updating a delivery profile. Which fields
- * are allowed depends on `requirement` and `resolution_mode`.
- */
-export type DeliveryProfileConfigurationRequestInput = ({
-    /**
-     * Required as a non-empty unique list when requirement is required. quote accepts shipment,
-     * pickup, and local_delivery. manual accepts digital and service. minItems: 1. uniqueItems:
-     * true. [] enum: "shipment", "pickup", "local_delivery", "digital", "service". [] (Value):
-     * string. Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
-     */
-    "allowed_types"?: Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service">;
-    /**
-     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
-     * manual. Controls which delivery obligations can share a choice group. Value enum:
-     * "combine_when_compatible", "separate_profile", "separate_line_item", "fulfill_alone".
-     */
-    "combination_policy"?: "combine_when_compatible" | "separate_profile" | "separate_line_item" | "fulfill_alone";
-    /**
-     * Required for quote resolution and forbidden for none or manual resolution. fixed_location
-     * requires location_id. inventory_routing forbids location_id and applies only to tracked
-     * inventory. method_origin forbids location_id. Origin policy you supply for a delivery
-     * profile: a fixed Location (`location_id`), inventory routing, or the origin set on the
-     * delivery method.
-     */
-    "origin_policy"?: DeliveryProfileOriginPolicyRequestInput;
-    /**
-     * Whether delivery planning applies. none forbids every other configuration field. required
-     * also requires resolution_mode and allowed_types, plus the fields required by that resolution
-     * mode. Value enum: "none", "required".
-     */
-    "requirement"?: "none" | "required";
-    /**
-     * Required when requirement is required. quote plans physical delivery and requires
-     * origin_policy, combination_policy, and splitting_policy. manual supports digital and service
-     * items and forbids physical planning fields. Value enum: "quote", "manual".
-     */
-    "resolution_mode"?: "quote" | "manual";
-    /**
-     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
-     * manual. Controls whether a line item quantity can be split across delivery assignments.
-     * Value enum: "whole_line_item", "quantity_split_allowed".
-     */
-    "splitting_policy"?: "whole_line_item" | "quantity_split_allowed";
-})
-    & ((Exclude<DeliveryProfileConfigurationInputNoneInput & object, readonly unknown[]>)
-    | (Exclude<DeliveryProfileConfigurationInputRequiredInput & object, readonly unknown[]>));

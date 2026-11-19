@@ -14,7 +14,7 @@ final class SubscriptionBillingHoldPreviousAttributes extends Model {
      */
     public function getDetectedAt(): string|null { return $this->get('detected_at'); }
     public function hasDetectedAt(): bool { return $this->has('detected_at'); }
-    /** Why subscription billing cannot proceed. Treat unrecognized values as other. Value enum: "configuration", "retrying", "other". anyOf[1] (Value): string. Why subscription billing cannot proceed. Treat unrecognized values as other. Value enum: "configuration", "retrying", "other". anyOf[2] (Value): null.
+    /** Why subscription billing cannot proceed. Treat unrecognized values as other. Value enum: "configuration", "retrying", "platform_review", "flint_restriction", "other". anyOf[1] (Value): string. Why subscription billing cannot proceed. Treat unrecognized values as other. Value enum: "configuration", "retrying", "platform_review", "flint_restriction", "other". anyOf[2] (Value): null.
      * @return string|null
      */
     public function getReason(): string|null { return $this->get('reason'); }

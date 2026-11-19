@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# DeliveryRateCallbackConnectionCheckResponse to DeliveryWindowTimeCondition
+# DeliveryRateCallbackConfigurationPatchRequestInput to DeliveryWeightUnitPricePreviousAttributes
 
+- [DeliveryRateCallbackConfigurationPatchRequestInput](DeliveryRateCallbackConfigurationPatchRequestInput.md)
+- [DeliveryRateCallbackConfigurationPreviousAttributes](DeliveryRateCallbackConfigurationPreviousAttributes.md)
+- [DeliveryRateCallbackConfigurationRequestInput](DeliveryRateCallbackConfigurationRequestInput.md)
+- [DeliveryRateCallbackConnectionCheck](DeliveryRateCallbackConnectionCheck.md)
+- [DeliveryRateCallbackConnectionCheckRequest](DeliveryRateCallbackConnectionCheckRequest.md)
 - [DeliveryRateCallbackConnectionCheckResponse](DeliveryRateCallbackConnectionCheckResponse.md)
 - [DeliveryRateCallbackCreatedInstalledMerchantsEvent](DeliveryRateCallbackCreatedInstalledMerchantsEvent.md)
 - [DeliveryRateCallbackCreatedMerchantEvent](DeliveryRateCallbackCreatedMerchantEvent.md)
@@ -97,9 +102,4 @@
 - [DeliveryWeeklyIntervalRequestInput](DeliveryWeeklyIntervalRequestInput.md)
 - [DeliveryWeightUnitPrice](DeliveryWeightUnitPrice.md)
 - [DeliveryWeightUnitPricePreviousAttributes](DeliveryWeightUnitPricePreviousAttributes.md)
-- [DeliveryWeightUnitPriceRequestInput](DeliveryWeightUnitPriceRequestInput.md)
-- [DeliveryWindowRequest](DeliveryWindowRequest.md)
-- [DeliveryWindowRequestInput](DeliveryWindowRequestInput.md)
-- [DeliveryWindowResourcePreviousAttributes](DeliveryWindowResourcePreviousAttributes.md)
-- [DeliveryWindowTimeCondition](DeliveryWindowTimeCondition.md)
 

@@ -21,11 +21,12 @@ export type { AuthContextGetParams, AuthContext, AuthContextResponse, AuthMode }
 export type { _SdkWithoutIdempotency, WorkloadIdentityAuthContext } from '../declarations/types-80.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { APIKeyAuthContext } from '../declarations/types-0.js';
 export type { CLILoginAuthContext } from '../declarations/types-4.js';
 export type { PartnerAppAuthContext } from '../declarations/types-49.js';
-export type { OnboardingSessionAuthContext, NextAction, MoneyValue } from '../declarations/types-44.js';
+export type { OnboardingSessionAuthContext } from '../declarations/types-45.js';
+export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeMoneyValue } from '../declarations/types-88.js';

@@ -1,5 +1,26 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
+    PromotionSchedulePatchInput,
+    PromotionScheduleRequestInput,
+    PromotionSettingsRequestInput,
+    PublishReturnPolicyRevisionRequestInput,
+    QuantityPriceBreakRequestInput,
+    ReaderPaymentSourceTipInput
+} from './types-59.js';
+import type {
+    ReceiptSettingsPatchInput,
+    ReceiveInventoryTransferRequestInput,
+    RefreshCustomerSessionRequestInput,
+    RefundAdjustmentAuditInput,
+    RefundAdjustmentReasonRequestInput,
+    RefundChargeInput,
+    RefundDestinationsInput,
+    RefundLineItemInput,
+    RefundLineItemAdjustmentInInput,
+    RefundLineItemAdjustmentRefundInInput
+} from './types-60.js';
+import type {
+    RefundTaxBreakdownRefundInInput,
     RefundTenderAllocationInputGiftCardRedemptionInput,
     RefundTenderAllocationInputPaymentIntentInput,
     RefundTenderAllocationRequestInput,
@@ -13,10 +34,10 @@ import type {
     RemoveSubscriptionPromotionsRequestInput,
     RenewSubscriptionRequestInput,
     ReopenReturnRequestInput,
-    ReportInventoryTransferLossRequestInput,
-    RepriceDiscountsRequestInput
+    ReportInventoryTransferLossRequestInput
 } from './types-61.js';
 import type {
+    RepriceDiscountsRequestInput,
     ResendLicenseKeyRequestInput,
     ResendWebhookDeliveryRequestInput,
     ResetDemoSessionRequestInput,
@@ -40,10 +61,10 @@ import type {
     ReturnEligibilitySelectionRequestInput,
     ReturnInspectionLineItemRequestInput,
     ReturnInventoryTransferToOriginRequestInput,
-    ReturnLineDecisionInput,
-    ReturnLineItemRequestInput
+    ReturnLineDecisionInput
 } from './types-63.js';
 import type {
+    ReturnLineItemRequestInput,
     ReturnPolicyRevisionInputIneligibleInput,
     ReturnPolicyRevisionInputReturnableInput,
     ReturnPolicyRevisionRequestInput,
@@ -52,27 +73,25 @@ import type {
     ReturnPolicyScopeRequestInput,
     ReturnProcessDecisionInput,
     ReturnProcessDispositionRequestInput,
-    ReturnProcessInspectionRequestInput,
-    ReturnProcessReceiptRequestInput,
-    ReturnProcessResolutionRequestInput,
-    ReturnReceiptLineItemInputExcessInput,
-    ReturnReceiptLineItemInputMatchedInput,
-    ReturnReceiptLineItemInputUnverifiedInput,
-    ReturnReceiptLineItemRequestInput
+    ReturnProcessInspectionRequestInput
 } from './types-64.js';
-import type {
-    ReturnReplacementLineItemInputBundleInput,
-    ReturnReplacementLineItemInputCustomInput,
-    ReturnReplacementLineItemInputVariantInput,
-    ReturnReplacementLineItemRequestInput,
-    ReturnReplacementTaxRequestInput,
-    ReturnResolutionAdjustmentRequestInput,
-    ReturnResolutionLineItemRequestInput,
-    ReturnRestockingFeePolicyRequestInput,
-    ReturnShipmentLineItemAllocationRequestInput,
-    ReturnShippingPolicyRequestInput
-} from './types-65.js';
-import type { ReturnSourceSystemRequestInput } from './types-66.js';
+export declare function makePromotionSchedulePatch(value: InputValue<PromotionSchedulePatchInput>): Model<PromotionSchedulePatchInput>;
+export declare function makePromotionScheduleRequest(value: InputValue<PromotionScheduleRequestInput>): Model<PromotionScheduleRequestInput>;
+export declare function makePromotionSettingsRequest(value: InputValue<PromotionSettingsRequestInput>): Model<PromotionSettingsRequestInput>;
+export declare function makePublishReturnPolicyRevisionRequest(value: InputValue<PublishReturnPolicyRevisionRequestInput>): Model<PublishReturnPolicyRevisionRequestInput>;
+export declare function makeQuantityPriceBreakRequest(value: InputValue<QuantityPriceBreakRequestInput>): Model<QuantityPriceBreakRequestInput>;
+export declare function makeReaderPaymentSourceTip(value: InputValue<ReaderPaymentSourceTipInput>): Model<ReaderPaymentSourceTipInput>;
+export declare function makeReceiptSettingsPatch(value: InputValue<ReceiptSettingsPatchInput>): Model<ReceiptSettingsPatchInput>;
+export declare function makeReceiveInventoryTransferRequest(value: InputValue<ReceiveInventoryTransferRequestInput>): Model<ReceiveInventoryTransferRequestInput>;
+export declare function makeRefreshCustomerSessionRequest(value: InputValue<RefreshCustomerSessionRequestInput>): Model<RefreshCustomerSessionRequestInput>;
+export declare function makeRefundAdjustmentAudit(value: InputValue<RefundAdjustmentAuditInput>): Model<RefundAdjustmentAuditInput>;
+export declare function makeRefundAdjustmentReasonRequest(value: InputValue<RefundAdjustmentReasonRequestInput>): Model<RefundAdjustmentReasonRequestInput>;
+export declare function makeRefundCharge(value: InputValue<RefundChargeInput>): Model<RefundChargeInput>;
+export declare function makeRefundDestinations(value: InputValue<RefundDestinationsInput>): Model<RefundDestinationsInput>;
+export declare function makeRefundLineItem(value: InputValue<RefundLineItemInput>): Model<RefundLineItemInput>;
+export declare function makeRefundLineItemAdjustmentIn(value: InputValue<RefundLineItemAdjustmentInInput>): Model<RefundLineItemAdjustmentInInput>;
+export declare function makeRefundLineItemAdjustmentRefundIn(value: InputValue<RefundLineItemAdjustmentRefundInInput>): Model<RefundLineItemAdjustmentRefundInInput>;
+export declare function makeRefundTaxBreakdownRefundIn(value: InputValue<RefundTaxBreakdownRefundInInput>): Model<RefundTaxBreakdownRefundInInput>;
 export declare function makeRefundTenderAllocationInputGiftCardRedemption(value: InputValue<RefundTenderAllocationInputGiftCardRedemptionInput>): Model<RefundTenderAllocationInputGiftCardRedemptionInput>;
 export declare function makeRefundTenderAllocationInputPaymentIntent(value: InputValue<RefundTenderAllocationInputPaymentIntentInput>): Model<RefundTenderAllocationInputPaymentIntentInput>;
 export declare function makeRefundTenderAllocationRequest(value: InputValue<RefundTenderAllocationRequestInput>): Model<RefundTenderAllocationRequestInput>;
@@ -121,20 +140,3 @@ export declare function makeReturnPolicyScopeRequest(value: InputValue<ReturnPol
 export declare function makeReturnProcessDecision(value: InputValue<ReturnProcessDecisionInput>): Model<ReturnProcessDecisionInput>;
 export declare function makeReturnProcessDispositionRequest(value: InputValue<ReturnProcessDispositionRequestInput>): Model<ReturnProcessDispositionRequestInput>;
 export declare function makeReturnProcessInspectionRequest(value: InputValue<ReturnProcessInspectionRequestInput>): Model<ReturnProcessInspectionRequestInput>;
-export declare function makeReturnProcessReceiptRequest(value: InputValue<ReturnProcessReceiptRequestInput>): Model<ReturnProcessReceiptRequestInput>;
-export declare function makeReturnProcessResolutionRequest(value: InputValue<ReturnProcessResolutionRequestInput>): Model<ReturnProcessResolutionRequestInput>;
-export declare function makeReturnReceiptLineItemInputExcess(value: InputValue<ReturnReceiptLineItemInputExcessInput>): Model<ReturnReceiptLineItemInputExcessInput>;
-export declare function makeReturnReceiptLineItemInputMatched(value: InputValue<ReturnReceiptLineItemInputMatchedInput>): Model<ReturnReceiptLineItemInputMatchedInput>;
-export declare function makeReturnReceiptLineItemInputUnverified(value: InputValue<ReturnReceiptLineItemInputUnverifiedInput>): Model<ReturnReceiptLineItemInputUnverifiedInput>;
-export declare function makeReturnReceiptLineItemRequest(value: InputValue<ReturnReceiptLineItemRequestInput>): Model<ReturnReceiptLineItemRequestInput>;
-export declare function makeReturnReplacementLineItemInputBundle(value: InputValue<ReturnReplacementLineItemInputBundleInput>): Model<ReturnReplacementLineItemInputBundleInput>;
-export declare function makeReturnReplacementLineItemInputCustom(value: InputValue<ReturnReplacementLineItemInputCustomInput>): Model<ReturnReplacementLineItemInputCustomInput>;
-export declare function makeReturnReplacementLineItemInputVariant(value: InputValue<ReturnReplacementLineItemInputVariantInput>): Model<ReturnReplacementLineItemInputVariantInput>;
-export declare function makeReturnReplacementLineItemRequest(value: InputValue<ReturnReplacementLineItemRequestInput>): Model<ReturnReplacementLineItemRequestInput>;
-export declare function makeReturnReplacementTaxRequest(value: InputValue<ReturnReplacementTaxRequestInput>): Model<ReturnReplacementTaxRequestInput>;
-export declare function makeReturnResolutionAdjustmentRequest(value: InputValue<ReturnResolutionAdjustmentRequestInput>): Model<ReturnResolutionAdjustmentRequestInput>;
-export declare function makeReturnResolutionLineItemRequest(value: InputValue<ReturnResolutionLineItemRequestInput>): Model<ReturnResolutionLineItemRequestInput>;
-export declare function makeReturnRestockingFeePolicyRequest(value: InputValue<ReturnRestockingFeePolicyRequestInput>): Model<ReturnRestockingFeePolicyRequestInput>;
-export declare function makeReturnShipmentLineItemAllocationRequest(value: InputValue<ReturnShipmentLineItemAllocationRequestInput>): Model<ReturnShipmentLineItemAllocationRequestInput>;
-export declare function makeReturnShippingPolicyRequest(value: InputValue<ReturnShippingPolicyRequestInput>): Model<ReturnShippingPolicyRequestInput>;
-export declare function makeReturnSourceSystemRequest(value: InputValue<ReturnSourceSystemRequestInput>): Model<ReturnSourceSystemRequestInput>;

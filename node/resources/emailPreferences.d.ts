@@ -25,7 +25,7 @@ export type { CustomerEmailPreferences, CustomerEmailPreferencesResponse } from 
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { LookupEmailPreferencesRequestInput, LookupEmailPreferencesRequest } from '../declarations/types-40.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export { makeLookupEmailPreferencesRequest, makeMoneyValue } from '../declarations/types-88.js';

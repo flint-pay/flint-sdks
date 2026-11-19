@@ -1,23 +1,38 @@
-import type { OnboardingState, MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
-import type { ResponseMeta } from './types-62.js';
+import type {
+    OnboardingProfileRequest,
+    OnboardingProfile,
+    MoneyValue,
+    MoneyValuePreviousAttributes,
+    MoneyValueInput
+} from './types-44.js';
 import type { InputValue } from '../runtime.js';
+import type { ResponseMeta } from './types-62.js';
+import type { ReadinessAction } from './types-60.js';
 import type { Merchant } from './types-42.js';
 import type { User } from './types-78.js';
-import type { WebhookPreviousAttributes, WebhookOrder, WebhookOrderEdit } from './types-79.js';
+import type { WebhookPreviousAttributes, WebhookOrder } from './types-79.js';
 import type { BuyerAction } from './types-1.js';
-import type { CheckoutBuyerContact, CheckoutBuyerContactPreviousAttributes } from './types-6.js';
+import type {
+    CheckoutBillingContact,
+    CheckoutBuyerContact,
+    CheckoutBillingContactPreviousAttributes,
+    CheckoutBuyerContactPreviousAttributes
+} from './types-6.js';
 import type { CustomFieldAnswer, CustomFieldAnswerPreviousAttributes } from './types-16.js';
 import type { DeferredPromotion, DeferredPromotionPreviousAttributes } from './types-17.js';
 import type {
     ExpandedCustomerSummary,
     ExpandedPaymentIntentSummary,
+    ExpandedCustomerSummaryPreviousAttributes,
+    ExpandedPaymentIntentSummaryPreviousAttributes
+} from './types-26.js';
+import type {
     ExpandedSubscriptionPlanSummary,
     ExpandedSubscriptionSummary,
-    ExpandedCustomerSummaryPreviousAttributes,
-    ExpandedPaymentIntentSummaryPreviousAttributes,
-    ExpandedSubscriptionPlanSummaryPreviousAttributes
-} from './types-26.js';
-import type { Fulfillment, ExpandedSubscriptionSummaryPreviousAttributes } from './types-27.js';
+    Fulfillment,
+    ExpandedSubscriptionPlanSummaryPreviousAttributes,
+    ExpandedSubscriptionSummaryPreviousAttributes
+} from './types-27.js';
 import type { InventoryRoutingSource, InventoryRoutingSourcePreviousAttributes } from './types-33.js';
 import type { MetadataMap, MetadataRequestInput, MerchantWebhookEnvelope } from './types-43.js';
 import type {
@@ -29,39 +44,192 @@ import type {
     OrderGiftCardEstimatePreviousAttributes,
     OrderGiftCardSelectionPreviousAttributes,
     OrderGiftCardSettlementPreviousAttributes,
-    OrderHandoverPreviousAttributes,
-    OrderLineItemPreviousAttributes,
-    OrderEditLineAddition,
-    OrderEditLineRemoval,
-    OrderEditLineAdditionPreviousAttributes,
-    OrderEditLineRemovalPreviousAttributes
+    OrderHandoverPreviousAttributes
 } from './types-46.js';
 import type {
     OrderPaymentAttempt,
     OrderReturnCreditSettlement,
     OrderSettlementAmounts,
     OrderTax,
+    OrderLineItemPreviousAttributes,
     OrderReturnCreditSettlementPreviousAttributes,
     OrderSettlementAmountsPreviousAttributes
 } from './types-47.js';
-import type { PaymentCollection } from './types-51.js';
+import type { PaymentCollection, PaymentActivityActor } from './types-51.js';
 import type { PricingAmounts, PricingAmountsPreviousAttributes } from './types-56.js';
 import type { SetupCollection } from './types-68.js';
 import type { TicketedEvent, Tip, TicketedEventPreviousAttributes, TipPreviousAttributes } from './types-75.js';
-import type { PaymentActivityActor, PartnerWebhookEnvelope } from './types-50.js';
 import type {
     TaxCalculationRequestPreviousAttributes,
     TaxCalculationRequestRequestInput,
     TaxCalculationRequest,
     TaxCalculationRequestModelInput
-} from './types-73.js';
+} from './types-74.js';
 import type { FulfillmentPreviousAttributes } from './types-28.js';
 import type { OrderTaxPreviousAttributes } from './types-48.js';
+import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { Address, AddressPreviousAttributes, AddressRequest, AddressRequestInput } from './types-0.js';
 import type { DeliverySelectionRecipientRequest, DeliverySelectionRecipientRequestInput } from './types-24.js';
 import type { SubscriptionServiceLocationRequest } from './types-72.js';
-import type { SubscriptionDeliveryDestinationRequestInput } from './types-69.js';
+import type { SubscriptionDeliveryDestinationRequestInput } from './types-70.js';
 import type { DeliveryRecipientResource, DeliveryRecipientResourcePreviousAttributes } from './types-23.js';
+/**
+ * Contact and website details you submit for a merchant during onboarding. Send null to clear a
+ * field.
+ */
+export type OnboardingProfileRequestInput = OnboardingProfileRequest;
+/** Non-secret metadata for the calling credential, selected by auth_type. */
+export type OnboardingSessionAuthContext = ({
+    /** Credential type that selects this object's fields. Value enum: "onboarding_session". */
+    "auth_type": "onboarding_session" | (string & {});
+    /** Whether the onboarding user's role permits managing API keys. */
+    "can_manage_api_keys": boolean;
+    /**
+     * Time the credential expires; absent for keys without an expiry. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "expires_at": string;
+    /**
+     * Time fresh identity verification expires; it may be in the past. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "fresh_verification_expires_at": string;
+    /**
+     * Merchant the credential acts for. Null when an onboarding session has no merchant yet.
+     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     */
+    "merchant_id": string | null;
+    /** Whether the credential acts in test or live mode. Value enum: "test", "live". */
+    "mode": "test" | "live" | (string & {});
+    /**
+     * Public sandbox ID in test mode. Null when an onboarding session has no sandbox yet. Omitted
+     * when mode is live. Example: "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "sandbox_id": string | null;
+    /** User the session acts for. Example: "usr_01KEZF7C00YC8757ZYP9727JM0". */
+    "user_id": string;
+})
+    & ({
+    /** Value enum: "test". */
+    "mode"?: unknown;
+});
+export type OnboardingStartParams = (InputValue<OnboardingStartRequestInput>);
+/** The request body for: Start onboarding flow. */
+export type OnboardingStartRequest = {
+    /**
+     * Business name buyers see. Applied only when verification creates a merchant; existing
+     * merchants keep their profile. Surrounding whitespace is trimmed. minLength: 1. maxLength:
+     * 120.
+     */
+    "business_name"?: string;
+    /** Email address to verify. Flint emails a verification code to it. minLength: 1. */
+    "email": string;
+    /** First name of the person signing up. minLength: 1. */
+    "first_name": string;
+    /** Last name of the person signing up. minLength: 1. */
+    "last_name": string;
+    /** Support email shown to buyers. Applied only to a newly created merchant. minLength: 1. */
+    "support_email"?: string;
+    /**
+     * Support phone shown to buyers, in E.164 format. Applied only to a newly created merchant.
+     * minLength: 1. maxLength: 16. pattern: ^\+[1-9][0-9]{6,14}$.
+     */
+    "support_phone"?: string;
+    /** Support URL shown to buyers. Applied only to a newly created merchant. minLength: 1. */
+    "support_url"?: string;
+    /**
+     * IANA business time zone for a newly created merchant, such as America/Chicago. Used for
+     * reports and business dates. Omit to leave it unset. Existing merchants keep their time zone.
+     * minLength: 1.
+     */
+    "timezone"?: string;
+    /** Public business website URL. Applied only to a newly created merchant. minLength: 1. */
+    "website_url"?: string;
+};
+/** The request body for: Start onboarding flow. */
+export type OnboardingStartRequestInput = OnboardingStartRequest;
+/** A response containing `OnboardingStartResult` data. */
+export type OnboardingStartResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. The verification token
+     * and expiry returned after the verification email is accepted for asynchronous delivery.
+     * Success does not confirm email delivery.
+     */
+    "data": OnboardingStartResult;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * The verification token and expiry returned after the verification email is accepted for
+ * asynchronous delivery. Success does not confirm email delivery.
+ */
+export type OnboardingStartResult = {
+    /**
+     * Time the email verification expires. Start onboarding again to request a new code after this
+     * time. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "expires_at": string;
+    /**
+     * Token identifying the email verification. Send it with the emailed code to POST
+     * /v1/onboarding/verify-email.
+     */
+    "verification_token": string;
+};
+/**
+ * A merchant's onboarding status, profile, next step, requested capabilities, and whether an API
+ * key can be issued.
+ */
+export type OnboardingState = {
+    /**
+     * Business country Flint uses in the selected environment. Before account setup, this is the
+     * selected country or the country Flint would use if advance omits it. Omitted when Flint
+     * cannot determine a country. Once account setup selects a country, it cannot change. Uses ISO
+     * 3166-1 alpha-2 country codes. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example:
+     * "US". Value enum: "US".
+     */
+    "country"?: "US" | (string & {});
+    /**
+     * ID of the merchant's default sandbox. Omitted when the merchant has no default sandbox.
+     * Example: "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "default_sandbox_id"?: string;
+    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+    "merchant_id": string;
+    /**
+     * The step to take next. Omitted when no step is pending, such as while Flint prepares the
+     * sandbox. A step that moves a merchant capability or readiness axis forward, with the party
+     * that must do it (`owner`) and any required fields.
+     */
+    "next_step"?: ReadinessAction;
+    /**
+     * Contact and website details recorded for onboarding. Contact and website details recorded
+     * for a merchant during onboarding.
+     */
+    "profile": OnboardingProfile;
+    /**
+     * Canonical Flint capability intent persisted on the selected stable provider-account target.
+     * The initial merchant-account configuration always includes accept_card_payments and
+     * receive_payouts and may also include accept_ach_debit_payments. minItems: 2. maxItems: 3.
+     * uniqueItems: true. [] enum: "accept_card_payments", "receive_payouts",
+     * "accept_ach_debit_payments". [] (Value): string. Value enum: "accept_card_payments",
+     * "receive_payouts", "accept_ach_debit_payments".
+     */
+    "requested_capabilities"?: (Array<"accept_card_payments" | "receive_payouts" | "accept_ach_debit_payments" | (string & {})>);
+    /**
+     * Onboarding workflow status for activation and remediation, not a durable account-readiness
+     * boolean. Value enum: "complete", "waiting_for_review", "needs_external_action",
+     * "needs_input".
+     */
+    "status": "complete" | "waiting_for_review" | "needs_external_action" | "needs_input" | (string & {});
+};
 /** A response containing `OnboardingState` data. */
 export type OnboardingStateResponse = {
     /**
@@ -210,6 +378,11 @@ export type Order = {
      * an order.
      */
     "charges": Array<OrderCharge>;
+    /**
+     * Billing name and address collected in Checkout for a successful payment. Omitted for buyer
+     * credentials and when Checkout did not collect the details.
+     */
+    "checkout_billing_contact"?: CheckoutBillingContact;
     /**
      * IDs of the checkout sessions opened for this order. [] (Value): string. Example:
      * "cs_01KEZF7C004JRWFW43H037MQRN".
@@ -486,8 +659,8 @@ export type Order = {
      */
     "payment_intents"?: Array<ExpandedPaymentIntentSummary>;
     /**
-     * Payment link whose checkout created this order. Absent for orders that did not come from a
-     * payment link. Filter GET /v1/orders by payment_link_id to list a link's orders. Example:
+     * Payment link that created this order or started the subscription it renews. Absent for other
+     * orders. Filter GET /v1/orders by payment_link_id to list a link's orders. Example:
      * "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
      */
     "payment_link_id"?: string;
@@ -1815,6 +1988,7 @@ export type OrderClosedEvent = ((((Exclude<MerchantWebhookEnvelope & object, rea
             "buyer_contact"?: ((CheckoutBuyerContactPreviousAttributes) | (null));
             "buyer_note"?: ((string) | (null));
             "charges"?: ((Array<OrderChargePreviousAttributes>) | (null));
+            "checkout_billing_contact"?: ((CheckoutBillingContactPreviousAttributes) | (null));
             "checkout_session_ids"?: ((Array<string>) | (null));
             "client_reference"?: ((string) | (null));
             "closed_at"?: ((string) | (null));
@@ -1937,6 +2111,7 @@ export type OrderClosedEvent = ((((Exclude<MerchantWebhookEnvelope & object, rea
             "buyer_contact"?: ((CheckoutBuyerContactPreviousAttributes) | (null));
             "buyer_note"?: ((string) | (null));
             "charges"?: ((Array<OrderChargePreviousAttributes>) | (null));
+            "checkout_billing_contact"?: ((CheckoutBillingContactPreviousAttributes) | (null));
             "checkout_session_ids"?: ((Array<string>) | (null));
             "client_reference"?: ((string) | (null));
             "closed_at"?: ((string) | (null));
@@ -2097,17 +2272,23 @@ export type OrderClosedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope
      * OrderChargePreviousAttributes}. Charges added to the order, such as delivery or service
      * fees, each with its applied amount, tax, and refunded amount.
      * previous_attributes.charges.anyOf[1][] (Value): {@link OrderChargePreviousAttributes}.
-     * previous_attributes.charges.anyOf[2] (Value): null. previous_attributes.checkout_session_ids
-     * (Optional): Array of string or null. IDs of the checkout sessions opened for this order.
-     * previous_attributes.checkout_session_ids.anyOf[1] (Value): Array of string. IDs of the
-     * checkout sessions opened for this order. previous_attributes.checkout_session_ids.anyOf[1][]
-     * (Value): string. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
-     * previous_attributes.checkout_session_ids.anyOf[2] (Value): null.
-     * previous_attributes.client_reference (Optional): string or null. The reference the payment
-     * link URL or resolve request carried, such as your user ID. `null` when none was sent or
-     * checkout did not start from a payment link. Returned only to merchant credentials; omitted
-     * for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof of
-     * identity. Always present with merchant credentials.
+     * previous_attributes.charges.anyOf[2] (Value): null.
+     * previous_attributes.checkout_billing_contact (Optional): {@link
+     * CheckoutBillingContactPreviousAttributes} or null. Billing name and address collected in
+     * Checkout for a successful payment. Omitted for buyer credentials and when Checkout did not
+     * collect the details. previous_attributes.checkout_billing_contact.anyOf[1] (Value): {@link
+     * CheckoutBillingContactPreviousAttributes}.
+     * previous_attributes.checkout_billing_contact.anyOf[2] (Value): null.
+     * previous_attributes.checkout_session_ids (Optional): Array of string or null. IDs of the
+     * checkout sessions opened for this order. previous_attributes.checkout_session_ids.anyOf[1]
+     * (Value): Array of string. IDs of the checkout sessions opened for this order.
+     * previous_attributes.checkout_session_ids.anyOf[1][] (Value): string. Example:
+     * "cs_01KEZF7C004JRWFW43H037MQRN". previous_attributes.checkout_session_ids.anyOf[2] (Value):
+     * null. previous_attributes.client_reference (Optional): string or null. The reference the
+     * payment link URL or resolve request carried, such as your user ID. `null` when none was sent
+     * or checkout did not start from a payment link. Returned only to merchant credentials;
+     * omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof
+     * of identity. Always present with merchant credentials.
      * previous_attributes.client_reference.anyOf[1] (Value): string. The reference the payment
      * link URL or resolve request carried, such as your user ID. `null` when none was sent or
      * checkout did not start from a payment link. Returned only to merchant credentials; omitted
@@ -2370,13 +2551,13 @@ export type OrderClosedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope
      * when `expand` names `payment_intents`. previous_attributes.payment_intents.anyOf[1][]
      * (Value): {@link ExpandedPaymentIntentSummaryPreviousAttributes}.
      * previous_attributes.payment_intents.anyOf[2] (Value): null.
-     * previous_attributes.payment_link_id (Optional): string or null. Payment link whose checkout
-     * created this order. Absent for orders that did not come from a payment link. Filter GET
+     * previous_attributes.payment_link_id (Optional): string or null. Payment link that created
+     * this order or started the subscription it renews. Absent for other orders. Filter GET
      * /v1/orders by payment_link_id to list a link's orders.
-     * previous_attributes.payment_link_id.anyOf[1] (Value): string. Payment link whose checkout
-     * created this order. Absent for orders that did not come from a payment link. Filter GET
-     * /v1/orders by payment_link_id to list a link's orders. Example:
-     * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". previous_attributes.payment_link_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_link_id.anyOf[1] (Value): string. Payment link that created this
+     * order or started the subscription it renews. Absent for other orders. Filter GET /v1/orders
+     * by payment_link_id to list a link's orders. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+     * previous_attributes.payment_link_id.anyOf[2] (Value): null.
      * previous_attributes.payment_status (Optional): string or null. Collection progress. An
      * invoice write-off also completes collection without receiving the written-off amount. Value
      * enum: "unpaid", "partially_paid", "paid". previous_attributes.payment_status.anyOf[1]
@@ -2560,22 +2741,27 @@ export type OrderClosedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope
          * OrderChargePreviousAttributes}. Charges added to the order, such as delivery or service
          * fees, each with its applied amount, tax, and refunded amount. charges.anyOf[1][]
          * (Value): {@link OrderChargePreviousAttributes}. charges.anyOf[2] (Value): null.
-         * checkout_session_ids (Optional): Array of string or null. IDs of the checkout sessions
-         * opened for this order. checkout_session_ids.anyOf[1] (Value): Array of string. IDs of
-         * the checkout sessions opened for this order. checkout_session_ids.anyOf[1][] (Value):
-         * string. Example: "cs_01KEZF7C004JRWFW43H037MQRN". checkout_session_ids.anyOf[2] (Value):
-         * null. client_reference (Optional): string or null. The reference the payment link URL or
-         * resolve request carried, such as your user ID. `null` when none was sent or checkout did
-         * not start from a payment link. Returned only to merchant credentials; omitted for buyer
-         * credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity.
-         * Always present with merchant credentials. client_reference.anyOf[1] (Value): string. The
-         * reference the payment link URL or resolve request carried, such as your user ID. `null`
-         * when none was sent or checkout did not start from a payment link. Returned only to
-         * merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so
-         * treat it as a claim, not proof of identity. Always present with merchant credentials.
-         * minLength: 1. maxLength: 255. client_reference.anyOf[2] (Value): null. closed_at
-         * (Optional): string or null. When the order closed. Present exactly when status is
-         * closed. Set once at the transition and never changed. closed_at.anyOf[1] (Value):
+         * checkout_billing_contact (Optional): {@link CheckoutBillingContactPreviousAttributes} or
+         * null. Billing name and address collected in Checkout for a successful payment. Omitted
+         * for buyer credentials and when Checkout did not collect the details.
+         * checkout_billing_contact.anyOf[1] (Value): {@link
+         * CheckoutBillingContactPreviousAttributes}. checkout_billing_contact.anyOf[2] (Value):
+         * null. checkout_session_ids (Optional): Array of string or null. IDs of the checkout
+         * sessions opened for this order. checkout_session_ids.anyOf[1] (Value): Array of string.
+         * IDs of the checkout sessions opened for this order. checkout_session_ids.anyOf[1][]
+         * (Value): string. Example: "cs_01KEZF7C004JRWFW43H037MQRN". checkout_session_ids.anyOf[2]
+         * (Value): null. client_reference (Optional): string or null. The reference the payment
+         * link URL or resolve request carried, such as your user ID. `null` when none was sent or
+         * checkout did not start from a payment link. Returned only to merchant credentials;
+         * omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not
+         * proof of identity. Always present with merchant credentials. client_reference.anyOf[1]
+         * (Value): string. The reference the payment link URL or resolve request carried, such as
+         * your user ID. `null` when none was sent or checkout did not start from a payment link.
+         * Returned only to merchant credentials; omitted for buyer credentials. Set by the buyer's
+         * browser, so treat it as a claim, not proof of identity. Always present with merchant
+         * credentials. minLength: 1. maxLength: 255. client_reference.anyOf[2] (Value): null.
+         * closed_at (Optional): string or null. When the order closed. Present exactly when status
+         * is closed. Set once at the transition and never changed. closed_at.anyOf[1] (Value):
          * string. When the order closed. Present exactly when status is closed. Set once at the
          * transition and never changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
          * closed_at.anyOf[2] (Value): null. closed_reason (Optional): string or null. Why the
@@ -2804,54 +2990,53 @@ export type OrderClosedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope
          * ExpandedPaymentIntentSummaryPreviousAttributes}. Payment intents included when `expand`
          * names `payment_intents`. payment_intents.anyOf[1][] (Value): {@link
          * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intents.anyOf[2] (Value): null.
-         * payment_link_id (Optional): string or null. Payment link whose checkout created this
-         * order. Absent for orders that did not come from a payment link. Filter GET /v1/orders by
+         * payment_link_id (Optional): string or null. Payment link that created this order or
+         * started the subscription it renews. Absent for other orders. Filter GET /v1/orders by
          * payment_link_id to list a link's orders. payment_link_id.anyOf[1] (Value): string.
-         * Payment link whose checkout created this order. Absent for orders that did not come from
-         * a payment link. Filter GET /v1/orders by payment_link_id to list a link's orders.
-         * Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null.
-         * payment_status (Optional): string or null. Collection progress. An invoice write-off
-         * also completes collection without receiving the written-off amount. Value enum:
-         * "unpaid", "partially_paid", "paid". payment_status.anyOf[1] (Value): string. Collection
-         * progress. An invoice write-off also completes collection without receiving the
-         * written-off amount. Value enum: "unpaid", "partially_paid", "paid".
-         * payment_status.anyOf[2] (Value): null. pending_order_edit_id (Optional): string or null.
-         * The order edit waiting for its balance payment. While it is set, the units that edit
-         * removes can't join a fulfillment and the order refuses another edit. `null` when there
-         * is none. Omitted for buyer credentials. Always present with merchant credentials.
-         * pending_order_edit_id.anyOf[1] (Value): string. The order edit waiting for its balance
+         * Payment link that created this order or started the subscription it renews. Absent for
+         * other orders. Filter GET /v1/orders by payment_link_id to list a link's orders. Example:
+         * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null. payment_status
+         * (Optional): string or null. Collection progress. An invoice write-off also completes
+         * collection without receiving the written-off amount. Value enum: "unpaid",
+         * "partially_paid", "paid". payment_status.anyOf[1] (Value): string. Collection progress.
+         * An invoice write-off also completes collection without receiving the written-off amount.
+         * Value enum: "unpaid", "partially_paid", "paid". payment_status.anyOf[2] (Value): null.
+         * pending_order_edit_id (Optional): string or null. The order edit waiting for its balance
          * payment. While it is set, the units that edit removes can't join a fulfillment and the
          * order refuses another edit. `null` when there is none. Omitted for buyer credentials.
-         * Always present with merchant credentials. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
-         * pending_order_edit_id.anyOf[2] (Value): null. prepayment_order_id (Optional): string or
-         * null. Order that paid for this prepaid delivery. Null when this is not a prepaid
-         * delivery order. prepayment_order_id.anyOf[1] (Value): string. Order that paid for this
-         * prepaid delivery. Null when this is not a prepaid delivery order. Example:
-         * "ord_01KEZF7C0054GQKJ142A8X367A". prepayment_order_id.anyOf[2] (Value): null.
-         * pricing_amounts (Optional): {@link PricingAmountsPreviousAttributes} or null. The
-         * order's money totals: subtotal, discounts, charges, tax, requested tip, and total.
-         * pricing_amounts.anyOf[1] (Value): {@link PricingAmountsPreviousAttributes}.
-         * pricing_amounts.anyOf[2] (Value): null. refund_ids (Optional): Array of string or null.
-         * IDs of the refunds that name this order. This includes refunds Flint makes to return a
-         * payment it couldn't accept (`reason` `payment_returned`), which never count toward
-         * `refund_status` or the order's refunded amounts. refund_ids.anyOf[1] (Value): Array of
-         * string. IDs of the refunds that name this order. This includes refunds Flint makes to
-         * return a payment it couldn't accept (`reason` `payment_returned`), which never count
-         * toward `refund_status` or the order's refunded amounts. refund_ids.anyOf[1][] (Value):
-         * string. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". refund_ids.anyOf[2] (Value): null.
-         * refund_status (Optional): string or null. Refund progress for collected money. Refunds
-         * with `reason` `payment_returned` return money the order never received and don't count.
-         * Value enum: "none", "partially_refunded", "refunded". refund_status.anyOf[1] (Value):
-         * string. Refund progress for collected money. Refunds with `reason` `payment_returned`
-         * return money the order never received and don't count. Value enum: "none",
-         * "partially_refunded", "refunded". refund_status.anyOf[2] (Value): null.
-         * return_credit_settlements (Optional): Array of {@link
-         * OrderReturnCreditSettlementPreviousAttributes} or null. Value applied to this order from
-         * items the buyer returned, such as an exchange's replacement order. Included in
-         * settlement_amounts.paid_money. return_credit_settlements.anyOf[1] (Value): Array of
-         * {@link OrderReturnCreditSettlementPreviousAttributes}. Value applied to this order from
-         * items the buyer returned, such as an exchange's replacement order. Included in
-         * settlement_amounts.paid_money. return_credit_settlements.anyOf[1][] (Value): {@link
+         * Always present with merchant credentials. pending_order_edit_id.anyOf[1] (Value):
+         * string. The order edit waiting for its balance payment. While it is set, the units that
+         * edit removes can't join a fulfillment and the order refuses another edit. `null` when
+         * there is none. Omitted for buyer credentials. Always present with merchant credentials.
+         * Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A". pending_order_edit_id.anyOf[2] (Value): null.
+         * prepayment_order_id (Optional): string or null. Order that paid for this prepaid
+         * delivery. Null when this is not a prepaid delivery order. prepayment_order_id.anyOf[1]
+         * (Value): string. Order that paid for this prepaid delivery. Null when this is not a
+         * prepaid delivery order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * prepayment_order_id.anyOf[2] (Value): null. pricing_amounts (Optional): {@link
+         * PricingAmountsPreviousAttributes} or null. The order's money totals: subtotal,
+         * discounts, charges, tax, requested tip, and total. pricing_amounts.anyOf[1] (Value):
+         * {@link PricingAmountsPreviousAttributes}. pricing_amounts.anyOf[2] (Value): null.
+         * refund_ids (Optional): Array of string or null. IDs of the refunds that name this order.
+         * This includes refunds Flint makes to return a payment it couldn't accept (`reason`
+         * `payment_returned`), which never count toward `refund_status` or the order's refunded
+         * amounts. refund_ids.anyOf[1] (Value): Array of string. IDs of the refunds that name this
+         * order. This includes refunds Flint makes to return a payment it couldn't accept
+         * (`reason` `payment_returned`), which never count toward `refund_status` or the order's
+         * refunded amounts. refund_ids.anyOf[1][] (Value): string. Example:
+         * "ref_01KEZF7C003DTD59WKYHEXYQ1K". refund_ids.anyOf[2] (Value): null. refund_status
+         * (Optional): string or null. Refund progress for collected money. Refunds with `reason`
+         * `payment_returned` return money the order never received and don't count. Value enum:
+         * "none", "partially_refunded", "refunded". refund_status.anyOf[1] (Value): string. Refund
+         * progress for collected money. Refunds with `reason` `payment_returned` return money the
+         * order never received and don't count. Value enum: "none", "partially_refunded",
+         * "refunded". refund_status.anyOf[2] (Value): null. return_credit_settlements (Optional):
+         * Array of {@link OrderReturnCreditSettlementPreviousAttributes} or null. Value applied to
+         * this order from items the buyer returned, such as an exchange's replacement order.
+         * Included in settlement_amounts.paid_money. return_credit_settlements.anyOf[1] (Value):
+         * Array of {@link OrderReturnCreditSettlementPreviousAttributes}. Value applied to this
+         * order from items the buyer returned, such as an exchange's replacement order. Included
+         * in settlement_amounts.paid_money. return_credit_settlements.anyOf[1][] (Value): {@link
          * OrderReturnCreditSettlementPreviousAttributes}. return_credit_settlements.anyOf[2]
          * (Value): null. return_resolution_id (Optional): string or null. ID of the return
          * resolution that created this order as a replacement. Omitted for orders a return did not
@@ -2980,6 +3165,12 @@ export type OrderClosedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope
              * (Value): {@link OrderChargePreviousAttributes}. anyOf[2] (Value): null.
              */
             "charges"?: ((Array<OrderChargePreviousAttributes>) | (null));
+            /**
+             * Billing name and address collected in Checkout for a successful payment. Omitted for
+             * buyer credentials and when Checkout did not collect the details. anyOf[1] (Value):
+             * {@link CheckoutBillingContactPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "checkout_billing_contact"?: ((CheckoutBillingContactPreviousAttributes) | (null));
             /**
              * IDs of the checkout sessions opened for this order. anyOf[1] (Value): Array of
              * string. IDs of the checkout sessions opened for this order. anyOf[1][] (Value):
@@ -3353,10 +3544,10 @@ export type OrderClosedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope
              */
             "payment_intents"?: ((Array<ExpandedPaymentIntentSummaryPreviousAttributes>) | (null));
             /**
-             * Payment link whose checkout created this order. Absent for orders that did not come
-             * from a payment link. Filter GET /v1/orders by payment_link_id to list a link's
-             * orders. anyOf[1] (Value): string. Payment link whose checkout created this order.
-             * Absent for orders that did not come from a payment link. Filter GET /v1/orders by
+             * Payment link that created this order or started the subscription it renews. Absent
+             * for other orders. Filter GET /v1/orders by payment_link_id to list a link's orders.
+             * anyOf[1] (Value): string. Payment link that created this order or started the
+             * subscription it renews. Absent for other orders. Filter GET /v1/orders by
              * payment_link_id to list a link's orders. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
              * anyOf[2] (Value): null.
              */
@@ -3628,17 +3819,23 @@ export type OrderClosedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object
      * OrderChargePreviousAttributes}. Charges added to the order, such as delivery or service
      * fees, each with its applied amount, tax, and refunded amount.
      * previous_attributes.charges.anyOf[1][] (Value): {@link OrderChargePreviousAttributes}.
-     * previous_attributes.charges.anyOf[2] (Value): null. previous_attributes.checkout_session_ids
-     * (Optional): Array of string or null. IDs of the checkout sessions opened for this order.
-     * previous_attributes.checkout_session_ids.anyOf[1] (Value): Array of string. IDs of the
-     * checkout sessions opened for this order. previous_attributes.checkout_session_ids.anyOf[1][]
-     * (Value): string. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
-     * previous_attributes.checkout_session_ids.anyOf[2] (Value): null.
-     * previous_attributes.client_reference (Optional): string or null. The reference the payment
-     * link URL or resolve request carried, such as your user ID. `null` when none was sent or
-     * checkout did not start from a payment link. Returned only to merchant credentials; omitted
-     * for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof of
-     * identity. Always present with merchant credentials.
+     * previous_attributes.charges.anyOf[2] (Value): null.
+     * previous_attributes.checkout_billing_contact (Optional): {@link
+     * CheckoutBillingContactPreviousAttributes} or null. Billing name and address collected in
+     * Checkout for a successful payment. Omitted for buyer credentials and when Checkout did not
+     * collect the details. previous_attributes.checkout_billing_contact.anyOf[1] (Value): {@link
+     * CheckoutBillingContactPreviousAttributes}.
+     * previous_attributes.checkout_billing_contact.anyOf[2] (Value): null.
+     * previous_attributes.checkout_session_ids (Optional): Array of string or null. IDs of the
+     * checkout sessions opened for this order. previous_attributes.checkout_session_ids.anyOf[1]
+     * (Value): Array of string. IDs of the checkout sessions opened for this order.
+     * previous_attributes.checkout_session_ids.anyOf[1][] (Value): string. Example:
+     * "cs_01KEZF7C004JRWFW43H037MQRN". previous_attributes.checkout_session_ids.anyOf[2] (Value):
+     * null. previous_attributes.client_reference (Optional): string or null. The reference the
+     * payment link URL or resolve request carried, such as your user ID. `null` when none was sent
+     * or checkout did not start from a payment link. Returned only to merchant credentials;
+     * omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof
+     * of identity. Always present with merchant credentials.
      * previous_attributes.client_reference.anyOf[1] (Value): string. The reference the payment
      * link URL or resolve request carried, such as your user ID. `null` when none was sent or
      * checkout did not start from a payment link. Returned only to merchant credentials; omitted
@@ -3901,13 +4098,13 @@ export type OrderClosedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object
      * when `expand` names `payment_intents`. previous_attributes.payment_intents.anyOf[1][]
      * (Value): {@link ExpandedPaymentIntentSummaryPreviousAttributes}.
      * previous_attributes.payment_intents.anyOf[2] (Value): null.
-     * previous_attributes.payment_link_id (Optional): string or null. Payment link whose checkout
-     * created this order. Absent for orders that did not come from a payment link. Filter GET
+     * previous_attributes.payment_link_id (Optional): string or null. Payment link that created
+     * this order or started the subscription it renews. Absent for other orders. Filter GET
      * /v1/orders by payment_link_id to list a link's orders.
-     * previous_attributes.payment_link_id.anyOf[1] (Value): string. Payment link whose checkout
-     * created this order. Absent for orders that did not come from a payment link. Filter GET
-     * /v1/orders by payment_link_id to list a link's orders. Example:
-     * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". previous_attributes.payment_link_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_link_id.anyOf[1] (Value): string. Payment link that created this
+     * order or started the subscription it renews. Absent for other orders. Filter GET /v1/orders
+     * by payment_link_id to list a link's orders. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+     * previous_attributes.payment_link_id.anyOf[2] (Value): null.
      * previous_attributes.payment_status (Optional): string or null. Collection progress. An
      * invoice write-off also completes collection without receiving the written-off amount. Value
      * enum: "unpaid", "partially_paid", "paid". previous_attributes.payment_status.anyOf[1]
@@ -4091,22 +4288,27 @@ export type OrderClosedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object
          * OrderChargePreviousAttributes}. Charges added to the order, such as delivery or service
          * fees, each with its applied amount, tax, and refunded amount. charges.anyOf[1][]
          * (Value): {@link OrderChargePreviousAttributes}. charges.anyOf[2] (Value): null.
-         * checkout_session_ids (Optional): Array of string or null. IDs of the checkout sessions
-         * opened for this order. checkout_session_ids.anyOf[1] (Value): Array of string. IDs of
-         * the checkout sessions opened for this order. checkout_session_ids.anyOf[1][] (Value):
-         * string. Example: "cs_01KEZF7C004JRWFW43H037MQRN". checkout_session_ids.anyOf[2] (Value):
-         * null. client_reference (Optional): string or null. The reference the payment link URL or
-         * resolve request carried, such as your user ID. `null` when none was sent or checkout did
-         * not start from a payment link. Returned only to merchant credentials; omitted for buyer
-         * credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity.
-         * Always present with merchant credentials. client_reference.anyOf[1] (Value): string. The
-         * reference the payment link URL or resolve request carried, such as your user ID. `null`
-         * when none was sent or checkout did not start from a payment link. Returned only to
-         * merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so
-         * treat it as a claim, not proof of identity. Always present with merchant credentials.
-         * minLength: 1. maxLength: 255. client_reference.anyOf[2] (Value): null. closed_at
-         * (Optional): string or null. When the order closed. Present exactly when status is
-         * closed. Set once at the transition and never changed. closed_at.anyOf[1] (Value):
+         * checkout_billing_contact (Optional): {@link CheckoutBillingContactPreviousAttributes} or
+         * null. Billing name and address collected in Checkout for a successful payment. Omitted
+         * for buyer credentials and when Checkout did not collect the details.
+         * checkout_billing_contact.anyOf[1] (Value): {@link
+         * CheckoutBillingContactPreviousAttributes}. checkout_billing_contact.anyOf[2] (Value):
+         * null. checkout_session_ids (Optional): Array of string or null. IDs of the checkout
+         * sessions opened for this order. checkout_session_ids.anyOf[1] (Value): Array of string.
+         * IDs of the checkout sessions opened for this order. checkout_session_ids.anyOf[1][]
+         * (Value): string. Example: "cs_01KEZF7C004JRWFW43H037MQRN". checkout_session_ids.anyOf[2]
+         * (Value): null. client_reference (Optional): string or null. The reference the payment
+         * link URL or resolve request carried, such as your user ID. `null` when none was sent or
+         * checkout did not start from a payment link. Returned only to merchant credentials;
+         * omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not
+         * proof of identity. Always present with merchant credentials. client_reference.anyOf[1]
+         * (Value): string. The reference the payment link URL or resolve request carried, such as
+         * your user ID. `null` when none was sent or checkout did not start from a payment link.
+         * Returned only to merchant credentials; omitted for buyer credentials. Set by the buyer's
+         * browser, so treat it as a claim, not proof of identity. Always present with merchant
+         * credentials. minLength: 1. maxLength: 255. client_reference.anyOf[2] (Value): null.
+         * closed_at (Optional): string or null. When the order closed. Present exactly when status
+         * is closed. Set once at the transition and never changed. closed_at.anyOf[1] (Value):
          * string. When the order closed. Present exactly when status is closed. Set once at the
          * transition and never changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
          * closed_at.anyOf[2] (Value): null. closed_reason (Optional): string or null. Why the
@@ -4335,54 +4537,53 @@ export type OrderClosedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object
          * ExpandedPaymentIntentSummaryPreviousAttributes}. Payment intents included when `expand`
          * names `payment_intents`. payment_intents.anyOf[1][] (Value): {@link
          * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intents.anyOf[2] (Value): null.
-         * payment_link_id (Optional): string or null. Payment link whose checkout created this
-         * order. Absent for orders that did not come from a payment link. Filter GET /v1/orders by
+         * payment_link_id (Optional): string or null. Payment link that created this order or
+         * started the subscription it renews. Absent for other orders. Filter GET /v1/orders by
          * payment_link_id to list a link's orders. payment_link_id.anyOf[1] (Value): string.
-         * Payment link whose checkout created this order. Absent for orders that did not come from
-         * a payment link. Filter GET /v1/orders by payment_link_id to list a link's orders.
-         * Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null.
-         * payment_status (Optional): string or null. Collection progress. An invoice write-off
-         * also completes collection without receiving the written-off amount. Value enum:
-         * "unpaid", "partially_paid", "paid". payment_status.anyOf[1] (Value): string. Collection
-         * progress. An invoice write-off also completes collection without receiving the
-         * written-off amount. Value enum: "unpaid", "partially_paid", "paid".
-         * payment_status.anyOf[2] (Value): null. pending_order_edit_id (Optional): string or null.
-         * The order edit waiting for its balance payment. While it is set, the units that edit
-         * removes can't join a fulfillment and the order refuses another edit. `null` when there
-         * is none. Omitted for buyer credentials. Always present with merchant credentials.
-         * pending_order_edit_id.anyOf[1] (Value): string. The order edit waiting for its balance
+         * Payment link that created this order or started the subscription it renews. Absent for
+         * other orders. Filter GET /v1/orders by payment_link_id to list a link's orders. Example:
+         * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null. payment_status
+         * (Optional): string or null. Collection progress. An invoice write-off also completes
+         * collection without receiving the written-off amount. Value enum: "unpaid",
+         * "partially_paid", "paid". payment_status.anyOf[1] (Value): string. Collection progress.
+         * An invoice write-off also completes collection without receiving the written-off amount.
+         * Value enum: "unpaid", "partially_paid", "paid". payment_status.anyOf[2] (Value): null.
+         * pending_order_edit_id (Optional): string or null. The order edit waiting for its balance
          * payment. While it is set, the units that edit removes can't join a fulfillment and the
          * order refuses another edit. `null` when there is none. Omitted for buyer credentials.
-         * Always present with merchant credentials. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
-         * pending_order_edit_id.anyOf[2] (Value): null. prepayment_order_id (Optional): string or
-         * null. Order that paid for this prepaid delivery. Null when this is not a prepaid
-         * delivery order. prepayment_order_id.anyOf[1] (Value): string. Order that paid for this
-         * prepaid delivery. Null when this is not a prepaid delivery order. Example:
-         * "ord_01KEZF7C0054GQKJ142A8X367A". prepayment_order_id.anyOf[2] (Value): null.
-         * pricing_amounts (Optional): {@link PricingAmountsPreviousAttributes} or null. The
-         * order's money totals: subtotal, discounts, charges, tax, requested tip, and total.
-         * pricing_amounts.anyOf[1] (Value): {@link PricingAmountsPreviousAttributes}.
-         * pricing_amounts.anyOf[2] (Value): null. refund_ids (Optional): Array of string or null.
-         * IDs of the refunds that name this order. This includes refunds Flint makes to return a
-         * payment it couldn't accept (`reason` `payment_returned`), which never count toward
-         * `refund_status` or the order's refunded amounts. refund_ids.anyOf[1] (Value): Array of
-         * string. IDs of the refunds that name this order. This includes refunds Flint makes to
-         * return a payment it couldn't accept (`reason` `payment_returned`), which never count
-         * toward `refund_status` or the order's refunded amounts. refund_ids.anyOf[1][] (Value):
-         * string. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". refund_ids.anyOf[2] (Value): null.
-         * refund_status (Optional): string or null. Refund progress for collected money. Refunds
-         * with `reason` `payment_returned` return money the order never received and don't count.
-         * Value enum: "none", "partially_refunded", "refunded". refund_status.anyOf[1] (Value):
-         * string. Refund progress for collected money. Refunds with `reason` `payment_returned`
-         * return money the order never received and don't count. Value enum: "none",
-         * "partially_refunded", "refunded". refund_status.anyOf[2] (Value): null.
-         * return_credit_settlements (Optional): Array of {@link
-         * OrderReturnCreditSettlementPreviousAttributes} or null. Value applied to this order from
-         * items the buyer returned, such as an exchange's replacement order. Included in
-         * settlement_amounts.paid_money. return_credit_settlements.anyOf[1] (Value): Array of
-         * {@link OrderReturnCreditSettlementPreviousAttributes}. Value applied to this order from
-         * items the buyer returned, such as an exchange's replacement order. Included in
-         * settlement_amounts.paid_money. return_credit_settlements.anyOf[1][] (Value): {@link
+         * Always present with merchant credentials. pending_order_edit_id.anyOf[1] (Value):
+         * string. The order edit waiting for its balance payment. While it is set, the units that
+         * edit removes can't join a fulfillment and the order refuses another edit. `null` when
+         * there is none. Omitted for buyer credentials. Always present with merchant credentials.
+         * Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A". pending_order_edit_id.anyOf[2] (Value): null.
+         * prepayment_order_id (Optional): string or null. Order that paid for this prepaid
+         * delivery. Null when this is not a prepaid delivery order. prepayment_order_id.anyOf[1]
+         * (Value): string. Order that paid for this prepaid delivery. Null when this is not a
+         * prepaid delivery order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * prepayment_order_id.anyOf[2] (Value): null. pricing_amounts (Optional): {@link
+         * PricingAmountsPreviousAttributes} or null. The order's money totals: subtotal,
+         * discounts, charges, tax, requested tip, and total. pricing_amounts.anyOf[1] (Value):
+         * {@link PricingAmountsPreviousAttributes}. pricing_amounts.anyOf[2] (Value): null.
+         * refund_ids (Optional): Array of string or null. IDs of the refunds that name this order.
+         * This includes refunds Flint makes to return a payment it couldn't accept (`reason`
+         * `payment_returned`), which never count toward `refund_status` or the order's refunded
+         * amounts. refund_ids.anyOf[1] (Value): Array of string. IDs of the refunds that name this
+         * order. This includes refunds Flint makes to return a payment it couldn't accept
+         * (`reason` `payment_returned`), which never count toward `refund_status` or the order's
+         * refunded amounts. refund_ids.anyOf[1][] (Value): string. Example:
+         * "ref_01KEZF7C003DTD59WKYHEXYQ1K". refund_ids.anyOf[2] (Value): null. refund_status
+         * (Optional): string or null. Refund progress for collected money. Refunds with `reason`
+         * `payment_returned` return money the order never received and don't count. Value enum:
+         * "none", "partially_refunded", "refunded". refund_status.anyOf[1] (Value): string. Refund
+         * progress for collected money. Refunds with `reason` `payment_returned` return money the
+         * order never received and don't count. Value enum: "none", "partially_refunded",
+         * "refunded". refund_status.anyOf[2] (Value): null. return_credit_settlements (Optional):
+         * Array of {@link OrderReturnCreditSettlementPreviousAttributes} or null. Value applied to
+         * this order from items the buyer returned, such as an exchange's replacement order.
+         * Included in settlement_amounts.paid_money. return_credit_settlements.anyOf[1] (Value):
+         * Array of {@link OrderReturnCreditSettlementPreviousAttributes}. Value applied to this
+         * order from items the buyer returned, such as an exchange's replacement order. Included
+         * in settlement_amounts.paid_money. return_credit_settlements.anyOf[1][] (Value): {@link
          * OrderReturnCreditSettlementPreviousAttributes}. return_credit_settlements.anyOf[2]
          * (Value): null. return_resolution_id (Optional): string or null. ID of the return
          * resolution that created this order as a replacement. Omitted for orders a return did not
@@ -4511,6 +4712,12 @@ export type OrderClosedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object
              * (Value): {@link OrderChargePreviousAttributes}. anyOf[2] (Value): null.
              */
             "charges"?: ((Array<OrderChargePreviousAttributes>) | (null));
+            /**
+             * Billing name and address collected in Checkout for a successful payment. Omitted for
+             * buyer credentials and when Checkout did not collect the details. anyOf[1] (Value):
+             * {@link CheckoutBillingContactPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "checkout_billing_contact"?: ((CheckoutBillingContactPreviousAttributes) | (null));
             /**
              * IDs of the checkout sessions opened for this order. anyOf[1] (Value): Array of
              * string. IDs of the checkout sessions opened for this order. anyOf[1][] (Value):
@@ -4884,10 +5091,10 @@ export type OrderClosedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object
              */
             "payment_intents"?: ((Array<ExpandedPaymentIntentSummaryPreviousAttributes>) | (null));
             /**
-             * Payment link whose checkout created this order. Absent for orders that did not come
-             * from a payment link. Filter GET /v1/orders by payment_link_id to list a link's
-             * orders. anyOf[1] (Value): string. Payment link whose checkout created this order.
-             * Absent for orders that did not come from a payment link. Filter GET /v1/orders by
+             * Payment link that created this order or started the subscription it renews. Absent
+             * for other orders. Filter GET /v1/orders by payment_link_id to list a link's orders.
+             * anyOf[1] (Value): string. Payment link that created this order or started the
+             * subscription it renews. Absent for other orders. Filter GET /v1/orders by
              * payment_link_id to list a link's orders. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
              * anyOf[2] (Value): null.
              */
@@ -5712,1827 +5919,3 @@ export type OrderDraftTaxJurisdictionRequestModelInput = {
      */
     "state"?: string;
 };
-/**
- * Nested child of an order with frozen item changes, balance and refund amounts. A pending edit
- * changes the order only when its balance payment succeeds. Refund completion is tracked on the
- * refunds.
- */
-export type OrderEdit = {
-    /**
-     * Added order lines, in request order, with their quantities and values frozen at creation.
-     * Empty when the edit added nothing. [] (Value): {@link OrderEditLineAddition}. An order line
-     * added by the enclosing edit, with its value frozen at creation.
-     */
-    "add_line_items": Array<OrderEditLineAddition>;
-    /**
-     * The cost of the added lines: the sum of add_line_items[].total_money. Zero when the edit
-     * added nothing. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code.
-     */
-    "added_total_money": MoneyValue;
-    /**
-     * What the added lines cost beyond the removed value and released charges, tax included,
-     * frozen when the edit was created. Zero when the edit had no balance. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_due_money": MoneyValue;
-    /**
-     * When the edit was canceled. `null` when the edit is not canceled. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z".
-     */
-    "canceled_at": string | null;
-    /**
-     * Why the edit was canceled. `null` when the edit is not canceled. Value enum:
-     * "merchant_request", "expired", "payment_disputed", "payment_returned", null.
-     */
-    "cancellation_reason": "merchant_request"
-        | "expired"
-        | "payment_disputed"
-        | "payment_returned"
-        | null
-        | (string & {})
-        | null;
-    /**
-     * Charges released by this edit, frozen at creation. Empty when no charges were released. []
-     * (Value): {@link OrderEditChargeRefund}. The value an edit releases from one order charge,
-     * and the part refunded to the buyer.
-     */
-    "charge_refunds": Array<OrderEditChargeRefund>;
-    /**
-     * When the item changes were applied to the order. `null` when the edit is pending or
-     * canceled. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "completed_at": string | null;
-    /** When the edit was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /**
-     * When Flint cancels the edit if the balance isn't paid. `null` when the edit never had a
-     * balance. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "expires_at": string | null;
-    /**
-     * Internal merchant note. Omitted from buyer and webhook payloads and refund messages.
-     * maxLength: 500.
-     */
-    "note"?: string;
-    /**
-     * Stable ID of this order edit. pattern: ^oed_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
-     */
-    "order_edit_id": string;
-    /** The order this edit belongs to. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
-    "order_id": string;
-    /**
-     * The payment intent that collects amount_due_money. Confirm it to pay the balance. `null`
-     * when the edit has no balance, and for a moment while Flint is still creating it. Example:
-     * "pi_01KEZF7C00G8H9D509YEV22P7R".
-     */
-    "payment_intent_id": string | null;
-    /**
-     * Reason for the edit and its refund. Value enum: "duplicate", "fraudulent",
-     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
-     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
-     * "accidental_order", "other", "out_of_stock".
-     */
-    "reason"?: "duplicate"
-        | "fraudulent"
-        | "requested_by_customer"
-        | "defective_product"
-        | "wrong_item_shipped"
-        | "never_received"
-        | "not_as_described"
-        | "arrived_too_late"
-        | "customer_changed_mind"
-        | "better_price_found"
-        | "accidental_order"
-        | "other"
-        | "out_of_stock"
-        | (string & {});
-    /**
-     * Refunds created for this edit. Empty when no refund is needed or processing has not created
-     * it yet. [] (Value): string. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-     */
-    "refund_ids": Array<string>;
-    /**
-     * Money to refund after the removed value and released charges pay for added lines. May be
-     * zero; an edit with no refund money creates no refund. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code.
-     */
-    "refund_money": MoneyValue;
-    /**
-     * Removed units and their refund amounts frozen at creation. [] (Value): {@link
-     * OrderEditLineRemoval}. Removed whole units of an order line and their refund amount frozen
-     * at creation. The enclosing edit identifies the order.
-     */
-    "remove_line_items": Array<OrderEditLineRemoval>;
-    /**
-     * The value of the removed units: the sum of remove_line_items[].total_money. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "removed_total_money": MoneyValue;
-    /**
-     * Signed noncash adjustment: positive for an edit balance below the payment minimum, negative
-     * when removing previously absorbed value. Included in settlement_amounts.written_off_money,
-     * never paid or refundable. Signed monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code.
-     */
-    "small_balance_adjustment_money": MoneyValue;
-    /**
-     * Pending while waiting for a balance payment, completed once the item changes are applied, or
-     * canceled when it ends without changing the order. Refund processing has its own status on
-     * each refund. Value enum: "pending", "completed", "canceled".
-     */
-    "status": "pending" | "completed" | "canceled" | (string & {});
-    /**
-     * Contains cancel while pending and the payment is neither processing nor succeeded. Contains
-     * retry when unrefunded_money is positive and no linked refund is pending. Empty while Flint
-     * is still processing the original refund before any linked refund exists; retry becomes
-     * available if that processing ends without a refund. Independent of caller permissions. []
-     * enum: "cancel", "retry". [] (Value): string. Value enum: "cancel", "retry".
-     */
-    "supported_actions": Array<"cancel" | "retry" | (string & {})>;
-    /**
-     * Frozen refund money not covered by pending or succeeded allocations from refunds linked to
-     * this edit. Failed allocations do not reduce it. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code.
-     */
-    "unrefunded_money": MoneyValue;
-    /**
-     * The counter advances when status, payment_intent_id, completed_at, canceled_at or
-     * cancellation_reason change. Format: uint64. minimum: 1.
-     */
-    "version": number;
-};
-export type OrderEditCanceledEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": WebhookOrderEdit;
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "add_line_items"?: ((Array<OrderEditLineAdditionPreviousAttributes>) | (null));
-            "added_total_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "amount_due_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "canceled_at"?: ((string) | (null));
-            "cancellation_reason"?: (("merchant_request" | "expired" | "payment_disputed" | "payment_returned" | null | (string & {}))
-                | (null));
-            "charge_refunds"?: ((Array<OrderEditChargeRefundPreviousAttributes>) | (null));
-            "completed_at"?: ((string) | (null));
-            "created_at"?: ((string) | (null));
-            "expires_at"?: ((string) | (null));
-            "order_edit_id"?: ((string) | (null));
-            "order_id"?: ((string) | (null));
-            "payment_intent_id"?: ((string) | (null));
-            "reason"?: (("duplicate"
-                | "fraudulent"
-                | "requested_by_customer"
-                | "defective_product"
-                | "wrong_item_shipped"
-                | "never_received"
-                | "not_as_described"
-                | "arrived_too_late"
-                | "customer_changed_mind"
-                | "better_price_found"
-                | "accidental_order"
-                | "other"
-                | "out_of_stock"
-                | (string & {}))
-                | (null));
-            "refund_ids"?: ((Array<string>) | (null));
-            "refund_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "remove_line_items"?: ((Array<OrderEditLineRemovalPreviousAttributes>) | (null));
-            "removed_total_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "small_balance_adjustment_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "status"?: (("pending" | "completed" | "canceled" | (string & {})) | (null));
-            "supported_actions"?: ((Array<"cancel" | "retry" | (string & {})>) | (null));
-            "unrefunded_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "order_edit.canceled";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": WebhookOrderEdit;
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "add_line_items"?: ((Array<OrderEditLineAdditionPreviousAttributes>) | (null));
-            "added_total_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "amount_due_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "canceled_at"?: ((string) | (null));
-            "cancellation_reason"?: (("merchant_request" | "expired" | "payment_disputed" | "payment_returned" | null | (string & {}))
-                | (null));
-            "charge_refunds"?: ((Array<OrderEditChargeRefundPreviousAttributes>) | (null));
-            "completed_at"?: ((string) | (null));
-            "created_at"?: ((string) | (null));
-            "expires_at"?: ((string) | (null));
-            "order_edit_id"?: ((string) | (null));
-            "order_id"?: ((string) | (null));
-            "payment_intent_id"?: ((string) | (null));
-            "reason"?: (("duplicate"
-                | "fraudulent"
-                | "requested_by_customer"
-                | "defective_product"
-                | "wrong_item_shipped"
-                | "never_received"
-                | "not_as_described"
-                | "arrived_too_late"
-                | "customer_changed_mind"
-                | "better_price_found"
-                | "accidental_order"
-                | "other"
-                | "out_of_stock"
-                | (string & {}))
-                | (null));
-            "refund_ids"?: ((Array<string>) | (null));
-            "refund_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "remove_line_items"?: ((Array<OrderEditLineRemovalPreviousAttributes>) | (null));
-            "removed_total_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "small_balance_adjustment_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "status"?: (("pending" | "completed" | "canceled" | (string & {})) | (null));
-            "supported_actions"?: ((Array<"cancel" | "retry" | (string & {})>) | (null));
-            "unrefunded_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "order_edit.canceled";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "order_edit.canceled";
-});
-/**
- * The `order_edit.canceled` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type OrderEditCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link WebhookOrderEdit}. The resource snapshot, without expansions.
-     * Webhooks omit these fields: `note`. previous_attributes (Optional): object. Previous values
-     * of changed top-level fields in data.object, at this delivery's API version. Nested changes
-     * include the whole previous top-level value. A value is null when the field was absent before
-     * the change. Omitted when Flint did not record the previous state, including synthetic test
-     * events. previous_attributes.add_line_items (Optional): Array of {@link
-     * OrderEditLineAdditionPreviousAttributes} or null. Added order lines, in request order, with
-     * their quantities and values frozen at creation. Empty when the edit added nothing.
-     * previous_attributes.add_line_items.anyOf[1] (Value): Array of {@link
-     * OrderEditLineAdditionPreviousAttributes}. Added order lines, in request order, with their
-     * quantities and values frozen at creation. Empty when the edit added nothing.
-     * previous_attributes.add_line_items.anyOf[1][] (Value): {@link
-     * OrderEditLineAdditionPreviousAttributes}. previous_attributes.add_line_items.anyOf[2]
-     * (Value): null. previous_attributes.added_total_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. The cost of the added lines: the sum of
-     * add_line_items[].total_money. Zero when the edit added nothing.
-     * previous_attributes.added_total_money.anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.added_total_money.anyOf[2] (Value): null.
-     * previous_attributes.amount_due_money (Optional): {@link MoneyValuePreviousAttributes} or
-     * null. What the added lines cost beyond the removed value and released charges, tax included,
-     * frozen when the edit was created. Zero when the edit had no balance.
-     * previous_attributes.amount_due_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-     * previous_attributes.amount_due_money.anyOf[2] (Value): null. previous_attributes.canceled_at
-     * (Optional): string or null. When the edit was canceled. `null` when the edit is not
-     * canceled. previous_attributes.canceled_at.anyOf[1] (Value): string. When the edit was
-     * canceled. `null` when the edit is not canceled. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.canceled_at.anyOf[2] (Value): null.
-     * previous_attributes.cancellation_reason (Optional): string or null. Why the edit was
-     * canceled. `null` when the edit is not canceled. Value enum: "merchant_request", "expired",
-     * "payment_disputed", "payment_returned", null.
-     * previous_attributes.cancellation_reason.anyOf[1] (Value): string. Why the edit was canceled.
-     * `null` when the edit is not canceled. Value enum: "merchant_request", "expired",
-     * "payment_disputed", "payment_returned", null.
-     * previous_attributes.cancellation_reason.anyOf[2] (Value): null.
-     * previous_attributes.charge_refunds (Optional): Array of {@link
-     * OrderEditChargeRefundPreviousAttributes} or null. Charges released by this edit, frozen at
-     * creation. Empty when no charges were released. previous_attributes.charge_refunds.anyOf[1]
-     * (Value): Array of {@link OrderEditChargeRefundPreviousAttributes}. Charges released by this
-     * edit, frozen at creation. Empty when no charges were released.
-     * previous_attributes.charge_refunds.anyOf[1][] (Value): {@link
-     * OrderEditChargeRefundPreviousAttributes}. previous_attributes.charge_refunds.anyOf[2]
-     * (Value): null. previous_attributes.completed_at (Optional): string or null. When the item
-     * changes were applied to the order. `null` when the edit is pending or canceled.
-     * previous_attributes.completed_at.anyOf[1] (Value): string. When the item changes were
-     * applied to the order. `null` when the edit is pending or canceled. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". previous_attributes.completed_at.anyOf[2] (Value): null.
-     * previous_attributes.created_at (Optional): string or null. When the edit was created.
-     * previous_attributes.created_at.anyOf[1] (Value): string. When the edit was created. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.expires_at (Optional): string or null. When Flint cancels the edit
-     * if the balance isn't paid. `null` when the edit never had a balance.
-     * previous_attributes.expires_at.anyOf[1] (Value): string. When Flint cancels the edit if the
-     * balance isn't paid. `null` when the edit never had a balance. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.expires_at.anyOf[2] (Value): null.
-     * previous_attributes.order_edit_id (Optional): string or null. Stable ID of this order edit.
-     * previous_attributes.order_edit_id.anyOf[1] (Value): string. Stable ID of this order edit.
-     * pattern: ^oed_[0-9A-HJKMNP-TV-Z]{26}$. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
-     * previous_attributes.order_edit_id.anyOf[2] (Value): null. previous_attributes.order_id
-     * (Optional): string or null. The order this edit belongs to.
-     * previous_attributes.order_id.anyOf[1] (Value): string. The order this edit belongs to.
-     * Example: "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value):
-     * null. previous_attributes.payment_intent_id (Optional): string or null. The payment intent
-     * that collects amount_due_money. Confirm it to pay the balance. `null` when the edit has no
-     * balance, and for a moment while Flint is still creating it.
-     * previous_attributes.payment_intent_id.anyOf[1] (Value): string. The payment intent that
-     * collects amount_due_money. Confirm it to pay the balance. `null` when the edit has no
-     * balance, and for a moment while Flint is still creating it. Example:
-     * "pi_01KEZF7C00G8H9D509YEV22P7R". previous_attributes.payment_intent_id.anyOf[2] (Value):
-     * null. previous_attributes.reason (Optional): string or null. Reason for the edit and its
-     * refund. Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product",
-     * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
-     * "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock".
-     * previous_attributes.reason.anyOf[1] (Value): string. Reason for the edit and its refund.
-     * Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product",
-     * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
-     * "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock".
-     * previous_attributes.reason.anyOf[2] (Value): null. previous_attributes.refund_ids
-     * (Optional): Array of string or null. Refunds created for this edit. Empty when no refund is
-     * needed or processing has not created it yet. previous_attributes.refund_ids.anyOf[1]
-     * (Value): Array of string. Refunds created for this edit. Empty when no refund is needed or
-     * processing has not created it yet. previous_attributes.refund_ids.anyOf[1][] (Value):
-     * string. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". previous_attributes.refund_ids.anyOf[2]
-     * (Value): null. previous_attributes.refund_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. Money to refund after the removed value and released
-     * charges pay for added lines. May be zero; an edit with no refund money creates no refund.
-     * previous_attributes.refund_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-     * previous_attributes.refund_money.anyOf[2] (Value): null.
-     * previous_attributes.remove_line_items (Optional): Array of {@link
-     * OrderEditLineRemovalPreviousAttributes} or null. Removed units and their refund amounts
-     * frozen at creation. previous_attributes.remove_line_items.anyOf[1] (Value): Array of {@link
-     * OrderEditLineRemovalPreviousAttributes}. Removed units and their refund amounts frozen at
-     * creation. previous_attributes.remove_line_items.anyOf[1][] (Value): {@link
-     * OrderEditLineRemovalPreviousAttributes}. previous_attributes.remove_line_items.anyOf[2]
-     * (Value): null. previous_attributes.removed_total_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. The value of the removed units: the sum of
-     * remove_line_items[].total_money. previous_attributes.removed_total_money.anyOf[1] (Value):
-     * {@link MoneyValuePreviousAttributes}. previous_attributes.removed_total_money.anyOf[2]
-     * (Value): null. previous_attributes.small_balance_adjustment_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. Signed noncash adjustment: positive for an edit
-     * balance below the payment minimum, negative when removing previously absorbed value.
-     * Included in settlement_amounts.written_off_money, never paid or refundable.
-     * previous_attributes.small_balance_adjustment_money.anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.small_balance_adjustment_money.anyOf[2]
-     * (Value): null. previous_attributes.status (Optional): string or null. Pending while waiting
-     * for a balance payment, completed once the item changes are applied, or canceled when it ends
-     * without changing the order. Refund processing has its own status on each refund. Value enum:
-     * "pending", "completed", "canceled". previous_attributes.status.anyOf[1] (Value): string.
-     * Pending while waiting for a balance payment, completed once the item changes are applied, or
-     * canceled when it ends without changing the order. Refund processing has its own status on
-     * each refund. Value enum: "pending", "completed", "canceled".
-     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
-     * (Optional): Array of string or null. Contains cancel while pending and the payment is
-     * neither processing nor succeeded. Contains retry when unrefunded_money is positive and no
-     * linked refund is pending. Empty while Flint is still processing the original refund before
-     * any linked refund exists; retry becomes available if that processing ends without a refund.
-     * Independent of caller permissions. [] enum: "cancel", "retry".
-     * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Contains cancel
-     * while pending and the payment is neither processing nor succeeded. Contains retry when
-     * unrefunded_money is positive and no linked refund is pending. Empty while Flint is still
-     * processing the original refund before any linked refund exists; retry becomes available if
-     * that processing ends without a refund. Independent of caller permissions. [] enum: "cancel",
-     * "retry". previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum:
-     * "cancel", "retry". previous_attributes.supported_actions.anyOf[2] (Value): null.
-     * previous_attributes.unrefunded_money (Optional): {@link MoneyValuePreviousAttributes} or
-     * null. Frozen refund money not covered by pending or succeeded allocations from refunds
-     * linked to this edit. Failed allocations do not reduce it.
-     * previous_attributes.unrefunded_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-     * previous_attributes.unrefunded_money.anyOf[2] (Value): null. previous_attributes.version
-     * (Optional): integer or null. The counter advances when status, payment_intent_id,
-     * completed_at, canceled_at or cancellation_reason change.
-     * previous_attributes.version.anyOf[1] (Value): integer. The counter advances when status,
-     * payment_intent_id, completed_at, canceled_at or cancellation_reason change. Format: uint64.
-     * minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
-     */
-    "data"?: {
-        /** The resource snapshot, without expansions. Webhooks omit these fields: `note`. */
-        "object": WebhookOrderEdit;
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. add_line_items (Optional): Array of {@link
-         * OrderEditLineAdditionPreviousAttributes} or null. Added order lines, in request order,
-         * with their quantities and values frozen at creation. Empty when the edit added nothing.
-         * add_line_items.anyOf[1] (Value): Array of {@link
-         * OrderEditLineAdditionPreviousAttributes}. Added order lines, in request order, with
-         * their quantities and values frozen at creation. Empty when the edit added nothing.
-         * add_line_items.anyOf[1][] (Value): {@link OrderEditLineAdditionPreviousAttributes}.
-         * add_line_items.anyOf[2] (Value): null. added_total_money (Optional): {@link
-         * MoneyValuePreviousAttributes} or null. The cost of the added lines: the sum of
-         * add_line_items[].total_money. Zero when the edit added nothing.
-         * added_total_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-         * added_total_money.anyOf[2] (Value): null. amount_due_money (Optional): {@link
-         * MoneyValuePreviousAttributes} or null. What the added lines cost beyond the removed
-         * value and released charges, tax included, frozen when the edit was created. Zero when
-         * the edit had no balance. amount_due_money.anyOf[1] (Value): {@link
-         * MoneyValuePreviousAttributes}. amount_due_money.anyOf[2] (Value): null. canceled_at
-         * (Optional): string or null. When the edit was canceled. `null` when the edit is not
-         * canceled. canceled_at.anyOf[1] (Value): string. When the edit was canceled. `null` when
-         * the edit is not canceled. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * canceled_at.anyOf[2] (Value): null. cancellation_reason (Optional): string or null. Why
-         * the edit was canceled. `null` when the edit is not canceled. Value enum:
-         * "merchant_request", "expired", "payment_disputed", "payment_returned", null.
-         * cancellation_reason.anyOf[1] (Value): string. Why the edit was canceled. `null` when the
-         * edit is not canceled. Value enum: "merchant_request", "expired", "payment_disputed",
-         * "payment_returned", null. cancellation_reason.anyOf[2] (Value): null. charge_refunds
-         * (Optional): Array of {@link OrderEditChargeRefundPreviousAttributes} or null. Charges
-         * released by this edit, frozen at creation. Empty when no charges were released.
-         * charge_refunds.anyOf[1] (Value): Array of {@link
-         * OrderEditChargeRefundPreviousAttributes}. Charges released by this edit, frozen at
-         * creation. Empty when no charges were released. charge_refunds.anyOf[1][] (Value): {@link
-         * OrderEditChargeRefundPreviousAttributes}. charge_refunds.anyOf[2] (Value): null.
-         * completed_at (Optional): string or null. When the item changes were applied to the
-         * order. `null` when the edit is pending or canceled. completed_at.anyOf[1] (Value):
-         * string. When the item changes were applied to the order. `null` when the edit is pending
-         * or canceled. Format: date-time. Example: "2026-08-02T16:00:00Z". completed_at.anyOf[2]
-         * (Value): null. created_at (Optional): string or null. When the edit was created.
-         * created_at.anyOf[1] (Value): string. When the edit was created. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. expires_at
-         * (Optional): string or null. When Flint cancels the edit if the balance isn't paid.
-         * `null` when the edit never had a balance. expires_at.anyOf[1] (Value): string. When
-         * Flint cancels the edit if the balance isn't paid. `null` when the edit never had a
-         * balance. Format: date-time. Example: "2026-08-02T16:00:00Z". expires_at.anyOf[2]
-         * (Value): null. order_edit_id (Optional): string or null. Stable ID of this order edit.
-         * order_edit_id.anyOf[1] (Value): string. Stable ID of this order edit. pattern:
-         * ^oed_[0-9A-HJKMNP-TV-Z]{26}$. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
-         * order_edit_id.anyOf[2] (Value): null. order_id (Optional): string or null. The order
-         * this edit belongs to. order_id.anyOf[1] (Value): string. The order this edit belongs to.
-         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
-         * payment_intent_id (Optional): string or null. The payment intent that collects
-         * amount_due_money. Confirm it to pay the balance. `null` when the edit has no balance,
-         * and for a moment while Flint is still creating it. payment_intent_id.anyOf[1] (Value):
-         * string. The payment intent that collects amount_due_money. Confirm it to pay the
-         * balance. `null` when the edit has no balance, and for a moment while Flint is still
-         * creating it. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intent_id.anyOf[2]
-         * (Value): null. reason (Optional): string or null. Reason for the edit and its refund.
-         * Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product",
-         * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
-         * "customer_changed_mind", "better_price_found", "accidental_order", "other",
-         * "out_of_stock". reason.anyOf[1] (Value): string. Reason for the edit and its refund.
-         * Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product",
-         * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
-         * "customer_changed_mind", "better_price_found", "accidental_order", "other",
-         * "out_of_stock". reason.anyOf[2] (Value): null. refund_ids (Optional): Array of string or
-         * null. Refunds created for this edit. Empty when no refund is needed or processing has
-         * not created it yet. refund_ids.anyOf[1] (Value): Array of string. Refunds created for
-         * this edit. Empty when no refund is needed or processing has not created it yet.
-         * refund_ids.anyOf[1][] (Value): string. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-         * refund_ids.anyOf[2] (Value): null. refund_money (Optional): {@link
-         * MoneyValuePreviousAttributes} or null. Money to refund after the removed value and
-         * released charges pay for added lines. May be zero; an edit with no refund money creates
-         * no refund. refund_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-         * refund_money.anyOf[2] (Value): null. remove_line_items (Optional): Array of {@link
-         * OrderEditLineRemovalPreviousAttributes} or null. Removed units and their refund amounts
-         * frozen at creation. remove_line_items.anyOf[1] (Value): Array of {@link
-         * OrderEditLineRemovalPreviousAttributes}. Removed units and their refund amounts frozen
-         * at creation. remove_line_items.anyOf[1][] (Value): {@link
-         * OrderEditLineRemovalPreviousAttributes}. remove_line_items.anyOf[2] (Value): null.
-         * removed_total_money (Optional): {@link MoneyValuePreviousAttributes} or null. The value
-         * of the removed units: the sum of remove_line_items[].total_money.
-         * removed_total_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-         * removed_total_money.anyOf[2] (Value): null. small_balance_adjustment_money (Optional):
-         * {@link MoneyValuePreviousAttributes} or null. Signed noncash adjustment: positive for an
-         * edit balance below the payment minimum, negative when removing previously absorbed
-         * value. Included in settlement_amounts.written_off_money, never paid or refundable.
-         * small_balance_adjustment_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-         * small_balance_adjustment_money.anyOf[2] (Value): null. status (Optional): string or
-         * null. Pending while waiting for a balance payment, completed once the item changes are
-         * applied, or canceled when it ends without changing the order. Refund processing has its
-         * own status on each refund. Value enum: "pending", "completed", "canceled".
-         * status.anyOf[1] (Value): string. Pending while waiting for a balance payment, completed
-         * once the item changes are applied, or canceled when it ends without changing the order.
-         * Refund processing has its own status on each refund. Value enum: "pending", "completed",
-         * "canceled". status.anyOf[2] (Value): null. supported_actions (Optional): Array of string
-         * or null. Contains cancel while pending and the payment is neither processing nor
-         * succeeded. Contains retry when unrefunded_money is positive and no linked refund is
-         * pending. Empty while Flint is still processing the original refund before any linked
-         * refund exists; retry becomes available if that processing ends without a refund.
-         * Independent of caller permissions. [] enum: "cancel", "retry".
-         * supported_actions.anyOf[1] (Value): Array of string. Contains cancel while pending and
-         * the payment is neither processing nor succeeded. Contains retry when unrefunded_money is
-         * positive and no linked refund is pending. Empty while Flint is still processing the
-         * original refund before any linked refund exists; retry becomes available if that
-         * processing ends without a refund. Independent of caller permissions. [] enum: "cancel",
-         * "retry". supported_actions.anyOf[1][] (Value): string. Value enum: "cancel", "retry".
-         * supported_actions.anyOf[2] (Value): null. unrefunded_money (Optional): {@link
-         * MoneyValuePreviousAttributes} or null. Frozen refund money not covered by pending or
-         * succeeded allocations from refunds linked to this edit. Failed allocations do not reduce
-         * it. unrefunded_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-         * unrefunded_money.anyOf[2] (Value): null. version (Optional): integer or null. The
-         * counter advances when status, payment_intent_id, completed_at, canceled_at or
-         * cancellation_reason change. version.anyOf[1] (Value): integer. The counter advances when
-         * status, payment_intent_id, completed_at, canceled_at or cancellation_reason change.
-         * Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * Added order lines, in request order, with their quantities and values frozen at
-             * creation. Empty when the edit added nothing. anyOf[1] (Value): Array of {@link
-             * OrderEditLineAdditionPreviousAttributes}. Added order lines, in request order, with
-             * their quantities and values frozen at creation. Empty when the edit added nothing.
-             * anyOf[1][] (Value): {@link OrderEditLineAdditionPreviousAttributes}. anyOf[2]
-             * (Value): null.
-             */
-            "add_line_items"?: ((Array<OrderEditLineAdditionPreviousAttributes>) | (null));
-            /**
-             * The cost of the added lines: the sum of add_line_items[].total_money. Zero when the
-             * edit added nothing. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2]
-             * (Value): null.
-             */
-            "added_total_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * What the added lines cost beyond the removed value and released charges, tax
-             * included, frozen when the edit was created. Zero when the edit had no balance.
-             * anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "amount_due_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * When the edit was canceled. `null` when the edit is not canceled. anyOf[1] (Value):
-             * string. When the edit was canceled. `null` when the edit is not canceled. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "canceled_at"?: ((string) | (null));
-            /**
-             * Why the edit was canceled. `null` when the edit is not canceled. Value enum:
-             * "merchant_request", "expired", "payment_disputed", "payment_returned", null.
-             * anyOf[1] (Value): string. Why the edit was canceled. `null` when the edit is not
-             * canceled. Value enum: "merchant_request", "expired", "payment_disputed",
-             * "payment_returned", null. anyOf[2] (Value): null.
-             */
-            "cancellation_reason"?: (("merchant_request" | "expired" | "payment_disputed" | "payment_returned" | null | (string & {}))
-                | (null));
-            /**
-             * Charges released by this edit, frozen at creation. Empty when no charges were
-             * released. anyOf[1] (Value): Array of {@link
-             * OrderEditChargeRefundPreviousAttributes}. Charges released by this edit, frozen at
-             * creation. Empty when no charges were released. anyOf[1][] (Value): {@link
-             * OrderEditChargeRefundPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "charge_refunds"?: ((Array<OrderEditChargeRefundPreviousAttributes>) | (null));
-            /**
-             * When the item changes were applied to the order. `null` when the edit is pending or
-             * canceled. anyOf[1] (Value): string. When the item changes were applied to the order.
-             * `null` when the edit is pending or canceled. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "completed_at"?: ((string) | (null));
-            /**
-             * When the edit was created. anyOf[1] (Value): string. When the edit was created.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * When Flint cancels the edit if the balance isn't paid. `null` when the edit never
-             * had a balance. anyOf[1] (Value): string. When Flint cancels the edit if the balance
-             * isn't paid. `null` when the edit never had a balance. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "expires_at"?: ((string) | (null));
-            /**
-             * Stable ID of this order edit. anyOf[1] (Value): string. Stable ID of this order
-             * edit. pattern: ^oed_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-             * "oed_01KEZF7C00A6BQ4TBGWFDJ944A". anyOf[2] (Value): null.
-             */
-            "order_edit_id"?: ((string) | (null));
-            /**
-             * The order this edit belongs to. anyOf[1] (Value): string. The order this edit
-             * belongs to. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
-             */
-            "order_id"?: ((string) | (null));
-            /**
-             * The payment intent that collects amount_due_money. Confirm it to pay the balance.
-             * `null` when the edit has no balance, and for a moment while Flint is still creating
-             * it. anyOf[1] (Value): string. The payment intent that collects amount_due_money.
-             * Confirm it to pay the balance. `null` when the edit has no balance, and for a moment
-             * while Flint is still creating it. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2]
-             * (Value): null.
-             */
-            "payment_intent_id"?: ((string) | (null));
-            /**
-             * Reason for the edit and its refund. Value enum: "duplicate", "fraudulent",
-             * "requested_by_customer", "defective_product", "wrong_item_shipped",
-             * "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind",
-             * "better_price_found", "accidental_order", "other", "out_of_stock". anyOf[1] (Value):
-             * string. Reason for the edit and its refund. Value enum: "duplicate", "fraudulent",
-             * "requested_by_customer", "defective_product", "wrong_item_shipped",
-             * "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind",
-             * "better_price_found", "accidental_order", "other", "out_of_stock". anyOf[2] (Value):
-             * null.
-             */
-            "reason"?: (("duplicate"
-                | "fraudulent"
-                | "requested_by_customer"
-                | "defective_product"
-                | "wrong_item_shipped"
-                | "never_received"
-                | "not_as_described"
-                | "arrived_too_late"
-                | "customer_changed_mind"
-                | "better_price_found"
-                | "accidental_order"
-                | "other"
-                | "out_of_stock"
-                | (string & {}))
-                | (null));
-            /**
-             * Refunds created for this edit. Empty when no refund is needed or processing has not
-             * created it yet. anyOf[1] (Value): Array of string. Refunds created for this edit.
-             * Empty when no refund is needed or processing has not created it yet. anyOf[1][]
-             * (Value): string. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". anyOf[2] (Value): null.
-             */
-            "refund_ids"?: ((Array<string>) | (null));
-            /**
-             * Money to refund after the removed value and released charges pay for added lines.
-             * May be zero; an edit with no refund money creates no refund. anyOf[1] (Value):
-             * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "refund_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * Removed units and their refund amounts frozen at creation. anyOf[1] (Value): Array
-             * of {@link OrderEditLineRemovalPreviousAttributes}. Removed units and their refund
-             * amounts frozen at creation. anyOf[1][] (Value): {@link
-             * OrderEditLineRemovalPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "remove_line_items"?: ((Array<OrderEditLineRemovalPreviousAttributes>) | (null));
-            /**
-             * The value of the removed units: the sum of remove_line_items[].total_money. anyOf[1]
-             * (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "removed_total_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * Signed noncash adjustment: positive for an edit balance below the payment minimum,
-             * negative when removing previously absorbed value. Included in
-             * settlement_amounts.written_off_money, never paid or refundable. anyOf[1] (Value):
-             * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "small_balance_adjustment_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * Pending while waiting for a balance payment, completed once the item changes are
-             * applied, or canceled when it ends without changing the order. Refund processing has
-             * its own status on each refund. Value enum: "pending", "completed", "canceled".
-             * anyOf[1] (Value): string. Pending while waiting for a balance payment, completed
-             * once the item changes are applied, or canceled when it ends without changing the
-             * order. Refund processing has its own status on each refund. Value enum: "pending",
-             * "completed", "canceled". anyOf[2] (Value): null.
-             */
-            "status"?: (("pending" | "completed" | "canceled" | (string & {})) | (null));
-            /**
-             * Contains cancel while pending and the payment is neither processing nor succeeded.
-             * Contains retry when unrefunded_money is positive and no linked refund is pending.
-             * Empty while Flint is still processing the original refund before any linked refund
-             * exists; retry becomes available if that processing ends without a refund.
-             * Independent of caller permissions. [] enum: "cancel", "retry". anyOf[1] (Value):
-             * Array of string. Contains cancel while pending and the payment is neither processing
-             * nor succeeded. Contains retry when unrefunded_money is positive and no linked refund
-             * is pending. Empty while Flint is still processing the original refund before any
-             * linked refund exists; retry becomes available if that processing ends without a
-             * refund. Independent of caller permissions. [] enum: "cancel", "retry". anyOf[1][]
-             * (Value): string. Value enum: "cancel", "retry". anyOf[2] (Value): null.
-             */
-            "supported_actions"?: ((Array<"cancel" | "retry" | (string & {})>) | (null));
-            /**
-             * Frozen refund money not covered by pending or succeeded allocations from refunds
-             * linked to this edit. Failed allocations do not reduce it. anyOf[1] (Value): {@link
-             * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "unrefunded_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * The counter advances when status, payment_intent_id, completed_at, canceled_at or
-             * cancellation_reason change. anyOf[1] (Value): integer. The counter advances when
-             * status, payment_intent_id, completed_at, canceled_at or cancellation_reason change.
-             * Format: uint64. minimum: 1. anyOf[2] (Value): null.
-             */
-            "version"?: ((number) | (null));
-        });
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "order_edit.canceled". */
-    "event_type"?: "order_edit.canceled";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `order_edit.canceled` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type OrderEditCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link WebhookOrderEdit}. The resource snapshot, without expansions.
-     * Webhooks omit these fields: `note`. previous_attributes (Optional): object. Previous values
-     * of changed top-level fields in data.object, at this delivery's API version. Nested changes
-     * include the whole previous top-level value. A value is null when the field was absent before
-     * the change. Omitted when Flint did not record the previous state, including synthetic test
-     * events. previous_attributes.add_line_items (Optional): Array of {@link
-     * OrderEditLineAdditionPreviousAttributes} or null. Added order lines, in request order, with
-     * their quantities and values frozen at creation. Empty when the edit added nothing.
-     * previous_attributes.add_line_items.anyOf[1] (Value): Array of {@link
-     * OrderEditLineAdditionPreviousAttributes}. Added order lines, in request order, with their
-     * quantities and values frozen at creation. Empty when the edit added nothing.
-     * previous_attributes.add_line_items.anyOf[1][] (Value): {@link
-     * OrderEditLineAdditionPreviousAttributes}. previous_attributes.add_line_items.anyOf[2]
-     * (Value): null. previous_attributes.added_total_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. The cost of the added lines: the sum of
-     * add_line_items[].total_money. Zero when the edit added nothing.
-     * previous_attributes.added_total_money.anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.added_total_money.anyOf[2] (Value): null.
-     * previous_attributes.amount_due_money (Optional): {@link MoneyValuePreviousAttributes} or
-     * null. What the added lines cost beyond the removed value and released charges, tax included,
-     * frozen when the edit was created. Zero when the edit had no balance.
-     * previous_attributes.amount_due_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-     * previous_attributes.amount_due_money.anyOf[2] (Value): null. previous_attributes.canceled_at
-     * (Optional): string or null. When the edit was canceled. `null` when the edit is not
-     * canceled. previous_attributes.canceled_at.anyOf[1] (Value): string. When the edit was
-     * canceled. `null` when the edit is not canceled. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.canceled_at.anyOf[2] (Value): null.
-     * previous_attributes.cancellation_reason (Optional): string or null. Why the edit was
-     * canceled. `null` when the edit is not canceled. Value enum: "merchant_request", "expired",
-     * "payment_disputed", "payment_returned", null.
-     * previous_attributes.cancellation_reason.anyOf[1] (Value): string. Why the edit was canceled.
-     * `null` when the edit is not canceled. Value enum: "merchant_request", "expired",
-     * "payment_disputed", "payment_returned", null.
-     * previous_attributes.cancellation_reason.anyOf[2] (Value): null.
-     * previous_attributes.charge_refunds (Optional): Array of {@link
-     * OrderEditChargeRefundPreviousAttributes} or null. Charges released by this edit, frozen at
-     * creation. Empty when no charges were released. previous_attributes.charge_refunds.anyOf[1]
-     * (Value): Array of {@link OrderEditChargeRefundPreviousAttributes}. Charges released by this
-     * edit, frozen at creation. Empty when no charges were released.
-     * previous_attributes.charge_refunds.anyOf[1][] (Value): {@link
-     * OrderEditChargeRefundPreviousAttributes}. previous_attributes.charge_refunds.anyOf[2]
-     * (Value): null. previous_attributes.completed_at (Optional): string or null. When the item
-     * changes were applied to the order. `null` when the edit is pending or canceled.
-     * previous_attributes.completed_at.anyOf[1] (Value): string. When the item changes were
-     * applied to the order. `null` when the edit is pending or canceled. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". previous_attributes.completed_at.anyOf[2] (Value): null.
-     * previous_attributes.created_at (Optional): string or null. When the edit was created.
-     * previous_attributes.created_at.anyOf[1] (Value): string. When the edit was created. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.expires_at (Optional): string or null. When Flint cancels the edit
-     * if the balance isn't paid. `null` when the edit never had a balance.
-     * previous_attributes.expires_at.anyOf[1] (Value): string. When Flint cancels the edit if the
-     * balance isn't paid. `null` when the edit never had a balance. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.expires_at.anyOf[2] (Value): null.
-     * previous_attributes.order_edit_id (Optional): string or null. Stable ID of this order edit.
-     * previous_attributes.order_edit_id.anyOf[1] (Value): string. Stable ID of this order edit.
-     * pattern: ^oed_[0-9A-HJKMNP-TV-Z]{26}$. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
-     * previous_attributes.order_edit_id.anyOf[2] (Value): null. previous_attributes.order_id
-     * (Optional): string or null. The order this edit belongs to.
-     * previous_attributes.order_id.anyOf[1] (Value): string. The order this edit belongs to.
-     * Example: "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value):
-     * null. previous_attributes.payment_intent_id (Optional): string or null. The payment intent
-     * that collects amount_due_money. Confirm it to pay the balance. `null` when the edit has no
-     * balance, and for a moment while Flint is still creating it.
-     * previous_attributes.payment_intent_id.anyOf[1] (Value): string. The payment intent that
-     * collects amount_due_money. Confirm it to pay the balance. `null` when the edit has no
-     * balance, and for a moment while Flint is still creating it. Example:
-     * "pi_01KEZF7C00G8H9D509YEV22P7R". previous_attributes.payment_intent_id.anyOf[2] (Value):
-     * null. previous_attributes.reason (Optional): string or null. Reason for the edit and its
-     * refund. Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product",
-     * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
-     * "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock".
-     * previous_attributes.reason.anyOf[1] (Value): string. Reason for the edit and its refund.
-     * Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product",
-     * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
-     * "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock".
-     * previous_attributes.reason.anyOf[2] (Value): null. previous_attributes.refund_ids
-     * (Optional): Array of string or null. Refunds created for this edit. Empty when no refund is
-     * needed or processing has not created it yet. previous_attributes.refund_ids.anyOf[1]
-     * (Value): Array of string. Refunds created for this edit. Empty when no refund is needed or
-     * processing has not created it yet. previous_attributes.refund_ids.anyOf[1][] (Value):
-     * string. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". previous_attributes.refund_ids.anyOf[2]
-     * (Value): null. previous_attributes.refund_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. Money to refund after the removed value and released
-     * charges pay for added lines. May be zero; an edit with no refund money creates no refund.
-     * previous_attributes.refund_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-     * previous_attributes.refund_money.anyOf[2] (Value): null.
-     * previous_attributes.remove_line_items (Optional): Array of {@link
-     * OrderEditLineRemovalPreviousAttributes} or null. Removed units and their refund amounts
-     * frozen at creation. previous_attributes.remove_line_items.anyOf[1] (Value): Array of {@link
-     * OrderEditLineRemovalPreviousAttributes}. Removed units and their refund amounts frozen at
-     * creation. previous_attributes.remove_line_items.anyOf[1][] (Value): {@link
-     * OrderEditLineRemovalPreviousAttributes}. previous_attributes.remove_line_items.anyOf[2]
-     * (Value): null. previous_attributes.removed_total_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. The value of the removed units: the sum of
-     * remove_line_items[].total_money. previous_attributes.removed_total_money.anyOf[1] (Value):
-     * {@link MoneyValuePreviousAttributes}. previous_attributes.removed_total_money.anyOf[2]
-     * (Value): null. previous_attributes.small_balance_adjustment_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. Signed noncash adjustment: positive for an edit
-     * balance below the payment minimum, negative when removing previously absorbed value.
-     * Included in settlement_amounts.written_off_money, never paid or refundable.
-     * previous_attributes.small_balance_adjustment_money.anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.small_balance_adjustment_money.anyOf[2]
-     * (Value): null. previous_attributes.status (Optional): string or null. Pending while waiting
-     * for a balance payment, completed once the item changes are applied, or canceled when it ends
-     * without changing the order. Refund processing has its own status on each refund. Value enum:
-     * "pending", "completed", "canceled". previous_attributes.status.anyOf[1] (Value): string.
-     * Pending while waiting for a balance payment, completed once the item changes are applied, or
-     * canceled when it ends without changing the order. Refund processing has its own status on
-     * each refund. Value enum: "pending", "completed", "canceled".
-     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
-     * (Optional): Array of string or null. Contains cancel while pending and the payment is
-     * neither processing nor succeeded. Contains retry when unrefunded_money is positive and no
-     * linked refund is pending. Empty while Flint is still processing the original refund before
-     * any linked refund exists; retry becomes available if that processing ends without a refund.
-     * Independent of caller permissions. [] enum: "cancel", "retry".
-     * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Contains cancel
-     * while pending and the payment is neither processing nor succeeded. Contains retry when
-     * unrefunded_money is positive and no linked refund is pending. Empty while Flint is still
-     * processing the original refund before any linked refund exists; retry becomes available if
-     * that processing ends without a refund. Independent of caller permissions. [] enum: "cancel",
-     * "retry". previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum:
-     * "cancel", "retry". previous_attributes.supported_actions.anyOf[2] (Value): null.
-     * previous_attributes.unrefunded_money (Optional): {@link MoneyValuePreviousAttributes} or
-     * null. Frozen refund money not covered by pending or succeeded allocations from refunds
-     * linked to this edit. Failed allocations do not reduce it.
-     * previous_attributes.unrefunded_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-     * previous_attributes.unrefunded_money.anyOf[2] (Value): null. previous_attributes.version
-     * (Optional): integer or null. The counter advances when status, payment_intent_id,
-     * completed_at, canceled_at or cancellation_reason change.
-     * previous_attributes.version.anyOf[1] (Value): integer. The counter advances when status,
-     * payment_intent_id, completed_at, canceled_at or cancellation_reason change. Format: uint64.
-     * minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
-     */
-    "data"?: {
-        /** The resource snapshot, without expansions. Webhooks omit these fields: `note`. */
-        "object": WebhookOrderEdit;
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. add_line_items (Optional): Array of {@link
-         * OrderEditLineAdditionPreviousAttributes} or null. Added order lines, in request order,
-         * with their quantities and values frozen at creation. Empty when the edit added nothing.
-         * add_line_items.anyOf[1] (Value): Array of {@link
-         * OrderEditLineAdditionPreviousAttributes}. Added order lines, in request order, with
-         * their quantities and values frozen at creation. Empty when the edit added nothing.
-         * add_line_items.anyOf[1][] (Value): {@link OrderEditLineAdditionPreviousAttributes}.
-         * add_line_items.anyOf[2] (Value): null. added_total_money (Optional): {@link
-         * MoneyValuePreviousAttributes} or null. The cost of the added lines: the sum of
-         * add_line_items[].total_money. Zero when the edit added nothing.
-         * added_total_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-         * added_total_money.anyOf[2] (Value): null. amount_due_money (Optional): {@link
-         * MoneyValuePreviousAttributes} or null. What the added lines cost beyond the removed
-         * value and released charges, tax included, frozen when the edit was created. Zero when
-         * the edit had no balance. amount_due_money.anyOf[1] (Value): {@link
-         * MoneyValuePreviousAttributes}. amount_due_money.anyOf[2] (Value): null. canceled_at
-         * (Optional): string or null. When the edit was canceled. `null` when the edit is not
-         * canceled. canceled_at.anyOf[1] (Value): string. When the edit was canceled. `null` when
-         * the edit is not canceled. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * canceled_at.anyOf[2] (Value): null. cancellation_reason (Optional): string or null. Why
-         * the edit was canceled. `null` when the edit is not canceled. Value enum:
-         * "merchant_request", "expired", "payment_disputed", "payment_returned", null.
-         * cancellation_reason.anyOf[1] (Value): string. Why the edit was canceled. `null` when the
-         * edit is not canceled. Value enum: "merchant_request", "expired", "payment_disputed",
-         * "payment_returned", null. cancellation_reason.anyOf[2] (Value): null. charge_refunds
-         * (Optional): Array of {@link OrderEditChargeRefundPreviousAttributes} or null. Charges
-         * released by this edit, frozen at creation. Empty when no charges were released.
-         * charge_refunds.anyOf[1] (Value): Array of {@link
-         * OrderEditChargeRefundPreviousAttributes}. Charges released by this edit, frozen at
-         * creation. Empty when no charges were released. charge_refunds.anyOf[1][] (Value): {@link
-         * OrderEditChargeRefundPreviousAttributes}. charge_refunds.anyOf[2] (Value): null.
-         * completed_at (Optional): string or null. When the item changes were applied to the
-         * order. `null` when the edit is pending or canceled. completed_at.anyOf[1] (Value):
-         * string. When the item changes were applied to the order. `null` when the edit is pending
-         * or canceled. Format: date-time. Example: "2026-08-02T16:00:00Z". completed_at.anyOf[2]
-         * (Value): null. created_at (Optional): string or null. When the edit was created.
-         * created_at.anyOf[1] (Value): string. When the edit was created. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. expires_at
-         * (Optional): string or null. When Flint cancels the edit if the balance isn't paid.
-         * `null` when the edit never had a balance. expires_at.anyOf[1] (Value): string. When
-         * Flint cancels the edit if the balance isn't paid. `null` when the edit never had a
-         * balance. Format: date-time. Example: "2026-08-02T16:00:00Z". expires_at.anyOf[2]
-         * (Value): null. order_edit_id (Optional): string or null. Stable ID of this order edit.
-         * order_edit_id.anyOf[1] (Value): string. Stable ID of this order edit. pattern:
-         * ^oed_[0-9A-HJKMNP-TV-Z]{26}$. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
-         * order_edit_id.anyOf[2] (Value): null. order_id (Optional): string or null. The order
-         * this edit belongs to. order_id.anyOf[1] (Value): string. The order this edit belongs to.
-         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
-         * payment_intent_id (Optional): string or null. The payment intent that collects
-         * amount_due_money. Confirm it to pay the balance. `null` when the edit has no balance,
-         * and for a moment while Flint is still creating it. payment_intent_id.anyOf[1] (Value):
-         * string. The payment intent that collects amount_due_money. Confirm it to pay the
-         * balance. `null` when the edit has no balance, and for a moment while Flint is still
-         * creating it. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intent_id.anyOf[2]
-         * (Value): null. reason (Optional): string or null. Reason for the edit and its refund.
-         * Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product",
-         * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
-         * "customer_changed_mind", "better_price_found", "accidental_order", "other",
-         * "out_of_stock". reason.anyOf[1] (Value): string. Reason for the edit and its refund.
-         * Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product",
-         * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
-         * "customer_changed_mind", "better_price_found", "accidental_order", "other",
-         * "out_of_stock". reason.anyOf[2] (Value): null. refund_ids (Optional): Array of string or
-         * null. Refunds created for this edit. Empty when no refund is needed or processing has
-         * not created it yet. refund_ids.anyOf[1] (Value): Array of string. Refunds created for
-         * this edit. Empty when no refund is needed or processing has not created it yet.
-         * refund_ids.anyOf[1][] (Value): string. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-         * refund_ids.anyOf[2] (Value): null. refund_money (Optional): {@link
-         * MoneyValuePreviousAttributes} or null. Money to refund after the removed value and
-         * released charges pay for added lines. May be zero; an edit with no refund money creates
-         * no refund. refund_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-         * refund_money.anyOf[2] (Value): null. remove_line_items (Optional): Array of {@link
-         * OrderEditLineRemovalPreviousAttributes} or null. Removed units and their refund amounts
-         * frozen at creation. remove_line_items.anyOf[1] (Value): Array of {@link
-         * OrderEditLineRemovalPreviousAttributes}. Removed units and their refund amounts frozen
-         * at creation. remove_line_items.anyOf[1][] (Value): {@link
-         * OrderEditLineRemovalPreviousAttributes}. remove_line_items.anyOf[2] (Value): null.
-         * removed_total_money (Optional): {@link MoneyValuePreviousAttributes} or null. The value
-         * of the removed units: the sum of remove_line_items[].total_money.
-         * removed_total_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-         * removed_total_money.anyOf[2] (Value): null. small_balance_adjustment_money (Optional):
-         * {@link MoneyValuePreviousAttributes} or null. Signed noncash adjustment: positive for an
-         * edit balance below the payment minimum, negative when removing previously absorbed
-         * value. Included in settlement_amounts.written_off_money, never paid or refundable.
-         * small_balance_adjustment_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-         * small_balance_adjustment_money.anyOf[2] (Value): null. status (Optional): string or
-         * null. Pending while waiting for a balance payment, completed once the item changes are
-         * applied, or canceled when it ends without changing the order. Refund processing has its
-         * own status on each refund. Value enum: "pending", "completed", "canceled".
-         * status.anyOf[1] (Value): string. Pending while waiting for a balance payment, completed
-         * once the item changes are applied, or canceled when it ends without changing the order.
-         * Refund processing has its own status on each refund. Value enum: "pending", "completed",
-         * "canceled". status.anyOf[2] (Value): null. supported_actions (Optional): Array of string
-         * or null. Contains cancel while pending and the payment is neither processing nor
-         * succeeded. Contains retry when unrefunded_money is positive and no linked refund is
-         * pending. Empty while Flint is still processing the original refund before any linked
-         * refund exists; retry becomes available if that processing ends without a refund.
-         * Independent of caller permissions. [] enum: "cancel", "retry".
-         * supported_actions.anyOf[1] (Value): Array of string. Contains cancel while pending and
-         * the payment is neither processing nor succeeded. Contains retry when unrefunded_money is
-         * positive and no linked refund is pending. Empty while Flint is still processing the
-         * original refund before any linked refund exists; retry becomes available if that
-         * processing ends without a refund. Independent of caller permissions. [] enum: "cancel",
-         * "retry". supported_actions.anyOf[1][] (Value): string. Value enum: "cancel", "retry".
-         * supported_actions.anyOf[2] (Value): null. unrefunded_money (Optional): {@link
-         * MoneyValuePreviousAttributes} or null. Frozen refund money not covered by pending or
-         * succeeded allocations from refunds linked to this edit. Failed allocations do not reduce
-         * it. unrefunded_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-         * unrefunded_money.anyOf[2] (Value): null. version (Optional): integer or null. The
-         * counter advances when status, payment_intent_id, completed_at, canceled_at or
-         * cancellation_reason change. version.anyOf[1] (Value): integer. The counter advances when
-         * status, payment_intent_id, completed_at, canceled_at or cancellation_reason change.
-         * Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * Added order lines, in request order, with their quantities and values frozen at
-             * creation. Empty when the edit added nothing. anyOf[1] (Value): Array of {@link
-             * OrderEditLineAdditionPreviousAttributes}. Added order lines, in request order, with
-             * their quantities and values frozen at creation. Empty when the edit added nothing.
-             * anyOf[1][] (Value): {@link OrderEditLineAdditionPreviousAttributes}. anyOf[2]
-             * (Value): null.
-             */
-            "add_line_items"?: ((Array<OrderEditLineAdditionPreviousAttributes>) | (null));
-            /**
-             * The cost of the added lines: the sum of add_line_items[].total_money. Zero when the
-             * edit added nothing. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2]
-             * (Value): null.
-             */
-            "added_total_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * What the added lines cost beyond the removed value and released charges, tax
-             * included, frozen when the edit was created. Zero when the edit had no balance.
-             * anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "amount_due_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * When the edit was canceled. `null` when the edit is not canceled. anyOf[1] (Value):
-             * string. When the edit was canceled. `null` when the edit is not canceled. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "canceled_at"?: ((string) | (null));
-            /**
-             * Why the edit was canceled. `null` when the edit is not canceled. Value enum:
-             * "merchant_request", "expired", "payment_disputed", "payment_returned", null.
-             * anyOf[1] (Value): string. Why the edit was canceled. `null` when the edit is not
-             * canceled. Value enum: "merchant_request", "expired", "payment_disputed",
-             * "payment_returned", null. anyOf[2] (Value): null.
-             */
-            "cancellation_reason"?: (("merchant_request" | "expired" | "payment_disputed" | "payment_returned" | null | (string & {}))
-                | (null));
-            /**
-             * Charges released by this edit, frozen at creation. Empty when no charges were
-             * released. anyOf[1] (Value): Array of {@link
-             * OrderEditChargeRefundPreviousAttributes}. Charges released by this edit, frozen at
-             * creation. Empty when no charges were released. anyOf[1][] (Value): {@link
-             * OrderEditChargeRefundPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "charge_refunds"?: ((Array<OrderEditChargeRefundPreviousAttributes>) | (null));
-            /**
-             * When the item changes were applied to the order. `null` when the edit is pending or
-             * canceled. anyOf[1] (Value): string. When the item changes were applied to the order.
-             * `null` when the edit is pending or canceled. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "completed_at"?: ((string) | (null));
-            /**
-             * When the edit was created. anyOf[1] (Value): string. When the edit was created.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * When Flint cancels the edit if the balance isn't paid. `null` when the edit never
-             * had a balance. anyOf[1] (Value): string. When Flint cancels the edit if the balance
-             * isn't paid. `null` when the edit never had a balance. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "expires_at"?: ((string) | (null));
-            /**
-             * Stable ID of this order edit. anyOf[1] (Value): string. Stable ID of this order
-             * edit. pattern: ^oed_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-             * "oed_01KEZF7C00A6BQ4TBGWFDJ944A". anyOf[2] (Value): null.
-             */
-            "order_edit_id"?: ((string) | (null));
-            /**
-             * The order this edit belongs to. anyOf[1] (Value): string. The order this edit
-             * belongs to. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
-             */
-            "order_id"?: ((string) | (null));
-            /**
-             * The payment intent that collects amount_due_money. Confirm it to pay the balance.
-             * `null` when the edit has no balance, and for a moment while Flint is still creating
-             * it. anyOf[1] (Value): string. The payment intent that collects amount_due_money.
-             * Confirm it to pay the balance. `null` when the edit has no balance, and for a moment
-             * while Flint is still creating it. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2]
-             * (Value): null.
-             */
-            "payment_intent_id"?: ((string) | (null));
-            /**
-             * Reason for the edit and its refund. Value enum: "duplicate", "fraudulent",
-             * "requested_by_customer", "defective_product", "wrong_item_shipped",
-             * "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind",
-             * "better_price_found", "accidental_order", "other", "out_of_stock". anyOf[1] (Value):
-             * string. Reason for the edit and its refund. Value enum: "duplicate", "fraudulent",
-             * "requested_by_customer", "defective_product", "wrong_item_shipped",
-             * "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind",
-             * "better_price_found", "accidental_order", "other", "out_of_stock". anyOf[2] (Value):
-             * null.
-             */
-            "reason"?: (("duplicate"
-                | "fraudulent"
-                | "requested_by_customer"
-                | "defective_product"
-                | "wrong_item_shipped"
-                | "never_received"
-                | "not_as_described"
-                | "arrived_too_late"
-                | "customer_changed_mind"
-                | "better_price_found"
-                | "accidental_order"
-                | "other"
-                | "out_of_stock"
-                | (string & {}))
-                | (null));
-            /**
-             * Refunds created for this edit. Empty when no refund is needed or processing has not
-             * created it yet. anyOf[1] (Value): Array of string. Refunds created for this edit.
-             * Empty when no refund is needed or processing has not created it yet. anyOf[1][]
-             * (Value): string. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". anyOf[2] (Value): null.
-             */
-            "refund_ids"?: ((Array<string>) | (null));
-            /**
-             * Money to refund after the removed value and released charges pay for added lines.
-             * May be zero; an edit with no refund money creates no refund. anyOf[1] (Value):
-             * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "refund_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * Removed units and their refund amounts frozen at creation. anyOf[1] (Value): Array
-             * of {@link OrderEditLineRemovalPreviousAttributes}. Removed units and their refund
-             * amounts frozen at creation. anyOf[1][] (Value): {@link
-             * OrderEditLineRemovalPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "remove_line_items"?: ((Array<OrderEditLineRemovalPreviousAttributes>) | (null));
-            /**
-             * The value of the removed units: the sum of remove_line_items[].total_money. anyOf[1]
-             * (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "removed_total_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * Signed noncash adjustment: positive for an edit balance below the payment minimum,
-             * negative when removing previously absorbed value. Included in
-             * settlement_amounts.written_off_money, never paid or refundable. anyOf[1] (Value):
-             * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "small_balance_adjustment_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * Pending while waiting for a balance payment, completed once the item changes are
-             * applied, or canceled when it ends without changing the order. Refund processing has
-             * its own status on each refund. Value enum: "pending", "completed", "canceled".
-             * anyOf[1] (Value): string. Pending while waiting for a balance payment, completed
-             * once the item changes are applied, or canceled when it ends without changing the
-             * order. Refund processing has its own status on each refund. Value enum: "pending",
-             * "completed", "canceled". anyOf[2] (Value): null.
-             */
-            "status"?: (("pending" | "completed" | "canceled" | (string & {})) | (null));
-            /**
-             * Contains cancel while pending and the payment is neither processing nor succeeded.
-             * Contains retry when unrefunded_money is positive and no linked refund is pending.
-             * Empty while Flint is still processing the original refund before any linked refund
-             * exists; retry becomes available if that processing ends without a refund.
-             * Independent of caller permissions. [] enum: "cancel", "retry". anyOf[1] (Value):
-             * Array of string. Contains cancel while pending and the payment is neither processing
-             * nor succeeded. Contains retry when unrefunded_money is positive and no linked refund
-             * is pending. Empty while Flint is still processing the original refund before any
-             * linked refund exists; retry becomes available if that processing ends without a
-             * refund. Independent of caller permissions. [] enum: "cancel", "retry". anyOf[1][]
-             * (Value): string. Value enum: "cancel", "retry". anyOf[2] (Value): null.
-             */
-            "supported_actions"?: ((Array<"cancel" | "retry" | (string & {})>) | (null));
-            /**
-             * Frozen refund money not covered by pending or succeeded allocations from refunds
-             * linked to this edit. Failed allocations do not reduce it. anyOf[1] (Value): {@link
-             * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "unrefunded_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * The counter advances when status, payment_intent_id, completed_at, canceled_at or
-             * cancellation_reason change. anyOf[1] (Value): integer. The counter advances when
-             * status, payment_intent_id, completed_at, canceled_at or cancellation_reason change.
-             * Format: uint64. minimum: 1. anyOf[2] (Value): null.
-             */
-            "version"?: ((number) | (null));
-        });
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "order_edit.canceled". */
-    "event_type"?: "order_edit.canceled";
-});
-/** The value an edit releases from one order charge, and the part refunded to the buyer. */
-export type OrderEditChargeRefund = {
-    /**
-     * The charge value released. The order no longer owes it. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-    /** The order charge whose value is released. Example: "och_01KEZF7C00XX8AKACP0GHKFWWT". */
-    "order_charge_id": string;
-    /**
-     * The part of amount_money refunded to the buyer. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code.
-     */
-    "refund_money": MoneyValue;
-};
-export type OrderEditChargeRefundPreviousAttributes = {
-    /**
-     * The charge value released. The order no longer owes it. anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
-    /**
-     * The order charge whose value is released. anyOf[1] (Value): string. The order charge whose
-     * value is released. Example: "och_01KEZF7C00XX8AKACP0GHKFWWT". anyOf[2] (Value): null.
-     */
-    "order_charge_id"?: ((string) | (null));
-    /**
-     * The part of amount_money refunded to the buyer. anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "refund_money"?: ((MoneyValuePreviousAttributes) | (null));
-};
-export type OrderEditCompletedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": WebhookOrderEdit;
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "add_line_items"?: ((Array<OrderEditLineAdditionPreviousAttributes>) | (null));
-            "added_total_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "amount_due_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "canceled_at"?: ((string) | (null));
-            "cancellation_reason"?: (("merchant_request" | "expired" | "payment_disputed" | "payment_returned" | null | (string & {}))
-                | (null));
-            "charge_refunds"?: ((Array<OrderEditChargeRefundPreviousAttributes>) | (null));
-            "completed_at"?: ((string) | (null));
-            "created_at"?: ((string) | (null));
-            "expires_at"?: ((string) | (null));
-            "order_edit_id"?: ((string) | (null));
-            "order_id"?: ((string) | (null));
-            "payment_intent_id"?: ((string) | (null));
-            "reason"?: (("duplicate"
-                | "fraudulent"
-                | "requested_by_customer"
-                | "defective_product"
-                | "wrong_item_shipped"
-                | "never_received"
-                | "not_as_described"
-                | "arrived_too_late"
-                | "customer_changed_mind"
-                | "better_price_found"
-                | "accidental_order"
-                | "other"
-                | "out_of_stock"
-                | (string & {}))
-                | (null));
-            "refund_ids"?: ((Array<string>) | (null));
-            "refund_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "remove_line_items"?: ((Array<OrderEditLineRemovalPreviousAttributes>) | (null));
-            "removed_total_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "small_balance_adjustment_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "status"?: (("pending" | "completed" | "canceled" | (string & {})) | (null));
-            "supported_actions"?: ((Array<"cancel" | "retry" | (string & {})>) | (null));
-            "unrefunded_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "order_edit.completed";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": WebhookOrderEdit;
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "add_line_items"?: ((Array<OrderEditLineAdditionPreviousAttributes>) | (null));
-            "added_total_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "amount_due_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "canceled_at"?: ((string) | (null));
-            "cancellation_reason"?: (("merchant_request" | "expired" | "payment_disputed" | "payment_returned" | null | (string & {}))
-                | (null));
-            "charge_refunds"?: ((Array<OrderEditChargeRefundPreviousAttributes>) | (null));
-            "completed_at"?: ((string) | (null));
-            "created_at"?: ((string) | (null));
-            "expires_at"?: ((string) | (null));
-            "order_edit_id"?: ((string) | (null));
-            "order_id"?: ((string) | (null));
-            "payment_intent_id"?: ((string) | (null));
-            "reason"?: (("duplicate"
-                | "fraudulent"
-                | "requested_by_customer"
-                | "defective_product"
-                | "wrong_item_shipped"
-                | "never_received"
-                | "not_as_described"
-                | "arrived_too_late"
-                | "customer_changed_mind"
-                | "better_price_found"
-                | "accidental_order"
-                | "other"
-                | "out_of_stock"
-                | (string & {}))
-                | (null));
-            "refund_ids"?: ((Array<string>) | (null));
-            "refund_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "remove_line_items"?: ((Array<OrderEditLineRemovalPreviousAttributes>) | (null));
-            "removed_total_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "small_balance_adjustment_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "status"?: (("pending" | "completed" | "canceled" | (string & {})) | (null));
-            "supported_actions"?: ((Array<"cancel" | "retry" | (string & {})>) | (null));
-            "unrefunded_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "order_edit.completed";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "order_edit.completed";
-});
-/**
- * The `order_edit.completed` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type OrderEditCompletedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link WebhookOrderEdit}. The resource snapshot, without expansions.
-     * Webhooks omit these fields: `note`. previous_attributes (Optional): object. Previous values
-     * of changed top-level fields in data.object, at this delivery's API version. Nested changes
-     * include the whole previous top-level value. A value is null when the field was absent before
-     * the change. Omitted when Flint did not record the previous state, including synthetic test
-     * events. previous_attributes.add_line_items (Optional): Array of {@link
-     * OrderEditLineAdditionPreviousAttributes} or null. Added order lines, in request order, with
-     * their quantities and values frozen at creation. Empty when the edit added nothing.
-     * previous_attributes.add_line_items.anyOf[1] (Value): Array of {@link
-     * OrderEditLineAdditionPreviousAttributes}. Added order lines, in request order, with their
-     * quantities and values frozen at creation. Empty when the edit added nothing.
-     * previous_attributes.add_line_items.anyOf[1][] (Value): {@link
-     * OrderEditLineAdditionPreviousAttributes}. previous_attributes.add_line_items.anyOf[2]
-     * (Value): null. previous_attributes.added_total_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. The cost of the added lines: the sum of
-     * add_line_items[].total_money. Zero when the edit added nothing.
-     * previous_attributes.added_total_money.anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.added_total_money.anyOf[2] (Value): null.
-     * previous_attributes.amount_due_money (Optional): {@link MoneyValuePreviousAttributes} or
-     * null. What the added lines cost beyond the removed value and released charges, tax included,
-     * frozen when the edit was created. Zero when the edit had no balance.
-     * previous_attributes.amount_due_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-     * previous_attributes.amount_due_money.anyOf[2] (Value): null. previous_attributes.canceled_at
-     * (Optional): string or null. When the edit was canceled. `null` when the edit is not
-     * canceled. previous_attributes.canceled_at.anyOf[1] (Value): string. When the edit was
-     * canceled. `null` when the edit is not canceled. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.canceled_at.anyOf[2] (Value): null.
-     * previous_attributes.cancellation_reason (Optional): string or null. Why the edit was
-     * canceled. `null` when the edit is not canceled. Value enum: "merchant_request", "expired",
-     * "payment_disputed", "payment_returned", null.
-     * previous_attributes.cancellation_reason.anyOf[1] (Value): string. Why the edit was canceled.
-     * `null` when the edit is not canceled. Value enum: "merchant_request", "expired",
-     * "payment_disputed", "payment_returned", null.
-     * previous_attributes.cancellation_reason.anyOf[2] (Value): null.
-     * previous_attributes.charge_refunds (Optional): Array of {@link
-     * OrderEditChargeRefundPreviousAttributes} or null. Charges released by this edit, frozen at
-     * creation. Empty when no charges were released. previous_attributes.charge_refunds.anyOf[1]
-     * (Value): Array of {@link OrderEditChargeRefundPreviousAttributes}. Charges released by this
-     * edit, frozen at creation. Empty when no charges were released.
-     * previous_attributes.charge_refunds.anyOf[1][] (Value): {@link
-     * OrderEditChargeRefundPreviousAttributes}. previous_attributes.charge_refunds.anyOf[2]
-     * (Value): null. previous_attributes.completed_at (Optional): string or null. When the item
-     * changes were applied to the order. `null` when the edit is pending or canceled.
-     * previous_attributes.completed_at.anyOf[1] (Value): string. When the item changes were
-     * applied to the order. `null` when the edit is pending or canceled. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". previous_attributes.completed_at.anyOf[2] (Value): null.
-     * previous_attributes.created_at (Optional): string or null. When the edit was created.
-     * previous_attributes.created_at.anyOf[1] (Value): string. When the edit was created. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.expires_at (Optional): string or null. When Flint cancels the edit
-     * if the balance isn't paid. `null` when the edit never had a balance.
-     * previous_attributes.expires_at.anyOf[1] (Value): string. When Flint cancels the edit if the
-     * balance isn't paid. `null` when the edit never had a balance. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.expires_at.anyOf[2] (Value): null.
-     * previous_attributes.order_edit_id (Optional): string or null. Stable ID of this order edit.
-     * previous_attributes.order_edit_id.anyOf[1] (Value): string. Stable ID of this order edit.
-     * pattern: ^oed_[0-9A-HJKMNP-TV-Z]{26}$. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
-     * previous_attributes.order_edit_id.anyOf[2] (Value): null. previous_attributes.order_id
-     * (Optional): string or null. The order this edit belongs to.
-     * previous_attributes.order_id.anyOf[1] (Value): string. The order this edit belongs to.
-     * Example: "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value):
-     * null. previous_attributes.payment_intent_id (Optional): string or null. The payment intent
-     * that collects amount_due_money. Confirm it to pay the balance. `null` when the edit has no
-     * balance, and for a moment while Flint is still creating it.
-     * previous_attributes.payment_intent_id.anyOf[1] (Value): string. The payment intent that
-     * collects amount_due_money. Confirm it to pay the balance. `null` when the edit has no
-     * balance, and for a moment while Flint is still creating it. Example:
-     * "pi_01KEZF7C00G8H9D509YEV22P7R". previous_attributes.payment_intent_id.anyOf[2] (Value):
-     * null. previous_attributes.reason (Optional): string or null. Reason for the edit and its
-     * refund. Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product",
-     * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
-     * "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock".
-     * previous_attributes.reason.anyOf[1] (Value): string. Reason for the edit and its refund.
-     * Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product",
-     * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
-     * "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock".
-     * previous_attributes.reason.anyOf[2] (Value): null. previous_attributes.refund_ids
-     * (Optional): Array of string or null. Refunds created for this edit. Empty when no refund is
-     * needed or processing has not created it yet. previous_attributes.refund_ids.anyOf[1]
-     * (Value): Array of string. Refunds created for this edit. Empty when no refund is needed or
-     * processing has not created it yet. previous_attributes.refund_ids.anyOf[1][] (Value):
-     * string. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". previous_attributes.refund_ids.anyOf[2]
-     * (Value): null. previous_attributes.refund_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. Money to refund after the removed value and released
-     * charges pay for added lines. May be zero; an edit with no refund money creates no refund.
-     * previous_attributes.refund_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-     * previous_attributes.refund_money.anyOf[2] (Value): null.
-     * previous_attributes.remove_line_items (Optional): Array of {@link
-     * OrderEditLineRemovalPreviousAttributes} or null. Removed units and their refund amounts
-     * frozen at creation. previous_attributes.remove_line_items.anyOf[1] (Value): Array of {@link
-     * OrderEditLineRemovalPreviousAttributes}. Removed units and their refund amounts frozen at
-     * creation. previous_attributes.remove_line_items.anyOf[1][] (Value): {@link
-     * OrderEditLineRemovalPreviousAttributes}. previous_attributes.remove_line_items.anyOf[2]
-     * (Value): null. previous_attributes.removed_total_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. The value of the removed units: the sum of
-     * remove_line_items[].total_money. previous_attributes.removed_total_money.anyOf[1] (Value):
-     * {@link MoneyValuePreviousAttributes}. previous_attributes.removed_total_money.anyOf[2]
-     * (Value): null. previous_attributes.small_balance_adjustment_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. Signed noncash adjustment: positive for an edit
-     * balance below the payment minimum, negative when removing previously absorbed value.
-     * Included in settlement_amounts.written_off_money, never paid or refundable.
-     * previous_attributes.small_balance_adjustment_money.anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.small_balance_adjustment_money.anyOf[2]
-     * (Value): null. previous_attributes.status (Optional): string or null. Pending while waiting
-     * for a balance payment, completed once the item changes are applied, or canceled when it ends
-     * without changing the order. Refund processing has its own status on each refund. Value enum:
-     * "pending", "completed", "canceled". previous_attributes.status.anyOf[1] (Value): string.
-     * Pending while waiting for a balance payment, completed once the item changes are applied, or
-     * canceled when it ends without changing the order. Refund processing has its own status on
-     * each refund. Value enum: "pending", "completed", "canceled".
-     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
-     * (Optional): Array of string or null. Contains cancel while pending and the payment is
-     * neither processing nor succeeded. Contains retry when unrefunded_money is positive and no
-     * linked refund is pending. Empty while Flint is still processing the original refund before
-     * any linked refund exists; retry becomes available if that processing ends without a refund.
-     * Independent of caller permissions. [] enum: "cancel", "retry".
-     * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Contains cancel
-     * while pending and the payment is neither processing nor succeeded. Contains retry when
-     * unrefunded_money is positive and no linked refund is pending. Empty while Flint is still
-     * processing the original refund before any linked refund exists; retry becomes available if
-     * that processing ends without a refund. Independent of caller permissions. [] enum: "cancel",
-     * "retry". previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum:
-     * "cancel", "retry". previous_attributes.supported_actions.anyOf[2] (Value): null.
-     * previous_attributes.unrefunded_money (Optional): {@link MoneyValuePreviousAttributes} or
-     * null. Frozen refund money not covered by pending or succeeded allocations from refunds
-     * linked to this edit. Failed allocations do not reduce it.
-     * previous_attributes.unrefunded_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-     * previous_attributes.unrefunded_money.anyOf[2] (Value): null. previous_attributes.version
-     * (Optional): integer or null. The counter advances when status, payment_intent_id,
-     * completed_at, canceled_at or cancellation_reason change.
-     * previous_attributes.version.anyOf[1] (Value): integer. The counter advances when status,
-     * payment_intent_id, completed_at, canceled_at or cancellation_reason change. Format: uint64.
-     * minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
-     */
-    "data"?: {
-        /** The resource snapshot, without expansions. Webhooks omit these fields: `note`. */
-        "object": WebhookOrderEdit;
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. add_line_items (Optional): Array of {@link
-         * OrderEditLineAdditionPreviousAttributes} or null. Added order lines, in request order,
-         * with their quantities and values frozen at creation. Empty when the edit added nothing.
-         * add_line_items.anyOf[1] (Value): Array of {@link
-         * OrderEditLineAdditionPreviousAttributes}. Added order lines, in request order, with
-         * their quantities and values frozen at creation. Empty when the edit added nothing.
-         * add_line_items.anyOf[1][] (Value): {@link OrderEditLineAdditionPreviousAttributes}.
-         * add_line_items.anyOf[2] (Value): null. added_total_money (Optional): {@link
-         * MoneyValuePreviousAttributes} or null. The cost of the added lines: the sum of
-         * add_line_items[].total_money. Zero when the edit added nothing.
-         * added_total_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-         * added_total_money.anyOf[2] (Value): null. amount_due_money (Optional): {@link
-         * MoneyValuePreviousAttributes} or null. What the added lines cost beyond the removed
-         * value and released charges, tax included, frozen when the edit was created. Zero when
-         * the edit had no balance. amount_due_money.anyOf[1] (Value): {@link
-         * MoneyValuePreviousAttributes}. amount_due_money.anyOf[2] (Value): null. canceled_at
-         * (Optional): string or null. When the edit was canceled. `null` when the edit is not
-         * canceled. canceled_at.anyOf[1] (Value): string. When the edit was canceled. `null` when
-         * the edit is not canceled. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * canceled_at.anyOf[2] (Value): null. cancellation_reason (Optional): string or null. Why
-         * the edit was canceled. `null` when the edit is not canceled. Value enum:
-         * "merchant_request", "expired", "payment_disputed", "payment_returned", null.
-         * cancellation_reason.anyOf[1] (Value): string. Why the edit was canceled. `null` when the
-         * edit is not canceled. Value enum: "merchant_request", "expired", "payment_disputed",
-         * "payment_returned", null. cancellation_reason.anyOf[2] (Value): null. charge_refunds
-         * (Optional): Array of {@link OrderEditChargeRefundPreviousAttributes} or null. Charges
-         * released by this edit, frozen at creation. Empty when no charges were released.
-         * charge_refunds.anyOf[1] (Value): Array of {@link
-         * OrderEditChargeRefundPreviousAttributes}. Charges released by this edit, frozen at
-         * creation. Empty when no charges were released. charge_refunds.anyOf[1][] (Value): {@link
-         * OrderEditChargeRefundPreviousAttributes}. charge_refunds.anyOf[2] (Value): null.
-         * completed_at (Optional): string or null. When the item changes were applied to the
-         * order. `null` when the edit is pending or canceled. completed_at.anyOf[1] (Value):
-         * string. When the item changes were applied to the order. `null` when the edit is pending
-         * or canceled. Format: date-time. Example: "2026-08-02T16:00:00Z". completed_at.anyOf[2]
-         * (Value): null. created_at (Optional): string or null. When the edit was created.
-         * created_at.anyOf[1] (Value): string. When the edit was created. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. expires_at
-         * (Optional): string or null. When Flint cancels the edit if the balance isn't paid.
-         * `null` when the edit never had a balance. expires_at.anyOf[1] (Value): string. When
-         * Flint cancels the edit if the balance isn't paid. `null` when the edit never had a
-         * balance. Format: date-time. Example: "2026-08-02T16:00:00Z". expires_at.anyOf[2]
-         * (Value): null. order_edit_id (Optional): string or null. Stable ID of this order edit.
-         * order_edit_id.anyOf[1] (Value): string. Stable ID of this order edit. pattern:
-         * ^oed_[0-9A-HJKMNP-TV-Z]{26}$. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
-         * order_edit_id.anyOf[2] (Value): null. order_id (Optional): string or null. The order
-         * this edit belongs to. order_id.anyOf[1] (Value): string. The order this edit belongs to.
-         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
-         * payment_intent_id (Optional): string or null. The payment intent that collects
-         * amount_due_money. Confirm it to pay the balance. `null` when the edit has no balance,
-         * and for a moment while Flint is still creating it. payment_intent_id.anyOf[1] (Value):
-         * string. The payment intent that collects amount_due_money. Confirm it to pay the
-         * balance. `null` when the edit has no balance, and for a moment while Flint is still
-         * creating it. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intent_id.anyOf[2]
-         * (Value): null. reason (Optional): string or null. Reason for the edit and its refund.
-         * Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product",
-         * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
-         * "customer_changed_mind", "better_price_found", "accidental_order", "other",
-         * "out_of_stock". reason.anyOf[1] (Value): string. Reason for the edit and its refund.
-         * Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product",
-         * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
-         * "customer_changed_mind", "better_price_found", "accidental_order", "other",
-         * "out_of_stock". reason.anyOf[2] (Value): null. refund_ids (Optional): Array of string or
-         * null. Refunds created for this edit. Empty when no refund is needed or processing has
-         * not created it yet. refund_ids.anyOf[1] (Value): Array of string. Refunds created for
-         * this edit. Empty when no refund is needed or processing has not created it yet.
-         * refund_ids.anyOf[1][] (Value): string. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-         * refund_ids.anyOf[2] (Value): null. refund_money (Optional): {@link
-         * MoneyValuePreviousAttributes} or null. Money to refund after the removed value and
-         * released charges pay for added lines. May be zero; an edit with no refund money creates
-         * no refund. refund_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-         * refund_money.anyOf[2] (Value): null. remove_line_items (Optional): Array of {@link
-         * OrderEditLineRemovalPreviousAttributes} or null. Removed units and their refund amounts
-         * frozen at creation. remove_line_items.anyOf[1] (Value): Array of {@link
-         * OrderEditLineRemovalPreviousAttributes}. Removed units and their refund amounts frozen
-         * at creation. remove_line_items.anyOf[1][] (Value): {@link
-         * OrderEditLineRemovalPreviousAttributes}. remove_line_items.anyOf[2] (Value): null.
-         * removed_total_money (Optional): {@link MoneyValuePreviousAttributes} or null. The value
-         * of the removed units: the sum of remove_line_items[].total_money.
-         * removed_total_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-         * removed_total_money.anyOf[2] (Value): null. small_balance_adjustment_money (Optional):
-         * {@link MoneyValuePreviousAttributes} or null. Signed noncash adjustment: positive for an
-         * edit balance below the payment minimum, negative when removing previously absorbed
-         * value. Included in settlement_amounts.written_off_money, never paid or refundable.
-         * small_balance_adjustment_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-         * small_balance_adjustment_money.anyOf[2] (Value): null. status (Optional): string or
-         * null. Pending while waiting for a balance payment, completed once the item changes are
-         * applied, or canceled when it ends without changing the order. Refund processing has its
-         * own status on each refund. Value enum: "pending", "completed", "canceled".
-         * status.anyOf[1] (Value): string. Pending while waiting for a balance payment, completed
-         * once the item changes are applied, or canceled when it ends without changing the order.
-         * Refund processing has its own status on each refund. Value enum: "pending", "completed",
-         * "canceled". status.anyOf[2] (Value): null. supported_actions (Optional): Array of string
-         * or null. Contains cancel while pending and the payment is neither processing nor
-         * succeeded. Contains retry when unrefunded_money is positive and no linked refund is
-         * pending. Empty while Flint is still processing the original refund before any linked
-         * refund exists; retry becomes available if that processing ends without a refund.
-         * Independent of caller permissions. [] enum: "cancel", "retry".
-         * supported_actions.anyOf[1] (Value): Array of string. Contains cancel while pending and
-         * the payment is neither processing nor succeeded. Contains retry when unrefunded_money is
-         * positive and no linked refund is pending. Empty while Flint is still processing the
-         * original refund before any linked refund exists; retry becomes available if that
-         * processing ends without a refund. Independent of caller permissions. [] enum: "cancel",
-         * "retry". supported_actions.anyOf[1][] (Value): string. Value enum: "cancel", "retry".
-         * supported_actions.anyOf[2] (Value): null. unrefunded_money (Optional): {@link
-         * MoneyValuePreviousAttributes} or null. Frozen refund money not covered by pending or
-         * succeeded allocations from refunds linked to this edit. Failed allocations do not reduce
-         * it. unrefunded_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-         * unrefunded_money.anyOf[2] (Value): null. version (Optional): integer or null. The
-         * counter advances when status, payment_intent_id, completed_at, canceled_at or
-         * cancellation_reason change. version.anyOf[1] (Value): integer. The counter advances when
-         * status, payment_intent_id, completed_at, canceled_at or cancellation_reason change.
-         * Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * Added order lines, in request order, with their quantities and values frozen at
-             * creation. Empty when the edit added nothing. anyOf[1] (Value): Array of {@link
-             * OrderEditLineAdditionPreviousAttributes}. Added order lines, in request order, with
-             * their quantities and values frozen at creation. Empty when the edit added nothing.
-             * anyOf[1][] (Value): {@link OrderEditLineAdditionPreviousAttributes}. anyOf[2]
-             * (Value): null.
-             */
-            "add_line_items"?: ((Array<OrderEditLineAdditionPreviousAttributes>) | (null));
-            /**
-             * The cost of the added lines: the sum of add_line_items[].total_money. Zero when the
-             * edit added nothing. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2]
-             * (Value): null.
-             */
-            "added_total_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * What the added lines cost beyond the removed value and released charges, tax
-             * included, frozen when the edit was created. Zero when the edit had no balance.
-             * anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "amount_due_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * When the edit was canceled. `null` when the edit is not canceled. anyOf[1] (Value):
-             * string. When the edit was canceled. `null` when the edit is not canceled. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "canceled_at"?: ((string) | (null));
-            /**
-             * Why the edit was canceled. `null` when the edit is not canceled. Value enum:
-             * "merchant_request", "expired", "payment_disputed", "payment_returned", null.
-             * anyOf[1] (Value): string. Why the edit was canceled. `null` when the edit is not
-             * canceled. Value enum: "merchant_request", "expired", "payment_disputed",
-             * "payment_returned", null. anyOf[2] (Value): null.
-             */
-            "cancellation_reason"?: (("merchant_request" | "expired" | "payment_disputed" | "payment_returned" | null | (string & {}))
-                | (null));
-            /**
-             * Charges released by this edit, frozen at creation. Empty when no charges were
-             * released. anyOf[1] (Value): Array of {@link
-             * OrderEditChargeRefundPreviousAttributes}. Charges released by this edit, frozen at
-             * creation. Empty when no charges were released. anyOf[1][] (Value): {@link
-             * OrderEditChargeRefundPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "charge_refunds"?: ((Array<OrderEditChargeRefundPreviousAttributes>) | (null));
-            /**
-             * When the item changes were applied to the order. `null` when the edit is pending or
-             * canceled. anyOf[1] (Value): string. When the item changes were applied to the order.
-             * `null` when the edit is pending or canceled. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "completed_at"?: ((string) | (null));
-            /**
-             * When the edit was created. anyOf[1] (Value): string. When the edit was created.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * When Flint cancels the edit if the balance isn't paid. `null` when the edit never
-             * had a balance. anyOf[1] (Value): string. When Flint cancels the edit if the balance
-             * isn't paid. `null` when the edit never had a balance. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "expires_at"?: ((string) | (null));
-            /**
-             * Stable ID of this order edit. anyOf[1] (Value): string. Stable ID of this order
-             * edit. pattern: ^oed_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-             * "oed_01KEZF7C00A6BQ4TBGWFDJ944A". anyOf[2] (Value): null.
-             */
-            "order_edit_id"?: ((string) | (null));
-            /**
-             * The order this edit belongs to. anyOf[1] (Value): string. The order this edit
-             * belongs to. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
-             */
-            "order_id"?: ((string) | (null));
-            /**
-             * The payment intent that collects amount_due_money. Confirm it to pay the balance.
-             * `null` when the edit has no balance, and for a moment while Flint is still creating
-             * it. anyOf[1] (Value): string. The payment intent that collects amount_due_money.
-             * Confirm it to pay the balance. `null` when the edit has no balance, and for a moment
-             * while Flint is still creating it. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2]
-             * (Value): null.
-             */
-            "payment_intent_id"?: ((string) | (null));
-            /**
-             * Reason for the edit and its refund. Value enum: "duplicate", "fraudulent",
-             * "requested_by_customer", "defective_product", "wrong_item_shipped",
-             * "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind",
-             * "better_price_found", "accidental_order", "other", "out_of_stock". anyOf[1] (Value):
-             * string. Reason for the edit and its refund. Value enum: "duplicate", "fraudulent",
-             * "requested_by_customer", "defective_product", "wrong_item_shipped",
-             * "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind",
-             * "better_price_found", "accidental_order", "other", "out_of_stock". anyOf[2] (Value):
-             * null.
-             */
-            "reason"?: (("duplicate"
-                | "fraudulent"
-                | "requested_by_customer"
-                | "defective_product"
-                | "wrong_item_shipped"
-                | "never_received"
-                | "not_as_described"
-                | "arrived_too_late"
-                | "customer_changed_mind"
-                | "better_price_found"
-                | "accidental_order"
-                | "other"
-                | "out_of_stock"
-                | (string & {}))
-                | (null));
-            /**
-             * Refunds created for this edit. Empty when no refund is needed or processing has not
-             * created it yet. anyOf[1] (Value): Array of string. Refunds created for this edit.
-             * Empty when no refund is needed or processing has not created it yet. anyOf[1][]
-             * (Value): string. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". anyOf[2] (Value): null.
-             */
-            "refund_ids"?: ((Array<string>) | (null));
-            /**
-             * Money to refund after the removed value and released charges pay for added lines.
-             * May be zero; an edit with no refund money creates no refund. anyOf[1] (Value):
-             * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "refund_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * Removed units and their refund amounts frozen at creation. anyOf[1] (Value): Array
-             * of {@link OrderEditLineRemovalPreviousAttributes}. Removed units and their refund
-             * amounts frozen at creation. anyOf[1][] (Value): {@link
-             * OrderEditLineRemovalPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "remove_line_items"?: ((Array<OrderEditLineRemovalPreviousAttributes>) | (null));
-            /**
-             * The value of the removed units: the sum of remove_line_items[].total_money. anyOf[1]
-             * (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "removed_total_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * Signed noncash adjustment: positive for an edit balance below the payment minimum,
-             * negative when removing previously absorbed value. Included in
-             * settlement_amounts.written_off_money, never paid or refundable. anyOf[1] (Value):
-             * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "small_balance_adjustment_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * Pending while waiting for a balance payment, completed once the item changes are
-             * applied, or canceled when it ends without changing the order. Refund processing has
-             * its own status on each refund. Value enum: "pending", "completed", "canceled".
-             * anyOf[1] (Value): string. Pending while waiting for a balance payment, completed
-             * once the item changes are applied, or canceled when it ends without changing the
-             * order. Refund processing has its own status on each refund. Value enum: "pending",
-             * "completed", "canceled". anyOf[2] (Value): null.
-             */
-            "status"?: (("pending" | "completed" | "canceled" | (string & {})) | (null));
-            /**
-             * Contains cancel while pending and the payment is neither processing nor succeeded.
-             * Contains retry when unrefunded_money is positive and no linked refund is pending.
-             * Empty while Flint is still processing the original refund before any linked refund
-             * exists; retry becomes available if that processing ends without a refund.
-             * Independent of caller permissions. [] enum: "cancel", "retry". anyOf[1] (Value):
-             * Array of string. Contains cancel while pending and the payment is neither processing
-             * nor succeeded. Contains retry when unrefunded_money is positive and no linked refund
-             * is pending. Empty while Flint is still processing the original refund before any
-             * linked refund exists; retry becomes available if that processing ends without a
-             * refund. Independent of caller permissions. [] enum: "cancel", "retry". anyOf[1][]
-             * (Value): string. Value enum: "cancel", "retry". anyOf[2] (Value): null.
-             */
-            "supported_actions"?: ((Array<"cancel" | "retry" | (string & {})>) | (null));
-            /**
-             * Frozen refund money not covered by pending or succeeded allocations from refunds
-             * linked to this edit. Failed allocations do not reduce it. anyOf[1] (Value): {@link
-             * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "unrefunded_money"?: ((MoneyValuePreviousAttributes) | (null));
-            /**
-             * The counter advances when status, payment_intent_id, completed_at, canceled_at or
-             * cancellation_reason change. anyOf[1] (Value): integer. The counter advances when
-             * status, payment_intent_id, completed_at, canceled_at or cancellation_reason change.
-             * Format: uint64. minimum: 1. anyOf[2] (Value): null.
-             */
-            "version"?: ((number) | (null));
-        });
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "order_edit.completed". */
-    "event_type"?: "order_edit.completed";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});

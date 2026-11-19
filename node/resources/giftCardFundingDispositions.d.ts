@@ -4,10 +4,9 @@ import type {
     GiftCardFundingDisposition,
     GiftCardFundingDispositionListResponse,
     GiftCardFundingDispositionResponse,
-    GiftCardFundingDispositionsCreateParams,
-    GiftCardFundingDispositionsGetParams,
-    GiftCardFundingDispositionsListParams
+    GiftCardFundingDispositionsCreateParams
 } from '../declarations/types-28.js';
+import type { GiftCardFundingDispositionsGetParams, GiftCardFundingDispositionsListParams } from '../declarations/types-29.js';
 import type { RequestOptions } from '../declarations/types-62.js';
 import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
@@ -28,16 +27,15 @@ export type {
     GiftCardFundingDispositionsCreateParams,
     GiftCardFundingDisposition,
     GiftCardFundingDispositionResponse,
-    GiftCardFundingDispositionsGetParams,
-    GiftCardFundingDispositionsListParams,
     GiftCardFundingDispositionListResponse
 } from '../declarations/types-28.js';
 export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { GiftCardFundingDispositionsGetParams, GiftCardFundingDispositionsListParams } from '../declarations/types-29.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateGiftCardFundingDispositionRequestInput } from '../declarations/types-10.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';

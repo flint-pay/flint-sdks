@@ -1,7 +1,16 @@
 [Model index](../MODELS.md)
 
-# GiftCardRedemptionResponse to InventoryReservationListResponse
+# AuthContextResponse to GiftCardTransactionListResponse
 
+- [AuthContextResponse](AuthContextResponse.md)
+- [BalanceTransactionResponse](BalanceTransactionResponse.md)
+- [CreditNoteAllocationResponse](CreditNoteAllocationResponse.md)
+- [CustomerEmailPreferencesResponse](CustomerEmailPreferencesResponse.md)
+- [DeliverySelectionResponse](DeliverySelectionResponse.md)
+- [SettingsResponse](SettingsResponse.md)
+- [FraudWarningResponse](FraudWarningResponse.md)
+- [FulfillmentNotificationResponse](FulfillmentNotificationResponse.md)
+- [GiftCardLoadResponse](GiftCardLoadResponse.md)
 - [GiftCardRedemptionResponse](GiftCardRedemptionResponse.md)
 - [InventoryAdjustmentResponse](InventoryAdjustmentResponse.md)
 - [InventoryAllocationPolicyRevisionResponse](InventoryAllocationPolicyRevisionResponse.md)
@@ -93,13 +102,4 @@
 - [GiftCardRedemptionListResponse](GiftCardRedemptionListResponse.md)
 - [GiftCardListResponse](GiftCardListResponse.md)
 - [GiftCardTransactionListResponse](GiftCardTransactionListResponse.md)
-- [InventoryAdjustmentListResponse](InventoryAdjustmentListResponse.md)
-- [InventoryAllocationPolicyListResponse](InventoryAllocationPolicyListResponse.md)
-- [InventoryAllocationPolicyRevisionListResponse](InventoryAllocationPolicyRevisionListResponse.md)
-- [InventoryCountListResponse](InventoryCountListResponse.md)
-- [InventoryItemListResponse](InventoryItemListResponse.md)
-- [InventoryLevelListResponse](InventoryLevelListResponse.md)
-- [InventoryMovementListResponse](InventoryMovementListResponse.md)
-- [InventoryReceiptListResponse](InventoryReceiptListResponse.md)
-- [InventoryReservationListResponse](InventoryReservationListResponse.md)
 

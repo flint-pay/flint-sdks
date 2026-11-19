@@ -8,6 +8,7 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `blocked_since` | Optional | string or null | Start of the current continuous blocked period, as an RFC 3339 UTC timestamp. A change to the reason preserves the start. Flint may treat a brief unblock that it didn't publish as part of the same blocked period. Omitted when the status is not blocked or the start is unknown. `blocked_since`: [declared alternatives](../models/CapabilityReadinessPreviousAttributesInput.md#capabilityreadinesspreviousattributesinputblocked_since). |
 | `capability` | Optional | string or null | Flint-owned capability name. Payment capabilities describe transaction acceptance readiness; money movement capabilities describe payout and balance movement readiness. Values: [8 declared values](#capabilityreadinesspreviousattributesinput-capability-values). `capability`: [declared alternatives](../models/CapabilityReadinessPreviousAttributesInput.md#capabilityreadinesspreviousattributesinputcapability). |
 | `domain` | Optional | string or null | Product domain this capability belongs to: payments for payment acceptance or money_movement for balances and payouts. Values: `"money_movement"`, `"payments"`. `domain`: [declared alternatives](../models/CapabilityReadinessPreviousAttributesInput.md#capabilityreadinesspreviousattributesinputdomain). |
 | `next_actions` | Optional | Array of [ReadinessActionPreviousAttributesInput](../models/ReadinessActionPreviousAttributesInput.md#readinessactionpreviousattributesinput) or null | Actions that can remediate or refresh this capability when Flint can suggest one. `next_actions`: [declared alternatives](../models/CapabilityReadinessPreviousAttributesInput.md#capabilityreadinesspreviousattributesinputnext_actions). |
@@ -25,6 +26,20 @@ Request input.
 - `"create_standard_payouts"`
 - `"manage_payout_destinations"`
 - `"manage_payout_settings"`
+
+### CapabilityReadinessPreviousAttributesInput.blocked_since
+
+### CapabilityReadinessPreviousAttributesInput.blocked_since variant 1
+
+anyOf variant 1: Start of the current continuous blocked period, as an RFC 3339 UTC timestamp. A change to the reason preserves the start. Flint may treat a brief unblock that it didn't publish as part of the same blocked period. Omitted when the status is not blocked or the start is unknown..
+
+- Value shape: string. Start of the current continuous blocked period, as an RFC 3339 UTC timestamp. A change to the reason preserves the start. Flint may treat a brief unblock that it didn't publish as part of the same blocked period. Omitted when the status is not blocked or the start is unknown. Start of the current continuous blocked period, as an RFC 3339 UTC timestamp. A change to the reason preserves the start. Flint may treat a brief unblock that it didn't publish as part of the same blocked period. Omitted when the status is not blocked or the start is unknown. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+
+### CapabilityReadinessPreviousAttributesInput.blocked_since variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Start of the current continuous blocked period, as an RFC 3339 UTC timestamp. A change to the reason preserves the start. Flint may treat a brief unblock that it didn't publish as part of the same blocked period. Omitted when the status is not blocked or the start is unknown. 
 
 ### CapabilityReadinessPreviousAttributesInput.capability
 

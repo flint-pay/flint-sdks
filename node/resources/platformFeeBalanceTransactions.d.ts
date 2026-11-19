@@ -1,12 +1,12 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
+import type { PlatformFeeBalanceTransaction } from '../declarations/types-55.js';
 import type {
-    PlatformFeeBalanceTransaction,
     PlatformFeeBalanceTransactionListResponse,
     PlatformFeeBalanceTransactionResponse,
     PlatformFeeBalanceTransactionsGetParams,
     PlatformFeeBalanceTransactionsListParams
-} from '../declarations/types-55.js';
+} from '../declarations/types-56.js';
 import type { RequestOptions } from '../declarations/types-62.js';
 import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
@@ -25,16 +25,16 @@ export type {
 } from '../runtime.js';
 export type {
     PlatformFeeBalanceTransactionsGetParams,
-    PlatformFeeBalanceTransaction,
     PlatformFeeBalanceTransactionResponse,
     PlatformFeeBalanceTransactionsListParams,
     PlatformFeeBalanceTransactionListResponse
-} from '../declarations/types-55.js';
+} from '../declarations/types-56.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-62.js';
+export type { PlatformFeeBalanceTransaction } from '../declarations/types-55.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export { makeMoneyValue } from '../declarations/types-88.js';

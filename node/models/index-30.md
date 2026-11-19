@@ -1,7 +1,15 @@
 [Model index](../MODELS.md)
 
-# ProductVariant to PromotionScheduleRequestInput
+# ProductOptionResponse to PromotionRuleRequestInput
 
+- [ProductOptionResponse](ProductOptionResponse.md)
+- [ProductOptionValue](ProductOptionValue.md)
+- [ProductOptionValuePreviousAttributes](ProductOptionValuePreviousAttributes.md)
+- [ProductPriceRange](ProductPriceRange.md)
+- [ProductPriceRangePreviousAttributes](ProductPriceRangePreviousAttributes.md)
+- [ProductResponse](ProductResponse.md)
+- [ProductUpdatedInstalledMerchantsEvent](ProductUpdatedInstalledMerchantsEvent.md)
+- [ProductUpdatedMerchantEvent](ProductUpdatedMerchantEvent.md)
 - [ProductVariant](ProductVariant.md)
 - [ProductVariantArchivedInstalledMerchantsEvent](ProductVariantArchivedInstalledMerchantsEvent.md)
 - [ProductVariantArchivedMerchantEvent](ProductVariantArchivedMerchantEvent.md)
@@ -94,12 +102,4 @@
 - [PromotionRuleGroupRequestInput](PromotionRuleGroupRequestInput.md)
 - [PromotionRulePreviousAttributes](PromotionRulePreviousAttributes.md)
 - [PromotionRuleRequestInput](PromotionRuleRequestInput.md)
-- [PromotionRuleValue](PromotionRuleValue.md)
-- [PromotionRuleValuePreviousAttributes](PromotionRuleValuePreviousAttributes.md)
-- [PromotionRuleValueRequestInput](PromotionRuleValueRequestInput.md)
-- [PromotionSchedule](PromotionSchedule.md)
-- [PromotionSchedulePatch](PromotionSchedulePatch.md)
-- [PromotionSchedulePatchInput](PromotionSchedulePatchInput.md)
-- [PromotionSchedulePreviousAttributes](PromotionSchedulePreviousAttributes.md)
-- [PromotionScheduleRequestInput](PromotionScheduleRequestInput.md)
 

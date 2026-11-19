@@ -1,5 +1,15 @@
 # Changelog
 
+## 8.0.0-beta.9
+
+Node and PHP pin Flint `f3f748a3246fb94ec1f0e95b9a7ea559b58fa0f9` at API date `2026-09-07` and SDK generator `9f806dd26a726000d78f61f3a919a76901cac6c2`. This prerelease publishes to npm `next`. The `latest` tag stays on `7.0.0`.
+
+Local validation explains that currency codes must be uppercase, such as `USD`, and suggests `page_size` when a list call receives `limit`.
+
+The SDKs add `paymentIntents.blockAttemptSignals` (PHP `$client->paymentIntents->blockAttemptSignals()`) to block retained signals from a failed payment attempt. The refreshed contract also adds Quick Pay invoice draft updates, checkout billing contact details on eligible orders and order webhooks, and payment-link attribution on subscriptions. Webhook test events can return an event-stream result.
+
+Use the [beta.9 migration notes](MIGRATION.md#changes-in-800-beta9) to update calls and models affected by the refreshed contract.
+
 ## 8.0.0-beta.8
 
 Both SDKs pin Flint `dd5da3f91d534012098dcfabc95deb4fd4256c96` with API date `2026-09-07`. This prerelease publishes to npm `next`; `latest` stays on `7.0.0`.

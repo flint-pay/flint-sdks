@@ -4,6 +4,7 @@ namespace Flint;
 /**
  * @property-read list<string> $cc_emails
  * @property-read InvoiceCollectionRequestInput|array<array-key, mixed>|\stdClass $collection
+ * @property-read int $expected_order_version
  * @property-read int $expected_version
  * @property-read string|null $external_reference_id
  * @property-read string|null $footer
@@ -11,6 +12,7 @@ namespace Flint;
  * @property-read array<array-key, string|null>|\stdClass|null $metadata
  * @property-read InvoicePaymentDueRequestInput|array<array-key, mixed>|\stdClass $payment_due
  * @property-read string|null $po_number
+ * @property-read UpdateInvoiceQuickPayRequestInput|array<array-key, mixed>|\stdClass $quick_pay
  * @property-read string|null $recipient_email
  * @property-read string|null $reference
  * @property-read bool $reminders_paused
@@ -20,7 +22,7 @@ namespace Flint;
  * @property-read string|null $service_date
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoicesUpdateParams extends Model {
-    /** @param array{'cc_emails'?: list<string>, 'collection'?: InvoiceCollectionRequestInput|array<array-key, mixed>|\stdClass, 'expected_version'?: int, 'external_reference_id'?: string|null, 'footer'?: string|null, 'memo'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'payment_due'?: InvoicePaymentDueRequestInput|array<array-key, mixed>|\stdClass, 'po_number'?: string|null, 'recipient_email'?: string|null, 'reference'?: string|null, 'reminders_paused'?: bool, 'remit_to_address'?: AddressRequestInput|array<array-key, mixed>|\stdClass, 'schedule_entries'?: list<InvoiceScheduleEntryWriteInput|array<array-key, mixed>|\stdClass>, 'scheduled_issue_at'?: string|\DateTimeInterface|null, 'service_date'?: string|null, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
+    /** @param array{'cc_emails'?: list<string>, 'collection'?: InvoiceCollectionRequestInput|array<array-key, mixed>|\stdClass, 'expected_order_version'?: int, 'expected_version'?: int, 'external_reference_id'?: string|null, 'footer'?: string|null, 'memo'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'payment_due'?: InvoicePaymentDueRequestInput|array<array-key, mixed>|\stdClass, 'po_number'?: string|null, 'quick_pay'?: UpdateInvoiceQuickPayRequestInput|array<array-key, mixed>|\stdClass, 'recipient_email'?: string|null, 'reference'?: string|null, 'reminders_paused'?: bool, 'remit_to_address'?: AddressRequestInput|array<array-key, mixed>|\stdClass, 'schedule_entries'?: list<InvoiceScheduleEntryWriteInput|array<array-key, mixed>|\stdClass>, 'scheduled_issue_at'?: string|\DateTimeInterface|null, 'service_date'?: string|null, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicesUpdateParams')); }
     /** Additional addresses copied on the invoice email and every reminder. Send the complete list; [] removes every address. [] (Value): string. minLength: 1.
      * @return list<string>
@@ -34,7 +36,13 @@ final class InvoicesUpdateParams extends Model {
      */
     public function getCollection(): mixed { return $this->get('collection'); }
     public function hasCollection(): bool { return $this->has('collection'); }
-    /** Invoice version last read. Required when schedule_entries is present. Required when any of these fields is present: schedule_entries. Format: int64. minimum: 1.
+    /** Optional version last read from the invoice's backing order. Send it with quick_pay to require that exact order version. Format: int64. minimum: 1.
+     * @return int
+     * @throws SdkError When expected_order_version is omitted; use hasExpectedOrderVersion() or valueOrDefault().
+     */
+    public function getExpectedOrderVersion(): int { return $this->get('expected_order_version'); }
+    public function hasExpectedOrderVersion(): bool { return $this->has('expected_order_version'); }
+    /** Invoice version last read. Required when schedule_entries or quick_pay is present. Format: int64. minimum: 1.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
@@ -76,6 +84,12 @@ final class InvoicesUpdateParams extends Model {
      */
     public function getPoNumber(): string|null { return $this->get('po_number'); }
     public function hasPoNumber(): bool { return $this->has('po_number'); }
+    /** Replace pricing on a Quick Pay draft with custom lines and no delivery, collection activity, charges, or tip. Recalculates the invoice and its backing order together. Omit to keep the pricing inputs. Replacement pricing inputs for a Quick Pay invoice draft.
+     * @return UpdateInvoiceQuickPayRequestInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When quick_pay is omitted; use hasQuickPay() or valueOrDefault().
+     */
+    public function getQuickPay(): mixed { return $this->get('quick_pay'); }
+    public function hasQuickPay(): bool { return $this->has('quick_pay'); }
     /** Where Flint emails the invoice and its reminders. Defaults to the linked customer's email when omitted at creation. Send null to leave it unset at creation; PATCH null clears it. Required at issue when delivery resolves to email, and when you schedule the issue. Send null to clear it. minLength: 1.
      * @return string|null
      * @throws SdkError When recipient_email is omitted; use hasRecipientEmail() or valueOrDefault().

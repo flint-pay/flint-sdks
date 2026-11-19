@@ -1,7 +1,7 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { Product } from '../declarations/types-56.js';
 import type {
+    Product,
     ProductListResponse,
     ProductOption,
     ProductOptionListResponse,
@@ -41,6 +41,7 @@ export type {
 } from '../runtime.js';
 export type {
     ProductsCreateParams,
+    Product,
     ProductResponse,
     ProductsCreateVariantParams,
     ProductVariant,
@@ -69,8 +70,7 @@ export type {
     ProductVariantSelectedOptionRequest
 } from '../declarations/types-57.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
-export type { Product, PoolLicenseKeyConfigurationRequestInput, PoolLicenseKeyConfiguration } from '../declarations/types-56.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+export type { _SdkWithoutIdempotency, WeightRequestInput, Weight } from '../declarations/types-80.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type {
     CreateProductRequestInput,
@@ -79,8 +79,8 @@ export type {
     CreateProductRequestSimpleInput,
     CreateProductRequestOptionedInput
 } from '../declarations/types-12.js';
-export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-44.js';
-export type { GiftCardProductConfigurationRequestInput } from '../declarations/types-30.js';
+export type { MoneyValueInput, ModifierSet, ModifierSetGroup, MoneyValue, NextAction } from '../declarations/types-44.js';
+export type { GiftCardProductConfigurationRequestInput, GiftCardProductConfiguration } from '../declarations/types-30.js';
 export type {
     GiftCardCustomAmountBoundsRequestInput,
     GeneratedLicenseKeyConfigurationRequestInput,
@@ -92,8 +92,6 @@ export type { InventoryItemCreateRequestInput } from '../declarations/types-32.j
 export type {
     MetadataRequestInput,
     MetadataMap,
-    ModifierSet,
-    ModifierSetGroup,
     ModifierGroup,
     Modifier,
     ModifierOverride,
@@ -101,17 +99,16 @@ export type {
     MetadataPatchRequest
 } from '../declarations/types-43.js';
 export type { LicenseKeyConfigurationRequestInput, LicenseKeyConfiguration } from '../declarations/types-39.js';
+export type { PoolLicenseKeyConfigurationRequestInput, PoolLicenseKeyConfiguration } from '../declarations/types-56.js';
 export type { QuantityPriceBreakRequestInput, QuantityPriceBreak } from '../declarations/types-59.js';
 export type { DimensionsRequestInput, Dimensions } from '../declarations/types-25.js';
-export type { WeightRequestInput, Weight } from '../declarations/types-79.js';
 export type { AuthMode, BundlesGetParams } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { CategoryReference } from '../declarations/types-5.js';
 export type { TextModifierConfig } from '../declarations/types-74.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
-export type { GiftCardProductConfiguration } from '../declarations/types-29.js';
 export type { InventoryRoutingSource } from '../declarations/types-33.js';
-export type { SelectedProductOption } from '../declarations/types-67.js';
+export type { SelectedProductOption } from '../declarations/types-68.js';
 export type {
     UpdateProductRequestInput,
     UpdateProductOptionRequestInput,
@@ -125,13 +122,11 @@ export {
     makeCreateProductRequest,
     makeCreateProductRequestOptioned,
     makeCreateProductRequestSimple
-} from '../declarations/types-83.js';
+} from '../declarations/types-84.js';
+export { makeDimensionsRequest } from '../declarations/types-86.js';
 export {
-    makeDimensionsRequest,
     makeGeneratedLicenseKeyConfigurationRequest,
-    makeGiftCardCustomAmountBoundsRequest
-} from '../declarations/types-86.js';
-export {
+    makeGiftCardCustomAmountBoundsRequest,
     makeGiftCardProductConfigurationRequest,
     makeImageInputFile,
     makeImageInputSourceURL,
@@ -140,6 +135,7 @@ export {
 } from '../declarations/types-87.js';
 export {
     makeLicenseKeyConfigurationRequest,
+    makeMetadataMap,
     makeMetadataPatchRequest,
     makeMetadataRequest,
     makeMoneyValue
@@ -147,16 +143,16 @@ export {
 export {
     makePoolLicenseKeyConfigurationRequest,
     makeProductVariantRequest,
-    makeProductVariantSelectedOptionRequest,
-    makeQuantityPriceBreakRequest
+    makeProductVariantSelectedOptionRequest
 } from '../declarations/types-90.js';
+export { makeQuantityPriceBreakRequest } from '../declarations/types-91.js';
 export {
     makeUpdateProductOptionRequest,
     makeUpdateProductOptionValueRequest,
     makeUpdateProductRequest,
-    makeUpdateProductVariantRequest,
-    makeWeightRequest
+    makeUpdateProductVariantRequest
 } from '../declarations/types-94.js';
+export { makeWeightRequest } from '../declarations/types-95.js';
 export interface ProductsResource {
     /**
  * Creates a product, the catalog item buyers purchase through orders, checkout, payment links, and
@@ -367,8 +363,11 @@ export interface ProductsResource {
  * inactive, or changing its price currency, fails with `RESOURCE_IN_USE` while an open order,
  * checkout session, active payment link, subscription, subscription plan, or active bundle uses
  * it. Send `expected_version` to reject the update when the variant changed since you read it.
- * Fails with `ACTION_NOT_ALLOWED` and reason `archived` when the resource, or the parent it
- * belongs to, is archived. The error names the archived resource and its `current_status`.
+ * While automatic tax is connected, setting an unsupported `line_item_tax_category` on a taxable
+ * variant, or making a variant with an unsupported category taxable, returns `INVALID_REQUEST`
+ * with a `NOT_ALLOWED` detail on `line_item_tax_category`. Fails with `ACTION_NOT_ALLOWED` and
+ * reason `archived` when the resource, or the parent it belongs to, is archived. The error names
+ * the archived resource and its `current_status`.
  *
  * `PATCH /v1/products/{product_id}/variants/{variant_id}`
  * @param product_id Flint product ID. Must be a valid ID with prefix prod_. Malformed IDs return

@@ -21,5 +21,5 @@ Amount to refund to this tender. Above zero. For a gift card redemption it is in
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `amount` | Required | integer string | Amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. minimum: `0`. Amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. minimum: `0`. |
-| `currency` | Required | string | ISO 4217 currency code for this amount. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Uses ISO 4217 currency codes. ISO 4217 currency code for this amount. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Uses ISO 4217 currency codes. Values: `"USD"`. |
+| `currency` | Required | string | Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Uses ISO 4217 currency codes. Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Uses ISO 4217 currency codes. Values: `"USD"`. |
 

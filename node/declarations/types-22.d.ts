@@ -1,7 +1,15 @@
+import type {
+    DeliveryProfileConfigurationInputManual,
+    DeliveryProfileConfigurationInputQuote,
+    DeliveryProfileConfigurationInputManualInput,
+    DeliveryProfileConfigurationInputQuoteInput,
+    DeliveryProfileConfigurationInputNone,
+    DeliveryProfileConfigurationInputNoneInput,
+    DeliveryProfile
+} from './types-21.js';
 import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
-import type { WebhookDeliveryProfile } from './types-78.js';
-import type { DeliveryProfile, DeliveryProfileConfigurationPreviousAttributes } from './types-21.js';
+import type { WebhookDeliveryProfile } from './types-79.js';
 import type { ResponseMeta } from './types-62.js';
 import type { InputValue } from '../runtime.js';
 import type { AssignToUnconfiguredDeliveryProfileRequestInput } from './types-1.js';
@@ -16,7 +24,9 @@ import type { UpdateDeliveryProfileRequestInput } from './types-76.js';
 import type { Address } from './types-0.js';
 import type {
     DeliveryBuyerLocationResource,
+    DeliveryAddressAdvisoryResource,
     DeliveryCandidateOutcomeResource,
+    DeliveryAddressAdvisoryResourcePreviousAttributes,
     DeliveryCandidateOutcomeResourcePreviousAttributes,
     DeliveryDistance,
     DeliveryDistancePreviousAttributes,
@@ -29,10 +39,263 @@ import type {
     DeliveryOptionProjectionPreviousAttributes
 } from './types-20.js';
 import type { BuyerInstructionsConfig } from './types-2.js';
-import type { DeliveryAddressAdvisoryResource, DeliveryAddressAdvisoryResourcePreviousAttributes } from './types-17.js';
 import type { MoneyValue } from './types-44.js';
 import type { CreateCheckoutDeliveryQuoteRequestInput } from './types-8.js';
 import type { DisputesAcceptParams } from './types-26.js';
+/** The `required` variant of `DeliveryProfileConfigurationInput`. */
+export type DeliveryProfileConfigurationInputRequired = ({
+    /**
+     * Required as a non-empty unique list when requirement is required. quote accepts shipment,
+     * pickup, and local_delivery. manual accepts digital and service. minItems: 1. uniqueItems:
+     * true. [] enum: "shipment", "pickup", "local_delivery", "digital", "service". [] (Value):
+     * string. Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
+     */
+    "allowed_types"?: Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service" | (string & {})>;
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls which delivery obligations can share a choice group. Value enum:
+     * "combine_when_compatible", "separate_profile", "separate_line_item", "fulfill_alone".
+     */
+    "combination_policy"?: "combine_when_compatible"
+        | "separate_profile"
+        | "separate_line_item"
+        | "fulfill_alone"
+        | (string & {});
+    /**
+     * Required for quote resolution and forbidden for none or manual resolution. fixed_location
+     * requires location_id. inventory_routing forbids location_id and applies only to tracked
+     * inventory. method_origin forbids location_id. Origin policy you supply for a delivery
+     * profile: a fixed Location (`location_id`), inventory routing, or the origin set on the
+     * delivery method.
+     */
+    "origin_policy"?: DeliveryProfileOriginPolicyRequest;
+    /**
+     * Whether delivery planning applies. none forbids every other configuration field. required
+     * also requires resolution_mode and allowed_types, plus the fields required by that resolution
+     * mode. Value enum: "required".
+     */
+    "requirement": "required" | (string & {});
+    /**
+     * Required when requirement is required. quote plans physical delivery and requires
+     * origin_policy, combination_policy, and splitting_policy. manual supports digital and service
+     * items and forbids physical planning fields. Value enum: "quote", "manual".
+     */
+    "resolution_mode": "quote" | "manual" | (string & {});
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls whether a line item quantity can be split across delivery assignments.
+     * Value enum: "whole_line_item", "quantity_split_allowed".
+     */
+    "splitting_policy"?: "whole_line_item" | "quantity_split_allowed" | (string & {});
+})
+    & ((Exclude<DeliveryProfileConfigurationInputQuote & object, readonly unknown[]>)
+    | (Exclude<DeliveryProfileConfigurationInputManual & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** The `required` variant of `DeliveryProfileConfigurationInput`. */
+export type DeliveryProfileConfigurationInputRequiredInput = ({
+    /**
+     * Required as a non-empty unique list when requirement is required. quote accepts shipment,
+     * pickup, and local_delivery. manual accepts digital and service. minItems: 1. uniqueItems:
+     * true. [] enum: "shipment", "pickup", "local_delivery", "digital", "service". [] (Value):
+     * string. Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
+     */
+    "allowed_types"?: Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service">;
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls which delivery obligations can share a choice group. Value enum:
+     * "combine_when_compatible", "separate_profile", "separate_line_item", "fulfill_alone".
+     */
+    "combination_policy"?: "combine_when_compatible" | "separate_profile" | "separate_line_item" | "fulfill_alone";
+    /**
+     * Required for quote resolution and forbidden for none or manual resolution. fixed_location
+     * requires location_id. inventory_routing forbids location_id and applies only to tracked
+     * inventory. method_origin forbids location_id. Origin policy you supply for a delivery
+     * profile: a fixed Location (`location_id`), inventory routing, or the origin set on the
+     * delivery method.
+     */
+    "origin_policy"?: DeliveryProfileOriginPolicyRequestInput;
+    /**
+     * Whether delivery planning applies. none forbids every other configuration field. required
+     * also requires resolution_mode and allowed_types, plus the fields required by that resolution
+     * mode. Value enum: "required".
+     */
+    "requirement": "required";
+    /**
+     * Required when requirement is required. quote plans physical delivery and requires
+     * origin_policy, combination_policy, and splitting_policy. manual supports digital and service
+     * items and forbids physical planning fields. Value enum: "quote", "manual".
+     */
+    "resolution_mode": "quote" | "manual";
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls whether a line item quantity can be split across delivery assignments.
+     * Value enum: "whole_line_item", "quantity_split_allowed".
+     */
+    "splitting_policy"?: "whole_line_item" | "quantity_split_allowed";
+})
+    & ((Exclude<DeliveryProfileConfigurationInputQuoteInput & object, readonly unknown[]>)
+    | (Exclude<DeliveryProfileConfigurationInputManualInput & object, readonly unknown[]>));
+export type DeliveryProfileConfigurationPreviousAttributes = {
+    /**
+     * Required as a non-empty unique list when requirement is required. quote accepts shipment,
+     * pickup, and local_delivery. manual accepts digital and service. [] enum: "shipment",
+     * "pickup", "local_delivery", "digital", "service". anyOf[1] (Value): Array of string.
+     * Required as a non-empty unique list when requirement is required. quote accepts shipment,
+     * pickup, and local_delivery. manual accepts digital and service. [] enum: "shipment",
+     * "pickup", "local_delivery", "digital", "service". anyOf[1][] (Value): string. Value enum:
+     * "shipment", "pickup", "local_delivery", "digital", "service". anyOf[2] (Value): null.
+     */
+    "allowed_types"?: ((Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service" | (string & {})>) | (null));
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls which delivery obligations can share a choice group. Value enum:
+     * "combine_when_compatible", "separate_profile", "separate_line_item", "fulfill_alone".
+     * anyOf[1] (Value): string. Required for quote resolution and forbidden when requirement is
+     * none or resolution_mode is manual. Controls which delivery obligations can share a choice
+     * group. Value enum: "combine_when_compatible", "separate_profile", "separate_line_item",
+     * "fulfill_alone". anyOf[2] (Value): null.
+     */
+    "combination_policy"?: (("combine_when_compatible"
+        | "separate_profile"
+        | "separate_line_item"
+        | "fulfill_alone"
+        | (string & {}))
+        | (null));
+    /**
+     * Required for quote resolution and forbidden for none or manual resolution. fixed_location
+     * requires location_id. inventory_routing forbids location_id and applies only to tracked
+     * inventory. method_origin forbids location_id. anyOf[1] (Value): {@link
+     * DeliveryProfileOriginPolicyPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "origin_policy"?: ((DeliveryProfileOriginPolicyPreviousAttributes) | (null));
+    /**
+     * Whether delivery planning applies. none forbids every other configuration field. required
+     * also requires resolution_mode and allowed_types, plus the fields required by that resolution
+     * mode. Value enum: "none", "required". anyOf[1] (Value): string. Whether delivery planning
+     * applies. none forbids every other configuration field. required also requires
+     * resolution_mode and allowed_types, plus the fields required by that resolution mode. Value
+     * enum: "none", "required". anyOf[2] (Value): null.
+     */
+    "requirement"?: (("none" | "required" | (string & {})) | (null));
+    /**
+     * Required when requirement is required. quote plans physical delivery and requires
+     * origin_policy, combination_policy, and splitting_policy. manual supports digital and service
+     * items and forbids physical planning fields. Value enum: "quote", "manual". anyOf[1] (Value):
+     * string. Required when requirement is required. quote plans physical delivery and requires
+     * origin_policy, combination_policy, and splitting_policy. manual supports digital and service
+     * items and forbids physical planning fields. Value enum: "quote", "manual". anyOf[2] (Value):
+     * null.
+     */
+    "resolution_mode"?: (("quote" | "manual" | (string & {})) | (null));
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls whether a line item quantity can be split across delivery assignments.
+     * Value enum: "whole_line_item", "quantity_split_allowed". anyOf[1] (Value): string. Required
+     * for quote resolution and forbidden when requirement is none or resolution_mode is manual.
+     * Controls whether a line item quantity can be split across delivery assignments. Value enum:
+     * "whole_line_item", "quantity_split_allowed". anyOf[2] (Value): null.
+     */
+    "splitting_policy"?: (("whole_line_item" | "quantity_split_allowed" | (string & {})) | (null));
+};
+/**
+ * Delivery planning settings you supply when creating or updating a delivery profile. Which fields
+ * are allowed depends on `requirement` and `resolution_mode`.
+ */
+export type DeliveryProfileConfigurationRequest = ({
+    /**
+     * Required as a non-empty unique list when requirement is required. quote accepts shipment,
+     * pickup, and local_delivery. manual accepts digital and service. minItems: 1. uniqueItems:
+     * true. [] enum: "shipment", "pickup", "local_delivery", "digital", "service". [] (Value):
+     * string. Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
+     */
+    "allowed_types"?: Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service" | (string & {})>;
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls which delivery obligations can share a choice group. Value enum:
+     * "combine_when_compatible", "separate_profile", "separate_line_item", "fulfill_alone".
+     */
+    "combination_policy"?: "combine_when_compatible"
+        | "separate_profile"
+        | "separate_line_item"
+        | "fulfill_alone"
+        | (string & {});
+    /**
+     * Required for quote resolution and forbidden for none or manual resolution. fixed_location
+     * requires location_id. inventory_routing forbids location_id and applies only to tracked
+     * inventory. method_origin forbids location_id. Origin policy you supply for a delivery
+     * profile: a fixed Location (`location_id`), inventory routing, or the origin set on the
+     * delivery method.
+     */
+    "origin_policy"?: DeliveryProfileOriginPolicyRequest;
+    /**
+     * Whether delivery planning applies. none forbids every other configuration field. required
+     * also requires resolution_mode and allowed_types, plus the fields required by that resolution
+     * mode. Value enum: "none", "required".
+     */
+    "requirement"?: "none" | "required" | (string & {});
+    /**
+     * Required when requirement is required. quote plans physical delivery and requires
+     * origin_policy, combination_policy, and splitting_policy. manual supports digital and service
+     * items and forbids physical planning fields. Value enum: "quote", "manual".
+     */
+    "resolution_mode"?: "quote" | "manual" | (string & {});
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls whether a line item quantity can be split across delivery assignments.
+     * Value enum: "whole_line_item", "quantity_split_allowed".
+     */
+    "splitting_policy"?: "whole_line_item" | "quantity_split_allowed" | (string & {});
+})
+    & ((Exclude<DeliveryProfileConfigurationInputNone & object, readonly unknown[]>)
+    | (Exclude<DeliveryProfileConfigurationInputRequired & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * Delivery planning settings you supply when creating or updating a delivery profile. Which fields
+ * are allowed depends on `requirement` and `resolution_mode`.
+ */
+export type DeliveryProfileConfigurationRequestInput = ({
+    /**
+     * Required as a non-empty unique list when requirement is required. quote accepts shipment,
+     * pickup, and local_delivery. manual accepts digital and service. minItems: 1. uniqueItems:
+     * true. [] enum: "shipment", "pickup", "local_delivery", "digital", "service". [] (Value):
+     * string. Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
+     */
+    "allowed_types"?: Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service">;
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls which delivery obligations can share a choice group. Value enum:
+     * "combine_when_compatible", "separate_profile", "separate_line_item", "fulfill_alone".
+     */
+    "combination_policy"?: "combine_when_compatible" | "separate_profile" | "separate_line_item" | "fulfill_alone";
+    /**
+     * Required for quote resolution and forbidden for none or manual resolution. fixed_location
+     * requires location_id. inventory_routing forbids location_id and applies only to tracked
+     * inventory. method_origin forbids location_id. Origin policy you supply for a delivery
+     * profile: a fixed Location (`location_id`), inventory routing, or the origin set on the
+     * delivery method.
+     */
+    "origin_policy"?: DeliveryProfileOriginPolicyRequestInput;
+    /**
+     * Whether delivery planning applies. none forbids every other configuration field. required
+     * also requires resolution_mode and allowed_types, plus the fields required by that resolution
+     * mode. Value enum: "none", "required".
+     */
+    "requirement"?: "none" | "required";
+    /**
+     * Required when requirement is required. quote plans physical delivery and requires
+     * origin_policy, combination_policy, and splitting_policy. manual supports digital and service
+     * items and forbids physical planning fields. Value enum: "quote", "manual".
+     */
+    "resolution_mode"?: "quote" | "manual";
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls whether a line item quantity can be split across delivery assignments.
+     * Value enum: "whole_line_item", "quantity_split_allowed".
+     */
+    "splitting_policy"?: "whole_line_item" | "quantity_split_allowed";
+})
+    & ((Exclude<DeliveryProfileConfigurationInputNoneInput & object, readonly unknown[]>)
+    | (Exclude<DeliveryProfileConfigurationInputRequiredInput & object, readonly unknown[]>));
 export type DeliveryProfileCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
@@ -1113,6 +1376,10 @@ export type DeliveryQuote = {
      * (Value): string. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
      */
     "inventory_reservation_ids"?: Array<string>;
+    /**
+     * True when a required delivery group has no option and a candidate lacks the requested stock.
+     */
+    "inventory_unavailable"?: boolean;
     /**
      * Always present with an API key or dashboard credential. [] (Value): {@link
      * DeliveryMerchantDiagnostic}. A merchant-only diagnostic explaining why a delivery method
@@ -3979,480 +4246,3 @@ export type DeliveryRateCallbackConnectionCheckRequest = {
     /** Always `connection_check`. Value enum: "connection_check". */
     "type": "connection_check" | (string & {});
 };
-/** A response containing `DeliveryRateCallbackConnectionCheck` data. */
-export type DeliveryRateCallbackConnectionCheckResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. Result of checking the
-     * connection to a delivery rate callback endpoint, with its status, latency, HTTP status code,
-     * and failure category if it failed.
-     */
-    "data": DeliveryRateCallbackConnectionCheck;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type DeliveryRateCallbackCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "circuit_failure_count": number;
-            "circuit_state": "closed" | "open" | "half_open" | (string & {});
-            "configuration": DeliveryRateCallbackConfiguration;
-            "created_at": string;
-            "current_delivery_rate_callback_revision_id": string;
-            "delivery_rate_callback_id": string;
-            "delivery_revocation_id": string | null;
-            "external_reference_id"?: string;
-            "name": string;
-            "signing_methods": Array<"jwt" | "hmac" | (string & {})>;
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "updated_at": string;
-            "version": number;
-        };
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "delivery_rate_callback.created";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "circuit_failure_count": number;
-            "circuit_state": "closed" | "open" | "half_open" | (string & {});
-            "configuration": DeliveryRateCallbackConfiguration;
-            "created_at": string;
-            "current_delivery_rate_callback_revision_id": string;
-            "delivery_rate_callback_id": string;
-            "delivery_revocation_id": string | null;
-            "external_reference_id"?: string;
-            "name": string;
-            "signing_methods": Array<"jwt" | "hmac" | (string & {})>;
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "updated_at": string;
-            "version": number;
-        };
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "delivery_rate_callback.created";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "delivery_rate_callback.created";
-});
-/**
- * The `delivery_rate_callback.created` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type DeliveryRateCallbackCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.circuit_failure_count (Required): integer. Consecutive callback
-     * failures since the last successful response. minimum: 0. object.circuit_state (Required):
-     * string. Whether Flint is currently calling the callback, based on recent failures. Value
-     * enum: "closed", "open", "half_open". object.configuration (Required): {@link
-     * DeliveryRateCallbackConfiguration}. Current settings of the rate callback. Settings for a
-     * delivery rate callback: the endpoint `url` Flint calls, request timeout, request and
-     * response size limits, redirect policy, and whether previews can use it. object.created_at
-     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.current_delivery_rate_callback_revision_id (Required): string. ID of the current
-     * revision. New quotes use it. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
-     * object.delivery_rate_callback_id (Required): string. Unique identifier for this delivery
-     * rate callback, prefixed `dcb_`. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
-     * object.delivery_revocation_id (Required): string or null. The revocation fencing this
-     * resource's own current revision. `null` when the current revision isn't revoked. It doesn't
-     * cover dependencies: a method can be unusable while this is `null` because its rate callback
-     * revision, signing key, or a Location's address is revoked. A revocation doesn't change
-     * `status`; publish a new revision to clear it. Example: "drev_01KEZF7C007Q141XJ28YAAC87B".
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. maxLength: 255. Example: "warehouse-1842". object.name (Required):
-     * string. Merchant-facing name of the rate callback. object.signing_methods (Required): Array
-     * of string. Signing methods enabled for callback HTTP requests. jwt sends Authorization:
-     * Bearer with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends
-     * webhook-signature and signing key IDs. minItems: 1. uniqueItems: true. Example: ["jwt"]. []
-     * enum: "jwt", "hmac". object.signing_methods[] (Value): string. How Flint signs requests to
-     * this endpoint. Value enum: "jwt", "hmac". object.status (Required): string. Whether the rate
-     * callback is in use. Value enum: "active", "inactive", "archived". object.updated_at
-     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.version (Required): integer. Current version of this resource's owned state. Send it
-     * as `expected_version` when changing the resource to reject a stale write. Format: uint64.
-     * minimum: 1.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * circuit_failure_count (Required): integer. Consecutive callback failures since the last
-         * successful response. minimum: 0. circuit_state (Required): string. Whether Flint is
-         * currently calling the callback, based on recent failures. Value enum: "closed", "open",
-         * "half_open". configuration (Required): {@link DeliveryRateCallbackConfiguration}.
-         * Current settings of the rate callback. Settings for a delivery rate callback: the
-         * endpoint `url` Flint calls, request timeout, request and response size limits, redirect
-         * policy, and whether previews can use it. created_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * current_delivery_rate_callback_revision_id (Required): string. ID of the current
-         * revision. New quotes use it. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
-         * delivery_rate_callback_id (Required): string. Unique identifier for this delivery rate
-         * callback, prefixed `dcb_`. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
-         * delivery_revocation_id (Required): string or null. The revocation fencing this
-         * resource's own current revision. `null` when the current revision isn't revoked. It
-         * doesn't cover dependencies: a method can be unusable while this is `null` because its
-         * rate callback revision, signing key, or a Location's address is revoked. A revocation
-         * doesn't change `status`; publish a new revision to clear it. Example:
-         * "drev_01KEZF7C007Q141XJ28YAAC87B". external_reference_id (Optional): string.
-         * Caller-owned identifier for this resource in an external system. maxLength: 255.
-         * Example: "warehouse-1842". name (Required): string. Merchant-facing name of the rate
-         * callback. signing_methods (Required): Array of string. Signing methods enabled for
-         * callback HTTP requests. jwt sends Authorization: Bearer with a Flint-signed token whose
-         * aud is this delivery_rate_callback_id; hmac sends webhook-signature and signing key IDs.
-         * minItems: 1. uniqueItems: true. Example: ["jwt"]. [] enum: "jwt", "hmac".
-         * signing_methods[] (Value): string. How Flint signs requests to this endpoint. Value
-         * enum: "jwt", "hmac". status (Required): string. Whether the rate callback is in use.
-         * Value enum: "active", "inactive", "archived". updated_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
-         * integer. Current version of this resource's owned state. Send it as `expected_version`
-         * when changing the resource to reject a stale write. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /** Consecutive callback failures since the last successful response. minimum: 0. */
-            "circuit_failure_count": number;
-            /**
-             * Whether Flint is currently calling the callback, based on recent failures. Value
-             * enum: "closed", "open", "half_open".
-             */
-            "circuit_state": "closed" | "open" | "half_open" | (string & {});
-            /**
-             * Current settings of the rate callback. Settings for a delivery rate callback: the
-             * endpoint `url` Flint calls, request timeout, request and response size limits,
-             * redirect policy, and whether previews can use it.
-             */
-            "configuration": DeliveryRateCallbackConfiguration;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * ID of the current revision. New quotes use it. Example:
-             * "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
-             */
-            "current_delivery_rate_callback_revision_id": string;
-            /**
-             * Unique identifier for this delivery rate callback, prefixed `dcb_`. Example:
-             * "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
-             */
-            "delivery_rate_callback_id": string;
-            /**
-             * The revocation fencing this resource's own current revision. `null` when the current
-             * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
-             * while this is `null` because its rate callback revision, signing key, or a
-             * Location's address is revoked. A revocation doesn't change `status`; publish a new
-             * revision to clear it. Example: "drev_01KEZF7C007Q141XJ28YAAC87B".
-             */
-            "delivery_revocation_id": string | null;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /** Merchant-facing name of the rate callback. */
-            "name": string;
-            /**
-             * Signing methods enabled for callback HTTP requests. jwt sends Authorization: Bearer
-             * with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends
-             * webhook-signature and signing key IDs. minItems: 1. uniqueItems: true. Example:
-             * ["jwt"]. [] enum: "jwt", "hmac". [] (Value): string. How Flint signs requests to
-             * this endpoint. Value enum: "jwt", "hmac".
-             */
-            "signing_methods": Array<"jwt" | "hmac" | (string & {})>;
-            /**
-             * Whether the rate callback is in use. Value enum: "active", "inactive", "archived".
-             */
-            "status": "active" | "inactive" | "archived" | (string & {});
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "delivery_rate_callback.created". */
-    "event_type"?: "delivery_rate_callback.created";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `delivery_rate_callback.created` webhook payload for the `merchant` event source. Fields
- * shared by merchant webhook payloads.
- */
-export type DeliveryRateCallbackCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.circuit_failure_count (Required): integer. Consecutive callback
-     * failures since the last successful response. minimum: 0. object.circuit_state (Required):
-     * string. Whether Flint is currently calling the callback, based on recent failures. Value
-     * enum: "closed", "open", "half_open". object.configuration (Required): {@link
-     * DeliveryRateCallbackConfiguration}. Current settings of the rate callback. Settings for a
-     * delivery rate callback: the endpoint `url` Flint calls, request timeout, request and
-     * response size limits, redirect policy, and whether previews can use it. object.created_at
-     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.current_delivery_rate_callback_revision_id (Required): string. ID of the current
-     * revision. New quotes use it. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
-     * object.delivery_rate_callback_id (Required): string. Unique identifier for this delivery
-     * rate callback, prefixed `dcb_`. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
-     * object.delivery_revocation_id (Required): string or null. The revocation fencing this
-     * resource's own current revision. `null` when the current revision isn't revoked. It doesn't
-     * cover dependencies: a method can be unusable while this is `null` because its rate callback
-     * revision, signing key, or a Location's address is revoked. A revocation doesn't change
-     * `status`; publish a new revision to clear it. Example: "drev_01KEZF7C007Q141XJ28YAAC87B".
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. maxLength: 255. Example: "warehouse-1842". object.name (Required):
-     * string. Merchant-facing name of the rate callback. object.signing_methods (Required): Array
-     * of string. Signing methods enabled for callback HTTP requests. jwt sends Authorization:
-     * Bearer with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends
-     * webhook-signature and signing key IDs. minItems: 1. uniqueItems: true. Example: ["jwt"]. []
-     * enum: "jwt", "hmac". object.signing_methods[] (Value): string. How Flint signs requests to
-     * this endpoint. Value enum: "jwt", "hmac". object.status (Required): string. Whether the rate
-     * callback is in use. Value enum: "active", "inactive", "archived". object.updated_at
-     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.version (Required): integer. Current version of this resource's owned state. Send it
-     * as `expected_version` when changing the resource to reject a stale write. Format: uint64.
-     * minimum: 1.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * circuit_failure_count (Required): integer. Consecutive callback failures since the last
-         * successful response. minimum: 0. circuit_state (Required): string. Whether Flint is
-         * currently calling the callback, based on recent failures. Value enum: "closed", "open",
-         * "half_open". configuration (Required): {@link DeliveryRateCallbackConfiguration}.
-         * Current settings of the rate callback. Settings for a delivery rate callback: the
-         * endpoint `url` Flint calls, request timeout, request and response size limits, redirect
-         * policy, and whether previews can use it. created_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * current_delivery_rate_callback_revision_id (Required): string. ID of the current
-         * revision. New quotes use it. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
-         * delivery_rate_callback_id (Required): string. Unique identifier for this delivery rate
-         * callback, prefixed `dcb_`. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
-         * delivery_revocation_id (Required): string or null. The revocation fencing this
-         * resource's own current revision. `null` when the current revision isn't revoked. It
-         * doesn't cover dependencies: a method can be unusable while this is `null` because its
-         * rate callback revision, signing key, or a Location's address is revoked. A revocation
-         * doesn't change `status`; publish a new revision to clear it. Example:
-         * "drev_01KEZF7C007Q141XJ28YAAC87B". external_reference_id (Optional): string.
-         * Caller-owned identifier for this resource in an external system. maxLength: 255.
-         * Example: "warehouse-1842". name (Required): string. Merchant-facing name of the rate
-         * callback. signing_methods (Required): Array of string. Signing methods enabled for
-         * callback HTTP requests. jwt sends Authorization: Bearer with a Flint-signed token whose
-         * aud is this delivery_rate_callback_id; hmac sends webhook-signature and signing key IDs.
-         * minItems: 1. uniqueItems: true. Example: ["jwt"]. [] enum: "jwt", "hmac".
-         * signing_methods[] (Value): string. How Flint signs requests to this endpoint. Value
-         * enum: "jwt", "hmac". status (Required): string. Whether the rate callback is in use.
-         * Value enum: "active", "inactive", "archived". updated_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
-         * integer. Current version of this resource's owned state. Send it as `expected_version`
-         * when changing the resource to reject a stale write. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /** Consecutive callback failures since the last successful response. minimum: 0. */
-            "circuit_failure_count": number;
-            /**
-             * Whether Flint is currently calling the callback, based on recent failures. Value
-             * enum: "closed", "open", "half_open".
-             */
-            "circuit_state": "closed" | "open" | "half_open" | (string & {});
-            /**
-             * Current settings of the rate callback. Settings for a delivery rate callback: the
-             * endpoint `url` Flint calls, request timeout, request and response size limits,
-             * redirect policy, and whether previews can use it.
-             */
-            "configuration": DeliveryRateCallbackConfiguration;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * ID of the current revision. New quotes use it. Example:
-             * "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
-             */
-            "current_delivery_rate_callback_revision_id": string;
-            /**
-             * Unique identifier for this delivery rate callback, prefixed `dcb_`. Example:
-             * "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
-             */
-            "delivery_rate_callback_id": string;
-            /**
-             * The revocation fencing this resource's own current revision. `null` when the current
-             * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
-             * while this is `null` because its rate callback revision, signing key, or a
-             * Location's address is revoked. A revocation doesn't change `status`; publish a new
-             * revision to clear it. Example: "drev_01KEZF7C007Q141XJ28YAAC87B".
-             */
-            "delivery_revocation_id": string | null;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /** Merchant-facing name of the rate callback. */
-            "name": string;
-            /**
-             * Signing methods enabled for callback HTTP requests. jwt sends Authorization: Bearer
-             * with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends
-             * webhook-signature and signing key IDs. minItems: 1. uniqueItems: true. Example:
-             * ["jwt"]. [] enum: "jwt", "hmac". [] (Value): string. How Flint signs requests to
-             * this endpoint. Value enum: "jwt", "hmac".
-             */
-            "signing_methods": Array<"jwt" | "hmac" | (string & {})>;
-            /**
-             * Whether the rate callback is in use. Value enum: "active", "inactive", "archived".
-             */
-            "status": "active" | "inactive" | "archived" | (string & {});
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "delivery_rate_callback.created". */
-    "event_type"?: "delivery_rate_callback.created";
-});
-export type DeliveryRateCallbackDeactivatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "circuit_failure_count": number;
-            "circuit_state": "closed" | "open" | "half_open" | (string & {});
-            "configuration": DeliveryRateCallbackConfiguration;
-            "created_at": string;
-            "current_delivery_rate_callback_revision_id": string;
-            "delivery_rate_callback_id": string;
-            "delivery_revocation_id": string | null;
-            "external_reference_id"?: string;
-            "name": string;
-            "signing_methods": Array<"jwt" | "hmac" | (string & {})>;
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "circuit_failure_count"?: ((number) | (null));
-            "circuit_state"?: (("closed" | "open" | "half_open" | (string & {})) | (null));
-            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null));
-            "created_at"?: ((string) | (null));
-            "current_delivery_rate_callback_revision_id"?: ((string) | (null));
-            "delivery_rate_callback_id"?: ((string) | (null));
-            "delivery_revocation_id"?: ((string) | (null));
-            "external_reference_id"?: ((string) | (null));
-            "name"?: ((string) | (null));
-            "signing_methods"?: ((Array<"jwt" | "hmac" | (string & {})>) | (null));
-            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "delivery_rate_callback.deactivated";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "circuit_failure_count": number;
-            "circuit_state": "closed" | "open" | "half_open" | (string & {});
-            "configuration": DeliveryRateCallbackConfiguration;
-            "created_at": string;
-            "current_delivery_rate_callback_revision_id": string;
-            "delivery_rate_callback_id": string;
-            "delivery_revocation_id": string | null;
-            "external_reference_id"?: string;
-            "name": string;
-            "signing_methods": Array<"jwt" | "hmac" | (string & {})>;
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "circuit_failure_count"?: ((number) | (null));
-            "circuit_state"?: (("closed" | "open" | "half_open" | (string & {})) | (null));
-            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null));
-            "created_at"?: ((string) | (null));
-            "current_delivery_rate_callback_revision_id"?: ((string) | (null));
-            "delivery_rate_callback_id"?: ((string) | (null));
-            "delivery_revocation_id"?: ((string) | (null));
-            "external_reference_id"?: ((string) | (null));
-            "name"?: ((string) | (null));
-            "signing_methods"?: ((Array<"jwt" | "hmac" | (string & {})>) | (null));
-            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "delivery_rate_callback.deactivated";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "delivery_rate_callback.deactivated";
-});

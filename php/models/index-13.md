@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# ExpandedPayoutSummaryPreviousAttributesInput to GiftCardFundingSourceFlintPaymentRequestInput
+# ExpandedPaymentMethodSummaryInput to GiftCardFundingSourceFlintManualPaymentInput
 
+- [ExpandedPaymentMethodSummaryInput](ExpandedPaymentMethodSummaryInput.md)
+- [ExpandedPaymentMethodSummaryPreviousAttributesInput](ExpandedPaymentMethodSummaryPreviousAttributesInput.md)
+- [ExpandedPayoutDestinationSummaryInput](ExpandedPayoutDestinationSummaryInput.md)
+- [ExpandedPayoutDestinationSummaryPreviousAttributesInput](ExpandedPayoutDestinationSummaryPreviousAttributesInput.md)
+- [ExpandedPayoutSummaryInput](ExpandedPayoutSummaryInput.md)
 - [ExpandedPayoutSummaryPreviousAttributesInput](ExpandedPayoutSummaryPreviousAttributesInput.md)
 - [ExpandedShipmentSummaryInput](ExpandedShipmentSummaryInput.md)
 - [ExpandedShipmentSummaryPreviousAttributesInput](ExpandedShipmentSummaryPreviousAttributesInput.md)
@@ -97,9 +102,4 @@
 - [GiftCardFundingSourceExternalPaymentPreviousAttributesInput](GiftCardFundingSourceExternalPaymentPreviousAttributesInput.md)
 - [GiftCardFundingSourceExternalPaymentRequestInput](GiftCardFundingSourceExternalPaymentRequestInput.md)
 - [GiftCardFundingSourceFlintManualPaymentInput](GiftCardFundingSourceFlintManualPaymentInput.md)
-- [GiftCardFundingSourceFlintManualPaymentPreviousAttributesInput](GiftCardFundingSourceFlintManualPaymentPreviousAttributesInput.md)
-- [GiftCardFundingSourceFlintManualPaymentRequestInput](GiftCardFundingSourceFlintManualPaymentRequestInput.md)
-- [GiftCardFundingSourceFlintPaymentInput](GiftCardFundingSourceFlintPaymentInput.md)
-- [GiftCardFundingSourceFlintPaymentPreviousAttributesInput](GiftCardFundingSourceFlintPaymentPreviousAttributesInput.md)
-- [GiftCardFundingSourceFlintPaymentRequestInput](GiftCardFundingSourceFlintPaymentRequestInput.md)
 

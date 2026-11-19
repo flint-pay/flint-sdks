@@ -47,22 +47,23 @@ export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateModifierGroupRequestInput, CreateModifierRequestInput } from '../declarations/types-11.js';
 export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-44.js';
-export type {
-    TextModifierConfigRequestInput,
-    TextModifierConfig,
-    TextModifierConfigPatchRequestInput,
-    TextModifierConfigRequest,
-    TextModifierConfigPatchRequest
-} from '../declarations/types-74.js';
+export type { TextModifierConfigRequestInput, TextModifierConfigRequest } from '../declarations/types-75.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
+export type { TextModifierConfig, TextModifierConfigPatchRequestInput, TextModifierConfigPatchRequest } from '../declarations/types-74.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { UpdateModifierGroupRequestInput } from '../declarations/types-76.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export type { CreateInlineModifierGroupRequestInput } from '../declarations/types-10.js';
 export { makeCreateInlineModifierGroupRequest } from '../declarations/types-82.js';
 export { makeCreateModifierGroupRequest, makeCreateModifierRequest } from '../declarations/types-83.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeModifierRequest, makeMoneyValue } from '../declarations/types-88.js';
+export {
+    makeMetadataMap,
+    makeMetadataPatchRequest,
+    makeMetadataRequest,
+    makeModifierRequest,
+    makeMoneyValue
+} from '../declarations/types-88.js';
 export { makeTextModifierConfigPatchRequest, makeTextModifierConfigRequest } from '../declarations/types-93.js';
 export { makeUpdateModifierGroupRequest } from '../declarations/types-94.js';
 export interface ModifierGroupsResource {

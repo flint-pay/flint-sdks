@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# TaxRegistrationInput to UpdatePriceListRequestInput
+# TaxIdentityRequestInput to UpdatePaymentLinkRequestInput
 
+- [TaxIdentityRequestInput](TaxIdentityRequestInput.md)
+- [TaxJurisdictionInput](TaxJurisdictionInput.md)
+- [TaxJurisdictionPreviousAttributesInput](TaxJurisdictionPreviousAttributesInput.md)
+- [TaxJurisdictionRequestInput](TaxJurisdictionRequestInput.md)
+- [TaxJurisdictionRequestModelInput](TaxJurisdictionRequestModelInput.md)
 - [TaxRegistrationInput](TaxRegistrationInput.md)
 - [TaxRegistrationListResponseInput](TaxRegistrationListResponseInput.md)
 - [TaxRegistrationResponseInput](TaxRegistrationResponseInput.md)
@@ -78,6 +83,7 @@
 - [UpdateInventoryReservationRequestInput](UpdateInventoryReservationRequestInput.md)
 - [UpdateInventoryTransferRequestInput](UpdateInventoryTransferRequestInput.md)
 - [UpdateInvoicePaymentTermRequestInput](UpdateInvoicePaymentTermRequestInput.md)
+- [UpdateInvoiceQuickPayRequestInput](UpdateInvoiceQuickPayRequestInput.md)
 - [UpdateInvoiceRequestInput](UpdateInvoiceRequestInput.md)
 - [UpdateLicenseKeyPoolRequestInput](UpdateLicenseKeyPoolRequestInput.md)
 - [UpdateLicenseKeyRequestInput](UpdateLicenseKeyRequestInput.md)
@@ -96,10 +102,4 @@
 - [UpdatePartnerAppRequestInput](UpdatePartnerAppRequestInput.md)
 - [UpdatePaymentIntentRequestInput](UpdatePaymentIntentRequestInput.md)
 - [UpdatePaymentLinkRequestInput](UpdatePaymentLinkRequestInput.md)
-- [UpdatePaymentMethodDomainRequestInput](UpdatePaymentMethodDomainRequestInput.md)
-- [UpdatePayoutDestinationRequestInput](UpdatePayoutDestinationRequestInput.md)
-- [UpdatePayoutSettingsRequestInput](UpdatePayoutSettingsRequestInput.md)
-- [UpdatePickupFulfillmentDetailsInput](UpdatePickupFulfillmentDetailsInput.md)
-- [UpdatePriceListPriceRequestInput](UpdatePriceListPriceRequestInput.md)
-- [UpdatePriceListRequestInput](UpdatePriceListRequestInput.md)
 

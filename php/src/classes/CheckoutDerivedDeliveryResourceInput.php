@@ -9,10 +9,11 @@ namespace Flint;
  * @property-read string $evaluation_status
  * @property-read string|\DateTimeInterface $expires_at
  * @property-read list<DeliveryInputRequirementInput|array<array-key, mixed>|\stdClass> $input_requirements
+ * @property-read bool $inventory_unavailable
  * @property-read list<DeliveryMerchantDiagnosticInput|array<array-key, mixed>|\stdClass> $merchant_diagnostics
  * Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutDerivedDeliveryResourceInput extends Model {
-    /** @param array{'buyer_reasons': list<string>, 'choice_groups': list<DeliveryQuoteChoiceGroupResourceInput|array<array-key, mixed>|\stdClass>, 'delivery_quote_id'?: string, 'delivery_selection_id': string|null, 'evaluation_status': string, 'expires_at'?: string|\DateTimeInterface, 'input_requirements': list<DeliveryInputRequirementInput|array<array-key, mixed>|\stdClass>, 'merchant_diagnostics'?: list<DeliveryMerchantDiagnosticInput|array<array-key, mixed>|\stdClass>, ...}|object $values */
+    /** @param array{'buyer_reasons': list<string>, 'choice_groups': list<DeliveryQuoteChoiceGroupResourceInput|array<array-key, mixed>|\stdClass>, 'delivery_quote_id'?: string, 'delivery_selection_id': string|null, 'evaluation_status': string, 'expires_at'?: string|\DateTimeInterface, 'input_requirements': list<DeliveryInputRequirementInput|array<array-key, mixed>|\stdClass>, 'inventory_unavailable'?: bool, 'merchant_diagnostics'?: list<DeliveryMerchantDiagnosticInput|array<array-key, mixed>|\stdClass>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutDerivedDeliveryResourceInput')); }
     /** Buyer-safe reasons a choice group has no available option. Groups with an available option contribute no reasons. [] (Value): string.
      * @return list<string>
@@ -56,6 +57,12 @@ final class CheckoutDerivedDeliveryResourceInput extends Model {
      */
     public function getInputRequirements(): array { return $this->get('input_requirements'); }
     public function hasInputRequirements(): bool { return $this->has('input_requirements'); }
+    /** True when a required delivery group has no option and a candidate lacks the requested stock.
+     * @return bool
+     * @throws SdkError When inventory_unavailable is omitted; use hasInventoryUnavailable() or valueOrDefault().
+     */
+    public function getInventoryUnavailable(): bool { return $this->get('inventory_unavailable'); }
+    public function hasInventoryUnavailable(): bool { return $this->has('inventory_unavailable'); }
     /** Always present with an API key or dashboard credential. [] (Value): {@see DeliveryMerchantDiagnosticInput}. A merchant-only diagnostic explaining why a delivery method produced no option, with its outcome, recommended action, and eligibility mismatches.
      * @return list<DeliveryMerchantDiagnosticInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When merchant_diagnostics is omitted; use hasMerchantDiagnostics() or valueOrDefault().

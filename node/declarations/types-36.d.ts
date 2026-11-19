@@ -1,24 +1,707 @@
 import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
 import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
+import type { InvoiceManualPayment, InvoiceCollectionPreviousAttributes, InvoiceLateFeePreviousAttributes } from './types-35.js';
+import type { ResponseMeta } from './types-62.js';
+import type { Invoice } from './types-34.js';
+import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { AddressPreviousAttributes } from './types-0.js';
 import type { ExpandedCustomerSummaryPreviousAttributes, ExpandedOrderSummaryPreviousAttributes } from './types-26.js';
-import type { InvoiceCollectionPreviousAttributes, InvoiceLateFeePreviousAttributes, InvoiceLateFeePolicy } from './types-35.js';
-import type {
-    InvoicePaymentTermsSnapshotPreviousAttributes,
-    InvoicePaymentTermCalculationDaysAfterMonthEnd,
-    InvoicePaymentTermCalculationNetDays,
-    InvoicePaymentTermCalculationOnReceipt
-} from './types-37.js';
+import type { InvoicePaymentTermsSnapshotPreviousAttributes } from './types-37.js';
 import type {
     InvoiceScheduleEntryPreviousAttributes,
     InvoiceSettlementAmountsPreviousAttributes,
     InvoiceSnapshotPreviousAttributes
 } from './types-38.js';
-import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { PricingAmountsPreviousAttributes } from './types-56.js';
 import type { WebhookInvoice } from './types-79.js';
 import type { PaymentErrorSummary, PaymentErrorSummaryPreviousAttributes } from './types-51.js';
-import type { ResponseMeta } from './types-62.js';
+/**
+ * The `invoice_manual_payment.created` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type InvoiceManualPaymentCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.amount_money (Required): {@link MoneyValue}. Full amount received,
+     * including any principal and late fees covered. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code. object.idempotency_key (Optional): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. object.invoice_id (Required):
+     * string. The invoice this payment was recorded against. Example:
+     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.invoice_manual_payment_id (Required): string.
+     * Stable payment ID. IDs begin with omp_. Gift card loads funded by this payment expose this
+     * value as source.order_manual_payment_id. Example: "omp_01KEZF7C007J18203RBJKB9TYE".
+     * object.note (Optional): string. Note about the offline payment, up to 4096 characters.
+     * minLength: 1. maxLength: 4096. object.payment_reference (Optional): string. Caller-owned
+     * check, wire, or bank reference, stored unmodified. minLength: 1. maxLength: 255.
+     * object.received_at (Required): string. When the payment was received. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.reversal_note (Optional): string. Note supplied when
+     * reversing the payment. Present only when reversed and a note was supplied. minLength: 1.
+     * maxLength: 4096. object.reversed_at (Optional): string. When the payment was reversed.
+     * Present only when reversed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.status (Required): string. Whether the payment is recorded or has been reversed in
+     * full. Value enum: "recorded", "reversed". object.supported_actions (Required): Array of
+     * string. Lifecycle actions Flint accepts for this resource now, based on stored state.
+     * Independent of the caller's permissions; each action still requires its route's scope.
+     * Always [] when no action is available. [] enum: "reverse". object.supported_actions[]
+     * (Value): string. Value enum: "reverse".
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * amount_money (Required): {@link MoneyValue}. Full amount received, including any
+         * principal and late fees covered. Monetary amount represented as integer minor units plus
+         * an ISO 4217 currency code. idempotency_key (Optional): string or null. The
+         * Idempotency-Key of the request that created this resource. `null` when that request sent
+         * no key, Flint created the resource, the reader isn't the caller that created it (another
+         * app install, a buyer, or the merchant reading an app's or buyer's record), or the caller
+         * that created an older record is unknown. Filter its list with `idempotency_key` to find
+         * it. Recorded payloads, including replayed responses and webhook events, can return
+         * `null`. To find a key that a replay returns as `null`, read the resource. invoice_id
+         * (Required): string. The invoice this payment was recorded against. Example:
+         * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_manual_payment_id (Required): string. Stable
+         * payment ID. IDs begin with omp_. Gift card loads funded by this payment expose this
+         * value as source.order_manual_payment_id. Example: "omp_01KEZF7C007J18203RBJKB9TYE". note
+         * (Optional): string. Note about the offline payment, up to 4096 characters. minLength: 1.
+         * maxLength: 4096. payment_reference (Optional): string. Caller-owned check, wire, or bank
+         * reference, stored unmodified. minLength: 1. maxLength: 255. received_at (Required):
+         * string. When the payment was received. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". reversal_note (Optional): string. Note supplied when reversing
+         * the payment. Present only when reversed and a note was supplied. minLength: 1.
+         * maxLength: 4096. reversed_at (Optional): string. When the payment was reversed. Present
+         * only when reversed. Format: date-time. Example: "2026-08-02T16:00:00Z". status
+         * (Required): string. Whether the payment is recorded or has been reversed in full. Value
+         * enum: "recorded", "reversed". supported_actions (Required): Array of string. Lifecycle
+         * actions Flint accepts for this resource now, based on stored state. Independent of the
+         * caller's permissions; each action still requires its route's scope. Always [] when no
+         * action is available. [] enum: "reverse". supported_actions[] (Value): string. Value
+         * enum: "reverse".
+         */
+        "object": {
+            /**
+             * Full amount received, including any principal and late fees covered. Monetary amount
+             * represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "amount_money": MoneyValue;
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource.
+             */
+            "idempotency_key"?: string | null;
+            /**
+             * The invoice this payment was recorded against. Example:
+             * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+             */
+            "invoice_id": string;
+            /**
+             * Stable payment ID. IDs begin with omp_. Gift card loads funded by this payment
+             * expose this value as source.order_manual_payment_id. Example:
+             * "omp_01KEZF7C007J18203RBJKB9TYE".
+             */
+            "invoice_manual_payment_id": string;
+            /**
+             * Note about the offline payment, up to 4096 characters. minLength: 1. maxLength:
+             * 4096.
+             */
+            "note"?: string;
+            /**
+             * Caller-owned check, wire, or bank reference, stored unmodified. minLength: 1.
+             * maxLength: 255.
+             */
+            "payment_reference"?: string;
+            /**
+             * When the payment was received. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "received_at": string;
+            /**
+             * Note supplied when reversing the payment. Present only when reversed and a note was
+             * supplied. minLength: 1. maxLength: 4096.
+             */
+            "reversal_note"?: string;
+            /**
+             * When the payment was reversed. Present only when reversed. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "reversed_at"?: string;
+            /**
+             * Whether the payment is recorded or has been reversed in full. Value enum:
+             * "recorded", "reversed".
+             */
+            "status": "recorded" | "reversed" | (string & {});
+            /**
+             * Lifecycle actions Flint accepts for this resource now, based on stored state.
+             * Independent of the caller's permissions; each action still requires its route's
+             * scope. Always [] when no action is available. [] enum: "reverse". [] (Value):
+             * string. Value enum: "reverse".
+             */
+            "supported_actions": Array<"reverse" | (string & {})>;
+        };
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "invoice_manual_payment.created". */
+    "event_type"?: "invoice_manual_payment.created";
+});
+/** A page of `InvoiceManualPayment` objects. */
+export type InvoiceManualPaymentListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * InvoiceManualPayment}. A recorded offline payment against an invoice. Its amount contributes
+     * to invoice paid_money while recorded. Reversing it restores outstanding_money, or
+     * written_off_money if the invoice was written off. A payment can cover principal and late
+     * fees. Manual payments are separate from online payment attempts.
+     */
+    "data": Array<InvoiceManualPayment>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `InvoiceManualPayment` data. */
+export type InvoiceManualPaymentResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A recorded offline
+     * payment against an invoice. Its amount contributes to invoice paid_money while recorded.
+     * Reversing it restores outstanding_money, or written_off_money if the invoice was written
+     * off. A payment can cover principal and late fees. Manual payments are separate from online
+     * payment attempts.
+     */
+    "data": InvoiceManualPayment;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * The recorded or reversed payment and the updated invoice. expected_invoice_version on create and
+ * expected_version on reversal fence the invoice; use the returned invoice version for the next
+ * write.
+ */
+export type InvoiceManualPaymentResult = {
+    /**
+     * The invoice with balances and supported_actions after this request. A bill issued to a
+     * customer.
+     */
+    "invoice": Invoice;
+    /**
+     * The offline payment recorded or reversed by this request. A recorded offline payment against
+     * an invoice. Its amount contributes to invoice paid_money while recorded. Reversing it
+     * restores outstanding_money, or written_off_money if the invoice was written off. A payment
+     * can cover principal and late fees. Manual payments are separate from online payment
+     * attempts.
+     */
+    "invoice_manual_payment": InvoiceManualPayment;
+};
+/** A response containing `InvoiceManualPaymentResult` data. */
+export type InvoiceManualPaymentResultResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. The recorded or reversed
+     * payment and the updated invoice. expected_invoice_version on create and expected_version on
+     * reversal fence the invoice; use the returned invoice version for the next write.
+     */
+    "data": InvoiceManualPaymentResult;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type InvoiceManualPaymentReversedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "amount_money": MoneyValue;
+            "idempotency_key"?: string | null;
+            "invoice_id": string;
+            "invoice_manual_payment_id": string;
+            "note"?: string;
+            "payment_reference"?: string;
+            "received_at": string;
+            "reversal_note"?: string;
+            "reversed_at"?: string;
+            "status": "recorded" | "reversed" | (string & {});
+            "supported_actions": Array<"reverse" | (string & {})>;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "idempotency_key"?: ((string) | (null));
+            "invoice_id"?: ((string) | (null));
+            "invoice_manual_payment_id"?: ((string) | (null));
+            "note"?: ((string) | (null));
+            "payment_reference"?: ((string) | (null));
+            "received_at"?: ((string) | (null));
+            "reversal_note"?: ((string) | (null));
+            "reversed_at"?: ((string) | (null));
+            "status"?: (("recorded" | "reversed" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"reverse" | (string & {})>) | (null));
+        });
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "invoice_manual_payment.reversed";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "amount_money": MoneyValue;
+            "idempotency_key"?: string | null;
+            "invoice_id": string;
+            "invoice_manual_payment_id": string;
+            "note"?: string;
+            "payment_reference"?: string;
+            "received_at": string;
+            "reversal_note"?: string;
+            "reversed_at"?: string;
+            "status": "recorded" | "reversed" | (string & {});
+            "supported_actions": Array<"reverse" | (string & {})>;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "idempotency_key"?: ((string) | (null));
+            "invoice_id"?: ((string) | (null));
+            "invoice_manual_payment_id"?: ((string) | (null));
+            "note"?: ((string) | (null));
+            "payment_reference"?: ((string) | (null));
+            "received_at"?: ((string) | (null));
+            "reversal_note"?: ((string) | (null));
+            "reversed_at"?: ((string) | (null));
+            "status"?: (("recorded" | "reversed" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"reverse" | (string & {})>) | (null));
+        });
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "invoice_manual_payment.reversed";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "invoice_manual_payment.reversed";
+});
+/**
+ * The `invoice_manual_payment.reversed` webhook payload for the `installed_merchants` event
+ * source. Fields shared by partner webhook payloads.
+ */
+export type InvoiceManualPaymentReversedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.amount_money (Required): {@link MoneyValue}. Full amount received,
+     * including any principal and late fees covered. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code. object.idempotency_key (Optional): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. object.invoice_id (Required):
+     * string. The invoice this payment was recorded against. Example:
+     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.invoice_manual_payment_id (Required): string.
+     * Stable payment ID. IDs begin with omp_. Gift card loads funded by this payment expose this
+     * value as source.order_manual_payment_id. Example: "omp_01KEZF7C007J18203RBJKB9TYE".
+     * object.note (Optional): string. Note about the offline payment, up to 4096 characters.
+     * minLength: 1. maxLength: 4096. object.payment_reference (Optional): string. Caller-owned
+     * check, wire, or bank reference, stored unmodified. minLength: 1. maxLength: 255.
+     * object.received_at (Required): string. When the payment was received. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.reversal_note (Optional): string. Note supplied when
+     * reversing the payment. Present only when reversed and a note was supplied. minLength: 1.
+     * maxLength: 4096. object.reversed_at (Optional): string. When the payment was reversed.
+     * Present only when reversed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.status (Required): string. Whether the payment is recorded or has been reversed in
+     * full. Value enum: "recorded", "reversed". object.supported_actions (Required): Array of
+     * string. Lifecycle actions Flint accepts for this resource now, based on stored state.
+     * Independent of the caller's permissions; each action still requires its route's scope.
+     * Always [] when no action is available. [] enum: "reverse". object.supported_actions[]
+     * (Value): string. Value enum: "reverse". previous_attributes (Optional): object. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events. previous_attributes.amount_money (Optional): {@link
+     * MoneyValuePreviousAttributes} or null. Full amount received, including any principal and
+     * late fees covered. previous_attributes.amount_money.anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. previous_attributes.amount_money.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. previous_attributes.idempotency_key.anyOf[1] (Value):
+     * string. The Idempotency-Key of the request that created this resource. `null` when that
+     * request sent no key, Flint created the resource, the reader isn't the caller that created it
+     * (another app install, a buyer, or the merchant reading an app's or buyer's record), or the
+     * caller that created an older record is unknown. Filter its list with `idempotency_key` to
+     * find it. Recorded payloads, including replayed responses and webhook events, can return
+     * `null`. To find a key that a replay returns as `null`, read the resource.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.invoice_id
+     * (Optional): string or null. The invoice this payment was recorded against.
+     * previous_attributes.invoice_id.anyOf[1] (Value): string. The invoice this payment was
+     * recorded against. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+     * previous_attributes.invoice_id.anyOf[2] (Value): null.
+     * previous_attributes.invoice_manual_payment_id (Optional): string or null. Stable payment ID.
+     * IDs begin with omp_. Gift card loads funded by this payment expose this value as
+     * source.order_manual_payment_id. previous_attributes.invoice_manual_payment_id.anyOf[1]
+     * (Value): string. Stable payment ID. IDs begin with omp_. Gift card loads funded by this
+     * payment expose this value as source.order_manual_payment_id. Example:
+     * "omp_01KEZF7C007J18203RBJKB9TYE". previous_attributes.invoice_manual_payment_id.anyOf[2]
+     * (Value): null. previous_attributes.note (Optional): string or null. Note about the offline
+     * payment, up to 4096 characters. previous_attributes.note.anyOf[1] (Value): string. Note
+     * about the offline payment, up to 4096 characters. minLength: 1. maxLength: 4096.
+     * previous_attributes.note.anyOf[2] (Value): null. previous_attributes.payment_reference
+     * (Optional): string or null. Caller-owned check, wire, or bank reference, stored unmodified.
+     * previous_attributes.payment_reference.anyOf[1] (Value): string. Caller-owned check, wire, or
+     * bank reference, stored unmodified. minLength: 1. maxLength: 255.
+     * previous_attributes.payment_reference.anyOf[2] (Value): null.
+     * previous_attributes.received_at (Optional): string or null. When the payment was received.
+     * previous_attributes.received_at.anyOf[1] (Value): string. When the payment was received.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.received_at.anyOf[2]
+     * (Value): null. previous_attributes.reversal_note (Optional): string or null. Note supplied
+     * when reversing the payment. Present only when reversed and a note was supplied.
+     * previous_attributes.reversal_note.anyOf[1] (Value): string. Note supplied when reversing the
+     * payment. Present only when reversed and a note was supplied. minLength: 1. maxLength: 4096.
+     * previous_attributes.reversal_note.anyOf[2] (Value): null. previous_attributes.reversed_at
+     * (Optional): string or null. When the payment was reversed. Present only when reversed.
+     * previous_attributes.reversed_at.anyOf[1] (Value): string. When the payment was reversed.
+     * Present only when reversed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.reversed_at.anyOf[2] (Value): null. previous_attributes.status
+     * (Optional): string or null. Whether the payment is recorded or has been reversed in full.
+     * Value enum: "recorded", "reversed". previous_attributes.status.anyOf[1] (Value): string.
+     * Whether the payment is recorded or has been reversed in full. Value enum: "recorded",
+     * "reversed". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle actions
+     * Flint accepts for this resource now, based on stored state. Independent of the caller's
+     * permissions; each action still requires its route's scope. Always [] when no action is
+     * available. [] enum: "reverse". previous_attributes.supported_actions.anyOf[1] (Value): Array
+     * of string. Lifecycle actions Flint accepts for this resource now, based on stored state.
+     * Independent of the caller's permissions; each action still requires its route's scope.
+     * Always [] when no action is available. [] enum: "reverse".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "reverse".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * amount_money (Required): {@link MoneyValue}. Full amount received, including any
+         * principal and late fees covered. Monetary amount represented as integer minor units plus
+         * an ISO 4217 currency code. idempotency_key (Optional): string or null. The
+         * Idempotency-Key of the request that created this resource. `null` when that request sent
+         * no key, Flint created the resource, the reader isn't the caller that created it (another
+         * app install, a buyer, or the merchant reading an app's or buyer's record), or the caller
+         * that created an older record is unknown. Filter its list with `idempotency_key` to find
+         * it. Recorded payloads, including replayed responses and webhook events, can return
+         * `null`. To find a key that a replay returns as `null`, read the resource. invoice_id
+         * (Required): string. The invoice this payment was recorded against. Example:
+         * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_manual_payment_id (Required): string. Stable
+         * payment ID. IDs begin with omp_. Gift card loads funded by this payment expose this
+         * value as source.order_manual_payment_id. Example: "omp_01KEZF7C007J18203RBJKB9TYE". note
+         * (Optional): string. Note about the offline payment, up to 4096 characters. minLength: 1.
+         * maxLength: 4096. payment_reference (Optional): string. Caller-owned check, wire, or bank
+         * reference, stored unmodified. minLength: 1. maxLength: 255. received_at (Required):
+         * string. When the payment was received. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". reversal_note (Optional): string. Note supplied when reversing
+         * the payment. Present only when reversed and a note was supplied. minLength: 1.
+         * maxLength: 4096. reversed_at (Optional): string. When the payment was reversed. Present
+         * only when reversed. Format: date-time. Example: "2026-08-02T16:00:00Z". status
+         * (Required): string. Whether the payment is recorded or has been reversed in full. Value
+         * enum: "recorded", "reversed". supported_actions (Required): Array of string. Lifecycle
+         * actions Flint accepts for this resource now, based on stored state. Independent of the
+         * caller's permissions; each action still requires its route's scope. Always [] when no
+         * action is available. [] enum: "reverse". supported_actions[] (Value): string. Value
+         * enum: "reverse".
+         */
+        "object": {
+            /**
+             * Full amount received, including any principal and late fees covered. Monetary amount
+             * represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "amount_money": MoneyValue;
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource.
+             */
+            "idempotency_key"?: string | null;
+            /**
+             * The invoice this payment was recorded against. Example:
+             * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+             */
+            "invoice_id": string;
+            /**
+             * Stable payment ID. IDs begin with omp_. Gift card loads funded by this payment
+             * expose this value as source.order_manual_payment_id. Example:
+             * "omp_01KEZF7C007J18203RBJKB9TYE".
+             */
+            "invoice_manual_payment_id": string;
+            /**
+             * Note about the offline payment, up to 4096 characters. minLength: 1. maxLength:
+             * 4096.
+             */
+            "note"?: string;
+            /**
+             * Caller-owned check, wire, or bank reference, stored unmodified. minLength: 1.
+             * maxLength: 255.
+             */
+            "payment_reference"?: string;
+            /**
+             * When the payment was received. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "received_at": string;
+            /**
+             * Note supplied when reversing the payment. Present only when reversed and a note was
+             * supplied. minLength: 1. maxLength: 4096.
+             */
+            "reversal_note"?: string;
+            /**
+             * When the payment was reversed. Present only when reversed. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "reversed_at"?: string;
+            /**
+             * Whether the payment is recorded or has been reversed in full. Value enum:
+             * "recorded", "reversed".
+             */
+            "status": "recorded" | "reversed" | (string & {});
+            /**
+             * Lifecycle actions Flint accepts for this resource now, based on stored state.
+             * Independent of the caller's permissions; each action still requires its route's
+             * scope. Always [] when no action is available. [] enum: "reverse". [] (Value):
+             * string. Value enum: "reverse".
+             */
+            "supported_actions": Array<"reverse" | (string & {})>;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. amount_money (Optional): {@link
+         * MoneyValuePreviousAttributes} or null. Full amount received, including any principal and
+         * late fees covered. amount_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+         * amount_money.anyOf[2] (Value): null. idempotency_key (Optional): string or null. The
+         * Idempotency-Key of the request that created this resource. `null` when that request sent
+         * no key, Flint created the resource, the reader isn't the caller that created it (another
+         * app install, a buyer, or the merchant reading an app's or buyer's record), or the caller
+         * that created an older record is unknown. Filter its list with `idempotency_key` to find
+         * it. Recorded payloads, including replayed responses and webhook events, can return
+         * `null`. To find a key that a replay returns as `null`, read the resource.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. idempotency_key.anyOf[2] (Value): null.
+         * invoice_id (Optional): string or null. The invoice this payment was recorded against.
+         * invoice_id.anyOf[1] (Value): string. The invoice this payment was recorded against.
+         * Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2] (Value): null.
+         * invoice_manual_payment_id (Optional): string or null. Stable payment ID. IDs begin with
+         * omp_. Gift card loads funded by this payment expose this value as
+         * source.order_manual_payment_id. invoice_manual_payment_id.anyOf[1] (Value): string.
+         * Stable payment ID. IDs begin with omp_. Gift card loads funded by this payment expose
+         * this value as source.order_manual_payment_id. Example: "omp_01KEZF7C007J18203RBJKB9TYE".
+         * invoice_manual_payment_id.anyOf[2] (Value): null. note (Optional): string or null. Note
+         * about the offline payment, up to 4096 characters. note.anyOf[1] (Value): string. Note
+         * about the offline payment, up to 4096 characters. minLength: 1. maxLength: 4096.
+         * note.anyOf[2] (Value): null. payment_reference (Optional): string or null. Caller-owned
+         * check, wire, or bank reference, stored unmodified. payment_reference.anyOf[1] (Value):
+         * string. Caller-owned check, wire, or bank reference, stored unmodified. minLength: 1.
+         * maxLength: 255. payment_reference.anyOf[2] (Value): null. received_at (Optional): string
+         * or null. When the payment was received. received_at.anyOf[1] (Value): string. When the
+         * payment was received. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * received_at.anyOf[2] (Value): null. reversal_note (Optional): string or null. Note
+         * supplied when reversing the payment. Present only when reversed and a note was supplied.
+         * reversal_note.anyOf[1] (Value): string. Note supplied when reversing the payment.
+         * Present only when reversed and a note was supplied. minLength: 1. maxLength: 4096.
+         * reversal_note.anyOf[2] (Value): null. reversed_at (Optional): string or null. When the
+         * payment was reversed. Present only when reversed. reversed_at.anyOf[1] (Value): string.
+         * When the payment was reversed. Present only when reversed. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". reversed_at.anyOf[2] (Value): null. status (Optional): string or
+         * null. Whether the payment is recorded or has been reversed in full. Value enum:
+         * "recorded", "reversed". status.anyOf[1] (Value): string. Whether the payment is recorded
+         * or has been reversed in full. Value enum: "recorded", "reversed". status.anyOf[2]
+         * (Value): null. supported_actions (Optional): Array of string or null. Lifecycle actions
+         * Flint accepts for this resource now, based on stored state. Independent of the caller's
+         * permissions; each action still requires its route's scope. Always [] when no action is
+         * available. [] enum: "reverse". supported_actions.anyOf[1] (Value): Array of string.
+         * Lifecycle actions Flint accepts for this resource now, based on stored state.
+         * Independent of the caller's permissions; each action still requires its route's scope.
+         * Always [] when no action is available. [] enum: "reverse". supported_actions.anyOf[1][]
+         * (Value): string. Value enum: "reverse". supported_actions.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Full amount received, including any principal and late fees covered. anyOf[1]
+             * (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. anyOf[1] (Value): string. The Idempotency-Key of the
+             * request that created this resource. `null` when that request sent no key, Flint
+             * created the resource, the reader isn't the caller that created it (another app
+             * install, a buyer, or the merchant reading an app's or buyer's record), or the caller
+             * that created an older record is unknown. Filter its list with `idempotency_key` to
+             * find it. Recorded payloads, including replayed responses and webhook events, can
+             * return `null`. To find a key that a replay returns as `null`, read the resource.
+             * anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
+            /**
+             * The invoice this payment was recorded against. anyOf[1] (Value): string. The invoice
+             * this payment was recorded against. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+             * anyOf[2] (Value): null.
+             */
+            "invoice_id"?: ((string) | (null));
+            /**
+             * Stable payment ID. IDs begin with omp_. Gift card loads funded by this payment
+             * expose this value as source.order_manual_payment_id. anyOf[1] (Value): string.
+             * Stable payment ID. IDs begin with omp_. Gift card loads funded by this payment
+             * expose this value as source.order_manual_payment_id. Example:
+             * "omp_01KEZF7C007J18203RBJKB9TYE". anyOf[2] (Value): null.
+             */
+            "invoice_manual_payment_id"?: ((string) | (null));
+            /**
+             * Note about the offline payment, up to 4096 characters. anyOf[1] (Value): string.
+             * Note about the offline payment, up to 4096 characters. minLength: 1. maxLength:
+             * 4096. anyOf[2] (Value): null.
+             */
+            "note"?: ((string) | (null));
+            /**
+             * Caller-owned check, wire, or bank reference, stored unmodified. anyOf[1] (Value):
+             * string. Caller-owned check, wire, or bank reference, stored unmodified. minLength:
+             * 1. maxLength: 255. anyOf[2] (Value): null.
+             */
+            "payment_reference"?: ((string) | (null));
+            /**
+             * When the payment was received. anyOf[1] (Value): string. When the payment was
+             * received. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "received_at"?: ((string) | (null));
+            /**
+             * Note supplied when reversing the payment. Present only when reversed and a note was
+             * supplied. anyOf[1] (Value): string. Note supplied when reversing the payment.
+             * Present only when reversed and a note was supplied. minLength: 1. maxLength: 4096.
+             * anyOf[2] (Value): null.
+             */
+            "reversal_note"?: ((string) | (null));
+            /**
+             * When the payment was reversed. Present only when reversed. anyOf[1] (Value): string.
+             * When the payment was reversed. Present only when reversed. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "reversed_at"?: ((string) | (null));
+            /**
+             * Whether the payment is recorded or has been reversed in full. Value enum:
+             * "recorded", "reversed". anyOf[1] (Value): string. Whether the payment is recorded or
+             * has been reversed in full. Value enum: "recorded", "reversed". anyOf[2] (Value):
+             * null.
+             */
+            "status"?: (("recorded" | "reversed" | (string & {})) | (null));
+            /**
+             * Lifecycle actions Flint accepts for this resource now, based on stored state.
+             * Independent of the caller's permissions; each action still requires its route's
+             * scope. Always [] when no action is available. [] enum: "reverse". anyOf[1] (Value):
+             * Array of string. Lifecycle actions Flint accepts for this resource now, based on
+             * stored state. Independent of the caller's permissions; each action still requires
+             * its route's scope. Always [] when no action is available. [] enum: "reverse".
+             * anyOf[1][] (Value): string. Value enum: "reverse". anyOf[2] (Value): null.
+             */
+            "supported_actions"?: ((Array<"reverse" | (string & {})>) | (null));
+        });
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "invoice_manual_payment.reversed". */
+    "event_type"?: "invoice_manual_payment.reversed";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
 /**
  * The `invoice_manual_payment.reversed` webhook payload for the `merchant` event source. Fields
  * shared by merchant webhook payloads.
@@ -15366,228 +16049,3 @@ export type InvoicePaymentPolicyPreviousAttributes = {
      */
     "show_cost_comparison"?: ((boolean) | (null));
 };
-/**
- * Which payment options an invoice accepts, any per-option total limits, and whether to show a
- * cost comparison.
- */
-export type InvoicePaymentPolicyRequestInput = {
-    /**
-     * The payment options the buyer can use on the hosted invoice page. Send at least one.
-     * maxItems: 5. uniqueItems: true. [] enum: "card", "apple_pay", "google_pay", "affirm",
-     * "ach_debit". [] (Value): string. Value enum: "card", "apple_pay", "google_pay", "affirm",
-     * "ach_debit".
-     */
-    "enabled_payment_options": Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit">;
-    /**
-     * Caps by payment option and currency. Flint doesn't offer an option when the invoice total in
-     * that currency is above its max_total_money. maxItems: 100. [] (Value): {@link
-     * InvoicePaymentOptionLimitRequestInput}. The largest invoice total allowed for a payment
-     * option.
-     */
-    "payment_option_limits"?: Array<InvoicePaymentOptionLimitRequestInput>;
-    /**
-     * Whether the buyer's invoice shows the estimated savings of a lower-cost payment option.
-     * Requires ach_debit and at least one of card, apple_pay, or google_pay.
-     */
-    "show_cost_comparison"?: boolean;
-};
-/** The payment timing agreed for an invoice. */
-export type InvoicePaymentTerm = {
-    /**
-     * Rule used to calculate the invoice's due date when it is issued. How an invoice due date is
-     * calculated from payment terms, such as on receipt, net days, or a day of the month.
-     */
-    "calculation": InvoicePaymentTermCalculation;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /**
-     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * ID of the payment term captured on this invoice. Example: "ipt_01KEZF7C0064N1V301BBMQ37R4".
-     */
-    "invoice_payment_term_id": string;
-    /**
-     * One-time late fee policy captured with this term. Absent when no late fee policy applies. A
-     * late fee for overdue invoices: a fixed amount or a percentage, a grace period in days, and
-     * whether Flint applies it automatically.
-     */
-    "late_fee_policy"?: InvoiceLateFeePolicy;
-    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-    "merchant_id": string;
-    /** Name of the payment term shown on invoices. */
-    "name": string;
-    /**
-     * Whether the term can be selected for new invoices. Archiving preserves terms captured on
-     * existing invoices. Value enum: "active", "archived".
-     */
-    "status": "active" | "archived" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-    /**
-     * Current version of this resource's owned state. Send it as `expected_version` when changing
-     * the resource to reject a stale write. Format: int32.
-     */
-    "version": number;
-};
-/**
- * How an invoice due date is calculated from payment terms, such as on receipt, net days, or a day
- * of the month.
- */
-export type InvoicePaymentTermCalculation = ({
-    /**
-     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
-     * maximum: 31.
-     */
-    "day"?: number;
-    /**
-     * Calendar days after issue for net_days, or after the issue month's last day for
-     * days_after_month_end. Required only for those types. Format: int32. minimum: 0. maximum:
-     * 365.
-     */
-    "days"?: number;
-    /**
-     * How issue calculates the invoice's due date in the invoice timezone. Value enum:
-     * "on_receipt", "net_days", "day_of_month", "day_of_next_month", "days_after_month_end".
-     */
-    "type": "on_receipt"
-        | "net_days"
-        | "day_of_month"
-        | "day_of_next_month"
-        | "days_after_month_end"
-        | (string & {});
-})
-    & ((Exclude<InvoicePaymentTermCalculationOnReceipt & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentTermCalculationNetDays & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentTermCalculationDaysAfterMonthEnd & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentTermCalculationDayOfMonth & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentTermCalculationDayOfNextMonth & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/** The `day_of_month` variant of `InvoicePaymentTermCalculation`. */
-export type InvoicePaymentTermCalculationDayOfMonth = ({
-    /**
-     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
-     * maximum: 31.
-     */
-    "day": number;
-    /**
-     * Calendar days after issue for net_days, or after the issue month's last day for
-     * days_after_month_end. Required only for those types. Format: int32. minimum: 0. maximum:
-     * 365.
-     */
-    "days"?: number;
-    /**
-     * How issue calculates the invoice's due date in the invoice timezone. Value enum:
-     * "day_of_month".
-     */
-    "type": "day_of_month" | (string & {});
-})
-    & (({
-    /**
-     * How issue calculates the invoice's due date in the invoice timezone. Value enum:
-     * "day_of_month".
-     */
-    "type": "day_of_month" | (string & {});
-    /**
-     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
-     * maximum: 31.
-     */
-    "day": number;
-}));
-export type InvoicePaymentTermCalculationDayOfMonthPreviousAttributes = ({
-    /**
-     * Day of the month. Later days clamp to the last day of the month. anyOf[1] (Value): integer.
-     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
-     * maximum: 31. anyOf[2] (Value): null.
-     */
-    "day"?: ((number) | (null));
-    /**
-     * Calendar days after issue for net_days, or after the issue month's last day for
-     * days_after_month_end. Required only for those types. anyOf[1] (Value): integer. Calendar
-     * days after issue for net_days, or after the issue month's last day for days_after_month_end.
-     * Required only for those types. Format: int32. minimum: 0. maximum: 365. anyOf[2] (Value):
-     * null.
-     */
-    "days"?: ((number) | (null));
-    /**
-     * How issue calculates the invoice's due date in the invoice timezone. Value enum:
-     * "day_of_month". anyOf[1] (Value): string. How issue calculates the invoice's due date in the
-     * invoice timezone. Value enum: "day_of_month". anyOf[2] (Value): null.
-     */
-    "type"?: (("day_of_month" | (string & {})) | (null));
-})
-    & ({
-    /**
-     * How issue calculates the invoice's due date in the invoice timezone. Value enum:
-     * "day_of_month". anyOf[1] (Value): string. How issue calculates the invoice's due date in the
-     * invoice timezone. Value enum: "day_of_month". anyOf[2] (Value): null.
-     */
-    "type"?: (("day_of_month" | (string & {})) | (null));
-});
-/** The `day_of_month` variant of `InvoicePaymentTermCalculation`. */
-export type InvoicePaymentTermCalculationDayOfMonthRequestInput = ({
-    /**
-     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
-     * maximum: 31.
-     */
-    "day": number;
-    /**
-     * Calendar days after issue for net_days, or after the issue month's last day for
-     * days_after_month_end. Required only for those types. Format: int32. minimum: 0. maximum:
-     * 365.
-     */
-    "days"?: number;
-    /**
-     * How issue calculates the invoice's due date in the invoice timezone. Value enum:
-     * "day_of_month".
-     */
-    "type": "day_of_month";
-})
-    & (({
-    /**
-     * How issue calculates the invoice's due date in the invoice timezone. Value enum:
-     * "day_of_month".
-     */
-    "type": "day_of_month";
-    /**
-     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
-     * maximum: 31.
-     */
-    "day": number;
-})
-    & ({
-    "days"?: never;
-}));
-/** The `day_of_next_month` variant of `InvoicePaymentTermCalculation`. */
-export type InvoicePaymentTermCalculationDayOfNextMonth = ({
-    /**
-     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
-     * maximum: 31.
-     */
-    "day": number;
-    /**
-     * Calendar days after issue for net_days, or after the issue month's last day for
-     * days_after_month_end. Required only for those types. Format: int32. minimum: 0. maximum:
-     * 365.
-     */
-    "days"?: number;
-    /**
-     * How issue calculates the invoice's due date in the invoice timezone. Value enum:
-     * "day_of_next_month".
-     */
-    "type": "day_of_next_month" | (string & {});
-})
-    & (({
-    /**
-     * How issue calculates the invoice's due date in the invoice timezone. Value enum:
-     * "day_of_next_month".
-     */
-    "type": "day_of_next_month" | (string & {});
-    /**
-     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
-     * maximum: 31.
-     */
-    "day": number;
-}));

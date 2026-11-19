@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# CustomFieldAnswerCheckboxPreviousAttributes to DeliveryInventoryAssignmentRequest
+# CustomerVerification to DeliveryFulfillmentDetailsPreviousAttributes
 
+- [CustomerVerification](CustomerVerification.md)
+- [CustomerVerificationListResponse](CustomerVerificationListResponse.md)
+- [CustomerVerificationResponse](CustomerVerificationResponse.md)
+- [CustomFieldAnswer](CustomFieldAnswer.md)
+- [CustomFieldAnswerCheckbox](CustomFieldAnswerCheckbox.md)
 - [CustomFieldAnswerCheckboxPreviousAttributes](CustomFieldAnswerCheckboxPreviousAttributes.md)
 - [CustomFieldAnswerDropdown](CustomFieldAnswerDropdown.md)
 - [CustomFieldAnswerDropdownPreviousAttributes](CustomFieldAnswerDropdownPreviousAttributes.md)
@@ -97,9 +102,4 @@
 - [DeliveryFixedPricingStrategyRequestInput](DeliveryFixedPricingStrategyRequestInput.md)
 - [DeliveryFulfillmentDetails](DeliveryFulfillmentDetails.md)
 - [DeliveryFulfillmentDetailsPreviousAttributes](DeliveryFulfillmentDetailsPreviousAttributes.md)
-- [DeliveryInputConstraint](DeliveryInputConstraint.md)
-- [DeliveryInputConstraintPreviousAttributes](DeliveryInputConstraintPreviousAttributes.md)
-- [DeliveryInputRequirement](DeliveryInputRequirement.md)
-- [DeliveryInputRequirementPreviousAttributes](DeliveryInputRequirementPreviousAttributes.md)
-- [DeliveryInventoryAssignmentRequest](DeliveryInventoryAssignmentRequest.md)
 

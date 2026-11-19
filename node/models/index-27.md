@@ -1,7 +1,15 @@
 [Model index](../MODELS.md)
 
-# PaymentIntent to PaymentLinkSalesSummaryPreviousAttributes
+# PaymentCollectionStripe to PaymentLinkPaymentPatchRequestInput
 
+- [PaymentCollectionStripe](PaymentCollectionStripe.md)
+- [PaymentCollectionStripeElements](PaymentCollectionStripeElements.md)
+- [PaymentCollectionStripeElementsPreviousAttributes](PaymentCollectionStripeElementsPreviousAttributes.md)
+- [PaymentCollectionStripePreviousAttributes](PaymentCollectionStripePreviousAttributes.md)
+- [PaymentErrorSummary](PaymentErrorSummary.md)
+- [PaymentErrorSummaryPreviousAttributes](PaymentErrorSummaryPreviousAttributes.md)
+- [PaymentFulfillmentHold](PaymentFulfillmentHold.md)
+- [PaymentFulfillmentHoldPreviousAttributes](PaymentFulfillmentHoldPreviousAttributes.md)
 - [PaymentIntent](PaymentIntent.md)
 - [PaymentIntentActivity](PaymentIntentActivity.md)
 - [PaymentIntentActivityListResponse](PaymentIntentActivityListResponse.md)
@@ -94,12 +102,4 @@
 - [PaymentLinkPaymentConfigInput](PaymentLinkPaymentConfigInput.md)
 - [PaymentLinkPaymentPatchRequest](PaymentLinkPaymentPatchRequest.md)
 - [PaymentLinkPaymentPatchRequestInput](PaymentLinkPaymentPatchRequestInput.md)
-- [PaymentLinkProductOption](PaymentLinkProductOption.md)
-- [PaymentLinkProductOptionValue](PaymentLinkProductOptionValue.md)
-- [PaymentLinkRedirectsPatchRequest](PaymentLinkRedirectsPatchRequest.md)
-- [PaymentLinkRedirectsPatchRequestInput](PaymentLinkRedirectsPatchRequestInput.md)
-- [PaymentLinkResolvePrefillRequestInput](PaymentLinkResolvePrefillRequestInput.md)
-- [PaymentLinkResponse](PaymentLinkResponse.md)
-- [PaymentLinkSalesSummary](PaymentLinkSalesSummary.md)
-- [PaymentLinkSalesSummaryPreviousAttributes](PaymentLinkSalesSummaryPreviousAttributes.md)
 

@@ -4,13 +4,10 @@ import type { RequestOptions } from '../declarations/types-62.js';
 import type { SignedWebhookEndpointDelivery, SignedWebhookEndpointDeliveryResponse } from '../declarations/types-68.js';
 import type {
     WebhookDeliveryAction,
-    WebhookDeliveryActionResponse,
     WebhookEndpoint,
     WebhookEndpointListResponse,
     WebhookEndpointResponse,
-    WebhookEndpointWithSecret
-} from '../declarations/types-78.js';
-import type {
+    WebhookEndpointWithSecret,
     WebhookEndpointWithSecretResponse,
     WebhookEndpointsCreateParams,
     WebhookEndpointsCreateTestEventParams,
@@ -21,7 +18,7 @@ import type {
     WebhookEndpointsSignDeliveryParams,
     WebhookEndpointsUpdateParams
 } from '../declarations/types-79.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+import type { WebhookStreamTestEvent, WebhookTestEventResponse, _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -38,27 +35,23 @@ export type {
 } from '../runtime.js';
 export type {
     WebhookEndpointsCreateParams,
+    WebhookEndpointWithSecret,
     WebhookEndpointWithSecretResponse,
     WebhookEndpointsCreateTestEventParams,
+    WebhookDeliveryAction,
     WebhookEndpointsDeleteParams,
+    WebhookEndpoint,
+    WebhookEndpointResponse,
     WebhookEndpointsGetParams,
     WebhookEndpointsListParams,
+    WebhookEndpointListResponse,
     WebhookEndpointsRotateSecretParams,
     WebhookEndpointsSignDeliveryParams,
     WebhookEndpointsUpdateParams,
     WebhookSigningMethodInput
 } from '../declarations/types-79.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
-export type {
-    WebhookEndpointWithSecret,
-    WebhookDeliveryAction,
-    WebhookDeliveryActionResponse,
-    WebhookEndpoint,
-    WebhookEndpointResponse,
-    WebhookEndpointListResponse,
-    UpdateWebhookEndpointRequestInput
-} from '../declarations/types-78.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+export type { WebhookStreamTestEvent, WebhookTestEventResponse, _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type {
     SignedWebhookEndpointDelivery,
     SignedWebhookEndpointDeliveryResponse,
@@ -66,16 +59,18 @@ export type {
     SignWebhookEndpointDeliveryRequest
 } from '../declarations/types-68.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type { CreateWebhookEndpointRequestInput, Credentials, CreateWebhookTestEventRequestInput } from '../declarations/types-14.js';
+export type { CreateWebhookEndpointRequestInput } from '../declarations/types-14.js';
 export type { AuthMode } from '../declarations/types-1.js';
+export type { Credentials, CreateWebhookTestEventRequestInput } from '../declarations/types-15.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { RotateWebhookSecretRequestInput } from '../declarations/types-67.js';
+export type { UpdateWebhookEndpointRequestInput } from '../declarations/types-78.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
-export { makeCreateWebhookEndpointRequest, makeCreateWebhookTestEventRequest } from '../declarations/types-84.js';
+export { makeCreateWebhookEndpointRequest, makeCreateWebhookTestEventRequest } from '../declarations/types-85.js';
 export { makeMoneyValue } from '../declarations/types-88.js';
 export { makeRotateWebhookSecretRequest, makeSignWebhookEndpointDeliveryRequest } from '../declarations/types-92.js';
-export { makeUpdateWebhookEndpointRequest, makeWebhookSigningMethod } from '../declarations/types-94.js';
+export { makeUpdateWebhookEndpointRequest, makeWebhookSigningMethod } from '../declarations/types-95.js';
 export interface WebhookEndpointsResource {
     /**
  * Creates a webhook endpoint. signing_methods defaults to ["jwt"]. A shared secret is issued and
@@ -97,7 +92,9 @@ export interface WebhookEndpointsResource {
  */
     create(params: WebhookEndpointsCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<WebhookEndpointWithSecret, WebhookEndpointWithSecretResponse>>;
     /**
- * Creates and delivers a synthetic test webhook event to one active webhook endpoint. Safe to
+ * Creates a synthetic test webhook event for one active webhook endpoint. For an ordinary
+ * endpoint, returns the HTTP delivery attempt. For a flint listen endpoint, publishes to the
+ * webhook event stream and returns the event ID and delivery_method: listener_stream. Safe to
  * retry with the same idempotency key. Partner-source endpoints are global configuration. Changes
  * to them or their events and deliveries require a live-mode credential or a Dashboard session,
  * including test events and endpoints subscribed only to test installed-merchant events. Test
@@ -116,7 +113,7 @@ export interface WebhookEndpointsResource {
  * client.webhookEndpoints.createTestEvent("whep_01KEZF7C006FXYTAJRZCGCBJTN", {event_type:
  * "payment_intent.succeeded"}, { idempotencyKey: idempotencyKey })
  */
-    createTestEvent(webhook_endpoint_id: InputValue<string>, params: WebhookEndpointsCreateTestEventParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<WebhookDeliveryAction, WebhookDeliveryActionResponse>>;
+    createTestEvent(webhook_endpoint_id: InputValue<string>, params: WebhookEndpointsCreateTestEventParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<((WebhookDeliveryAction) | (WebhookStreamTestEvent) | (Record<string, unknown>)), WebhookTestEventResponse>>;
     /**
  * Permanently deletes the webhook endpoint and returns it with status deleted. Its pending
  * deliveries are suppressed. The endpoint cannot be retrieved afterward, and its past deliveries
@@ -206,10 +203,10 @@ export interface WebhookEndpointsResource {
  * signing must be enabled. Each call reauthorizes and creates a fresh five-minute bearer frame;
  * receivers deduplicate webhook-id. Limited to one request per 200 ms and 10,000 per UTC day per
  * endpoint, plus external-provider-action API quotas. The 200 ms throttle returns 429 with
- * Retry-After; daily exhaustion returns 409 LIMIT_REACHED with limit and resets_at and no
- * Retry-After. Signing fails closed if the shared quota store is unavailable. Responses are not
- * cached or retained for idempotency. Previously issued JWTs remain usable until expiry after
- * endpoint changes.
+ * Retry-After-Ms for the remaining delay in milliseconds and a whole-second Retry-After fallback;
+ * daily exhaustion returns 409 LIMIT_REACHED with limit and resets_at and no Retry-After. Signing
+ * fails closed if the shared quota store is unavailable. Responses are not cached or retained for
+ * idempotency. Previously issued JWTs remain usable until expiry after endpoint changes.
  *
  * `POST /v1/webhook-endpoints/{webhook_endpoint_id}/sign-delivery`
  * @param webhook_endpoint_id The caller's own merchant event-delivery endpoint in the selected

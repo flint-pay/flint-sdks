@@ -253,7 +253,7 @@ Rule comparison value. Use a primitive string, number, boolean, or a money objec
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `amount` | Conditional | integer string or null | Amount in the currency's minor unit, such as cents for USD. `amount`: [declared alternatives](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributesamount). |
-| `currency` | Conditional | string or null | ISO 4217 currency code for this amount. `currency`: [declared alternatives](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributescurrency). |
+| `currency` | Conditional | string or null | Three-letter uppercase ISO 4217 currency code for this amount, such as USD. `currency`: [declared alternatives](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributescurrency). |
 
 ### PromotionArchivedMerchantEventDataPreviousAttributes.application_method variant 1.discounted_item_rules variant 1.all variant 1.[] fields 1 variant 1.values variant 1.[] fields 1 variant 1
 

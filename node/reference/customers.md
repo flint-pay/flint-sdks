@@ -1086,7 +1086,7 @@ const result = await client.customers.listEmailChangeRequests("cus_01KEZF7C006X9
 
 ### customers.listTaxExemptions
 
-Returns the customer's exemption records ordered by created_at descending, then customer_tax_exemption_id descending. Archived records are excluded by default. Status may filter scheduled, active, expired and archived records, alone or together. Default order: created_at descending, then customer_tax_exemption_id descending.
+Returns the customer's exemption records ordered by created_at descending, then customer_tax_exemption_id descending. Archived records are excluded by default. Status may filter scheduled, active, expired and archived records, alone or together. A deleted customer has an empty list. Default order: created_at descending, then customer_tax_exemption_id descending.
 
 `GET /v1/customers/{customer_id}/tax-exemptions`
 

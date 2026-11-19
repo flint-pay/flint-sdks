@@ -1,7 +1,15 @@
 [Model index](../MODELS.md)
 
-# ReturnReceiptLineItemRequestInput to RiskRuleResponse
+# ReturnReceiptLineItemInputExcess to RiskPredicateNodeRequest
 
+- [ReturnReceiptLineItemInputExcess](ReturnReceiptLineItemInputExcess.md)
+- [ReturnReceiptLineItemInputExcessInput](ReturnReceiptLineItemInputExcessInput.md)
+- [ReturnReceiptLineItemInputMatched](ReturnReceiptLineItemInputMatched.md)
+- [ReturnReceiptLineItemInputMatchedInput](ReturnReceiptLineItemInputMatchedInput.md)
+- [ReturnReceiptLineItemInputUnverified](ReturnReceiptLineItemInputUnverified.md)
+- [ReturnReceiptLineItemInputUnverifiedInput](ReturnReceiptLineItemInputUnverifiedInput.md)
+- [ReturnReceiptLineItemPreviousAttributes](ReturnReceiptLineItemPreviousAttributes.md)
+- [ReturnReceiptLineItemRequest](ReturnReceiptLineItemRequest.md)
 - [ReturnReceiptLineItemRequestInput](ReturnReceiptLineItemRequestInput.md)
 - [ReturnReceiptPreviousAttributes](ReturnReceiptPreviousAttributes.md)
 - [ReturnReceiptSupersededInstalledMerchantsEvent](ReturnReceiptSupersededInstalledMerchantsEvent.md)
@@ -94,12 +102,4 @@
 - [RiskPredicateNodeNotRequest](RiskPredicateNodeNotRequest.md)
 - [RiskPredicateNodeNotRequestInput](RiskPredicateNodeNotRequestInput.md)
 - [RiskPredicateNodeRequest](RiskPredicateNodeRequest.md)
-- [RiskPredicateNodeRequestInput](RiskPredicateNodeRequestInput.md)
-- [RiskPreview](RiskPreview.md)
-- [RiskPreviewResponse](RiskPreviewResponse.md)
-- [RiskRule](RiskRule.md)
-- [RiskRuleAnalysis](RiskRuleAnalysis.md)
-- [RiskRuleIssue](RiskRuleIssue.md)
-- [RiskRuleListResponse](RiskRuleListResponse.md)
-- [RiskRuleResponse](RiskRuleResponse.md)
 

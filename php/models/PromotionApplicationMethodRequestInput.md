@@ -16,7 +16,7 @@ Request input.
 | `recurrence` | Optional | [PromotionRecurrenceRequestInput](../models/PromotionRecurrenceRequestInput.md#promotionrecurrencerequestinput) | Optional recurrence for subscription payments: once applies to the first charged payment, repeating applies for period_count charged payments, and forever applies to every payment. One-time orders apply the promotion once. How often a promotion's discount repeats on a subscription: once, for a number of charged payments, or forever. |
 | `type` | Required | string |  |
 | `amount_off_money` | Conditional | object | Positive fixed discount in the primary currency. allocation determines whether it applies to each matched item or once across the matched set. `amount_off_money`: [field definitions](../models/PromotionAmountOffMethodRequestInput.md#promotionamountoffmethodrequestinputamount_off_money). |
-| `currency_options` | Conditional | Map of object | Alternative positive fixed discounts, keyed by currency code. Each Money currency must match its key. `currency_options{}`: [field definitions](../models/PromotionAmountOffMethodRequestInput.md#promotionamountoffmethodrequestinputcurrency_options). |
+| `currency_options` | Conditional | Map of object | Alternative positive fixed discounts, keyed by currency code. Each Money currency must match its key. `currency_options{}`: [field definitions](../models/CreatePaymentLinkRequestInput.md#createpaymentlinkrequestinputdonation_suggested_amount_money_options). |
 | `buy_min_quantity` | Conditional | integer | Number of qualifying units needed for one application of a buy_x_get_y promotion. Whole-number quantity; fractional quantities are not supported. Format: `int32`. minimum: `1`. |
 | `get_percent_off` | Conditional | number | Percentage to discount from reward items, from 1 to 100. Use 100 to make the reward items free. minimum: `1`. maximum: `100`. multipleOf: `0.0001`. |
 | `get_quantity` | Conditional | integer | Maximum number of reward units discounted per application of a buy_x_get_y promotion. Whole-number quantity; fractional quantities are not supported. Format: `int32`. minimum: `1`. |
@@ -57,5 +57,5 @@ Field definitions: [PromotionAmountOffMethodRequestInput.amount_off_money](../mo
 
 ### PromotionApplicationMethodRequestInput variant 2.currency_options{}
 
-Field definitions: [PromotionAmountOffMethodRequestInput.currency_options{}](../models/PromotionAmountOffMethodRequestInput.md#promotionamountoffmethodrequestinputcurrency_options).
+Field definitions: [CreatePaymentLinkRequestInput.donation_suggested_amount_money_options[]](../models/CreatePaymentLinkRequestInput.md#createpaymentlinkrequestinputdonation_suggested_amount_money_options).
 

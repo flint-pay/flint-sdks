@@ -8,9 +8,9 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `email` | Optional | string or null | Email address the gift card is delivered to. `email`: [declared alternatives](../models/GiftCardPurchaseRecipientPreviousAttributes.md#giftcardpurchaserecipientpreviousattributesemail). |
+| `email` | Optional | string or null | Email address the gift card is delivered to. The local part before @ must be at most 64 octets (UTF-8 bytes). `email`: [declared alternatives](../models/GiftCardPurchaseRecipientPreviousAttributes.md#giftcardpurchaserecipientpreviousattributesemail). |
 | `message` | Optional | string or null | Personal message included with the gift card. `message`: [declared alternatives](../models/GiftCardPurchaseRecipientPreviousAttributes.md#giftcardpurchaserecipientpreviousattributesmessage). |
-| `name` | Optional | string or null | Name of the person receiving the gift card. `name`: [declared alternatives](../models/GiftCardPurchaseRecipientPreviousAttributes.md#giftcardpurchaserecipientpreviousattributesname). |
+| `name` | Optional | string or null | Name of the person receiving the gift card. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. `name`: [declared alternatives](../models/GiftCardPurchaseRecipientPreviousAttributes.md#giftcardpurchaserecipientpreviousattributesname). |
 | `send_at` | Optional | string or null | Optional send time between now and 90 days from now. Omission requests immediate recipient notification after funding. `send_at`: [declared alternatives](../models/GiftCardPurchaseRecipientPreviousAttributes.md#giftcardpurchaserecipientpreviousattributessend_at). |
 | `sender_name` | Optional | string or null | Name to show as the sender in the gift card email, when provided. `sender_name`: [declared alternatives](../models/GiftCardPurchaseRecipientPreviousAttributes.md#giftcardpurchaserecipientpreviousattributessender_name). |
 
@@ -18,15 +18,15 @@ Response model.
 
 ### GiftCardPurchaseRecipientPreviousAttributes.email variant 1
 
-anyOf variant 1: Email address the gift card is delivered to..
+anyOf variant 1: Email address the gift card is delivered to. The local part before @ must be at most 64 octets (UTF-8 bytes)..
 
-- Value shape: string. Email address the gift card is delivered to. Email address the gift card is delivered to. Format: `email`. minLength: `1`. maxLength: `254`. 
+- Value shape: string. Email address the gift card is delivered to. The local part before @ must be at most 64 octets (UTF-8 bytes). Email address the gift card is delivered to. The local part before @ must be at most 64 octets (UTF-8 bytes). Format: `email`. minLength: `1`. maxLength: `254`. 
 
 ### GiftCardPurchaseRecipientPreviousAttributes.email variant 2
 
 anyOf variant 2.
 
-- Value shape: null. Email address the gift card is delivered to. 
+- Value shape: null. Email address the gift card is delivered to. The local part before @ must be at most 64 octets (UTF-8 bytes). 
 
 ### GiftCardPurchaseRecipientPreviousAttributes.message
 
@@ -46,15 +46,15 @@ anyOf variant 2.
 
 ### GiftCardPurchaseRecipientPreviousAttributes.name variant 1
 
-anyOf variant 1: Name of the person receiving the gift card..
+anyOf variant 1: Name of the person receiving the gift card. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported..
 
-- Value shape: string. Name of the person receiving the gift card. Name of the person receiving the gift card. maxLength: `255`. 
+- Value shape: string. Name of the person receiving the gift card. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. Name of the person receiving the gift card. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. maxLength: `255`. 
 
 ### GiftCardPurchaseRecipientPreviousAttributes.name variant 2
 
 anyOf variant 2.
 
-- Value shape: null. Name of the person receiving the gift card. 
+- Value shape: null. Name of the person receiving the gift card. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. 
 
 ### GiftCardPurchaseRecipientPreviousAttributes.send_at
 

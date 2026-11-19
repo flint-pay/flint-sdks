@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read string|null $blocked_since
  * @property-read string $capability
  * @property-read string $domain
  * @property-read list<ReadinessAction> $next_actions
@@ -10,8 +11,13 @@ namespace Flint;
  * @property-read ?string $status_reason
  * Presence-aware response; omitted optional fields return null. */
 final class CapabilityReadiness extends Model {
-    /** @param array{'capability': string, 'domain': string, 'next_actions': list<mixed>, 'requirements': mixed, 'status': string, 'status_reason'?: string, ...}|object $values */
+    /** @param array{'blocked_since'?: string|null, 'capability': string, 'domain': string, 'next_actions': list<mixed>, 'requirements': mixed, 'status': string, 'status_reason'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CapabilityReadiness')); }
+    /** Start of the current continuous blocked period, as an RFC 3339 UTC timestamp. A change to the reason preserves the start. Flint may treat a brief unblock that it didn't publish as part of the same blocked period. Omitted when the status is not blocked or the start is unknown. Format: date-time.
+     * @return string|null
+     */
+    public function getBlockedSince(): string|null { return $this->get('blocked_since'); }
+    public function hasBlockedSince(): bool { return $this->has('blocked_since'); }
     /** Flint-owned capability name. Payment capabilities describe transaction acceptance readiness; money movement capabilities describe payout and balance movement readiness. Value enum: "accept_card_payments", "save_payment_methods", "accept_affirm_payments", "accept_ach_debit_payments", "receive_payouts", "create_standard_payouts", "manage_payout_destinations", "manage_payout_settings".
      * @return string
      */

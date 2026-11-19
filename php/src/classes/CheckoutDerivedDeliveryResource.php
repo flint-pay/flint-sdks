@@ -9,10 +9,11 @@ namespace Flint;
  * @property-read string $evaluation_status
  * @property-read ?string $expires_at
  * @property-read list<DeliveryInputRequirement> $input_requirements
+ * @property-read ?bool $inventory_unavailable
  * @property-read ?list<DeliveryMerchantDiagnostic> $merchant_diagnostics
  * Presence-aware response; omitted optional fields return null. */
 final class CheckoutDerivedDeliveryResource extends Model {
-    /** @param array{'buyer_reasons': list<string>, 'choice_groups': list<mixed>, 'delivery_quote_id'?: string, 'delivery_selection_id': string|null, 'evaluation_status': string, 'expires_at'?: string, 'input_requirements': list<mixed>, 'merchant_diagnostics'?: list<mixed>, ...}|object $values */
+    /** @param array{'buyer_reasons': list<string>, 'choice_groups': list<mixed>, 'delivery_quote_id'?: string, 'delivery_selection_id': string|null, 'evaluation_status': string, 'expires_at'?: string, 'input_requirements': list<mixed>, 'inventory_unavailable'?: bool, 'merchant_diagnostics'?: list<mixed>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutDerivedDeliveryResource')); }
     /** Buyer-safe reasons a choice group has no available option. Groups with an available option contribute no reasons. [] (Value): string.
      * @return list<string>
@@ -49,6 +50,11 @@ final class CheckoutDerivedDeliveryResource extends Model {
      */
     public function getInputRequirements(): array { return $this->get('input_requirements'); }
     public function hasInputRequirements(): bool { return $this->has('input_requirements'); }
+    /** True when a required delivery group has no option and a candidate lacks the requested stock.
+     * @return ?bool
+     */
+    public function getInventoryUnavailable(): ?bool { return $this->get('inventory_unavailable'); }
+    public function hasInventoryUnavailable(): bool { return $this->has('inventory_unavailable'); }
     /** Always present with an API key or dashboard credential. [] (Value): {@see DeliveryMerchantDiagnostic}. A merchant-only diagnostic explaining why a delivery method produced no option, with its outcome, recommended action, and eligibility mismatches.
      * @return ?list<DeliveryMerchantDiagnostic>
      */

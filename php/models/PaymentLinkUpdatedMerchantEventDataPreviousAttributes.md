@@ -18,7 +18,7 @@ Response model.
 | `description` | Optional | string or null | Text about what the link sells, returned to buyers when they open it. `description`: [declared alternatives](../models/ExpandedPaymentLinkSummaryPreviousAttributes.md#expandedpaymentlinksummarypreviousattributesdescription). |
 | `donation_max_amount_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Largest amount a buyer can give on a donation link. Must be greater than zero and greater than or equal to donation_min_amount_money. Omit on create for no maximum. |
 | `donation_min_amount_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Smallest amount a buyer can give on a donation link. |
-| `donation_suggested_amount_money_options` | Optional | Array of [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Amounts a donation link offers as one-tap choices. `donation_suggested_amount_money_options`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesdonation_suggested_amount_money_options). |
+| `donation_suggested_amount_money_options` | Optional | Array of [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Amounts a donation link offers as one-tap choices. Use the same currency for all suggested amounts and both bounds. `donation_suggested_amount_money_options`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesdonation_suggested_amount_money_options). |
 | `event_config` | Optional | [PaymentLinkEventConfigPreviousAttributes](../models/PaymentLinkEventConfigPreviousAttributes.md#paymentlinkeventconfigpreviousattributes) or null | Event details for an `event` link: when and where it takes place and how many tickets it sells. `event_config`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesevent_config). |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. `external_reference_id`: [declared alternatives](../models/TaxCalculationCallbackActivatedEvent.md#taxcalculationcallbackactivatedeventdata-fields-1previous_attributesexternal_reference_id). |
 | `image` | Optional | [ImageAttachmentPreviousAttributes](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributes) or null | Image shown to buyers with the link. `image`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesimage). |
@@ -167,15 +167,15 @@ Declared alternatives: [ExpandedPaymentLinkSummaryPreviousAttributes.description
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.donation_suggested_amount_money_options variant 1
 
-anyOf variant 1: Amounts a donation link offers as one-tap choices..
+anyOf variant 1: Amounts a donation link offers as one-tap choices. Use the same currency for all suggested amounts and both bounds..
 
-- Value shape: Array of [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes). Amounts a donation link offers as one-tap choices. 
+- Value shape: Array of [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes). Amounts a donation link offers as one-tap choices. Use the same currency for all suggested amounts and both bounds. 
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.donation_suggested_amount_money_options variant 2
 
 anyOf variant 2.
 
-- Value shape: null. Amounts a donation link offers as one-tap choices. 
+- Value shape: null. Amounts a donation link offers as one-tap choices. Use the same currency for all suggested amounts and both bounds. 
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.event_config
 
@@ -368,7 +368,7 @@ anyOf variant 2.
 | `resolved_name` | Optional | string or null | Current catalog name of the referenced variant or bundle, or the product name for variant_ids lines. A variant reads as the product name, plus the variant name when the variant is a named option combination. This is the catalog value at read time, not a stored snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line items and when the catalog object no longer exists. `resolved_name`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesline_items-variant-1-fields-1resolved_name). |
 | `resolved_price_range` | Optional | [ProductPriceRangePreviousAttributes](../models/ProductPriceRangePreviousAttributes.md#productpricerangepreviousattributes) or null | Current lowest and highest catalog unit prices among listed variants that can be sold in the line currency. Computed at read time, not stored. Omitted when no listed variant can be sold. |
 | `resolved_unit_price_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Current catalog unit price of the referenced variant or bundle. For a fixed variant this is the base price that applies below the first quantity price break. This is the catalog value at read time, not a stored snapshot: checkout resolves the price again when a buyer opens the link, so the amount a buyer pays can differ. Absent on ad-hoc line items, variant_ids lines, and when the catalog object no longer exists. |
-| `suggested_unit_price_money_options` | Optional | Array of [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Unit prices offered as one-tap choices when the buyer sets the price. `suggested_unit_price_money_options`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesline_items-variant-1-fields-1suggested_unit_price_money_options). |
+| `suggested_unit_price_money_options` | Optional | Array of [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Unit prices offered as one-tap choices when the buyer sets the price. Use the same currency for the price, bounds, and suggested prices. `suggested_unit_price_money_options`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesline_items-variant-1-fields-1suggested_unit_price_money_options). |
 | `tax` | Optional | Alternative shapes (see declared variants) | Tax settings for an ad hoc line item. Catalog lines use the catalog's. `tax`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesline_items-variant-1-fields-1tax). |
 | `type` | Optional | (string or null) | How the line item is defined. Values: `"variant"`, `"bundle"`, `"custom_fixed"`, `"custom_variable"`. `type`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesline_items-variant-1-fields-1-variant-1type), [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesline_items-variant-1-fields-1-variant-3type), [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesline_items-variant-1-fields-1-variant-4type), [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesline_items-variant-1-fields-1-variant-5type). |
 | `unit_price_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Price of one unit of a `custom_fixed` line item. |
@@ -629,15 +629,15 @@ anyOf variant 2.
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.line_items variant 1.[] fields 1.suggested_unit_price_money_options variant 1
 
-anyOf variant 1: Unit prices offered as one-tap choices when the buyer sets the price..
+anyOf variant 1: Unit prices offered as one-tap choices when the buyer sets the price. Use the same currency for the price, bounds, and suggested prices..
 
-- Value shape: Array of [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes). Unit prices offered as one-tap choices when the buyer sets the price. 
+- Value shape: Array of [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes). Unit prices offered as one-tap choices when the buyer sets the price. Use the same currency for the price, bounds, and suggested prices. 
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.line_items variant 1.[] fields 1.suggested_unit_price_money_options variant 2
 
 anyOf variant 2.
 
-- Value shape: null. Unit prices offered as one-tap choices when the buyer sets the price. 
+- Value shape: null. Unit prices offered as one-tap choices when the buyer sets the price. Use the same currency for the price, bounds, and suggested prices. 
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.line_items variant 1.[] fields 1.tax
 

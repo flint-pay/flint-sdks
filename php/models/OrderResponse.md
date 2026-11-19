@@ -25,6 +25,7 @@ Resource, collection, or operation result returned by this request. A customer's
 | `buyer_contact` | Optional | [CheckoutBuyerContact](../models/CheckoutBuyerContact.md#checkoutbuyercontact) | Email and phone saved when payment started, from the pay request's buyer_contact or the paying checkout session's saved contact. It does not change the linked customer. Buyer contact supplied with payment or saved during checkout. `buyer_contact`: [field definitions](../models/OrderResponse.md#orderresponsedatabuyer_contact). |
 | `buyer_note` | Optional | string | A note to the buyer. |
 | `charges` | Required | Array of [OrderCharge](../models/OrderCharge.md#ordercharge) | Charges added to the order, such as delivery or service fees, each with its applied amount, tax, and refunded amount. `charges[]`: [field definitions](../models/OrderResponse.md#orderresponsedatacharges). |
+| `checkout_billing_contact` | Optional | [CheckoutBillingContact](../models/CheckoutBillingContact.md#checkoutbillingcontact) | Billing name and address collected in Checkout for a successful payment. Omitted for buyer credentials and when Checkout did not collect the details. `checkout_billing_contact`: [field definitions](../models/OrderResponse.md#orderresponsedatacheckout_billing_contact). |
 | `checkout_session_ids` | Required | Array of string | IDs of the checkout sessions opened for this order. Items: Example: `"cs_01KEZF7C004JRWFW43H037MQRN"`. |
 | `client_reference` | Optional | string or null | The reference the payment link URL or resolve request carried, such as your user ID. `null` when none was sent or checkout did not start from a payment link. Returned only to merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity. Always present with merchant credentials. minLength: `1`. maxLength: `255`. |
 | `closed_at` | Optional | string | When the order closed. Present exactly when status is closed. Set once at the transition and never changed. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
@@ -65,7 +66,7 @@ Resource, collection, or operation result returned by this request. A customer's
 | `payment_collection` | Optional | [PaymentCollection](../models/PaymentCollection.md#paymentcollection) | Payment options and collection instructions for the order's outstanding balance. Omitted when collection is unavailable to this caller. Client-side details for collecting payment from the buyer, such as the Stripe settings to initialize Stripe.js. |
 | `payment_intent_ids` | Required | Array of string | IDs of the payment intents created to collect this order. Items: Example: `"pi_01KEZF7C00G8H9D509YEV22P7R"`. |
 | `payment_intents` | Optional | Array of [ExpandedPaymentIntentSummary](../models/ExpandedPaymentIntentSummary.md#expandedpaymentintentsummary) | Payment intents included when `expand` names `payment_intents`. `payment_intents[]`: [field definitions](../models/OrderResponse.md#orderresponsedatapayment_intents). |
-| `payment_link_id` | Optional | string | Payment link whose checkout created this order. Absent for orders that did not come from a payment link. Filter GET /v1/orders by payment_link_id to list a link's orders. Example: `"pl_01KEZF7C007WDMA5P9BPZ8J2AM"`. |
+| `payment_link_id` | Optional | string | Payment link that created this order or started the subscription it renews. Absent for other orders. Filter GET /v1/orders by payment_link_id to list a link's orders. Example: `"pl_01KEZF7C007WDMA5P9BPZ8J2AM"`. |
 | `payment_status` | Required | string | Collection progress. An invoice write-off also completes collection without receiving the written-off amount. Values: `"unpaid"`, `"partially_paid"`, `"paid"`. |
 | `pending_order_edit_id` | Optional | string or null | The order edit waiting for its balance payment. While it is set, the units that edit removes can't join a fulfillment and the order refuses another edit. `null` when there is none. Omitted for buyer credentials. Always present with merchant credentials. Example: `"oed_01KEZF7C00A6BQ4TBGWFDJ944A"`. |
 | `prepayment_order_id` | Required | string or null | Order that paid for this prepaid delivery. Null when this is not a prepaid delivery order. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
@@ -308,6 +309,40 @@ An additional charge applied to an order.
 ### OrderResponse.data.charges[].metadata
 
 Value shape: Map of string. Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. 
+
+### OrderResponse.data.checkout_billing_contact
+
+Billing name and address collected in Checkout for a successful payment. Omitted for buyer credentials and when Checkout did not collect the details.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `address` | Required | [Address](../models/Address.md#address) or null | `address`: [declared alternatives](../models/OrderResponse.md#orderresponsedatacheckout_billing_contactaddress). |
+| `name` | Required | string |  |
+
+### OrderResponse.data.checkout_billing_contact.address
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `city` | Conditional | string | City or locality of the address. |
+| `country` | Conditional | string | ISO 3166-1 alpha-2 country code. minLength: `2`. maxLength: `2`. pattern: `^[A-Z]{2}$`. Example: `"US"`. |
+| `line1` | Conditional | string | Street address, including the building number. |
+| `line2` | Conditional | string | Apartment, suite, floor, or other address details. |
+| `postal_code` | Conditional | string | Postal or ZIP code of the address. |
+| `state` | Conditional | string | State, province, or region of the address. |
+
+### OrderResponse.data.checkout_billing_contact.address variant 1
+
+anyOf Address: A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country..
+
+- Required: `country`.
+- Optional: `city`, `line1`, `line2`, `postal_code`, `state`.
+
+### OrderResponse.data.checkout_billing_contact.address variant 2
+
+anyOf variant 2.
+
+- Undeclared: `city`, `country`, `line1`, `line2`, `postal_code`, `state`.
+- Value shape: null.  
 
 ### OrderResponse.data.custom_field_answers[]
 

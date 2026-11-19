@@ -1,7 +1,14 @@
 [Model index](../MODELS.md)
 
-# LicenseKeyPoolArchivedInstalledMerchantsEvent to MerchantBillingInvoiceIssuedEvent
+# LicenseKeyDisabledMerchantEvent to MerchantBillingBalance
 
+- [LicenseKeyDisabledMerchantEvent](LicenseKeyDisabledMerchantEvent.md)
+- [LicenseKeyExpiredInstalledMerchantsEvent](LicenseKeyExpiredInstalledMerchantsEvent.md)
+- [LicenseKeyExpiredMerchantEvent](LicenseKeyExpiredMerchantEvent.md)
+- [LicenseKeyListResponse](LicenseKeyListResponse.md)
+- [LicenseKeyPool](LicenseKeyPool.md)
+- [LicenseKeyPoolAdditions](LicenseKeyPoolAdditions.md)
+- [LicenseKeyPoolAdditionsResponse](LicenseKeyPoolAdditionsResponse.md)
 - [LicenseKeyPoolArchivedInstalledMerchantsEvent](LicenseKeyPoolArchivedInstalledMerchantsEvent.md)
 - [LicenseKeyPoolArchivedMerchantEvent](LicenseKeyPoolArchivedMerchantEvent.md)
 - [LicenseKeyPoolCreatedInstalledMerchantsEvent](LicenseKeyPoolCreatedInstalledMerchantsEvent.md)
@@ -95,11 +102,4 @@
 - [MerchantAccountSessionStripeComponent](MerchantAccountSessionStripeComponent.md)
 - [MerchantAccountSessionStripeRequirements](MerchantAccountSessionStripeRequirements.md)
 - [MerchantBillingBalance](MerchantBillingBalance.md)
-- [MerchantBillingBalanceListResponse](MerchantBillingBalanceListResponse.md)
-- [MerchantBillingBalanceResponse](MerchantBillingBalanceResponse.md)
-- [MerchantBillingBalanceUpdatedEvent](MerchantBillingBalanceUpdatedEvent.md)
-- [MerchantBillingEntry](MerchantBillingEntry.md)
-- [MerchantBillingEntryListResponse](MerchantBillingEntryListResponse.md)
-- [MerchantBillingInvoice](MerchantBillingInvoice.md)
-- [MerchantBillingInvoiceIssuedEvent](MerchantBillingInvoiceIssuedEvent.md)
 

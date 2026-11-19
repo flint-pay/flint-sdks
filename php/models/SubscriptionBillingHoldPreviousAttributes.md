@@ -9,7 +9,7 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `detected_at` | Optional | string or null | When Flint first detected this billing hold. `detected_at`: [declared alternatives](../models/SubscriptionBillingHoldPreviousAttributes.md#subscriptionbillingholdpreviousattributesdetected_at). |
-| `reason` | Optional | string or null | Why subscription billing cannot proceed. Treat unrecognized values as other. Values: `"configuration"`, `"retrying"`, `"other"`. `reason`: [declared alternatives](../models/SubscriptionBillingHoldPreviousAttributes.md#subscriptionbillingholdpreviousattributesreason). |
+| `reason` | Optional | string or null | Why subscription billing cannot proceed. Treat unrecognized values as other. Values: `"configuration"`, `"retrying"`, `"platform_review"`, `"flint_restriction"`, `"other"`. `reason`: [declared alternatives](../models/SubscriptionBillingHoldPreviousAttributes.md#subscriptionbillingholdpreviousattributesreason). |
 | `retry_at` | Optional | string or null | When Flint next plans to retry a temporary billing issue, when scheduled. This is not a card decline retry. `retry_at`: [declared alternatives](../models/SubscriptionBillingHoldPreviousAttributes.md#subscriptionbillingholdpreviousattributesretry_at). |
 
 ### SubscriptionBillingHoldPreviousAttributes.detected_at
@@ -32,7 +32,7 @@ anyOf variant 2.
 
 anyOf variant 1: Why subscription billing cannot proceed. Treat unrecognized values as other..
 
-- Value shape: string. Why subscription billing cannot proceed. Treat unrecognized values as other. Values: `"configuration"`, `"retrying"`, `"other"`.
+- Value shape: string. Why subscription billing cannot proceed. Treat unrecognized values as other. Values: `"configuration"`, `"retrying"`, `"platform_review"`, `"flint_restriction"`, `"other"`.
 
 ### SubscriptionBillingHoldPreviousAttributes.reason variant 2
 

@@ -1,7 +1,14 @@
 [Model index](../MODELS.md)
 
-# ImageAttachment to InventoryReservationHoldExpiredInstalledMerchantsEvent
+# GiftCardUpdatedMerchantEvent to InventoryReservationClosedMerchantEvent
 
+- [GiftCardUpdatedMerchantEvent](GiftCardUpdatedMerchantEvent.md)
+- [GiftCardVersionRequestInput](GiftCardVersionRequestInput.md)
+- [GuestPurchaseLink](GuestPurchaseLink.md)
+- [GuestPurchaseLinkResponse](GuestPurchaseLinkResponse.md)
+- [HoldFulfillmentRequest](HoldFulfillmentRequest.md)
+- [HoldFulfillmentRequestInput](HoldFulfillmentRequestInput.md)
+- [Image](Image.md)
 - [ImageAttachment](ImageAttachment.md)
 - [ImageAttachmentPreviousAttributes](ImageAttachmentPreviousAttributes.md)
 - [ImageInputFile](ImageInputFile.md)
@@ -95,11 +102,4 @@
 - [InventoryReservationAtRiskMerchantEvent](InventoryReservationAtRiskMerchantEvent.md)
 - [InventoryReservationClosedInstalledMerchantsEvent](InventoryReservationClosedInstalledMerchantsEvent.md)
 - [InventoryReservationClosedMerchantEvent](InventoryReservationClosedMerchantEvent.md)
-- [InventoryReservationCommittedInstalledMerchantsEvent](InventoryReservationCommittedInstalledMerchantsEvent.md)
-- [InventoryReservationCommittedMerchantEvent](InventoryReservationCommittedMerchantEvent.md)
-- [InventoryReservationConsumedInstalledMerchantsEvent](InventoryReservationConsumedInstalledMerchantsEvent.md)
-- [InventoryReservationConsumedMerchantEvent](InventoryReservationConsumedMerchantEvent.md)
-- [InventoryReservationCreatedInstalledMerchantsEvent](InventoryReservationCreatedInstalledMerchantsEvent.md)
-- [InventoryReservationCreatedMerchantEvent](InventoryReservationCreatedMerchantEvent.md)
-- [InventoryReservationHoldExpiredInstalledMerchantsEvent](InventoryReservationHoldExpiredInstalledMerchantsEvent.md)
 

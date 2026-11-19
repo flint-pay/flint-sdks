@@ -96,7 +96,7 @@ final class PaymentLinkUpdatedMerchantEventDataObject extends Model {
      */
     public function getDonationMinAmountMoney(): ?MoneyValue { return $this->get('donation_min_amount_money'); }
     public function hasDonationMinAmountMoney(): bool { return $this->has('donation_min_amount_money'); }
-    /** Amounts a donation link offers as one-tap choices. [] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Amounts a donation link offers as one-tap choices. Use the same currency for all suggested amounts and both bounds. [] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?list<MoneyValue>
      */
     public function getDonationSuggestedAmountMoneyOptions(): ?array { return $this->get('donation_suggested_amount_money_options'); }

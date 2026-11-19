@@ -45,12 +45,13 @@ export type {
     CreateAPIKeyRequestInput,
     CreateAPIKeyRequestFullInput,
     CreateAPIKeyRequestReadOnlyInput,
-    CreateAPIKeyRequestRestrictedInput
+    CreateAPIKeyRequestRestrictedInput,
+    ConfigurationVersionRequestInput
 } from '../declarations/types-8.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
-export type { ClientOptions, ConfigurationVersionRequestInput } from '../declarations/types-7.js';
+export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { UpdateAPIKeyRequestInput } from '../declarations/types-75.js';

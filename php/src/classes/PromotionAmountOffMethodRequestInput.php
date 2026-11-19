@@ -19,7 +19,7 @@ final class PromotionAmountOffMethodRequestInput extends Model {
      */
     public function getAllocation(): string { return $this->get('allocation'); }
     public function hasAllocation(): bool { return $this->has('allocation'); }
-    /** Positive fixed discount in the primary currency. allocation determines whether it applies to each matched item or once across the matched set. amount (Required): integer string. Positive amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1. currency (Required): string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+    /** Positive fixed discount in the primary currency. allocation determines whether it applies to each matched item or once across the matched set. amount (Required): integer string. Positive amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1. currency (Required): string. Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
      * @return array{'amount': string, 'currency': string}|object
      * @throws SdkError When amount_off_money is omitted; use hasAmountOffMoney() or valueOrDefault().
      */
@@ -31,7 +31,7 @@ final class PromotionAmountOffMethodRequestInput extends Model {
      */
     public function getCalculationBasis(): string { return $this->get('calculation_basis'); }
     public function hasCalculationBasis(): bool { return $this->has('calculation_basis'); }
-    /** Alternative positive fixed discounts, keyed by currency code. Each Money currency must match its key. * (Value): object. *.amount (Required): integer string. Positive amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1. *.currency (Required): string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+    /** Alternative positive fixed discounts, keyed by currency code. Each Money currency must match its key. * (Value): object. *.amount (Required): integer string. Positive amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1. *.currency (Required): string. Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
      * @return array<array-key, array{'amount': string, 'currency': string}|object>|\stdClass
      * @throws SdkError When currency_options is omitted; use hasCurrencyOptions() or valueOrDefault().
      */

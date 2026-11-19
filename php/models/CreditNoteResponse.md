@@ -71,7 +71,7 @@ anyOf variant 2.
 
 The merchant's registered business address, printed on invoices and credit notes. `null` when no address is set.
 
-Field definitions: [shared fields](SubscriptionResponse.md#subscriptionresponsedatadeliverydestinationaddress).
+Field definitions: [shared fields](OrderResponse.md#orderresponsedatacheckout_billing_contactaddress).
 
 ### CreditNoteResponse.data.buyer_tax_identity variant 1.registered_address variant 1
 

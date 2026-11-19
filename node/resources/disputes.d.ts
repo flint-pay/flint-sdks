@@ -1,7 +1,8 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { Dispute, DisputeListResponse, DisputeResponse } from '../declarations/types-25.js';
+import type { Dispute, DisputeListResponse } from '../declarations/types-25.js';
 import type {
+    DisputeResponse,
     DisputeResponseSession,
     DisputeResponseSessionResponse,
     DisputesAcceptParams,
@@ -28,6 +29,7 @@ export type {
 } from '../runtime.js';
 export type {
     DisputesAcceptParams,
+    DisputeResponse,
     DisputesCreateResponseSessionParams,
     DisputeResponseSession,
     DisputeResponseSessionResponse,
@@ -43,11 +45,11 @@ export type {
     DisputeResponseSessionStripeComponent
 } from '../declarations/types-26.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
-export type { Dispute, DisputeResponse, DisputeListResponse } from '../declarations/types-25.js';
+export type { Dispute, DisputeListResponse } from '../declarations/types-25.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { CheckoutBuyerContact } from '../declarations/types-6.js';
 export type { DeferredPromotion } from '../declarations/types-17.js';

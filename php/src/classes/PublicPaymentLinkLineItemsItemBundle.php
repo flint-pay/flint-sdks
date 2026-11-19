@@ -144,7 +144,7 @@ final class PublicPaymentLinkLineItemsItemBundle extends Model {
      */
     public function getResolvedUnitPriceMoney(): ?PublicPaymentLinkLineItemsItemBundleResolvedUnitPriceMoney { return $this->get('resolved_unit_price_money'); }
     public function hasResolvedUnitPriceMoney(): bool { return $this->has('resolved_unit_price_money'); }
-    /** Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@see PublicPaymentLinkLineItemsItemBundleSuggestedUnitPriceMoneyOptionsItem}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Unit prices offered as one-tap choices when the buyer sets the price. Use the same currency for the price, bounds, and suggested prices. [] (Value): {@see PublicPaymentLinkLineItemsItemBundleSuggestedUnitPriceMoneyOptionsItem}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?list<PublicPaymentLinkLineItemsItemBundleSuggestedUnitPriceMoneyOptionsItem>
      */
     public function getSuggestedUnitPriceMoneyOptions(): ?array { return $this->get('suggested_unit_price_money_options'); }

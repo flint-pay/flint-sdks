@@ -1,4 +1,12 @@
 import type {
+    InventoryRoutingSourceInputFixedLocationInput,
+    InventoryRoutingSourceInputPolicyInput,
+    InventoryRoutingSourceInputPolicyRevisionInput,
+    InventoryRoutingSource,
+    InventoryRoutingSourceRequest
+} from './types-33.js';
+import type { InventoryOriginPolicy, InventoryOriginPolicyRequestInput, InventoryLevel } from './types-32.js';
+import type {
     ErrorDetail,
     ErrorObject,
     DisputesAcceptParams,
@@ -10,7 +18,6 @@ import type {
 import type { ResourceType, ResponseMeta } from './types-62.js';
 import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
-import type { InventoryLevel } from './types-32.js';
 import type { InputValue } from '../runtime.js';
 import type { CancelInventoryTransferRequestInput } from './types-5.js';
 import type { CreateInventoryTransferRequestInput } from './types-10.js';
@@ -25,11 +32,11 @@ import type {
     InvoicePaymentDue,
     InvoicePaymentPolicy,
     InvoicePaymentPolicyPreviousAttributes,
-    InvoicePaymentDuePreviousAttributes,
-    InvoicePaymentPolicyRequestInput
+    InvoicePaymentDuePreviousAttributes
 } from './types-36.js';
-import type { InvoicePaymentTermsSnapshot, InvoiceScheduleEntry, InvoicePaymentTermsSnapshotPreviousAttributes } from './types-37.js';
+import type { InvoicePaymentTermsSnapshot, InvoicePaymentTermsSnapshotPreviousAttributes } from './types-37.js';
 import type {
+    InvoiceScheduleEntry,
     InvoiceSettlementAmounts,
     InvoiceSnapshot,
     InvoiceScheduleEntryPreviousAttributes,
@@ -39,6 +46,182 @@ import type {
 import type { PricingAmounts, PricingAmountsPreviousAttributes } from './types-56.js';
 import type { MoneyValue } from './types-44.js';
 import type { WebhookInvoice } from './types-79.js';
+/**
+ * Where you want inventory routed from: a fixed Location, an inventory allocation policy, or one
+ * policy revision, selected by `type`.
+ */
+export type InventoryRoutingSourceRequestInput = ((InventoryRoutingSourceInputFixedLocationInput)
+    | (InventoryRoutingSourceInputPolicyInput)
+    | (InventoryRoutingSourceInputPolicyRevisionInput));
+/**
+ * Inventory settings: the `low_stock_threshold`, how inventory failures are handled for each order
+ * source, and the `default_routing_source` for requests that omit one.
+ */
+export type InventorySettings = {
+    /**
+     * Where tracked demand is routed when a request omits `inventory_routing_source`: a fixed
+     * Location, an allocation policy, or one policy revision. It applies to orders, line items
+     * added to orders, quick pay invoices, payment links, subscription plans, inventory
+     * reservations, and delivery previews. The request stores the resolved source on the resource
+     * it creates or changes, as if the caller had sent it, so changing or clearing this default
+     * never moves routing for existing orders, payment links, plans, or reservations. A source the
+     * request sends always wins. `null` when no default is set. Orders, payment links, and
+     * subscription plans then use the only active Location with inventory_allocation_enabled when
+     * exactly one exists in the current environment. Links and plans do not store this implicit
+     * source; it is resolved again when their demand is evaluated. With zero or multiple eligible
+     * Locations, tracked demand still requires a source. anyOf[1] (Value): {@link
+     * InventoryRoutingSource}. Where an order, payment link, or reservation routes inventory from:
+     * a fixed Location, an inventory allocation policy, or one policy revision. anyOf[2] (Value):
+     * null.
+     */
+    "default_routing_source"?: ((InventoryRoutingSource) | (null));
+    /**
+     * Available quantity your team treats as low stock, zero or greater. The Dashboard shows this
+     * setting. It does not change allocation, filter API results, or send events. Format: int32.
+     * minimum: 0.
+     */
+    "low_stock_threshold"?: number;
+    /**
+     * Inventory failure handling keyed by order source: checkout, payment_link, api, subscription,
+     * virtual_terminal, or default. The source-specific entry wins; default applies to the rest. *
+     * (Value): {@link InventoryOriginPolicy}. How Flint handles inventory failures for one order
+     * source: the action after a post-payment inventory failure and for a blocked subscription.
+     */
+    "origin_policies"?: Record<string, InventoryOriginPolicy>;
+};
+/**
+ * Inventory settings to change: the `low_stock_threshold`, how inventory failures are handled for
+ * each order source, and the `default_routing_source` for requests that omit one.
+ */
+export type InventorySettingsRequest = {
+    /**
+     * Where tracked demand is routed when a request omits `inventory_routing_source`: a fixed
+     * Location, an allocation policy, or one policy revision. It applies to orders, line items
+     * added to orders, quick pay invoices, payment links, subscription plans, inventory
+     * reservations, and delivery previews. The request stores the resolved source on the resource
+     * it creates or changes, as if the caller had sent it, so changing or clearing this default
+     * never moves routing for existing orders, payment links, plans, or reservations. A source the
+     * request sends always wins. `null` when no default is set. Orders, payment links, and
+     * subscription plans then use the only active Location with inventory_allocation_enabled when
+     * exactly one exists in the current environment. Links and plans do not store this implicit
+     * source; it is resolved again when their demand is evaluated. With zero or multiple eligible
+     * Locations, tracked demand still requires a source. Send null to clear it. anyOf[1] (Value):
+     * {@link InventoryRoutingSourceRequest}. Where you want inventory routed from: a fixed
+     * Location, an inventory allocation policy, or one policy revision, selected by `type`.
+     * anyOf[2] (Value): null.
+     */
+    "default_routing_source"?: ((InventoryRoutingSourceRequest) | (null) | (unknown));
+    /**
+     * Available quantity your team treats as low stock, zero or greater. The Dashboard shows this
+     * setting. It does not change allocation, filter API results, or send events. Format: int32.
+     * minimum: 0.
+     */
+    "low_stock_threshold"?: number;
+    /**
+     * Map replaced as a whole: the keys you send become the full map. Inventory failure handling
+     * keyed by order source: checkout, payment_link, api, subscription, virtual_terminal, or
+     * default. The source-specific entry wins; default applies to the rest. * (Value): {@link
+     * InventoryOriginPolicy}. How Flint handles inventory failures for one order source: the
+     * action after a post-payment inventory failure and for a blocked subscription.
+     */
+    "origin_policies"?: Record<string, InventoryOriginPolicy>;
+};
+/**
+ * Inventory settings to change: the `low_stock_threshold`, how inventory failures are handled for
+ * each order source, and the `default_routing_source` for requests that omit one.
+ */
+export type InventorySettingsRequestInput = {
+    /**
+     * Where tracked demand is routed when a request omits `inventory_routing_source`: a fixed
+     * Location, an allocation policy, or one policy revision. It applies to orders, line items
+     * added to orders, quick pay invoices, payment links, subscription plans, inventory
+     * reservations, and delivery previews. The request stores the resolved source on the resource
+     * it creates or changes, as if the caller had sent it, so changing or clearing this default
+     * never moves routing for existing orders, payment links, plans, or reservations. A source the
+     * request sends always wins. `null` when no default is set. Orders, payment links, and
+     * subscription plans then use the only active Location with inventory_allocation_enabled when
+     * exactly one exists in the current environment. Links and plans do not store this implicit
+     * source; it is resolved again when their demand is evaluated. With zero or multiple eligible
+     * Locations, tracked demand still requires a source. Send null to clear it. anyOf[1] (Value):
+     * {@link InventoryRoutingSourceRequestInput}. Where you want inventory routed from: a fixed
+     * Location, an inventory allocation policy, or one policy revision, selected by `type`.
+     * anyOf[2] (Value): null.
+     */
+    "default_routing_source"?: ((InventoryRoutingSourceRequestInput) | (null));
+    /**
+     * Available quantity your team treats as low stock, zero or greater. The Dashboard shows this
+     * setting. It does not change allocation, filter API results, or send events. Format: int32.
+     * minimum: 0.
+     */
+    "low_stock_threshold"?: number;
+    /**
+     * Map replaced as a whole: the keys you send become the full map. Inventory failure handling
+     * keyed by order source: checkout, payment_link, api, subscription, virtual_terminal, or
+     * default. The source-specific entry wins; default applies to the rest. * (Value): {@link
+     * InventoryOriginPolicyRequestInput}. How Flint handles inventory failures for one order
+     * source: the action after a post-payment inventory failure and for a blocked subscription.
+     */
+    "origin_policies"?: Record<string, InventoryOriginPolicyRequestInput>;
+};
+/**
+ * The system an inventory event came from, such as manual entry, a point of sale, a warehouse
+ * system, or Flint, with your source identifier when it applies.
+ */
+export type InventorySourceSystem = ({
+    /**
+     * Your source system's identifier. Required when type is pos, wms, erp, or other; not allowed
+     * when type is manual. Don't put secrets in this field. maxLength: 255. Example:
+     * "warehouse-1842".
+     */
+    "external_source_id"?: string;
+    /**
+     * Source of the event: manual for a manual entry, pos for a point of sale, wms for a warehouse
+     * management system, erp for an enterprise resource planning system, or other for another
+     * external system. Flint-authored events use flint in responses. Value enum: "manual", "pos",
+     * "wms", "erp", "flint", "other".
+     */
+    "type": "manual" | "pos" | "wms" | "erp" | "flint" | "other" | (string & {});
+});
+export type InventorySourceSystemPreviousAttributes = ({
+    /**
+     * Your source system's identifier. Required when type is pos, wms, erp, or other; not allowed
+     * when type is manual. Don't put secrets in this field. anyOf[1] (Value): string. Your source
+     * system's identifier. Required when type is pos, wms, erp, or other; not allowed when type is
+     * manual. Don't put secrets in this field. maxLength: 255. Example: "warehouse-1842". anyOf[2]
+     * (Value): null.
+     */
+    "external_source_id"?: ((string) | (null));
+    /**
+     * Source of the event: manual for a manual entry, pos for a point of sale, wms for a warehouse
+     * management system, erp for an enterprise resource planning system, or other for another
+     * external system. Flint-authored events use flint in responses. Value enum: "manual", "pos",
+     * "wms", "erp", "flint", "other". anyOf[1] (Value): string. Source of the event: manual for a
+     * manual entry, pos for a point of sale, wms for a warehouse management system, erp for an
+     * enterprise resource planning system, or other for another external system. Flint-authored
+     * events use flint in responses. Value enum: "manual", "pos", "wms", "erp", "flint", "other".
+     * anyOf[2] (Value): null.
+     */
+    "type"?: (("manual" | "pos" | "wms" | "erp" | "flint" | "other" | (string & {})) | (null));
+});
+/**
+ * The source system you report for an inventory event, such as manual, pos, wms, erp, or other,
+ * with your identifier when it applies.
+ */
+export type InventorySourceSystemRequest = ({
+    /**
+     * Your source system's identifier. Required when type is pos, wms, erp, or other; not allowed
+     * when type is manual. Don't put secrets in this field. minLength: 1. maxLength: 255. Example:
+     * "warehouse-1842".
+     */
+    "external_source_id"?: string;
+    /**
+     * Source of the event: manual for a manual entry, pos for a point of sale, wms for a warehouse
+     * management system, erp for an enterprise resource planning system, or other for another
+     * external system. Flint-authored events use flint in responses. Value enum: "manual", "pos",
+     * "wms", "erp", "other".
+     */
+    "type": "manual" | "pos" | "wms" | "erp" | "other" | (string & {});
+});
 /**
  * The source system you report for an inventory event, such as manual, pos, wms, erp, or other,
  * with your identifier when it applies.
@@ -179,10 +362,10 @@ export type InventoryTransferActionConflictErrorDetail = (Exclude<ErrorDetail & 
      * "merchant_billing_entry", "merchant_billing_invoice", "merchant_signup", "modifier",
      * "modifier_group", "modifier_set", "order", "order_charge", "order_edit", "order_line_item",
      * "order_line_item_modifier", "order_payment_attempt", "package", "package_item",
-     * "partner_app", "partner_app_credential", "partner_app_install", "payment_intent",
-     * "payment_link", "payment_link_custom_field", "payment_link_line_item", "payment_method",
-     * "payment_method_domain", "payment_review", "payment_split", "payout", "payout_destination",
-     * "payout_settings", "platform_fee", "platform_fee_balance_transaction",
+     * "partner_app", "partner_app_credential", "partner_app_install", "payment_attempt",
+     * "payment_intent", "payment_link", "payment_link_custom_field", "payment_link_line_item",
+     * "payment_method", "payment_method_domain", "payment_review", "payment_split", "payout",
+     * "payout_destination", "payout_settings", "platform_fee", "platform_fee_balance_transaction",
      * "platform_fee_payout", "price_list", "price_list_price", "product", "product_option",
      * "product_option_value", "product_variant", "promotion", "promotion_code",
      * "purchase_refund_allocation", "reader", "refund", "refund_allocation",
@@ -266,22 +449,23 @@ export type InventoryTransferActionConflictErrorDetail = (Exclude<ErrorDetail & 
      * payment_retries_per_period, pending_reports, price_list_prices, product_variants,
      * receipt_recipients, saved_card_codes, test_clock_subscriptions, verification_attempts,
      * verification_codes, webhook_event_streams, webhook_listener_signatures_daily,
-     * workload_identities. When code is MERCHANT_NOT_READY, one of: account_sessions_unavailable,
-     * account_setup_repair_required, account_setup_unavailable, billing_suspended,
-     * business_address_required, capability_blocked, capability_not_requested, capability_pending,
-     * capability_unavailable, default_environment_required, disabled_by_merchant_settings,
-     * disabled_by_platform_policy, merchant_account_action_required, merchant_payments_disabled,
-     * onboarding_required, payment_account_context_invalid, payment_account_setup_incomplete,
+     * workload_identities. When code is MERCHANT_NOT_READY, one of: account_rejected,
+     * account_sessions_unavailable, account_setup_repair_required, account_setup_unavailable,
+     * billing_suspended, business_address_required, capability_blocked, capability_not_requested,
+     * capability_pending, capability_unavailable, default_environment_required,
+     * disabled_by_merchant_settings, disabled_by_platform_policy,
+     * merchant_account_action_required, merchant_payments_disabled, onboarding_required,
+     * payment_account_context_invalid, payment_account_setup_incomplete,
      * payment_option_access_not_provisioned, payment_option_activation_pending,
      * payment_option_not_available, payment_option_not_in_plan, payment_splits_unavailable,
      * platform_funding_unavailable, platform_review, pricing_amount_below_minimum,
      * pricing_fee_at_or_above_amount, pricing_not_authorized, pricing_not_configured,
      * processing_not_enabled, processing_restricted, processor_not_configured, provisioning,
      * requirements_due, tax_category_required. When code is OPERATION_IN_PROGRESS, one of:
-     * delivery_selection_materializing, reader_busy, sandbox_resetting. When code is
-     * PAYMENT_OPTION_UNAVAILABLE, one of: action_window_too_short, amount_out_of_range,
-     * bounded_inventory_guarantee_not_supported, capability_blocked, capability_pending,
-     * disabled_by_merchant_settings, disabled_by_platform_policy,
+     * delivery_selection_materializing, reader_busy, reader_screen_clear_unresolved,
+     * sandbox_resetting. When code is PAYMENT_OPTION_UNAVAILABLE, one of: action_window_too_short,
+     * amount_out_of_range, bounded_inventory_guarantee_not_supported, capability_blocked,
+     * capability_pending, disabled_by_merchant_settings, disabled_by_platform_policy,
      * merchant_account_action_required, merchant_payments_disabled,
      * payment_account_context_invalid, payment_account_setup_incomplete,
      * payment_option_access_not_provisioned, payment_option_activation_pending,
@@ -298,7 +482,7 @@ export type InventoryTransferActionConflictErrorDetail = (Exclude<ErrorDetail & 
      * subscription_payment_pending, subscription_renewal. When code is RESOURCE_NOT_FOUND, one of:
      * email_missing, resource_in_different_environment. When code is SERVICE_UNAVAILABLE, one of:
      * outcome_unknown, processor_unavailable, repair_required, template_not_configured. Additional
-     * reasons may be added. Value enum: "account_sessions_unavailable",
+     * reasons may be added. Value enum: "account_rejected", "account_sessions_unavailable",
      * "account_setup_repair_required", "account_setup_unavailable", "action_window_too_short",
      * "active_readers", "advance_limit_exceeded", "already_applied", "amount_out_of_range",
      * "archived", "authorization_expired", "automatic_disabled", "backorder_limit_reached",
@@ -362,9 +546,10 @@ export type InventoryTransferActionConflictErrorDetail = (Exclude<ErrorDetail & 
      * "processor_unavailable", "product_variants", "proof_rejected", "proof_required",
      * "provider_action_unsupported", "provisioning", "quantity_not_carried", "quote_expired",
      * "quote_revoked", "quote_stale", "rate_callback_failed", "rate_unavailable", "reader_busy",
-     * "reader_offline", "reader_type_not_supported", "reader_unavailable", "receipt_recipients",
-     * "reconciliation_required", "recurrence_completed", "refund_created", "refund_unavailable",
-     * "refund_window_expired", "repair_required", "request_blocked", "requirements_due",
+     * "reader_offline", "reader_screen_clear_unresolved", "reader_type_not_supported",
+     * "reader_unavailable", "receipt_recipients", "reconciliation_required",
+     * "recurrence_completed", "refund_created", "refund_unavailable", "refund_window_expired",
+     * "repair_required", "request_blocked", "requirements_due",
      * "resource_in_different_environment", "restricted", "return_checkout", "return_owned",
      * "return_tax_mismatch", "revoked", "risk_action_unsupported", "role_not_assignable",
      * "sales_not_started", "sandbox_not_accessible", "sandbox_reset_failed", "sandbox_resetting",
@@ -383,7 +568,8 @@ export type InventoryTransferActionConflictErrorDetail = (Exclude<ErrorDetail & 
      * "webhook_listener_signatures_daily", "window_expired", "workload_identities",
      * "wrong_credential_type".
      */
-    "reason": "account_sessions_unavailable"
+    "reason": "account_rejected"
+        | "account_sessions_unavailable"
         | "account_setup_repair_required"
         | "account_setup_unavailable"
         | "action_window_too_short"
@@ -588,6 +774,7 @@ export type InventoryTransferActionConflictErrorDetail = (Exclude<ErrorDetail & 
         | "rate_unavailable"
         | "reader_busy"
         | "reader_offline"
+        | "reader_screen_clear_unresolved"
         | "reader_type_not_supported"
         | "reader_unavailable"
         | "receipt_recipients"
@@ -12557,211 +12744,4 @@ export type InvoiceCollectionExternal = ({
     & (({
     /** Value enum: "external". */
     "mode"?: "external" | (string & {});
-}));
-export type InvoiceCollectionExternalPreviousAttributes = ({
-    /**
-     * How the invoice is collected, resolved when the draft was written. Value enum: "external".
-     * anyOf[1] (Value): string. How the invoice is collected, resolved when the draft was written.
-     * Value enum: "external". anyOf[2] (Value): null.
-     */
-    "mode"?: (("external" | (string & {})) | (null));
-    /**
-     * The saved card Flint charges. Present only with automatic. `null` when the draft will use
-     * the customer's default card, selected at issue. After issue it is the selected card.
-     * anyOf[1] (Value): string. The saved card Flint charges. Present only with automatic. `null`
-     * when the draft will use the customer's default card, selected at issue. After issue it is
-     * the selected card. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ". anyOf[2] (Value): null.
-     */
-    "payment_method_id"?: ((string) | (null));
-    /**
-     * The payment options the hosted invoice page offers. Present only with buyer_initiated.
-     * anyOf[1] (Value): {@link InvoicePaymentPolicyPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "payment_policy"?: ((InvoicePaymentPolicyPreviousAttributes) | (null));
-})
-    & ({
-    /**
-     * Value enum: "external". anyOf[1] (Value): string. Value enum: "external". anyOf[2] (Value):
-     * null.
-     */
-    "mode"?: (("external" | (string & {})) | (null));
-});
-/** The `automatic` variant of `InvoiceCollectionInput`. */
-export type InvoiceCollectionInputAutomatic = ({
-    /**
-     * How the invoice is collected. merchant_default resolves when the draft is written, and reads
-     * return the resolved mode. Value enum: "automatic".
-     */
-    "mode": "automatic" | (string & {});
-    /**
-     * The customer's saved card to charge. Accepted only with automatic. Without one, Flint
-     * charges the customer's default card, selected when the invoice is issued. Send null to clear
-     * it. minLength: 1. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
-     */
-    "payment_method_id"?: string | null;
-    /**
-     * The payment options the hosted invoice page offers. Accepted only with buyer_initiated. An
-     * explicit policy takes precedence over invoices.payment_policy, then checkout payment
-     * options, then the platform default of card, apple_pay, and google_pay. Defaults resolve when
-     * the draft is written; later settings changes do not change its stored policy. Wallets appear
-     * only on supported devices over HTTPS with the payment domain registered. Which payment
-     * options an invoice accepts, any per-option total limits, and whether to show a cost
-     * comparison.
-     */
-    "payment_policy"?: InvoicePaymentPolicy;
-})
-    & (({
-    /** Value enum: "automatic". */
-    "mode"?: "automatic" | (string & {});
-}));
-/** The `automatic` variant of `InvoiceCollectionInput`. */
-export type InvoiceCollectionInputAutomaticInput = ({
-    /**
-     * How the invoice is collected. merchant_default resolves when the draft is written, and reads
-     * return the resolved mode. Value enum: "automatic".
-     */
-    "mode": "automatic";
-    /**
-     * The customer's saved card to charge. Accepted only with automatic. Without one, Flint
-     * charges the customer's default card, selected when the invoice is issued. Send null to clear
-     * it. minLength: 1. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
-     */
-    "payment_method_id"?: string | null;
-    /**
-     * The payment options the hosted invoice page offers. Accepted only with buyer_initiated. An
-     * explicit policy takes precedence over invoices.payment_policy, then checkout payment
-     * options, then the platform default of card, apple_pay, and google_pay. Defaults resolve when
-     * the draft is written; later settings changes do not change its stored policy. Wallets appear
-     * only on supported devices over HTTPS with the payment domain registered. Which payment
-     * options an invoice accepts, any per-option total limits, and whether to show a cost
-     * comparison.
-     */
-    "payment_policy"?: InvoicePaymentPolicyRequestInput;
-})
-    & (({
-    /** Value enum: "automatic". */
-    "mode"?: "automatic";
-})
-    & (({
-    "payment_policy"?: never;
-})));
-/** The `buyer_initiated` variant of `InvoiceCollectionInput`. */
-export type InvoiceCollectionInputBuyerInitiated = ({
-    /**
-     * How the invoice is collected. merchant_default resolves when the draft is written, and reads
-     * return the resolved mode. Value enum: "buyer_initiated".
-     */
-    "mode": "buyer_initiated" | (string & {});
-    /**
-     * The customer's saved card to charge. Accepted only with automatic. Without one, Flint
-     * charges the customer's default card, selected when the invoice is issued. Send null to clear
-     * it. minLength: 1. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
-     */
-    "payment_method_id"?: string | null;
-    /**
-     * The payment options the hosted invoice page offers. Accepted only with buyer_initiated. An
-     * explicit policy takes precedence over invoices.payment_policy, then checkout payment
-     * options, then the platform default of card, apple_pay, and google_pay. Defaults resolve when
-     * the draft is written; later settings changes do not change its stored policy. Wallets appear
-     * only on supported devices over HTTPS with the payment domain registered. Which payment
-     * options an invoice accepts, any per-option total limits, and whether to show a cost
-     * comparison.
-     */
-    "payment_policy"?: InvoicePaymentPolicy;
-})
-    & (({
-    /** Value enum: "buyer_initiated". */
-    "mode"?: "buyer_initiated" | (string & {});
-}));
-/** The `buyer_initiated` variant of `InvoiceCollectionInput`. */
-export type InvoiceCollectionInputBuyerInitiatedInput = ({
-    /**
-     * How the invoice is collected. merchant_default resolves when the draft is written, and reads
-     * return the resolved mode. Value enum: "buyer_initiated".
-     */
-    "mode": "buyer_initiated";
-    /**
-     * The customer's saved card to charge. Accepted only with automatic. Without one, Flint
-     * charges the customer's default card, selected when the invoice is issued. Send null to clear
-     * it. minLength: 1. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
-     */
-    "payment_method_id"?: string | null;
-    /**
-     * The payment options the hosted invoice page offers. Accepted only with buyer_initiated. An
-     * explicit policy takes precedence over invoices.payment_policy, then checkout payment
-     * options, then the platform default of card, apple_pay, and google_pay. Defaults resolve when
-     * the draft is written; later settings changes do not change its stored policy. Wallets appear
-     * only on supported devices over HTTPS with the payment domain registered. Which payment
-     * options an invoice accepts, any per-option total limits, and whether to show a cost
-     * comparison.
-     */
-    "payment_policy"?: InvoicePaymentPolicyRequestInput;
-})
-    & (({
-    /** Value enum: "buyer_initiated". */
-    "mode"?: "buyer_initiated";
-})
-    & (({
-    "payment_method_id"?: never;
-})));
-/** The `external` variant of `InvoiceCollectionInput`. */
-export type InvoiceCollectionInputExternalInput = ({
-    /**
-     * How the invoice is collected. merchant_default resolves when the draft is written, and reads
-     * return the resolved mode. Value enum: "external".
-     */
-    "mode": "external";
-    /**
-     * The customer's saved card to charge. Accepted only with automatic. Without one, Flint
-     * charges the customer's default card, selected when the invoice is issued. Send null to clear
-     * it. minLength: 1. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
-     */
-    "payment_method_id"?: string | null;
-    /**
-     * The payment options the hosted invoice page offers. Accepted only with buyer_initiated. An
-     * explicit policy takes precedence over invoices.payment_policy, then checkout payment
-     * options, then the platform default of card, apple_pay, and google_pay. Defaults resolve when
-     * the draft is written; later settings changes do not change its stored policy. Wallets appear
-     * only on supported devices over HTTPS with the payment domain registered. Which payment
-     * options an invoice accepts, any per-option total limits, and whether to show a cost
-     * comparison.
-     */
-    "payment_policy"?: InvoicePaymentPolicyRequestInput;
-})
-    & (({
-    /** Value enum: "external". */
-    "mode"?: "external";
-})
-    & (({
-    "payment_method_id"?: never;
-}) & ({
-    "payment_policy"?: never;
-})));
-/** The `merchant_default` variant of `InvoiceCollectionInput`. */
-export type InvoiceCollectionInputMerchantDefault = ({
-    /**
-     * How the invoice is collected. merchant_default resolves when the draft is written, and reads
-     * return the resolved mode. Value enum: "merchant_default".
-     */
-    "mode": "merchant_default" | (string & {});
-    /**
-     * The customer's saved card to charge. Accepted only with automatic. Without one, Flint
-     * charges the customer's default card, selected when the invoice is issued. Send null to clear
-     * it. minLength: 1. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
-     */
-    "payment_method_id"?: string | null;
-    /**
-     * The payment options the hosted invoice page offers. Accepted only with buyer_initiated. An
-     * explicit policy takes precedence over invoices.payment_policy, then checkout payment
-     * options, then the platform default of card, apple_pay, and google_pay. Defaults resolve when
-     * the draft is written; later settings changes do not change its stored policy. Wallets appear
-     * only on supported devices over HTTPS with the payment domain registered. Which payment
-     * options an invoice accepts, any per-option total limits, and whether to show a cost
-     * comparison.
-     */
-    "payment_policy"?: InvoicePaymentPolicy;
-})
-    & (({
-    /** Value enum: "merchant_default". */
-    "mode"?: "merchant_default" | (string & {});
 }));

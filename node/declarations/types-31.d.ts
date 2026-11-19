@@ -1,25 +1,200 @@
 import type { InputValue } from '../runtime.js';
+import type {
+    CreateGiftCardRequestInput,
+    CreateInventoryAdjustmentRequestInput,
+    CreateInventoryAllocationPolicyRequestInput
+} from './types-10.js';
+import type { FreezeGiftCardRequestInput } from './types-27.js';
+import type { DisputesAcceptParams } from './types-26.js';
+import type { LookupGiftCardRequestInput } from './types-40.js';
+import type { RotateGiftCardCodeRequestInput } from './types-67.js';
+import type { UnfreezeGiftCardRequestInput, TextModifierConfigRequest, TextModifierConfigRequestInput } from './types-75.js';
 import type { UpdateGiftCardRequestInput, UpdateInventoryAllocationPolicyRequestInput } from './types-76.js';
 import type { ResponseMeta } from './types-62.js';
 import type { GiftCardFundingSource, GiftCardFundingSourceRequestInput } from './types-29.js';
 import type { MoneyValue, MoneyValueInput } from './types-44.js';
-import type {
-    MetadataMap,
-    ModifierRequest,
-    MetadataRequestInput,
-    ModifierRequestInput,
-    MerchantWebhookEnvelope
-} from './types-43.js';
-import type { TextModifierConfigRequest, TextModifierConfigRequestInput } from './types-74.js';
-import type { InventorySourceSystem } from './types-33.js';
-import type {
-    InventoryLevel,
-    InventoryCountObservationProvenance,
-    InventoryCountObservationProvenancePreviousAttributes
-} from './types-32.js';
-import type { CreateInventoryAdjustmentRequestInput, CreateInventoryAllocationPolicyRequestInput } from './types-10.js';
-import type { DisputesAcceptParams } from './types-26.js';
-import type { PartnerWebhookEnvelope } from './types-50.js';
+import type { MetadataMap, ModifierRequest, MetadataRequestInput, ModifierRequestInput } from './types-43.js';
+import type { InventorySourceSystem } from './types-34.js';
+import type { InventoryLevel } from './types-32.js';
+export type GiftCardsCreateParams = (InputValue<CreateGiftCardRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type GiftCardsFreezeParams = (InputValue<FreezeGiftCardRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type GiftCardsGetParams = DisputesAcceptParams;
+export type GiftCardsListParams = {
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Exact, case-sensitive filter on the customer stored on the gift card. An unknown customer
+     * returns an empty page. pattern: ^cus_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: InputValue<string>;
+    /** Exact, case-sensitive filter. minLength: 1. maxLength: 255. Example: "warehouse-1842". */
+    "external_reference_id"?: InputValue<string>;
+    /**
+     * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
+     * exact and case-sensitive. Returns only resources created in your caller namespace, plus
+     * resources created before caller scoping under the original key. Returns current authorized
+     * resources, not the recorded response. A pending resource does not prove that the operation
+     * succeeded, and an empty list does not prove that it had no effect. A match can show
+     * `idempotency_key: null` when that request sent no key, Flint created the resource, the
+     * reader isn't the caller that created it (another app install, a buyer, or the merchant
+     * reading an app's or buyer's record), or the caller that created an older record is unknown.
+     * minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
+     */
+    "idempotency_key"?: InputValue<string>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Exact, case-sensitive filter. Values are trimmed and deduplicated in first-seen order; empty
+     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "active", "closed", "frozen", "pending". Value enum: "active", "closed",
+     * "frozen", "pending". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "active",
+     * "closed", "frozen", "pending". anyOf[1][] (Value): string. maxLength: 255. Value enum:
+     * "active", "closed", "frozen", "pending". anyOf[2] (Value): string. maxLength: 255. Value
+     * enum: "active", "closed", "frozen", "pending".
+     */
+    "status"?: InputValue<("active" | "closed" | "frozen" | "pending")
+        | readonly ("active" | "closed" | "frozen" | "pending")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type GiftCardsLookupParams = (InputValue<LookupGiftCardRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type GiftCardsRotateCodeParams = (InputValue<RotateGiftCardCodeRequestInput>
+    | {
+    "expected_version"?: never;
+    "notification"?: never;
+})
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type GiftCardsUnfreezeParams = (InputValue<UnfreezeGiftCardRequestInput> | {
+    "expected_version"?: never;
+})
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
 export type GiftCardsUpdateParams = (InputValue<UpdateGiftCardRequestInput>)
     & {
     /**
@@ -393,8 +568,9 @@ export type InitialGiftCardFunding = ({
      * string. Use an integer string (decimal digits), not a floating-point number. Format: int64.
      * minimum: 0. Amount in the currency's minor unit, such as cents for USD. Use an integer
      * string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
-     * anyOf[1].currency (Required): string. ISO 4217 currency code for this amount. minLength: 3.
-     * maxLength: 3. pattern: ^[A-Z]{3}$. anyOf[2] (Value): null.
+     * anyOf[1].currency (Required): string. Three-letter uppercase ISO 4217 currency code for this
+     * amount, such as USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. anyOf[2] (Value):
+     * null.
      */
     "consideration_money"?: ((({
         /**
@@ -454,8 +630,9 @@ export type InitialGiftCardFunding = ({
      * plus an ISO 4217 currency code. amount (Required): integer string. Use an integer string
      * (decimal digits), not a floating-point number. Format: int64. minimum: 1. Amount in the
      * currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 0. currency (Required): string. ISO 4217
-     * currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     * floating-point number. Format: int64. minimum: 0. currency (Required): string. Three-letter
+     * uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3. maxLength: 3.
+     * pattern: ^[A-Z]{3}$.
      */
     "value_money": ({
         /**
@@ -478,8 +655,9 @@ export type InitialGiftCardFundingInput = ({
      * string. Use an integer string (decimal digits), not a floating-point number. Format: int64.
      * minimum: 0. Amount in the currency's minor unit, such as cents for USD. Use an integer
      * string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
-     * anyOf[1].currency (Required): string. ISO 4217 currency code for this amount. minLength: 3.
-     * maxLength: 3. pattern: ^[A-Z]{3}$. anyOf[2] (Value): null.
+     * anyOf[1].currency (Required): string. Three-letter uppercase ISO 4217 currency code for this
+     * amount, such as USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. anyOf[2] (Value):
+     * null.
      */
     "consideration_money"?: ((({
         /**
@@ -538,8 +716,9 @@ export type InitialGiftCardFundingInput = ({
      * plus an ISO 4217 currency code. amount (Required): integer string. Use an integer string
      * (decimal digits), not a floating-point number. Format: int64. minimum: 1. Amount in the
      * currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 0. currency (Required): string. ISO 4217
-     * currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     * floating-point number. Format: int64. minimum: 0. currency (Required): string. Three-letter
+     * uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3. maxLength: 3.
+     * pattern: ^[A-Z]{3}$.
      */
     "value_money": ({
         /**
@@ -1732,1108 +1911,3 @@ export type InventoryBackorderPolicyRequest = {
 };
 /** Patch object: fields you send are applied, fields you omit are unchanged. minProperties: 1. */
 export type InventoryBackorderPolicyRequestInput = InventoryBackorderPolicyRequest;
-/** A physical count used to reconcile stock. */
-export type InventoryCount = {
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "applied_at"?: string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /**
-     * The Idempotency-Key of the request that created this resource. `null` when that request sent
-     * no key, Flint created the resource, the reader isn't the caller that created it (another app
-     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
-     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
-     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
-     * find a key that a replay returns as `null`, read the resource.
-     */
-    "idempotency_key": string | null;
-    /**
-     * Unique identifier for this inventory count, prefixed `invc_`. Example:
-     * "invc_01KEZF7C00B47NXRE3ET37QQ59".
-     */
-    "inventory_count_id": string;
-    /**
-     * Count lines, one for each inventory item being counted. [] (Value): {@link
-     * InventoryCountLine}. One item's line in an inventory count, with the quantities Flint
-     * expected, the quantities counted, and the variance applied.
-     */
-    "lines": Array<InventoryCountLine>;
-    /** ID of the Location whose stock is counted. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
-    "location_id": string;
-    /**
-     * Source system, actor, and time reported with the count's observations. Where an inventory
-     * count came from: the source system, an external actor ID, and when the event occurred.
-     */
-    "observation_provenance"?: InventoryCountObservationProvenance;
-    /**
-     * Whether the count is still open. Applying or canceling a `draft` count ends it. Value enum:
-     * "draft", "applied", "canceled".
-     */
-    "status": "draft" | "applied" | "canceled" | (string & {});
-    /**
-     * Actions that can change this count now. A draft can be canceled, and applied once every line
-     * has an observation. Empty after the count is applied or canceled. [] enum: "apply",
-     * "cancel". [] (Value): string. Value enum: "apply", "cancel".
-     */
-    "supported_actions": Array<"apply" | "cancel" | (string & {})>;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-    /**
-     * Current version of this resource's owned state. Send it as `expected_version` when changing
-     * the resource to reject a stale write. Format: uint64. minimum: 1.
-     */
-    "version": number;
-};
-export type InventoryCountAppliedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "applied_at"?: string;
-            "created_at": string;
-            "idempotency_key"?: string | null;
-            "inventory_count_id": string;
-            "lines": Array<InventoryCountLine>;
-            "location_id": string;
-            "observation_provenance"?: InventoryCountObservationProvenance;
-            "status": "draft" | "applied" | "canceled" | (string & {});
-            "supported_actions": Array<"apply" | "cancel" | (string & {})>;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "applied_at"?: ((string) | (null));
-            "created_at"?: ((string) | (null));
-            "idempotency_key"?: ((string) | (null));
-            "inventory_count_id"?: ((string) | (null));
-            "lines"?: ((Array<InventoryCountLinePreviousAttributes>) | (null));
-            "location_id"?: ((string) | (null));
-            "observation_provenance"?: ((InventoryCountObservationProvenancePreviousAttributes) | (null));
-            "status"?: (("draft" | "applied" | "canceled" | (string & {})) | (null));
-            "supported_actions"?: ((Array<"apply" | "cancel" | (string & {})>) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "inventory_count.applied";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "applied_at"?: string;
-            "created_at": string;
-            "idempotency_key"?: string | null;
-            "inventory_count_id": string;
-            "lines": Array<InventoryCountLine>;
-            "location_id": string;
-            "observation_provenance"?: InventoryCountObservationProvenance;
-            "status": "draft" | "applied" | "canceled" | (string & {});
-            "supported_actions": Array<"apply" | "cancel" | (string & {})>;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "applied_at"?: ((string) | (null));
-            "created_at"?: ((string) | (null));
-            "idempotency_key"?: ((string) | (null));
-            "inventory_count_id"?: ((string) | (null));
-            "lines"?: ((Array<InventoryCountLinePreviousAttributes>) | (null));
-            "location_id"?: ((string) | (null));
-            "observation_provenance"?: ((InventoryCountObservationProvenancePreviousAttributes) | (null));
-            "status"?: (("draft" | "applied" | "canceled" | (string & {})) | (null));
-            "supported_actions"?: ((Array<"apply" | "cancel" | (string & {})>) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "inventory_count.applied";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "inventory_count.applied";
-});
-/**
- * The `inventory_count.applied` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type InventoryCountAppliedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.applied_at (Optional): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required): string. RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.idempotency_key
-     * (Optional): string or null. The Idempotency-Key of the request that created this resource.
-     * `null` when that request sent no key, Flint created the resource, the reader isn't the
-     * caller that created it (another app install, a buyer, or the merchant reading an app's or
-     * buyer's record), or the caller that created an older record is unknown. Filter its list with
-     * `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook
-     * events, can return `null`. To find a key that a replay returns as `null`, read the resource.
-     * object.inventory_count_id (Required): string. Unique identifier for this inventory count,
-     * prefixed `invc_`. Example: "invc_01KEZF7C00B47NXRE3ET37QQ59". object.lines (Required): Array
-     * of {@link InventoryCountLine}. Count lines, one for each inventory item being counted.
-     * object.lines[] (Value): {@link InventoryCountLine}. One item's line in an inventory count,
-     * with the quantities Flint expected, the quantities counted, and the variance applied.
-     * object.location_id (Required): string. ID of the Location whose stock is counted. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2". object.observation_provenance (Optional): {@link
-     * InventoryCountObservationProvenance}. Source system, actor, and time reported with the
-     * count's observations. Where an inventory count came from: the source system, an external
-     * actor ID, and when the event occurred. object.status (Required): string. Whether the count
-     * is still open. Applying or canceling a `draft` count ends it. Value enum: "draft",
-     * "applied", "canceled". object.supported_actions (Required): Array of string. Actions that
-     * can change this count now. A draft can be canceled, and applied once every line has an
-     * observation. Empty after the count is applied or canceled. [] enum: "apply", "cancel".
-     * object.supported_actions[] (Value): string. Value enum: "apply", "cancel". object.updated_at
-     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.version (Required): integer. Current version of this resource's owned state. Send it
-     * as `expected_version` when changing the resource to reject a stale write. Format: uint64.
-     * minimum: 1. previous_attributes (Optional): object. Previous values of changed top-level
-     * fields in data.object, at this delivery's API version. Nested changes include the whole
-     * previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
-     * previous_attributes.applied_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.applied_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.applied_at.anyOf[2] (Value):
-     * null. previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of
-     * the request that created this resource. `null` when that request sent no key, Flint created
-     * the resource, the reader isn't the caller that created it (another app install, a buyer, or
-     * the merchant reading an app's or buyer's record), or the caller that created an older record
-     * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
-     * replayed responses and webhook events, can return `null`. To find a key that a replay
-     * returns as `null`, read the resource. previous_attributes.idempotency_key.anyOf[1] (Value):
-     * string. The Idempotency-Key of the request that created this resource. `null` when that
-     * request sent no key, Flint created the resource, the reader isn't the caller that created it
-     * (another app install, a buyer, or the merchant reading an app's or buyer's record), or the
-     * caller that created an older record is unknown. Filter its list with `idempotency_key` to
-     * find it. Recorded payloads, including replayed responses and webhook events, can return
-     * `null`. To find a key that a replay returns as `null`, read the resource.
-     * previous_attributes.idempotency_key.anyOf[2] (Value): null.
-     * previous_attributes.inventory_count_id (Optional): string or null. Unique identifier for
-     * this inventory count, prefixed `invc_`. previous_attributes.inventory_count_id.anyOf[1]
-     * (Value): string. Unique identifier for this inventory count, prefixed `invc_`. Example:
-     * "invc_01KEZF7C00B47NXRE3ET37QQ59". previous_attributes.inventory_count_id.anyOf[2] (Value):
-     * null. previous_attributes.lines (Optional): Array of {@link
-     * InventoryCountLinePreviousAttributes} or null. Count lines, one for each inventory item
-     * being counted. previous_attributes.lines.anyOf[1] (Value): Array of {@link
-     * InventoryCountLinePreviousAttributes}. Count lines, one for each inventory item being
-     * counted. previous_attributes.lines.anyOf[1][] (Value): {@link
-     * InventoryCountLinePreviousAttributes}. previous_attributes.lines.anyOf[2] (Value): null.
-     * previous_attributes.location_id (Optional): string or null. ID of the Location whose stock
-     * is counted. previous_attributes.location_id.anyOf[1] (Value): string. ID of the Location
-     * whose stock is counted. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     * previous_attributes.location_id.anyOf[2] (Value): null.
-     * previous_attributes.observation_provenance (Optional): {@link
-     * InventoryCountObservationProvenancePreviousAttributes} or null. Source system, actor, and
-     * time reported with the count's observations.
-     * previous_attributes.observation_provenance.anyOf[1] (Value): {@link
-     * InventoryCountObservationProvenancePreviousAttributes}.
-     * previous_attributes.observation_provenance.anyOf[2] (Value): null.
-     * previous_attributes.status (Optional): string or null. Whether the count is still open.
-     * Applying or canceling a `draft` count ends it. Value enum: "draft", "applied", "canceled".
-     * previous_attributes.status.anyOf[1] (Value): string. Whether the count is still open.
-     * Applying or canceling a `draft` count ends it. Value enum: "draft", "applied", "canceled".
-     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
-     * (Optional): Array of string or null. Actions that can change this count now. A draft can be
-     * canceled, and applied once every line has an observation. Empty after the count is applied
-     * or canceled. [] enum: "apply", "cancel". previous_attributes.supported_actions.anyOf[1]
-     * (Value): Array of string. Actions that can change this count now. A draft can be canceled,
-     * and applied once every line has an observation. Empty after the count is applied or
-     * canceled. [] enum: "apply", "cancel". previous_attributes.supported_actions.anyOf[1][]
-     * (Value): string. Value enum: "apply", "cancel".
-     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.updated_at
-     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
-     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
-     * (Optional): integer or null. Current version of this resource's owned state. Send it as
-     * `expected_version` when changing the resource to reject a stale write.
-     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
-     * owned state. Send it as `expected_version` when changing the resource to reject a stale
-     * write. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * applied_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". created_at (Required): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". idempotency_key (Optional): string or null.
-         * The Idempotency-Key of the request that created this resource. `null` when that request
-         * sent no key, Flint created the resource, the reader isn't the caller that created it
-         * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
-         * the caller that created an older record is unknown. Filter its list with
-         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
-         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
-         * the resource. inventory_count_id (Required): string. Unique identifier for this
-         * inventory count, prefixed `invc_`. Example: "invc_01KEZF7C00B47NXRE3ET37QQ59". lines
-         * (Required): Array of {@link InventoryCountLine}. Count lines, one for each inventory
-         * item being counted. lines[] (Value): {@link InventoryCountLine}. One item's line in an
-         * inventory count, with the quantities Flint expected, the quantities counted, and the
-         * variance applied. location_id (Required): string. ID of the Location whose stock is
-         * counted. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". observation_provenance (Optional):
-         * {@link InventoryCountObservationProvenance}. Source system, actor, and time reported
-         * with the count's observations. Where an inventory count came from: the source system, an
-         * external actor ID, and when the event occurred. status (Required): string. Whether the
-         * count is still open. Applying or canceling a `draft` count ends it. Value enum: "draft",
-         * "applied", "canceled". supported_actions (Required): Array of string. Actions that can
-         * change this count now. A draft can be canceled, and applied once every line has an
-         * observation. Empty after the count is applied or canceled. [] enum: "apply", "cancel".
-         * supported_actions[] (Value): string. Value enum: "apply", "cancel". updated_at
-         * (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
-         * owned state. Send it as `expected_version` when changing the resource to reject a stale
-         * write. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "applied_at"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * The Idempotency-Key of the request that created this resource. `null` when that
-             * request sent no key, Flint created the resource, the reader isn't the caller that
-             * created it (another app install, a buyer, or the merchant reading an app's or
-             * buyer's record), or the caller that created an older record is unknown. Filter its
-             * list with `idempotency_key` to find it. Recorded payloads, including replayed
-             * responses and webhook events, can return `null`. To find a key that a replay returns
-             * as `null`, read the resource.
-             */
-            "idempotency_key"?: string | null;
-            /**
-             * Unique identifier for this inventory count, prefixed `invc_`. Example:
-             * "invc_01KEZF7C00B47NXRE3ET37QQ59".
-             */
-            "inventory_count_id": string;
-            /**
-             * Count lines, one for each inventory item being counted. [] (Value): {@link
-             * InventoryCountLine}. One item's line in an inventory count, with the quantities
-             * Flint expected, the quantities counted, and the variance applied.
-             */
-            "lines": Array<InventoryCountLine>;
-            /**
-             * ID of the Location whose stock is counted. Example:
-             * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-             */
-            "location_id": string;
-            /**
-             * Source system, actor, and time reported with the count's observations. Where an
-             * inventory count came from: the source system, an external actor ID, and when the
-             * event occurred.
-             */
-            "observation_provenance"?: InventoryCountObservationProvenance;
-            /**
-             * Whether the count is still open. Applying or canceling a `draft` count ends it.
-             * Value enum: "draft", "applied", "canceled".
-             */
-            "status": "draft" | "applied" | "canceled" | (string & {});
-            /**
-             * Actions that can change this count now. A draft can be canceled, and applied once
-             * every line has an observation. Empty after the count is applied or canceled. []
-             * enum: "apply", "cancel". [] (Value): string. Value enum: "apply", "cancel".
-             */
-            "supported_actions": Array<"apply" | "cancel" | (string & {})>;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. applied_at (Optional): string or null. RFC3339
-         * timestamp. applied_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". applied_at.anyOf[2] (Value): null. created_at
-         * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. idempotency_key (Optional): string or null. The
-         * Idempotency-Key of the request that created this resource. `null` when that request sent
-         * no key, Flint created the resource, the reader isn't the caller that created it (another
-         * app install, a buyer, or the merchant reading an app's or buyer's record), or the caller
-         * that created an older record is unknown. Filter its list with `idempotency_key` to find
-         * it. Recorded payloads, including replayed responses and webhook events, can return
-         * `null`. To find a key that a replay returns as `null`, read the resource.
-         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
-         * created this resource. `null` when that request sent no key, Flint created the resource,
-         * the reader isn't the caller that created it (another app install, a buyer, or the
-         * merchant reading an app's or buyer's record), or the caller that created an older record
-         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
-         * including replayed responses and webhook events, can return `null`. To find a key that a
-         * replay returns as `null`, read the resource. idempotency_key.anyOf[2] (Value): null.
-         * inventory_count_id (Optional): string or null. Unique identifier for this inventory
-         * count, prefixed `invc_`. inventory_count_id.anyOf[1] (Value): string. Unique identifier
-         * for this inventory count, prefixed `invc_`. Example: "invc_01KEZF7C00B47NXRE3ET37QQ59".
-         * inventory_count_id.anyOf[2] (Value): null. lines (Optional): Array of {@link
-         * InventoryCountLinePreviousAttributes} or null. Count lines, one for each inventory item
-         * being counted. lines.anyOf[1] (Value): Array of {@link
-         * InventoryCountLinePreviousAttributes}. Count lines, one for each inventory item being
-         * counted. lines.anyOf[1][] (Value): {@link InventoryCountLinePreviousAttributes}.
-         * lines.anyOf[2] (Value): null. location_id (Optional): string or null. ID of the Location
-         * whose stock is counted. location_id.anyOf[1] (Value): string. ID of the Location whose
-         * stock is counted. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". location_id.anyOf[2]
-         * (Value): null. observation_provenance (Optional): {@link
-         * InventoryCountObservationProvenancePreviousAttributes} or null. Source system, actor,
-         * and time reported with the count's observations. observation_provenance.anyOf[1]
-         * (Value): {@link InventoryCountObservationProvenancePreviousAttributes}.
-         * observation_provenance.anyOf[2] (Value): null. status (Optional): string or null.
-         * Whether the count is still open. Applying or canceling a `draft` count ends it. Value
-         * enum: "draft", "applied", "canceled". status.anyOf[1] (Value): string. Whether the count
-         * is still open. Applying or canceling a `draft` count ends it. Value enum: "draft",
-         * "applied", "canceled". status.anyOf[2] (Value): null. supported_actions (Optional):
-         * Array of string or null. Actions that can change this count now. A draft can be
-         * canceled, and applied once every line has an observation. Empty after the count is
-         * applied or canceled. [] enum: "apply", "cancel". supported_actions.anyOf[1] (Value):
-         * Array of string. Actions that can change this count now. A draft can be canceled, and
-         * applied once every line has an observation. Empty after the count is applied or
-         * canceled. [] enum: "apply", "cancel". supported_actions.anyOf[1][] (Value): string.
-         * Value enum: "apply", "cancel". supported_actions.anyOf[2] (Value): null. updated_at
-         * (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string.
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current version
-         * of this resource's owned state. Send it as `expected_version` when changing the resource
-         * to reject a stale write. version.anyOf[1] (Value): integer. Current version of this
-         * resource's owned state. Send it as `expected_version` when changing the resource to
-         * reject a stale write. Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "applied_at"?: ((string) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * The Idempotency-Key of the request that created this resource. `null` when that
-             * request sent no key, Flint created the resource, the reader isn't the caller that
-             * created it (another app install, a buyer, or the merchant reading an app's or
-             * buyer's record), or the caller that created an older record is unknown. Filter its
-             * list with `idempotency_key` to find it. Recorded payloads, including replayed
-             * responses and webhook events, can return `null`. To find a key that a replay returns
-             * as `null`, read the resource. anyOf[1] (Value): string. The Idempotency-Key of the
-             * request that created this resource. `null` when that request sent no key, Flint
-             * created the resource, the reader isn't the caller that created it (another app
-             * install, a buyer, or the merchant reading an app's or buyer's record), or the caller
-             * that created an older record is unknown. Filter its list with `idempotency_key` to
-             * find it. Recorded payloads, including replayed responses and webhook events, can
-             * return `null`. To find a key that a replay returns as `null`, read the resource.
-             * anyOf[2] (Value): null.
-             */
-            "idempotency_key"?: ((string) | (null));
-            /**
-             * Unique identifier for this inventory count, prefixed `invc_`. anyOf[1] (Value):
-             * string. Unique identifier for this inventory count, prefixed `invc_`. Example:
-             * "invc_01KEZF7C00B47NXRE3ET37QQ59". anyOf[2] (Value): null.
-             */
-            "inventory_count_id"?: ((string) | (null));
-            /**
-             * Count lines, one for each inventory item being counted. anyOf[1] (Value): Array of
-             * {@link InventoryCountLinePreviousAttributes}. Count lines, one for each inventory
-             * item being counted. anyOf[1][] (Value): {@link
-             * InventoryCountLinePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "lines"?: ((Array<InventoryCountLinePreviousAttributes>) | (null));
-            /**
-             * ID of the Location whose stock is counted. anyOf[1] (Value): string. ID of the
-             * Location whose stock is counted. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2]
-             * (Value): null.
-             */
-            "location_id"?: ((string) | (null));
-            /**
-             * Source system, actor, and time reported with the count's observations. anyOf[1]
-             * (Value): {@link InventoryCountObservationProvenancePreviousAttributes}. anyOf[2]
-             * (Value): null.
-             */
-            "observation_provenance"?: ((InventoryCountObservationProvenancePreviousAttributes) | (null));
-            /**
-             * Whether the count is still open. Applying or canceling a `draft` count ends it.
-             * Value enum: "draft", "applied", "canceled". anyOf[1] (Value): string. Whether the
-             * count is still open. Applying or canceling a `draft` count ends it. Value enum:
-             * "draft", "applied", "canceled". anyOf[2] (Value): null.
-             */
-            "status"?: (("draft" | "applied" | "canceled" | (string & {})) | (null));
-            /**
-             * Actions that can change this count now. A draft can be canceled, and applied once
-             * every line has an observation. Empty after the count is applied or canceled. []
-             * enum: "apply", "cancel". anyOf[1] (Value): Array of string. Actions that can change
-             * this count now. A draft can be canceled, and applied once every line has an
-             * observation. Empty after the count is applied or canceled. [] enum: "apply",
-             * "cancel". anyOf[1][] (Value): string. Value enum: "apply", "cancel". anyOf[2]
-             * (Value): null.
-             */
-            "supported_actions"?: ((Array<"apply" | "cancel" | (string & {})>) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
-             * version of this resource's owned state. Send it as `expected_version` when changing
-             * the resource to reject a stale write. Format: uint64. minimum: 1. anyOf[2] (Value):
-             * null.
-             */
-            "version"?: ((number) | (null));
-        });
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "inventory_count.applied". */
-    "event_type"?: "inventory_count.applied";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `inventory_count.applied` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type InventoryCountAppliedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.applied_at (Optional): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required): string. RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.idempotency_key
-     * (Optional): string or null. The Idempotency-Key of the request that created this resource.
-     * `null` when that request sent no key, Flint created the resource, the reader isn't the
-     * caller that created it (another app install, a buyer, or the merchant reading an app's or
-     * buyer's record), or the caller that created an older record is unknown. Filter its list with
-     * `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook
-     * events, can return `null`. To find a key that a replay returns as `null`, read the resource.
-     * object.inventory_count_id (Required): string. Unique identifier for this inventory count,
-     * prefixed `invc_`. Example: "invc_01KEZF7C00B47NXRE3ET37QQ59". object.lines (Required): Array
-     * of {@link InventoryCountLine}. Count lines, one for each inventory item being counted.
-     * object.lines[] (Value): {@link InventoryCountLine}. One item's line in an inventory count,
-     * with the quantities Flint expected, the quantities counted, and the variance applied.
-     * object.location_id (Required): string. ID of the Location whose stock is counted. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2". object.observation_provenance (Optional): {@link
-     * InventoryCountObservationProvenance}. Source system, actor, and time reported with the
-     * count's observations. Where an inventory count came from: the source system, an external
-     * actor ID, and when the event occurred. object.status (Required): string. Whether the count
-     * is still open. Applying or canceling a `draft` count ends it. Value enum: "draft",
-     * "applied", "canceled". object.supported_actions (Required): Array of string. Actions that
-     * can change this count now. A draft can be canceled, and applied once every line has an
-     * observation. Empty after the count is applied or canceled. [] enum: "apply", "cancel".
-     * object.supported_actions[] (Value): string. Value enum: "apply", "cancel". object.updated_at
-     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.version (Required): integer. Current version of this resource's owned state. Send it
-     * as `expected_version` when changing the resource to reject a stale write. Format: uint64.
-     * minimum: 1. previous_attributes (Optional): object. Previous values of changed top-level
-     * fields in data.object, at this delivery's API version. Nested changes include the whole
-     * previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
-     * previous_attributes.applied_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.applied_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.applied_at.anyOf[2] (Value):
-     * null. previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of
-     * the request that created this resource. `null` when that request sent no key, Flint created
-     * the resource, the reader isn't the caller that created it (another app install, a buyer, or
-     * the merchant reading an app's or buyer's record), or the caller that created an older record
-     * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
-     * replayed responses and webhook events, can return `null`. To find a key that a replay
-     * returns as `null`, read the resource. previous_attributes.idempotency_key.anyOf[1] (Value):
-     * string. The Idempotency-Key of the request that created this resource. `null` when that
-     * request sent no key, Flint created the resource, the reader isn't the caller that created it
-     * (another app install, a buyer, or the merchant reading an app's or buyer's record), or the
-     * caller that created an older record is unknown. Filter its list with `idempotency_key` to
-     * find it. Recorded payloads, including replayed responses and webhook events, can return
-     * `null`. To find a key that a replay returns as `null`, read the resource.
-     * previous_attributes.idempotency_key.anyOf[2] (Value): null.
-     * previous_attributes.inventory_count_id (Optional): string or null. Unique identifier for
-     * this inventory count, prefixed `invc_`. previous_attributes.inventory_count_id.anyOf[1]
-     * (Value): string. Unique identifier for this inventory count, prefixed `invc_`. Example:
-     * "invc_01KEZF7C00B47NXRE3ET37QQ59". previous_attributes.inventory_count_id.anyOf[2] (Value):
-     * null. previous_attributes.lines (Optional): Array of {@link
-     * InventoryCountLinePreviousAttributes} or null. Count lines, one for each inventory item
-     * being counted. previous_attributes.lines.anyOf[1] (Value): Array of {@link
-     * InventoryCountLinePreviousAttributes}. Count lines, one for each inventory item being
-     * counted. previous_attributes.lines.anyOf[1][] (Value): {@link
-     * InventoryCountLinePreviousAttributes}. previous_attributes.lines.anyOf[2] (Value): null.
-     * previous_attributes.location_id (Optional): string or null. ID of the Location whose stock
-     * is counted. previous_attributes.location_id.anyOf[1] (Value): string. ID of the Location
-     * whose stock is counted. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     * previous_attributes.location_id.anyOf[2] (Value): null.
-     * previous_attributes.observation_provenance (Optional): {@link
-     * InventoryCountObservationProvenancePreviousAttributes} or null. Source system, actor, and
-     * time reported with the count's observations.
-     * previous_attributes.observation_provenance.anyOf[1] (Value): {@link
-     * InventoryCountObservationProvenancePreviousAttributes}.
-     * previous_attributes.observation_provenance.anyOf[2] (Value): null.
-     * previous_attributes.status (Optional): string or null. Whether the count is still open.
-     * Applying or canceling a `draft` count ends it. Value enum: "draft", "applied", "canceled".
-     * previous_attributes.status.anyOf[1] (Value): string. Whether the count is still open.
-     * Applying or canceling a `draft` count ends it. Value enum: "draft", "applied", "canceled".
-     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
-     * (Optional): Array of string or null. Actions that can change this count now. A draft can be
-     * canceled, and applied once every line has an observation. Empty after the count is applied
-     * or canceled. [] enum: "apply", "cancel". previous_attributes.supported_actions.anyOf[1]
-     * (Value): Array of string. Actions that can change this count now. A draft can be canceled,
-     * and applied once every line has an observation. Empty after the count is applied or
-     * canceled. [] enum: "apply", "cancel". previous_attributes.supported_actions.anyOf[1][]
-     * (Value): string. Value enum: "apply", "cancel".
-     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.updated_at
-     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
-     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
-     * (Optional): integer or null. Current version of this resource's owned state. Send it as
-     * `expected_version` when changing the resource to reject a stale write.
-     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
-     * owned state. Send it as `expected_version` when changing the resource to reject a stale
-     * write. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * applied_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". created_at (Required): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". idempotency_key (Optional): string or null.
-         * The Idempotency-Key of the request that created this resource. `null` when that request
-         * sent no key, Flint created the resource, the reader isn't the caller that created it
-         * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
-         * the caller that created an older record is unknown. Filter its list with
-         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
-         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
-         * the resource. inventory_count_id (Required): string. Unique identifier for this
-         * inventory count, prefixed `invc_`. Example: "invc_01KEZF7C00B47NXRE3ET37QQ59". lines
-         * (Required): Array of {@link InventoryCountLine}. Count lines, one for each inventory
-         * item being counted. lines[] (Value): {@link InventoryCountLine}. One item's line in an
-         * inventory count, with the quantities Flint expected, the quantities counted, and the
-         * variance applied. location_id (Required): string. ID of the Location whose stock is
-         * counted. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". observation_provenance (Optional):
-         * {@link InventoryCountObservationProvenance}. Source system, actor, and time reported
-         * with the count's observations. Where an inventory count came from: the source system, an
-         * external actor ID, and when the event occurred. status (Required): string. Whether the
-         * count is still open. Applying or canceling a `draft` count ends it. Value enum: "draft",
-         * "applied", "canceled". supported_actions (Required): Array of string. Actions that can
-         * change this count now. A draft can be canceled, and applied once every line has an
-         * observation. Empty after the count is applied or canceled. [] enum: "apply", "cancel".
-         * supported_actions[] (Value): string. Value enum: "apply", "cancel". updated_at
-         * (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
-         * owned state. Send it as `expected_version` when changing the resource to reject a stale
-         * write. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "applied_at"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * The Idempotency-Key of the request that created this resource. `null` when that
-             * request sent no key, Flint created the resource, the reader isn't the caller that
-             * created it (another app install, a buyer, or the merchant reading an app's or
-             * buyer's record), or the caller that created an older record is unknown. Filter its
-             * list with `idempotency_key` to find it. Recorded payloads, including replayed
-             * responses and webhook events, can return `null`. To find a key that a replay returns
-             * as `null`, read the resource.
-             */
-            "idempotency_key"?: string | null;
-            /**
-             * Unique identifier for this inventory count, prefixed `invc_`. Example:
-             * "invc_01KEZF7C00B47NXRE3ET37QQ59".
-             */
-            "inventory_count_id": string;
-            /**
-             * Count lines, one for each inventory item being counted. [] (Value): {@link
-             * InventoryCountLine}. One item's line in an inventory count, with the quantities
-             * Flint expected, the quantities counted, and the variance applied.
-             */
-            "lines": Array<InventoryCountLine>;
-            /**
-             * ID of the Location whose stock is counted. Example:
-             * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-             */
-            "location_id": string;
-            /**
-             * Source system, actor, and time reported with the count's observations. Where an
-             * inventory count came from: the source system, an external actor ID, and when the
-             * event occurred.
-             */
-            "observation_provenance"?: InventoryCountObservationProvenance;
-            /**
-             * Whether the count is still open. Applying or canceling a `draft` count ends it.
-             * Value enum: "draft", "applied", "canceled".
-             */
-            "status": "draft" | "applied" | "canceled" | (string & {});
-            /**
-             * Actions that can change this count now. A draft can be canceled, and applied once
-             * every line has an observation. Empty after the count is applied or canceled. []
-             * enum: "apply", "cancel". [] (Value): string. Value enum: "apply", "cancel".
-             */
-            "supported_actions": Array<"apply" | "cancel" | (string & {})>;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. applied_at (Optional): string or null. RFC3339
-         * timestamp. applied_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". applied_at.anyOf[2] (Value): null. created_at
-         * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. idempotency_key (Optional): string or null. The
-         * Idempotency-Key of the request that created this resource. `null` when that request sent
-         * no key, Flint created the resource, the reader isn't the caller that created it (another
-         * app install, a buyer, or the merchant reading an app's or buyer's record), or the caller
-         * that created an older record is unknown. Filter its list with `idempotency_key` to find
-         * it. Recorded payloads, including replayed responses and webhook events, can return
-         * `null`. To find a key that a replay returns as `null`, read the resource.
-         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
-         * created this resource. `null` when that request sent no key, Flint created the resource,
-         * the reader isn't the caller that created it (another app install, a buyer, or the
-         * merchant reading an app's or buyer's record), or the caller that created an older record
-         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
-         * including replayed responses and webhook events, can return `null`. To find a key that a
-         * replay returns as `null`, read the resource. idempotency_key.anyOf[2] (Value): null.
-         * inventory_count_id (Optional): string or null. Unique identifier for this inventory
-         * count, prefixed `invc_`. inventory_count_id.anyOf[1] (Value): string. Unique identifier
-         * for this inventory count, prefixed `invc_`. Example: "invc_01KEZF7C00B47NXRE3ET37QQ59".
-         * inventory_count_id.anyOf[2] (Value): null. lines (Optional): Array of {@link
-         * InventoryCountLinePreviousAttributes} or null. Count lines, one for each inventory item
-         * being counted. lines.anyOf[1] (Value): Array of {@link
-         * InventoryCountLinePreviousAttributes}. Count lines, one for each inventory item being
-         * counted. lines.anyOf[1][] (Value): {@link InventoryCountLinePreviousAttributes}.
-         * lines.anyOf[2] (Value): null. location_id (Optional): string or null. ID of the Location
-         * whose stock is counted. location_id.anyOf[1] (Value): string. ID of the Location whose
-         * stock is counted. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". location_id.anyOf[2]
-         * (Value): null. observation_provenance (Optional): {@link
-         * InventoryCountObservationProvenancePreviousAttributes} or null. Source system, actor,
-         * and time reported with the count's observations. observation_provenance.anyOf[1]
-         * (Value): {@link InventoryCountObservationProvenancePreviousAttributes}.
-         * observation_provenance.anyOf[2] (Value): null. status (Optional): string or null.
-         * Whether the count is still open. Applying or canceling a `draft` count ends it. Value
-         * enum: "draft", "applied", "canceled". status.anyOf[1] (Value): string. Whether the count
-         * is still open. Applying or canceling a `draft` count ends it. Value enum: "draft",
-         * "applied", "canceled". status.anyOf[2] (Value): null. supported_actions (Optional):
-         * Array of string or null. Actions that can change this count now. A draft can be
-         * canceled, and applied once every line has an observation. Empty after the count is
-         * applied or canceled. [] enum: "apply", "cancel". supported_actions.anyOf[1] (Value):
-         * Array of string. Actions that can change this count now. A draft can be canceled, and
-         * applied once every line has an observation. Empty after the count is applied or
-         * canceled. [] enum: "apply", "cancel". supported_actions.anyOf[1][] (Value): string.
-         * Value enum: "apply", "cancel". supported_actions.anyOf[2] (Value): null. updated_at
-         * (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string.
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current version
-         * of this resource's owned state. Send it as `expected_version` when changing the resource
-         * to reject a stale write. version.anyOf[1] (Value): integer. Current version of this
-         * resource's owned state. Send it as `expected_version` when changing the resource to
-         * reject a stale write. Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "applied_at"?: ((string) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * The Idempotency-Key of the request that created this resource. `null` when that
-             * request sent no key, Flint created the resource, the reader isn't the caller that
-             * created it (another app install, a buyer, or the merchant reading an app's or
-             * buyer's record), or the caller that created an older record is unknown. Filter its
-             * list with `idempotency_key` to find it. Recorded payloads, including replayed
-             * responses and webhook events, can return `null`. To find a key that a replay returns
-             * as `null`, read the resource. anyOf[1] (Value): string. The Idempotency-Key of the
-             * request that created this resource. `null` when that request sent no key, Flint
-             * created the resource, the reader isn't the caller that created it (another app
-             * install, a buyer, or the merchant reading an app's or buyer's record), or the caller
-             * that created an older record is unknown. Filter its list with `idempotency_key` to
-             * find it. Recorded payloads, including replayed responses and webhook events, can
-             * return `null`. To find a key that a replay returns as `null`, read the resource.
-             * anyOf[2] (Value): null.
-             */
-            "idempotency_key"?: ((string) | (null));
-            /**
-             * Unique identifier for this inventory count, prefixed `invc_`. anyOf[1] (Value):
-             * string. Unique identifier for this inventory count, prefixed `invc_`. Example:
-             * "invc_01KEZF7C00B47NXRE3ET37QQ59". anyOf[2] (Value): null.
-             */
-            "inventory_count_id"?: ((string) | (null));
-            /**
-             * Count lines, one for each inventory item being counted. anyOf[1] (Value): Array of
-             * {@link InventoryCountLinePreviousAttributes}. Count lines, one for each inventory
-             * item being counted. anyOf[1][] (Value): {@link
-             * InventoryCountLinePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "lines"?: ((Array<InventoryCountLinePreviousAttributes>) | (null));
-            /**
-             * ID of the Location whose stock is counted. anyOf[1] (Value): string. ID of the
-             * Location whose stock is counted. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2]
-             * (Value): null.
-             */
-            "location_id"?: ((string) | (null));
-            /**
-             * Source system, actor, and time reported with the count's observations. anyOf[1]
-             * (Value): {@link InventoryCountObservationProvenancePreviousAttributes}. anyOf[2]
-             * (Value): null.
-             */
-            "observation_provenance"?: ((InventoryCountObservationProvenancePreviousAttributes) | (null));
-            /**
-             * Whether the count is still open. Applying or canceling a `draft` count ends it.
-             * Value enum: "draft", "applied", "canceled". anyOf[1] (Value): string. Whether the
-             * count is still open. Applying or canceling a `draft` count ends it. Value enum:
-             * "draft", "applied", "canceled". anyOf[2] (Value): null.
-             */
-            "status"?: (("draft" | "applied" | "canceled" | (string & {})) | (null));
-            /**
-             * Actions that can change this count now. A draft can be canceled, and applied once
-             * every line has an observation. Empty after the count is applied or canceled. []
-             * enum: "apply", "cancel". anyOf[1] (Value): Array of string. Actions that can change
-             * this count now. A draft can be canceled, and applied once every line has an
-             * observation. Empty after the count is applied or canceled. [] enum: "apply",
-             * "cancel". anyOf[1][] (Value): string. Value enum: "apply", "cancel". anyOf[2]
-             * (Value): null.
-             */
-            "supported_actions"?: ((Array<"apply" | "cancel" | (string & {})>) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
-             * version of this resource's owned state. Send it as `expected_version` when changing
-             * the resource to reject a stale write. Format: uint64. minimum: 1. anyOf[2] (Value):
-             * null.
-             */
-            "version"?: ((number) | (null));
-        });
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "inventory_count.applied". */
-    "event_type"?: "inventory_count.applied";
-});
-/**
- * One item's line in an inventory count, with the quantities Flint expected, the quantities
- * counted, and the variance applied.
- */
-export type InventoryCountLine = {
-    /**
-     * Physical version accepted with the latest saved observation. Meaningful once
-     * counted_on_hand_quantity is present. Applying the count requires the same physical version.
-     * Format: int64. minimum: 0.
-     */
-    "captured_physical_version": number;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "counted_damaged_quantity"?: number;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "counted_on_hand_quantity"?: number;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "counted_quality_control_quantity"?: number;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "counted_quarantined_quantity"?: number;
-    /**
-     * The difference this line applied to the damaged quantity. Present once the count is applied.
-     * A draft or canceled count omits it. Format: int64.
-     */
-    "damaged_variance"?: number;
-    /**
-     * The damaged quantity Flint holds for this item at this location right now. Present while the
-     * count is unapplied, on every line whether or not it has been counted. Applying the count
-     * sets the level to the counted quantities, and the apply is rejected if the level changed
-     * since the line was captured. An applied or canceled count omits it. Whole-number quantity;
-     * fractional quantities are not supported. Format: int64.
-     */
-    "expected_damaged_quantity"?: number;
-    /**
-     * The on-hand quantity Flint holds for this item at this location right now. Present while the
-     * count is unapplied, on every line whether or not it has been counted. Applying the count
-     * sets the level to the counted quantities, and the apply is rejected if the level changed
-     * since the line was captured. An applied or canceled count omits it. Whole-number quantity;
-     * fractional quantities are not supported. Format: int64.
-     */
-    "expected_on_hand_quantity"?: number;
-    /**
-     * The quality-control quantity Flint holds for this item at this location right now. Present
-     * while the count is unapplied, on every line whether or not it has been counted. Applying the
-     * count sets the level to the counted quantities, and the apply is rejected if the level
-     * changed since the line was captured. An applied or canceled count omits it. Whole-number
-     * quantity; fractional quantities are not supported. Format: int64.
-     */
-    "expected_quality_control_quantity"?: number;
-    /**
-     * The quarantined quantity Flint holds for this item at this location right now. Present while
-     * the count is unapplied, on every line whether or not it has been counted. Applying the count
-     * sets the level to the counted quantities, and the apply is rejected if the level changed
-     * since the line was captured. An applied or canceled count omits it. Whole-number quantity;
-     * fractional quantities are not supported. Format: int64.
-     */
-    "expected_quarantined_quantity"?: number;
-    /**
-     * Unique identifier for this inventory count line, prefixed `invcln_`. Example:
-     * "invcln_01KEZF7C00BJK1S36219KK040Q".
-     */
-    "inventory_count_line_id": string;
-    /** ID of the inventory item counted. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY". */
-    "inventory_item_id": string;
-    /**
-     * Movement this line wrote when the count was applied. Absent on a draft or canceled count.
-     * Example: "invm_01KEZF7C00DYPFT9PS0NZY805Z".
-     */
-    "inventory_movement_id"?: string;
-    /**
-     * The difference this line applied to the on-hand quantity. Present once the count is applied.
-     * A draft or canceled count omits it. Format: int64.
-     */
-    "on_hand_variance"?: number;
-    /**
-     * Live physical version of the level, read alongside expected quantities on draft lines.
-     * Evidence of current stock, not a fence captured at count creation. `null` when the count is
-     * applied or canceled. Format: uint64. minimum: 0. maximum: 9007199254740991.
-     */
-    "physical_version": number | null;
-    /**
-     * The difference this line applied to the quality-control quantity. Present once the count is
-     * applied. A draft or canceled count omits it. Format: int64.
-     */
-    "quality_control_variance"?: number;
-    /**
-     * The difference this line applied to the quarantined quantity. Present once the count is
-     * applied. A draft or canceled count omits it. Format: int64.
-     */
-    "quarantined_variance"?: number;
-    /** Format: int64. minimum: 0. */
-    "source_observation_sequence"?: number;
-};
-export type InventoryCountLinePreviousAttributes = {
-    /**
-     * Physical version accepted with the latest saved observation. Meaningful once
-     * counted_on_hand_quantity is present. Applying the count requires the same physical version.
-     * anyOf[1] (Value): integer. Physical version accepted with the latest saved observation.
-     * Meaningful once counted_on_hand_quantity is present. Applying the count requires the same
-     * physical version. Format: int64. minimum: 0. anyOf[2] (Value): null.
-     */
-    "captured_physical_version"?: ((number) | (null));
-    /**
-     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
-     * Whole-number quantity; fractional quantities are not supported. Format: int64. anyOf[2]
-     * (Value): null.
-     */
-    "counted_damaged_quantity"?: ((number) | (null));
-    /**
-     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
-     * Whole-number quantity; fractional quantities are not supported. Format: int64. anyOf[2]
-     * (Value): null.
-     */
-    "counted_on_hand_quantity"?: ((number) | (null));
-    /**
-     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
-     * Whole-number quantity; fractional quantities are not supported. Format: int64. anyOf[2]
-     * (Value): null.
-     */
-    "counted_quality_control_quantity"?: ((number) | (null));
-    /**
-     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
-     * Whole-number quantity; fractional quantities are not supported. Format: int64. anyOf[2]
-     * (Value): null.
-     */
-    "counted_quarantined_quantity"?: ((number) | (null));
-    /**
-     * The difference this line applied to the damaged quantity. Present once the count is applied.
-     * A draft or canceled count omits it. anyOf[1] (Value): integer. The difference this line
-     * applied to the damaged quantity. Present once the count is applied. A draft or canceled
-     * count omits it. Format: int64. anyOf[2] (Value): null.
-     */
-    "damaged_variance"?: ((number) | (null));
-    /**
-     * The damaged quantity Flint holds for this item at this location right now. Present while the
-     * count is unapplied, on every line whether or not it has been counted. Applying the count
-     * sets the level to the counted quantities, and the apply is rejected if the level changed
-     * since the line was captured. An applied or canceled count omits it. Whole-number quantity;
-     * fractional quantities are not supported. anyOf[1] (Value): integer. The damaged quantity
-     * Flint holds for this item at this location right now. Present while the count is unapplied,
-     * on every line whether or not it has been counted. Applying the count sets the level to the
-     * counted quantities, and the apply is rejected if the level changed since the line was
-     * captured. An applied or canceled count omits it. Whole-number quantity; fractional
-     * quantities are not supported. Format: int64. anyOf[2] (Value): null.
-     */
-    "expected_damaged_quantity"?: ((number) | (null));
-    /**
-     * The on-hand quantity Flint holds for this item at this location right now. Present while the
-     * count is unapplied, on every line whether or not it has been counted. Applying the count
-     * sets the level to the counted quantities, and the apply is rejected if the level changed
-     * since the line was captured. An applied or canceled count omits it. Whole-number quantity;
-     * fractional quantities are not supported. anyOf[1] (Value): integer. The on-hand quantity
-     * Flint holds for this item at this location right now. Present while the count is unapplied,
-     * on every line whether or not it has been counted. Applying the count sets the level to the
-     * counted quantities, and the apply is rejected if the level changed since the line was
-     * captured. An applied or canceled count omits it. Whole-number quantity; fractional
-     * quantities are not supported. Format: int64. anyOf[2] (Value): null.
-     */
-    "expected_on_hand_quantity"?: ((number) | (null));
-    /**
-     * The quality-control quantity Flint holds for this item at this location right now. Present
-     * while the count is unapplied, on every line whether or not it has been counted. Applying the
-     * count sets the level to the counted quantities, and the apply is rejected if the level
-     * changed since the line was captured. An applied or canceled count omits it. Whole-number
-     * quantity; fractional quantities are not supported. anyOf[1] (Value): integer. The
-     * quality-control quantity Flint holds for this item at this location right now. Present while
-     * the count is unapplied, on every line whether or not it has been counted. Applying the count
-     * sets the level to the counted quantities, and the apply is rejected if the level changed
-     * since the line was captured. An applied or canceled count omits it. Whole-number quantity;
-     * fractional quantities are not supported. Format: int64. anyOf[2] (Value): null.
-     */
-    "expected_quality_control_quantity"?: ((number) | (null));
-    /**
-     * The quarantined quantity Flint holds for this item at this location right now. Present while
-     * the count is unapplied, on every line whether or not it has been counted. Applying the count
-     * sets the level to the counted quantities, and the apply is rejected if the level changed
-     * since the line was captured. An applied or canceled count omits it. Whole-number quantity;
-     * fractional quantities are not supported. anyOf[1] (Value): integer. The quarantined quantity
-     * Flint holds for this item at this location right now. Present while the count is unapplied,
-     * on every line whether or not it has been counted. Applying the count sets the level to the
-     * counted quantities, and the apply is rejected if the level changed since the line was
-     * captured. An applied or canceled count omits it. Whole-number quantity; fractional
-     * quantities are not supported. Format: int64. anyOf[2] (Value): null.
-     */
-    "expected_quarantined_quantity"?: ((number) | (null));
-    /**
-     * Unique identifier for this inventory count line, prefixed `invcln_`. anyOf[1] (Value):
-     * string. Unique identifier for this inventory count line, prefixed `invcln_`. Example:
-     * "invcln_01KEZF7C00BJK1S36219KK040Q". anyOf[2] (Value): null.
-     */
-    "inventory_count_line_id"?: ((string) | (null));
-    /**
-     * ID of the inventory item counted. anyOf[1] (Value): string. ID of the inventory item
-     * counted. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY". anyOf[2] (Value): null.
-     */
-    "inventory_item_id"?: ((string) | (null));
-    /**
-     * Movement this line wrote when the count was applied. Absent on a draft or canceled count.
-     * anyOf[1] (Value): string. Movement this line wrote when the count was applied. Absent on a
-     * draft or canceled count. Example: "invm_01KEZF7C00DYPFT9PS0NZY805Z". anyOf[2] (Value): null.
-     */
-    "inventory_movement_id"?: ((string) | (null));
-    /**
-     * The difference this line applied to the on-hand quantity. Present once the count is applied.
-     * A draft or canceled count omits it. anyOf[1] (Value): integer. The difference this line
-     * applied to the on-hand quantity. Present once the count is applied. A draft or canceled
-     * count omits it. Format: int64. anyOf[2] (Value): null.
-     */
-    "on_hand_variance"?: ((number) | (null));
-    /**
-     * Live physical version of the level, read alongside expected quantities on draft lines.
-     * Evidence of current stock, not a fence captured at count creation. `null` when the count is
-     * applied or canceled. anyOf[1] (Value): integer. Live physical version of the level, read
-     * alongside expected quantities on draft lines. Evidence of current stock, not a fence
-     * captured at count creation. `null` when the count is applied or canceled. Format: uint64.
-     * minimum: 0. maximum: 9007199254740991. anyOf[2] (Value): null.
-     */
-    "physical_version"?: ((number) | (null));
-    /**
-     * The difference this line applied to the quality-control quantity. Present once the count is
-     * applied. A draft or canceled count omits it. anyOf[1] (Value): integer. The difference this
-     * line applied to the quality-control quantity. Present once the count is applied. A draft or
-     * canceled count omits it. Format: int64. anyOf[2] (Value): null.
-     */
-    "quality_control_variance"?: ((number) | (null));
-    /**
-     * The difference this line applied to the quarantined quantity. Present once the count is
-     * applied. A draft or canceled count omits it. anyOf[1] (Value): integer. The difference this
-     * line applied to the quarantined quantity. Present once the count is applied. A draft or
-     * canceled count omits it. Format: int64. anyOf[2] (Value): null.
-     */
-    "quarantined_variance"?: ((number) | (null));
-    /**  anyOf[1] (Value): integer. Format: int64. minimum: 0. anyOf[2] (Value): null. */
-    "source_observation_sequence"?: ((number) | (null));
-};
-/** A page of `InventoryCount` objects. */
-export type InventoryCountListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * InventoryCount}. A physical count used to reconcile stock.
-     */
-    "data": Array<InventoryCount>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};

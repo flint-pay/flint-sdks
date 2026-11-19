@@ -142,7 +142,7 @@ Who created this key: the API key or workload identity whose credential made the
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `resource_id` | Required | string | Public Flint ID of the referenced resource. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
-| `resource_type` | Required | string | Public resource kind identified by resource_id, such as payment_intent for a payment. Example: `"order"`. Values: [157 declared values](#apikeycreated_by-resource_type-values). |
+| `resource_type` | Required | string | Public resource kind identified by resource_id, such as payment_intent for a payment. Example: `"order"`. Values: [158 declared values](#apikeycreated_by-resource_type-values). |
 
 #### APIKey.created_by resource_type values
 
@@ -238,6 +238,7 @@ Who created this key: the API key or workload identity whose credential made the
 - `"partner_app"`
 - `"partner_app_credential"`
 - `"partner_app_install"`
+- `"payment_attempt"`
 - `"payment_intent"`
 - `"payment_link"`
 - `"payment_link_custom_field"`

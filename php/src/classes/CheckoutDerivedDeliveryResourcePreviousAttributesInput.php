@@ -9,10 +9,11 @@ namespace Flint;
  * @property-read string|null $evaluation_status
  * @property-read string|\DateTimeInterface|null $expires_at
  * @property-read list<DeliveryInputRequirementPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null $input_requirements
+ * @property-read bool|null $inventory_unavailable
  * @property-read list<DeliveryMerchantDiagnosticPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null $merchant_diagnostics
  * Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutDerivedDeliveryResourcePreviousAttributesInput extends Model {
-    /** @param array{'buyer_reasons'?: list<string>|null, 'choice_groups'?: list<DeliveryQuoteChoiceGroupResourcePreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'delivery_quote_id'?: string|null, 'delivery_selection_id'?: string|null, 'evaluation_status'?: string|null, 'expires_at'?: string|\DateTimeInterface|null, 'input_requirements'?: list<DeliveryInputRequirementPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'merchant_diagnostics'?: list<DeliveryMerchantDiagnosticPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, ...}|object $values */
+    /** @param array{'buyer_reasons'?: list<string>|null, 'choice_groups'?: list<DeliveryQuoteChoiceGroupResourcePreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'delivery_quote_id'?: string|null, 'delivery_selection_id'?: string|null, 'evaluation_status'?: string|null, 'expires_at'?: string|\DateTimeInterface|null, 'input_requirements'?: list<DeliveryInputRequirementPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'inventory_unavailable'?: bool|null, 'merchant_diagnostics'?: list<DeliveryMerchantDiagnosticPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutDerivedDeliveryResourcePreviousAttributesInput')); }
     /** Buyer-safe reasons a choice group has no available option. Groups with an available option contribute no reasons. anyOf[1] (Value): Array of string. Buyer-safe reasons a choice group has no available option. Groups with an available option contribute no reasons. anyOf[1][] (Value): string. anyOf[2] (Value): null.
      * @return list<string>|null
@@ -56,6 +57,12 @@ final class CheckoutDerivedDeliveryResourcePreviousAttributesInput extends Model
      */
     public function getInputRequirements(): mixed { return $this->get('input_requirements'); }
     public function hasInputRequirements(): bool { return $this->has('input_requirements'); }
+    /** True when a required delivery group has no option and a candidate lacks the requested stock. anyOf[1] (Value): boolean. True when a required delivery group has no option and a candidate lacks the requested stock. anyOf[2] (Value): null.
+     * @return bool|null
+     * @throws SdkError When inventory_unavailable is omitted; use hasInventoryUnavailable() or valueOrDefault().
+     */
+    public function getInventoryUnavailable(): mixed { return $this->get('inventory_unavailable'); }
+    public function hasInventoryUnavailable(): bool { return $this->has('inventory_unavailable'); }
     /** Always present with an API key or dashboard credential. anyOf[1] (Value): Array of {@see DeliveryMerchantDiagnosticPreviousAttributesInput}. Always present with an API key or dashboard credential. anyOf[1][] (Value): {@see DeliveryMerchantDiagnosticPreviousAttributesInput}. anyOf[2] (Value): null.
      * @return list<DeliveryMerchantDiagnosticPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null
      * @throws SdkError When merchant_diagnostics is omitted; use hasMerchantDiagnostics() or valueOrDefault().

@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# InventoryAdjustmentQuantityLineRequestInput to InventorySourceSystemRequestInput
+# InventoryActionRequiredPreviousAttributesInput to InventoryRoutingSourceRequestInput
 
+- [InventoryActionRequiredPreviousAttributesInput](InventoryActionRequiredPreviousAttributesInput.md)
+- [InventoryAdjustmentInput](InventoryAdjustmentInput.md)
+- [InventoryAdjustmentConditionChangeLineRequestInput](InventoryAdjustmentConditionChangeLineRequestInput.md)
+- [InventoryAdjustmentLineInput](InventoryAdjustmentLineInput.md)
+- [InventoryAdjustmentListResponseInput](InventoryAdjustmentListResponseInput.md)
 - [InventoryAdjustmentQuantityLineRequestInput](InventoryAdjustmentQuantityLineRequestInput.md)
 - [InventoryAdjustmentResponseInput](InventoryAdjustmentResponseInput.md)
 - [InventoryAdjustmentResultInput](InventoryAdjustmentResultInput.md)
@@ -97,9 +102,4 @@
 - [InventoryRoutingSourceInputPolicyRevisionInput](InventoryRoutingSourceInputPolicyRevisionInput.md)
 - [InventoryRoutingSourcePreviousAttributesInput](InventoryRoutingSourcePreviousAttributesInput.md)
 - [InventoryRoutingSourceRequestInput](InventoryRoutingSourceRequestInput.md)
-- [InventorySettingsInput](InventorySettingsInput.md)
-- [InventorySettingsRequestInput](InventorySettingsRequestInput.md)
-- [InventorySourceSystemInput](InventorySourceSystemInput.md)
-- [InventorySourceSystemPreviousAttributesInput](InventorySourceSystemPreviousAttributesInput.md)
-- [InventorySourceSystemRequestInput](InventorySourceSystemRequestInput.md)
 

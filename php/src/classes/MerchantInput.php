@@ -23,12 +23,13 @@ namespace Flint;
  * @property-read string $support_phone
  * @property-read string $support_url
  * @property-read string $timezone
+ * @property-read bool $timezone_inferred
  * @property-read string|\DateTimeInterface $updated_at
  * @property-read int $version
  * @property-read string $website_url
  * Presence-aware input; omitted fields throw when accessed. */
 final class MerchantInput extends Model {
-    /** @param array{'address'?: AddressInput|array<array-key, mixed>|\stdClass, 'api_version'?: string, 'api_version_changed_at'?: string|\DateTimeInterface, 'api_version_pinned_at'?: string|\DateTimeInterface, 'api_version_previous'?: string, 'api_version_rollback_expires_at'?: string|\DateTimeInterface, 'business_name'?: string, 'business_type'?: string, 'created_at': string|\DateTimeInterface, 'email': string|null, 'icon'?: ImageAttachmentInput|array<array-key, mixed>|\stdClass, 'logo'?: ImageAttachmentInput|array<array-key, mixed>|\stdClass, 'merchant_id': string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'phone'?: string, 'readiness': MerchantReadinessInput|array<array-key, mixed>|\stdClass, 'status': string, 'support_email'?: string, 'support_phone'?: string, 'support_url'?: string, 'timezone'?: string, 'updated_at': string|\DateTimeInterface, 'version': int, 'website_url'?: string, ...}|object $values */
+    /** @param array{'address'?: AddressInput|array<array-key, mixed>|\stdClass, 'api_version'?: string, 'api_version_changed_at'?: string|\DateTimeInterface, 'api_version_pinned_at'?: string|\DateTimeInterface, 'api_version_previous'?: string, 'api_version_rollback_expires_at'?: string|\DateTimeInterface, 'business_name'?: string, 'business_type'?: string, 'created_at': string|\DateTimeInterface, 'email': string|null, 'icon'?: ImageAttachmentInput|array<array-key, mixed>|\stdClass, 'logo'?: ImageAttachmentInput|array<array-key, mixed>|\stdClass, 'merchant_id': string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'phone'?: string, 'readiness': MerchantReadinessInput|array<array-key, mixed>|\stdClass, 'status': string, 'support_email'?: string, 'support_phone'?: string, 'support_url'?: string, 'timezone'?: string, 'timezone_inferred'?: bool, 'updated_at': string|\DateTimeInterface, 'version': int, 'website_url'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MerchantInput')); }
     /** The merchant's business address. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
      * @return AddressInput|array<array-key, mixed>|\stdClass
@@ -150,12 +151,18 @@ final class MerchantInput extends Model {
      */
     public function getSupportUrl(): string { return $this->get('support_url'); }
     public function hasSupportUrl(): bool { return $this->has('support_url'); }
-    /** Business IANA time zone, such as America/New_York. Used for invoice deadlines, new locations, notifications, and reporting when a request omits its time zone. Omitted when unset; UTC then applies until the first live Location sets it. Sandbox Locations do not set the business time zone. Existing resources keep their saved time zone.
+    /** Business IANA time zone, such as America/New_York. If no zone is saved, GET /v1/merchant returns a zone inferred from live business geography when one is available, and omits the field otherwise. Existing resources keep their saved time zone.
      * @return string
      * @throws SdkError When timezone is omitted; use hasTimezone() or valueOrDefault().
      */
     public function getTimezone(): string { return $this->get('timezone'); }
     public function hasTimezone(): bool { return $this->has('timezone'); }
+    /** True when GET /v1/merchant inferred timezone because the merchant has no saved business time zone. Omitted otherwise.
+     * @return bool
+     * @throws SdkError When timezone_inferred is omitted; use hasTimezoneInferred() or valueOrDefault().
+     */
+    public function getTimezoneInferred(): bool { return $this->get('timezone_inferred'); }
+    public function hasTimezoneInferred(): bool { return $this->has('timezone_inferred'); }
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().

@@ -1,9 +1,29 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
+    FulfillmentSettingsRequestInput,
+    FulfillmentSinglePackageRequestInput,
+    GeneratedLicenseKeyConfigurationRequestInput,
+    GiftCardCustomAmountBoundsRequestInput
+} from './types-28.js';
+import type {
+    GiftCardFundingSourceAdjustmentRequestInput,
+    GiftCardFundingSourceExternalPaymentRequestInput,
+    GiftCardFundingSourceFlintManualPaymentRequestInput,
+    GiftCardFundingSourceFlintPaymentRequestInput,
+    GiftCardFundingSourceGiftCardPurchaseRefundRecoveryRequestInput,
+    GiftCardFundingSourceGiftCardRefundRequestInput,
+    GiftCardFundingSourceImportRequestInput,
+    GiftCardFundingSourceRequestInput,
+    GiftCardFundingSourceStoreCreditRequestInput,
+    GiftCardNotificationRecipientInput
+} from './types-29.js';
+import type {
     GiftCardProductConfigurationRequestInput,
     GiftCardPurchaseDetailsRequestInput,
+    GiftCardPurchaseRecipientInput,
     GiftCardPurchaseRecipientPatchRequestInput,
     GiftCardPurchaseRecipientRequestInput,
+    GiftCardPurchaseRequestInput,
     GiftCardVersionRequestInput
 } from './types-30.js';
 import type {
@@ -33,19 +53,19 @@ import type {
     InventoryRoutingDemandInput,
     InventoryRoutingSourceInputFixedLocationInput,
     InventoryRoutingSourceInputPolicyInput,
-    InventoryRoutingSourceInputPolicyRevisionInput,
-    InventoryRoutingSourceRequestInput,
-    InventorySettingsRequestInput
+    InventoryRoutingSourceInputPolicyRevisionInput
 } from './types-33.js';
 import type {
+    InventoryRoutingSourceRequestInput,
+    InventorySettingsRequestInput,
     InventorySourceSystemRequestInput,
     InventoryTransferLineRequestInput,
-    InvoiceAutopayRetryPolicyInput,
-    InvoiceCollectionInputAutomaticInput,
-    InvoiceCollectionInputBuyerInitiatedInput,
-    InvoiceCollectionInputExternalInput
+    InvoiceAutopayRetryPolicyInput
 } from './types-34.js';
 import type {
+    InvoiceCollectionInputAutomaticInput,
+    InvoiceCollectionInputBuyerInitiatedInput,
+    InvoiceCollectionInputExternalInput,
     InvoiceCollectionInputMerchantDefaultInput,
     InvoiceCollectionRequestInput,
     InvoiceLateFeePolicyFixedRequestInput,
@@ -59,30 +79,28 @@ import type {
     InvoicePaymentDueInputNoneInput,
     InvoicePaymentDueInputPaymentTermsInput,
     InvoicePaymentDueRequestInput,
-    InvoicePaymentOptionLimitRequestInput,
-    InvoicePaymentPolicyRequestInput,
-    InvoicePaymentTermCalculationDayOfMonthRequestInput
+    InvoicePaymentOptionLimitRequestInput
 } from './types-36.js';
-import type {
-    InvoicePaymentTermCalculationDayOfNextMonthRequestInput,
-    InvoicePaymentTermCalculationDaysAfterMonthEndRequestInput,
-    InvoicePaymentTermCalculationNetDaysRequestInput,
-    InvoicePaymentTermCalculationOnReceiptRequestInput,
-    InvoicePaymentTermCalculationRequestInput,
-    InvoiceReminderPolicyInput,
-    InvoiceReminderRuleInput,
-    InvoiceScheduleAmountSpecificationFixedRequestInput,
-    InvoiceScheduleAmountSpecificationPercentageRequestInput,
-    InvoiceScheduleAmountSpecificationRemainingBalanceRequestInput,
-    InvoiceScheduleAmountSpecificationRequestInput,
-    InvoiceScheduleDueWriteInput,
-    InvoiceScheduleDueWriteAtIssueInput,
-    InvoiceScheduleDueWriteDateInput
-} from './types-37.js';
+export declare function makeFulfillmentSettingsRequest(value: InputValue<FulfillmentSettingsRequestInput>): Model<FulfillmentSettingsRequestInput>;
+export declare function makeFulfillmentSinglePackageRequest(value: InputValue<FulfillmentSinglePackageRequestInput>): Model<FulfillmentSinglePackageRequestInput>;
+export declare function makeGeneratedLicenseKeyConfigurationRequest(value: InputValue<GeneratedLicenseKeyConfigurationRequestInput>): Model<GeneratedLicenseKeyConfigurationRequestInput>;
+export declare function makeGiftCardCustomAmountBoundsRequest(value: InputValue<GiftCardCustomAmountBoundsRequestInput>): Model<GiftCardCustomAmountBoundsRequestInput>;
+export declare function makeGiftCardFundingSourceAdjustmentRequest(value: InputValue<GiftCardFundingSourceAdjustmentRequestInput>): Model<GiftCardFundingSourceAdjustmentRequestInput>;
+export declare function makeGiftCardFundingSourceExternalPaymentRequest(value: InputValue<GiftCardFundingSourceExternalPaymentRequestInput>): Model<GiftCardFundingSourceExternalPaymentRequestInput>;
+export declare function makeGiftCardFundingSourceFlintManualPaymentRequest(value: InputValue<GiftCardFundingSourceFlintManualPaymentRequestInput>): Model<GiftCardFundingSourceFlintManualPaymentRequestInput>;
+export declare function makeGiftCardFundingSourceFlintPaymentRequest(value: InputValue<GiftCardFundingSourceFlintPaymentRequestInput>): Model<GiftCardFundingSourceFlintPaymentRequestInput>;
+export declare function makeGiftCardFundingSourceGiftCardPurchaseRefundRecoveryRequest(value: InputValue<GiftCardFundingSourceGiftCardPurchaseRefundRecoveryRequestInput>): Model<GiftCardFundingSourceGiftCardPurchaseRefundRecoveryRequestInput>;
+export declare function makeGiftCardFundingSourceGiftCardRefundRequest(value: InputValue<GiftCardFundingSourceGiftCardRefundRequestInput>): Model<GiftCardFundingSourceGiftCardRefundRequestInput>;
+export declare function makeGiftCardFundingSourceImportRequest(value: InputValue<GiftCardFundingSourceImportRequestInput>): Model<GiftCardFundingSourceImportRequestInput>;
+export declare function makeGiftCardFundingSourceRequest(value: InputValue<GiftCardFundingSourceRequestInput>): Model<GiftCardFundingSourceRequestInput>;
+export declare function makeGiftCardFundingSourceStoreCreditRequest(value: InputValue<GiftCardFundingSourceStoreCreditRequestInput>): Model<GiftCardFundingSourceStoreCreditRequestInput>;
+export declare function makeGiftCardNotificationRecipient(value: InputValue<GiftCardNotificationRecipientInput>): Model<GiftCardNotificationRecipientInput>;
 export declare function makeGiftCardProductConfigurationRequest(value: InputValue<GiftCardProductConfigurationRequestInput>): Model<GiftCardProductConfigurationRequestInput>;
 export declare function makeGiftCardPurchaseDetailsRequest(value: InputValue<GiftCardPurchaseDetailsRequestInput>): Model<GiftCardPurchaseDetailsRequestInput>;
+export declare function makeGiftCardPurchaseRecipient(value: InputValue<GiftCardPurchaseRecipientInput>): Model<GiftCardPurchaseRecipientInput>;
 export declare function makeGiftCardPurchaseRecipientPatchRequest(value: InputValue<GiftCardPurchaseRecipientPatchRequestInput>): Model<GiftCardPurchaseRecipientPatchRequestInput>;
 export declare function makeGiftCardPurchaseRecipientRequest(value: InputValue<GiftCardPurchaseRecipientRequestInput>): Model<GiftCardPurchaseRecipientRequestInput>;
+export declare function makeGiftCardPurchaseRequest(value: InputValue<GiftCardPurchaseRequestInput>): Model<GiftCardPurchaseRequestInput>;
 export declare function makeGiftCardVersionRequest(value: InputValue<GiftCardVersionRequestInput>): Model<GiftCardVersionRequestInput>;
 export declare function makeHoldFulfillmentRequest(value: InputValue<HoldFulfillmentRequestInput>): Model<HoldFulfillmentRequestInput>;
 export declare function makeImageInputFile(value: InputValue<ImageInputFileInput>): Model<ImageInputFileInput>;
@@ -128,19 +146,3 @@ export declare function makeInvoicePaymentDueInputNone(value: InputValue<Invoice
 export declare function makeInvoicePaymentDueInputPaymentTerms(value: InputValue<InvoicePaymentDueInputPaymentTermsInput>): Model<InvoicePaymentDueInputPaymentTermsInput>;
 export declare function makeInvoicePaymentDueRequest(value: InputValue<InvoicePaymentDueRequestInput>): Model<InvoicePaymentDueRequestInput>;
 export declare function makeInvoicePaymentOptionLimitRequest(value: InputValue<InvoicePaymentOptionLimitRequestInput>): Model<InvoicePaymentOptionLimitRequestInput>;
-export declare function makeInvoicePaymentPolicyRequest(value: InputValue<InvoicePaymentPolicyRequestInput>): Model<InvoicePaymentPolicyRequestInput>;
-export declare function makeInvoicePaymentTermCalculationDayOfMonthRequest(value: InputValue<InvoicePaymentTermCalculationDayOfMonthRequestInput>): Model<InvoicePaymentTermCalculationDayOfMonthRequestInput>;
-export declare function makeInvoicePaymentTermCalculationDayOfNextMonthRequest(value: InputValue<InvoicePaymentTermCalculationDayOfNextMonthRequestInput>): Model<InvoicePaymentTermCalculationDayOfNextMonthRequestInput>;
-export declare function makeInvoicePaymentTermCalculationDaysAfterMonthEndRequest(value: InputValue<InvoicePaymentTermCalculationDaysAfterMonthEndRequestInput>): Model<InvoicePaymentTermCalculationDaysAfterMonthEndRequestInput>;
-export declare function makeInvoicePaymentTermCalculationNetDaysRequest(value: InputValue<InvoicePaymentTermCalculationNetDaysRequestInput>): Model<InvoicePaymentTermCalculationNetDaysRequestInput>;
-export declare function makeInvoicePaymentTermCalculationOnReceiptRequest(value: InputValue<InvoicePaymentTermCalculationOnReceiptRequestInput>): Model<InvoicePaymentTermCalculationOnReceiptRequestInput>;
-export declare function makeInvoicePaymentTermCalculationRequest(value: InputValue<InvoicePaymentTermCalculationRequestInput>): Model<InvoicePaymentTermCalculationRequestInput>;
-export declare function makeInvoiceReminderPolicy(value: InputValue<InvoiceReminderPolicyInput>): Model<InvoiceReminderPolicyInput>;
-export declare function makeInvoiceReminderRule(value: InputValue<InvoiceReminderRuleInput>): Model<InvoiceReminderRuleInput>;
-export declare function makeInvoiceScheduleAmountSpecificationFixedRequest(value: InputValue<InvoiceScheduleAmountSpecificationFixedRequestInput>): Model<InvoiceScheduleAmountSpecificationFixedRequestInput>;
-export declare function makeInvoiceScheduleAmountSpecificationPercentageRequest(value: InputValue<InvoiceScheduleAmountSpecificationPercentageRequestInput>): Model<InvoiceScheduleAmountSpecificationPercentageRequestInput>;
-export declare function makeInvoiceScheduleAmountSpecificationRemainingBalanceRequest(value: InputValue<InvoiceScheduleAmountSpecificationRemainingBalanceRequestInput>): Model<InvoiceScheduleAmountSpecificationRemainingBalanceRequestInput>;
-export declare function makeInvoiceScheduleAmountSpecificationRequest(value: InputValue<InvoiceScheduleAmountSpecificationRequestInput>): Model<InvoiceScheduleAmountSpecificationRequestInput>;
-export declare function makeInvoiceScheduleDueWrite(value: InputValue<InvoiceScheduleDueWriteInput>): Model<InvoiceScheduleDueWriteInput>;
-export declare function makeInvoiceScheduleDueWriteAtIssue(value: InputValue<InvoiceScheduleDueWriteAtIssueInput>): Model<InvoiceScheduleDueWriteAtIssueInput>;
-export declare function makeInvoiceScheduleDueWriteDate(value: InputValue<InvoiceScheduleDueWriteDateInput>): Model<InvoiceScheduleDueWriteDateInput>;

@@ -11,7 +11,7 @@ namespace Flint;
 final class DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemCustomGiftCardPurchaseRecipient extends Model {
     /** @param array{'email': string, 'message'?: string, 'name'?: string, 'send_at'?: string, 'sender_name'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemCustomGiftCardPurchaseRecipient')); }
-    /** Email address the gift card is delivered to. Format: email. minLength: 1. maxLength: 254.
+    /** Email address the gift card is delivered to. The local part before @ must be at most 64 octets (UTF-8 bytes). Format: email. minLength: 1. maxLength: 254.
      * @return string
      */
     public function getEmail(): string { return $this->get('email'); }
@@ -21,7 +21,7 @@ final class DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemCustomGiftCar
      */
     public function getMessage(): ?string { return $this->get('message'); }
     public function hasMessage(): bool { return $this->has('message'); }
-    /** Name of the person receiving the gift card. maxLength: 255.
+    /** Name of the person receiving the gift card. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. maxLength: 255.
      * @return ?string
      */
     public function getName(): ?string { return $this->get('name'); }

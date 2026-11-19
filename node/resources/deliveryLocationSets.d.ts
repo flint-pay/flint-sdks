@@ -44,14 +44,14 @@ export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateDeliveryLocationSetRequestInput } from '../declarations/types-9.js';
 export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
-export type { UpdateDeliveryLocationSetRequestInput } from '../declarations/types-75.js';
+export type { UpdateDeliveryLocationSetRequestInput } from '../declarations/types-76.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeCreateDeliveryLocationSetRequest } from '../declarations/types-82.js';
 export { makeDeliveryLocationSetConfiguration } from '../declarations/types-85.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
 export { makeUpdateDeliveryLocationSetRequest } from '../declarations/types-93.js';
 export interface DeliveryLocationSetsResource {
     /**

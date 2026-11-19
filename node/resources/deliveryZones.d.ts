@@ -33,16 +33,12 @@ export type {
     DeliveryZonesGetParams,
     DeliveryZonesListParams,
     DeliveryZoneListResponse,
-    DeliveryZonesUpdateParams
+    DeliveryZonesUpdateParams,
+    DeliveryZoneConfigurationRequestInput,
+    DeliveryZoneConfiguration
 } from '../declarations/types-25.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
-export type {
-    DeliveryZone,
-    DeliveryZoneConfigurationRequestInput,
-    DeliveryStateConditionRequestInput,
-    DeliveryZoneConfiguration,
-    DeliveryStateCondition
-} from '../declarations/types-24.js';
+export type { DeliveryZone, DeliveryStateConditionRequestInput, DeliveryStateCondition } from '../declarations/types-24.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateDeliveryZoneRequestInput } from '../declarations/types-9.js';
@@ -61,7 +57,7 @@ export type {
 } from '../declarations/types-22.js';
 export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { UpdateDeliveryZoneRequestInput } from '../declarations/types-76.js';
@@ -80,7 +76,7 @@ export {
     makeDeliveryStateConditionRequest,
     makeDeliveryZoneConfigurationRequest
 } from '../declarations/types-86.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
 export { makeUpdateDeliveryZoneRequest } from '../declarations/types-93.js';
 export interface DeliveryZonesResource {
     /**

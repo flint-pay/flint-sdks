@@ -1,7 +1,19 @@
 [Model index](../MODELS.md)
 
-# CustomerDeletionRequestRejectedEventDataPreviousAttributes to PlatformFeePayoutFailedEventDataPreviousAttributes
+# CustomerDeletionRequestCreatedEventDataObject to PaymentSplitSucceededEventDataObject
 
+- [CustomerDeletionRequestCreatedEventDataObject](CustomerDeletionRequestCreatedEventDataObject.md)
+- [CustomerDeletionRequestCreatedEventData](CustomerDeletionRequestCreatedEventData.md)
+- [CustomerDeletionRequestCreatedEventRequest](CustomerDeletionRequestCreatedEventRequest.md)
+- [CustomerDeletionRequestFailedEventDataObject](CustomerDeletionRequestFailedEventDataObject.md)
+- [CustomerDeletionRequestFailedEventDataPreviousAttributes](CustomerDeletionRequestFailedEventDataPreviousAttributes.md)
+- [CustomerDeletionRequestFailedEventData](CustomerDeletionRequestFailedEventData.md)
+- [CustomerDeletionRequestFailedEventRequest](CustomerDeletionRequestFailedEventRequest.md)
+- [CustomerDeletionRequestProcessingEventDataObject](CustomerDeletionRequestProcessingEventDataObject.md)
+- [CustomerDeletionRequestProcessingEventDataPreviousAttributes](CustomerDeletionRequestProcessingEventDataPreviousAttributes.md)
+- [CustomerDeletionRequestProcessingEventData](CustomerDeletionRequestProcessingEventData.md)
+- [CustomerDeletionRequestProcessingEventRequest](CustomerDeletionRequestProcessingEventRequest.md)
+- [CustomerDeletionRequestRejectedEventDataObject](CustomerDeletionRequestRejectedEventDataObject.md)
 - [CustomerDeletionRequestRejectedEventDataPreviousAttributes](CustomerDeletionRequestRejectedEventDataPreviousAttributes.md)
 - [CustomerDeletionRequestRejectedEventData](CustomerDeletionRequestRejectedEventData.md)
 - [CustomerDeletionRequestRejectedEventRequest](CustomerDeletionRequestRejectedEventRequest.md)
@@ -90,16 +102,4 @@
 - [PaymentSplitFailedEventData](PaymentSplitFailedEventData.md)
 - [PaymentSplitFailedEventRequest](PaymentSplitFailedEventRequest.md)
 - [PaymentSplitSucceededEventDataObject](PaymentSplitSucceededEventDataObject.md)
-- [PaymentSplitSucceededEventDataPreviousAttributes](PaymentSplitSucceededEventDataPreviousAttributes.md)
-- [PaymentSplitSucceededEventData](PaymentSplitSucceededEventData.md)
-- [PaymentSplitSucceededEventRequest](PaymentSplitSucceededEventRequest.md)
-- [PaymentSplitUpdatedEventDataObject](PaymentSplitUpdatedEventDataObject.md)
-- [PaymentSplitUpdatedEventDataPreviousAttributes](PaymentSplitUpdatedEventDataPreviousAttributes.md)
-- [PaymentSplitUpdatedEventData](PaymentSplitUpdatedEventData.md)
-- [PaymentSplitUpdatedEventRequest](PaymentSplitUpdatedEventRequest.md)
-- [PlatformFeePayoutCreatedEventDataObject](PlatformFeePayoutCreatedEventDataObject.md)
-- [PlatformFeePayoutCreatedEventData](PlatformFeePayoutCreatedEventData.md)
-- [PlatformFeePayoutCreatedEventRequest](PlatformFeePayoutCreatedEventRequest.md)
-- [PlatformFeePayoutFailedEventDataObject](PlatformFeePayoutFailedEventDataObject.md)
-- [PlatformFeePayoutFailedEventDataPreviousAttributes](PlatformFeePayoutFailedEventDataPreviousAttributes.md)
 

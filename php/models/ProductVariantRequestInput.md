@@ -51,5 +51,5 @@ Request input.
 
 Base unit price in the currency's smallest unit. It applies below the first quantity price break.
 
-Field definitions: [shared fields](PaymentLinkLineItemInputBundleInput.md#paymentlinklineiteminputbundleinputunit_price_money).
+Field definitions: [shared fields](CapturePaymentIntentRequestInput.md#capturepaymentintentrequestinputamount_money).
 

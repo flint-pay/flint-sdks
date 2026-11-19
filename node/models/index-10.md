@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# CreditNoteAllocationReversedMerchantEvent to CustomFieldAnswerCheckbox
+# CreditNoteAllocationListResponse to CustomerUpdatedMerchantEvent
 
+- [CreditNoteAllocationListResponse](CreditNoteAllocationListResponse.md)
+- [CreditNoteAllocationResponse](CreditNoteAllocationResponse.md)
+- [CreditNoteAllocationResult](CreditNoteAllocationResult.md)
+- [CreditNoteAllocationResultResponse](CreditNoteAllocationResultResponse.md)
+- [CreditNoteAllocationReversedInstalledMerchantsEvent](CreditNoteAllocationReversedInstalledMerchantsEvent.md)
 - [CreditNoteAllocationReversedMerchantEvent](CreditNoteAllocationReversedMerchantEvent.md)
 - [CreditNoteCorrectionRequest](CreditNoteCorrectionRequest.md)
 - [CreditNoteCorrectionRequestAmount](CreditNoteCorrectionRequestAmount.md)
@@ -97,9 +102,4 @@
 - [CustomerTaxIDPreviousAttributes](CustomerTaxIDPreviousAttributes.md)
 - [CustomerUpdatedInstalledMerchantsEvent](CustomerUpdatedInstalledMerchantsEvent.md)
 - [CustomerUpdatedMerchantEvent](CustomerUpdatedMerchantEvent.md)
-- [CustomerVerification](CustomerVerification.md)
-- [CustomerVerificationListResponse](CustomerVerificationListResponse.md)
-- [CustomerVerificationResponse](CustomerVerificationResponse.md)
-- [CustomFieldAnswer](CustomFieldAnswer.md)
-- [CustomFieldAnswerCheckbox](CustomFieldAnswerCheckbox.md)
 
