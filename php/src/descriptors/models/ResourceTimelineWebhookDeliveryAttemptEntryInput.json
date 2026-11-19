@@ -1,1 +1,1 @@
-{"shared":"ResourceTimelineWebhookDeliveryAttemptEntry","dependencies":["ResourceTimelineWebhookDeliveryAttemptEntry"]}
+{"shared":"ResourceTimelineWebhookDeliveryAttemptEntry","dependencies":["ResourceReference","ResourceTimelineWebhookDeliveryAttemptEntry","ResourceType"]}

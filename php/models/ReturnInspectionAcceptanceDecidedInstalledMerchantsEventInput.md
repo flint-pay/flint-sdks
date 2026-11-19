@@ -34,7 +34,7 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields.
 
-Field definitions: [shared fields](ReturnInspectionInput.md#returninspectioninput).
+Field definitions: [shared fields](WebhookSnapshotReturnInspectionInput.md#webhooksnapshotreturninspectioninput).
 
 ### ReturnInspectionAcceptanceDecidedInstalledMerchantsEventInput.data.previous_attributes
 
@@ -95,6 +95,10 @@ anyOf variant 1: Dispositions Flint created when it recorded this observation. E
 anyOf variant 2.
 
 - Value shape: null. Dispositions Flint created when it recorded this observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`. 
+
+### ReturnInspectionAcceptanceDecidedInstalledMerchantsEventInput.data.previous_attributes.idempotency_key
+
+Declared alternatives: [CreditNoteAllocationReversedInstalledMerchantsEventInput.data.previous_attributes.idempotency_key](../models/CreditNoteAllocationReversedInstalledMerchantsEventInput.md#creditnoteallocationreversedinstalledmerchantseventinputdataprevious_attributesidempotency_key).
 
 ### ReturnInspectionAcceptanceDecidedInstalledMerchantsEventInput.data.previous_attributes.inspected_at
 

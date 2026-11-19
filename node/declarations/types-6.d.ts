@@ -23,7 +23,8 @@ import type {
     ExpandedPaymentLinkSummaryPreviousAttributes
 } from './types-26.js';
 import type { MoneyValue, MoneyValueInput } from './types-44.js';
-import type { OrderLineItemTax, OrderLineItemTaxRequestInput } from './types-46.js';
+import type { OrderLineItemTax } from './types-46.js';
+import type { OrderLineItemTaxRequestInput, OrderPaymentAttempt } from './types-47.js';
 import type { BuyerRefund, BuyerRefundPreviousAttributes } from './types-3.js';
 import type {
     CheckoutSessionPlatformFee,
@@ -41,11 +42,11 @@ import type { CustomFieldAnswer, CustomFieldAnswerPreviousAttributes } from './t
 import type { Image } from './types-31.js';
 import type { LegalSettings } from './types-38.js';
 import type { MetadataMap, MerchantWebhookEnvelope } from './types-43.js';
-import type { OrderPaymentAttempt, OrderPaymentAttemptPreviousAttributes } from './types-47.js';
-import type { PaymentCollection } from './types-51.js';
+import type { PaymentCollection, PaymentCollectionPreviousAttributes } from './types-51.js';
 import type { SetupCollection, SetupCollectionPreviousAttributes } from './types-68.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { WebhookCheckoutSession } from './types-78.js';
+import type { WebhookSnapshotOrderPaymentAttemptPreviousAttributes } from './types-79.js';
 import type { ResponseMeta } from './types-62.js';
 /** The request body for: Change subscription plan. */
 export type ChangeSubscriptionPlanRequestInput = ({
@@ -1166,8 +1167,9 @@ export type CheckoutSession = {
      */
     "invoice_id"?: string;
     /**
-     * Whether this terminal session credential is temporarily restricted to recovering its owning
-     * payment attempt.
+     * Whether the checkout is in its payment recovery window after its deadline. The checkout
+     * credential can recover only an attempt it started. Merchant reads can also report a
+     * merchant-started attempt.
      */
     "is_in_recovery": boolean;
     /**
@@ -1340,8 +1342,8 @@ export type CheckoutSession = {
      */
     "recovery_expires_at"?: string | null;
     /**
-     * Payment attempt that this checkout credential may recover while is_in_recovery is true.
-     * Example: "opat_01KEZF7C00B5PW9F2R8A4YSH5D".
+     * The payment attempt in the recovery window. Only merchant reads report a merchant-started
+     * attempt. Example: "opat_01KEZF7C00B5PW9F2R8A4YSH5D".
      */
     "recovery_payment_attempt_id"?: string;
     /**
@@ -1499,7 +1501,7 @@ export type CheckoutSessionClosedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             [key: string]: unknown;
         })
             & ({
-            "active_payment_attempt"?: ((OrderPaymentAttemptPreviousAttributes) | (null));
+            "active_payment_attempt"?: ((WebhookSnapshotOrderPaymentAttemptPreviousAttributes) | (null));
             "buyer_contact"?: ((CheckoutBuyerContactPreviousAttributes) | (null));
             "buyer_fields"?: ((CheckoutBuyerFieldsPreviousAttributes) | (null));
             "can_apply_promotion_code"?: ((boolean) | (null));
@@ -1528,7 +1530,7 @@ export type CheckoutSessionClosedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             "order_id"?: ((string) | (null));
             "page_origin"?: ((string) | (null));
-            "payment_collection"?: ((SetupCollectionPreviousAttributes) | (null));
+            "payment_collection"?: ((PaymentCollectionPreviousAttributes) | (null));
             "payment_intent_ids"?: ((Array<string>) | (null));
             "payment_intents"?: ((Array<ExpandedPaymentIntentSummaryPreviousAttributes>) | (null));
             "payment_link"?: ((ExpandedPaymentLinkSummaryPreviousAttributes) | (null));
@@ -1579,7 +1581,7 @@ export type CheckoutSessionClosedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             [key: string]: unknown;
         })
             & ({
-            "active_payment_attempt"?: ((OrderPaymentAttemptPreviousAttributes) | (null));
+            "active_payment_attempt"?: ((WebhookSnapshotOrderPaymentAttemptPreviousAttributes) | (null));
             "buyer_contact"?: ((CheckoutBuyerContactPreviousAttributes) | (null));
             "buyer_fields"?: ((CheckoutBuyerFieldsPreviousAttributes) | (null));
             "can_apply_promotion_code"?: ((boolean) | (null));
@@ -1608,7 +1610,7 @@ export type CheckoutSessionClosedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             "order_id"?: ((string) | (null));
             "page_origin"?: ((string) | (null));
-            "payment_collection"?: ((SetupCollectionPreviousAttributes) | (null));
+            "payment_collection"?: ((PaymentCollectionPreviousAttributes) | (null));
             "payment_intent_ids"?: ((Array<string>) | (null));
             "payment_intents"?: ((Array<ExpandedPaymentIntentSummaryPreviousAttributes>) | (null));
             "payment_link"?: ((ExpandedPaymentLinkSummaryPreviousAttributes) | (null));
@@ -1679,12 +1681,13 @@ export type CheckoutSessionClosedInstalledMerchantsEvent = (Exclude<PartnerWebho
      * delivery's API version. Nested changes include the whole previous top-level value. A value
      * is null when the field was absent before the change. Omitted when Flint did not record the
      * previous state, including synthetic test events. previous_attributes.active_payment_attempt
-     * (Optional): {@link OrderPaymentAttemptPreviousAttributes} or null. The payment attempt now
-     * collecting this checkout's order, the same attempt as the order's active_payment_attempt.
-     * Read it to recover after losing a pay response, and resume it only when is_resumable is
-     * true. Omitted when no attempt is active. Pending actions that open a URL are left out; the
-     * pay response carries them. previous_attributes.active_payment_attempt.anyOf[1] (Value):
-     * {@link OrderPaymentAttemptPreviousAttributes}.
+     * (Optional): {@link WebhookSnapshotOrderPaymentAttemptPreviousAttributes} or null. The
+     * payment attempt now collecting this checkout's order, the same attempt as the order's
+     * active_payment_attempt. Read it to recover after losing a pay response, and resume it only
+     * when is_resumable is true. Omitted when no attempt is active. Pending actions that open a
+     * URL are left out; the pay response carries them.
+     * previous_attributes.active_payment_attempt.anyOf[1] (Value): {@link
+     * WebhookSnapshotOrderPaymentAttemptPreviousAttributes}.
      * previous_attributes.active_payment_attempt.anyOf[2] (Value): null.
      * previous_attributes.buyer_contact (Optional): {@link CheckoutBuyerContactPreviousAttributes}
      * or null. Contact the buyer entered in checkout before paying, saved with the session's
@@ -1828,10 +1831,12 @@ export type CheckoutSessionClosedInstalledMerchantsEvent = (Exclude<PartnerWebho
      * previous_attributes.invoice_id.anyOf[1] (Value): string. ID of the invoice a session of type
      * `invoice` collects payment for. Absent for other types. Example:
      * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
-     * previous_attributes.is_in_recovery (Optional): boolean or null. Whether this terminal
-     * session credential is temporarily restricted to recovering its owning payment attempt.
-     * previous_attributes.is_in_recovery.anyOf[1] (Value): boolean. Whether this terminal session
-     * credential is temporarily restricted to recovering its owning payment attempt.
+     * previous_attributes.is_in_recovery (Optional): boolean or null. Whether the checkout is in
+     * its payment recovery window after its deadline. The checkout credential can recover only an
+     * attempt it started. Merchant reads can also report a merchant-started attempt.
+     * previous_attributes.is_in_recovery.anyOf[1] (Value): boolean. Whether the checkout is in its
+     * payment recovery window after its deadline. The checkout credential can recover only an
+     * attempt it started. Merchant reads can also report a merchant-started attempt.
      * previous_attributes.is_in_recovery.anyOf[2] (Value): null. previous_attributes.legal
      * (Optional): {@link CheckoutLegalConfigPreviousAttributes} or null. The terms and policy
      * links this session shows the buyer, and whether the buyer must accept the terms.
@@ -1857,13 +1862,14 @@ export type CheckoutSessionClosedInstalledMerchantsEvent = (Exclude<PartnerWebho
      * this headless checkout. Omitted when not set. previous_attributes.page_origin.anyOf[1]
      * (Value): string. Origin of the page that renders this headless checkout. Omitted when not
      * set. previous_attributes.page_origin.anyOf[2] (Value): null.
-     * previous_attributes.payment_collection (Optional): {@link SetupCollectionPreviousAttributes}
-     * or null. Guidance for collecting a payment source. Checkout-credential reads include it only
-     * while the session is open. Returned only to the checkout credential; never in webhook
-     * payloads. previous_attributes.payment_collection.anyOf[1] (Value): {@link
-     * SetupCollectionPreviousAttributes}. previous_attributes.payment_collection.anyOf[2] (Value):
-     * null. previous_attributes.payment_intent_ids (Optional): Array of string or null. IDs of the
-     * payment intents for the session's order. Absent when the order has none.
+     * previous_attributes.payment_collection (Optional): {@link
+     * PaymentCollectionPreviousAttributes} or null. Guidance for collecting a payment source.
+     * Checkout-credential reads include it only while the session is open. Returned only to the
+     * checkout credential; never in webhook payloads.
+     * previous_attributes.payment_collection.anyOf[1] (Value): {@link
+     * PaymentCollectionPreviousAttributes}. previous_attributes.payment_collection.anyOf[2]
+     * (Value): null. previous_attributes.payment_intent_ids (Optional): Array of string or null.
+     * IDs of the payment intents for the session's order. Absent when the order has none.
      * previous_attributes.payment_intent_ids.anyOf[1] (Value): Array of string. IDs of the payment
      * intents for the session's order. Absent when the order has none.
      * previous_attributes.payment_intent_ids.anyOf[1][] (Value): string. Example:
@@ -2063,56 +2069,57 @@ export type CheckoutSessionClosedInstalledMerchantsEvent = (Exclude<PartnerWebho
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
          * state, including synthetic test events. active_payment_attempt (Optional): {@link
-         * OrderPaymentAttemptPreviousAttributes} or null. The payment attempt now collecting this
-         * checkout's order, the same attempt as the order's active_payment_attempt. Read it to
-         * recover after losing a pay response, and resume it only when is_resumable is true.
-         * Omitted when no attempt is active. Pending actions that open a URL are left out; the pay
-         * response carries them. active_payment_attempt.anyOf[1] (Value): {@link
-         * OrderPaymentAttemptPreviousAttributes}. active_payment_attempt.anyOf[2] (Value): null.
-         * buyer_contact (Optional): {@link CheckoutBuyerContactPreviousAttributes} or null.
-         * Contact the buyer entered in checkout before paying, saved with the session's checkout
-         * credential. Separate from merchant-supplied prefill and customer_prefill from the
-         * customer record. Omitted until the buyer saves or clears a field. When a checkout
-         * session payment omits buyer_contact.email or buyer_contact.phone, Flint uses these
-         * values. Flint clears the contact 30 days after the session ends, and when a customer
-         * linked to the session is deleted. buyer_contact.anyOf[1] (Value): {@link
-         * CheckoutBuyerContactPreviousAttributes}. buyer_contact.anyOf[2] (Value): null.
-         * buyer_fields (Optional): {@link CheckoutBuyerFieldsPreviousAttributes} or null. What
-         * checkout asks the buyer for. Each field you leave out uses your checkout settings.
-         * buyer_fields.anyOf[1] (Value): {@link CheckoutBuyerFieldsPreviousAttributes}.
-         * buyer_fields.anyOf[2] (Value): null. can_apply_promotion_code (Optional): boolean or
-         * null. Whether to offer promotion-code entry now. True only while the session is open, is
-         * not in recovery, and merchant promotion policy allows codes. An explicit
-         * promotion_config.codes_enabled wins; null offers entry only when this merchant has an
-         * active code promotion whose schedule includes now, in the session's environment.
-         * Recomputed on each read. This hint does not change code admission: checkout lifecycle,
-         * promotion_config, and merchant policy still apply. can_apply_promotion_code.anyOf[1]
-         * (Value): boolean. Whether to offer promotion-code entry now. True only while the session
-         * is open, is not in recovery, and merchant promotion policy allows codes. An explicit
-         * promotion_config.codes_enabled wins; null offers entry only when this merchant has an
-         * active code promotion whose schedule includes now, in the session's environment.
-         * Recomputed on each read. This hint does not change code admission: checkout lifecycle,
-         * promotion_config, and merchant policy still apply. can_apply_promotion_code.anyOf[2]
-         * (Value): null. checkout_session_id (Optional): string or null. Unique identifier for
-         * this checkout session, prefixed `cs_`. checkout_session_id.anyOf[1] (Value): string.
-         * Unique identifier for this checkout session, prefixed `cs_`. Example:
-         * "cs_01KEZF7C004JRWFW43H037MQRN". checkout_session_id.anyOf[2] (Value): null.
-         * client_reference (Optional): string or null. The reference the payment link URL or
-         * resolve request carried, such as your user ID. `null` when none was sent or checkout did
-         * not start from a payment link. Returned only to merchant credentials; omitted for buyer
-         * credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity.
-         * Always present with merchant credentials. client_reference.anyOf[1] (Value): string. The
-         * reference the payment link URL or resolve request carried, such as your user ID. `null`
-         * when none was sent or checkout did not start from a payment link. Returned only to
-         * merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so
+         * WebhookSnapshotOrderPaymentAttemptPreviousAttributes} or null. The payment attempt now
+         * collecting this checkout's order, the same attempt as the order's
+         * active_payment_attempt. Read it to recover after losing a pay response, and resume it
+         * only when is_resumable is true. Omitted when no attempt is active. Pending actions that
+         * open a URL are left out; the pay response carries them. active_payment_attempt.anyOf[1]
+         * (Value): {@link WebhookSnapshotOrderPaymentAttemptPreviousAttributes}.
+         * active_payment_attempt.anyOf[2] (Value): null. buyer_contact (Optional): {@link
+         * CheckoutBuyerContactPreviousAttributes} or null. Contact the buyer entered in checkout
+         * before paying, saved with the session's checkout credential. Separate from
+         * merchant-supplied prefill and customer_prefill from the customer record. Omitted until
+         * the buyer saves or clears a field. When a checkout session payment omits
+         * buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the
+         * contact 30 days after the session ends, and when a customer linked to the session is
+         * deleted. buyer_contact.anyOf[1] (Value): {@link CheckoutBuyerContactPreviousAttributes}.
+         * buyer_contact.anyOf[2] (Value): null. buyer_fields (Optional): {@link
+         * CheckoutBuyerFieldsPreviousAttributes} or null. What checkout asks the buyer for. Each
+         * field you leave out uses your checkout settings. buyer_fields.anyOf[1] (Value): {@link
+         * CheckoutBuyerFieldsPreviousAttributes}. buyer_fields.anyOf[2] (Value): null.
+         * can_apply_promotion_code (Optional): boolean or null. Whether to offer promotion-code
+         * entry now. True only while the session is open, is not in recovery, and merchant
+         * promotion policy allows codes. An explicit promotion_config.codes_enabled wins; null
+         * offers entry only when this merchant has an active code promotion whose schedule
+         * includes now, in the session's environment. Recomputed on each read. This hint does not
+         * change code admission: checkout lifecycle, promotion_config, and merchant policy still
+         * apply. can_apply_promotion_code.anyOf[1] (Value): boolean. Whether to offer
+         * promotion-code entry now. True only while the session is open, is not in recovery, and
+         * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
+         * null offers entry only when this merchant has an active code promotion whose schedule
+         * includes now, in the session's environment. Recomputed on each read. This hint does not
+         * change code admission: checkout lifecycle, promotion_config, and merchant policy still
+         * apply. can_apply_promotion_code.anyOf[2] (Value): null. checkout_session_id (Optional):
+         * string or null. Unique identifier for this checkout session, prefixed `cs_`.
+         * checkout_session_id.anyOf[1] (Value): string. Unique identifier for this checkout
+         * session, prefixed `cs_`. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
+         * checkout_session_id.anyOf[2] (Value): null. client_reference (Optional): string or null.
+         * The reference the payment link URL or resolve request carried, such as your user ID.
+         * `null` when none was sent or checkout did not start from a payment link. Returned only
+         * to merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so
          * treat it as a claim, not proof of identity. Always present with merchant credentials.
-         * minLength: 1. maxLength: 255. client_reference.anyOf[2] (Value): null.
-         * closed_reason_message (Optional): string or null. The note supplied when the checkout
-         * session was closed. closed_reason_message.anyOf[1] (Value): string. The note supplied
-         * when the checkout session was closed. closed_reason_message.anyOf[2] (Value): null.
-         * created_at (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value):
-         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. custom_field_answers (Optional): Array of {@link
+         * client_reference.anyOf[1] (Value): string. The reference the payment link URL or resolve
+         * request carried, such as your user ID. `null` when none was sent or checkout did not
+         * start from a payment link. Returned only to merchant credentials; omitted for buyer
+         * credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity.
+         * Always present with merchant credentials. minLength: 1. maxLength: 255.
+         * client_reference.anyOf[2] (Value): null. closed_reason_message (Optional): string or
+         * null. The note supplied when the checkout session was closed.
+         * closed_reason_message.anyOf[1] (Value): string. The note supplied when the checkout
+         * session was closed. closed_reason_message.anyOf[2] (Value): null. created_at (Optional):
+         * string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2]
+         * (Value): null. custom_field_answers (Optional): Array of {@link
          * CustomFieldAnswerPreviousAttributes} or null. The buyer's answers to the payment link's
          * custom fields, the same as the `custom_field_answers` of the session's order. Read-only.
          * Empty when the session didn't start from a payment link, the buyer answered no custom
@@ -2196,10 +2203,12 @@ export type CheckoutSessionClosedInstalledMerchantsEvent = (Exclude<PartnerWebho
          * invoice_id.anyOf[1] (Value): string. ID of the invoice a session of type `invoice`
          * collects payment for. Absent for other types. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
          * invoice_id.anyOf[2] (Value): null. is_in_recovery (Optional): boolean or null. Whether
-         * this terminal session credential is temporarily restricted to recovering its owning
-         * payment attempt. is_in_recovery.anyOf[1] (Value): boolean. Whether this terminal session
-         * credential is temporarily restricted to recovering its owning payment attempt.
-         * is_in_recovery.anyOf[2] (Value): null. legal (Optional): {@link
+         * the checkout is in its payment recovery window after its deadline. The checkout
+         * credential can recover only an attempt it started. Merchant reads can also report a
+         * merchant-started attempt. is_in_recovery.anyOf[1] (Value): boolean. Whether the checkout
+         * is in its payment recovery window after its deadline. The checkout credential can
+         * recover only an attempt it started. Merchant reads can also report a merchant-started
+         * attempt. is_in_recovery.anyOf[2] (Value): null. legal (Optional): {@link
          * CheckoutLegalConfigPreviousAttributes} or null. The terms and policy links this session
          * shows the buyer, and whether the buyer must accept the terms. legal.anyOf[1] (Value):
          * {@link CheckoutLegalConfigPreviousAttributes}. legal.anyOf[2] (Value): null. merchant_id
@@ -2219,11 +2228,11 @@ export type CheckoutSessionClosedInstalledMerchantsEvent = (Exclude<PartnerWebho
          * null. page_origin (Optional): string or null. Origin of the page that renders this
          * headless checkout. Omitted when not set. page_origin.anyOf[1] (Value): string. Origin of
          * the page that renders this headless checkout. Omitted when not set. page_origin.anyOf[2]
-         * (Value): null. payment_collection (Optional): {@link SetupCollectionPreviousAttributes}
-         * or null. Guidance for collecting a payment source. Checkout-credential reads include it
-         * only while the session is open. Returned only to the checkout credential; never in
-         * webhook payloads. payment_collection.anyOf[1] (Value): {@link
-         * SetupCollectionPreviousAttributes}. payment_collection.anyOf[2] (Value): null.
+         * (Value): null. payment_collection (Optional): {@link
+         * PaymentCollectionPreviousAttributes} or null. Guidance for collecting a payment source.
+         * Checkout-credential reads include it only while the session is open. Returned only to
+         * the checkout credential; never in webhook payloads. payment_collection.anyOf[1] (Value):
+         * {@link PaymentCollectionPreviousAttributes}. payment_collection.anyOf[2] (Value): null.
          * payment_intent_ids (Optional): Array of string or null. IDs of the payment intents for
          * the session's order. Absent when the order has none. payment_intent_ids.anyOf[1]
          * (Value): Array of string. IDs of the payment intents for the session's order. Absent
@@ -2402,9 +2411,10 @@ export type CheckoutSessionClosedInstalledMerchantsEvent = (Exclude<PartnerWebho
              * order's active_payment_attempt. Read it to recover after losing a pay response, and
              * resume it only when is_resumable is true. Omitted when no attempt is active. Pending
              * actions that open a URL are left out; the pay response carries them. anyOf[1]
-             * (Value): {@link OrderPaymentAttemptPreviousAttributes}. anyOf[2] (Value): null.
+             * (Value): {@link WebhookSnapshotOrderPaymentAttemptPreviousAttributes}. anyOf[2]
+             * (Value): null.
              */
-            "active_payment_attempt"?: ((OrderPaymentAttemptPreviousAttributes) | (null));
+            "active_payment_attempt"?: ((WebhookSnapshotOrderPaymentAttemptPreviousAttributes) | (null));
             /**
              * Contact the buyer entered in checkout before paying, saved with the session's
              * checkout credential. Separate from merchant-supplied prefill and customer_prefill
@@ -2582,10 +2592,12 @@ export type CheckoutSessionClosedInstalledMerchantsEvent = (Exclude<PartnerWebho
              */
             "invoice_id"?: ((string) | (null));
             /**
-             * Whether this terminal session credential is temporarily restricted to recovering its
-             * owning payment attempt. anyOf[1] (Value): boolean. Whether this terminal session
-             * credential is temporarily restricted to recovering its owning payment attempt.
-             * anyOf[2] (Value): null.
+             * Whether the checkout is in its payment recovery window after its deadline. The
+             * checkout credential can recover only an attempt it started. Merchant reads can also
+             * report a merchant-started attempt. anyOf[1] (Value): boolean. Whether the checkout
+             * is in its payment recovery window after its deadline. The checkout credential can
+             * recover only an attempt it started. Merchant reads can also report a
+             * merchant-started attempt. anyOf[2] (Value): null.
              */
             "is_in_recovery"?: ((boolean) | (null));
             /**
@@ -2627,10 +2639,10 @@ export type CheckoutSessionClosedInstalledMerchantsEvent = (Exclude<PartnerWebho
             /**
              * Guidance for collecting a payment source. Checkout-credential reads include it only
              * while the session is open. Returned only to the checkout credential; never in
-             * webhook payloads. anyOf[1] (Value): {@link SetupCollectionPreviousAttributes}.
+             * webhook payloads. anyOf[1] (Value): {@link PaymentCollectionPreviousAttributes}.
              * anyOf[2] (Value): null.
              */
-            "payment_collection"?: ((SetupCollectionPreviousAttributes) | (null));
+            "payment_collection"?: ((PaymentCollectionPreviousAttributes) | (null));
             /**
              * IDs of the payment intents for the session's order. Absent when the order has none.
              * anyOf[1] (Value): Array of string. IDs of the payment intents for the session's
@@ -2928,12 +2940,13 @@ export type CheckoutSessionClosedMerchantEvent = (Exclude<MerchantWebhookEnvelop
      * delivery's API version. Nested changes include the whole previous top-level value. A value
      * is null when the field was absent before the change. Omitted when Flint did not record the
      * previous state, including synthetic test events. previous_attributes.active_payment_attempt
-     * (Optional): {@link OrderPaymentAttemptPreviousAttributes} or null. The payment attempt now
-     * collecting this checkout's order, the same attempt as the order's active_payment_attempt.
-     * Read it to recover after losing a pay response, and resume it only when is_resumable is
-     * true. Omitted when no attempt is active. Pending actions that open a URL are left out; the
-     * pay response carries them. previous_attributes.active_payment_attempt.anyOf[1] (Value):
-     * {@link OrderPaymentAttemptPreviousAttributes}.
+     * (Optional): {@link WebhookSnapshotOrderPaymentAttemptPreviousAttributes} or null. The
+     * payment attempt now collecting this checkout's order, the same attempt as the order's
+     * active_payment_attempt. Read it to recover after losing a pay response, and resume it only
+     * when is_resumable is true. Omitted when no attempt is active. Pending actions that open a
+     * URL are left out; the pay response carries them.
+     * previous_attributes.active_payment_attempt.anyOf[1] (Value): {@link
+     * WebhookSnapshotOrderPaymentAttemptPreviousAttributes}.
      * previous_attributes.active_payment_attempt.anyOf[2] (Value): null.
      * previous_attributes.buyer_contact (Optional): {@link CheckoutBuyerContactPreviousAttributes}
      * or null. Contact the buyer entered in checkout before paying, saved with the session's
@@ -3077,10 +3090,12 @@ export type CheckoutSessionClosedMerchantEvent = (Exclude<MerchantWebhookEnvelop
      * previous_attributes.invoice_id.anyOf[1] (Value): string. ID of the invoice a session of type
      * `invoice` collects payment for. Absent for other types. Example:
      * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
-     * previous_attributes.is_in_recovery (Optional): boolean or null. Whether this terminal
-     * session credential is temporarily restricted to recovering its owning payment attempt.
-     * previous_attributes.is_in_recovery.anyOf[1] (Value): boolean. Whether this terminal session
-     * credential is temporarily restricted to recovering its owning payment attempt.
+     * previous_attributes.is_in_recovery (Optional): boolean or null. Whether the checkout is in
+     * its payment recovery window after its deadline. The checkout credential can recover only an
+     * attempt it started. Merchant reads can also report a merchant-started attempt.
+     * previous_attributes.is_in_recovery.anyOf[1] (Value): boolean. Whether the checkout is in its
+     * payment recovery window after its deadline. The checkout credential can recover only an
+     * attempt it started. Merchant reads can also report a merchant-started attempt.
      * previous_attributes.is_in_recovery.anyOf[2] (Value): null. previous_attributes.legal
      * (Optional): {@link CheckoutLegalConfigPreviousAttributes} or null. The terms and policy
      * links this session shows the buyer, and whether the buyer must accept the terms.
@@ -3106,13 +3121,14 @@ export type CheckoutSessionClosedMerchantEvent = (Exclude<MerchantWebhookEnvelop
      * this headless checkout. Omitted when not set. previous_attributes.page_origin.anyOf[1]
      * (Value): string. Origin of the page that renders this headless checkout. Omitted when not
      * set. previous_attributes.page_origin.anyOf[2] (Value): null.
-     * previous_attributes.payment_collection (Optional): {@link SetupCollectionPreviousAttributes}
-     * or null. Guidance for collecting a payment source. Checkout-credential reads include it only
-     * while the session is open. Returned only to the checkout credential; never in webhook
-     * payloads. previous_attributes.payment_collection.anyOf[1] (Value): {@link
-     * SetupCollectionPreviousAttributes}. previous_attributes.payment_collection.anyOf[2] (Value):
-     * null. previous_attributes.payment_intent_ids (Optional): Array of string or null. IDs of the
-     * payment intents for the session's order. Absent when the order has none.
+     * previous_attributes.payment_collection (Optional): {@link
+     * PaymentCollectionPreviousAttributes} or null. Guidance for collecting a payment source.
+     * Checkout-credential reads include it only while the session is open. Returned only to the
+     * checkout credential; never in webhook payloads.
+     * previous_attributes.payment_collection.anyOf[1] (Value): {@link
+     * PaymentCollectionPreviousAttributes}. previous_attributes.payment_collection.anyOf[2]
+     * (Value): null. previous_attributes.payment_intent_ids (Optional): Array of string or null.
+     * IDs of the payment intents for the session's order. Absent when the order has none.
      * previous_attributes.payment_intent_ids.anyOf[1] (Value): Array of string. IDs of the payment
      * intents for the session's order. Absent when the order has none.
      * previous_attributes.payment_intent_ids.anyOf[1][] (Value): string. Example:
@@ -3312,56 +3328,57 @@ export type CheckoutSessionClosedMerchantEvent = (Exclude<MerchantWebhookEnvelop
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
          * state, including synthetic test events. active_payment_attempt (Optional): {@link
-         * OrderPaymentAttemptPreviousAttributes} or null. The payment attempt now collecting this
-         * checkout's order, the same attempt as the order's active_payment_attempt. Read it to
-         * recover after losing a pay response, and resume it only when is_resumable is true.
-         * Omitted when no attempt is active. Pending actions that open a URL are left out; the pay
-         * response carries them. active_payment_attempt.anyOf[1] (Value): {@link
-         * OrderPaymentAttemptPreviousAttributes}. active_payment_attempt.anyOf[2] (Value): null.
-         * buyer_contact (Optional): {@link CheckoutBuyerContactPreviousAttributes} or null.
-         * Contact the buyer entered in checkout before paying, saved with the session's checkout
-         * credential. Separate from merchant-supplied prefill and customer_prefill from the
-         * customer record. Omitted until the buyer saves or clears a field. When a checkout
-         * session payment omits buyer_contact.email or buyer_contact.phone, Flint uses these
-         * values. Flint clears the contact 30 days after the session ends, and when a customer
-         * linked to the session is deleted. buyer_contact.anyOf[1] (Value): {@link
-         * CheckoutBuyerContactPreviousAttributes}. buyer_contact.anyOf[2] (Value): null.
-         * buyer_fields (Optional): {@link CheckoutBuyerFieldsPreviousAttributes} or null. What
-         * checkout asks the buyer for. Each field you leave out uses your checkout settings.
-         * buyer_fields.anyOf[1] (Value): {@link CheckoutBuyerFieldsPreviousAttributes}.
-         * buyer_fields.anyOf[2] (Value): null. can_apply_promotion_code (Optional): boolean or
-         * null. Whether to offer promotion-code entry now. True only while the session is open, is
-         * not in recovery, and merchant promotion policy allows codes. An explicit
-         * promotion_config.codes_enabled wins; null offers entry only when this merchant has an
-         * active code promotion whose schedule includes now, in the session's environment.
-         * Recomputed on each read. This hint does not change code admission: checkout lifecycle,
-         * promotion_config, and merchant policy still apply. can_apply_promotion_code.anyOf[1]
-         * (Value): boolean. Whether to offer promotion-code entry now. True only while the session
-         * is open, is not in recovery, and merchant promotion policy allows codes. An explicit
-         * promotion_config.codes_enabled wins; null offers entry only when this merchant has an
-         * active code promotion whose schedule includes now, in the session's environment.
-         * Recomputed on each read. This hint does not change code admission: checkout lifecycle,
-         * promotion_config, and merchant policy still apply. can_apply_promotion_code.anyOf[2]
-         * (Value): null. checkout_session_id (Optional): string or null. Unique identifier for
-         * this checkout session, prefixed `cs_`. checkout_session_id.anyOf[1] (Value): string.
-         * Unique identifier for this checkout session, prefixed `cs_`. Example:
-         * "cs_01KEZF7C004JRWFW43H037MQRN". checkout_session_id.anyOf[2] (Value): null.
-         * client_reference (Optional): string or null. The reference the payment link URL or
-         * resolve request carried, such as your user ID. `null` when none was sent or checkout did
-         * not start from a payment link. Returned only to merchant credentials; omitted for buyer
-         * credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity.
-         * Always present with merchant credentials. client_reference.anyOf[1] (Value): string. The
-         * reference the payment link URL or resolve request carried, such as your user ID. `null`
-         * when none was sent or checkout did not start from a payment link. Returned only to
-         * merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so
+         * WebhookSnapshotOrderPaymentAttemptPreviousAttributes} or null. The payment attempt now
+         * collecting this checkout's order, the same attempt as the order's
+         * active_payment_attempt. Read it to recover after losing a pay response, and resume it
+         * only when is_resumable is true. Omitted when no attempt is active. Pending actions that
+         * open a URL are left out; the pay response carries them. active_payment_attempt.anyOf[1]
+         * (Value): {@link WebhookSnapshotOrderPaymentAttemptPreviousAttributes}.
+         * active_payment_attempt.anyOf[2] (Value): null. buyer_contact (Optional): {@link
+         * CheckoutBuyerContactPreviousAttributes} or null. Contact the buyer entered in checkout
+         * before paying, saved with the session's checkout credential. Separate from
+         * merchant-supplied prefill and customer_prefill from the customer record. Omitted until
+         * the buyer saves or clears a field. When a checkout session payment omits
+         * buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the
+         * contact 30 days after the session ends, and when a customer linked to the session is
+         * deleted. buyer_contact.anyOf[1] (Value): {@link CheckoutBuyerContactPreviousAttributes}.
+         * buyer_contact.anyOf[2] (Value): null. buyer_fields (Optional): {@link
+         * CheckoutBuyerFieldsPreviousAttributes} or null. What checkout asks the buyer for. Each
+         * field you leave out uses your checkout settings. buyer_fields.anyOf[1] (Value): {@link
+         * CheckoutBuyerFieldsPreviousAttributes}. buyer_fields.anyOf[2] (Value): null.
+         * can_apply_promotion_code (Optional): boolean or null. Whether to offer promotion-code
+         * entry now. True only while the session is open, is not in recovery, and merchant
+         * promotion policy allows codes. An explicit promotion_config.codes_enabled wins; null
+         * offers entry only when this merchant has an active code promotion whose schedule
+         * includes now, in the session's environment. Recomputed on each read. This hint does not
+         * change code admission: checkout lifecycle, promotion_config, and merchant policy still
+         * apply. can_apply_promotion_code.anyOf[1] (Value): boolean. Whether to offer
+         * promotion-code entry now. True only while the session is open, is not in recovery, and
+         * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
+         * null offers entry only when this merchant has an active code promotion whose schedule
+         * includes now, in the session's environment. Recomputed on each read. This hint does not
+         * change code admission: checkout lifecycle, promotion_config, and merchant policy still
+         * apply. can_apply_promotion_code.anyOf[2] (Value): null. checkout_session_id (Optional):
+         * string or null. Unique identifier for this checkout session, prefixed `cs_`.
+         * checkout_session_id.anyOf[1] (Value): string. Unique identifier for this checkout
+         * session, prefixed `cs_`. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
+         * checkout_session_id.anyOf[2] (Value): null. client_reference (Optional): string or null.
+         * The reference the payment link URL or resolve request carried, such as your user ID.
+         * `null` when none was sent or checkout did not start from a payment link. Returned only
+         * to merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so
          * treat it as a claim, not proof of identity. Always present with merchant credentials.
-         * minLength: 1. maxLength: 255. client_reference.anyOf[2] (Value): null.
-         * closed_reason_message (Optional): string or null. The note supplied when the checkout
-         * session was closed. closed_reason_message.anyOf[1] (Value): string. The note supplied
-         * when the checkout session was closed. closed_reason_message.anyOf[2] (Value): null.
-         * created_at (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value):
-         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. custom_field_answers (Optional): Array of {@link
+         * client_reference.anyOf[1] (Value): string. The reference the payment link URL or resolve
+         * request carried, such as your user ID. `null` when none was sent or checkout did not
+         * start from a payment link. Returned only to merchant credentials; omitted for buyer
+         * credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity.
+         * Always present with merchant credentials. minLength: 1. maxLength: 255.
+         * client_reference.anyOf[2] (Value): null. closed_reason_message (Optional): string or
+         * null. The note supplied when the checkout session was closed.
+         * closed_reason_message.anyOf[1] (Value): string. The note supplied when the checkout
+         * session was closed. closed_reason_message.anyOf[2] (Value): null. created_at (Optional):
+         * string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2]
+         * (Value): null. custom_field_answers (Optional): Array of {@link
          * CustomFieldAnswerPreviousAttributes} or null. The buyer's answers to the payment link's
          * custom fields, the same as the `custom_field_answers` of the session's order. Read-only.
          * Empty when the session didn't start from a payment link, the buyer answered no custom
@@ -3445,10 +3462,12 @@ export type CheckoutSessionClosedMerchantEvent = (Exclude<MerchantWebhookEnvelop
          * invoice_id.anyOf[1] (Value): string. ID of the invoice a session of type `invoice`
          * collects payment for. Absent for other types. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
          * invoice_id.anyOf[2] (Value): null. is_in_recovery (Optional): boolean or null. Whether
-         * this terminal session credential is temporarily restricted to recovering its owning
-         * payment attempt. is_in_recovery.anyOf[1] (Value): boolean. Whether this terminal session
-         * credential is temporarily restricted to recovering its owning payment attempt.
-         * is_in_recovery.anyOf[2] (Value): null. legal (Optional): {@link
+         * the checkout is in its payment recovery window after its deadline. The checkout
+         * credential can recover only an attempt it started. Merchant reads can also report a
+         * merchant-started attempt. is_in_recovery.anyOf[1] (Value): boolean. Whether the checkout
+         * is in its payment recovery window after its deadline. The checkout credential can
+         * recover only an attempt it started. Merchant reads can also report a merchant-started
+         * attempt. is_in_recovery.anyOf[2] (Value): null. legal (Optional): {@link
          * CheckoutLegalConfigPreviousAttributes} or null. The terms and policy links this session
          * shows the buyer, and whether the buyer must accept the terms. legal.anyOf[1] (Value):
          * {@link CheckoutLegalConfigPreviousAttributes}. legal.anyOf[2] (Value): null. merchant_id
@@ -3468,11 +3487,11 @@ export type CheckoutSessionClosedMerchantEvent = (Exclude<MerchantWebhookEnvelop
          * null. page_origin (Optional): string or null. Origin of the page that renders this
          * headless checkout. Omitted when not set. page_origin.anyOf[1] (Value): string. Origin of
          * the page that renders this headless checkout. Omitted when not set. page_origin.anyOf[2]
-         * (Value): null. payment_collection (Optional): {@link SetupCollectionPreviousAttributes}
-         * or null. Guidance for collecting a payment source. Checkout-credential reads include it
-         * only while the session is open. Returned only to the checkout credential; never in
-         * webhook payloads. payment_collection.anyOf[1] (Value): {@link
-         * SetupCollectionPreviousAttributes}. payment_collection.anyOf[2] (Value): null.
+         * (Value): null. payment_collection (Optional): {@link
+         * PaymentCollectionPreviousAttributes} or null. Guidance for collecting a payment source.
+         * Checkout-credential reads include it only while the session is open. Returned only to
+         * the checkout credential; never in webhook payloads. payment_collection.anyOf[1] (Value):
+         * {@link PaymentCollectionPreviousAttributes}. payment_collection.anyOf[2] (Value): null.
          * payment_intent_ids (Optional): Array of string or null. IDs of the payment intents for
          * the session's order. Absent when the order has none. payment_intent_ids.anyOf[1]
          * (Value): Array of string. IDs of the payment intents for the session's order. Absent
@@ -3651,9 +3670,10 @@ export type CheckoutSessionClosedMerchantEvent = (Exclude<MerchantWebhookEnvelop
              * order's active_payment_attempt. Read it to recover after losing a pay response, and
              * resume it only when is_resumable is true. Omitted when no attempt is active. Pending
              * actions that open a URL are left out; the pay response carries them. anyOf[1]
-             * (Value): {@link OrderPaymentAttemptPreviousAttributes}. anyOf[2] (Value): null.
+             * (Value): {@link WebhookSnapshotOrderPaymentAttemptPreviousAttributes}. anyOf[2]
+             * (Value): null.
              */
-            "active_payment_attempt"?: ((OrderPaymentAttemptPreviousAttributes) | (null));
+            "active_payment_attempt"?: ((WebhookSnapshotOrderPaymentAttemptPreviousAttributes) | (null));
             /**
              * Contact the buyer entered in checkout before paying, saved with the session's
              * checkout credential. Separate from merchant-supplied prefill and customer_prefill
@@ -3831,10 +3851,12 @@ export type CheckoutSessionClosedMerchantEvent = (Exclude<MerchantWebhookEnvelop
              */
             "invoice_id"?: ((string) | (null));
             /**
-             * Whether this terminal session credential is temporarily restricted to recovering its
-             * owning payment attempt. anyOf[1] (Value): boolean. Whether this terminal session
-             * credential is temporarily restricted to recovering its owning payment attempt.
-             * anyOf[2] (Value): null.
+             * Whether the checkout is in its payment recovery window after its deadline. The
+             * checkout credential can recover only an attempt it started. Merchant reads can also
+             * report a merchant-started attempt. anyOf[1] (Value): boolean. Whether the checkout
+             * is in its payment recovery window after its deadline. The checkout credential can
+             * recover only an attempt it started. Merchant reads can also report a
+             * merchant-started attempt. anyOf[2] (Value): null.
              */
             "is_in_recovery"?: ((boolean) | (null));
             /**
@@ -3876,10 +3898,10 @@ export type CheckoutSessionClosedMerchantEvent = (Exclude<MerchantWebhookEnvelop
             /**
              * Guidance for collecting a payment source. Checkout-credential reads include it only
              * while the session is open. Returned only to the checkout credential; never in
-             * webhook payloads. anyOf[1] (Value): {@link SetupCollectionPreviousAttributes}.
+             * webhook payloads. anyOf[1] (Value): {@link PaymentCollectionPreviousAttributes}.
              * anyOf[2] (Value): null.
              */
-            "payment_collection"?: ((SetupCollectionPreviousAttributes) | (null));
+            "payment_collection"?: ((PaymentCollectionPreviousAttributes) | (null));
             /**
              * IDs of the payment intents for the session's order. Absent when the order has none.
              * anyOf[1] (Value): Array of string. IDs of the payment intents for the session's
@@ -4367,7 +4389,7 @@ export type CheckoutSessionExpiredEvent = ((((Exclude<MerchantWebhookEnvelope & 
             [key: string]: unknown;
         })
             & ({
-            "active_payment_attempt"?: ((OrderPaymentAttemptPreviousAttributes) | (null));
+            "active_payment_attempt"?: ((WebhookSnapshotOrderPaymentAttemptPreviousAttributes) | (null));
             "buyer_contact"?: ((CheckoutBuyerContactPreviousAttributes) | (null));
             "buyer_fields"?: ((CheckoutBuyerFieldsPreviousAttributes) | (null));
             "can_apply_promotion_code"?: ((boolean) | (null));
@@ -4396,7 +4418,7 @@ export type CheckoutSessionExpiredEvent = ((((Exclude<MerchantWebhookEnvelope & 
             "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             "order_id"?: ((string) | (null));
             "page_origin"?: ((string) | (null));
-            "payment_collection"?: ((SetupCollectionPreviousAttributes) | (null));
+            "payment_collection"?: ((PaymentCollectionPreviousAttributes) | (null));
             "payment_intent_ids"?: ((Array<string>) | (null));
             "payment_intents"?: ((Array<ExpandedPaymentIntentSummaryPreviousAttributes>) | (null));
             "payment_link"?: ((ExpandedPaymentLinkSummaryPreviousAttributes) | (null));
@@ -4447,7 +4469,7 @@ export type CheckoutSessionExpiredEvent = ((((Exclude<MerchantWebhookEnvelope & 
             [key: string]: unknown;
         })
             & ({
-            "active_payment_attempt"?: ((OrderPaymentAttemptPreviousAttributes) | (null));
+            "active_payment_attempt"?: ((WebhookSnapshotOrderPaymentAttemptPreviousAttributes) | (null));
             "buyer_contact"?: ((CheckoutBuyerContactPreviousAttributes) | (null));
             "buyer_fields"?: ((CheckoutBuyerFieldsPreviousAttributes) | (null));
             "can_apply_promotion_code"?: ((boolean) | (null));
@@ -4476,7 +4498,7 @@ export type CheckoutSessionExpiredEvent = ((((Exclude<MerchantWebhookEnvelope & 
             "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             "order_id"?: ((string) | (null));
             "page_origin"?: ((string) | (null));
-            "payment_collection"?: ((SetupCollectionPreviousAttributes) | (null));
+            "payment_collection"?: ((PaymentCollectionPreviousAttributes) | (null));
             "payment_intent_ids"?: ((Array<string>) | (null));
             "payment_intents"?: ((Array<ExpandedPaymentIntentSummaryPreviousAttributes>) | (null));
             "payment_link"?: ((ExpandedPaymentLinkSummaryPreviousAttributes) | (null));
@@ -4547,12 +4569,13 @@ export type CheckoutSessionExpiredInstalledMerchantsEvent = (Exclude<PartnerWebh
      * delivery's API version. Nested changes include the whole previous top-level value. A value
      * is null when the field was absent before the change. Omitted when Flint did not record the
      * previous state, including synthetic test events. previous_attributes.active_payment_attempt
-     * (Optional): {@link OrderPaymentAttemptPreviousAttributes} or null. The payment attempt now
-     * collecting this checkout's order, the same attempt as the order's active_payment_attempt.
-     * Read it to recover after losing a pay response, and resume it only when is_resumable is
-     * true. Omitted when no attempt is active. Pending actions that open a URL are left out; the
-     * pay response carries them. previous_attributes.active_payment_attempt.anyOf[1] (Value):
-     * {@link OrderPaymentAttemptPreviousAttributes}.
+     * (Optional): {@link WebhookSnapshotOrderPaymentAttemptPreviousAttributes} or null. The
+     * payment attempt now collecting this checkout's order, the same attempt as the order's
+     * active_payment_attempt. Read it to recover after losing a pay response, and resume it only
+     * when is_resumable is true. Omitted when no attempt is active. Pending actions that open a
+     * URL are left out; the pay response carries them.
+     * previous_attributes.active_payment_attempt.anyOf[1] (Value): {@link
+     * WebhookSnapshotOrderPaymentAttemptPreviousAttributes}.
      * previous_attributes.active_payment_attempt.anyOf[2] (Value): null.
      * previous_attributes.buyer_contact (Optional): {@link CheckoutBuyerContactPreviousAttributes}
      * or null. Contact the buyer entered in checkout before paying, saved with the session's
@@ -4696,10 +4719,12 @@ export type CheckoutSessionExpiredInstalledMerchantsEvent = (Exclude<PartnerWebh
      * previous_attributes.invoice_id.anyOf[1] (Value): string. ID of the invoice a session of type
      * `invoice` collects payment for. Absent for other types. Example:
      * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
-     * previous_attributes.is_in_recovery (Optional): boolean or null. Whether this terminal
-     * session credential is temporarily restricted to recovering its owning payment attempt.
-     * previous_attributes.is_in_recovery.anyOf[1] (Value): boolean. Whether this terminal session
-     * credential is temporarily restricted to recovering its owning payment attempt.
+     * previous_attributes.is_in_recovery (Optional): boolean or null. Whether the checkout is in
+     * its payment recovery window after its deadline. The checkout credential can recover only an
+     * attempt it started. Merchant reads can also report a merchant-started attempt.
+     * previous_attributes.is_in_recovery.anyOf[1] (Value): boolean. Whether the checkout is in its
+     * payment recovery window after its deadline. The checkout credential can recover only an
+     * attempt it started. Merchant reads can also report a merchant-started attempt.
      * previous_attributes.is_in_recovery.anyOf[2] (Value): null. previous_attributes.legal
      * (Optional): {@link CheckoutLegalConfigPreviousAttributes} or null. The terms and policy
      * links this session shows the buyer, and whether the buyer must accept the terms.
@@ -4725,13 +4750,14 @@ export type CheckoutSessionExpiredInstalledMerchantsEvent = (Exclude<PartnerWebh
      * this headless checkout. Omitted when not set. previous_attributes.page_origin.anyOf[1]
      * (Value): string. Origin of the page that renders this headless checkout. Omitted when not
      * set. previous_attributes.page_origin.anyOf[2] (Value): null.
-     * previous_attributes.payment_collection (Optional): {@link SetupCollectionPreviousAttributes}
-     * or null. Guidance for collecting a payment source. Checkout-credential reads include it only
-     * while the session is open. Returned only to the checkout credential; never in webhook
-     * payloads. previous_attributes.payment_collection.anyOf[1] (Value): {@link
-     * SetupCollectionPreviousAttributes}. previous_attributes.payment_collection.anyOf[2] (Value):
-     * null. previous_attributes.payment_intent_ids (Optional): Array of string or null. IDs of the
-     * payment intents for the session's order. Absent when the order has none.
+     * previous_attributes.payment_collection (Optional): {@link
+     * PaymentCollectionPreviousAttributes} or null. Guidance for collecting a payment source.
+     * Checkout-credential reads include it only while the session is open. Returned only to the
+     * checkout credential; never in webhook payloads.
+     * previous_attributes.payment_collection.anyOf[1] (Value): {@link
+     * PaymentCollectionPreviousAttributes}. previous_attributes.payment_collection.anyOf[2]
+     * (Value): null. previous_attributes.payment_intent_ids (Optional): Array of string or null.
+     * IDs of the payment intents for the session's order. Absent when the order has none.
      * previous_attributes.payment_intent_ids.anyOf[1] (Value): Array of string. IDs of the payment
      * intents for the session's order. Absent when the order has none.
      * previous_attributes.payment_intent_ids.anyOf[1][] (Value): string. Example:
@@ -4931,56 +4957,57 @@ export type CheckoutSessionExpiredInstalledMerchantsEvent = (Exclude<PartnerWebh
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
          * state, including synthetic test events. active_payment_attempt (Optional): {@link
-         * OrderPaymentAttemptPreviousAttributes} or null. The payment attempt now collecting this
-         * checkout's order, the same attempt as the order's active_payment_attempt. Read it to
-         * recover after losing a pay response, and resume it only when is_resumable is true.
-         * Omitted when no attempt is active. Pending actions that open a URL are left out; the pay
-         * response carries them. active_payment_attempt.anyOf[1] (Value): {@link
-         * OrderPaymentAttemptPreviousAttributes}. active_payment_attempt.anyOf[2] (Value): null.
-         * buyer_contact (Optional): {@link CheckoutBuyerContactPreviousAttributes} or null.
-         * Contact the buyer entered in checkout before paying, saved with the session's checkout
-         * credential. Separate from merchant-supplied prefill and customer_prefill from the
-         * customer record. Omitted until the buyer saves or clears a field. When a checkout
-         * session payment omits buyer_contact.email or buyer_contact.phone, Flint uses these
-         * values. Flint clears the contact 30 days after the session ends, and when a customer
-         * linked to the session is deleted. buyer_contact.anyOf[1] (Value): {@link
-         * CheckoutBuyerContactPreviousAttributes}. buyer_contact.anyOf[2] (Value): null.
-         * buyer_fields (Optional): {@link CheckoutBuyerFieldsPreviousAttributes} or null. What
-         * checkout asks the buyer for. Each field you leave out uses your checkout settings.
-         * buyer_fields.anyOf[1] (Value): {@link CheckoutBuyerFieldsPreviousAttributes}.
-         * buyer_fields.anyOf[2] (Value): null. can_apply_promotion_code (Optional): boolean or
-         * null. Whether to offer promotion-code entry now. True only while the session is open, is
-         * not in recovery, and merchant promotion policy allows codes. An explicit
-         * promotion_config.codes_enabled wins; null offers entry only when this merchant has an
-         * active code promotion whose schedule includes now, in the session's environment.
-         * Recomputed on each read. This hint does not change code admission: checkout lifecycle,
-         * promotion_config, and merchant policy still apply. can_apply_promotion_code.anyOf[1]
-         * (Value): boolean. Whether to offer promotion-code entry now. True only while the session
-         * is open, is not in recovery, and merchant promotion policy allows codes. An explicit
-         * promotion_config.codes_enabled wins; null offers entry only when this merchant has an
-         * active code promotion whose schedule includes now, in the session's environment.
-         * Recomputed on each read. This hint does not change code admission: checkout lifecycle,
-         * promotion_config, and merchant policy still apply. can_apply_promotion_code.anyOf[2]
-         * (Value): null. checkout_session_id (Optional): string or null. Unique identifier for
-         * this checkout session, prefixed `cs_`. checkout_session_id.anyOf[1] (Value): string.
-         * Unique identifier for this checkout session, prefixed `cs_`. Example:
-         * "cs_01KEZF7C004JRWFW43H037MQRN". checkout_session_id.anyOf[2] (Value): null.
-         * client_reference (Optional): string or null. The reference the payment link URL or
-         * resolve request carried, such as your user ID. `null` when none was sent or checkout did
-         * not start from a payment link. Returned only to merchant credentials; omitted for buyer
-         * credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity.
-         * Always present with merchant credentials. client_reference.anyOf[1] (Value): string. The
-         * reference the payment link URL or resolve request carried, such as your user ID. `null`
-         * when none was sent or checkout did not start from a payment link. Returned only to
-         * merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so
+         * WebhookSnapshotOrderPaymentAttemptPreviousAttributes} or null. The payment attempt now
+         * collecting this checkout's order, the same attempt as the order's
+         * active_payment_attempt. Read it to recover after losing a pay response, and resume it
+         * only when is_resumable is true. Omitted when no attempt is active. Pending actions that
+         * open a URL are left out; the pay response carries them. active_payment_attempt.anyOf[1]
+         * (Value): {@link WebhookSnapshotOrderPaymentAttemptPreviousAttributes}.
+         * active_payment_attempt.anyOf[2] (Value): null. buyer_contact (Optional): {@link
+         * CheckoutBuyerContactPreviousAttributes} or null. Contact the buyer entered in checkout
+         * before paying, saved with the session's checkout credential. Separate from
+         * merchant-supplied prefill and customer_prefill from the customer record. Omitted until
+         * the buyer saves or clears a field. When a checkout session payment omits
+         * buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the
+         * contact 30 days after the session ends, and when a customer linked to the session is
+         * deleted. buyer_contact.anyOf[1] (Value): {@link CheckoutBuyerContactPreviousAttributes}.
+         * buyer_contact.anyOf[2] (Value): null. buyer_fields (Optional): {@link
+         * CheckoutBuyerFieldsPreviousAttributes} or null. What checkout asks the buyer for. Each
+         * field you leave out uses your checkout settings. buyer_fields.anyOf[1] (Value): {@link
+         * CheckoutBuyerFieldsPreviousAttributes}. buyer_fields.anyOf[2] (Value): null.
+         * can_apply_promotion_code (Optional): boolean or null. Whether to offer promotion-code
+         * entry now. True only while the session is open, is not in recovery, and merchant
+         * promotion policy allows codes. An explicit promotion_config.codes_enabled wins; null
+         * offers entry only when this merchant has an active code promotion whose schedule
+         * includes now, in the session's environment. Recomputed on each read. This hint does not
+         * change code admission: checkout lifecycle, promotion_config, and merchant policy still
+         * apply. can_apply_promotion_code.anyOf[1] (Value): boolean. Whether to offer
+         * promotion-code entry now. True only while the session is open, is not in recovery, and
+         * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
+         * null offers entry only when this merchant has an active code promotion whose schedule
+         * includes now, in the session's environment. Recomputed on each read. This hint does not
+         * change code admission: checkout lifecycle, promotion_config, and merchant policy still
+         * apply. can_apply_promotion_code.anyOf[2] (Value): null. checkout_session_id (Optional):
+         * string or null. Unique identifier for this checkout session, prefixed `cs_`.
+         * checkout_session_id.anyOf[1] (Value): string. Unique identifier for this checkout
+         * session, prefixed `cs_`. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
+         * checkout_session_id.anyOf[2] (Value): null. client_reference (Optional): string or null.
+         * The reference the payment link URL or resolve request carried, such as your user ID.
+         * `null` when none was sent or checkout did not start from a payment link. Returned only
+         * to merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so
          * treat it as a claim, not proof of identity. Always present with merchant credentials.
-         * minLength: 1. maxLength: 255. client_reference.anyOf[2] (Value): null.
-         * closed_reason_message (Optional): string or null. The note supplied when the checkout
-         * session was closed. closed_reason_message.anyOf[1] (Value): string. The note supplied
-         * when the checkout session was closed. closed_reason_message.anyOf[2] (Value): null.
-         * created_at (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value):
-         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. custom_field_answers (Optional): Array of {@link
+         * client_reference.anyOf[1] (Value): string. The reference the payment link URL or resolve
+         * request carried, such as your user ID. `null` when none was sent or checkout did not
+         * start from a payment link. Returned only to merchant credentials; omitted for buyer
+         * credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity.
+         * Always present with merchant credentials. minLength: 1. maxLength: 255.
+         * client_reference.anyOf[2] (Value): null. closed_reason_message (Optional): string or
+         * null. The note supplied when the checkout session was closed.
+         * closed_reason_message.anyOf[1] (Value): string. The note supplied when the checkout
+         * session was closed. closed_reason_message.anyOf[2] (Value): null. created_at (Optional):
+         * string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2]
+         * (Value): null. custom_field_answers (Optional): Array of {@link
          * CustomFieldAnswerPreviousAttributes} or null. The buyer's answers to the payment link's
          * custom fields, the same as the `custom_field_answers` of the session's order. Read-only.
          * Empty when the session didn't start from a payment link, the buyer answered no custom
@@ -5064,10 +5091,12 @@ export type CheckoutSessionExpiredInstalledMerchantsEvent = (Exclude<PartnerWebh
          * invoice_id.anyOf[1] (Value): string. ID of the invoice a session of type `invoice`
          * collects payment for. Absent for other types. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
          * invoice_id.anyOf[2] (Value): null. is_in_recovery (Optional): boolean or null. Whether
-         * this terminal session credential is temporarily restricted to recovering its owning
-         * payment attempt. is_in_recovery.anyOf[1] (Value): boolean. Whether this terminal session
-         * credential is temporarily restricted to recovering its owning payment attempt.
-         * is_in_recovery.anyOf[2] (Value): null. legal (Optional): {@link
+         * the checkout is in its payment recovery window after its deadline. The checkout
+         * credential can recover only an attempt it started. Merchant reads can also report a
+         * merchant-started attempt. is_in_recovery.anyOf[1] (Value): boolean. Whether the checkout
+         * is in its payment recovery window after its deadline. The checkout credential can
+         * recover only an attempt it started. Merchant reads can also report a merchant-started
+         * attempt. is_in_recovery.anyOf[2] (Value): null. legal (Optional): {@link
          * CheckoutLegalConfigPreviousAttributes} or null. The terms and policy links this session
          * shows the buyer, and whether the buyer must accept the terms. legal.anyOf[1] (Value):
          * {@link CheckoutLegalConfigPreviousAttributes}. legal.anyOf[2] (Value): null. merchant_id
@@ -5087,11 +5116,11 @@ export type CheckoutSessionExpiredInstalledMerchantsEvent = (Exclude<PartnerWebh
          * null. page_origin (Optional): string or null. Origin of the page that renders this
          * headless checkout. Omitted when not set. page_origin.anyOf[1] (Value): string. Origin of
          * the page that renders this headless checkout. Omitted when not set. page_origin.anyOf[2]
-         * (Value): null. payment_collection (Optional): {@link SetupCollectionPreviousAttributes}
-         * or null. Guidance for collecting a payment source. Checkout-credential reads include it
-         * only while the session is open. Returned only to the checkout credential; never in
-         * webhook payloads. payment_collection.anyOf[1] (Value): {@link
-         * SetupCollectionPreviousAttributes}. payment_collection.anyOf[2] (Value): null.
+         * (Value): null. payment_collection (Optional): {@link
+         * PaymentCollectionPreviousAttributes} or null. Guidance for collecting a payment source.
+         * Checkout-credential reads include it only while the session is open. Returned only to
+         * the checkout credential; never in webhook payloads. payment_collection.anyOf[1] (Value):
+         * {@link PaymentCollectionPreviousAttributes}. payment_collection.anyOf[2] (Value): null.
          * payment_intent_ids (Optional): Array of string or null. IDs of the payment intents for
          * the session's order. Absent when the order has none. payment_intent_ids.anyOf[1]
          * (Value): Array of string. IDs of the payment intents for the session's order. Absent
@@ -5270,9 +5299,10 @@ export type CheckoutSessionExpiredInstalledMerchantsEvent = (Exclude<PartnerWebh
              * order's active_payment_attempt. Read it to recover after losing a pay response, and
              * resume it only when is_resumable is true. Omitted when no attempt is active. Pending
              * actions that open a URL are left out; the pay response carries them. anyOf[1]
-             * (Value): {@link OrderPaymentAttemptPreviousAttributes}. anyOf[2] (Value): null.
+             * (Value): {@link WebhookSnapshotOrderPaymentAttemptPreviousAttributes}. anyOf[2]
+             * (Value): null.
              */
-            "active_payment_attempt"?: ((OrderPaymentAttemptPreviousAttributes) | (null));
+            "active_payment_attempt"?: ((WebhookSnapshotOrderPaymentAttemptPreviousAttributes) | (null));
             /**
              * Contact the buyer entered in checkout before paying, saved with the session's
              * checkout credential. Separate from merchant-supplied prefill and customer_prefill
@@ -5450,10 +5480,12 @@ export type CheckoutSessionExpiredInstalledMerchantsEvent = (Exclude<PartnerWebh
              */
             "invoice_id"?: ((string) | (null));
             /**
-             * Whether this terminal session credential is temporarily restricted to recovering its
-             * owning payment attempt. anyOf[1] (Value): boolean. Whether this terminal session
-             * credential is temporarily restricted to recovering its owning payment attempt.
-             * anyOf[2] (Value): null.
+             * Whether the checkout is in its payment recovery window after its deadline. The
+             * checkout credential can recover only an attempt it started. Merchant reads can also
+             * report a merchant-started attempt. anyOf[1] (Value): boolean. Whether the checkout
+             * is in its payment recovery window after its deadline. The checkout credential can
+             * recover only an attempt it started. Merchant reads can also report a
+             * merchant-started attempt. anyOf[2] (Value): null.
              */
             "is_in_recovery"?: ((boolean) | (null));
             /**
@@ -5495,10 +5527,10 @@ export type CheckoutSessionExpiredInstalledMerchantsEvent = (Exclude<PartnerWebh
             /**
              * Guidance for collecting a payment source. Checkout-credential reads include it only
              * while the session is open. Returned only to the checkout credential; never in
-             * webhook payloads. anyOf[1] (Value): {@link SetupCollectionPreviousAttributes}.
+             * webhook payloads. anyOf[1] (Value): {@link PaymentCollectionPreviousAttributes}.
              * anyOf[2] (Value): null.
              */
-            "payment_collection"?: ((SetupCollectionPreviousAttributes) | (null));
+            "payment_collection"?: ((PaymentCollectionPreviousAttributes) | (null));
             /**
              * IDs of the payment intents for the session's order. Absent when the order has none.
              * anyOf[1] (Value): Array of string. IDs of the payment intents for the session's
@@ -5796,12 +5828,13 @@ export type CheckoutSessionExpiredMerchantEvent = (Exclude<MerchantWebhookEnvelo
      * delivery's API version. Nested changes include the whole previous top-level value. A value
      * is null when the field was absent before the change. Omitted when Flint did not record the
      * previous state, including synthetic test events. previous_attributes.active_payment_attempt
-     * (Optional): {@link OrderPaymentAttemptPreviousAttributes} or null. The payment attempt now
-     * collecting this checkout's order, the same attempt as the order's active_payment_attempt.
-     * Read it to recover after losing a pay response, and resume it only when is_resumable is
-     * true. Omitted when no attempt is active. Pending actions that open a URL are left out; the
-     * pay response carries them. previous_attributes.active_payment_attempt.anyOf[1] (Value):
-     * {@link OrderPaymentAttemptPreviousAttributes}.
+     * (Optional): {@link WebhookSnapshotOrderPaymentAttemptPreviousAttributes} or null. The
+     * payment attempt now collecting this checkout's order, the same attempt as the order's
+     * active_payment_attempt. Read it to recover after losing a pay response, and resume it only
+     * when is_resumable is true. Omitted when no attempt is active. Pending actions that open a
+     * URL are left out; the pay response carries them.
+     * previous_attributes.active_payment_attempt.anyOf[1] (Value): {@link
+     * WebhookSnapshotOrderPaymentAttemptPreviousAttributes}.
      * previous_attributes.active_payment_attempt.anyOf[2] (Value): null.
      * previous_attributes.buyer_contact (Optional): {@link CheckoutBuyerContactPreviousAttributes}
      * or null. Contact the buyer entered in checkout before paying, saved with the session's
@@ -5945,10 +5978,12 @@ export type CheckoutSessionExpiredMerchantEvent = (Exclude<MerchantWebhookEnvelo
      * previous_attributes.invoice_id.anyOf[1] (Value): string. ID of the invoice a session of type
      * `invoice` collects payment for. Absent for other types. Example:
      * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
-     * previous_attributes.is_in_recovery (Optional): boolean or null. Whether this terminal
-     * session credential is temporarily restricted to recovering its owning payment attempt.
-     * previous_attributes.is_in_recovery.anyOf[1] (Value): boolean. Whether this terminal session
-     * credential is temporarily restricted to recovering its owning payment attempt.
+     * previous_attributes.is_in_recovery (Optional): boolean or null. Whether the checkout is in
+     * its payment recovery window after its deadline. The checkout credential can recover only an
+     * attempt it started. Merchant reads can also report a merchant-started attempt.
+     * previous_attributes.is_in_recovery.anyOf[1] (Value): boolean. Whether the checkout is in its
+     * payment recovery window after its deadline. The checkout credential can recover only an
+     * attempt it started. Merchant reads can also report a merchant-started attempt.
      * previous_attributes.is_in_recovery.anyOf[2] (Value): null. previous_attributes.legal
      * (Optional): {@link CheckoutLegalConfigPreviousAttributes} or null. The terms and policy
      * links this session shows the buyer, and whether the buyer must accept the terms.
@@ -5974,13 +6009,14 @@ export type CheckoutSessionExpiredMerchantEvent = (Exclude<MerchantWebhookEnvelo
      * this headless checkout. Omitted when not set. previous_attributes.page_origin.anyOf[1]
      * (Value): string. Origin of the page that renders this headless checkout. Omitted when not
      * set. previous_attributes.page_origin.anyOf[2] (Value): null.
-     * previous_attributes.payment_collection (Optional): {@link SetupCollectionPreviousAttributes}
-     * or null. Guidance for collecting a payment source. Checkout-credential reads include it only
-     * while the session is open. Returned only to the checkout credential; never in webhook
-     * payloads. previous_attributes.payment_collection.anyOf[1] (Value): {@link
-     * SetupCollectionPreviousAttributes}. previous_attributes.payment_collection.anyOf[2] (Value):
-     * null. previous_attributes.payment_intent_ids (Optional): Array of string or null. IDs of the
-     * payment intents for the session's order. Absent when the order has none.
+     * previous_attributes.payment_collection (Optional): {@link
+     * PaymentCollectionPreviousAttributes} or null. Guidance for collecting a payment source.
+     * Checkout-credential reads include it only while the session is open. Returned only to the
+     * checkout credential; never in webhook payloads.
+     * previous_attributes.payment_collection.anyOf[1] (Value): {@link
+     * PaymentCollectionPreviousAttributes}. previous_attributes.payment_collection.anyOf[2]
+     * (Value): null. previous_attributes.payment_intent_ids (Optional): Array of string or null.
+     * IDs of the payment intents for the session's order. Absent when the order has none.
      * previous_attributes.payment_intent_ids.anyOf[1] (Value): Array of string. IDs of the payment
      * intents for the session's order. Absent when the order has none.
      * previous_attributes.payment_intent_ids.anyOf[1][] (Value): string. Example:
@@ -6180,56 +6216,57 @@ export type CheckoutSessionExpiredMerchantEvent = (Exclude<MerchantWebhookEnvelo
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
          * state, including synthetic test events. active_payment_attempt (Optional): {@link
-         * OrderPaymentAttemptPreviousAttributes} or null. The payment attempt now collecting this
-         * checkout's order, the same attempt as the order's active_payment_attempt. Read it to
-         * recover after losing a pay response, and resume it only when is_resumable is true.
-         * Omitted when no attempt is active. Pending actions that open a URL are left out; the pay
-         * response carries them. active_payment_attempt.anyOf[1] (Value): {@link
-         * OrderPaymentAttemptPreviousAttributes}. active_payment_attempt.anyOf[2] (Value): null.
-         * buyer_contact (Optional): {@link CheckoutBuyerContactPreviousAttributes} or null.
-         * Contact the buyer entered in checkout before paying, saved with the session's checkout
-         * credential. Separate from merchant-supplied prefill and customer_prefill from the
-         * customer record. Omitted until the buyer saves or clears a field. When a checkout
-         * session payment omits buyer_contact.email or buyer_contact.phone, Flint uses these
-         * values. Flint clears the contact 30 days after the session ends, and when a customer
-         * linked to the session is deleted. buyer_contact.anyOf[1] (Value): {@link
-         * CheckoutBuyerContactPreviousAttributes}. buyer_contact.anyOf[2] (Value): null.
-         * buyer_fields (Optional): {@link CheckoutBuyerFieldsPreviousAttributes} or null. What
-         * checkout asks the buyer for. Each field you leave out uses your checkout settings.
-         * buyer_fields.anyOf[1] (Value): {@link CheckoutBuyerFieldsPreviousAttributes}.
-         * buyer_fields.anyOf[2] (Value): null. can_apply_promotion_code (Optional): boolean or
-         * null. Whether to offer promotion-code entry now. True only while the session is open, is
-         * not in recovery, and merchant promotion policy allows codes. An explicit
-         * promotion_config.codes_enabled wins; null offers entry only when this merchant has an
-         * active code promotion whose schedule includes now, in the session's environment.
-         * Recomputed on each read. This hint does not change code admission: checkout lifecycle,
-         * promotion_config, and merchant policy still apply. can_apply_promotion_code.anyOf[1]
-         * (Value): boolean. Whether to offer promotion-code entry now. True only while the session
-         * is open, is not in recovery, and merchant promotion policy allows codes. An explicit
-         * promotion_config.codes_enabled wins; null offers entry only when this merchant has an
-         * active code promotion whose schedule includes now, in the session's environment.
-         * Recomputed on each read. This hint does not change code admission: checkout lifecycle,
-         * promotion_config, and merchant policy still apply. can_apply_promotion_code.anyOf[2]
-         * (Value): null. checkout_session_id (Optional): string or null. Unique identifier for
-         * this checkout session, prefixed `cs_`. checkout_session_id.anyOf[1] (Value): string.
-         * Unique identifier for this checkout session, prefixed `cs_`. Example:
-         * "cs_01KEZF7C004JRWFW43H037MQRN". checkout_session_id.anyOf[2] (Value): null.
-         * client_reference (Optional): string or null. The reference the payment link URL or
-         * resolve request carried, such as your user ID. `null` when none was sent or checkout did
-         * not start from a payment link. Returned only to merchant credentials; omitted for buyer
-         * credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity.
-         * Always present with merchant credentials. client_reference.anyOf[1] (Value): string. The
-         * reference the payment link URL or resolve request carried, such as your user ID. `null`
-         * when none was sent or checkout did not start from a payment link. Returned only to
-         * merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so
+         * WebhookSnapshotOrderPaymentAttemptPreviousAttributes} or null. The payment attempt now
+         * collecting this checkout's order, the same attempt as the order's
+         * active_payment_attempt. Read it to recover after losing a pay response, and resume it
+         * only when is_resumable is true. Omitted when no attempt is active. Pending actions that
+         * open a URL are left out; the pay response carries them. active_payment_attempt.anyOf[1]
+         * (Value): {@link WebhookSnapshotOrderPaymentAttemptPreviousAttributes}.
+         * active_payment_attempt.anyOf[2] (Value): null. buyer_contact (Optional): {@link
+         * CheckoutBuyerContactPreviousAttributes} or null. Contact the buyer entered in checkout
+         * before paying, saved with the session's checkout credential. Separate from
+         * merchant-supplied prefill and customer_prefill from the customer record. Omitted until
+         * the buyer saves or clears a field. When a checkout session payment omits
+         * buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the
+         * contact 30 days after the session ends, and when a customer linked to the session is
+         * deleted. buyer_contact.anyOf[1] (Value): {@link CheckoutBuyerContactPreviousAttributes}.
+         * buyer_contact.anyOf[2] (Value): null. buyer_fields (Optional): {@link
+         * CheckoutBuyerFieldsPreviousAttributes} or null. What checkout asks the buyer for. Each
+         * field you leave out uses your checkout settings. buyer_fields.anyOf[1] (Value): {@link
+         * CheckoutBuyerFieldsPreviousAttributes}. buyer_fields.anyOf[2] (Value): null.
+         * can_apply_promotion_code (Optional): boolean or null. Whether to offer promotion-code
+         * entry now. True only while the session is open, is not in recovery, and merchant
+         * promotion policy allows codes. An explicit promotion_config.codes_enabled wins; null
+         * offers entry only when this merchant has an active code promotion whose schedule
+         * includes now, in the session's environment. Recomputed on each read. This hint does not
+         * change code admission: checkout lifecycle, promotion_config, and merchant policy still
+         * apply. can_apply_promotion_code.anyOf[1] (Value): boolean. Whether to offer
+         * promotion-code entry now. True only while the session is open, is not in recovery, and
+         * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
+         * null offers entry only when this merchant has an active code promotion whose schedule
+         * includes now, in the session's environment. Recomputed on each read. This hint does not
+         * change code admission: checkout lifecycle, promotion_config, and merchant policy still
+         * apply. can_apply_promotion_code.anyOf[2] (Value): null. checkout_session_id (Optional):
+         * string or null. Unique identifier for this checkout session, prefixed `cs_`.
+         * checkout_session_id.anyOf[1] (Value): string. Unique identifier for this checkout
+         * session, prefixed `cs_`. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
+         * checkout_session_id.anyOf[2] (Value): null. client_reference (Optional): string or null.
+         * The reference the payment link URL or resolve request carried, such as your user ID.
+         * `null` when none was sent or checkout did not start from a payment link. Returned only
+         * to merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so
          * treat it as a claim, not proof of identity. Always present with merchant credentials.
-         * minLength: 1. maxLength: 255. client_reference.anyOf[2] (Value): null.
-         * closed_reason_message (Optional): string or null. The note supplied when the checkout
-         * session was closed. closed_reason_message.anyOf[1] (Value): string. The note supplied
-         * when the checkout session was closed. closed_reason_message.anyOf[2] (Value): null.
-         * created_at (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value):
-         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. custom_field_answers (Optional): Array of {@link
+         * client_reference.anyOf[1] (Value): string. The reference the payment link URL or resolve
+         * request carried, such as your user ID. `null` when none was sent or checkout did not
+         * start from a payment link. Returned only to merchant credentials; omitted for buyer
+         * credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity.
+         * Always present with merchant credentials. minLength: 1. maxLength: 255.
+         * client_reference.anyOf[2] (Value): null. closed_reason_message (Optional): string or
+         * null. The note supplied when the checkout session was closed.
+         * closed_reason_message.anyOf[1] (Value): string. The note supplied when the checkout
+         * session was closed. closed_reason_message.anyOf[2] (Value): null. created_at (Optional):
+         * string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2]
+         * (Value): null. custom_field_answers (Optional): Array of {@link
          * CustomFieldAnswerPreviousAttributes} or null. The buyer's answers to the payment link's
          * custom fields, the same as the `custom_field_answers` of the session's order. Read-only.
          * Empty when the session didn't start from a payment link, the buyer answered no custom
@@ -6313,10 +6350,12 @@ export type CheckoutSessionExpiredMerchantEvent = (Exclude<MerchantWebhookEnvelo
          * invoice_id.anyOf[1] (Value): string. ID of the invoice a session of type `invoice`
          * collects payment for. Absent for other types. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
          * invoice_id.anyOf[2] (Value): null. is_in_recovery (Optional): boolean or null. Whether
-         * this terminal session credential is temporarily restricted to recovering its owning
-         * payment attempt. is_in_recovery.anyOf[1] (Value): boolean. Whether this terminal session
-         * credential is temporarily restricted to recovering its owning payment attempt.
-         * is_in_recovery.anyOf[2] (Value): null. legal (Optional): {@link
+         * the checkout is in its payment recovery window after its deadline. The checkout
+         * credential can recover only an attempt it started. Merchant reads can also report a
+         * merchant-started attempt. is_in_recovery.anyOf[1] (Value): boolean. Whether the checkout
+         * is in its payment recovery window after its deadline. The checkout credential can
+         * recover only an attempt it started. Merchant reads can also report a merchant-started
+         * attempt. is_in_recovery.anyOf[2] (Value): null. legal (Optional): {@link
          * CheckoutLegalConfigPreviousAttributes} or null. The terms and policy links this session
          * shows the buyer, and whether the buyer must accept the terms. legal.anyOf[1] (Value):
          * {@link CheckoutLegalConfigPreviousAttributes}. legal.anyOf[2] (Value): null. merchant_id
@@ -6336,11 +6375,11 @@ export type CheckoutSessionExpiredMerchantEvent = (Exclude<MerchantWebhookEnvelo
          * null. page_origin (Optional): string or null. Origin of the page that renders this
          * headless checkout. Omitted when not set. page_origin.anyOf[1] (Value): string. Origin of
          * the page that renders this headless checkout. Omitted when not set. page_origin.anyOf[2]
-         * (Value): null. payment_collection (Optional): {@link SetupCollectionPreviousAttributes}
-         * or null. Guidance for collecting a payment source. Checkout-credential reads include it
-         * only while the session is open. Returned only to the checkout credential; never in
-         * webhook payloads. payment_collection.anyOf[1] (Value): {@link
-         * SetupCollectionPreviousAttributes}. payment_collection.anyOf[2] (Value): null.
+         * (Value): null. payment_collection (Optional): {@link
+         * PaymentCollectionPreviousAttributes} or null. Guidance for collecting a payment source.
+         * Checkout-credential reads include it only while the session is open. Returned only to
+         * the checkout credential; never in webhook payloads. payment_collection.anyOf[1] (Value):
+         * {@link PaymentCollectionPreviousAttributes}. payment_collection.anyOf[2] (Value): null.
          * payment_intent_ids (Optional): Array of string or null. IDs of the payment intents for
          * the session's order. Absent when the order has none. payment_intent_ids.anyOf[1]
          * (Value): Array of string. IDs of the payment intents for the session's order. Absent
@@ -6519,9 +6558,10 @@ export type CheckoutSessionExpiredMerchantEvent = (Exclude<MerchantWebhookEnvelo
              * order's active_payment_attempt. Read it to recover after losing a pay response, and
              * resume it only when is_resumable is true. Omitted when no attempt is active. Pending
              * actions that open a URL are left out; the pay response carries them. anyOf[1]
-             * (Value): {@link OrderPaymentAttemptPreviousAttributes}. anyOf[2] (Value): null.
+             * (Value): {@link WebhookSnapshotOrderPaymentAttemptPreviousAttributes}. anyOf[2]
+             * (Value): null.
              */
-            "active_payment_attempt"?: ((OrderPaymentAttemptPreviousAttributes) | (null));
+            "active_payment_attempt"?: ((WebhookSnapshotOrderPaymentAttemptPreviousAttributes) | (null));
             /**
              * Contact the buyer entered in checkout before paying, saved with the session's
              * checkout credential. Separate from merchant-supplied prefill and customer_prefill
@@ -6699,10 +6739,12 @@ export type CheckoutSessionExpiredMerchantEvent = (Exclude<MerchantWebhookEnvelo
              */
             "invoice_id"?: ((string) | (null));
             /**
-             * Whether this terminal session credential is temporarily restricted to recovering its
-             * owning payment attempt. anyOf[1] (Value): boolean. Whether this terminal session
-             * credential is temporarily restricted to recovering its owning payment attempt.
-             * anyOf[2] (Value): null.
+             * Whether the checkout is in its payment recovery window after its deadline. The
+             * checkout credential can recover only an attempt it started. Merchant reads can also
+             * report a merchant-started attempt. anyOf[1] (Value): boolean. Whether the checkout
+             * is in its payment recovery window after its deadline. The checkout credential can
+             * recover only an attempt it started. Merchant reads can also report a
+             * merchant-started attempt. anyOf[2] (Value): null.
              */
             "is_in_recovery"?: ((boolean) | (null));
             /**
@@ -6744,10 +6786,10 @@ export type CheckoutSessionExpiredMerchantEvent = (Exclude<MerchantWebhookEnvelo
             /**
              * Guidance for collecting a payment source. Checkout-credential reads include it only
              * while the session is open. Returned only to the checkout credential; never in
-             * webhook payloads. anyOf[1] (Value): {@link SetupCollectionPreviousAttributes}.
+             * webhook payloads. anyOf[1] (Value): {@link PaymentCollectionPreviousAttributes}.
              * anyOf[2] (Value): null.
              */
-            "payment_collection"?: ((SetupCollectionPreviousAttributes) | (null));
+            "payment_collection"?: ((PaymentCollectionPreviousAttributes) | (null));
             /**
              * IDs of the payment intents for the session's order. Absent when the order has none.
              * anyOf[1] (Value): Array of string. IDs of the payment intents for the session's
@@ -7001,7 +7043,7 @@ export type CheckoutSessionInvalidatedEvent = ((((Exclude<MerchantWebhookEnvelop
             [key: string]: unknown;
         })
             & ({
-            "active_payment_attempt"?: ((OrderPaymentAttemptPreviousAttributes) | (null));
+            "active_payment_attempt"?: ((WebhookSnapshotOrderPaymentAttemptPreviousAttributes) | (null));
             "buyer_contact"?: ((CheckoutBuyerContactPreviousAttributes) | (null));
             "buyer_fields"?: ((CheckoutBuyerFieldsPreviousAttributes) | (null));
             "can_apply_promotion_code"?: ((boolean) | (null));
@@ -7030,7 +7072,7 @@ export type CheckoutSessionInvalidatedEvent = ((((Exclude<MerchantWebhookEnvelop
             "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             "order_id"?: ((string) | (null));
             "page_origin"?: ((string) | (null));
-            "payment_collection"?: ((SetupCollectionPreviousAttributes) | (null));
+            "payment_collection"?: ((PaymentCollectionPreviousAttributes) | (null));
             "payment_intent_ids"?: ((Array<string>) | (null));
             "payment_intents"?: ((Array<ExpandedPaymentIntentSummaryPreviousAttributes>) | (null));
             "payment_link"?: ((ExpandedPaymentLinkSummaryPreviousAttributes) | (null));
@@ -7081,7 +7123,7 @@ export type CheckoutSessionInvalidatedEvent = ((((Exclude<MerchantWebhookEnvelop
             [key: string]: unknown;
         })
             & ({
-            "active_payment_attempt"?: ((OrderPaymentAttemptPreviousAttributes) | (null));
+            "active_payment_attempt"?: ((WebhookSnapshotOrderPaymentAttemptPreviousAttributes) | (null));
             "buyer_contact"?: ((CheckoutBuyerContactPreviousAttributes) | (null));
             "buyer_fields"?: ((CheckoutBuyerFieldsPreviousAttributes) | (null));
             "can_apply_promotion_code"?: ((boolean) | (null));
@@ -7110,7 +7152,7 @@ export type CheckoutSessionInvalidatedEvent = ((((Exclude<MerchantWebhookEnvelop
             "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             "order_id"?: ((string) | (null));
             "page_origin"?: ((string) | (null));
-            "payment_collection"?: ((SetupCollectionPreviousAttributes) | (null));
+            "payment_collection"?: ((PaymentCollectionPreviousAttributes) | (null));
             "payment_intent_ids"?: ((Array<string>) | (null));
             "payment_intents"?: ((Array<ExpandedPaymentIntentSummaryPreviousAttributes>) | (null));
             "payment_link"?: ((ExpandedPaymentLinkSummaryPreviousAttributes) | (null));
@@ -7181,12 +7223,13 @@ export type CheckoutSessionInvalidatedInstalledMerchantsEvent = (Exclude<Partner
      * delivery's API version. Nested changes include the whole previous top-level value. A value
      * is null when the field was absent before the change. Omitted when Flint did not record the
      * previous state, including synthetic test events. previous_attributes.active_payment_attempt
-     * (Optional): {@link OrderPaymentAttemptPreviousAttributes} or null. The payment attempt now
-     * collecting this checkout's order, the same attempt as the order's active_payment_attempt.
-     * Read it to recover after losing a pay response, and resume it only when is_resumable is
-     * true. Omitted when no attempt is active. Pending actions that open a URL are left out; the
-     * pay response carries them. previous_attributes.active_payment_attempt.anyOf[1] (Value):
-     * {@link OrderPaymentAttemptPreviousAttributes}.
+     * (Optional): {@link WebhookSnapshotOrderPaymentAttemptPreviousAttributes} or null. The
+     * payment attempt now collecting this checkout's order, the same attempt as the order's
+     * active_payment_attempt. Read it to recover after losing a pay response, and resume it only
+     * when is_resumable is true. Omitted when no attempt is active. Pending actions that open a
+     * URL are left out; the pay response carries them.
+     * previous_attributes.active_payment_attempt.anyOf[1] (Value): {@link
+     * WebhookSnapshotOrderPaymentAttemptPreviousAttributes}.
      * previous_attributes.active_payment_attempt.anyOf[2] (Value): null.
      * previous_attributes.buyer_contact (Optional): {@link CheckoutBuyerContactPreviousAttributes}
      * or null. Contact the buyer entered in checkout before paying, saved with the session's
@@ -7330,10 +7373,12 @@ export type CheckoutSessionInvalidatedInstalledMerchantsEvent = (Exclude<Partner
      * previous_attributes.invoice_id.anyOf[1] (Value): string. ID of the invoice a session of type
      * `invoice` collects payment for. Absent for other types. Example:
      * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
-     * previous_attributes.is_in_recovery (Optional): boolean or null. Whether this terminal
-     * session credential is temporarily restricted to recovering its owning payment attempt.
-     * previous_attributes.is_in_recovery.anyOf[1] (Value): boolean. Whether this terminal session
-     * credential is temporarily restricted to recovering its owning payment attempt.
+     * previous_attributes.is_in_recovery (Optional): boolean or null. Whether the checkout is in
+     * its payment recovery window after its deadline. The checkout credential can recover only an
+     * attempt it started. Merchant reads can also report a merchant-started attempt.
+     * previous_attributes.is_in_recovery.anyOf[1] (Value): boolean. Whether the checkout is in its
+     * payment recovery window after its deadline. The checkout credential can recover only an
+     * attempt it started. Merchant reads can also report a merchant-started attempt.
      * previous_attributes.is_in_recovery.anyOf[2] (Value): null. previous_attributes.legal
      * (Optional): {@link CheckoutLegalConfigPreviousAttributes} or null. The terms and policy
      * links this session shows the buyer, and whether the buyer must accept the terms.
@@ -7359,13 +7404,14 @@ export type CheckoutSessionInvalidatedInstalledMerchantsEvent = (Exclude<Partner
      * this headless checkout. Omitted when not set. previous_attributes.page_origin.anyOf[1]
      * (Value): string. Origin of the page that renders this headless checkout. Omitted when not
      * set. previous_attributes.page_origin.anyOf[2] (Value): null.
-     * previous_attributes.payment_collection (Optional): {@link SetupCollectionPreviousAttributes}
-     * or null. Guidance for collecting a payment source. Checkout-credential reads include it only
-     * while the session is open. Returned only to the checkout credential; never in webhook
-     * payloads. previous_attributes.payment_collection.anyOf[1] (Value): {@link
-     * SetupCollectionPreviousAttributes}. previous_attributes.payment_collection.anyOf[2] (Value):
-     * null. previous_attributes.payment_intent_ids (Optional): Array of string or null. IDs of the
-     * payment intents for the session's order. Absent when the order has none.
+     * previous_attributes.payment_collection (Optional): {@link
+     * PaymentCollectionPreviousAttributes} or null. Guidance for collecting a payment source.
+     * Checkout-credential reads include it only while the session is open. Returned only to the
+     * checkout credential; never in webhook payloads.
+     * previous_attributes.payment_collection.anyOf[1] (Value): {@link
+     * PaymentCollectionPreviousAttributes}. previous_attributes.payment_collection.anyOf[2]
+     * (Value): null. previous_attributes.payment_intent_ids (Optional): Array of string or null.
+     * IDs of the payment intents for the session's order. Absent when the order has none.
      * previous_attributes.payment_intent_ids.anyOf[1] (Value): Array of string. IDs of the payment
      * intents for the session's order. Absent when the order has none.
      * previous_attributes.payment_intent_ids.anyOf[1][] (Value): string. Example:
@@ -7565,56 +7611,57 @@ export type CheckoutSessionInvalidatedInstalledMerchantsEvent = (Exclude<Partner
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
          * state, including synthetic test events. active_payment_attempt (Optional): {@link
-         * OrderPaymentAttemptPreviousAttributes} or null. The payment attempt now collecting this
-         * checkout's order, the same attempt as the order's active_payment_attempt. Read it to
-         * recover after losing a pay response, and resume it only when is_resumable is true.
-         * Omitted when no attempt is active. Pending actions that open a URL are left out; the pay
-         * response carries them. active_payment_attempt.anyOf[1] (Value): {@link
-         * OrderPaymentAttemptPreviousAttributes}. active_payment_attempt.anyOf[2] (Value): null.
-         * buyer_contact (Optional): {@link CheckoutBuyerContactPreviousAttributes} or null.
-         * Contact the buyer entered in checkout before paying, saved with the session's checkout
-         * credential. Separate from merchant-supplied prefill and customer_prefill from the
-         * customer record. Omitted until the buyer saves or clears a field. When a checkout
-         * session payment omits buyer_contact.email or buyer_contact.phone, Flint uses these
-         * values. Flint clears the contact 30 days after the session ends, and when a customer
-         * linked to the session is deleted. buyer_contact.anyOf[1] (Value): {@link
-         * CheckoutBuyerContactPreviousAttributes}. buyer_contact.anyOf[2] (Value): null.
-         * buyer_fields (Optional): {@link CheckoutBuyerFieldsPreviousAttributes} or null. What
-         * checkout asks the buyer for. Each field you leave out uses your checkout settings.
-         * buyer_fields.anyOf[1] (Value): {@link CheckoutBuyerFieldsPreviousAttributes}.
-         * buyer_fields.anyOf[2] (Value): null. can_apply_promotion_code (Optional): boolean or
-         * null. Whether to offer promotion-code entry now. True only while the session is open, is
-         * not in recovery, and merchant promotion policy allows codes. An explicit
-         * promotion_config.codes_enabled wins; null offers entry only when this merchant has an
-         * active code promotion whose schedule includes now, in the session's environment.
-         * Recomputed on each read. This hint does not change code admission: checkout lifecycle,
-         * promotion_config, and merchant policy still apply. can_apply_promotion_code.anyOf[1]
-         * (Value): boolean. Whether to offer promotion-code entry now. True only while the session
-         * is open, is not in recovery, and merchant promotion policy allows codes. An explicit
-         * promotion_config.codes_enabled wins; null offers entry only when this merchant has an
-         * active code promotion whose schedule includes now, in the session's environment.
-         * Recomputed on each read. This hint does not change code admission: checkout lifecycle,
-         * promotion_config, and merchant policy still apply. can_apply_promotion_code.anyOf[2]
-         * (Value): null. checkout_session_id (Optional): string or null. Unique identifier for
-         * this checkout session, prefixed `cs_`. checkout_session_id.anyOf[1] (Value): string.
-         * Unique identifier for this checkout session, prefixed `cs_`. Example:
-         * "cs_01KEZF7C004JRWFW43H037MQRN". checkout_session_id.anyOf[2] (Value): null.
-         * client_reference (Optional): string or null. The reference the payment link URL or
-         * resolve request carried, such as your user ID. `null` when none was sent or checkout did
-         * not start from a payment link. Returned only to merchant credentials; omitted for buyer
-         * credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity.
-         * Always present with merchant credentials. client_reference.anyOf[1] (Value): string. The
-         * reference the payment link URL or resolve request carried, such as your user ID. `null`
-         * when none was sent or checkout did not start from a payment link. Returned only to
-         * merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so
+         * WebhookSnapshotOrderPaymentAttemptPreviousAttributes} or null. The payment attempt now
+         * collecting this checkout's order, the same attempt as the order's
+         * active_payment_attempt. Read it to recover after losing a pay response, and resume it
+         * only when is_resumable is true. Omitted when no attempt is active. Pending actions that
+         * open a URL are left out; the pay response carries them. active_payment_attempt.anyOf[1]
+         * (Value): {@link WebhookSnapshotOrderPaymentAttemptPreviousAttributes}.
+         * active_payment_attempt.anyOf[2] (Value): null. buyer_contact (Optional): {@link
+         * CheckoutBuyerContactPreviousAttributes} or null. Contact the buyer entered in checkout
+         * before paying, saved with the session's checkout credential. Separate from
+         * merchant-supplied prefill and customer_prefill from the customer record. Omitted until
+         * the buyer saves or clears a field. When a checkout session payment omits
+         * buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the
+         * contact 30 days after the session ends, and when a customer linked to the session is
+         * deleted. buyer_contact.anyOf[1] (Value): {@link CheckoutBuyerContactPreviousAttributes}.
+         * buyer_contact.anyOf[2] (Value): null. buyer_fields (Optional): {@link
+         * CheckoutBuyerFieldsPreviousAttributes} or null. What checkout asks the buyer for. Each
+         * field you leave out uses your checkout settings. buyer_fields.anyOf[1] (Value): {@link
+         * CheckoutBuyerFieldsPreviousAttributes}. buyer_fields.anyOf[2] (Value): null.
+         * can_apply_promotion_code (Optional): boolean or null. Whether to offer promotion-code
+         * entry now. True only while the session is open, is not in recovery, and merchant
+         * promotion policy allows codes. An explicit promotion_config.codes_enabled wins; null
+         * offers entry only when this merchant has an active code promotion whose schedule
+         * includes now, in the session's environment. Recomputed on each read. This hint does not
+         * change code admission: checkout lifecycle, promotion_config, and merchant policy still
+         * apply. can_apply_promotion_code.anyOf[1] (Value): boolean. Whether to offer
+         * promotion-code entry now. True only while the session is open, is not in recovery, and
+         * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
+         * null offers entry only when this merchant has an active code promotion whose schedule
+         * includes now, in the session's environment. Recomputed on each read. This hint does not
+         * change code admission: checkout lifecycle, promotion_config, and merchant policy still
+         * apply. can_apply_promotion_code.anyOf[2] (Value): null. checkout_session_id (Optional):
+         * string or null. Unique identifier for this checkout session, prefixed `cs_`.
+         * checkout_session_id.anyOf[1] (Value): string. Unique identifier for this checkout
+         * session, prefixed `cs_`. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
+         * checkout_session_id.anyOf[2] (Value): null. client_reference (Optional): string or null.
+         * The reference the payment link URL or resolve request carried, such as your user ID.
+         * `null` when none was sent or checkout did not start from a payment link. Returned only
+         * to merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so
          * treat it as a claim, not proof of identity. Always present with merchant credentials.
-         * minLength: 1. maxLength: 255. client_reference.anyOf[2] (Value): null.
-         * closed_reason_message (Optional): string or null. The note supplied when the checkout
-         * session was closed. closed_reason_message.anyOf[1] (Value): string. The note supplied
-         * when the checkout session was closed. closed_reason_message.anyOf[2] (Value): null.
-         * created_at (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value):
-         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. custom_field_answers (Optional): Array of {@link
+         * client_reference.anyOf[1] (Value): string. The reference the payment link URL or resolve
+         * request carried, such as your user ID. `null` when none was sent or checkout did not
+         * start from a payment link. Returned only to merchant credentials; omitted for buyer
+         * credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity.
+         * Always present with merchant credentials. minLength: 1. maxLength: 255.
+         * client_reference.anyOf[2] (Value): null. closed_reason_message (Optional): string or
+         * null. The note supplied when the checkout session was closed.
+         * closed_reason_message.anyOf[1] (Value): string. The note supplied when the checkout
+         * session was closed. closed_reason_message.anyOf[2] (Value): null. created_at (Optional):
+         * string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2]
+         * (Value): null. custom_field_answers (Optional): Array of {@link
          * CustomFieldAnswerPreviousAttributes} or null. The buyer's answers to the payment link's
          * custom fields, the same as the `custom_field_answers` of the session's order. Read-only.
          * Empty when the session didn't start from a payment link, the buyer answered no custom
@@ -7698,10 +7745,12 @@ export type CheckoutSessionInvalidatedInstalledMerchantsEvent = (Exclude<Partner
          * invoice_id.anyOf[1] (Value): string. ID of the invoice a session of type `invoice`
          * collects payment for. Absent for other types. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
          * invoice_id.anyOf[2] (Value): null. is_in_recovery (Optional): boolean or null. Whether
-         * this terminal session credential is temporarily restricted to recovering its owning
-         * payment attempt. is_in_recovery.anyOf[1] (Value): boolean. Whether this terminal session
-         * credential is temporarily restricted to recovering its owning payment attempt.
-         * is_in_recovery.anyOf[2] (Value): null. legal (Optional): {@link
+         * the checkout is in its payment recovery window after its deadline. The checkout
+         * credential can recover only an attempt it started. Merchant reads can also report a
+         * merchant-started attempt. is_in_recovery.anyOf[1] (Value): boolean. Whether the checkout
+         * is in its payment recovery window after its deadline. The checkout credential can
+         * recover only an attempt it started. Merchant reads can also report a merchant-started
+         * attempt. is_in_recovery.anyOf[2] (Value): null. legal (Optional): {@link
          * CheckoutLegalConfigPreviousAttributes} or null. The terms and policy links this session
          * shows the buyer, and whether the buyer must accept the terms. legal.anyOf[1] (Value):
          * {@link CheckoutLegalConfigPreviousAttributes}. legal.anyOf[2] (Value): null. merchant_id
@@ -7721,11 +7770,11 @@ export type CheckoutSessionInvalidatedInstalledMerchantsEvent = (Exclude<Partner
          * null. page_origin (Optional): string or null. Origin of the page that renders this
          * headless checkout. Omitted when not set. page_origin.anyOf[1] (Value): string. Origin of
          * the page that renders this headless checkout. Omitted when not set. page_origin.anyOf[2]
-         * (Value): null. payment_collection (Optional): {@link SetupCollectionPreviousAttributes}
-         * or null. Guidance for collecting a payment source. Checkout-credential reads include it
-         * only while the session is open. Returned only to the checkout credential; never in
-         * webhook payloads. payment_collection.anyOf[1] (Value): {@link
-         * SetupCollectionPreviousAttributes}. payment_collection.anyOf[2] (Value): null.
+         * (Value): null. payment_collection (Optional): {@link
+         * PaymentCollectionPreviousAttributes} or null. Guidance for collecting a payment source.
+         * Checkout-credential reads include it only while the session is open. Returned only to
+         * the checkout credential; never in webhook payloads. payment_collection.anyOf[1] (Value):
+         * {@link PaymentCollectionPreviousAttributes}. payment_collection.anyOf[2] (Value): null.
          * payment_intent_ids (Optional): Array of string or null. IDs of the payment intents for
          * the session's order. Absent when the order has none. payment_intent_ids.anyOf[1]
          * (Value): Array of string. IDs of the payment intents for the session's order. Absent
@@ -7904,9 +7953,10 @@ export type CheckoutSessionInvalidatedInstalledMerchantsEvent = (Exclude<Partner
              * order's active_payment_attempt. Read it to recover after losing a pay response, and
              * resume it only when is_resumable is true. Omitted when no attempt is active. Pending
              * actions that open a URL are left out; the pay response carries them. anyOf[1]
-             * (Value): {@link OrderPaymentAttemptPreviousAttributes}. anyOf[2] (Value): null.
+             * (Value): {@link WebhookSnapshotOrderPaymentAttemptPreviousAttributes}. anyOf[2]
+             * (Value): null.
              */
-            "active_payment_attempt"?: ((OrderPaymentAttemptPreviousAttributes) | (null));
+            "active_payment_attempt"?: ((WebhookSnapshotOrderPaymentAttemptPreviousAttributes) | (null));
             /**
              * Contact the buyer entered in checkout before paying, saved with the session's
              * checkout credential. Separate from merchant-supplied prefill and customer_prefill
@@ -8084,10 +8134,12 @@ export type CheckoutSessionInvalidatedInstalledMerchantsEvent = (Exclude<Partner
              */
             "invoice_id"?: ((string) | (null));
             /**
-             * Whether this terminal session credential is temporarily restricted to recovering its
-             * owning payment attempt. anyOf[1] (Value): boolean. Whether this terminal session
-             * credential is temporarily restricted to recovering its owning payment attempt.
-             * anyOf[2] (Value): null.
+             * Whether the checkout is in its payment recovery window after its deadline. The
+             * checkout credential can recover only an attempt it started. Merchant reads can also
+             * report a merchant-started attempt. anyOf[1] (Value): boolean. Whether the checkout
+             * is in its payment recovery window after its deadline. The checkout credential can
+             * recover only an attempt it started. Merchant reads can also report a
+             * merchant-started attempt. anyOf[2] (Value): null.
              */
             "is_in_recovery"?: ((boolean) | (null));
             /**
@@ -8129,10 +8181,10 @@ export type CheckoutSessionInvalidatedInstalledMerchantsEvent = (Exclude<Partner
             /**
              * Guidance for collecting a payment source. Checkout-credential reads include it only
              * while the session is open. Returned only to the checkout credential; never in
-             * webhook payloads. anyOf[1] (Value): {@link SetupCollectionPreviousAttributes}.
+             * webhook payloads. anyOf[1] (Value): {@link PaymentCollectionPreviousAttributes}.
              * anyOf[2] (Value): null.
              */
-            "payment_collection"?: ((SetupCollectionPreviousAttributes) | (null));
+            "payment_collection"?: ((PaymentCollectionPreviousAttributes) | (null));
             /**
              * IDs of the payment intents for the session's order. Absent when the order has none.
              * anyOf[1] (Value): Array of string. IDs of the payment intents for the session's
@@ -8430,12 +8482,13 @@ export type CheckoutSessionInvalidatedMerchantEvent = (Exclude<MerchantWebhookEn
      * delivery's API version. Nested changes include the whole previous top-level value. A value
      * is null when the field was absent before the change. Omitted when Flint did not record the
      * previous state, including synthetic test events. previous_attributes.active_payment_attempt
-     * (Optional): {@link OrderPaymentAttemptPreviousAttributes} or null. The payment attempt now
-     * collecting this checkout's order, the same attempt as the order's active_payment_attempt.
-     * Read it to recover after losing a pay response, and resume it only when is_resumable is
-     * true. Omitted when no attempt is active. Pending actions that open a URL are left out; the
-     * pay response carries them. previous_attributes.active_payment_attempt.anyOf[1] (Value):
-     * {@link OrderPaymentAttemptPreviousAttributes}.
+     * (Optional): {@link WebhookSnapshotOrderPaymentAttemptPreviousAttributes} or null. The
+     * payment attempt now collecting this checkout's order, the same attempt as the order's
+     * active_payment_attempt. Read it to recover after losing a pay response, and resume it only
+     * when is_resumable is true. Omitted when no attempt is active. Pending actions that open a
+     * URL are left out; the pay response carries them.
+     * previous_attributes.active_payment_attempt.anyOf[1] (Value): {@link
+     * WebhookSnapshotOrderPaymentAttemptPreviousAttributes}.
      * previous_attributes.active_payment_attempt.anyOf[2] (Value): null.
      * previous_attributes.buyer_contact (Optional): {@link CheckoutBuyerContactPreviousAttributes}
      * or null. Contact the buyer entered in checkout before paying, saved with the session's
@@ -8579,10 +8632,12 @@ export type CheckoutSessionInvalidatedMerchantEvent = (Exclude<MerchantWebhookEn
      * previous_attributes.invoice_id.anyOf[1] (Value): string. ID of the invoice a session of type
      * `invoice` collects payment for. Absent for other types. Example:
      * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
-     * previous_attributes.is_in_recovery (Optional): boolean or null. Whether this terminal
-     * session credential is temporarily restricted to recovering its owning payment attempt.
-     * previous_attributes.is_in_recovery.anyOf[1] (Value): boolean. Whether this terminal session
-     * credential is temporarily restricted to recovering its owning payment attempt.
+     * previous_attributes.is_in_recovery (Optional): boolean or null. Whether the checkout is in
+     * its payment recovery window after its deadline. The checkout credential can recover only an
+     * attempt it started. Merchant reads can also report a merchant-started attempt.
+     * previous_attributes.is_in_recovery.anyOf[1] (Value): boolean. Whether the checkout is in its
+     * payment recovery window after its deadline. The checkout credential can recover only an
+     * attempt it started. Merchant reads can also report a merchant-started attempt.
      * previous_attributes.is_in_recovery.anyOf[2] (Value): null. previous_attributes.legal
      * (Optional): {@link CheckoutLegalConfigPreviousAttributes} or null. The terms and policy
      * links this session shows the buyer, and whether the buyer must accept the terms.
@@ -8608,13 +8663,14 @@ export type CheckoutSessionInvalidatedMerchantEvent = (Exclude<MerchantWebhookEn
      * this headless checkout. Omitted when not set. previous_attributes.page_origin.anyOf[1]
      * (Value): string. Origin of the page that renders this headless checkout. Omitted when not
      * set. previous_attributes.page_origin.anyOf[2] (Value): null.
-     * previous_attributes.payment_collection (Optional): {@link SetupCollectionPreviousAttributes}
-     * or null. Guidance for collecting a payment source. Checkout-credential reads include it only
-     * while the session is open. Returned only to the checkout credential; never in webhook
-     * payloads. previous_attributes.payment_collection.anyOf[1] (Value): {@link
-     * SetupCollectionPreviousAttributes}. previous_attributes.payment_collection.anyOf[2] (Value):
-     * null. previous_attributes.payment_intent_ids (Optional): Array of string or null. IDs of the
-     * payment intents for the session's order. Absent when the order has none.
+     * previous_attributes.payment_collection (Optional): {@link
+     * PaymentCollectionPreviousAttributes} or null. Guidance for collecting a payment source.
+     * Checkout-credential reads include it only while the session is open. Returned only to the
+     * checkout credential; never in webhook payloads.
+     * previous_attributes.payment_collection.anyOf[1] (Value): {@link
+     * PaymentCollectionPreviousAttributes}. previous_attributes.payment_collection.anyOf[2]
+     * (Value): null. previous_attributes.payment_intent_ids (Optional): Array of string or null.
+     * IDs of the payment intents for the session's order. Absent when the order has none.
      * previous_attributes.payment_intent_ids.anyOf[1] (Value): Array of string. IDs of the payment
      * intents for the session's order. Absent when the order has none.
      * previous_attributes.payment_intent_ids.anyOf[1][] (Value): string. Example:
@@ -8814,56 +8870,57 @@ export type CheckoutSessionInvalidatedMerchantEvent = (Exclude<MerchantWebhookEn
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
          * state, including synthetic test events. active_payment_attempt (Optional): {@link
-         * OrderPaymentAttemptPreviousAttributes} or null. The payment attempt now collecting this
-         * checkout's order, the same attempt as the order's active_payment_attempt. Read it to
-         * recover after losing a pay response, and resume it only when is_resumable is true.
-         * Omitted when no attempt is active. Pending actions that open a URL are left out; the pay
-         * response carries them. active_payment_attempt.anyOf[1] (Value): {@link
-         * OrderPaymentAttemptPreviousAttributes}. active_payment_attempt.anyOf[2] (Value): null.
-         * buyer_contact (Optional): {@link CheckoutBuyerContactPreviousAttributes} or null.
-         * Contact the buyer entered in checkout before paying, saved with the session's checkout
-         * credential. Separate from merchant-supplied prefill and customer_prefill from the
-         * customer record. Omitted until the buyer saves or clears a field. When a checkout
-         * session payment omits buyer_contact.email or buyer_contact.phone, Flint uses these
-         * values. Flint clears the contact 30 days after the session ends, and when a customer
-         * linked to the session is deleted. buyer_contact.anyOf[1] (Value): {@link
-         * CheckoutBuyerContactPreviousAttributes}. buyer_contact.anyOf[2] (Value): null.
-         * buyer_fields (Optional): {@link CheckoutBuyerFieldsPreviousAttributes} or null. What
-         * checkout asks the buyer for. Each field you leave out uses your checkout settings.
-         * buyer_fields.anyOf[1] (Value): {@link CheckoutBuyerFieldsPreviousAttributes}.
-         * buyer_fields.anyOf[2] (Value): null. can_apply_promotion_code (Optional): boolean or
-         * null. Whether to offer promotion-code entry now. True only while the session is open, is
-         * not in recovery, and merchant promotion policy allows codes. An explicit
-         * promotion_config.codes_enabled wins; null offers entry only when this merchant has an
-         * active code promotion whose schedule includes now, in the session's environment.
-         * Recomputed on each read. This hint does not change code admission: checkout lifecycle,
-         * promotion_config, and merchant policy still apply. can_apply_promotion_code.anyOf[1]
-         * (Value): boolean. Whether to offer promotion-code entry now. True only while the session
-         * is open, is not in recovery, and merchant promotion policy allows codes. An explicit
-         * promotion_config.codes_enabled wins; null offers entry only when this merchant has an
-         * active code promotion whose schedule includes now, in the session's environment.
-         * Recomputed on each read. This hint does not change code admission: checkout lifecycle,
-         * promotion_config, and merchant policy still apply. can_apply_promotion_code.anyOf[2]
-         * (Value): null. checkout_session_id (Optional): string or null. Unique identifier for
-         * this checkout session, prefixed `cs_`. checkout_session_id.anyOf[1] (Value): string.
-         * Unique identifier for this checkout session, prefixed `cs_`. Example:
-         * "cs_01KEZF7C004JRWFW43H037MQRN". checkout_session_id.anyOf[2] (Value): null.
-         * client_reference (Optional): string or null. The reference the payment link URL or
-         * resolve request carried, such as your user ID. `null` when none was sent or checkout did
-         * not start from a payment link. Returned only to merchant credentials; omitted for buyer
-         * credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity.
-         * Always present with merchant credentials. client_reference.anyOf[1] (Value): string. The
-         * reference the payment link URL or resolve request carried, such as your user ID. `null`
-         * when none was sent or checkout did not start from a payment link. Returned only to
-         * merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so
+         * WebhookSnapshotOrderPaymentAttemptPreviousAttributes} or null. The payment attempt now
+         * collecting this checkout's order, the same attempt as the order's
+         * active_payment_attempt. Read it to recover after losing a pay response, and resume it
+         * only when is_resumable is true. Omitted when no attempt is active. Pending actions that
+         * open a URL are left out; the pay response carries them. active_payment_attempt.anyOf[1]
+         * (Value): {@link WebhookSnapshotOrderPaymentAttemptPreviousAttributes}.
+         * active_payment_attempt.anyOf[2] (Value): null. buyer_contact (Optional): {@link
+         * CheckoutBuyerContactPreviousAttributes} or null. Contact the buyer entered in checkout
+         * before paying, saved with the session's checkout credential. Separate from
+         * merchant-supplied prefill and customer_prefill from the customer record. Omitted until
+         * the buyer saves or clears a field. When a checkout session payment omits
+         * buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the
+         * contact 30 days after the session ends, and when a customer linked to the session is
+         * deleted. buyer_contact.anyOf[1] (Value): {@link CheckoutBuyerContactPreviousAttributes}.
+         * buyer_contact.anyOf[2] (Value): null. buyer_fields (Optional): {@link
+         * CheckoutBuyerFieldsPreviousAttributes} or null. What checkout asks the buyer for. Each
+         * field you leave out uses your checkout settings. buyer_fields.anyOf[1] (Value): {@link
+         * CheckoutBuyerFieldsPreviousAttributes}. buyer_fields.anyOf[2] (Value): null.
+         * can_apply_promotion_code (Optional): boolean or null. Whether to offer promotion-code
+         * entry now. True only while the session is open, is not in recovery, and merchant
+         * promotion policy allows codes. An explicit promotion_config.codes_enabled wins; null
+         * offers entry only when this merchant has an active code promotion whose schedule
+         * includes now, in the session's environment. Recomputed on each read. This hint does not
+         * change code admission: checkout lifecycle, promotion_config, and merchant policy still
+         * apply. can_apply_promotion_code.anyOf[1] (Value): boolean. Whether to offer
+         * promotion-code entry now. True only while the session is open, is not in recovery, and
+         * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
+         * null offers entry only when this merchant has an active code promotion whose schedule
+         * includes now, in the session's environment. Recomputed on each read. This hint does not
+         * change code admission: checkout lifecycle, promotion_config, and merchant policy still
+         * apply. can_apply_promotion_code.anyOf[2] (Value): null. checkout_session_id (Optional):
+         * string or null. Unique identifier for this checkout session, prefixed `cs_`.
+         * checkout_session_id.anyOf[1] (Value): string. Unique identifier for this checkout
+         * session, prefixed `cs_`. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
+         * checkout_session_id.anyOf[2] (Value): null. client_reference (Optional): string or null.
+         * The reference the payment link URL or resolve request carried, such as your user ID.
+         * `null` when none was sent or checkout did not start from a payment link. Returned only
+         * to merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so
          * treat it as a claim, not proof of identity. Always present with merchant credentials.
-         * minLength: 1. maxLength: 255. client_reference.anyOf[2] (Value): null.
-         * closed_reason_message (Optional): string or null. The note supplied when the checkout
-         * session was closed. closed_reason_message.anyOf[1] (Value): string. The note supplied
-         * when the checkout session was closed. closed_reason_message.anyOf[2] (Value): null.
-         * created_at (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value):
-         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. custom_field_answers (Optional): Array of {@link
+         * client_reference.anyOf[1] (Value): string. The reference the payment link URL or resolve
+         * request carried, such as your user ID. `null` when none was sent or checkout did not
+         * start from a payment link. Returned only to merchant credentials; omitted for buyer
+         * credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity.
+         * Always present with merchant credentials. minLength: 1. maxLength: 255.
+         * client_reference.anyOf[2] (Value): null. closed_reason_message (Optional): string or
+         * null. The note supplied when the checkout session was closed.
+         * closed_reason_message.anyOf[1] (Value): string. The note supplied when the checkout
+         * session was closed. closed_reason_message.anyOf[2] (Value): null. created_at (Optional):
+         * string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2]
+         * (Value): null. custom_field_answers (Optional): Array of {@link
          * CustomFieldAnswerPreviousAttributes} or null. The buyer's answers to the payment link's
          * custom fields, the same as the `custom_field_answers` of the session's order. Read-only.
          * Empty when the session didn't start from a payment link, the buyer answered no custom
@@ -8947,10 +9004,12 @@ export type CheckoutSessionInvalidatedMerchantEvent = (Exclude<MerchantWebhookEn
          * invoice_id.anyOf[1] (Value): string. ID of the invoice a session of type `invoice`
          * collects payment for. Absent for other types. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
          * invoice_id.anyOf[2] (Value): null. is_in_recovery (Optional): boolean or null. Whether
-         * this terminal session credential is temporarily restricted to recovering its owning
-         * payment attempt. is_in_recovery.anyOf[1] (Value): boolean. Whether this terminal session
-         * credential is temporarily restricted to recovering its owning payment attempt.
-         * is_in_recovery.anyOf[2] (Value): null. legal (Optional): {@link
+         * the checkout is in its payment recovery window after its deadline. The checkout
+         * credential can recover only an attempt it started. Merchant reads can also report a
+         * merchant-started attempt. is_in_recovery.anyOf[1] (Value): boolean. Whether the checkout
+         * is in its payment recovery window after its deadline. The checkout credential can
+         * recover only an attempt it started. Merchant reads can also report a merchant-started
+         * attempt. is_in_recovery.anyOf[2] (Value): null. legal (Optional): {@link
          * CheckoutLegalConfigPreviousAttributes} or null. The terms and policy links this session
          * shows the buyer, and whether the buyer must accept the terms. legal.anyOf[1] (Value):
          * {@link CheckoutLegalConfigPreviousAttributes}. legal.anyOf[2] (Value): null. merchant_id
@@ -8970,11 +9029,11 @@ export type CheckoutSessionInvalidatedMerchantEvent = (Exclude<MerchantWebhookEn
          * null. page_origin (Optional): string or null. Origin of the page that renders this
          * headless checkout. Omitted when not set. page_origin.anyOf[1] (Value): string. Origin of
          * the page that renders this headless checkout. Omitted when not set. page_origin.anyOf[2]
-         * (Value): null. payment_collection (Optional): {@link SetupCollectionPreviousAttributes}
-         * or null. Guidance for collecting a payment source. Checkout-credential reads include it
-         * only while the session is open. Returned only to the checkout credential; never in
-         * webhook payloads. payment_collection.anyOf[1] (Value): {@link
-         * SetupCollectionPreviousAttributes}. payment_collection.anyOf[2] (Value): null.
+         * (Value): null. payment_collection (Optional): {@link
+         * PaymentCollectionPreviousAttributes} or null. Guidance for collecting a payment source.
+         * Checkout-credential reads include it only while the session is open. Returned only to
+         * the checkout credential; never in webhook payloads. payment_collection.anyOf[1] (Value):
+         * {@link PaymentCollectionPreviousAttributes}. payment_collection.anyOf[2] (Value): null.
          * payment_intent_ids (Optional): Array of string or null. IDs of the payment intents for
          * the session's order. Absent when the order has none. payment_intent_ids.anyOf[1]
          * (Value): Array of string. IDs of the payment intents for the session's order. Absent
@@ -9153,9 +9212,10 @@ export type CheckoutSessionInvalidatedMerchantEvent = (Exclude<MerchantWebhookEn
              * order's active_payment_attempt. Read it to recover after losing a pay response, and
              * resume it only when is_resumable is true. Omitted when no attempt is active. Pending
              * actions that open a URL are left out; the pay response carries them. anyOf[1]
-             * (Value): {@link OrderPaymentAttemptPreviousAttributes}. anyOf[2] (Value): null.
+             * (Value): {@link WebhookSnapshotOrderPaymentAttemptPreviousAttributes}. anyOf[2]
+             * (Value): null.
              */
-            "active_payment_attempt"?: ((OrderPaymentAttemptPreviousAttributes) | (null));
+            "active_payment_attempt"?: ((WebhookSnapshotOrderPaymentAttemptPreviousAttributes) | (null));
             /**
              * Contact the buyer entered in checkout before paying, saved with the session's
              * checkout credential. Separate from merchant-supplied prefill and customer_prefill
@@ -9333,10 +9393,12 @@ export type CheckoutSessionInvalidatedMerchantEvent = (Exclude<MerchantWebhookEn
              */
             "invoice_id"?: ((string) | (null));
             /**
-             * Whether this terminal session credential is temporarily restricted to recovering its
-             * owning payment attempt. anyOf[1] (Value): boolean. Whether this terminal session
-             * credential is temporarily restricted to recovering its owning payment attempt.
-             * anyOf[2] (Value): null.
+             * Whether the checkout is in its payment recovery window after its deadline. The
+             * checkout credential can recover only an attempt it started. Merchant reads can also
+             * report a merchant-started attempt. anyOf[1] (Value): boolean. Whether the checkout
+             * is in its payment recovery window after its deadline. The checkout credential can
+             * recover only an attempt it started. Merchant reads can also report a
+             * merchant-started attempt. anyOf[2] (Value): null.
              */
             "is_in_recovery"?: ((boolean) | (null));
             /**
@@ -9378,10 +9440,10 @@ export type CheckoutSessionInvalidatedMerchantEvent = (Exclude<MerchantWebhookEn
             /**
              * Guidance for collecting a payment source. Checkout-credential reads include it only
              * while the session is open. Returned only to the checkout credential; never in
-             * webhook payloads. anyOf[1] (Value): {@link SetupCollectionPreviousAttributes}.
+             * webhook payloads. anyOf[1] (Value): {@link PaymentCollectionPreviousAttributes}.
              * anyOf[2] (Value): null.
              */
-            "payment_collection"?: ((SetupCollectionPreviousAttributes) | (null));
+            "payment_collection"?: ((PaymentCollectionPreviousAttributes) | (null));
             /**
              * IDs of the payment intents for the session's order. Absent when the order has none.
              * anyOf[1] (Value): Array of string. IDs of the payment intents for the session's

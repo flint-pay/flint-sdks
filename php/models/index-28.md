@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# ReturnCompletedInstalledMerchantsEventInput to ReturnReopenedMerchantEventInput
+# ReturnCanceledMerchantEventInput to ReturnReopenedInstalledMerchantsEventInput
 
+- [ReturnCanceledMerchantEventInput](ReturnCanceledMerchantEventInput.md)
 - [ReturnCompletedInstalledMerchantsEventInput](ReturnCompletedInstalledMerchantsEventInput.md)
 - [ReturnCompletedMerchantEventInput](ReturnCompletedMerchantEventInput.md)
 - [ReturnCompletionBlockerInput](ReturnCompletionBlockerInput.md)
@@ -101,5 +102,4 @@
 - [ReturnRefundTenderEstimateGiftCardRedemptionInput](ReturnRefundTenderEstimateGiftCardRedemptionInput.md)
 - [ReturnRefundTenderEstimatePaymentIntentInput](ReturnRefundTenderEstimatePaymentIntentInput.md)
 - [ReturnReopenedInstalledMerchantsEventInput](ReturnReopenedInstalledMerchantsEventInput.md)
-- [ReturnReopenedMerchantEventInput](ReturnReopenedMerchantEventInput.md)
 

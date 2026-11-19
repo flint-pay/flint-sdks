@@ -51,7 +51,7 @@ final class InvoiceScheduleEntry extends Model {
      */
     public function getPaidMoney(): MoneyValue { return $this->get('paid_money'); }
     public function hasPaidMoney(): bool { return $this->has('paid_money'); }
-    /** The entry's payment status, computed when the invoice is read. It follows the entry's balance and due time, not the invoice's status. Value enum: "pending", "due", "partially_satisfied", "satisfied", "overdue".
+    /** The entry's payment status, computed when the invoice is read. It follows the entry's balance and due time, not the invoice's status. Value enum: "pending", "due", "partially_satisfied", "satisfied", "overdue", "refunded".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }

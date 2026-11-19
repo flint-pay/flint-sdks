@@ -8,5 +8,5 @@ The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Response model.
 
-Fields, types, descriptions and enum values: [ReturnReceipt](../models/ReturnReceipt.md#returnreceipt).
+Fields, types, descriptions and enum values: [WebhookSnapshotReturnReceipt](../models/WebhookSnapshotReturnReceipt.md#webhooksnapshotreturnreceipt).
 

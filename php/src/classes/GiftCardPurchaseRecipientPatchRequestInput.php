@@ -6,9 +6,10 @@ namespace Flint;
  * @property-read string|null $message
  * @property-read string|null $name
  * @property-read string|\DateTimeInterface $send_at
+ * @property-read string $sender_name
  * Presence-aware input; omitted fields throw when accessed. */
 final class GiftCardPurchaseRecipientPatchRequestInput extends Model {
-    /** @param array{'email': string, 'message'?: string|null, 'name'?: string|null, 'send_at'?: string|\DateTimeInterface}|object $values */
+    /** @param array{'email': string, 'message'?: string|null, 'name'?: string|null, 'send_at'?: string|\DateTimeInterface, 'sender_name'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardPurchaseRecipientPatchRequestInput')); }
     /** Email address the gift card is delivered to. The local part before @ must be at most 64 octets (UTF-8 bytes). Format: email. minLength: 1. maxLength: 254. Example: "buyer@example.com".
      * @return string
@@ -34,4 +35,10 @@ final class GiftCardPurchaseRecipientPatchRequestInput extends Model {
      */
     public function getSendAt(): string|\DateTimeInterface { return $this->get('send_at'); }
     public function hasSendAt(): bool { return $this->has('send_at'); }
+    /** Name to show as the sender in the gift card email, when provided. minLength: 1. maxLength: 255.
+     * @return string
+     * @throws SdkError When sender_name is omitted; use hasSenderName() or valueOrDefault().
+     */
+    public function getSenderName(): string { return $this->get('sender_name'); }
+    public function hasSenderName(): bool { return $this->has('sender_name'); }
 }

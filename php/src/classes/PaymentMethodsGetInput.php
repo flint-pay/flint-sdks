@@ -16,7 +16,7 @@ final class PaymentMethodsGetInput extends Model {
      */
     public function getPaymentMethodId(): string { return $this->get('payment_method_id'); }
     public function hasPaymentMethodId(): bool { return $this->has('payment_method_id'); }
-    /** Include related objects in the response. Supported expansions: customer. Expansion requires payments.payment_methods.read plus customers.read. Limits: at most 10 unique expand paths per request. [] enum: "customer". Value enum: "customer". anyOf[1] (Value): Array of string.  [] enum: "customer". anyOf[1][] (Value): string.  Value enum: "customer". anyOf[2] (Value): string.  Value enum: "customer".
+    /** Include related objects in the response. Supported expansions: customer. Expansion requires payments.payment_methods.read plus customers.read. Limits: at most 10 unique expand paths per request. Checkout session credentials cannot use expand on this route. [] enum: "customer". Value enum: "customer". anyOf[1] (Value): Array of string.  [] enum: "customer". anyOf[1][] (Value): string.  Value enum: "customer". anyOf[2] (Value): string.  Value enum: "customer".
      * @return list<string>|string
      * @throws SdkError When expand is omitted; use hasExpand() or valueOrDefault().
      */

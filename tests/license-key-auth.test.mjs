@@ -112,7 +112,8 @@ const disclosure = [
     method: 'listLicenseKeys', args: [], credential: 'customerToken' },
 ].map(call => {
   const response = api.paths[call.path][call.verb].responses['200'];
-  const body = structuredClone(response.content['application/json'].example);
+  const content = response.content['application/json'];
+  const body = structuredClone(content.example ?? content.examples.default.value);
   const item = call.verb === 'get' ? body.data[0] : body.data;
   item.key = input.key;
   return { ...call, body: JSON.stringify(body) };

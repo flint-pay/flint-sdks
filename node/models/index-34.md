@@ -1,7 +1,14 @@
 [Model index](../MODELS.md)
 
-# ReturnRefundTenderEstimate to RotateWebhookSecretRequest
+# ReturnReceiptLineItemRequestInput to RiskRuleResponse
 
+- [ReturnReceiptLineItemRequestInput](ReturnReceiptLineItemRequestInput.md)
+- [ReturnReceiptPreviousAttributes](ReturnReceiptPreviousAttributes.md)
+- [ReturnReceiptSupersededInstalledMerchantsEvent](ReturnReceiptSupersededInstalledMerchantsEvent.md)
+- [ReturnReceiptSupersededMerchantEvent](ReturnReceiptSupersededMerchantEvent.md)
+- [ReturnReceiptVerifiedInstalledMerchantsEvent](ReturnReceiptVerifiedInstalledMerchantsEvent.md)
+- [ReturnReceiptVerifiedMerchantEvent](ReturnReceiptVerifiedMerchantEvent.md)
+- [ReturnRefundEstimate](ReturnRefundEstimate.md)
 - [ReturnRefundTenderEstimate](ReturnRefundTenderEstimate.md)
 - [ReturnRefundTenderEstimateGiftCardRedemption](ReturnRefundTenderEstimateGiftCardRedemption.md)
 - [ReturnRefundTenderEstimatePaymentIntent](ReturnRefundTenderEstimatePaymentIntent.md)
@@ -95,11 +102,4 @@
 - [RiskRuleIssue](RiskRuleIssue.md)
 - [RiskRuleListResponse](RiskRuleListResponse.md)
 - [RiskRuleResponse](RiskRuleResponse.md)
-- [RotateGiftCardCodeRequest](RotateGiftCardCodeRequest.md)
-- [RotateGiftCardCodeRequestInput](RotateGiftCardCodeRequestInput.md)
-- [RotateGiftCardCodeResult](RotateGiftCardCodeResult.md)
-- [RotateGiftCardCodeResultResponse](RotateGiftCardCodeResultResponse.md)
-- [RotatePartnerAppSecretRequestInput](RotatePartnerAppSecretRequestInput.md)
-- [RotatePartnerAppSecretResponse](RotatePartnerAppSecretResponse.md)
-- [RotateWebhookSecretRequest](RotateWebhookSecretRequest.md)
 

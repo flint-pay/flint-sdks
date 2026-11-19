@@ -3,13 +3,14 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string|null $account_id
+ * @property-read string $on_behalf_of
  * @property-read StripePaymentIntentClientActionInput|array<array-key, mixed>|\stdClass $payment_intent
  * @property-read string $publishable_key
  * @property-read StripeSetupIntentClientActionInput|array<array-key, mixed>|\stdClass $setup_intent
  * @property-read StripeTerminalPaymentIntentClientActionInput|array<array-key, mixed>|\stdClass $terminal_payment_intent
  * Presence-aware input; omitted fields throw when accessed. */
 final class StripePaymentClientActionInput extends Model {
-    /** @param array{'account_id': string|null, 'payment_intent'?: StripePaymentIntentClientActionInput|array<array-key, mixed>|\stdClass, 'publishable_key': string, 'setup_intent'?: StripeSetupIntentClientActionInput|array<array-key, mixed>|\stdClass, 'terminal_payment_intent'?: StripeTerminalPaymentIntentClientActionInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'account_id': string|null, 'on_behalf_of'?: string, 'payment_intent'?: StripePaymentIntentClientActionInput|array<array-key, mixed>|\stdClass, 'publishable_key': string, 'setup_intent'?: StripeSetupIntentClientActionInput|array<array-key, mixed>|\stdClass, 'terminal_payment_intent'?: StripeTerminalPaymentIntentClientActionInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('StripePaymentClientActionInput')); }
     /** Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Null when the payment has splits: initialize Stripe.js with publishable_key alone and omit stripeAccount. The Terminal SDK ignores this field. Example: "acct_1234567890".
      * @return string|null
@@ -17,6 +18,12 @@ final class StripePaymentClientActionInput extends Model {
      */
     public function getAccountId(): string|null { return $this->get('account_id'); }
     public function hasAccountId(): bool { return $this->has('account_id'); }
+    /** The collecting merchant's Stripe account for a payment on Flint's Stripe account. It identifies the settlement account, not the Stripe.js account. Do not pass it as stripeAccount or to handleNextAction.
+     * @return string
+     * @throws SdkError When on_behalf_of is omitted; use hasOnBehalfOf() or valueOrDefault().
+     */
+    public function getOnBehalfOf(): string { return $this->get('on_behalf_of'); }
+    public function hasOnBehalfOf(): bool { return $this->has('on_behalf_of'); }
     /** PaymentIntent authority for an order payment authentication action. The client action for a Stripe payment intent: the client secret to pass to Stripe.js `handleNextAction`.
      * @return StripePaymentIntentClientActionInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When payment_intent is omitted; use hasPaymentIntent() or valueOrDefault().

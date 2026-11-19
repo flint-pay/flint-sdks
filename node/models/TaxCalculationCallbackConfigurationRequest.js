@@ -1,7 +1,7 @@
-import { d11001 as c0 } from '../descriptors/data/520.js?sdk=22459f40165c8f83629c1309c0555e659f12bdc99933459ef8de8ac0e4796ba2';
-import { d11001 as d11001 } from '../descriptors/data/520.js?sdk=22459f40165c8f83629c1309c0555e659f12bdc99933459ef8de8ac0e4796ba2';
+import { d11026 as c0 } from '../descriptors/data/527.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
+import { d11026 as d11026 } from '../descriptors/data/527.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d11001;
+const read = d11026;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["TaxCalculationCallbackConfigurationRequest"]:c0()}); }
 export { codec as _validate };

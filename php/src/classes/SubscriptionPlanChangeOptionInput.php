@@ -8,7 +8,7 @@ namespace Flint;
 final class SubscriptionPlanChangeOptionInput extends Model {
     /** @param array{'billing_starts': string, 'subscription_plan_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionPlanChangeOptionInput')); }
-    /** The store's billing timing for this target: now collects a new period with unused-time credit; next_renewal changes the plan now and keeps the current paid period and next billing date; period_end keeps the current plan until the next charged renewal; prorated_now charges the difference for the rest of the current period and keeps the period and anchor. Value enum: "now", "next_renewal", "period_end", "prorated_now".
+    /** The store's billing timing for this target: now collects a new period with unused-time credit; next_renewal changes the plan now and keeps the current paid period and next billing date; period_end keeps the current plan until the next charged renewal; prorated_now charges the difference for the rest of the current period and keeps the period and anchor. Neither plan may require delivery when billing_starts is prorated_now. Value enum: "now", "next_renewal", "period_end", "prorated_now".
      * @return string
      * @throws SdkError When billing_starts is omitted; use hasBillingStarts() or valueOrDefault().
      */

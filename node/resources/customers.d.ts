@@ -42,10 +42,9 @@ import type {
     CustomersUpdateTaxExemptionParams
 } from '../declarations/types-17.js';
 import type { EmailChangeRequest, EmailChangeRequestListResponse, EmailChangeRequestResponse } from '../declarations/types-26.js';
-import type { GuestPurchaseLink } from '../declarations/types-30.js';
-import type { GuestPurchaseLinkResponse } from '../declarations/types-31.js';
-import type { RequestOptions } from '../declarations/types-61.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { GuestPurchaseLink, GuestPurchaseLinkResponse } from '../declarations/types-31.js';
+import type { RequestOptions } from '../declarations/types-62.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -95,7 +94,7 @@ export type {
     CustomerTaxExemptionCoverageAllStates,
     CustomerTaxExemptionCoverageStates
 } from '../declarations/types-17.js';
-export type { RequestOptions } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type {
     EmailChangeRequest,
     EmailChangeRequestResponse,
@@ -121,13 +120,11 @@ export type {
     CustomerAccessLinkReturned,
     CustomerAccessLinkEmailed
 } from '../declarations/types-16.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
-export type { GuestPurchaseLink } from '../declarations/types-30.js';
-export type { GuestPurchaseLinkResponse } from '../declarations/types-31.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+export type { GuestPurchaseLink, GuestPurchaseLinkResponse } from '../declarations/types-31.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type {
@@ -148,24 +145,29 @@ export type {
     UpdateCustomerAddressRequestInput,
     UpdateCustomerTaxExemptionRequestInput
 } from '../declarations/types-75.js';
-export { makeAddressRequest } from '../declarations/types-79.js';
+export { makeAddressRequest } from '../declarations/types-80.js';
 export {
     makeCreateCustomerAccessLinkRequest,
     makeCreateCustomerAddressRequest,
     makeCreateCustomerRequest,
-    makeCreateCustomerTaxExemptionRequest
-} from '../declarations/types-81.js';
-export { makeCreateEmailChangeRequest } from '../declarations/types-82.js';
+    makeCreateCustomerTaxExemptionRequest,
+    makeCreateEmailChangeRequest
+} from '../declarations/types-82.js';
 export {
     makeCustomerTaxExemptionCoverageAllStatesRequest,
     makeCustomerTaxExemptionCoverageRequest,
     makeCustomerTaxExemptionCoverageStatesRequest
-} from '../declarations/types-84.js';
+} from '../declarations/types-85.js';
 export { makeDocumentTaxIDRequest } from '../declarations/types-86.js';
-export { makeLinkCustomerGuestPurchasesRequest } from '../declarations/types-87.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
-export { makeTaxIdentityPatch, makeTaxIdentityRequest } from '../declarations/types-92.js';
 export {
+    makeLinkCustomerGuestPurchasesRequest,
+    makeMetadataPatchRequest,
+    makeMetadataRequest,
+    makeMoneyValue
+} from '../declarations/types-88.js';
+export {
+    makeTaxIdentityPatch,
+    makeTaxIdentityRequest,
     makeUpdateCustomerAddressRequest,
     makeUpdateCustomerRequest,
     makeUpdateCustomerTaxExemptionRequest

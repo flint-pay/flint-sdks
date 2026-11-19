@@ -34,7 +34,7 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields.
 
-Field definitions: [shared fields](InvoicePaymentAttemptInput.md#invoicepaymentattemptinput).
+Field definitions: [shared fields](WebhookSnapshotInvoicePaymentAttemptInput.md#webhooksnapshotinvoicepaymentattemptinput).
 
 ### InvoicePaymentAttemptCanceledInstalledMerchantsEventInput.data.previous_attributes
 
@@ -47,6 +47,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `checkout_session_id` | Optional | string or null | The hosted or headless checkout session the buyer pays through. Absent for automatic charges. `checkout_session_id`: [declared alternatives](../models/InvoicePaymentAttemptCanceledInstalledMerchantsEventInput.md#invoicepaymentattemptcanceledinstalledmerchantseventinputdataprevious_attributescheckout_session_id). |
 | `expected_amount_money` | Optional | [MoneyValuePreviousAttributesInput](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinput) or null | The amount this attempt collects: the outstanding balance, or the targeted schedule entry's outstanding amount. |
 | `expires_at` | Optional | string or null | When a checkout attempt expires, matching its checkout session. Absent for automatic charges. `expires_at`: [declared alternatives](../models/InvoicePaymentAttemptCanceledInstalledMerchantsEventInput.md#invoicepaymentattemptcanceledinstalledmerchantseventinputdataprevious_attributesexpires_at). |
+| `idempotency_key` | Optional | string or null | The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. Buyer sessions on routes shared with merchants get `null`. `/v1/me` responses do not include this field. `idempotency_key`: [declared alternatives](../models/FulfillmentCanceledInstalledMerchantsEventInput.md#fulfillmentcanceledinstalledmerchantseventinputdataprevious_attributesidempotency_key). |
 | `invoice_id` | Optional | string or null | The invoice this attempt collects. `invoice_id`: [declared alternatives](../models/InvoicePaymentAttemptCanceledInstalledMerchantsEventInput.md#invoicepaymentattemptcanceledinstalledmerchantseventinputdataprevious_attributesinvoice_id). |
 | `invoice_payment_attempt_id` | Optional | string or null | Flint invoice payment attempt ID. `invoice_payment_attempt_id`: [declared alternatives](../models/InvoicePaymentAttemptCanceledInstalledMerchantsEventInput.md#invoicepaymentattemptcanceledinstalledmerchantseventinputdataprevious_attributesinvoice_payment_attempt_id). |
 | `invoice_schedule_entry_id` | Optional | string or null | The schedule entry this attempt collects. Absent when the attempt collects the invoice balance. `invoice_schedule_entry_id`: [declared alternatives](../models/InvoicePaymentAttemptCanceledInstalledMerchantsEventInput.md#invoicepaymentattemptcanceledinstalledmerchantseventinputdataprevious_attributesinvoice_schedule_entry_id). |
@@ -114,6 +115,10 @@ anyOf variant 1: When a checkout attempt expires, matching its checkout session.
 anyOf variant 2.
 
 - Value shape: null. When a checkout attempt expires, matching its checkout session. Absent for automatic charges. 
+
+### InvoicePaymentAttemptCanceledInstalledMerchantsEventInput.data.previous_attributes.idempotency_key
+
+Declared alternatives: [FulfillmentCanceledInstalledMerchantsEventInput.data.previous_attributes.idempotency_key](../models/FulfillmentCanceledInstalledMerchantsEventInput.md#fulfillmentcanceledinstalledmerchantseventinputdataprevious_attributesidempotency_key).
 
 ### InvoicePaymentAttemptCanceledInstalledMerchantsEventInput.data.previous_attributes.invoice_id
 

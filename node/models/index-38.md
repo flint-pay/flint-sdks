@@ -1,7 +1,14 @@
 [Model index](../MODELS.md)
 
-# SubscriptionWindowMetrics to TicketVoidedMerchantEvent
+# SubscriptionTermsRequestInput to TicketedEventPreviousAttributes
 
+- [SubscriptionTermsRequestInput](SubscriptionTermsRequestInput.md)
+- [SubscriptionTrialEndingInstalledMerchantsEvent](SubscriptionTrialEndingInstalledMerchantsEvent.md)
+- [SubscriptionTrialEndingMerchantEvent](SubscriptionTrialEndingMerchantEvent.md)
+- [SubscriptionUpcomingDeliveryHold](SubscriptionUpcomingDeliveryHold.md)
+- [SubscriptionUpcomingDeliveryHoldPreviousAttributes](SubscriptionUpcomingDeliveryHoldPreviousAttributes.md)
+- [SubscriptionUpdatedInstalledMerchantsEvent](SubscriptionUpdatedInstalledMerchantsEvent.md)
+- [SubscriptionUpdatedMerchantEvent](SubscriptionUpdatedMerchantEvent.md)
 - [SubscriptionWindowMetrics](SubscriptionWindowMetrics.md)
 - [TaxBreakdown](TaxBreakdown.md)
 - [TaxBreakdownFlatAmount](TaxBreakdownFlatAmount.md)
@@ -95,11 +102,4 @@
 - [TicketCreatedMerchantEvent](TicketCreatedMerchantEvent.md)
 - [TicketedEvent](TicketedEvent.md)
 - [TicketedEventPreviousAttributes](TicketedEventPreviousAttributes.md)
-- [TicketListResponse](TicketListResponse.md)
-- [TicketResponse](TicketResponse.md)
-- [TicketUpdatedInstalledMerchantsEvent](TicketUpdatedInstalledMerchantsEvent.md)
-- [TicketUpdatedMerchantEvent](TicketUpdatedMerchantEvent.md)
-- [TicketVersionRequestInput](TicketVersionRequestInput.md)
-- [TicketVoidedInstalledMerchantsEvent](TicketVoidedInstalledMerchantsEvent.md)
-- [TicketVoidedMerchantEvent](TicketVoidedMerchantEvent.md)
 

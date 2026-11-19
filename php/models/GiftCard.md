@@ -16,6 +16,7 @@ Response model.
 | `customer_id` | Required | string or null | ID of the customer associated with the card. `null` when no customer is associated. |
 | `external_reference_id` | Required | string or null | Caller-owned identifier for this resource in an external system. `null` when none is set. minLength: `1`. maxLength: `255`. |
 | `gift_card_id` | Required | string | Unique identifier for this gift card, prefixed `gc_`. |
+| `idempotency_key` | Required | string or null | The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. |
 | `last_loaded_at` | Required | string or null | RFC3339 timestamp. `null` when no value has been loaded onto the card. Format: `date-time`. |
 | `last_redeemed_at` | Required | string or null | RFC3339 timestamp. `null` when the card has never been redeemed. Format: `date-time`. |
 | `last4` | Required | string | Last four characters of the card's current code. minLength: `4`. maxLength: `4`. |

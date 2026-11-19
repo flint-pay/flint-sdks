@@ -174,10 +174,14 @@ export type CreditNoteAllocation = {
     /** The credit note whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". */
     "credit_note_id": string;
     /**
-     * The Idempotency-Key the caller sent when allocating, or the issue request's Idempotency-Key
-     * for an allocation made on issue. Filterable on the allocations list.
+     * The Idempotency-Key of the request that created this resource. `null` when that request sent
+     * no key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource.
      */
-    "idempotency_key": string;
+    "idempotency_key": string | null;
     /** The invoice whose balance the credit reduced. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". */
     "invoice_id": string;
     /**
@@ -200,7 +204,7 @@ export type CreditNoteAllocationCreatedEvent = ((((Exclude<MerchantWebhookEnvelo
             "amount_money": MoneyValue;
             "credit_note_allocation_id": string;
             "credit_note_id": string;
-            "idempotency_key": string;
+            "idempotency_key": string | null;
             "invoice_id": string;
             "reversed_at"?: string;
             "supported_actions": Array<"reverse" | (string & {})>;
@@ -217,7 +221,7 @@ export type CreditNoteAllocationCreatedEvent = ((((Exclude<MerchantWebhookEnvelo
             "amount_money": MoneyValue;
             "credit_note_allocation_id": string;
             "credit_note_id": string;
-            "idempotency_key": string;
+            "idempotency_key": string | null;
             "invoice_id": string;
             "reversed_at"?: string;
             "supported_actions": Array<"reverse" | (string & {})>;
@@ -251,10 +255,14 @@ export type CreditNoteAllocationCreatedInstalledMerchantsEvent = (Exclude<Partne
      * object.credit_note_allocation_id (Required): string. Unique identifier of the allocation.
      * Example: "cna_01KEZF7C00EH6DMS9BD8F72CMA". object.credit_note_id (Required): string. The
      * credit note whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
-     * object.idempotency_key (Required): string. The Idempotency-Key the caller sent when
-     * allocating, or the issue request's Idempotency-Key for an allocation made on issue.
-     * Filterable on the allocations list. object.invoice_id (Required): string. The invoice whose
-     * balance the credit reduced. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.reversed_at
+     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * created this resource. `null` when that request sent no key, Flint created the resource, the
+     * reader isn't the caller that created it (another app install, a buyer, or the merchant
+     * reading an app's or buyer's record), or the caller that created an older record is unknown.
+     * Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed
+     * responses and webhook events, can return `null`. To find a key that a replay returns as
+     * `null`, read the resource. object.invoice_id (Required): string. The invoice whose balance
+     * the credit reduced. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.reversed_at
      * (Optional): string. When the allocation was reversed and its credit returned. Absent while
      * the allocation stands. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * object.supported_actions (Required): Array of string. Lifecycle actions Flint accepts for
@@ -272,16 +280,20 @@ export type CreditNoteAllocationCreatedInstalledMerchantsEvent = (Exclude<Partne
          * (Required): string. Unique identifier of the allocation. Example:
          * "cna_01KEZF7C00EH6DMS9BD8F72CMA". credit_note_id (Required): string. The credit note
          * whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". idempotency_key
-         * (Required): string. The Idempotency-Key the caller sent when allocating, or the issue
-         * request's Idempotency-Key for an allocation made on issue. Filterable on the allocations
-         * list. invoice_id (Required): string. The invoice whose balance the credit reduced.
-         * Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". reversed_at (Optional): string. When the
-         * allocation was reversed and its credit returned. Absent while the allocation stands.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". supported_actions (Required): Array
-         * of string. Lifecycle actions Flint accepts for this resource now, based on stored state.
-         * Independent of the caller's permissions; each action still requires its route's scope.
-         * Always [] when no action is available. [] enum: "reverse". supported_actions[] (Value):
-         * string. Value enum: "reverse".
+         * (Required): string or null. The Idempotency-Key of the request that created this
+         * resource. `null` when that request sent no key, Flint created the resource, the reader
+         * isn't the caller that created it (another app install, a buyer, or the merchant reading
+         * an app's or buyer's record), or the caller that created an older record is unknown.
+         * Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed
+         * responses and webhook events, can return `null`. To find a key that a replay returns as
+         * `null`, read the resource. invoice_id (Required): string. The invoice whose balance the
+         * credit reduced. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". reversed_at (Optional):
+         * string. When the allocation was reversed and its credit returned. Absent while the
+         * allocation stands. Format: date-time. Example: "2026-08-02T16:00:00Z". supported_actions
+         * (Required): Array of string. Lifecycle actions Flint accepts for this resource now,
+         * based on stored state. Independent of the caller's permissions; each action still
+         * requires its route's scope. Always [] when no action is available. [] enum: "reverse".
+         * supported_actions[] (Value): string. Value enum: "reverse".
          */
         "object": {
             /**
@@ -301,10 +313,15 @@ export type CreditNoteAllocationCreatedInstalledMerchantsEvent = (Exclude<Partne
              */
             "credit_note_id": string;
             /**
-             * The Idempotency-Key the caller sent when allocating, or the issue request's
-             * Idempotency-Key for an allocation made on issue. Filterable on the allocations list.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource.
              */
-            "idempotency_key": string;
+            "idempotency_key": string | null;
             /**
              * The invoice whose balance the credit reduced. Example:
              * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
@@ -378,10 +395,14 @@ export type CreditNoteAllocationCreatedMerchantEvent = (Exclude<MerchantWebhookE
      * object.credit_note_allocation_id (Required): string. Unique identifier of the allocation.
      * Example: "cna_01KEZF7C00EH6DMS9BD8F72CMA". object.credit_note_id (Required): string. The
      * credit note whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
-     * object.idempotency_key (Required): string. The Idempotency-Key the caller sent when
-     * allocating, or the issue request's Idempotency-Key for an allocation made on issue.
-     * Filterable on the allocations list. object.invoice_id (Required): string. The invoice whose
-     * balance the credit reduced. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.reversed_at
+     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * created this resource. `null` when that request sent no key, Flint created the resource, the
+     * reader isn't the caller that created it (another app install, a buyer, or the merchant
+     * reading an app's or buyer's record), or the caller that created an older record is unknown.
+     * Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed
+     * responses and webhook events, can return `null`. To find a key that a replay returns as
+     * `null`, read the resource. object.invoice_id (Required): string. The invoice whose balance
+     * the credit reduced. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.reversed_at
      * (Optional): string. When the allocation was reversed and its credit returned. Absent while
      * the allocation stands. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * object.supported_actions (Required): Array of string. Lifecycle actions Flint accepts for
@@ -399,16 +420,20 @@ export type CreditNoteAllocationCreatedMerchantEvent = (Exclude<MerchantWebhookE
          * (Required): string. Unique identifier of the allocation. Example:
          * "cna_01KEZF7C00EH6DMS9BD8F72CMA". credit_note_id (Required): string. The credit note
          * whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". idempotency_key
-         * (Required): string. The Idempotency-Key the caller sent when allocating, or the issue
-         * request's Idempotency-Key for an allocation made on issue. Filterable on the allocations
-         * list. invoice_id (Required): string. The invoice whose balance the credit reduced.
-         * Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". reversed_at (Optional): string. When the
-         * allocation was reversed and its credit returned. Absent while the allocation stands.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". supported_actions (Required): Array
-         * of string. Lifecycle actions Flint accepts for this resource now, based on stored state.
-         * Independent of the caller's permissions; each action still requires its route's scope.
-         * Always [] when no action is available. [] enum: "reverse". supported_actions[] (Value):
-         * string. Value enum: "reverse".
+         * (Required): string or null. The Idempotency-Key of the request that created this
+         * resource. `null` when that request sent no key, Flint created the resource, the reader
+         * isn't the caller that created it (another app install, a buyer, or the merchant reading
+         * an app's or buyer's record), or the caller that created an older record is unknown.
+         * Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed
+         * responses and webhook events, can return `null`. To find a key that a replay returns as
+         * `null`, read the resource. invoice_id (Required): string. The invoice whose balance the
+         * credit reduced. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". reversed_at (Optional):
+         * string. When the allocation was reversed and its credit returned. Absent while the
+         * allocation stands. Format: date-time. Example: "2026-08-02T16:00:00Z". supported_actions
+         * (Required): Array of string. Lifecycle actions Flint accepts for this resource now,
+         * based on stored state. Independent of the caller's permissions; each action still
+         * requires its route's scope. Always [] when no action is available. [] enum: "reverse".
+         * supported_actions[] (Value): string. Value enum: "reverse".
          */
         "object": {
             /**
@@ -428,10 +453,15 @@ export type CreditNoteAllocationCreatedMerchantEvent = (Exclude<MerchantWebhookE
              */
             "credit_note_id": string;
             /**
-             * The Idempotency-Key the caller sent when allocating, or the issue request's
-             * Idempotency-Key for an allocation made on issue. Filterable on the allocations list.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource.
              */
-            "idempotency_key": string;
+            "idempotency_key": string | null;
             /**
              * The invoice whose balance the credit reduced. Example:
              * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
@@ -543,7 +573,7 @@ export type CreditNoteAllocationReversedEvent = ((((Exclude<MerchantWebhookEnvel
             "amount_money": MoneyValue;
             "credit_note_allocation_id": string;
             "credit_note_id": string;
-            "idempotency_key": string;
+            "idempotency_key": string | null;
             "invoice_id": string;
             "reversed_at"?: string;
             "supported_actions": Array<"reverse" | (string & {})>;
@@ -573,7 +603,7 @@ export type CreditNoteAllocationReversedEvent = ((((Exclude<MerchantWebhookEnvel
             "amount_money": MoneyValue;
             "credit_note_allocation_id": string;
             "credit_note_id": string;
-            "idempotency_key": string;
+            "idempotency_key": string | null;
             "invoice_id": string;
             "reversed_at"?: string;
             "supported_actions": Array<"reverse" | (string & {})>;
@@ -620,10 +650,14 @@ export type CreditNoteAllocationReversedInstalledMerchantsEvent = (Exclude<Partn
      * object.credit_note_allocation_id (Required): string. Unique identifier of the allocation.
      * Example: "cna_01KEZF7C00EH6DMS9BD8F72CMA". object.credit_note_id (Required): string. The
      * credit note whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
-     * object.idempotency_key (Required): string. The Idempotency-Key the caller sent when
-     * allocating, or the issue request's Idempotency-Key for an allocation made on issue.
-     * Filterable on the allocations list. object.invoice_id (Required): string. The invoice whose
-     * balance the credit reduced. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.reversed_at
+     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * created this resource. `null` when that request sent no key, Flint created the resource, the
+     * reader isn't the caller that created it (another app install, a buyer, or the merchant
+     * reading an app's or buyer's record), or the caller that created an older record is unknown.
+     * Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed
+     * responses and webhook events, can return `null`. To find a key that a replay returns as
+     * `null`, read the resource. object.invoice_id (Required): string. The invoice whose balance
+     * the credit reduced. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.reversed_at
      * (Optional): string. When the allocation was reversed and its credit returned. Absent while
      * the allocation stands. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * object.supported_actions (Required): Array of string. Lifecycle actions Flint accepts for
@@ -649,11 +683,19 @@ export type CreditNoteAllocationReversedInstalledMerchantsEvent = (Exclude<Partn
      * note whose credit was applied. previous_attributes.credit_note_id.anyOf[1] (Value): string.
      * The credit note whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
      * previous_attributes.credit_note_id.anyOf[2] (Value): null.
-     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key the
-     * caller sent when allocating, or the issue request's Idempotency-Key for an allocation made
-     * on issue. Filterable on the allocations list. previous_attributes.idempotency_key.anyOf[1]
-     * (Value): string. The Idempotency-Key the caller sent when allocating, or the issue request's
-     * Idempotency-Key for an allocation made on issue. Filterable on the allocations list.
+     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. previous_attributes.idempotency_key.anyOf[1] (Value):
+     * string. The Idempotency-Key of the request that created this resource. `null` when that
+     * request sent no key, Flint created the resource, the reader isn't the caller that created it
+     * (another app install, a buyer, or the merchant reading an app's or buyer's record), or the
+     * caller that created an older record is unknown. Filter its list with `idempotency_key` to
+     * find it. Recorded payloads, including replayed responses and webhook events, can return
+     * `null`. To find a key that a replay returns as `null`, read the resource.
      * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.invoice_id
      * (Optional): string or null. The invoice whose balance the credit reduced.
      * previous_attributes.invoice_id.anyOf[1] (Value): string. The invoice whose balance the
@@ -683,16 +725,20 @@ export type CreditNoteAllocationReversedInstalledMerchantsEvent = (Exclude<Partn
          * (Required): string. Unique identifier of the allocation. Example:
          * "cna_01KEZF7C00EH6DMS9BD8F72CMA". credit_note_id (Required): string. The credit note
          * whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". idempotency_key
-         * (Required): string. The Idempotency-Key the caller sent when allocating, or the issue
-         * request's Idempotency-Key for an allocation made on issue. Filterable on the allocations
-         * list. invoice_id (Required): string. The invoice whose balance the credit reduced.
-         * Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". reversed_at (Optional): string. When the
-         * allocation was reversed and its credit returned. Absent while the allocation stands.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". supported_actions (Required): Array
-         * of string. Lifecycle actions Flint accepts for this resource now, based on stored state.
-         * Independent of the caller's permissions; each action still requires its route's scope.
-         * Always [] when no action is available. [] enum: "reverse". supported_actions[] (Value):
-         * string. Value enum: "reverse".
+         * (Required): string or null. The Idempotency-Key of the request that created this
+         * resource. `null` when that request sent no key, Flint created the resource, the reader
+         * isn't the caller that created it (another app install, a buyer, or the merchant reading
+         * an app's or buyer's record), or the caller that created an older record is unknown.
+         * Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed
+         * responses and webhook events, can return `null`. To find a key that a replay returns as
+         * `null`, read the resource. invoice_id (Required): string. The invoice whose balance the
+         * credit reduced. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". reversed_at (Optional):
+         * string. When the allocation was reversed and its credit returned. Absent while the
+         * allocation stands. Format: date-time. Example: "2026-08-02T16:00:00Z". supported_actions
+         * (Required): Array of string. Lifecycle actions Flint accepts for this resource now,
+         * based on stored state. Independent of the caller's permissions; each action still
+         * requires its route's scope. Always [] when no action is available. [] enum: "reverse".
+         * supported_actions[] (Value): string. Value enum: "reverse".
          */
         "object": {
             /**
@@ -712,10 +758,15 @@ export type CreditNoteAllocationReversedInstalledMerchantsEvent = (Exclude<Partn
              */
             "credit_note_id": string;
             /**
-             * The Idempotency-Key the caller sent when allocating, or the issue request's
-             * Idempotency-Key for an allocation made on issue. Filterable on the allocations list.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource.
              */
-            "idempotency_key": string;
+            "idempotency_key": string | null;
             /**
              * The invoice whose balance the credit reduced. Example:
              * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
@@ -751,12 +802,20 @@ export type CreditNoteAllocationReversedInstalledMerchantsEvent = (Exclude<Partn
          * null. The credit note whose credit was applied. credit_note_id.anyOf[1] (Value): string.
          * The credit note whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
          * credit_note_id.anyOf[2] (Value): null. idempotency_key (Optional): string or null. The
-         * Idempotency-Key the caller sent when allocating, or the issue request's Idempotency-Key
-         * for an allocation made on issue. Filterable on the allocations list.
-         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key the caller sent when
-         * allocating, or the issue request's Idempotency-Key for an allocation made on issue.
-         * Filterable on the allocations list. idempotency_key.anyOf[2] (Value): null. invoice_id
-         * (Optional): string or null. The invoice whose balance the credit reduced.
+         * Idempotency-Key of the request that created this resource. `null` when that request sent
+         * no key, Flint created the resource, the reader isn't the caller that created it (another
+         * app install, a buyer, or the merchant reading an app's or buyer's record), or the caller
+         * that created an older record is unknown. Filter its list with `idempotency_key` to find
+         * it. Recorded payloads, including replayed responses and webhook events, can return
+         * `null`. To find a key that a replay returns as `null`, read the resource.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. idempotency_key.anyOf[2] (Value): null.
+         * invoice_id (Optional): string or null. The invoice whose balance the credit reduced.
          * invoice_id.anyOf[1] (Value): string. The invoice whose balance the credit reduced.
          * Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2] (Value): null.
          * reversed_at (Optional): string or null. When the allocation was reversed and its credit
@@ -799,11 +858,20 @@ export type CreditNoteAllocationReversedInstalledMerchantsEvent = (Exclude<Partn
              */
             "credit_note_id"?: ((string) | (null));
             /**
-             * The Idempotency-Key the caller sent when allocating, or the issue request's
-             * Idempotency-Key for an allocation made on issue. Filterable on the allocations list.
-             * anyOf[1] (Value): string. The Idempotency-Key the caller sent when allocating, or
-             * the issue request's Idempotency-Key for an allocation made on issue. Filterable on
-             * the allocations list. anyOf[2] (Value): null.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. anyOf[1] (Value): string. The Idempotency-Key of the
+             * request that created this resource. `null` when that request sent no key, Flint
+             * created the resource, the reader isn't the caller that created it (another app
+             * install, a buyer, or the merchant reading an app's or buyer's record), or the caller
+             * that created an older record is unknown. Filter its list with `idempotency_key` to
+             * find it. Recorded payloads, including replayed responses and webhook events, can
+             * return `null`. To find a key that a replay returns as `null`, read the resource.
+             * anyOf[2] (Value): null.
              */
             "idempotency_key"?: ((string) | (null));
             /**
@@ -885,10 +953,14 @@ export type CreditNoteAllocationReversedMerchantEvent = (Exclude<MerchantWebhook
      * object.credit_note_allocation_id (Required): string. Unique identifier of the allocation.
      * Example: "cna_01KEZF7C00EH6DMS9BD8F72CMA". object.credit_note_id (Required): string. The
      * credit note whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
-     * object.idempotency_key (Required): string. The Idempotency-Key the caller sent when
-     * allocating, or the issue request's Idempotency-Key for an allocation made on issue.
-     * Filterable on the allocations list. object.invoice_id (Required): string. The invoice whose
-     * balance the credit reduced. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.reversed_at
+     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * created this resource. `null` when that request sent no key, Flint created the resource, the
+     * reader isn't the caller that created it (another app install, a buyer, or the merchant
+     * reading an app's or buyer's record), or the caller that created an older record is unknown.
+     * Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed
+     * responses and webhook events, can return `null`. To find a key that a replay returns as
+     * `null`, read the resource. object.invoice_id (Required): string. The invoice whose balance
+     * the credit reduced. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.reversed_at
      * (Optional): string. When the allocation was reversed and its credit returned. Absent while
      * the allocation stands. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * object.supported_actions (Required): Array of string. Lifecycle actions Flint accepts for
@@ -914,11 +986,19 @@ export type CreditNoteAllocationReversedMerchantEvent = (Exclude<MerchantWebhook
      * note whose credit was applied. previous_attributes.credit_note_id.anyOf[1] (Value): string.
      * The credit note whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
      * previous_attributes.credit_note_id.anyOf[2] (Value): null.
-     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key the
-     * caller sent when allocating, or the issue request's Idempotency-Key for an allocation made
-     * on issue. Filterable on the allocations list. previous_attributes.idempotency_key.anyOf[1]
-     * (Value): string. The Idempotency-Key the caller sent when allocating, or the issue request's
-     * Idempotency-Key for an allocation made on issue. Filterable on the allocations list.
+     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. previous_attributes.idempotency_key.anyOf[1] (Value):
+     * string. The Idempotency-Key of the request that created this resource. `null` when that
+     * request sent no key, Flint created the resource, the reader isn't the caller that created it
+     * (another app install, a buyer, or the merchant reading an app's or buyer's record), or the
+     * caller that created an older record is unknown. Filter its list with `idempotency_key` to
+     * find it. Recorded payloads, including replayed responses and webhook events, can return
+     * `null`. To find a key that a replay returns as `null`, read the resource.
      * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.invoice_id
      * (Optional): string or null. The invoice whose balance the credit reduced.
      * previous_attributes.invoice_id.anyOf[1] (Value): string. The invoice whose balance the
@@ -948,16 +1028,20 @@ export type CreditNoteAllocationReversedMerchantEvent = (Exclude<MerchantWebhook
          * (Required): string. Unique identifier of the allocation. Example:
          * "cna_01KEZF7C00EH6DMS9BD8F72CMA". credit_note_id (Required): string. The credit note
          * whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". idempotency_key
-         * (Required): string. The Idempotency-Key the caller sent when allocating, or the issue
-         * request's Idempotency-Key for an allocation made on issue. Filterable on the allocations
-         * list. invoice_id (Required): string. The invoice whose balance the credit reduced.
-         * Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". reversed_at (Optional): string. When the
-         * allocation was reversed and its credit returned. Absent while the allocation stands.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". supported_actions (Required): Array
-         * of string. Lifecycle actions Flint accepts for this resource now, based on stored state.
-         * Independent of the caller's permissions; each action still requires its route's scope.
-         * Always [] when no action is available. [] enum: "reverse". supported_actions[] (Value):
-         * string. Value enum: "reverse".
+         * (Required): string or null. The Idempotency-Key of the request that created this
+         * resource. `null` when that request sent no key, Flint created the resource, the reader
+         * isn't the caller that created it (another app install, a buyer, or the merchant reading
+         * an app's or buyer's record), or the caller that created an older record is unknown.
+         * Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed
+         * responses and webhook events, can return `null`. To find a key that a replay returns as
+         * `null`, read the resource. invoice_id (Required): string. The invoice whose balance the
+         * credit reduced. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". reversed_at (Optional):
+         * string. When the allocation was reversed and its credit returned. Absent while the
+         * allocation stands. Format: date-time. Example: "2026-08-02T16:00:00Z". supported_actions
+         * (Required): Array of string. Lifecycle actions Flint accepts for this resource now,
+         * based on stored state. Independent of the caller's permissions; each action still
+         * requires its route's scope. Always [] when no action is available. [] enum: "reverse".
+         * supported_actions[] (Value): string. Value enum: "reverse".
          */
         "object": {
             /**
@@ -977,10 +1061,15 @@ export type CreditNoteAllocationReversedMerchantEvent = (Exclude<MerchantWebhook
              */
             "credit_note_id": string;
             /**
-             * The Idempotency-Key the caller sent when allocating, or the issue request's
-             * Idempotency-Key for an allocation made on issue. Filterable on the allocations list.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource.
              */
-            "idempotency_key": string;
+            "idempotency_key": string | null;
             /**
              * The invoice whose balance the credit reduced. Example:
              * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
@@ -1016,12 +1105,20 @@ export type CreditNoteAllocationReversedMerchantEvent = (Exclude<MerchantWebhook
          * null. The credit note whose credit was applied. credit_note_id.anyOf[1] (Value): string.
          * The credit note whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
          * credit_note_id.anyOf[2] (Value): null. idempotency_key (Optional): string or null. The
-         * Idempotency-Key the caller sent when allocating, or the issue request's Idempotency-Key
-         * for an allocation made on issue. Filterable on the allocations list.
-         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key the caller sent when
-         * allocating, or the issue request's Idempotency-Key for an allocation made on issue.
-         * Filterable on the allocations list. idempotency_key.anyOf[2] (Value): null. invoice_id
-         * (Optional): string or null. The invoice whose balance the credit reduced.
+         * Idempotency-Key of the request that created this resource. `null` when that request sent
+         * no key, Flint created the resource, the reader isn't the caller that created it (another
+         * app install, a buyer, or the merchant reading an app's or buyer's record), or the caller
+         * that created an older record is unknown. Filter its list with `idempotency_key` to find
+         * it. Recorded payloads, including replayed responses and webhook events, can return
+         * `null`. To find a key that a replay returns as `null`, read the resource.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. idempotency_key.anyOf[2] (Value): null.
+         * invoice_id (Optional): string or null. The invoice whose balance the credit reduced.
          * invoice_id.anyOf[1] (Value): string. The invoice whose balance the credit reduced.
          * Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2] (Value): null.
          * reversed_at (Optional): string or null. When the allocation was reversed and its credit
@@ -1064,11 +1161,20 @@ export type CreditNoteAllocationReversedMerchantEvent = (Exclude<MerchantWebhook
              */
             "credit_note_id"?: ((string) | (null));
             /**
-             * The Idempotency-Key the caller sent when allocating, or the issue request's
-             * Idempotency-Key for an allocation made on issue. Filterable on the allocations list.
-             * anyOf[1] (Value): string. The Idempotency-Key the caller sent when allocating, or
-             * the issue request's Idempotency-Key for an allocation made on issue. Filterable on
-             * the allocations list. anyOf[2] (Value): null.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. anyOf[1] (Value): string. The Idempotency-Key of the
+             * request that created this resource. `null` when that request sent no key, Flint
+             * created the resource, the reader isn't the caller that created it (another app
+             * install, a buyer, or the merchant reading an app's or buyer's record), or the caller
+             * that created an older record is unknown. Filter its list with `idempotency_key` to
+             * find it. Recorded payloads, including replayed responses and webhook events, can
+             * return `null`. To find a key that a replay returns as `null`, read the resource.
+             * anyOf[2] (Value): null.
              */
             "idempotency_key"?: ((string) | (null));
             /**
@@ -7600,8 +7706,11 @@ export type CreditNotesListAllocationsParams = {
      * exact and case-sensitive. Returns only resources created in your caller namespace, plus
      * resources created before caller scoping under the original key. Returns current authorized
      * resources, not the recorded response. A pending resource does not prove that the operation
-     * succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength:
-     * 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
+     * succeeded, and an empty list does not prove that it had no effect. A match can show
+     * `idempotency_key: null` when that request sent no key, Flint created the resource, the
+     * reader isn't the caller that created it (another app install, a buyer, or the merchant
+     * reading an app's or buyer's record), or the caller that created an older record is unknown.
+     * minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
      */
     "idempotency_key"?: InputValue<string>;
     /**

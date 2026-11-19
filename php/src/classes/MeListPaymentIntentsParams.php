@@ -82,7 +82,7 @@ final class MeListPaymentIntentsParams extends Model {
      */
     public function getRefundStatus(): mixed { return $this->get('refund_status'); }
     public function hasRefundStatus(): bool { return $this->has('refund_status'); }
-    /** Field to sort by. Defaults to created_at; ties are broken by payment_intent_id. Default: "created_at". Value enum: "created_at", "updated_at", "amount_money".
+    /** Field to sort by. Defaults to created_at; ties are broken by payment_intent_id. Default: "created_at". Value enum: "created_at", "updated_at", "amount_money", "captured_money".
      * @return string
      * @throws SdkError When sort_by is omitted; use hasSortBy() or valueOrDefault().
      */

@@ -36,7 +36,7 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields.
 
-Field definitions: [shared fields](ReturnResolution.md#returnresolution).
+Field definitions: [shared fields](WebhookSnapshotReturnResolution.md#webhooksnapshotreturnresolution).
 
 ### ReturnResolutionCreatedMerchantEvent.data fields 1.object.adjustments[]
 
@@ -72,7 +72,7 @@ Field definitions: [OrderResponse.data.payment_intents[]](../models/OrderRespons
 
 ### ReturnResolutionCreatedMerchantEvent.data fields 1.object.refunds[]
 
-Field definitions: [CancelReturnResponse.data.return_resolutions[].refunds[]](../models/CancelReturnResponse.md#cancelreturnresponsedatareturn_resolutionsrefunds).
+Field definitions: [WebhookSnapshotReturnResolution.refunds[]](../models/WebhookSnapshotReturnResolution.md#webhooksnapshotreturnresolutionrefunds).
 
 ### ReturnResolutionCreatedMerchantEvent.data fields 1.object.replacement_line_items[]
 

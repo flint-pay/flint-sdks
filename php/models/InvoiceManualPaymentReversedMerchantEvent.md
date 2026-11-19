@@ -42,6 +42,10 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 Field definitions: [shared fields](InvoiceManualPaymentReversedMerchantEventDataPreviousAttributes.md#invoicemanualpaymentreversedmerchanteventdatapreviousattributes).
 
+### InvoiceManualPaymentReversedMerchantEvent.data fields 1.previous_attributes.idempotency_key
+
+Declared alternatives: [CreditNoteAllocationReversedMerchantEventDataPreviousAttributes.idempotency_key](../models/CreditNoteAllocationReversedMerchantEventDataPreviousAttributes.md#creditnoteallocationreversedmerchanteventdatapreviousattributesidempotency_key).
+
 ### InvoiceManualPaymentReversedMerchantEvent.data fields 1.previous_attributes.invoice_id
 
 Declared alternatives: [InvoiceManualPaymentReversedMerchantEventDataPreviousAttributes.invoice_id](../models/InvoiceManualPaymentReversedMerchantEventDataPreviousAttributes.md#invoicemanualpaymentreversedmerchanteventdatapreviousattributesinvoice_id).

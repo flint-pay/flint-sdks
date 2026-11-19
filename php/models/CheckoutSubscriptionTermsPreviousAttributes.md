@@ -17,11 +17,12 @@ Response model.
 | `delivery_interval_count` | Optional | integer or null | Number of delivery intervals between deliveries. Null when no separate delivery cadence is set. `delivery_interval_count`: [declared alternatives](../models/CheckoutSubscriptionTermsPreviousAttributes.md#checkoutsubscriptiontermspreviousattributesdelivery_interval_count). |
 | `delivery_required` | Optional | boolean or null | Whether any line in the subscription plan's frozen checkout terms requires delivery. Available before delivery selection. One-time order lines do not affect this value. `delivery_required`: [declared alternatives](../models/CheckoutSubscriptionTermsPreviousAttributes.md#checkoutsubscriptiontermspreviousattributesdelivery_required). |
 | `early_termination_fee_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | The fee agreed for canceling before the recorded term ends, when configured. Flint records it on the subscription but never charges it. |
+| `end_after` | Optional | [SubscriptionEndAfterCyclesPreviousAttributes](../models/SubscriptionEndAfterCyclesPreviousAttributes.md#subscriptionendaftercyclespreviousattributes) or null | The automatic end condition frozen with the order. Omitted for subscriptions with no automatic end. |
 | `gift_recipient` | Optional | [SubscriptionGiftRecipientPreviousAttributes](../models/SubscriptionGiftRecipientPreviousAttributes.md#subscriptiongiftrecipientpreviousattributes) or null | Who receives the gift. The subscription this checkout starts gets it, and the buyer stays the purchaser. Null when the buyer hasn't named one. `gift_recipient`: [declared alternatives](../models/CheckoutSubscriptionTermsPreviousAttributes.md#checkoutsubscriptiontermspreviousattributesgift_recipient). |
 | `gifts_enabled` | Optional | boolean or null | Whether the buyer can name a gift recipient, frozen from the plan's gifts_enabled when the session was created. `gifts_enabled`: [declared alternatives](../models/CheckoutSubscriptionTermsPreviousAttributes.md#checkoutsubscriptiontermspreviousattributesgifts_enabled). |
 | `line_items` | Optional | Array of [CheckoutSubscriptionTermsPreviousAttributesLineItemsItem](../models/CheckoutSubscriptionTermsPreviousAttributesLineItemsItem.md#checkoutsubscriptiontermspreviousattributeslineitemsitem) or null | Identified frozen plan lines with buyer quantity permissions and bounds. `line_items`: [declared alternatives](../models/CheckoutSubscriptionTermsPreviousAttributes.md#checkoutsubscriptiontermspreviousattributesline_items). |
 | `plan_name` | Optional | string or null | Plan name shown to the buyer. `plan_name`: [declared alternatives](../models/CheckoutSubscriptionTermsPreviousAttributes.md#checkoutsubscriptiontermspreviousattributesplan_name). |
-| `recurring_price_phases` | Optional | Array of [CheckoutSubscriptionPricePhasePreviousAttributes](../models/CheckoutSubscriptionPricePhasePreviousAttributes.md#checkoutsubscriptionpricephasepreviousattributes) or null | Ordered recurring merchandise prices from the first paid billing period, after any trial, with frozen signup promotions applied. Each finite phase is followed by the next phase; the final phase has a null billing_period_count and continues until cancellation. Tax and shipping are additional. Always contains at least one phase. `recurring_price_phases`: [declared alternatives](../models/CheckoutSubscriptionTermsPreviousAttributes.md#checkoutsubscriptiontermspreviousattributesrecurring_price_phases). |
+| `recurring_price_phases` | Optional | Array of [CheckoutSubscriptionPricePhasePreviousAttributes](../models/CheckoutSubscriptionPricePhasePreviousAttributes.md#checkoutsubscriptionpricephasepreviousattributes) or null | Ordered recurring merchandise prices from the first paid billing period, after any trial, with frozen signup promotions applied. Each finite phase is followed by the next phase; the final phase has a null billing_period_count. The subscription’s end_after condition can end any phase. Tax and shipping are additional. Always contains at least one phase. `recurring_price_phases`: [declared alternatives](../models/CheckoutSubscriptionTermsPreviousAttributes.md#checkoutsubscriptiontermspreviousattributesrecurring_price_phases). |
 | `recurring_shipping` | Optional | [CheckoutSubscriptionRecurringShippingPreviousAttributes](../models/CheckoutSubscriptionRecurringShippingPreviousAttributes.md#checkoutsubscriptionrecurringshippingpreviousattributes) or null | Shipping that renews with each charge, for the delivery method the buyer chose. Omitted when no delivery method applies to the plan's lines. |
 | `recurring_total_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Charge for one billing period before tax and shipping, including prepaid deliveries and modifiers. |
 | `setup_fee_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | One-time fee charged with the first payment, when the plan has one. |
@@ -149,18 +150,19 @@ Who receives the gift. The subscription this checkout starts gets it, and the bu
 | `email` | Conditional | string or null | The recipient's email address. Flint sends the recipient's gift and final notices here, and shipment notices when delivery.recipient has no email. `email`: [declared alternatives](../models/CheckoutSubscriptionTermsPreviousAttributes.md#checkoutsubscriptiontermspreviousattributesgift_recipient-variant-1email). |
 | `message` | Conditional | string or null | A note from the purchaser, shown in the recipient's gift notice. Up to 200 characters. Null when there is no note. `message`: [declared alternatives](../models/SubscriptionGiftRecipientPreviousAttributes.md#subscriptiongiftrecipientpreviousattributesmessage). |
 | `name` | Conditional | string or null | The recipient's name, shown in their gift emails. Null when no name was given. `name`: [declared alternatives](../models/SubscriptionGiftRecipientPreviousAttributes.md#subscriptiongiftrecipientpreviousattributesname). |
+| `sender_name` | Conditional | string or null | Name to show as the sender in gift emails, when provided. `sender_name`: [declared alternatives](../models/SubscriptionGiftRecipientPreviousAttributes.md#subscriptiongiftrecipientpreviousattributessender_name). |
 
 ### CheckoutSubscriptionTermsPreviousAttributes.gift_recipient variant 1
 
 anyOf SubscriptionGiftRecipientPreviousAttributes.
 
-- Optional: `email`, `message`, `name`.
+- Optional: `email`, `message`, `name`, `sender_name`.
 
 ### CheckoutSubscriptionTermsPreviousAttributes.gift_recipient variant 2
 
 anyOf variant 2.
 
-- Undeclared: `email`, `message`, `name`.
+- Undeclared: `email`, `message`, `name`, `sender_name`.
 - Value shape: null. Who receives the gift. The subscription this checkout starts gets it, and the buyer stays the purchaser. Null when the buyer hasn't named one. 
 
 ### CheckoutSubscriptionTermsPreviousAttributes.gift_recipient variant 1.email
@@ -184,6 +186,10 @@ Declared alternatives: [SubscriptionGiftRecipientPreviousAttributes.message](../
 ### CheckoutSubscriptionTermsPreviousAttributes.gift_recipient variant 1.name
 
 Declared alternatives: [SubscriptionGiftRecipientPreviousAttributes.name](../models/SubscriptionGiftRecipientPreviousAttributes.md#subscriptiongiftrecipientpreviousattributesname).
+
+### CheckoutSubscriptionTermsPreviousAttributes.gift_recipient variant 1.sender_name
+
+Declared alternatives: [SubscriptionGiftRecipientPreviousAttributes.sender_name](../models/SubscriptionGiftRecipientPreviousAttributes.md#subscriptiongiftrecipientpreviousattributessender_name).
 
 ### CheckoutSubscriptionTermsPreviousAttributes.gifts_enabled
 
@@ -231,15 +237,15 @@ anyOf variant 2.
 
 ### CheckoutSubscriptionTermsPreviousAttributes.recurring_price_phases variant 1
 
-anyOf variant 1: Ordered recurring merchandise prices from the first paid billing period, after any trial, with frozen signup promotions applied. Each finite phase is followed by the next phase; the final phase has a null billing_period_count and continues until cancellation. Tax and shipping are additional. Always contains at least one phase..
+anyOf variant 1: Ordered recurring merchandise prices from the first paid billing period, after any trial, with frozen signup promotions applied. Each finite phase is followed by the next phase; the final phase has a null billing_period_count. The subscription’s end_after condition can end any phase. Tax and shipping are additional. Always contains at least one phase..
 
-- Value shape: Array of [CheckoutSubscriptionPricePhasePreviousAttributes](../models/CheckoutSubscriptionPricePhasePreviousAttributes.md#checkoutsubscriptionpricephasepreviousattributes). Ordered recurring merchandise prices from the first paid billing period, after any trial, with frozen signup promotions applied. Each finite phase is followed by the next phase; the final phase has a null billing_period_count and continues until cancellation. Tax and shipping are additional. Always contains at least one phase. 
+- Value shape: Array of [CheckoutSubscriptionPricePhasePreviousAttributes](../models/CheckoutSubscriptionPricePhasePreviousAttributes.md#checkoutsubscriptionpricephasepreviousattributes). Ordered recurring merchandise prices from the first paid billing period, after any trial, with frozen signup promotions applied. Each finite phase is followed by the next phase; the final phase has a null billing_period_count. The subscription’s end_after condition can end any phase. Tax and shipping are additional. Always contains at least one phase. 
 
 ### CheckoutSubscriptionTermsPreviousAttributes.recurring_price_phases variant 2
 
 anyOf variant 2.
 
-- Value shape: null. Ordered recurring merchandise prices from the first paid billing period, after any trial, with frozen signup promotions applied. Each finite phase is followed by the next phase; the final phase has a null billing_period_count and continues until cancellation. Tax and shipping are additional. Always contains at least one phase. 
+- Value shape: null. Ordered recurring merchandise prices from the first paid billing period, after any trial, with frozen signup promotions applied. Each finite phase is followed by the next phase; the final phase has a null billing_period_count. The subscription’s end_after condition can end any phase. Tax and shipping are additional. Always contains at least one phase. 
 
 ### CheckoutSubscriptionTermsPreviousAttributes.recurring_price_phases variant 1.[] fields 1
 

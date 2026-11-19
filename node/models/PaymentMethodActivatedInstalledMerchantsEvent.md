@@ -50,6 +50,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `is_default` | Optional | boolean or null | Whether this is the customer's default payment method, the one Customer.default_payment_method_id names. Change the default with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method event. Existing subscriptions keep their payment_method_id. `is_default`: [declared alternatives](../models/PaymentMethodActivatedInstalledMerchantsEvent.md#paymentmethodactivatedinstalledmerchantseventdataprevious_attributesis_default). |
 | `is_removing` | Optional | boolean or null | Removal is in progress. Show this card as Removing and offer retry with DELETE /v1/payment-methods/{payment_method_id}, or DELETE /v1/me/payment-methods/{payment_method_id} for buyers. Do not offer it for a new payment, subscription, or default. Flint retries abandoned removals automatically. `is_removing`: [declared alternatives](../models/PaymentMethodActivatedInstalledMerchantsEvent.md#paymentmethodactivatedinstalledmerchantseventdataprevious_attributesis_removing). |
 | `merchant_id` | Optional | string or null | ID of the merchant this resource belongs to. `merchant_id`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributesmerchant_id). |
+| `origin` | Optional | string or null | `imported` for a saved card that Flint migrated from another processor account. Omitted for other cards. Values: `"imported"`. `origin`: [declared alternatives](../models/PaymentMethodActivatedInstalledMerchantsEvent.md#paymentmethodactivatedinstalledmerchantseventdataprevious_attributesorigin). |
 | `payment_method_id` | Optional | string or null | Unique identifier for this payment method, prefixed `pm_`. `payment_method_id`: [declared alternatives](../models/ExpandedPaymentMethodSummaryPreviousAttributes.md#expandedpaymentmethodsummarypreviousattributespayment_method_id). |
 | `saved_with` | Optional | string or null | Where the buyer saved this payment method. Returned on /v1/me/payment-methods responses when Flint wallet support is enabled. Accept future values. Values: `"flint"`, `"store"`. `saved_with`: [declared alternatives](../models/PaymentMethodActivatedInstalledMerchantsEvent.md#paymentmethodactivatedinstalledmerchantseventdataprevious_attributessaved_with). |
 | `status` | Optional | string or null | The saved card lifecycle. Offer the card for a new payment only when status is active and is_removing is false. Treat any other status as not chargeable, including values added later. Values: `"pending"`, `"active"`, `"expired"`, `"archived"`, `"failed"`. `status`: [declared alternatives](../models/PaymentMethodActivatedInstalledMerchantsEvent.md#paymentmethodactivatedinstalledmerchantseventdataprevious_attributesstatus). |
@@ -110,6 +111,20 @@ anyOf variant 2.
 ### PaymentMethodActivatedInstalledMerchantsEvent.data.previous_attributes.merchant_id
 
 Declared alternatives: [ApiKeyRevokedEvent.data.previous_attributes.merchant_id](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributesmerchant_id).
+
+### PaymentMethodActivatedInstalledMerchantsEvent.data.previous_attributes.origin
+
+### PaymentMethodActivatedInstalledMerchantsEvent.data.previous_attributes.origin variant 1
+
+anyOf variant 1: `imported` for a saved card that Flint migrated from another processor account. Omitted for other cards..
+
+- Value shape: string. `imported` for a saved card that Flint migrated from another processor account. Omitted for other cards. Values: `"imported"`.
+
+### PaymentMethodActivatedInstalledMerchantsEvent.data.previous_attributes.origin variant 2
+
+anyOf variant 2.
+
+- Value shape: null. `imported` for a saved card that Flint migrated from another processor account. Omitted for other cards. 
 
 ### PaymentMethodActivatedInstalledMerchantsEvent.data.previous_attributes.payment_method_id
 

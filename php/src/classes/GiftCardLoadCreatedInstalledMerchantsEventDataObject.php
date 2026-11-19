@@ -48,7 +48,7 @@ final class GiftCardLoadCreatedInstalledMerchantsEventDataObject extends Model {
      */
     public function getGiftCardLoadId(): string { return $this->get('gift_card_load_id'); }
     public function hasGiftCardLoadId(): bool { return $this->has('gift_card_load_id'); }
-    /** Your Idempotency-Key for the command that created this record. `null` when Flint created it or no key was sent.
+    /** The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. Older records can return their key when the creating caller is unknown.
      * @return string|null
      */
     public function getIdempotencyKey(): string|null { return $this->get('idempotency_key'); }

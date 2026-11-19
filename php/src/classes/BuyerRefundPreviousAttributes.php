@@ -9,7 +9,6 @@ namespace Flint;
  * @property-read ExpandedCustomerSummaryPreviousAttributes|null $customer
  * @property-read string|null $customer_id
  * @property-read string|null $failure_reason
- * @property-read string|null $idempotency_key
  * @property-read string|null $invoice_id
  * @property-read list<RefundLineItemAllocationPreviousAttributes>|null $line_item_allocations
  * @property-read BuyerExpandedOrderSummaryPreviousAttributes|null $order
@@ -36,7 +35,7 @@ namespace Flint;
  * @property-read int|null $version
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerRefundPreviousAttributes extends Model {
-    /** @param array{'amount_money'?: mixed, 'created_at'?: mixed, 'credit_adjustment_money'?: mixed, 'credit_note_id'?: mixed, 'customer'?: mixed, 'customer_id'?: mixed, 'failure_reason'?: mixed, 'idempotency_key'?: mixed, 'invoice_id'?: mixed, 'line_item_allocations'?: mixed, 'order'?: mixed, 'order_edit_id'?: mixed, 'order_id'?: mixed, 'payment_intent'?: mixed, 'payment_intent_id'?: mixed, 'payment_refunds'?: mixed, 'pending_reason'?: mixed, 'processed_by'?: mixed, 'reason'?: mixed, 'reason_message'?: mixed, 'refund_id'?: mixed, 'refund_reference'?: mixed, 'refunded_at'?: mixed, 'refunded_tip_money'?: mixed, 'return_id'?: mixed, 'return_resolution_id'?: mixed, 'status'?: mixed, 'succeeded_at'?: mixed, 'tax_breakdown_refunds'?: mixed, 'tender_allocations'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, ...}|object $values */
+    /** @param array{'amount_money'?: mixed, 'created_at'?: mixed, 'credit_adjustment_money'?: mixed, 'credit_note_id'?: mixed, 'customer'?: mixed, 'customer_id'?: mixed, 'failure_reason'?: mixed, 'invoice_id'?: mixed, 'line_item_allocations'?: mixed, 'order'?: mixed, 'order_edit_id'?: mixed, 'order_id'?: mixed, 'payment_intent'?: mixed, 'payment_intent_id'?: mixed, 'payment_refunds'?: mixed, 'pending_reason'?: mixed, 'processed_by'?: mixed, 'reason'?: mixed, 'reason_message'?: mixed, 'refund_id'?: mixed, 'refund_reference'?: mixed, 'refunded_at'?: mixed, 'refunded_tip_money'?: mixed, 'return_id'?: mixed, 'return_resolution_id'?: mixed, 'status'?: mixed, 'succeeded_at'?: mixed, 'tax_breakdown_refunds'?: mixed, 'tender_allocations'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerRefundPreviousAttributes')); }
     /** Total refunded across all tenders, including `refunded_tip_money`. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      * @return MoneyValuePreviousAttributes|null
@@ -73,11 +72,6 @@ final class BuyerRefundPreviousAttributes extends Model {
      */
     public function getFailureReason(): string|null { return $this->get('failure_reason'); }
     public function hasFailureReason(): bool { return $this->has('failure_reason'); }
-    /** The caller's Idempotency-Key when this refund was created, including refunds created by issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response. anyOf[1] (Value): string. The caller's Idempotency-Key when this refund was created, including refunds created by issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response. anyOf[2] (Value): null.
-     * @return string|null
-     */
-    public function getIdempotencyKey(): string|null { return $this->get('idempotency_key'); }
-    public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
     /** ID of the invoice whose credit note this refund paid out. Present only on refunds issued through a credit note. anyOf[1] (Value): string. ID of the invoice whose credit note this refund paid out. Present only on refunds issued through a credit note. anyOf[2] (Value): null.
      * @return string|null
      */

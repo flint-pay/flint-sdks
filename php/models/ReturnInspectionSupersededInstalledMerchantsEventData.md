@@ -15,11 +15,11 @@ Response model.
 
 The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields.
 
-Field definitions: [shared fields](ReturnInspection.md#returninspection).
+Field definitions: [shared fields](WebhookSnapshotReturnInspection.md#webhooksnapshotreturninspection).
 
 ### ReturnInspectionSupersededInstalledMerchantsEventData.object fields 1.generated_dispositions[]
 
-Field definitions: [CancelReturnResponse.data.return_dispositions[]](../models/CancelReturnResponse.md#cancelreturnresponsedatareturn_dispositions).
+Field definitions: [WebhookSnapshotReturnInspection.generated_dispositions[]](../models/WebhookSnapshotReturnInspection.md#webhooksnapshotreturninspectiongenerated_dispositions).
 
 ### ReturnInspectionSupersededInstalledMerchantsEventData.object fields 1.line_items[]
 

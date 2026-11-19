@@ -8,8 +8,8 @@ import type {
     DeliveryQuotesGetParams,
     DeliveryQuotesListParams
 } from '../declarations/types-22.js';
-import type { RequestOptions } from '../declarations/types-61.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { RequestOptions } from '../declarations/types-62.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -36,8 +36,8 @@ export type {
     DeliveryQuoteLineItemResource,
     DeliveryQuoteMethodResource
 } from '../declarations/types-22.js';
-export type { RequestOptions } from '../declarations/types-61.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateCheckoutDeliveryQuoteRequestInput } from '../declarations/types-8.js';
 export type {
@@ -84,7 +84,6 @@ export type { DeliveryAddressAdvisoryResource } from '../declarations/types-17.j
 export type { DeliveryOptionProjection, DeliveryPlan, DeliveryPickupDetails, DeliveryPendingCallerRateRequest } from '../declarations/types-20.js';
 export type { BuyerInstructionsConfig } from '../declarations/types-2.js';
 export type { DeliveryRecipientRequirement } from '../declarations/types-23.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export {
@@ -100,9 +99,9 @@ export {
     makeDeliveryBuyerLocationInputAddress,
     makeDeliveryBuyerLocationInputCoordinate,
     makeDeliveryBuyerLocationRequest,
-    makeDeliveryCoordinateRequest
-} from '../declarations/types-84.js';
-export { makeDeliveryInventoryAssignmentRequest } from '../declarations/types-85.js';
+    makeDeliveryCoordinateRequest,
+    makeDeliveryInventoryAssignmentRequest
+} from '../declarations/types-85.js';
 export { makeDeliveryWindowRequest } from '../declarations/types-86.js';
 export { makeMoneyValue } from '../declarations/types-88.js';
 export interface DeliveryQuotesResource {

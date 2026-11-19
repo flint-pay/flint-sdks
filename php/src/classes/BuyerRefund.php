@@ -9,7 +9,6 @@ namespace Flint;
  * @property-read ExpandedCustomerSummary|null $customer
  * @property-read ?string $customer_id
  * @property-read ?string $failure_reason
- * @property-read ?string $idempotency_key
  * @property-read ?string $invoice_id
  * @property-read ?list<RefundLineItemAllocation> $line_item_allocations
  * @property-read BuyerExpandedOrderSummary|null $order
@@ -36,7 +35,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerRefund extends Model {
-    /** @param array{'amount_money': mixed, 'created_at': string, 'credit_adjustment_money': mixed, 'credit_note_id'?: string, 'customer'?: mixed, 'customer_id'?: string, 'failure_reason'?: string, 'idempotency_key'?: string, 'invoice_id'?: string, 'line_item_allocations'?: list<mixed>, 'order'?: mixed, 'order_edit_id'?: string, 'order_id'?: string, 'payment_intent'?: mixed, 'payment_intent_id'?: string, 'payment_refunds'?: list<mixed>, 'pending_reason': string|null, 'processed_by': string, 'reason': string|null, 'reason_message'?: string, 'refund_id': string, 'refund_reference'?: string, 'refunded_at'?: string, 'refunded_tip_money': mixed, 'return_id'?: string, 'return_resolution_id'?: string, 'status': string, 'succeeded_at'?: string, 'tax_breakdown_refunds'?: list<mixed>, 'tender_allocations'?: list<mixed>, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'amount_money': mixed, 'created_at': string, 'credit_adjustment_money': mixed, 'credit_note_id'?: string, 'customer'?: mixed, 'customer_id'?: string, 'failure_reason'?: string, 'invoice_id'?: string, 'line_item_allocations'?: list<mixed>, 'order'?: mixed, 'order_edit_id'?: string, 'order_id'?: string, 'payment_intent'?: mixed, 'payment_intent_id'?: string, 'payment_refunds'?: list<mixed>, 'pending_reason': string|null, 'processed_by': string, 'reason': string|null, 'reason_message'?: string, 'refund_id': string, 'refund_reference'?: string, 'refunded_at'?: string, 'refunded_tip_money': mixed, 'return_id'?: string, 'return_resolution_id'?: string, 'status': string, 'succeeded_at'?: string, 'tax_breakdown_refunds'?: list<mixed>, 'tender_allocations'?: list<mixed>, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerRefund')); }
     /** Total refunded across all tenders, including `refunded_tip_money`. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
@@ -73,11 +72,6 @@ final class BuyerRefund extends Model {
      */
     public function getFailureReason(): ?string { return $this->get('failure_reason'); }
     public function hasFailureReason(): bool { return $this->has('failure_reason'); }
-    /** The caller's Idempotency-Key when this refund was created, including refunds created by issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
-     * @return ?string
-     */
-    public function getIdempotencyKey(): ?string { return $this->get('idempotency_key'); }
-    public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
     /** ID of the invoice whose credit note this refund paid out. Present only on refunds issued through a credit note.
      * @return ?string
      */

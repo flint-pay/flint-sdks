@@ -10,7 +10,7 @@ import type { InputValue } from '../runtime.js';
 import type { DisputesAcceptParams } from './types-26.js';
 import type { CreateDeliveryRateCallbackRequestInput, CreateDeliveryRevocationRequestInput } from './types-9.js';
 import type { DeliveryLocationSetsDeleteParams } from './types-19.js';
-import type { UpdateDeliveryRateCallbackRequestInput } from './types-75.js';
+import type { UpdateDeliveryRateCallbackRequestInput } from './types-76.js';
 import type { MoneyValue, MoneyValueInput } from './types-44.js';
 import type {
     DeliveryPricingRate,

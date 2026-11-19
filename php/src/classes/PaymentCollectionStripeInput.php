@@ -4,13 +4,14 @@ namespace Flint;
 /**
  * @property-read string|null $account_id
  * @property-read PaymentCollectionStripeElementsInput|array<array-key, mixed>|\stdClass $elements
+ * @property-read string $on_behalf_of
  * @property-read string $publishable_key
  * @property-read string $return_url
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentCollectionStripeInput extends Model {
-    /** @param array{'account_id': string|null, 'elements'?: PaymentCollectionStripeElementsInput|array<array-key, mixed>|\stdClass, 'publishable_key'?: string, 'return_url'?: string, ...}|object $values */
+    /** @param array{'account_id': string|null, 'elements'?: PaymentCollectionStripeElementsInput|array<array-key, mixed>|\stdClass, 'on_behalf_of'?: string, 'publishable_key'?: string, 'return_url'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentCollectionStripeInput')); }
-    /** Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Null when the payment has splits: initialize Stripe.js with publishable_key alone and omit stripeAccount. Example: "acct_1234567890".
+    /** Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Null when the payment has splits. When null, omit stripeAccount when initializing Stripe.js. Example: "acct_1234567890".
      * @return string|null
      * @throws SdkError When account_id is omitted; use hasAccountId() or valueOrDefault().
      */
@@ -22,6 +23,12 @@ final class PaymentCollectionStripeInput extends Model {
      */
     public function getElements(): mixed { return $this->get('elements'); }
     public function hasElements(): bool { return $this->has('elements'); }
+    /** Stripe account ID of the collecting merchant. Present when this payment uses Stripe on_behalf_of, currently payments with splits. Pass it as onBehalfOf when creating Stripe Elements.
+     * @return string
+     * @throws SdkError When on_behalf_of is omitted; use hasOnBehalfOf() or valueOrDefault().
+     */
+    public function getOnBehalfOf(): string { return $this->get('on_behalf_of'); }
+    public function hasOnBehalfOf(): bool { return $this->has('on_behalf_of'); }
     /** Publishable Stripe key for initializing the payment client.
      * @return string
      * @throws SdkError When publishable_key is omitted; use hasPublishableKey() or valueOrDefault().

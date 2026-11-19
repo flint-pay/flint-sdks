@@ -6,11 +6,12 @@ namespace Flint;
  * @property-read ReadinessMerchantAccountSessionInput|array<array-key, mixed>|\stdClass $merchant_account_session
  * @property-read string $owner
  * @property-read list<string> $required_fields
+ * @property-read string $url
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReadinessActionInput extends Model {
-    /** @param array{'action_type': string, 'merchant_account_session'?: ReadinessMerchantAccountSessionInput|array<array-key, mixed>|\stdClass, 'owner': string, 'required_fields'?: list<string>, ...}|object $values */
+    /** @param array{'action_type': string, 'merchant_account_session'?: ReadinessMerchantAccountSessionInput|array<array-key, mixed>|\stdClass, 'owner': string, 'required_fields'?: list<string>, 'url'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReadinessActionInput')); }
-    /** The kind of step to take. Each value says what the step is and who carries it out. Value enum: "advance_onboarding", "create_merchant_account_session", "wait_for_review", "settle_flint_balance", "set_tax_category", "update_payment_settings", "contact_support", "other".
+    /** The kind of step to take. Each value says what the step is and who carries it out. Value enum: "advance_onboarding", "create_merchant_account_session", "wait_for_review", "settle_flint_balance", "set_tax_category", "update_payment_settings", "replace_default_payout_destination", "contact_support", "other".
      * @return string
      * @throws SdkError When action_type is omitted; use hasActionType() or valueOrDefault().
      */
@@ -34,4 +35,10 @@ final class ReadinessActionInput extends Model {
      */
     public function getRequiredFields(): array { return $this->get('required_fields'); }
     public function hasRequiredFields(): bool { return $this->has('required_fields'); }
+    /** The API endpoint for this step, when one applies.
+     * @return string
+     * @throws SdkError When url is omitted; use hasUrl() or valueOrDefault().
+     */
+    public function getUrl(): string { return $this->get('url'); }
+    public function hasUrl(): bool { return $this->has('url'); }
 }

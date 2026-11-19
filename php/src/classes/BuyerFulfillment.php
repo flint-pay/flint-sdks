@@ -37,7 +37,7 @@ final class BuyerFulfillment extends Model {
      */
     public function getCharges(): ?array { return $this->get('charges'); }
     public function hasCharges(): bool { return $this->has('charges'); }
-    /** When the fulfillment was completed. Mirrors the completion time for its type: delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at for pickup, and service_details.completed_at for service fulfillments. Omitted until a completion time is recorded. Format: date-time.
+    /** When the fulfillment was completed. Mirrors the completion time for its type: delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at for pickup, service_details.completed_at for service fulfillments, and the order's paid_at for handovers completed at payment. Omitted until a completion time is recorded. Format: date-time.
      * @return ?string
      */
     public function getCompletedAt(): ?string { return $this->get('completed_at'); }

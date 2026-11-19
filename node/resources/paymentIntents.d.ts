@@ -13,14 +13,18 @@ import type {
     PaymentIntentsCancelParams,
     PaymentIntentsCaptureParams,
     PaymentIntentsConfirmParams,
-    PaymentIntentsCreateParams,
+    PaymentIntentsCreateParams
+} from '../declarations/types-51.js';
+import type {
     PaymentIntentsCreateResponse,
     PaymentIntentsGetParams,
-    PaymentIntentsListActivitiesParams
-} from '../declarations/types-51.js';
-import type { PaymentIntentsListParams, PaymentIntentsSendReceiptParams, PaymentIntentsUpdateParams } from '../declarations/types-52.js';
-import type { RequestOptions } from '../declarations/types-61.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
+    PaymentIntentsListActivitiesParams,
+    PaymentIntentsListParams,
+    PaymentIntentsSendReceiptParams,
+    PaymentIntentsUpdateParams
+} from '../declarations/types-52.js';
+import type { RequestOptions } from '../declarations/types-62.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -44,10 +48,7 @@ export type {
     PaymentIntentWithAction,
     PaymentIntentsCreateParams,
     PaymentIntentWithCollection,
-    PaymentIntentsCreateResponse,
-    PaymentIntentsGetParams,
     PaymentIntentWithCollectionResponse,
-    PaymentIntentsListActivitiesParams,
     PaymentIntentActivityListResponse,
     PaymentIntentActivity,
     PaymentIntentListResponse,
@@ -61,10 +62,17 @@ export type {
     PaymentCollectionStripe,
     PaymentCollectionStripeElements
 } from '../declarations/types-51.js';
-export type { RequestOptions } from '../declarations/types-61.js';
+export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-62.js';
 export type { ConfirmPaymentIntentResponse, ConfirmPaymentIntentRequestInput } from '../declarations/types-8.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
-export type { PaymentIntentsListParams, PaymentIntentsSendReceiptParams, PaymentIntentsUpdateParams } from '../declarations/types-52.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
+export type {
+    PaymentIntentsCreateResponse,
+    PaymentIntentsGetParams,
+    PaymentIntentsListActivitiesParams,
+    PaymentIntentsListParams,
+    PaymentIntentsSendReceiptParams,
+    PaymentIntentsUpdateParams
+} from '../declarations/types-52.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type {
     CancelPaymentIntentRequestInput,
@@ -77,7 +85,7 @@ export type { PaymentAddOnFee, PaymentClientAction, PaymentActivityActor } from 
 export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-44.js';
 export type { ExpandedCustomerSummary, ExpandedInvoiceSummary, ErrorRemediation, ExpandedOrderSummary } from '../declarations/types-26.js';
 export type { FailedPaymentAttempt } from '../declarations/types-27.js';
-export type { PricingAmounts, PlatformFeeRequestInput } from '../declarations/types-56.js';
+export type { PricingAmounts, PlatformFeeRequestInput, PlatformFeeMoneyInput } from '../declarations/types-56.js';
 export type { InvoiceSettlementAmounts } from '../declarations/types-38.js';
 export type {
     SettlementAmounts,
@@ -86,7 +94,6 @@ export type {
     StripeTerminalPaymentIntentClientAction
 } from '../declarations/types-68.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
-export type { ResourceReference, ResponseMeta, ResponseWarning, ResourceType } from '../declarations/types-62.js';
 export type { MetadataMap, MetadataRequestInput, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { CheckoutBuyerContact } from '../declarations/types-6.js';
 export type { DeferredPromotion } from '../declarations/types-17.js';
@@ -112,27 +119,21 @@ export type {
     PaymentSplitRequestInput
 } from '../declarations/types-54.js';
 export type { PaymentProcessingFeeDetail } from '../declarations/types-53.js';
+export type { ReaderPaymentSourceTipInput, ReaderPaymentSourceTip } from '../declarations/types-59.js';
 export type {
-    PlatformFeeMoneyInput,
     PendingPaymentAction,
     PendingPaymentActionSubject,
     PendingPaymentActionPaymentIntentSubject,
     PendingPaymentActionSetupPaymentSourceSubject
 } from '../declarations/types-55.js';
-export type { ReaderPaymentSourceTipInput, ReaderPaymentSourceTip } from '../declarations/types-59.js';
 export type { CreatePaymentIntentRequestInput } from '../declarations/types-12.js';
 export type { SelectableOrderPaymentIntent, SendPaymentIntentReceiptRequestInput } from '../declarations/types-67.js';
 export type { UpdatePaymentIntentRequestInput } from '../declarations/types-76.js';
-export { makeCancelPaymentIntentRequest, makeCapturePaymentIntentRequest, makeCapturePaymentSplitRequest } from '../declarations/types-80.js';
-export { makeConfirmPaymentIntentRequest } from '../declarations/types-81.js';
+export { makeCancelPaymentIntentRequest } from '../declarations/types-80.js';
+export { makeCapturePaymentIntentRequest, makeCapturePaymentSplitRequest, makeConfirmPaymentIntentRequest } from '../declarations/types-81.js';
 export { makeCreatePaymentIntentRequest } from '../declarations/types-83.js';
-export {
-    makeMetadataPatchRequest,
-    makeMetadataRequest,
-    makeMoneyValue,
-    makeOrderPaymentSourceCardSelection,
-    makeOrderPaymentSourceSelection
-} from '../declarations/types-88.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeOrderPaymentSourceCardSelection, makeOrderPaymentSourceSelection } from '../declarations/types-89.js';
 export {
     makePaymentSourceCredential,
     makePaymentSourceCredentialPaymentMethod,
@@ -141,11 +142,11 @@ export {
     makePaymentSourceCredentialStripePaymentMethod,
     makePaymentSplitRequest,
     makePlatformFeeMoney,
-    makePlatformFeeRequest
-} from '../declarations/types-89.js';
-export { makeReaderPaymentSourceTip } from '../declarations/types-90.js';
-export { makeSendPaymentIntentReceiptRequest } from '../declarations/types-91.js';
-export { makeUpdatePaymentIntentRequest } from '../declarations/types-93.js';
+    makePlatformFeeRequest,
+    makeReaderPaymentSourceTip
+} from '../declarations/types-90.js';
+export { makeSendPaymentIntentReceiptRequest } from '../declarations/types-92.js';
+export { makeUpdatePaymentIntentRequest } from '../declarations/types-94.js';
 export interface PaymentIntentsResource {
     /**
  * Cancels a standalone or order-owned payment intent. Read supported_actions for the actions its
@@ -155,8 +156,9 @@ export interface PaymentIntentsResource {
  * leg held by an active order payment attempt may be refused. Omitting cancellation_reason returns
  * payment_canceled as the public reason. A fresh request for a canceled or expired payment returns
  * ACTION_NOT_ALLOWED with reason already_applied; a same-key retry replays or recovers its
- * original result. A checkout credential can cancel only its own order leg, with
- * requested_by_customer or abandoned when a reason is supplied.
+ * original result. After a subscription is canceled, a merchant credential can cancel an
+ * unconfirmed first-period intent that remains open. A checkout credential can cancel only its own
+ * order leg, with requested_by_customer or abandoned when a reason is supplied.
  *
  * `POST /v1/payment-intents/{payment_intent_id}/cancel`
  * @param payment_intent_id Flint payment intent ID. Must be a valid ID with prefix pi_. Malformed
@@ -324,15 +326,16 @@ export interface PaymentIntentsResource {
     listItems(params?: PaymentIntentsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<PaymentIntent>;
     /**
  * Queues a receipt for a succeeded payment intent and returns the payment intent unchanged. For an
- * order-owned payment intent, sends the order receipt. The request records a receipt_queued
- * activity. Provider acceptance records receipt_sent; suppression, failure, or an unconfirmed
- * delivery records receipt_delivery_failed with an explanation. Send email to choose a recipient.
- * Omit email to use the order's receipt address for an order-owned intent, or receipt_email then
- * the customer's email for a standalone intent. If no receipt email is available, email is
- * required. The saved receipt email stays unchanged. Requires Flint-managed receipt delivery.
- * Standalone sending is limited to once every five minutes per payment intent; order receipt
- * sending is limited to once every five minutes per order and normalized recipient. Retry with the
- * same idempotency key to replay the result without sending again.
+ * order-owned payment intent, the receipt shows that payment and its order context. The request
+ * records a receipt_queued activity. Provider acceptance records receipt_sent; suppression,
+ * failure, or an unconfirmed delivery records receipt_delivery_failed with an explanation. Send
+ * email to choose a recipient. Omit email to use receipt_email, then the order's receipt address
+ * for an order-owned intent or the customer's email for a standalone intent. If no receipt email
+ * is available, email is required. The saved receipt email stays unchanged. Requires Flint-managed
+ * receipt delivery. Standalone sending is limited to once every five minutes per payment intent;
+ * sending for an order-owned intent is limited to once every five minutes per payment intent and
+ * normalized recipient. Retry with the same idempotency key to replay the result without sending
+ * again.
  *
  * `POST /v1/payment-intents/{payment_intent_id}/send-receipt`
  * @param payment_intent_id Flint payment intent ID. Must be a valid ID with prefix pi_. Malformed

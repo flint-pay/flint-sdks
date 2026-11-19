@@ -36,11 +36,11 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields.
 
-Field definitions: [shared fields](ReturnInspection.md#returninspection).
+Field definitions: [shared fields](WebhookSnapshotReturnInspection.md#webhooksnapshotreturninspection).
 
 ### ReturnInspectionAcceptanceDecidedMerchantEvent.data fields 1.object.generated_dispositions[]
 
-Field definitions: [CancelReturnResponse.data.return_dispositions[]](../models/CancelReturnResponse.md#cancelreturnresponsedatareturn_dispositions).
+Field definitions: [WebhookSnapshotReturnInspection.generated_dispositions[]](../models/WebhookSnapshotReturnInspection.md#webhooksnapshotreturninspectiongenerated_dispositions).
 
 ### ReturnInspectionAcceptanceDecidedMerchantEvent.data fields 1.object.line_items[]
 
@@ -75,6 +75,10 @@ Declared alternatives: [TaxCalculationCallbackActivatedEvent.data fields 1.previ
 ### ReturnInspectionAcceptanceDecidedMerchantEvent.data fields 1.previous_attributes.generated_dispositions
 
 Declared alternatives: [ReturnInspectionPreviousAttributes.generated_dispositions](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributesgenerated_dispositions).
+
+### ReturnInspectionAcceptanceDecidedMerchantEvent.data fields 1.previous_attributes.idempotency_key
+
+Declared alternatives: [CreditNoteAllocationReversedMerchantEventDataPreviousAttributes.idempotency_key](../models/CreditNoteAllocationReversedMerchantEventDataPreviousAttributes.md#creditnoteallocationreversedmerchanteventdatapreviousattributesidempotency_key).
 
 ### ReturnInspectionAcceptanceDecidedMerchantEvent.data fields 1.previous_attributes.inspected_at
 

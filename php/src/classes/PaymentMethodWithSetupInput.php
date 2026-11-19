@@ -10,6 +10,7 @@ namespace Flint;
  * @property-read bool $is_default
  * @property-read bool $is_removing
  * @property-read string $merchant_id
+ * @property-read string $origin
  * @property-read string $payment_method_id
  * @property-read string $saved_with
  * @property-read string $status
@@ -19,7 +20,7 @@ namespace Flint;
  * @property-read StripeClientSetupInput|array<array-key, mixed>|\stdClass $client_setup
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentMethodWithSetupInput extends Model {
-    /** @param array{'card'?: CardDetailsInput|array<array-key, mixed>|\stdClass, 'created_at': string|\DateTimeInterface, 'customer'?: array{'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'email': string|null, 'name': string|null, 'phone': string|null, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'customer_id': string, 'fingerprint'?: string, 'is_default': bool, 'is_removing': bool, 'merchant_id': string, 'payment_method_id': string, 'saved_with'?: string, 'status': string, 'type': string, 'updated_at': string|\DateTimeInterface, 'usage': string, 'client_setup'?: StripeClientSetupInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'card'?: CardDetailsInput|array<array-key, mixed>|\stdClass, 'created_at': string|\DateTimeInterface, 'customer'?: array{'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'email': string|null, 'name': string|null, 'phone': string|null, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'customer_id': string, 'fingerprint'?: string, 'is_default': bool, 'is_removing': bool, 'merchant_id': string, 'origin'?: string, 'payment_method_id': string, 'saved_with'?: string, 'status': string, 'type': string, 'updated_at': string|\DateTimeInterface, 'usage': string, 'client_setup'?: StripeClientSetupInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentMethodWithSetupInput')); }
     /** Brand, expiry and last four digits. Present when `type` is `card`. Card details on a payment method: brand, expiration month and year, last four digits, and the wallet when one was used.
      * @return CardDetailsInput|array<array-key, mixed>|\stdClass
@@ -69,6 +70,12 @@ final class PaymentMethodWithSetupInput extends Model {
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
+    /** `imported` for a saved card that Flint migrated from another processor account. Omitted for other cards. Value enum: "imported".
+     * @return string
+     * @throws SdkError When origin is omitted; use hasOrigin() or valueOrDefault().
+     */
+    public function getOrigin(): string { return $this->get('origin'); }
+    public function hasOrigin(): bool { return $this->has('origin'); }
     /** Unique identifier for this payment method, prefixed `pm_`. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
      * @return string
      * @throws SdkError When payment_method_id is omitted; use hasPaymentMethodId() or valueOrDefault().

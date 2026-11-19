@@ -30,6 +30,7 @@ namespace Flint;
  * @property-read ?CheckoutPromotionConfig $promotion_config
  * @property-read ?CheckoutRedirects $redirects
  * @property-read ?string $sales_end_at
+ * @property-read ?string $sales_start_at
  * @property-read ?PaymentLinkSalesSummary $sales_summary
  * @property-read string $status
  * @property-read ExpandedSubscriptionPlanSummary|null $subscription_plan
@@ -43,7 +44,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class PaymentLink extends Model {
-    /** @param array{'buyer_fields'?: mixed, 'checkout_session_expires_in_seconds'?: int, 'completed_count': int, 'created_at': string, 'custom_fields'?: list<mixed>, 'custom_text'?: mixed, 'delivery_method_ids': list<string>, 'description'?: string, 'donation_max_amount_money'?: mixed, 'donation_min_amount_money'?: mixed, 'donation_suggested_amount_money_options'?: list<mixed>, 'event_config'?: mixed, 'external_reference_id'?: string, 'image'?: mixed, 'inactive_message'?: string, 'inventory_routing_source'?: mixed, 'legal'?: mixed, 'line_items'?: list<mixed>, 'max_completions'?: int, 'merchant_id': string, 'metadata'?: mixed, 'name': string, 'payment_link_id': string, 'payment_link_type'?: string, 'payments'?: mixed, 'promotion_config'?: mixed, 'redirects'?: mixed, 'sales_end_at'?: string, 'sales_summary'?: mixed, 'status': string, 'subscription_plan'?: mixed, 'subscription_plan_id'?: string, 'tax'?: mixed, 'theme'?: mixed, 'tip'?: mixed, 'total_quantity_sold': int, 'updated_at': string, 'url': string, 'version': int, ...}|object $values */
+    /** @param array{'buyer_fields'?: mixed, 'checkout_session_expires_in_seconds'?: int, 'completed_count': int, 'created_at': string, 'custom_fields'?: list<mixed>, 'custom_text'?: mixed, 'delivery_method_ids': list<string>, 'description'?: string, 'donation_max_amount_money'?: mixed, 'donation_min_amount_money'?: mixed, 'donation_suggested_amount_money_options'?: list<mixed>, 'event_config'?: mixed, 'external_reference_id'?: string, 'image'?: mixed, 'inactive_message'?: string, 'inventory_routing_source'?: mixed, 'legal'?: mixed, 'line_items'?: list<mixed>, 'max_completions'?: int, 'merchant_id': string, 'metadata'?: mixed, 'name': string, 'payment_link_id': string, 'payment_link_type'?: string, 'payments'?: mixed, 'promotion_config'?: mixed, 'redirects'?: mixed, 'sales_end_at'?: string, 'sales_start_at'?: string, 'sales_summary'?: mixed, 'status': string, 'subscription_plan'?: mixed, 'subscription_plan_id'?: string, 'tax'?: mixed, 'theme'?: mixed, 'tip'?: mixed, 'total_quantity_sold': int, 'updated_at': string, 'url': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLink')); }
     /** What checkout asks the buyer for. Each field you leave out uses your checkout settings.
      * @return ?CheckoutBuyerFields
@@ -185,6 +186,11 @@ final class PaymentLink extends Model {
      */
     public function getSalesEndAt(): ?string { return $this->get('sales_end_at'); }
     public function hasSalesEndAt(): bool { return $this->has('sales_end_at'); }
+    /** RFC3339 timestamp when buyers can first start a checkout from this link. Stored to nanosecond precision. Before it, resolve fails with ACTION_NOT_ALLOWED and reason sales_not_started. Must be earlier than the link’s sales end, including the event start when no explicit end is set. Format: date-time.
+     * @return ?string
+     */
+    public function getSalesStartAt(): ?string { return $this->get('sales_start_at'); }
+    public function hasSalesStartAt(): bool { return $this->has('sales_start_at'); }
     /** Present only with expand=sales_summary on GET /v1/payment-links or GET /v1/payment-links/{payment_link_id}. Available to merchant callers, including dashboard sessions and API keys with checkouts.payment_links.read. Uses the same paid-order definition as the merchant sales summary. Paid-order sales totals for a payment link, computed on request. Paid means the order's collection has completed. Fully and partially refunded orders still count, and paid_totals reports the amount collected before refunds. Each order counts once even if it has multiple checkout sessions.
      * @return ?PaymentLinkSalesSummary
      */

@@ -1691,17 +1691,17 @@ export type AnalyticsGetPaymentVolumeTimeseriesParams = {
 };
 export type AnalyticsGetSubscriptionParams = AnalyticsGetOverviewParams;
 /**
- * Payments are selected by payment created_at and current succeeded status. The half-open period
- * [period_start_at, period_end_at) includes its start and excludes its end. Amounts and
- * payments_count use currency; customer and subscription counts span currencies.
+ * Succeeded payments are selected by capture time. The half-open period [period_start_at,
+ * period_end_at) includes its start and excludes its end. Amounts and payments_count use currency;
+ * customer and subscription counts span currencies.
  */
 export type AnalyticsOverview = {
     /**
-     * Currencies of succeeded payments selected by payment created_at or counted refunds selected
-     * by refund created_at in the period, regardless of the currency filter. Empty when neither
-     * has rows. The half-open period [period_start_at, period_end_at) includes its start and
-     * excludes its end. Amounts and payments_count use currency; customer and subscription counts
-     * span currencies. [] (Value): string.
+     * Currencies of succeeded payments captured in the period and qualifying refunds that
+     * succeeded in the period, regardless of the currency filter. The half-open period
+     * [period_start_at, period_end_at) includes its start and excludes its end. Amounts and
+     * payments_count use currency; customer and subscription counts span currencies. [] (Value):
+     * string.
      */
     "currencies": Array<string>;
     /**
@@ -1712,11 +1712,11 @@ export type AnalyticsOverview = {
      */
     "currency": string;
     /**
-     * Sum of succeeded payment amounts selected by payment created_at in the period, in currency.
-     * The half-open period [period_start_at, period_end_at) includes its start and excludes its
-     * end. Amounts and payments_count use currency; customer and subscription counts span
-     * currencies. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code.
+     * Sum of captured amounts for succeeded payments captured in the period, in currency. Excludes
+     * gift card and store credit redemptions. The half-open period [period_start_at,
+     * period_end_at) includes its start and excludes its end. Amounts and payments_count use
+     * currency; customer and subscription counts span currencies. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
      */
     "gross_volume_money": MoneyValue;
     /**
@@ -1727,10 +1727,10 @@ export type AnalyticsOverview = {
      */
     "new_customers_count": number;
     /**
-     * Succeeded payments selected by payment created_at in the period, restricted to currency. The
-     * half-open period [period_start_at, period_end_at) includes its start and excludes its end.
-     * Amounts and payments_count use currency; customer and subscription counts span currencies.
-     * Format: int64.
+     * Succeeded payments captured in the period, restricted to currency. The half-open period
+     * [period_start_at, period_end_at) includes its start and excludes its end. Amounts and
+     * payments_count use currency; customer and subscription counts span currencies. Format:
+     * int64.
      */
     "payments_count": number;
     /**
@@ -1747,22 +1747,22 @@ export type AnalyticsOverview = {
      */
     "period_start_at": string;
     /**
-     * Refund amounts selected by refund created_at in the period, excluding failed and canceled
-     * refunds. Parent refunds with child executions count through the children once, regardless of
-     * payment creation time. Uses currency. The half-open period [period_start_at, period_end_at)
-     * includes its start and excludes its end. Amounts and payments_count use currency; customer
-     * and subscription counts span currencies. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
+     * Amount refunded to original payment methods, in currency, based on when the refund
+     * succeeded, regardless of when the payment was captured. Excludes amounts returned as gift
+     * card value or store credit. Each qualifying part of a split refund counts once. The
+     * half-open period [period_start_at, period_end_at) includes its start and excludes its end.
+     * Amounts and payments_count use currency; customer and subscription counts span currencies.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      */
     "refunded_money": MoneyValue;
 };
 /** A response containing `AnalyticsOverview` data. */
 export type AnalyticsOverviewResponse = {
     /**
-     * Resource, collection, or operation result returned by this request. Payments are selected by
-     * payment created_at and current succeeded status. The half-open period [period_start_at,
-     * period_end_at) includes its start and excludes its end. Amounts and payments_count use
-     * currency; customer and subscription counts span currencies.
+     * Resource, collection, or operation result returned by this request. Succeeded payments are
+     * selected by capture time. The half-open period [period_start_at, period_end_at) includes its
+     * start and excludes its end. Amounts and payments_count use currency; customer and
+     * subscription counts span currencies.
      */
     "data": AnalyticsOverview;
     /**
@@ -3112,7 +3112,7 @@ export type ApiRequestLogsListParams = {
         | "workload_identity")[]>;
     /**
      * Filter by resource ID. pattern:
-     * ^((ad|afri|ba|bag|bal|bam|baoa|basa|bav|bepevt|betr|bses|btxn|bue|bun|bunc|bup|busrc|caddr|cagr|capsnap|catid|ccaevt|ccop|cdel|cdom|cecr|ch|clg|clla|cn|cna|cnart|cnlease|cnli|cnmut|cof|cpoc|cpop|cs|cscv|cses|cslimr|csrt|ctex|ctg|cus|cver|dca|dcb|dcbr|dcgrp|ddiag|defc|deff|demo|dev|dleg|dls|dlsr|dmet|dmetr|dms|dmsevt|dmslink|dmsopen|dopt|dp|dprof|dprofr|dqt|drate|drev|dreval|dsel|dsle|dti|du|dzone|dzoner|edat|edel|egrt|fbc|fbr|fev|file|fnt|frw|fsu|ful|fw|fwad|fwcmd|fwcon|fwph|fwpm|fwss|gc|gcg|gcl|gcn|gcpra|gcr|gct|gfd|hat|hce|hcr|hev|hin|hlk|hnt|hrp|hsl|hsr|hth|hwm|iacr|iaevt|iksevt|iksop|img|indel|inevt|inlf|inv|inv_cmd|invadj|invapp|invart|invc|invcln|invi|invl|invlease|invli|invm|invp|invpa|invpay|invpv|invr|invrea|invrec|invrecln|invrln|invse|invt|invtr|invtrln|iomevt|ipt|ivat|key|li|lk|lka|lkp|lkpa|lkpk|lkr|loc|mac|mace|mbbal|mbclaim|mbe|mbin|mbout|mca|mcdchg|mcdsub|mcfr|mcr|mcra|mcrecon|mcrve|menv|mer|mfa|mfce|mg|mod|mpafc|mpagr|mpfa|mpfc|mre|mrecv|mrp|ms|msa|msg|msinv|msinvl|mso|msu|mtac|ntc|ntf|oacr|oact|oalk|och|ocra|oed|olim|olimas|olra|omp|opahold|opaleg|opaobs|opaop|opard|oparp|opasd|opasgen|opasm|opasp|opat|opaum|opcred|opra|oprhold|opsa|opt|optv|ord|ordisp|org|orp|orr|otpial|otra|ovst|pac|pacr|pact|paog|papp|pasg|pat|patok|pava|pavc|pcae|pcal|pcb|pcfg|pchkr|pcode|pcri|pcrr|pcsch|pdest|peat|pendact|pfbal|pfbt|pfee|pfhi|pfhold|pfi|pfinc|pfloss|pflrec|pfpo|pfr|pfrb|pfrf|pfs|phold|pi|pia|pilm|pinst|piop|pipf|pkg|pki|pl|plan|plcf|ple|plli|plog|pm|pmcr|pmdom|po|poe|polog|ppac|ppd|pppa|pppr|ppta|pra|pref|prl|prlp|prod|promo|prrc|prt|prtn|psact|pses|pset|psetop|psinc|psplit|psrev|psu|pvimg|pvlaunch|pvscn|pvses|pvshare|pvw|ra|rbuy|rcaa|rcs|rdl|rdr|rdrcfg|rdrpres|recon|ref|rep|ret|retact|retadj|retcmd|retdsp|retfx|retinli|retins|retli|retrc|retrcli|retrepli|retres|retresli|retshli|rev|rl|rli|rlia|rliar|rlima|rlog|rpoe|rpol|rpolv|rprev|rra|rrq|rrsn|rta|rtba|rule|sdmig|sdts|sdtu|set|sfba|sfpd|shp|sli|smf|soffer|spc|spcc|spli|spol|sppd|spr|ssu|sub|tac|tae|tcae|tcb|tcbr|tce|tclk|tcn|test|tip|tkt|trg|txb|usr|var|watt|wdel|whcl|whep|whev|whout|whrc|wid|ws)_[0-9A-HJKMNP-TV-Z]{26}|fwa_[A-Z2-7]+|fwc_[A-Z2-7]+|fwin_[0-9a-f]+|req_([0-9a-f]+|caller_supplied_rate|pickup_distance_loc_[0-9A-HJKMNP-TV-Z]{26}))$.
+     * ^((ad|afri|ba|bag|bal|bam|baoa|basa|bav|bepevt|betr|bses|btxn|bue|bun|bunc|bup|busrc|caddr|cagr|capsnap|catid|ccaevt|ccop|cdel|cdom|cecr|ch|clg|clla|cn|cna|cnart|cnlease|cnli|cnmut|cof|cpoc|cpop|cs|cscv|cses|cslimr|csrt|ctex|ctg|cus|cver|dca|dcb|dcbr|dcgrp|ddiag|defc|deff|demo|dev|dleg|dls|dlsr|dmet|dmetr|dms|dmsevt|dmslink|dmsopen|dopt|dp|dprof|dprofr|dqt|drate|drev|dreval|dsel|dsle|dti|du|dzone|dzoner|edat|edel|egrt|fbc|fbr|fev|file|fnt|frw|fsu|ful|fw|fwad|fwcmd|fwcon|fwph|fwpm|fwss|gc|gcg|gcl|gcn|gcpra|gcr|gct|gfd|hat|hce|hcr|hev|hin|hlk|hnt|hrp|hsl|hsr|hth|hwm|iacr|iaevt|iksevt|iksop|img|indel|inevt|inlf|inv|inv_cmd|invadj|invapp|invart|invc|invcln|invi|invl|invlease|invli|invm|invp|invpa|invpay|invpv|invr|invrea|invrec|invrecln|invrln|invse|invt|invtr|invtrln|iomevt|ipt|ivat|key|li|lk|lka|lkp|lkpa|lkpk|lkr|loc|mac|mace|mbbal|mbclaim|mbe|mbin|mbout|mca|mcdchg|mcdsub|mcfr|mcr|mcra|mcrecon|mcrve|menv|mer|mfa|mfce|mg|mod|mpafc|mpagr|mpfa|mpfc|mre|mrecv|mrp|ms|msa|msg|msinv|msinvl|mso|msu|mtac|ntc|ntf|oacr|oact|oalk|och|ocra|oed|olim|olimas|olra|omp|opahold|opaleg|opaobs|opaop|opard|oparp|opasd|opasgen|opasm|opasp|opat|opaum|opcred|opra|oprhold|opsa|opt|optv|ord|ordisp|org|orp|orr|otpial|otra|ovst|pac|pacr|pact|paog|papp|pasg|pat|patok|pava|pavc|pcae|pcal|pcb|pcfg|pchkr|pcode|pcri|pcrr|pcsch|pdest|peat|pendact|pfbal|pfbt|pfee|pfhi|pfhold|pfi|pfinc|pfloss|pflrec|pfpo|pfr|pfrb|pfrf|pfs|phold|pi|pia|pilm|pinst|piop|pipf|pkg|pki|pl|plan|plcf|ple|plli|plog|pm|pmcr|pmdom|po|poe|polog|ppac|ppd|pppa|pppr|ppta|pra|pref|prl|prlp|prod|promo|prrc|prt|prtn|psact|pses|pset|psetop|psinc|psplit|psrev|psu|pvimg|pvlaunch|pvscn|pvses|pvshare|pvw|ra|rbuy|rcaa|rcs|rdl|rdr|rdrcfg|rdrpres|recon|ref|rep|ret|retact|retadj|retcmd|retdsp|retfx|retinli|retins|retli|retrc|retrcli|retrepli|retres|retresli|retshli|rev|rl|rli|rlia|rliar|rlima|rlog|rpoe|rpol|rpolv|rprev|rra|rrq|rrsn|rta|rtba|rule|saa|sdmig|sdts|sdtu|set|sfba|sfpd|shp|sli|smf|soffer|spc|spcc|spli|spol|sppd|spr|ssu|sub|tac|tae|tcae|tcb|tcbr|tce|tclk|tcn|test|tip|tkt|trg|txb|usr|var|watt|wdel|whcl|whep|whev|whout|whrc|wid|ws)_[0-9A-HJKMNP-TV-Z]{26}|fwa_[A-Z2-7]+|fwc_[A-Z2-7]+|fwin_[0-9a-f]+|req_([0-9a-f]+|caller_supplied_rate|pickup_distance_loc_[0-9A-HJKMNP-TV-Z]{26}))$.
      * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      */
     "resource_id"?: InputValue<string>;

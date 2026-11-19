@@ -16,6 +16,7 @@ import {
   npmPackResult,
 } from "./packages.mjs";
 import { PROFILE_PATH, deriveProfile } from "./profiles.mjs";
+import { webhookConfigPath } from "./webhook-snapshots.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 process.chdir(root);
@@ -84,7 +85,7 @@ function generate(check = false) {
   run(process.execPath, ["--max-old-space-size=8192", "scripts/baseline.mjs"], {
     stdio: "inherit",
   });
-  const report = cli("generate", "spec/openapi.json", "sdk.json", output);
+  const report = cli("generate", "spec/openapi.json", webhookConfigPath(process.cwd()), output);
   const desired = publishedFiles(output);
   const previous = existsSync("sdk-files.json") ? json("sdk-files.json") : {};
   const differences = [];
@@ -284,9 +285,9 @@ try {
     run("npm", ["ci"], { cwd: generator, stdio: "inherit" });
     run("npm", ["run", "build"], { cwd: generator, stdio: "inherit" });
   } else if (command === "diagnose")
-    console.log(cli("diagnose", "spec/openapi.json", "sdk.json"));
+    console.log(cli("diagnose", "spec/openapi.json", webhookConfigPath(process.cwd())));
   else if (command === "preview") {
-    const report = cli("preview", "spec/openapi.json", "sdk.json", output);
+    const report = cli("preview", "spec/openapi.json", webhookConfigPath(process.cwd()), output);
     console.log(
       `${report.changes.length} proposed changes. See .generated/logs/preview.json.`,
     );

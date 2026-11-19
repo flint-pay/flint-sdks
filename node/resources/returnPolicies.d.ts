@@ -5,15 +5,13 @@ import type { DeleteReturnPolicyResponse } from '../declarations/types-17.js';
 import type { GetReturnPolicyResponse, GetReturnPolicyRevisionResponse } from '../declarations/types-28.js';
 import type { ListReturnPoliciesResponse, ListReturnPolicyRevisionsResponse } from '../declarations/types-40.js';
 import type { PublishReturnPolicyRevisionResponse } from '../declarations/types-59.js';
-import type { RequestOptions } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-62.js';
 import type {
     ReturnPoliciesCreateParams,
     ReturnPoliciesCreateRevisionParams,
     ReturnPoliciesDeleteParams,
     ReturnPoliciesGetParams,
-    ReturnPoliciesGetRevisionParams
-} from '../declarations/types-63.js';
-import type {
+    ReturnPoliciesGetRevisionParams,
     ReturnPoliciesListParams,
     ReturnPoliciesListRevisionsParams,
     ReturnPoliciesUpdateParams,
@@ -21,7 +19,7 @@ import type {
     ReturnPolicyRevision
 } from '../declarations/types-64.js';
 import type { UpdateReturnPolicyResponse } from '../declarations/types-77.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -38,14 +36,11 @@ export type {
 } from '../runtime.js';
 export type {
     ReturnPoliciesCreateParams,
+    ReturnPolicy,
     ReturnPoliciesCreateRevisionParams,
     ReturnPoliciesDeleteParams,
     ReturnPoliciesGetParams,
-    ReturnPoliciesGetRevisionParams
-} from '../declarations/types-63.js';
-export type { RequestOptions } from '../declarations/types-61.js';
-export type {
-    ReturnPolicy,
+    ReturnPoliciesGetRevisionParams,
     ReturnPolicyRevision,
     ReturnPoliciesListParams,
     ReturnPoliciesListRevisionsParams,
@@ -60,10 +55,11 @@ export type {
     ReturnPolicyScopeAll,
     ReturnPolicyScopeInclude
 } from '../declarations/types-64.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { CreateReturnPolicyResponse, CreateReturnPolicyRequestInput } from '../declarations/types-13.js';
 export type { PublishReturnPolicyRevisionResponse, PublishReturnPolicyRevisionRequestInput } from '../declarations/types-59.js';
 export type { DeleteReturnPolicyResponse } from '../declarations/types-17.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { GetReturnPolicyResponse, GetReturnPolicyRevisionResponse } from '../declarations/types-28.js';
 export type { ListReturnPoliciesResponse, ListReturnPolicyRevisionsResponse } from '../declarations/types-40.js';
 export type { UpdateReturnPolicyResponse, UpdateReturnPolicyRequestInput } from '../declarations/types-77.js';
@@ -79,10 +75,9 @@ export type { MoneyValueInput, NextAction, MoneyValue } from '../declarations/ty
 export type { ReturnWindowRequestInput, ReturnWindow } from '../declarations/types-66.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
-export { makeCreateReturnPolicyRequest } from '../declarations/types-83.js';
+export { makeCreateReturnPolicyRequest } from '../declarations/types-84.js';
 export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
 export { makePublishReturnPolicyRevisionRequest } from '../declarations/types-90.js';
 export {
@@ -93,9 +88,9 @@ export {
     makeReturnPolicyScopeIncludeRequest,
     makeReturnPolicyScopeRequest,
     makeReturnRestockingFeePolicyRequest,
-    makeReturnShippingPolicyRequest,
-    makeReturnWindowRequest
+    makeReturnShippingPolicyRequest
 } from '../declarations/types-91.js';
+export { makeReturnWindowRequest } from '../declarations/types-92.js';
 export { makeUpdateReturnPolicyRequest } from '../declarations/types-94.js';
 export interface ReturnPoliciesResource {
     /**

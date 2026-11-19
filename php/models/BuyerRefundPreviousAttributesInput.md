@@ -15,7 +15,6 @@ Request input.
 | `customer` | Optional | [ExpandedCustomerSummaryPreviousAttributesInput](../models/ExpandedCustomerSummaryPreviousAttributesInput.md#expandedcustomersummarypreviousattributesinput) or null | The customer summary for `customer_id`. Buyer refund endpoints take no `expand` parameter, so it is never expanded here. `null` when the refund is not expanded. |
 | `customer_id` | Optional | string or null | ID of the customer on the refunded order or payment. Absent when neither has one. `customer_id`: [declared alternatives](../models/BuyerRefundPreviousAttributesInput.md#buyerrefundpreviousattributesinputcustomer_id). |
 | `failure_reason` | Optional | string or null | A coarse buyer-visible failure category. refund_abandoned means the refund could not be completed; contact the store to get your money back. refund_failed means the refund failed. Omitted when there is no failure. Values: `"refund_failed"`, `"refund_abandoned"`. `failure_reason`: [declared alternatives](../models/BuyerRefundPreviousAttributesInput.md#buyerrefundpreviousattributesinputfailure_reason). |
-| `idempotency_key` | Optional | string or null | The caller's Idempotency-Key when this refund was created, including refunds created by issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response. `idempotency_key`: [declared alternatives](../models/BuyerRefundPreviousAttributesInput.md#buyerrefundpreviousattributesinputidempotency_key). |
 | `invoice_id` | Optional | string or null | ID of the invoice whose credit note this refund paid out. Present only on refunds issued through a credit note. `invoice_id`: [declared alternatives](../models/BuyerRefundPreviousAttributesInput.md#buyerrefundpreviousattributesinputinvoice_id). |
 | `line_item_allocations` | Optional | Array of [RefundLineItemAllocationPreviousAttributesInput](../models/RefundLineItemAllocationPreviousAttributesInput.md#refundlineitemallocationpreviousattributesinput) or null | How the refund applied to each order line item it covered, with quantity, tax, and adjustments. `line_item_allocations`: [declared alternatives](../models/BuyerRefundPreviousAttributesInput.md#buyerrefundpreviousattributesinputline_item_allocations). |
 | `order` | Optional | [BuyerExpandedOrderSummaryPreviousAttributesInput](../models/BuyerExpandedOrderSummaryPreviousAttributesInput.md#buyerexpandedordersummarypreviousattributesinput) or null | The order summary for `order_id`. Buyer refund endpoints take no `expand` parameter, so it is never expanded here. `null` when the refund is not expanded. |
@@ -86,20 +85,6 @@ anyOf variant 1: A coarse buyer-visible failure category. refund_abandoned means
 anyOf variant 2.
 
 - Value shape: null. A coarse buyer-visible failure category. refund_abandoned means the refund could not be completed; contact the store to get your money back. refund_failed means the refund failed. Omitted when there is no failure. 
-
-### BuyerRefundPreviousAttributesInput.idempotency_key
-
-### BuyerRefundPreviousAttributesInput.idempotency_key variant 1
-
-anyOf variant 1: The caller's Idempotency-Key when this refund was created, including refunds created by issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response..
-
-- Value shape: string. The caller's Idempotency-Key when this refund was created, including refunds created by issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response. 
-
-### BuyerRefundPreviousAttributesInput.idempotency_key variant 2
-
-anyOf variant 2.
-
-- Value shape: null. The caller's Idempotency-Key when this refund was created, including refunds created by issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response. 
 
 ### BuyerRefundPreviousAttributesInput.invoice_id
 

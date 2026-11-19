@@ -11,7 +11,7 @@ Response model.
 | `basis_delivery_quote_id` | Optional | string | The earlier delivery quote this quote was priced from. Omitted when it was not priced from one. |
 | `basis_delivery_selection_id` | Optional | string | The delivery selection this quote was priced from. Omitted when it was not priced from one. |
 | `buyer_location` | Optional | object and Alternative shapes (see declared variants) | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. The normalized buyer address or coordinate used for this quote. `buyer_location`: [declared alternatives](../models/DeliveryQuoteResponse.md#deliveryquoteresponsedatabuyer_location). |
-| `buyer_reasons` | Required | Array of string | Buyer-safe reasons a choice group has no available option. Groups with an available option contribute no reasons. Merchant configuration details are never included. Items values: [6 declared values](#deliveryquote-buyer_reasons--values). |
+| `buyer_reasons` | Required | Array of string | Buyer-safe reasons a choice group has no available option. Groups with an available option contribute no reasons. Merchant configuration details are never included. Items values: [7 declared values](#deliveryquote-buyer_reasons--values). |
 | `checkout_session_id` | Optional | string | Always present with an API key or dashboard credential. |
 | `choice_groups` | Required | Array of [DeliveryQuoteChoiceGroupResource](../models/DeliveryQuoteChoiceGroupResource.md#deliveryquotechoicegroupresource) | Groups of order items that each choose their own delivery option. `choice_groups[]`: [field definitions](../models/CheckoutSessionResponse.md#checkoutsessionresponsedatadeliverychoice_groups). |
 | `created_at` | Required | string | When Flint created this quote. Format: `date-time`. |
@@ -38,6 +38,7 @@ Response model.
 
 - `"address_required"`
 - `"address_incomplete"`
+- `"address_needs_review"`
 - `"outside_delivery_area"`
 - `"no_pickup_location_nearby"`
 - `"unavailable_for_these_items"`

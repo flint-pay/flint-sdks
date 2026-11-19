@@ -4,6 +4,7 @@ namespace Flint;
 /**
  * @property-read string $api_request_log_id
  * @property-read int $attempt_number
+ * @property-read ResourceReferenceInput|array<array-key, mixed>|\stdClass $attributed_resource
  * @property-read string|\DateTimeInterface $completed_at
  * @property-read string $delivery_trigger
  * @property-read int $duration_milliseconds
@@ -25,7 +26,7 @@ namespace Flint;
  * @property-read string $webhook_event_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class ResourceTimelineWebhookDeliveryAttemptEntryInput extends Model {
-    /** @param array{'api_request_log_id'?: string, 'attempt_number': int, 'completed_at'?: string|\DateTimeInterface, 'delivery_trigger': string, 'duration_milliseconds'?: int, 'entry_type': string, 'error_category'?: string, 'error_summary'?: string, 'occurred_at': string|\DateTimeInterface, 'reason_message'?: string, 'recommended_action'?: string, 'request_id'?: string, 'resource_timeline_entry_id': string, 'retryable'?: bool, 'started_at'?: string|\DateTimeInterface, 'status': string, 'status_code'?: int, 'webhook_delivery_attempt_id': string, 'webhook_delivery_id': string, 'webhook_endpoint_id': string, 'webhook_event_id': string}|object $values */
+    /** @param array{'api_request_log_id'?: string, 'attempt_number': int, 'attributed_resource'?: ResourceReferenceInput|array<array-key, mixed>|\stdClass, 'completed_at'?: string|\DateTimeInterface, 'delivery_trigger': string, 'duration_milliseconds'?: int, 'entry_type': string, 'error_category'?: string, 'error_summary'?: string, 'occurred_at': string|\DateTimeInterface, 'reason_message'?: string, 'recommended_action'?: string, 'request_id'?: string, 'resource_timeline_entry_id': string, 'retryable'?: bool, 'started_at'?: string|\DateTimeInterface, 'status': string, 'status_code'?: int, 'webhook_delivery_attempt_id': string, 'webhook_delivery_id': string, 'webhook_endpoint_id': string, 'webhook_event_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ResourceTimelineWebhookDeliveryAttemptEntryInput')); }
     /** ID of the API request log associated with this attempt. Omitted when no request log is associated. Example: "rlog_01KEZF7C008XJCH6BHA224X46F".
      * @return string
@@ -39,6 +40,12 @@ final class ResourceTimelineWebhookDeliveryAttemptEntryInput extends Model {
      */
     public function getAttemptNumber(): int { return $this->get('attempt_number'); }
     public function hasAttemptNumber(): bool { return $this->has('attempt_number'); }
+    /** The activation this entry refers to. Present for license key activation entries. A reference to another resource by `resource_type` and `resource_id`.
+     * @return ResourceReferenceInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When attributed_resource is omitted; use hasAttributedResource() or valueOrDefault().
+     */
+    public function getAttributedResource(): mixed { return $this->get('attributed_resource'); }
+    public function hasAttributedResource(): bool { return $this->has('attributed_resource'); }
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When completed_at is omitted; use hasCompletedAt() or valueOrDefault().

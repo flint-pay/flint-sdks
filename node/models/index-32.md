@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# RefundTenderAllocationRequest to ReturnDispositionCreatedMerchantEvent
+# RefundTenderAllocationInputGiftCardRedemption to ReturnCompletionBlockerPreviousAttributes
 
+- [RefundTenderAllocationInputGiftCardRedemption](RefundTenderAllocationInputGiftCardRedemption.md)
+- [RefundTenderAllocationInputGiftCardRedemptionInput](RefundTenderAllocationInputGiftCardRedemptionInput.md)
+- [RefundTenderAllocationInputPaymentIntent](RefundTenderAllocationInputPaymentIntent.md)
+- [RefundTenderAllocationInputPaymentIntentInput](RefundTenderAllocationInputPaymentIntentInput.md)
+- [RefundTenderAllocationPreviousAttributes](RefundTenderAllocationPreviousAttributes.md)
 - [RefundTenderAllocationRequest](RefundTenderAllocationRequest.md)
 - [RefundTenderAllocationRequestInput](RefundTenderAllocationRequestInput.md)
 - [RefundUnissuedGiftCardRecovery](RefundUnissuedGiftCardRecovery.md)
@@ -51,6 +56,7 @@
 - [ResetDemoSessionRequestInput](ResetDemoSessionRequestInput.md)
 - [ResolveCustomerDeletionRequest](ResolveCustomerDeletionRequest.md)
 - [ResolveCustomerDeletionRequestInput](ResolveCustomerDeletionRequestInput.md)
+- [ResolvedPaymentLinkCheckout](ResolvedPaymentLinkCheckout.md)
 - [ResolveOrderInventoryExceptionRequestInput](ResolveOrderInventoryExceptionRequestInput.md)
 - [ResolvePaymentLinkLineItemModifierInputCatalog](ResolvePaymentLinkLineItemModifierInputCatalog.md)
 - [ResolvePaymentLinkLineItemModifierInputCatalogInput](ResolvePaymentLinkLineItemModifierInputCatalogInput.md)
@@ -70,6 +76,7 @@
 - [ResourceTimelineAPIRequestEntry](ResourceTimelineAPIRequestEntry.md)
 - [ResourceTimelineEntry](ResourceTimelineEntry.md)
 - [ResourceTimelineImageMutationEntry](ResourceTimelineImageMutationEntry.md)
+- [ResourceTimelineLicenseKeyRestrictionChangeEntry](ResourceTimelineLicenseKeyRestrictionChangeEntry.md)
 - [ResourceTimelinePoolAttestationEntry](ResourceTimelinePoolAttestationEntry.md)
 - [ResourceTimelineResponse](ResourceTimelineResponse.md)
 - [ResourceTimelineWebhookDeliveryAttemptEntry](ResourceTimelineWebhookDeliveryAttemptEntry.md)
@@ -95,11 +102,4 @@
 - [ReturnCompletedMerchantEvent](ReturnCompletedMerchantEvent.md)
 - [ReturnCompletionBlocker](ReturnCompletionBlocker.md)
 - [ReturnCompletionBlockerPreviousAttributes](ReturnCompletionBlockerPreviousAttributes.md)
-- [ReturnCreatedInstalledMerchantsEvent](ReturnCreatedInstalledMerchantsEvent.md)
-- [ReturnCreatedMerchantEvent](ReturnCreatedMerchantEvent.md)
-- [ReturnDecisionRecordedInstalledMerchantsEvent](ReturnDecisionRecordedInstalledMerchantsEvent.md)
-- [ReturnDecisionRecordedMerchantEvent](ReturnDecisionRecordedMerchantEvent.md)
-- [ReturnDisposition](ReturnDisposition.md)
-- [ReturnDispositionCreatedInstalledMerchantsEvent](ReturnDispositionCreatedInstalledMerchantsEvent.md)
-- [ReturnDispositionCreatedMerchantEvent](ReturnDispositionCreatedMerchantEvent.md)
 

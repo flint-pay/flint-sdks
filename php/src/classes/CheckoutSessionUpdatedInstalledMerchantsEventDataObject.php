@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read ?OrderPaymentAttempt $active_payment_attempt
+ * @property-read ?WebhookSnapshotOrderPaymentAttempt $active_payment_attempt
  * @property-read ?CheckoutBuyerContact $buyer_contact
  * @property-read ?CheckoutBuyerFields $buyer_fields
  * @property-read bool $can_apply_promotion_code
@@ -62,9 +62,9 @@ final class CheckoutSessionUpdatedInstalledMerchantsEventDataObject extends Mode
     /** @param array{'active_payment_attempt'?: mixed, 'buyer_contact'?: mixed, 'buyer_fields'?: mixed, 'can_apply_promotion_code': bool, 'checkout_session_id': string, 'client_reference'?: string|null, 'closed_reason_message'?: string, 'created_at': string, 'custom_field_answers'?: list<mixed>, 'custom_text'?: mixed, 'customer'?: mixed, 'customer_id'?: string, 'delivery'?: mixed, 'delivery_method_ids': list<string>, 'delivery_selection_required': bool, 'expires_at'?: string, 'expires_in_seconds'?: int, 'external_reference_id'?: string, 'gift_card_challenge'?: mixed, 'inventory_reservation_ids'?: list<string>, 'invoice'?: mixed, 'invoice_id'?: string, 'is_in_recovery': bool, 'legal'?: mixed, 'merchant_id': string, 'metadata'?: mixed, 'order'?: mixed, 'order_id'?: string, 'page_origin'?: string, 'payment_collection'?: mixed, 'payment_intent_ids'?: list<string>, 'payment_intents'?: list<mixed>, 'payment_link'?: mixed, 'payment_link_id'?: string, 'payment_return_url'?: string, 'payments'?: mixed, 'prefill'?: mixed, 'problems': list<mixed>, 'promotion_config'?: mixed, 'redirects'?: mixed, 'refunds'?: list<mixed>, 'setup_collection'?: mixed, 'status': string, 'subscription_plan_id'?: string, 'subscription_terms'?: mixed, 'superseding_checkout_session_id'?: string, 'supported_actions'?: list<string>, 'surface': string, 'tax'?: mixed, 'terminal_reason'?: string, 'theme'?: mixed, 'tip'?: mixed, 'type': string, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSessionUpdatedInstalledMerchantsEventDataObject')); }
     /** The payment attempt now collecting this checkout's order, the same attempt as the order's active_payment_attempt. Read it to recover after losing a pay response, and resume it only when is_resumable is true. Omitted when no attempt is active. Pending actions that open a URL are left out; the pay response carries them. An attempt to pay an order.
-     * @return ?OrderPaymentAttempt
+     * @return ?WebhookSnapshotOrderPaymentAttempt
      */
-    public function getActivePaymentAttempt(): ?OrderPaymentAttempt { return $this->get('active_payment_attempt'); }
+    public function getActivePaymentAttempt(): ?WebhookSnapshotOrderPaymentAttempt { return $this->get('active_payment_attempt'); }
     public function hasActivePaymentAttempt(): bool { return $this->has('active_payment_attempt'); }
     /** Contact the buyer entered in checkout before paying, saved with the session's checkout credential. Separate from merchant-supplied prefill and customer_prefill from the customer record. Omitted until the buyer saves or clears a field. When a checkout session payment omits buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the contact 30 days after the session ends, and when a customer linked to the session is deleted. Buyer contact supplied with payment or saved during checkout.
      * @return ?CheckoutBuyerContact
@@ -171,7 +171,7 @@ final class CheckoutSessionUpdatedInstalledMerchantsEventDataObject extends Mode
      */
     public function getInvoiceId(): ?string { return $this->get('invoice_id'); }
     public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
-    /** Whether this terminal session credential is temporarily restricted to recovering its owning payment attempt.
+    /** Whether the checkout is in its payment recovery window after its deadline. The checkout credential can recover only an attempt it started. Merchant reads can also report a merchant-started attempt.
      * @return bool
      */
     public function getIsInRecovery(): bool { return $this->get('is_in_recovery'); }

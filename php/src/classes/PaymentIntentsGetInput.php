@@ -16,7 +16,7 @@ final class PaymentIntentsGetInput extends Model {
      */
     public function getPaymentIntentId(): string { return $this->get('payment_intent_id'); }
     public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
-    /** Include related objects in the response. Supported expansions: customer, invoice, order. Expansion requires payments.payment_intents.read plus the read scope for each expanded resource. Limits: at most 10 unique expand paths per request. [] enum: "customer", "invoice", "order". Value enum: "customer", "invoice", "order". anyOf[1] (Value): Array of string.  [] enum: "customer", "invoice", "order". anyOf[1][] (Value): string.  Value enum: "customer", "invoice", "order". anyOf[2] (Value): string.  Value enum: "customer", "invoice", "order".
+    /** Include related objects in the response. Supported expansions: customer, invoice, order. Expansion requires payments.payment_intents.read plus the read scope for each expanded resource. Limits: at most 10 unique expand paths per request. Checkout session credentials cannot use expand on this route. [] enum: "customer", "invoice", "order". Value enum: "customer", "invoice", "order". anyOf[1] (Value): Array of string.  [] enum: "customer", "invoice", "order". anyOf[1][] (Value): string.  Value enum: "customer", "invoice", "order". anyOf[2] (Value): string.  Value enum: "customer", "invoice", "order".
      * @return list<string>|string
      * @throws SdkError When expand is omitted; use hasExpand() or valueOrDefault().
      */

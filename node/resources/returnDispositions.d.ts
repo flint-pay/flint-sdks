@@ -4,16 +4,16 @@ import type { ClientOptions } from '../declarations/types-7.js';
 import type { CreateReturnDispositionResponse } from '../declarations/types-13.js';
 import type { GetReturnDispositionResponse } from '../declarations/types-28.js';
 import type { ListReturnDispositionsResponse } from '../declarations/types-40.js';
-import type { RequestOptions } from '../declarations/types-61.js';
-import type { RetryReturnDispositionResponse, ReturnDisposition } from '../declarations/types-62.js';
+import type { RequestOptions, RetryReturnDispositionResponse } from '../declarations/types-62.js';
 import type {
+    ReturnDisposition,
     ReturnDispositionsCancelParams,
     ReturnDispositionsCreateParams,
     ReturnDispositionsGetParams,
     ReturnDispositionsListParams,
     ReturnDispositionsRetryParams
 } from '../declarations/types-63.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -30,14 +30,14 @@ export type {
 } from '../runtime.js';
 export type {
     ReturnDispositionsCancelParams,
+    ReturnDisposition,
     ReturnDispositionsCreateParams,
     ReturnDispositionsGetParams,
     ReturnDispositionsListParams,
     ReturnDispositionsRetryParams
 } from '../declarations/types-63.js';
-export type { RequestOptions } from '../declarations/types-61.js';
 export type {
-    ReturnDisposition,
+    RequestOptions,
     RetryReturnDispositionResponse,
     ReturnActor,
     ResponseMeta,
@@ -46,7 +46,7 @@ export type {
     RetryReturnDispositionRequestInput
 } from '../declarations/types-62.js';
 export type { CancelReturnDispositionResponse, CancelReturnDispositionRequestInput } from '../declarations/types-5.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type {
     CreateReturnDispositionResponse,
     CreateReturnDispositionRequestInput,
@@ -67,7 +67,7 @@ export {
     makeCreateReturnDispositionRequest,
     makeCreateReturnDispositionRequestInspectionLine,
     makeCreateReturnDispositionRequestReceiptLine
-} from '../declarations/types-83.js';
+} from '../declarations/types-84.js';
 export { makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
 export { makeRetryReturnDispositionRequest } from '../declarations/types-91.js';
 export interface ReturnDispositionsResource {

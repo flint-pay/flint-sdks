@@ -4,6 +4,7 @@ namespace Flint;
 /**
  * @property-read string|\DateTimeInterface $checkout_start_due_at
  * @property-read CheckoutThemeInput|array<array-key, mixed>|\stdClass $checkout_theme
+ * @property-read bool $is_before_sales_start
  * @property-read bool $is_past_sales_end
  * @property-read bool $is_sold_out
  * @property-read ImageInput|array<array-key, mixed>|\stdClass $merchant_icon
@@ -19,7 +20,7 @@ namespace Flint;
  * @property-read PaymentLinkSubscriptionPreviewInput|array<array-key, mixed>|\stdClass $subscription_preview
  * Presence-aware input; omitted fields throw when accessed. */
 final class PublicPaymentLinkResultInput extends Model {
-    /** @param array{'checkout_start_due_at': string|\DateTimeInterface, 'checkout_theme'?: CheckoutThemeInput|array<array-key, mixed>|\stdClass, 'is_past_sales_end': bool, 'is_sold_out': bool, 'merchant_icon'?: ImageInput|array<array-key, mixed>|\stdClass, 'merchant_logo'?: ImageInput|array<array-key, mixed>|\stdClass, 'merchant_name'?: string, 'merchant_support'?: CheckoutMerchantSupportInput|array<array-key, mixed>|\stdClass, 'payment_link': PublicPaymentLinkInput|array<array-key, mixed>|\stdClass, 'remaining_quantity'?: int, 'resolution_context': string, 'resolution_context_expires_at': string|\DateTimeInterface, 'resolved_line_items'?: list<PublicResolvedLineItemInfoInput|array<array-key, mixed>|\stdClass>, 'show_flint_mark': bool, 'subscription_preview'?: PaymentLinkSubscriptionPreviewInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'checkout_start_due_at': string|\DateTimeInterface, 'checkout_theme'?: CheckoutThemeInput|array<array-key, mixed>|\stdClass, 'is_before_sales_start'?: bool, 'is_past_sales_end': bool, 'is_sold_out': bool, 'merchant_icon'?: ImageInput|array<array-key, mixed>|\stdClass, 'merchant_logo'?: ImageInput|array<array-key, mixed>|\stdClass, 'merchant_name'?: string, 'merchant_support'?: CheckoutMerchantSupportInput|array<array-key, mixed>|\stdClass, 'payment_link': PublicPaymentLinkInput|array<array-key, mixed>|\stdClass, 'remaining_quantity'?: int, 'resolution_context': string, 'resolution_context_expires_at': string|\DateTimeInterface, 'resolved_line_items'?: list<PublicResolvedLineItemInfoInput|array<array-key, mixed>|\stdClass>, 'show_flint_mark': bool, 'subscription_preview'?: PaymentLinkSubscriptionPreviewInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PublicPaymentLinkResultInput')); }
     /** Start a new checkout before this instant. At or after it, read the public payment link again for a new resolution_context; its credential expiry is resolution_context_expires_at. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
@@ -33,6 +34,12 @@ final class PublicPaymentLinkResultInput extends Model {
      */
     public function getCheckoutTheme(): mixed { return $this->get('checkout_theme'); }
     public function hasCheckoutTheme(): bool { return $this->has('checkout_theme'); }
+    /** True before the payment link’s scheduled sales start. Omitted otherwise.
+     * @return bool
+     * @throws SdkError When is_before_sales_start is omitted; use hasIsBeforeSalesStart() or valueOrDefault().
+     */
+    public function getIsBeforeSalesStart(): bool { return $this->get('is_before_sales_start'); }
+    public function hasIsBeforeSalesStart(): bool { return $this->has('is_before_sales_start'); }
     /** True when the link's sales end has passed: payment_link.sales_end_at, or event_config.event_at for an event link without sales_end_at. Resolve then fails with `ACTION_NOT_ALLOWED` and reason `not_offered`.
      * @return bool
      * @throws SdkError When is_past_sales_end is omitted; use hasIsPastSalesEnd() or valueOrDefault().

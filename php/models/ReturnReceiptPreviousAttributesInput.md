@@ -14,6 +14,7 @@ Request input.
 | `external_actor_id` | Optional | string or null | Your identifier for the actor who recorded the event. Don't put secrets in this field. `external_actor_id`: [declared alternatives](../models/InventoryCountObservationProvenancePreviousAttributesInput.md#inventorycountobservationprovenancepreviousattributesinputexternal_actor_id). |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. `external_reference_id`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEventInput.md#bundlearchivedinstalledmerchantseventinputdataprevious_attributesexternal_reference_id). |
 | `generated_dispositions` | Optional | Array of [ReturnDispositionPreviousAttributesInput](../models/ReturnDispositionPreviousAttributesInput.md#returndispositionpreviousattributesinput) or null | Dispositions Flint created when it recorded this observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`. `generated_dispositions`: [declared alternatives](../models/ReturnInspectionAcceptanceDecidedInstalledMerchantsEventInput.md#returninspectionacceptancedecidedinstalledmerchantseventinputdataprevious_attributesgenerated_dispositions). |
+| `idempotency_key` | Optional | string or null | The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. `idempotency_key`: [declared alternatives](../models/CreditNoteAllocationReversedInstalledMerchantsEventInput.md#creditnoteallocationreversedinstalledmerchantseventinputdataprevious_attributesidempotency_key). |
 | `line_items` | Optional | Array of [ReturnReceiptLineItemPreviousAttributesInput](../models/ReturnReceiptLineItemPreviousAttributesInput.md#returnreceiptlineitempreviousattributesinput) or null | The lines recorded. `line_items`: [declared alternatives](../models/ReturnReceiptPreviousAttributesInput.md#returnreceiptpreviousattributesinputline_items). |
 | `received_at` | Optional | string or null | RFC3339 timestamp. `received_at`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at). |
 | `receiving_location_id` | Optional | string or null | ID of the Location that received the goods. `receiving_location_id`: [declared alternatives](../models/ReturnReceiptPreviousAttributesInput.md#returnreceiptpreviousattributesinputreceiving_location_id). |
@@ -51,6 +52,10 @@ Declared alternatives: [BundleArchivedInstalledMerchantsEventInput.data.previous
 ### ReturnReceiptPreviousAttributesInput.generated_dispositions
 
 Declared alternatives: [ReturnInspectionAcceptanceDecidedInstalledMerchantsEventInput.data.previous_attributes.generated_dispositions](../models/ReturnInspectionAcceptanceDecidedInstalledMerchantsEventInput.md#returninspectionacceptancedecidedinstalledmerchantseventinputdataprevious_attributesgenerated_dispositions).
+
+### ReturnReceiptPreviousAttributesInput.idempotency_key
+
+Declared alternatives: [CreditNoteAllocationReversedInstalledMerchantsEventInput.data.previous_attributes.idempotency_key](../models/CreditNoteAllocationReversedInstalledMerchantsEventInput.md#creditnoteallocationreversedinstalledmerchantseventinputdataprevious_attributesidempotency_key).
 
 ### ReturnReceiptPreviousAttributesInput.line_items
 

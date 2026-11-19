@@ -22,7 +22,7 @@ final class SettlementAmountsPreviousAttributesInput extends Model {
      */
     public function getPaidMoney(): mixed { return $this->get('paid_money'); }
     public function hasPaidMoney(): bool { return $this->has('paid_money'); }
-    /** Money returned to the buyer from what was collected toward the bill. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
+    /** Money returned to the buyer from what was collected toward the bill. On orders, this counts successful refunds. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
      * @return MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null
      * @throws SdkError When refunded_money is omitted; use hasRefundedMoney() or valueOrDefault().
      */

@@ -14,8 +14,8 @@ import type {
     InventoryReservationsReleaseParams,
     InventoryReservationsUpdateParams
 } from '../declarations/types-33.js';
-import type { RequestOptions } from '../declarations/types-61.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { RequestOptions } from '../declarations/types-62.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -42,7 +42,6 @@ export type {
     InventoryReservationListResponse,
     InventoryReservationsReleaseParams,
     InventoryReservationsUpdateParams,
-    InventorySourceSystemRequestInput,
     InventoryRoutingDemandInput,
     InventoryRoutingSourceRequestInput,
     InventoryRoutingSourceInputFixedLocationInput,
@@ -55,25 +54,28 @@ export type {
     InventoryReservationOwnerMerchant,
     InventoryReservationOwnerOrder
 } from '../declarations/types-33.js';
-export type { RequestOptions, ReleaseInventoryReservationRequestInput } from '../declarations/types-61.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { InventoryReservation, InventoryLevel, InventoryItem, InventoryProvenanceRequestInput } from '../declarations/types-32.js';
 export type { ClientOptions, CommitInventoryReservationRequestInput, CommitInventoryReservationRequest } from '../declarations/types-7.js';
 export type { AuthMode, BackorderPolicy } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { MetadataMap } from '../declarations/types-43.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { ConsumeInventoryReservationRequestInput } from '../declarations/types-8.js';
+export type { InventorySourceSystemRequestInput } from '../declarations/types-34.js';
 export type { CreateInventoryReservationRequestInput } from '../declarations/types-10.js';
 export type { InventoryActionRequired } from '../declarations/types-31.js';
+export type { ReleaseInventoryReservationRequestInput } from '../declarations/types-61.js';
 export type { UpdateInventoryReservationRequestInput } from '../declarations/types-76.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeCommitInventoryReservationRequest, makeConsumeInventoryReservationRequest } from '../declarations/types-81.js';
 export { makeCreateInventoryReservationRequest } from '../declarations/types-82.js';
-export { makeInventoryProvenanceRequest, makeInventoryReservationOwnerRequest, makeInventoryRoutingDemand } from '../declarations/types-86.js';
 export {
+    makeInventoryProvenanceRequest,
+    makeInventoryReservationOwnerRequest,
+    makeInventoryRoutingDemand,
     makeInventoryRoutingSourceInputFixedLocation,
     makeInventoryRoutingSourceInputPolicy,
     makeInventoryRoutingSourceInputPolicyRevision,
@@ -81,7 +83,7 @@ export {
     makeInventorySourceSystemRequest
 } from '../declarations/types-87.js';
 export { makeMoneyValue } from '../declarations/types-88.js';
-export { makeReleaseInventoryReservationRequest } from '../declarations/types-90.js';
+export { makeReleaseInventoryReservationRequest } from '../declarations/types-91.js';
 export { makeUpdateInventoryReservationRequest } from '../declarations/types-93.js';
 export interface InventoryReservationsResource {
     /**

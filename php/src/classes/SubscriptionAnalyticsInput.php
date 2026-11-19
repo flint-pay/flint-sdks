@@ -12,7 +12,7 @@ namespace Flint;
 final class SubscriptionAnalyticsInput extends Model {
     /** @param array{'currencies': list<string>, 'currency': string, 'period_end_at': string|\DateTimeInterface, 'period_start_at': string|\DateTimeInterface, 'snapshot_metrics': SubscriptionSnapshotMetricsInput|array<array-key, mixed>|\stdClass, 'window_metrics': SubscriptionWindowMetricsInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionAnalyticsInput')); }
-    /** Currencies of subscription payments selected by succeeded activity created_at in the period, plus current active and past_due billing snapshots, regardless of the currency filter. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies. [] (Value): string.
+    /** Currencies of succeeded subscription payments captured in the period, plus current active and past_due billing snapshots, regardless of the currency filter. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies. [] (Value): string.
      * @return list<string>
      * @throws SdkError When currencies is omitted; use hasCurrencies() or valueOrDefault().
      */
@@ -42,7 +42,7 @@ final class SubscriptionAnalyticsInput extends Model {
      */
     public function getSnapshotMetrics(): mixed { return $this->get('snapshot_metrics'); }
     public function hasSnapshotMetrics(): bool { return $this->has('snapshot_metrics'); }
-    /** Subscription creation, cancellation, and payment success metrics selected within the requested period. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.
+    /** Subscription creation, cancellation, and payment capture metrics selected within the requested period. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.
      * @return SubscriptionWindowMetricsInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When window_metrics is omitted; use hasWindowMetrics() or valueOrDefault().
      */

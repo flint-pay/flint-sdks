@@ -4,12 +4,13 @@ namespace Flint;
 /**
  * @property-read list<ResourceTimelineEntryInput|array<array-key, mixed>|\stdClass> $entries
  * @property-read list<ResourceTimelinePoolAttestationEntryInput|array<array-key, mixed>|\stdClass> $license_key_pool_attestations
+ * @property-read list<ResourceTimelineLicenseKeyRestrictionChangeEntryInput|array<array-key, mixed>|\stdClass> $license_key_restriction_changes
  * @property-read string $resource_id
  * @property-read string $resource_type
  * @property-read bool $test
  * Presence-aware input; omitted fields throw when accessed. */
 final class ResourceTimelineInput extends Model {
-    /** @param array{'entries': list<ResourceTimelineEntryInput|array<array-key, mixed>|\stdClass>, 'license_key_pool_attestations'?: list<ResourceTimelinePoolAttestationEntryInput|array<array-key, mixed>|\stdClass>, 'resource_id': string, 'resource_type': string, 'test': bool, ...}|object $values */
+    /** @param array{'entries': list<ResourceTimelineEntryInput|array<array-key, mixed>|\stdClass>, 'license_key_pool_attestations'?: list<ResourceTimelinePoolAttestationEntryInput|array<array-key, mixed>|\stdClass>, 'license_key_restriction_changes'?: list<ResourceTimelineLicenseKeyRestrictionChangeEntryInput|array<array-key, mixed>|\stdClass>, 'resource_id': string, 'resource_type': string, 'test': bool, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ResourceTimelineInput')); }
     /** Timeline entries for the resource, each tagged by `entry_type`. Narrowed by `include`, `occurred_after`, and `occurred_before`. [] (Value): {@see ResourceTimelineEntryInput}. One entry in a resource timeline. The `entry_type` selects which of the request, webhook, or image fields are present.
      * @return list<ResourceTimelineEntryInput|array<array-key, mixed>|\stdClass>
@@ -23,6 +24,12 @@ final class ResourceTimelineInput extends Model {
      */
     public function getLicenseKeyPoolAttestations(): array { return $this->get('license_key_pool_attestations'); }
     public function hasLicenseKeyPoolAttestations(): bool { return $this->has('license_key_pool_attestations'); }
+    /** Restriction changes on this page. Present for license keys when the include filter selects restriction changes. [] (Value): {@see ResourceTimelineLicenseKeyRestrictionChangeEntryInput}. One restriction taking effect or being lifted on a license key.
+     * @return list<ResourceTimelineLicenseKeyRestrictionChangeEntryInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When license_key_restriction_changes is omitted; use hasLicenseKeyRestrictionChanges() or valueOrDefault().
+     */
+    public function getLicenseKeyRestrictionChanges(): array { return $this->get('license_key_restriction_changes'); }
+    public function hasLicenseKeyRestrictionChanges(): bool { return $this->has('license_key_restriction_changes'); }
     /** ID of the resource this timeline is for. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When resource_id is omitted; use hasResourceId() or valueOrDefault().

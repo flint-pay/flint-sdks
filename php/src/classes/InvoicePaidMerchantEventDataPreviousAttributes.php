@@ -13,6 +13,7 @@ namespace Flint;
  * @property-read string|null $due_date
  * @property-read string|null $external_reference_id
  * @property-read string|null $footer
+ * @property-read string|null $idempotency_key
  * @property-read string|null $invoice_id
  * @property-read string|null $invoice_number
  * @property-read bool|null $is_overdue
@@ -50,7 +51,7 @@ namespace Flint;
  * @property-read string|null $voided_at
  * Presence-aware response; omitted optional fields return null. */
 final class InvoicePaidMerchantEventDataPreviousAttributes extends Model {
-    /** @param array{'cc_emails'?: mixed, 'closed_at'?: mixed, 'collection'?: mixed, 'collection_block_status'?: mixed, 'created_at'?: mixed, 'customer'?: mixed, 'customer_id'?: mixed, 'delivery_mode'?: mixed, 'due_date'?: mixed, 'external_reference_id'?: mixed, 'footer'?: mixed, 'invoice_id'?: mixed, 'invoice_number'?: mixed, 'is_overdue'?: mixed, 'issued_at'?: mixed, 'late_fees'?: mixed, 'memo'?: mixed, 'merchant_id'?: mixed, 'metadata'?: mixed, 'order'?: mixed, 'order_id'?: mixed, 'paid_at'?: mixed, 'payment_due'?: mixed, 'payment_terms_snapshot'?: mixed, 'po_number'?: mixed, 'pricing_amounts'?: mixed, 'recipient_email'?: mixed, 'reference'?: mixed, 'refund_status'?: mixed, 'reminders_paused'?: mixed, 'reminders_paused_at'?: mixed, 'remit_to_address'?: mixed, 'schedule_entries'?: mixed, 'scheduled_issue_at'?: mixed, 'service_date'?: mixed, 'settlement_amounts'?: mixed, 'snapshot'?: mixed, 'status'?: mixed, 'subscription_id'?: mixed, 'supported_actions'?: mixed, 'timezone'?: mixed, 'uncollectible_at'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, 'viewed_at'?: mixed, 'voided_at'?: mixed, ...}|object $values */
+    /** @param array{'cc_emails'?: mixed, 'closed_at'?: mixed, 'collection'?: mixed, 'collection_block_status'?: mixed, 'created_at'?: mixed, 'customer'?: mixed, 'customer_id'?: mixed, 'delivery_mode'?: mixed, 'due_date'?: mixed, 'external_reference_id'?: mixed, 'footer'?: mixed, 'idempotency_key'?: mixed, 'invoice_id'?: mixed, 'invoice_number'?: mixed, 'is_overdue'?: mixed, 'issued_at'?: mixed, 'late_fees'?: mixed, 'memo'?: mixed, 'merchant_id'?: mixed, 'metadata'?: mixed, 'order'?: mixed, 'order_id'?: mixed, 'paid_at'?: mixed, 'payment_due'?: mixed, 'payment_terms_snapshot'?: mixed, 'po_number'?: mixed, 'pricing_amounts'?: mixed, 'recipient_email'?: mixed, 'reference'?: mixed, 'refund_status'?: mixed, 'reminders_paused'?: mixed, 'reminders_paused_at'?: mixed, 'remit_to_address'?: mixed, 'schedule_entries'?: mixed, 'scheduled_issue_at'?: mixed, 'service_date'?: mixed, 'settlement_amounts'?: mixed, 'snapshot'?: mixed, 'status'?: mixed, 'subscription_id'?: mixed, 'supported_actions'?: mixed, 'timezone'?: mixed, 'uncollectible_at'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, 'viewed_at'?: mixed, 'voided_at'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicePaidMerchantEventDataPreviousAttributes')); }
     /** Additional recipients copied on the invoice email and every reminder. anyOf[1] (Value): Array of string. Additional recipients copied on the invoice email and every reminder. anyOf[1][] (Value): string. anyOf[2] (Value): null.
      * @return list<string>|null
@@ -107,6 +108,11 @@ final class InvoicePaidMerchantEventDataPreviousAttributes extends Model {
      */
     public function getFooter(): string|null { return $this->get('footer'); }
     public function hasFooter(): bool { return $this->has('footer'); }
+    /** The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. Buyer sessions on routes shared with merchants get `null`. `/v1/me` responses do not include this field. anyOf[1] (Value): string. The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. Buyer sessions on routes shared with merchants get `null`. `/v1/me` responses do not include this field. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getIdempotencyKey(): string|null { return $this->get('idempotency_key'); }
+    public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
     /** Flint invoice ID. anyOf[1] (Value): string. Flint invoice ID. anyOf[2] (Value): null.
      * @return string|null
      */

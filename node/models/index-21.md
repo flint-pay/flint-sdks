@@ -1,7 +1,10 @@
 [Model index](../MODELS.md)
 
-# InvoicePaymentTermResponse to LicenseKeyPoolCreatedInstalledMerchantsEvent
+# InvoicePaymentTermCalculationPreviousAttributes to LicenseKeyPoolAdditionsResponse
 
+- [InvoicePaymentTermCalculationPreviousAttributes](InvoicePaymentTermCalculationPreviousAttributes.md)
+- [InvoicePaymentTermCalculationRequestInput](InvoicePaymentTermCalculationRequestInput.md)
+- [InvoicePaymentTermListResponse](InvoicePaymentTermListResponse.md)
 - [InvoicePaymentTermResponse](InvoicePaymentTermResponse.md)
 - [InvoicePaymentTermsSnapshot](InvoicePaymentTermsSnapshot.md)
 - [InvoicePaymentTermsSnapshotPreviousAttributes](InvoicePaymentTermsSnapshotPreviousAttributes.md)
@@ -99,7 +102,4 @@
 - [LicenseKeyPool](LicenseKeyPool.md)
 - [LicenseKeyPoolAdditions](LicenseKeyPoolAdditions.md)
 - [LicenseKeyPoolAdditionsResponse](LicenseKeyPoolAdditionsResponse.md)
-- [LicenseKeyPoolArchivedInstalledMerchantsEvent](LicenseKeyPoolArchivedInstalledMerchantsEvent.md)
-- [LicenseKeyPoolArchivedMerchantEvent](LicenseKeyPoolArchivedMerchantEvent.md)
-- [LicenseKeyPoolCreatedInstalledMerchantsEvent](LicenseKeyPoolCreatedInstalledMerchantsEvent.md)
 

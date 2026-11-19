@@ -1,7 +1,14 @@
 [Model index](../MODELS.md)
 
-# SubscriptionBillingScheduleUpdateInputExternal to SubscriptionPaymentRetry
+# SubscriptionBillingHoldPreviousAttributes to SubscriptionOfferTermsRequestInput
 
+- [SubscriptionBillingHoldPreviousAttributes](SubscriptionBillingHoldPreviousAttributes.md)
+- [SubscriptionBillingScheduleInputExternal](SubscriptionBillingScheduleInputExternal.md)
+- [SubscriptionBillingScheduleInputExternalInput](SubscriptionBillingScheduleInputExternalInput.md)
+- [SubscriptionBillingScheduleInputFlint](SubscriptionBillingScheduleInputFlint.md)
+- [SubscriptionBillingScheduleInputFlintInput](SubscriptionBillingScheduleInputFlintInput.md)
+- [SubscriptionBillingScheduleRequest](SubscriptionBillingScheduleRequest.md)
+- [SubscriptionBillingScheduleRequestInput](SubscriptionBillingScheduleRequestInput.md)
 - [SubscriptionBillingScheduleUpdateInputExternal](SubscriptionBillingScheduleUpdateInputExternal.md)
 - [SubscriptionBillingScheduleUpdateInputExternalInput](SubscriptionBillingScheduleUpdateInputExternalInput.md)
 - [SubscriptionBillingScheduleUpdateInputFlint](SubscriptionBillingScheduleUpdateInputFlint.md)
@@ -95,11 +102,4 @@
 - [SubscriptionOfferResponse](SubscriptionOfferResponse.md)
 - [SubscriptionOfferTermsRequest](SubscriptionOfferTermsRequest.md)
 - [SubscriptionOfferTermsRequestInput](SubscriptionOfferTermsRequestInput.md)
-- [SubscriptionPastDueInstalledMerchantsEvent](SubscriptionPastDueInstalledMerchantsEvent.md)
-- [SubscriptionPastDueMerchantEvent](SubscriptionPastDueMerchantEvent.md)
-- [SubscriptionPausedDeliveryHold](SubscriptionPausedDeliveryHold.md)
-- [SubscriptionPausedDeliveryHoldPreviousAttributes](SubscriptionPausedDeliveryHoldPreviousAttributes.md)
-- [SubscriptionPausedInstalledMerchantsEvent](SubscriptionPausedInstalledMerchantsEvent.md)
-- [SubscriptionPausedMerchantEvent](SubscriptionPausedMerchantEvent.md)
-- [SubscriptionPaymentRetry](SubscriptionPaymentRetry.md)
 

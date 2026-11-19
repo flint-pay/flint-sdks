@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read MoneyValuePreviousAttributes|null $amount_money
+ * @property-read string|null $idempotency_key
  * @property-read string|null $invoice_id
  * @property-read string|null $invoice_manual_payment_id
  * @property-read string|null $note
@@ -14,13 +15,18 @@ namespace Flint;
  * @property-read list<string>|null $supported_actions
  * Presence-aware response; omitted optional fields return null. */
 final class InvoiceManualPaymentReversedMerchantEventDataPreviousAttributes extends Model {
-    /** @param array{'amount_money'?: mixed, 'invoice_id'?: mixed, 'invoice_manual_payment_id'?: mixed, 'note'?: mixed, 'payment_reference'?: mixed, 'received_at'?: mixed, 'reversal_note'?: mixed, 'reversed_at'?: mixed, 'status'?: mixed, 'supported_actions'?: mixed, ...}|object $values */
+    /** @param array{'amount_money'?: mixed, 'idempotency_key'?: mixed, 'invoice_id'?: mixed, 'invoice_manual_payment_id'?: mixed, 'note'?: mixed, 'payment_reference'?: mixed, 'received_at'?: mixed, 'reversal_note'?: mixed, 'reversed_at'?: mixed, 'status'?: mixed, 'supported_actions'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceManualPaymentReversedMerchantEventDataPreviousAttributes')); }
     /** Full amount received, including any principal and late fees covered. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      * @return MoneyValuePreviousAttributes|null
      */
     public function getAmountMoney(): MoneyValuePreviousAttributes|null { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
+    /** The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. anyOf[1] (Value): string. The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getIdempotencyKey(): string|null { return $this->get('idempotency_key'); }
+    public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
     /** The invoice this payment was recorded against. anyOf[1] (Value): string. The invoice this payment was recorded against. anyOf[2] (Value): null.
      * @return string|null
      */

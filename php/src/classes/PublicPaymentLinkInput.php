@@ -20,13 +20,14 @@ namespace Flint;
  * @property-read string $payment_link_type
  * @property-read CheckoutPaymentConfigInput|array<array-key, mixed>|\stdClass $payments
  * @property-read string|\DateTimeInterface $sales_end_at
+ * @property-read string|\DateTimeInterface $sales_start_at
  * @property-read string $status
  * @property-read string $subscription_plan_id
  * @property-read ThemeConfigInput|array<array-key, mixed>|\stdClass $theme
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class PublicPaymentLinkInput extends Model {
-    /** @param array{'completed_count': int, 'custom_fields'?: list<PaymentLinkCustomFieldInput|array<array-key, mixed>|\stdClass>, 'custom_text'?: CheckoutCustomTextConfigInput|array<array-key, mixed>|\stdClass, 'description'?: string, 'donation_max_amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'donation_min_amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'donation_suggested_amount_money_options'?: list<MoneyValueInput|array<array-key, mixed>|\stdClass>, 'event_config'?: PaymentLinkEventConfigInput|array<array-key, mixed>|\stdClass, 'image'?: ImageInput|array<array-key, mixed>|\stdClass, 'inactive_message'?: string, 'legal'?: CheckoutLegalConfigInput|array<array-key, mixed>|\stdClass, 'line_items'?: list<PaymentLinkLineItemInput|array<array-key, mixed>|\stdClass>, 'max_completions'?: int, 'name': string, 'payment_link_id': string, 'payment_link_type'?: string, 'payments'?: CheckoutPaymentConfigInput|array<array-key, mixed>|\stdClass, 'sales_end_at'?: string|\DateTimeInterface, 'status': string, 'subscription_plan_id'?: string, 'theme'?: ThemeConfigInput|array<array-key, mixed>|\stdClass, 'version': int, ...}|object $values */
+    /** @param array{'completed_count': int, 'custom_fields'?: list<PaymentLinkCustomFieldInput|array<array-key, mixed>|\stdClass>, 'custom_text'?: CheckoutCustomTextConfigInput|array<array-key, mixed>|\stdClass, 'description'?: string, 'donation_max_amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'donation_min_amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'donation_suggested_amount_money_options'?: list<MoneyValueInput|array<array-key, mixed>|\stdClass>, 'event_config'?: PaymentLinkEventConfigInput|array<array-key, mixed>|\stdClass, 'image'?: ImageInput|array<array-key, mixed>|\stdClass, 'inactive_message'?: string, 'legal'?: CheckoutLegalConfigInput|array<array-key, mixed>|\stdClass, 'line_items'?: list<PaymentLinkLineItemInput|array<array-key, mixed>|\stdClass>, 'max_completions'?: int, 'name': string, 'payment_link_id': string, 'payment_link_type'?: string, 'payments'?: CheckoutPaymentConfigInput|array<array-key, mixed>|\stdClass, 'sales_end_at'?: string|\DateTimeInterface, 'sales_start_at'?: string|\DateTimeInterface, 'status': string, 'subscription_plan_id'?: string, 'theme'?: ThemeConfigInput|array<array-key, mixed>|\stdClass, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PublicPaymentLinkInput')); }
     /** Number of paid checkout sessions started from this link. Format: int32.
      * @return int
@@ -136,6 +137,12 @@ final class PublicPaymentLinkInput extends Model {
      */
     public function getSalesEndAt(): string|\DateTimeInterface { return $this->get('sales_end_at'); }
     public function hasSalesEndAt(): bool { return $this->has('sales_end_at'); }
+    /** RFC3339 timestamp when buyers can first start a checkout from this link. Stored to nanosecond precision. Before it, resolve fails with ACTION_NOT_ALLOWED and reason sales_not_started. Must be earlier than the link’s sales end, including the event start when no explicit end is set. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * @return string|\DateTimeInterface
+     * @throws SdkError When sales_start_at is omitted; use hasSalesStartAt() or valueOrDefault().
+     */
+    public function getSalesStartAt(): string|\DateTimeInterface { return $this->get('sales_start_at'); }
+    public function hasSalesStartAt(): bool { return $this->has('sales_start_at'); }
     /** Whether the link can start new checkouts. Value enum: "active", "inactive".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().

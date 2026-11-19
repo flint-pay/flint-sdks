@@ -6,9 +6,10 @@ namespace Flint;
  * @property-read string|null $message
  * @property-read string|null $name
  * @property-read string|null $send_at
+ * @property-read string|null $sender_name
  * Presence-aware response; omitted optional fields return null. */
 final class GiftCardPurchaseRecipientPreviousAttributes extends Model {
-    /** @param array{'email'?: mixed, 'message'?: mixed, 'name'?: mixed, 'send_at'?: mixed, ...}|object $values */
+    /** @param array{'email'?: mixed, 'message'?: mixed, 'name'?: mixed, 'send_at'?: mixed, 'sender_name'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardPurchaseRecipientPreviousAttributes')); }
     /** Email address the gift card is delivered to. anyOf[1] (Value): string. Email address the gift card is delivered to. Format: email. minLength: 1. maxLength: 254. anyOf[2] (Value): null.
      * @return string|null
@@ -30,4 +31,9 @@ final class GiftCardPurchaseRecipientPreviousAttributes extends Model {
      */
     public function getSendAt(): string|null { return $this->get('send_at'); }
     public function hasSendAt(): bool { return $this->has('send_at'); }
+    /** Name to show as the sender in the gift card email, when provided. anyOf[1] (Value): string. Name to show as the sender in the gift card email, when provided. maxLength: 255. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getSenderName(): string|null { return $this->get('sender_name'); }
+    public function hasSenderName(): bool { return $this->has('sender_name'); }
 }

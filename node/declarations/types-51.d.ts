@@ -30,6 +30,16 @@ import type { InputValue } from '../runtime.js';
 import type { CancelPaymentIntentRequestInput, CapturePaymentIntentRequestInput } from './types-5.js';
 import type { ConfirmPaymentIntentRequestInput } from './types-8.js';
 import type { CreatePaymentIntentRequestInput } from './types-12.js';
+/**
+ * How to finish a payment step. Flint's API returns a Stripe client secret only for
+ * client_action_type stripe. With url, Stripe's authentication page receives what it needs to run
+ * the challenge, including the client secret for hosted 3DS2. If a payment is confirmed with a
+ * payment method Flint didn't approve, Flint doesn't count the charge, returns it to the buyer,
+ * and the payment intent ends canceled with cancellation_reason payment_returned.
+ */
+export type PaymentClientActionPreviousAttributes = (((PaymentClientActionURLPreviousAttributes)
+    | (PaymentClientActionStripePreviousAttributes)
+    | (unknown)));
 /** The `stripe` variant of `PaymentClientAction`. */
 export type PaymentClientActionStripe = {
     /**
@@ -110,6 +120,13 @@ export type PaymentCollection = {
      */
     "stripe"?: PaymentCollectionStripe;
 };
+export type PaymentCollectionPreviousAttributes = {
+    /**
+     * Client configuration for collecting the payment through Stripe. anyOf[1] (Value): {@link
+     * PaymentCollectionStripePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "stripe"?: ((PaymentCollectionStripePreviousAttributes) | (null));
+};
 /**
  * Stripe details for collecting payment in the browser: account ID, publishable key, return URL,
  * and Elements options.
@@ -117,8 +134,8 @@ export type PaymentCollection = {
 export type PaymentCollectionStripe = {
     /**
      * Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Null when
-     * the payment has splits: initialize Stripe.js with publishable_key alone and omit
-     * stripeAccount. Example: "acct_1234567890".
+     * the payment has splits. When null, omit stripeAccount when initializing Stripe.js. Example:
+     * "acct_1234567890".
      */
     "account_id": string | null;
     /**
@@ -127,6 +144,12 @@ export type PaymentCollectionStripe = {
      * through Flint.
      */
     "elements"?: PaymentCollectionStripeElements;
+    /**
+     * Stripe account ID of the collecting merchant. Present when this payment uses Stripe
+     * on_behalf_of, currently payments with splits. Pass it as onBehalfOf when creating Stripe
+     * Elements.
+     */
+    "on_behalf_of"?: string;
     /** Publishable Stripe key for initializing the payment client. */
     "publishable_key"?: string;
     /** URL the buyer returns to after a redirect payment step. */
@@ -269,6 +292,39 @@ export type PaymentCollectionStripeElementsPreviousAttributes = {
      */
     "submit_to"?: (("pay_order" | "confirm_payment_intent" | (string & {})) | (null));
 };
+export type PaymentCollectionStripePreviousAttributes = {
+    /**
+     * Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Null when
+     * the payment has splits. When null, omit stripeAccount when initializing Stripe.js. anyOf[1]
+     * (Value): string. Stripe connected account ID to pass as stripeAccount when initializing
+     * Stripe.js. Null when the payment has splits. When null, omit stripeAccount when initializing
+     * Stripe.js. Example: "acct_1234567890". anyOf[2] (Value): null.
+     */
+    "account_id"?: ((string) | (null));
+    /**
+     * Stripe Elements configuration for the available payment methods and amounts. anyOf[1]
+     * (Value): {@link PaymentCollectionStripeElementsPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "elements"?: ((PaymentCollectionStripeElementsPreviousAttributes) | (null));
+    /**
+     * Stripe account ID of the collecting merchant. Present when this payment uses Stripe
+     * on_behalf_of, currently payments with splits. Pass it as onBehalfOf when creating Stripe
+     * Elements. anyOf[1] (Value): string. Stripe account ID of the collecting merchant. Present
+     * when this payment uses Stripe on_behalf_of, currently payments with splits. Pass it as
+     * onBehalfOf when creating Stripe Elements. anyOf[2] (Value): null.
+     */
+    "on_behalf_of"?: ((string) | (null));
+    /**
+     * Publishable Stripe key for initializing the payment client. anyOf[1] (Value): string.
+     * Publishable Stripe key for initializing the payment client. anyOf[2] (Value): null.
+     */
+    "publishable_key"?: ((string) | (null));
+    /**
+     * URL the buyer returns to after a redirect payment step. anyOf[1] (Value): string. URL the
+     * buyer returns to after a redirect payment step. anyOf[2] (Value): null.
+     */
+    "return_url"?: ((string) | (null));
+};
 /**
  * A summary of why a payment attempt failed, with a normalized error code, a message, the failure
  * time, and remediation.
@@ -283,7 +339,8 @@ export type PaymentErrorSummary = {
      * "incorrect_cvc", "lost_card", "stolen_card", "do_not_honor", "fraudulent",
      * "processing_error", "payment_method_unavailable", "payment_method_declined",
      * "payment_not_completed", "payment_action_expired", "payment_method_temporarily_unavailable",
-     * "incorrect_pin", "pin_try_exceeded", "pin_required", "payment_failed".
+     * "incorrect_pin", "pin_try_exceeded", "pin_required", "confirmation_token_account_mismatch",
+     * "payment_failed".
      */
     "code": "card_declined"
         | "card_declined_do_not_retry"
@@ -311,6 +368,7 @@ export type PaymentErrorSummary = {
         | "incorrect_pin"
         | "pin_try_exceeded"
         | "pin_required"
+        | "confirmation_token_account_mismatch"
         | "payment_failed"
         | (string & {});
     /**
@@ -339,16 +397,17 @@ export type PaymentErrorSummaryPreviousAttributes = {
      * "incorrect_cvc", "lost_card", "stolen_card", "do_not_honor", "fraudulent",
      * "processing_error", "payment_method_unavailable", "payment_method_declined",
      * "payment_not_completed", "payment_action_expired", "payment_method_temporarily_unavailable",
-     * "incorrect_pin", "pin_try_exceeded", "pin_required", "payment_failed". anyOf[1] (Value):
-     * string. Flint-normalized payment failure code. Unknown provider values are returned as
-     * payment_failed. Value enum: "card_declined", "card_declined_do_not_retry",
-     * "card_details_outdated", "insufficient_funds", "bank_account_closed",
-     * "bank_account_not_found", "bank_debit_not_authorized", "bank_account_restricted",
-     * "bank_debit_limit_exceeded", "authentication_required", "payment_blocked", "expired_card",
-     * "incorrect_cvc", "lost_card", "stolen_card", "do_not_honor", "fraudulent",
-     * "processing_error", "payment_method_unavailable", "payment_method_declined",
-     * "payment_not_completed", "payment_action_expired", "payment_method_temporarily_unavailable",
-     * "incorrect_pin", "pin_try_exceeded", "pin_required", "payment_failed". anyOf[2] (Value):
+     * "incorrect_pin", "pin_try_exceeded", "pin_required", "confirmation_token_account_mismatch",
+     * "payment_failed". anyOf[1] (Value): string. Flint-normalized payment failure code. Unknown
+     * provider values are returned as payment_failed. Value enum: "card_declined",
+     * "card_declined_do_not_retry", "card_details_outdated", "insufficient_funds",
+     * "bank_account_closed", "bank_account_not_found", "bank_debit_not_authorized",
+     * "bank_account_restricted", "bank_debit_limit_exceeded", "authentication_required",
+     * "payment_blocked", "expired_card", "incorrect_cvc", "lost_card", "stolen_card",
+     * "do_not_honor", "fraudulent", "processing_error", "payment_method_unavailable",
+     * "payment_method_declined", "payment_not_completed", "payment_action_expired",
+     * "payment_method_temporarily_unavailable", "incorrect_pin", "pin_try_exceeded",
+     * "pin_required", "confirmation_token_account_mismatch", "payment_failed". anyOf[2] (Value):
      * null.
      */
     "code"?: (("card_declined"
@@ -377,6 +436,7 @@ export type PaymentErrorSummaryPreviousAttributes = {
         | "incorrect_pin"
         | "pin_try_exceeded"
         | "pin_required"
+        | "confirmation_token_account_mismatch"
         | "payment_failed"
         | (string & {}))
         | (null));
@@ -629,6 +689,16 @@ export type PaymentIntent = {
      */
     "fulfillment_hold"?: PaymentFulfillmentHold;
     /**
+     * The Idempotency-Key of the request that created this resource. `null` when that request sent
+     * no key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field.
+     */
+    "idempotency_key": string | null;
+    /**
      * The linked invoice. Returned only with expand=invoice. Present only when `expand` includes
      * `invoice`; `null` when expanded and there is no related invoice. anyOf[1] (Value): {@link
      * ExpandedInvoiceSummary}. An invoice's summary fields, including status, due date, and paid,
@@ -813,6 +883,12 @@ export type PaymentIntent = {
      */
     "released_money"?: MoneyValue;
     /**
+     * Remaining payment refund capacity after pending and completed refunds and order
+     * reservations. Present on affected merchant payment detail reads, including when the amount
+     * is zero. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "remaining_refundable_money"?: MoneyValue;
+    /**
      * Whether one capture may collect more than the authorization where the card network allows
      * it. Fixed at create. Always present with merchant credentials; omitted with buyer and
      * checkout credentials.
@@ -886,14 +962,15 @@ export type PaymentIntent = {
      * can change without a payment intent version change. Order legs list confirm when a single
      * leg can pay the order or an open attempt can continue it. Several unpaid legs, selected gift
      * cards, or automatic tax with a leg below the balance require pay_order instead. Invoice
-     * payments list only cancel; subscription payments list none. Order edit payments list confirm
-     * while awaiting payment details or action. A listed action can still be refused due to an
-     * open risk review, an order payment attempt, a closed order, or the merchant account. A
-     * managed_by_owner refusal names the owner and its command in remediation.next_actions. The
-     * merchant list is credential-independent. Checkout credentials receive that list filtered to
-     * confirm and cancel on their own session's intents, never capture. Customer sessions omit
-     * this field. New actions may be added. [] enum: "confirm", "capture", "cancel". [] (Value):
-     * string. Value enum: "confirm", "capture", "cancel".
+     * payments list only cancel. An unused first-period subscription payment lists cancel once the
+     * subscription is canceled. Order edit payments list confirm while awaiting payment details or
+     * action. A listed action can still be refused due to an open risk review, an order payment
+     * attempt, a closed order, or the merchant account. A managed_by_owner refusal names the owner
+     * and its command in remediation.next_actions. The merchant list is credential-independent.
+     * Checkout credentials receive that list filtered to confirm and cancel on their own session's
+     * intents, never capture. Customer sessions omit this field. New actions may be added. []
+     * enum: "confirm", "capture", "cancel". [] (Value): string. Value enum: "confirm", "capture",
+     * "cancel".
      */
     "supported_actions": Array<"confirm" | "capture" | "cancel" | (string & {})>;
     /**
@@ -943,12 +1020,12 @@ export type PaymentIntentActivity = {
         | "receipt_delivery_failed"
         | (string & {});
     /**
-     * Identity that initiated this action. Null for automated activity or when no initiating
-     * merchant identity was recorded. Refund creation retains its initiating actor when a worker
-     * processes it. Later processor updates are automated activity. anyOf[1] (Value): {@link
-     * PaymentActivityActor}. The merchant identity that initiated the action. Labels are recorded
-     * with the activity and do not change when the identity is renamed or removed. anyOf[2]
-     * (Value): null.
+     * Identity that initiated this action, with its label recorded at the time. Null when the
+     * action was automated or no initiating merchant identity was recorded. Refund creation
+     * retains its initiating actor when a worker processes it. Later processor updates are
+     * automated activity. anyOf[1] (Value): {@link PaymentActivityActor}. The merchant identity
+     * that initiated the action. Labels are recorded with the activity and do not change when the
+     * identity is renamed or removed. anyOf[2] (Value): null.
      */
     "actor": ((PaymentActivityActor) | (null));
     /**
@@ -1100,13 +1177,13 @@ export type PaymentIntentAuthorizationExpiringInstalledMerchantsEvent = (Exclude
     /**
      *  object (Required): {@link WebhookPaymentIntent}. The resource snapshot, without expansions.
      * Webhooks omit these fields: `processing_fee_money`, `processing_fee_details`, `add_on_fees`,
-     * `merchant_net_money`, `payment_collection`.
+     * `merchant_net_money`, `payment_collection`, `remaining_refundable_money`.
      */
     "data"?: {
         /**
          * The resource snapshot, without expansions. Webhooks omit these fields:
          * `processing_fee_money`, `processing_fee_details`, `add_on_fees`, `merchant_net_money`,
-         * `payment_collection`.
+         * `payment_collection`, `remaining_refundable_money`.
          */
         "object": WebhookPaymentIntent;
     };
@@ -1158,13 +1235,13 @@ export type PaymentIntentAuthorizationExpiringMerchantEvent = (Exclude<MerchantW
     /**
      *  object (Required): {@link WebhookPaymentIntent}. The resource snapshot, without expansions.
      * Webhooks omit these fields: `processing_fee_money`, `processing_fee_details`, `add_on_fees`,
-     * `merchant_net_money`, `payment_collection`.
+     * `merchant_net_money`, `payment_collection`, `remaining_refundable_money`.
      */
     "data"?: {
         /**
          * The resource snapshot, without expansions. Webhooks omit these fields:
          * `processing_fee_money`, `processing_fee_details`, `add_on_fees`, `merchant_net_money`,
-         * `payment_collection`.
+         * `payment_collection`, `remaining_refundable_money`.
          */
         "object": WebhookPaymentIntent;
     };
@@ -1222,6 +1299,7 @@ export type PaymentIntentCanceledEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "failed_attempt_count"?: ((number) | (null));
             "failed_attempts"?: ((Array<FailedPaymentAttemptPreviousAttributes>) | (null));
             "fulfillment_hold"?: ((PaymentFulfillmentHoldPreviousAttributes) | (null));
+            "idempotency_key"?: ((string) | (null));
             "invoice"?: ((ExpandedInvoiceSummaryPreviousAttributes) | (null));
             "invoice_id"?: ((string) | (null));
             "invoice_schedule_entry_id"?: ((string) | (null));
@@ -1332,6 +1410,7 @@ export type PaymentIntentCanceledEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "failed_attempt_count"?: ((number) | (null));
             "failed_attempts"?: ((Array<FailedPaymentAttemptPreviousAttributes>) | (null));
             "fulfillment_hold"?: ((PaymentFulfillmentHoldPreviousAttributes) | (null));
+            "idempotency_key"?: ((string) | (null));
             "invoice"?: ((ExpandedInvoiceSummaryPreviousAttributes) | (null));
             "invoice_id"?: ((string) | (null));
             "invoice_schedule_entry_id"?: ((string) | (null));
@@ -1412,18 +1491,19 @@ export type PaymentIntentCanceledInstalledMerchantsEvent = (Exclude<PartnerWebho
     /**
      *  object (Required): {@link WebhookPaymentIntent}. The resource snapshot, without expansions.
      * Webhooks omit these fields: `processing_fee_money`, `processing_fee_details`, `add_on_fees`,
-     * `merchant_net_money`, `payment_collection`. previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events. previous_attributes.amount_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. The amount requested from the buyer, including any
-     * tip_money. Capturing doesn't change it: after a partial capture it still shows the requested
-     * amount, and captured_money shows what was collected. On a standalone payment intent, PATCH
-     * can change it only before the first confirmation attempt. An amount_money or tip_money
-     * change that leaves too little for stored splits returns LIMIT_EXCEEDED at the changed field
-     * with minimum_money. previous_attributes.amount_money.anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.amount_money.anyOf[2] (Value): null.
+     * `merchant_net_money`, `payment_collection`, `remaining_refundable_money`.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.amount_money (Optional): {@link MoneyValuePreviousAttributes} or null.
+     * The amount requested from the buyer, including any tip_money. Capturing doesn't change it:
+     * after a partial capture it still shows the requested amount, and captured_money shows what
+     * was collected. On a standalone payment intent, PATCH can change it only before the first
+     * confirmation attempt. An amount_money or tip_money change that leaves too little for stored
+     * splits returns LIMIT_EXCEEDED at the changed field with minimum_money.
+     * previous_attributes.amount_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.amount_money.anyOf[2] (Value): null.
      * previous_attributes.authorization_expires_at (Optional): string or null. Effective Flint
      * deadline to capture a manual-capture hold: the earlier of the provider capture deadline and
      * any order resource guarantee. Order guarantees last at most 24 hours from the payment
@@ -1560,14 +1640,30 @@ export type PaymentIntentCanceledInstalledMerchantsEvent = (Exclude<PartnerWebho
      * is sent when the hold starts and when it lifts.
      * previous_attributes.fulfillment_hold.anyOf[1] (Value): {@link
      * PaymentFulfillmentHoldPreviousAttributes}. previous_attributes.fulfillment_hold.anyOf[2]
-     * (Value): null. previous_attributes.invoice (Optional): {@link
-     * ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice. Returned only with
-     * expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded and
-     * there is no related invoice. previous_attributes.invoice.anyOf[1] (Value): {@link
-     * ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2] (Value):
-     * null. previous_attributes.invoice_id (Optional): string or null. Invoice this payment intent
-     * collects, when it pays an invoice. previous_attributes.invoice_id.anyOf[1] (Value): string.
-     * Invoice this payment intent collects, when it pays an invoice. Example:
+     * (Value): null. previous_attributes.idempotency_key (Optional): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.invoice
+     * (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice.
+     * Returned only with expand=invoice. Present only when `expand` includes `invoice`; `null`
+     * when expanded and there is no related invoice. previous_attributes.invoice.anyOf[1] (Value):
+     * {@link ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2]
+     * (Value): null. previous_attributes.invoice_id (Optional): string or null. Invoice this
+     * payment intent collects, when it pays an invoice. previous_attributes.invoice_id.anyOf[1]
+     * (Value): string. Invoice this payment intent collects, when it pays an invoice. Example:
      * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
      * previous_attributes.invoice_schedule_entry_id (Optional): string or null. The invoice
      * installment this payment collects. previous_attributes.invoice_schedule_entry_id.anyOf[1]
@@ -1770,34 +1866,36 @@ export type PaymentIntentCanceledInstalledMerchantsEvent = (Exclude<PartnerWebho
      * The list includes stored order facts and can change without a payment intent version change.
      * Order legs list confirm when a single leg can pay the order or an open attempt can continue
      * it. Several unpaid legs, selected gift cards, or automatic tax with a leg below the balance
-     * require pay_order instead. Invoice payments list only cancel; subscription payments list
-     * none. Order edit payments list confirm while awaiting payment details or action. A listed
-     * action can still be refused due to an open risk review, an order payment attempt, a closed
-     * order, or the merchant account. A managed_by_owner refusal names the owner and its command
-     * in remediation.next_actions. The merchant list is credential-independent. Checkout
-     * credentials receive that list filtered to confirm and cancel on their own session's intents,
-     * never capture. Customer sessions omit this field. New actions may be added. [] enum:
-     * "confirm", "capture", "cancel". previous_attributes.supported_actions.anyOf[1] (Value):
-     * Array of string. Verbs this payment intent accepts now, each a POST to
+     * require pay_order instead. Invoice payments list only cancel. An unused first-period
+     * subscription payment lists cancel once the subscription is canceled. Order edit payments
+     * list confirm while awaiting payment details or action. A listed action can still be refused
+     * due to an open risk review, an order payment attempt, a closed order, or the merchant
+     * account. A managed_by_owner refusal names the owner and its command in
+     * remediation.next_actions. The merchant list is credential-independent. Checkout credentials
+     * receive that list filtered to confirm and cancel on their own session's intents, never
+     * capture. Customer sessions omit this field. New actions may be added. [] enum: "confirm",
+     * "capture", "cancel". previous_attributes.supported_actions.anyOf[1] (Value): Array of
+     * string. Verbs this payment intent accepts now, each a POST to
      * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts and
      * can change without a payment intent version change. Order legs list confirm when a single
      * leg can pay the order or an open attempt can continue it. Several unpaid legs, selected gift
      * cards, or automatic tax with a leg below the balance require pay_order instead. Invoice
-     * payments list only cancel; subscription payments list none. Order edit payments list confirm
-     * while awaiting payment details or action. A listed action can still be refused due to an
-     * open risk review, an order payment attempt, a closed order, or the merchant account. A
-     * managed_by_owner refusal names the owner and its command in remediation.next_actions. The
-     * merchant list is credential-independent. Checkout credentials receive that list filtered to
-     * confirm and cancel on their own session's intents, never capture. Customer sessions omit
-     * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
-     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "confirm",
-     * "capture", "cancel". previous_attributes.supported_actions.anyOf[2] (Value): null.
-     * previous_attributes.tip_money (Optional): {@link MoneyValuePreviousAttributes} or null.
-     * Portion of amount_money that is a tip. Uses amount_money's currency and is at most
-     * amount_money. `null` when no tip is set, and for an order payment until its payment attempt
-     * has moved past requires_payment_method and requires_confirmation. An order payment without a
-     * tip can return an amount of 0 instead. previous_attributes.tip_money.anyOf[1] (Value):
-     * {@link MoneyValuePreviousAttributes}. previous_attributes.tip_money.anyOf[2] (Value): null.
+     * payments list only cancel. An unused first-period subscription payment lists cancel once the
+     * subscription is canceled. Order edit payments list confirm while awaiting payment details or
+     * action. A listed action can still be refused due to an open risk review, an order payment
+     * attempt, a closed order, or the merchant account. A managed_by_owner refusal names the owner
+     * and its command in remediation.next_actions. The merchant list is credential-independent.
+     * Checkout credentials receive that list filtered to confirm and cancel on their own session's
+     * intents, never capture. Customer sessions omit this field. New actions may be added. []
+     * enum: "confirm", "capture", "cancel". previous_attributes.supported_actions.anyOf[1][]
+     * (Value): string. Value enum: "confirm", "capture", "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.tip_money
+     * (Optional): {@link MoneyValuePreviousAttributes} or null. Portion of amount_money that is a
+     * tip. Uses amount_money's currency and is at most amount_money. `null` when no tip is set,
+     * and for an order payment until its payment attempt has moved past requires_payment_method
+     * and requires_confirmation. An order payment without a tip can return an amount of 0 instead.
+     * previous_attributes.tip_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.tip_money.anyOf[2] (Value): null.
      * previous_attributes.transaction_purpose (Optional): string or null. Why a bank debit is
      * taken. Set only when payment_options includes ach_debit, and fixed once the payment intent
      * exists. Value enum: "goods", "services", "other".
@@ -1818,7 +1916,7 @@ export type PaymentIntentCanceledInstalledMerchantsEvent = (Exclude<PartnerWebho
         /**
          * The resource snapshot, without expansions. Webhooks omit these fields:
          * `processing_fee_money`, `processing_fee_details`, `add_on_fees`, `merchant_net_money`,
-         * `payment_collection`.
+         * `payment_collection`, `remaining_refundable_money`.
          */
         "object": WebhookPaymentIntent;
         /**
@@ -1957,16 +2055,33 @@ export type PaymentIntentCanceledInstalledMerchantsEvent = (Exclude<PartnerWebho
          * payment_review. payment_intent.fulfillment_hold_updated is sent when the hold starts and
          * when it lifts. fulfillment_hold.anyOf[1] (Value): {@link
          * PaymentFulfillmentHoldPreviousAttributes}. fulfillment_hold.anyOf[2] (Value): null.
-         * invoice (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. The linked
-         * invoice. Returned only with expand=invoice. Present only when `expand` includes
-         * `invoice`; `null` when expanded and there is no related invoice. invoice.anyOf[1]
-         * (Value): {@link ExpandedInvoiceSummaryPreviousAttributes}. invoice.anyOf[2] (Value):
-         * null. invoice_id (Optional): string or null. Invoice this payment intent collects, when
-         * it pays an invoice. invoice_id.anyOf[1] (Value): string. Invoice this payment intent
-         * collects, when it pays an invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-         * invoice_id.anyOf[2] (Value): null. invoice_schedule_entry_id (Optional): string or null.
-         * The invoice installment this payment collects. invoice_schedule_entry_id.anyOf[1]
-         * (Value): string. The invoice installment this payment collects. Example:
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[2] (Value): null. invoice (Optional): {@link
+         * ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice. Returned only
+         * with expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded
+         * and there is no related invoice. invoice.anyOf[1] (Value): {@link
+         * ExpandedInvoiceSummaryPreviousAttributes}. invoice.anyOf[2] (Value): null. invoice_id
+         * (Optional): string or null. Invoice this payment intent collects, when it pays an
+         * invoice. invoice_id.anyOf[1] (Value): string. Invoice this payment intent collects, when
+         * it pays an invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2]
+         * (Value): null. invoice_schedule_entry_id (Optional): string or null. The invoice
+         * installment this payment collects. invoice_schedule_entry_id.anyOf[1] (Value): string.
+         * The invoice installment this payment collects. Example:
          * "invse_01KEZF7C006JCPQBD8VZ0RNT6R". invoice_schedule_entry_id.anyOf[2] (Value): null.
          * last_payment_error (Optional): {@link PaymentErrorSummaryPreviousAttributes} or null.
          * Most recent payment error. Null when no payment error is recorded.
@@ -2148,21 +2263,22 @@ export type PaymentIntentCanceledInstalledMerchantsEvent = (Exclude<PartnerWebho
          * and can change without a payment intent version change. Order legs list confirm when a
          * single leg can pay the order or an open attempt can continue it. Several unpaid legs,
          * selected gift cards, or automatic tax with a leg below the balance require pay_order
-         * instead. Invoice payments list only cancel; subscription payments list none. Order edit
-         * payments list confirm while awaiting payment details or action. A listed action can
-         * still be refused due to an open risk review, an order payment attempt, a closed order,
-         * or the merchant account. A managed_by_owner refusal names the owner and its command in
-         * remediation.next_actions. The merchant list is credential-independent. Checkout
-         * credentials receive that list filtered to confirm and cancel on their own session's
-         * intents, never capture. Customer sessions omit this field. New actions may be added. []
-         * enum: "confirm", "capture", "cancel". supported_actions.anyOf[1] (Value): Array of
-         * string. Verbs this payment intent accepts now, each a POST to
-         * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts
-         * and can change without a payment intent version change. Order legs list confirm when a
-         * single leg can pay the order or an open attempt can continue it. Several unpaid legs,
-         * selected gift cards, or automatic tax with a leg below the balance require pay_order
-         * instead. Invoice payments list only cancel; subscription payments list none. Order edit
-         * payments list confirm while awaiting payment details or action. A listed action can
+         * instead. Invoice payments list only cancel. An unused first-period subscription payment
+         * lists cancel once the subscription is canceled. Order edit payments list confirm while
+         * awaiting payment details or action. A listed action can still be refused due to an open
+         * risk review, an order payment attempt, a closed order, or the merchant account. A
+         * managed_by_owner refusal names the owner and its command in remediation.next_actions.
+         * The merchant list is credential-independent. Checkout credentials receive that list
+         * filtered to confirm and cancel on their own session's intents, never capture. Customer
+         * sessions omit this field. New actions may be added. [] enum: "confirm", "capture",
+         * "cancel". supported_actions.anyOf[1] (Value): Array of string. Verbs this payment intent
+         * accepts now, each a POST to /v1/payment-intents/{payment_intent_id}/{action}. The list
+         * includes stored order facts and can change without a payment intent version change.
+         * Order legs list confirm when a single leg can pay the order or an open attempt can
+         * continue it. Several unpaid legs, selected gift cards, or automatic tax with a leg below
+         * the balance require pay_order instead. Invoice payments list only cancel. An unused
+         * first-period subscription payment lists cancel once the subscription is canceled. Order
+         * edit payments list confirm while awaiting payment details or action. A listed action can
          * still be refused due to an open risk review, an order payment attempt, a closed order,
          * or the merchant account. A managed_by_owner refusal names the owner and its command in
          * remediation.next_actions. The merchant list is credential-independent. Checkout
@@ -2395,6 +2511,25 @@ export type PaymentIntentCanceledInstalledMerchantsEvent = (Exclude<PartnerWebho
              * PaymentFulfillmentHoldPreviousAttributes}. anyOf[2] (Value): null.
              */
             "fulfillment_hold"?: ((PaymentFulfillmentHoldPreviousAttributes) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field. anyOf[1] (Value): string. The
+             * Idempotency-Key of the request that created this resource. `null` when that request
+             * sent no key, Flint created the resource, the reader isn't the caller that created it
+             * (another app install, a buyer, or the merchant reading an app's or buyer's record),
+             * or the caller that created an older record is unknown. Filter its list with
+             * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+             * webhook events, can return `null`. To find a key that a replay returns as `null`,
+             * read the resource. Buyer sessions on routes shared with merchants get `null`.
+             * `/v1/me` responses do not include this field. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
             /**
              * The linked invoice. Returned only with expand=invoice. Present only when `expand`
              * includes `invoice`; `null` when expanded and there is no related invoice. anyOf[1]
@@ -2685,11 +2820,12 @@ export type PaymentIntentCanceledInstalledMerchantsEvent = (Exclude<PartnerWebho
              * facts and can change without a payment intent version change. Order legs list
              * confirm when a single leg can pay the order or an open attempt can continue it.
              * Several unpaid legs, selected gift cards, or automatic tax with a leg below the
-             * balance require pay_order instead. Invoice payments list only cancel; subscription
-             * payments list none. Order edit payments list confirm while awaiting payment details
-             * or action. A listed action can still be refused due to an open risk review, an order
-             * payment attempt, a closed order, or the merchant account. A managed_by_owner refusal
-             * names the owner and its command in remediation.next_actions. The merchant list is
+             * balance require pay_order instead. Invoice payments list only cancel. An unused
+             * first-period subscription payment lists cancel once the subscription is canceled.
+             * Order edit payments list confirm while awaiting payment details or action. A listed
+             * action can still be refused due to an open risk review, an order payment attempt, a
+             * closed order, or the merchant account. A managed_by_owner refusal names the owner
+             * and its command in remediation.next_actions. The merchant list is
              * credential-independent. Checkout credentials receive that list filtered to confirm
              * and cancel on their own session's intents, never capture. Customer sessions omit
              * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
@@ -2698,11 +2834,12 @@ export type PaymentIntentCanceledInstalledMerchantsEvent = (Exclude<PartnerWebho
              * order facts and can change without a payment intent version change. Order legs list
              * confirm when a single leg can pay the order or an open attempt can continue it.
              * Several unpaid legs, selected gift cards, or automatic tax with a leg below the
-             * balance require pay_order instead. Invoice payments list only cancel; subscription
-             * payments list none. Order edit payments list confirm while awaiting payment details
-             * or action. A listed action can still be refused due to an open risk review, an order
-             * payment attempt, a closed order, or the merchant account. A managed_by_owner refusal
-             * names the owner and its command in remediation.next_actions. The merchant list is
+             * balance require pay_order instead. Invoice payments list only cancel. An unused
+             * first-period subscription payment lists cancel once the subscription is canceled.
+             * Order edit payments list confirm while awaiting payment details or action. A listed
+             * action can still be refused due to an open risk review, an order payment attempt, a
+             * closed order, or the merchant account. A managed_by_owner refusal names the owner
+             * and its command in remediation.next_actions. The merchant list is
              * credential-independent. Checkout credentials receive that list filtered to confirm
              * and cancel on their own session's intents, never capture. Customer sessions omit
              * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
@@ -2788,18 +2925,19 @@ export type PaymentIntentCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelop
     /**
      *  object (Required): {@link WebhookPaymentIntent}. The resource snapshot, without expansions.
      * Webhooks omit these fields: `processing_fee_money`, `processing_fee_details`, `add_on_fees`,
-     * `merchant_net_money`, `payment_collection`. previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events. previous_attributes.amount_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. The amount requested from the buyer, including any
-     * tip_money. Capturing doesn't change it: after a partial capture it still shows the requested
-     * amount, and captured_money shows what was collected. On a standalone payment intent, PATCH
-     * can change it only before the first confirmation attempt. An amount_money or tip_money
-     * change that leaves too little for stored splits returns LIMIT_EXCEEDED at the changed field
-     * with minimum_money. previous_attributes.amount_money.anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.amount_money.anyOf[2] (Value): null.
+     * `merchant_net_money`, `payment_collection`, `remaining_refundable_money`.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.amount_money (Optional): {@link MoneyValuePreviousAttributes} or null.
+     * The amount requested from the buyer, including any tip_money. Capturing doesn't change it:
+     * after a partial capture it still shows the requested amount, and captured_money shows what
+     * was collected. On a standalone payment intent, PATCH can change it only before the first
+     * confirmation attempt. An amount_money or tip_money change that leaves too little for stored
+     * splits returns LIMIT_EXCEEDED at the changed field with minimum_money.
+     * previous_attributes.amount_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.amount_money.anyOf[2] (Value): null.
      * previous_attributes.authorization_expires_at (Optional): string or null. Effective Flint
      * deadline to capture a manual-capture hold: the earlier of the provider capture deadline and
      * any order resource guarantee. Order guarantees last at most 24 hours from the payment
@@ -2936,14 +3074,30 @@ export type PaymentIntentCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelop
      * is sent when the hold starts and when it lifts.
      * previous_attributes.fulfillment_hold.anyOf[1] (Value): {@link
      * PaymentFulfillmentHoldPreviousAttributes}. previous_attributes.fulfillment_hold.anyOf[2]
-     * (Value): null. previous_attributes.invoice (Optional): {@link
-     * ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice. Returned only with
-     * expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded and
-     * there is no related invoice. previous_attributes.invoice.anyOf[1] (Value): {@link
-     * ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2] (Value):
-     * null. previous_attributes.invoice_id (Optional): string or null. Invoice this payment intent
-     * collects, when it pays an invoice. previous_attributes.invoice_id.anyOf[1] (Value): string.
-     * Invoice this payment intent collects, when it pays an invoice. Example:
+     * (Value): null. previous_attributes.idempotency_key (Optional): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.invoice
+     * (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice.
+     * Returned only with expand=invoice. Present only when `expand` includes `invoice`; `null`
+     * when expanded and there is no related invoice. previous_attributes.invoice.anyOf[1] (Value):
+     * {@link ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2]
+     * (Value): null. previous_attributes.invoice_id (Optional): string or null. Invoice this
+     * payment intent collects, when it pays an invoice. previous_attributes.invoice_id.anyOf[1]
+     * (Value): string. Invoice this payment intent collects, when it pays an invoice. Example:
      * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
      * previous_attributes.invoice_schedule_entry_id (Optional): string or null. The invoice
      * installment this payment collects. previous_attributes.invoice_schedule_entry_id.anyOf[1]
@@ -3146,34 +3300,36 @@ export type PaymentIntentCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelop
      * The list includes stored order facts and can change without a payment intent version change.
      * Order legs list confirm when a single leg can pay the order or an open attempt can continue
      * it. Several unpaid legs, selected gift cards, or automatic tax with a leg below the balance
-     * require pay_order instead. Invoice payments list only cancel; subscription payments list
-     * none. Order edit payments list confirm while awaiting payment details or action. A listed
-     * action can still be refused due to an open risk review, an order payment attempt, a closed
-     * order, or the merchant account. A managed_by_owner refusal names the owner and its command
-     * in remediation.next_actions. The merchant list is credential-independent. Checkout
-     * credentials receive that list filtered to confirm and cancel on their own session's intents,
-     * never capture. Customer sessions omit this field. New actions may be added. [] enum:
-     * "confirm", "capture", "cancel". previous_attributes.supported_actions.anyOf[1] (Value):
-     * Array of string. Verbs this payment intent accepts now, each a POST to
+     * require pay_order instead. Invoice payments list only cancel. An unused first-period
+     * subscription payment lists cancel once the subscription is canceled. Order edit payments
+     * list confirm while awaiting payment details or action. A listed action can still be refused
+     * due to an open risk review, an order payment attempt, a closed order, or the merchant
+     * account. A managed_by_owner refusal names the owner and its command in
+     * remediation.next_actions. The merchant list is credential-independent. Checkout credentials
+     * receive that list filtered to confirm and cancel on their own session's intents, never
+     * capture. Customer sessions omit this field. New actions may be added. [] enum: "confirm",
+     * "capture", "cancel". previous_attributes.supported_actions.anyOf[1] (Value): Array of
+     * string. Verbs this payment intent accepts now, each a POST to
      * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts and
      * can change without a payment intent version change. Order legs list confirm when a single
      * leg can pay the order or an open attempt can continue it. Several unpaid legs, selected gift
      * cards, or automatic tax with a leg below the balance require pay_order instead. Invoice
-     * payments list only cancel; subscription payments list none. Order edit payments list confirm
-     * while awaiting payment details or action. A listed action can still be refused due to an
-     * open risk review, an order payment attempt, a closed order, or the merchant account. A
-     * managed_by_owner refusal names the owner and its command in remediation.next_actions. The
-     * merchant list is credential-independent. Checkout credentials receive that list filtered to
-     * confirm and cancel on their own session's intents, never capture. Customer sessions omit
-     * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
-     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "confirm",
-     * "capture", "cancel". previous_attributes.supported_actions.anyOf[2] (Value): null.
-     * previous_attributes.tip_money (Optional): {@link MoneyValuePreviousAttributes} or null.
-     * Portion of amount_money that is a tip. Uses amount_money's currency and is at most
-     * amount_money. `null` when no tip is set, and for an order payment until its payment attempt
-     * has moved past requires_payment_method and requires_confirmation. An order payment without a
-     * tip can return an amount of 0 instead. previous_attributes.tip_money.anyOf[1] (Value):
-     * {@link MoneyValuePreviousAttributes}. previous_attributes.tip_money.anyOf[2] (Value): null.
+     * payments list only cancel. An unused first-period subscription payment lists cancel once the
+     * subscription is canceled. Order edit payments list confirm while awaiting payment details or
+     * action. A listed action can still be refused due to an open risk review, an order payment
+     * attempt, a closed order, or the merchant account. A managed_by_owner refusal names the owner
+     * and its command in remediation.next_actions. The merchant list is credential-independent.
+     * Checkout credentials receive that list filtered to confirm and cancel on their own session's
+     * intents, never capture. Customer sessions omit this field. New actions may be added. []
+     * enum: "confirm", "capture", "cancel". previous_attributes.supported_actions.anyOf[1][]
+     * (Value): string. Value enum: "confirm", "capture", "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.tip_money
+     * (Optional): {@link MoneyValuePreviousAttributes} or null. Portion of amount_money that is a
+     * tip. Uses amount_money's currency and is at most amount_money. `null` when no tip is set,
+     * and for an order payment until its payment attempt has moved past requires_payment_method
+     * and requires_confirmation. An order payment without a tip can return an amount of 0 instead.
+     * previous_attributes.tip_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.tip_money.anyOf[2] (Value): null.
      * previous_attributes.transaction_purpose (Optional): string or null. Why a bank debit is
      * taken. Set only when payment_options includes ach_debit, and fixed once the payment intent
      * exists. Value enum: "goods", "services", "other".
@@ -3194,7 +3350,7 @@ export type PaymentIntentCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelop
         /**
          * The resource snapshot, without expansions. Webhooks omit these fields:
          * `processing_fee_money`, `processing_fee_details`, `add_on_fees`, `merchant_net_money`,
-         * `payment_collection`.
+         * `payment_collection`, `remaining_refundable_money`.
          */
         "object": WebhookPaymentIntent;
         /**
@@ -3333,16 +3489,33 @@ export type PaymentIntentCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelop
          * payment_review. payment_intent.fulfillment_hold_updated is sent when the hold starts and
          * when it lifts. fulfillment_hold.anyOf[1] (Value): {@link
          * PaymentFulfillmentHoldPreviousAttributes}. fulfillment_hold.anyOf[2] (Value): null.
-         * invoice (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. The linked
-         * invoice. Returned only with expand=invoice. Present only when `expand` includes
-         * `invoice`; `null` when expanded and there is no related invoice. invoice.anyOf[1]
-         * (Value): {@link ExpandedInvoiceSummaryPreviousAttributes}. invoice.anyOf[2] (Value):
-         * null. invoice_id (Optional): string or null. Invoice this payment intent collects, when
-         * it pays an invoice. invoice_id.anyOf[1] (Value): string. Invoice this payment intent
-         * collects, when it pays an invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-         * invoice_id.anyOf[2] (Value): null. invoice_schedule_entry_id (Optional): string or null.
-         * The invoice installment this payment collects. invoice_schedule_entry_id.anyOf[1]
-         * (Value): string. The invoice installment this payment collects. Example:
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[2] (Value): null. invoice (Optional): {@link
+         * ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice. Returned only
+         * with expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded
+         * and there is no related invoice. invoice.anyOf[1] (Value): {@link
+         * ExpandedInvoiceSummaryPreviousAttributes}. invoice.anyOf[2] (Value): null. invoice_id
+         * (Optional): string or null. Invoice this payment intent collects, when it pays an
+         * invoice. invoice_id.anyOf[1] (Value): string. Invoice this payment intent collects, when
+         * it pays an invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2]
+         * (Value): null. invoice_schedule_entry_id (Optional): string or null. The invoice
+         * installment this payment collects. invoice_schedule_entry_id.anyOf[1] (Value): string.
+         * The invoice installment this payment collects. Example:
          * "invse_01KEZF7C006JCPQBD8VZ0RNT6R". invoice_schedule_entry_id.anyOf[2] (Value): null.
          * last_payment_error (Optional): {@link PaymentErrorSummaryPreviousAttributes} or null.
          * Most recent payment error. Null when no payment error is recorded.
@@ -3524,21 +3697,22 @@ export type PaymentIntentCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelop
          * and can change without a payment intent version change. Order legs list confirm when a
          * single leg can pay the order or an open attempt can continue it. Several unpaid legs,
          * selected gift cards, or automatic tax with a leg below the balance require pay_order
-         * instead. Invoice payments list only cancel; subscription payments list none. Order edit
-         * payments list confirm while awaiting payment details or action. A listed action can
-         * still be refused due to an open risk review, an order payment attempt, a closed order,
-         * or the merchant account. A managed_by_owner refusal names the owner and its command in
-         * remediation.next_actions. The merchant list is credential-independent. Checkout
-         * credentials receive that list filtered to confirm and cancel on their own session's
-         * intents, never capture. Customer sessions omit this field. New actions may be added. []
-         * enum: "confirm", "capture", "cancel". supported_actions.anyOf[1] (Value): Array of
-         * string. Verbs this payment intent accepts now, each a POST to
-         * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts
-         * and can change without a payment intent version change. Order legs list confirm when a
-         * single leg can pay the order or an open attempt can continue it. Several unpaid legs,
-         * selected gift cards, or automatic tax with a leg below the balance require pay_order
-         * instead. Invoice payments list only cancel; subscription payments list none. Order edit
-         * payments list confirm while awaiting payment details or action. A listed action can
+         * instead. Invoice payments list only cancel. An unused first-period subscription payment
+         * lists cancel once the subscription is canceled. Order edit payments list confirm while
+         * awaiting payment details or action. A listed action can still be refused due to an open
+         * risk review, an order payment attempt, a closed order, or the merchant account. A
+         * managed_by_owner refusal names the owner and its command in remediation.next_actions.
+         * The merchant list is credential-independent. Checkout credentials receive that list
+         * filtered to confirm and cancel on their own session's intents, never capture. Customer
+         * sessions omit this field. New actions may be added. [] enum: "confirm", "capture",
+         * "cancel". supported_actions.anyOf[1] (Value): Array of string. Verbs this payment intent
+         * accepts now, each a POST to /v1/payment-intents/{payment_intent_id}/{action}. The list
+         * includes stored order facts and can change without a payment intent version change.
+         * Order legs list confirm when a single leg can pay the order or an open attempt can
+         * continue it. Several unpaid legs, selected gift cards, or automatic tax with a leg below
+         * the balance require pay_order instead. Invoice payments list only cancel. An unused
+         * first-period subscription payment lists cancel once the subscription is canceled. Order
+         * edit payments list confirm while awaiting payment details or action. A listed action can
          * still be refused due to an open risk review, an order payment attempt, a closed order,
          * or the merchant account. A managed_by_owner refusal names the owner and its command in
          * remediation.next_actions. The merchant list is credential-independent. Checkout
@@ -3771,6 +3945,25 @@ export type PaymentIntentCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelop
              * PaymentFulfillmentHoldPreviousAttributes}. anyOf[2] (Value): null.
              */
             "fulfillment_hold"?: ((PaymentFulfillmentHoldPreviousAttributes) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field. anyOf[1] (Value): string. The
+             * Idempotency-Key of the request that created this resource. `null` when that request
+             * sent no key, Flint created the resource, the reader isn't the caller that created it
+             * (another app install, a buyer, or the merchant reading an app's or buyer's record),
+             * or the caller that created an older record is unknown. Filter its list with
+             * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+             * webhook events, can return `null`. To find a key that a replay returns as `null`,
+             * read the resource. Buyer sessions on routes shared with merchants get `null`.
+             * `/v1/me` responses do not include this field. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
             /**
              * The linked invoice. Returned only with expand=invoice. Present only when `expand`
              * includes `invoice`; `null` when expanded and there is no related invoice. anyOf[1]
@@ -4061,11 +4254,12 @@ export type PaymentIntentCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelop
              * facts and can change without a payment intent version change. Order legs list
              * confirm when a single leg can pay the order or an open attempt can continue it.
              * Several unpaid legs, selected gift cards, or automatic tax with a leg below the
-             * balance require pay_order instead. Invoice payments list only cancel; subscription
-             * payments list none. Order edit payments list confirm while awaiting payment details
-             * or action. A listed action can still be refused due to an open risk review, an order
-             * payment attempt, a closed order, or the merchant account. A managed_by_owner refusal
-             * names the owner and its command in remediation.next_actions. The merchant list is
+             * balance require pay_order instead. Invoice payments list only cancel. An unused
+             * first-period subscription payment lists cancel once the subscription is canceled.
+             * Order edit payments list confirm while awaiting payment details or action. A listed
+             * action can still be refused due to an open risk review, an order payment attempt, a
+             * closed order, or the merchant account. A managed_by_owner refusal names the owner
+             * and its command in remediation.next_actions. The merchant list is
              * credential-independent. Checkout credentials receive that list filtered to confirm
              * and cancel on their own session's intents, never capture. Customer sessions omit
              * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
@@ -4074,11 +4268,12 @@ export type PaymentIntentCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelop
              * order facts and can change without a payment intent version change. Order legs list
              * confirm when a single leg can pay the order or an open attempt can continue it.
              * Several unpaid legs, selected gift cards, or automatic tax with a leg below the
-             * balance require pay_order instead. Invoice payments list only cancel; subscription
-             * payments list none. Order edit payments list confirm while awaiting payment details
-             * or action. A listed action can still be refused due to an open risk review, an order
-             * payment attempt, a closed order, or the merchant account. A managed_by_owner refusal
-             * names the owner and its command in remediation.next_actions. The merchant list is
+             * balance require pay_order instead. Invoice payments list only cancel. An unused
+             * first-period subscription payment lists cancel once the subscription is canceled.
+             * Order edit payments list confirm while awaiting payment details or action. A listed
+             * action can still be refused due to an open risk review, an order payment attempt, a
+             * closed order, or the merchant account. A managed_by_owner refusal names the owner
+             * and its command in remediation.next_actions. The merchant list is
              * credential-independent. Checkout credentials receive that list filtered to confirm
              * and cancel on their own session's intents, never capture. Customer sessions omit
              * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
@@ -4156,13 +4351,13 @@ export type PaymentIntentCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
     /**
      *  object (Required): {@link WebhookPaymentIntent}. The resource snapshot, without expansions.
      * Webhooks omit these fields: `processing_fee_money`, `processing_fee_details`, `add_on_fees`,
-     * `merchant_net_money`, `payment_collection`.
+     * `merchant_net_money`, `payment_collection`, `remaining_refundable_money`.
      */
     "data"?: {
         /**
          * The resource snapshot, without expansions. Webhooks omit these fields:
          * `processing_fee_money`, `processing_fee_details`, `add_on_fees`, `merchant_net_money`,
-         * `payment_collection`.
+         * `payment_collection`, `remaining_refundable_money`.
          */
         "object": WebhookPaymentIntent;
     };
@@ -4214,13 +4409,13 @@ export type PaymentIntentCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope
     /**
      *  object (Required): {@link WebhookPaymentIntent}. The resource snapshot, without expansions.
      * Webhooks omit these fields: `processing_fee_money`, `processing_fee_details`, `add_on_fees`,
-     * `merchant_net_money`, `payment_collection`.
+     * `merchant_net_money`, `payment_collection`, `remaining_refundable_money`.
      */
     "data"?: {
         /**
          * The resource snapshot, without expansions. Webhooks omit these fields:
          * `processing_fee_money`, `processing_fee_details`, `add_on_fees`, `merchant_net_money`,
-         * `payment_collection`.
+         * `payment_collection`, `remaining_refundable_money`.
          */
         "object": WebhookPaymentIntent;
     };
@@ -4278,6 +4473,7 @@ export type PaymentIntentExpiredEvent = ((((Exclude<MerchantWebhookEnvelope & ob
             "failed_attempt_count"?: ((number) | (null));
             "failed_attempts"?: ((Array<FailedPaymentAttemptPreviousAttributes>) | (null));
             "fulfillment_hold"?: ((PaymentFulfillmentHoldPreviousAttributes) | (null));
+            "idempotency_key"?: ((string) | (null));
             "invoice"?: ((ExpandedInvoiceSummaryPreviousAttributes) | (null));
             "invoice_id"?: ((string) | (null));
             "invoice_schedule_entry_id"?: ((string) | (null));
@@ -4388,6 +4584,7 @@ export type PaymentIntentExpiredEvent = ((((Exclude<MerchantWebhookEnvelope & ob
             "failed_attempt_count"?: ((number) | (null));
             "failed_attempts"?: ((Array<FailedPaymentAttemptPreviousAttributes>) | (null));
             "fulfillment_hold"?: ((PaymentFulfillmentHoldPreviousAttributes) | (null));
+            "idempotency_key"?: ((string) | (null));
             "invoice"?: ((ExpandedInvoiceSummaryPreviousAttributes) | (null));
             "invoice_id"?: ((string) | (null));
             "invoice_schedule_entry_id"?: ((string) | (null));
@@ -4468,18 +4665,19 @@ export type PaymentIntentExpiredInstalledMerchantsEvent = (Exclude<PartnerWebhoo
     /**
      *  object (Required): {@link WebhookPaymentIntent}. The resource snapshot, without expansions.
      * Webhooks omit these fields: `processing_fee_money`, `processing_fee_details`, `add_on_fees`,
-     * `merchant_net_money`, `payment_collection`. previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events. previous_attributes.amount_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. The amount requested from the buyer, including any
-     * tip_money. Capturing doesn't change it: after a partial capture it still shows the requested
-     * amount, and captured_money shows what was collected. On a standalone payment intent, PATCH
-     * can change it only before the first confirmation attempt. An amount_money or tip_money
-     * change that leaves too little for stored splits returns LIMIT_EXCEEDED at the changed field
-     * with minimum_money. previous_attributes.amount_money.anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.amount_money.anyOf[2] (Value): null.
+     * `merchant_net_money`, `payment_collection`, `remaining_refundable_money`.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.amount_money (Optional): {@link MoneyValuePreviousAttributes} or null.
+     * The amount requested from the buyer, including any tip_money. Capturing doesn't change it:
+     * after a partial capture it still shows the requested amount, and captured_money shows what
+     * was collected. On a standalone payment intent, PATCH can change it only before the first
+     * confirmation attempt. An amount_money or tip_money change that leaves too little for stored
+     * splits returns LIMIT_EXCEEDED at the changed field with minimum_money.
+     * previous_attributes.amount_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.amount_money.anyOf[2] (Value): null.
      * previous_attributes.authorization_expires_at (Optional): string or null. Effective Flint
      * deadline to capture a manual-capture hold: the earlier of the provider capture deadline and
      * any order resource guarantee. Order guarantees last at most 24 hours from the payment
@@ -4616,14 +4814,30 @@ export type PaymentIntentExpiredInstalledMerchantsEvent = (Exclude<PartnerWebhoo
      * is sent when the hold starts and when it lifts.
      * previous_attributes.fulfillment_hold.anyOf[1] (Value): {@link
      * PaymentFulfillmentHoldPreviousAttributes}. previous_attributes.fulfillment_hold.anyOf[2]
-     * (Value): null. previous_attributes.invoice (Optional): {@link
-     * ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice. Returned only with
-     * expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded and
-     * there is no related invoice. previous_attributes.invoice.anyOf[1] (Value): {@link
-     * ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2] (Value):
-     * null. previous_attributes.invoice_id (Optional): string or null. Invoice this payment intent
-     * collects, when it pays an invoice. previous_attributes.invoice_id.anyOf[1] (Value): string.
-     * Invoice this payment intent collects, when it pays an invoice. Example:
+     * (Value): null. previous_attributes.idempotency_key (Optional): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.invoice
+     * (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice.
+     * Returned only with expand=invoice. Present only when `expand` includes `invoice`; `null`
+     * when expanded and there is no related invoice. previous_attributes.invoice.anyOf[1] (Value):
+     * {@link ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2]
+     * (Value): null. previous_attributes.invoice_id (Optional): string or null. Invoice this
+     * payment intent collects, when it pays an invoice. previous_attributes.invoice_id.anyOf[1]
+     * (Value): string. Invoice this payment intent collects, when it pays an invoice. Example:
      * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
      * previous_attributes.invoice_schedule_entry_id (Optional): string or null. The invoice
      * installment this payment collects. previous_attributes.invoice_schedule_entry_id.anyOf[1]
@@ -4826,34 +5040,36 @@ export type PaymentIntentExpiredInstalledMerchantsEvent = (Exclude<PartnerWebhoo
      * The list includes stored order facts and can change without a payment intent version change.
      * Order legs list confirm when a single leg can pay the order or an open attempt can continue
      * it. Several unpaid legs, selected gift cards, or automatic tax with a leg below the balance
-     * require pay_order instead. Invoice payments list only cancel; subscription payments list
-     * none. Order edit payments list confirm while awaiting payment details or action. A listed
-     * action can still be refused due to an open risk review, an order payment attempt, a closed
-     * order, or the merchant account. A managed_by_owner refusal names the owner and its command
-     * in remediation.next_actions. The merchant list is credential-independent. Checkout
-     * credentials receive that list filtered to confirm and cancel on their own session's intents,
-     * never capture. Customer sessions omit this field. New actions may be added. [] enum:
-     * "confirm", "capture", "cancel". previous_attributes.supported_actions.anyOf[1] (Value):
-     * Array of string. Verbs this payment intent accepts now, each a POST to
+     * require pay_order instead. Invoice payments list only cancel. An unused first-period
+     * subscription payment lists cancel once the subscription is canceled. Order edit payments
+     * list confirm while awaiting payment details or action. A listed action can still be refused
+     * due to an open risk review, an order payment attempt, a closed order, or the merchant
+     * account. A managed_by_owner refusal names the owner and its command in
+     * remediation.next_actions. The merchant list is credential-independent. Checkout credentials
+     * receive that list filtered to confirm and cancel on their own session's intents, never
+     * capture. Customer sessions omit this field. New actions may be added. [] enum: "confirm",
+     * "capture", "cancel". previous_attributes.supported_actions.anyOf[1] (Value): Array of
+     * string. Verbs this payment intent accepts now, each a POST to
      * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts and
      * can change without a payment intent version change. Order legs list confirm when a single
      * leg can pay the order or an open attempt can continue it. Several unpaid legs, selected gift
      * cards, or automatic tax with a leg below the balance require pay_order instead. Invoice
-     * payments list only cancel; subscription payments list none. Order edit payments list confirm
-     * while awaiting payment details or action. A listed action can still be refused due to an
-     * open risk review, an order payment attempt, a closed order, or the merchant account. A
-     * managed_by_owner refusal names the owner and its command in remediation.next_actions. The
-     * merchant list is credential-independent. Checkout credentials receive that list filtered to
-     * confirm and cancel on their own session's intents, never capture. Customer sessions omit
-     * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
-     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "confirm",
-     * "capture", "cancel". previous_attributes.supported_actions.anyOf[2] (Value): null.
-     * previous_attributes.tip_money (Optional): {@link MoneyValuePreviousAttributes} or null.
-     * Portion of amount_money that is a tip. Uses amount_money's currency and is at most
-     * amount_money. `null` when no tip is set, and for an order payment until its payment attempt
-     * has moved past requires_payment_method and requires_confirmation. An order payment without a
-     * tip can return an amount of 0 instead. previous_attributes.tip_money.anyOf[1] (Value):
-     * {@link MoneyValuePreviousAttributes}. previous_attributes.tip_money.anyOf[2] (Value): null.
+     * payments list only cancel. An unused first-period subscription payment lists cancel once the
+     * subscription is canceled. Order edit payments list confirm while awaiting payment details or
+     * action. A listed action can still be refused due to an open risk review, an order payment
+     * attempt, a closed order, or the merchant account. A managed_by_owner refusal names the owner
+     * and its command in remediation.next_actions. The merchant list is credential-independent.
+     * Checkout credentials receive that list filtered to confirm and cancel on their own session's
+     * intents, never capture. Customer sessions omit this field. New actions may be added. []
+     * enum: "confirm", "capture", "cancel". previous_attributes.supported_actions.anyOf[1][]
+     * (Value): string. Value enum: "confirm", "capture", "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.tip_money
+     * (Optional): {@link MoneyValuePreviousAttributes} or null. Portion of amount_money that is a
+     * tip. Uses amount_money's currency and is at most amount_money. `null` when no tip is set,
+     * and for an order payment until its payment attempt has moved past requires_payment_method
+     * and requires_confirmation. An order payment without a tip can return an amount of 0 instead.
+     * previous_attributes.tip_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.tip_money.anyOf[2] (Value): null.
      * previous_attributes.transaction_purpose (Optional): string or null. Why a bank debit is
      * taken. Set only when payment_options includes ach_debit, and fixed once the payment intent
      * exists. Value enum: "goods", "services", "other".
@@ -4874,7 +5090,7 @@ export type PaymentIntentExpiredInstalledMerchantsEvent = (Exclude<PartnerWebhoo
         /**
          * The resource snapshot, without expansions. Webhooks omit these fields:
          * `processing_fee_money`, `processing_fee_details`, `add_on_fees`, `merchant_net_money`,
-         * `payment_collection`.
+         * `payment_collection`, `remaining_refundable_money`.
          */
         "object": WebhookPaymentIntent;
         /**
@@ -5013,16 +5229,33 @@ export type PaymentIntentExpiredInstalledMerchantsEvent = (Exclude<PartnerWebhoo
          * payment_review. payment_intent.fulfillment_hold_updated is sent when the hold starts and
          * when it lifts. fulfillment_hold.anyOf[1] (Value): {@link
          * PaymentFulfillmentHoldPreviousAttributes}. fulfillment_hold.anyOf[2] (Value): null.
-         * invoice (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. The linked
-         * invoice. Returned only with expand=invoice. Present only when `expand` includes
-         * `invoice`; `null` when expanded and there is no related invoice. invoice.anyOf[1]
-         * (Value): {@link ExpandedInvoiceSummaryPreviousAttributes}. invoice.anyOf[2] (Value):
-         * null. invoice_id (Optional): string or null. Invoice this payment intent collects, when
-         * it pays an invoice. invoice_id.anyOf[1] (Value): string. Invoice this payment intent
-         * collects, when it pays an invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-         * invoice_id.anyOf[2] (Value): null. invoice_schedule_entry_id (Optional): string or null.
-         * The invoice installment this payment collects. invoice_schedule_entry_id.anyOf[1]
-         * (Value): string. The invoice installment this payment collects. Example:
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[2] (Value): null. invoice (Optional): {@link
+         * ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice. Returned only
+         * with expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded
+         * and there is no related invoice. invoice.anyOf[1] (Value): {@link
+         * ExpandedInvoiceSummaryPreviousAttributes}. invoice.anyOf[2] (Value): null. invoice_id
+         * (Optional): string or null. Invoice this payment intent collects, when it pays an
+         * invoice. invoice_id.anyOf[1] (Value): string. Invoice this payment intent collects, when
+         * it pays an invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2]
+         * (Value): null. invoice_schedule_entry_id (Optional): string or null. The invoice
+         * installment this payment collects. invoice_schedule_entry_id.anyOf[1] (Value): string.
+         * The invoice installment this payment collects. Example:
          * "invse_01KEZF7C006JCPQBD8VZ0RNT6R". invoice_schedule_entry_id.anyOf[2] (Value): null.
          * last_payment_error (Optional): {@link PaymentErrorSummaryPreviousAttributes} or null.
          * Most recent payment error. Null when no payment error is recorded.
@@ -5204,21 +5437,22 @@ export type PaymentIntentExpiredInstalledMerchantsEvent = (Exclude<PartnerWebhoo
          * and can change without a payment intent version change. Order legs list confirm when a
          * single leg can pay the order or an open attempt can continue it. Several unpaid legs,
          * selected gift cards, or automatic tax with a leg below the balance require pay_order
-         * instead. Invoice payments list only cancel; subscription payments list none. Order edit
-         * payments list confirm while awaiting payment details or action. A listed action can
-         * still be refused due to an open risk review, an order payment attempt, a closed order,
-         * or the merchant account. A managed_by_owner refusal names the owner and its command in
-         * remediation.next_actions. The merchant list is credential-independent. Checkout
-         * credentials receive that list filtered to confirm and cancel on their own session's
-         * intents, never capture. Customer sessions omit this field. New actions may be added. []
-         * enum: "confirm", "capture", "cancel". supported_actions.anyOf[1] (Value): Array of
-         * string. Verbs this payment intent accepts now, each a POST to
-         * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts
-         * and can change without a payment intent version change. Order legs list confirm when a
-         * single leg can pay the order or an open attempt can continue it. Several unpaid legs,
-         * selected gift cards, or automatic tax with a leg below the balance require pay_order
-         * instead. Invoice payments list only cancel; subscription payments list none. Order edit
-         * payments list confirm while awaiting payment details or action. A listed action can
+         * instead. Invoice payments list only cancel. An unused first-period subscription payment
+         * lists cancel once the subscription is canceled. Order edit payments list confirm while
+         * awaiting payment details or action. A listed action can still be refused due to an open
+         * risk review, an order payment attempt, a closed order, or the merchant account. A
+         * managed_by_owner refusal names the owner and its command in remediation.next_actions.
+         * The merchant list is credential-independent. Checkout credentials receive that list
+         * filtered to confirm and cancel on their own session's intents, never capture. Customer
+         * sessions omit this field. New actions may be added. [] enum: "confirm", "capture",
+         * "cancel". supported_actions.anyOf[1] (Value): Array of string. Verbs this payment intent
+         * accepts now, each a POST to /v1/payment-intents/{payment_intent_id}/{action}. The list
+         * includes stored order facts and can change without a payment intent version change.
+         * Order legs list confirm when a single leg can pay the order or an open attempt can
+         * continue it. Several unpaid legs, selected gift cards, or automatic tax with a leg below
+         * the balance require pay_order instead. Invoice payments list only cancel. An unused
+         * first-period subscription payment lists cancel once the subscription is canceled. Order
+         * edit payments list confirm while awaiting payment details or action. A listed action can
          * still be refused due to an open risk review, an order payment attempt, a closed order,
          * or the merchant account. A managed_by_owner refusal names the owner and its command in
          * remediation.next_actions. The merchant list is credential-independent. Checkout
@@ -5451,6 +5685,25 @@ export type PaymentIntentExpiredInstalledMerchantsEvent = (Exclude<PartnerWebhoo
              * PaymentFulfillmentHoldPreviousAttributes}. anyOf[2] (Value): null.
              */
             "fulfillment_hold"?: ((PaymentFulfillmentHoldPreviousAttributes) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field. anyOf[1] (Value): string. The
+             * Idempotency-Key of the request that created this resource. `null` when that request
+             * sent no key, Flint created the resource, the reader isn't the caller that created it
+             * (another app install, a buyer, or the merchant reading an app's or buyer's record),
+             * or the caller that created an older record is unknown. Filter its list with
+             * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+             * webhook events, can return `null`. To find a key that a replay returns as `null`,
+             * read the resource. Buyer sessions on routes shared with merchants get `null`.
+             * `/v1/me` responses do not include this field. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
             /**
              * The linked invoice. Returned only with expand=invoice. Present only when `expand`
              * includes `invoice`; `null` when expanded and there is no related invoice. anyOf[1]
@@ -5741,11 +5994,12 @@ export type PaymentIntentExpiredInstalledMerchantsEvent = (Exclude<PartnerWebhoo
              * facts and can change without a payment intent version change. Order legs list
              * confirm when a single leg can pay the order or an open attempt can continue it.
              * Several unpaid legs, selected gift cards, or automatic tax with a leg below the
-             * balance require pay_order instead. Invoice payments list only cancel; subscription
-             * payments list none. Order edit payments list confirm while awaiting payment details
-             * or action. A listed action can still be refused due to an open risk review, an order
-             * payment attempt, a closed order, or the merchant account. A managed_by_owner refusal
-             * names the owner and its command in remediation.next_actions. The merchant list is
+             * balance require pay_order instead. Invoice payments list only cancel. An unused
+             * first-period subscription payment lists cancel once the subscription is canceled.
+             * Order edit payments list confirm while awaiting payment details or action. A listed
+             * action can still be refused due to an open risk review, an order payment attempt, a
+             * closed order, or the merchant account. A managed_by_owner refusal names the owner
+             * and its command in remediation.next_actions. The merchant list is
              * credential-independent. Checkout credentials receive that list filtered to confirm
              * and cancel on their own session's intents, never capture. Customer sessions omit
              * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
@@ -5754,11 +6008,12 @@ export type PaymentIntentExpiredInstalledMerchantsEvent = (Exclude<PartnerWebhoo
              * order facts and can change without a payment intent version change. Order legs list
              * confirm when a single leg can pay the order or an open attempt can continue it.
              * Several unpaid legs, selected gift cards, or automatic tax with a leg below the
-             * balance require pay_order instead. Invoice payments list only cancel; subscription
-             * payments list none. Order edit payments list confirm while awaiting payment details
-             * or action. A listed action can still be refused due to an open risk review, an order
-             * payment attempt, a closed order, or the merchant account. A managed_by_owner refusal
-             * names the owner and its command in remediation.next_actions. The merchant list is
+             * balance require pay_order instead. Invoice payments list only cancel. An unused
+             * first-period subscription payment lists cancel once the subscription is canceled.
+             * Order edit payments list confirm while awaiting payment details or action. A listed
+             * action can still be refused due to an open risk review, an order payment attempt, a
+             * closed order, or the merchant account. A managed_by_owner refusal names the owner
+             * and its command in remediation.next_actions. The merchant list is
              * credential-independent. Checkout credentials receive that list filtered to confirm
              * and cancel on their own session's intents, never capture. Customer sessions omit
              * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
@@ -5844,18 +6099,19 @@ export type PaymentIntentExpiredMerchantEvent = (Exclude<MerchantWebhookEnvelope
     /**
      *  object (Required): {@link WebhookPaymentIntent}. The resource snapshot, without expansions.
      * Webhooks omit these fields: `processing_fee_money`, `processing_fee_details`, `add_on_fees`,
-     * `merchant_net_money`, `payment_collection`. previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events. previous_attributes.amount_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. The amount requested from the buyer, including any
-     * tip_money. Capturing doesn't change it: after a partial capture it still shows the requested
-     * amount, and captured_money shows what was collected. On a standalone payment intent, PATCH
-     * can change it only before the first confirmation attempt. An amount_money or tip_money
-     * change that leaves too little for stored splits returns LIMIT_EXCEEDED at the changed field
-     * with minimum_money. previous_attributes.amount_money.anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.amount_money.anyOf[2] (Value): null.
+     * `merchant_net_money`, `payment_collection`, `remaining_refundable_money`.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.amount_money (Optional): {@link MoneyValuePreviousAttributes} or null.
+     * The amount requested from the buyer, including any tip_money. Capturing doesn't change it:
+     * after a partial capture it still shows the requested amount, and captured_money shows what
+     * was collected. On a standalone payment intent, PATCH can change it only before the first
+     * confirmation attempt. An amount_money or tip_money change that leaves too little for stored
+     * splits returns LIMIT_EXCEEDED at the changed field with minimum_money.
+     * previous_attributes.amount_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.amount_money.anyOf[2] (Value): null.
      * previous_attributes.authorization_expires_at (Optional): string or null. Effective Flint
      * deadline to capture a manual-capture hold: the earlier of the provider capture deadline and
      * any order resource guarantee. Order guarantees last at most 24 hours from the payment
@@ -5992,14 +6248,30 @@ export type PaymentIntentExpiredMerchantEvent = (Exclude<MerchantWebhookEnvelope
      * is sent when the hold starts and when it lifts.
      * previous_attributes.fulfillment_hold.anyOf[1] (Value): {@link
      * PaymentFulfillmentHoldPreviousAttributes}. previous_attributes.fulfillment_hold.anyOf[2]
-     * (Value): null. previous_attributes.invoice (Optional): {@link
-     * ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice. Returned only with
-     * expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded and
-     * there is no related invoice. previous_attributes.invoice.anyOf[1] (Value): {@link
-     * ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2] (Value):
-     * null. previous_attributes.invoice_id (Optional): string or null. Invoice this payment intent
-     * collects, when it pays an invoice. previous_attributes.invoice_id.anyOf[1] (Value): string.
-     * Invoice this payment intent collects, when it pays an invoice. Example:
+     * (Value): null. previous_attributes.idempotency_key (Optional): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.invoice
+     * (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice.
+     * Returned only with expand=invoice. Present only when `expand` includes `invoice`; `null`
+     * when expanded and there is no related invoice. previous_attributes.invoice.anyOf[1] (Value):
+     * {@link ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2]
+     * (Value): null. previous_attributes.invoice_id (Optional): string or null. Invoice this
+     * payment intent collects, when it pays an invoice. previous_attributes.invoice_id.anyOf[1]
+     * (Value): string. Invoice this payment intent collects, when it pays an invoice. Example:
      * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
      * previous_attributes.invoice_schedule_entry_id (Optional): string or null. The invoice
      * installment this payment collects. previous_attributes.invoice_schedule_entry_id.anyOf[1]
@@ -6202,34 +6474,36 @@ export type PaymentIntentExpiredMerchantEvent = (Exclude<MerchantWebhookEnvelope
      * The list includes stored order facts and can change without a payment intent version change.
      * Order legs list confirm when a single leg can pay the order or an open attempt can continue
      * it. Several unpaid legs, selected gift cards, or automatic tax with a leg below the balance
-     * require pay_order instead. Invoice payments list only cancel; subscription payments list
-     * none. Order edit payments list confirm while awaiting payment details or action. A listed
-     * action can still be refused due to an open risk review, an order payment attempt, a closed
-     * order, or the merchant account. A managed_by_owner refusal names the owner and its command
-     * in remediation.next_actions. The merchant list is credential-independent. Checkout
-     * credentials receive that list filtered to confirm and cancel on their own session's intents,
-     * never capture. Customer sessions omit this field. New actions may be added. [] enum:
-     * "confirm", "capture", "cancel". previous_attributes.supported_actions.anyOf[1] (Value):
-     * Array of string. Verbs this payment intent accepts now, each a POST to
+     * require pay_order instead. Invoice payments list only cancel. An unused first-period
+     * subscription payment lists cancel once the subscription is canceled. Order edit payments
+     * list confirm while awaiting payment details or action. A listed action can still be refused
+     * due to an open risk review, an order payment attempt, a closed order, or the merchant
+     * account. A managed_by_owner refusal names the owner and its command in
+     * remediation.next_actions. The merchant list is credential-independent. Checkout credentials
+     * receive that list filtered to confirm and cancel on their own session's intents, never
+     * capture. Customer sessions omit this field. New actions may be added. [] enum: "confirm",
+     * "capture", "cancel". previous_attributes.supported_actions.anyOf[1] (Value): Array of
+     * string. Verbs this payment intent accepts now, each a POST to
      * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts and
      * can change without a payment intent version change. Order legs list confirm when a single
      * leg can pay the order or an open attempt can continue it. Several unpaid legs, selected gift
      * cards, or automatic tax with a leg below the balance require pay_order instead. Invoice
-     * payments list only cancel; subscription payments list none. Order edit payments list confirm
-     * while awaiting payment details or action. A listed action can still be refused due to an
-     * open risk review, an order payment attempt, a closed order, or the merchant account. A
-     * managed_by_owner refusal names the owner and its command in remediation.next_actions. The
-     * merchant list is credential-independent. Checkout credentials receive that list filtered to
-     * confirm and cancel on their own session's intents, never capture. Customer sessions omit
-     * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
-     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "confirm",
-     * "capture", "cancel". previous_attributes.supported_actions.anyOf[2] (Value): null.
-     * previous_attributes.tip_money (Optional): {@link MoneyValuePreviousAttributes} or null.
-     * Portion of amount_money that is a tip. Uses amount_money's currency and is at most
-     * amount_money. `null` when no tip is set, and for an order payment until its payment attempt
-     * has moved past requires_payment_method and requires_confirmation. An order payment without a
-     * tip can return an amount of 0 instead. previous_attributes.tip_money.anyOf[1] (Value):
-     * {@link MoneyValuePreviousAttributes}. previous_attributes.tip_money.anyOf[2] (Value): null.
+     * payments list only cancel. An unused first-period subscription payment lists cancel once the
+     * subscription is canceled. Order edit payments list confirm while awaiting payment details or
+     * action. A listed action can still be refused due to an open risk review, an order payment
+     * attempt, a closed order, or the merchant account. A managed_by_owner refusal names the owner
+     * and its command in remediation.next_actions. The merchant list is credential-independent.
+     * Checkout credentials receive that list filtered to confirm and cancel on their own session's
+     * intents, never capture. Customer sessions omit this field. New actions may be added. []
+     * enum: "confirm", "capture", "cancel". previous_attributes.supported_actions.anyOf[1][]
+     * (Value): string. Value enum: "confirm", "capture", "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.tip_money
+     * (Optional): {@link MoneyValuePreviousAttributes} or null. Portion of amount_money that is a
+     * tip. Uses amount_money's currency and is at most amount_money. `null` when no tip is set,
+     * and for an order payment until its payment attempt has moved past requires_payment_method
+     * and requires_confirmation. An order payment without a tip can return an amount of 0 instead.
+     * previous_attributes.tip_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.tip_money.anyOf[2] (Value): null.
      * previous_attributes.transaction_purpose (Optional): string or null. Why a bank debit is
      * taken. Set only when payment_options includes ach_debit, and fixed once the payment intent
      * exists. Value enum: "goods", "services", "other".
@@ -6250,7 +6524,7 @@ export type PaymentIntentExpiredMerchantEvent = (Exclude<MerchantWebhookEnvelope
         /**
          * The resource snapshot, without expansions. Webhooks omit these fields:
          * `processing_fee_money`, `processing_fee_details`, `add_on_fees`, `merchant_net_money`,
-         * `payment_collection`.
+         * `payment_collection`, `remaining_refundable_money`.
          */
         "object": WebhookPaymentIntent;
         /**
@@ -6389,16 +6663,33 @@ export type PaymentIntentExpiredMerchantEvent = (Exclude<MerchantWebhookEnvelope
          * payment_review. payment_intent.fulfillment_hold_updated is sent when the hold starts and
          * when it lifts. fulfillment_hold.anyOf[1] (Value): {@link
          * PaymentFulfillmentHoldPreviousAttributes}. fulfillment_hold.anyOf[2] (Value): null.
-         * invoice (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. The linked
-         * invoice. Returned only with expand=invoice. Present only when `expand` includes
-         * `invoice`; `null` when expanded and there is no related invoice. invoice.anyOf[1]
-         * (Value): {@link ExpandedInvoiceSummaryPreviousAttributes}. invoice.anyOf[2] (Value):
-         * null. invoice_id (Optional): string or null. Invoice this payment intent collects, when
-         * it pays an invoice. invoice_id.anyOf[1] (Value): string. Invoice this payment intent
-         * collects, when it pays an invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-         * invoice_id.anyOf[2] (Value): null. invoice_schedule_entry_id (Optional): string or null.
-         * The invoice installment this payment collects. invoice_schedule_entry_id.anyOf[1]
-         * (Value): string. The invoice installment this payment collects. Example:
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[2] (Value): null. invoice (Optional): {@link
+         * ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice. Returned only
+         * with expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded
+         * and there is no related invoice. invoice.anyOf[1] (Value): {@link
+         * ExpandedInvoiceSummaryPreviousAttributes}. invoice.anyOf[2] (Value): null. invoice_id
+         * (Optional): string or null. Invoice this payment intent collects, when it pays an
+         * invoice. invoice_id.anyOf[1] (Value): string. Invoice this payment intent collects, when
+         * it pays an invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2]
+         * (Value): null. invoice_schedule_entry_id (Optional): string or null. The invoice
+         * installment this payment collects. invoice_schedule_entry_id.anyOf[1] (Value): string.
+         * The invoice installment this payment collects. Example:
          * "invse_01KEZF7C006JCPQBD8VZ0RNT6R". invoice_schedule_entry_id.anyOf[2] (Value): null.
          * last_payment_error (Optional): {@link PaymentErrorSummaryPreviousAttributes} or null.
          * Most recent payment error. Null when no payment error is recorded.
@@ -6580,21 +6871,22 @@ export type PaymentIntentExpiredMerchantEvent = (Exclude<MerchantWebhookEnvelope
          * and can change without a payment intent version change. Order legs list confirm when a
          * single leg can pay the order or an open attempt can continue it. Several unpaid legs,
          * selected gift cards, or automatic tax with a leg below the balance require pay_order
-         * instead. Invoice payments list only cancel; subscription payments list none. Order edit
-         * payments list confirm while awaiting payment details or action. A listed action can
-         * still be refused due to an open risk review, an order payment attempt, a closed order,
-         * or the merchant account. A managed_by_owner refusal names the owner and its command in
-         * remediation.next_actions. The merchant list is credential-independent. Checkout
-         * credentials receive that list filtered to confirm and cancel on their own session's
-         * intents, never capture. Customer sessions omit this field. New actions may be added. []
-         * enum: "confirm", "capture", "cancel". supported_actions.anyOf[1] (Value): Array of
-         * string. Verbs this payment intent accepts now, each a POST to
-         * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts
-         * and can change without a payment intent version change. Order legs list confirm when a
-         * single leg can pay the order or an open attempt can continue it. Several unpaid legs,
-         * selected gift cards, or automatic tax with a leg below the balance require pay_order
-         * instead. Invoice payments list only cancel; subscription payments list none. Order edit
-         * payments list confirm while awaiting payment details or action. A listed action can
+         * instead. Invoice payments list only cancel. An unused first-period subscription payment
+         * lists cancel once the subscription is canceled. Order edit payments list confirm while
+         * awaiting payment details or action. A listed action can still be refused due to an open
+         * risk review, an order payment attempt, a closed order, or the merchant account. A
+         * managed_by_owner refusal names the owner and its command in remediation.next_actions.
+         * The merchant list is credential-independent. Checkout credentials receive that list
+         * filtered to confirm and cancel on their own session's intents, never capture. Customer
+         * sessions omit this field. New actions may be added. [] enum: "confirm", "capture",
+         * "cancel". supported_actions.anyOf[1] (Value): Array of string. Verbs this payment intent
+         * accepts now, each a POST to /v1/payment-intents/{payment_intent_id}/{action}. The list
+         * includes stored order facts and can change without a payment intent version change.
+         * Order legs list confirm when a single leg can pay the order or an open attempt can
+         * continue it. Several unpaid legs, selected gift cards, or automatic tax with a leg below
+         * the balance require pay_order instead. Invoice payments list only cancel. An unused
+         * first-period subscription payment lists cancel once the subscription is canceled. Order
+         * edit payments list confirm while awaiting payment details or action. A listed action can
          * still be refused due to an open risk review, an order payment attempt, a closed order,
          * or the merchant account. A managed_by_owner refusal names the owner and its command in
          * remediation.next_actions. The merchant list is credential-independent. Checkout
@@ -6827,6 +7119,25 @@ export type PaymentIntentExpiredMerchantEvent = (Exclude<MerchantWebhookEnvelope
              * PaymentFulfillmentHoldPreviousAttributes}. anyOf[2] (Value): null.
              */
             "fulfillment_hold"?: ((PaymentFulfillmentHoldPreviousAttributes) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field. anyOf[1] (Value): string. The
+             * Idempotency-Key of the request that created this resource. `null` when that request
+             * sent no key, Flint created the resource, the reader isn't the caller that created it
+             * (another app install, a buyer, or the merchant reading an app's or buyer's record),
+             * or the caller that created an older record is unknown. Filter its list with
+             * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+             * webhook events, can return `null`. To find a key that a replay returns as `null`,
+             * read the resource. Buyer sessions on routes shared with merchants get `null`.
+             * `/v1/me` responses do not include this field. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
             /**
              * The linked invoice. Returned only with expand=invoice. Present only when `expand`
              * includes `invoice`; `null` when expanded and there is no related invoice. anyOf[1]
@@ -7117,11 +7428,12 @@ export type PaymentIntentExpiredMerchantEvent = (Exclude<MerchantWebhookEnvelope
              * facts and can change without a payment intent version change. Order legs list
              * confirm when a single leg can pay the order or an open attempt can continue it.
              * Several unpaid legs, selected gift cards, or automatic tax with a leg below the
-             * balance require pay_order instead. Invoice payments list only cancel; subscription
-             * payments list none. Order edit payments list confirm while awaiting payment details
-             * or action. A listed action can still be refused due to an open risk review, an order
-             * payment attempt, a closed order, or the merchant account. A managed_by_owner refusal
-             * names the owner and its command in remediation.next_actions. The merchant list is
+             * balance require pay_order instead. Invoice payments list only cancel. An unused
+             * first-period subscription payment lists cancel once the subscription is canceled.
+             * Order edit payments list confirm while awaiting payment details or action. A listed
+             * action can still be refused due to an open risk review, an order payment attempt, a
+             * closed order, or the merchant account. A managed_by_owner refusal names the owner
+             * and its command in remediation.next_actions. The merchant list is
              * credential-independent. Checkout credentials receive that list filtered to confirm
              * and cancel on their own session's intents, never capture. Customer sessions omit
              * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
@@ -7130,11 +7442,12 @@ export type PaymentIntentExpiredMerchantEvent = (Exclude<MerchantWebhookEnvelope
              * order facts and can change without a payment intent version change. Order legs list
              * confirm when a single leg can pay the order or an open attempt can continue it.
              * Several unpaid legs, selected gift cards, or automatic tax with a leg below the
-             * balance require pay_order instead. Invoice payments list only cancel; subscription
-             * payments list none. Order edit payments list confirm while awaiting payment details
-             * or action. A listed action can still be refused due to an open risk review, an order
-             * payment attempt, a closed order, or the merchant account. A managed_by_owner refusal
-             * names the owner and its command in remediation.next_actions. The merchant list is
+             * balance require pay_order instead. Invoice payments list only cancel. An unused
+             * first-period subscription payment lists cancel once the subscription is canceled.
+             * Order edit payments list confirm while awaiting payment details or action. A listed
+             * action can still be refused due to an open risk review, an order payment attempt, a
+             * closed order, or the merchant account. A managed_by_owner refusal names the owner
+             * and its command in remediation.next_actions. The merchant list is
              * credential-independent. Checkout credentials receive that list filtered to confirm
              * and cancel on their own session's intents, never capture. Customer sessions omit
              * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
@@ -7226,6 +7539,7 @@ export type PaymentIntentFulfillmentHoldUpdatedEvent = ((((Exclude<MerchantWebho
             "failed_attempt_count"?: ((number) | (null));
             "failed_attempts"?: ((Array<FailedPaymentAttemptPreviousAttributes>) | (null));
             "fulfillment_hold"?: ((PaymentFulfillmentHoldPreviousAttributes) | (null));
+            "idempotency_key"?: ((string) | (null));
             "invoice"?: ((ExpandedInvoiceSummaryPreviousAttributes) | (null));
             "invoice_id"?: ((string) | (null));
             "invoice_schedule_entry_id"?: ((string) | (null));
@@ -7336,6 +7650,7 @@ export type PaymentIntentFulfillmentHoldUpdatedEvent = ((((Exclude<MerchantWebho
             "failed_attempt_count"?: ((number) | (null));
             "failed_attempts"?: ((Array<FailedPaymentAttemptPreviousAttributes>) | (null));
             "fulfillment_hold"?: ((PaymentFulfillmentHoldPreviousAttributes) | (null));
+            "idempotency_key"?: ((string) | (null));
             "invoice"?: ((ExpandedInvoiceSummaryPreviousAttributes) | (null));
             "invoice_id"?: ((string) | (null));
             "invoice_schedule_entry_id"?: ((string) | (null));
@@ -7416,18 +7731,19 @@ export type PaymentIntentFulfillmentHoldUpdatedInstalledMerchantsEvent = (Exclud
     /**
      *  object (Required): {@link WebhookPaymentIntent}. The resource snapshot, without expansions.
      * Webhooks omit these fields: `processing_fee_money`, `processing_fee_details`, `add_on_fees`,
-     * `merchant_net_money`, `payment_collection`. previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events. previous_attributes.amount_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. The amount requested from the buyer, including any
-     * tip_money. Capturing doesn't change it: after a partial capture it still shows the requested
-     * amount, and captured_money shows what was collected. On a standalone payment intent, PATCH
-     * can change it only before the first confirmation attempt. An amount_money or tip_money
-     * change that leaves too little for stored splits returns LIMIT_EXCEEDED at the changed field
-     * with minimum_money. previous_attributes.amount_money.anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.amount_money.anyOf[2] (Value): null.
+     * `merchant_net_money`, `payment_collection`, `remaining_refundable_money`.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.amount_money (Optional): {@link MoneyValuePreviousAttributes} or null.
+     * The amount requested from the buyer, including any tip_money. Capturing doesn't change it:
+     * after a partial capture it still shows the requested amount, and captured_money shows what
+     * was collected. On a standalone payment intent, PATCH can change it only before the first
+     * confirmation attempt. An amount_money or tip_money change that leaves too little for stored
+     * splits returns LIMIT_EXCEEDED at the changed field with minimum_money.
+     * previous_attributes.amount_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.amount_money.anyOf[2] (Value): null.
      * previous_attributes.authorization_expires_at (Optional): string or null. Effective Flint
      * deadline to capture a manual-capture hold: the earlier of the provider capture deadline and
      * any order resource guarantee. Order guarantees last at most 24 hours from the payment
@@ -7564,14 +7880,30 @@ export type PaymentIntentFulfillmentHoldUpdatedInstalledMerchantsEvent = (Exclud
      * is sent when the hold starts and when it lifts.
      * previous_attributes.fulfillment_hold.anyOf[1] (Value): {@link
      * PaymentFulfillmentHoldPreviousAttributes}. previous_attributes.fulfillment_hold.anyOf[2]
-     * (Value): null. previous_attributes.invoice (Optional): {@link
-     * ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice. Returned only with
-     * expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded and
-     * there is no related invoice. previous_attributes.invoice.anyOf[1] (Value): {@link
-     * ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2] (Value):
-     * null. previous_attributes.invoice_id (Optional): string or null. Invoice this payment intent
-     * collects, when it pays an invoice. previous_attributes.invoice_id.anyOf[1] (Value): string.
-     * Invoice this payment intent collects, when it pays an invoice. Example:
+     * (Value): null. previous_attributes.idempotency_key (Optional): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.invoice
+     * (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice.
+     * Returned only with expand=invoice. Present only when `expand` includes `invoice`; `null`
+     * when expanded and there is no related invoice. previous_attributes.invoice.anyOf[1] (Value):
+     * {@link ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2]
+     * (Value): null. previous_attributes.invoice_id (Optional): string or null. Invoice this
+     * payment intent collects, when it pays an invoice. previous_attributes.invoice_id.anyOf[1]
+     * (Value): string. Invoice this payment intent collects, when it pays an invoice. Example:
      * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
      * previous_attributes.invoice_schedule_entry_id (Optional): string or null. The invoice
      * installment this payment collects. previous_attributes.invoice_schedule_entry_id.anyOf[1]
@@ -7774,34 +8106,36 @@ export type PaymentIntentFulfillmentHoldUpdatedInstalledMerchantsEvent = (Exclud
      * The list includes stored order facts and can change without a payment intent version change.
      * Order legs list confirm when a single leg can pay the order or an open attempt can continue
      * it. Several unpaid legs, selected gift cards, or automatic tax with a leg below the balance
-     * require pay_order instead. Invoice payments list only cancel; subscription payments list
-     * none. Order edit payments list confirm while awaiting payment details or action. A listed
-     * action can still be refused due to an open risk review, an order payment attempt, a closed
-     * order, or the merchant account. A managed_by_owner refusal names the owner and its command
-     * in remediation.next_actions. The merchant list is credential-independent. Checkout
-     * credentials receive that list filtered to confirm and cancel on their own session's intents,
-     * never capture. Customer sessions omit this field. New actions may be added. [] enum:
-     * "confirm", "capture", "cancel". previous_attributes.supported_actions.anyOf[1] (Value):
-     * Array of string. Verbs this payment intent accepts now, each a POST to
+     * require pay_order instead. Invoice payments list only cancel. An unused first-period
+     * subscription payment lists cancel once the subscription is canceled. Order edit payments
+     * list confirm while awaiting payment details or action. A listed action can still be refused
+     * due to an open risk review, an order payment attempt, a closed order, or the merchant
+     * account. A managed_by_owner refusal names the owner and its command in
+     * remediation.next_actions. The merchant list is credential-independent. Checkout credentials
+     * receive that list filtered to confirm and cancel on their own session's intents, never
+     * capture. Customer sessions omit this field. New actions may be added. [] enum: "confirm",
+     * "capture", "cancel". previous_attributes.supported_actions.anyOf[1] (Value): Array of
+     * string. Verbs this payment intent accepts now, each a POST to
      * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts and
      * can change without a payment intent version change. Order legs list confirm when a single
      * leg can pay the order or an open attempt can continue it. Several unpaid legs, selected gift
      * cards, or automatic tax with a leg below the balance require pay_order instead. Invoice
-     * payments list only cancel; subscription payments list none. Order edit payments list confirm
-     * while awaiting payment details or action. A listed action can still be refused due to an
-     * open risk review, an order payment attempt, a closed order, or the merchant account. A
-     * managed_by_owner refusal names the owner and its command in remediation.next_actions. The
-     * merchant list is credential-independent. Checkout credentials receive that list filtered to
-     * confirm and cancel on their own session's intents, never capture. Customer sessions omit
-     * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
-     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "confirm",
-     * "capture", "cancel". previous_attributes.supported_actions.anyOf[2] (Value): null.
-     * previous_attributes.tip_money (Optional): {@link MoneyValuePreviousAttributes} or null.
-     * Portion of amount_money that is a tip. Uses amount_money's currency and is at most
-     * amount_money. `null` when no tip is set, and for an order payment until its payment attempt
-     * has moved past requires_payment_method and requires_confirmation. An order payment without a
-     * tip can return an amount of 0 instead. previous_attributes.tip_money.anyOf[1] (Value):
-     * {@link MoneyValuePreviousAttributes}. previous_attributes.tip_money.anyOf[2] (Value): null.
+     * payments list only cancel. An unused first-period subscription payment lists cancel once the
+     * subscription is canceled. Order edit payments list confirm while awaiting payment details or
+     * action. A listed action can still be refused due to an open risk review, an order payment
+     * attempt, a closed order, or the merchant account. A managed_by_owner refusal names the owner
+     * and its command in remediation.next_actions. The merchant list is credential-independent.
+     * Checkout credentials receive that list filtered to confirm and cancel on their own session's
+     * intents, never capture. Customer sessions omit this field. New actions may be added. []
+     * enum: "confirm", "capture", "cancel". previous_attributes.supported_actions.anyOf[1][]
+     * (Value): string. Value enum: "confirm", "capture", "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.tip_money
+     * (Optional): {@link MoneyValuePreviousAttributes} or null. Portion of amount_money that is a
+     * tip. Uses amount_money's currency and is at most amount_money. `null` when no tip is set,
+     * and for an order payment until its payment attempt has moved past requires_payment_method
+     * and requires_confirmation. An order payment without a tip can return an amount of 0 instead.
+     * previous_attributes.tip_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.tip_money.anyOf[2] (Value): null.
      * previous_attributes.transaction_purpose (Optional): string or null. Why a bank debit is
      * taken. Set only when payment_options includes ach_debit, and fixed once the payment intent
      * exists. Value enum: "goods", "services", "other".
@@ -7822,7 +8156,7 @@ export type PaymentIntentFulfillmentHoldUpdatedInstalledMerchantsEvent = (Exclud
         /**
          * The resource snapshot, without expansions. Webhooks omit these fields:
          * `processing_fee_money`, `processing_fee_details`, `add_on_fees`, `merchant_net_money`,
-         * `payment_collection`.
+         * `payment_collection`, `remaining_refundable_money`.
          */
         "object": WebhookPaymentIntent;
         /**
@@ -7961,16 +8295,33 @@ export type PaymentIntentFulfillmentHoldUpdatedInstalledMerchantsEvent = (Exclud
          * payment_review. payment_intent.fulfillment_hold_updated is sent when the hold starts and
          * when it lifts. fulfillment_hold.anyOf[1] (Value): {@link
          * PaymentFulfillmentHoldPreviousAttributes}. fulfillment_hold.anyOf[2] (Value): null.
-         * invoice (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. The linked
-         * invoice. Returned only with expand=invoice. Present only when `expand` includes
-         * `invoice`; `null` when expanded and there is no related invoice. invoice.anyOf[1]
-         * (Value): {@link ExpandedInvoiceSummaryPreviousAttributes}. invoice.anyOf[2] (Value):
-         * null. invoice_id (Optional): string or null. Invoice this payment intent collects, when
-         * it pays an invoice. invoice_id.anyOf[1] (Value): string. Invoice this payment intent
-         * collects, when it pays an invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-         * invoice_id.anyOf[2] (Value): null. invoice_schedule_entry_id (Optional): string or null.
-         * The invoice installment this payment collects. invoice_schedule_entry_id.anyOf[1]
-         * (Value): string. The invoice installment this payment collects. Example:
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[2] (Value): null. invoice (Optional): {@link
+         * ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice. Returned only
+         * with expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded
+         * and there is no related invoice. invoice.anyOf[1] (Value): {@link
+         * ExpandedInvoiceSummaryPreviousAttributes}. invoice.anyOf[2] (Value): null. invoice_id
+         * (Optional): string or null. Invoice this payment intent collects, when it pays an
+         * invoice. invoice_id.anyOf[1] (Value): string. Invoice this payment intent collects, when
+         * it pays an invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2]
+         * (Value): null. invoice_schedule_entry_id (Optional): string or null. The invoice
+         * installment this payment collects. invoice_schedule_entry_id.anyOf[1] (Value): string.
+         * The invoice installment this payment collects. Example:
          * "invse_01KEZF7C006JCPQBD8VZ0RNT6R". invoice_schedule_entry_id.anyOf[2] (Value): null.
          * last_payment_error (Optional): {@link PaymentErrorSummaryPreviousAttributes} or null.
          * Most recent payment error. Null when no payment error is recorded.
@@ -8152,21 +8503,22 @@ export type PaymentIntentFulfillmentHoldUpdatedInstalledMerchantsEvent = (Exclud
          * and can change without a payment intent version change. Order legs list confirm when a
          * single leg can pay the order or an open attempt can continue it. Several unpaid legs,
          * selected gift cards, or automatic tax with a leg below the balance require pay_order
-         * instead. Invoice payments list only cancel; subscription payments list none. Order edit
-         * payments list confirm while awaiting payment details or action. A listed action can
-         * still be refused due to an open risk review, an order payment attempt, a closed order,
-         * or the merchant account. A managed_by_owner refusal names the owner and its command in
-         * remediation.next_actions. The merchant list is credential-independent. Checkout
-         * credentials receive that list filtered to confirm and cancel on their own session's
-         * intents, never capture. Customer sessions omit this field. New actions may be added. []
-         * enum: "confirm", "capture", "cancel". supported_actions.anyOf[1] (Value): Array of
-         * string. Verbs this payment intent accepts now, each a POST to
-         * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts
-         * and can change without a payment intent version change. Order legs list confirm when a
-         * single leg can pay the order or an open attempt can continue it. Several unpaid legs,
-         * selected gift cards, or automatic tax with a leg below the balance require pay_order
-         * instead. Invoice payments list only cancel; subscription payments list none. Order edit
-         * payments list confirm while awaiting payment details or action. A listed action can
+         * instead. Invoice payments list only cancel. An unused first-period subscription payment
+         * lists cancel once the subscription is canceled. Order edit payments list confirm while
+         * awaiting payment details or action. A listed action can still be refused due to an open
+         * risk review, an order payment attempt, a closed order, or the merchant account. A
+         * managed_by_owner refusal names the owner and its command in remediation.next_actions.
+         * The merchant list is credential-independent. Checkout credentials receive that list
+         * filtered to confirm and cancel on their own session's intents, never capture. Customer
+         * sessions omit this field. New actions may be added. [] enum: "confirm", "capture",
+         * "cancel". supported_actions.anyOf[1] (Value): Array of string. Verbs this payment intent
+         * accepts now, each a POST to /v1/payment-intents/{payment_intent_id}/{action}. The list
+         * includes stored order facts and can change without a payment intent version change.
+         * Order legs list confirm when a single leg can pay the order or an open attempt can
+         * continue it. Several unpaid legs, selected gift cards, or automatic tax with a leg below
+         * the balance require pay_order instead. Invoice payments list only cancel. An unused
+         * first-period subscription payment lists cancel once the subscription is canceled. Order
+         * edit payments list confirm while awaiting payment details or action. A listed action can
          * still be refused due to an open risk review, an order payment attempt, a closed order,
          * or the merchant account. A managed_by_owner refusal names the owner and its command in
          * remediation.next_actions. The merchant list is credential-independent. Checkout
@@ -8399,6 +8751,25 @@ export type PaymentIntentFulfillmentHoldUpdatedInstalledMerchantsEvent = (Exclud
              * PaymentFulfillmentHoldPreviousAttributes}. anyOf[2] (Value): null.
              */
             "fulfillment_hold"?: ((PaymentFulfillmentHoldPreviousAttributes) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field. anyOf[1] (Value): string. The
+             * Idempotency-Key of the request that created this resource. `null` when that request
+             * sent no key, Flint created the resource, the reader isn't the caller that created it
+             * (another app install, a buyer, or the merchant reading an app's or buyer's record),
+             * or the caller that created an older record is unknown. Filter its list with
+             * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+             * webhook events, can return `null`. To find a key that a replay returns as `null`,
+             * read the resource. Buyer sessions on routes shared with merchants get `null`.
+             * `/v1/me` responses do not include this field. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
             /**
              * The linked invoice. Returned only with expand=invoice. Present only when `expand`
              * includes `invoice`; `null` when expanded and there is no related invoice. anyOf[1]
@@ -8689,11 +9060,12 @@ export type PaymentIntentFulfillmentHoldUpdatedInstalledMerchantsEvent = (Exclud
              * facts and can change without a payment intent version change. Order legs list
              * confirm when a single leg can pay the order or an open attempt can continue it.
              * Several unpaid legs, selected gift cards, or automatic tax with a leg below the
-             * balance require pay_order instead. Invoice payments list only cancel; subscription
-             * payments list none. Order edit payments list confirm while awaiting payment details
-             * or action. A listed action can still be refused due to an open risk review, an order
-             * payment attempt, a closed order, or the merchant account. A managed_by_owner refusal
-             * names the owner and its command in remediation.next_actions. The merchant list is
+             * balance require pay_order instead. Invoice payments list only cancel. An unused
+             * first-period subscription payment lists cancel once the subscription is canceled.
+             * Order edit payments list confirm while awaiting payment details or action. A listed
+             * action can still be refused due to an open risk review, an order payment attempt, a
+             * closed order, or the merchant account. A managed_by_owner refusal names the owner
+             * and its command in remediation.next_actions. The merchant list is
              * credential-independent. Checkout credentials receive that list filtered to confirm
              * and cancel on their own session's intents, never capture. Customer sessions omit
              * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
@@ -8702,11 +9074,12 @@ export type PaymentIntentFulfillmentHoldUpdatedInstalledMerchantsEvent = (Exclud
              * order facts and can change without a payment intent version change. Order legs list
              * confirm when a single leg can pay the order or an open attempt can continue it.
              * Several unpaid legs, selected gift cards, or automatic tax with a leg below the
-             * balance require pay_order instead. Invoice payments list only cancel; subscription
-             * payments list none. Order edit payments list confirm while awaiting payment details
-             * or action. A listed action can still be refused due to an open risk review, an order
-             * payment attempt, a closed order, or the merchant account. A managed_by_owner refusal
-             * names the owner and its command in remediation.next_actions. The merchant list is
+             * balance require pay_order instead. Invoice payments list only cancel. An unused
+             * first-period subscription payment lists cancel once the subscription is canceled.
+             * Order edit payments list confirm while awaiting payment details or action. A listed
+             * action can still be refused due to an open risk review, an order payment attempt, a
+             * closed order, or the merchant account. A managed_by_owner refusal names the owner
+             * and its command in remediation.next_actions. The merchant list is
              * credential-independent. Checkout credentials receive that list filtered to confirm
              * and cancel on their own session's intents, never capture. Customer sessions omit
              * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
@@ -8792,18 +9165,19 @@ export type PaymentIntentFulfillmentHoldUpdatedMerchantEvent = (Exclude<Merchant
     /**
      *  object (Required): {@link WebhookPaymentIntent}. The resource snapshot, without expansions.
      * Webhooks omit these fields: `processing_fee_money`, `processing_fee_details`, `add_on_fees`,
-     * `merchant_net_money`, `payment_collection`. previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events. previous_attributes.amount_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. The amount requested from the buyer, including any
-     * tip_money. Capturing doesn't change it: after a partial capture it still shows the requested
-     * amount, and captured_money shows what was collected. On a standalone payment intent, PATCH
-     * can change it only before the first confirmation attempt. An amount_money or tip_money
-     * change that leaves too little for stored splits returns LIMIT_EXCEEDED at the changed field
-     * with minimum_money. previous_attributes.amount_money.anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.amount_money.anyOf[2] (Value): null.
+     * `merchant_net_money`, `payment_collection`, `remaining_refundable_money`.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.amount_money (Optional): {@link MoneyValuePreviousAttributes} or null.
+     * The amount requested from the buyer, including any tip_money. Capturing doesn't change it:
+     * after a partial capture it still shows the requested amount, and captured_money shows what
+     * was collected. On a standalone payment intent, PATCH can change it only before the first
+     * confirmation attempt. An amount_money or tip_money change that leaves too little for stored
+     * splits returns LIMIT_EXCEEDED at the changed field with minimum_money.
+     * previous_attributes.amount_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.amount_money.anyOf[2] (Value): null.
      * previous_attributes.authorization_expires_at (Optional): string or null. Effective Flint
      * deadline to capture a manual-capture hold: the earlier of the provider capture deadline and
      * any order resource guarantee. Order guarantees last at most 24 hours from the payment
@@ -8940,14 +9314,30 @@ export type PaymentIntentFulfillmentHoldUpdatedMerchantEvent = (Exclude<Merchant
      * is sent when the hold starts and when it lifts.
      * previous_attributes.fulfillment_hold.anyOf[1] (Value): {@link
      * PaymentFulfillmentHoldPreviousAttributes}. previous_attributes.fulfillment_hold.anyOf[2]
-     * (Value): null. previous_attributes.invoice (Optional): {@link
-     * ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice. Returned only with
-     * expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded and
-     * there is no related invoice. previous_attributes.invoice.anyOf[1] (Value): {@link
-     * ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2] (Value):
-     * null. previous_attributes.invoice_id (Optional): string or null. Invoice this payment intent
-     * collects, when it pays an invoice. previous_attributes.invoice_id.anyOf[1] (Value): string.
-     * Invoice this payment intent collects, when it pays an invoice. Example:
+     * (Value): null. previous_attributes.idempotency_key (Optional): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.invoice
+     * (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice.
+     * Returned only with expand=invoice. Present only when `expand` includes `invoice`; `null`
+     * when expanded and there is no related invoice. previous_attributes.invoice.anyOf[1] (Value):
+     * {@link ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2]
+     * (Value): null. previous_attributes.invoice_id (Optional): string or null. Invoice this
+     * payment intent collects, when it pays an invoice. previous_attributes.invoice_id.anyOf[1]
+     * (Value): string. Invoice this payment intent collects, when it pays an invoice. Example:
      * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
      * previous_attributes.invoice_schedule_entry_id (Optional): string or null. The invoice
      * installment this payment collects. previous_attributes.invoice_schedule_entry_id.anyOf[1]
@@ -9150,34 +9540,36 @@ export type PaymentIntentFulfillmentHoldUpdatedMerchantEvent = (Exclude<Merchant
      * The list includes stored order facts and can change without a payment intent version change.
      * Order legs list confirm when a single leg can pay the order or an open attempt can continue
      * it. Several unpaid legs, selected gift cards, or automatic tax with a leg below the balance
-     * require pay_order instead. Invoice payments list only cancel; subscription payments list
-     * none. Order edit payments list confirm while awaiting payment details or action. A listed
-     * action can still be refused due to an open risk review, an order payment attempt, a closed
-     * order, or the merchant account. A managed_by_owner refusal names the owner and its command
-     * in remediation.next_actions. The merchant list is credential-independent. Checkout
-     * credentials receive that list filtered to confirm and cancel on their own session's intents,
-     * never capture. Customer sessions omit this field. New actions may be added. [] enum:
-     * "confirm", "capture", "cancel". previous_attributes.supported_actions.anyOf[1] (Value):
-     * Array of string. Verbs this payment intent accepts now, each a POST to
+     * require pay_order instead. Invoice payments list only cancel. An unused first-period
+     * subscription payment lists cancel once the subscription is canceled. Order edit payments
+     * list confirm while awaiting payment details or action. A listed action can still be refused
+     * due to an open risk review, an order payment attempt, a closed order, or the merchant
+     * account. A managed_by_owner refusal names the owner and its command in
+     * remediation.next_actions. The merchant list is credential-independent. Checkout credentials
+     * receive that list filtered to confirm and cancel on their own session's intents, never
+     * capture. Customer sessions omit this field. New actions may be added. [] enum: "confirm",
+     * "capture", "cancel". previous_attributes.supported_actions.anyOf[1] (Value): Array of
+     * string. Verbs this payment intent accepts now, each a POST to
      * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts and
      * can change without a payment intent version change. Order legs list confirm when a single
      * leg can pay the order or an open attempt can continue it. Several unpaid legs, selected gift
      * cards, or automatic tax with a leg below the balance require pay_order instead. Invoice
-     * payments list only cancel; subscription payments list none. Order edit payments list confirm
-     * while awaiting payment details or action. A listed action can still be refused due to an
-     * open risk review, an order payment attempt, a closed order, or the merchant account. A
-     * managed_by_owner refusal names the owner and its command in remediation.next_actions. The
-     * merchant list is credential-independent. Checkout credentials receive that list filtered to
-     * confirm and cancel on their own session's intents, never capture. Customer sessions omit
-     * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
-     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "confirm",
-     * "capture", "cancel". previous_attributes.supported_actions.anyOf[2] (Value): null.
-     * previous_attributes.tip_money (Optional): {@link MoneyValuePreviousAttributes} or null.
-     * Portion of amount_money that is a tip. Uses amount_money's currency and is at most
-     * amount_money. `null` when no tip is set, and for an order payment until its payment attempt
-     * has moved past requires_payment_method and requires_confirmation. An order payment without a
-     * tip can return an amount of 0 instead. previous_attributes.tip_money.anyOf[1] (Value):
-     * {@link MoneyValuePreviousAttributes}. previous_attributes.tip_money.anyOf[2] (Value): null.
+     * payments list only cancel. An unused first-period subscription payment lists cancel once the
+     * subscription is canceled. Order edit payments list confirm while awaiting payment details or
+     * action. A listed action can still be refused due to an open risk review, an order payment
+     * attempt, a closed order, or the merchant account. A managed_by_owner refusal names the owner
+     * and its command in remediation.next_actions. The merchant list is credential-independent.
+     * Checkout credentials receive that list filtered to confirm and cancel on their own session's
+     * intents, never capture. Customer sessions omit this field. New actions may be added. []
+     * enum: "confirm", "capture", "cancel". previous_attributes.supported_actions.anyOf[1][]
+     * (Value): string. Value enum: "confirm", "capture", "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.tip_money
+     * (Optional): {@link MoneyValuePreviousAttributes} or null. Portion of amount_money that is a
+     * tip. Uses amount_money's currency and is at most amount_money. `null` when no tip is set,
+     * and for an order payment until its payment attempt has moved past requires_payment_method
+     * and requires_confirmation. An order payment without a tip can return an amount of 0 instead.
+     * previous_attributes.tip_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.tip_money.anyOf[2] (Value): null.
      * previous_attributes.transaction_purpose (Optional): string or null. Why a bank debit is
      * taken. Set only when payment_options includes ach_debit, and fixed once the payment intent
      * exists. Value enum: "goods", "services", "other".
@@ -9198,7 +9590,7 @@ export type PaymentIntentFulfillmentHoldUpdatedMerchantEvent = (Exclude<Merchant
         /**
          * The resource snapshot, without expansions. Webhooks omit these fields:
          * `processing_fee_money`, `processing_fee_details`, `add_on_fees`, `merchant_net_money`,
-         * `payment_collection`.
+         * `payment_collection`, `remaining_refundable_money`.
          */
         "object": WebhookPaymentIntent;
         /**
@@ -9337,16 +9729,33 @@ export type PaymentIntentFulfillmentHoldUpdatedMerchantEvent = (Exclude<Merchant
          * payment_review. payment_intent.fulfillment_hold_updated is sent when the hold starts and
          * when it lifts. fulfillment_hold.anyOf[1] (Value): {@link
          * PaymentFulfillmentHoldPreviousAttributes}. fulfillment_hold.anyOf[2] (Value): null.
-         * invoice (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. The linked
-         * invoice. Returned only with expand=invoice. Present only when `expand` includes
-         * `invoice`; `null` when expanded and there is no related invoice. invoice.anyOf[1]
-         * (Value): {@link ExpandedInvoiceSummaryPreviousAttributes}. invoice.anyOf[2] (Value):
-         * null. invoice_id (Optional): string or null. Invoice this payment intent collects, when
-         * it pays an invoice. invoice_id.anyOf[1] (Value): string. Invoice this payment intent
-         * collects, when it pays an invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-         * invoice_id.anyOf[2] (Value): null. invoice_schedule_entry_id (Optional): string or null.
-         * The invoice installment this payment collects. invoice_schedule_entry_id.anyOf[1]
-         * (Value): string. The invoice installment this payment collects. Example:
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[2] (Value): null. invoice (Optional): {@link
+         * ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice. Returned only
+         * with expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded
+         * and there is no related invoice. invoice.anyOf[1] (Value): {@link
+         * ExpandedInvoiceSummaryPreviousAttributes}. invoice.anyOf[2] (Value): null. invoice_id
+         * (Optional): string or null. Invoice this payment intent collects, when it pays an
+         * invoice. invoice_id.anyOf[1] (Value): string. Invoice this payment intent collects, when
+         * it pays an invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2]
+         * (Value): null. invoice_schedule_entry_id (Optional): string or null. The invoice
+         * installment this payment collects. invoice_schedule_entry_id.anyOf[1] (Value): string.
+         * The invoice installment this payment collects. Example:
          * "invse_01KEZF7C006JCPQBD8VZ0RNT6R". invoice_schedule_entry_id.anyOf[2] (Value): null.
          * last_payment_error (Optional): {@link PaymentErrorSummaryPreviousAttributes} or null.
          * Most recent payment error. Null when no payment error is recorded.
@@ -9528,21 +9937,22 @@ export type PaymentIntentFulfillmentHoldUpdatedMerchantEvent = (Exclude<Merchant
          * and can change without a payment intent version change. Order legs list confirm when a
          * single leg can pay the order or an open attempt can continue it. Several unpaid legs,
          * selected gift cards, or automatic tax with a leg below the balance require pay_order
-         * instead. Invoice payments list only cancel; subscription payments list none. Order edit
-         * payments list confirm while awaiting payment details or action. A listed action can
-         * still be refused due to an open risk review, an order payment attempt, a closed order,
-         * or the merchant account. A managed_by_owner refusal names the owner and its command in
-         * remediation.next_actions. The merchant list is credential-independent. Checkout
-         * credentials receive that list filtered to confirm and cancel on their own session's
-         * intents, never capture. Customer sessions omit this field. New actions may be added. []
-         * enum: "confirm", "capture", "cancel". supported_actions.anyOf[1] (Value): Array of
-         * string. Verbs this payment intent accepts now, each a POST to
-         * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts
-         * and can change without a payment intent version change. Order legs list confirm when a
-         * single leg can pay the order or an open attempt can continue it. Several unpaid legs,
-         * selected gift cards, or automatic tax with a leg below the balance require pay_order
-         * instead. Invoice payments list only cancel; subscription payments list none. Order edit
-         * payments list confirm while awaiting payment details or action. A listed action can
+         * instead. Invoice payments list only cancel. An unused first-period subscription payment
+         * lists cancel once the subscription is canceled. Order edit payments list confirm while
+         * awaiting payment details or action. A listed action can still be refused due to an open
+         * risk review, an order payment attempt, a closed order, or the merchant account. A
+         * managed_by_owner refusal names the owner and its command in remediation.next_actions.
+         * The merchant list is credential-independent. Checkout credentials receive that list
+         * filtered to confirm and cancel on their own session's intents, never capture. Customer
+         * sessions omit this field. New actions may be added. [] enum: "confirm", "capture",
+         * "cancel". supported_actions.anyOf[1] (Value): Array of string. Verbs this payment intent
+         * accepts now, each a POST to /v1/payment-intents/{payment_intent_id}/{action}. The list
+         * includes stored order facts and can change without a payment intent version change.
+         * Order legs list confirm when a single leg can pay the order or an open attempt can
+         * continue it. Several unpaid legs, selected gift cards, or automatic tax with a leg below
+         * the balance require pay_order instead. Invoice payments list only cancel. An unused
+         * first-period subscription payment lists cancel once the subscription is canceled. Order
+         * edit payments list confirm while awaiting payment details or action. A listed action can
          * still be refused due to an open risk review, an order payment attempt, a closed order,
          * or the merchant account. A managed_by_owner refusal names the owner and its command in
          * remediation.next_actions. The merchant list is credential-independent. Checkout
@@ -9775,6 +10185,25 @@ export type PaymentIntentFulfillmentHoldUpdatedMerchantEvent = (Exclude<Merchant
              * PaymentFulfillmentHoldPreviousAttributes}. anyOf[2] (Value): null.
              */
             "fulfillment_hold"?: ((PaymentFulfillmentHoldPreviousAttributes) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field. anyOf[1] (Value): string. The
+             * Idempotency-Key of the request that created this resource. `null` when that request
+             * sent no key, Flint created the resource, the reader isn't the caller that created it
+             * (another app install, a buyer, or the merchant reading an app's or buyer's record),
+             * or the caller that created an older record is unknown. Filter its list with
+             * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+             * webhook events, can return `null`. To find a key that a replay returns as `null`,
+             * read the resource. Buyer sessions on routes shared with merchants get `null`.
+             * `/v1/me` responses do not include this field. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
             /**
              * The linked invoice. Returned only with expand=invoice. Present only when `expand`
              * includes `invoice`; `null` when expanded and there is no related invoice. anyOf[1]
@@ -10065,11 +10494,12 @@ export type PaymentIntentFulfillmentHoldUpdatedMerchantEvent = (Exclude<Merchant
              * facts and can change without a payment intent version change. Order legs list
              * confirm when a single leg can pay the order or an open attempt can continue it.
              * Several unpaid legs, selected gift cards, or automatic tax with a leg below the
-             * balance require pay_order instead. Invoice payments list only cancel; subscription
-             * payments list none. Order edit payments list confirm while awaiting payment details
-             * or action. A listed action can still be refused due to an open risk review, an order
-             * payment attempt, a closed order, or the merchant account. A managed_by_owner refusal
-             * names the owner and its command in remediation.next_actions. The merchant list is
+             * balance require pay_order instead. Invoice payments list only cancel. An unused
+             * first-period subscription payment lists cancel once the subscription is canceled.
+             * Order edit payments list confirm while awaiting payment details or action. A listed
+             * action can still be refused due to an open risk review, an order payment attempt, a
+             * closed order, or the merchant account. A managed_by_owner refusal names the owner
+             * and its command in remediation.next_actions. The merchant list is
              * credential-independent. Checkout credentials receive that list filtered to confirm
              * and cancel on their own session's intents, never capture. Customer sessions omit
              * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
@@ -10078,11 +10508,12 @@ export type PaymentIntentFulfillmentHoldUpdatedMerchantEvent = (Exclude<Merchant
              * order facts and can change without a payment intent version change. Order legs list
              * confirm when a single leg can pay the order or an open attempt can continue it.
              * Several unpaid legs, selected gift cards, or automatic tax with a leg below the
-             * balance require pay_order instead. Invoice payments list only cancel; subscription
-             * payments list none. Order edit payments list confirm while awaiting payment details
-             * or action. A listed action can still be refused due to an open risk review, an order
-             * payment attempt, a closed order, or the merchant account. A managed_by_owner refusal
-             * names the owner and its command in remediation.next_actions. The merchant list is
+             * balance require pay_order instead. Invoice payments list only cancel. An unused
+             * first-period subscription payment lists cancel once the subscription is canceled.
+             * Order edit payments list confirm while awaiting payment details or action. A listed
+             * action can still be refused due to an open risk review, an order payment attempt, a
+             * closed order, or the merchant account. A managed_by_owner refusal names the owner
+             * and its command in remediation.next_actions. The merchant list is
              * credential-independent. Checkout credentials receive that list filtered to confirm
              * and cancel on their own session's intents, never capture. Customer sessions omit
              * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
@@ -10232,6 +10663,7 @@ export type PaymentIntentPaymentFailedEvent = ((((Exclude<MerchantWebhookEnvelop
             "failed_attempt_count"?: ((number) | (null));
             "failed_attempts"?: ((Array<FailedPaymentAttemptPreviousAttributes>) | (null));
             "fulfillment_hold"?: ((PaymentFulfillmentHoldPreviousAttributes) | (null));
+            "idempotency_key"?: ((string) | (null));
             "invoice"?: ((ExpandedInvoiceSummaryPreviousAttributes) | (null));
             "invoice_id"?: ((string) | (null));
             "invoice_schedule_entry_id"?: ((string) | (null));
@@ -10342,6 +10774,7 @@ export type PaymentIntentPaymentFailedEvent = ((((Exclude<MerchantWebhookEnvelop
             "failed_attempt_count"?: ((number) | (null));
             "failed_attempts"?: ((Array<FailedPaymentAttemptPreviousAttributes>) | (null));
             "fulfillment_hold"?: ((PaymentFulfillmentHoldPreviousAttributes) | (null));
+            "idempotency_key"?: ((string) | (null));
             "invoice"?: ((ExpandedInvoiceSummaryPreviousAttributes) | (null));
             "invoice_id"?: ((string) | (null));
             "invoice_schedule_entry_id"?: ((string) | (null));
@@ -10422,18 +10855,19 @@ export type PaymentIntentPaymentFailedInstalledMerchantsEvent = (Exclude<Partner
     /**
      *  object (Required): {@link WebhookPaymentIntent}. The resource snapshot, without expansions.
      * Webhooks omit these fields: `processing_fee_money`, `processing_fee_details`, `add_on_fees`,
-     * `merchant_net_money`, `payment_collection`. previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events. previous_attributes.amount_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. The amount requested from the buyer, including any
-     * tip_money. Capturing doesn't change it: after a partial capture it still shows the requested
-     * amount, and captured_money shows what was collected. On a standalone payment intent, PATCH
-     * can change it only before the first confirmation attempt. An amount_money or tip_money
-     * change that leaves too little for stored splits returns LIMIT_EXCEEDED at the changed field
-     * with minimum_money. previous_attributes.amount_money.anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.amount_money.anyOf[2] (Value): null.
+     * `merchant_net_money`, `payment_collection`, `remaining_refundable_money`.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.amount_money (Optional): {@link MoneyValuePreviousAttributes} or null.
+     * The amount requested from the buyer, including any tip_money. Capturing doesn't change it:
+     * after a partial capture it still shows the requested amount, and captured_money shows what
+     * was collected. On a standalone payment intent, PATCH can change it only before the first
+     * confirmation attempt. An amount_money or tip_money change that leaves too little for stored
+     * splits returns LIMIT_EXCEEDED at the changed field with minimum_money.
+     * previous_attributes.amount_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.amount_money.anyOf[2] (Value): null.
      * previous_attributes.authorization_expires_at (Optional): string or null. Effective Flint
      * deadline to capture a manual-capture hold: the earlier of the provider capture deadline and
      * any order resource guarantee. Order guarantees last at most 24 hours from the payment
@@ -10570,14 +11004,30 @@ export type PaymentIntentPaymentFailedInstalledMerchantsEvent = (Exclude<Partner
      * is sent when the hold starts and when it lifts.
      * previous_attributes.fulfillment_hold.anyOf[1] (Value): {@link
      * PaymentFulfillmentHoldPreviousAttributes}. previous_attributes.fulfillment_hold.anyOf[2]
-     * (Value): null. previous_attributes.invoice (Optional): {@link
-     * ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice. Returned only with
-     * expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded and
-     * there is no related invoice. previous_attributes.invoice.anyOf[1] (Value): {@link
-     * ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2] (Value):
-     * null. previous_attributes.invoice_id (Optional): string or null. Invoice this payment intent
-     * collects, when it pays an invoice. previous_attributes.invoice_id.anyOf[1] (Value): string.
-     * Invoice this payment intent collects, when it pays an invoice. Example:
+     * (Value): null. previous_attributes.idempotency_key (Optional): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.invoice
+     * (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice.
+     * Returned only with expand=invoice. Present only when `expand` includes `invoice`; `null`
+     * when expanded and there is no related invoice. previous_attributes.invoice.anyOf[1] (Value):
+     * {@link ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2]
+     * (Value): null. previous_attributes.invoice_id (Optional): string or null. Invoice this
+     * payment intent collects, when it pays an invoice. previous_attributes.invoice_id.anyOf[1]
+     * (Value): string. Invoice this payment intent collects, when it pays an invoice. Example:
      * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
      * previous_attributes.invoice_schedule_entry_id (Optional): string or null. The invoice
      * installment this payment collects. previous_attributes.invoice_schedule_entry_id.anyOf[1]
@@ -10780,34 +11230,36 @@ export type PaymentIntentPaymentFailedInstalledMerchantsEvent = (Exclude<Partner
      * The list includes stored order facts and can change without a payment intent version change.
      * Order legs list confirm when a single leg can pay the order or an open attempt can continue
      * it. Several unpaid legs, selected gift cards, or automatic tax with a leg below the balance
-     * require pay_order instead. Invoice payments list only cancel; subscription payments list
-     * none. Order edit payments list confirm while awaiting payment details or action. A listed
-     * action can still be refused due to an open risk review, an order payment attempt, a closed
-     * order, or the merchant account. A managed_by_owner refusal names the owner and its command
-     * in remediation.next_actions. The merchant list is credential-independent. Checkout
-     * credentials receive that list filtered to confirm and cancel on their own session's intents,
-     * never capture. Customer sessions omit this field. New actions may be added. [] enum:
-     * "confirm", "capture", "cancel". previous_attributes.supported_actions.anyOf[1] (Value):
-     * Array of string. Verbs this payment intent accepts now, each a POST to
+     * require pay_order instead. Invoice payments list only cancel. An unused first-period
+     * subscription payment lists cancel once the subscription is canceled. Order edit payments
+     * list confirm while awaiting payment details or action. A listed action can still be refused
+     * due to an open risk review, an order payment attempt, a closed order, or the merchant
+     * account. A managed_by_owner refusal names the owner and its command in
+     * remediation.next_actions. The merchant list is credential-independent. Checkout credentials
+     * receive that list filtered to confirm and cancel on their own session's intents, never
+     * capture. Customer sessions omit this field. New actions may be added. [] enum: "confirm",
+     * "capture", "cancel". previous_attributes.supported_actions.anyOf[1] (Value): Array of
+     * string. Verbs this payment intent accepts now, each a POST to
      * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts and
      * can change without a payment intent version change. Order legs list confirm when a single
      * leg can pay the order or an open attempt can continue it. Several unpaid legs, selected gift
      * cards, or automatic tax with a leg below the balance require pay_order instead. Invoice
-     * payments list only cancel; subscription payments list none. Order edit payments list confirm
-     * while awaiting payment details or action. A listed action can still be refused due to an
-     * open risk review, an order payment attempt, a closed order, or the merchant account. A
-     * managed_by_owner refusal names the owner and its command in remediation.next_actions. The
-     * merchant list is credential-independent. Checkout credentials receive that list filtered to
-     * confirm and cancel on their own session's intents, never capture. Customer sessions omit
-     * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
-     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "confirm",
-     * "capture", "cancel". previous_attributes.supported_actions.anyOf[2] (Value): null.
-     * previous_attributes.tip_money (Optional): {@link MoneyValuePreviousAttributes} or null.
-     * Portion of amount_money that is a tip. Uses amount_money's currency and is at most
-     * amount_money. `null` when no tip is set, and for an order payment until its payment attempt
-     * has moved past requires_payment_method and requires_confirmation. An order payment without a
-     * tip can return an amount of 0 instead. previous_attributes.tip_money.anyOf[1] (Value):
-     * {@link MoneyValuePreviousAttributes}. previous_attributes.tip_money.anyOf[2] (Value): null.
+     * payments list only cancel. An unused first-period subscription payment lists cancel once the
+     * subscription is canceled. Order edit payments list confirm while awaiting payment details or
+     * action. A listed action can still be refused due to an open risk review, an order payment
+     * attempt, a closed order, or the merchant account. A managed_by_owner refusal names the owner
+     * and its command in remediation.next_actions. The merchant list is credential-independent.
+     * Checkout credentials receive that list filtered to confirm and cancel on their own session's
+     * intents, never capture. Customer sessions omit this field. New actions may be added. []
+     * enum: "confirm", "capture", "cancel". previous_attributes.supported_actions.anyOf[1][]
+     * (Value): string. Value enum: "confirm", "capture", "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.tip_money
+     * (Optional): {@link MoneyValuePreviousAttributes} or null. Portion of amount_money that is a
+     * tip. Uses amount_money's currency and is at most amount_money. `null` when no tip is set,
+     * and for an order payment until its payment attempt has moved past requires_payment_method
+     * and requires_confirmation. An order payment without a tip can return an amount of 0 instead.
+     * previous_attributes.tip_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.tip_money.anyOf[2] (Value): null.
      * previous_attributes.transaction_purpose (Optional): string or null. Why a bank debit is
      * taken. Set only when payment_options includes ach_debit, and fixed once the payment intent
      * exists. Value enum: "goods", "services", "other".
@@ -10828,7 +11280,7 @@ export type PaymentIntentPaymentFailedInstalledMerchantsEvent = (Exclude<Partner
         /**
          * The resource snapshot, without expansions. Webhooks omit these fields:
          * `processing_fee_money`, `processing_fee_details`, `add_on_fees`, `merchant_net_money`,
-         * `payment_collection`.
+         * `payment_collection`, `remaining_refundable_money`.
          */
         "object": WebhookPaymentIntent;
         /**
@@ -10967,16 +11419,33 @@ export type PaymentIntentPaymentFailedInstalledMerchantsEvent = (Exclude<Partner
          * payment_review. payment_intent.fulfillment_hold_updated is sent when the hold starts and
          * when it lifts. fulfillment_hold.anyOf[1] (Value): {@link
          * PaymentFulfillmentHoldPreviousAttributes}. fulfillment_hold.anyOf[2] (Value): null.
-         * invoice (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. The linked
-         * invoice. Returned only with expand=invoice. Present only when `expand` includes
-         * `invoice`; `null` when expanded and there is no related invoice. invoice.anyOf[1]
-         * (Value): {@link ExpandedInvoiceSummaryPreviousAttributes}. invoice.anyOf[2] (Value):
-         * null. invoice_id (Optional): string or null. Invoice this payment intent collects, when
-         * it pays an invoice. invoice_id.anyOf[1] (Value): string. Invoice this payment intent
-         * collects, when it pays an invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-         * invoice_id.anyOf[2] (Value): null. invoice_schedule_entry_id (Optional): string or null.
-         * The invoice installment this payment collects. invoice_schedule_entry_id.anyOf[1]
-         * (Value): string. The invoice installment this payment collects. Example:
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[2] (Value): null. invoice (Optional): {@link
+         * ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice. Returned only
+         * with expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded
+         * and there is no related invoice. invoice.anyOf[1] (Value): {@link
+         * ExpandedInvoiceSummaryPreviousAttributes}. invoice.anyOf[2] (Value): null. invoice_id
+         * (Optional): string or null. Invoice this payment intent collects, when it pays an
+         * invoice. invoice_id.anyOf[1] (Value): string. Invoice this payment intent collects, when
+         * it pays an invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2]
+         * (Value): null. invoice_schedule_entry_id (Optional): string or null. The invoice
+         * installment this payment collects. invoice_schedule_entry_id.anyOf[1] (Value): string.
+         * The invoice installment this payment collects. Example:
          * "invse_01KEZF7C006JCPQBD8VZ0RNT6R". invoice_schedule_entry_id.anyOf[2] (Value): null.
          * last_payment_error (Optional): {@link PaymentErrorSummaryPreviousAttributes} or null.
          * Most recent payment error. Null when no payment error is recorded.
@@ -11158,21 +11627,22 @@ export type PaymentIntentPaymentFailedInstalledMerchantsEvent = (Exclude<Partner
          * and can change without a payment intent version change. Order legs list confirm when a
          * single leg can pay the order or an open attempt can continue it. Several unpaid legs,
          * selected gift cards, or automatic tax with a leg below the balance require pay_order
-         * instead. Invoice payments list only cancel; subscription payments list none. Order edit
-         * payments list confirm while awaiting payment details or action. A listed action can
-         * still be refused due to an open risk review, an order payment attempt, a closed order,
-         * or the merchant account. A managed_by_owner refusal names the owner and its command in
-         * remediation.next_actions. The merchant list is credential-independent. Checkout
-         * credentials receive that list filtered to confirm and cancel on their own session's
-         * intents, never capture. Customer sessions omit this field. New actions may be added. []
-         * enum: "confirm", "capture", "cancel". supported_actions.anyOf[1] (Value): Array of
-         * string. Verbs this payment intent accepts now, each a POST to
-         * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts
-         * and can change without a payment intent version change. Order legs list confirm when a
-         * single leg can pay the order or an open attempt can continue it. Several unpaid legs,
-         * selected gift cards, or automatic tax with a leg below the balance require pay_order
-         * instead. Invoice payments list only cancel; subscription payments list none. Order edit
-         * payments list confirm while awaiting payment details or action. A listed action can
+         * instead. Invoice payments list only cancel. An unused first-period subscription payment
+         * lists cancel once the subscription is canceled. Order edit payments list confirm while
+         * awaiting payment details or action. A listed action can still be refused due to an open
+         * risk review, an order payment attempt, a closed order, or the merchant account. A
+         * managed_by_owner refusal names the owner and its command in remediation.next_actions.
+         * The merchant list is credential-independent. Checkout credentials receive that list
+         * filtered to confirm and cancel on their own session's intents, never capture. Customer
+         * sessions omit this field. New actions may be added. [] enum: "confirm", "capture",
+         * "cancel". supported_actions.anyOf[1] (Value): Array of string. Verbs this payment intent
+         * accepts now, each a POST to /v1/payment-intents/{payment_intent_id}/{action}. The list
+         * includes stored order facts and can change without a payment intent version change.
+         * Order legs list confirm when a single leg can pay the order or an open attempt can
+         * continue it. Several unpaid legs, selected gift cards, or automatic tax with a leg below
+         * the balance require pay_order instead. Invoice payments list only cancel. An unused
+         * first-period subscription payment lists cancel once the subscription is canceled. Order
+         * edit payments list confirm while awaiting payment details or action. A listed action can
          * still be refused due to an open risk review, an order payment attempt, a closed order,
          * or the merchant account. A managed_by_owner refusal names the owner and its command in
          * remediation.next_actions. The merchant list is credential-independent. Checkout
@@ -11405,6 +11875,25 @@ export type PaymentIntentPaymentFailedInstalledMerchantsEvent = (Exclude<Partner
              * PaymentFulfillmentHoldPreviousAttributes}. anyOf[2] (Value): null.
              */
             "fulfillment_hold"?: ((PaymentFulfillmentHoldPreviousAttributes) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field. anyOf[1] (Value): string. The
+             * Idempotency-Key of the request that created this resource. `null` when that request
+             * sent no key, Flint created the resource, the reader isn't the caller that created it
+             * (another app install, a buyer, or the merchant reading an app's or buyer's record),
+             * or the caller that created an older record is unknown. Filter its list with
+             * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+             * webhook events, can return `null`. To find a key that a replay returns as `null`,
+             * read the resource. Buyer sessions on routes shared with merchants get `null`.
+             * `/v1/me` responses do not include this field. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
             /**
              * The linked invoice. Returned only with expand=invoice. Present only when `expand`
              * includes `invoice`; `null` when expanded and there is no related invoice. anyOf[1]
@@ -11695,11 +12184,12 @@ export type PaymentIntentPaymentFailedInstalledMerchantsEvent = (Exclude<Partner
              * facts and can change without a payment intent version change. Order legs list
              * confirm when a single leg can pay the order or an open attempt can continue it.
              * Several unpaid legs, selected gift cards, or automatic tax with a leg below the
-             * balance require pay_order instead. Invoice payments list only cancel; subscription
-             * payments list none. Order edit payments list confirm while awaiting payment details
-             * or action. A listed action can still be refused due to an open risk review, an order
-             * payment attempt, a closed order, or the merchant account. A managed_by_owner refusal
-             * names the owner and its command in remediation.next_actions. The merchant list is
+             * balance require pay_order instead. Invoice payments list only cancel. An unused
+             * first-period subscription payment lists cancel once the subscription is canceled.
+             * Order edit payments list confirm while awaiting payment details or action. A listed
+             * action can still be refused due to an open risk review, an order payment attempt, a
+             * closed order, or the merchant account. A managed_by_owner refusal names the owner
+             * and its command in remediation.next_actions. The merchant list is
              * credential-independent. Checkout credentials receive that list filtered to confirm
              * and cancel on their own session's intents, never capture. Customer sessions omit
              * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
@@ -11708,11 +12198,12 @@ export type PaymentIntentPaymentFailedInstalledMerchantsEvent = (Exclude<Partner
              * order facts and can change without a payment intent version change. Order legs list
              * confirm when a single leg can pay the order or an open attempt can continue it.
              * Several unpaid legs, selected gift cards, or automatic tax with a leg below the
-             * balance require pay_order instead. Invoice payments list only cancel; subscription
-             * payments list none. Order edit payments list confirm while awaiting payment details
-             * or action. A listed action can still be refused due to an open risk review, an order
-             * payment attempt, a closed order, or the merchant account. A managed_by_owner refusal
-             * names the owner and its command in remediation.next_actions. The merchant list is
+             * balance require pay_order instead. Invoice payments list only cancel. An unused
+             * first-period subscription payment lists cancel once the subscription is canceled.
+             * Order edit payments list confirm while awaiting payment details or action. A listed
+             * action can still be refused due to an open risk review, an order payment attempt, a
+             * closed order, or the merchant account. A managed_by_owner refusal names the owner
+             * and its command in remediation.next_actions. The merchant list is
              * credential-independent. Checkout credentials receive that list filtered to confirm
              * and cancel on their own session's intents, never capture. Customer sessions omit
              * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
@@ -11798,18 +12289,19 @@ export type PaymentIntentPaymentFailedMerchantEvent = (Exclude<MerchantWebhookEn
     /**
      *  object (Required): {@link WebhookPaymentIntent}. The resource snapshot, without expansions.
      * Webhooks omit these fields: `processing_fee_money`, `processing_fee_details`, `add_on_fees`,
-     * `merchant_net_money`, `payment_collection`. previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events. previous_attributes.amount_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. The amount requested from the buyer, including any
-     * tip_money. Capturing doesn't change it: after a partial capture it still shows the requested
-     * amount, and captured_money shows what was collected. On a standalone payment intent, PATCH
-     * can change it only before the first confirmation attempt. An amount_money or tip_money
-     * change that leaves too little for stored splits returns LIMIT_EXCEEDED at the changed field
-     * with minimum_money. previous_attributes.amount_money.anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.amount_money.anyOf[2] (Value): null.
+     * `merchant_net_money`, `payment_collection`, `remaining_refundable_money`.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.amount_money (Optional): {@link MoneyValuePreviousAttributes} or null.
+     * The amount requested from the buyer, including any tip_money. Capturing doesn't change it:
+     * after a partial capture it still shows the requested amount, and captured_money shows what
+     * was collected. On a standalone payment intent, PATCH can change it only before the first
+     * confirmation attempt. An amount_money or tip_money change that leaves too little for stored
+     * splits returns LIMIT_EXCEEDED at the changed field with minimum_money.
+     * previous_attributes.amount_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.amount_money.anyOf[2] (Value): null.
      * previous_attributes.authorization_expires_at (Optional): string or null. Effective Flint
      * deadline to capture a manual-capture hold: the earlier of the provider capture deadline and
      * any order resource guarantee. Order guarantees last at most 24 hours from the payment
@@ -11946,14 +12438,30 @@ export type PaymentIntentPaymentFailedMerchantEvent = (Exclude<MerchantWebhookEn
      * is sent when the hold starts and when it lifts.
      * previous_attributes.fulfillment_hold.anyOf[1] (Value): {@link
      * PaymentFulfillmentHoldPreviousAttributes}. previous_attributes.fulfillment_hold.anyOf[2]
-     * (Value): null. previous_attributes.invoice (Optional): {@link
-     * ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice. Returned only with
-     * expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded and
-     * there is no related invoice. previous_attributes.invoice.anyOf[1] (Value): {@link
-     * ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2] (Value):
-     * null. previous_attributes.invoice_id (Optional): string or null. Invoice this payment intent
-     * collects, when it pays an invoice. previous_attributes.invoice_id.anyOf[1] (Value): string.
-     * Invoice this payment intent collects, when it pays an invoice. Example:
+     * (Value): null. previous_attributes.idempotency_key (Optional): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.invoice
+     * (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice.
+     * Returned only with expand=invoice. Present only when `expand` includes `invoice`; `null`
+     * when expanded and there is no related invoice. previous_attributes.invoice.anyOf[1] (Value):
+     * {@link ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2]
+     * (Value): null. previous_attributes.invoice_id (Optional): string or null. Invoice this
+     * payment intent collects, when it pays an invoice. previous_attributes.invoice_id.anyOf[1]
+     * (Value): string. Invoice this payment intent collects, when it pays an invoice. Example:
      * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
      * previous_attributes.invoice_schedule_entry_id (Optional): string or null. The invoice
      * installment this payment collects. previous_attributes.invoice_schedule_entry_id.anyOf[1]
@@ -12156,34 +12664,36 @@ export type PaymentIntentPaymentFailedMerchantEvent = (Exclude<MerchantWebhookEn
      * The list includes stored order facts and can change without a payment intent version change.
      * Order legs list confirm when a single leg can pay the order or an open attempt can continue
      * it. Several unpaid legs, selected gift cards, or automatic tax with a leg below the balance
-     * require pay_order instead. Invoice payments list only cancel; subscription payments list
-     * none. Order edit payments list confirm while awaiting payment details or action. A listed
-     * action can still be refused due to an open risk review, an order payment attempt, a closed
-     * order, or the merchant account. A managed_by_owner refusal names the owner and its command
-     * in remediation.next_actions. The merchant list is credential-independent. Checkout
-     * credentials receive that list filtered to confirm and cancel on their own session's intents,
-     * never capture. Customer sessions omit this field. New actions may be added. [] enum:
-     * "confirm", "capture", "cancel". previous_attributes.supported_actions.anyOf[1] (Value):
-     * Array of string. Verbs this payment intent accepts now, each a POST to
+     * require pay_order instead. Invoice payments list only cancel. An unused first-period
+     * subscription payment lists cancel once the subscription is canceled. Order edit payments
+     * list confirm while awaiting payment details or action. A listed action can still be refused
+     * due to an open risk review, an order payment attempt, a closed order, or the merchant
+     * account. A managed_by_owner refusal names the owner and its command in
+     * remediation.next_actions. The merchant list is credential-independent. Checkout credentials
+     * receive that list filtered to confirm and cancel on their own session's intents, never
+     * capture. Customer sessions omit this field. New actions may be added. [] enum: "confirm",
+     * "capture", "cancel". previous_attributes.supported_actions.anyOf[1] (Value): Array of
+     * string. Verbs this payment intent accepts now, each a POST to
      * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts and
      * can change without a payment intent version change. Order legs list confirm when a single
      * leg can pay the order or an open attempt can continue it. Several unpaid legs, selected gift
      * cards, or automatic tax with a leg below the balance require pay_order instead. Invoice
-     * payments list only cancel; subscription payments list none. Order edit payments list confirm
-     * while awaiting payment details or action. A listed action can still be refused due to an
-     * open risk review, an order payment attempt, a closed order, or the merchant account. A
-     * managed_by_owner refusal names the owner and its command in remediation.next_actions. The
-     * merchant list is credential-independent. Checkout credentials receive that list filtered to
-     * confirm and cancel on their own session's intents, never capture. Customer sessions omit
-     * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
-     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "confirm",
-     * "capture", "cancel". previous_attributes.supported_actions.anyOf[2] (Value): null.
-     * previous_attributes.tip_money (Optional): {@link MoneyValuePreviousAttributes} or null.
-     * Portion of amount_money that is a tip. Uses amount_money's currency and is at most
-     * amount_money. `null` when no tip is set, and for an order payment until its payment attempt
-     * has moved past requires_payment_method and requires_confirmation. An order payment without a
-     * tip can return an amount of 0 instead. previous_attributes.tip_money.anyOf[1] (Value):
-     * {@link MoneyValuePreviousAttributes}. previous_attributes.tip_money.anyOf[2] (Value): null.
+     * payments list only cancel. An unused first-period subscription payment lists cancel once the
+     * subscription is canceled. Order edit payments list confirm while awaiting payment details or
+     * action. A listed action can still be refused due to an open risk review, an order payment
+     * attempt, a closed order, or the merchant account. A managed_by_owner refusal names the owner
+     * and its command in remediation.next_actions. The merchant list is credential-independent.
+     * Checkout credentials receive that list filtered to confirm and cancel on their own session's
+     * intents, never capture. Customer sessions omit this field. New actions may be added. []
+     * enum: "confirm", "capture", "cancel". previous_attributes.supported_actions.anyOf[1][]
+     * (Value): string. Value enum: "confirm", "capture", "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.tip_money
+     * (Optional): {@link MoneyValuePreviousAttributes} or null. Portion of amount_money that is a
+     * tip. Uses amount_money's currency and is at most amount_money. `null` when no tip is set,
+     * and for an order payment until its payment attempt has moved past requires_payment_method
+     * and requires_confirmation. An order payment without a tip can return an amount of 0 instead.
+     * previous_attributes.tip_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.tip_money.anyOf[2] (Value): null.
      * previous_attributes.transaction_purpose (Optional): string or null. Why a bank debit is
      * taken. Set only when payment_options includes ach_debit, and fixed once the payment intent
      * exists. Value enum: "goods", "services", "other".
@@ -12204,7 +12714,7 @@ export type PaymentIntentPaymentFailedMerchantEvent = (Exclude<MerchantWebhookEn
         /**
          * The resource snapshot, without expansions. Webhooks omit these fields:
          * `processing_fee_money`, `processing_fee_details`, `add_on_fees`, `merchant_net_money`,
-         * `payment_collection`.
+         * `payment_collection`, `remaining_refundable_money`.
          */
         "object": WebhookPaymentIntent;
         /**
@@ -12343,16 +12853,33 @@ export type PaymentIntentPaymentFailedMerchantEvent = (Exclude<MerchantWebhookEn
          * payment_review. payment_intent.fulfillment_hold_updated is sent when the hold starts and
          * when it lifts. fulfillment_hold.anyOf[1] (Value): {@link
          * PaymentFulfillmentHoldPreviousAttributes}. fulfillment_hold.anyOf[2] (Value): null.
-         * invoice (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. The linked
-         * invoice. Returned only with expand=invoice. Present only when `expand` includes
-         * `invoice`; `null` when expanded and there is no related invoice. invoice.anyOf[1]
-         * (Value): {@link ExpandedInvoiceSummaryPreviousAttributes}. invoice.anyOf[2] (Value):
-         * null. invoice_id (Optional): string or null. Invoice this payment intent collects, when
-         * it pays an invoice. invoice_id.anyOf[1] (Value): string. Invoice this payment intent
-         * collects, when it pays an invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-         * invoice_id.anyOf[2] (Value): null. invoice_schedule_entry_id (Optional): string or null.
-         * The invoice installment this payment collects. invoice_schedule_entry_id.anyOf[1]
-         * (Value): string. The invoice installment this payment collects. Example:
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[2] (Value): null. invoice (Optional): {@link
+         * ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice. Returned only
+         * with expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded
+         * and there is no related invoice. invoice.anyOf[1] (Value): {@link
+         * ExpandedInvoiceSummaryPreviousAttributes}. invoice.anyOf[2] (Value): null. invoice_id
+         * (Optional): string or null. Invoice this payment intent collects, when it pays an
+         * invoice. invoice_id.anyOf[1] (Value): string. Invoice this payment intent collects, when
+         * it pays an invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2]
+         * (Value): null. invoice_schedule_entry_id (Optional): string or null. The invoice
+         * installment this payment collects. invoice_schedule_entry_id.anyOf[1] (Value): string.
+         * The invoice installment this payment collects. Example:
          * "invse_01KEZF7C006JCPQBD8VZ0RNT6R". invoice_schedule_entry_id.anyOf[2] (Value): null.
          * last_payment_error (Optional): {@link PaymentErrorSummaryPreviousAttributes} or null.
          * Most recent payment error. Null when no payment error is recorded.
@@ -12534,21 +13061,22 @@ export type PaymentIntentPaymentFailedMerchantEvent = (Exclude<MerchantWebhookEn
          * and can change without a payment intent version change. Order legs list confirm when a
          * single leg can pay the order or an open attempt can continue it. Several unpaid legs,
          * selected gift cards, or automatic tax with a leg below the balance require pay_order
-         * instead. Invoice payments list only cancel; subscription payments list none. Order edit
-         * payments list confirm while awaiting payment details or action. A listed action can
-         * still be refused due to an open risk review, an order payment attempt, a closed order,
-         * or the merchant account. A managed_by_owner refusal names the owner and its command in
-         * remediation.next_actions. The merchant list is credential-independent. Checkout
-         * credentials receive that list filtered to confirm and cancel on their own session's
-         * intents, never capture. Customer sessions omit this field. New actions may be added. []
-         * enum: "confirm", "capture", "cancel". supported_actions.anyOf[1] (Value): Array of
-         * string. Verbs this payment intent accepts now, each a POST to
-         * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts
-         * and can change without a payment intent version change. Order legs list confirm when a
-         * single leg can pay the order or an open attempt can continue it. Several unpaid legs,
-         * selected gift cards, or automatic tax with a leg below the balance require pay_order
-         * instead. Invoice payments list only cancel; subscription payments list none. Order edit
-         * payments list confirm while awaiting payment details or action. A listed action can
+         * instead. Invoice payments list only cancel. An unused first-period subscription payment
+         * lists cancel once the subscription is canceled. Order edit payments list confirm while
+         * awaiting payment details or action. A listed action can still be refused due to an open
+         * risk review, an order payment attempt, a closed order, or the merchant account. A
+         * managed_by_owner refusal names the owner and its command in remediation.next_actions.
+         * The merchant list is credential-independent. Checkout credentials receive that list
+         * filtered to confirm and cancel on their own session's intents, never capture. Customer
+         * sessions omit this field. New actions may be added. [] enum: "confirm", "capture",
+         * "cancel". supported_actions.anyOf[1] (Value): Array of string. Verbs this payment intent
+         * accepts now, each a POST to /v1/payment-intents/{payment_intent_id}/{action}. The list
+         * includes stored order facts and can change without a payment intent version change.
+         * Order legs list confirm when a single leg can pay the order or an open attempt can
+         * continue it. Several unpaid legs, selected gift cards, or automatic tax with a leg below
+         * the balance require pay_order instead. Invoice payments list only cancel. An unused
+         * first-period subscription payment lists cancel once the subscription is canceled. Order
+         * edit payments list confirm while awaiting payment details or action. A listed action can
          * still be refused due to an open risk review, an order payment attempt, a closed order,
          * or the merchant account. A managed_by_owner refusal names the owner and its command in
          * remediation.next_actions. The merchant list is credential-independent. Checkout
@@ -12781,6 +13309,25 @@ export type PaymentIntentPaymentFailedMerchantEvent = (Exclude<MerchantWebhookEn
              * PaymentFulfillmentHoldPreviousAttributes}. anyOf[2] (Value): null.
              */
             "fulfillment_hold"?: ((PaymentFulfillmentHoldPreviousAttributes) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field. anyOf[1] (Value): string. The
+             * Idempotency-Key of the request that created this resource. `null` when that request
+             * sent no key, Flint created the resource, the reader isn't the caller that created it
+             * (another app install, a buyer, or the merchant reading an app's or buyer's record),
+             * or the caller that created an older record is unknown. Filter its list with
+             * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+             * webhook events, can return `null`. To find a key that a replay returns as `null`,
+             * read the resource. Buyer sessions on routes shared with merchants get `null`.
+             * `/v1/me` responses do not include this field. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
             /**
              * The linked invoice. Returned only with expand=invoice. Present only when `expand`
              * includes `invoice`; `null` when expanded and there is no related invoice. anyOf[1]
@@ -13071,11 +13618,12 @@ export type PaymentIntentPaymentFailedMerchantEvent = (Exclude<MerchantWebhookEn
              * facts and can change without a payment intent version change. Order legs list
              * confirm when a single leg can pay the order or an open attempt can continue it.
              * Several unpaid legs, selected gift cards, or automatic tax with a leg below the
-             * balance require pay_order instead. Invoice payments list only cancel; subscription
-             * payments list none. Order edit payments list confirm while awaiting payment details
-             * or action. A listed action can still be refused due to an open risk review, an order
-             * payment attempt, a closed order, or the merchant account. A managed_by_owner refusal
-             * names the owner and its command in remediation.next_actions. The merchant list is
+             * balance require pay_order instead. Invoice payments list only cancel. An unused
+             * first-period subscription payment lists cancel once the subscription is canceled.
+             * Order edit payments list confirm while awaiting payment details or action. A listed
+             * action can still be refused due to an open risk review, an order payment attempt, a
+             * closed order, or the merchant account. A managed_by_owner refusal names the owner
+             * and its command in remediation.next_actions. The merchant list is
              * credential-independent. Checkout credentials receive that list filtered to confirm
              * and cancel on their own session's intents, never capture. Customer sessions omit
              * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
@@ -13084,11 +13632,12 @@ export type PaymentIntentPaymentFailedMerchantEvent = (Exclude<MerchantWebhookEn
              * order facts and can change without a payment intent version change. Order legs list
              * confirm when a single leg can pay the order or an open attempt can continue it.
              * Several unpaid legs, selected gift cards, or automatic tax with a leg below the
-             * balance require pay_order instead. Invoice payments list only cancel; subscription
-             * payments list none. Order edit payments list confirm while awaiting payment details
-             * or action. A listed action can still be refused due to an open risk review, an order
-             * payment attempt, a closed order, or the merchant account. A managed_by_owner refusal
-             * names the owner and its command in remediation.next_actions. The merchant list is
+             * balance require pay_order instead. Invoice payments list only cancel. An unused
+             * first-period subscription payment lists cancel once the subscription is canceled.
+             * Order edit payments list confirm while awaiting payment details or action. A listed
+             * action can still be refused due to an open risk review, an order payment attempt, a
+             * closed order, or the merchant account. A managed_by_owner refusal names the owner
+             * and its command in remediation.next_actions. The merchant list is
              * credential-independent. Checkout credentials receive that list filtered to confirm
              * and cancel on their own session's intents, never capture. Customer sessions omit
              * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
@@ -13236,6 +13785,7 @@ export type PaymentIntentProcessingEvent = ((((Exclude<MerchantWebhookEnvelope &
             "failed_attempt_count"?: ((number) | (null));
             "failed_attempts"?: ((Array<FailedPaymentAttemptPreviousAttributes>) | (null));
             "fulfillment_hold"?: ((PaymentFulfillmentHoldPreviousAttributes) | (null));
+            "idempotency_key"?: ((string) | (null));
             "invoice"?: ((ExpandedInvoiceSummaryPreviousAttributes) | (null));
             "invoice_id"?: ((string) | (null));
             "invoice_schedule_entry_id"?: ((string) | (null));
@@ -13346,6 +13896,7 @@ export type PaymentIntentProcessingEvent = ((((Exclude<MerchantWebhookEnvelope &
             "failed_attempt_count"?: ((number) | (null));
             "failed_attempts"?: ((Array<FailedPaymentAttemptPreviousAttributes>) | (null));
             "fulfillment_hold"?: ((PaymentFulfillmentHoldPreviousAttributes) | (null));
+            "idempotency_key"?: ((string) | (null));
             "invoice"?: ((ExpandedInvoiceSummaryPreviousAttributes) | (null));
             "invoice_id"?: ((string) | (null));
             "invoice_schedule_entry_id"?: ((string) | (null));
@@ -13426,18 +13977,19 @@ export type PaymentIntentProcessingInstalledMerchantsEvent = (Exclude<PartnerWeb
     /**
      *  object (Required): {@link WebhookPaymentIntent}. The resource snapshot, without expansions.
      * Webhooks omit these fields: `processing_fee_money`, `processing_fee_details`, `add_on_fees`,
-     * `merchant_net_money`, `payment_collection`. previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events. previous_attributes.amount_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. The amount requested from the buyer, including any
-     * tip_money. Capturing doesn't change it: after a partial capture it still shows the requested
-     * amount, and captured_money shows what was collected. On a standalone payment intent, PATCH
-     * can change it only before the first confirmation attempt. An amount_money or tip_money
-     * change that leaves too little for stored splits returns LIMIT_EXCEEDED at the changed field
-     * with minimum_money. previous_attributes.amount_money.anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.amount_money.anyOf[2] (Value): null.
+     * `merchant_net_money`, `payment_collection`, `remaining_refundable_money`.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.amount_money (Optional): {@link MoneyValuePreviousAttributes} or null.
+     * The amount requested from the buyer, including any tip_money. Capturing doesn't change it:
+     * after a partial capture it still shows the requested amount, and captured_money shows what
+     * was collected. On a standalone payment intent, PATCH can change it only before the first
+     * confirmation attempt. An amount_money or tip_money change that leaves too little for stored
+     * splits returns LIMIT_EXCEEDED at the changed field with minimum_money.
+     * previous_attributes.amount_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.amount_money.anyOf[2] (Value): null.
      * previous_attributes.authorization_expires_at (Optional): string or null. Effective Flint
      * deadline to capture a manual-capture hold: the earlier of the provider capture deadline and
      * any order resource guarantee. Order guarantees last at most 24 hours from the payment
@@ -13574,14 +14126,30 @@ export type PaymentIntentProcessingInstalledMerchantsEvent = (Exclude<PartnerWeb
      * is sent when the hold starts and when it lifts.
      * previous_attributes.fulfillment_hold.anyOf[1] (Value): {@link
      * PaymentFulfillmentHoldPreviousAttributes}. previous_attributes.fulfillment_hold.anyOf[2]
-     * (Value): null. previous_attributes.invoice (Optional): {@link
-     * ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice. Returned only with
-     * expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded and
-     * there is no related invoice. previous_attributes.invoice.anyOf[1] (Value): {@link
-     * ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2] (Value):
-     * null. previous_attributes.invoice_id (Optional): string or null. Invoice this payment intent
-     * collects, when it pays an invoice. previous_attributes.invoice_id.anyOf[1] (Value): string.
-     * Invoice this payment intent collects, when it pays an invoice. Example:
+     * (Value): null. previous_attributes.idempotency_key (Optional): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.invoice
+     * (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice.
+     * Returned only with expand=invoice. Present only when `expand` includes `invoice`; `null`
+     * when expanded and there is no related invoice. previous_attributes.invoice.anyOf[1] (Value):
+     * {@link ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2]
+     * (Value): null. previous_attributes.invoice_id (Optional): string or null. Invoice this
+     * payment intent collects, when it pays an invoice. previous_attributes.invoice_id.anyOf[1]
+     * (Value): string. Invoice this payment intent collects, when it pays an invoice. Example:
      * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
      * previous_attributes.invoice_schedule_entry_id (Optional): string or null. The invoice
      * installment this payment collects. previous_attributes.invoice_schedule_entry_id.anyOf[1]
@@ -13784,34 +14352,36 @@ export type PaymentIntentProcessingInstalledMerchantsEvent = (Exclude<PartnerWeb
      * The list includes stored order facts and can change without a payment intent version change.
      * Order legs list confirm when a single leg can pay the order or an open attempt can continue
      * it. Several unpaid legs, selected gift cards, or automatic tax with a leg below the balance
-     * require pay_order instead. Invoice payments list only cancel; subscription payments list
-     * none. Order edit payments list confirm while awaiting payment details or action. A listed
-     * action can still be refused due to an open risk review, an order payment attempt, a closed
-     * order, or the merchant account. A managed_by_owner refusal names the owner and its command
-     * in remediation.next_actions. The merchant list is credential-independent. Checkout
-     * credentials receive that list filtered to confirm and cancel on their own session's intents,
-     * never capture. Customer sessions omit this field. New actions may be added. [] enum:
-     * "confirm", "capture", "cancel". previous_attributes.supported_actions.anyOf[1] (Value):
-     * Array of string. Verbs this payment intent accepts now, each a POST to
+     * require pay_order instead. Invoice payments list only cancel. An unused first-period
+     * subscription payment lists cancel once the subscription is canceled. Order edit payments
+     * list confirm while awaiting payment details or action. A listed action can still be refused
+     * due to an open risk review, an order payment attempt, a closed order, or the merchant
+     * account. A managed_by_owner refusal names the owner and its command in
+     * remediation.next_actions. The merchant list is credential-independent. Checkout credentials
+     * receive that list filtered to confirm and cancel on their own session's intents, never
+     * capture. Customer sessions omit this field. New actions may be added. [] enum: "confirm",
+     * "capture", "cancel". previous_attributes.supported_actions.anyOf[1] (Value): Array of
+     * string. Verbs this payment intent accepts now, each a POST to
      * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts and
      * can change without a payment intent version change. Order legs list confirm when a single
      * leg can pay the order or an open attempt can continue it. Several unpaid legs, selected gift
      * cards, or automatic tax with a leg below the balance require pay_order instead. Invoice
-     * payments list only cancel; subscription payments list none. Order edit payments list confirm
-     * while awaiting payment details or action. A listed action can still be refused due to an
-     * open risk review, an order payment attempt, a closed order, or the merchant account. A
-     * managed_by_owner refusal names the owner and its command in remediation.next_actions. The
-     * merchant list is credential-independent. Checkout credentials receive that list filtered to
-     * confirm and cancel on their own session's intents, never capture. Customer sessions omit
-     * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
-     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "confirm",
-     * "capture", "cancel". previous_attributes.supported_actions.anyOf[2] (Value): null.
-     * previous_attributes.tip_money (Optional): {@link MoneyValuePreviousAttributes} or null.
-     * Portion of amount_money that is a tip. Uses amount_money's currency and is at most
-     * amount_money. `null` when no tip is set, and for an order payment until its payment attempt
-     * has moved past requires_payment_method and requires_confirmation. An order payment without a
-     * tip can return an amount of 0 instead. previous_attributes.tip_money.anyOf[1] (Value):
-     * {@link MoneyValuePreviousAttributes}. previous_attributes.tip_money.anyOf[2] (Value): null.
+     * payments list only cancel. An unused first-period subscription payment lists cancel once the
+     * subscription is canceled. Order edit payments list confirm while awaiting payment details or
+     * action. A listed action can still be refused due to an open risk review, an order payment
+     * attempt, a closed order, or the merchant account. A managed_by_owner refusal names the owner
+     * and its command in remediation.next_actions. The merchant list is credential-independent.
+     * Checkout credentials receive that list filtered to confirm and cancel on their own session's
+     * intents, never capture. Customer sessions omit this field. New actions may be added. []
+     * enum: "confirm", "capture", "cancel". previous_attributes.supported_actions.anyOf[1][]
+     * (Value): string. Value enum: "confirm", "capture", "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.tip_money
+     * (Optional): {@link MoneyValuePreviousAttributes} or null. Portion of amount_money that is a
+     * tip. Uses amount_money's currency and is at most amount_money. `null` when no tip is set,
+     * and for an order payment until its payment attempt has moved past requires_payment_method
+     * and requires_confirmation. An order payment without a tip can return an amount of 0 instead.
+     * previous_attributes.tip_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.tip_money.anyOf[2] (Value): null.
      * previous_attributes.transaction_purpose (Optional): string or null. Why a bank debit is
      * taken. Set only when payment_options includes ach_debit, and fixed once the payment intent
      * exists. Value enum: "goods", "services", "other".
@@ -13832,7 +14402,7 @@ export type PaymentIntentProcessingInstalledMerchantsEvent = (Exclude<PartnerWeb
         /**
          * The resource snapshot, without expansions. Webhooks omit these fields:
          * `processing_fee_money`, `processing_fee_details`, `add_on_fees`, `merchant_net_money`,
-         * `payment_collection`.
+         * `payment_collection`, `remaining_refundable_money`.
          */
         "object": WebhookPaymentIntent;
         /**
@@ -13971,16 +14541,33 @@ export type PaymentIntentProcessingInstalledMerchantsEvent = (Exclude<PartnerWeb
          * payment_review. payment_intent.fulfillment_hold_updated is sent when the hold starts and
          * when it lifts. fulfillment_hold.anyOf[1] (Value): {@link
          * PaymentFulfillmentHoldPreviousAttributes}. fulfillment_hold.anyOf[2] (Value): null.
-         * invoice (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. The linked
-         * invoice. Returned only with expand=invoice. Present only when `expand` includes
-         * `invoice`; `null` when expanded and there is no related invoice. invoice.anyOf[1]
-         * (Value): {@link ExpandedInvoiceSummaryPreviousAttributes}. invoice.anyOf[2] (Value):
-         * null. invoice_id (Optional): string or null. Invoice this payment intent collects, when
-         * it pays an invoice. invoice_id.anyOf[1] (Value): string. Invoice this payment intent
-         * collects, when it pays an invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-         * invoice_id.anyOf[2] (Value): null. invoice_schedule_entry_id (Optional): string or null.
-         * The invoice installment this payment collects. invoice_schedule_entry_id.anyOf[1]
-         * (Value): string. The invoice installment this payment collects. Example:
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[2] (Value): null. invoice (Optional): {@link
+         * ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice. Returned only
+         * with expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded
+         * and there is no related invoice. invoice.anyOf[1] (Value): {@link
+         * ExpandedInvoiceSummaryPreviousAttributes}. invoice.anyOf[2] (Value): null. invoice_id
+         * (Optional): string or null. Invoice this payment intent collects, when it pays an
+         * invoice. invoice_id.anyOf[1] (Value): string. Invoice this payment intent collects, when
+         * it pays an invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2]
+         * (Value): null. invoice_schedule_entry_id (Optional): string or null. The invoice
+         * installment this payment collects. invoice_schedule_entry_id.anyOf[1] (Value): string.
+         * The invoice installment this payment collects. Example:
          * "invse_01KEZF7C006JCPQBD8VZ0RNT6R". invoice_schedule_entry_id.anyOf[2] (Value): null.
          * last_payment_error (Optional): {@link PaymentErrorSummaryPreviousAttributes} or null.
          * Most recent payment error. Null when no payment error is recorded.
@@ -14162,21 +14749,22 @@ export type PaymentIntentProcessingInstalledMerchantsEvent = (Exclude<PartnerWeb
          * and can change without a payment intent version change. Order legs list confirm when a
          * single leg can pay the order or an open attempt can continue it. Several unpaid legs,
          * selected gift cards, or automatic tax with a leg below the balance require pay_order
-         * instead. Invoice payments list only cancel; subscription payments list none. Order edit
-         * payments list confirm while awaiting payment details or action. A listed action can
-         * still be refused due to an open risk review, an order payment attempt, a closed order,
-         * or the merchant account. A managed_by_owner refusal names the owner and its command in
-         * remediation.next_actions. The merchant list is credential-independent. Checkout
-         * credentials receive that list filtered to confirm and cancel on their own session's
-         * intents, never capture. Customer sessions omit this field. New actions may be added. []
-         * enum: "confirm", "capture", "cancel". supported_actions.anyOf[1] (Value): Array of
-         * string. Verbs this payment intent accepts now, each a POST to
-         * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts
-         * and can change without a payment intent version change. Order legs list confirm when a
-         * single leg can pay the order or an open attempt can continue it. Several unpaid legs,
-         * selected gift cards, or automatic tax with a leg below the balance require pay_order
-         * instead. Invoice payments list only cancel; subscription payments list none. Order edit
-         * payments list confirm while awaiting payment details or action. A listed action can
+         * instead. Invoice payments list only cancel. An unused first-period subscription payment
+         * lists cancel once the subscription is canceled. Order edit payments list confirm while
+         * awaiting payment details or action. A listed action can still be refused due to an open
+         * risk review, an order payment attempt, a closed order, or the merchant account. A
+         * managed_by_owner refusal names the owner and its command in remediation.next_actions.
+         * The merchant list is credential-independent. Checkout credentials receive that list
+         * filtered to confirm and cancel on their own session's intents, never capture. Customer
+         * sessions omit this field. New actions may be added. [] enum: "confirm", "capture",
+         * "cancel". supported_actions.anyOf[1] (Value): Array of string. Verbs this payment intent
+         * accepts now, each a POST to /v1/payment-intents/{payment_intent_id}/{action}. The list
+         * includes stored order facts and can change without a payment intent version change.
+         * Order legs list confirm when a single leg can pay the order or an open attempt can
+         * continue it. Several unpaid legs, selected gift cards, or automatic tax with a leg below
+         * the balance require pay_order instead. Invoice payments list only cancel. An unused
+         * first-period subscription payment lists cancel once the subscription is canceled. Order
+         * edit payments list confirm while awaiting payment details or action. A listed action can
          * still be refused due to an open risk review, an order payment attempt, a closed order,
          * or the merchant account. A managed_by_owner refusal names the owner and its command in
          * remediation.next_actions. The merchant list is credential-independent. Checkout
@@ -14409,6 +14997,25 @@ export type PaymentIntentProcessingInstalledMerchantsEvent = (Exclude<PartnerWeb
              * PaymentFulfillmentHoldPreviousAttributes}. anyOf[2] (Value): null.
              */
             "fulfillment_hold"?: ((PaymentFulfillmentHoldPreviousAttributes) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field. anyOf[1] (Value): string. The
+             * Idempotency-Key of the request that created this resource. `null` when that request
+             * sent no key, Flint created the resource, the reader isn't the caller that created it
+             * (another app install, a buyer, or the merchant reading an app's or buyer's record),
+             * or the caller that created an older record is unknown. Filter its list with
+             * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+             * webhook events, can return `null`. To find a key that a replay returns as `null`,
+             * read the resource. Buyer sessions on routes shared with merchants get `null`.
+             * `/v1/me` responses do not include this field. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
             /**
              * The linked invoice. Returned only with expand=invoice. Present only when `expand`
              * includes `invoice`; `null` when expanded and there is no related invoice. anyOf[1]
@@ -14699,11 +15306,12 @@ export type PaymentIntentProcessingInstalledMerchantsEvent = (Exclude<PartnerWeb
              * facts and can change without a payment intent version change. Order legs list
              * confirm when a single leg can pay the order or an open attempt can continue it.
              * Several unpaid legs, selected gift cards, or automatic tax with a leg below the
-             * balance require pay_order instead. Invoice payments list only cancel; subscription
-             * payments list none. Order edit payments list confirm while awaiting payment details
-             * or action. A listed action can still be refused due to an open risk review, an order
-             * payment attempt, a closed order, or the merchant account. A managed_by_owner refusal
-             * names the owner and its command in remediation.next_actions. The merchant list is
+             * balance require pay_order instead. Invoice payments list only cancel. An unused
+             * first-period subscription payment lists cancel once the subscription is canceled.
+             * Order edit payments list confirm while awaiting payment details or action. A listed
+             * action can still be refused due to an open risk review, an order payment attempt, a
+             * closed order, or the merchant account. A managed_by_owner refusal names the owner
+             * and its command in remediation.next_actions. The merchant list is
              * credential-independent. Checkout credentials receive that list filtered to confirm
              * and cancel on their own session's intents, never capture. Customer sessions omit
              * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
@@ -14712,11 +15320,12 @@ export type PaymentIntentProcessingInstalledMerchantsEvent = (Exclude<PartnerWeb
              * order facts and can change without a payment intent version change. Order legs list
              * confirm when a single leg can pay the order or an open attempt can continue it.
              * Several unpaid legs, selected gift cards, or automatic tax with a leg below the
-             * balance require pay_order instead. Invoice payments list only cancel; subscription
-             * payments list none. Order edit payments list confirm while awaiting payment details
-             * or action. A listed action can still be refused due to an open risk review, an order
-             * payment attempt, a closed order, or the merchant account. A managed_by_owner refusal
-             * names the owner and its command in remediation.next_actions. The merchant list is
+             * balance require pay_order instead. Invoice payments list only cancel. An unused
+             * first-period subscription payment lists cancel once the subscription is canceled.
+             * Order edit payments list confirm while awaiting payment details or action. A listed
+             * action can still be refused due to an open risk review, an order payment attempt, a
+             * closed order, or the merchant account. A managed_by_owner refusal names the owner
+             * and its command in remediation.next_actions. The merchant list is
              * credential-independent. Checkout credentials receive that list filtered to confirm
              * and cancel on their own session's intents, never capture. Customer sessions omit
              * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
@@ -14802,18 +15411,19 @@ export type PaymentIntentProcessingMerchantEvent = (Exclude<MerchantWebhookEnvel
     /**
      *  object (Required): {@link WebhookPaymentIntent}. The resource snapshot, without expansions.
      * Webhooks omit these fields: `processing_fee_money`, `processing_fee_details`, `add_on_fees`,
-     * `merchant_net_money`, `payment_collection`. previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events. previous_attributes.amount_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. The amount requested from the buyer, including any
-     * tip_money. Capturing doesn't change it: after a partial capture it still shows the requested
-     * amount, and captured_money shows what was collected. On a standalone payment intent, PATCH
-     * can change it only before the first confirmation attempt. An amount_money or tip_money
-     * change that leaves too little for stored splits returns LIMIT_EXCEEDED at the changed field
-     * with minimum_money. previous_attributes.amount_money.anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.amount_money.anyOf[2] (Value): null.
+     * `merchant_net_money`, `payment_collection`, `remaining_refundable_money`.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.amount_money (Optional): {@link MoneyValuePreviousAttributes} or null.
+     * The amount requested from the buyer, including any tip_money. Capturing doesn't change it:
+     * after a partial capture it still shows the requested amount, and captured_money shows what
+     * was collected. On a standalone payment intent, PATCH can change it only before the first
+     * confirmation attempt. An amount_money or tip_money change that leaves too little for stored
+     * splits returns LIMIT_EXCEEDED at the changed field with minimum_money.
+     * previous_attributes.amount_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.amount_money.anyOf[2] (Value): null.
      * previous_attributes.authorization_expires_at (Optional): string or null. Effective Flint
      * deadline to capture a manual-capture hold: the earlier of the provider capture deadline and
      * any order resource guarantee. Order guarantees last at most 24 hours from the payment
@@ -14950,14 +15560,30 @@ export type PaymentIntentProcessingMerchantEvent = (Exclude<MerchantWebhookEnvel
      * is sent when the hold starts and when it lifts.
      * previous_attributes.fulfillment_hold.anyOf[1] (Value): {@link
      * PaymentFulfillmentHoldPreviousAttributes}. previous_attributes.fulfillment_hold.anyOf[2]
-     * (Value): null. previous_attributes.invoice (Optional): {@link
-     * ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice. Returned only with
-     * expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded and
-     * there is no related invoice. previous_attributes.invoice.anyOf[1] (Value): {@link
-     * ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2] (Value):
-     * null. previous_attributes.invoice_id (Optional): string or null. Invoice this payment intent
-     * collects, when it pays an invoice. previous_attributes.invoice_id.anyOf[1] (Value): string.
-     * Invoice this payment intent collects, when it pays an invoice. Example:
+     * (Value): null. previous_attributes.idempotency_key (Optional): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.invoice
+     * (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice.
+     * Returned only with expand=invoice. Present only when `expand` includes `invoice`; `null`
+     * when expanded and there is no related invoice. previous_attributes.invoice.anyOf[1] (Value):
+     * {@link ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2]
+     * (Value): null. previous_attributes.invoice_id (Optional): string or null. Invoice this
+     * payment intent collects, when it pays an invoice. previous_attributes.invoice_id.anyOf[1]
+     * (Value): string. Invoice this payment intent collects, when it pays an invoice. Example:
      * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
      * previous_attributes.invoice_schedule_entry_id (Optional): string or null. The invoice
      * installment this payment collects. previous_attributes.invoice_schedule_entry_id.anyOf[1]
@@ -15160,34 +15786,36 @@ export type PaymentIntentProcessingMerchantEvent = (Exclude<MerchantWebhookEnvel
      * The list includes stored order facts and can change without a payment intent version change.
      * Order legs list confirm when a single leg can pay the order or an open attempt can continue
      * it. Several unpaid legs, selected gift cards, or automatic tax with a leg below the balance
-     * require pay_order instead. Invoice payments list only cancel; subscription payments list
-     * none. Order edit payments list confirm while awaiting payment details or action. A listed
-     * action can still be refused due to an open risk review, an order payment attempt, a closed
-     * order, or the merchant account. A managed_by_owner refusal names the owner and its command
-     * in remediation.next_actions. The merchant list is credential-independent. Checkout
-     * credentials receive that list filtered to confirm and cancel on their own session's intents,
-     * never capture. Customer sessions omit this field. New actions may be added. [] enum:
-     * "confirm", "capture", "cancel". previous_attributes.supported_actions.anyOf[1] (Value):
-     * Array of string. Verbs this payment intent accepts now, each a POST to
+     * require pay_order instead. Invoice payments list only cancel. An unused first-period
+     * subscription payment lists cancel once the subscription is canceled. Order edit payments
+     * list confirm while awaiting payment details or action. A listed action can still be refused
+     * due to an open risk review, an order payment attempt, a closed order, or the merchant
+     * account. A managed_by_owner refusal names the owner and its command in
+     * remediation.next_actions. The merchant list is credential-independent. Checkout credentials
+     * receive that list filtered to confirm and cancel on their own session's intents, never
+     * capture. Customer sessions omit this field. New actions may be added. [] enum: "confirm",
+     * "capture", "cancel". previous_attributes.supported_actions.anyOf[1] (Value): Array of
+     * string. Verbs this payment intent accepts now, each a POST to
      * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts and
      * can change without a payment intent version change. Order legs list confirm when a single
      * leg can pay the order or an open attempt can continue it. Several unpaid legs, selected gift
      * cards, or automatic tax with a leg below the balance require pay_order instead. Invoice
-     * payments list only cancel; subscription payments list none. Order edit payments list confirm
-     * while awaiting payment details or action. A listed action can still be refused due to an
-     * open risk review, an order payment attempt, a closed order, or the merchant account. A
-     * managed_by_owner refusal names the owner and its command in remediation.next_actions. The
-     * merchant list is credential-independent. Checkout credentials receive that list filtered to
-     * confirm and cancel on their own session's intents, never capture. Customer sessions omit
-     * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
-     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "confirm",
-     * "capture", "cancel". previous_attributes.supported_actions.anyOf[2] (Value): null.
-     * previous_attributes.tip_money (Optional): {@link MoneyValuePreviousAttributes} or null.
-     * Portion of amount_money that is a tip. Uses amount_money's currency and is at most
-     * amount_money. `null` when no tip is set, and for an order payment until its payment attempt
-     * has moved past requires_payment_method and requires_confirmation. An order payment without a
-     * tip can return an amount of 0 instead. previous_attributes.tip_money.anyOf[1] (Value):
-     * {@link MoneyValuePreviousAttributes}. previous_attributes.tip_money.anyOf[2] (Value): null.
+     * payments list only cancel. An unused first-period subscription payment lists cancel once the
+     * subscription is canceled. Order edit payments list confirm while awaiting payment details or
+     * action. A listed action can still be refused due to an open risk review, an order payment
+     * attempt, a closed order, or the merchant account. A managed_by_owner refusal names the owner
+     * and its command in remediation.next_actions. The merchant list is credential-independent.
+     * Checkout credentials receive that list filtered to confirm and cancel on their own session's
+     * intents, never capture. Customer sessions omit this field. New actions may be added. []
+     * enum: "confirm", "capture", "cancel". previous_attributes.supported_actions.anyOf[1][]
+     * (Value): string. Value enum: "confirm", "capture", "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.tip_money
+     * (Optional): {@link MoneyValuePreviousAttributes} or null. Portion of amount_money that is a
+     * tip. Uses amount_money's currency and is at most amount_money. `null` when no tip is set,
+     * and for an order payment until its payment attempt has moved past requires_payment_method
+     * and requires_confirmation. An order payment without a tip can return an amount of 0 instead.
+     * previous_attributes.tip_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.tip_money.anyOf[2] (Value): null.
      * previous_attributes.transaction_purpose (Optional): string or null. Why a bank debit is
      * taken. Set only when payment_options includes ach_debit, and fixed once the payment intent
      * exists. Value enum: "goods", "services", "other".
@@ -15208,7 +15836,7 @@ export type PaymentIntentProcessingMerchantEvent = (Exclude<MerchantWebhookEnvel
         /**
          * The resource snapshot, without expansions. Webhooks omit these fields:
          * `processing_fee_money`, `processing_fee_details`, `add_on_fees`, `merchant_net_money`,
-         * `payment_collection`.
+         * `payment_collection`, `remaining_refundable_money`.
          */
         "object": WebhookPaymentIntent;
         /**
@@ -15347,16 +15975,33 @@ export type PaymentIntentProcessingMerchantEvent = (Exclude<MerchantWebhookEnvel
          * payment_review. payment_intent.fulfillment_hold_updated is sent when the hold starts and
          * when it lifts. fulfillment_hold.anyOf[1] (Value): {@link
          * PaymentFulfillmentHoldPreviousAttributes}. fulfillment_hold.anyOf[2] (Value): null.
-         * invoice (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. The linked
-         * invoice. Returned only with expand=invoice. Present only when `expand` includes
-         * `invoice`; `null` when expanded and there is no related invoice. invoice.anyOf[1]
-         * (Value): {@link ExpandedInvoiceSummaryPreviousAttributes}. invoice.anyOf[2] (Value):
-         * null. invoice_id (Optional): string or null. Invoice this payment intent collects, when
-         * it pays an invoice. invoice_id.anyOf[1] (Value): string. Invoice this payment intent
-         * collects, when it pays an invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-         * invoice_id.anyOf[2] (Value): null. invoice_schedule_entry_id (Optional): string or null.
-         * The invoice installment this payment collects. invoice_schedule_entry_id.anyOf[1]
-         * (Value): string. The invoice installment this payment collects. Example:
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[2] (Value): null. invoice (Optional): {@link
+         * ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice. Returned only
+         * with expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded
+         * and there is no related invoice. invoice.anyOf[1] (Value): {@link
+         * ExpandedInvoiceSummaryPreviousAttributes}. invoice.anyOf[2] (Value): null. invoice_id
+         * (Optional): string or null. Invoice this payment intent collects, when it pays an
+         * invoice. invoice_id.anyOf[1] (Value): string. Invoice this payment intent collects, when
+         * it pays an invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2]
+         * (Value): null. invoice_schedule_entry_id (Optional): string or null. The invoice
+         * installment this payment collects. invoice_schedule_entry_id.anyOf[1] (Value): string.
+         * The invoice installment this payment collects. Example:
          * "invse_01KEZF7C006JCPQBD8VZ0RNT6R". invoice_schedule_entry_id.anyOf[2] (Value): null.
          * last_payment_error (Optional): {@link PaymentErrorSummaryPreviousAttributes} or null.
          * Most recent payment error. Null when no payment error is recorded.
@@ -15538,21 +16183,22 @@ export type PaymentIntentProcessingMerchantEvent = (Exclude<MerchantWebhookEnvel
          * and can change without a payment intent version change. Order legs list confirm when a
          * single leg can pay the order or an open attempt can continue it. Several unpaid legs,
          * selected gift cards, or automatic tax with a leg below the balance require pay_order
-         * instead. Invoice payments list only cancel; subscription payments list none. Order edit
-         * payments list confirm while awaiting payment details or action. A listed action can
-         * still be refused due to an open risk review, an order payment attempt, a closed order,
-         * or the merchant account. A managed_by_owner refusal names the owner and its command in
-         * remediation.next_actions. The merchant list is credential-independent. Checkout
-         * credentials receive that list filtered to confirm and cancel on their own session's
-         * intents, never capture. Customer sessions omit this field. New actions may be added. []
-         * enum: "confirm", "capture", "cancel". supported_actions.anyOf[1] (Value): Array of
-         * string. Verbs this payment intent accepts now, each a POST to
-         * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts
-         * and can change without a payment intent version change. Order legs list confirm when a
-         * single leg can pay the order or an open attempt can continue it. Several unpaid legs,
-         * selected gift cards, or automatic tax with a leg below the balance require pay_order
-         * instead. Invoice payments list only cancel; subscription payments list none. Order edit
-         * payments list confirm while awaiting payment details or action. A listed action can
+         * instead. Invoice payments list only cancel. An unused first-period subscription payment
+         * lists cancel once the subscription is canceled. Order edit payments list confirm while
+         * awaiting payment details or action. A listed action can still be refused due to an open
+         * risk review, an order payment attempt, a closed order, or the merchant account. A
+         * managed_by_owner refusal names the owner and its command in remediation.next_actions.
+         * The merchant list is credential-independent. Checkout credentials receive that list
+         * filtered to confirm and cancel on their own session's intents, never capture. Customer
+         * sessions omit this field. New actions may be added. [] enum: "confirm", "capture",
+         * "cancel". supported_actions.anyOf[1] (Value): Array of string. Verbs this payment intent
+         * accepts now, each a POST to /v1/payment-intents/{payment_intent_id}/{action}. The list
+         * includes stored order facts and can change without a payment intent version change.
+         * Order legs list confirm when a single leg can pay the order or an open attempt can
+         * continue it. Several unpaid legs, selected gift cards, or automatic tax with a leg below
+         * the balance require pay_order instead. Invoice payments list only cancel. An unused
+         * first-period subscription payment lists cancel once the subscription is canceled. Order
+         * edit payments list confirm while awaiting payment details or action. A listed action can
          * still be refused due to an open risk review, an order payment attempt, a closed order,
          * or the merchant account. A managed_by_owner refusal names the owner and its command in
          * remediation.next_actions. The merchant list is credential-independent. Checkout
@@ -15785,6 +16431,25 @@ export type PaymentIntentProcessingMerchantEvent = (Exclude<MerchantWebhookEnvel
              * PaymentFulfillmentHoldPreviousAttributes}. anyOf[2] (Value): null.
              */
             "fulfillment_hold"?: ((PaymentFulfillmentHoldPreviousAttributes) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field. anyOf[1] (Value): string. The
+             * Idempotency-Key of the request that created this resource. `null` when that request
+             * sent no key, Flint created the resource, the reader isn't the caller that created it
+             * (another app install, a buyer, or the merchant reading an app's or buyer's record),
+             * or the caller that created an older record is unknown. Filter its list with
+             * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+             * webhook events, can return `null`. To find a key that a replay returns as `null`,
+             * read the resource. Buyer sessions on routes shared with merchants get `null`.
+             * `/v1/me` responses do not include this field. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
             /**
              * The linked invoice. Returned only with expand=invoice. Present only when `expand`
              * includes `invoice`; `null` when expanded and there is no related invoice. anyOf[1]
@@ -16075,11 +16740,12 @@ export type PaymentIntentProcessingMerchantEvent = (Exclude<MerchantWebhookEnvel
              * facts and can change without a payment intent version change. Order legs list
              * confirm when a single leg can pay the order or an open attempt can continue it.
              * Several unpaid legs, selected gift cards, or automatic tax with a leg below the
-             * balance require pay_order instead. Invoice payments list only cancel; subscription
-             * payments list none. Order edit payments list confirm while awaiting payment details
-             * or action. A listed action can still be refused due to an open risk review, an order
-             * payment attempt, a closed order, or the merchant account. A managed_by_owner refusal
-             * names the owner and its command in remediation.next_actions. The merchant list is
+             * balance require pay_order instead. Invoice payments list only cancel. An unused
+             * first-period subscription payment lists cancel once the subscription is canceled.
+             * Order edit payments list confirm while awaiting payment details or action. A listed
+             * action can still be refused due to an open risk review, an order payment attempt, a
+             * closed order, or the merchant account. A managed_by_owner refusal names the owner
+             * and its command in remediation.next_actions. The merchant list is
              * credential-independent. Checkout credentials receive that list filtered to confirm
              * and cancel on their own session's intents, never capture. Customer sessions omit
              * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
@@ -16088,11 +16754,12 @@ export type PaymentIntentProcessingMerchantEvent = (Exclude<MerchantWebhookEnvel
              * order facts and can change without a payment intent version change. Order legs list
              * confirm when a single leg can pay the order or an open attempt can continue it.
              * Several unpaid legs, selected gift cards, or automatic tax with a leg below the
-             * balance require pay_order instead. Invoice payments list only cancel; subscription
-             * payments list none. Order edit payments list confirm while awaiting payment details
-             * or action. A listed action can still be refused due to an open risk review, an order
-             * payment attempt, a closed order, or the merchant account. A managed_by_owner refusal
-             * names the owner and its command in remediation.next_actions. The merchant list is
+             * balance require pay_order instead. Invoice payments list only cancel. An unused
+             * first-period subscription payment lists cancel once the subscription is canceled.
+             * Order edit payments list confirm while awaiting payment details or action. A listed
+             * action can still be refused due to an open risk review, an order payment attempt, a
+             * closed order, or the merchant account. A managed_by_owner refusal names the owner
+             * and its command in remediation.next_actions. The merchant list is
              * credential-independent. Checkout credentials receive that list filtered to confirm
              * and cancel on their own session's intents, never capture. Customer sessions omit
              * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
@@ -16184,6 +16851,7 @@ export type PaymentIntentRequiresActionEvent = ((((Exclude<MerchantWebhookEnvelo
             "failed_attempt_count"?: ((number) | (null));
             "failed_attempts"?: ((Array<FailedPaymentAttemptPreviousAttributes>) | (null));
             "fulfillment_hold"?: ((PaymentFulfillmentHoldPreviousAttributes) | (null));
+            "idempotency_key"?: ((string) | (null));
             "invoice"?: ((ExpandedInvoiceSummaryPreviousAttributes) | (null));
             "invoice_id"?: ((string) | (null));
             "invoice_schedule_entry_id"?: ((string) | (null));
@@ -16294,6 +16962,7 @@ export type PaymentIntentRequiresActionEvent = ((((Exclude<MerchantWebhookEnvelo
             "failed_attempt_count"?: ((number) | (null));
             "failed_attempts"?: ((Array<FailedPaymentAttemptPreviousAttributes>) | (null));
             "fulfillment_hold"?: ((PaymentFulfillmentHoldPreviousAttributes) | (null));
+            "idempotency_key"?: ((string) | (null));
             "invoice"?: ((ExpandedInvoiceSummaryPreviousAttributes) | (null));
             "invoice_id"?: ((string) | (null));
             "invoice_schedule_entry_id"?: ((string) | (null));
@@ -16374,18 +17043,19 @@ export type PaymentIntentRequiresActionInstalledMerchantsEvent = (Exclude<Partne
     /**
      *  object (Required): {@link WebhookPaymentIntent}. The resource snapshot, without expansions.
      * Webhooks omit these fields: `processing_fee_money`, `processing_fee_details`, `add_on_fees`,
-     * `merchant_net_money`, `payment_collection`. previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events. previous_attributes.amount_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. The amount requested from the buyer, including any
-     * tip_money. Capturing doesn't change it: after a partial capture it still shows the requested
-     * amount, and captured_money shows what was collected. On a standalone payment intent, PATCH
-     * can change it only before the first confirmation attempt. An amount_money or tip_money
-     * change that leaves too little for stored splits returns LIMIT_EXCEEDED at the changed field
-     * with minimum_money. previous_attributes.amount_money.anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.amount_money.anyOf[2] (Value): null.
+     * `merchant_net_money`, `payment_collection`, `remaining_refundable_money`.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.amount_money (Optional): {@link MoneyValuePreviousAttributes} or null.
+     * The amount requested from the buyer, including any tip_money. Capturing doesn't change it:
+     * after a partial capture it still shows the requested amount, and captured_money shows what
+     * was collected. On a standalone payment intent, PATCH can change it only before the first
+     * confirmation attempt. An amount_money or tip_money change that leaves too little for stored
+     * splits returns LIMIT_EXCEEDED at the changed field with minimum_money.
+     * previous_attributes.amount_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.amount_money.anyOf[2] (Value): null.
      * previous_attributes.authorization_expires_at (Optional): string or null. Effective Flint
      * deadline to capture a manual-capture hold: the earlier of the provider capture deadline and
      * any order resource guarantee. Order guarantees last at most 24 hours from the payment
@@ -16522,14 +17192,30 @@ export type PaymentIntentRequiresActionInstalledMerchantsEvent = (Exclude<Partne
      * is sent when the hold starts and when it lifts.
      * previous_attributes.fulfillment_hold.anyOf[1] (Value): {@link
      * PaymentFulfillmentHoldPreviousAttributes}. previous_attributes.fulfillment_hold.anyOf[2]
-     * (Value): null. previous_attributes.invoice (Optional): {@link
-     * ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice. Returned only with
-     * expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded and
-     * there is no related invoice. previous_attributes.invoice.anyOf[1] (Value): {@link
-     * ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2] (Value):
-     * null. previous_attributes.invoice_id (Optional): string or null. Invoice this payment intent
-     * collects, when it pays an invoice. previous_attributes.invoice_id.anyOf[1] (Value): string.
-     * Invoice this payment intent collects, when it pays an invoice. Example:
+     * (Value): null. previous_attributes.idempotency_key (Optional): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.invoice
+     * (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice.
+     * Returned only with expand=invoice. Present only when `expand` includes `invoice`; `null`
+     * when expanded and there is no related invoice. previous_attributes.invoice.anyOf[1] (Value):
+     * {@link ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2]
+     * (Value): null. previous_attributes.invoice_id (Optional): string or null. Invoice this
+     * payment intent collects, when it pays an invoice. previous_attributes.invoice_id.anyOf[1]
+     * (Value): string. Invoice this payment intent collects, when it pays an invoice. Example:
      * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
      * previous_attributes.invoice_schedule_entry_id (Optional): string or null. The invoice
      * installment this payment collects. previous_attributes.invoice_schedule_entry_id.anyOf[1]
@@ -16732,34 +17418,36 @@ export type PaymentIntentRequiresActionInstalledMerchantsEvent = (Exclude<Partne
      * The list includes stored order facts and can change without a payment intent version change.
      * Order legs list confirm when a single leg can pay the order or an open attempt can continue
      * it. Several unpaid legs, selected gift cards, or automatic tax with a leg below the balance
-     * require pay_order instead. Invoice payments list only cancel; subscription payments list
-     * none. Order edit payments list confirm while awaiting payment details or action. A listed
-     * action can still be refused due to an open risk review, an order payment attempt, a closed
-     * order, or the merchant account. A managed_by_owner refusal names the owner and its command
-     * in remediation.next_actions. The merchant list is credential-independent. Checkout
-     * credentials receive that list filtered to confirm and cancel on their own session's intents,
-     * never capture. Customer sessions omit this field. New actions may be added. [] enum:
-     * "confirm", "capture", "cancel". previous_attributes.supported_actions.anyOf[1] (Value):
-     * Array of string. Verbs this payment intent accepts now, each a POST to
+     * require pay_order instead. Invoice payments list only cancel. An unused first-period
+     * subscription payment lists cancel once the subscription is canceled. Order edit payments
+     * list confirm while awaiting payment details or action. A listed action can still be refused
+     * due to an open risk review, an order payment attempt, a closed order, or the merchant
+     * account. A managed_by_owner refusal names the owner and its command in
+     * remediation.next_actions. The merchant list is credential-independent. Checkout credentials
+     * receive that list filtered to confirm and cancel on their own session's intents, never
+     * capture. Customer sessions omit this field. New actions may be added. [] enum: "confirm",
+     * "capture", "cancel". previous_attributes.supported_actions.anyOf[1] (Value): Array of
+     * string. Verbs this payment intent accepts now, each a POST to
      * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts and
      * can change without a payment intent version change. Order legs list confirm when a single
      * leg can pay the order or an open attempt can continue it. Several unpaid legs, selected gift
      * cards, or automatic tax with a leg below the balance require pay_order instead. Invoice
-     * payments list only cancel; subscription payments list none. Order edit payments list confirm
-     * while awaiting payment details or action. A listed action can still be refused due to an
-     * open risk review, an order payment attempt, a closed order, or the merchant account. A
-     * managed_by_owner refusal names the owner and its command in remediation.next_actions. The
-     * merchant list is credential-independent. Checkout credentials receive that list filtered to
-     * confirm and cancel on their own session's intents, never capture. Customer sessions omit
-     * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
-     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "confirm",
-     * "capture", "cancel". previous_attributes.supported_actions.anyOf[2] (Value): null.
-     * previous_attributes.tip_money (Optional): {@link MoneyValuePreviousAttributes} or null.
-     * Portion of amount_money that is a tip. Uses amount_money's currency and is at most
-     * amount_money. `null` when no tip is set, and for an order payment until its payment attempt
-     * has moved past requires_payment_method and requires_confirmation. An order payment without a
-     * tip can return an amount of 0 instead. previous_attributes.tip_money.anyOf[1] (Value):
-     * {@link MoneyValuePreviousAttributes}. previous_attributes.tip_money.anyOf[2] (Value): null.
+     * payments list only cancel. An unused first-period subscription payment lists cancel once the
+     * subscription is canceled. Order edit payments list confirm while awaiting payment details or
+     * action. A listed action can still be refused due to an open risk review, an order payment
+     * attempt, a closed order, or the merchant account. A managed_by_owner refusal names the owner
+     * and its command in remediation.next_actions. The merchant list is credential-independent.
+     * Checkout credentials receive that list filtered to confirm and cancel on their own session's
+     * intents, never capture. Customer sessions omit this field. New actions may be added. []
+     * enum: "confirm", "capture", "cancel". previous_attributes.supported_actions.anyOf[1][]
+     * (Value): string. Value enum: "confirm", "capture", "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.tip_money
+     * (Optional): {@link MoneyValuePreviousAttributes} or null. Portion of amount_money that is a
+     * tip. Uses amount_money's currency and is at most amount_money. `null` when no tip is set,
+     * and for an order payment until its payment attempt has moved past requires_payment_method
+     * and requires_confirmation. An order payment without a tip can return an amount of 0 instead.
+     * previous_attributes.tip_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.tip_money.anyOf[2] (Value): null.
      * previous_attributes.transaction_purpose (Optional): string or null. Why a bank debit is
      * taken. Set only when payment_options includes ach_debit, and fixed once the payment intent
      * exists. Value enum: "goods", "services", "other".
@@ -16780,7 +17468,7 @@ export type PaymentIntentRequiresActionInstalledMerchantsEvent = (Exclude<Partne
         /**
          * The resource snapshot, without expansions. Webhooks omit these fields:
          * `processing_fee_money`, `processing_fee_details`, `add_on_fees`, `merchant_net_money`,
-         * `payment_collection`.
+         * `payment_collection`, `remaining_refundable_money`.
          */
         "object": WebhookPaymentIntent;
         /**
@@ -16919,16 +17607,33 @@ export type PaymentIntentRequiresActionInstalledMerchantsEvent = (Exclude<Partne
          * payment_review. payment_intent.fulfillment_hold_updated is sent when the hold starts and
          * when it lifts. fulfillment_hold.anyOf[1] (Value): {@link
          * PaymentFulfillmentHoldPreviousAttributes}. fulfillment_hold.anyOf[2] (Value): null.
-         * invoice (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. The linked
-         * invoice. Returned only with expand=invoice. Present only when `expand` includes
-         * `invoice`; `null` when expanded and there is no related invoice. invoice.anyOf[1]
-         * (Value): {@link ExpandedInvoiceSummaryPreviousAttributes}. invoice.anyOf[2] (Value):
-         * null. invoice_id (Optional): string or null. Invoice this payment intent collects, when
-         * it pays an invoice. invoice_id.anyOf[1] (Value): string. Invoice this payment intent
-         * collects, when it pays an invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-         * invoice_id.anyOf[2] (Value): null. invoice_schedule_entry_id (Optional): string or null.
-         * The invoice installment this payment collects. invoice_schedule_entry_id.anyOf[1]
-         * (Value): string. The invoice installment this payment collects. Example:
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[2] (Value): null. invoice (Optional): {@link
+         * ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice. Returned only
+         * with expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded
+         * and there is no related invoice. invoice.anyOf[1] (Value): {@link
+         * ExpandedInvoiceSummaryPreviousAttributes}. invoice.anyOf[2] (Value): null. invoice_id
+         * (Optional): string or null. Invoice this payment intent collects, when it pays an
+         * invoice. invoice_id.anyOf[1] (Value): string. Invoice this payment intent collects, when
+         * it pays an invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2]
+         * (Value): null. invoice_schedule_entry_id (Optional): string or null. The invoice
+         * installment this payment collects. invoice_schedule_entry_id.anyOf[1] (Value): string.
+         * The invoice installment this payment collects. Example:
          * "invse_01KEZF7C006JCPQBD8VZ0RNT6R". invoice_schedule_entry_id.anyOf[2] (Value): null.
          * last_payment_error (Optional): {@link PaymentErrorSummaryPreviousAttributes} or null.
          * Most recent payment error. Null when no payment error is recorded.
@@ -17110,21 +17815,22 @@ export type PaymentIntentRequiresActionInstalledMerchantsEvent = (Exclude<Partne
          * and can change without a payment intent version change. Order legs list confirm when a
          * single leg can pay the order or an open attempt can continue it. Several unpaid legs,
          * selected gift cards, or automatic tax with a leg below the balance require pay_order
-         * instead. Invoice payments list only cancel; subscription payments list none. Order edit
-         * payments list confirm while awaiting payment details or action. A listed action can
-         * still be refused due to an open risk review, an order payment attempt, a closed order,
-         * or the merchant account. A managed_by_owner refusal names the owner and its command in
-         * remediation.next_actions. The merchant list is credential-independent. Checkout
-         * credentials receive that list filtered to confirm and cancel on their own session's
-         * intents, never capture. Customer sessions omit this field. New actions may be added. []
-         * enum: "confirm", "capture", "cancel". supported_actions.anyOf[1] (Value): Array of
-         * string. Verbs this payment intent accepts now, each a POST to
-         * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts
-         * and can change without a payment intent version change. Order legs list confirm when a
-         * single leg can pay the order or an open attempt can continue it. Several unpaid legs,
-         * selected gift cards, or automatic tax with a leg below the balance require pay_order
-         * instead. Invoice payments list only cancel; subscription payments list none. Order edit
-         * payments list confirm while awaiting payment details or action. A listed action can
+         * instead. Invoice payments list only cancel. An unused first-period subscription payment
+         * lists cancel once the subscription is canceled. Order edit payments list confirm while
+         * awaiting payment details or action. A listed action can still be refused due to an open
+         * risk review, an order payment attempt, a closed order, or the merchant account. A
+         * managed_by_owner refusal names the owner and its command in remediation.next_actions.
+         * The merchant list is credential-independent. Checkout credentials receive that list
+         * filtered to confirm and cancel on their own session's intents, never capture. Customer
+         * sessions omit this field. New actions may be added. [] enum: "confirm", "capture",
+         * "cancel". supported_actions.anyOf[1] (Value): Array of string. Verbs this payment intent
+         * accepts now, each a POST to /v1/payment-intents/{payment_intent_id}/{action}. The list
+         * includes stored order facts and can change without a payment intent version change.
+         * Order legs list confirm when a single leg can pay the order or an open attempt can
+         * continue it. Several unpaid legs, selected gift cards, or automatic tax with a leg below
+         * the balance require pay_order instead. Invoice payments list only cancel. An unused
+         * first-period subscription payment lists cancel once the subscription is canceled. Order
+         * edit payments list confirm while awaiting payment details or action. A listed action can
          * still be refused due to an open risk review, an order payment attempt, a closed order,
          * or the merchant account. A managed_by_owner refusal names the owner and its command in
          * remediation.next_actions. The merchant list is credential-independent. Checkout
@@ -17357,6 +18063,25 @@ export type PaymentIntentRequiresActionInstalledMerchantsEvent = (Exclude<Partne
              * PaymentFulfillmentHoldPreviousAttributes}. anyOf[2] (Value): null.
              */
             "fulfillment_hold"?: ((PaymentFulfillmentHoldPreviousAttributes) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field. anyOf[1] (Value): string. The
+             * Idempotency-Key of the request that created this resource. `null` when that request
+             * sent no key, Flint created the resource, the reader isn't the caller that created it
+             * (another app install, a buyer, or the merchant reading an app's or buyer's record),
+             * or the caller that created an older record is unknown. Filter its list with
+             * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+             * webhook events, can return `null`. To find a key that a replay returns as `null`,
+             * read the resource. Buyer sessions on routes shared with merchants get `null`.
+             * `/v1/me` responses do not include this field. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
             /**
              * The linked invoice. Returned only with expand=invoice. Present only when `expand`
              * includes `invoice`; `null` when expanded and there is no related invoice. anyOf[1]
@@ -17647,11 +18372,12 @@ export type PaymentIntentRequiresActionInstalledMerchantsEvent = (Exclude<Partne
              * facts and can change without a payment intent version change. Order legs list
              * confirm when a single leg can pay the order or an open attempt can continue it.
              * Several unpaid legs, selected gift cards, or automatic tax with a leg below the
-             * balance require pay_order instead. Invoice payments list only cancel; subscription
-             * payments list none. Order edit payments list confirm while awaiting payment details
-             * or action. A listed action can still be refused due to an open risk review, an order
-             * payment attempt, a closed order, or the merchant account. A managed_by_owner refusal
-             * names the owner and its command in remediation.next_actions. The merchant list is
+             * balance require pay_order instead. Invoice payments list only cancel. An unused
+             * first-period subscription payment lists cancel once the subscription is canceled.
+             * Order edit payments list confirm while awaiting payment details or action. A listed
+             * action can still be refused due to an open risk review, an order payment attempt, a
+             * closed order, or the merchant account. A managed_by_owner refusal names the owner
+             * and its command in remediation.next_actions. The merchant list is
              * credential-independent. Checkout credentials receive that list filtered to confirm
              * and cancel on their own session's intents, never capture. Customer sessions omit
              * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
@@ -17660,11 +18386,12 @@ export type PaymentIntentRequiresActionInstalledMerchantsEvent = (Exclude<Partne
              * order facts and can change without a payment intent version change. Order legs list
              * confirm when a single leg can pay the order or an open attempt can continue it.
              * Several unpaid legs, selected gift cards, or automatic tax with a leg below the
-             * balance require pay_order instead. Invoice payments list only cancel; subscription
-             * payments list none. Order edit payments list confirm while awaiting payment details
-             * or action. A listed action can still be refused due to an open risk review, an order
-             * payment attempt, a closed order, or the merchant account. A managed_by_owner refusal
-             * names the owner and its command in remediation.next_actions. The merchant list is
+             * balance require pay_order instead. Invoice payments list only cancel. An unused
+             * first-period subscription payment lists cancel once the subscription is canceled.
+             * Order edit payments list confirm while awaiting payment details or action. A listed
+             * action can still be refused due to an open risk review, an order payment attempt, a
+             * closed order, or the merchant account. A managed_by_owner refusal names the owner
+             * and its command in remediation.next_actions. The merchant list is
              * credential-independent. Checkout credentials receive that list filtered to confirm
              * and cancel on their own session's intents, never capture. Customer sessions omit
              * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
@@ -17750,18 +18477,19 @@ export type PaymentIntentRequiresActionMerchantEvent = (Exclude<MerchantWebhookE
     /**
      *  object (Required): {@link WebhookPaymentIntent}. The resource snapshot, without expansions.
      * Webhooks omit these fields: `processing_fee_money`, `processing_fee_details`, `add_on_fees`,
-     * `merchant_net_money`, `payment_collection`. previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events. previous_attributes.amount_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. The amount requested from the buyer, including any
-     * tip_money. Capturing doesn't change it: after a partial capture it still shows the requested
-     * amount, and captured_money shows what was collected. On a standalone payment intent, PATCH
-     * can change it only before the first confirmation attempt. An amount_money or tip_money
-     * change that leaves too little for stored splits returns LIMIT_EXCEEDED at the changed field
-     * with minimum_money. previous_attributes.amount_money.anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.amount_money.anyOf[2] (Value): null.
+     * `merchant_net_money`, `payment_collection`, `remaining_refundable_money`.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.amount_money (Optional): {@link MoneyValuePreviousAttributes} or null.
+     * The amount requested from the buyer, including any tip_money. Capturing doesn't change it:
+     * after a partial capture it still shows the requested amount, and captured_money shows what
+     * was collected. On a standalone payment intent, PATCH can change it only before the first
+     * confirmation attempt. An amount_money or tip_money change that leaves too little for stored
+     * splits returns LIMIT_EXCEEDED at the changed field with minimum_money.
+     * previous_attributes.amount_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.amount_money.anyOf[2] (Value): null.
      * previous_attributes.authorization_expires_at (Optional): string or null. Effective Flint
      * deadline to capture a manual-capture hold: the earlier of the provider capture deadline and
      * any order resource guarantee. Order guarantees last at most 24 hours from the payment
@@ -17898,14 +18626,30 @@ export type PaymentIntentRequiresActionMerchantEvent = (Exclude<MerchantWebhookE
      * is sent when the hold starts and when it lifts.
      * previous_attributes.fulfillment_hold.anyOf[1] (Value): {@link
      * PaymentFulfillmentHoldPreviousAttributes}. previous_attributes.fulfillment_hold.anyOf[2]
-     * (Value): null. previous_attributes.invoice (Optional): {@link
-     * ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice. Returned only with
-     * expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded and
-     * there is no related invoice. previous_attributes.invoice.anyOf[1] (Value): {@link
-     * ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2] (Value):
-     * null. previous_attributes.invoice_id (Optional): string or null. Invoice this payment intent
-     * collects, when it pays an invoice. previous_attributes.invoice_id.anyOf[1] (Value): string.
-     * Invoice this payment intent collects, when it pays an invoice. Example:
+     * (Value): null. previous_attributes.idempotency_key (Optional): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.invoice
+     * (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice.
+     * Returned only with expand=invoice. Present only when `expand` includes `invoice`; `null`
+     * when expanded and there is no related invoice. previous_attributes.invoice.anyOf[1] (Value):
+     * {@link ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2]
+     * (Value): null. previous_attributes.invoice_id (Optional): string or null. Invoice this
+     * payment intent collects, when it pays an invoice. previous_attributes.invoice_id.anyOf[1]
+     * (Value): string. Invoice this payment intent collects, when it pays an invoice. Example:
      * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
      * previous_attributes.invoice_schedule_entry_id (Optional): string or null. The invoice
      * installment this payment collects. previous_attributes.invoice_schedule_entry_id.anyOf[1]
@@ -18108,34 +18852,36 @@ export type PaymentIntentRequiresActionMerchantEvent = (Exclude<MerchantWebhookE
      * The list includes stored order facts and can change without a payment intent version change.
      * Order legs list confirm when a single leg can pay the order or an open attempt can continue
      * it. Several unpaid legs, selected gift cards, or automatic tax with a leg below the balance
-     * require pay_order instead. Invoice payments list only cancel; subscription payments list
-     * none. Order edit payments list confirm while awaiting payment details or action. A listed
-     * action can still be refused due to an open risk review, an order payment attempt, a closed
-     * order, or the merchant account. A managed_by_owner refusal names the owner and its command
-     * in remediation.next_actions. The merchant list is credential-independent. Checkout
-     * credentials receive that list filtered to confirm and cancel on their own session's intents,
-     * never capture. Customer sessions omit this field. New actions may be added. [] enum:
-     * "confirm", "capture", "cancel". previous_attributes.supported_actions.anyOf[1] (Value):
-     * Array of string. Verbs this payment intent accepts now, each a POST to
+     * require pay_order instead. Invoice payments list only cancel. An unused first-period
+     * subscription payment lists cancel once the subscription is canceled. Order edit payments
+     * list confirm while awaiting payment details or action. A listed action can still be refused
+     * due to an open risk review, an order payment attempt, a closed order, or the merchant
+     * account. A managed_by_owner refusal names the owner and its command in
+     * remediation.next_actions. The merchant list is credential-independent. Checkout credentials
+     * receive that list filtered to confirm and cancel on their own session's intents, never
+     * capture. Customer sessions omit this field. New actions may be added. [] enum: "confirm",
+     * "capture", "cancel". previous_attributes.supported_actions.anyOf[1] (Value): Array of
+     * string. Verbs this payment intent accepts now, each a POST to
      * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts and
      * can change without a payment intent version change. Order legs list confirm when a single
      * leg can pay the order or an open attempt can continue it. Several unpaid legs, selected gift
      * cards, or automatic tax with a leg below the balance require pay_order instead. Invoice
-     * payments list only cancel; subscription payments list none. Order edit payments list confirm
-     * while awaiting payment details or action. A listed action can still be refused due to an
-     * open risk review, an order payment attempt, a closed order, or the merchant account. A
-     * managed_by_owner refusal names the owner and its command in remediation.next_actions. The
-     * merchant list is credential-independent. Checkout credentials receive that list filtered to
-     * confirm and cancel on their own session's intents, never capture. Customer sessions omit
-     * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
-     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "confirm",
-     * "capture", "cancel". previous_attributes.supported_actions.anyOf[2] (Value): null.
-     * previous_attributes.tip_money (Optional): {@link MoneyValuePreviousAttributes} or null.
-     * Portion of amount_money that is a tip. Uses amount_money's currency and is at most
-     * amount_money. `null` when no tip is set, and for an order payment until its payment attempt
-     * has moved past requires_payment_method and requires_confirmation. An order payment without a
-     * tip can return an amount of 0 instead. previous_attributes.tip_money.anyOf[1] (Value):
-     * {@link MoneyValuePreviousAttributes}. previous_attributes.tip_money.anyOf[2] (Value): null.
+     * payments list only cancel. An unused first-period subscription payment lists cancel once the
+     * subscription is canceled. Order edit payments list confirm while awaiting payment details or
+     * action. A listed action can still be refused due to an open risk review, an order payment
+     * attempt, a closed order, or the merchant account. A managed_by_owner refusal names the owner
+     * and its command in remediation.next_actions. The merchant list is credential-independent.
+     * Checkout credentials receive that list filtered to confirm and cancel on their own session's
+     * intents, never capture. Customer sessions omit this field. New actions may be added. []
+     * enum: "confirm", "capture", "cancel". previous_attributes.supported_actions.anyOf[1][]
+     * (Value): string. Value enum: "confirm", "capture", "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.tip_money
+     * (Optional): {@link MoneyValuePreviousAttributes} or null. Portion of amount_money that is a
+     * tip. Uses amount_money's currency and is at most amount_money. `null` when no tip is set,
+     * and for an order payment until its payment attempt has moved past requires_payment_method
+     * and requires_confirmation. An order payment without a tip can return an amount of 0 instead.
+     * previous_attributes.tip_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.tip_money.anyOf[2] (Value): null.
      * previous_attributes.transaction_purpose (Optional): string or null. Why a bank debit is
      * taken. Set only when payment_options includes ach_debit, and fixed once the payment intent
      * exists. Value enum: "goods", "services", "other".
@@ -18156,7 +18902,7 @@ export type PaymentIntentRequiresActionMerchantEvent = (Exclude<MerchantWebhookE
         /**
          * The resource snapshot, without expansions. Webhooks omit these fields:
          * `processing_fee_money`, `processing_fee_details`, `add_on_fees`, `merchant_net_money`,
-         * `payment_collection`.
+         * `payment_collection`, `remaining_refundable_money`.
          */
         "object": WebhookPaymentIntent;
         /**
@@ -18295,16 +19041,33 @@ export type PaymentIntentRequiresActionMerchantEvent = (Exclude<MerchantWebhookE
          * payment_review. payment_intent.fulfillment_hold_updated is sent when the hold starts and
          * when it lifts. fulfillment_hold.anyOf[1] (Value): {@link
          * PaymentFulfillmentHoldPreviousAttributes}. fulfillment_hold.anyOf[2] (Value): null.
-         * invoice (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. The linked
-         * invoice. Returned only with expand=invoice. Present only when `expand` includes
-         * `invoice`; `null` when expanded and there is no related invoice. invoice.anyOf[1]
-         * (Value): {@link ExpandedInvoiceSummaryPreviousAttributes}. invoice.anyOf[2] (Value):
-         * null. invoice_id (Optional): string or null. Invoice this payment intent collects, when
-         * it pays an invoice. invoice_id.anyOf[1] (Value): string. Invoice this payment intent
-         * collects, when it pays an invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-         * invoice_id.anyOf[2] (Value): null. invoice_schedule_entry_id (Optional): string or null.
-         * The invoice installment this payment collects. invoice_schedule_entry_id.anyOf[1]
-         * (Value): string. The invoice installment this payment collects. Example:
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[2] (Value): null. invoice (Optional): {@link
+         * ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice. Returned only
+         * with expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded
+         * and there is no related invoice. invoice.anyOf[1] (Value): {@link
+         * ExpandedInvoiceSummaryPreviousAttributes}. invoice.anyOf[2] (Value): null. invoice_id
+         * (Optional): string or null. Invoice this payment intent collects, when it pays an
+         * invoice. invoice_id.anyOf[1] (Value): string. Invoice this payment intent collects, when
+         * it pays an invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2]
+         * (Value): null. invoice_schedule_entry_id (Optional): string or null. The invoice
+         * installment this payment collects. invoice_schedule_entry_id.anyOf[1] (Value): string.
+         * The invoice installment this payment collects. Example:
          * "invse_01KEZF7C006JCPQBD8VZ0RNT6R". invoice_schedule_entry_id.anyOf[2] (Value): null.
          * last_payment_error (Optional): {@link PaymentErrorSummaryPreviousAttributes} or null.
          * Most recent payment error. Null when no payment error is recorded.
@@ -18486,21 +19249,22 @@ export type PaymentIntentRequiresActionMerchantEvent = (Exclude<MerchantWebhookE
          * and can change without a payment intent version change. Order legs list confirm when a
          * single leg can pay the order or an open attempt can continue it. Several unpaid legs,
          * selected gift cards, or automatic tax with a leg below the balance require pay_order
-         * instead. Invoice payments list only cancel; subscription payments list none. Order edit
-         * payments list confirm while awaiting payment details or action. A listed action can
-         * still be refused due to an open risk review, an order payment attempt, a closed order,
-         * or the merchant account. A managed_by_owner refusal names the owner and its command in
-         * remediation.next_actions. The merchant list is credential-independent. Checkout
-         * credentials receive that list filtered to confirm and cancel on their own session's
-         * intents, never capture. Customer sessions omit this field. New actions may be added. []
-         * enum: "confirm", "capture", "cancel". supported_actions.anyOf[1] (Value): Array of
-         * string. Verbs this payment intent accepts now, each a POST to
-         * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts
-         * and can change without a payment intent version change. Order legs list confirm when a
-         * single leg can pay the order or an open attempt can continue it. Several unpaid legs,
-         * selected gift cards, or automatic tax with a leg below the balance require pay_order
-         * instead. Invoice payments list only cancel; subscription payments list none. Order edit
-         * payments list confirm while awaiting payment details or action. A listed action can
+         * instead. Invoice payments list only cancel. An unused first-period subscription payment
+         * lists cancel once the subscription is canceled. Order edit payments list confirm while
+         * awaiting payment details or action. A listed action can still be refused due to an open
+         * risk review, an order payment attempt, a closed order, or the merchant account. A
+         * managed_by_owner refusal names the owner and its command in remediation.next_actions.
+         * The merchant list is credential-independent. Checkout credentials receive that list
+         * filtered to confirm and cancel on their own session's intents, never capture. Customer
+         * sessions omit this field. New actions may be added. [] enum: "confirm", "capture",
+         * "cancel". supported_actions.anyOf[1] (Value): Array of string. Verbs this payment intent
+         * accepts now, each a POST to /v1/payment-intents/{payment_intent_id}/{action}. The list
+         * includes stored order facts and can change without a payment intent version change.
+         * Order legs list confirm when a single leg can pay the order or an open attempt can
+         * continue it. Several unpaid legs, selected gift cards, or automatic tax with a leg below
+         * the balance require pay_order instead. Invoice payments list only cancel. An unused
+         * first-period subscription payment lists cancel once the subscription is canceled. Order
+         * edit payments list confirm while awaiting payment details or action. A listed action can
          * still be refused due to an open risk review, an order payment attempt, a closed order,
          * or the merchant account. A managed_by_owner refusal names the owner and its command in
          * remediation.next_actions. The merchant list is credential-independent. Checkout
@@ -18733,6 +19497,25 @@ export type PaymentIntentRequiresActionMerchantEvent = (Exclude<MerchantWebhookE
              * PaymentFulfillmentHoldPreviousAttributes}. anyOf[2] (Value): null.
              */
             "fulfillment_hold"?: ((PaymentFulfillmentHoldPreviousAttributes) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field. anyOf[1] (Value): string. The
+             * Idempotency-Key of the request that created this resource. `null` when that request
+             * sent no key, Flint created the resource, the reader isn't the caller that created it
+             * (another app install, a buyer, or the merchant reading an app's or buyer's record),
+             * or the caller that created an older record is unknown. Filter its list with
+             * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+             * webhook events, can return `null`. To find a key that a replay returns as `null`,
+             * read the resource. Buyer sessions on routes shared with merchants get `null`.
+             * `/v1/me` responses do not include this field. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
             /**
              * The linked invoice. Returned only with expand=invoice. Present only when `expand`
              * includes `invoice`; `null` when expanded and there is no related invoice. anyOf[1]
@@ -19023,11 +19806,12 @@ export type PaymentIntentRequiresActionMerchantEvent = (Exclude<MerchantWebhookE
              * facts and can change without a payment intent version change. Order legs list
              * confirm when a single leg can pay the order or an open attempt can continue it.
              * Several unpaid legs, selected gift cards, or automatic tax with a leg below the
-             * balance require pay_order instead. Invoice payments list only cancel; subscription
-             * payments list none. Order edit payments list confirm while awaiting payment details
-             * or action. A listed action can still be refused due to an open risk review, an order
-             * payment attempt, a closed order, or the merchant account. A managed_by_owner refusal
-             * names the owner and its command in remediation.next_actions. The merchant list is
+             * balance require pay_order instead. Invoice payments list only cancel. An unused
+             * first-period subscription payment lists cancel once the subscription is canceled.
+             * Order edit payments list confirm while awaiting payment details or action. A listed
+             * action can still be refused due to an open risk review, an order payment attempt, a
+             * closed order, or the merchant account. A managed_by_owner refusal names the owner
+             * and its command in remediation.next_actions. The merchant list is
              * credential-independent. Checkout credentials receive that list filtered to confirm
              * and cancel on their own session's intents, never capture. Customer sessions omit
              * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
@@ -19036,11 +19820,12 @@ export type PaymentIntentRequiresActionMerchantEvent = (Exclude<MerchantWebhookE
              * order facts and can change without a payment intent version change. Order legs list
              * confirm when a single leg can pay the order or an open attempt can continue it.
              * Several unpaid legs, selected gift cards, or automatic tax with a leg below the
-             * balance require pay_order instead. Invoice payments list only cancel; subscription
-             * payments list none. Order edit payments list confirm while awaiting payment details
-             * or action. A listed action can still be refused due to an open risk review, an order
-             * payment attempt, a closed order, or the merchant account. A managed_by_owner refusal
-             * names the owner and its command in remediation.next_actions. The merchant list is
+             * balance require pay_order instead. Invoice payments list only cancel. An unused
+             * first-period subscription payment lists cancel once the subscription is canceled.
+             * Order edit payments list confirm while awaiting payment details or action. A listed
+             * action can still be refused due to an open risk review, an order payment attempt, a
+             * closed order, or the merchant account. A managed_by_owner refusal names the owner
+             * and its command in remediation.next_actions. The merchant list is
              * credential-independent. Checkout credentials receive that list filtered to confirm
              * and cancel on their own session's intents, never capture. Customer sessions omit
              * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
@@ -19132,6 +19917,7 @@ export type PaymentIntentRequiresCaptureEvent = ((((Exclude<MerchantWebhookEnvel
             "failed_attempt_count"?: ((number) | (null));
             "failed_attempts"?: ((Array<FailedPaymentAttemptPreviousAttributes>) | (null));
             "fulfillment_hold"?: ((PaymentFulfillmentHoldPreviousAttributes) | (null));
+            "idempotency_key"?: ((string) | (null));
             "invoice"?: ((ExpandedInvoiceSummaryPreviousAttributes) | (null));
             "invoice_id"?: ((string) | (null));
             "invoice_schedule_entry_id"?: ((string) | (null));
@@ -19242,6 +20028,7 @@ export type PaymentIntentRequiresCaptureEvent = ((((Exclude<MerchantWebhookEnvel
             "failed_attempt_count"?: ((number) | (null));
             "failed_attempts"?: ((Array<FailedPaymentAttemptPreviousAttributes>) | (null));
             "fulfillment_hold"?: ((PaymentFulfillmentHoldPreviousAttributes) | (null));
+            "idempotency_key"?: ((string) | (null));
             "invoice"?: ((ExpandedInvoiceSummaryPreviousAttributes) | (null));
             "invoice_id"?: ((string) | (null));
             "invoice_schedule_entry_id"?: ((string) | (null));
@@ -19322,18 +20109,19 @@ export type PaymentIntentRequiresCaptureInstalledMerchantsEvent = (Exclude<Partn
     /**
      *  object (Required): {@link WebhookPaymentIntent}. The resource snapshot, without expansions.
      * Webhooks omit these fields: `processing_fee_money`, `processing_fee_details`, `add_on_fees`,
-     * `merchant_net_money`, `payment_collection`. previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events. previous_attributes.amount_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. The amount requested from the buyer, including any
-     * tip_money. Capturing doesn't change it: after a partial capture it still shows the requested
-     * amount, and captured_money shows what was collected. On a standalone payment intent, PATCH
-     * can change it only before the first confirmation attempt. An amount_money or tip_money
-     * change that leaves too little for stored splits returns LIMIT_EXCEEDED at the changed field
-     * with minimum_money. previous_attributes.amount_money.anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.amount_money.anyOf[2] (Value): null.
+     * `merchant_net_money`, `payment_collection`, `remaining_refundable_money`.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.amount_money (Optional): {@link MoneyValuePreviousAttributes} or null.
+     * The amount requested from the buyer, including any tip_money. Capturing doesn't change it:
+     * after a partial capture it still shows the requested amount, and captured_money shows what
+     * was collected. On a standalone payment intent, PATCH can change it only before the first
+     * confirmation attempt. An amount_money or tip_money change that leaves too little for stored
+     * splits returns LIMIT_EXCEEDED at the changed field with minimum_money.
+     * previous_attributes.amount_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.amount_money.anyOf[2] (Value): null.
      * previous_attributes.authorization_expires_at (Optional): string or null. Effective Flint
      * deadline to capture a manual-capture hold: the earlier of the provider capture deadline and
      * any order resource guarantee. Order guarantees last at most 24 hours from the payment
@@ -19470,14 +20258,30 @@ export type PaymentIntentRequiresCaptureInstalledMerchantsEvent = (Exclude<Partn
      * is sent when the hold starts and when it lifts.
      * previous_attributes.fulfillment_hold.anyOf[1] (Value): {@link
      * PaymentFulfillmentHoldPreviousAttributes}. previous_attributes.fulfillment_hold.anyOf[2]
-     * (Value): null. previous_attributes.invoice (Optional): {@link
-     * ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice. Returned only with
-     * expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded and
-     * there is no related invoice. previous_attributes.invoice.anyOf[1] (Value): {@link
-     * ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2] (Value):
-     * null. previous_attributes.invoice_id (Optional): string or null. Invoice this payment intent
-     * collects, when it pays an invoice. previous_attributes.invoice_id.anyOf[1] (Value): string.
-     * Invoice this payment intent collects, when it pays an invoice. Example:
+     * (Value): null. previous_attributes.idempotency_key (Optional): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.invoice
+     * (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice.
+     * Returned only with expand=invoice. Present only when `expand` includes `invoice`; `null`
+     * when expanded and there is no related invoice. previous_attributes.invoice.anyOf[1] (Value):
+     * {@link ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2]
+     * (Value): null. previous_attributes.invoice_id (Optional): string or null. Invoice this
+     * payment intent collects, when it pays an invoice. previous_attributes.invoice_id.anyOf[1]
+     * (Value): string. Invoice this payment intent collects, when it pays an invoice. Example:
      * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
      * previous_attributes.invoice_schedule_entry_id (Optional): string or null. The invoice
      * installment this payment collects. previous_attributes.invoice_schedule_entry_id.anyOf[1]
@@ -19680,34 +20484,36 @@ export type PaymentIntentRequiresCaptureInstalledMerchantsEvent = (Exclude<Partn
      * The list includes stored order facts and can change without a payment intent version change.
      * Order legs list confirm when a single leg can pay the order or an open attempt can continue
      * it. Several unpaid legs, selected gift cards, or automatic tax with a leg below the balance
-     * require pay_order instead. Invoice payments list only cancel; subscription payments list
-     * none. Order edit payments list confirm while awaiting payment details or action. A listed
-     * action can still be refused due to an open risk review, an order payment attempt, a closed
-     * order, or the merchant account. A managed_by_owner refusal names the owner and its command
-     * in remediation.next_actions. The merchant list is credential-independent. Checkout
-     * credentials receive that list filtered to confirm and cancel on their own session's intents,
-     * never capture. Customer sessions omit this field. New actions may be added. [] enum:
-     * "confirm", "capture", "cancel". previous_attributes.supported_actions.anyOf[1] (Value):
-     * Array of string. Verbs this payment intent accepts now, each a POST to
+     * require pay_order instead. Invoice payments list only cancel. An unused first-period
+     * subscription payment lists cancel once the subscription is canceled. Order edit payments
+     * list confirm while awaiting payment details or action. A listed action can still be refused
+     * due to an open risk review, an order payment attempt, a closed order, or the merchant
+     * account. A managed_by_owner refusal names the owner and its command in
+     * remediation.next_actions. The merchant list is credential-independent. Checkout credentials
+     * receive that list filtered to confirm and cancel on their own session's intents, never
+     * capture. Customer sessions omit this field. New actions may be added. [] enum: "confirm",
+     * "capture", "cancel". previous_attributes.supported_actions.anyOf[1] (Value): Array of
+     * string. Verbs this payment intent accepts now, each a POST to
      * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts and
      * can change without a payment intent version change. Order legs list confirm when a single
      * leg can pay the order or an open attempt can continue it. Several unpaid legs, selected gift
      * cards, or automatic tax with a leg below the balance require pay_order instead. Invoice
-     * payments list only cancel; subscription payments list none. Order edit payments list confirm
-     * while awaiting payment details or action. A listed action can still be refused due to an
-     * open risk review, an order payment attempt, a closed order, or the merchant account. A
-     * managed_by_owner refusal names the owner and its command in remediation.next_actions. The
-     * merchant list is credential-independent. Checkout credentials receive that list filtered to
-     * confirm and cancel on their own session's intents, never capture. Customer sessions omit
-     * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
-     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "confirm",
-     * "capture", "cancel". previous_attributes.supported_actions.anyOf[2] (Value): null.
-     * previous_attributes.tip_money (Optional): {@link MoneyValuePreviousAttributes} or null.
-     * Portion of amount_money that is a tip. Uses amount_money's currency and is at most
-     * amount_money. `null` when no tip is set, and for an order payment until its payment attempt
-     * has moved past requires_payment_method and requires_confirmation. An order payment without a
-     * tip can return an amount of 0 instead. previous_attributes.tip_money.anyOf[1] (Value):
-     * {@link MoneyValuePreviousAttributes}. previous_attributes.tip_money.anyOf[2] (Value): null.
+     * payments list only cancel. An unused first-period subscription payment lists cancel once the
+     * subscription is canceled. Order edit payments list confirm while awaiting payment details or
+     * action. A listed action can still be refused due to an open risk review, an order payment
+     * attempt, a closed order, or the merchant account. A managed_by_owner refusal names the owner
+     * and its command in remediation.next_actions. The merchant list is credential-independent.
+     * Checkout credentials receive that list filtered to confirm and cancel on their own session's
+     * intents, never capture. Customer sessions omit this field. New actions may be added. []
+     * enum: "confirm", "capture", "cancel". previous_attributes.supported_actions.anyOf[1][]
+     * (Value): string. Value enum: "confirm", "capture", "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.tip_money
+     * (Optional): {@link MoneyValuePreviousAttributes} or null. Portion of amount_money that is a
+     * tip. Uses amount_money's currency and is at most amount_money. `null` when no tip is set,
+     * and for an order payment until its payment attempt has moved past requires_payment_method
+     * and requires_confirmation. An order payment without a tip can return an amount of 0 instead.
+     * previous_attributes.tip_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.tip_money.anyOf[2] (Value): null.
      * previous_attributes.transaction_purpose (Optional): string or null. Why a bank debit is
      * taken. Set only when payment_options includes ach_debit, and fixed once the payment intent
      * exists. Value enum: "goods", "services", "other".
@@ -19728,7 +20534,7 @@ export type PaymentIntentRequiresCaptureInstalledMerchantsEvent = (Exclude<Partn
         /**
          * The resource snapshot, without expansions. Webhooks omit these fields:
          * `processing_fee_money`, `processing_fee_details`, `add_on_fees`, `merchant_net_money`,
-         * `payment_collection`.
+         * `payment_collection`, `remaining_refundable_money`.
          */
         "object": WebhookPaymentIntent;
         /**
@@ -19867,16 +20673,33 @@ export type PaymentIntentRequiresCaptureInstalledMerchantsEvent = (Exclude<Partn
          * payment_review. payment_intent.fulfillment_hold_updated is sent when the hold starts and
          * when it lifts. fulfillment_hold.anyOf[1] (Value): {@link
          * PaymentFulfillmentHoldPreviousAttributes}. fulfillment_hold.anyOf[2] (Value): null.
-         * invoice (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. The linked
-         * invoice. Returned only with expand=invoice. Present only when `expand` includes
-         * `invoice`; `null` when expanded and there is no related invoice. invoice.anyOf[1]
-         * (Value): {@link ExpandedInvoiceSummaryPreviousAttributes}. invoice.anyOf[2] (Value):
-         * null. invoice_id (Optional): string or null. Invoice this payment intent collects, when
-         * it pays an invoice. invoice_id.anyOf[1] (Value): string. Invoice this payment intent
-         * collects, when it pays an invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-         * invoice_id.anyOf[2] (Value): null. invoice_schedule_entry_id (Optional): string or null.
-         * The invoice installment this payment collects. invoice_schedule_entry_id.anyOf[1]
-         * (Value): string. The invoice installment this payment collects. Example:
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[2] (Value): null. invoice (Optional): {@link
+         * ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice. Returned only
+         * with expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded
+         * and there is no related invoice. invoice.anyOf[1] (Value): {@link
+         * ExpandedInvoiceSummaryPreviousAttributes}. invoice.anyOf[2] (Value): null. invoice_id
+         * (Optional): string or null. Invoice this payment intent collects, when it pays an
+         * invoice. invoice_id.anyOf[1] (Value): string. Invoice this payment intent collects, when
+         * it pays an invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2]
+         * (Value): null. invoice_schedule_entry_id (Optional): string or null. The invoice
+         * installment this payment collects. invoice_schedule_entry_id.anyOf[1] (Value): string.
+         * The invoice installment this payment collects. Example:
          * "invse_01KEZF7C006JCPQBD8VZ0RNT6R". invoice_schedule_entry_id.anyOf[2] (Value): null.
          * last_payment_error (Optional): {@link PaymentErrorSummaryPreviousAttributes} or null.
          * Most recent payment error. Null when no payment error is recorded.
@@ -20058,21 +20881,22 @@ export type PaymentIntentRequiresCaptureInstalledMerchantsEvent = (Exclude<Partn
          * and can change without a payment intent version change. Order legs list confirm when a
          * single leg can pay the order or an open attempt can continue it. Several unpaid legs,
          * selected gift cards, or automatic tax with a leg below the balance require pay_order
-         * instead. Invoice payments list only cancel; subscription payments list none. Order edit
-         * payments list confirm while awaiting payment details or action. A listed action can
-         * still be refused due to an open risk review, an order payment attempt, a closed order,
-         * or the merchant account. A managed_by_owner refusal names the owner and its command in
-         * remediation.next_actions. The merchant list is credential-independent. Checkout
-         * credentials receive that list filtered to confirm and cancel on their own session's
-         * intents, never capture. Customer sessions omit this field. New actions may be added. []
-         * enum: "confirm", "capture", "cancel". supported_actions.anyOf[1] (Value): Array of
-         * string. Verbs this payment intent accepts now, each a POST to
-         * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts
-         * and can change without a payment intent version change. Order legs list confirm when a
-         * single leg can pay the order or an open attempt can continue it. Several unpaid legs,
-         * selected gift cards, or automatic tax with a leg below the balance require pay_order
-         * instead. Invoice payments list only cancel; subscription payments list none. Order edit
-         * payments list confirm while awaiting payment details or action. A listed action can
+         * instead. Invoice payments list only cancel. An unused first-period subscription payment
+         * lists cancel once the subscription is canceled. Order edit payments list confirm while
+         * awaiting payment details or action. A listed action can still be refused due to an open
+         * risk review, an order payment attempt, a closed order, or the merchant account. A
+         * managed_by_owner refusal names the owner and its command in remediation.next_actions.
+         * The merchant list is credential-independent. Checkout credentials receive that list
+         * filtered to confirm and cancel on their own session's intents, never capture. Customer
+         * sessions omit this field. New actions may be added. [] enum: "confirm", "capture",
+         * "cancel". supported_actions.anyOf[1] (Value): Array of string. Verbs this payment intent
+         * accepts now, each a POST to /v1/payment-intents/{payment_intent_id}/{action}. The list
+         * includes stored order facts and can change without a payment intent version change.
+         * Order legs list confirm when a single leg can pay the order or an open attempt can
+         * continue it. Several unpaid legs, selected gift cards, or automatic tax with a leg below
+         * the balance require pay_order instead. Invoice payments list only cancel. An unused
+         * first-period subscription payment lists cancel once the subscription is canceled. Order
+         * edit payments list confirm while awaiting payment details or action. A listed action can
          * still be refused due to an open risk review, an order payment attempt, a closed order,
          * or the merchant account. A managed_by_owner refusal names the owner and its command in
          * remediation.next_actions. The merchant list is credential-independent. Checkout
@@ -20305,6 +21129,25 @@ export type PaymentIntentRequiresCaptureInstalledMerchantsEvent = (Exclude<Partn
              * PaymentFulfillmentHoldPreviousAttributes}. anyOf[2] (Value): null.
              */
             "fulfillment_hold"?: ((PaymentFulfillmentHoldPreviousAttributes) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field. anyOf[1] (Value): string. The
+             * Idempotency-Key of the request that created this resource. `null` when that request
+             * sent no key, Flint created the resource, the reader isn't the caller that created it
+             * (another app install, a buyer, or the merchant reading an app's or buyer's record),
+             * or the caller that created an older record is unknown. Filter its list with
+             * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+             * webhook events, can return `null`. To find a key that a replay returns as `null`,
+             * read the resource. Buyer sessions on routes shared with merchants get `null`.
+             * `/v1/me` responses do not include this field. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
             /**
              * The linked invoice. Returned only with expand=invoice. Present only when `expand`
              * includes `invoice`; `null` when expanded and there is no related invoice. anyOf[1]
@@ -20595,11 +21438,12 @@ export type PaymentIntentRequiresCaptureInstalledMerchantsEvent = (Exclude<Partn
              * facts and can change without a payment intent version change. Order legs list
              * confirm when a single leg can pay the order or an open attempt can continue it.
              * Several unpaid legs, selected gift cards, or automatic tax with a leg below the
-             * balance require pay_order instead. Invoice payments list only cancel; subscription
-             * payments list none. Order edit payments list confirm while awaiting payment details
-             * or action. A listed action can still be refused due to an open risk review, an order
-             * payment attempt, a closed order, or the merchant account. A managed_by_owner refusal
-             * names the owner and its command in remediation.next_actions. The merchant list is
+             * balance require pay_order instead. Invoice payments list only cancel. An unused
+             * first-period subscription payment lists cancel once the subscription is canceled.
+             * Order edit payments list confirm while awaiting payment details or action. A listed
+             * action can still be refused due to an open risk review, an order payment attempt, a
+             * closed order, or the merchant account. A managed_by_owner refusal names the owner
+             * and its command in remediation.next_actions. The merchant list is
              * credential-independent. Checkout credentials receive that list filtered to confirm
              * and cancel on their own session's intents, never capture. Customer sessions omit
              * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
@@ -20608,11 +21452,12 @@ export type PaymentIntentRequiresCaptureInstalledMerchantsEvent = (Exclude<Partn
              * order facts and can change without a payment intent version change. Order legs list
              * confirm when a single leg can pay the order or an open attempt can continue it.
              * Several unpaid legs, selected gift cards, or automatic tax with a leg below the
-             * balance require pay_order instead. Invoice payments list only cancel; subscription
-             * payments list none. Order edit payments list confirm while awaiting payment details
-             * or action. A listed action can still be refused due to an open risk review, an order
-             * payment attempt, a closed order, or the merchant account. A managed_by_owner refusal
-             * names the owner and its command in remediation.next_actions. The merchant list is
+             * balance require pay_order instead. Invoice payments list only cancel. An unused
+             * first-period subscription payment lists cancel once the subscription is canceled.
+             * Order edit payments list confirm while awaiting payment details or action. A listed
+             * action can still be refused due to an open risk review, an order payment attempt, a
+             * closed order, or the merchant account. A managed_by_owner refusal names the owner
+             * and its command in remediation.next_actions. The merchant list is
              * credential-independent. Checkout credentials receive that list filtered to confirm
              * and cancel on their own session's intents, never capture. Customer sessions omit
              * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
@@ -20698,18 +21543,19 @@ export type PaymentIntentRequiresCaptureMerchantEvent = (Exclude<MerchantWebhook
     /**
      *  object (Required): {@link WebhookPaymentIntent}. The resource snapshot, without expansions.
      * Webhooks omit these fields: `processing_fee_money`, `processing_fee_details`, `add_on_fees`,
-     * `merchant_net_money`, `payment_collection`. previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events. previous_attributes.amount_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. The amount requested from the buyer, including any
-     * tip_money. Capturing doesn't change it: after a partial capture it still shows the requested
-     * amount, and captured_money shows what was collected. On a standalone payment intent, PATCH
-     * can change it only before the first confirmation attempt. An amount_money or tip_money
-     * change that leaves too little for stored splits returns LIMIT_EXCEEDED at the changed field
-     * with minimum_money. previous_attributes.amount_money.anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.amount_money.anyOf[2] (Value): null.
+     * `merchant_net_money`, `payment_collection`, `remaining_refundable_money`.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.amount_money (Optional): {@link MoneyValuePreviousAttributes} or null.
+     * The amount requested from the buyer, including any tip_money. Capturing doesn't change it:
+     * after a partial capture it still shows the requested amount, and captured_money shows what
+     * was collected. On a standalone payment intent, PATCH can change it only before the first
+     * confirmation attempt. An amount_money or tip_money change that leaves too little for stored
+     * splits returns LIMIT_EXCEEDED at the changed field with minimum_money.
+     * previous_attributes.amount_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.amount_money.anyOf[2] (Value): null.
      * previous_attributes.authorization_expires_at (Optional): string or null. Effective Flint
      * deadline to capture a manual-capture hold: the earlier of the provider capture deadline and
      * any order resource guarantee. Order guarantees last at most 24 hours from the payment
@@ -20846,14 +21692,30 @@ export type PaymentIntentRequiresCaptureMerchantEvent = (Exclude<MerchantWebhook
      * is sent when the hold starts and when it lifts.
      * previous_attributes.fulfillment_hold.anyOf[1] (Value): {@link
      * PaymentFulfillmentHoldPreviousAttributes}. previous_attributes.fulfillment_hold.anyOf[2]
-     * (Value): null. previous_attributes.invoice (Optional): {@link
-     * ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice. Returned only with
-     * expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded and
-     * there is no related invoice. previous_attributes.invoice.anyOf[1] (Value): {@link
-     * ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2] (Value):
-     * null. previous_attributes.invoice_id (Optional): string or null. Invoice this payment intent
-     * collects, when it pays an invoice. previous_attributes.invoice_id.anyOf[1] (Value): string.
-     * Invoice this payment intent collects, when it pays an invoice. Example:
+     * (Value): null. previous_attributes.idempotency_key (Optional): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.invoice
+     * (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice.
+     * Returned only with expand=invoice. Present only when `expand` includes `invoice`; `null`
+     * when expanded and there is no related invoice. previous_attributes.invoice.anyOf[1] (Value):
+     * {@link ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2]
+     * (Value): null. previous_attributes.invoice_id (Optional): string or null. Invoice this
+     * payment intent collects, when it pays an invoice. previous_attributes.invoice_id.anyOf[1]
+     * (Value): string. Invoice this payment intent collects, when it pays an invoice. Example:
      * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
      * previous_attributes.invoice_schedule_entry_id (Optional): string or null. The invoice
      * installment this payment collects. previous_attributes.invoice_schedule_entry_id.anyOf[1]
@@ -21056,34 +21918,36 @@ export type PaymentIntentRequiresCaptureMerchantEvent = (Exclude<MerchantWebhook
      * The list includes stored order facts and can change without a payment intent version change.
      * Order legs list confirm when a single leg can pay the order or an open attempt can continue
      * it. Several unpaid legs, selected gift cards, or automatic tax with a leg below the balance
-     * require pay_order instead. Invoice payments list only cancel; subscription payments list
-     * none. Order edit payments list confirm while awaiting payment details or action. A listed
-     * action can still be refused due to an open risk review, an order payment attempt, a closed
-     * order, or the merchant account. A managed_by_owner refusal names the owner and its command
-     * in remediation.next_actions. The merchant list is credential-independent. Checkout
-     * credentials receive that list filtered to confirm and cancel on their own session's intents,
-     * never capture. Customer sessions omit this field. New actions may be added. [] enum:
-     * "confirm", "capture", "cancel". previous_attributes.supported_actions.anyOf[1] (Value):
-     * Array of string. Verbs this payment intent accepts now, each a POST to
+     * require pay_order instead. Invoice payments list only cancel. An unused first-period
+     * subscription payment lists cancel once the subscription is canceled. Order edit payments
+     * list confirm while awaiting payment details or action. A listed action can still be refused
+     * due to an open risk review, an order payment attempt, a closed order, or the merchant
+     * account. A managed_by_owner refusal names the owner and its command in
+     * remediation.next_actions. The merchant list is credential-independent. Checkout credentials
+     * receive that list filtered to confirm and cancel on their own session's intents, never
+     * capture. Customer sessions omit this field. New actions may be added. [] enum: "confirm",
+     * "capture", "cancel". previous_attributes.supported_actions.anyOf[1] (Value): Array of
+     * string. Verbs this payment intent accepts now, each a POST to
      * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts and
      * can change without a payment intent version change. Order legs list confirm when a single
      * leg can pay the order or an open attempt can continue it. Several unpaid legs, selected gift
      * cards, or automatic tax with a leg below the balance require pay_order instead. Invoice
-     * payments list only cancel; subscription payments list none. Order edit payments list confirm
-     * while awaiting payment details or action. A listed action can still be refused due to an
-     * open risk review, an order payment attempt, a closed order, or the merchant account. A
-     * managed_by_owner refusal names the owner and its command in remediation.next_actions. The
-     * merchant list is credential-independent. Checkout credentials receive that list filtered to
-     * confirm and cancel on their own session's intents, never capture. Customer sessions omit
-     * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
-     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "confirm",
-     * "capture", "cancel". previous_attributes.supported_actions.anyOf[2] (Value): null.
-     * previous_attributes.tip_money (Optional): {@link MoneyValuePreviousAttributes} or null.
-     * Portion of amount_money that is a tip. Uses amount_money's currency and is at most
-     * amount_money. `null` when no tip is set, and for an order payment until its payment attempt
-     * has moved past requires_payment_method and requires_confirmation. An order payment without a
-     * tip can return an amount of 0 instead. previous_attributes.tip_money.anyOf[1] (Value):
-     * {@link MoneyValuePreviousAttributes}. previous_attributes.tip_money.anyOf[2] (Value): null.
+     * payments list only cancel. An unused first-period subscription payment lists cancel once the
+     * subscription is canceled. Order edit payments list confirm while awaiting payment details or
+     * action. A listed action can still be refused due to an open risk review, an order payment
+     * attempt, a closed order, or the merchant account. A managed_by_owner refusal names the owner
+     * and its command in remediation.next_actions. The merchant list is credential-independent.
+     * Checkout credentials receive that list filtered to confirm and cancel on their own session's
+     * intents, never capture. Customer sessions omit this field. New actions may be added. []
+     * enum: "confirm", "capture", "cancel". previous_attributes.supported_actions.anyOf[1][]
+     * (Value): string. Value enum: "confirm", "capture", "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.tip_money
+     * (Optional): {@link MoneyValuePreviousAttributes} or null. Portion of amount_money that is a
+     * tip. Uses amount_money's currency and is at most amount_money. `null` when no tip is set,
+     * and for an order payment until its payment attempt has moved past requires_payment_method
+     * and requires_confirmation. An order payment without a tip can return an amount of 0 instead.
+     * previous_attributes.tip_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.tip_money.anyOf[2] (Value): null.
      * previous_attributes.transaction_purpose (Optional): string or null. Why a bank debit is
      * taken. Set only when payment_options includes ach_debit, and fixed once the payment intent
      * exists. Value enum: "goods", "services", "other".
@@ -21104,7 +21968,7 @@ export type PaymentIntentRequiresCaptureMerchantEvent = (Exclude<MerchantWebhook
         /**
          * The resource snapshot, without expansions. Webhooks omit these fields:
          * `processing_fee_money`, `processing_fee_details`, `add_on_fees`, `merchant_net_money`,
-         * `payment_collection`.
+         * `payment_collection`, `remaining_refundable_money`.
          */
         "object": WebhookPaymentIntent;
         /**
@@ -21243,16 +22107,33 @@ export type PaymentIntentRequiresCaptureMerchantEvent = (Exclude<MerchantWebhook
          * payment_review. payment_intent.fulfillment_hold_updated is sent when the hold starts and
          * when it lifts. fulfillment_hold.anyOf[1] (Value): {@link
          * PaymentFulfillmentHoldPreviousAttributes}. fulfillment_hold.anyOf[2] (Value): null.
-         * invoice (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. The linked
-         * invoice. Returned only with expand=invoice. Present only when `expand` includes
-         * `invoice`; `null` when expanded and there is no related invoice. invoice.anyOf[1]
-         * (Value): {@link ExpandedInvoiceSummaryPreviousAttributes}. invoice.anyOf[2] (Value):
-         * null. invoice_id (Optional): string or null. Invoice this payment intent collects, when
-         * it pays an invoice. invoice_id.anyOf[1] (Value): string. Invoice this payment intent
-         * collects, when it pays an invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-         * invoice_id.anyOf[2] (Value): null. invoice_schedule_entry_id (Optional): string or null.
-         * The invoice installment this payment collects. invoice_schedule_entry_id.anyOf[1]
-         * (Value): string. The invoice installment this payment collects. Example:
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[2] (Value): null. invoice (Optional): {@link
+         * ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice. Returned only
+         * with expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded
+         * and there is no related invoice. invoice.anyOf[1] (Value): {@link
+         * ExpandedInvoiceSummaryPreviousAttributes}. invoice.anyOf[2] (Value): null. invoice_id
+         * (Optional): string or null. Invoice this payment intent collects, when it pays an
+         * invoice. invoice_id.anyOf[1] (Value): string. Invoice this payment intent collects, when
+         * it pays an invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2]
+         * (Value): null. invoice_schedule_entry_id (Optional): string or null. The invoice
+         * installment this payment collects. invoice_schedule_entry_id.anyOf[1] (Value): string.
+         * The invoice installment this payment collects. Example:
          * "invse_01KEZF7C006JCPQBD8VZ0RNT6R". invoice_schedule_entry_id.anyOf[2] (Value): null.
          * last_payment_error (Optional): {@link PaymentErrorSummaryPreviousAttributes} or null.
          * Most recent payment error. Null when no payment error is recorded.
@@ -21434,21 +22315,22 @@ export type PaymentIntentRequiresCaptureMerchantEvent = (Exclude<MerchantWebhook
          * and can change without a payment intent version change. Order legs list confirm when a
          * single leg can pay the order or an open attempt can continue it. Several unpaid legs,
          * selected gift cards, or automatic tax with a leg below the balance require pay_order
-         * instead. Invoice payments list only cancel; subscription payments list none. Order edit
-         * payments list confirm while awaiting payment details or action. A listed action can
-         * still be refused due to an open risk review, an order payment attempt, a closed order,
-         * or the merchant account. A managed_by_owner refusal names the owner and its command in
-         * remediation.next_actions. The merchant list is credential-independent. Checkout
-         * credentials receive that list filtered to confirm and cancel on their own session's
-         * intents, never capture. Customer sessions omit this field. New actions may be added. []
-         * enum: "confirm", "capture", "cancel". supported_actions.anyOf[1] (Value): Array of
-         * string. Verbs this payment intent accepts now, each a POST to
-         * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts
-         * and can change without a payment intent version change. Order legs list confirm when a
-         * single leg can pay the order or an open attempt can continue it. Several unpaid legs,
-         * selected gift cards, or automatic tax with a leg below the balance require pay_order
-         * instead. Invoice payments list only cancel; subscription payments list none. Order edit
-         * payments list confirm while awaiting payment details or action. A listed action can
+         * instead. Invoice payments list only cancel. An unused first-period subscription payment
+         * lists cancel once the subscription is canceled. Order edit payments list confirm while
+         * awaiting payment details or action. A listed action can still be refused due to an open
+         * risk review, an order payment attempt, a closed order, or the merchant account. A
+         * managed_by_owner refusal names the owner and its command in remediation.next_actions.
+         * The merchant list is credential-independent. Checkout credentials receive that list
+         * filtered to confirm and cancel on their own session's intents, never capture. Customer
+         * sessions omit this field. New actions may be added. [] enum: "confirm", "capture",
+         * "cancel". supported_actions.anyOf[1] (Value): Array of string. Verbs this payment intent
+         * accepts now, each a POST to /v1/payment-intents/{payment_intent_id}/{action}. The list
+         * includes stored order facts and can change without a payment intent version change.
+         * Order legs list confirm when a single leg can pay the order or an open attempt can
+         * continue it. Several unpaid legs, selected gift cards, or automatic tax with a leg below
+         * the balance require pay_order instead. Invoice payments list only cancel. An unused
+         * first-period subscription payment lists cancel once the subscription is canceled. Order
+         * edit payments list confirm while awaiting payment details or action. A listed action can
          * still be refused due to an open risk review, an order payment attempt, a closed order,
          * or the merchant account. A managed_by_owner refusal names the owner and its command in
          * remediation.next_actions. The merchant list is credential-independent. Checkout
@@ -21681,6 +22563,25 @@ export type PaymentIntentRequiresCaptureMerchantEvent = (Exclude<MerchantWebhook
              * PaymentFulfillmentHoldPreviousAttributes}. anyOf[2] (Value): null.
              */
             "fulfillment_hold"?: ((PaymentFulfillmentHoldPreviousAttributes) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field. anyOf[1] (Value): string. The
+             * Idempotency-Key of the request that created this resource. `null` when that request
+             * sent no key, Flint created the resource, the reader isn't the caller that created it
+             * (another app install, a buyer, or the merchant reading an app's or buyer's record),
+             * or the caller that created an older record is unknown. Filter its list with
+             * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+             * webhook events, can return `null`. To find a key that a replay returns as `null`,
+             * read the resource. Buyer sessions on routes shared with merchants get `null`.
+             * `/v1/me` responses do not include this field. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
             /**
              * The linked invoice. Returned only with expand=invoice. Present only when `expand`
              * includes `invoice`; `null` when expanded and there is no related invoice. anyOf[1]
@@ -21971,11 +22872,12 @@ export type PaymentIntentRequiresCaptureMerchantEvent = (Exclude<MerchantWebhook
              * facts and can change without a payment intent version change. Order legs list
              * confirm when a single leg can pay the order or an open attempt can continue it.
              * Several unpaid legs, selected gift cards, or automatic tax with a leg below the
-             * balance require pay_order instead. Invoice payments list only cancel; subscription
-             * payments list none. Order edit payments list confirm while awaiting payment details
-             * or action. A listed action can still be refused due to an open risk review, an order
-             * payment attempt, a closed order, or the merchant account. A managed_by_owner refusal
-             * names the owner and its command in remediation.next_actions. The merchant list is
+             * balance require pay_order instead. Invoice payments list only cancel. An unused
+             * first-period subscription payment lists cancel once the subscription is canceled.
+             * Order edit payments list confirm while awaiting payment details or action. A listed
+             * action can still be refused due to an open risk review, an order payment attempt, a
+             * closed order, or the merchant account. A managed_by_owner refusal names the owner
+             * and its command in remediation.next_actions. The merchant list is
              * credential-independent. Checkout credentials receive that list filtered to confirm
              * and cancel on their own session's intents, never capture. Customer sessions omit
              * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
@@ -21984,11 +22886,12 @@ export type PaymentIntentRequiresCaptureMerchantEvent = (Exclude<MerchantWebhook
              * order facts and can change without a payment intent version change. Order legs list
              * confirm when a single leg can pay the order or an open attempt can continue it.
              * Several unpaid legs, selected gift cards, or automatic tax with a leg below the
-             * balance require pay_order instead. Invoice payments list only cancel; subscription
-             * payments list none. Order edit payments list confirm while awaiting payment details
-             * or action. A listed action can still be refused due to an open risk review, an order
-             * payment attempt, a closed order, or the merchant account. A managed_by_owner refusal
-             * names the owner and its command in remediation.next_actions. The merchant list is
+             * balance require pay_order instead. Invoice payments list only cancel. An unused
+             * first-period subscription payment lists cancel once the subscription is canceled.
+             * Order edit payments list confirm while awaiting payment details or action. A listed
+             * action can still be refused due to an open risk review, an order payment attempt, a
+             * closed order, or the merchant account. A managed_by_owner refusal names the owner
+             * and its command in remediation.next_actions. The merchant list is
              * credential-independent. Checkout credentials receive that list filtered to confirm
              * and cancel on their own session's intents, never capture. Customer sessions omit
              * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
@@ -22105,6 +23008,7 @@ export type PaymentIntentSucceededEvent = ((((Exclude<MerchantWebhookEnvelope & 
             "failed_attempt_count"?: ((number) | (null));
             "failed_attempts"?: ((Array<FailedPaymentAttemptPreviousAttributes>) | (null));
             "fulfillment_hold"?: ((PaymentFulfillmentHoldPreviousAttributes) | (null));
+            "idempotency_key"?: ((string) | (null));
             "invoice"?: ((ExpandedInvoiceSummaryPreviousAttributes) | (null));
             "invoice_id"?: ((string) | (null));
             "invoice_schedule_entry_id"?: ((string) | (null));
@@ -22215,6 +23119,7 @@ export type PaymentIntentSucceededEvent = ((((Exclude<MerchantWebhookEnvelope & 
             "failed_attempt_count"?: ((number) | (null));
             "failed_attempts"?: ((Array<FailedPaymentAttemptPreviousAttributes>) | (null));
             "fulfillment_hold"?: ((PaymentFulfillmentHoldPreviousAttributes) | (null));
+            "idempotency_key"?: ((string) | (null));
             "invoice"?: ((ExpandedInvoiceSummaryPreviousAttributes) | (null));
             "invoice_id"?: ((string) | (null));
             "invoice_schedule_entry_id"?: ((string) | (null));
@@ -22295,18 +23200,19 @@ export type PaymentIntentSucceededInstalledMerchantsEvent = (Exclude<PartnerWebh
     /**
      *  object (Required): {@link WebhookPaymentIntent}. The resource snapshot, without expansions.
      * Webhooks omit these fields: `processing_fee_money`, `processing_fee_details`, `add_on_fees`,
-     * `merchant_net_money`, `payment_collection`. previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events. previous_attributes.amount_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. The amount requested from the buyer, including any
-     * tip_money. Capturing doesn't change it: after a partial capture it still shows the requested
-     * amount, and captured_money shows what was collected. On a standalone payment intent, PATCH
-     * can change it only before the first confirmation attempt. An amount_money or tip_money
-     * change that leaves too little for stored splits returns LIMIT_EXCEEDED at the changed field
-     * with minimum_money. previous_attributes.amount_money.anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.amount_money.anyOf[2] (Value): null.
+     * `merchant_net_money`, `payment_collection`, `remaining_refundable_money`.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.amount_money (Optional): {@link MoneyValuePreviousAttributes} or null.
+     * The amount requested from the buyer, including any tip_money. Capturing doesn't change it:
+     * after a partial capture it still shows the requested amount, and captured_money shows what
+     * was collected. On a standalone payment intent, PATCH can change it only before the first
+     * confirmation attempt. An amount_money or tip_money change that leaves too little for stored
+     * splits returns LIMIT_EXCEEDED at the changed field with minimum_money.
+     * previous_attributes.amount_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.amount_money.anyOf[2] (Value): null.
      * previous_attributes.authorization_expires_at (Optional): string or null. Effective Flint
      * deadline to capture a manual-capture hold: the earlier of the provider capture deadline and
      * any order resource guarantee. Order guarantees last at most 24 hours from the payment
@@ -22443,14 +23349,30 @@ export type PaymentIntentSucceededInstalledMerchantsEvent = (Exclude<PartnerWebh
      * is sent when the hold starts and when it lifts.
      * previous_attributes.fulfillment_hold.anyOf[1] (Value): {@link
      * PaymentFulfillmentHoldPreviousAttributes}. previous_attributes.fulfillment_hold.anyOf[2]
-     * (Value): null. previous_attributes.invoice (Optional): {@link
-     * ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice. Returned only with
-     * expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded and
-     * there is no related invoice. previous_attributes.invoice.anyOf[1] (Value): {@link
-     * ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2] (Value):
-     * null. previous_attributes.invoice_id (Optional): string or null. Invoice this payment intent
-     * collects, when it pays an invoice. previous_attributes.invoice_id.anyOf[1] (Value): string.
-     * Invoice this payment intent collects, when it pays an invoice. Example:
+     * (Value): null. previous_attributes.idempotency_key (Optional): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.invoice
+     * (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice.
+     * Returned only with expand=invoice. Present only when `expand` includes `invoice`; `null`
+     * when expanded and there is no related invoice. previous_attributes.invoice.anyOf[1] (Value):
+     * {@link ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2]
+     * (Value): null. previous_attributes.invoice_id (Optional): string or null. Invoice this
+     * payment intent collects, when it pays an invoice. previous_attributes.invoice_id.anyOf[1]
+     * (Value): string. Invoice this payment intent collects, when it pays an invoice. Example:
      * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
      * previous_attributes.invoice_schedule_entry_id (Optional): string or null. The invoice
      * installment this payment collects. previous_attributes.invoice_schedule_entry_id.anyOf[1]
@@ -22653,34 +23575,36 @@ export type PaymentIntentSucceededInstalledMerchantsEvent = (Exclude<PartnerWebh
      * The list includes stored order facts and can change without a payment intent version change.
      * Order legs list confirm when a single leg can pay the order or an open attempt can continue
      * it. Several unpaid legs, selected gift cards, or automatic tax with a leg below the balance
-     * require pay_order instead. Invoice payments list only cancel; subscription payments list
-     * none. Order edit payments list confirm while awaiting payment details or action. A listed
-     * action can still be refused due to an open risk review, an order payment attempt, a closed
-     * order, or the merchant account. A managed_by_owner refusal names the owner and its command
-     * in remediation.next_actions. The merchant list is credential-independent. Checkout
-     * credentials receive that list filtered to confirm and cancel on their own session's intents,
-     * never capture. Customer sessions omit this field. New actions may be added. [] enum:
-     * "confirm", "capture", "cancel". previous_attributes.supported_actions.anyOf[1] (Value):
-     * Array of string. Verbs this payment intent accepts now, each a POST to
+     * require pay_order instead. Invoice payments list only cancel. An unused first-period
+     * subscription payment lists cancel once the subscription is canceled. Order edit payments
+     * list confirm while awaiting payment details or action. A listed action can still be refused
+     * due to an open risk review, an order payment attempt, a closed order, or the merchant
+     * account. A managed_by_owner refusal names the owner and its command in
+     * remediation.next_actions. The merchant list is credential-independent. Checkout credentials
+     * receive that list filtered to confirm and cancel on their own session's intents, never
+     * capture. Customer sessions omit this field. New actions may be added. [] enum: "confirm",
+     * "capture", "cancel". previous_attributes.supported_actions.anyOf[1] (Value): Array of
+     * string. Verbs this payment intent accepts now, each a POST to
      * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts and
      * can change without a payment intent version change. Order legs list confirm when a single
      * leg can pay the order or an open attempt can continue it. Several unpaid legs, selected gift
      * cards, or automatic tax with a leg below the balance require pay_order instead. Invoice
-     * payments list only cancel; subscription payments list none. Order edit payments list confirm
-     * while awaiting payment details or action. A listed action can still be refused due to an
-     * open risk review, an order payment attempt, a closed order, or the merchant account. A
-     * managed_by_owner refusal names the owner and its command in remediation.next_actions. The
-     * merchant list is credential-independent. Checkout credentials receive that list filtered to
-     * confirm and cancel on their own session's intents, never capture. Customer sessions omit
-     * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
-     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "confirm",
-     * "capture", "cancel". previous_attributes.supported_actions.anyOf[2] (Value): null.
-     * previous_attributes.tip_money (Optional): {@link MoneyValuePreviousAttributes} or null.
-     * Portion of amount_money that is a tip. Uses amount_money's currency and is at most
-     * amount_money. `null` when no tip is set, and for an order payment until its payment attempt
-     * has moved past requires_payment_method and requires_confirmation. An order payment without a
-     * tip can return an amount of 0 instead. previous_attributes.tip_money.anyOf[1] (Value):
-     * {@link MoneyValuePreviousAttributes}. previous_attributes.tip_money.anyOf[2] (Value): null.
+     * payments list only cancel. An unused first-period subscription payment lists cancel once the
+     * subscription is canceled. Order edit payments list confirm while awaiting payment details or
+     * action. A listed action can still be refused due to an open risk review, an order payment
+     * attempt, a closed order, or the merchant account. A managed_by_owner refusal names the owner
+     * and its command in remediation.next_actions. The merchant list is credential-independent.
+     * Checkout credentials receive that list filtered to confirm and cancel on their own session's
+     * intents, never capture. Customer sessions omit this field. New actions may be added. []
+     * enum: "confirm", "capture", "cancel". previous_attributes.supported_actions.anyOf[1][]
+     * (Value): string. Value enum: "confirm", "capture", "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.tip_money
+     * (Optional): {@link MoneyValuePreviousAttributes} or null. Portion of amount_money that is a
+     * tip. Uses amount_money's currency and is at most amount_money. `null` when no tip is set,
+     * and for an order payment until its payment attempt has moved past requires_payment_method
+     * and requires_confirmation. An order payment without a tip can return an amount of 0 instead.
+     * previous_attributes.tip_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.tip_money.anyOf[2] (Value): null.
      * previous_attributes.transaction_purpose (Optional): string or null. Why a bank debit is
      * taken. Set only when payment_options includes ach_debit, and fixed once the payment intent
      * exists. Value enum: "goods", "services", "other".
@@ -22701,7 +23625,7 @@ export type PaymentIntentSucceededInstalledMerchantsEvent = (Exclude<PartnerWebh
         /**
          * The resource snapshot, without expansions. Webhooks omit these fields:
          * `processing_fee_money`, `processing_fee_details`, `add_on_fees`, `merchant_net_money`,
-         * `payment_collection`.
+         * `payment_collection`, `remaining_refundable_money`.
          */
         "object": WebhookPaymentIntent;
         /**
@@ -22840,16 +23764,33 @@ export type PaymentIntentSucceededInstalledMerchantsEvent = (Exclude<PartnerWebh
          * payment_review. payment_intent.fulfillment_hold_updated is sent when the hold starts and
          * when it lifts. fulfillment_hold.anyOf[1] (Value): {@link
          * PaymentFulfillmentHoldPreviousAttributes}. fulfillment_hold.anyOf[2] (Value): null.
-         * invoice (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. The linked
-         * invoice. Returned only with expand=invoice. Present only when `expand` includes
-         * `invoice`; `null` when expanded and there is no related invoice. invoice.anyOf[1]
-         * (Value): {@link ExpandedInvoiceSummaryPreviousAttributes}. invoice.anyOf[2] (Value):
-         * null. invoice_id (Optional): string or null. Invoice this payment intent collects, when
-         * it pays an invoice. invoice_id.anyOf[1] (Value): string. Invoice this payment intent
-         * collects, when it pays an invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-         * invoice_id.anyOf[2] (Value): null. invoice_schedule_entry_id (Optional): string or null.
-         * The invoice installment this payment collects. invoice_schedule_entry_id.anyOf[1]
-         * (Value): string. The invoice installment this payment collects. Example:
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[2] (Value): null. invoice (Optional): {@link
+         * ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice. Returned only
+         * with expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded
+         * and there is no related invoice. invoice.anyOf[1] (Value): {@link
+         * ExpandedInvoiceSummaryPreviousAttributes}. invoice.anyOf[2] (Value): null. invoice_id
+         * (Optional): string or null. Invoice this payment intent collects, when it pays an
+         * invoice. invoice_id.anyOf[1] (Value): string. Invoice this payment intent collects, when
+         * it pays an invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2]
+         * (Value): null. invoice_schedule_entry_id (Optional): string or null. The invoice
+         * installment this payment collects. invoice_schedule_entry_id.anyOf[1] (Value): string.
+         * The invoice installment this payment collects. Example:
          * "invse_01KEZF7C006JCPQBD8VZ0RNT6R". invoice_schedule_entry_id.anyOf[2] (Value): null.
          * last_payment_error (Optional): {@link PaymentErrorSummaryPreviousAttributes} or null.
          * Most recent payment error. Null when no payment error is recorded.
@@ -23031,21 +23972,22 @@ export type PaymentIntentSucceededInstalledMerchantsEvent = (Exclude<PartnerWebh
          * and can change without a payment intent version change. Order legs list confirm when a
          * single leg can pay the order or an open attempt can continue it. Several unpaid legs,
          * selected gift cards, or automatic tax with a leg below the balance require pay_order
-         * instead. Invoice payments list only cancel; subscription payments list none. Order edit
-         * payments list confirm while awaiting payment details or action. A listed action can
-         * still be refused due to an open risk review, an order payment attempt, a closed order,
-         * or the merchant account. A managed_by_owner refusal names the owner and its command in
-         * remediation.next_actions. The merchant list is credential-independent. Checkout
-         * credentials receive that list filtered to confirm and cancel on their own session's
-         * intents, never capture. Customer sessions omit this field. New actions may be added. []
-         * enum: "confirm", "capture", "cancel". supported_actions.anyOf[1] (Value): Array of
-         * string. Verbs this payment intent accepts now, each a POST to
-         * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts
-         * and can change without a payment intent version change. Order legs list confirm when a
-         * single leg can pay the order or an open attempt can continue it. Several unpaid legs,
-         * selected gift cards, or automatic tax with a leg below the balance require pay_order
-         * instead. Invoice payments list only cancel; subscription payments list none. Order edit
-         * payments list confirm while awaiting payment details or action. A listed action can
+         * instead. Invoice payments list only cancel. An unused first-period subscription payment
+         * lists cancel once the subscription is canceled. Order edit payments list confirm while
+         * awaiting payment details or action. A listed action can still be refused due to an open
+         * risk review, an order payment attempt, a closed order, or the merchant account. A
+         * managed_by_owner refusal names the owner and its command in remediation.next_actions.
+         * The merchant list is credential-independent. Checkout credentials receive that list
+         * filtered to confirm and cancel on their own session's intents, never capture. Customer
+         * sessions omit this field. New actions may be added. [] enum: "confirm", "capture",
+         * "cancel". supported_actions.anyOf[1] (Value): Array of string. Verbs this payment intent
+         * accepts now, each a POST to /v1/payment-intents/{payment_intent_id}/{action}. The list
+         * includes stored order facts and can change without a payment intent version change.
+         * Order legs list confirm when a single leg can pay the order or an open attempt can
+         * continue it. Several unpaid legs, selected gift cards, or automatic tax with a leg below
+         * the balance require pay_order instead. Invoice payments list only cancel. An unused
+         * first-period subscription payment lists cancel once the subscription is canceled. Order
+         * edit payments list confirm while awaiting payment details or action. A listed action can
          * still be refused due to an open risk review, an order payment attempt, a closed order,
          * or the merchant account. A managed_by_owner refusal names the owner and its command in
          * remediation.next_actions. The merchant list is credential-independent. Checkout
@@ -23278,6 +24220,25 @@ export type PaymentIntentSucceededInstalledMerchantsEvent = (Exclude<PartnerWebh
              * PaymentFulfillmentHoldPreviousAttributes}. anyOf[2] (Value): null.
              */
             "fulfillment_hold"?: ((PaymentFulfillmentHoldPreviousAttributes) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field. anyOf[1] (Value): string. The
+             * Idempotency-Key of the request that created this resource. `null` when that request
+             * sent no key, Flint created the resource, the reader isn't the caller that created it
+             * (another app install, a buyer, or the merchant reading an app's or buyer's record),
+             * or the caller that created an older record is unknown. Filter its list with
+             * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+             * webhook events, can return `null`. To find a key that a replay returns as `null`,
+             * read the resource. Buyer sessions on routes shared with merchants get `null`.
+             * `/v1/me` responses do not include this field. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
             /**
              * The linked invoice. Returned only with expand=invoice. Present only when `expand`
              * includes `invoice`; `null` when expanded and there is no related invoice. anyOf[1]
@@ -23568,11 +24529,12 @@ export type PaymentIntentSucceededInstalledMerchantsEvent = (Exclude<PartnerWebh
              * facts and can change without a payment intent version change. Order legs list
              * confirm when a single leg can pay the order or an open attempt can continue it.
              * Several unpaid legs, selected gift cards, or automatic tax with a leg below the
-             * balance require pay_order instead. Invoice payments list only cancel; subscription
-             * payments list none. Order edit payments list confirm while awaiting payment details
-             * or action. A listed action can still be refused due to an open risk review, an order
-             * payment attempt, a closed order, or the merchant account. A managed_by_owner refusal
-             * names the owner and its command in remediation.next_actions. The merchant list is
+             * balance require pay_order instead. Invoice payments list only cancel. An unused
+             * first-period subscription payment lists cancel once the subscription is canceled.
+             * Order edit payments list confirm while awaiting payment details or action. A listed
+             * action can still be refused due to an open risk review, an order payment attempt, a
+             * closed order, or the merchant account. A managed_by_owner refusal names the owner
+             * and its command in remediation.next_actions. The merchant list is
              * credential-independent. Checkout credentials receive that list filtered to confirm
              * and cancel on their own session's intents, never capture. Customer sessions omit
              * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
@@ -23581,11 +24543,12 @@ export type PaymentIntentSucceededInstalledMerchantsEvent = (Exclude<PartnerWebh
              * order facts and can change without a payment intent version change. Order legs list
              * confirm when a single leg can pay the order or an open attempt can continue it.
              * Several unpaid legs, selected gift cards, or automatic tax with a leg below the
-             * balance require pay_order instead. Invoice payments list only cancel; subscription
-             * payments list none. Order edit payments list confirm while awaiting payment details
-             * or action. A listed action can still be refused due to an open risk review, an order
-             * payment attempt, a closed order, or the merchant account. A managed_by_owner refusal
-             * names the owner and its command in remediation.next_actions. The merchant list is
+             * balance require pay_order instead. Invoice payments list only cancel. An unused
+             * first-period subscription payment lists cancel once the subscription is canceled.
+             * Order edit payments list confirm while awaiting payment details or action. A listed
+             * action can still be refused due to an open risk review, an order payment attempt, a
+             * closed order, or the merchant account. A managed_by_owner refusal names the owner
+             * and its command in remediation.next_actions. The merchant list is
              * credential-independent. Checkout credentials receive that list filtered to confirm
              * and cancel on their own session's intents, never capture. Customer sessions omit
              * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
@@ -23671,18 +24634,19 @@ export type PaymentIntentSucceededMerchantEvent = (Exclude<MerchantWebhookEnvelo
     /**
      *  object (Required): {@link WebhookPaymentIntent}. The resource snapshot, without expansions.
      * Webhooks omit these fields: `processing_fee_money`, `processing_fee_details`, `add_on_fees`,
-     * `merchant_net_money`, `payment_collection`. previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events. previous_attributes.amount_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. The amount requested from the buyer, including any
-     * tip_money. Capturing doesn't change it: after a partial capture it still shows the requested
-     * amount, and captured_money shows what was collected. On a standalone payment intent, PATCH
-     * can change it only before the first confirmation attempt. An amount_money or tip_money
-     * change that leaves too little for stored splits returns LIMIT_EXCEEDED at the changed field
-     * with minimum_money. previous_attributes.amount_money.anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.amount_money.anyOf[2] (Value): null.
+     * `merchant_net_money`, `payment_collection`, `remaining_refundable_money`.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.amount_money (Optional): {@link MoneyValuePreviousAttributes} or null.
+     * The amount requested from the buyer, including any tip_money. Capturing doesn't change it:
+     * after a partial capture it still shows the requested amount, and captured_money shows what
+     * was collected. On a standalone payment intent, PATCH can change it only before the first
+     * confirmation attempt. An amount_money or tip_money change that leaves too little for stored
+     * splits returns LIMIT_EXCEEDED at the changed field with minimum_money.
+     * previous_attributes.amount_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.amount_money.anyOf[2] (Value): null.
      * previous_attributes.authorization_expires_at (Optional): string or null. Effective Flint
      * deadline to capture a manual-capture hold: the earlier of the provider capture deadline and
      * any order resource guarantee. Order guarantees last at most 24 hours from the payment
@@ -23819,14 +24783,30 @@ export type PaymentIntentSucceededMerchantEvent = (Exclude<MerchantWebhookEnvelo
      * is sent when the hold starts and when it lifts.
      * previous_attributes.fulfillment_hold.anyOf[1] (Value): {@link
      * PaymentFulfillmentHoldPreviousAttributes}. previous_attributes.fulfillment_hold.anyOf[2]
-     * (Value): null. previous_attributes.invoice (Optional): {@link
-     * ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice. Returned only with
-     * expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded and
-     * there is no related invoice. previous_attributes.invoice.anyOf[1] (Value): {@link
-     * ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2] (Value):
-     * null. previous_attributes.invoice_id (Optional): string or null. Invoice this payment intent
-     * collects, when it pays an invoice. previous_attributes.invoice_id.anyOf[1] (Value): string.
-     * Invoice this payment intent collects, when it pays an invoice. Example:
+     * (Value): null. previous_attributes.idempotency_key (Optional): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.invoice
+     * (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice.
+     * Returned only with expand=invoice. Present only when `expand` includes `invoice`; `null`
+     * when expanded and there is no related invoice. previous_attributes.invoice.anyOf[1] (Value):
+     * {@link ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2]
+     * (Value): null. previous_attributes.invoice_id (Optional): string or null. Invoice this
+     * payment intent collects, when it pays an invoice. previous_attributes.invoice_id.anyOf[1]
+     * (Value): string. Invoice this payment intent collects, when it pays an invoice. Example:
      * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
      * previous_attributes.invoice_schedule_entry_id (Optional): string or null. The invoice
      * installment this payment collects. previous_attributes.invoice_schedule_entry_id.anyOf[1]
@@ -24029,34 +25009,36 @@ export type PaymentIntentSucceededMerchantEvent = (Exclude<MerchantWebhookEnvelo
      * The list includes stored order facts and can change without a payment intent version change.
      * Order legs list confirm when a single leg can pay the order or an open attempt can continue
      * it. Several unpaid legs, selected gift cards, or automatic tax with a leg below the balance
-     * require pay_order instead. Invoice payments list only cancel; subscription payments list
-     * none. Order edit payments list confirm while awaiting payment details or action. A listed
-     * action can still be refused due to an open risk review, an order payment attempt, a closed
-     * order, or the merchant account. A managed_by_owner refusal names the owner and its command
-     * in remediation.next_actions. The merchant list is credential-independent. Checkout
-     * credentials receive that list filtered to confirm and cancel on their own session's intents,
-     * never capture. Customer sessions omit this field. New actions may be added. [] enum:
-     * "confirm", "capture", "cancel". previous_attributes.supported_actions.anyOf[1] (Value):
-     * Array of string. Verbs this payment intent accepts now, each a POST to
+     * require pay_order instead. Invoice payments list only cancel. An unused first-period
+     * subscription payment lists cancel once the subscription is canceled. Order edit payments
+     * list confirm while awaiting payment details or action. A listed action can still be refused
+     * due to an open risk review, an order payment attempt, a closed order, or the merchant
+     * account. A managed_by_owner refusal names the owner and its command in
+     * remediation.next_actions. The merchant list is credential-independent. Checkout credentials
+     * receive that list filtered to confirm and cancel on their own session's intents, never
+     * capture. Customer sessions omit this field. New actions may be added. [] enum: "confirm",
+     * "capture", "cancel". previous_attributes.supported_actions.anyOf[1] (Value): Array of
+     * string. Verbs this payment intent accepts now, each a POST to
      * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts and
      * can change without a payment intent version change. Order legs list confirm when a single
      * leg can pay the order or an open attempt can continue it. Several unpaid legs, selected gift
      * cards, or automatic tax with a leg below the balance require pay_order instead. Invoice
-     * payments list only cancel; subscription payments list none. Order edit payments list confirm
-     * while awaiting payment details or action. A listed action can still be refused due to an
-     * open risk review, an order payment attempt, a closed order, or the merchant account. A
-     * managed_by_owner refusal names the owner and its command in remediation.next_actions. The
-     * merchant list is credential-independent. Checkout credentials receive that list filtered to
-     * confirm and cancel on their own session's intents, never capture. Customer sessions omit
-     * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
-     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "confirm",
-     * "capture", "cancel". previous_attributes.supported_actions.anyOf[2] (Value): null.
-     * previous_attributes.tip_money (Optional): {@link MoneyValuePreviousAttributes} or null.
-     * Portion of amount_money that is a tip. Uses amount_money's currency and is at most
-     * amount_money. `null` when no tip is set, and for an order payment until its payment attempt
-     * has moved past requires_payment_method and requires_confirmation. An order payment without a
-     * tip can return an amount of 0 instead. previous_attributes.tip_money.anyOf[1] (Value):
-     * {@link MoneyValuePreviousAttributes}. previous_attributes.tip_money.anyOf[2] (Value): null.
+     * payments list only cancel. An unused first-period subscription payment lists cancel once the
+     * subscription is canceled. Order edit payments list confirm while awaiting payment details or
+     * action. A listed action can still be refused due to an open risk review, an order payment
+     * attempt, a closed order, or the merchant account. A managed_by_owner refusal names the owner
+     * and its command in remediation.next_actions. The merchant list is credential-independent.
+     * Checkout credentials receive that list filtered to confirm and cancel on their own session's
+     * intents, never capture. Customer sessions omit this field. New actions may be added. []
+     * enum: "confirm", "capture", "cancel". previous_attributes.supported_actions.anyOf[1][]
+     * (Value): string. Value enum: "confirm", "capture", "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.tip_money
+     * (Optional): {@link MoneyValuePreviousAttributes} or null. Portion of amount_money that is a
+     * tip. Uses amount_money's currency and is at most amount_money. `null` when no tip is set,
+     * and for an order payment until its payment attempt has moved past requires_payment_method
+     * and requires_confirmation. An order payment without a tip can return an amount of 0 instead.
+     * previous_attributes.tip_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.tip_money.anyOf[2] (Value): null.
      * previous_attributes.transaction_purpose (Optional): string or null. Why a bank debit is
      * taken. Set only when payment_options includes ach_debit, and fixed once the payment intent
      * exists. Value enum: "goods", "services", "other".
@@ -24077,7 +25059,7 @@ export type PaymentIntentSucceededMerchantEvent = (Exclude<MerchantWebhookEnvelo
         /**
          * The resource snapshot, without expansions. Webhooks omit these fields:
          * `processing_fee_money`, `processing_fee_details`, `add_on_fees`, `merchant_net_money`,
-         * `payment_collection`.
+         * `payment_collection`, `remaining_refundable_money`.
          */
         "object": WebhookPaymentIntent;
         /**
@@ -24216,16 +25198,33 @@ export type PaymentIntentSucceededMerchantEvent = (Exclude<MerchantWebhookEnvelo
          * payment_review. payment_intent.fulfillment_hold_updated is sent when the hold starts and
          * when it lifts. fulfillment_hold.anyOf[1] (Value): {@link
          * PaymentFulfillmentHoldPreviousAttributes}. fulfillment_hold.anyOf[2] (Value): null.
-         * invoice (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. The linked
-         * invoice. Returned only with expand=invoice. Present only when `expand` includes
-         * `invoice`; `null` when expanded and there is no related invoice. invoice.anyOf[1]
-         * (Value): {@link ExpandedInvoiceSummaryPreviousAttributes}. invoice.anyOf[2] (Value):
-         * null. invoice_id (Optional): string or null. Invoice this payment intent collects, when
-         * it pays an invoice. invoice_id.anyOf[1] (Value): string. Invoice this payment intent
-         * collects, when it pays an invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-         * invoice_id.anyOf[2] (Value): null. invoice_schedule_entry_id (Optional): string or null.
-         * The invoice installment this payment collects. invoice_schedule_entry_id.anyOf[1]
-         * (Value): string. The invoice installment this payment collects. Example:
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[2] (Value): null. invoice (Optional): {@link
+         * ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice. Returned only
+         * with expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded
+         * and there is no related invoice. invoice.anyOf[1] (Value): {@link
+         * ExpandedInvoiceSummaryPreviousAttributes}. invoice.anyOf[2] (Value): null. invoice_id
+         * (Optional): string or null. Invoice this payment intent collects, when it pays an
+         * invoice. invoice_id.anyOf[1] (Value): string. Invoice this payment intent collects, when
+         * it pays an invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2]
+         * (Value): null. invoice_schedule_entry_id (Optional): string or null. The invoice
+         * installment this payment collects. invoice_schedule_entry_id.anyOf[1] (Value): string.
+         * The invoice installment this payment collects. Example:
          * "invse_01KEZF7C006JCPQBD8VZ0RNT6R". invoice_schedule_entry_id.anyOf[2] (Value): null.
          * last_payment_error (Optional): {@link PaymentErrorSummaryPreviousAttributes} or null.
          * Most recent payment error. Null when no payment error is recorded.
@@ -24407,21 +25406,22 @@ export type PaymentIntentSucceededMerchantEvent = (Exclude<MerchantWebhookEnvelo
          * and can change without a payment intent version change. Order legs list confirm when a
          * single leg can pay the order or an open attempt can continue it. Several unpaid legs,
          * selected gift cards, or automatic tax with a leg below the balance require pay_order
-         * instead. Invoice payments list only cancel; subscription payments list none. Order edit
-         * payments list confirm while awaiting payment details or action. A listed action can
-         * still be refused due to an open risk review, an order payment attempt, a closed order,
-         * or the merchant account. A managed_by_owner refusal names the owner and its command in
-         * remediation.next_actions. The merchant list is credential-independent. Checkout
-         * credentials receive that list filtered to confirm and cancel on their own session's
-         * intents, never capture. Customer sessions omit this field. New actions may be added. []
-         * enum: "confirm", "capture", "cancel". supported_actions.anyOf[1] (Value): Array of
-         * string. Verbs this payment intent accepts now, each a POST to
-         * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts
-         * and can change without a payment intent version change. Order legs list confirm when a
-         * single leg can pay the order or an open attempt can continue it. Several unpaid legs,
-         * selected gift cards, or automatic tax with a leg below the balance require pay_order
-         * instead. Invoice payments list only cancel; subscription payments list none. Order edit
-         * payments list confirm while awaiting payment details or action. A listed action can
+         * instead. Invoice payments list only cancel. An unused first-period subscription payment
+         * lists cancel once the subscription is canceled. Order edit payments list confirm while
+         * awaiting payment details or action. A listed action can still be refused due to an open
+         * risk review, an order payment attempt, a closed order, or the merchant account. A
+         * managed_by_owner refusal names the owner and its command in remediation.next_actions.
+         * The merchant list is credential-independent. Checkout credentials receive that list
+         * filtered to confirm and cancel on their own session's intents, never capture. Customer
+         * sessions omit this field. New actions may be added. [] enum: "confirm", "capture",
+         * "cancel". supported_actions.anyOf[1] (Value): Array of string. Verbs this payment intent
+         * accepts now, each a POST to /v1/payment-intents/{payment_intent_id}/{action}. The list
+         * includes stored order facts and can change without a payment intent version change.
+         * Order legs list confirm when a single leg can pay the order or an open attempt can
+         * continue it. Several unpaid legs, selected gift cards, or automatic tax with a leg below
+         * the balance require pay_order instead. Invoice payments list only cancel. An unused
+         * first-period subscription payment lists cancel once the subscription is canceled. Order
+         * edit payments list confirm while awaiting payment details or action. A listed action can
          * still be refused due to an open risk review, an order payment attempt, a closed order,
          * or the merchant account. A managed_by_owner refusal names the owner and its command in
          * remediation.next_actions. The merchant list is credential-independent. Checkout
@@ -24654,6 +25654,25 @@ export type PaymentIntentSucceededMerchantEvent = (Exclude<MerchantWebhookEnvelo
              * PaymentFulfillmentHoldPreviousAttributes}. anyOf[2] (Value): null.
              */
             "fulfillment_hold"?: ((PaymentFulfillmentHoldPreviousAttributes) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field. anyOf[1] (Value): string. The
+             * Idempotency-Key of the request that created this resource. `null` when that request
+             * sent no key, Flint created the resource, the reader isn't the caller that created it
+             * (another app install, a buyer, or the merchant reading an app's or buyer's record),
+             * or the caller that created an older record is unknown. Filter its list with
+             * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+             * webhook events, can return `null`. To find a key that a replay returns as `null`,
+             * read the resource. Buyer sessions on routes shared with merchants get `null`.
+             * `/v1/me` responses do not include this field. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
             /**
              * The linked invoice. Returned only with expand=invoice. Present only when `expand`
              * includes `invoice`; `null` when expanded and there is no related invoice. anyOf[1]
@@ -24944,11 +25963,12 @@ export type PaymentIntentSucceededMerchantEvent = (Exclude<MerchantWebhookEnvelo
              * facts and can change without a payment intent version change. Order legs list
              * confirm when a single leg can pay the order or an open attempt can continue it.
              * Several unpaid legs, selected gift cards, or automatic tax with a leg below the
-             * balance require pay_order instead. Invoice payments list only cancel; subscription
-             * payments list none. Order edit payments list confirm while awaiting payment details
-             * or action. A listed action can still be refused due to an open risk review, an order
-             * payment attempt, a closed order, or the merchant account. A managed_by_owner refusal
-             * names the owner and its command in remediation.next_actions. The merchant list is
+             * balance require pay_order instead. Invoice payments list only cancel. An unused
+             * first-period subscription payment lists cancel once the subscription is canceled.
+             * Order edit payments list confirm while awaiting payment details or action. A listed
+             * action can still be refused due to an open risk review, an order payment attempt, a
+             * closed order, or the merchant account. A managed_by_owner refusal names the owner
+             * and its command in remediation.next_actions. The merchant list is
              * credential-independent. Checkout credentials receive that list filtered to confirm
              * and cancel on their own session's intents, never capture. Customer sessions omit
              * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
@@ -24957,11 +25977,12 @@ export type PaymentIntentSucceededMerchantEvent = (Exclude<MerchantWebhookEnvelo
              * order facts and can change without a payment intent version change. Order legs list
              * confirm when a single leg can pay the order or an open attempt can continue it.
              * Several unpaid legs, selected gift cards, or automatic tax with a leg below the
-             * balance require pay_order instead. Invoice payments list only cancel; subscription
-             * payments list none. Order edit payments list confirm while awaiting payment details
-             * or action. A listed action can still be refused due to an open risk review, an order
-             * payment attempt, a closed order, or the merchant account. A managed_by_owner refusal
-             * names the owner and its command in remediation.next_actions. The merchant list is
+             * balance require pay_order instead. Invoice payments list only cancel. An unused
+             * first-period subscription payment lists cancel once the subscription is canceled.
+             * Order edit payments list confirm while awaiting payment details or action. A listed
+             * action can still be refused due to an open risk review, an order payment attempt, a
+             * closed order, or the merchant account. A managed_by_owner refusal names the owner
+             * and its command in remediation.next_actions. The merchant list is
              * credential-independent. Checkout credentials receive that list filtered to confirm
              * and cancel on their own session's intents, never capture. Customer sessions omit
              * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
@@ -25053,6 +26074,7 @@ export type PaymentIntentUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & ob
             "failed_attempt_count"?: ((number) | (null));
             "failed_attempts"?: ((Array<FailedPaymentAttemptPreviousAttributes>) | (null));
             "fulfillment_hold"?: ((PaymentFulfillmentHoldPreviousAttributes) | (null));
+            "idempotency_key"?: ((string) | (null));
             "invoice"?: ((ExpandedInvoiceSummaryPreviousAttributes) | (null));
             "invoice_id"?: ((string) | (null));
             "invoice_schedule_entry_id"?: ((string) | (null));
@@ -25163,6 +26185,7 @@ export type PaymentIntentUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & ob
             "failed_attempt_count"?: ((number) | (null));
             "failed_attempts"?: ((Array<FailedPaymentAttemptPreviousAttributes>) | (null));
             "fulfillment_hold"?: ((PaymentFulfillmentHoldPreviousAttributes) | (null));
+            "idempotency_key"?: ((string) | (null));
             "invoice"?: ((ExpandedInvoiceSummaryPreviousAttributes) | (null));
             "invoice_id"?: ((string) | (null));
             "invoice_schedule_entry_id"?: ((string) | (null));
@@ -25243,18 +26266,19 @@ export type PaymentIntentUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
     /**
      *  object (Required): {@link WebhookPaymentIntent}. The resource snapshot, without expansions.
      * Webhooks omit these fields: `processing_fee_money`, `processing_fee_details`, `add_on_fees`,
-     * `merchant_net_money`, `payment_collection`. previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events. previous_attributes.amount_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. The amount requested from the buyer, including any
-     * tip_money. Capturing doesn't change it: after a partial capture it still shows the requested
-     * amount, and captured_money shows what was collected. On a standalone payment intent, PATCH
-     * can change it only before the first confirmation attempt. An amount_money or tip_money
-     * change that leaves too little for stored splits returns LIMIT_EXCEEDED at the changed field
-     * with minimum_money. previous_attributes.amount_money.anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.amount_money.anyOf[2] (Value): null.
+     * `merchant_net_money`, `payment_collection`, `remaining_refundable_money`.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.amount_money (Optional): {@link MoneyValuePreviousAttributes} or null.
+     * The amount requested from the buyer, including any tip_money. Capturing doesn't change it:
+     * after a partial capture it still shows the requested amount, and captured_money shows what
+     * was collected. On a standalone payment intent, PATCH can change it only before the first
+     * confirmation attempt. An amount_money or tip_money change that leaves too little for stored
+     * splits returns LIMIT_EXCEEDED at the changed field with minimum_money.
+     * previous_attributes.amount_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.amount_money.anyOf[2] (Value): null.
      * previous_attributes.authorization_expires_at (Optional): string or null. Effective Flint
      * deadline to capture a manual-capture hold: the earlier of the provider capture deadline and
      * any order resource guarantee. Order guarantees last at most 24 hours from the payment
@@ -25391,14 +26415,30 @@ export type PaymentIntentUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
      * is sent when the hold starts and when it lifts.
      * previous_attributes.fulfillment_hold.anyOf[1] (Value): {@link
      * PaymentFulfillmentHoldPreviousAttributes}. previous_attributes.fulfillment_hold.anyOf[2]
-     * (Value): null. previous_attributes.invoice (Optional): {@link
-     * ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice. Returned only with
-     * expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded and
-     * there is no related invoice. previous_attributes.invoice.anyOf[1] (Value): {@link
-     * ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2] (Value):
-     * null. previous_attributes.invoice_id (Optional): string or null. Invoice this payment intent
-     * collects, when it pays an invoice. previous_attributes.invoice_id.anyOf[1] (Value): string.
-     * Invoice this payment intent collects, when it pays an invoice. Example:
+     * (Value): null. previous_attributes.idempotency_key (Optional): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.invoice
+     * (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice.
+     * Returned only with expand=invoice. Present only when `expand` includes `invoice`; `null`
+     * when expanded and there is no related invoice. previous_attributes.invoice.anyOf[1] (Value):
+     * {@link ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2]
+     * (Value): null. previous_attributes.invoice_id (Optional): string or null. Invoice this
+     * payment intent collects, when it pays an invoice. previous_attributes.invoice_id.anyOf[1]
+     * (Value): string. Invoice this payment intent collects, when it pays an invoice. Example:
      * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
      * previous_attributes.invoice_schedule_entry_id (Optional): string or null. The invoice
      * installment this payment collects. previous_attributes.invoice_schedule_entry_id.anyOf[1]
@@ -25601,34 +26641,36 @@ export type PaymentIntentUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
      * The list includes stored order facts and can change without a payment intent version change.
      * Order legs list confirm when a single leg can pay the order or an open attempt can continue
      * it. Several unpaid legs, selected gift cards, or automatic tax with a leg below the balance
-     * require pay_order instead. Invoice payments list only cancel; subscription payments list
-     * none. Order edit payments list confirm while awaiting payment details or action. A listed
-     * action can still be refused due to an open risk review, an order payment attempt, a closed
-     * order, or the merchant account. A managed_by_owner refusal names the owner and its command
-     * in remediation.next_actions. The merchant list is credential-independent. Checkout
-     * credentials receive that list filtered to confirm and cancel on their own session's intents,
-     * never capture. Customer sessions omit this field. New actions may be added. [] enum:
-     * "confirm", "capture", "cancel". previous_attributes.supported_actions.anyOf[1] (Value):
-     * Array of string. Verbs this payment intent accepts now, each a POST to
+     * require pay_order instead. Invoice payments list only cancel. An unused first-period
+     * subscription payment lists cancel once the subscription is canceled. Order edit payments
+     * list confirm while awaiting payment details or action. A listed action can still be refused
+     * due to an open risk review, an order payment attempt, a closed order, or the merchant
+     * account. A managed_by_owner refusal names the owner and its command in
+     * remediation.next_actions. The merchant list is credential-independent. Checkout credentials
+     * receive that list filtered to confirm and cancel on their own session's intents, never
+     * capture. Customer sessions omit this field. New actions may be added. [] enum: "confirm",
+     * "capture", "cancel". previous_attributes.supported_actions.anyOf[1] (Value): Array of
+     * string. Verbs this payment intent accepts now, each a POST to
      * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts and
      * can change without a payment intent version change. Order legs list confirm when a single
      * leg can pay the order or an open attempt can continue it. Several unpaid legs, selected gift
      * cards, or automatic tax with a leg below the balance require pay_order instead. Invoice
-     * payments list only cancel; subscription payments list none. Order edit payments list confirm
-     * while awaiting payment details or action. A listed action can still be refused due to an
-     * open risk review, an order payment attempt, a closed order, or the merchant account. A
-     * managed_by_owner refusal names the owner and its command in remediation.next_actions. The
-     * merchant list is credential-independent. Checkout credentials receive that list filtered to
-     * confirm and cancel on their own session's intents, never capture. Customer sessions omit
-     * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
-     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "confirm",
-     * "capture", "cancel". previous_attributes.supported_actions.anyOf[2] (Value): null.
-     * previous_attributes.tip_money (Optional): {@link MoneyValuePreviousAttributes} or null.
-     * Portion of amount_money that is a tip. Uses amount_money's currency and is at most
-     * amount_money. `null` when no tip is set, and for an order payment until its payment attempt
-     * has moved past requires_payment_method and requires_confirmation. An order payment without a
-     * tip can return an amount of 0 instead. previous_attributes.tip_money.anyOf[1] (Value):
-     * {@link MoneyValuePreviousAttributes}. previous_attributes.tip_money.anyOf[2] (Value): null.
+     * payments list only cancel. An unused first-period subscription payment lists cancel once the
+     * subscription is canceled. Order edit payments list confirm while awaiting payment details or
+     * action. A listed action can still be refused due to an open risk review, an order payment
+     * attempt, a closed order, or the merchant account. A managed_by_owner refusal names the owner
+     * and its command in remediation.next_actions. The merchant list is credential-independent.
+     * Checkout credentials receive that list filtered to confirm and cancel on their own session's
+     * intents, never capture. Customer sessions omit this field. New actions may be added. []
+     * enum: "confirm", "capture", "cancel". previous_attributes.supported_actions.anyOf[1][]
+     * (Value): string. Value enum: "confirm", "capture", "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.tip_money
+     * (Optional): {@link MoneyValuePreviousAttributes} or null. Portion of amount_money that is a
+     * tip. Uses amount_money's currency and is at most amount_money. `null` when no tip is set,
+     * and for an order payment until its payment attempt has moved past requires_payment_method
+     * and requires_confirmation. An order payment without a tip can return an amount of 0 instead.
+     * previous_attributes.tip_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.tip_money.anyOf[2] (Value): null.
      * previous_attributes.transaction_purpose (Optional): string or null. Why a bank debit is
      * taken. Set only when payment_options includes ach_debit, and fixed once the payment intent
      * exists. Value enum: "goods", "services", "other".
@@ -25649,7 +26691,7 @@ export type PaymentIntentUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
         /**
          * The resource snapshot, without expansions. Webhooks omit these fields:
          * `processing_fee_money`, `processing_fee_details`, `add_on_fees`, `merchant_net_money`,
-         * `payment_collection`.
+         * `payment_collection`, `remaining_refundable_money`.
          */
         "object": WebhookPaymentIntent;
         /**
@@ -25788,16 +26830,33 @@ export type PaymentIntentUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
          * payment_review. payment_intent.fulfillment_hold_updated is sent when the hold starts and
          * when it lifts. fulfillment_hold.anyOf[1] (Value): {@link
          * PaymentFulfillmentHoldPreviousAttributes}. fulfillment_hold.anyOf[2] (Value): null.
-         * invoice (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. The linked
-         * invoice. Returned only with expand=invoice. Present only when `expand` includes
-         * `invoice`; `null` when expanded and there is no related invoice. invoice.anyOf[1]
-         * (Value): {@link ExpandedInvoiceSummaryPreviousAttributes}. invoice.anyOf[2] (Value):
-         * null. invoice_id (Optional): string or null. Invoice this payment intent collects, when
-         * it pays an invoice. invoice_id.anyOf[1] (Value): string. Invoice this payment intent
-         * collects, when it pays an invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-         * invoice_id.anyOf[2] (Value): null. invoice_schedule_entry_id (Optional): string or null.
-         * The invoice installment this payment collects. invoice_schedule_entry_id.anyOf[1]
-         * (Value): string. The invoice installment this payment collects. Example:
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[2] (Value): null. invoice (Optional): {@link
+         * ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice. Returned only
+         * with expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded
+         * and there is no related invoice. invoice.anyOf[1] (Value): {@link
+         * ExpandedInvoiceSummaryPreviousAttributes}. invoice.anyOf[2] (Value): null. invoice_id
+         * (Optional): string or null. Invoice this payment intent collects, when it pays an
+         * invoice. invoice_id.anyOf[1] (Value): string. Invoice this payment intent collects, when
+         * it pays an invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2]
+         * (Value): null. invoice_schedule_entry_id (Optional): string or null. The invoice
+         * installment this payment collects. invoice_schedule_entry_id.anyOf[1] (Value): string.
+         * The invoice installment this payment collects. Example:
          * "invse_01KEZF7C006JCPQBD8VZ0RNT6R". invoice_schedule_entry_id.anyOf[2] (Value): null.
          * last_payment_error (Optional): {@link PaymentErrorSummaryPreviousAttributes} or null.
          * Most recent payment error. Null when no payment error is recorded.
@@ -25979,21 +27038,22 @@ export type PaymentIntentUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
          * and can change without a payment intent version change. Order legs list confirm when a
          * single leg can pay the order or an open attempt can continue it. Several unpaid legs,
          * selected gift cards, or automatic tax with a leg below the balance require pay_order
-         * instead. Invoice payments list only cancel; subscription payments list none. Order edit
-         * payments list confirm while awaiting payment details or action. A listed action can
-         * still be refused due to an open risk review, an order payment attempt, a closed order,
-         * or the merchant account. A managed_by_owner refusal names the owner and its command in
-         * remediation.next_actions. The merchant list is credential-independent. Checkout
-         * credentials receive that list filtered to confirm and cancel on their own session's
-         * intents, never capture. Customer sessions omit this field. New actions may be added. []
-         * enum: "confirm", "capture", "cancel". supported_actions.anyOf[1] (Value): Array of
-         * string. Verbs this payment intent accepts now, each a POST to
-         * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts
-         * and can change without a payment intent version change. Order legs list confirm when a
-         * single leg can pay the order or an open attempt can continue it. Several unpaid legs,
-         * selected gift cards, or automatic tax with a leg below the balance require pay_order
-         * instead. Invoice payments list only cancel; subscription payments list none. Order edit
-         * payments list confirm while awaiting payment details or action. A listed action can
+         * instead. Invoice payments list only cancel. An unused first-period subscription payment
+         * lists cancel once the subscription is canceled. Order edit payments list confirm while
+         * awaiting payment details or action. A listed action can still be refused due to an open
+         * risk review, an order payment attempt, a closed order, or the merchant account. A
+         * managed_by_owner refusal names the owner and its command in remediation.next_actions.
+         * The merchant list is credential-independent. Checkout credentials receive that list
+         * filtered to confirm and cancel on their own session's intents, never capture. Customer
+         * sessions omit this field. New actions may be added. [] enum: "confirm", "capture",
+         * "cancel". supported_actions.anyOf[1] (Value): Array of string. Verbs this payment intent
+         * accepts now, each a POST to /v1/payment-intents/{payment_intent_id}/{action}. The list
+         * includes stored order facts and can change without a payment intent version change.
+         * Order legs list confirm when a single leg can pay the order or an open attempt can
+         * continue it. Several unpaid legs, selected gift cards, or automatic tax with a leg below
+         * the balance require pay_order instead. Invoice payments list only cancel. An unused
+         * first-period subscription payment lists cancel once the subscription is canceled. Order
+         * edit payments list confirm while awaiting payment details or action. A listed action can
          * still be refused due to an open risk review, an order payment attempt, a closed order,
          * or the merchant account. A managed_by_owner refusal names the owner and its command in
          * remediation.next_actions. The merchant list is credential-independent. Checkout
@@ -26226,6 +27286,25 @@ export type PaymentIntentUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
              * PaymentFulfillmentHoldPreviousAttributes}. anyOf[2] (Value): null.
              */
             "fulfillment_hold"?: ((PaymentFulfillmentHoldPreviousAttributes) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field. anyOf[1] (Value): string. The
+             * Idempotency-Key of the request that created this resource. `null` when that request
+             * sent no key, Flint created the resource, the reader isn't the caller that created it
+             * (another app install, a buyer, or the merchant reading an app's or buyer's record),
+             * or the caller that created an older record is unknown. Filter its list with
+             * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+             * webhook events, can return `null`. To find a key that a replay returns as `null`,
+             * read the resource. Buyer sessions on routes shared with merchants get `null`.
+             * `/v1/me` responses do not include this field. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
             /**
              * The linked invoice. Returned only with expand=invoice. Present only when `expand`
              * includes `invoice`; `null` when expanded and there is no related invoice. anyOf[1]
@@ -26516,11 +27595,12 @@ export type PaymentIntentUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
              * facts and can change without a payment intent version change. Order legs list
              * confirm when a single leg can pay the order or an open attempt can continue it.
              * Several unpaid legs, selected gift cards, or automatic tax with a leg below the
-             * balance require pay_order instead. Invoice payments list only cancel; subscription
-             * payments list none. Order edit payments list confirm while awaiting payment details
-             * or action. A listed action can still be refused due to an open risk review, an order
-             * payment attempt, a closed order, or the merchant account. A managed_by_owner refusal
-             * names the owner and its command in remediation.next_actions. The merchant list is
+             * balance require pay_order instead. Invoice payments list only cancel. An unused
+             * first-period subscription payment lists cancel once the subscription is canceled.
+             * Order edit payments list confirm while awaiting payment details or action. A listed
+             * action can still be refused due to an open risk review, an order payment attempt, a
+             * closed order, or the merchant account. A managed_by_owner refusal names the owner
+             * and its command in remediation.next_actions. The merchant list is
              * credential-independent. Checkout credentials receive that list filtered to confirm
              * and cancel on their own session's intents, never capture. Customer sessions omit
              * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
@@ -26529,11 +27609,12 @@ export type PaymentIntentUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
              * order facts and can change without a payment intent version change. Order legs list
              * confirm when a single leg can pay the order or an open attempt can continue it.
              * Several unpaid legs, selected gift cards, or automatic tax with a leg below the
-             * balance require pay_order instead. Invoice payments list only cancel; subscription
-             * payments list none. Order edit payments list confirm while awaiting payment details
-             * or action. A listed action can still be refused due to an open risk review, an order
-             * payment attempt, a closed order, or the merchant account. A managed_by_owner refusal
-             * names the owner and its command in remediation.next_actions. The merchant list is
+             * balance require pay_order instead. Invoice payments list only cancel. An unused
+             * first-period subscription payment lists cancel once the subscription is canceled.
+             * Order edit payments list confirm while awaiting payment details or action. A listed
+             * action can still be refused due to an open risk review, an order payment attempt, a
+             * closed order, or the merchant account. A managed_by_owner refusal names the owner
+             * and its command in remediation.next_actions. The merchant list is
              * credential-independent. Checkout credentials receive that list filtered to confirm
              * and cancel on their own session's intents, never capture. Customer sessions omit
              * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
@@ -26619,18 +27700,19 @@ export type PaymentIntentUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope
     /**
      *  object (Required): {@link WebhookPaymentIntent}. The resource snapshot, without expansions.
      * Webhooks omit these fields: `processing_fee_money`, `processing_fee_details`, `add_on_fees`,
-     * `merchant_net_money`, `payment_collection`. previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events. previous_attributes.amount_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. The amount requested from the buyer, including any
-     * tip_money. Capturing doesn't change it: after a partial capture it still shows the requested
-     * amount, and captured_money shows what was collected. On a standalone payment intent, PATCH
-     * can change it only before the first confirmation attempt. An amount_money or tip_money
-     * change that leaves too little for stored splits returns LIMIT_EXCEEDED at the changed field
-     * with minimum_money. previous_attributes.amount_money.anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.amount_money.anyOf[2] (Value): null.
+     * `merchant_net_money`, `payment_collection`, `remaining_refundable_money`.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.amount_money (Optional): {@link MoneyValuePreviousAttributes} or null.
+     * The amount requested from the buyer, including any tip_money. Capturing doesn't change it:
+     * after a partial capture it still shows the requested amount, and captured_money shows what
+     * was collected. On a standalone payment intent, PATCH can change it only before the first
+     * confirmation attempt. An amount_money or tip_money change that leaves too little for stored
+     * splits returns LIMIT_EXCEEDED at the changed field with minimum_money.
+     * previous_attributes.amount_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.amount_money.anyOf[2] (Value): null.
      * previous_attributes.authorization_expires_at (Optional): string or null. Effective Flint
      * deadline to capture a manual-capture hold: the earlier of the provider capture deadline and
      * any order resource guarantee. Order guarantees last at most 24 hours from the payment
@@ -26767,14 +27849,30 @@ export type PaymentIntentUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope
      * is sent when the hold starts and when it lifts.
      * previous_attributes.fulfillment_hold.anyOf[1] (Value): {@link
      * PaymentFulfillmentHoldPreviousAttributes}. previous_attributes.fulfillment_hold.anyOf[2]
-     * (Value): null. previous_attributes.invoice (Optional): {@link
-     * ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice. Returned only with
-     * expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded and
-     * there is no related invoice. previous_attributes.invoice.anyOf[1] (Value): {@link
-     * ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2] (Value):
-     * null. previous_attributes.invoice_id (Optional): string or null. Invoice this payment intent
-     * collects, when it pays an invoice. previous_attributes.invoice_id.anyOf[1] (Value): string.
-     * Invoice this payment intent collects, when it pays an invoice. Example:
+     * (Value): null. previous_attributes.idempotency_key (Optional): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.invoice
+     * (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice.
+     * Returned only with expand=invoice. Present only when `expand` includes `invoice`; `null`
+     * when expanded and there is no related invoice. previous_attributes.invoice.anyOf[1] (Value):
+     * {@link ExpandedInvoiceSummaryPreviousAttributes}. previous_attributes.invoice.anyOf[2]
+     * (Value): null. previous_attributes.invoice_id (Optional): string or null. Invoice this
+     * payment intent collects, when it pays an invoice. previous_attributes.invoice_id.anyOf[1]
+     * (Value): string. Invoice this payment intent collects, when it pays an invoice. Example:
      * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
      * previous_attributes.invoice_schedule_entry_id (Optional): string or null. The invoice
      * installment this payment collects. previous_attributes.invoice_schedule_entry_id.anyOf[1]
@@ -26977,34 +28075,36 @@ export type PaymentIntentUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope
      * The list includes stored order facts and can change without a payment intent version change.
      * Order legs list confirm when a single leg can pay the order or an open attempt can continue
      * it. Several unpaid legs, selected gift cards, or automatic tax with a leg below the balance
-     * require pay_order instead. Invoice payments list only cancel; subscription payments list
-     * none. Order edit payments list confirm while awaiting payment details or action. A listed
-     * action can still be refused due to an open risk review, an order payment attempt, a closed
-     * order, or the merchant account. A managed_by_owner refusal names the owner and its command
-     * in remediation.next_actions. The merchant list is credential-independent. Checkout
-     * credentials receive that list filtered to confirm and cancel on their own session's intents,
-     * never capture. Customer sessions omit this field. New actions may be added. [] enum:
-     * "confirm", "capture", "cancel". previous_attributes.supported_actions.anyOf[1] (Value):
-     * Array of string. Verbs this payment intent accepts now, each a POST to
+     * require pay_order instead. Invoice payments list only cancel. An unused first-period
+     * subscription payment lists cancel once the subscription is canceled. Order edit payments
+     * list confirm while awaiting payment details or action. A listed action can still be refused
+     * due to an open risk review, an order payment attempt, a closed order, or the merchant
+     * account. A managed_by_owner refusal names the owner and its command in
+     * remediation.next_actions. The merchant list is credential-independent. Checkout credentials
+     * receive that list filtered to confirm and cancel on their own session's intents, never
+     * capture. Customer sessions omit this field. New actions may be added. [] enum: "confirm",
+     * "capture", "cancel". previous_attributes.supported_actions.anyOf[1] (Value): Array of
+     * string. Verbs this payment intent accepts now, each a POST to
      * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts and
      * can change without a payment intent version change. Order legs list confirm when a single
      * leg can pay the order or an open attempt can continue it. Several unpaid legs, selected gift
      * cards, or automatic tax with a leg below the balance require pay_order instead. Invoice
-     * payments list only cancel; subscription payments list none. Order edit payments list confirm
-     * while awaiting payment details or action. A listed action can still be refused due to an
-     * open risk review, an order payment attempt, a closed order, or the merchant account. A
-     * managed_by_owner refusal names the owner and its command in remediation.next_actions. The
-     * merchant list is credential-independent. Checkout credentials receive that list filtered to
-     * confirm and cancel on their own session's intents, never capture. Customer sessions omit
-     * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
-     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "confirm",
-     * "capture", "cancel". previous_attributes.supported_actions.anyOf[2] (Value): null.
-     * previous_attributes.tip_money (Optional): {@link MoneyValuePreviousAttributes} or null.
-     * Portion of amount_money that is a tip. Uses amount_money's currency and is at most
-     * amount_money. `null` when no tip is set, and for an order payment until its payment attempt
-     * has moved past requires_payment_method and requires_confirmation. An order payment without a
-     * tip can return an amount of 0 instead. previous_attributes.tip_money.anyOf[1] (Value):
-     * {@link MoneyValuePreviousAttributes}. previous_attributes.tip_money.anyOf[2] (Value): null.
+     * payments list only cancel. An unused first-period subscription payment lists cancel once the
+     * subscription is canceled. Order edit payments list confirm while awaiting payment details or
+     * action. A listed action can still be refused due to an open risk review, an order payment
+     * attempt, a closed order, or the merchant account. A managed_by_owner refusal names the owner
+     * and its command in remediation.next_actions. The merchant list is credential-independent.
+     * Checkout credentials receive that list filtered to confirm and cancel on their own session's
+     * intents, never capture. Customer sessions omit this field. New actions may be added. []
+     * enum: "confirm", "capture", "cancel". previous_attributes.supported_actions.anyOf[1][]
+     * (Value): string. Value enum: "confirm", "capture", "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.tip_money
+     * (Optional): {@link MoneyValuePreviousAttributes} or null. Portion of amount_money that is a
+     * tip. Uses amount_money's currency and is at most amount_money. `null` when no tip is set,
+     * and for an order payment until its payment attempt has moved past requires_payment_method
+     * and requires_confirmation. An order payment without a tip can return an amount of 0 instead.
+     * previous_attributes.tip_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.tip_money.anyOf[2] (Value): null.
      * previous_attributes.transaction_purpose (Optional): string or null. Why a bank debit is
      * taken. Set only when payment_options includes ach_debit, and fixed once the payment intent
      * exists. Value enum: "goods", "services", "other".
@@ -27025,7 +28125,7 @@ export type PaymentIntentUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope
         /**
          * The resource snapshot, without expansions. Webhooks omit these fields:
          * `processing_fee_money`, `processing_fee_details`, `add_on_fees`, `merchant_net_money`,
-         * `payment_collection`.
+         * `payment_collection`, `remaining_refundable_money`.
          */
         "object": WebhookPaymentIntent;
         /**
@@ -27164,16 +28264,33 @@ export type PaymentIntentUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope
          * payment_review. payment_intent.fulfillment_hold_updated is sent when the hold starts and
          * when it lifts. fulfillment_hold.anyOf[1] (Value): {@link
          * PaymentFulfillmentHoldPreviousAttributes}. fulfillment_hold.anyOf[2] (Value): null.
-         * invoice (Optional): {@link ExpandedInvoiceSummaryPreviousAttributes} or null. The linked
-         * invoice. Returned only with expand=invoice. Present only when `expand` includes
-         * `invoice`; `null` when expanded and there is no related invoice. invoice.anyOf[1]
-         * (Value): {@link ExpandedInvoiceSummaryPreviousAttributes}. invoice.anyOf[2] (Value):
-         * null. invoice_id (Optional): string or null. Invoice this payment intent collects, when
-         * it pays an invoice. invoice_id.anyOf[1] (Value): string. Invoice this payment intent
-         * collects, when it pays an invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-         * invoice_id.anyOf[2] (Value): null. invoice_schedule_entry_id (Optional): string or null.
-         * The invoice installment this payment collects. invoice_schedule_entry_id.anyOf[1]
-         * (Value): string. The invoice installment this payment collects. Example:
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[2] (Value): null. invoice (Optional): {@link
+         * ExpandedInvoiceSummaryPreviousAttributes} or null. The linked invoice. Returned only
+         * with expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded
+         * and there is no related invoice. invoice.anyOf[1] (Value): {@link
+         * ExpandedInvoiceSummaryPreviousAttributes}. invoice.anyOf[2] (Value): null. invoice_id
+         * (Optional): string or null. Invoice this payment intent collects, when it pays an
+         * invoice. invoice_id.anyOf[1] (Value): string. Invoice this payment intent collects, when
+         * it pays an invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2]
+         * (Value): null. invoice_schedule_entry_id (Optional): string or null. The invoice
+         * installment this payment collects. invoice_schedule_entry_id.anyOf[1] (Value): string.
+         * The invoice installment this payment collects. Example:
          * "invse_01KEZF7C006JCPQBD8VZ0RNT6R". invoice_schedule_entry_id.anyOf[2] (Value): null.
          * last_payment_error (Optional): {@link PaymentErrorSummaryPreviousAttributes} or null.
          * Most recent payment error. Null when no payment error is recorded.
@@ -27355,21 +28472,22 @@ export type PaymentIntentUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope
          * and can change without a payment intent version change. Order legs list confirm when a
          * single leg can pay the order or an open attempt can continue it. Several unpaid legs,
          * selected gift cards, or automatic tax with a leg below the balance require pay_order
-         * instead. Invoice payments list only cancel; subscription payments list none. Order edit
-         * payments list confirm while awaiting payment details or action. A listed action can
-         * still be refused due to an open risk review, an order payment attempt, a closed order,
-         * or the merchant account. A managed_by_owner refusal names the owner and its command in
-         * remediation.next_actions. The merchant list is credential-independent. Checkout
-         * credentials receive that list filtered to confirm and cancel on their own session's
-         * intents, never capture. Customer sessions omit this field. New actions may be added. []
-         * enum: "confirm", "capture", "cancel". supported_actions.anyOf[1] (Value): Array of
-         * string. Verbs this payment intent accepts now, each a POST to
-         * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts
-         * and can change without a payment intent version change. Order legs list confirm when a
-         * single leg can pay the order or an open attempt can continue it. Several unpaid legs,
-         * selected gift cards, or automatic tax with a leg below the balance require pay_order
-         * instead. Invoice payments list only cancel; subscription payments list none. Order edit
-         * payments list confirm while awaiting payment details or action. A listed action can
+         * instead. Invoice payments list only cancel. An unused first-period subscription payment
+         * lists cancel once the subscription is canceled. Order edit payments list confirm while
+         * awaiting payment details or action. A listed action can still be refused due to an open
+         * risk review, an order payment attempt, a closed order, or the merchant account. A
+         * managed_by_owner refusal names the owner and its command in remediation.next_actions.
+         * The merchant list is credential-independent. Checkout credentials receive that list
+         * filtered to confirm and cancel on their own session's intents, never capture. Customer
+         * sessions omit this field. New actions may be added. [] enum: "confirm", "capture",
+         * "cancel". supported_actions.anyOf[1] (Value): Array of string. Verbs this payment intent
+         * accepts now, each a POST to /v1/payment-intents/{payment_intent_id}/{action}. The list
+         * includes stored order facts and can change without a payment intent version change.
+         * Order legs list confirm when a single leg can pay the order or an open attempt can
+         * continue it. Several unpaid legs, selected gift cards, or automatic tax with a leg below
+         * the balance require pay_order instead. Invoice payments list only cancel. An unused
+         * first-period subscription payment lists cancel once the subscription is canceled. Order
+         * edit payments list confirm while awaiting payment details or action. A listed action can
          * still be refused due to an open risk review, an order payment attempt, a closed order,
          * or the merchant account. A managed_by_owner refusal names the owner and its command in
          * remediation.next_actions. The merchant list is credential-independent. Checkout
@@ -27602,6 +28720,25 @@ export type PaymentIntentUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope
              * PaymentFulfillmentHoldPreviousAttributes}. anyOf[2] (Value): null.
              */
             "fulfillment_hold"?: ((PaymentFulfillmentHoldPreviousAttributes) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field. anyOf[1] (Value): string. The
+             * Idempotency-Key of the request that created this resource. `null` when that request
+             * sent no key, Flint created the resource, the reader isn't the caller that created it
+             * (another app install, a buyer, or the merchant reading an app's or buyer's record),
+             * or the caller that created an older record is unknown. Filter its list with
+             * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+             * webhook events, can return `null`. To find a key that a replay returns as `null`,
+             * read the resource. Buyer sessions on routes shared with merchants get `null`.
+             * `/v1/me` responses do not include this field. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
             /**
              * The linked invoice. Returned only with expand=invoice. Present only when `expand`
              * includes `invoice`; `null` when expanded and there is no related invoice. anyOf[1]
@@ -27892,11 +29029,12 @@ export type PaymentIntentUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope
              * facts and can change without a payment intent version change. Order legs list
              * confirm when a single leg can pay the order or an open attempt can continue it.
              * Several unpaid legs, selected gift cards, or automatic tax with a leg below the
-             * balance require pay_order instead. Invoice payments list only cancel; subscription
-             * payments list none. Order edit payments list confirm while awaiting payment details
-             * or action. A listed action can still be refused due to an open risk review, an order
-             * payment attempt, a closed order, or the merchant account. A managed_by_owner refusal
-             * names the owner and its command in remediation.next_actions. The merchant list is
+             * balance require pay_order instead. Invoice payments list only cancel. An unused
+             * first-period subscription payment lists cancel once the subscription is canceled.
+             * Order edit payments list confirm while awaiting payment details or action. A listed
+             * action can still be refused due to an open risk review, an order payment attempt, a
+             * closed order, or the merchant account. A managed_by_owner refusal names the owner
+             * and its command in remediation.next_actions. The merchant list is
              * credential-independent. Checkout credentials receive that list filtered to confirm
              * and cancel on their own session's intents, never capture. Customer sessions omit
              * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
@@ -27905,11 +29043,12 @@ export type PaymentIntentUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope
              * order facts and can change without a payment intent version change. Order legs list
              * confirm when a single leg can pay the order or an open attempt can continue it.
              * Several unpaid legs, selected gift cards, or automatic tax with a leg below the
-             * balance require pay_order instead. Invoice payments list only cancel; subscription
-             * payments list none. Order edit payments list confirm while awaiting payment details
-             * or action. A listed action can still be refused due to an open risk review, an order
-             * payment attempt, a closed order, or the merchant account. A managed_by_owner refusal
-             * names the owner and its command in remediation.next_actions. The merchant list is
+             * balance require pay_order instead. Invoice payments list only cancel. An unused
+             * first-period subscription payment lists cancel once the subscription is canceled.
+             * Order edit payments list confirm while awaiting payment details or action. A listed
+             * action can still be refused due to an open risk review, an order payment attempt, a
+             * closed order, or the merchant account. A managed_by_owner refusal names the owner
+             * and its command in remediation.next_actions. The merchant list is
              * credential-independent. Checkout credentials receive that list filtered to confirm
              * and cancel on their own session's intents, never capture. Customer sessions omit
              * this field. New actions may be added. [] enum: "confirm", "capture", "cancel".
@@ -28132,119 +29271,6 @@ export type PaymentIntentsCreateParams = (InputValue<CreatePaymentIntentRequestI
     "transaction_purpose"?: never;
 })
     & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type PaymentIntentsCreateResponse = ({
-    "data"?: {
-        [key: string]: unknown;
-    };
-})
-    & (Exclude<PaymentIntentWithCollectionResponse & object, readonly unknown[]>);
-export type PaymentIntentsGetParams = {
-    /**
-     * Include related objects in the response. Supported expansions: customer, invoice, order.
-     * Expansion requires payments.payment_intents.read plus the read scope for each expanded
-     * resource. Limits: at most 10 unique expand paths per request. [] enum: "customer",
-     * "invoice", "order". Value enum: "customer", "invoice", "order". anyOf[1] (Value): Array of
-     * string. [] enum: "customer", "invoice", "order". anyOf[1][] (Value): string. Value enum:
-     * "customer", "invoice", "order". anyOf[2] (Value): string. Value enum: "customer", "invoice",
-     * "order".
-     */
-    "expand"?: InputValue<("customer" | "invoice" | "order") | readonly ("customer" | "invoice" | "order")[]>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type PaymentIntentsListActivitiesParams = {
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
-    "sort_direction"?: InputValue<"asc" | "desc">;
-    /**
-     * Filter by activity type. Values are trimmed and deduplicated in first-seen order; empty or
-     * unknown entries are rejected. Values within this filter are ORed; separate filters are
-     * ANDed. [] enum: "created", "updated", "status_changed", "failed", "canceled", "expired",
-     * "refund_created", "refund_status_changed", "dispute_status_changed", "receipt_sent",
-     * "receipt_queued", "receipt_delivery_failed". Value enum: "created", "updated",
-     * "status_changed", "failed", "canceled", "expired", "refund_created",
-     * "refund_status_changed", "dispute_status_changed", "receipt_sent", "receipt_queued",
-     * "receipt_delivery_failed". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
-     * "created", "updated", "status_changed", "failed", "canceled", "expired", "refund_created",
-     * "refund_status_changed", "dispute_status_changed", "receipt_sent", "receipt_queued",
-     * "receipt_delivery_failed". anyOf[1][] (Value): string. Value enum: "created", "updated",
-     * "status_changed", "failed", "canceled", "expired", "refund_created",
-     * "refund_status_changed", "dispute_status_changed", "receipt_sent", "receipt_queued",
-     * "receipt_delivery_failed". anyOf[2] (Value): string. Value enum: "created", "updated",
-     * "status_changed", "failed", "canceled", "expired", "refund_created",
-     * "refund_status_changed", "dispute_status_changed", "receipt_sent", "receipt_queued",
-     * "receipt_delivery_failed".
-     */
-    "activity_type"?: InputValue<("created"
-        | "updated"
-        | "status_changed"
-        | "failed"
-        | "canceled"
-        | "expired"
-        | "refund_created"
-        | "refund_status_changed"
-        | "dispute_status_changed"
-        | "receipt_sent"
-        | "receipt_queued"
-        | "receipt_delivery_failed")
-        | readonly ("created"
-        | "updated"
-        | "status_changed"
-        | "failed"
-        | "canceled"
-        | "expired"
-        | "refund_created"
-        | "refund_status_changed"
-        | "dispute_status_changed"
-        | "receipt_sent"
-        | "receipt_queued"
-        | "receipt_delivery_failed")[]>;
     /**
      * Merchant this request acts for. Required with an app-level partner app token; optional with
      * a merchant-bound one, which it must match. Other credentials may send it only with their own

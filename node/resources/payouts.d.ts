@@ -9,8 +9,8 @@ import type {
     PayoutsGetParams,
     PayoutsListParams
 } from '../declarations/types-55.js';
-import type { RequestOptions } from '../declarations/types-61.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { RequestOptions } from '../declarations/types-62.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -34,9 +34,9 @@ export type {
     PayoutListResponse,
     PayoutTraceID
 } from '../declarations/types-55.js';
-export type { RequestOptions } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { Payout } from '../declarations/types-54.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CancelPayoutRequestInput } from '../declarations/types-5.js';
 export type { AuthMode } from '../declarations/types-1.js';
@@ -44,7 +44,6 @@ export type { Credentials } from '../declarations/types-14.js';
 export type { MoneyValue, NextAction, MoneyValueInput, MoneyMovementListMeta, MoneyMovementHistoryMeta } from '../declarations/types-44.js';
 export type { MetadataMap, MetadataRequestInput } from '../declarations/types-43.js';
 export type { ExpandedPayoutSummary, ExpandedPayoutDestinationSummary } from '../declarations/types-26.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { CreatePayoutRequestInput } from '../declarations/types-12.js';
 export { makeCancelPayoutRequest } from '../declarations/types-80.js';

@@ -14,11 +14,5 @@ The request body for: Create a gift card.
 | `customer_id` | Optional | string | ID of the customer to associate with the card. minLength: `1`. Example: `"cus_01KEZF7C006X9JK6NZNA2SM9XD"`. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. Example: `"warehouse-1842"`. |
 | `funding` | Optional | [InitialGiftCardFunding](../models/InitialGiftCardFunding.md#initialgiftcardfunding) or null | The card's initial value and where it came from. Omit it to create an unfunded `pending` card. |
-| `notification` | Optional | [GiftCardPurchaseRecipient](../models/GiftCardPurchaseRecipient.md#giftcardpurchaserecipient) | Optional recipient notification recorded with issuance. Requires commerce.gift_cards.secrets.write in addition to issuance authority. Who receives a gift card notification: their `email`, optional `name` and `message`, and an optional `send_at` time. `notification`: [field definitions](../models/CreateGiftCardRequest.md#creategiftcardrequestnotification). |
-
-### CreateGiftCardRequest.notification
-
-Optional recipient notification recorded with issuance. Requires commerce.gift_cards.secrets.write in addition to issuance authority. Who receives a gift card notification: their `email`, optional `name` and `message`, and an optional `send_at` time.
-
-Field definitions: [shared fields](GiftCardNotificationRecipientInput.md#giftcardnotificationrecipientinput).
+| `notification` | Optional | [GiftCardNotificationRecipient](../models/GiftCardNotificationRecipient.md#giftcardnotificationrecipient) | Optional recipient notification recorded with issuance. Requires commerce.gift_cards.secrets.write in addition to issuance authority. Who receives a gift card notification: their `email`, optional `name` and `message`, and an optional `send_at` time. |
 

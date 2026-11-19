@@ -4,8 +4,10 @@ namespace Flint;
 /**
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $dispute_lost_money
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $disputed_money
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $exchange_refundable_money
  * @property-read SignedMoneyInput|array<array-key, mixed>|\stdClass $net_collected_money
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $overpaid_money
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $pending_refund_money
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $released_money
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $removed_money
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $settled_tip_money
@@ -15,7 +17,7 @@ namespace Flint;
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $written_off_money
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrderSettlementAmountsInput extends Model {
-    /** @param array{'dispute_lost_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'disputed_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'net_collected_money': SignedMoneyInput|array<array-key, mixed>|\stdClass, 'overpaid_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'released_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'removed_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'settled_tip_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'paid_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'written_off_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'dispute_lost_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'disputed_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'exchange_refundable_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'net_collected_money': SignedMoneyInput|array<array-key, mixed>|\stdClass, 'overpaid_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'pending_refund_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'released_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'removed_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'settled_tip_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'paid_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'written_off_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderSettlementAmountsInput')); }
     /** Principal lost to chargebacks on counted order payments. A later win removes that dispute from this amount. Excludes dispute fees and does not reopen outstanding_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
@@ -29,6 +31,12 @@ final class OrderSettlementAmountsInput extends Model {
      */
     public function getDisputedMoney(): mixed { return $this->get('disputed_money'); }
     public function hasDisputedMoney(): bool { return $this->has('disputed_money'); }
+    /** Remaining money available for an order refund when an exchange affects the order. Excludes return credit and payments reserved for processing refunds or applied to the exchange. Present on affected order reads, including when the amount is zero. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When exchange_refundable_money is omitted; use hasExchangeRefundableMoney() or valueOrDefault().
+     */
+    public function getExchangeRefundableMoney(): mixed { return $this->get('exchange_refundable_money'); }
+    public function hasExchangeRefundableMoney(): bool { return $this->has('exchange_refundable_money'); }
     /** Collected principal: paid_money minus refunded_money minus dispute_lost_money. Can be negative when refunds and lost disputes exceed payments. Excludes processing and dispute fees; open disputes do not reduce this amount. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return SignedMoneyInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When net_collected_money is omitted; use hasNetCollectedMoney() or valueOrDefault().
@@ -41,6 +49,12 @@ final class OrderSettlementAmountsInput extends Model {
      */
     public function getOverpaidMoney(): mixed { return $this->get('overpaid_money'); }
     public function hasOverpaidMoney(): bool { return $this->has('overpaid_money'); }
+    /** Collected order money reserved for refunds that are still processing. It reduces what can be refunded as soon as Flint records the refund. Present when the amount is greater than zero. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When pending_refund_money is omitted; use hasPendingRefundMoney() or valueOrDefault().
+     */
+    public function getPendingRefundMoney(): mixed { return $this->get('pending_refund_money'); }
+    public function hasPendingRefundMoney(): bool { return $this->has('pending_refund_money'); }
     /** Authorized money a final capture released instead of collecting, which the order no longer owes. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When released_money is omitted; use hasReleasedMoney() or valueOrDefault().
@@ -71,7 +85,7 @@ final class OrderSettlementAmountsInput extends Model {
      */
     public function getPaidMoney(): mixed { return $this->get('paid_money'); }
     public function hasPaidMoney(): bool { return $this->has('paid_money'); }
-    /** Money returned to the buyer from what was collected toward the bill. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Money returned to the buyer from what was collected toward the bill. On orders, this counts successful refunds. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When refunded_money is omitted; use hasRefundedMoney() or valueOrDefault().
      */

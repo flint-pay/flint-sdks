@@ -19,7 +19,7 @@ The request body for: Create payment link.
 | `donation_max_amount_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Largest amount a buyer can give on a donation link. Must be greater than zero and greater than or equal to donation_min_amount_money. Omit on create for no maximum. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `donation_max_amount_money`: [field definitions](../models/CreatePaymentLinkRequest.md#createpaymentlinkrequestdonation_max_amount_money). |
 | `donation_min_amount_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Smallest amount a buyer can give on a donation link. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `donation_min_amount_money`: [field definitions](../models/CreatePaymentLinkRequest.md#createpaymentlinkrequestdonation_min_amount_money). |
 | `donation_suggested_amount_money_options` | Optional | Array of [MoneyValue](../models/MoneyValue.md#moneyvalue) | Amounts a donation link offers as one-tap choices. `donation_suggested_amount_money_options[]`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
-| `event_config` | Optional | [PaymentLinkEventConfig](../models/PaymentLinkEventConfig.md#paymentlinkeventconfig) | Event details for an `event` link: when and where it takes place and how many tickets it sells. Event settings you supply when creating an event payment link. `event_config`: [field definitions](../models/CreatePaymentLinkRequest.md#createpaymentlinkrequestevent_config). |
+| `event_config` | Optional | [PaymentLinkEventConfigRequest](../models/PaymentLinkEventConfigRequest.md#paymentlinkeventconfigrequest) | Event details for an `event` link: when and where it takes place and how many tickets it sells. Event settings you supply when creating an event payment link. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. Example: `"warehouse-1842"`. |
 | `image` | Optional | [ImageRequest](../models/ImageRequest.md#imagerequest) | Image shown to buyers with the link. An image you supply by `source_url`, with optional `alt` text and external reference. |
 | `inactive_message` | Optional | string | Message to show the buyer when the link is inactive. minLength: `1`. maxLength: `500`. |
@@ -34,6 +34,7 @@ The request body for: Create payment link.
 | `promotion_config` | Optional | [CheckoutPromotionConfig](../models/CheckoutPromotionConfig.md#checkoutpromotionconfig) | Whether automatic promotions apply to checkouts started from this link and whether buyers can enter promotion codes. Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes. `promotion_config`: [field definitions](../models/CreatePaymentLinkRequest.md#createpaymentlinkrequestpromotion_config). |
 | `redirects` | Optional | [CheckoutRedirects](../models/CheckoutRedirects.md#checkoutredirects) | Where checkout sessions started from this payment link send the buyer after payment, cancellation, or expiration. Where hosted checkout sends the buyer. Not allowed when surface is headless; use payment_return_url. `redirects`: [field definitions](../models/CreatePaymentLinkRequest.md#createpaymentlinkrequestredirects). |
 | `sales_end_at` | Optional | string | RFC3339 timestamp after which the link stops starting checkouts and resolve fails with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on their own, except that an event link without sales_end_at stops selling at event_config.event_at. A checkout opened before the end can still start payment for up to 15 minutes after it. Format: `date-time`. minLength: `1`. Example: `"2026-08-02T16:00:00Z"`. |
+| `sales_start_at` | Optional | string | RFC3339 timestamp when buyers can first start a checkout from this link. Stored to nanosecond precision. Before it, resolve fails with ACTION_NOT_ALLOWED and reason sales_not_started. Must be earlier than the link’s sales end, including the event start when no explicit end is set. Format: `date-time`. minLength: `1`. Example: `"2026-08-02T16:00:00Z"`. |
 | `subscription_plan_id` | Optional | string | ID of the subscription plan the link sells. The plan must be active. Omit it for a link that doesn't sell a subscription. It can't be changed after the link is created. minLength: `1`. Example: `"plan_01KEZF7C004CY5ZR33XST2AASV"`. |
 | `tax` | Optional | [CheckoutTaxConfig](../models/CheckoutTaxConfig.md#checkouttaxconfig) | Tax settings for checkouts started from this link. Whether tax is collected for a checkout session or payment link. `tax`: [field definitions](../models/CreatePaymentLinkRequest.md#createpaymentlinkrequesttax). |
 | `theme` | Optional | [ThemeConfig](../models/ThemeConfig.md#themeconfig) | The title and colors for checkouts started from this link, over your branding settings. Theme settings for a payment link's checkout: accent color, primary color, and title. `theme`: [field definitions](../models/CreatePaymentLinkRequest.md#createpaymentlinkrequesttheme). |
@@ -64,12 +65,6 @@ Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
 ### CreatePaymentLinkRequest.donation_suggested_amount_money_options[]
 
 Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options).
-
-### CreatePaymentLinkRequest.event_config
-
-Event details for an `event` link: when and where it takes place and how many tickets it sells. Event settings you supply when creating an event payment link.
-
-Field definitions: [shared fields](PaymentLinkEventConfigRequestInput.md#paymentlinkeventconfigrequestinput).
 
 ### CreatePaymentLinkRequest.legal
 

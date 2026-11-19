@@ -155,7 +155,7 @@ final class OrdersListParams extends Model {
      */
     public function getOrigin(): mixed { return $this->get('origin'); }
     public function hasOrigin(): bool { return $this->has('origin'); }
-    /** Search across order_id, order number, external_reference_id, fulfillment external_reference_id, buyer_email, notes, and line item names. The linked customer's name and email aren't searched; use email or customer_id to find a customer's orders. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as ord_01.
+    /** Search across order_id, order number, external_reference_id, fulfillment external_reference_id, buyer_email, notes, and line item names and SKUs. The linked customer's name and email aren't searched; use email or customer_id to find a customer's orders. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as ord_01.
      * @return string
      * @throws SdkError When query is omitted; use hasQuery() or valueOrDefault().
      */

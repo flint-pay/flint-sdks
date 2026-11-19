@@ -44,7 +44,7 @@ The affected public resource without expansions, client authority fields, or fie
 | `cash_out_reference` | Required | string or null | Your reference for the cash you paid the buyer outside Flint. `null` when the transaction is not a cash_out. maxLength: `255`. |
 | `gift_card_id` | Required | string | Gift card whose balance this transaction changed. |
 | `gift_card_transaction_id` | Required | string | Stable identifier of the transaction. |
-| `idempotency_key` | Required | string or null | Your Idempotency-Key for the command that created this record. `null` when Flint created it or no key was sent. |
+| `idempotency_key` | Required | string or null | The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. Older records can return their key when the creating caller is unknown. |
 | `merchant_sequence` | Required | integer | Position of this transaction among all of your gift card transactions in this environment. It increases by one with each posted transaction, and the transaction list is ordered by it. Format: `int64`. |
 | `order_id` | Optional | string | Order this transaction belongs to, when there is one. |
 | `posted_at` | Required | string | When the transaction was posted to the card. Format: `date-time`. |

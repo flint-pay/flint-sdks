@@ -13,6 +13,7 @@ namespace Flint;
  * @property-read string $decision_status
  * @property-read ReturnFinancialSummary $financial_summary
  * @property-read list<BuyerReturnHandoffRequirement> $handoff_requirements
+ * @property-read string|null $idempotency_key
  * @property-read string $initiated_by
  * @property-read list<BuyerReturnLineItem> $line_items
  * @property-read string $merchandise_status
@@ -27,7 +28,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerReturn extends Model {
-    /** @param array{'buyer_actions': list<mixed>, 'canceled_at'?: string, 'cancellation_reason'?: string, 'completed_at'?: string, 'completion_blockers': list<mixed>, 'completion_mode'?: string, 'created_at': string, 'decision_at'?: string, 'decision_status': string, 'financial_summary': mixed, 'handoff_requirements': list<mixed>, 'initiated_by': string, 'line_items': list<mixed>, 'merchandise_status': string, 'metadata': \stdClass, 'order_id': string, 'resolution_status': string, 'return_id': string, 'return_number': string, 'return_resolution_ids': list<string>, 'status': string, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'buyer_actions': list<mixed>, 'canceled_at'?: string, 'cancellation_reason'?: string, 'completed_at'?: string, 'completion_blockers': list<mixed>, 'completion_mode'?: string, 'created_at': string, 'decision_at'?: string, 'decision_status': string, 'financial_summary': mixed, 'handoff_requirements': list<mixed>, 'idempotency_key': string|null, 'initiated_by': string, 'line_items': list<mixed>, 'merchandise_status': string, 'metadata': \stdClass, 'order_id': string, 'resolution_status': string, 'return_id': string, 'return_number': string, 'return_resolution_ids': list<string>, 'status': string, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerReturn')); }
     /** What the buyer can do with the return, in this order: withdraw, ship_items, then pay_balance. A buyer's read or change through a customer session on /v1/me, or in Flint's buyer account, lists all three every time. Merchant responses and webhooks omit this field. ship_items is required while handoff_requirements is not empty, due by the earliest expires_at there. pay_balance is required while a resolution waits for the buyer's payment. [] (Value): {@see BuyerAction}. One thing a buyer can do with an order, subscription, invoice or return they read through /v1/me. Show the actions with is_required as what needs the buyer's attention, and the first available action as the primary action on the resource's page in your account.
      * @return list<BuyerAction>
@@ -84,6 +85,11 @@ final class BuyerReturn extends Model {
      */
     public function getHandoffRequirements(): array { return $this->get('handoff_requirements'); }
     public function hasHandoffRequirements(): bool { return $this->has('handoff_requirements'); }
+    /** The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. Buyer routes return only keys from your buyer namespace.
+     * @return string|null
+     */
+    public function getIdempotencyKey(): string|null { return $this->get('idempotency_key'); }
+    public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
     /** Who created the Return: buyer for a customer session on /v1/me or Flint's hosted account, merchant for a Dashboard user, integration for an API key or partner app, or system for Flint automation. It cannot be sent. Value enum: "buyer", "merchant", "integration", "system".
      * @return string
      */

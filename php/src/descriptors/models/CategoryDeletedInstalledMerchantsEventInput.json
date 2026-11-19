@@ -1,1 +1,1 @@
-{"shared":"CategoryDeletedInstalledMerchantsEvent","dependencies":["Category","CategoryDeletedInstalledMerchantsEvent","MetadataMap","SharedCodec12","SharedCodec2068","SharedCodec222","SharedCodec224","SharedCodec43","SharedCodec44","SharedCodec47","SharedCodec9","WebhookEventSource"]}
+{"shared":"CategoryDeletedInstalledMerchantsEvent","dependencies":["Category","CategoryDeletedInstalledMerchantsEvent","MetadataMap","SharedCodec12","SharedCodec2062","SharedCodec222","SharedCodec224","SharedCodec43","SharedCodec44","SharedCodec47","SharedCodec9","WebhookEventSource"]}

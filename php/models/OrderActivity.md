@@ -9,6 +9,7 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `activity_type` | Optional | string | The action recorded on the order. Omitted when the activity type cannot be identified. Clients must accept values added in future releases. Values: [32 declared values](OrderActivityInput.md#orderactivityinput-activity_type-values). |
+| `actor` | Optional | [PaymentActivityActor](../models/PaymentActivityActor.md#paymentactivityactor) | The merchant identity that initiated the refund, when available. Buyer activity lists omit it. The merchant identity that initiated the action. Labels are recorded with the activity and do not change when the identity is renamed or removed. `actor`: [field definitions](../models/OrderActivityListResponse.md#orderactivitylistresponsedataactor). |
 | `balance_delta_money` | Required | [SignedMoney](../models/SignedMoney.md#signedmoney) | Signed change this row made to the order balance: running_balance_money minus the balance before the row. Rows that do not change the balance, such as payment_failed, refund_failed, and most refund rows, have amount 0. A payment or refund amount is on the referenced resource. Do not sum activity deltas to compute the order balance. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `checkout_session_id` | Optional | string | Related checkout session when activity_type points at checkout session lifecycle. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
@@ -25,4 +26,8 @@ Response model.
 | `payment_review_id` | Optional | string | Payment review recorded by this row. Omitted for activities unrelated to payment reviews. |
 | `refund_id` | Optional | string | Related refund when activity_type points at a refund outcome. Read the refund for the authoritative outcome. |
 | `running_balance_money` | Required | [SignedMoney](../models/SignedMoney.md#signedmoney) | Signed order balance just after this row: settlement_amounts.outstanding_money minus settlement_amounts.overpaid_money at that moment, negative when the order is overpaid. This is context for reading the log, not a reconciliation ledger. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+
+### OrderActivity.actor
+
+Field definitions: [OrderActivityListResponse.data[].actor](../models/OrderActivityListResponse.md#orderactivitylistresponsedataactor).
 

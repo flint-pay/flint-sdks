@@ -11,9 +11,10 @@ namespace Flint;
  * @property-read string $status
  * @property-read string $ticket_id
  * @property-read string $ticket_number
+ * @property-read ?string $tier_name
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerTicket extends Model {
-    /** @param array{'admission_code'?: string, 'attendee_name': string|null, 'checked_in_at': string|null, 'created_at': string, 'event'?: mixed, 'order_id': string, 'status': string, 'ticket_id': string, 'ticket_number': string, ...}|object $values */
+    /** @param array{'admission_code'?: string, 'attendee_name': string|null, 'checked_in_at': string|null, 'created_at': string, 'event'?: mixed, 'order_id': string, 'status': string, 'ticket_id': string, 'ticket_number': string, 'tier_name'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerTicket')); }
     /** The 16-character Crockford base32 admission code to show as a QR code and print as XXXX-XXXX-XXXX-XXXX. A bearer secret. Absent when the ticket is voided, on orders whose buyer_email differs from the email Flint verified, and for sessions Flint didn't verify: merchant access links, customer sessions created with an API key, links emailed to another address, and checkout links a merchant reads or requests after payment. minLength: 16. maxLength: 16.
      * @return ?string
@@ -60,4 +61,9 @@ final class BuyerTicket extends Model {
      */
     public function getTicketNumber(): string { return $this->get('ticket_number'); }
     public function hasTicketNumber(): bool { return $this->has('ticket_number'); }
+    /** Name of the ticket tier on the purchased order line.
+     * @return ?string
+     */
+    public function getTierName(): ?string { return $this->get('tier_name'); }
+    public function hasTierName(): bool { return $this->has('tier_name'); }
 }

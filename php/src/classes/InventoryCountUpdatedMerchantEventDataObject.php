@@ -4,7 +4,7 @@ namespace Flint;
 /**
  * @property-read ?string $applied_at
  * @property-read string $created_at
- * @property-read ?string $idempotency_key
+ * @property-read string|null $idempotency_key
  * @property-read string $inventory_count_id
  * @property-read list<InventoryCountLine> $lines
  * @property-read string $location_id
@@ -15,7 +15,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class InventoryCountUpdatedMerchantEventDataObject extends Model {
-    /** @param array{'applied_at'?: string, 'created_at': string, 'idempotency_key'?: string, 'inventory_count_id': string, 'lines': list<mixed>, 'location_id': string, 'observation_provenance'?: mixed, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'applied_at'?: string, 'created_at': string, 'idempotency_key'?: string|null, 'inventory_count_id': string, 'lines': list<mixed>, 'location_id': string, 'observation_provenance'?: mixed, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryCountUpdatedMerchantEventDataObject')); }
     /** RFC3339 timestamp. Format: date-time.
      * @return ?string
@@ -27,10 +27,10 @@ final class InventoryCountUpdatedMerchantEventDataObject extends Model {
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** The Idempotency-Key of the request that created this resource; on a movement, of the command that wrote it. Omitted when that request had no key.
-     * @return ?string
+    /** The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource.
+     * @return string|null
      */
-    public function getIdempotencyKey(): ?string { return $this->get('idempotency_key'); }
+    public function getIdempotencyKey(): string|null { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
     /** Unique identifier for this inventory count, prefixed `invc_`.
      * @return string

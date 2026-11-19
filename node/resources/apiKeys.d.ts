@@ -12,8 +12,8 @@ import type {
 } from '../declarations/types-0.js';
 import type { ClientOptions } from '../declarations/types-7.js';
 import type { CreateAPIKeyResponse } from '../declarations/types-8.js';
-import type { RequestOptions } from '../declarations/types-61.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { RequestOptions } from '../declarations/types-62.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -39,7 +39,7 @@ export type {
     ApiKeysRevokeParams,
     ApiKeysUpdateParams
 } from '../declarations/types-0.js';
-export type { RequestOptions } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type {
     CreateAPIKeyResponse,
     CreateAPIKeyRequestInput,
@@ -47,11 +47,10 @@ export type {
     CreateAPIKeyRequestReadOnlyInput,
     CreateAPIKeyRequestRestrictedInput
 } from '../declarations/types-8.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { ClientOptions, ConfigurationVersionRequestInput } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { UpdateAPIKeyRequestInput } from '../declarations/types-75.js';
@@ -124,7 +123,9 @@ export interface ApiKeysResource {
  * with accounts.api_keys.write can revoke a key in its own merchant and environment context even
  * when the key holds broader scopes. API keys and workload credentials must also hold the target
  * key's scopes. Dashboard sessions can manage only live keys in live mode or keys in the selected
- * sandbox in test mode. A key outside that environment returns 404 RESOURCE_NOT_FOUND.
+ * sandbox in test mode. A key outside that environment returns 404 RESOURCE_NOT_FOUND. An
+ * onboarding session with permission to manage API keys can revoke unlinked external keys in any
+ * active sandbox of its merchant.
  *
  * `POST /v1/api-keys/{api_key_id}/revoke`
  * @param api_key_id Flint API key ID. Must be a valid ID with prefix key_. Malformed IDs return

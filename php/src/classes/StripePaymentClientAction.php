@@ -3,19 +3,25 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string|null $account_id
+ * @property-read ?string $on_behalf_of
  * @property-read ?StripePaymentIntentClientAction $payment_intent
  * @property-read string $publishable_key
  * @property-read ?StripeSetupIntentClientAction $setup_intent
  * @property-read ?StripeTerminalPaymentIntentClientAction $terminal_payment_intent
  * Presence-aware response; omitted optional fields return null. */
 final class StripePaymentClientAction extends Model {
-    /** @param array{'account_id': string|null, 'payment_intent'?: mixed, 'publishable_key': string, 'setup_intent'?: mixed, 'terminal_payment_intent'?: mixed, ...}|object $values */
+    /** @param array{'account_id': string|null, 'on_behalf_of'?: string, 'payment_intent'?: mixed, 'publishable_key': string, 'setup_intent'?: mixed, 'terminal_payment_intent'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('StripePaymentClientAction')); }
     /** Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Null when the payment has splits: initialize Stripe.js with publishable_key alone and omit stripeAccount. The Terminal SDK ignores this field.
      * @return string|null
      */
     public function getAccountId(): string|null { return $this->get('account_id'); }
     public function hasAccountId(): bool { return $this->has('account_id'); }
+    /** The collecting merchant's Stripe account for a payment on Flint's Stripe account. It identifies the settlement account, not the Stripe.js account. Do not pass it as stripeAccount or to handleNextAction.
+     * @return ?string
+     */
+    public function getOnBehalfOf(): ?string { return $this->get('on_behalf_of'); }
+    public function hasOnBehalfOf(): bool { return $this->has('on_behalf_of'); }
     /** PaymentIntent authority for an order payment authentication action. The client action for a Stripe payment intent: the client secret to pass to Stripe.js `handleNextAction`.
      * @return ?StripePaymentIntentClientAction
      */

@@ -8,6 +8,7 @@ namespace Flint;
  * @property-read string|null $external_actor_id
  * @property-read string|null $external_reference_id
  * @property-read list<ReturnDispositionPreviousAttributes>|null $generated_dispositions
+ * @property-read string|null $idempotency_key
  * @property-read string|null $inspected_at
  * @property-read string|null $inspection_location_id
  * @property-read list<ReturnInspectionLineItemPreviousAttributes>|null $line_items
@@ -23,7 +24,7 @@ namespace Flint;
  * @property-read int|null $version
  * Presence-aware response; omitted optional fields return null. */
 final class ReturnInspectionPreviousAttributes extends Model {
-    /** @param array{'correction_reason'?: mixed, 'correction_reason_message'?: mixed, 'created_at'?: mixed, 'external_actor_id'?: mixed, 'external_reference_id'?: mixed, 'generated_dispositions'?: mixed, 'inspected_at'?: mixed, 'inspection_location_id'?: mixed, 'line_items'?: mixed, 'return_id'?: mixed, 'return_inspection_id'?: mixed, 'return_receipt_id'?: mixed, 'source_system'?: mixed, 'status'?: mixed, 'superseded_at'?: mixed, 'superseded_by_return_inspection_id'?: mixed, 'supersedes_return_inspection_id'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, ...}|object $values */
+    /** @param array{'correction_reason'?: mixed, 'correction_reason_message'?: mixed, 'created_at'?: mixed, 'external_actor_id'?: mixed, 'external_reference_id'?: mixed, 'generated_dispositions'?: mixed, 'idempotency_key'?: mixed, 'inspected_at'?: mixed, 'inspection_location_id'?: mixed, 'line_items'?: mixed, 'return_id'?: mixed, 'return_inspection_id'?: mixed, 'return_receipt_id'?: mixed, 'source_system'?: mixed, 'status'?: mixed, 'superseded_at'?: mixed, 'superseded_by_return_inspection_id'?: mixed, 'supersedes_return_inspection_id'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnInspectionPreviousAttributes')); }
     /** Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation", "source_correction", "reconciliation_correction", "other". anyOf[1] (Value): string. Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation", "source_correction", "reconciliation_correction", "other". anyOf[2] (Value): null.
      * @return string|null
@@ -55,6 +56,11 @@ final class ReturnInspectionPreviousAttributes extends Model {
      */
     public function getGeneratedDispositions(): array|null { return $this->get('generated_dispositions'); }
     public function hasGeneratedDispositions(): bool { return $this->has('generated_dispositions'); }
+    /** The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. anyOf[1] (Value): string. The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getIdempotencyKey(): string|null { return $this->get('idempotency_key'); }
+    public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
     /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
      */

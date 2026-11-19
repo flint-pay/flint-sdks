@@ -72,6 +72,10 @@ Declared alternatives: [ReturnDispositionPreviousAttributesInput.failure_code](.
 
 Declared alternatives: [ReturnDispositionPreviousAttributesInput.failure_message](../models/ReturnDispositionPreviousAttributesInput.md#returndispositionpreviousattributesinputfailure_message).
 
+### ReturnDispositionUpdatedInstalledMerchantsEventInput.data.previous_attributes.idempotency_key
+
+Declared alternatives: [CreditNoteAllocationReversedInstalledMerchantsEventInput.data.previous_attributes.idempotency_key](../models/CreditNoteAllocationReversedInstalledMerchantsEventInput.md#creditnoteallocationreversedinstalledmerchantseventinputdataprevious_attributesidempotency_key).
+
 ### ReturnDispositionUpdatedInstalledMerchantsEventInput.data.previous_attributes.inventory_location_id
 
 Declared alternatives: [ReturnDispositionPreviousAttributesInput.inventory_location_id](../models/ReturnDispositionPreviousAttributesInput.md#returndispositionpreviousattributesinputinventory_location_id).

@@ -6099,7 +6099,8 @@ export type ErrorDetail = {
     "available_by_source_type"?: Record<string, MoneyValue>;
     /**
      * Whole-number quantity currently available for the requested operation; fractional quantities
-     * are not supported. Format: int64.
+     * are not supported. On INVENTORY_INSUFFICIENT with reason backorder_limit_reached, this
+     * counts sellable stock and excludes backorder capacity. Format: int64.
      */
     "available_quantity"?: number;
     /**
@@ -6133,14 +6134,15 @@ export type ErrorDetail = {
      * "accounts.organizations.details.manage", "accounts.organizations.manage",
      * "accounts.users.manage", "accounts.workload_identities.manage", "capabilities.read",
      * "checkouts.checkout_sessions.manage", "checkouts.payment_links.manage",
-     * "commerce.bundles.manage", "commerce.credit_notes.manage", "commerce.delivery.manage",
-     * "commerce.gift_cards.manage", "commerce.inventory.locations.manage",
-     * "commerce.inventory.manage", "commerce.inventory.policies.manage",
-     * "commerce.invoices.manage", "commerce.orders.manage", "commerce.products.manage",
-     * "commerce.promotions.manage", "commerce.refunds.manage",
-     * "commerce.refunds.tax_overrides.manage", "commerce.return_policies.manage",
-     * "commerce.return_reasons.manage", "commerce.returns.decisions.manage",
-     * "commerce.returns.manage", "commerce.returns.operations.manage", "commerce.returns.process",
+     * "commerce.bundles.manage", "commerce.credit_notes.manage", "commerce.credit_notes.read",
+     * "commerce.delivery.manage", "commerce.gift_cards.manage",
+     * "commerce.inventory.locations.manage", "commerce.inventory.manage",
+     * "commerce.inventory.policies.manage", "commerce.invoices.manage", "commerce.invoices.read",
+     * "commerce.orders.manage", "commerce.products.manage", "commerce.promotions.manage",
+     * "commerce.refunds.manage", "commerce.refunds.tax_overrides.manage",
+     * "commerce.return_policies.manage", "commerce.return_reasons.manage",
+     * "commerce.returns.decisions.manage", "commerce.returns.manage",
+     * "commerce.returns.operations.manage", "commerce.returns.process",
      * "commerce.returns.resolutions.manage", "commerce.subscription_plans.manage",
      * "commerce.subscriptions.manage", "commerce.tickets.check_in", "create_merchants",
      * "create_standard_payouts", "customers.manage", "developer.logs.read",
@@ -6174,12 +6176,14 @@ export type ErrorDetail = {
         | "checkouts.payment_links.manage"
         | "commerce.bundles.manage"
         | "commerce.credit_notes.manage"
+        | "commerce.credit_notes.read"
         | "commerce.delivery.manage"
         | "commerce.gift_cards.manage"
         | "commerce.inventory.locations.manage"
         | "commerce.inventory.manage"
         | "commerce.inventory.policies.manage"
         | "commerce.invoices.manage"
+        | "commerce.invoices.read"
         | "commerce.orders.manage"
         | "commerce.products.manage"
         | "commerce.promotions.manage"
@@ -6244,7 +6248,8 @@ export type ErrorDetail = {
     "closed_reason"?: "consumed" | "released" | "expired" | "reallocated" | "mixed" | "adopted" | (string & {});
     /**
      * On INVALID_REQUEST, one of the detail codes; on every other error, repeats the top-level
-     * code. Value enum: "REQUIRED", "INVALID_VALUE", "UNKNOWN_FIELD", "NOT_ALLOWED",
+     * code. One of the four validation detail codes on INVALID_REQUEST. Other details repeat the
+     * top-level code. Value enum: "REQUIRED", "INVALID_VALUE", "UNKNOWN_FIELD", "NOT_ALLOWED",
      * "ACTION_NOT_ALLOWED", "ALREADY_EXISTS", "API_VERSION_RETIRED", "AUTHENTICATION_REQUIRED",
      * "CONCURRENT_MODIFICATION", "CUSTOMER_EMAIL_REQUIRED", "DELIVERY_REQUOTE_REQUIRED",
      * "EXTERNAL_SERVICE_ERROR", "FORBIDDEN", "GIFT_CARD_CHALLENGE_REQUIRED",
@@ -6256,66 +6261,9 @@ export type ErrorDetail = {
      * "PAYMENT_PROCESSOR_REJECTED", "PAYMENT_REVIEW_OPEN", "PROMOTION_DECLINED",
      * "RATE_LIMIT_EXCEEDED", "REQUEST_BODY_TOO_LARGE", "REQUEST_CANCELED", "REQUEST_TIMEOUT",
      * "RESOURCE_IN_USE", "RESOURCE_NOT_FOUND", "ROUTE_NOT_FOUND", "SERVICE_UNAVAILABLE",
-     * "UNSUPPORTED_CONTENT_TYPE", "VERSION_CONFLICT". anyOf[1] (Value): {@link ErrorDetailCode}.
-     * Validation detail code on INVALID_REQUEST; param identifies the input to correct. Value
-     * enum: "REQUIRED", "INVALID_VALUE", "UNKNOWN_FIELD", "NOT_ALLOWED". anyOf[2] (Value): string.
-     * Value enum: "ACTION_NOT_ALLOWED", "ALREADY_EXISTS", "API_VERSION_RETIRED",
-     * "AUTHENTICATION_REQUIRED", "CONCURRENT_MODIFICATION", "CUSTOMER_EMAIL_REQUIRED",
-     * "DELIVERY_REQUOTE_REQUIRED", "EXTERNAL_SERVICE_ERROR", "FORBIDDEN",
-     * "GIFT_CARD_CHALLENGE_REQUIRED", "IDEMPOTENCY_KEY_IN_PROGRESS", "IDEMPOTENCY_KEY_REUSED",
-     * "IDEMPOTENCY_RECOVERY_REQUIRED", "IDENTITY_VERIFICATION_REQUIRED", "INSUFFICIENT_SCOPE",
-     * "INTERNAL_ERROR", "INVALID_CREDENTIAL", "INVALID_REQUEST", "INVENTORY_INSUFFICIENT",
-     * "LIMIT_EXCEEDED", "LIMIT_REACHED", "MERCHANT_NOT_READY", "METHOD_NOT_ALLOWED",
-     * "OPERATION_IN_PROGRESS", "PAYMENT_ATTEMPT_ACTIVE", "PAYMENT_OPTION_UNAVAILABLE",
-     * "PAYMENT_PROCESSING_UNAVAILABLE", "PAYMENT_PROCESSOR_REJECTED", "PAYMENT_REVIEW_OPEN",
-     * "PROMOTION_DECLINED", "RATE_LIMIT_EXCEEDED", "REQUEST_BODY_TOO_LARGE", "REQUEST_CANCELED",
-     * "REQUEST_TIMEOUT", "RESOURCE_IN_USE", "RESOURCE_NOT_FOUND", "ROUTE_NOT_FOUND",
-     * "SERVICE_UNAVAILABLE", "UNSUPPORTED_CONTENT_TYPE", "VERSION_CONFLICT".
+     * "UNSUPPORTED_CONTENT_TYPE", "VERSION_CONFLICT".
      */
-    "code": (string)
-        & ((ErrorDetailCode)
-        | ("ACTION_NOT_ALLOWED"
-        | "ALREADY_EXISTS"
-        | "API_VERSION_RETIRED"
-        | "AUTHENTICATION_REQUIRED"
-        | "CONCURRENT_MODIFICATION"
-        | "CUSTOMER_EMAIL_REQUIRED"
-        | "DELIVERY_REQUOTE_REQUIRED"
-        | "EXTERNAL_SERVICE_ERROR"
-        | "FORBIDDEN"
-        | "GIFT_CARD_CHALLENGE_REQUIRED"
-        | "IDEMPOTENCY_KEY_IN_PROGRESS"
-        | "IDEMPOTENCY_KEY_REUSED"
-        | "IDEMPOTENCY_RECOVERY_REQUIRED"
-        | "IDENTITY_VERIFICATION_REQUIRED"
-        | "INSUFFICIENT_SCOPE"
-        | "INTERNAL_ERROR"
-        | "INVALID_CREDENTIAL"
-        | "INVALID_REQUEST"
-        | "INVENTORY_INSUFFICIENT"
-        | "LIMIT_EXCEEDED"
-        | "LIMIT_REACHED"
-        | "MERCHANT_NOT_READY"
-        | "METHOD_NOT_ALLOWED"
-        | "OPERATION_IN_PROGRESS"
-        | "PAYMENT_ATTEMPT_ACTIVE"
-        | "PAYMENT_OPTION_UNAVAILABLE"
-        | "PAYMENT_PROCESSING_UNAVAILABLE"
-        | "PAYMENT_PROCESSOR_REJECTED"
-        | "PAYMENT_REVIEW_OPEN"
-        | "PROMOTION_DECLINED"
-        | "RATE_LIMIT_EXCEEDED"
-        | "REQUEST_BODY_TOO_LARGE"
-        | "REQUEST_CANCELED"
-        | "REQUEST_TIMEOUT"
-        | "RESOURCE_IN_USE"
-        | "RESOURCE_NOT_FOUND"
-        | "ROUTE_NOT_FOUND"
-        | "SERVICE_UNAVAILABLE"
-        | "UNSUPPORTED_CONTENT_TYPE"
-        | "VERSION_CONFLICT"
-        | (string & {}))
-        | (unknown));
+    "code": ErrorDetailCode;
     /**
      * Which inventory count check failed for this line. Sent on VERSION_CONFLICT for physical
      * observations or stale source observation sequences. Value enum: "physical_version",
@@ -6335,7 +6283,8 @@ export type ErrorDetail = {
     "current_api_version"?: string;
     /**
      * The current resource count. On LIMIT_REACHED with reason product_variants, the product's
-     * non-archived variant count. Format: int64.
+     * non-archived variant count. On INVENTORY_INSUFFICIENT with reason backorder_limit_reached,
+     * units already backordered for inventory_item_id across all locations. Format: int64.
      */
     "current_count"?: number;
     /**
@@ -6388,128 +6337,136 @@ export type ErrorDetail = {
      * oneOf[2].charges[] (Value): {@link FulfillmentChargeLink}. Links a fulfillment to an order
      * charge by `order_charge_id`. oneOf[2].completed_at (Optional): string. When the fulfillment
      * was completed. Mirrors the completion time for its type: delivered_at for shipment, local
-     * delivery, and digital fulfillments, picked_up_at for pickup, and
-     * service_details.completed_at for service fulfillments. Omitted until a completion time is
-     * recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". oneOf[2].created_at
-     * (Required): string. When the fulfillment was created, in RFC3339 format. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". oneOf[2].customer_id (Optional): string. Customer receiving
-     * this fulfillment, when one is set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * oneOf[2].delivery_choice_group_id (Optional): string or null. Delivery choice group that
-     * created this fulfillment. `null` when the merchant created the fulfillment or checkout
-     * created it without a delivery quote. Always present with merchant credentials. Example:
-     * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". oneOf[2].delivery_execution_leg_id (Optional): string or
-     * null. Execution leg of the selected delivery option that created this fulfillment. `null`
-     * when the merchant created the fulfillment or checkout created it without a delivery quote.
-     * Always present with merchant credentials. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M".
-     * oneOf[2].delivery_method_id (Optional): string or null. Delivery method chosen for this
-     * fulfillment. `null` when the merchant created the fulfillment or checkout created it without
-     * a delivery quote. Also `null` when it was created before this field was added. Always
-     * present with merchant credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     * oneOf[2].delivery_selection_id (Optional): string or null. Delivery selection that created
-     * this fulfillment. `null` when the merchant created the fulfillment or checkout created it
-     * without a delivery quote. Always present with merchant credentials. Example:
-     * "dsel_01KEZF7C00QC35XBXVXQSCEB2D". oneOf[2].device_id (Optional): string. Device associated
-     * with the fulfillment, when one is recorded. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6".
-     * oneOf[2].digital_details (Optional): {@link DigitalFulfillmentDetails}. Delivery URL and
-     * completion time for a digital fulfillment. Details of a digital fulfillment: when it was
-     * delivered (`delivered_at`) and its `delivery_url`. oneOf[2].dispatched_at (Optional):
-     * string. First time this fulfillment reached dispatched. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". oneOf[2].external_reference_id (Optional): string. Caller-owned
-     * identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842". oneOf[2].fulfillment_id (Required): string. Stable identifier of the
-     * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". oneOf[2].line_items (Required):
-     * Array of {@link FulfillmentLineItem}. Order lines and quantities allocated to this
-     * fulfillment. oneOf[2].line_items[] (Value): {@link FulfillmentLineItem}. An order line item
-     * and quantity included in a fulfillment, with the modifiers applied to it.
-     * oneOf[2].local_delivery_details (Optional): {@link DeliveryFulfillmentDetails}. Courier,
-     * delivery window, and handoff details for a local delivery fulfillment. Details of a local
-     * delivery fulfillment: courier, timing window, instructions, and tracking. Some fields are
-     * omitted for credentials that don't act for the verified customer. oneOf[2].location_id
-     * (Optional): string. Merchant location responsible for this fulfillment. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2". oneOf[2].metadata (Optional): {@link MetadataMap}.
-     * Caller-owned key-value metadata associated with the fulfillment. Caller-owned key-value data
-     * stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
-     * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those
-     * limits may not satisfy them. oneOf[2].order (Optional): {@link ExpandedOrderSummary} or
-     * null. Order summary returned when the order relationship is expanded. Present only when
-     * `expand` includes `order`; `null` when expanded and there is no related order.
-     * oneOf[2].order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
-     * including status, payment and refund status, and pricing and settlement amounts, returned
-     * when the order is expanded. oneOf[2].order.anyOf[2] (Value): null. oneOf[2].order_id
-     * (Required): string. Order whose items this fulfillment delivers. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". oneOf[2].order_number (Optional): string. Human-readable
-     * number of the order this fulfillment belongs to. Omitted when the order has no number.
-     * oneOf[2].outcome (Optional): {@link FulfillmentOutcome}. Terminal outcome details. Present
-     * exactly when status is no_show. The terminal outcome recorded for a fulfillment, such as a
-     * no-show, with its reason, notes, and when it occurred. oneOf[2].packages (Optional): Array
-     * of {@link ExpandedPackageSummary}. Packages associated with this fulfillment.
-     * oneOf[2].packages[] (Value): {@link ExpandedPackageSummary}. A package's summary fields,
-     * including carrier, tracking, status, and supported actions, returned when the package is
-     * expanded. oneOf[2].packed_at (Optional): string. First time this fulfillment reached packed.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". oneOf[2].picked_at (Optional): string.
-     * First time this fulfillment reached picked. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". oneOf[2].pickup_details (Optional): {@link
-     * PickupFulfillmentDetails}. Pickup window, pickup mode, and handoff times for a pickup
-     * fulfillment. Pickup details. For a pickup that checkout creates, location_name, address, and
-     * instructions name the store the buyer chose and the delivery method's pickup instructions.
-     * The note the buyer left for the store is in recipient.instructions. oneOf[2].recipient
-     * (Optional): {@link FulfillmentRecipient}. Omitted for a checkout session credential that
-     * doesn't act for the customer the buyer verified. The recipient of a fulfillment, with name,
-     * email, phone, address, and handling instructions. oneOf[2].scheduled_start_at (Required):
-     * string or null. Derived start of the service schedule or pickup, local delivery, or shipment
-     * window. Null when no schedule is booked, including digital fulfillments. Details remain the
-     * authoritative schedule inputs. Sorting by scheduled_start_at puts nulls first ascending and
-     * last descending. Sorting by due_at compares this same value with nulls last ascending and
-     * first descending. Ties use fulfillment_id in the same direction. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". oneOf[2].service_details (Optional): {@link
-     * ServiceFulfillmentDetails}. Schedule and completion details for a service fulfillment.
-     * Details of a service fulfillment: the scheduled start and end, timezone, completion time,
-     * and notes. oneOf[2].shipment_details (Optional): {@link ShipmentFulfillmentDetails}.
-     * Shipping schedule and ship time for a shipment fulfillment. Present only on shipment
-     * fulfillments with at least one value. Details of a shipment fulfillment: the shipping
-     * window, timezone, and when the shipment was handed to the carrier. oneOf[2].shipments
-     * (Optional): Array of {@link ExpandedShipmentSummary}. Shipments associated with this
-     * fulfillment. oneOf[2].shipments[] (Value): {@link ExpandedShipmentSummary}. A shipment's
-     * summary fields, including direction, status, and package count, returned when the shipment
-     * is expanded. oneOf[2].status (Required): string. Current fulfillment lifecycle status. Read
-     * supported_actions for available transitions. - `pending`: Work has not started and has not
-     * been accepted. Approval may be required before work can begin. - `accepted`: The provider
-     * accepted the fulfillment; work has not started. - `on_hold`: Work is paused. Release the
-     * hold to restore active_hold.previous_status, or use a supported forward action. -
-     * `in_progress`: Work has started and is not yet ready or complete. - `ready`: The fulfillment
-     * is ready for pickup, handoff, or completion. - `completed`: All fulfillment work completed
-     * successfully. - `canceled`: The fulfillment was intentionally canceled and will not
-     * continue. - `failed`: The fulfillment could not be completed. Resolve the recorded reason
-     * before creating replacement work. - `scheduled`: The fulfillment is scheduled for its
-     * recorded service window. - `preparing`: Warehouse or provider preparation is underway. -
-     * `picked`: The assigned items have been picked. - `packed`: The assigned items have been
-     * packed. - `dispatched`: The fulfillment left its origin for delivery or handoff. -
-     * `no_show`: A service appointment was missed. Read outcome for the recorded reason. Value
-     * enum: "pending", "accepted", "on_hold", "in_progress", "ready", "completed", "canceled",
-     * "failed", "scheduled", "preparing", "picked", "packed", "dispatched", "no_show".
-     * oneOf[2].supported_actions (Optional): Array of string. Read-only lifecycle actions accepted
-     * now, based on the fulfillment, its order payment status, holds, and shipment progress. Empty
-     * when none are available. Values name the verb route with hyphens replaced by underscores.
-     * Always present with merchant credentials. [] enum: "accept", "cancel", "complete",
+     * delivery, and digital fulfillments, picked_up_at for pickup, service_details.completed_at
+     * for service fulfillments, and the order's paid_at for handovers completed at payment.
+     * Omitted until a completion time is recorded. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". oneOf[2].created_at (Required): string. When the fulfillment was
+     * created, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * oneOf[2].customer_id (Optional): string. Customer receiving this fulfillment, when one is
+     * set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". oneOf[2].delivery_choice_group_id
+     * (Optional): string or null. Delivery choice group that created this fulfillment. `null` when
+     * the merchant created the fulfillment or checkout created it without a delivery quote. Always
+     * present with merchant credentials. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+     * oneOf[2].delivery_execution_leg_id (Optional): string or null. Execution leg of the selected
+     * delivery option that created this fulfillment. `null` when the merchant created the
+     * fulfillment or checkout created it without a delivery quote. Always present with merchant
+     * credentials. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M". oneOf[2].delivery_method_id
+     * (Optional): string or null. Delivery method chosen for this fulfillment. `null` when the
+     * merchant created the fulfillment or checkout created it without a delivery quote. Also
+     * `null` when it was created before this field was added. Always present with merchant
+     * credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". oneOf[2].delivery_selection_id
+     * (Optional): string or null. Delivery selection that created this fulfillment. `null` when
+     * the merchant created the fulfillment or checkout created it without a delivery quote. Always
+     * present with merchant credentials. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
+     * oneOf[2].device_id (Optional): string. Device associated with the fulfillment, when one is
+     * recorded. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6". oneOf[2].digital_details (Optional):
+     * {@link DigitalFulfillmentDetails}. Delivery URL and completion time for a digital
+     * fulfillment. Details of a digital fulfillment: when it was delivered (`delivered_at`) and
+     * its `delivery_url`. oneOf[2].dispatched_at (Optional): string. First time this fulfillment
+     * reached dispatched. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * oneOf[2].external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842". oneOf[2].fulfillment_id
+     * (Required): string. Stable identifier of the fulfillment. Example:
+     * "ful_01KEZF7C00F24WVSTTWR1FQX5T". oneOf[2].idempotency_key (Required): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field.
+     * oneOf[2].line_items (Required): Array of {@link FulfillmentLineItem}. Order lines and
+     * quantities allocated to this fulfillment. oneOf[2].line_items[] (Value): {@link
+     * FulfillmentLineItem}. An order line item and quantity included in a fulfillment, with the
+     * modifiers applied to it. oneOf[2].local_delivery_details (Optional): {@link
+     * DeliveryFulfillmentDetails}. Courier, delivery window, and handoff details for a local
+     * delivery fulfillment. Details of a local delivery fulfillment: courier, timing window,
+     * instructions, and tracking. Some fields are omitted for credentials that don't act for the
+     * verified customer. oneOf[2].location_id (Optional): string. Merchant location responsible
+     * for this fulfillment. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". oneOf[2].metadata
+     * (Optional): {@link MetadataMap}. Caller-owned key-value metadata associated with the
+     * fulfillment. Caller-owned key-value data stored on a resource. Keys starting with flint_ are
+     * reserved for Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them. oneOf[2].order
+     * (Optional): {@link ExpandedOrderSummary} or null. Order summary returned when the order
+     * relationship is expanded. Present only when `expand` includes `order`; `null` when expanded
+     * and there is no related order. oneOf[2].order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
+     * status, and pricing and settlement amounts, returned when the order is expanded.
+     * oneOf[2].order.anyOf[2] (Value): null. oneOf[2].order_id (Required): string. Order whose
+     * items this fulfillment delivers. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * oneOf[2].order_number (Optional): string. Human-readable number of the order this
+     * fulfillment belongs to. Omitted when the order has no number. oneOf[2].outcome (Optional):
+     * {@link FulfillmentOutcome}. Terminal outcome details. Present exactly when status is
+     * no_show. The terminal outcome recorded for a fulfillment, such as a no-show, with its
+     * reason, notes, and when it occurred. oneOf[2].packages (Optional): Array of {@link
+     * ExpandedPackageSummary}. Packages associated with this fulfillment. oneOf[2].packages[]
+     * (Value): {@link ExpandedPackageSummary}. A package's summary fields, including carrier,
+     * tracking, status, and supported actions, returned when the package is expanded.
+     * oneOf[2].packed_at (Optional): string. First time this fulfillment reached packed. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". oneOf[2].picked_at (Optional): string. First
+     * time this fulfillment reached picked. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * oneOf[2].pickup_details (Optional): {@link PickupFulfillmentDetails}. Pickup window, pickup
+     * mode, and handoff times for a pickup fulfillment. Pickup details. For a pickup that checkout
+     * creates, location_name, address, and instructions name the store the buyer chose and the
+     * delivery method's pickup instructions. The note the buyer left for the store is in
+     * recipient.instructions. oneOf[2].recipient (Optional): {@link FulfillmentRecipient}. Omitted
+     * for a checkout session credential that doesn't act for the customer the buyer verified. The
+     * recipient of a fulfillment, with name, email, phone, address, and handling instructions.
+     * oneOf[2].scheduled_start_at (Required): string or null. Derived start of the service
+     * schedule or pickup, local delivery, or shipment window. Null when no schedule is booked,
+     * including digital fulfillments. Details remain the authoritative schedule inputs. Sorting by
+     * scheduled_start_at puts nulls first ascending and last descending. Sorting by due_at
+     * compares this same value with nulls last ascending and first descending. Ties use
+     * fulfillment_id in the same direction. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * oneOf[2].service_details (Optional): {@link ServiceFulfillmentDetails}. Schedule and
+     * completion details for a service fulfillment. Details of a service fulfillment: the
+     * scheduled start and end, timezone, completion time, and notes. oneOf[2].shipment_details
+     * (Optional): {@link ShipmentFulfillmentDetails}. Shipping schedule and ship time for a
+     * shipment fulfillment. Present only on shipment fulfillments with at least one value. Details
+     * of a shipment fulfillment: the shipping window, timezone, and when the shipment was handed
+     * to the carrier. oneOf[2].shipments (Optional): Array of {@link ExpandedShipmentSummary}.
+     * Shipments associated with this fulfillment. oneOf[2].shipments[] (Value): {@link
+     * ExpandedShipmentSummary}. A shipment's summary fields, including direction, status, and
+     * package count, returned when the shipment is expanded. oneOf[2].status (Required): string.
+     * Current fulfillment lifecycle status. Read supported_actions for available transitions. -
+     * `pending`: Work has not started and has not been accepted. Approval may be required before
+     * work can begin. - `accepted`: The provider accepted the fulfillment; work has not started. -
+     * `on_hold`: Work is paused. Release the hold to restore active_hold.previous_status, or use a
+     * supported forward action. - `in_progress`: Work has started and is not yet ready or
+     * complete. - `ready`: The fulfillment is ready for pickup, handoff, or completion. -
+     * `completed`: All fulfillment work completed successfully. - `canceled`: The fulfillment was
+     * intentionally canceled and will not continue. - `failed`: The fulfillment could not be
+     * completed. Resolve the recorded reason before creating replacement work. - `scheduled`: The
+     * fulfillment is scheduled for its recorded service window. - `preparing`: Warehouse or
+     * provider preparation is underway. - `picked`: The assigned items have been picked. -
+     * `packed`: The assigned items have been packed. - `dispatched`: The fulfillment left its
+     * origin for delivery or handoff. - `no_show`: A service appointment was missed. Read outcome
+     * for the recorded reason. Value enum: "pending", "accepted", "on_hold", "in_progress",
+     * "ready", "completed", "canceled", "failed", "scheduled", "preparing", "picked", "packed",
+     * "dispatched", "no_show". oneOf[2].supported_actions (Optional): Array of string. Read-only
+     * lifecycle actions accepted now, based on the fulfillment, its order payment status, holds,
+     * and shipment progress. Empty when none are available. Values name the verb route with
+     * hyphens replaced by underscores. Always present with merchant credentials. [] enum:
+     * "accept", "cancel", "complete", "dispatch", "fail", "hold", "mark_no_show", "mark_packed",
+     * "mark_picked", "mark_preparing", "mark_ready", "release_hold", "schedule", "start".
+     * oneOf[2].supported_actions[] (Value): string. Value enum: "accept", "cancel", "complete",
      * "dispatch", "fail", "hold", "mark_no_show", "mark_packed", "mark_picked", "mark_preparing",
-     * "mark_ready", "release_hold", "schedule", "start". oneOf[2].supported_actions[] (Value):
-     * string. Value enum: "accept", "cancel", "complete", "dispatch", "fail", "hold",
-     * "mark_no_show", "mark_packed", "mark_picked", "mark_preparing", "mark_ready",
-     * "release_hold", "schedule", "start". oneOf[2].terminal_at (Optional): string. When the
-     * fulfillment entered a terminal state: completed, canceled, failed, or no_show. This records
-     * the state transition; completed_at records completion evidence supplied for the fulfillment.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". oneOf[2].type (Required): string. How
-     * the items are delivered: shipment, pickup, local delivery, digital delivery, or service.
-     * Value enum: "shipment", "pickup", "local_delivery", "digital", "service", "handover".
-     * oneOf[2].updated_at (Required): string. When the fulfillment was last updated, in RFC3339
-     * format. Format: date-time. Example: "2026-08-02T16:00:00Z". oneOf[2].version (Required):
-     * integer. Monotonic fulfillment version for expected_version checks. Format: uint64. minimum:
-     * 1. oneOf[3] (Value): object and {@link Shipment}. A shipment carrying fulfilled order items.
-     * oneOf[3].created_at (Required): string. Creation timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". oneOf[3].delivered_at (Optional): string. When the shipment was
-     * delivered, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * oneOf[3].direction (Required): string. Whether the shipment sends items to the buyer or
-     * returns items to the merchant. Value enum: "outbound", "return".
+     * "mark_ready", "release_hold", "schedule", "start". oneOf[2].terminal_at (Optional): string.
+     * When the fulfillment entered a terminal state: completed, canceled, failed, or no_show. This
+     * records the state transition; completed_at records completion evidence supplied for the
+     * fulfillment. Format: date-time. Example: "2026-08-02T16:00:00Z". oneOf[2].type (Required):
+     * string. How the items are delivered: shipment, pickup, local delivery, digital delivery, or
+     * service. Value enum: "shipment", "pickup", "local_delivery", "digital", "service",
+     * "handover". oneOf[2].updated_at (Required): string. When the fulfillment was last updated,
+     * in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z". oneOf[2].version
+     * (Required): integer. Monotonic fulfillment version for expected_version checks. Format:
+     * uint64. minimum: 1. oneOf[3] (Value): object and {@link Shipment}. A shipment carrying
+     * fulfilled order items. oneOf[3].created_at (Required): string. Creation timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". oneOf[3].delivered_at (Optional): string. When
+     * the shipment was delivered, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". oneOf[3].direction (Required): string. Whether the shipment sends
+     * items to the buyer or returns items to the merchant. Value enum: "outbound", "return".
      * oneOf[3].external_reference_id (Optional): string. Caller-owned identifier for this resource
      * in an external system. Requires external_system. External references are not unique. Use
      * Idempotency-Key for retries. maxLength: 255. Example: "warehouse-1842".
@@ -6808,7 +6765,7 @@ export type ErrorDetail = {
      * "stolen_card", "do_not_honor", "fraudulent", "processing_error",
      * "payment_method_unavailable", "payment_method_declined", "payment_not_completed",
      * "payment_action_expired", "payment_method_temporarily_unavailable", "incorrect_pin",
-     * "pin_try_exceeded", "pin_required", "payment_failed".
+     * "pin_try_exceeded", "pin_required", "confirmation_token_account_mismatch", "payment_failed".
      */
     "failure_code"?: "card_declined"
         | "card_declined_do_not_retry"
@@ -6836,6 +6793,7 @@ export type ErrorDetail = {
         | "incorrect_pin"
         | "pin_try_exceeded"
         | "pin_required"
+        | "confirmation_token_account_mismatch"
         | "payment_failed"
         | (string & {});
     /**
@@ -6867,14 +6825,16 @@ export type ErrorDetail = {
      */
     "latest_status_occurred_at"?: string;
     /**
-     * The limit that was reached. On LIMIT_REACHED with reason product_variants, the most
-     * non-archived variants a product can hold. On LIMIT_REACHED with reason
-     * license_key_activations, the most active devices a key can hold. On LIMIT_REACHED with
-     * reason enabled_risk_rules, the most active risk rules in the environment. On LIMIT_REACHED
-     * with reason partner_app_credentials, the most active credentials a partner app can hold. On
-     * LIMIT_REACHED with reason payment_intents_per_order, the most payment intents an order can
-     * have over its lifetime. On LIMIT_REACHED with reason payment_retries_per_period, the most
-     * payment retries a subscription allows in one billing period. On LIMIT_REACHED with reason
+     * The limit that was reached. On INVENTORY_INSUFFICIENT with reason backorder_limit_reached,
+     * the item's backorder.limit_quantity. Remaining backorder capacity is max(0, limit -
+     * current_count). On LIMIT_REACHED with reason product_variants, the most non-archived
+     * variants a product can hold. On LIMIT_REACHED with reason license_key_activations, the most
+     * active devices a key can hold. On LIMIT_REACHED with reason enabled_risk_rules, the most
+     * active risk rules in the environment. On LIMIT_REACHED with reason partner_app_credentials,
+     * the most active credentials a partner app can hold. On LIMIT_REACHED with reason
+     * payment_intents_per_order, the most payment intents an order can have over its lifetime. On
+     * LIMIT_REACHED with reason payment_retries_per_period, the most payment retries a
+     * subscription allows in one billing period. On LIMIT_REACHED with reason
      * test_clock_subscriptions, the most subscriptions that aren't canceled one test clock can
      * hold. Format: int64.
      */
@@ -6995,50 +6955,51 @@ export type ErrorDetail = {
      * previous_refund_failed, provider_action_unsupported, quantity_not_carried, reader_offline,
      * reader_type_not_supported, reader_unavailable, reconciliation_required, refund_created,
      * refund_unavailable, refund_window_expired, restricted, return_checkout, return_owned,
-     * return_tax_mismatch, sandbox_reset_failed, secret_not_issued, seller_not_ready,
-     * simulated_reader_required, status_not_reached, stock_at_risk, store_credit_unavailable,
-     * subscription_owned, subscription_terms_locked, terminal_status, test_event,
-     * trial_in_progress, unsupported_state, variant_not_targeted, verification_required. When code
-     * is ALREADY_EXISTS, one of: dashboard_sign_in_required, device_reader_already_exists,
-     * hardware_fingerprint_already_exists. When code is CONCURRENT_MODIFICATION, one of:
-     * credit_note_refund_retry_exhausted. When code is DELIVERY_REQUOTE_REQUIRED, one of:
-     * calculation_expired, caller_rates_required, destination_changed, input_required,
-     * option_expired, quote_expired, quote_revoked, quote_stale, selection_changed,
-     * selection_expired, window_expired. When code is EXTERNAL_SERVICE_ERROR, one of:
-     * issuer_unavailable, outcome_unknown, rate_callback_failed, rate_unavailable,
-     * tax_callback_failed. When code is FORBIDDEN, one of: checkout_launch_token_restricted,
-     * checkout_recovery_attempt_mismatch, checkout_recovery_restricted,
-     * checkout_session_order_mismatch, checkout_session_payment_required, context_mismatch,
-     * demo_session_route_not_allowed, direct_owner_required, environment_grant_required,
-     * environment_mismatch, expansion_not_permitted, full_access_required, linked_key_not_allowed,
-     * live_mode_required, merchant_access_required, merchant_credential_required,
-     * merchant_role_insufficient, not_checkout_session, not_permitted,
-     * organization_membership_required, organization_role_insufficient, owner_workflow_required,
-     * request_blocked, role_not_assignable, sandbox_not_accessible, sandbox_selection_forbidden,
+     * return_tax_mismatch, sales_not_started, sandbox_reset_failed, secret_not_issued,
+     * seller_not_ready, simulated_reader_required, status_not_reached, stock_at_risk,
+     * store_credit_unavailable, subscription_owned, subscription_terms_locked, terminal_status,
+     * test_event, trial_in_progress, unsupported_state, variant_not_targeted,
+     * verification_required. When code is ALREADY_EXISTS, one of: dashboard_sign_in_required,
+     * device_reader_already_exists, hardware_fingerprint_already_exists. When code is
+     * CONCURRENT_MODIFICATION, one of: credit_note_refund_retry_exhausted. When code is
+     * DELIVERY_REQUOTE_REQUIRED, one of: calculation_expired, caller_rates_required,
+     * destination_changed, input_required, option_expired, quote_expired, quote_revoked,
+     * quote_stale, selection_changed, selection_expired, window_expired. When code is
+     * EXTERNAL_SERVICE_ERROR, one of: issuer_unavailable, outcome_unknown, rate_callback_failed,
+     * rate_unavailable, tax_callback_failed. When code is FORBIDDEN, one of:
+     * checkout_launch_token_restricted, checkout_recovery_attempt_mismatch,
+     * checkout_recovery_restricted, checkout_session_order_mismatch,
+     * checkout_session_payment_required, context_mismatch, demo_session_route_not_allowed,
+     * direct_owner_required, environment_grant_required, environment_mismatch,
+     * expansion_not_permitted, full_access_required, linked_key_not_allowed, live_mode_required,
+     * merchant_access_required, merchant_credential_required, merchant_role_insufficient,
+     * not_checkout_session, not_permitted, organization_membership_required,
+     * organization_role_insufficient, owner_workflow_required, request_blocked,
+     * role_not_assignable, sandbox_not_accessible, sandbox_selection_forbidden,
      * self_role_edit_forbidden, test_mode_required. When code is GIFT_CARD_CHALLENGE_REQUIRED, one
      * of: page_origin_required, proof_rejected, proof_required. When code is
      * IDEMPOTENCY_KEY_REUSED, one of: transport_mismatch. When code is INSUFFICIENT_SCOPE, one of:
      * install_scope_not_granted, scope_not_granted, scope_not_held. When code is INTERNAL_ERROR,
      * one of: repair_required. When code is INVALID_CREDENTIAL, one of: expired, malformed,
      * mode_mismatch, revoked, session_ended, unknown, wrong_credential_type. When code is
-     * INVENTORY_INSUFFICIENT, one of: location_ineligible, location_limit. When code is
-     * LIMIT_EXCEEDED, one of: buyer_daily, card_balance, card_daily, insufficient_available_value,
-     * merchant_adjustments_daily, merchant_imports_daily, order_edit_balance_due. When code is
-     * LIMIT_REACHED, one of: active_readers, checkout_tax_calculations, consecutive_skips,
-     * customer_tax_exemptions, daily_demo_sessions, daily_gift_card_purchases,
-     * delivery_selection_replacements, enabled_risk_rules, external_paid_orders, image_storage,
-     * license_key_activations, merchant_signups, monthly_tax_calculations, owned_merchants,
-     * partner_app_credentials, partner_app_install_links, payment_intents_per_order,
-     * payment_link_completions, payment_retries_per_period, pending_reports, price_list_prices,
-     * product_variants, receipt_recipients, saved_card_codes, test_clock_subscriptions,
-     * verification_attempts, verification_codes, webhook_event_streams,
-     * webhook_listener_signatures_daily, workload_identities. When code is MERCHANT_NOT_READY, one
-     * of: account_sessions_unavailable, account_setup_repair_required, account_setup_unavailable,
-     * billing_suspended, business_address_required, capability_blocked, capability_not_requested,
-     * capability_pending, capability_unavailable, default_environment_required,
-     * disabled_by_merchant_settings, disabled_by_platform_policy,
-     * merchant_account_action_required, merchant_payments_disabled, onboarding_required,
-     * payment_account_context_invalid, payment_account_setup_incomplete,
+     * INVENTORY_INSUFFICIENT, one of: backorder_limit_reached, location_ineligible,
+     * location_limit. When code is LIMIT_EXCEEDED, one of: buyer_daily, card_balance, card_daily,
+     * insufficient_available_value, merchant_adjustments_daily, merchant_imports_daily,
+     * order_edit_balance_due. When code is LIMIT_REACHED, one of: active_readers,
+     * checkout_tax_calculations, consecutive_skips, customer_tax_exemptions, daily_demo_sessions,
+     * daily_gift_card_purchases, delivery_selection_replacements, enabled_risk_rules,
+     * external_paid_orders, image_storage, license_key_activations, merchant_signups,
+     * monthly_tax_calculations, owned_merchants, partner_app_credentials,
+     * partner_app_install_links, payment_intents_per_order, payment_link_completions,
+     * payment_retries_per_period, pending_reports, price_list_prices, product_variants,
+     * receipt_recipients, saved_card_codes, test_clock_subscriptions, verification_attempts,
+     * verification_codes, webhook_event_streams, webhook_listener_signatures_daily,
+     * workload_identities. When code is MERCHANT_NOT_READY, one of: account_sessions_unavailable,
+     * account_setup_repair_required, account_setup_unavailable, billing_suspended,
+     * business_address_required, capability_blocked, capability_not_requested, capability_pending,
+     * capability_unavailable, default_environment_required, disabled_by_merchant_settings,
+     * disabled_by_platform_policy, merchant_account_action_required, merchant_payments_disabled,
+     * onboarding_required, payment_account_context_invalid, payment_account_setup_incomplete,
      * payment_option_access_not_provisioned, payment_option_activation_pending,
      * payment_option_not_available, payment_option_not_in_plan, payment_splits_unavailable,
      * platform_funding_unavailable, platform_review, pricing_amount_below_minimum,
@@ -7060,28 +7021,29 @@ export type ErrorDetail = {
      * customer_mismatch, customer_required, exhausted, expired, inactive, max_promotions_reached,
      * minimum_not_met, no_discountable_balance, not_combinable, not_eligible, not_yet_started,
      * recurrence_completed, superseded, superseded_by_better_offer, superseded_by_higher_priority,
-     * unknown_type. When code is RESOURCE_IN_USE, one of: selected_by_active_variants,
-     * subscription_balance_due, subscription_payment_pending, subscription_renewal. When code is
-     * RESOURCE_NOT_FOUND, one of: email_missing, resource_in_different_environment. When code is
-     * SERVICE_UNAVAILABLE, one of: outcome_unknown, processor_unavailable, repair_required,
-     * template_not_configured. Additional reasons may be added. Value enum:
-     * "account_sessions_unavailable", "account_setup_repair_required",
-     * "account_setup_unavailable", "action_window_too_short", "active_readers",
-     * "advance_limit_exceeded", "already_applied", "amount_out_of_range", "archived",
-     * "authorization_expired", "automatic_disabled", "bank_return_not_contestable",
-     * "billing_suspended", "bounded_inventory_guarantee_not_supported",
-     * "business_address_required", "buy_item_missing", "buyer_daily", "calculation_expired",
-     * "caller_rates_required", "cancellation_scheduled", "capability_blocked",
-     * "capability_not_requested", "capability_pending", "capability_unavailable", "card_balance",
-     * "card_daily", "checkout_launch_token_restricted", "checkout_recovery_attempt_mismatch",
-     * "checkout_recovery_restricted", "checkout_session_order_mismatch",
-     * "checkout_session_payment_required", "checkout_tax_calculations",
-     * "choice_group_unavailable", "code_invalid", "code_required", "codes_disabled",
-     * "configuration_required", "confirmation_token_unusable", "consecutive_skips",
-     * "context_mismatch", "credit_exceeds_charge", "credit_note_refund_retry_exhausted",
-     * "credit_note_tax_reconciliation_required", "currency_mismatch",
-     * "customer_account_mode_conflict", "customer_limit_reached", "customer_mismatch",
-     * "customer_required", "customer_tax_exemptions", "daily_demo_sessions",
+     * unknown_type. When code is RATE_LIMIT_EXCEEDED, one of: card_payments_in_progress. When code
+     * is RESOURCE_IN_USE, one of: selected_by_active_variants, subscription_balance_due,
+     * subscription_payment_pending, subscription_renewal. When code is RESOURCE_NOT_FOUND, one of:
+     * email_missing, resource_in_different_environment. When code is SERVICE_UNAVAILABLE, one of:
+     * outcome_unknown, processor_unavailable, repair_required, template_not_configured. Additional
+     * reasons may be added. Value enum: "account_sessions_unavailable",
+     * "account_setup_repair_required", "account_setup_unavailable", "action_window_too_short",
+     * "active_readers", "advance_limit_exceeded", "already_applied", "amount_out_of_range",
+     * "archived", "authorization_expired", "automatic_disabled", "backorder_limit_reached",
+     * "bank_return_not_contestable", "billing_suspended",
+     * "bounded_inventory_guarantee_not_supported", "business_address_required",
+     * "buy_item_missing", "buyer_daily", "calculation_expired", "caller_rates_required",
+     * "cancellation_scheduled", "capability_blocked", "capability_not_requested",
+     * "capability_pending", "capability_unavailable", "card_balance", "card_daily",
+     * "card_payments_in_progress", "checkout_launch_token_restricted",
+     * "checkout_recovery_attempt_mismatch", "checkout_recovery_restricted",
+     * "checkout_session_order_mismatch", "checkout_session_payment_required",
+     * "checkout_tax_calculations", "choice_group_unavailable", "code_invalid", "code_required",
+     * "codes_disabled", "configuration_required", "confirmation_token_unusable",
+     * "consecutive_skips", "context_mismatch", "credit_exceeds_charge",
+     * "credit_note_refund_retry_exhausted", "credit_note_tax_reconciliation_required",
+     * "currency_mismatch", "customer_account_mode_conflict", "customer_limit_reached",
+     * "customer_mismatch", "customer_required", "customer_tax_exemptions", "daily_demo_sessions",
      * "daily_gift_card_purchases", "dashboard_sign_in_required", "default_environment_required",
      * "delivery_hold", "delivery_requirement_changes", "delivery_selection_materializing",
      * "delivery_selection_replacements", "demo_session_route_not_allowed", "dependency_revoked",
@@ -7133,7 +7095,7 @@ export type ErrorDetail = {
      * "refund_window_expired", "repair_required", "request_blocked", "requirements_due",
      * "resource_in_different_environment", "restricted", "return_checkout", "return_owned",
      * "return_tax_mismatch", "revoked", "risk_action_unsupported", "role_not_assignable",
-     * "sandbox_not_accessible", "sandbox_reset_failed", "sandbox_resetting",
+     * "sales_not_started", "sandbox_not_accessible", "sandbox_reset_failed", "sandbox_resetting",
      * "sandbox_selection_forbidden", "saved_card_codes", "scope_not_granted", "scope_not_held",
      * "secret_not_issued", "selected_by_active_variants", "selection_changed",
      * "selection_expired", "self_role_edit_forbidden", "seller_not_ready", "session_ended",
@@ -7160,6 +7122,7 @@ export type ErrorDetail = {
         | "archived"
         | "authorization_expired"
         | "automatic_disabled"
+        | "backorder_limit_reached"
         | "bank_return_not_contestable"
         | "billing_suspended"
         | "bounded_inventory_guarantee_not_supported"
@@ -7175,6 +7138,7 @@ export type ErrorDetail = {
         | "capability_unavailable"
         | "card_balance"
         | "card_daily"
+        | "card_payments_in_progress"
         | "checkout_launch_token_restricted"
         | "checkout_recovery_attempt_mismatch"
         | "checkout_recovery_restricted"
@@ -7371,6 +7335,7 @@ export type ErrorDetail = {
         | "revoked"
         | "risk_action_unsupported"
         | "role_not_assignable"
+        | "sales_not_started"
         | "sandbox_not_accessible"
         | "sandbox_reset_failed"
         | "sandbox_resetting"
@@ -7555,10 +7520,65 @@ export type ErrorDetail = {
     "verified_at"?: string;
 };
 /**
- * Validation detail code on INVALID_REQUEST; param identifies the input to correct. Value enum:
- * "REQUIRED", "INVALID_VALUE", "UNKNOWN_FIELD", "NOT_ALLOWED".
+ * One of the four validation detail codes on INVALID_REQUEST. Other details repeat the top-level
+ * code. Value enum: "REQUIRED", "INVALID_VALUE", "UNKNOWN_FIELD", "NOT_ALLOWED",
+ * "ACTION_NOT_ALLOWED", "ALREADY_EXISTS", "API_VERSION_RETIRED", "AUTHENTICATION_REQUIRED",
+ * "CONCURRENT_MODIFICATION", "CUSTOMER_EMAIL_REQUIRED", "DELIVERY_REQUOTE_REQUIRED",
+ * "EXTERNAL_SERVICE_ERROR", "FORBIDDEN", "GIFT_CARD_CHALLENGE_REQUIRED",
+ * "IDEMPOTENCY_KEY_IN_PROGRESS", "IDEMPOTENCY_KEY_REUSED", "IDEMPOTENCY_RECOVERY_REQUIRED",
+ * "IDENTITY_VERIFICATION_REQUIRED", "INSUFFICIENT_SCOPE", "INTERNAL_ERROR", "INVALID_CREDENTIAL",
+ * "INVALID_REQUEST", "INVENTORY_INSUFFICIENT", "LIMIT_EXCEEDED", "LIMIT_REACHED",
+ * "MERCHANT_NOT_READY", "METHOD_NOT_ALLOWED", "OPERATION_IN_PROGRESS", "PAYMENT_ATTEMPT_ACTIVE",
+ * "PAYMENT_OPTION_UNAVAILABLE", "PAYMENT_PROCESSING_UNAVAILABLE", "PAYMENT_PROCESSOR_REJECTED",
+ * "PAYMENT_REVIEW_OPEN", "PROMOTION_DECLINED", "RATE_LIMIT_EXCEEDED", "REQUEST_BODY_TOO_LARGE",
+ * "REQUEST_CANCELED", "REQUEST_TIMEOUT", "RESOURCE_IN_USE", "RESOURCE_NOT_FOUND",
+ * "ROUTE_NOT_FOUND", "SERVICE_UNAVAILABLE", "UNSUPPORTED_CONTENT_TYPE", "VERSION_CONFLICT".
  */
-export type ErrorDetailCode = "REQUIRED" | "INVALID_VALUE" | "UNKNOWN_FIELD" | "NOT_ALLOWED" | (string & {});
+export type ErrorDetailCode = "REQUIRED"
+    | "INVALID_VALUE"
+    | "UNKNOWN_FIELD"
+    | "NOT_ALLOWED"
+    | "ACTION_NOT_ALLOWED"
+    | "ALREADY_EXISTS"
+    | "API_VERSION_RETIRED"
+    | "AUTHENTICATION_REQUIRED"
+    | "CONCURRENT_MODIFICATION"
+    | "CUSTOMER_EMAIL_REQUIRED"
+    | "DELIVERY_REQUOTE_REQUIRED"
+    | "EXTERNAL_SERVICE_ERROR"
+    | "FORBIDDEN"
+    | "GIFT_CARD_CHALLENGE_REQUIRED"
+    | "IDEMPOTENCY_KEY_IN_PROGRESS"
+    | "IDEMPOTENCY_KEY_REUSED"
+    | "IDEMPOTENCY_RECOVERY_REQUIRED"
+    | "IDENTITY_VERIFICATION_REQUIRED"
+    | "INSUFFICIENT_SCOPE"
+    | "INTERNAL_ERROR"
+    | "INVALID_CREDENTIAL"
+    | "INVALID_REQUEST"
+    | "INVENTORY_INSUFFICIENT"
+    | "LIMIT_EXCEEDED"
+    | "LIMIT_REACHED"
+    | "MERCHANT_NOT_READY"
+    | "METHOD_NOT_ALLOWED"
+    | "OPERATION_IN_PROGRESS"
+    | "PAYMENT_ATTEMPT_ACTIVE"
+    | "PAYMENT_OPTION_UNAVAILABLE"
+    | "PAYMENT_PROCESSING_UNAVAILABLE"
+    | "PAYMENT_PROCESSOR_REJECTED"
+    | "PAYMENT_REVIEW_OPEN"
+    | "PROMOTION_DECLINED"
+    | "RATE_LIMIT_EXCEEDED"
+    | "REQUEST_BODY_TOO_LARGE"
+    | "REQUEST_CANCELED"
+    | "REQUEST_TIMEOUT"
+    | "RESOURCE_IN_USE"
+    | "RESOURCE_NOT_FOUND"
+    | "ROUTE_NOT_FOUND"
+    | "SERVICE_UNAVAILABLE"
+    | "UNSUPPORTED_CONTENT_TYPE"
+    | "VERSION_CONFLICT"
+    | (string & {});
 /** An error response containing `ErrorObject`. */
 export type ErrorEnvelope = {
     /**
@@ -8637,15 +8657,15 @@ export type ExpandedPaymentIntentSummary = {
      * can change without a payment intent version change. Order legs list confirm when a single
      * leg can pay the order or an open attempt can continue it. Several unpaid legs, selected gift
      * cards, or automatic tax with a leg below the balance require pay_order instead. Invoice
-     * payments list only cancel; subscription payments list none. Order edit payments list confirm
-     * while awaiting payment details or action. A listed action can still be refused due to an
-     * open risk review, an order payment attempt, a closed order, or the merchant account. A
-     * managed_by_owner refusal names the owner and its command in remediation.next_actions. The
-     * merchant list is credential-independent. Checkout credentials receive that list filtered to
-     * confirm and cancel on their own session's intents, never capture. Customer sessions omit
-     * this field. New actions may be added. Always present with merchant credentials. [] enum:
-     * "confirm", "capture", "cancel". [] (Value): string. Value enum: "confirm", "capture",
-     * "cancel".
+     * payments list only cancel. An unused first-period subscription payment lists cancel once the
+     * subscription is canceled. Order edit payments list confirm while awaiting payment details or
+     * action. A listed action can still be refused due to an open risk review, an order payment
+     * attempt, a closed order, or the merchant account. A managed_by_owner refusal names the owner
+     * and its command in remediation.next_actions. The merchant list is credential-independent.
+     * Checkout credentials receive that list filtered to confirm and cancel on their own session's
+     * intents, never capture. Customer sessions omit this field. New actions may be added. Always
+     * present with merchant credentials. [] enum: "confirm", "capture", "cancel". [] (Value):
+     * string. Value enum: "confirm", "capture", "cancel".
      */
     "supported_actions"?: Array<"confirm" | "capture" | "cancel" | (string & {})>;
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
@@ -8765,27 +8785,28 @@ export type ExpandedPaymentIntentSummaryPreviousAttributes = {
      * can change without a payment intent version change. Order legs list confirm when a single
      * leg can pay the order or an open attempt can continue it. Several unpaid legs, selected gift
      * cards, or automatic tax with a leg below the balance require pay_order instead. Invoice
-     * payments list only cancel; subscription payments list none. Order edit payments list confirm
-     * while awaiting payment details or action. A listed action can still be refused due to an
-     * open risk review, an order payment attempt, a closed order, or the merchant account. A
-     * managed_by_owner refusal names the owner and its command in remediation.next_actions. The
-     * merchant list is credential-independent. Checkout credentials receive that list filtered to
-     * confirm and cancel on their own session's intents, never capture. Customer sessions omit
-     * this field. New actions may be added. Always present with merchant credentials. [] enum:
-     * "confirm", "capture", "cancel". anyOf[1] (Value): Array of string. Verbs this payment intent
-     * accepts now, each a POST to /v1/payment-intents/{payment_intent_id}/{action}. The list
-     * includes stored order facts and can change without a payment intent version change. Order
-     * legs list confirm when a single leg can pay the order or an open attempt can continue it.
-     * Several unpaid legs, selected gift cards, or automatic tax with a leg below the balance
-     * require pay_order instead. Invoice payments list only cancel; subscription payments list
-     * none. Order edit payments list confirm while awaiting payment details or action. A listed
-     * action can still be refused due to an open risk review, an order payment attempt, a closed
-     * order, or the merchant account. A managed_by_owner refusal names the owner and its command
-     * in remediation.next_actions. The merchant list is credential-independent. Checkout
-     * credentials receive that list filtered to confirm and cancel on their own session's intents,
-     * never capture. Customer sessions omit this field. New actions may be added. Always present
-     * with merchant credentials. [] enum: "confirm", "capture", "cancel". anyOf[1][] (Value):
-     * string. Value enum: "confirm", "capture", "cancel". anyOf[2] (Value): null.
+     * payments list only cancel. An unused first-period subscription payment lists cancel once the
+     * subscription is canceled. Order edit payments list confirm while awaiting payment details or
+     * action. A listed action can still be refused due to an open risk review, an order payment
+     * attempt, a closed order, or the merchant account. A managed_by_owner refusal names the owner
+     * and its command in remediation.next_actions. The merchant list is credential-independent.
+     * Checkout credentials receive that list filtered to confirm and cancel on their own session's
+     * intents, never capture. Customer sessions omit this field. New actions may be added. Always
+     * present with merchant credentials. [] enum: "confirm", "capture", "cancel". anyOf[1]
+     * (Value): Array of string. Verbs this payment intent accepts now, each a POST to
+     * /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts and
+     * can change without a payment intent version change. Order legs list confirm when a single
+     * leg can pay the order or an open attempt can continue it. Several unpaid legs, selected gift
+     * cards, or automatic tax with a leg below the balance require pay_order instead. Invoice
+     * payments list only cancel. An unused first-period subscription payment lists cancel once the
+     * subscription is canceled. Order edit payments list confirm while awaiting payment details or
+     * action. A listed action can still be refused due to an open risk review, an order payment
+     * attempt, a closed order, or the merchant account. A managed_by_owner refusal names the owner
+     * and its command in remediation.next_actions. The merchant list is credential-independent.
+     * Checkout credentials receive that list filtered to confirm and cancel on their own session's
+     * intents, never capture. Customer sessions omit this field. New actions may be added. Always
+     * present with merchant credentials. [] enum: "confirm", "capture", "cancel". anyOf[1][]
+     * (Value): string. Value enum: "confirm", "capture", "cancel". anyOf[2] (Value): null.
      */
     "supported_actions"?: ((Array<"confirm" | "capture" | "cancel" | (string & {})>) | (null));
     /**
@@ -9605,8 +9626,8 @@ export type ExpandedSubscriptionPlanSummaryPreviousAttributes = {
  */
 export type ExpandedSubscriptionSummary = {
     /**
-     * UTC day of the month used for monthly and yearly billing. Applies only to Flint-owned
-     * schedules; 0 when no anchor day is set. Format: int32.
+     * Day of the month used for monthly and yearly billing in the subscription's billing timezone.
+     * Applies only to Flint-owned schedules; 0 when no anchor day is set. Format: int32.
      */
     "billing_anchor_day": number;
     /** True when the subscription is scheduled to cancel instead of renewing. */
@@ -9622,12 +9643,12 @@ export type ExpandedSubscriptionSummary = {
     /**
      * When Flint next starts a scheduled renewal charge, as an RFC3339 timestamp. Present only
      * while a trialing or active subscription has a billing date and isn't set to cancel at the
-     * end of its period. Absent when no renewal is scheduled: a paused subscription resumes at
-     * scheduled_resume_at, a past_due one reports the failed billing date in missed_billing_at and
-     * retries at next_retry_at, an incomplete one retries at next_retry_at, a scheduled start
-     * begins at starts_at, one set to cancel ends at scheduled_cancel_at, and an external schedule
-     * awaiting a date reports is_awaiting_billing_schedule. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
+     * end of its period. Absent when no renewal is scheduled: a subscription in its final billing
+     * cycle ends at expires_at, a paused subscription resumes at scheduled_resume_at, a past_due
+     * one reports the failed billing date in missed_billing_at and retries at next_retry_at, an
+     * incomplete one retries at next_retry_at, a scheduled start begins at starts_at, one set to
+     * cancel ends at scheduled_cancel_at, and an external schedule awaiting a date reports
+     * is_awaiting_billing_schedule. Format: date-time. Example: "2026-08-02T16:00:00Z".
      */
     "next_billing_at"?: string;
     /**

@@ -16,7 +16,7 @@ final class LicenseKeysResendInput extends Model {
      */
     public function getLicenseKeyId(): string { return $this->get('license_key_id'); }
     public function hasLicenseKeyId(): bool { return $this->has('license_key_id'); }
-    /** The request body for: Resend a license key.
+    /** The request body for: Resend a license key. Example: {}.
      * @return array{}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

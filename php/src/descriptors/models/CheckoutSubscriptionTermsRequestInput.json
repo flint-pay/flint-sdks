@@ -1,1 +1,1 @@
-{"shared":"CheckoutSubscriptionTermsRequest","dependencies":["CheckoutSubscriptionTermsRequest","SharedCodec232","SharedCodec233","SharedCodec313","SharedCodec314","SubscriptionPlanChangeLineItemRequest"]}
+{"shared":"CheckoutSubscriptionTermsRequest","dependencies":["CheckoutSubscriptionTermsRequest","SharedCodec232","SharedCodec233","SharedCodec314","SharedCodec315","SubscriptionPlanChangeLineItemRequest"]}

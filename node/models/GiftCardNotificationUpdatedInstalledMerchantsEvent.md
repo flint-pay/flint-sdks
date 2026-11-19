@@ -44,7 +44,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `delivery` | Optional | [GiftCardNotificationDeliveryPreviousAttributes](../models/GiftCardNotificationDeliveryPreviousAttributes.md#giftcardnotificationdeliverypreviousattributes) or null | Included on notification retrieval. Contains the most recent sending attempts and delivery events, newest first. A failed attempt describes the send call; use notification.status to determine whether acceptance remains unconfirmed. |
 | `gift_card_id` | Optional | string or null | ID of the gift card the notification is about. `gift_card_id`: [declared alternatives](../models/GiftCardNotificationUpdatedInstalledMerchantsEvent.md#giftcardnotificationupdatedinstalledmerchantseventdataprevious_attributesgift_card_id). |
 | `gift_card_notification_id` | Optional | string or null | Unique identifier for this gift card notification, prefixed `gcn_`. `gift_card_notification_id`: [declared alternatives](../models/GiftCardNotificationUpdatedInstalledMerchantsEvent.md#giftcardnotificationupdatedinstalledmerchantseventdataprevious_attributesgift_card_notification_id). |
-| `recipient` | Optional | [GiftCardPurchaseRecipientPreviousAttributes](../models/GiftCardPurchaseRecipientPreviousAttributes.md#giftcardpurchaserecipientpreviousattributes) or null | Who the notification is sent to. `recipient`: [declared alternatives](../models/GiftCardNotificationUpdatedInstalledMerchantsEvent.md#giftcardnotificationupdatedinstalledmerchantseventdataprevious_attributesrecipient). |
+| `recipient` | Optional | [GiftCardNotificationRecipientPreviousAttributes](../models/GiftCardNotificationRecipientPreviousAttributes.md#giftcardnotificationrecipientpreviousattributes) or null | Who the notification is sent to. |
 | `resend_of_notification_id` | Optional | string or null | ID of the earlier notification this one sends again. `resend_of_notification_id`: [declared alternatives](../models/GiftCardNotificationUpdatedInstalledMerchantsEvent.md#giftcardnotificationupdatedinstalledmerchantseventdataprevious_attributesresend_of_notification_id). |
 | `sent_at` | Optional | string or null | RFC3339 timestamp. `sent_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
 | `status` | Optional | string or null | Where sending the notification stands. Read `delivery` for the attempts and email events behind it. Values: `"scheduled"`, `"pending"`, `"sent"`, `"failed"`, `"unconfirmed"`, `"canceled"`. `status`: [declared alternatives](../models/GiftCardNotificationUpdatedInstalledMerchantsEvent.md#giftcardnotificationupdatedinstalledmerchantseventdataprevious_attributesstatus). |
@@ -84,86 +84,6 @@ anyOf variant 1: Unique identifier for this gift card notification, prefixed `gc
 anyOf variant 2.
 
 - Value shape: null. Unique identifier for this gift card notification, prefixed `gcn_`. 
-
-### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.recipient
-
-Who the notification is sent to.
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `email` | Conditional | string or null | Email address the notification is sent to. The local part before @ must be at most 64 octets (UTF-8 bytes). `email`: [declared alternatives](../models/GiftCardNotificationUpdatedInstalledMerchantsEvent.md#giftcardnotificationupdatedinstalledmerchantseventdataprevious_attributesrecipient-variant-1email). |
-| `message` | Conditional | string or null | Message included in the notification. `message`: [declared alternatives](../models/GiftCardNotificationUpdatedInstalledMerchantsEvent.md#giftcardnotificationupdatedinstalledmerchantseventdataprevious_attributesrecipient-variant-1message). |
-| `name` | Conditional | string or null | Name of the person the notification is addressed to. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. `name`: [declared alternatives](../models/GiftCardNotificationUpdatedInstalledMerchantsEvent.md#giftcardnotificationupdatedinstalledmerchantseventdataprevious_attributesrecipient-variant-1name). |
-| `send_at` | Conditional | string or null | Optional whole-second send time between now and 90 days from now. `send_at`: [declared alternatives](../models/GiftCardNotificationUpdatedInstalledMerchantsEvent.md#giftcardnotificationupdatedinstalledmerchantseventdataprevious_attributesrecipient-variant-1send_at). |
-
-### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.recipient variant 1
-
-anyOf GiftCardNotificationRecipientPreviousAttributes.
-
-- Optional: `email`, `message`, `name`, `send_at`.
-
-### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.recipient variant 2
-
-anyOf variant 2.
-
-- Undeclared: `email`, `message`, `name`, `send_at`.
-- Value shape: null. Who the notification is sent to. 
-
-### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.recipient variant 1.email
-
-### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.recipient variant 1.email variant 1
-
-anyOf variant 1: Email address the notification is sent to. The local part before @ must be at most 64 octets (UTF-8 bytes)..
-
-- Value shape: string. Email address the notification is sent to. The local part before @ must be at most 64 octets (UTF-8 bytes). Email address the notification is sent to. The local part before @ must be at most 64 octets (UTF-8 bytes). Format: `email`. minLength: `1`. maxLength: `254`. Example: `"buyer@example.com"`. 
-
-### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.recipient variant 1.email variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Email address the notification is sent to. The local part before @ must be at most 64 octets (UTF-8 bytes). 
-
-### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.recipient variant 1.message
-
-### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.recipient variant 1.message variant 1
-
-anyOf variant 1: Message included in the notification..
-
-- Value shape: string. Message included in the notification. Message included in the notification. minLength: `1`. maxLength: `200`. 
-
-### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.recipient variant 1.message variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Message included in the notification. 
-
-### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.recipient variant 1.name
-
-### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.recipient variant 1.name variant 1
-
-anyOf variant 1: Name of the person the notification is addressed to. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported..
-
-- Value shape: string. Name of the person the notification is addressed to. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. Name of the person the notification is addressed to. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `255`. 
-
-### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.recipient variant 1.name variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Name of the person the notification is addressed to. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. 
-
-### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.recipient variant 1.send_at
-
-### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.recipient variant 1.send_at variant 1
-
-anyOf variant 1: Optional whole-second send time between now and 90 days from now..
-
-- Value shape: string. Optional whole-second send time between now and 90 days from now. Optional whole-second send time between now and 90 days from now. Format: `date-time`. minLength: `1`. Example: `"2026-08-02T16:00:00Z"`. 
-
-### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.recipient variant 1.send_at variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Optional whole-second send time between now and 90 days from now. 
 
 ### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.resend_of_notification_id
 

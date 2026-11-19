@@ -20,7 +20,7 @@ Response model.
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
 | `failure_reason` | Optional | string | Why a refund failed or a payment refund was canceled. Failed and canceled amounts become refundable again, except a refund with reason payment_returned that failed with payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund. A payment_returned refund that failed with refund_abandoned can't be retried through Flint either: the money is in your balance. Flint hasn't repaid the buyer. Repay them another way if you haven't already. Fix the cause, then create a new refund with a new idempotency key. Unknown provider values are returned as refund_failed. Values: [11 declared values](BuyerPaymentRefundInput.md#buyerpaymentrefundinput-failure_reason-values). |
 | `gift_card_codes` | Optional | Array of ([RefundWithGiftCardCodesGiftCardCodesItem](../models/RefundWithGiftCardCodesGiftCardCodesItem.md#refundwithgiftcardcodesgiftcardcodesitem) and object) | New gift card codes recovered only within 24 hours of the original command and only while each code remains current. Omitted after the recovery window and never returned by ordinary refund reads or events. |
-| `idempotency_key` | Optional | string | The caller's Idempotency-Key when this refund was created, including refunds created by issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response. |
+| `idempotency_key` | Required | (string or null) or null | `idempotency_key`: [declared alternatives](../models/RefundWithGiftCardCodes.md#refundwithgiftcardcodesidempotency_key). |
 | `initiated_by` | Required | string | Who decided to make this refund: `merchant` for you or your integration, `flint` for a refund Flint made on its own to return a payment it couldn't accept. Unlike a Return's `initiated_by`, it doesn't say which credential asked. Read-only. Values: `"merchant"`, `"flint"`. |
 | `invoice_id` | Optional | string | ID of the invoice whose credit note this refund paid out. Present only on refunds issued through a credit note. |
 | `line_item_allocations` | Optional | Array of ([RefundWithGiftCardCodesLineItemAllocationsItem](../models/RefundWithGiftCardCodesLineItemAllocationsItem.md#refundwithgiftcardcodeslineitemallocationsitem) and [RefundLineItemAllocation](../models/RefundLineItemAllocation.md#refundlineitemallocation)) | How the refund applied to each order line item it covered, with quantity, tax, and adjustments. |
@@ -51,6 +51,20 @@ Response model.
 | `unissued_gift_card_recoveries` | Optional | Array of ([RefundWithGiftCardCodesUnissuedGiftCardRecoveriesItem](../models/RefundWithGiftCardCodesUnissuedGiftCardRecoveriesItem.md#refundwithgiftcardcodesunissuedgiftcardrecoveriesitem) and [RefundUnissuedGiftCardRecovery](../models/RefundUnissuedGiftCardRecovery.md#refundunissuedgiftcardrecovery)) | Cash returned after an unissued gift card purchase refund failed. Return it through a new refund against payment_intent_id and order_line_item_id. It does not issue another card. Source remaining and pending amounts describe the entire original settlement allocation; repeated entries for that source are not additive. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `version` | Required | integer | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. Format: `uint64`. minimum: `1`. |
+
+### RefundWithGiftCardCodes.idempotency_key
+
+### RefundWithGiftCardCodes.idempotency_key variant 1
+
+anyOf variant 1.
+
+- Value shape: (string or null). The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. 
+
+### RefundWithGiftCardCodes.idempotency_key variant 2
+
+anyOf variant 2.
+
+- Value shape: null.  
 
 ### RefundWithGiftCardCodes.metadata
 

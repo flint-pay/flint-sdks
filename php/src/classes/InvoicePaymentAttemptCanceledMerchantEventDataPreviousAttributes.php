@@ -7,6 +7,7 @@ namespace Flint;
  * @property-read string|null $checkout_session_id
  * @property-read MoneyValuePreviousAttributes|null $expected_amount_money
  * @property-read string|null $expires_at
+ * @property-read string|null $idempotency_key
  * @property-read string|null $invoice_id
  * @property-read string|null $invoice_payment_attempt_id
  * @property-read string|null $invoice_schedule_entry_id
@@ -20,7 +21,7 @@ namespace Flint;
  * @property-read string|null $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes extends Model {
-    /** @param array{'canceled_at'?: mixed, 'cancellation_requested_at'?: mixed, 'checkout_session_id'?: mixed, 'expected_amount_money'?: mixed, 'expires_at'?: mixed, 'invoice_id'?: mixed, 'invoice_payment_attempt_id'?: mixed, 'invoice_schedule_entry_id'?: mixed, 'last_payment_error'?: mixed, 'payment_intent_id'?: mixed, 'rail'?: mixed, 'settled_at'?: mixed, 'started_at'?: mixed, 'status'?: mixed, 'supported_actions'?: mixed, 'updated_at'?: mixed, ...}|object $values */
+    /** @param array{'canceled_at'?: mixed, 'cancellation_requested_at'?: mixed, 'checkout_session_id'?: mixed, 'expected_amount_money'?: mixed, 'expires_at'?: mixed, 'idempotency_key'?: mixed, 'invoice_id'?: mixed, 'invoice_payment_attempt_id'?: mixed, 'invoice_schedule_entry_id'?: mixed, 'last_payment_error'?: mixed, 'payment_intent_id'?: mixed, 'rail'?: mixed, 'settled_at'?: mixed, 'started_at'?: mixed, 'status'?: mixed, 'supported_actions'?: mixed, 'updated_at'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes')); }
     /** When the attempt was canceled. An attempt canceled with its checkout session before payment started may not have it. anyOf[1] (Value): string. When the attempt was canceled. An attempt canceled with its checkout session before payment started may not have it. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
@@ -47,6 +48,11 @@ final class InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes ext
      */
     public function getExpiresAt(): string|null { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
+    /** The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. Buyer sessions on routes shared with merchants get `null`. `/v1/me` responses do not include this field. anyOf[1] (Value): string. The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. Buyer sessions on routes shared with merchants get `null`. `/v1/me` responses do not include this field. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getIdempotencyKey(): string|null { return $this->get('idempotency_key'); }
+    public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
     /** The invoice this attempt collects. anyOf[1] (Value): string. The invoice this attempt collects. anyOf[2] (Value): null.
      * @return string|null
      */

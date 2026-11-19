@@ -16,6 +16,7 @@ namespace Flint;
  * @property-read string|null $dispatched_at
  * @property-read string|null $external_reference_id
  * @property-read string|null $fulfillment_id
+ * @property-read string|null $idempotency_key
  * @property-read list<FulfillmentLineItemPreviousAttributes>|null $line_items
  * @property-read DeliveryFulfillmentDetailsPreviousAttributes|null $local_delivery_details
  * @property-read string|null $location_id
@@ -41,7 +42,7 @@ namespace Flint;
  * @property-read int|null $version
  * Presence-aware response; omitted optional fields return null. */
 final class FulfillmentFailedInstalledMerchantsEventDataPreviousAttributes extends Model {
-    /** @param array{'active_hold'?: mixed, 'charges'?: mixed, 'completed_at'?: mixed, 'created_at'?: mixed, 'customer_id'?: mixed, 'delivery_choice_group_id'?: mixed, 'delivery_execution_leg_id'?: mixed, 'delivery_method_id'?: mixed, 'delivery_selection_id'?: mixed, 'device_id'?: mixed, 'digital_details'?: mixed, 'dispatched_at'?: mixed, 'external_reference_id'?: mixed, 'fulfillment_id'?: mixed, 'line_items'?: mixed, 'local_delivery_details'?: mixed, 'location_id'?: mixed, 'metadata'?: mixed, 'order'?: mixed, 'order_id'?: mixed, 'order_number'?: mixed, 'outcome'?: mixed, 'packages'?: mixed, 'packed_at'?: mixed, 'picked_at'?: mixed, 'pickup_details'?: mixed, 'recipient'?: mixed, 'scheduled_start_at'?: mixed, 'service_details'?: mixed, 'shipment_details'?: mixed, 'shipments'?: mixed, 'status'?: mixed, 'supported_actions'?: mixed, 'terminal_at'?: mixed, 'type'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, ...}|object $values */
+    /** @param array{'active_hold'?: mixed, 'charges'?: mixed, 'completed_at'?: mixed, 'created_at'?: mixed, 'customer_id'?: mixed, 'delivery_choice_group_id'?: mixed, 'delivery_execution_leg_id'?: mixed, 'delivery_method_id'?: mixed, 'delivery_selection_id'?: mixed, 'device_id'?: mixed, 'digital_details'?: mixed, 'dispatched_at'?: mixed, 'external_reference_id'?: mixed, 'fulfillment_id'?: mixed, 'idempotency_key'?: mixed, 'line_items'?: mixed, 'local_delivery_details'?: mixed, 'location_id'?: mixed, 'metadata'?: mixed, 'order'?: mixed, 'order_id'?: mixed, 'order_number'?: mixed, 'outcome'?: mixed, 'packages'?: mixed, 'packed_at'?: mixed, 'picked_at'?: mixed, 'pickup_details'?: mixed, 'recipient'?: mixed, 'scheduled_start_at'?: mixed, 'service_details'?: mixed, 'shipment_details'?: mixed, 'shipments'?: mixed, 'status'?: mixed, 'supported_actions'?: mixed, 'terminal_at'?: mixed, 'type'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FulfillmentFailedInstalledMerchantsEventDataPreviousAttributes')); }
     /** Current hold details. Present exactly when status is on_hold. anyOf[1] (Value): {@see FulfillmentHoldPreviousAttributes}. anyOf[2] (Value): null.
      * @return FulfillmentHoldPreviousAttributes|null
@@ -53,7 +54,7 @@ final class FulfillmentFailedInstalledMerchantsEventDataPreviousAttributes exten
      */
     public function getCharges(): array|null { return $this->get('charges'); }
     public function hasCharges(): bool { return $this->has('charges'); }
-    /** When the fulfillment was completed. Mirrors the completion time for its type: delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at for pickup, and service_details.completed_at for service fulfillments. Omitted until a completion time is recorded. anyOf[1] (Value): string. When the fulfillment was completed. Mirrors the completion time for its type: delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at for pickup, and service_details.completed_at for service fulfillments. Omitted until a completion time is recorded. Format: date-time. anyOf[2] (Value): null.
+    /** When the fulfillment was completed. Mirrors the completion time for its type: delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at for pickup, service_details.completed_at for service fulfillments, and the order's paid_at for handovers completed at payment. Omitted until a completion time is recorded. anyOf[1] (Value): string. When the fulfillment was completed. Mirrors the completion time for its type: delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at for pickup, service_details.completed_at for service fulfillments, and the order's paid_at for handovers completed at payment. Omitted until a completion time is recorded. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getCompletedAt(): string|null { return $this->get('completed_at'); }
@@ -113,6 +114,11 @@ final class FulfillmentFailedInstalledMerchantsEventDataPreviousAttributes exten
      */
     public function getFulfillmentId(): string|null { return $this->get('fulfillment_id'); }
     public function hasFulfillmentId(): bool { return $this->has('fulfillment_id'); }
+    /** The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. Buyer sessions on routes shared with merchants get `null`. `/v1/me` responses do not include this field. anyOf[1] (Value): string. The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. Buyer sessions on routes shared with merchants get `null`. `/v1/me` responses do not include this field. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getIdempotencyKey(): string|null { return $this->get('idempotency_key'); }
+    public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
     /** Order lines and quantities allocated to this fulfillment. anyOf[1] (Value): Array of {@see FulfillmentLineItemPreviousAttributes}. Order lines and quantities allocated to this fulfillment. anyOf[1][] (Value): {@see FulfillmentLineItemPreviousAttributes}. anyOf[2] (Value): null.
      * @return list<FulfillmentLineItemPreviousAttributes>|null
      */

@@ -60,6 +60,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `supported_actions` | Optional | Array of string or null | Actions currently offered for this ticket. Items values: `"check_in"`, `"undo_check_in"`, `"void"`. `supported_actions`: [declared alternatives](../models/TicketCheckedInInstalledMerchantsEvent.md#ticketcheckedininstalledmerchantseventdataprevious_attributessupported_actions). |
 | `ticket_id` | Optional | string or null | Unique ticket identity with the tkt_ prefix. `ticket_id`: [declared alternatives](../models/TicketCheckedInInstalledMerchantsEvent.md#ticketcheckedininstalledmerchantseventdataprevious_attributesticket_id). |
 | `ticket_number` | Optional | string or null | The event prefix and sequence, such as GAL001. Numbers are never reused and do not authorize entry. `ticket_number`: [declared alternatives](../models/TicketCheckedInInstalledMerchantsEvent.md#ticketcheckedininstalledmerchantseventdataprevious_attributesticket_number). |
+| `tier_name` | Optional | string or null | Name of the ticket tier on the purchased order line. `tier_name`: [declared alternatives](../models/TicketCheckedInInstalledMerchantsEvent.md#ticketcheckedininstalledmerchantseventdataprevious_attributestier_name). |
 | `updated_at` | Optional | string or null | When the ticket last changed. `updated_at`: [declared alternatives](../models/TicketCheckedInInstalledMerchantsEvent.md#ticketcheckedininstalledmerchantseventdataprevious_attributesupdated_at). |
 | `version` | Optional | integer or null | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. `version`: [declared alternatives](../models/BuyerExpandedPaymentIntentSummaryPreviousAttributes.md#buyerexpandedpaymentintentsummarypreviousattributesversion). |
 | `voided_at` | Optional | string or null | When the ticket was permanently voided. Null when the ticket has not been voided. `voided_at`: [declared alternatives](../models/TicketCheckedInInstalledMerchantsEvent.md#ticketcheckedininstalledmerchantseventdataprevious_attributesvoided_at). |
@@ -235,6 +236,20 @@ anyOf variant 1: The event prefix and sequence, such as GAL001. Numbers are neve
 anyOf variant 2.
 
 - Value shape: null. The event prefix and sequence, such as GAL001. Numbers are never reused and do not authorize entry. 
+
+### TicketCheckedInInstalledMerchantsEvent.data.previous_attributes.tier_name
+
+### TicketCheckedInInstalledMerchantsEvent.data.previous_attributes.tier_name variant 1
+
+anyOf variant 1: Name of the ticket tier on the purchased order line..
+
+- Value shape: string. Name of the ticket tier on the purchased order line. 
+
+### TicketCheckedInInstalledMerchantsEvent.data.previous_attributes.tier_name variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Name of the ticket tier on the purchased order line. 
 
 ### TicketCheckedInInstalledMerchantsEvent.data.previous_attributes.updated_at
 

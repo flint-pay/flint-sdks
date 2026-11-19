@@ -48,6 +48,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `customer_id` | Optional | string or null | ID of the customer associated with the card. `null` when no customer is associated. `customer_id`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEvent.md#giftcardupdatedinstalledmerchantseventdataprevious_attributescustomer_id). |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. `null` when none is set. `external_reference_id`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEvent.md#giftcardupdatedinstalledmerchantseventdataprevious_attributesexternal_reference_id). |
 | `gift_card_id` | Optional | string or null | Unique identifier for this gift card, prefixed `gc_`. `gift_card_id`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEvent.md#giftcardupdatedinstalledmerchantseventdataprevious_attributesgift_card_id). |
+| `idempotency_key` | Optional | string or null | The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. `idempotency_key`: [declared alternatives](../models/CreditNoteAllocationReversedInstalledMerchantsEvent.md#creditnoteallocationreversedinstalledmerchantseventdataprevious_attributesidempotency_key). |
 | `last_loaded_at` | Optional | string or null | RFC3339 timestamp. `null` when no value has been loaded onto the card. `last_loaded_at`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEvent.md#giftcardupdatedinstalledmerchantseventdataprevious_attributeslast_loaded_at). |
 | `last_redeemed_at` | Optional | string or null | RFC3339 timestamp. `null` when the card has never been redeemed. `last_redeemed_at`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEvent.md#giftcardupdatedinstalledmerchantseventdataprevious_attributeslast_redeemed_at). |
 | `last4` | Optional | string or null | Last four characters of the card's current code. `last4`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEvent.md#giftcardupdatedinstalledmerchantseventdataprevious_attributeslast4). |
@@ -186,6 +187,10 @@ anyOf variant 1: Unique identifier for this gift card, prefixed `gc_`..
 anyOf variant 2.
 
 - Value shape: null. Unique identifier for this gift card, prefixed `gc_`. 
+
+### GiftCardUpdatedInstalledMerchantsEvent.data.previous_attributes.idempotency_key
+
+Declared alternatives: [CreditNoteAllocationReversedInstalledMerchantsEvent.data.previous_attributes.idempotency_key](../models/CreditNoteAllocationReversedInstalledMerchantsEvent.md#creditnoteallocationreversedinstalledmerchantseventdataprevious_attributesidempotency_key).
 
 ### GiftCardUpdatedInstalledMerchantsEvent.data.previous_attributes.last_loaded_at
 

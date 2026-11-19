@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# PromotionListResponseInput to RefundGiftCardCodeInput
+# PromotionPercentOffMethodInput to RefundGiftCardDestinationInput
 
-- [PromotionListResponseInput](PromotionListResponseInput.md)
 - [PromotionPercentOffMethodInput](PromotionPercentOffMethodInput.md)
 - [PromotionPercentOffMethodPreviousAttributesInput](PromotionPercentOffMethodPreviousAttributesInput.md)
 - [PromotionPercentOffMethodRequestInput](PromotionPercentOffMethodRequestInput.md)
@@ -102,4 +101,5 @@
 - [RefundFailedInstalledMerchantsEventInput](RefundFailedInstalledMerchantsEventInput.md)
 - [RefundFailedMerchantEventInput](RefundFailedMerchantEventInput.md)
 - [RefundGiftCardCodeInput](RefundGiftCardCodeInput.md)
+- [RefundGiftCardDestinationInput](RefundGiftCardDestinationInput.md)
 

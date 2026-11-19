@@ -34,7 +34,7 @@ Body model: [CreatePaymentLinkRequestInput](../models/CreatePaymentLinkRequest.m
 | `donation_max_amount_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Largest amount a buyer can give on a donation link. Must be greater than zero and greater than or equal to donation_min_amount_money. Omit on create for no maximum. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `donation_min_amount_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Smallest amount a buyer can give on a donation link. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `donation_suggested_amount_money_options` | Optional | Array of [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Amounts a donation link offers as one-tap choices. |
-| `event_config` | Optional | [PaymentLinkEventConfigRequestInput](../models/PaymentLinkEventConfigRequestInput.md#paymentlinkeventconfigrequestinput) | Event details for an `event` link: when and where it takes place and how many tickets it sells. Event settings you supply when creating an event payment link. |
+| `event_config` | Optional | [PaymentLinkEventConfigRequestInput](../models/PaymentLinkEventConfigRequest.md#paymentlinkeventconfigrequest) | Event details for an `event` link: when and where it takes place and how many tickets it sells. Event settings you supply when creating an event payment link. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `image` | Optional | [ImageRequestInput](../models/ImageRequest.md#imagerequest) | Image shown to buyers with the link. An image you supply by `source_url`, with optional `alt` text and external reference. |
 | `inactive_message` | Optional | string | Message to show the buyer when the link is inactive. minLength: `1`. maxLength: `500`. |
@@ -49,6 +49,7 @@ Body model: [CreatePaymentLinkRequestInput](../models/CreatePaymentLinkRequest.m
 | `promotion_config` | Optional | [CheckoutPromotionConfigRequestInput](../models/CheckoutPromotionConfig.md#checkoutpromotionconfig) | Whether automatic promotions apply to checkouts started from this link and whether buyers can enter promotion codes. Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes. |
 | `redirects` | Optional | [CheckoutRedirectsRequestInput](../models/CheckoutRedirectsRequestInput.md#checkoutredirectsrequestinput) | Where checkout sessions started from this payment link send the buyer after payment, cancellation, or expiration. Where hosted checkout sends the buyer. Not allowed when surface is headless; use payment_return_url. |
 | `sales_end_at` | Optional | string | RFC3339 timestamp after which the link stops starting checkouts and resolve fails with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on their own, except that an event link without sales_end_at stops selling at event_config.event_at. A checkout opened before the end can still start payment for up to 15 minutes after it. Format: `date-time`. minLength: `1`. |
+| `sales_start_at` | Optional | string | RFC3339 timestamp when buyers can first start a checkout from this link. Stored to nanosecond precision. Before it, resolve fails with ACTION_NOT_ALLOWED and reason sales_not_started. Must be earlier than the link’s sales end, including the event start when no explicit end is set. Format: `date-time`. minLength: `1`. |
 | `subscription_plan_id` | Optional | string | ID of the subscription plan the link sells. The plan must be active. Omit it for a link that doesn't sell a subscription. It can't be changed after the link is created. minLength: `1`. |
 | `tax` | Optional | [CheckoutTaxConfigRequestInput](../models/CheckoutTaxConfigRequestInput.md#checkouttaxconfigrequestinput) | Tax settings for checkouts started from this link. Whether tax is collected for a checkout session or payment link. |
 | `theme` | Optional | [PaymentLinkThemeConfigInput](../models/PaymentLinkThemeConfigInput.md#paymentlinkthemeconfiginput) | The title and colors for checkouts started from this link, over your branding settings. Theme settings for a payment link's checkout: accent color, primary color, and title. |
@@ -283,6 +284,7 @@ Signature: `resolve(payment_link_id: InputValue<string>, params: PaymentLinksRes
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `payment_link_id` | Required | string | Flint payment link ID. Must be a valid ID with prefix pl_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
+| `include_checkout` | Optional | boolean | Include the buyer checkout read fields when a new hosted session is created. Replays return the launch fields. |
 | `body` | Required | [ResolvePaymentLinkRequestInput](../models/ResolvePaymentLinkRequest.md#resolvepaymentlinkrequest) | The request body for: Resolve payment link. |
 
 Body model: [ResolvePaymentLinkRequestInput](../models/ResolvePaymentLinkRequest.md#resolvepaymentlinkrequest).
@@ -304,7 +306,7 @@ Body model: [ResolvePaymentLinkRequestInput](../models/ResolvePaymentLinkRequest
 
 #### Response
 
-Returned payload: [BuyerCheckoutSessionWithSecret](../models/BuyerCheckoutSessionWithSecret.md#buyercheckoutsessionwithsecret).
+Returned payload: [ResolvedPaymentLinkCheckout](../models/ResolvedPaymentLinkCheckout.md#resolvedpaymentlinkcheckout).
 
 #### Errors
 
@@ -394,6 +396,7 @@ Body model: [UpdatePaymentLinkRequestInput](../models/UpdatePaymentLinkRequest.m
 | `promotion_config` | Optional | [CheckoutPromotionConfigRequestInput](../models/CheckoutPromotionConfig.md#checkoutpromotionconfig) | Whether automatic promotions apply to checkouts started from this link and whether buyers can enter promotion codes. Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes. |
 | `redirects` | Optional | [PaymentLinkRedirectsPatchRequestInput](../models/PaymentLinkRedirectsPatchRequest.md#paymentlinkredirectspatchrequest) | Where checkout sessions started from this payment link send the buyer after payment, cancellation, or expiration. Changes to a payment link's hosted checkout destinations. Omit a URL to leave it unchanged, or send null to clear it. |
 | `sales_end_at` | Optional | string or null | RFC3339 timestamp after which the link stops starting checkouts and resolve fails with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on their own, except that an event link without sales_end_at stops selling at event_config.event_at. A checkout opened before the end can still start payment for up to 15 minutes after it. Send null to clear it. Format: `date-time`. minLength: `1`. |
+| `sales_start_at` | Optional | string or null | RFC3339 timestamp when buyers can first start a checkout from this link. Stored to nanosecond precision. Before it, resolve fails with ACTION_NOT_ALLOWED and reason sales_not_started. Must be earlier than the link’s sales end, including the event start when no explicit end is set. Send null to clear it. Format: `date-time`. minLength: `1`. |
 | `status` | Optional | string | Whether the link can start new checkouts. Values: `"active"`, `"inactive"`. |
 | `tax` | Optional | [CheckoutTaxConfigRequestInput](../models/CheckoutTaxConfigRequestInput.md#checkouttaxconfigrequestinput) | Tax settings for checkouts started from this link. Whether tax is collected for a checkout session or payment link. |
 | `theme` | Optional | [PaymentLinkThemePatchRequestInput](../models/PaymentLinkThemePatchRequest.md#paymentlinkthemepatchrequest) | The title and colors for checkouts started from this link, over your branding settings. Changes to a payment link's checkout theme. Send null on a field to clear it. |

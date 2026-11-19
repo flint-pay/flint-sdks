@@ -8,6 +8,7 @@ namespace Flint;
  * @property-read string|null $external_actor_id
  * @property-read string|null $external_reference_id
  * @property-read list<ReturnDispositionPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null $generated_dispositions
+ * @property-read string|null $idempotency_key
  * @property-read list<ReturnReceiptLineItemPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null $line_items
  * @property-read string|\DateTimeInterface|null $received_at
  * @property-read string|null $receiving_location_id
@@ -23,7 +24,7 @@ namespace Flint;
  * @property-read int|null $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnReceiptPreviousAttributesInput extends Model {
-    /** @param array{'correction_reason'?: string|null, 'correction_reason_message'?: string|null, 'created_at'?: string|\DateTimeInterface|null, 'external_actor_id'?: string|null, 'external_reference_id'?: string|null, 'generated_dispositions'?: list<ReturnDispositionPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'line_items'?: list<ReturnReceiptLineItemPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'received_at'?: string|\DateTimeInterface|null, 'receiving_location_id'?: string|null, 'return_id'?: string|null, 'return_receipt_id'?: string|null, 'shipment_id'?: string|null, 'source_system'?: ReturnSourceSystemPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'status'?: string|null, 'superseded_at'?: string|\DateTimeInterface|null, 'superseded_by_return_receipt_id'?: string|null, 'supersedes_return_receipt_id'?: string|null, 'updated_at'?: string|\DateTimeInterface|null, 'version'?: int|null, ...}|object $values */
+    /** @param array{'correction_reason'?: string|null, 'correction_reason_message'?: string|null, 'created_at'?: string|\DateTimeInterface|null, 'external_actor_id'?: string|null, 'external_reference_id'?: string|null, 'generated_dispositions'?: list<ReturnDispositionPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'idempotency_key'?: string|null, 'line_items'?: list<ReturnReceiptLineItemPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'received_at'?: string|\DateTimeInterface|null, 'receiving_location_id'?: string|null, 'return_id'?: string|null, 'return_receipt_id'?: string|null, 'shipment_id'?: string|null, 'source_system'?: ReturnSourceSystemPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'status'?: string|null, 'superseded_at'?: string|\DateTimeInterface|null, 'superseded_by_return_receipt_id'?: string|null, 'supersedes_return_receipt_id'?: string|null, 'updated_at'?: string|\DateTimeInterface|null, 'version'?: int|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnReceiptPreviousAttributesInput')); }
     /** Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation", "source_correction", "reconciliation_correction", "other". anyOf[1] (Value): string. Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation", "source_correction", "reconciliation_correction", "other". anyOf[2] (Value): null.
      * @return string|null
@@ -61,6 +62,12 @@ final class ReturnReceiptPreviousAttributesInput extends Model {
      */
     public function getGeneratedDispositions(): mixed { return $this->get('generated_dispositions'); }
     public function hasGeneratedDispositions(): bool { return $this->has('generated_dispositions'); }
+    /** The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. anyOf[1] (Value): string. The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. anyOf[2] (Value): null.
+     * @return string|null
+     * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
+     */
+    public function getIdempotencyKey(): mixed { return $this->get('idempotency_key'); }
+    public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
     /** The lines recorded. anyOf[1] (Value): Array of {@see ReturnReceiptLineItemPreviousAttributesInput}. The lines recorded. anyOf[1][] (Value): {@see ReturnReceiptLineItemPreviousAttributesInput}. anyOf[2] (Value): null.
      * @return list<ReturnReceiptLineItemPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null
      * @throws SdkError When line_items is omitted; use hasLineItems() or valueOrDefault().

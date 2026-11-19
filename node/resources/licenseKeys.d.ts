@@ -1,8 +1,9 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
 import type { LicenseKey } from '../declarations/types-38.js';
-import type { LicenseKeyListResponse, LicenseKeyResponse, LicenseKeyValidation } from '../declarations/types-39.js';
+import type { LicenseKeyListResponse, LicenseKeyResponse } from '../declarations/types-39.js';
 import type {
+    LicenseKeyValidation,
     LicenseKeyValidationResponse,
     LicenseKeyWithKey,
     LicenseKeyWithKeyResponse,
@@ -17,8 +18,8 @@ import type {
     LicenseKeysUpdateParams,
     LicenseKeysValidateParams
 } from '../declarations/types-40.js';
-import type { RequestOptions } from '../declarations/types-61.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { RequestOptions } from '../declarations/types-62.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -46,15 +47,16 @@ export type {
     LicenseKeysRotateKeyParams,
     LicenseKeysUpdateParams,
     LicenseKeysValidateParams,
+    LicenseKeyValidation,
     LicenseKeyValidationResponse,
     LookupLicenseKeyRequestInput,
     LicenseKeyVersionRequestInput,
     LookupLicenseKeyRequest
 } from '../declarations/types-40.js';
-export type { RequestOptions, ResendLicenseKeyRequestInput } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference, ResendLicenseKeyRequestInput } from '../declarations/types-62.js';
 export type { LicenseKey, LicenseKeyActivation } from '../declarations/types-38.js';
-export type { LicenseKeyResponse, LicenseKeyListResponse, LicenseKeyValidation, LicenseKeyRestriction } from '../declarations/types-39.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { LicenseKeyResponse, LicenseKeyListResponse, LicenseKeyRestriction } from '../declarations/types-39.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { DisableLicenseKeyRequestInput } from '../declarations/types-25.js';
 export type { AuthMode } from '../declarations/types-1.js';
@@ -67,16 +69,19 @@ export type { PricingAmounts } from '../declarations/types-56.js';
 export type { MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { OrderSettlementAmounts } from '../declarations/types-47.js';
 export type { SettlementAmounts } from '../declarations/types-68.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { RevealLicenseKeyRequestInput } from '../declarations/types-66.js';
 export type { UpdateLicenseKeyRequestInput } from '../declarations/types-76.js';
 export type { ValidateLicenseKeyRequestInput, ValidateLicenseKeyRequest } from '../declarations/types-78.js';
 export { makeDisableLicenseKeyRequest } from '../declarations/types-86.js';
-export { makeLicenseKeyVersionRequest, makeLookupLicenseKeyRequest } from '../declarations/types-87.js';
-export { makeMetadataPatchRequest, makeMoneyValue } from '../declarations/types-88.js';
-export { makeResendLicenseKeyRequest } from '../declarations/types-90.js';
-export { makeRevealLicenseKeyRequest } from '../declarations/types-91.js';
+export {
+    makeLicenseKeyVersionRequest,
+    makeLookupLicenseKeyRequest,
+    makeMetadataPatchRequest,
+    makeMoneyValue
+} from '../declarations/types-88.js';
+export { makeResendLicenseKeyRequest } from '../declarations/types-91.js';
+export { makeRevealLicenseKeyRequest } from '../declarations/types-92.js';
 export { makeUpdateLicenseKeyRequest } from '../declarations/types-93.js';
 export { makeValidateLicenseKeyRequest } from '../declarations/types-94.js';
 export interface LicenseKeysResource {

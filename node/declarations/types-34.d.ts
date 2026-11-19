@@ -10,7 +10,6 @@ import type {
 import type { ResourceType, ResponseMeta } from './types-62.js';
 import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
-import type { InventoryTransfer } from './types-33.js';
 import type { InventoryLevel } from './types-32.js';
 import type { InputValue } from '../runtime.js';
 import type { CancelInventoryTransferRequestInput } from './types-5.js';
@@ -21,7 +20,7 @@ import type { ReportInventoryTransferLossRequestInput } from './types-61.js';
 import type { ReturnInventoryTransferToOriginRequestInput } from './types-63.js';
 import type { UpdateInventoryTransferRequestInput } from './types-76.js';
 import type { Address, AddressPreviousAttributes } from './types-0.js';
-import type { InvoiceLateFee, InvoiceLateFeePreviousAttributes } from './types-35.js';
+import type { InvoiceLateFee, InvoiceCollectionPreviousAttributes, InvoiceLateFeePreviousAttributes } from './types-35.js';
 import type {
     InvoicePaymentDue,
     InvoicePaymentPolicy,
@@ -29,21 +28,112 @@ import type {
     InvoicePaymentDuePreviousAttributes,
     InvoicePaymentPolicyRequestInput
 } from './types-36.js';
-import type {
-    InvoicePaymentTermsSnapshot,
-    InvoiceScheduleEntry,
-    InvoicePaymentTermsSnapshotPreviousAttributes,
-    InvoiceScheduleEntryPreviousAttributes
-} from './types-37.js';
+import type { InvoicePaymentTermsSnapshot, InvoiceScheduleEntry, InvoicePaymentTermsSnapshotPreviousAttributes } from './types-37.js';
 import type {
     InvoiceSettlementAmounts,
     InvoiceSnapshot,
+    InvoiceScheduleEntryPreviousAttributes,
     InvoiceSettlementAmountsPreviousAttributes,
     InvoiceSnapshotPreviousAttributes
 } from './types-38.js';
 import type { PricingAmounts, PricingAmountsPreviousAttributes } from './types-56.js';
 import type { MoneyValue } from './types-44.js';
 import type { WebhookInvoice } from './types-79.js';
+/**
+ * The source system you report for an inventory event, such as manual, pos, wms, erp, or other,
+ * with your identifier when it applies.
+ */
+export type InventorySourceSystemRequestInput = ({
+    /**
+     * Your source system's identifier. Required when type is pos, wms, erp, or other; not allowed
+     * when type is manual. Don't put secrets in this field. minLength: 1. maxLength: 255. Example:
+     * "warehouse-1842".
+     */
+    "external_source_id"?: string;
+    /**
+     * Source of the event: manual for a manual entry, pos for a point of sale, wms for a warehouse
+     * management system, erp for an enterprise resource planning system, or other for another
+     * external system. Flint-authored events use flint in responses. Value enum: "manual", "pos",
+     * "wms", "erp", "other".
+     */
+    "type": "manual" | "pos" | "wms" | "erp" | "other";
+});
+/** Stock moving between locations. */
+export type InventoryTransfer = {
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "closed_at"?: string;
+    /**
+     * How the transfer ended. `null` when the transfer isn't closed. Value enum: "received",
+     * "canceled", "received_with_cancellation", "returned", "lost", "mixed", null.
+     */
+    "closed_reason"?: "received"
+        | "canceled"
+        | "received_with_cancellation"
+        | "returned"
+        | "lost"
+        | "mixed"
+        | null
+        | (string & {})
+        | null;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "departed_at"?: string;
+    /** ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
+    "destination_location_id": string;
+    /**
+     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * The Idempotency-Key of the request that created this resource. `null` when that request sent
+     * no key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource.
+     */
+    "idempotency_key": string | null;
+    /**
+     * Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
+     * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+     */
+    "inventory_transfer_id": string;
+    /**
+     * Owned collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH
+     * replaces the full collection. [] (Value): {@link InventoryTransferLine}. One line of an
+     * inventory transfer, with its quantities.
+     */
+    "lines": Array<InventoryTransferLine>;
+    /** Free-text note about the transfer. */
+    "note"?: string;
+    /** ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
+    "origin_location_id": string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "received_at"?: string;
+    /**
+     * Where the transfer stands, worked out from the quantities that have left the origin and have
+     * since been received, returned, or reported lost. Value enum: "draft", "in_transit",
+     * "partially_resolved", "closed".
+     */
+    "status": "draft" | "in_transit" | "partially_resolved" | "closed" | (string & {});
+    /**
+     * Actions that can change this transfer now. `depart` and `cancel` need units that haven't
+     * left the origin. `receive`, `return_to_origin`, and `report_loss` need units in transit.
+     * Empty once the transfer is closed. [] enum: "depart", "receive", "return_to_origin",
+     * "report_loss", "cancel". [] (Value): string. Value enum: "depart", "receive",
+     * "return_to_origin", "report_loss", "cancel".
+     */
+    "supported_actions": Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. Format: uint64. minimum: 1.
+     */
+    "version": number;
+};
 /**
  * The inventory transfer state, version, and supported actions for a refused action. One specific
  * failure within an error, with a `code` and `message` plus fields that depend on the code, such
@@ -137,50 +227,51 @@ export type InventoryTransferActionConflictErrorDetail = (Exclude<ErrorDetail & 
      * previous_refund_failed, provider_action_unsupported, quantity_not_carried, reader_offline,
      * reader_type_not_supported, reader_unavailable, reconciliation_required, refund_created,
      * refund_unavailable, refund_window_expired, restricted, return_checkout, return_owned,
-     * return_tax_mismatch, sandbox_reset_failed, secret_not_issued, seller_not_ready,
-     * simulated_reader_required, status_not_reached, stock_at_risk, store_credit_unavailable,
-     * subscription_owned, subscription_terms_locked, terminal_status, test_event,
-     * trial_in_progress, unsupported_state, variant_not_targeted, verification_required. When code
-     * is ALREADY_EXISTS, one of: dashboard_sign_in_required, device_reader_already_exists,
-     * hardware_fingerprint_already_exists. When code is CONCURRENT_MODIFICATION, one of:
-     * credit_note_refund_retry_exhausted. When code is DELIVERY_REQUOTE_REQUIRED, one of:
-     * calculation_expired, caller_rates_required, destination_changed, input_required,
-     * option_expired, quote_expired, quote_revoked, quote_stale, selection_changed,
-     * selection_expired, window_expired. When code is EXTERNAL_SERVICE_ERROR, one of:
-     * issuer_unavailable, outcome_unknown, rate_callback_failed, rate_unavailable,
-     * tax_callback_failed. When code is FORBIDDEN, one of: checkout_launch_token_restricted,
-     * checkout_recovery_attempt_mismatch, checkout_recovery_restricted,
-     * checkout_session_order_mismatch, checkout_session_payment_required, context_mismatch,
-     * demo_session_route_not_allowed, direct_owner_required, environment_grant_required,
-     * environment_mismatch, expansion_not_permitted, full_access_required, linked_key_not_allowed,
-     * live_mode_required, merchant_access_required, merchant_credential_required,
-     * merchant_role_insufficient, not_checkout_session, not_permitted,
-     * organization_membership_required, organization_role_insufficient, owner_workflow_required,
-     * request_blocked, role_not_assignable, sandbox_not_accessible, sandbox_selection_forbidden,
+     * return_tax_mismatch, sales_not_started, sandbox_reset_failed, secret_not_issued,
+     * seller_not_ready, simulated_reader_required, status_not_reached, stock_at_risk,
+     * store_credit_unavailable, subscription_owned, subscription_terms_locked, terminal_status,
+     * test_event, trial_in_progress, unsupported_state, variant_not_targeted,
+     * verification_required. When code is ALREADY_EXISTS, one of: dashboard_sign_in_required,
+     * device_reader_already_exists, hardware_fingerprint_already_exists. When code is
+     * CONCURRENT_MODIFICATION, one of: credit_note_refund_retry_exhausted. When code is
+     * DELIVERY_REQUOTE_REQUIRED, one of: calculation_expired, caller_rates_required,
+     * destination_changed, input_required, option_expired, quote_expired, quote_revoked,
+     * quote_stale, selection_changed, selection_expired, window_expired. When code is
+     * EXTERNAL_SERVICE_ERROR, one of: issuer_unavailable, outcome_unknown, rate_callback_failed,
+     * rate_unavailable, tax_callback_failed. When code is FORBIDDEN, one of:
+     * checkout_launch_token_restricted, checkout_recovery_attempt_mismatch,
+     * checkout_recovery_restricted, checkout_session_order_mismatch,
+     * checkout_session_payment_required, context_mismatch, demo_session_route_not_allowed,
+     * direct_owner_required, environment_grant_required, environment_mismatch,
+     * expansion_not_permitted, full_access_required, linked_key_not_allowed, live_mode_required,
+     * merchant_access_required, merchant_credential_required, merchant_role_insufficient,
+     * not_checkout_session, not_permitted, organization_membership_required,
+     * organization_role_insufficient, owner_workflow_required, request_blocked,
+     * role_not_assignable, sandbox_not_accessible, sandbox_selection_forbidden,
      * self_role_edit_forbidden, test_mode_required. When code is GIFT_CARD_CHALLENGE_REQUIRED, one
      * of: page_origin_required, proof_rejected, proof_required. When code is
      * IDEMPOTENCY_KEY_REUSED, one of: transport_mismatch. When code is INSUFFICIENT_SCOPE, one of:
      * install_scope_not_granted, scope_not_granted, scope_not_held. When code is INTERNAL_ERROR,
      * one of: repair_required. When code is INVALID_CREDENTIAL, one of: expired, malformed,
      * mode_mismatch, revoked, session_ended, unknown, wrong_credential_type. When code is
-     * INVENTORY_INSUFFICIENT, one of: location_ineligible, location_limit. When code is
-     * LIMIT_EXCEEDED, one of: buyer_daily, card_balance, card_daily, insufficient_available_value,
-     * merchant_adjustments_daily, merchant_imports_daily, order_edit_balance_due. When code is
-     * LIMIT_REACHED, one of: active_readers, checkout_tax_calculations, consecutive_skips,
-     * customer_tax_exemptions, daily_demo_sessions, daily_gift_card_purchases,
-     * delivery_selection_replacements, enabled_risk_rules, external_paid_orders, image_storage,
-     * license_key_activations, merchant_signups, monthly_tax_calculations, owned_merchants,
-     * partner_app_credentials, partner_app_install_links, payment_intents_per_order,
-     * payment_link_completions, payment_retries_per_period, pending_reports, price_list_prices,
-     * product_variants, receipt_recipients, saved_card_codes, test_clock_subscriptions,
-     * verification_attempts, verification_codes, webhook_event_streams,
-     * webhook_listener_signatures_daily, workload_identities. When code is MERCHANT_NOT_READY, one
-     * of: account_sessions_unavailable, account_setup_repair_required, account_setup_unavailable,
-     * billing_suspended, business_address_required, capability_blocked, capability_not_requested,
-     * capability_pending, capability_unavailable, default_environment_required,
-     * disabled_by_merchant_settings, disabled_by_platform_policy,
-     * merchant_account_action_required, merchant_payments_disabled, onboarding_required,
-     * payment_account_context_invalid, payment_account_setup_incomplete,
+     * INVENTORY_INSUFFICIENT, one of: backorder_limit_reached, location_ineligible,
+     * location_limit. When code is LIMIT_EXCEEDED, one of: buyer_daily, card_balance, card_daily,
+     * insufficient_available_value, merchant_adjustments_daily, merchant_imports_daily,
+     * order_edit_balance_due. When code is LIMIT_REACHED, one of: active_readers,
+     * checkout_tax_calculations, consecutive_skips, customer_tax_exemptions, daily_demo_sessions,
+     * daily_gift_card_purchases, delivery_selection_replacements, enabled_risk_rules,
+     * external_paid_orders, image_storage, license_key_activations, merchant_signups,
+     * monthly_tax_calculations, owned_merchants, partner_app_credentials,
+     * partner_app_install_links, payment_intents_per_order, payment_link_completions,
+     * payment_retries_per_period, pending_reports, price_list_prices, product_variants,
+     * receipt_recipients, saved_card_codes, test_clock_subscriptions, verification_attempts,
+     * verification_codes, webhook_event_streams, webhook_listener_signatures_daily,
+     * workload_identities. When code is MERCHANT_NOT_READY, one of: account_sessions_unavailable,
+     * account_setup_repair_required, account_setup_unavailable, billing_suspended,
+     * business_address_required, capability_blocked, capability_not_requested, capability_pending,
+     * capability_unavailable, default_environment_required, disabled_by_merchant_settings,
+     * disabled_by_platform_policy, merchant_account_action_required, merchant_payments_disabled,
+     * onboarding_required, payment_account_context_invalid, payment_account_setup_incomplete,
      * payment_option_access_not_provisioned, payment_option_activation_pending,
      * payment_option_not_available, payment_option_not_in_plan, payment_splits_unavailable,
      * platform_funding_unavailable, platform_review, pricing_amount_below_minimum,
@@ -202,28 +293,29 @@ export type InventoryTransferActionConflictErrorDetail = (Exclude<ErrorDetail & 
      * customer_mismatch, customer_required, exhausted, expired, inactive, max_promotions_reached,
      * minimum_not_met, no_discountable_balance, not_combinable, not_eligible, not_yet_started,
      * recurrence_completed, superseded, superseded_by_better_offer, superseded_by_higher_priority,
-     * unknown_type. When code is RESOURCE_IN_USE, one of: selected_by_active_variants,
-     * subscription_balance_due, subscription_payment_pending, subscription_renewal. When code is
-     * RESOURCE_NOT_FOUND, one of: email_missing, resource_in_different_environment. When code is
-     * SERVICE_UNAVAILABLE, one of: outcome_unknown, processor_unavailable, repair_required,
-     * template_not_configured. Additional reasons may be added. Value enum:
-     * "account_sessions_unavailable", "account_setup_repair_required",
-     * "account_setup_unavailable", "action_window_too_short", "active_readers",
-     * "advance_limit_exceeded", "already_applied", "amount_out_of_range", "archived",
-     * "authorization_expired", "automatic_disabled", "bank_return_not_contestable",
-     * "billing_suspended", "bounded_inventory_guarantee_not_supported",
-     * "business_address_required", "buy_item_missing", "buyer_daily", "calculation_expired",
-     * "caller_rates_required", "cancellation_scheduled", "capability_blocked",
-     * "capability_not_requested", "capability_pending", "capability_unavailable", "card_balance",
-     * "card_daily", "checkout_launch_token_restricted", "checkout_recovery_attempt_mismatch",
-     * "checkout_recovery_restricted", "checkout_session_order_mismatch",
-     * "checkout_session_payment_required", "checkout_tax_calculations",
-     * "choice_group_unavailable", "code_invalid", "code_required", "codes_disabled",
-     * "configuration_required", "confirmation_token_unusable", "consecutive_skips",
-     * "context_mismatch", "credit_exceeds_charge", "credit_note_refund_retry_exhausted",
-     * "credit_note_tax_reconciliation_required", "currency_mismatch",
-     * "customer_account_mode_conflict", "customer_limit_reached", "customer_mismatch",
-     * "customer_required", "customer_tax_exemptions", "daily_demo_sessions",
+     * unknown_type. When code is RATE_LIMIT_EXCEEDED, one of: card_payments_in_progress. When code
+     * is RESOURCE_IN_USE, one of: selected_by_active_variants, subscription_balance_due,
+     * subscription_payment_pending, subscription_renewal. When code is RESOURCE_NOT_FOUND, one of:
+     * email_missing, resource_in_different_environment. When code is SERVICE_UNAVAILABLE, one of:
+     * outcome_unknown, processor_unavailable, repair_required, template_not_configured. Additional
+     * reasons may be added. Value enum: "account_sessions_unavailable",
+     * "account_setup_repair_required", "account_setup_unavailable", "action_window_too_short",
+     * "active_readers", "advance_limit_exceeded", "already_applied", "amount_out_of_range",
+     * "archived", "authorization_expired", "automatic_disabled", "backorder_limit_reached",
+     * "bank_return_not_contestable", "billing_suspended",
+     * "bounded_inventory_guarantee_not_supported", "business_address_required",
+     * "buy_item_missing", "buyer_daily", "calculation_expired", "caller_rates_required",
+     * "cancellation_scheduled", "capability_blocked", "capability_not_requested",
+     * "capability_pending", "capability_unavailable", "card_balance", "card_daily",
+     * "card_payments_in_progress", "checkout_launch_token_restricted",
+     * "checkout_recovery_attempt_mismatch", "checkout_recovery_restricted",
+     * "checkout_session_order_mismatch", "checkout_session_payment_required",
+     * "checkout_tax_calculations", "choice_group_unavailable", "code_invalid", "code_required",
+     * "codes_disabled", "configuration_required", "confirmation_token_unusable",
+     * "consecutive_skips", "context_mismatch", "credit_exceeds_charge",
+     * "credit_note_refund_retry_exhausted", "credit_note_tax_reconciliation_required",
+     * "currency_mismatch", "customer_account_mode_conflict", "customer_limit_reached",
+     * "customer_mismatch", "customer_required", "customer_tax_exemptions", "daily_demo_sessions",
      * "daily_gift_card_purchases", "dashboard_sign_in_required", "default_environment_required",
      * "delivery_hold", "delivery_requirement_changes", "delivery_selection_materializing",
      * "delivery_selection_replacements", "demo_session_route_not_allowed", "dependency_revoked",
@@ -275,7 +367,7 @@ export type InventoryTransferActionConflictErrorDetail = (Exclude<ErrorDetail & 
      * "refund_window_expired", "repair_required", "request_blocked", "requirements_due",
      * "resource_in_different_environment", "restricted", "return_checkout", "return_owned",
      * "return_tax_mismatch", "revoked", "risk_action_unsupported", "role_not_assignable",
-     * "sandbox_not_accessible", "sandbox_reset_failed", "sandbox_resetting",
+     * "sales_not_started", "sandbox_not_accessible", "sandbox_reset_failed", "sandbox_resetting",
      * "sandbox_selection_forbidden", "saved_card_codes", "scope_not_granted", "scope_not_held",
      * "secret_not_issued", "selected_by_active_variants", "selection_changed",
      * "selection_expired", "self_role_edit_forbidden", "seller_not_ready", "session_ended",
@@ -302,6 +394,7 @@ export type InventoryTransferActionConflictErrorDetail = (Exclude<ErrorDetail & 
         | "archived"
         | "authorization_expired"
         | "automatic_disabled"
+        | "backorder_limit_reached"
         | "bank_return_not_contestable"
         | "billing_suspended"
         | "bounded_inventory_guarantee_not_supported"
@@ -317,6 +410,7 @@ export type InventoryTransferActionConflictErrorDetail = (Exclude<ErrorDetail & 
         | "capability_unavailable"
         | "card_balance"
         | "card_daily"
+        | "card_payments_in_progress"
         | "checkout_launch_token_restricted"
         | "checkout_recovery_attempt_mismatch"
         | "checkout_recovery_restricted"
@@ -513,6 +607,7 @@ export type InventoryTransferActionConflictErrorDetail = (Exclude<ErrorDetail & 
         | "revoked"
         | "risk_action_unsupported"
         | "role_not_assignable"
+        | "sales_not_started"
         | "sandbox_not_accessible"
         | "sandbox_reset_failed"
         | "sandbox_resetting"
@@ -627,7 +722,7 @@ export type InventoryTransferClosedEvent = ((((Exclude<MerchantWebhookEnvelope &
             "departed_at"?: string;
             "destination_location_id": string;
             "external_reference_id"?: string;
-            "idempotency_key"?: string;
+            "idempotency_key"?: string | null;
             "inventory_transfer_id": string;
             "lines": Array<InventoryTransferLine>;
             "note"?: string;
@@ -690,7 +785,7 @@ export type InventoryTransferClosedEvent = ((((Exclude<MerchantWebhookEnvelope &
             "departed_at"?: string;
             "destination_location_id": string;
             "external_reference_id"?: string;
-            "idempotency_key"?: string;
+            "idempotency_key"?: string | null;
             "inventory_transfer_id": string;
             "lines": Array<InventoryTransferLine>;
             "note"?: string;
@@ -763,8 +858,12 @@ export type InventoryTransferClosedInstalledMerchantsEvent = (Exclude<PartnerWeb
      * string. ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
      * in an external system. maxLength: 255. Example: "warehouse-1842". object.idempotency_key
-     * (Optional): string. The Idempotency-Key of the request that created this resource; on a
-     * movement, of the command that wrote it. Omitted when that request had no key.
+     * (Optional): string or null. The Idempotency-Key of the request that created this resource.
+     * `null` when that request sent no key, Flint created the resource, the reader isn't the
+     * caller that created it (another app install, a buyer, or the merchant reading an app's or
+     * buyer's record), or the caller that created an older record is unknown. Filter its list with
+     * `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook
+     * events, can return `null`. To find a key that a replay returns as `null`, read the resource.
      * object.inventory_transfer_id (Required): string. Unique identifier for this inventory
      * transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". object.lines
      * (Required): Array of {@link InventoryTransferLine}. Owned collection of transfer lines.
@@ -815,10 +914,18 @@ export type InventoryTransferClosedInstalledMerchantsEvent = (Exclude<PartnerWeb
      * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
      * previous_attributes.external_reference_id.anyOf[2] (Value): null.
      * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
-     * request that created this resource; on a movement, of the command that wrote it. Omitted
-     * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
-     * The Idempotency-Key of the request that created this resource; on a movement, of the command
-     * that wrote it. Omitted when that request had no key.
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. previous_attributes.idempotency_key.anyOf[1] (Value):
+     * string. The Idempotency-Key of the request that created this resource. `null` when that
+     * request sent no key, Flint created the resource, the reader isn't the caller that created it
+     * (another app install, a buyer, or the merchant reading an app's or buyer's record), or the
+     * caller that created an older record is unknown. Filter its list with `idempotency_key` to
+     * find it. Recorded payloads, including replayed responses and webhook events, can return
+     * `null`. To find a key that a replay returns as `null`, read the resource.
      * previous_attributes.idempotency_key.anyOf[2] (Value): null.
      * previous_attributes.inventory_transfer_id (Optional): string or null. Unique identifier for
      * this inventory transfer, prefixed `invtr_`.
@@ -881,29 +988,34 @@ export type InventoryTransferClosedInstalledMerchantsEvent = (Exclude<PartnerWeb
          * "2026-08-02T16:00:00Z". destination_location_id (Required): string. ID of the Location
          * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". external_reference_id
          * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. inventory_transfer_id (Required):
-         * string. Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
-         * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". lines (Required): Array of {@link
-         * InventoryTransferLine}. Owned collection of transfer lines. Lines have no lifecycle
-         * outside this transfer; PATCH replaces the full collection. lines[] (Value): {@link
-         * InventoryTransferLine}. One line of an inventory transfer, with its quantities. note
-         * (Optional): string. Free-text note about the transfer. origin_location_id (Required):
-         * string. ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-         * received_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". status (Required): string. Where the transfer stands, worked out
-         * from the quantities that have left the origin and have since been received, returned, or
-         * reported lost. Value enum: "draft", "in_transit", "partially_resolved", "closed".
-         * supported_actions (Required): Array of string. Actions that can change this transfer
-         * now. `depart` and `cancel` need units that haven't left the origin. `receive`,
-         * `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is
-         * closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
-         * supported_actions[] (Value): string. Value enum: "depart", "receive",
-         * "return_to_origin", "report_loss", "cancel". updated_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
-         * integer. Current version of this resource's owned state. Send it as `expected_version`
-         * when changing the resource to reject a stale write. Format: uint64. minimum: 1.
+         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string or null.
+         * The Idempotency-Key of the request that created this resource. `null` when that request
+         * sent no key, Flint created the resource, the reader isn't the caller that created it
+         * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
+         * the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. inventory_transfer_id (Required): string. Unique identifier for this
+         * inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+         * lines (Required): Array of {@link InventoryTransferLine}. Owned collection of transfer
+         * lines. Lines have no lifecycle outside this transfer; PATCH replaces the full
+         * collection. lines[] (Value): {@link InventoryTransferLine}. One line of an inventory
+         * transfer, with its quantities. note (Optional): string. Free-text note about the
+         * transfer. origin_location_id (Required): string. ID of the Location the stock leaves.
+         * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". received_at (Optional): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". status (Required):
+         * string. Where the transfer stands, worked out from the quantities that have left the
+         * origin and have since been received, returned, or reported lost. Value enum: "draft",
+         * "in_transit", "partially_resolved", "closed". supported_actions (Required): Array of
+         * string. Actions that can change this transfer now. `depart` and `cancel` need units that
+         * haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units in
+         * transit. Empty once the transfer is closed. [] enum: "depart", "receive",
+         * "return_to_origin", "report_loss", "cancel". supported_actions[] (Value): string. Value
+         * enum: "depart", "receive", "return_to_origin", "report_loss", "cancel". updated_at
+         * (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
+         * owned state. Send it as `expected_version` when changing the resource to reject a stale
+         * write. Format: uint64. minimum: 1.
          */
         "object": {
             /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
@@ -934,10 +1046,15 @@ export type InventoryTransferClosedInstalledMerchantsEvent = (Exclude<PartnerWeb
              */
             "external_reference_id"?: string;
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource.
              */
-            "idempotency_key"?: string;
+            "idempotency_key"?: string | null;
             /**
              * Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
              * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
@@ -1002,24 +1119,32 @@ export type InventoryTransferClosedInstalledMerchantsEvent = (Exclude<PartnerWeb
          * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
          * resource in an external system. maxLength: 255. Example: "warehouse-1842".
          * external_reference_id.anyOf[2] (Value): null. idempotency_key (Optional): string or
-         * null. The Idempotency-Key of the request that created this resource; on a movement, of
-         * the command that wrote it. Omitted when that request had no key.
-         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
-         * created this resource; on a movement, of the command that wrote it. Omitted when that
-         * request had no key. idempotency_key.anyOf[2] (Value): null. inventory_transfer_id
-         * (Optional): string or null. Unique identifier for this inventory transfer, prefixed
-         * `invtr_`. inventory_transfer_id.anyOf[1] (Value): string. Unique identifier for this
-         * inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
-         * inventory_transfer_id.anyOf[2] (Value): null. lines (Optional): Array of {@link
-         * InventoryTransferLinePreviousAttributes} or null. Owned collection of transfer lines.
-         * Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
-         * lines.anyOf[1] (Value): Array of {@link InventoryTransferLinePreviousAttributes}. Owned
+         * null. The Idempotency-Key of the request that created this resource. `null` when that
+         * request sent no key, Flint created the resource, the reader isn't the caller that
+         * created it (another app install, a buyer, or the merchant reading an app's or buyer's
+         * record), or the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+         * request that created this resource. `null` when that request sent no key, Flint created
+         * the resource, the reader isn't the caller that created it (another app install, a buyer,
+         * or the merchant reading an app's or buyer's record), or the caller that created an older
+         * record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. idempotency_key.anyOf[2] (Value): null.
+         * inventory_transfer_id (Optional): string or null. Unique identifier for this inventory
+         * transfer, prefixed `invtr_`. inventory_transfer_id.anyOf[1] (Value): string. Unique
+         * identifier for this inventory transfer, prefixed `invtr_`. Example:
+         * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". inventory_transfer_id.anyOf[2] (Value): null. lines
+         * (Optional): Array of {@link InventoryTransferLinePreviousAttributes} or null. Owned
          * collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH
-         * replaces the full collection. lines.anyOf[1][] (Value): {@link
-         * InventoryTransferLinePreviousAttributes}. lines.anyOf[2] (Value): null. note (Optional):
-         * string or null. Free-text note about the transfer. note.anyOf[1] (Value): string.
-         * Free-text note about the transfer. note.anyOf[2] (Value): null. origin_location_id
-         * (Optional): string or null. ID of the Location the stock leaves.
+         * replaces the full collection. lines.anyOf[1] (Value): Array of {@link
+         * InventoryTransferLinePreviousAttributes}. Owned collection of transfer lines. Lines have
+         * no lifecycle outside this transfer; PATCH replaces the full collection. lines.anyOf[1][]
+         * (Value): {@link InventoryTransferLinePreviousAttributes}. lines.anyOf[2] (Value): null.
+         * note (Optional): string or null. Free-text note about the transfer. note.anyOf[1]
+         * (Value): string. Free-text note about the transfer. note.anyOf[2] (Value): null.
+         * origin_location_id (Optional): string or null. ID of the Location the stock leaves.
          * origin_location_id.anyOf[1] (Value): string. ID of the Location the stock leaves.
          * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". origin_location_id.anyOf[2] (Value): null.
          * received_at (Optional): string or null. RFC3339 timestamp. received_at.anyOf[1] (Value):
@@ -1097,10 +1222,19 @@ export type InventoryTransferClosedInstalledMerchantsEvent = (Exclude<PartnerWeb
              */
             "external_reference_id"?: ((string) | (null));
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
-             * string. The Idempotency-Key of the request that created this resource; on a
-             * movement, of the command that wrote it. Omitted when that request had no key.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. anyOf[1] (Value): string. The Idempotency-Key of the
+             * request that created this resource. `null` when that request sent no key, Flint
+             * created the resource, the reader isn't the caller that created it (another app
+             * install, a buyer, or the merchant reading an app's or buyer's record), or the caller
+             * that created an older record is unknown. Filter its list with `idempotency_key` to
+             * find it. Recorded payloads, including replayed responses and webhook events, can
+             * return `null`. To find a key that a replay returns as `null`, read the resource.
              * anyOf[2] (Value): null.
              */
             "idempotency_key"?: ((string) | (null));
@@ -1229,8 +1363,12 @@ export type InventoryTransferClosedMerchantEvent = (Exclude<MerchantWebhookEnvel
      * string. ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
      * in an external system. maxLength: 255. Example: "warehouse-1842". object.idempotency_key
-     * (Optional): string. The Idempotency-Key of the request that created this resource; on a
-     * movement, of the command that wrote it. Omitted when that request had no key.
+     * (Optional): string or null. The Idempotency-Key of the request that created this resource.
+     * `null` when that request sent no key, Flint created the resource, the reader isn't the
+     * caller that created it (another app install, a buyer, or the merchant reading an app's or
+     * buyer's record), or the caller that created an older record is unknown. Filter its list with
+     * `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook
+     * events, can return `null`. To find a key that a replay returns as `null`, read the resource.
      * object.inventory_transfer_id (Required): string. Unique identifier for this inventory
      * transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". object.lines
      * (Required): Array of {@link InventoryTransferLine}. Owned collection of transfer lines.
@@ -1281,10 +1419,18 @@ export type InventoryTransferClosedMerchantEvent = (Exclude<MerchantWebhookEnvel
      * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
      * previous_attributes.external_reference_id.anyOf[2] (Value): null.
      * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
-     * request that created this resource; on a movement, of the command that wrote it. Omitted
-     * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
-     * The Idempotency-Key of the request that created this resource; on a movement, of the command
-     * that wrote it. Omitted when that request had no key.
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. previous_attributes.idempotency_key.anyOf[1] (Value):
+     * string. The Idempotency-Key of the request that created this resource. `null` when that
+     * request sent no key, Flint created the resource, the reader isn't the caller that created it
+     * (another app install, a buyer, or the merchant reading an app's or buyer's record), or the
+     * caller that created an older record is unknown. Filter its list with `idempotency_key` to
+     * find it. Recorded payloads, including replayed responses and webhook events, can return
+     * `null`. To find a key that a replay returns as `null`, read the resource.
      * previous_attributes.idempotency_key.anyOf[2] (Value): null.
      * previous_attributes.inventory_transfer_id (Optional): string or null. Unique identifier for
      * this inventory transfer, prefixed `invtr_`.
@@ -1347,29 +1493,34 @@ export type InventoryTransferClosedMerchantEvent = (Exclude<MerchantWebhookEnvel
          * "2026-08-02T16:00:00Z". destination_location_id (Required): string. ID of the Location
          * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". external_reference_id
          * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. inventory_transfer_id (Required):
-         * string. Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
-         * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". lines (Required): Array of {@link
-         * InventoryTransferLine}. Owned collection of transfer lines. Lines have no lifecycle
-         * outside this transfer; PATCH replaces the full collection. lines[] (Value): {@link
-         * InventoryTransferLine}. One line of an inventory transfer, with its quantities. note
-         * (Optional): string. Free-text note about the transfer. origin_location_id (Required):
-         * string. ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-         * received_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". status (Required): string. Where the transfer stands, worked out
-         * from the quantities that have left the origin and have since been received, returned, or
-         * reported lost. Value enum: "draft", "in_transit", "partially_resolved", "closed".
-         * supported_actions (Required): Array of string. Actions that can change this transfer
-         * now. `depart` and `cancel` need units that haven't left the origin. `receive`,
-         * `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is
-         * closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
-         * supported_actions[] (Value): string. Value enum: "depart", "receive",
-         * "return_to_origin", "report_loss", "cancel". updated_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
-         * integer. Current version of this resource's owned state. Send it as `expected_version`
-         * when changing the resource to reject a stale write. Format: uint64. minimum: 1.
+         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string or null.
+         * The Idempotency-Key of the request that created this resource. `null` when that request
+         * sent no key, Flint created the resource, the reader isn't the caller that created it
+         * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
+         * the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. inventory_transfer_id (Required): string. Unique identifier for this
+         * inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+         * lines (Required): Array of {@link InventoryTransferLine}. Owned collection of transfer
+         * lines. Lines have no lifecycle outside this transfer; PATCH replaces the full
+         * collection. lines[] (Value): {@link InventoryTransferLine}. One line of an inventory
+         * transfer, with its quantities. note (Optional): string. Free-text note about the
+         * transfer. origin_location_id (Required): string. ID of the Location the stock leaves.
+         * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". received_at (Optional): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". status (Required):
+         * string. Where the transfer stands, worked out from the quantities that have left the
+         * origin and have since been received, returned, or reported lost. Value enum: "draft",
+         * "in_transit", "partially_resolved", "closed". supported_actions (Required): Array of
+         * string. Actions that can change this transfer now. `depart` and `cancel` need units that
+         * haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units in
+         * transit. Empty once the transfer is closed. [] enum: "depart", "receive",
+         * "return_to_origin", "report_loss", "cancel". supported_actions[] (Value): string. Value
+         * enum: "depart", "receive", "return_to_origin", "report_loss", "cancel". updated_at
+         * (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
+         * owned state. Send it as `expected_version` when changing the resource to reject a stale
+         * write. Format: uint64. minimum: 1.
          */
         "object": {
             /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
@@ -1400,10 +1551,15 @@ export type InventoryTransferClosedMerchantEvent = (Exclude<MerchantWebhookEnvel
              */
             "external_reference_id"?: string;
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource.
              */
-            "idempotency_key"?: string;
+            "idempotency_key"?: string | null;
             /**
              * Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
              * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
@@ -1468,24 +1624,32 @@ export type InventoryTransferClosedMerchantEvent = (Exclude<MerchantWebhookEnvel
          * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
          * resource in an external system. maxLength: 255. Example: "warehouse-1842".
          * external_reference_id.anyOf[2] (Value): null. idempotency_key (Optional): string or
-         * null. The Idempotency-Key of the request that created this resource; on a movement, of
-         * the command that wrote it. Omitted when that request had no key.
-         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
-         * created this resource; on a movement, of the command that wrote it. Omitted when that
-         * request had no key. idempotency_key.anyOf[2] (Value): null. inventory_transfer_id
-         * (Optional): string or null. Unique identifier for this inventory transfer, prefixed
-         * `invtr_`. inventory_transfer_id.anyOf[1] (Value): string. Unique identifier for this
-         * inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
-         * inventory_transfer_id.anyOf[2] (Value): null. lines (Optional): Array of {@link
-         * InventoryTransferLinePreviousAttributes} or null. Owned collection of transfer lines.
-         * Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
-         * lines.anyOf[1] (Value): Array of {@link InventoryTransferLinePreviousAttributes}. Owned
+         * null. The Idempotency-Key of the request that created this resource. `null` when that
+         * request sent no key, Flint created the resource, the reader isn't the caller that
+         * created it (another app install, a buyer, or the merchant reading an app's or buyer's
+         * record), or the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+         * request that created this resource. `null` when that request sent no key, Flint created
+         * the resource, the reader isn't the caller that created it (another app install, a buyer,
+         * or the merchant reading an app's or buyer's record), or the caller that created an older
+         * record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. idempotency_key.anyOf[2] (Value): null.
+         * inventory_transfer_id (Optional): string or null. Unique identifier for this inventory
+         * transfer, prefixed `invtr_`. inventory_transfer_id.anyOf[1] (Value): string. Unique
+         * identifier for this inventory transfer, prefixed `invtr_`. Example:
+         * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". inventory_transfer_id.anyOf[2] (Value): null. lines
+         * (Optional): Array of {@link InventoryTransferLinePreviousAttributes} or null. Owned
          * collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH
-         * replaces the full collection. lines.anyOf[1][] (Value): {@link
-         * InventoryTransferLinePreviousAttributes}. lines.anyOf[2] (Value): null. note (Optional):
-         * string or null. Free-text note about the transfer. note.anyOf[1] (Value): string.
-         * Free-text note about the transfer. note.anyOf[2] (Value): null. origin_location_id
-         * (Optional): string or null. ID of the Location the stock leaves.
+         * replaces the full collection. lines.anyOf[1] (Value): Array of {@link
+         * InventoryTransferLinePreviousAttributes}. Owned collection of transfer lines. Lines have
+         * no lifecycle outside this transfer; PATCH replaces the full collection. lines.anyOf[1][]
+         * (Value): {@link InventoryTransferLinePreviousAttributes}. lines.anyOf[2] (Value): null.
+         * note (Optional): string or null. Free-text note about the transfer. note.anyOf[1]
+         * (Value): string. Free-text note about the transfer. note.anyOf[2] (Value): null.
+         * origin_location_id (Optional): string or null. ID of the Location the stock leaves.
          * origin_location_id.anyOf[1] (Value): string. ID of the Location the stock leaves.
          * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". origin_location_id.anyOf[2] (Value): null.
          * received_at (Optional): string or null. RFC3339 timestamp. received_at.anyOf[1] (Value):
@@ -1563,10 +1727,19 @@ export type InventoryTransferClosedMerchantEvent = (Exclude<MerchantWebhookEnvel
              */
             "external_reference_id"?: ((string) | (null));
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
-             * string. The Idempotency-Key of the request that created this resource; on a
-             * movement, of the command that wrote it. Omitted when that request had no key.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. anyOf[1] (Value): string. The Idempotency-Key of the
+             * request that created this resource. `null` when that request sent no key, Flint
+             * created the resource, the reader isn't the caller that created it (another app
+             * install, a buyer, or the merchant reading an app's or buyer's record), or the caller
+             * that created an older record is unknown. Filter its list with `idempotency_key` to
+             * find it. Recorded payloads, including replayed responses and webhook events, can
+             * return `null`. To find a key that a replay returns as `null`, read the resource.
              * anyOf[2] (Value): null.
              */
             "idempotency_key"?: ((string) | (null));
@@ -1661,7 +1834,7 @@ export type InventoryTransferDepartedEvent = ((((Exclude<MerchantWebhookEnvelope
             "departed_at"?: string;
             "destination_location_id": string;
             "external_reference_id"?: string;
-            "idempotency_key"?: string;
+            "idempotency_key"?: string | null;
             "inventory_transfer_id": string;
             "lines": Array<InventoryTransferLine>;
             "note"?: string;
@@ -1724,7 +1897,7 @@ export type InventoryTransferDepartedEvent = ((((Exclude<MerchantWebhookEnvelope
             "departed_at"?: string;
             "destination_location_id": string;
             "external_reference_id"?: string;
-            "idempotency_key"?: string;
+            "idempotency_key"?: string | null;
             "inventory_transfer_id": string;
             "lines": Array<InventoryTransferLine>;
             "note"?: string;
@@ -1797,8 +1970,12 @@ export type InventoryTransferDepartedInstalledMerchantsEvent = (Exclude<PartnerW
      * string. ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
      * in an external system. maxLength: 255. Example: "warehouse-1842". object.idempotency_key
-     * (Optional): string. The Idempotency-Key of the request that created this resource; on a
-     * movement, of the command that wrote it. Omitted when that request had no key.
+     * (Optional): string or null. The Idempotency-Key of the request that created this resource.
+     * `null` when that request sent no key, Flint created the resource, the reader isn't the
+     * caller that created it (another app install, a buyer, or the merchant reading an app's or
+     * buyer's record), or the caller that created an older record is unknown. Filter its list with
+     * `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook
+     * events, can return `null`. To find a key that a replay returns as `null`, read the resource.
      * object.inventory_transfer_id (Required): string. Unique identifier for this inventory
      * transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". object.lines
      * (Required): Array of {@link InventoryTransferLine}. Owned collection of transfer lines.
@@ -1849,10 +2026,18 @@ export type InventoryTransferDepartedInstalledMerchantsEvent = (Exclude<PartnerW
      * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
      * previous_attributes.external_reference_id.anyOf[2] (Value): null.
      * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
-     * request that created this resource; on a movement, of the command that wrote it. Omitted
-     * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
-     * The Idempotency-Key of the request that created this resource; on a movement, of the command
-     * that wrote it. Omitted when that request had no key.
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. previous_attributes.idempotency_key.anyOf[1] (Value):
+     * string. The Idempotency-Key of the request that created this resource. `null` when that
+     * request sent no key, Flint created the resource, the reader isn't the caller that created it
+     * (another app install, a buyer, or the merchant reading an app's or buyer's record), or the
+     * caller that created an older record is unknown. Filter its list with `idempotency_key` to
+     * find it. Recorded payloads, including replayed responses and webhook events, can return
+     * `null`. To find a key that a replay returns as `null`, read the resource.
      * previous_attributes.idempotency_key.anyOf[2] (Value): null.
      * previous_attributes.inventory_transfer_id (Optional): string or null. Unique identifier for
      * this inventory transfer, prefixed `invtr_`.
@@ -1915,29 +2100,34 @@ export type InventoryTransferDepartedInstalledMerchantsEvent = (Exclude<PartnerW
          * "2026-08-02T16:00:00Z". destination_location_id (Required): string. ID of the Location
          * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". external_reference_id
          * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. inventory_transfer_id (Required):
-         * string. Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
-         * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". lines (Required): Array of {@link
-         * InventoryTransferLine}. Owned collection of transfer lines. Lines have no lifecycle
-         * outside this transfer; PATCH replaces the full collection. lines[] (Value): {@link
-         * InventoryTransferLine}. One line of an inventory transfer, with its quantities. note
-         * (Optional): string. Free-text note about the transfer. origin_location_id (Required):
-         * string. ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-         * received_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". status (Required): string. Where the transfer stands, worked out
-         * from the quantities that have left the origin and have since been received, returned, or
-         * reported lost. Value enum: "draft", "in_transit", "partially_resolved", "closed".
-         * supported_actions (Required): Array of string. Actions that can change this transfer
-         * now. `depart` and `cancel` need units that haven't left the origin. `receive`,
-         * `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is
-         * closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
-         * supported_actions[] (Value): string. Value enum: "depart", "receive",
-         * "return_to_origin", "report_loss", "cancel". updated_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
-         * integer. Current version of this resource's owned state. Send it as `expected_version`
-         * when changing the resource to reject a stale write. Format: uint64. minimum: 1.
+         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string or null.
+         * The Idempotency-Key of the request that created this resource. `null` when that request
+         * sent no key, Flint created the resource, the reader isn't the caller that created it
+         * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
+         * the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. inventory_transfer_id (Required): string. Unique identifier for this
+         * inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+         * lines (Required): Array of {@link InventoryTransferLine}. Owned collection of transfer
+         * lines. Lines have no lifecycle outside this transfer; PATCH replaces the full
+         * collection. lines[] (Value): {@link InventoryTransferLine}. One line of an inventory
+         * transfer, with its quantities. note (Optional): string. Free-text note about the
+         * transfer. origin_location_id (Required): string. ID of the Location the stock leaves.
+         * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". received_at (Optional): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". status (Required):
+         * string. Where the transfer stands, worked out from the quantities that have left the
+         * origin and have since been received, returned, or reported lost. Value enum: "draft",
+         * "in_transit", "partially_resolved", "closed". supported_actions (Required): Array of
+         * string. Actions that can change this transfer now. `depart` and `cancel` need units that
+         * haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units in
+         * transit. Empty once the transfer is closed. [] enum: "depart", "receive",
+         * "return_to_origin", "report_loss", "cancel". supported_actions[] (Value): string. Value
+         * enum: "depart", "receive", "return_to_origin", "report_loss", "cancel". updated_at
+         * (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
+         * owned state. Send it as `expected_version` when changing the resource to reject a stale
+         * write. Format: uint64. minimum: 1.
          */
         "object": {
             /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
@@ -1968,10 +2158,15 @@ export type InventoryTransferDepartedInstalledMerchantsEvent = (Exclude<PartnerW
              */
             "external_reference_id"?: string;
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource.
              */
-            "idempotency_key"?: string;
+            "idempotency_key"?: string | null;
             /**
              * Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
              * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
@@ -2036,24 +2231,32 @@ export type InventoryTransferDepartedInstalledMerchantsEvent = (Exclude<PartnerW
          * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
          * resource in an external system. maxLength: 255. Example: "warehouse-1842".
          * external_reference_id.anyOf[2] (Value): null. idempotency_key (Optional): string or
-         * null. The Idempotency-Key of the request that created this resource; on a movement, of
-         * the command that wrote it. Omitted when that request had no key.
-         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
-         * created this resource; on a movement, of the command that wrote it. Omitted when that
-         * request had no key. idempotency_key.anyOf[2] (Value): null. inventory_transfer_id
-         * (Optional): string or null. Unique identifier for this inventory transfer, prefixed
-         * `invtr_`. inventory_transfer_id.anyOf[1] (Value): string. Unique identifier for this
-         * inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
-         * inventory_transfer_id.anyOf[2] (Value): null. lines (Optional): Array of {@link
-         * InventoryTransferLinePreviousAttributes} or null. Owned collection of transfer lines.
-         * Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
-         * lines.anyOf[1] (Value): Array of {@link InventoryTransferLinePreviousAttributes}. Owned
+         * null. The Idempotency-Key of the request that created this resource. `null` when that
+         * request sent no key, Flint created the resource, the reader isn't the caller that
+         * created it (another app install, a buyer, or the merchant reading an app's or buyer's
+         * record), or the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+         * request that created this resource. `null` when that request sent no key, Flint created
+         * the resource, the reader isn't the caller that created it (another app install, a buyer,
+         * or the merchant reading an app's or buyer's record), or the caller that created an older
+         * record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. idempotency_key.anyOf[2] (Value): null.
+         * inventory_transfer_id (Optional): string or null. Unique identifier for this inventory
+         * transfer, prefixed `invtr_`. inventory_transfer_id.anyOf[1] (Value): string. Unique
+         * identifier for this inventory transfer, prefixed `invtr_`. Example:
+         * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". inventory_transfer_id.anyOf[2] (Value): null. lines
+         * (Optional): Array of {@link InventoryTransferLinePreviousAttributes} or null. Owned
          * collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH
-         * replaces the full collection. lines.anyOf[1][] (Value): {@link
-         * InventoryTransferLinePreviousAttributes}. lines.anyOf[2] (Value): null. note (Optional):
-         * string or null. Free-text note about the transfer. note.anyOf[1] (Value): string.
-         * Free-text note about the transfer. note.anyOf[2] (Value): null. origin_location_id
-         * (Optional): string or null. ID of the Location the stock leaves.
+         * replaces the full collection. lines.anyOf[1] (Value): Array of {@link
+         * InventoryTransferLinePreviousAttributes}. Owned collection of transfer lines. Lines have
+         * no lifecycle outside this transfer; PATCH replaces the full collection. lines.anyOf[1][]
+         * (Value): {@link InventoryTransferLinePreviousAttributes}. lines.anyOf[2] (Value): null.
+         * note (Optional): string or null. Free-text note about the transfer. note.anyOf[1]
+         * (Value): string. Free-text note about the transfer. note.anyOf[2] (Value): null.
+         * origin_location_id (Optional): string or null. ID of the Location the stock leaves.
          * origin_location_id.anyOf[1] (Value): string. ID of the Location the stock leaves.
          * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". origin_location_id.anyOf[2] (Value): null.
          * received_at (Optional): string or null. RFC3339 timestamp. received_at.anyOf[1] (Value):
@@ -2131,10 +2334,19 @@ export type InventoryTransferDepartedInstalledMerchantsEvent = (Exclude<PartnerW
              */
             "external_reference_id"?: ((string) | (null));
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
-             * string. The Idempotency-Key of the request that created this resource; on a
-             * movement, of the command that wrote it. Omitted when that request had no key.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. anyOf[1] (Value): string. The Idempotency-Key of the
+             * request that created this resource. `null` when that request sent no key, Flint
+             * created the resource, the reader isn't the caller that created it (another app
+             * install, a buyer, or the merchant reading an app's or buyer's record), or the caller
+             * that created an older record is unknown. Filter its list with `idempotency_key` to
+             * find it. Recorded payloads, including replayed responses and webhook events, can
+             * return `null`. To find a key that a replay returns as `null`, read the resource.
              * anyOf[2] (Value): null.
              */
             "idempotency_key"?: ((string) | (null));
@@ -2263,8 +2475,12 @@ export type InventoryTransferDepartedMerchantEvent = (Exclude<MerchantWebhookEnv
      * string. ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
      * in an external system. maxLength: 255. Example: "warehouse-1842". object.idempotency_key
-     * (Optional): string. The Idempotency-Key of the request that created this resource; on a
-     * movement, of the command that wrote it. Omitted when that request had no key.
+     * (Optional): string or null. The Idempotency-Key of the request that created this resource.
+     * `null` when that request sent no key, Flint created the resource, the reader isn't the
+     * caller that created it (another app install, a buyer, or the merchant reading an app's or
+     * buyer's record), or the caller that created an older record is unknown. Filter its list with
+     * `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook
+     * events, can return `null`. To find a key that a replay returns as `null`, read the resource.
      * object.inventory_transfer_id (Required): string. Unique identifier for this inventory
      * transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". object.lines
      * (Required): Array of {@link InventoryTransferLine}. Owned collection of transfer lines.
@@ -2315,10 +2531,18 @@ export type InventoryTransferDepartedMerchantEvent = (Exclude<MerchantWebhookEnv
      * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
      * previous_attributes.external_reference_id.anyOf[2] (Value): null.
      * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
-     * request that created this resource; on a movement, of the command that wrote it. Omitted
-     * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
-     * The Idempotency-Key of the request that created this resource; on a movement, of the command
-     * that wrote it. Omitted when that request had no key.
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. previous_attributes.idempotency_key.anyOf[1] (Value):
+     * string. The Idempotency-Key of the request that created this resource. `null` when that
+     * request sent no key, Flint created the resource, the reader isn't the caller that created it
+     * (another app install, a buyer, or the merchant reading an app's or buyer's record), or the
+     * caller that created an older record is unknown. Filter its list with `idempotency_key` to
+     * find it. Recorded payloads, including replayed responses and webhook events, can return
+     * `null`. To find a key that a replay returns as `null`, read the resource.
      * previous_attributes.idempotency_key.anyOf[2] (Value): null.
      * previous_attributes.inventory_transfer_id (Optional): string or null. Unique identifier for
      * this inventory transfer, prefixed `invtr_`.
@@ -2381,29 +2605,34 @@ export type InventoryTransferDepartedMerchantEvent = (Exclude<MerchantWebhookEnv
          * "2026-08-02T16:00:00Z". destination_location_id (Required): string. ID of the Location
          * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". external_reference_id
          * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. inventory_transfer_id (Required):
-         * string. Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
-         * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". lines (Required): Array of {@link
-         * InventoryTransferLine}. Owned collection of transfer lines. Lines have no lifecycle
-         * outside this transfer; PATCH replaces the full collection. lines[] (Value): {@link
-         * InventoryTransferLine}. One line of an inventory transfer, with its quantities. note
-         * (Optional): string. Free-text note about the transfer. origin_location_id (Required):
-         * string. ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-         * received_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". status (Required): string. Where the transfer stands, worked out
-         * from the quantities that have left the origin and have since been received, returned, or
-         * reported lost. Value enum: "draft", "in_transit", "partially_resolved", "closed".
-         * supported_actions (Required): Array of string. Actions that can change this transfer
-         * now. `depart` and `cancel` need units that haven't left the origin. `receive`,
-         * `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is
-         * closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
-         * supported_actions[] (Value): string. Value enum: "depart", "receive",
-         * "return_to_origin", "report_loss", "cancel". updated_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
-         * integer. Current version of this resource's owned state. Send it as `expected_version`
-         * when changing the resource to reject a stale write. Format: uint64. minimum: 1.
+         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string or null.
+         * The Idempotency-Key of the request that created this resource. `null` when that request
+         * sent no key, Flint created the resource, the reader isn't the caller that created it
+         * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
+         * the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. inventory_transfer_id (Required): string. Unique identifier for this
+         * inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+         * lines (Required): Array of {@link InventoryTransferLine}. Owned collection of transfer
+         * lines. Lines have no lifecycle outside this transfer; PATCH replaces the full
+         * collection. lines[] (Value): {@link InventoryTransferLine}. One line of an inventory
+         * transfer, with its quantities. note (Optional): string. Free-text note about the
+         * transfer. origin_location_id (Required): string. ID of the Location the stock leaves.
+         * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". received_at (Optional): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". status (Required):
+         * string. Where the transfer stands, worked out from the quantities that have left the
+         * origin and have since been received, returned, or reported lost. Value enum: "draft",
+         * "in_transit", "partially_resolved", "closed". supported_actions (Required): Array of
+         * string. Actions that can change this transfer now. `depart` and `cancel` need units that
+         * haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units in
+         * transit. Empty once the transfer is closed. [] enum: "depart", "receive",
+         * "return_to_origin", "report_loss", "cancel". supported_actions[] (Value): string. Value
+         * enum: "depart", "receive", "return_to_origin", "report_loss", "cancel". updated_at
+         * (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
+         * owned state. Send it as `expected_version` when changing the resource to reject a stale
+         * write. Format: uint64. minimum: 1.
          */
         "object": {
             /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
@@ -2434,10 +2663,15 @@ export type InventoryTransferDepartedMerchantEvent = (Exclude<MerchantWebhookEnv
              */
             "external_reference_id"?: string;
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource.
              */
-            "idempotency_key"?: string;
+            "idempotency_key"?: string | null;
             /**
              * Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
              * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
@@ -2502,24 +2736,32 @@ export type InventoryTransferDepartedMerchantEvent = (Exclude<MerchantWebhookEnv
          * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
          * resource in an external system. maxLength: 255. Example: "warehouse-1842".
          * external_reference_id.anyOf[2] (Value): null. idempotency_key (Optional): string or
-         * null. The Idempotency-Key of the request that created this resource; on a movement, of
-         * the command that wrote it. Omitted when that request had no key.
-         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
-         * created this resource; on a movement, of the command that wrote it. Omitted when that
-         * request had no key. idempotency_key.anyOf[2] (Value): null. inventory_transfer_id
-         * (Optional): string or null. Unique identifier for this inventory transfer, prefixed
-         * `invtr_`. inventory_transfer_id.anyOf[1] (Value): string. Unique identifier for this
-         * inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
-         * inventory_transfer_id.anyOf[2] (Value): null. lines (Optional): Array of {@link
-         * InventoryTransferLinePreviousAttributes} or null. Owned collection of transfer lines.
-         * Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
-         * lines.anyOf[1] (Value): Array of {@link InventoryTransferLinePreviousAttributes}. Owned
+         * null. The Idempotency-Key of the request that created this resource. `null` when that
+         * request sent no key, Flint created the resource, the reader isn't the caller that
+         * created it (another app install, a buyer, or the merchant reading an app's or buyer's
+         * record), or the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+         * request that created this resource. `null` when that request sent no key, Flint created
+         * the resource, the reader isn't the caller that created it (another app install, a buyer,
+         * or the merchant reading an app's or buyer's record), or the caller that created an older
+         * record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. idempotency_key.anyOf[2] (Value): null.
+         * inventory_transfer_id (Optional): string or null. Unique identifier for this inventory
+         * transfer, prefixed `invtr_`. inventory_transfer_id.anyOf[1] (Value): string. Unique
+         * identifier for this inventory transfer, prefixed `invtr_`. Example:
+         * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". inventory_transfer_id.anyOf[2] (Value): null. lines
+         * (Optional): Array of {@link InventoryTransferLinePreviousAttributes} or null. Owned
          * collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH
-         * replaces the full collection. lines.anyOf[1][] (Value): {@link
-         * InventoryTransferLinePreviousAttributes}. lines.anyOf[2] (Value): null. note (Optional):
-         * string or null. Free-text note about the transfer. note.anyOf[1] (Value): string.
-         * Free-text note about the transfer. note.anyOf[2] (Value): null. origin_location_id
-         * (Optional): string or null. ID of the Location the stock leaves.
+         * replaces the full collection. lines.anyOf[1] (Value): Array of {@link
+         * InventoryTransferLinePreviousAttributes}. Owned collection of transfer lines. Lines have
+         * no lifecycle outside this transfer; PATCH replaces the full collection. lines.anyOf[1][]
+         * (Value): {@link InventoryTransferLinePreviousAttributes}. lines.anyOf[2] (Value): null.
+         * note (Optional): string or null. Free-text note about the transfer. note.anyOf[1]
+         * (Value): string. Free-text note about the transfer. note.anyOf[2] (Value): null.
+         * origin_location_id (Optional): string or null. ID of the Location the stock leaves.
          * origin_location_id.anyOf[1] (Value): string. ID of the Location the stock leaves.
          * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". origin_location_id.anyOf[2] (Value): null.
          * received_at (Optional): string or null. RFC3339 timestamp. received_at.anyOf[1] (Value):
@@ -2597,10 +2839,19 @@ export type InventoryTransferDepartedMerchantEvent = (Exclude<MerchantWebhookEnv
              */
             "external_reference_id"?: ((string) | (null));
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
-             * string. The Idempotency-Key of the request that created this resource; on a
-             * movement, of the command that wrote it. Omitted when that request had no key.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. anyOf[1] (Value): string. The Idempotency-Key of the
+             * request that created this resource. `null` when that request sent no key, Flint
+             * created the resource, the reader isn't the caller that created it (another app
+             * install, a buyer, or the merchant reading an app's or buyer's record), or the caller
+             * that created an older record is unknown. Filter its list with `idempotency_key` to
+             * find it. Recorded payloads, including replayed responses and webhook events, can
+             * return `null`. To find a key that a replay returns as `null`, read the resource.
              * anyOf[2] (Value): null.
              */
             "idempotency_key"?: ((string) | (null));
@@ -2864,7 +3115,7 @@ export type InventoryTransferLostEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "departed_at"?: string;
             "destination_location_id": string;
             "external_reference_id"?: string;
-            "idempotency_key"?: string;
+            "idempotency_key"?: string | null;
             "inventory_transfer_id": string;
             "lines": Array<InventoryTransferLine>;
             "note"?: string;
@@ -2927,7 +3178,7 @@ export type InventoryTransferLostEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "departed_at"?: string;
             "destination_location_id": string;
             "external_reference_id"?: string;
-            "idempotency_key"?: string;
+            "idempotency_key"?: string | null;
             "inventory_transfer_id": string;
             "lines": Array<InventoryTransferLine>;
             "note"?: string;
@@ -3000,8 +3251,12 @@ export type InventoryTransferLostInstalledMerchantsEvent = (Exclude<PartnerWebho
      * string. ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
      * in an external system. maxLength: 255. Example: "warehouse-1842". object.idempotency_key
-     * (Optional): string. The Idempotency-Key of the request that created this resource; on a
-     * movement, of the command that wrote it. Omitted when that request had no key.
+     * (Optional): string or null. The Idempotency-Key of the request that created this resource.
+     * `null` when that request sent no key, Flint created the resource, the reader isn't the
+     * caller that created it (another app install, a buyer, or the merchant reading an app's or
+     * buyer's record), or the caller that created an older record is unknown. Filter its list with
+     * `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook
+     * events, can return `null`. To find a key that a replay returns as `null`, read the resource.
      * object.inventory_transfer_id (Required): string. Unique identifier for this inventory
      * transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". object.lines
      * (Required): Array of {@link InventoryTransferLine}. Owned collection of transfer lines.
@@ -3052,10 +3307,18 @@ export type InventoryTransferLostInstalledMerchantsEvent = (Exclude<PartnerWebho
      * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
      * previous_attributes.external_reference_id.anyOf[2] (Value): null.
      * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
-     * request that created this resource; on a movement, of the command that wrote it. Omitted
-     * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
-     * The Idempotency-Key of the request that created this resource; on a movement, of the command
-     * that wrote it. Omitted when that request had no key.
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. previous_attributes.idempotency_key.anyOf[1] (Value):
+     * string. The Idempotency-Key of the request that created this resource. `null` when that
+     * request sent no key, Flint created the resource, the reader isn't the caller that created it
+     * (another app install, a buyer, or the merchant reading an app's or buyer's record), or the
+     * caller that created an older record is unknown. Filter its list with `idempotency_key` to
+     * find it. Recorded payloads, including replayed responses and webhook events, can return
+     * `null`. To find a key that a replay returns as `null`, read the resource.
      * previous_attributes.idempotency_key.anyOf[2] (Value): null.
      * previous_attributes.inventory_transfer_id (Optional): string or null. Unique identifier for
      * this inventory transfer, prefixed `invtr_`.
@@ -3118,29 +3381,34 @@ export type InventoryTransferLostInstalledMerchantsEvent = (Exclude<PartnerWebho
          * "2026-08-02T16:00:00Z". destination_location_id (Required): string. ID of the Location
          * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". external_reference_id
          * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. inventory_transfer_id (Required):
-         * string. Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
-         * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". lines (Required): Array of {@link
-         * InventoryTransferLine}. Owned collection of transfer lines. Lines have no lifecycle
-         * outside this transfer; PATCH replaces the full collection. lines[] (Value): {@link
-         * InventoryTransferLine}. One line of an inventory transfer, with its quantities. note
-         * (Optional): string. Free-text note about the transfer. origin_location_id (Required):
-         * string. ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-         * received_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". status (Required): string. Where the transfer stands, worked out
-         * from the quantities that have left the origin and have since been received, returned, or
-         * reported lost. Value enum: "draft", "in_transit", "partially_resolved", "closed".
-         * supported_actions (Required): Array of string. Actions that can change this transfer
-         * now. `depart` and `cancel` need units that haven't left the origin. `receive`,
-         * `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is
-         * closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
-         * supported_actions[] (Value): string. Value enum: "depart", "receive",
-         * "return_to_origin", "report_loss", "cancel". updated_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
-         * integer. Current version of this resource's owned state. Send it as `expected_version`
-         * when changing the resource to reject a stale write. Format: uint64. minimum: 1.
+         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string or null.
+         * The Idempotency-Key of the request that created this resource. `null` when that request
+         * sent no key, Flint created the resource, the reader isn't the caller that created it
+         * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
+         * the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. inventory_transfer_id (Required): string. Unique identifier for this
+         * inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+         * lines (Required): Array of {@link InventoryTransferLine}. Owned collection of transfer
+         * lines. Lines have no lifecycle outside this transfer; PATCH replaces the full
+         * collection. lines[] (Value): {@link InventoryTransferLine}. One line of an inventory
+         * transfer, with its quantities. note (Optional): string. Free-text note about the
+         * transfer. origin_location_id (Required): string. ID of the Location the stock leaves.
+         * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". received_at (Optional): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". status (Required):
+         * string. Where the transfer stands, worked out from the quantities that have left the
+         * origin and have since been received, returned, or reported lost. Value enum: "draft",
+         * "in_transit", "partially_resolved", "closed". supported_actions (Required): Array of
+         * string. Actions that can change this transfer now. `depart` and `cancel` need units that
+         * haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units in
+         * transit. Empty once the transfer is closed. [] enum: "depart", "receive",
+         * "return_to_origin", "report_loss", "cancel". supported_actions[] (Value): string. Value
+         * enum: "depart", "receive", "return_to_origin", "report_loss", "cancel". updated_at
+         * (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
+         * owned state. Send it as `expected_version` when changing the resource to reject a stale
+         * write. Format: uint64. minimum: 1.
          */
         "object": {
             /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
@@ -3171,10 +3439,15 @@ export type InventoryTransferLostInstalledMerchantsEvent = (Exclude<PartnerWebho
              */
             "external_reference_id"?: string;
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource.
              */
-            "idempotency_key"?: string;
+            "idempotency_key"?: string | null;
             /**
              * Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
              * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
@@ -3239,24 +3512,32 @@ export type InventoryTransferLostInstalledMerchantsEvent = (Exclude<PartnerWebho
          * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
          * resource in an external system. maxLength: 255. Example: "warehouse-1842".
          * external_reference_id.anyOf[2] (Value): null. idempotency_key (Optional): string or
-         * null. The Idempotency-Key of the request that created this resource; on a movement, of
-         * the command that wrote it. Omitted when that request had no key.
-         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
-         * created this resource; on a movement, of the command that wrote it. Omitted when that
-         * request had no key. idempotency_key.anyOf[2] (Value): null. inventory_transfer_id
-         * (Optional): string or null. Unique identifier for this inventory transfer, prefixed
-         * `invtr_`. inventory_transfer_id.anyOf[1] (Value): string. Unique identifier for this
-         * inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
-         * inventory_transfer_id.anyOf[2] (Value): null. lines (Optional): Array of {@link
-         * InventoryTransferLinePreviousAttributes} or null. Owned collection of transfer lines.
-         * Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
-         * lines.anyOf[1] (Value): Array of {@link InventoryTransferLinePreviousAttributes}. Owned
+         * null. The Idempotency-Key of the request that created this resource. `null` when that
+         * request sent no key, Flint created the resource, the reader isn't the caller that
+         * created it (another app install, a buyer, or the merchant reading an app's or buyer's
+         * record), or the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+         * request that created this resource. `null` when that request sent no key, Flint created
+         * the resource, the reader isn't the caller that created it (another app install, a buyer,
+         * or the merchant reading an app's or buyer's record), or the caller that created an older
+         * record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. idempotency_key.anyOf[2] (Value): null.
+         * inventory_transfer_id (Optional): string or null. Unique identifier for this inventory
+         * transfer, prefixed `invtr_`. inventory_transfer_id.anyOf[1] (Value): string. Unique
+         * identifier for this inventory transfer, prefixed `invtr_`. Example:
+         * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". inventory_transfer_id.anyOf[2] (Value): null. lines
+         * (Optional): Array of {@link InventoryTransferLinePreviousAttributes} or null. Owned
          * collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH
-         * replaces the full collection. lines.anyOf[1][] (Value): {@link
-         * InventoryTransferLinePreviousAttributes}. lines.anyOf[2] (Value): null. note (Optional):
-         * string or null. Free-text note about the transfer. note.anyOf[1] (Value): string.
-         * Free-text note about the transfer. note.anyOf[2] (Value): null. origin_location_id
-         * (Optional): string or null. ID of the Location the stock leaves.
+         * replaces the full collection. lines.anyOf[1] (Value): Array of {@link
+         * InventoryTransferLinePreviousAttributes}. Owned collection of transfer lines. Lines have
+         * no lifecycle outside this transfer; PATCH replaces the full collection. lines.anyOf[1][]
+         * (Value): {@link InventoryTransferLinePreviousAttributes}. lines.anyOf[2] (Value): null.
+         * note (Optional): string or null. Free-text note about the transfer. note.anyOf[1]
+         * (Value): string. Free-text note about the transfer. note.anyOf[2] (Value): null.
+         * origin_location_id (Optional): string or null. ID of the Location the stock leaves.
          * origin_location_id.anyOf[1] (Value): string. ID of the Location the stock leaves.
          * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". origin_location_id.anyOf[2] (Value): null.
          * received_at (Optional): string or null. RFC3339 timestamp. received_at.anyOf[1] (Value):
@@ -3334,10 +3615,19 @@ export type InventoryTransferLostInstalledMerchantsEvent = (Exclude<PartnerWebho
              */
             "external_reference_id"?: ((string) | (null));
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
-             * string. The Idempotency-Key of the request that created this resource; on a
-             * movement, of the command that wrote it. Omitted when that request had no key.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. anyOf[1] (Value): string. The Idempotency-Key of the
+             * request that created this resource. `null` when that request sent no key, Flint
+             * created the resource, the reader isn't the caller that created it (another app
+             * install, a buyer, or the merchant reading an app's or buyer's record), or the caller
+             * that created an older record is unknown. Filter its list with `idempotency_key` to
+             * find it. Recorded payloads, including replayed responses and webhook events, can
+             * return `null`. To find a key that a replay returns as `null`, read the resource.
              * anyOf[2] (Value): null.
              */
             "idempotency_key"?: ((string) | (null));
@@ -3466,8 +3756,12 @@ export type InventoryTransferLostMerchantEvent = (Exclude<MerchantWebhookEnvelop
      * string. ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
      * in an external system. maxLength: 255. Example: "warehouse-1842". object.idempotency_key
-     * (Optional): string. The Idempotency-Key of the request that created this resource; on a
-     * movement, of the command that wrote it. Omitted when that request had no key.
+     * (Optional): string or null. The Idempotency-Key of the request that created this resource.
+     * `null` when that request sent no key, Flint created the resource, the reader isn't the
+     * caller that created it (another app install, a buyer, or the merchant reading an app's or
+     * buyer's record), or the caller that created an older record is unknown. Filter its list with
+     * `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook
+     * events, can return `null`. To find a key that a replay returns as `null`, read the resource.
      * object.inventory_transfer_id (Required): string. Unique identifier for this inventory
      * transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". object.lines
      * (Required): Array of {@link InventoryTransferLine}. Owned collection of transfer lines.
@@ -3518,10 +3812,18 @@ export type InventoryTransferLostMerchantEvent = (Exclude<MerchantWebhookEnvelop
      * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
      * previous_attributes.external_reference_id.anyOf[2] (Value): null.
      * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
-     * request that created this resource; on a movement, of the command that wrote it. Omitted
-     * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
-     * The Idempotency-Key of the request that created this resource; on a movement, of the command
-     * that wrote it. Omitted when that request had no key.
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. previous_attributes.idempotency_key.anyOf[1] (Value):
+     * string. The Idempotency-Key of the request that created this resource. `null` when that
+     * request sent no key, Flint created the resource, the reader isn't the caller that created it
+     * (another app install, a buyer, or the merchant reading an app's or buyer's record), or the
+     * caller that created an older record is unknown. Filter its list with `idempotency_key` to
+     * find it. Recorded payloads, including replayed responses and webhook events, can return
+     * `null`. To find a key that a replay returns as `null`, read the resource.
      * previous_attributes.idempotency_key.anyOf[2] (Value): null.
      * previous_attributes.inventory_transfer_id (Optional): string or null. Unique identifier for
      * this inventory transfer, prefixed `invtr_`.
@@ -3584,29 +3886,34 @@ export type InventoryTransferLostMerchantEvent = (Exclude<MerchantWebhookEnvelop
          * "2026-08-02T16:00:00Z". destination_location_id (Required): string. ID of the Location
          * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". external_reference_id
          * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. inventory_transfer_id (Required):
-         * string. Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
-         * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". lines (Required): Array of {@link
-         * InventoryTransferLine}. Owned collection of transfer lines. Lines have no lifecycle
-         * outside this transfer; PATCH replaces the full collection. lines[] (Value): {@link
-         * InventoryTransferLine}. One line of an inventory transfer, with its quantities. note
-         * (Optional): string. Free-text note about the transfer. origin_location_id (Required):
-         * string. ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-         * received_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". status (Required): string. Where the transfer stands, worked out
-         * from the quantities that have left the origin and have since been received, returned, or
-         * reported lost. Value enum: "draft", "in_transit", "partially_resolved", "closed".
-         * supported_actions (Required): Array of string. Actions that can change this transfer
-         * now. `depart` and `cancel` need units that haven't left the origin. `receive`,
-         * `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is
-         * closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
-         * supported_actions[] (Value): string. Value enum: "depart", "receive",
-         * "return_to_origin", "report_loss", "cancel". updated_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
-         * integer. Current version of this resource's owned state. Send it as `expected_version`
-         * when changing the resource to reject a stale write. Format: uint64. minimum: 1.
+         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string or null.
+         * The Idempotency-Key of the request that created this resource. `null` when that request
+         * sent no key, Flint created the resource, the reader isn't the caller that created it
+         * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
+         * the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. inventory_transfer_id (Required): string. Unique identifier for this
+         * inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+         * lines (Required): Array of {@link InventoryTransferLine}. Owned collection of transfer
+         * lines. Lines have no lifecycle outside this transfer; PATCH replaces the full
+         * collection. lines[] (Value): {@link InventoryTransferLine}. One line of an inventory
+         * transfer, with its quantities. note (Optional): string. Free-text note about the
+         * transfer. origin_location_id (Required): string. ID of the Location the stock leaves.
+         * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". received_at (Optional): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". status (Required):
+         * string. Where the transfer stands, worked out from the quantities that have left the
+         * origin and have since been received, returned, or reported lost. Value enum: "draft",
+         * "in_transit", "partially_resolved", "closed". supported_actions (Required): Array of
+         * string. Actions that can change this transfer now. `depart` and `cancel` need units that
+         * haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units in
+         * transit. Empty once the transfer is closed. [] enum: "depart", "receive",
+         * "return_to_origin", "report_loss", "cancel". supported_actions[] (Value): string. Value
+         * enum: "depart", "receive", "return_to_origin", "report_loss", "cancel". updated_at
+         * (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
+         * owned state. Send it as `expected_version` when changing the resource to reject a stale
+         * write. Format: uint64. minimum: 1.
          */
         "object": {
             /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
@@ -3637,10 +3944,15 @@ export type InventoryTransferLostMerchantEvent = (Exclude<MerchantWebhookEnvelop
              */
             "external_reference_id"?: string;
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource.
              */
-            "idempotency_key"?: string;
+            "idempotency_key"?: string | null;
             /**
              * Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
              * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
@@ -3705,24 +4017,32 @@ export type InventoryTransferLostMerchantEvent = (Exclude<MerchantWebhookEnvelop
          * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
          * resource in an external system. maxLength: 255. Example: "warehouse-1842".
          * external_reference_id.anyOf[2] (Value): null. idempotency_key (Optional): string or
-         * null. The Idempotency-Key of the request that created this resource; on a movement, of
-         * the command that wrote it. Omitted when that request had no key.
-         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
-         * created this resource; on a movement, of the command that wrote it. Omitted when that
-         * request had no key. idempotency_key.anyOf[2] (Value): null. inventory_transfer_id
-         * (Optional): string or null. Unique identifier for this inventory transfer, prefixed
-         * `invtr_`. inventory_transfer_id.anyOf[1] (Value): string. Unique identifier for this
-         * inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
-         * inventory_transfer_id.anyOf[2] (Value): null. lines (Optional): Array of {@link
-         * InventoryTransferLinePreviousAttributes} or null. Owned collection of transfer lines.
-         * Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
-         * lines.anyOf[1] (Value): Array of {@link InventoryTransferLinePreviousAttributes}. Owned
+         * null. The Idempotency-Key of the request that created this resource. `null` when that
+         * request sent no key, Flint created the resource, the reader isn't the caller that
+         * created it (another app install, a buyer, or the merchant reading an app's or buyer's
+         * record), or the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+         * request that created this resource. `null` when that request sent no key, Flint created
+         * the resource, the reader isn't the caller that created it (another app install, a buyer,
+         * or the merchant reading an app's or buyer's record), or the caller that created an older
+         * record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. idempotency_key.anyOf[2] (Value): null.
+         * inventory_transfer_id (Optional): string or null. Unique identifier for this inventory
+         * transfer, prefixed `invtr_`. inventory_transfer_id.anyOf[1] (Value): string. Unique
+         * identifier for this inventory transfer, prefixed `invtr_`. Example:
+         * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". inventory_transfer_id.anyOf[2] (Value): null. lines
+         * (Optional): Array of {@link InventoryTransferLinePreviousAttributes} or null. Owned
          * collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH
-         * replaces the full collection. lines.anyOf[1][] (Value): {@link
-         * InventoryTransferLinePreviousAttributes}. lines.anyOf[2] (Value): null. note (Optional):
-         * string or null. Free-text note about the transfer. note.anyOf[1] (Value): string.
-         * Free-text note about the transfer. note.anyOf[2] (Value): null. origin_location_id
-         * (Optional): string or null. ID of the Location the stock leaves.
+         * replaces the full collection. lines.anyOf[1] (Value): Array of {@link
+         * InventoryTransferLinePreviousAttributes}. Owned collection of transfer lines. Lines have
+         * no lifecycle outside this transfer; PATCH replaces the full collection. lines.anyOf[1][]
+         * (Value): {@link InventoryTransferLinePreviousAttributes}. lines.anyOf[2] (Value): null.
+         * note (Optional): string or null. Free-text note about the transfer. note.anyOf[1]
+         * (Value): string. Free-text note about the transfer. note.anyOf[2] (Value): null.
+         * origin_location_id (Optional): string or null. ID of the Location the stock leaves.
          * origin_location_id.anyOf[1] (Value): string. ID of the Location the stock leaves.
          * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". origin_location_id.anyOf[2] (Value): null.
          * received_at (Optional): string or null. RFC3339 timestamp. received_at.anyOf[1] (Value):
@@ -3800,10 +4120,19 @@ export type InventoryTransferLostMerchantEvent = (Exclude<MerchantWebhookEnvelop
              */
             "external_reference_id"?: ((string) | (null));
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
-             * string. The Idempotency-Key of the request that created this resource; on a
-             * movement, of the command that wrote it. Omitted when that request had no key.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. anyOf[1] (Value): string. The Idempotency-Key of the
+             * request that created this resource. `null` when that request sent no key, Flint
+             * created the resource, the reader isn't the caller that created it (another app
+             * install, a buyer, or the merchant reading an app's or buyer's record), or the caller
+             * that created an older record is unknown. Filter its list with `idempotency_key` to
+             * find it. Recorded payloads, including replayed responses and webhook events, can
+             * return `null`. To find a key that a replay returns as `null`, read the resource.
              * anyOf[2] (Value): null.
              */
             "idempotency_key"?: ((string) | (null));
@@ -3898,7 +4227,7 @@ export type InventoryTransferReceivedEvent = ((((Exclude<MerchantWebhookEnvelope
             "departed_at"?: string;
             "destination_location_id": string;
             "external_reference_id"?: string;
-            "idempotency_key"?: string;
+            "idempotency_key"?: string | null;
             "inventory_transfer_id": string;
             "lines": Array<InventoryTransferLine>;
             "note"?: string;
@@ -3961,7 +4290,7 @@ export type InventoryTransferReceivedEvent = ((((Exclude<MerchantWebhookEnvelope
             "departed_at"?: string;
             "destination_location_id": string;
             "external_reference_id"?: string;
-            "idempotency_key"?: string;
+            "idempotency_key"?: string | null;
             "inventory_transfer_id": string;
             "lines": Array<InventoryTransferLine>;
             "note"?: string;
@@ -4034,8 +4363,12 @@ export type InventoryTransferReceivedInstalledMerchantsEvent = (Exclude<PartnerW
      * string. ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
      * in an external system. maxLength: 255. Example: "warehouse-1842". object.idempotency_key
-     * (Optional): string. The Idempotency-Key of the request that created this resource; on a
-     * movement, of the command that wrote it. Omitted when that request had no key.
+     * (Optional): string or null. The Idempotency-Key of the request that created this resource.
+     * `null` when that request sent no key, Flint created the resource, the reader isn't the
+     * caller that created it (another app install, a buyer, or the merchant reading an app's or
+     * buyer's record), or the caller that created an older record is unknown. Filter its list with
+     * `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook
+     * events, can return `null`. To find a key that a replay returns as `null`, read the resource.
      * object.inventory_transfer_id (Required): string. Unique identifier for this inventory
      * transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". object.lines
      * (Required): Array of {@link InventoryTransferLine}. Owned collection of transfer lines.
@@ -4086,10 +4419,18 @@ export type InventoryTransferReceivedInstalledMerchantsEvent = (Exclude<PartnerW
      * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
      * previous_attributes.external_reference_id.anyOf[2] (Value): null.
      * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
-     * request that created this resource; on a movement, of the command that wrote it. Omitted
-     * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
-     * The Idempotency-Key of the request that created this resource; on a movement, of the command
-     * that wrote it. Omitted when that request had no key.
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. previous_attributes.idempotency_key.anyOf[1] (Value):
+     * string. The Idempotency-Key of the request that created this resource. `null` when that
+     * request sent no key, Flint created the resource, the reader isn't the caller that created it
+     * (another app install, a buyer, or the merchant reading an app's or buyer's record), or the
+     * caller that created an older record is unknown. Filter its list with `idempotency_key` to
+     * find it. Recorded payloads, including replayed responses and webhook events, can return
+     * `null`. To find a key that a replay returns as `null`, read the resource.
      * previous_attributes.idempotency_key.anyOf[2] (Value): null.
      * previous_attributes.inventory_transfer_id (Optional): string or null. Unique identifier for
      * this inventory transfer, prefixed `invtr_`.
@@ -4152,29 +4493,34 @@ export type InventoryTransferReceivedInstalledMerchantsEvent = (Exclude<PartnerW
          * "2026-08-02T16:00:00Z". destination_location_id (Required): string. ID of the Location
          * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". external_reference_id
          * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. inventory_transfer_id (Required):
-         * string. Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
-         * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". lines (Required): Array of {@link
-         * InventoryTransferLine}. Owned collection of transfer lines. Lines have no lifecycle
-         * outside this transfer; PATCH replaces the full collection. lines[] (Value): {@link
-         * InventoryTransferLine}. One line of an inventory transfer, with its quantities. note
-         * (Optional): string. Free-text note about the transfer. origin_location_id (Required):
-         * string. ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-         * received_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". status (Required): string. Where the transfer stands, worked out
-         * from the quantities that have left the origin and have since been received, returned, or
-         * reported lost. Value enum: "draft", "in_transit", "partially_resolved", "closed".
-         * supported_actions (Required): Array of string. Actions that can change this transfer
-         * now. `depart` and `cancel` need units that haven't left the origin. `receive`,
-         * `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is
-         * closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
-         * supported_actions[] (Value): string. Value enum: "depart", "receive",
-         * "return_to_origin", "report_loss", "cancel". updated_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
-         * integer. Current version of this resource's owned state. Send it as `expected_version`
-         * when changing the resource to reject a stale write. Format: uint64. minimum: 1.
+         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string or null.
+         * The Idempotency-Key of the request that created this resource. `null` when that request
+         * sent no key, Flint created the resource, the reader isn't the caller that created it
+         * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
+         * the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. inventory_transfer_id (Required): string. Unique identifier for this
+         * inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+         * lines (Required): Array of {@link InventoryTransferLine}. Owned collection of transfer
+         * lines. Lines have no lifecycle outside this transfer; PATCH replaces the full
+         * collection. lines[] (Value): {@link InventoryTransferLine}. One line of an inventory
+         * transfer, with its quantities. note (Optional): string. Free-text note about the
+         * transfer. origin_location_id (Required): string. ID of the Location the stock leaves.
+         * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". received_at (Optional): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". status (Required):
+         * string. Where the transfer stands, worked out from the quantities that have left the
+         * origin and have since been received, returned, or reported lost. Value enum: "draft",
+         * "in_transit", "partially_resolved", "closed". supported_actions (Required): Array of
+         * string. Actions that can change this transfer now. `depart` and `cancel` need units that
+         * haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units in
+         * transit. Empty once the transfer is closed. [] enum: "depart", "receive",
+         * "return_to_origin", "report_loss", "cancel". supported_actions[] (Value): string. Value
+         * enum: "depart", "receive", "return_to_origin", "report_loss", "cancel". updated_at
+         * (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
+         * owned state. Send it as `expected_version` when changing the resource to reject a stale
+         * write. Format: uint64. minimum: 1.
          */
         "object": {
             /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
@@ -4205,10 +4551,15 @@ export type InventoryTransferReceivedInstalledMerchantsEvent = (Exclude<PartnerW
              */
             "external_reference_id"?: string;
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource.
              */
-            "idempotency_key"?: string;
+            "idempotency_key"?: string | null;
             /**
              * Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
              * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
@@ -4273,24 +4624,32 @@ export type InventoryTransferReceivedInstalledMerchantsEvent = (Exclude<PartnerW
          * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
          * resource in an external system. maxLength: 255. Example: "warehouse-1842".
          * external_reference_id.anyOf[2] (Value): null. idempotency_key (Optional): string or
-         * null. The Idempotency-Key of the request that created this resource; on a movement, of
-         * the command that wrote it. Omitted when that request had no key.
-         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
-         * created this resource; on a movement, of the command that wrote it. Omitted when that
-         * request had no key. idempotency_key.anyOf[2] (Value): null. inventory_transfer_id
-         * (Optional): string or null. Unique identifier for this inventory transfer, prefixed
-         * `invtr_`. inventory_transfer_id.anyOf[1] (Value): string. Unique identifier for this
-         * inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
-         * inventory_transfer_id.anyOf[2] (Value): null. lines (Optional): Array of {@link
-         * InventoryTransferLinePreviousAttributes} or null. Owned collection of transfer lines.
-         * Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
-         * lines.anyOf[1] (Value): Array of {@link InventoryTransferLinePreviousAttributes}. Owned
+         * null. The Idempotency-Key of the request that created this resource. `null` when that
+         * request sent no key, Flint created the resource, the reader isn't the caller that
+         * created it (another app install, a buyer, or the merchant reading an app's or buyer's
+         * record), or the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+         * request that created this resource. `null` when that request sent no key, Flint created
+         * the resource, the reader isn't the caller that created it (another app install, a buyer,
+         * or the merchant reading an app's or buyer's record), or the caller that created an older
+         * record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. idempotency_key.anyOf[2] (Value): null.
+         * inventory_transfer_id (Optional): string or null. Unique identifier for this inventory
+         * transfer, prefixed `invtr_`. inventory_transfer_id.anyOf[1] (Value): string. Unique
+         * identifier for this inventory transfer, prefixed `invtr_`. Example:
+         * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". inventory_transfer_id.anyOf[2] (Value): null. lines
+         * (Optional): Array of {@link InventoryTransferLinePreviousAttributes} or null. Owned
          * collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH
-         * replaces the full collection. lines.anyOf[1][] (Value): {@link
-         * InventoryTransferLinePreviousAttributes}. lines.anyOf[2] (Value): null. note (Optional):
-         * string or null. Free-text note about the transfer. note.anyOf[1] (Value): string.
-         * Free-text note about the transfer. note.anyOf[2] (Value): null. origin_location_id
-         * (Optional): string or null. ID of the Location the stock leaves.
+         * replaces the full collection. lines.anyOf[1] (Value): Array of {@link
+         * InventoryTransferLinePreviousAttributes}. Owned collection of transfer lines. Lines have
+         * no lifecycle outside this transfer; PATCH replaces the full collection. lines.anyOf[1][]
+         * (Value): {@link InventoryTransferLinePreviousAttributes}. lines.anyOf[2] (Value): null.
+         * note (Optional): string or null. Free-text note about the transfer. note.anyOf[1]
+         * (Value): string. Free-text note about the transfer. note.anyOf[2] (Value): null.
+         * origin_location_id (Optional): string or null. ID of the Location the stock leaves.
          * origin_location_id.anyOf[1] (Value): string. ID of the Location the stock leaves.
          * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". origin_location_id.anyOf[2] (Value): null.
          * received_at (Optional): string or null. RFC3339 timestamp. received_at.anyOf[1] (Value):
@@ -4368,10 +4727,19 @@ export type InventoryTransferReceivedInstalledMerchantsEvent = (Exclude<PartnerW
              */
             "external_reference_id"?: ((string) | (null));
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
-             * string. The Idempotency-Key of the request that created this resource; on a
-             * movement, of the command that wrote it. Omitted when that request had no key.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. anyOf[1] (Value): string. The Idempotency-Key of the
+             * request that created this resource. `null` when that request sent no key, Flint
+             * created the resource, the reader isn't the caller that created it (another app
+             * install, a buyer, or the merchant reading an app's or buyer's record), or the caller
+             * that created an older record is unknown. Filter its list with `idempotency_key` to
+             * find it. Recorded payloads, including replayed responses and webhook events, can
+             * return `null`. To find a key that a replay returns as `null`, read the resource.
              * anyOf[2] (Value): null.
              */
             "idempotency_key"?: ((string) | (null));
@@ -4500,8 +4868,12 @@ export type InventoryTransferReceivedMerchantEvent = (Exclude<MerchantWebhookEnv
      * string. ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
      * in an external system. maxLength: 255. Example: "warehouse-1842". object.idempotency_key
-     * (Optional): string. The Idempotency-Key of the request that created this resource; on a
-     * movement, of the command that wrote it. Omitted when that request had no key.
+     * (Optional): string or null. The Idempotency-Key of the request that created this resource.
+     * `null` when that request sent no key, Flint created the resource, the reader isn't the
+     * caller that created it (another app install, a buyer, or the merchant reading an app's or
+     * buyer's record), or the caller that created an older record is unknown. Filter its list with
+     * `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook
+     * events, can return `null`. To find a key that a replay returns as `null`, read the resource.
      * object.inventory_transfer_id (Required): string. Unique identifier for this inventory
      * transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". object.lines
      * (Required): Array of {@link InventoryTransferLine}. Owned collection of transfer lines.
@@ -4552,10 +4924,18 @@ export type InventoryTransferReceivedMerchantEvent = (Exclude<MerchantWebhookEnv
      * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
      * previous_attributes.external_reference_id.anyOf[2] (Value): null.
      * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
-     * request that created this resource; on a movement, of the command that wrote it. Omitted
-     * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
-     * The Idempotency-Key of the request that created this resource; on a movement, of the command
-     * that wrote it. Omitted when that request had no key.
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. previous_attributes.idempotency_key.anyOf[1] (Value):
+     * string. The Idempotency-Key of the request that created this resource. `null` when that
+     * request sent no key, Flint created the resource, the reader isn't the caller that created it
+     * (another app install, a buyer, or the merchant reading an app's or buyer's record), or the
+     * caller that created an older record is unknown. Filter its list with `idempotency_key` to
+     * find it. Recorded payloads, including replayed responses and webhook events, can return
+     * `null`. To find a key that a replay returns as `null`, read the resource.
      * previous_attributes.idempotency_key.anyOf[2] (Value): null.
      * previous_attributes.inventory_transfer_id (Optional): string or null. Unique identifier for
      * this inventory transfer, prefixed `invtr_`.
@@ -4618,29 +4998,34 @@ export type InventoryTransferReceivedMerchantEvent = (Exclude<MerchantWebhookEnv
          * "2026-08-02T16:00:00Z". destination_location_id (Required): string. ID of the Location
          * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". external_reference_id
          * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. inventory_transfer_id (Required):
-         * string. Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
-         * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". lines (Required): Array of {@link
-         * InventoryTransferLine}. Owned collection of transfer lines. Lines have no lifecycle
-         * outside this transfer; PATCH replaces the full collection. lines[] (Value): {@link
-         * InventoryTransferLine}. One line of an inventory transfer, with its quantities. note
-         * (Optional): string. Free-text note about the transfer. origin_location_id (Required):
-         * string. ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-         * received_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". status (Required): string. Where the transfer stands, worked out
-         * from the quantities that have left the origin and have since been received, returned, or
-         * reported lost. Value enum: "draft", "in_transit", "partially_resolved", "closed".
-         * supported_actions (Required): Array of string. Actions that can change this transfer
-         * now. `depart` and `cancel` need units that haven't left the origin. `receive`,
-         * `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is
-         * closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
-         * supported_actions[] (Value): string. Value enum: "depart", "receive",
-         * "return_to_origin", "report_loss", "cancel". updated_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
-         * integer. Current version of this resource's owned state. Send it as `expected_version`
-         * when changing the resource to reject a stale write. Format: uint64. minimum: 1.
+         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string or null.
+         * The Idempotency-Key of the request that created this resource. `null` when that request
+         * sent no key, Flint created the resource, the reader isn't the caller that created it
+         * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
+         * the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. inventory_transfer_id (Required): string. Unique identifier for this
+         * inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+         * lines (Required): Array of {@link InventoryTransferLine}. Owned collection of transfer
+         * lines. Lines have no lifecycle outside this transfer; PATCH replaces the full
+         * collection. lines[] (Value): {@link InventoryTransferLine}. One line of an inventory
+         * transfer, with its quantities. note (Optional): string. Free-text note about the
+         * transfer. origin_location_id (Required): string. ID of the Location the stock leaves.
+         * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". received_at (Optional): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". status (Required):
+         * string. Where the transfer stands, worked out from the quantities that have left the
+         * origin and have since been received, returned, or reported lost. Value enum: "draft",
+         * "in_transit", "partially_resolved", "closed". supported_actions (Required): Array of
+         * string. Actions that can change this transfer now. `depart` and `cancel` need units that
+         * haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units in
+         * transit. Empty once the transfer is closed. [] enum: "depart", "receive",
+         * "return_to_origin", "report_loss", "cancel". supported_actions[] (Value): string. Value
+         * enum: "depart", "receive", "return_to_origin", "report_loss", "cancel". updated_at
+         * (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
+         * owned state. Send it as `expected_version` when changing the resource to reject a stale
+         * write. Format: uint64. minimum: 1.
          */
         "object": {
             /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
@@ -4671,10 +5056,15 @@ export type InventoryTransferReceivedMerchantEvent = (Exclude<MerchantWebhookEnv
              */
             "external_reference_id"?: string;
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource.
              */
-            "idempotency_key"?: string;
+            "idempotency_key"?: string | null;
             /**
              * Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
              * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
@@ -4739,24 +5129,32 @@ export type InventoryTransferReceivedMerchantEvent = (Exclude<MerchantWebhookEnv
          * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
          * resource in an external system. maxLength: 255. Example: "warehouse-1842".
          * external_reference_id.anyOf[2] (Value): null. idempotency_key (Optional): string or
-         * null. The Idempotency-Key of the request that created this resource; on a movement, of
-         * the command that wrote it. Omitted when that request had no key.
-         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
-         * created this resource; on a movement, of the command that wrote it. Omitted when that
-         * request had no key. idempotency_key.anyOf[2] (Value): null. inventory_transfer_id
-         * (Optional): string or null. Unique identifier for this inventory transfer, prefixed
-         * `invtr_`. inventory_transfer_id.anyOf[1] (Value): string. Unique identifier for this
-         * inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
-         * inventory_transfer_id.anyOf[2] (Value): null. lines (Optional): Array of {@link
-         * InventoryTransferLinePreviousAttributes} or null. Owned collection of transfer lines.
-         * Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
-         * lines.anyOf[1] (Value): Array of {@link InventoryTransferLinePreviousAttributes}. Owned
+         * null. The Idempotency-Key of the request that created this resource. `null` when that
+         * request sent no key, Flint created the resource, the reader isn't the caller that
+         * created it (another app install, a buyer, or the merchant reading an app's or buyer's
+         * record), or the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+         * request that created this resource. `null` when that request sent no key, Flint created
+         * the resource, the reader isn't the caller that created it (another app install, a buyer,
+         * or the merchant reading an app's or buyer's record), or the caller that created an older
+         * record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. idempotency_key.anyOf[2] (Value): null.
+         * inventory_transfer_id (Optional): string or null. Unique identifier for this inventory
+         * transfer, prefixed `invtr_`. inventory_transfer_id.anyOf[1] (Value): string. Unique
+         * identifier for this inventory transfer, prefixed `invtr_`. Example:
+         * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". inventory_transfer_id.anyOf[2] (Value): null. lines
+         * (Optional): Array of {@link InventoryTransferLinePreviousAttributes} or null. Owned
          * collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH
-         * replaces the full collection. lines.anyOf[1][] (Value): {@link
-         * InventoryTransferLinePreviousAttributes}. lines.anyOf[2] (Value): null. note (Optional):
-         * string or null. Free-text note about the transfer. note.anyOf[1] (Value): string.
-         * Free-text note about the transfer. note.anyOf[2] (Value): null. origin_location_id
-         * (Optional): string or null. ID of the Location the stock leaves.
+         * replaces the full collection. lines.anyOf[1] (Value): Array of {@link
+         * InventoryTransferLinePreviousAttributes}. Owned collection of transfer lines. Lines have
+         * no lifecycle outside this transfer; PATCH replaces the full collection. lines.anyOf[1][]
+         * (Value): {@link InventoryTransferLinePreviousAttributes}. lines.anyOf[2] (Value): null.
+         * note (Optional): string or null. Free-text note about the transfer. note.anyOf[1]
+         * (Value): string. Free-text note about the transfer. note.anyOf[2] (Value): null.
+         * origin_location_id (Optional): string or null. ID of the Location the stock leaves.
          * origin_location_id.anyOf[1] (Value): string. ID of the Location the stock leaves.
          * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". origin_location_id.anyOf[2] (Value): null.
          * received_at (Optional): string or null. RFC3339 timestamp. received_at.anyOf[1] (Value):
@@ -4834,10 +5232,19 @@ export type InventoryTransferReceivedMerchantEvent = (Exclude<MerchantWebhookEnv
              */
             "external_reference_id"?: ((string) | (null));
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
-             * string. The Idempotency-Key of the request that created this resource; on a
-             * movement, of the command that wrote it. Omitted when that request had no key.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. anyOf[1] (Value): string. The Idempotency-Key of the
+             * request that created this resource. `null` when that request sent no key, Flint
+             * created the resource, the reader isn't the caller that created it (another app
+             * install, a buyer, or the merchant reading an app's or buyer's record), or the caller
+             * that created an older record is unknown. Filter its list with `idempotency_key` to
+             * find it. Recorded payloads, including replayed responses and webhook events, can
+             * return `null`. To find a key that a replay returns as `null`, read the resource.
              * anyOf[2] (Value): null.
              */
             "idempotency_key"?: ((string) | (null));
@@ -4983,7 +5390,7 @@ export type InventoryTransferReturnedEvent = ((((Exclude<MerchantWebhookEnvelope
             "departed_at"?: string;
             "destination_location_id": string;
             "external_reference_id"?: string;
-            "idempotency_key"?: string;
+            "idempotency_key"?: string | null;
             "inventory_transfer_id": string;
             "lines": Array<InventoryTransferLine>;
             "note"?: string;
@@ -5046,7 +5453,7 @@ export type InventoryTransferReturnedEvent = ((((Exclude<MerchantWebhookEnvelope
             "departed_at"?: string;
             "destination_location_id": string;
             "external_reference_id"?: string;
-            "idempotency_key"?: string;
+            "idempotency_key"?: string | null;
             "inventory_transfer_id": string;
             "lines": Array<InventoryTransferLine>;
             "note"?: string;
@@ -5119,8 +5526,12 @@ export type InventoryTransferReturnedInstalledMerchantsEvent = (Exclude<PartnerW
      * string. ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
      * in an external system. maxLength: 255. Example: "warehouse-1842". object.idempotency_key
-     * (Optional): string. The Idempotency-Key of the request that created this resource; on a
-     * movement, of the command that wrote it. Omitted when that request had no key.
+     * (Optional): string or null. The Idempotency-Key of the request that created this resource.
+     * `null` when that request sent no key, Flint created the resource, the reader isn't the
+     * caller that created it (another app install, a buyer, or the merchant reading an app's or
+     * buyer's record), or the caller that created an older record is unknown. Filter its list with
+     * `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook
+     * events, can return `null`. To find a key that a replay returns as `null`, read the resource.
      * object.inventory_transfer_id (Required): string. Unique identifier for this inventory
      * transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". object.lines
      * (Required): Array of {@link InventoryTransferLine}. Owned collection of transfer lines.
@@ -5171,10 +5582,18 @@ export type InventoryTransferReturnedInstalledMerchantsEvent = (Exclude<PartnerW
      * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
      * previous_attributes.external_reference_id.anyOf[2] (Value): null.
      * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
-     * request that created this resource; on a movement, of the command that wrote it. Omitted
-     * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
-     * The Idempotency-Key of the request that created this resource; on a movement, of the command
-     * that wrote it. Omitted when that request had no key.
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. previous_attributes.idempotency_key.anyOf[1] (Value):
+     * string. The Idempotency-Key of the request that created this resource. `null` when that
+     * request sent no key, Flint created the resource, the reader isn't the caller that created it
+     * (another app install, a buyer, or the merchant reading an app's or buyer's record), or the
+     * caller that created an older record is unknown. Filter its list with `idempotency_key` to
+     * find it. Recorded payloads, including replayed responses and webhook events, can return
+     * `null`. To find a key that a replay returns as `null`, read the resource.
      * previous_attributes.idempotency_key.anyOf[2] (Value): null.
      * previous_attributes.inventory_transfer_id (Optional): string or null. Unique identifier for
      * this inventory transfer, prefixed `invtr_`.
@@ -5237,29 +5656,34 @@ export type InventoryTransferReturnedInstalledMerchantsEvent = (Exclude<PartnerW
          * "2026-08-02T16:00:00Z". destination_location_id (Required): string. ID of the Location
          * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". external_reference_id
          * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. inventory_transfer_id (Required):
-         * string. Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
-         * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". lines (Required): Array of {@link
-         * InventoryTransferLine}. Owned collection of transfer lines. Lines have no lifecycle
-         * outside this transfer; PATCH replaces the full collection. lines[] (Value): {@link
-         * InventoryTransferLine}. One line of an inventory transfer, with its quantities. note
-         * (Optional): string. Free-text note about the transfer. origin_location_id (Required):
-         * string. ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-         * received_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". status (Required): string. Where the transfer stands, worked out
-         * from the quantities that have left the origin and have since been received, returned, or
-         * reported lost. Value enum: "draft", "in_transit", "partially_resolved", "closed".
-         * supported_actions (Required): Array of string. Actions that can change this transfer
-         * now. `depart` and `cancel` need units that haven't left the origin. `receive`,
-         * `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is
-         * closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
-         * supported_actions[] (Value): string. Value enum: "depart", "receive",
-         * "return_to_origin", "report_loss", "cancel". updated_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
-         * integer. Current version of this resource's owned state. Send it as `expected_version`
-         * when changing the resource to reject a stale write. Format: uint64. minimum: 1.
+         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string or null.
+         * The Idempotency-Key of the request that created this resource. `null` when that request
+         * sent no key, Flint created the resource, the reader isn't the caller that created it
+         * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
+         * the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. inventory_transfer_id (Required): string. Unique identifier for this
+         * inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+         * lines (Required): Array of {@link InventoryTransferLine}. Owned collection of transfer
+         * lines. Lines have no lifecycle outside this transfer; PATCH replaces the full
+         * collection. lines[] (Value): {@link InventoryTransferLine}. One line of an inventory
+         * transfer, with its quantities. note (Optional): string. Free-text note about the
+         * transfer. origin_location_id (Required): string. ID of the Location the stock leaves.
+         * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". received_at (Optional): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". status (Required):
+         * string. Where the transfer stands, worked out from the quantities that have left the
+         * origin and have since been received, returned, or reported lost. Value enum: "draft",
+         * "in_transit", "partially_resolved", "closed". supported_actions (Required): Array of
+         * string. Actions that can change this transfer now. `depart` and `cancel` need units that
+         * haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units in
+         * transit. Empty once the transfer is closed. [] enum: "depart", "receive",
+         * "return_to_origin", "report_loss", "cancel". supported_actions[] (Value): string. Value
+         * enum: "depart", "receive", "return_to_origin", "report_loss", "cancel". updated_at
+         * (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
+         * owned state. Send it as `expected_version` when changing the resource to reject a stale
+         * write. Format: uint64. minimum: 1.
          */
         "object": {
             /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
@@ -5290,10 +5714,15 @@ export type InventoryTransferReturnedInstalledMerchantsEvent = (Exclude<PartnerW
              */
             "external_reference_id"?: string;
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource.
              */
-            "idempotency_key"?: string;
+            "idempotency_key"?: string | null;
             /**
              * Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
              * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
@@ -5358,24 +5787,32 @@ export type InventoryTransferReturnedInstalledMerchantsEvent = (Exclude<PartnerW
          * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
          * resource in an external system. maxLength: 255. Example: "warehouse-1842".
          * external_reference_id.anyOf[2] (Value): null. idempotency_key (Optional): string or
-         * null. The Idempotency-Key of the request that created this resource; on a movement, of
-         * the command that wrote it. Omitted when that request had no key.
-         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
-         * created this resource; on a movement, of the command that wrote it. Omitted when that
-         * request had no key. idempotency_key.anyOf[2] (Value): null. inventory_transfer_id
-         * (Optional): string or null. Unique identifier for this inventory transfer, prefixed
-         * `invtr_`. inventory_transfer_id.anyOf[1] (Value): string. Unique identifier for this
-         * inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
-         * inventory_transfer_id.anyOf[2] (Value): null. lines (Optional): Array of {@link
-         * InventoryTransferLinePreviousAttributes} or null. Owned collection of transfer lines.
-         * Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
-         * lines.anyOf[1] (Value): Array of {@link InventoryTransferLinePreviousAttributes}. Owned
+         * null. The Idempotency-Key of the request that created this resource. `null` when that
+         * request sent no key, Flint created the resource, the reader isn't the caller that
+         * created it (another app install, a buyer, or the merchant reading an app's or buyer's
+         * record), or the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+         * request that created this resource. `null` when that request sent no key, Flint created
+         * the resource, the reader isn't the caller that created it (another app install, a buyer,
+         * or the merchant reading an app's or buyer's record), or the caller that created an older
+         * record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. idempotency_key.anyOf[2] (Value): null.
+         * inventory_transfer_id (Optional): string or null. Unique identifier for this inventory
+         * transfer, prefixed `invtr_`. inventory_transfer_id.anyOf[1] (Value): string. Unique
+         * identifier for this inventory transfer, prefixed `invtr_`. Example:
+         * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". inventory_transfer_id.anyOf[2] (Value): null. lines
+         * (Optional): Array of {@link InventoryTransferLinePreviousAttributes} or null. Owned
          * collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH
-         * replaces the full collection. lines.anyOf[1][] (Value): {@link
-         * InventoryTransferLinePreviousAttributes}. lines.anyOf[2] (Value): null. note (Optional):
-         * string or null. Free-text note about the transfer. note.anyOf[1] (Value): string.
-         * Free-text note about the transfer. note.anyOf[2] (Value): null. origin_location_id
-         * (Optional): string or null. ID of the Location the stock leaves.
+         * replaces the full collection. lines.anyOf[1] (Value): Array of {@link
+         * InventoryTransferLinePreviousAttributes}. Owned collection of transfer lines. Lines have
+         * no lifecycle outside this transfer; PATCH replaces the full collection. lines.anyOf[1][]
+         * (Value): {@link InventoryTransferLinePreviousAttributes}. lines.anyOf[2] (Value): null.
+         * note (Optional): string or null. Free-text note about the transfer. note.anyOf[1]
+         * (Value): string. Free-text note about the transfer. note.anyOf[2] (Value): null.
+         * origin_location_id (Optional): string or null. ID of the Location the stock leaves.
          * origin_location_id.anyOf[1] (Value): string. ID of the Location the stock leaves.
          * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". origin_location_id.anyOf[2] (Value): null.
          * received_at (Optional): string or null. RFC3339 timestamp. received_at.anyOf[1] (Value):
@@ -5453,10 +5890,19 @@ export type InventoryTransferReturnedInstalledMerchantsEvent = (Exclude<PartnerW
              */
             "external_reference_id"?: ((string) | (null));
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
-             * string. The Idempotency-Key of the request that created this resource; on a
-             * movement, of the command that wrote it. Omitted when that request had no key.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. anyOf[1] (Value): string. The Idempotency-Key of the
+             * request that created this resource. `null` when that request sent no key, Flint
+             * created the resource, the reader isn't the caller that created it (another app
+             * install, a buyer, or the merchant reading an app's or buyer's record), or the caller
+             * that created an older record is unknown. Filter its list with `idempotency_key` to
+             * find it. Recorded payloads, including replayed responses and webhook events, can
+             * return `null`. To find a key that a replay returns as `null`, read the resource.
              * anyOf[2] (Value): null.
              */
             "idempotency_key"?: ((string) | (null));
@@ -5585,8 +6031,12 @@ export type InventoryTransferReturnedMerchantEvent = (Exclude<MerchantWebhookEnv
      * string. ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
      * in an external system. maxLength: 255. Example: "warehouse-1842". object.idempotency_key
-     * (Optional): string. The Idempotency-Key of the request that created this resource; on a
-     * movement, of the command that wrote it. Omitted when that request had no key.
+     * (Optional): string or null. The Idempotency-Key of the request that created this resource.
+     * `null` when that request sent no key, Flint created the resource, the reader isn't the
+     * caller that created it (another app install, a buyer, or the merchant reading an app's or
+     * buyer's record), or the caller that created an older record is unknown. Filter its list with
+     * `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook
+     * events, can return `null`. To find a key that a replay returns as `null`, read the resource.
      * object.inventory_transfer_id (Required): string. Unique identifier for this inventory
      * transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". object.lines
      * (Required): Array of {@link InventoryTransferLine}. Owned collection of transfer lines.
@@ -5637,10 +6087,18 @@ export type InventoryTransferReturnedMerchantEvent = (Exclude<MerchantWebhookEnv
      * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
      * previous_attributes.external_reference_id.anyOf[2] (Value): null.
      * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
-     * request that created this resource; on a movement, of the command that wrote it. Omitted
-     * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
-     * The Idempotency-Key of the request that created this resource; on a movement, of the command
-     * that wrote it. Omitted when that request had no key.
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. previous_attributes.idempotency_key.anyOf[1] (Value):
+     * string. The Idempotency-Key of the request that created this resource. `null` when that
+     * request sent no key, Flint created the resource, the reader isn't the caller that created it
+     * (another app install, a buyer, or the merchant reading an app's or buyer's record), or the
+     * caller that created an older record is unknown. Filter its list with `idempotency_key` to
+     * find it. Recorded payloads, including replayed responses and webhook events, can return
+     * `null`. To find a key that a replay returns as `null`, read the resource.
      * previous_attributes.idempotency_key.anyOf[2] (Value): null.
      * previous_attributes.inventory_transfer_id (Optional): string or null. Unique identifier for
      * this inventory transfer, prefixed `invtr_`.
@@ -5703,29 +6161,34 @@ export type InventoryTransferReturnedMerchantEvent = (Exclude<MerchantWebhookEnv
          * "2026-08-02T16:00:00Z". destination_location_id (Required): string. ID of the Location
          * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". external_reference_id
          * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. inventory_transfer_id (Required):
-         * string. Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
-         * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". lines (Required): Array of {@link
-         * InventoryTransferLine}. Owned collection of transfer lines. Lines have no lifecycle
-         * outside this transfer; PATCH replaces the full collection. lines[] (Value): {@link
-         * InventoryTransferLine}. One line of an inventory transfer, with its quantities. note
-         * (Optional): string. Free-text note about the transfer. origin_location_id (Required):
-         * string. ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-         * received_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". status (Required): string. Where the transfer stands, worked out
-         * from the quantities that have left the origin and have since been received, returned, or
-         * reported lost. Value enum: "draft", "in_transit", "partially_resolved", "closed".
-         * supported_actions (Required): Array of string. Actions that can change this transfer
-         * now. `depart` and `cancel` need units that haven't left the origin. `receive`,
-         * `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is
-         * closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
-         * supported_actions[] (Value): string. Value enum: "depart", "receive",
-         * "return_to_origin", "report_loss", "cancel". updated_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
-         * integer. Current version of this resource's owned state. Send it as `expected_version`
-         * when changing the resource to reject a stale write. Format: uint64. minimum: 1.
+         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string or null.
+         * The Idempotency-Key of the request that created this resource. `null` when that request
+         * sent no key, Flint created the resource, the reader isn't the caller that created it
+         * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
+         * the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. inventory_transfer_id (Required): string. Unique identifier for this
+         * inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+         * lines (Required): Array of {@link InventoryTransferLine}. Owned collection of transfer
+         * lines. Lines have no lifecycle outside this transfer; PATCH replaces the full
+         * collection. lines[] (Value): {@link InventoryTransferLine}. One line of an inventory
+         * transfer, with its quantities. note (Optional): string. Free-text note about the
+         * transfer. origin_location_id (Required): string. ID of the Location the stock leaves.
+         * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". received_at (Optional): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". status (Required):
+         * string. Where the transfer stands, worked out from the quantities that have left the
+         * origin and have since been received, returned, or reported lost. Value enum: "draft",
+         * "in_transit", "partially_resolved", "closed". supported_actions (Required): Array of
+         * string. Actions that can change this transfer now. `depart` and `cancel` need units that
+         * haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units in
+         * transit. Empty once the transfer is closed. [] enum: "depart", "receive",
+         * "return_to_origin", "report_loss", "cancel". supported_actions[] (Value): string. Value
+         * enum: "depart", "receive", "return_to_origin", "report_loss", "cancel". updated_at
+         * (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
+         * owned state. Send it as `expected_version` when changing the resource to reject a stale
+         * write. Format: uint64. minimum: 1.
          */
         "object": {
             /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
@@ -5756,10 +6219,15 @@ export type InventoryTransferReturnedMerchantEvent = (Exclude<MerchantWebhookEnv
              */
             "external_reference_id"?: string;
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource.
              */
-            "idempotency_key"?: string;
+            "idempotency_key"?: string | null;
             /**
              * Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
              * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
@@ -5824,24 +6292,32 @@ export type InventoryTransferReturnedMerchantEvent = (Exclude<MerchantWebhookEnv
          * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
          * resource in an external system. maxLength: 255. Example: "warehouse-1842".
          * external_reference_id.anyOf[2] (Value): null. idempotency_key (Optional): string or
-         * null. The Idempotency-Key of the request that created this resource; on a movement, of
-         * the command that wrote it. Omitted when that request had no key.
-         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
-         * created this resource; on a movement, of the command that wrote it. Omitted when that
-         * request had no key. idempotency_key.anyOf[2] (Value): null. inventory_transfer_id
-         * (Optional): string or null. Unique identifier for this inventory transfer, prefixed
-         * `invtr_`. inventory_transfer_id.anyOf[1] (Value): string. Unique identifier for this
-         * inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
-         * inventory_transfer_id.anyOf[2] (Value): null. lines (Optional): Array of {@link
-         * InventoryTransferLinePreviousAttributes} or null. Owned collection of transfer lines.
-         * Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
-         * lines.anyOf[1] (Value): Array of {@link InventoryTransferLinePreviousAttributes}. Owned
+         * null. The Idempotency-Key of the request that created this resource. `null` when that
+         * request sent no key, Flint created the resource, the reader isn't the caller that
+         * created it (another app install, a buyer, or the merchant reading an app's or buyer's
+         * record), or the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+         * request that created this resource. `null` when that request sent no key, Flint created
+         * the resource, the reader isn't the caller that created it (another app install, a buyer,
+         * or the merchant reading an app's or buyer's record), or the caller that created an older
+         * record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. idempotency_key.anyOf[2] (Value): null.
+         * inventory_transfer_id (Optional): string or null. Unique identifier for this inventory
+         * transfer, prefixed `invtr_`. inventory_transfer_id.anyOf[1] (Value): string. Unique
+         * identifier for this inventory transfer, prefixed `invtr_`. Example:
+         * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". inventory_transfer_id.anyOf[2] (Value): null. lines
+         * (Optional): Array of {@link InventoryTransferLinePreviousAttributes} or null. Owned
          * collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH
-         * replaces the full collection. lines.anyOf[1][] (Value): {@link
-         * InventoryTransferLinePreviousAttributes}. lines.anyOf[2] (Value): null. note (Optional):
-         * string or null. Free-text note about the transfer. note.anyOf[1] (Value): string.
-         * Free-text note about the transfer. note.anyOf[2] (Value): null. origin_location_id
-         * (Optional): string or null. ID of the Location the stock leaves.
+         * replaces the full collection. lines.anyOf[1] (Value): Array of {@link
+         * InventoryTransferLinePreviousAttributes}. Owned collection of transfer lines. Lines have
+         * no lifecycle outside this transfer; PATCH replaces the full collection. lines.anyOf[1][]
+         * (Value): {@link InventoryTransferLinePreviousAttributes}. lines.anyOf[2] (Value): null.
+         * note (Optional): string or null. Free-text note about the transfer. note.anyOf[1]
+         * (Value): string. Free-text note about the transfer. note.anyOf[2] (Value): null.
+         * origin_location_id (Optional): string or null. ID of the Location the stock leaves.
          * origin_location_id.anyOf[1] (Value): string. ID of the Location the stock leaves.
          * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". origin_location_id.anyOf[2] (Value): null.
          * received_at (Optional): string or null. RFC3339 timestamp. received_at.anyOf[1] (Value):
@@ -5919,10 +6395,19 @@ export type InventoryTransferReturnedMerchantEvent = (Exclude<MerchantWebhookEnv
              */
             "external_reference_id"?: ((string) | (null));
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
-             * string. The Idempotency-Key of the request that created this resource; on a
-             * movement, of the command that wrote it. Omitted when that request had no key.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. anyOf[1] (Value): string. The Idempotency-Key of the
+             * request that created this resource. `null` when that request sent no key, Flint
+             * created the resource, the reader isn't the caller that created it (another app
+             * install, a buyer, or the merchant reading an app's or buyer's record), or the caller
+             * that created an older record is unknown. Filter its list with `idempotency_key` to
+             * find it. Recorded payloads, including replayed responses and webhook events, can
+             * return `null`. To find a key that a replay returns as `null`, read the resource.
              * anyOf[2] (Value): null.
              */
             "idempotency_key"?: ((string) | (null));
@@ -6017,7 +6502,7 @@ export type InventoryTransferUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope 
             "departed_at"?: string;
             "destination_location_id": string;
             "external_reference_id"?: string;
-            "idempotency_key"?: string;
+            "idempotency_key"?: string | null;
             "inventory_transfer_id": string;
             "lines": Array<InventoryTransferLine>;
             "note"?: string;
@@ -6080,7 +6565,7 @@ export type InventoryTransferUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope 
             "departed_at"?: string;
             "destination_location_id": string;
             "external_reference_id"?: string;
-            "idempotency_key"?: string;
+            "idempotency_key"?: string | null;
             "inventory_transfer_id": string;
             "lines": Array<InventoryTransferLine>;
             "note"?: string;
@@ -6153,8 +6638,12 @@ export type InventoryTransferUpdatedInstalledMerchantsEvent = (Exclude<PartnerWe
      * string. ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
      * in an external system. maxLength: 255. Example: "warehouse-1842". object.idempotency_key
-     * (Optional): string. The Idempotency-Key of the request that created this resource; on a
-     * movement, of the command that wrote it. Omitted when that request had no key.
+     * (Optional): string or null. The Idempotency-Key of the request that created this resource.
+     * `null` when that request sent no key, Flint created the resource, the reader isn't the
+     * caller that created it (another app install, a buyer, or the merchant reading an app's or
+     * buyer's record), or the caller that created an older record is unknown. Filter its list with
+     * `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook
+     * events, can return `null`. To find a key that a replay returns as `null`, read the resource.
      * object.inventory_transfer_id (Required): string. Unique identifier for this inventory
      * transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". object.lines
      * (Required): Array of {@link InventoryTransferLine}. Owned collection of transfer lines.
@@ -6205,10 +6694,18 @@ export type InventoryTransferUpdatedInstalledMerchantsEvent = (Exclude<PartnerWe
      * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
      * previous_attributes.external_reference_id.anyOf[2] (Value): null.
      * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
-     * request that created this resource; on a movement, of the command that wrote it. Omitted
-     * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
-     * The Idempotency-Key of the request that created this resource; on a movement, of the command
-     * that wrote it. Omitted when that request had no key.
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. previous_attributes.idempotency_key.anyOf[1] (Value):
+     * string. The Idempotency-Key of the request that created this resource. `null` when that
+     * request sent no key, Flint created the resource, the reader isn't the caller that created it
+     * (another app install, a buyer, or the merchant reading an app's or buyer's record), or the
+     * caller that created an older record is unknown. Filter its list with `idempotency_key` to
+     * find it. Recorded payloads, including replayed responses and webhook events, can return
+     * `null`. To find a key that a replay returns as `null`, read the resource.
      * previous_attributes.idempotency_key.anyOf[2] (Value): null.
      * previous_attributes.inventory_transfer_id (Optional): string or null. Unique identifier for
      * this inventory transfer, prefixed `invtr_`.
@@ -6271,29 +6768,34 @@ export type InventoryTransferUpdatedInstalledMerchantsEvent = (Exclude<PartnerWe
          * "2026-08-02T16:00:00Z". destination_location_id (Required): string. ID of the Location
          * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". external_reference_id
          * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. inventory_transfer_id (Required):
-         * string. Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
-         * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". lines (Required): Array of {@link
-         * InventoryTransferLine}. Owned collection of transfer lines. Lines have no lifecycle
-         * outside this transfer; PATCH replaces the full collection. lines[] (Value): {@link
-         * InventoryTransferLine}. One line of an inventory transfer, with its quantities. note
-         * (Optional): string. Free-text note about the transfer. origin_location_id (Required):
-         * string. ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-         * received_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". status (Required): string. Where the transfer stands, worked out
-         * from the quantities that have left the origin and have since been received, returned, or
-         * reported lost. Value enum: "draft", "in_transit", "partially_resolved", "closed".
-         * supported_actions (Required): Array of string. Actions that can change this transfer
-         * now. `depart` and `cancel` need units that haven't left the origin. `receive`,
-         * `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is
-         * closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
-         * supported_actions[] (Value): string. Value enum: "depart", "receive",
-         * "return_to_origin", "report_loss", "cancel". updated_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
-         * integer. Current version of this resource's owned state. Send it as `expected_version`
-         * when changing the resource to reject a stale write. Format: uint64. minimum: 1.
+         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string or null.
+         * The Idempotency-Key of the request that created this resource. `null` when that request
+         * sent no key, Flint created the resource, the reader isn't the caller that created it
+         * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
+         * the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. inventory_transfer_id (Required): string. Unique identifier for this
+         * inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+         * lines (Required): Array of {@link InventoryTransferLine}. Owned collection of transfer
+         * lines. Lines have no lifecycle outside this transfer; PATCH replaces the full
+         * collection. lines[] (Value): {@link InventoryTransferLine}. One line of an inventory
+         * transfer, with its quantities. note (Optional): string. Free-text note about the
+         * transfer. origin_location_id (Required): string. ID of the Location the stock leaves.
+         * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". received_at (Optional): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". status (Required):
+         * string. Where the transfer stands, worked out from the quantities that have left the
+         * origin and have since been received, returned, or reported lost. Value enum: "draft",
+         * "in_transit", "partially_resolved", "closed". supported_actions (Required): Array of
+         * string. Actions that can change this transfer now. `depart` and `cancel` need units that
+         * haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units in
+         * transit. Empty once the transfer is closed. [] enum: "depart", "receive",
+         * "return_to_origin", "report_loss", "cancel". supported_actions[] (Value): string. Value
+         * enum: "depart", "receive", "return_to_origin", "report_loss", "cancel". updated_at
+         * (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
+         * owned state. Send it as `expected_version` when changing the resource to reject a stale
+         * write. Format: uint64. minimum: 1.
          */
         "object": {
             /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
@@ -6324,10 +6826,15 @@ export type InventoryTransferUpdatedInstalledMerchantsEvent = (Exclude<PartnerWe
              */
             "external_reference_id"?: string;
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource.
              */
-            "idempotency_key"?: string;
+            "idempotency_key"?: string | null;
             /**
              * Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
              * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
@@ -6392,24 +6899,32 @@ export type InventoryTransferUpdatedInstalledMerchantsEvent = (Exclude<PartnerWe
          * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
          * resource in an external system. maxLength: 255. Example: "warehouse-1842".
          * external_reference_id.anyOf[2] (Value): null. idempotency_key (Optional): string or
-         * null. The Idempotency-Key of the request that created this resource; on a movement, of
-         * the command that wrote it. Omitted when that request had no key.
-         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
-         * created this resource; on a movement, of the command that wrote it. Omitted when that
-         * request had no key. idempotency_key.anyOf[2] (Value): null. inventory_transfer_id
-         * (Optional): string or null. Unique identifier for this inventory transfer, prefixed
-         * `invtr_`. inventory_transfer_id.anyOf[1] (Value): string. Unique identifier for this
-         * inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
-         * inventory_transfer_id.anyOf[2] (Value): null. lines (Optional): Array of {@link
-         * InventoryTransferLinePreviousAttributes} or null. Owned collection of transfer lines.
-         * Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
-         * lines.anyOf[1] (Value): Array of {@link InventoryTransferLinePreviousAttributes}. Owned
+         * null. The Idempotency-Key of the request that created this resource. `null` when that
+         * request sent no key, Flint created the resource, the reader isn't the caller that
+         * created it (another app install, a buyer, or the merchant reading an app's or buyer's
+         * record), or the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+         * request that created this resource. `null` when that request sent no key, Flint created
+         * the resource, the reader isn't the caller that created it (another app install, a buyer,
+         * or the merchant reading an app's or buyer's record), or the caller that created an older
+         * record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. idempotency_key.anyOf[2] (Value): null.
+         * inventory_transfer_id (Optional): string or null. Unique identifier for this inventory
+         * transfer, prefixed `invtr_`. inventory_transfer_id.anyOf[1] (Value): string. Unique
+         * identifier for this inventory transfer, prefixed `invtr_`. Example:
+         * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". inventory_transfer_id.anyOf[2] (Value): null. lines
+         * (Optional): Array of {@link InventoryTransferLinePreviousAttributes} or null. Owned
          * collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH
-         * replaces the full collection. lines.anyOf[1][] (Value): {@link
-         * InventoryTransferLinePreviousAttributes}. lines.anyOf[2] (Value): null. note (Optional):
-         * string or null. Free-text note about the transfer. note.anyOf[1] (Value): string.
-         * Free-text note about the transfer. note.anyOf[2] (Value): null. origin_location_id
-         * (Optional): string or null. ID of the Location the stock leaves.
+         * replaces the full collection. lines.anyOf[1] (Value): Array of {@link
+         * InventoryTransferLinePreviousAttributes}. Owned collection of transfer lines. Lines have
+         * no lifecycle outside this transfer; PATCH replaces the full collection. lines.anyOf[1][]
+         * (Value): {@link InventoryTransferLinePreviousAttributes}. lines.anyOf[2] (Value): null.
+         * note (Optional): string or null. Free-text note about the transfer. note.anyOf[1]
+         * (Value): string. Free-text note about the transfer. note.anyOf[2] (Value): null.
+         * origin_location_id (Optional): string or null. ID of the Location the stock leaves.
          * origin_location_id.anyOf[1] (Value): string. ID of the Location the stock leaves.
          * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". origin_location_id.anyOf[2] (Value): null.
          * received_at (Optional): string or null. RFC3339 timestamp. received_at.anyOf[1] (Value):
@@ -6487,10 +7002,19 @@ export type InventoryTransferUpdatedInstalledMerchantsEvent = (Exclude<PartnerWe
              */
             "external_reference_id"?: ((string) | (null));
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
-             * string. The Idempotency-Key of the request that created this resource; on a
-             * movement, of the command that wrote it. Omitted when that request had no key.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. anyOf[1] (Value): string. The Idempotency-Key of the
+             * request that created this resource. `null` when that request sent no key, Flint
+             * created the resource, the reader isn't the caller that created it (another app
+             * install, a buyer, or the merchant reading an app's or buyer's record), or the caller
+             * that created an older record is unknown. Filter its list with `idempotency_key` to
+             * find it. Recorded payloads, including replayed responses and webhook events, can
+             * return `null`. To find a key that a replay returns as `null`, read the resource.
              * anyOf[2] (Value): null.
              */
             "idempotency_key"?: ((string) | (null));
@@ -6619,8 +7143,12 @@ export type InventoryTransferUpdatedMerchantEvent = (Exclude<MerchantWebhookEnve
      * string. ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
      * in an external system. maxLength: 255. Example: "warehouse-1842". object.idempotency_key
-     * (Optional): string. The Idempotency-Key of the request that created this resource; on a
-     * movement, of the command that wrote it. Omitted when that request had no key.
+     * (Optional): string or null. The Idempotency-Key of the request that created this resource.
+     * `null` when that request sent no key, Flint created the resource, the reader isn't the
+     * caller that created it (another app install, a buyer, or the merchant reading an app's or
+     * buyer's record), or the caller that created an older record is unknown. Filter its list with
+     * `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook
+     * events, can return `null`. To find a key that a replay returns as `null`, read the resource.
      * object.inventory_transfer_id (Required): string. Unique identifier for this inventory
      * transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". object.lines
      * (Required): Array of {@link InventoryTransferLine}. Owned collection of transfer lines.
@@ -6671,10 +7199,18 @@ export type InventoryTransferUpdatedMerchantEvent = (Exclude<MerchantWebhookEnve
      * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
      * previous_attributes.external_reference_id.anyOf[2] (Value): null.
      * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
-     * request that created this resource; on a movement, of the command that wrote it. Omitted
-     * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
-     * The Idempotency-Key of the request that created this resource; on a movement, of the command
-     * that wrote it. Omitted when that request had no key.
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. previous_attributes.idempotency_key.anyOf[1] (Value):
+     * string. The Idempotency-Key of the request that created this resource. `null` when that
+     * request sent no key, Flint created the resource, the reader isn't the caller that created it
+     * (another app install, a buyer, or the merchant reading an app's or buyer's record), or the
+     * caller that created an older record is unknown. Filter its list with `idempotency_key` to
+     * find it. Recorded payloads, including replayed responses and webhook events, can return
+     * `null`. To find a key that a replay returns as `null`, read the resource.
      * previous_attributes.idempotency_key.anyOf[2] (Value): null.
      * previous_attributes.inventory_transfer_id (Optional): string or null. Unique identifier for
      * this inventory transfer, prefixed `invtr_`.
@@ -6737,29 +7273,34 @@ export type InventoryTransferUpdatedMerchantEvent = (Exclude<MerchantWebhookEnve
          * "2026-08-02T16:00:00Z". destination_location_id (Required): string. ID of the Location
          * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". external_reference_id
          * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. inventory_transfer_id (Required):
-         * string. Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
-         * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". lines (Required): Array of {@link
-         * InventoryTransferLine}. Owned collection of transfer lines. Lines have no lifecycle
-         * outside this transfer; PATCH replaces the full collection. lines[] (Value): {@link
-         * InventoryTransferLine}. One line of an inventory transfer, with its quantities. note
-         * (Optional): string. Free-text note about the transfer. origin_location_id (Required):
-         * string. ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-         * received_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". status (Required): string. Where the transfer stands, worked out
-         * from the quantities that have left the origin and have since been received, returned, or
-         * reported lost. Value enum: "draft", "in_transit", "partially_resolved", "closed".
-         * supported_actions (Required): Array of string. Actions that can change this transfer
-         * now. `depart` and `cancel` need units that haven't left the origin. `receive`,
-         * `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is
-         * closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
-         * supported_actions[] (Value): string. Value enum: "depart", "receive",
-         * "return_to_origin", "report_loss", "cancel". updated_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
-         * integer. Current version of this resource's owned state. Send it as `expected_version`
-         * when changing the resource to reject a stale write. Format: uint64. minimum: 1.
+         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string or null.
+         * The Idempotency-Key of the request that created this resource. `null` when that request
+         * sent no key, Flint created the resource, the reader isn't the caller that created it
+         * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
+         * the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. inventory_transfer_id (Required): string. Unique identifier for this
+         * inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+         * lines (Required): Array of {@link InventoryTransferLine}. Owned collection of transfer
+         * lines. Lines have no lifecycle outside this transfer; PATCH replaces the full
+         * collection. lines[] (Value): {@link InventoryTransferLine}. One line of an inventory
+         * transfer, with its quantities. note (Optional): string. Free-text note about the
+         * transfer. origin_location_id (Required): string. ID of the Location the stock leaves.
+         * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". received_at (Optional): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". status (Required):
+         * string. Where the transfer stands, worked out from the quantities that have left the
+         * origin and have since been received, returned, or reported lost. Value enum: "draft",
+         * "in_transit", "partially_resolved", "closed". supported_actions (Required): Array of
+         * string. Actions that can change this transfer now. `depart` and `cancel` need units that
+         * haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units in
+         * transit. Empty once the transfer is closed. [] enum: "depart", "receive",
+         * "return_to_origin", "report_loss", "cancel". supported_actions[] (Value): string. Value
+         * enum: "depart", "receive", "return_to_origin", "report_loss", "cancel". updated_at
+         * (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
+         * owned state. Send it as `expected_version` when changing the resource to reject a stale
+         * write. Format: uint64. minimum: 1.
          */
         "object": {
             /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
@@ -6790,10 +7331,15 @@ export type InventoryTransferUpdatedMerchantEvent = (Exclude<MerchantWebhookEnve
              */
             "external_reference_id"?: string;
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource.
              */
-            "idempotency_key"?: string;
+            "idempotency_key"?: string | null;
             /**
              * Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
              * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
@@ -6858,24 +7404,32 @@ export type InventoryTransferUpdatedMerchantEvent = (Exclude<MerchantWebhookEnve
          * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
          * resource in an external system. maxLength: 255. Example: "warehouse-1842".
          * external_reference_id.anyOf[2] (Value): null. idempotency_key (Optional): string or
-         * null. The Idempotency-Key of the request that created this resource; on a movement, of
-         * the command that wrote it. Omitted when that request had no key.
-         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
-         * created this resource; on a movement, of the command that wrote it. Omitted when that
-         * request had no key. idempotency_key.anyOf[2] (Value): null. inventory_transfer_id
-         * (Optional): string or null. Unique identifier for this inventory transfer, prefixed
-         * `invtr_`. inventory_transfer_id.anyOf[1] (Value): string. Unique identifier for this
-         * inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
-         * inventory_transfer_id.anyOf[2] (Value): null. lines (Optional): Array of {@link
-         * InventoryTransferLinePreviousAttributes} or null. Owned collection of transfer lines.
-         * Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
-         * lines.anyOf[1] (Value): Array of {@link InventoryTransferLinePreviousAttributes}. Owned
+         * null. The Idempotency-Key of the request that created this resource. `null` when that
+         * request sent no key, Flint created the resource, the reader isn't the caller that
+         * created it (another app install, a buyer, or the merchant reading an app's or buyer's
+         * record), or the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+         * request that created this resource. `null` when that request sent no key, Flint created
+         * the resource, the reader isn't the caller that created it (another app install, a buyer,
+         * or the merchant reading an app's or buyer's record), or the caller that created an older
+         * record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. idempotency_key.anyOf[2] (Value): null.
+         * inventory_transfer_id (Optional): string or null. Unique identifier for this inventory
+         * transfer, prefixed `invtr_`. inventory_transfer_id.anyOf[1] (Value): string. Unique
+         * identifier for this inventory transfer, prefixed `invtr_`. Example:
+         * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". inventory_transfer_id.anyOf[2] (Value): null. lines
+         * (Optional): Array of {@link InventoryTransferLinePreviousAttributes} or null. Owned
          * collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH
-         * replaces the full collection. lines.anyOf[1][] (Value): {@link
-         * InventoryTransferLinePreviousAttributes}. lines.anyOf[2] (Value): null. note (Optional):
-         * string or null. Free-text note about the transfer. note.anyOf[1] (Value): string.
-         * Free-text note about the transfer. note.anyOf[2] (Value): null. origin_location_id
-         * (Optional): string or null. ID of the Location the stock leaves.
+         * replaces the full collection. lines.anyOf[1] (Value): Array of {@link
+         * InventoryTransferLinePreviousAttributes}. Owned collection of transfer lines. Lines have
+         * no lifecycle outside this transfer; PATCH replaces the full collection. lines.anyOf[1][]
+         * (Value): {@link InventoryTransferLinePreviousAttributes}. lines.anyOf[2] (Value): null.
+         * note (Optional): string or null. Free-text note about the transfer. note.anyOf[1]
+         * (Value): string. Free-text note about the transfer. note.anyOf[2] (Value): null.
+         * origin_location_id (Optional): string or null. ID of the Location the stock leaves.
          * origin_location_id.anyOf[1] (Value): string. ID of the Location the stock leaves.
          * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". origin_location_id.anyOf[2] (Value): null.
          * received_at (Optional): string or null. RFC3339 timestamp. received_at.anyOf[1] (Value):
@@ -6953,10 +7507,19 @@ export type InventoryTransferUpdatedMerchantEvent = (Exclude<MerchantWebhookEnve
              */
             "external_reference_id"?: ((string) | (null));
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
-             * string. The Idempotency-Key of the request that created this resource; on a
-             * movement, of the command that wrote it. Omitted when that request had no key.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. anyOf[1] (Value): string. The Idempotency-Key of the
+             * request that created this resource. `null` when that request sent no key, Flint
+             * created the resource, the reader isn't the caller that created it (another app
+             * install, a buyer, or the merchant reading an app's or buyer's record), or the caller
+             * that created an older record is unknown. Filter its list with `idempotency_key` to
+             * find it. Recorded payloads, including replayed responses and webhook events, can
+             * return `null`. To find a key that a replay returns as `null`, read the resource.
              * anyOf[2] (Value): null.
              */
             "idempotency_key"?: ((string) | (null));
@@ -7141,8 +7704,11 @@ export type InventoryTransfersListParams = {
      * exact and case-sensitive. Returns only resources created in your caller namespace, plus
      * resources created before caller scoping under the original key. Returns current authorized
      * resources, not the recorded response. A pending resource does not prove that the operation
-     * succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength:
-     * 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
+     * succeeded, and an empty list does not prove that it had no effect. A match can show
+     * `idempotency_key: null` when that request sent no key, Flint created the resource, the
+     * reader isn't the caller that created it (another app install, a buyer, or the merchant
+     * reading an app's or buyer's record), or the caller that created an older record is unknown.
+     * minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
      */
     "idempotency_key"?: InputValue<string>;
     /**
@@ -7336,6 +7902,16 @@ export type Invoice = {
      * unset.
      */
     "footer": string | null;
+    /**
+     * The Idempotency-Key of the request that created this resource. `null` when that request sent
+     * no key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field.
+     */
+    "idempotency_key": string | null;
     /** Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". */
     "invoice_id": string;
     /**
@@ -7565,7 +8141,8 @@ export type InvoiceActivity = {
      * "payment_applied", "manual_payment_recorded", "manual_payment_reversed", "refund_succeeded",
      * "voided", "token_regenerated", "collection_blocked", "collection_block_resolved", "updated",
      * "marked_uncollectible", "payment_processing", "issue_failed", "overdue", "reminder_due",
-     * "late_fee_due", "late_fee_assessed", "late_fee_waived", "credited", "other".
+     * "late_fee_due", "late_fee_assessed", "late_fee_waived", "credited", "payment_failed",
+     * "payment_returned", "reopened", "credit_note_allocated", "other".
      */
     "activity_type": "draft_created"
         | "issued"
@@ -7592,6 +8169,10 @@ export type InvoiceActivity = {
         | "late_fee_assessed"
         | "late_fee_waived"
         | "credited"
+        | "payment_failed"
+        | "payment_returned"
+        | "reopened"
+        | "credit_note_allocated"
         | "other"
         | (string & {});
     /**
@@ -7606,11 +8187,11 @@ export type InvoiceActivity = {
      */
     "actor_type"?: "merchant" | "buyer" | "system" | (string & {});
     /**
-     * Amount of the payment, refund, or late fee. Present on payment_applied,
-     * manual_payment_recorded, manual_payment_reversed, refund_succeeded, late_fee_assessed, and
-     * late_fee_waived, and on updated when a card refund changed or a credit note refund was
-     * requested. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code.
+     * Amount of the payment, credit allocation, refund, or late fee. Present on payment_applied,
+     * payment_failed, payment_returned, credit_note_allocated, manual_payment_recorded,
+     * manual_payment_reversed, refund_succeeded, late_fee_assessed, and late_fee_waived, and on
+     * updated when a card refund changed or a credit note refund was requested. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
      */
     "amount_money"?: MoneyValue;
     /** Delivery channel. Present on delivery_sent and reminder_sent. Value enum: "email". */
@@ -7628,10 +8209,12 @@ export type InvoiceActivity = {
     /** When the activity happened. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "created_at": string;
     /**
-     * Credit note that requested the refund. Present on updated when a credit note refund was
-     * requested or changed. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
+     * Credit note that changed the balance. Present on credit_note_allocated and on updated when a
+     * credit note refund was requested or changed. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
      */
     "credit_note_id"?: string;
+    /** Number printed on the credit note. Present on credit_note_allocated. */
+    "credit_note_number"?: string;
     /**
      * Total credit applied to the invoice. Present on credited. Monetary amount represented as
      * integer minor units plus an ISO 4217 currency code.
@@ -7639,6 +8222,8 @@ export type InvoiceActivity = {
     "credited_money"?: MoneyValue;
     /** Human-readable Flint description of the activity. */
     "description": string;
+    /** Bank return case. Present on payment_returned. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". */
+    "dispute_id"?: string;
     /**
      * Due date that triggered the activity. Present on overdue, reminder_due, and late_fee_due.
      * Format: date-time. Example: "2026-08-02T16:00:00Z".
@@ -7677,8 +8262,8 @@ export type InvoiceActivity = {
      */
     "invoice_manual_payment_id"?: string;
     /**
-     * The payment attempt. Present on payment_attempt_started and payment_processing. Example:
-     * "invpa_01KEZF7C00PMWEDPAYYEKDTPBX".
+     * The payment attempt. Present on payment_attempt_started, payment_processing, and
+     * payment_failed. Example: "invpa_01KEZF7C00PMWEDPAYYEKDTPBX".
      */
     "invoice_payment_attempt_id"?: string;
     /**
@@ -7687,13 +8272,16 @@ export type InvoiceActivity = {
      * "invse_01KEZF7C006JCPQBD8VZ0RNT6R".
      */
     "invoice_schedule_entry_id"?: string;
+    /** Public payment failure code, when known. Present on payment_failed. */
+    "payment_failure_code"?: string;
     /**
-     * Payment intent whose funds were applied. Present on payment_applied. Example:
-     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * Payment intent whose funds were applied or returned. Present on payment_applied and
+     * payment_returned. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
      */
     "payment_intent_id"?: string;
     /**
-     * Payment rail of the attempt. Present on payment_processing. Value enum: "card", "ach_debit".
+     * Payment rail. Present on payment_processing, payment_failed, and payment_returned. Value
+     * enum: "card", "ach_debit".
      */
     "rail"?: "card" | "ach_debit" | (string & {});
     /**
@@ -7848,6 +8436,7 @@ export type InvoiceCollectionBlockResolvedEvent = ((((Exclude<MerchantWebhookEnv
             "due_date"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "footer"?: ((string) | (null));
+            "idempotency_key"?: ((string) | (null));
             "invoice_id"?: ((string) | (null));
             "invoice_number"?: ((string) | (null));
             "is_overdue"?: ((boolean) | (null));
@@ -7915,6 +8504,7 @@ export type InvoiceCollectionBlockResolvedEvent = ((((Exclude<MerchantWebhookEnv
             "due_date"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "footer"?: ((string) | (null));
+            "idempotency_key"?: ((string) | (null));
             "invoice_id"?: ((string) | (null));
             "invoice_number"?: ((string) | (null));
             "is_overdue"?: ((boolean) | (null));
@@ -8044,7 +8634,24 @@ export type InvoiceCollectionBlockResolvedInstalledMerchantsEvent = (Exclude<Par
      * (Optional): string or null. Fine print at the bottom of the invoice and PDF. It cannot
      * change after issue. `null` when unset. previous_attributes.footer.anyOf[1] (Value): string.
      * Fine print at the bottom of the invoice and PDF. It cannot change after issue. `null` when
-     * unset. previous_attributes.footer.anyOf[2] (Value): null. previous_attributes.invoice_id
+     * unset. previous_attributes.footer.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.invoice_id
      * (Optional): string or null. Flint invoice ID. previous_attributes.invoice_id.anyOf[1]
      * (Value): string. Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
      * previous_attributes.invoice_id.anyOf[2] (Value): null. previous_attributes.invoice_number
@@ -8305,19 +8912,36 @@ export type InvoiceCollectionBlockResolvedInstalledMerchantsEvent = (Exclude<Par
          * print at the bottom of the invoice and PDF. It cannot change after issue. `null` when
          * unset. footer.anyOf[1] (Value): string. Fine print at the bottom of the invoice and PDF.
          * It cannot change after issue. `null` when unset. footer.anyOf[2] (Value): null.
-         * invoice_id (Optional): string or null. Flint invoice ID. invoice_id.anyOf[1] (Value):
-         * string. Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2]
-         * (Value): null. invoice_number (Optional): string or null. Sequential document number
-         * assigned when the invoice is issued. Numbering is per merchant, with test and live mode
-         * numbered independently. invoice_number.anyOf[1] (Value): string. Sequential document
-         * number assigned when the invoice is issued. Numbering is per merchant, with test and
-         * live mode numbered independently. invoice_number.anyOf[2] (Value): null. is_overdue
-         * (Optional): boolean or null. Whether the invoice is open or partially_paid and past due
-         * with a balance remaining. Without schedule_entries, the due_date has ended in timezone
-         * (UTC when absent) and outstanding_money is above zero; with them, at least one entry is
-         * overdue. Computed when the invoice is read. is_overdue.anyOf[1] (Value): boolean.
-         * Whether the invoice is open or partially_paid and past due with a balance remaining.
-         * Without schedule_entries, the due_date has ended in timezone (UTC when absent) and
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[2] (Value): null. invoice_id (Optional): string or null. Flint
+         * invoice ID. invoice_id.anyOf[1] (Value): string. Flint invoice ID. Example:
+         * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2] (Value): null. invoice_number
+         * (Optional): string or null. Sequential document number assigned when the invoice is
+         * issued. Numbering is per merchant, with test and live mode numbered independently.
+         * invoice_number.anyOf[1] (Value): string. Sequential document number assigned when the
+         * invoice is issued. Numbering is per merchant, with test and live mode numbered
+         * independently. invoice_number.anyOf[2] (Value): null. is_overdue (Optional): boolean or
+         * null. Whether the invoice is open or partially_paid and past due with a balance
+         * remaining. Without schedule_entries, the due_date has ended in timezone (UTC when
+         * absent) and outstanding_money is above zero; with them, at least one entry is overdue.
+         * Computed when the invoice is read. is_overdue.anyOf[1] (Value): boolean. Whether the
+         * invoice is open or partially_paid and past due with a balance remaining. Without
+         * schedule_entries, the due_date has ended in timezone (UTC when absent) and
          * outstanding_money is above zero; with them, at least one entry is overdue. Computed when
          * the invoice is read. is_overdue.anyOf[2] (Value): null. issued_at (Optional): string or
          * null. When the invoice was issued. Absent on a draft. issued_at.anyOf[1] (Value):
@@ -8565,6 +9189,25 @@ export type InvoiceCollectionBlockResolvedInstalledMerchantsEvent = (Exclude<Par
              * and PDF. It cannot change after issue. `null` when unset. anyOf[2] (Value): null.
              */
             "footer"?: ((string) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field. anyOf[1] (Value): string. The
+             * Idempotency-Key of the request that created this resource. `null` when that request
+             * sent no key, Flint created the resource, the reader isn't the caller that created it
+             * (another app install, a buyer, or the merchant reading an app's or buyer's record),
+             * or the caller that created an older record is unknown. Filter its list with
+             * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+             * webhook events, can return `null`. To find a key that a replay returns as `null`,
+             * read the resource. Buyer sessions on routes shared with merchants get `null`.
+             * `/v1/me` responses do not include this field. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
             /**
              * Flint invoice ID. anyOf[1] (Value): string. Flint invoice ID. Example:
              * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
@@ -8950,7 +9593,24 @@ export type InvoiceCollectionBlockResolvedMerchantEvent = (Exclude<MerchantWebho
      * (Optional): string or null. Fine print at the bottom of the invoice and PDF. It cannot
      * change after issue. `null` when unset. previous_attributes.footer.anyOf[1] (Value): string.
      * Fine print at the bottom of the invoice and PDF. It cannot change after issue. `null` when
-     * unset. previous_attributes.footer.anyOf[2] (Value): null. previous_attributes.invoice_id
+     * unset. previous_attributes.footer.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.invoice_id
      * (Optional): string or null. Flint invoice ID. previous_attributes.invoice_id.anyOf[1]
      * (Value): string. Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
      * previous_attributes.invoice_id.anyOf[2] (Value): null. previous_attributes.invoice_number
@@ -9211,19 +9871,36 @@ export type InvoiceCollectionBlockResolvedMerchantEvent = (Exclude<MerchantWebho
          * print at the bottom of the invoice and PDF. It cannot change after issue. `null` when
          * unset. footer.anyOf[1] (Value): string. Fine print at the bottom of the invoice and PDF.
          * It cannot change after issue. `null` when unset. footer.anyOf[2] (Value): null.
-         * invoice_id (Optional): string or null. Flint invoice ID. invoice_id.anyOf[1] (Value):
-         * string. Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2]
-         * (Value): null. invoice_number (Optional): string or null. Sequential document number
-         * assigned when the invoice is issued. Numbering is per merchant, with test and live mode
-         * numbered independently. invoice_number.anyOf[1] (Value): string. Sequential document
-         * number assigned when the invoice is issued. Numbering is per merchant, with test and
-         * live mode numbered independently. invoice_number.anyOf[2] (Value): null. is_overdue
-         * (Optional): boolean or null. Whether the invoice is open or partially_paid and past due
-         * with a balance remaining. Without schedule_entries, the due_date has ended in timezone
-         * (UTC when absent) and outstanding_money is above zero; with them, at least one entry is
-         * overdue. Computed when the invoice is read. is_overdue.anyOf[1] (Value): boolean.
-         * Whether the invoice is open or partially_paid and past due with a balance remaining.
-         * Without schedule_entries, the due_date has ended in timezone (UTC when absent) and
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[2] (Value): null. invoice_id (Optional): string or null. Flint
+         * invoice ID. invoice_id.anyOf[1] (Value): string. Flint invoice ID. Example:
+         * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2] (Value): null. invoice_number
+         * (Optional): string or null. Sequential document number assigned when the invoice is
+         * issued. Numbering is per merchant, with test and live mode numbered independently.
+         * invoice_number.anyOf[1] (Value): string. Sequential document number assigned when the
+         * invoice is issued. Numbering is per merchant, with test and live mode numbered
+         * independently. invoice_number.anyOf[2] (Value): null. is_overdue (Optional): boolean or
+         * null. Whether the invoice is open or partially_paid and past due with a balance
+         * remaining. Without schedule_entries, the due_date has ended in timezone (UTC when
+         * absent) and outstanding_money is above zero; with them, at least one entry is overdue.
+         * Computed when the invoice is read. is_overdue.anyOf[1] (Value): boolean. Whether the
+         * invoice is open or partially_paid and past due with a balance remaining. Without
+         * schedule_entries, the due_date has ended in timezone (UTC when absent) and
          * outstanding_money is above zero; with them, at least one entry is overdue. Computed when
          * the invoice is read. is_overdue.anyOf[2] (Value): null. issued_at (Optional): string or
          * null. When the invoice was issued. Absent on a draft. issued_at.anyOf[1] (Value):
@@ -9471,6 +10148,25 @@ export type InvoiceCollectionBlockResolvedMerchantEvent = (Exclude<MerchantWebho
              * and PDF. It cannot change after issue. `null` when unset. anyOf[2] (Value): null.
              */
             "footer"?: ((string) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field. anyOf[1] (Value): string. The
+             * Idempotency-Key of the request that created this resource. `null` when that request
+             * sent no key, Flint created the resource, the reader isn't the caller that created it
+             * (another app install, a buyer, or the merchant reading an app's or buyer's record),
+             * or the caller that created an older record is unknown. Filter its list with
+             * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+             * webhook events, can return `null`. To find a key that a replay returns as `null`,
+             * read the resource. Buyer sessions on routes shared with merchants get `null`.
+             * `/v1/me` responses do not include this field. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
             /**
              * Flint invoice ID. anyOf[1] (Value): string. Flint invoice ID. Example:
              * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
@@ -9770,6 +10466,7 @@ export type InvoiceCollectionBlockedEvent = ((((Exclude<MerchantWebhookEnvelope 
             "due_date"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "footer"?: ((string) | (null));
+            "idempotency_key"?: ((string) | (null));
             "invoice_id"?: ((string) | (null));
             "invoice_number"?: ((string) | (null));
             "is_overdue"?: ((boolean) | (null));
@@ -9837,6 +10534,7 @@ export type InvoiceCollectionBlockedEvent = ((((Exclude<MerchantWebhookEnvelope 
             "due_date"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "footer"?: ((string) | (null));
+            "idempotency_key"?: ((string) | (null));
             "invoice_id"?: ((string) | (null));
             "invoice_number"?: ((string) | (null));
             "is_overdue"?: ((boolean) | (null));
@@ -9966,7 +10664,24 @@ export type InvoiceCollectionBlockedInstalledMerchantsEvent = (Exclude<PartnerWe
      * (Optional): string or null. Fine print at the bottom of the invoice and PDF. It cannot
      * change after issue. `null` when unset. previous_attributes.footer.anyOf[1] (Value): string.
      * Fine print at the bottom of the invoice and PDF. It cannot change after issue. `null` when
-     * unset. previous_attributes.footer.anyOf[2] (Value): null. previous_attributes.invoice_id
+     * unset. previous_attributes.footer.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.invoice_id
      * (Optional): string or null. Flint invoice ID. previous_attributes.invoice_id.anyOf[1]
      * (Value): string. Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
      * previous_attributes.invoice_id.anyOf[2] (Value): null. previous_attributes.invoice_number
@@ -10227,19 +10942,36 @@ export type InvoiceCollectionBlockedInstalledMerchantsEvent = (Exclude<PartnerWe
          * print at the bottom of the invoice and PDF. It cannot change after issue. `null` when
          * unset. footer.anyOf[1] (Value): string. Fine print at the bottom of the invoice and PDF.
          * It cannot change after issue. `null` when unset. footer.anyOf[2] (Value): null.
-         * invoice_id (Optional): string or null. Flint invoice ID. invoice_id.anyOf[1] (Value):
-         * string. Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2]
-         * (Value): null. invoice_number (Optional): string or null. Sequential document number
-         * assigned when the invoice is issued. Numbering is per merchant, with test and live mode
-         * numbered independently. invoice_number.anyOf[1] (Value): string. Sequential document
-         * number assigned when the invoice is issued. Numbering is per merchant, with test and
-         * live mode numbered independently. invoice_number.anyOf[2] (Value): null. is_overdue
-         * (Optional): boolean or null. Whether the invoice is open or partially_paid and past due
-         * with a balance remaining. Without schedule_entries, the due_date has ended in timezone
-         * (UTC when absent) and outstanding_money is above zero; with them, at least one entry is
-         * overdue. Computed when the invoice is read. is_overdue.anyOf[1] (Value): boolean.
-         * Whether the invoice is open or partially_paid and past due with a balance remaining.
-         * Without schedule_entries, the due_date has ended in timezone (UTC when absent) and
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[2] (Value): null. invoice_id (Optional): string or null. Flint
+         * invoice ID. invoice_id.anyOf[1] (Value): string. Flint invoice ID. Example:
+         * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2] (Value): null. invoice_number
+         * (Optional): string or null. Sequential document number assigned when the invoice is
+         * issued. Numbering is per merchant, with test and live mode numbered independently.
+         * invoice_number.anyOf[1] (Value): string. Sequential document number assigned when the
+         * invoice is issued. Numbering is per merchant, with test and live mode numbered
+         * independently. invoice_number.anyOf[2] (Value): null. is_overdue (Optional): boolean or
+         * null. Whether the invoice is open or partially_paid and past due with a balance
+         * remaining. Without schedule_entries, the due_date has ended in timezone (UTC when
+         * absent) and outstanding_money is above zero; with them, at least one entry is overdue.
+         * Computed when the invoice is read. is_overdue.anyOf[1] (Value): boolean. Whether the
+         * invoice is open or partially_paid and past due with a balance remaining. Without
+         * schedule_entries, the due_date has ended in timezone (UTC when absent) and
          * outstanding_money is above zero; with them, at least one entry is overdue. Computed when
          * the invoice is read. is_overdue.anyOf[2] (Value): null. issued_at (Optional): string or
          * null. When the invoice was issued. Absent on a draft. issued_at.anyOf[1] (Value):
@@ -10487,6 +11219,25 @@ export type InvoiceCollectionBlockedInstalledMerchantsEvent = (Exclude<PartnerWe
              * and PDF. It cannot change after issue. `null` when unset. anyOf[2] (Value): null.
              */
             "footer"?: ((string) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field. anyOf[1] (Value): string. The
+             * Idempotency-Key of the request that created this resource. `null` when that request
+             * sent no key, Flint created the resource, the reader isn't the caller that created it
+             * (another app install, a buyer, or the merchant reading an app's or buyer's record),
+             * or the caller that created an older record is unknown. Filter its list with
+             * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+             * webhook events, can return `null`. To find a key that a replay returns as `null`,
+             * read the resource. Buyer sessions on routes shared with merchants get `null`.
+             * `/v1/me` responses do not include this field. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
             /**
              * Flint invoice ID. anyOf[1] (Value): string. Flint invoice ID. Example:
              * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
@@ -10872,7 +11623,24 @@ export type InvoiceCollectionBlockedMerchantEvent = (Exclude<MerchantWebhookEnve
      * (Optional): string or null. Fine print at the bottom of the invoice and PDF. It cannot
      * change after issue. `null` when unset. previous_attributes.footer.anyOf[1] (Value): string.
      * Fine print at the bottom of the invoice and PDF. It cannot change after issue. `null` when
-     * unset. previous_attributes.footer.anyOf[2] (Value): null. previous_attributes.invoice_id
+     * unset. previous_attributes.footer.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.invoice_id
      * (Optional): string or null. Flint invoice ID. previous_attributes.invoice_id.anyOf[1]
      * (Value): string. Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
      * previous_attributes.invoice_id.anyOf[2] (Value): null. previous_attributes.invoice_number
@@ -11133,19 +11901,36 @@ export type InvoiceCollectionBlockedMerchantEvent = (Exclude<MerchantWebhookEnve
          * print at the bottom of the invoice and PDF. It cannot change after issue. `null` when
          * unset. footer.anyOf[1] (Value): string. Fine print at the bottom of the invoice and PDF.
          * It cannot change after issue. `null` when unset. footer.anyOf[2] (Value): null.
-         * invoice_id (Optional): string or null. Flint invoice ID. invoice_id.anyOf[1] (Value):
-         * string. Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2]
-         * (Value): null. invoice_number (Optional): string or null. Sequential document number
-         * assigned when the invoice is issued. Numbering is per merchant, with test and live mode
-         * numbered independently. invoice_number.anyOf[1] (Value): string. Sequential document
-         * number assigned when the invoice is issued. Numbering is per merchant, with test and
-         * live mode numbered independently. invoice_number.anyOf[2] (Value): null. is_overdue
-         * (Optional): boolean or null. Whether the invoice is open or partially_paid and past due
-         * with a balance remaining. Without schedule_entries, the due_date has ended in timezone
-         * (UTC when absent) and outstanding_money is above zero; with them, at least one entry is
-         * overdue. Computed when the invoice is read. is_overdue.anyOf[1] (Value): boolean.
-         * Whether the invoice is open or partially_paid and past due with a balance remaining.
-         * Without schedule_entries, the due_date has ended in timezone (UTC when absent) and
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[2] (Value): null. invoice_id (Optional): string or null. Flint
+         * invoice ID. invoice_id.anyOf[1] (Value): string. Flint invoice ID. Example:
+         * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2] (Value): null. invoice_number
+         * (Optional): string or null. Sequential document number assigned when the invoice is
+         * issued. Numbering is per merchant, with test and live mode numbered independently.
+         * invoice_number.anyOf[1] (Value): string. Sequential document number assigned when the
+         * invoice is issued. Numbering is per merchant, with test and live mode numbered
+         * independently. invoice_number.anyOf[2] (Value): null. is_overdue (Optional): boolean or
+         * null. Whether the invoice is open or partially_paid and past due with a balance
+         * remaining. Without schedule_entries, the due_date has ended in timezone (UTC when
+         * absent) and outstanding_money is above zero; with them, at least one entry is overdue.
+         * Computed when the invoice is read. is_overdue.anyOf[1] (Value): boolean. Whether the
+         * invoice is open or partially_paid and past due with a balance remaining. Without
+         * schedule_entries, the due_date has ended in timezone (UTC when absent) and
          * outstanding_money is above zero; with them, at least one entry is overdue. Computed when
          * the invoice is read. is_overdue.anyOf[2] (Value): null. issued_at (Optional): string or
          * null. When the invoice was issued. Absent on a draft. issued_at.anyOf[1] (Value):
@@ -11393,6 +12178,25 @@ export type InvoiceCollectionBlockedMerchantEvent = (Exclude<MerchantWebhookEnve
              * and PDF. It cannot change after issue. `null` when unset. anyOf[2] (Value): null.
              */
             "footer"?: ((string) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field. anyOf[1] (Value): string. The
+             * Idempotency-Key of the request that created this resource. `null` when that request
+             * sent no key, Flint created the resource, the reader isn't the caller that created it
+             * (another app install, a buyer, or the merchant reading an app's or buyer's record),
+             * or the caller that created an older record is unknown. Filter its list with
+             * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+             * webhook events, can return `null`. To find a key that a replay returns as `null`,
+             * read the resource. Buyer sessions on routes shared with merchants get `null`.
+             * `/v1/me` responses do not include this field. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
             /**
              * Flint invoice ID. anyOf[1] (Value): string. Flint invoice ID. Example:
              * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
@@ -11961,62 +12765,3 @@ export type InvoiceCollectionInputMerchantDefault = ({
     /** Value enum: "merchant_default". */
     "mode"?: "merchant_default" | (string & {});
 }));
-/** The `merchant_default` variant of `InvoiceCollectionInput`. */
-export type InvoiceCollectionInputMerchantDefaultInput = ({
-    /**
-     * How the invoice is collected. merchant_default resolves when the draft is written, and reads
-     * return the resolved mode. Value enum: "merchant_default".
-     */
-    "mode": "merchant_default";
-    /**
-     * The customer's saved card to charge. Accepted only with automatic. Without one, Flint
-     * charges the customer's default card, selected when the invoice is issued. Send null to clear
-     * it. minLength: 1. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
-     */
-    "payment_method_id"?: string | null;
-    /**
-     * The payment options the hosted invoice page offers. Accepted only with buyer_initiated. An
-     * explicit policy takes precedence over invoices.payment_policy, then checkout payment
-     * options, then the platform default of card, apple_pay, and google_pay. Defaults resolve when
-     * the draft is written; later settings changes do not change its stored policy. Wallets appear
-     * only on supported devices over HTTPS with the payment domain registered. Which payment
-     * options an invoice accepts, any per-option total limits, and whether to show a cost
-     * comparison.
-     */
-    "payment_policy"?: InvoicePaymentPolicyRequestInput;
-})
-    & (({
-    /** Value enum: "merchant_default". */
-    "mode"?: "merchant_default";
-})
-    & (({
-    "payment_method_id"?: never;
-}) & ({
-    "payment_policy"?: never;
-})));
-export type InvoiceCollectionPreviousAttributes = ({
-    /**
-     * How the invoice is collected, resolved when the draft was written. Value enum:
-     * "buyer_initiated", "automatic", "external". anyOf[1] (Value): string. How the invoice is
-     * collected, resolved when the draft was written. Value enum: "buyer_initiated", "automatic",
-     * "external". anyOf[2] (Value): null.
-     */
-    "mode"?: (("buyer_initiated" | "automatic" | "external" | (string & {})) | (null));
-    /**
-     * The saved card Flint charges. Present only with automatic. `null` when the draft will use
-     * the customer's default card, selected at issue. After issue it is the selected card.
-     * anyOf[1] (Value): string. The saved card Flint charges. Present only with automatic. `null`
-     * when the draft will use the customer's default card, selected at issue. After issue it is
-     * the selected card. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ". anyOf[2] (Value): null.
-     */
-    "payment_method_id"?: ((string) | (null));
-    /**
-     * The payment options the hosted invoice page offers. Present only with buyer_initiated.
-     * anyOf[1] (Value): {@link InvoicePaymentPolicyPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "payment_policy"?: ((InvoicePaymentPolicyPreviousAttributes) | (null));
-})
-    & (((Exclude<InvoiceCollectionBuyerInitiatedPreviousAttributes & object, readonly unknown[]>)
-    | (Exclude<InvoiceCollectionAutomaticPreviousAttributes & object, readonly unknown[]>)
-    | (Exclude<InvoiceCollectionExternalPreviousAttributes & object, readonly unknown[]>)
-    | (Record<string, unknown>)));

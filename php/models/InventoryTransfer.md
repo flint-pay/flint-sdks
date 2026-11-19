@@ -14,7 +14,7 @@ Response model.
 | `departed_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `destination_location_id` | Required | string | ID of the Location the stock goes to. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
-| `idempotency_key` | Optional | string | The Idempotency-Key of the request that created this resource; on a movement, of the command that wrote it. Omitted when that request had no key. |
+| `idempotency_key` | Required | string or null | The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. |
 | `inventory_transfer_id` | Required | string | Unique identifier for this inventory transfer, prefixed `invtr_`. |
 | `lines` | Required | Array of [InventoryTransferLine](../models/InventoryTransferLine.md#inventorytransferline) | Owned collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection. `lines[]`: [field definitions](../models/InventoryTransferResponse.md#inventorytransferresponsedatalines). |
 | `note` | Optional | string | Free-text note about the transfer. |

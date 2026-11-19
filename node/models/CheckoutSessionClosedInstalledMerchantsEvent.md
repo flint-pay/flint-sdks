@@ -78,7 +78,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `active_payment_attempt` | Optional | [OrderPaymentAttemptPreviousAttributes](../models/OrderPaymentAttemptPreviousAttributes.md#orderpaymentattemptpreviousattributes) or null | The payment attempt now collecting this checkout's order, the same attempt as the order's active_payment_attempt. Read it to recover after losing a pay response, and resume it only when is_resumable is true. Omitted when no attempt is active. Pending actions that open a URL are left out; the pay response carries them. |
+| `active_payment_attempt` | Optional | [WebhookSnapshotOrderPaymentAttemptPreviousAttributes](../models/WebhookSnapshotOrderPaymentAttemptPreviousAttributes.md#webhooksnapshotorderpaymentattemptpreviousattributes) or null | The payment attempt now collecting this checkout's order, the same attempt as the order's active_payment_attempt. Read it to recover after losing a pay response, and resume it only when is_resumable is true. Omitted when no attempt is active. Pending actions that open a URL are left out; the pay response carries them. |
 | `buyer_contact` | Optional | [CheckoutBuyerContactPreviousAttributes](../models/CheckoutBuyerContactPreviousAttributes.md#checkoutbuyercontactpreviousattributes) or null | Contact the buyer entered in checkout before paying, saved with the session's checkout credential. Separate from merchant-supplied prefill and customer_prefill from the customer record. Omitted until the buyer saves or clears a field. When a checkout session payment omits buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the contact 30 days after the session ends, and when a customer linked to the session is deleted. |
 | `buyer_fields` | Optional | [CheckoutBuyerFieldsPreviousAttributes](../models/CheckoutBuyerFieldsPreviousAttributes.md#checkoutbuyerfieldspreviousattributes) or null | What checkout asks the buyer for. Each field you leave out uses your checkout settings. |
 | `can_apply_promotion_code` | Optional | boolean or null | Whether to offer promotion-code entry now. True only while the session is open, is not in recovery, and merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins; null offers entry only when this merchant has an active code promotion whose schedule includes now, in the session's environment. Recomputed on each read. This hint does not change code admission: checkout lifecycle, promotion_config, and merchant policy still apply. `can_apply_promotion_code`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributescan_apply_promotion_code). |
@@ -100,14 +100,14 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `inventory_reservation_ids` | Optional | Array of string or null | Immutable cart hold IDs authorized by the merchant at session creation. Omitted when empty and from checkout-credential responses. Buyer and merchant delivery requests that omit IDs use eligible bound holds; explicit merchant IDs replace the binding for that request. First adopter wins when sessions share a hold. Invalidated or otherwise ended sessions cannot adopt stock, and replacements never inherit the binding. Unused cart units retain their own release and expiration lifecycle. `inventory_reservation_ids`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributesinventory_reservation_ids). |
 | `invoice` | Optional | [ExpandedInvoiceSummaryPreviousAttributes](../models/ExpandedInvoiceSummaryPreviousAttributes.md#expandedinvoicesummarypreviousattributes) or null | Present only when `expand` includes `invoice`; `null` when expanded and there is no related invoice. |
 | `invoice_id` | Optional | string or null | ID of the invoice a session of type `invoice` collects payment for. Absent for other types. `invoice_id`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributesinvoice_id). |
-| `is_in_recovery` | Optional | boolean or null | Whether this terminal session credential is temporarily restricted to recovering its owning payment attempt. `is_in_recovery`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributesis_in_recovery). |
+| `is_in_recovery` | Optional | boolean or null | Whether the checkout is in its payment recovery window after its deadline. The checkout credential can recover only an attempt it started. Merchant reads can also report a merchant-started attempt. `is_in_recovery`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributesis_in_recovery). |
 | `legal` | Optional | [CheckoutLegalConfigPreviousAttributes](../models/CheckoutLegalConfigPreviousAttributes.md#checkoutlegalconfigpreviousattributes) or null | The terms and policy links this session shows the buyer, and whether the buyer must accept the terms. |
 | `merchant_id` | Optional | string or null | ID of the merchant this resource belongs to. `merchant_id`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributesmerchant_id). |
 | `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) or null | Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. `metadata`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributesmetadata). |
 | `order` | Optional | [ExpandedOrderSummaryPreviousAttributes](../models/ExpandedOrderSummaryPreviousAttributes.md#expandedordersummarypreviousattributes) or null | Present only when `expand` includes `order`; `null` when expanded and there is no related order. |
 | `order_id` | Optional | string or null | ID of the order the session collects payment for, fixed at creation. Absent when the session has no order. `order_id`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributesorder_id). |
 | `page_origin` | Optional | string or null | Origin of the page that renders this headless checkout. Omitted when not set. `page_origin`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributespage_origin). |
-| `payment_collection` | Optional | [SetupCollectionPreviousAttributes](../models/SetupCollectionPreviousAttributes.md#setupcollectionpreviousattributes) or null | Guidance for collecting a payment source. Checkout-credential reads include it only while the session is open. Returned only to the checkout credential; never in webhook payloads. `payment_collection`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributespayment_collection). |
+| `payment_collection` | Optional | [PaymentCollectionPreviousAttributes](../models/PaymentCollectionPreviousAttributes.md#paymentcollectionpreviousattributes) or null | Guidance for collecting a payment source. Checkout-credential reads include it only while the session is open. Returned only to the checkout credential; never in webhook payloads. |
 | `payment_intent_ids` | Optional | Array of string or null | IDs of the payment intents for the session's order. Absent when the order has none. `payment_intent_ids`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributespayment_intent_ids). |
 | `payment_intents` | Optional | Array of [ExpandedPaymentIntentSummaryPreviousAttributes](../models/ExpandedPaymentIntentSummaryPreviousAttributes.md#expandedpaymentintentsummarypreviousattributes) or null | Present only when `expand` includes `payment_intents`: summaries of the payment intents in `payment_intent_ids`. `payment_intents`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributespayment_intents). |
 | `payment_link` | Optional | [ExpandedPaymentLinkSummaryPreviousAttributes](../models/ExpandedPaymentLinkSummaryPreviousAttributes.md#expandedpaymentlinksummarypreviousattributes) or null | Present only when `expand` includes `payment_link`; `null` when expanded and there is no related payment link. |
@@ -119,7 +119,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `promotion_config` | Optional | [CheckoutPromotionConfigPreviousAttributes](../models/CheckoutPromotionConfigPreviousAttributes.md#checkoutpromotionconfigpreviousattributes) or null | Whether automatic promotions apply to this session and whether the buyer can enter promotion codes. |
 | `redirects` | Optional | [CheckoutRedirectsPreviousAttributes](../models/CheckoutRedirectsPreviousAttributes.md#checkoutredirectspreviousattributes) or null | Where hosted checkout sends the buyer. Not allowed when surface is headless; use payment_return_url. |
 | `refunds` | Optional | Array of [BuyerRefundPreviousAttributes](../models/BuyerRefundPreviousAttributes.md#buyerrefundpreviousattributes) or null | All buyer-visible refunds on this session’s order, including refunds made by the store. Uses the same buyer projection as /v1/me/refunds. Included on GET single-session reads as an array, with [] when there are none, and omitted from other responses and webhooks. A failed refund with failure_reason refund_abandoned could not be completed: tell the buyer to contact the store to get their money back. `refunds`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributesrefunds). |
-| `setup_collection` | Optional | [SetupCollectionPreviousAttributes](../models/SetupCollectionPreviousAttributes.md#setupcollectionpreviousattributes) or null | Guidance for collecting a payment method to save. Checkout-credential reads include it only while the session is open. Returned only to the checkout credential; never in webhook payloads. `setup_collection`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributessetup_collection). |
+| `setup_collection` | Optional | [SetupCollectionPreviousAttributes](../models/SetupCollectionPreviousAttributes.md#setupcollectionpreviousattributes) or null | Guidance for collecting a payment method to save. Checkout-credential reads include it only while the session is open. Returned only to the checkout credential; never in webhook payloads. |
 | `status` | Optional | string or null | Where the session is in its lifecycle. Only an `open` session accepts payment. `terminal_reason` says why a session that is not open ended. Values: `"open"`, `"paid"`, `"partially_paid"`, `"expired"`, `"closed"`, `"invalidated"`. `status`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributesstatus). |
 | `subscription_plan_id` | Optional | string or null | ID of the subscription plan a session of type `subscription_plan` signs the buyer up for. Absent for other types. `subscription_plan_id`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributessubscription_plan_id). |
 | `subscription_terms` | Optional | [CheckoutSubscriptionTermsPreviousAttributes](../models/CheckoutSubscriptionTermsPreviousAttributes.md#checkoutsubscriptiontermspreviousattributes) or null | Renewal terms a subscription checkout commits the buyer to. Frozen when the session's order was created, so later plan changes do not alter them. Absent when the checkout starts no subscription. |
@@ -304,15 +304,15 @@ anyOf variant 2.
 
 ### CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.is_in_recovery variant 1
 
-anyOf variant 1: Whether this terminal session credential is temporarily restricted to recovering its owning payment attempt..
+anyOf variant 1: Whether the checkout is in its payment recovery window after its deadline. The checkout credential can recover only an attempt it started. Merchant reads can also report a merchant-started attempt..
 
-- Value shape: boolean. Whether this terminal session credential is temporarily restricted to recovering its owning payment attempt. 
+- Value shape: boolean. Whether the checkout is in its payment recovery window after its deadline. The checkout credential can recover only an attempt it started. Merchant reads can also report a merchant-started attempt. 
 
 ### CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.is_in_recovery variant 2
 
 anyOf variant 2.
 
-- Value shape: null. Whether this terminal session credential is temporarily restricted to recovering its owning payment attempt. 
+- Value shape: null. Whether the checkout is in its payment recovery window after its deadline. The checkout credential can recover only an attempt it started. Merchant reads can also report a merchant-started attempt. 
 
 ### CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.merchant_id
 
@@ -359,93 +359,6 @@ anyOf variant 1: Origin of the page that renders this headless checkout. Omitted
 anyOf variant 2.
 
 - Value shape: null. Origin of the page that renders this headless checkout. Omitted when not set. 
-
-### CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.payment_collection
-
-Guidance for collecting a payment source. Checkout-credential reads include it only while the session is open. Returned only to the checkout credential; never in webhook payloads.
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `stripe` | Conditional | [SetupCollectionStripePreviousAttributes](../models/SetupCollectionStripePreviousAttributes.md#setupcollectionstripepreviousattributes) or null | Client configuration for collecting the payment through Stripe. `stripe`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributespayment_collection-variant-1stripe). |
-
-### CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.payment_collection variant 1
-
-anyOf PaymentCollectionPreviousAttributes.
-
-- Optional: `stripe`.
-
-### CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.payment_collection variant 2
-
-anyOf variant 2.
-
-- Undeclared: `stripe`.
-- Value shape: null. Guidance for collecting a payment source. Checkout-credential reads include it only while the session is open. Returned only to the checkout credential; never in webhook payloads. 
-
-### CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.payment_collection variant 1.stripe
-
-Client configuration for collecting the payment through Stripe.
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `account_id` | Conditional | string or null | Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Null when the payment has splits: initialize Stripe.js with publishable_key alone and omit stripeAccount. `account_id`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributespayment_collection-variant-1stripe-variant-1account_id). |
-| `elements` | Conditional | [PaymentCollectionStripeElementsPreviousAttributes](../models/PaymentCollectionStripeElementsPreviousAttributes.md#paymentcollectionstripeelementspreviousattributes) or null | Stripe Elements configuration for the available payment methods and amounts. |
-| `publishable_key` | Conditional | string or null | Publishable Stripe key for initializing the payment client. `publishable_key`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributespayment_collection-variant-1stripe-variant-1publishable_key). |
-| `return_url` | Conditional | string or null | URL the buyer returns to after a redirect payment step. `return_url`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributespayment_collection-variant-1stripe-variant-1return_url). |
-
-### CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.payment_collection variant 1.stripe variant 1
-
-anyOf PaymentCollectionStripePreviousAttributes.
-
-- Optional: `account_id`, `elements`, `publishable_key`, `return_url`.
-
-### CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.payment_collection variant 1.stripe variant 2
-
-anyOf variant 2.
-
-- Undeclared: `account_id`, `elements`, `publishable_key`, `return_url`.
-- Value shape: null. Client configuration for collecting the payment through Stripe. 
-
-### CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.payment_collection variant 1.stripe variant 1.account_id
-
-### CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.payment_collection variant 1.stripe variant 1.account_id variant 1
-
-anyOf variant 1: Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Null when the payment has splits: initialize Stripe.js with publishable_key alone and omit stripeAccount..
-
-- Value shape: string. Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Null when the payment has splits: initialize Stripe.js with publishable_key alone and omit stripeAccount. Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Null when the payment has splits: initialize Stripe.js with publishable_key alone and omit stripeAccount. Example: `"acct_1234567890"`. 
-
-### CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.payment_collection variant 1.stripe variant 1.account_id variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Null when the payment has splits: initialize Stripe.js with publishable_key alone and omit stripeAccount. 
-
-### CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.payment_collection variant 1.stripe variant 1.publishable_key
-
-### CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.payment_collection variant 1.stripe variant 1.publishable_key variant 1
-
-anyOf variant 1: Publishable Stripe key for initializing the payment client..
-
-- Value shape: string. Publishable Stripe key for initializing the payment client. 
-
-### CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.payment_collection variant 1.stripe variant 1.publishable_key variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Publishable Stripe key for initializing the payment client. 
-
-### CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.payment_collection variant 1.stripe variant 1.return_url
-
-### CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.payment_collection variant 1.stripe variant 1.return_url variant 1
-
-anyOf variant 1: URL the buyer returns to after a redirect payment step..
-
-- Value shape: string. URL the buyer returns to after a redirect payment step. 
-
-### CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.payment_collection variant 1.stripe variant 1.return_url variant 2
-
-anyOf variant 2.
-
-- Value shape: null. URL the buyer returns to after a redirect payment step. 
 
 ### CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.payment_intent_ids
 
@@ -530,73 +443,6 @@ anyOf variant 1: All buyer-visible refunds on this session’s order, including 
 anyOf variant 2.
 
 - Value shape: null. All buyer-visible refunds on this session’s order, including refunds made by the store. Uses the same buyer projection as /v1/me/refunds. Included on GET single-session reads as an array, with [] when there are none, and omitted from other responses and webhooks. A failed refund with failure_reason refund_abandoned could not be completed: tell the buyer to contact the store to get their money back. 
-
-### CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.setup_collection
-
-Guidance for collecting a payment method to save. Checkout-credential reads include it only while the session is open. Returned only to the checkout credential; never in webhook payloads.
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `stripe` | Conditional | [SetupCollectionStripePreviousAttributes](../models/SetupCollectionStripePreviousAttributes.md#setupcollectionstripepreviousattributes) or null | Client configuration for saving a payment method through Stripe on the merchant's connected account. `stripe`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributessetup_collection-variant-1stripe). |
-
-### CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.setup_collection variant 1
-
-anyOf SetupCollectionPreviousAttributes.
-
-- Optional: `stripe`.
-
-### CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.setup_collection variant 2
-
-anyOf variant 2.
-
-- Undeclared: `stripe`.
-- Value shape: null. Guidance for collecting a payment method to save. Checkout-credential reads include it only while the session is open. Returned only to the checkout credential; never in webhook payloads. 
-
-### CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.setup_collection variant 1.stripe
-
-Client configuration for saving a payment method through Stripe on the merchant's connected account.
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `account_id` | Conditional | string or null | Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. `account_id`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributessetup_collection-variant-1stripe-variant-1account_id). |
-| `elements` | Conditional | [PaymentCollectionStripeElementsPreviousAttributes](../models/PaymentCollectionStripeElementsPreviousAttributes.md#paymentcollectionstripeelementspreviousattributes) or null | Stripe Elements configuration for the available payment methods and amounts. |
-| `publishable_key` | Conditional | string or null | Publishable Stripe key for initializing the payment client. `publishable_key`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributespayment_collection-variant-1stripe-variant-1publishable_key). |
-| `return_url` | Conditional | string or null | URL the buyer returns to after a redirect payment step. `return_url`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributespayment_collection-variant-1stripe-variant-1return_url). |
-
-### CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.setup_collection variant 1.stripe variant 1
-
-anyOf SetupCollectionStripePreviousAttributes.
-
-- Optional: `account_id`, `elements`, `publishable_key`, `return_url`.
-
-### CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.setup_collection variant 1.stripe variant 2
-
-anyOf variant 2.
-
-- Undeclared: `account_id`, `elements`, `publishable_key`, `return_url`.
-- Value shape: null. Client configuration for saving a payment method through Stripe on the merchant's connected account. 
-
-### CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.setup_collection variant 1.stripe variant 1.account_id
-
-### CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.setup_collection variant 1.stripe variant 1.account_id variant 1
-
-anyOf variant 1: Stripe connected account ID to pass as stripeAccount when initializing Stripe.js..
-
-- Value shape: string. Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Example: `"acct_1234567890"`. 
-
-### CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.setup_collection variant 1.stripe variant 1.account_id variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. 
-
-### CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.setup_collection variant 1.stripe variant 1.publishable_key
-
-Declared alternatives: [CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.payment_collection variant 1.stripe variant 1.publishable_key](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributespayment_collection-variant-1stripe-variant-1publishable_key).
-
-### CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.setup_collection variant 1.stripe variant 1.return_url
-
-Declared alternatives: [CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.payment_collection variant 1.stripe variant 1.return_url](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributespayment_collection-variant-1stripe-variant-1return_url).
 
 ### CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.status
 

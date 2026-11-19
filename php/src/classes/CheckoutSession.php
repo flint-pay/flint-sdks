@@ -209,7 +209,7 @@ final class CheckoutSession extends Model {
      */
     public function getInvoiceId(): ?string { return $this->get('invoice_id'); }
     public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
-    /** Whether this terminal session credential is temporarily restricted to recovering its owning payment attempt.
+    /** Whether the checkout is in its payment recovery window after its deadline. The checkout credential can recover only an attempt it started. Merchant reads can also report a merchant-started attempt.
      * @return bool
      */
     public function getIsInRecovery(): bool { return $this->get('is_in_recovery'); }
@@ -339,7 +339,7 @@ final class CheckoutSession extends Model {
      */
     public function getRecoveryExpiresAt(): string|null { return $this->get('recovery_expires_at'); }
     public function hasRecoveryExpiresAt(): bool { return $this->has('recovery_expires_at'); }
-    /** Payment attempt that this checkout credential may recover while is_in_recovery is true.
+    /** The payment attempt in the recovery window. Only merchant reads report a merchant-started attempt.
      * @return ?string
      */
     public function getRecoveryPaymentAttemptId(): ?string { return $this->get('recovery_payment_attempt_id'); }

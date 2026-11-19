@@ -14,6 +14,7 @@ namespace Flint;
  * @property-read ?string $failure_message
  * @property-read string $fee_amount_status
  * @property-read MoneyValue|null $fee_money
+ * @property-read string|null $idempotency_key
  * @property-read string $initiated_by
  * @property-read string $merchant_id
  * @property-read ?array<array-key, string> $metadata
@@ -34,7 +35,7 @@ namespace Flint;
  * @property-read string $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class PayoutFailedInstalledMerchantsEventDataObject extends Model {
-    /** @param array{'amount_money': mixed, 'arrival_date'?: string, 'balance_source_type': string, 'created_at': string, 'currency': string, 'description'?: string, 'direction': string, 'external_reference_id'?: string, 'failure_code'?: string, 'failure_message'?: string, 'fee_amount_status': string, 'fee_money': mixed, 'initiated_by': string, 'merchant_id': string, 'metadata'?: mixed, 'method': string, 'net_money': mixed, 'original_payout'?: mixed, 'original_payout_id'?: string, 'payout_destination'?: mixed, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'reversed_by_payout'?: mixed, 'reversed_by_payout_id'?: string, 'statement_descriptor'?: string, 'status': string, 'supported_actions': list<string>, 'trace_id'?: mixed, 'updated_at': string, ...}|object $values */
+    /** @param array{'amount_money': mixed, 'arrival_date'?: string, 'balance_source_type': string, 'created_at': string, 'currency': string, 'description'?: string, 'direction': string, 'external_reference_id'?: string, 'failure_code'?: string, 'failure_message'?: string, 'fee_amount_status': string, 'fee_money': mixed, 'idempotency_key'?: string|null, 'initiated_by': string, 'merchant_id': string, 'metadata'?: mixed, 'method': string, 'net_money': mixed, 'original_payout'?: mixed, 'original_payout_id'?: string, 'payout_destination'?: mixed, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'reversed_by_payout'?: mixed, 'reversed_by_payout_id'?: string, 'statement_descriptor'?: string, 'status': string, 'supported_actions': list<string>, 'trace_id'?: mixed, 'updated_at': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PayoutFailedInstalledMerchantsEventDataObject')); }
     /** Amount moved between your bank and Flint. Always positive. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
@@ -96,6 +97,11 @@ final class PayoutFailedInstalledMerchantsEventDataObject extends Model {
      */
     public function getFeeMoney(): MoneyValue|null { return $this->get('fee_money'); }
     public function hasFeeMoney(): bool { return $this->has('fee_money'); }
+    /** The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource.
+     * @return string|null
+     */
+    public function getIdempotencyKey(): string|null { return $this->get('idempotency_key'); }
+    public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
     /** What started the payout. Inbound payouts are always platform initiated. An outbound payout imported from your processor follows the processor: scheduled when it sent the payout automatically, otherwise manual. Only scheduled outbound payouts list their balance transactions through GET /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized. Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform", "other".
      * @return string
      */

@@ -1,5 +1,34 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
+    ReturnUnverifiedItemInput,
+    ReturnWindowRequestInput,
+    RevealLicenseKeyRequestInput,
+    ReverseInvoiceManualPaymentRequestInput,
+    RiskPredicateNodeAllRequestInput,
+    RiskPredicateNodeAnyRequestInput,
+    RiskPredicateNodeComparisonRequestInput,
+    RiskPredicateNodeInListRequestInput,
+    RiskPredicateNodeInRequestInput
+} from './types-66.js';
+import type {
+    RiskPredicateNodeIsMissingRequestInput,
+    RiskPredicateNodeMoneyComparisonRequestInput,
+    RiskPredicateNodeNotRequestInput,
+    RiskPredicateNodeRequestInput,
+    RotateGiftCardCodeRequestInput,
+    RotatePartnerAppSecretRequestInput,
+    RotateWebhookSecretRequestInput,
+    SaveMeGiftCardRequestInput,
+    SaveMeGiftCardRequestCodeInput,
+    SaveMeGiftCardRequestRecipientAccessInput,
+    SaveMePaymentMethodRequestInput,
+    SavePaymentMethodRequestInput,
+    ScheduleFulfillmentRequestInput,
+    SellerTaxAttestationRequestInput,
+    SendOrderReceiptRequestInput,
+    SendPaymentIntentReceiptRequestInput
+} from './types-67.js';
+import type {
     SignWebhookEndpointDeliveryRequestInput,
     SignedMoneyRequestInput,
     SimulateDisputeRequestInput,
@@ -10,10 +39,10 @@ import type {
     SkipMeSubscriptionCycleRequestInput,
     SkipSubscriptionCycleRequestInput,
     SplitReversalRequestInput,
-    StartFulfillmentRequestInput,
-    SubscribedLineRequestModelInput
+    StartFulfillmentRequestInput
 } from './types-68.js';
 import type {
+    SubscribedLineRequestModelInput,
     SubscriptionBillingScheduleInputExternalInput,
     SubscriptionBillingScheduleInputFlintInput,
     SubscriptionBillingScheduleRequestInput,
@@ -44,39 +73,34 @@ import type {
     SubscriptionPlanLineItemInputBundleInput,
     SubscriptionPlanLineItemInputCustomInput,
     SubscriptionPlanLineItemInputVariantInput,
-    SubscriptionPlanLineItemRequestInput,
-    SubscriptionPlanTermsRequestInput
+    SubscriptionPlanLineItemRequestInput
 } from './types-71.js';
-import type {
-    SubscriptionPromotionRequestInput,
-    SubscriptionQuantityChangeLineItemRequestInput,
-    SubscriptionServiceLocationInputAddressInput,
-    SubscriptionServiceLocationInputCustomerAddressInput,
-    SubscriptionServiceLocationRequestInput,
-    SubscriptionSettingsRequestInput,
-    SubscriptionSwapPreviewRequestInput,
-    SubscriptionTaxCalculationRequestInput,
-    SubscriptionTaxRequestInput,
-    SubscriptionTermsRequestInput
-} from './types-72.js';
-import type {
-    TaxCalculationCallbackConfigurationPatchRequestInput,
-    TaxCalculationCallbackConfigurationRequestInput,
-    TaxCalculationRequestModelInput,
-    TaxCalculationRequestRequestInput,
-    TaxComponentRequestModelInput,
-    TaxComponentRequestRequestInput
-} from './types-73.js';
-import type {
-    TaxDefaultCalculationRequestInput,
-    TaxIdentityPatchInput,
-    TaxIdentityRequestInput,
-    TaxJurisdictionRequestInput,
-    TaxJurisdictionRequestModelInput,
-    TaxSettingsRequestInput,
-    TextModifierConfigPatchRequestInput,
-    TextModifierConfigRequestInput
-} from './types-74.js';
+export declare function makeReturnUnverifiedItem(value: InputValue<ReturnUnverifiedItemInput>): Model<ReturnUnverifiedItemInput>;
+export declare function makeReturnWindowRequest(value: InputValue<ReturnWindowRequestInput>): Model<ReturnWindowRequestInput>;
+export declare function makeRevealLicenseKeyRequest(value: InputValue<RevealLicenseKeyRequestInput>): Model<RevealLicenseKeyRequestInput>;
+export declare function makeReverseInvoiceManualPaymentRequest(value: InputValue<ReverseInvoiceManualPaymentRequestInput>): Model<ReverseInvoiceManualPaymentRequestInput>;
+export declare function makeRiskPredicateNodeAllRequest(value: InputValue<RiskPredicateNodeAllRequestInput>): Model<RiskPredicateNodeAllRequestInput>;
+export declare function makeRiskPredicateNodeAnyRequest(value: InputValue<RiskPredicateNodeAnyRequestInput>): Model<RiskPredicateNodeAnyRequestInput>;
+export declare function makeRiskPredicateNodeComparisonRequest(value: InputValue<RiskPredicateNodeComparisonRequestInput>): Model<RiskPredicateNodeComparisonRequestInput>;
+export declare function makeRiskPredicateNodeInListRequest(value: InputValue<RiskPredicateNodeInListRequestInput>): Model<RiskPredicateNodeInListRequestInput>;
+export declare function makeRiskPredicateNodeInRequest(value: InputValue<RiskPredicateNodeInRequestInput>): Model<RiskPredicateNodeInRequestInput>;
+export declare function makeRiskPredicateNodeIsMissingRequest(value: InputValue<RiskPredicateNodeIsMissingRequestInput>): Model<RiskPredicateNodeIsMissingRequestInput>;
+export declare function makeRiskPredicateNodeMoneyComparisonRequest(value: InputValue<RiskPredicateNodeMoneyComparisonRequestInput>): Model<RiskPredicateNodeMoneyComparisonRequestInput>;
+export declare function makeRiskPredicateNodeNotRequest(value: InputValue<RiskPredicateNodeNotRequestInput>): Model<RiskPredicateNodeNotRequestInput>;
+export declare function makeRiskPredicateNodeRequest(value: InputValue<Exclude<RiskPredicateNodeRequestInput & object, readonly unknown[]>>): Model<Exclude<RiskPredicateNodeRequestInput & object, readonly unknown[]>>;
+export declare function makeRiskPredicateNodeRequest(value: InputValue<RiskPredicateNodeRequestInput>): Model<RiskPredicateNodeRequestInput>;
+export declare function makeRotateGiftCardCodeRequest(value: InputValue<RotateGiftCardCodeRequestInput>): Model<RotateGiftCardCodeRequestInput>;
+export declare function makeRotatePartnerAppSecretRequest(value: InputValue<RotatePartnerAppSecretRequestInput>): Model<RotatePartnerAppSecretRequestInput>;
+export declare function makeRotateWebhookSecretRequest(value: InputValue<RotateWebhookSecretRequestInput>): Model<RotateWebhookSecretRequestInput>;
+export declare function makeSaveMeGiftCardRequest(value: InputValue<SaveMeGiftCardRequestInput>): Model<SaveMeGiftCardRequestInput>;
+export declare function makeSaveMeGiftCardRequestCode(value: InputValue<SaveMeGiftCardRequestCodeInput>): Model<SaveMeGiftCardRequestCodeInput>;
+export declare function makeSaveMeGiftCardRequestRecipientAccess(value: InputValue<SaveMeGiftCardRequestRecipientAccessInput>): Model<SaveMeGiftCardRequestRecipientAccessInput>;
+export declare function makeSaveMePaymentMethodRequest(value: InputValue<SaveMePaymentMethodRequestInput>): Model<SaveMePaymentMethodRequestInput>;
+export declare function makeSavePaymentMethodRequest(value: InputValue<SavePaymentMethodRequestInput>): Model<SavePaymentMethodRequestInput>;
+export declare function makeScheduleFulfillmentRequest(value: InputValue<ScheduleFulfillmentRequestInput>): Model<ScheduleFulfillmentRequestInput>;
+export declare function makeSellerTaxAttestationRequest(value: InputValue<SellerTaxAttestationRequestInput>): Model<SellerTaxAttestationRequestInput>;
+export declare function makeSendOrderReceiptRequest(value: InputValue<SendOrderReceiptRequestInput>): Model<SendOrderReceiptRequestInput>;
+export declare function makeSendPaymentIntentReceiptRequest(value: InputValue<SendPaymentIntentReceiptRequestInput>): Model<SendPaymentIntentReceiptRequestInput>;
 export declare function makeSignWebhookEndpointDeliveryRequest(value: InputValue<SignWebhookEndpointDeliveryRequestInput>): Model<SignWebhookEndpointDeliveryRequestInput>;
 export declare function makeSignedMoneyRequest(value: InputValue<SignedMoneyRequestInput>): Model<SignedMoneyRequestInput>;
 export declare function makeSimulateDisputeRequest(value: InputValue<SimulateDisputeRequestInput>): Model<SimulateDisputeRequestInput>;
@@ -120,30 +144,3 @@ export declare function makeSubscriptionPlanLineItemInputBundle(value: InputValu
 export declare function makeSubscriptionPlanLineItemInputCustom(value: InputValue<SubscriptionPlanLineItemInputCustomInput>): Model<SubscriptionPlanLineItemInputCustomInput>;
 export declare function makeSubscriptionPlanLineItemInputVariant(value: InputValue<SubscriptionPlanLineItemInputVariantInput>): Model<SubscriptionPlanLineItemInputVariantInput>;
 export declare function makeSubscriptionPlanLineItemRequest(value: InputValue<SubscriptionPlanLineItemRequestInput>): Model<SubscriptionPlanLineItemRequestInput>;
-export declare function makeSubscriptionPlanTermsRequest(value: InputValue<SubscriptionPlanTermsRequestInput>): Model<SubscriptionPlanTermsRequestInput>;
-export declare function makeSubscriptionPromotionRequest(value: InputValue<SubscriptionPromotionRequestInput>): Model<SubscriptionPromotionRequestInput>;
-export declare function makeSubscriptionQuantityChangeLineItemRequest(value: InputValue<SubscriptionQuantityChangeLineItemRequestInput>): Model<SubscriptionQuantityChangeLineItemRequestInput>;
-export declare function makeSubscriptionServiceLocationInputAddress(value: InputValue<SubscriptionServiceLocationInputAddressInput>): Model<SubscriptionServiceLocationInputAddressInput>;
-export declare function makeSubscriptionServiceLocationInputCustomerAddress(value: InputValue<SubscriptionServiceLocationInputCustomerAddressInput>): Model<SubscriptionServiceLocationInputCustomerAddressInput>;
-export declare function makeSubscriptionServiceLocationRequest(value: InputValue<Exclude<SubscriptionServiceLocationRequestInput & object, readonly unknown[]>>): Model<Exclude<SubscriptionServiceLocationRequestInput & object, readonly unknown[]>>;
-export declare function makeSubscriptionServiceLocationRequest(value: InputValue<SubscriptionServiceLocationRequestInput>): Model<SubscriptionServiceLocationRequestInput>;
-export declare function makeSubscriptionSettingsRequest(value: InputValue<SubscriptionSettingsRequestInput>): Model<SubscriptionSettingsRequestInput>;
-export declare function makeSubscriptionSwapPreviewRequest(value: InputValue<SubscriptionSwapPreviewRequestInput>): Model<SubscriptionSwapPreviewRequestInput>;
-export declare function makeSubscriptionTaxCalculationRequest(value: InputValue<SubscriptionTaxCalculationRequestInput>): Model<SubscriptionTaxCalculationRequestInput>;
-export declare function makeSubscriptionTaxRequest(value: InputValue<SubscriptionTaxRequestInput>): Model<SubscriptionTaxRequestInput>;
-export declare function makeSubscriptionTermsRequest(value: InputValue<Exclude<SubscriptionTermsRequestInput & object, readonly unknown[]>>): Model<Exclude<SubscriptionTermsRequestInput & object, readonly unknown[]>>;
-export declare function makeSubscriptionTermsRequest(value: InputValue<SubscriptionTermsRequestInput>): Model<SubscriptionTermsRequestInput>;
-export declare function makeTaxCalculationCallbackConfigurationPatchRequest(value: InputValue<TaxCalculationCallbackConfigurationPatchRequestInput>): Model<TaxCalculationCallbackConfigurationPatchRequestInput>;
-export declare function makeTaxCalculationCallbackConfigurationRequest(value: InputValue<TaxCalculationCallbackConfigurationRequestInput>): Model<TaxCalculationCallbackConfigurationRequestInput>;
-export declare function makeTaxCalculationRequestModel(value: InputValue<TaxCalculationRequestModelInput>): Model<TaxCalculationRequestModelInput>;
-export declare function makeTaxCalculationRequestRequest(value: InputValue<TaxCalculationRequestRequestInput>): Model<TaxCalculationRequestRequestInput>;
-export declare function makeTaxComponentRequestModel(value: InputValue<TaxComponentRequestModelInput>): Model<TaxComponentRequestModelInput>;
-export declare function makeTaxComponentRequestRequest(value: InputValue<TaxComponentRequestRequestInput>): Model<TaxComponentRequestRequestInput>;
-export declare function makeTaxDefaultCalculationRequest(value: InputValue<TaxDefaultCalculationRequestInput>): Model<TaxDefaultCalculationRequestInput>;
-export declare function makeTaxIdentityPatch(value: InputValue<TaxIdentityPatchInput>): Model<TaxIdentityPatchInput>;
-export declare function makeTaxIdentityRequest(value: InputValue<TaxIdentityRequestInput>): Model<TaxIdentityRequestInput>;
-export declare function makeTaxJurisdictionRequest(value: InputValue<TaxJurisdictionRequestInput>): Model<TaxJurisdictionRequestInput>;
-export declare function makeTaxJurisdictionRequestModel(value: InputValue<TaxJurisdictionRequestModelInput>): Model<TaxJurisdictionRequestModelInput>;
-export declare function makeTaxSettingsRequest(value: InputValue<TaxSettingsRequestInput>): Model<TaxSettingsRequestInput>;
-export declare function makeTextModifierConfigPatchRequest(value: InputValue<TextModifierConfigPatchRequestInput>): Model<TextModifierConfigPatchRequestInput>;
-export declare function makeTextModifierConfigRequest(value: InputValue<TextModifierConfigRequestInput>): Model<TextModifierConfigRequestInput>;

@@ -239,14 +239,14 @@ Field definitions: [shared fields](SubscriptionPlanChangeResultResponse.md#subsc
 
 anyOf OrderPaymentAttempt: An attempt to pay an order..
 
-- Required: `expected_outstanding_money`, `gift_card_redemptions`, `is_resumable`, `mode`, `order_id`, `order_payment_attempt_id`, `payment_intents`, `pending_actions`, `status`.
+- Required: `expected_outstanding_money`, `gift_card_redemptions`, `idempotency_key`, `is_resumable`, `mode`, `order_id`, `order_payment_attempt_id`, `payment_intents`, `pending_actions`, `status`.
 - Optional: `completed_at`, `last_payment_error`, `payment_method_save`, `started_at`, `status_reason`, `supported_actions`.
 
 ### SubscriptionQuantityChangeResultResponse.data.order_payment_attempt variant 2
 
 anyOf variant 2.
 
-- Undeclared: `completed_at`, `expected_outstanding_money`, `gift_card_redemptions`, `is_resumable`, `last_payment_error`, `mode`, `order_id`, `order_payment_attempt_id`, `payment_intents`, `payment_method_save`, `pending_actions`, `started_at`, `status`, `status_reason`, `supported_actions`.
+- Undeclared: `completed_at`, `expected_outstanding_money`, `gift_card_redemptions`, `idempotency_key`, `is_resumable`, `last_payment_error`, `mode`, `order_id`, `order_payment_attempt_id`, `payment_intents`, `payment_method_save`, `pending_actions`, `started_at`, `status`, `status_reason`, `supported_actions`.
 - Value shape: null. The payment attempt, including declines. Null when billing_starts is next_renewal or period_end, or the net charge is zero. 
 
 ### SubscriptionQuantityChangeResultResponse.data.order_payment_attempt variant 1.gift_card_redemptions[]

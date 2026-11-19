@@ -12,8 +12,8 @@ import type {
     GiftCardRedemptionsGetParams,
     GiftCardRedemptionsListParams
 } from '../declarations/types-30.js';
-import type { RequestOptions } from '../declarations/types-61.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { RequestOptions } from '../declarations/types-62.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -43,14 +43,13 @@ export type {
     GiftCardRestriction,
     GiftCardTransaction
 } from '../declarations/types-30.js';
-export type { RequestOptions } from '../declarations/types-61.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-62.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { GiftCard } from '../declarations/types-28.js';
 export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-44.js';
-export type { ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-62.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type {
     CreateGiftCardRedemptionRequestInput,
@@ -63,7 +62,7 @@ export {
     makeCreateGiftCardRedemptionRequestAutomatic,
     makeCreateGiftCardRedemptionRequestManual
 } from '../declarations/types-82.js';
-export { makeGiftCardVersionRequest } from '../declarations/types-86.js';
+export { makeGiftCardVersionRequest } from '../declarations/types-87.js';
 export { makeMoneyValue } from '../declarations/types-88.js';
 export interface GiftCardRedemptionsResource {
     /**

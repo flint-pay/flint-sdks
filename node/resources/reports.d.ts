@@ -6,10 +6,10 @@ import type {
     ReportResponse,
     ReportsCreateParams,
     ReportsGetParams,
-    ReportsListParams,
-    RequestOptions
+    ReportsListParams
 } from '../declarations/types-61.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { RequestOptions } from '../declarations/types-62.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -26,7 +26,6 @@ export type {
 } from '../runtime.js';
 export type {
     ReportsCreateParams,
-    RequestOptions,
     Report,
     ReportResponse,
     ReportsGetParams,
@@ -36,7 +35,8 @@ export type {
     ReportSucceeded,
     ReportFailed
 } from '../declarations/types-61.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateReportRequestInput } from '../declarations/types-13.js';
 export type { CreateIntervalReportRequestInput } from '../declarations/types-10.js';
@@ -44,11 +44,11 @@ export type { CreateReceivablesAgingReportRequestInput } from '../declarations/t
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { PublicDownload } from '../declarations/types-59.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export { makeCreateIntervalReportRequest } from '../declarations/types-82.js';
-export { makeCreateReceivablesAgingReportRequest, makeCreateReportRequest } from '../declarations/types-83.js';
+export { makeCreateReceivablesAgingReportRequest } from '../declarations/types-83.js';
+export { makeCreateReportRequest } from '../declarations/types-84.js';
 export { makeMoneyValue } from '../declarations/types-88.js';
 export interface ReportsResource {
     /**

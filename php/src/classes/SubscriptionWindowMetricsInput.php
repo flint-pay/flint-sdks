@@ -15,7 +15,7 @@ final class SubscriptionWindowMetricsInput extends Model {
      */
     public function getCanceledSubscriptionsCount(): int { return $this->get('canceled_subscriptions_count'); }
     public function hasCanceledSubscriptionsCount(): bool { return $this->has('canceled_subscriptions_count'); }
-    /** Payment amounts for subscriptions, including the initial checkout payment, recurring charges, and setup fees, restricted to currency. A succeeded payment activity selects the payment by activity created_at in the period; each payment is counted once. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Captured amounts for succeeded subscription payments in the period, including the initial checkout payment, recurring charges, and setup fees, restricted to currency. Each payment is counted once by capture time. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When collected_money is omitted; use hasCollectedMoney() or valueOrDefault().
      */

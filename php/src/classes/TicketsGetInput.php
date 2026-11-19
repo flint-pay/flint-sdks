@@ -16,7 +16,7 @@ final class TicketsGetInput extends Model {
      */
     public function getTicketId(): string { return $this->get('ticket_id'); }
     public function hasTicketId(): bool { return $this->has('ticket_id'); }
-    /** Include related objects in the response. Supported expansions: order. Include the order summary. Limits: at most 10 unique expand paths per request. [] enum: "order". Value enum: "order". anyOf[1] (Value): Array of string.  [] enum: "order". anyOf[1][] (Value): string.  Value enum: "order". anyOf[2] (Value): string.  Value enum: "order".
+    /** Include related objects in the response. Supported expansions: order. Include the order summary. Limits: at most 10 unique expand paths per request. Checkout session credentials cannot use expand on this route. [] enum: "order". Value enum: "order". anyOf[1] (Value): Array of string.  [] enum: "order". anyOf[1][] (Value): string.  Value enum: "order". anyOf[2] (Value): string.  Value enum: "order".
      * @return list<string>|string
      * @throws SdkError When expand is omitted; use hasExpand() or valueOrDefault().
      */

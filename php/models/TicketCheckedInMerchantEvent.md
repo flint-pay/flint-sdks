@@ -108,6 +108,10 @@ Declared alternatives: [TicketCheckedInMerchantEventDataPreviousAttributes.ticke
 
 Declared alternatives: [TicketCheckedInMerchantEventDataPreviousAttributes.ticket_number](../models/TicketCheckedInMerchantEventDataPreviousAttributes.md#ticketcheckedinmerchanteventdatapreviousattributesticket_number).
 
+### TicketCheckedInMerchantEvent.data fields 1.previous_attributes.tier_name
+
+Declared alternatives: [TicketCheckedInMerchantEventDataPreviousAttributes.tier_name](../models/TicketCheckedInMerchantEventDataPreviousAttributes.md#ticketcheckedinmerchanteventdatapreviousattributestier_name).
+
 ### TicketCheckedInMerchantEvent.data fields 1.previous_attributes.updated_at
 
 Declared alternatives: [TicketCheckedInMerchantEventDataPreviousAttributes.updated_at](../models/TicketCheckedInMerchantEventDataPreviousAttributes.md#ticketcheckedinmerchanteventdatapreviousattributesupdated_at).

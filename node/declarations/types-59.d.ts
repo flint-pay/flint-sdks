@@ -1,4 +1,4 @@
-import type { MoneyValueInput, MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
+import type { MoneyValuePreviousAttributes, MoneyValueInput, MoneyValue } from './types-44.js';
 import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { PromotionApplicationMethodPreviousAttributes } from './types-57.js';
@@ -13,27 +13,130 @@ import type { InputValue } from '../runtime.js';
 import type { CreatePromotionRequestInput, CreateReaderRequestInput } from './types-12.js';
 import type { CategoriesDeleteParams } from './types-5.js';
 import type { DisputesAcceptParams } from './types-26.js';
-import type { UpdatePromotionRequestInput, UpdateReaderRequestInput } from './types-77.js';
+import type { UpdatePromotionRequestInput } from './types-77.js';
 import type { CheckoutCustomTextConfig, CheckoutPaymentConfig, CheckoutMerchantSupport } from './types-6.js';
 import type { Image } from './types-31.js';
 import type { LegalSettings } from './types-38.js';
-import type {
-    PaymentLinkCustomField,
-    PaymentLinkEventConfig,
-    PaymentLinkLineItem,
-    PaymentLinkAvailableVariant,
-    PaymentLinkProductOption
-} from './types-52.js';
+import type { PaymentLinkCustomField, PaymentLinkEventConfig, PaymentLinkLineItem, PaymentLinkAvailableVariant } from './types-52.js';
 import type { ThemeConfig, TextModifierConfigRequest } from './types-74.js';
 import type { ResponseMeta } from './types-62.js';
 import type { CheckoutTheme } from './types-7.js';
-import type { PaymentLinkSubscriptionPreview } from './types-53.js';
+import type { PaymentLinkSubscriptionPreview, PaymentLinkProductOption } from './types-53.js';
 import type { BundleComponentVariantSummary } from './types-1.js';
 import type { SelectedProductOption } from './types-67.js';
 import type { ReturnPolicyRevisionRequest, ReturnPolicyRevisionRequestInput } from './types-64.js';
 import type { GetReturnPolicyResponse } from './types-28.js';
 import type { SimulateReaderRequestInput } from './types-68.js';
-import type { ReadinessMerchantAccountSession, ReadinessMerchantAccountSessionPreviousAttributes } from './types-60.js';
+export type PromotionRulePreviousAttributes = {
+    /**
+     * Field the rule tests. The attribute fixes the value type and the operators that are legal
+     * for it: money attributes accept comparison operators but not eq or in, booleans accept eq
+     * only, and so on. The full attribute/type/operator matrix is machine-readable in
+     * x-flint-rule-attributes on this schema. metadata.<key> reads a string from the customer's
+     * metadata and accepts the string operators. A disallowed operator returns `400
+     * INVALID_REQUEST` naming the operator, and the message lists the operators the attribute
+     * allows. customer.paid_order_count counts the customer's other orders in the same merchant
+     * and environment, with live and test mode counted separately, that have at least one
+     * successfully settled payment above zero, including partial payments, or are completed
+     * zero-total orders, including orders completed with a 100% promotion or gift card. Later
+     * refunds and disputes do not remove an order. The current order, failed, canceled, or expired
+     * attempts, unpaid drafts, and unpaid open invoices do not count. Guest purchases linked
+     * through link_guest_purchases count; unlinked guest orders are never matched by email. The
+     * order's customer takes precedence over a checkout session's merchant-named or email-verified
+     * customer; typed email alone does not identify a customer. Without an identified customer the
+     * promotion is declined with customer_required. Combine eq 0 with max_uses_per_customer: 1 for
+     * a first-order guarantee across concurrent checkouts. anyOf[1] (Value): string. Field the
+     * rule tests. The attribute fixes the value type and the operators that are legal for it:
+     * money attributes accept comparison operators but not eq or in, booleans accept eq only, and
+     * so on. The full attribute/type/operator matrix is machine-readable in
+     * x-flint-rule-attributes on this schema. metadata.<key> reads a string from the customer's
+     * metadata and accepts the string operators. A disallowed operator returns `400
+     * INVALID_REQUEST` naming the operator, and the message lists the operators the attribute
+     * allows. customer.paid_order_count counts the customer's other orders in the same merchant
+     * and environment, with live and test mode counted separately, that have at least one
+     * successfully settled payment above zero, including partial payments, or are completed
+     * zero-total orders, including orders completed with a 100% promotion or gift card. Later
+     * refunds and disputes do not remove an order. The current order, failed, canceled, or expired
+     * attempts, unpaid drafts, and unpaid open invoices do not count. Guest purchases linked
+     * through link_guest_purchases count; unlinked guest orders are never matched by email. The
+     * order's customer takes precedence over a checkout session's merchant-named or email-verified
+     * customer; typed email alone does not identify a customer. Without an identified customer the
+     * promotion is declined with customer_required. Combine eq 0 with max_uses_per_customer: 1 for
+     * a first-order guarantee across concurrent checkouts. anyOf[2] (Value): null.
+     */
+    "attribute"?: ((string) | (null));
+    /**
+     * Alternative thresholds for money-valued rules, keyed by currency code. Each Money currency
+     * must match its key. anyOf[1] (Value): Map of {@link MoneyValuePreviousAttributes}.
+     * anyOf[1].* (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "currency_options"?: ((Record<string, MoneyValuePreviousAttributes>) | (null));
+    /**
+     * Comparison to apply to the attribute. The attribute determines which operators are allowed.
+     * Value enum: "eq", "ne", "gt", "gte", "lt", "lte", "in", "contains", "is_defined". anyOf[1]
+     * (Value): string. Comparison to apply to the attribute. The attribute determines which
+     * operators are allowed. Value enum: "eq", "ne", "gt", "gte", "lt", "lte", "in", "contains",
+     * "is_defined". anyOf[2] (Value): null.
+     */
+    "operator"?: (("eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined" | (string & {}))
+        | (null));
+    /**
+     * Comparison values with the type required by the attribute. Omit for is_defined, which tests
+     * whether the attribute is present. anyOf[1] (Value): Array of {@link
+     * PromotionRuleValuePreviousAttributes}. Comparison values with the type required by the
+     * attribute. Omit for is_defined, which tests whether the attribute is present. anyOf[1][]
+     * (Value): {@link PromotionRuleValuePreviousAttributes}. Rule comparison value. Use a
+     * primitive string, number, boolean, or a money object. anyOf[2] (Value): null.
+     */
+    "values"?: ((Array<PromotionRuleValuePreviousAttributes>) | (null));
+};
+/**
+ * One condition you set in a promotion rule group, which tests an attribute with an operator and
+ * values.
+ */
+export type PromotionRuleRequestInput = {
+    /**
+     * Field the rule tests. The attribute fixes the value type and the operators that are legal
+     * for it: money attributes accept comparison operators but not eq or in, booleans accept eq
+     * only, and so on. The full attribute/type/operator matrix is machine-readable in
+     * x-flint-rule-attributes on this schema. metadata.<key> reads a string from the customer's
+     * metadata and accepts the string operators. A disallowed operator returns `400
+     * INVALID_REQUEST` naming the operator, and the message lists the operators the attribute
+     * allows. customer.paid_order_count counts the customer's other orders in the same merchant
+     * and environment, with live and test mode counted separately, that have at least one
+     * successfully settled payment above zero, including partial payments, or are completed
+     * zero-total orders, including orders completed with a 100% promotion or gift card. Later
+     * refunds and disputes do not remove an order. The current order, failed, canceled, or expired
+     * attempts, unpaid drafts, and unpaid open invoices do not count. Guest purchases linked
+     * through link_guest_purchases count; unlinked guest orders are never matched by email. The
+     * order's customer takes precedence over a checkout session's merchant-named or email-verified
+     * customer; typed email alone does not identify a customer. Without an identified customer the
+     * promotion is declined with customer_required. Combine eq 0 with max_uses_per_customer: 1 for
+     * a first-order guarantee across concurrent checkouts. minLength: 1.
+     */
+    "attribute": string;
+    /**
+     * Alternative thresholds for money-valued rules, keyed by currency code. Each Money currency
+     * must match its key. * (Value): {@link MoneyValueInput}. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "currency_options"?: Record<string, MoneyValueInput>;
+    /**
+     * Comparison to apply to the attribute. The attribute determines which operators are allowed.
+     * Value enum: "eq", "ne", "gt", "gte", "lt", "lte", "in", "contains", "is_defined".
+     */
+    "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined";
+    /**
+     * Comparison values with the type required by the attribute. Omit for is_defined, which tests
+     * whether the attribute is present. [] (Value): {@link PromotionRuleValueRequestInput}. Rule
+     * comparison value. Use a primitive string, number, boolean, or a money object.
+     */
+    "values"?: Array<PromotionRuleValueRequestInput>;
+};
+/** Rule comparison value. Use a primitive string, number, boolean, or a money object. */
+export type PromotionRuleValue = ((string) | (number) | (boolean) | (MoneyValue) | (unknown));
+/** Rule comparison value. Use a primitive string, number, boolean, or a money object. */
+export type PromotionRuleValuePreviousAttributes = (((string) | (number) | (boolean) | (MoneyValuePreviousAttributes) | (unknown)));
 /** Rule comparison value. Use a primitive string, number, boolean, or a money object. */
 export type PromotionRuleValueRequestInput = ((string) | (number) | (boolean) | (MoneyValueInput));
 /**
@@ -1512,6 +1615,13 @@ export type PublicPaymentLink = {
      * Format: date-time. Example: "2026-08-02T16:00:00Z".
      */
     "sales_end_at"?: string;
+    /**
+     * RFC3339 timestamp when buyers can first start a checkout from this link. Stored to
+     * nanosecond precision. Before it, resolve fails with ACTION_NOT_ALLOWED and reason
+     * sales_not_started. Must be earlier than the link’s sales end, including the event start when
+     * no explicit end is set. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "sales_start_at"?: string;
     /** Whether the link can start new checkouts. Value enum: "active", "inactive". */
     "status": "active" | "inactive" | (string & {});
     /** ID of the subscription plan the link sells. Example: "plan_01KEZF7C004CY5ZR33XST2AASV". */
@@ -1566,6 +1676,8 @@ export type PublicPaymentLinkResult = {
      * from the session or link theme or the merchant's branding settings.
      */
     "checkout_theme"?: CheckoutTheme;
+    /** True before the payment link’s scheduled sales start. Omitted otherwise. */
+    "is_before_sales_start"?: boolean;
     /**
      * True when the link's sales end has passed: payment_link.sales_end_at, or
      * event_config.event_at for an event link without sales_end_at. Resolve then fails with
@@ -3620,159 +3732,4 @@ export type ReadersSimulateParams = (InputValue<SimulateReaderRequestInput>)
      * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
      */
     "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type ReadersUpdateParams = (InputValue<UpdateReaderRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-/**
- * A step that moves a merchant capability or readiness axis forward, with the party that must do
- * it (`owner`) and any required fields.
- */
-export type ReadinessAction = {
-    /**
-     * The kind of step to take. Each value says what the step is and who carries it out. Value
-     * enum: "advance_onboarding", "create_merchant_account_session", "wait_for_review",
-     * "settle_flint_balance", "set_tax_category", "update_payment_settings", "contact_support",
-     * "other".
-     */
-    "action_type": "advance_onboarding"
-        | "create_merchant_account_session"
-        | "wait_for_review"
-        | "settle_flint_balance"
-        | "set_tax_category"
-        | "update_payment_settings"
-        | "contact_support"
-        | "other"
-        | (string & {});
-    /**
-     * Request body for `POST /v1/merchant-account-sessions`, on a
-     * `create_merchant_account_session` action. Send it unchanged. Shared request body for
-     * `create_merchant_account_session` next actions in readiness, onboarding, errors, and
-     * warnings. Send unchanged to POST /v1/merchant-account-sessions; components and collection
-     * policy describe which requirements to collect.
-     */
-    "merchant_account_session"?: ReadinessMerchantAccountSession;
-    /** Who has to act on this step. Value enum: "integrator", "merchant", "flint". */
-    "owner": "integrator" | "merchant" | "flint" | (string & {});
-    /**
-     * Paths in the action's target request body, using dotted JSON paths from the request root.
-     * For advance_onboarding, profile fields use profile.website_url, profile.support_email,
-     * profile.support_phone and profile.support_url. Top-level inputs such as country,
-     * requested_capabilities and name stay bare. [] (Value): string.
-     */
-    "required_fields"?: Array<string>;
-};
-export type ReadinessActionPreviousAttributes = {
-    /**
-     * The kind of step to take. Each value says what the step is and who carries it out. Value
-     * enum: "advance_onboarding", "create_merchant_account_session", "wait_for_review",
-     * "settle_flint_balance", "set_tax_category", "update_payment_settings", "contact_support",
-     * "other". anyOf[1] (Value): string. The kind of step to take. Each value says what the step
-     * is and who carries it out. Value enum: "advance_onboarding",
-     * "create_merchant_account_session", "wait_for_review", "settle_flint_balance",
-     * "set_tax_category", "update_payment_settings", "contact_support", "other". anyOf[2] (Value):
-     * null.
-     */
-    "action_type"?: (("advance_onboarding"
-        | "create_merchant_account_session"
-        | "wait_for_review"
-        | "settle_flint_balance"
-        | "set_tax_category"
-        | "update_payment_settings"
-        | "contact_support"
-        | "other"
-        | (string & {}))
-        | (null));
-    /**
-     * Request body for `POST /v1/merchant-account-sessions`, on a
-     * `create_merchant_account_session` action. Send it unchanged. anyOf[1] (Value): {@link
-     * ReadinessMerchantAccountSessionPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "merchant_account_session"?: ((ReadinessMerchantAccountSessionPreviousAttributes) | (null));
-    /**
-     * Who has to act on this step. Value enum: "integrator", "merchant", "flint". anyOf[1]
-     * (Value): string. Who has to act on this step. Value enum: "integrator", "merchant", "flint".
-     * anyOf[2] (Value): null.
-     */
-    "owner"?: (("integrator" | "merchant" | "flint" | (string & {})) | (null));
-    /**
-     * Paths in the action's target request body, using dotted JSON paths from the request root.
-     * For advance_onboarding, profile fields use profile.website_url, profile.support_email,
-     * profile.support_phone and profile.support_url. Top-level inputs such as country,
-     * requested_capabilities and name stay bare. anyOf[1] (Value): Array of string. Paths in the
-     * action's target request body, using dotted JSON paths from the request root. For
-     * advance_onboarding, profile fields use profile.website_url, profile.support_email,
-     * profile.support_phone and profile.support_url. Top-level inputs such as country,
-     * requested_capabilities and name stay bare. anyOf[1][] (Value): string. anyOf[2] (Value):
-     * null.
-     */
-    "required_fields"?: ((Array<string>) | (null));
-};
-/**
- * Readiness for one area of a merchant account, with its `status`, the reason for it, and the
- * actions that would advance it.
- */
-export type ReadinessAxis = {
-    /**
-     * Steps that move this area toward `ready`. Empty when there is nothing to do. [] (Value):
-     * {@link ReadinessAction}. A step that moves a merchant capability or readiness axis forward,
-     * with the party that must do it (`owner`) and any required fields.
-     */
-    "next_actions": Array<ReadinessAction>;
-    /**
-     * Whether this area works now. `status_reason` says why when the status is neither `ready` nor
-     * `not_requested`. Value enum: "ready", "pending", "blocked", "not_requested",
-     * "not_available".
-     */
-    "status": "ready" | "pending" | "blocked" | "not_requested" | "not_available" | (string & {});
-    /**
-     * Why readiness has its current status. MERCHANT_NOT_READY uses onboarding_required for
-     * onboarding_not_started, requirements_due, requirements_past_due and pending_verification,
-     * and platform_review for Flint's own review. `null` when no reason applies. Value enum:
-     * "provisioning", "onboarding_not_started", "requirements_due", "requirements_past_due",
-     * "pending_verification", "account_rejected", "disabled_by_platform_policy",
-     * "billing_suspended", "platform_review", "processing_not_enabled",
-     * "platform_funding_unavailable", "tax_category_required", "service_unavailable",
-     * "payment_option_access_not_provisioned", "payment_option_activation_pending",
-     * "payment_option_not_in_plan", "payment_option_not_available", "capability_not_active",
-     * "other".
-     */
-    "status_reason"?: "provisioning"
-        | "onboarding_not_started"
-        | "requirements_due"
-        | "requirements_past_due"
-        | "pending_verification"
-        | "account_rejected"
-        | "disabled_by_platform_policy"
-        | "billing_suspended"
-        | "platform_review"
-        | "processing_not_enabled"
-        | "platform_funding_unavailable"
-        | "tax_category_required"
-        | "service_unavailable"
-        | "payment_option_access_not_provisioned"
-        | "payment_option_activation_pending"
-        | "payment_option_not_in_plan"
-        | "payment_option_not_available"
-        | "capability_not_active"
-        | "other"
-        | (string & {});
 };

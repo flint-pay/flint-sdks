@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# PaymentIntentOvercapturePreviousAttributesInput to PaymentReviewReopenedInstalledMerchantsEventInput
+# PaymentIntentPaymentFailedInstalledMerchantsEventInput to PaymentReviewReopenedMerchantEventInput
 
-- [PaymentIntentOvercapturePreviousAttributesInput](PaymentIntentOvercapturePreviousAttributesInput.md)
 - [PaymentIntentPaymentFailedInstalledMerchantsEventInput](PaymentIntentPaymentFailedInstalledMerchantsEventInput.md)
 - [PaymentIntentPaymentFailedMerchantEventInput](PaymentIntentPaymentFailedMerchantEventInput.md)
 - [PaymentIntentPlatformFeeInput](PaymentIntentPlatformFeeInput.md)
@@ -102,4 +101,5 @@
 - [PaymentReviewPaymentSummaryInput](PaymentReviewPaymentSummaryInput.md)
 - [PaymentReviewPaymentSummaryPreviousAttributesInput](PaymentReviewPaymentSummaryPreviousAttributesInput.md)
 - [PaymentReviewReopenedInstalledMerchantsEventInput](PaymentReviewReopenedInstalledMerchantsEventInput.md)
+- [PaymentReviewReopenedMerchantEventInput](PaymentReviewReopenedMerchantEventInput.md)
 

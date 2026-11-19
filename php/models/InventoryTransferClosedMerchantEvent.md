@@ -36,7 +36,7 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields.
 
-Field definitions: [shared fields](InventoryTransfer.md#inventorytransfer).
+Field definitions: [shared fields](InventoryTransferClosedMerchantEventDataObject.md#inventorytransferclosedmerchanteventdataobject).
 
 ### InventoryTransferClosedMerchantEvent.data fields 1.object.lines[]
 
@@ -74,7 +74,7 @@ Declared alternatives: [TaxCalculationCallbackActivatedEvent.data fields 1.previ
 
 ### InventoryTransferClosedMerchantEvent.data fields 1.previous_attributes.idempotency_key
 
-Declared alternatives: [InventoryCountAppliedMerchantEventDataPreviousAttributes.idempotency_key](../models/InventoryCountAppliedMerchantEventDataPreviousAttributes.md#inventorycountappliedmerchanteventdatapreviousattributesidempotency_key).
+Declared alternatives: [CreditNoteAllocationReversedMerchantEventDataPreviousAttributes.idempotency_key](../models/CreditNoteAllocationReversedMerchantEventDataPreviousAttributes.md#creditnoteallocationreversedmerchanteventdatapreviousattributesidempotency_key).
 
 ### InventoryTransferClosedMerchantEvent.data fields 1.previous_attributes.inventory_transfer_id
 

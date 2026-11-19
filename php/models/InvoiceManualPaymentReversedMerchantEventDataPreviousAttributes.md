@@ -9,6 +9,7 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `amount_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Full amount received, including any principal and late fees covered. |
+| `idempotency_key` | Optional | string or null | The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. `idempotency_key`: [declared alternatives](../models/CreditNoteAllocationReversedMerchantEventDataPreviousAttributes.md#creditnoteallocationreversedmerchanteventdatapreviousattributesidempotency_key). |
 | `invoice_id` | Optional | string or null | The invoice this payment was recorded against. `invoice_id`: [declared alternatives](../models/InvoiceManualPaymentReversedMerchantEventDataPreviousAttributes.md#invoicemanualpaymentreversedmerchanteventdatapreviousattributesinvoice_id). |
 | `invoice_manual_payment_id` | Optional | string or null | Stable payment ID. IDs begin with omp_. Gift card loads funded by this payment expose this value as source.order_manual_payment_id. `invoice_manual_payment_id`: [declared alternatives](../models/InvoiceManualPaymentReversedMerchantEventDataPreviousAttributes.md#invoicemanualpaymentreversedmerchanteventdatapreviousattributesinvoice_manual_payment_id). |
 | `note` | Optional | string or null | Note about the offline payment, up to 4096 characters. `note`: [declared alternatives](../models/InvoiceManualPaymentReversedMerchantEventDataPreviousAttributes.md#invoicemanualpaymentreversedmerchanteventdatapreviousattributesnote). |
@@ -18,6 +19,10 @@ Response model.
 | `reversed_at` | Optional | string or null | When the payment was reversed. Present only when reversed. `reversed_at`: [declared alternatives](../models/InvoiceManualPaymentReversedMerchantEventDataPreviousAttributes.md#invoicemanualpaymentreversedmerchanteventdatapreviousattributesreversed_at). |
 | `status` | Optional | string or null | Whether the payment is recorded or has been reversed in full. Values: `"recorded"`, `"reversed"`. `status`: [declared alternatives](../models/InvoiceManualPaymentReversedMerchantEventDataPreviousAttributes.md#invoicemanualpaymentreversedmerchanteventdatapreviousattributesstatus). |
 | `supported_actions` | Optional | Array of string or null | Lifecycle actions Flint accepts for this resource now, based on stored state. Independent of the caller's permissions; each action still requires its route's scope. Always [] when no action is available. Items values: `"reverse"`. `supported_actions`: [declared alternatives](../models/CreditNoteAllocationReversedMerchantEventDataPreviousAttributes.md#creditnoteallocationreversedmerchanteventdatapreviousattributessupported_actions). |
+
+### InvoiceManualPaymentReversedMerchantEventDataPreviousAttributes.idempotency_key
+
+Declared alternatives: [CreditNoteAllocationReversedMerchantEventDataPreviousAttributes.idempotency_key](../models/CreditNoteAllocationReversedMerchantEventDataPreviousAttributes.md#creditnoteallocationreversedmerchanteventdatapreviousattributesidempotency_key).
 
 ### InvoiceManualPaymentReversedMerchantEventDataPreviousAttributes.invoice_id
 

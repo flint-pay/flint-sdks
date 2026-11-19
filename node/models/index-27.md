@@ -1,7 +1,11 @@
 [Model index](../MODELS.md)
 
-# PaymentIntentAuthorizationExpiringMerchantEvent to PaymentLinkUpdatedInstalledMerchantsEvent
+# PaymentIntent to PaymentLinkSalesSummaryPreviousAttributes
 
+- [PaymentIntent](PaymentIntent.md)
+- [PaymentIntentActivity](PaymentIntentActivity.md)
+- [PaymentIntentActivityListResponse](PaymentIntentActivityListResponse.md)
+- [PaymentIntentAuthorizationExpiringInstalledMerchantsEvent](PaymentIntentAuthorizationExpiringInstalledMerchantsEvent.md)
 - [PaymentIntentAuthorizationExpiringMerchantEvent](PaymentIntentAuthorizationExpiringMerchantEvent.md)
 - [PaymentIntentCanceledInstalledMerchantsEvent](PaymentIntentCanceledInstalledMerchantsEvent.md)
 - [PaymentIntentCanceledMerchantEvent](PaymentIntentCanceledMerchantEvent.md)
@@ -52,6 +56,7 @@
 - [PaymentLinkEventConfigPatchRequest](PaymentLinkEventConfigPatchRequest.md)
 - [PaymentLinkEventConfigPatchRequestInput](PaymentLinkEventConfigPatchRequestInput.md)
 - [PaymentLinkEventConfigPreviousAttributes](PaymentLinkEventConfigPreviousAttributes.md)
+- [PaymentLinkEventConfigRequest](PaymentLinkEventConfigRequest.md)
 - [PaymentLinkEventConfigRequestInput](PaymentLinkEventConfigRequestInput.md)
 - [PaymentLinkLegalConfigInput](PaymentLinkLegalConfigInput.md)
 - [PaymentLinkLegalPatchRequestInput](PaymentLinkLegalPatchRequestInput.md)
@@ -97,9 +102,4 @@
 - [PaymentLinkResponse](PaymentLinkResponse.md)
 - [PaymentLinkSalesSummary](PaymentLinkSalesSummary.md)
 - [PaymentLinkSalesSummaryPreviousAttributes](PaymentLinkSalesSummaryPreviousAttributes.md)
-- [PaymentLinkSubscriptionPreview](PaymentLinkSubscriptionPreview.md)
-- [PaymentLinkThemeConfigInput](PaymentLinkThemeConfigInput.md)
-- [PaymentLinkThemePatchRequest](PaymentLinkThemePatchRequest.md)
-- [PaymentLinkThemePatchRequestInput](PaymentLinkThemePatchRequestInput.md)
-- [PaymentLinkUpdatedInstalledMerchantsEvent](PaymentLinkUpdatedInstalledMerchantsEvent.md)
 

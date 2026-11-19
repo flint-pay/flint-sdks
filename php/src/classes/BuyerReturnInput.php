@@ -13,6 +13,7 @@ namespace Flint;
  * @property-read string $decision_status
  * @property-read ReturnFinancialSummaryInput|array<array-key, mixed>|\stdClass $financial_summary
  * @property-read list<BuyerReturnHandoffRequirementInput|array<array-key, mixed>|\stdClass> $handoff_requirements
+ * @property-read string|null $idempotency_key
  * @property-read string $initiated_by
  * @property-read list<BuyerReturnLineItemInput|array<array-key, mixed>|\stdClass> $line_items
  * @property-read string $merchandise_status
@@ -27,7 +28,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerReturnInput extends Model {
-    /** @param array{'buyer_actions': list<BuyerActionInput|array<array-key, mixed>|\stdClass>, 'canceled_at'?: string|\DateTimeInterface, 'cancellation_reason'?: string, 'completed_at'?: string|\DateTimeInterface, 'completion_blockers': list<BuyerReturnCompletionBlockerInput|array<array-key, mixed>|\stdClass>, 'completion_mode'?: string, 'created_at': string|\DateTimeInterface, 'decision_at'?: string|\DateTimeInterface, 'decision_status': string, 'financial_summary': ReturnFinancialSummaryInput|array<array-key, mixed>|\stdClass, 'handoff_requirements': list<BuyerReturnHandoffRequirementInput|array<array-key, mixed>|\stdClass>, 'initiated_by': string, 'line_items': list<BuyerReturnLineItemInput|array<array-key, mixed>|\stdClass>, 'merchandise_status': string, 'metadata': array<array-key, mixed>|\stdClass, 'order_id': string, 'resolution_status': string, 'return_id': string, 'return_number': string, 'return_resolution_ids': list<string>, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
+    /** @param array{'buyer_actions': list<BuyerActionInput|array<array-key, mixed>|\stdClass>, 'canceled_at'?: string|\DateTimeInterface, 'cancellation_reason'?: string, 'completed_at'?: string|\DateTimeInterface, 'completion_blockers': list<BuyerReturnCompletionBlockerInput|array<array-key, mixed>|\stdClass>, 'completion_mode'?: string, 'created_at': string|\DateTimeInterface, 'decision_at'?: string|\DateTimeInterface, 'decision_status': string, 'financial_summary': ReturnFinancialSummaryInput|array<array-key, mixed>|\stdClass, 'handoff_requirements': list<BuyerReturnHandoffRequirementInput|array<array-key, mixed>|\stdClass>, 'idempotency_key': string|null, 'initiated_by': string, 'line_items': list<BuyerReturnLineItemInput|array<array-key, mixed>|\stdClass>, 'merchandise_status': string, 'metadata': array<array-key, mixed>|\stdClass, 'order_id': string, 'resolution_status': string, 'return_id': string, 'return_number': string, 'return_resolution_ids': list<string>, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerReturnInput')); }
     /** What the buyer can do with the return, in this order: withdraw, ship_items, then pay_balance. A buyer's read or change through a customer session on /v1/me, or in Flint's buyer account, lists all three every time. Merchant responses and webhooks omit this field. ship_items is required while handoff_requirements is not empty, due by the earliest expires_at there. pay_balance is required while a resolution waits for the buyer's payment. Example: []. [] (Value): {@see BuyerActionInput}. One thing a buyer can do with an order, subscription, invoice or return they read through /v1/me. Show the actions with is_required as what needs the buyer's attention, and the first available action as the primary action on the resource's page in your account.
      * @return list<BuyerActionInput|array<array-key, mixed>|\stdClass>
@@ -95,6 +96,12 @@ final class BuyerReturnInput extends Model {
      */
     public function getHandoffRequirements(): array { return $this->get('handoff_requirements'); }
     public function hasHandoffRequirements(): bool { return $this->has('handoff_requirements'); }
+    /** The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. Buyer routes return only keys from your buyer namespace.
+     * @return string|null
+     * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
+     */
+    public function getIdempotencyKey(): string|null { return $this->get('idempotency_key'); }
+    public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
     /** Who created the Return: buyer for a customer session on /v1/me or Flint's hosted account, merchant for a Dashboard user, integration for an API key or partner app, or system for Flint automation. It cannot be sent. Value enum: "buyer", "merchant", "integration", "system".
      * @return string
      * @throws SdkError When initiated_by is omitted; use hasInitiatedBy() or valueOrDefault().

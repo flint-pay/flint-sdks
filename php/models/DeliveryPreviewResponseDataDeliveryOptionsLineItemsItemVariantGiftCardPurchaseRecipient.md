@@ -14,4 +14,5 @@ Response model.
 | `message` | Optional | string | Personal message included with the gift card. maxLength: `200`. |
 | `name` | Optional | string | Name of the person receiving the gift card. maxLength: `255`. |
 | `send_at` | Optional | string | Optional send time between now and 90 days from now. Omission requests immediate recipient notification after funding. Format: `date-time`. |
+| `sender_name` | Optional | string | Name to show as the sender in the gift card email, when provided. maxLength: `255`. |
 

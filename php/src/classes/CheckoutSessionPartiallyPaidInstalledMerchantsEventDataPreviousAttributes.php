@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read OrderPaymentAttemptPreviousAttributes|null $active_payment_attempt
+ * @property-read WebhookSnapshotOrderPaymentAttemptPreviousAttributes|null $active_payment_attempt
  * @property-read CheckoutBuyerContactPreviousAttributes|null $buyer_contact
  * @property-read CheckoutBuyerFieldsPreviousAttributes|null $buyer_fields
  * @property-read bool|null $can_apply_promotion_code
@@ -61,10 +61,10 @@ namespace Flint;
 final class CheckoutSessionPartiallyPaidInstalledMerchantsEventDataPreviousAttributes extends Model {
     /** @param array{'active_payment_attempt'?: mixed, 'buyer_contact'?: mixed, 'buyer_fields'?: mixed, 'can_apply_promotion_code'?: mixed, 'checkout_session_id'?: mixed, 'client_reference'?: mixed, 'closed_reason_message'?: mixed, 'created_at'?: mixed, 'custom_field_answers'?: mixed, 'custom_text'?: mixed, 'customer'?: mixed, 'customer_id'?: mixed, 'delivery'?: mixed, 'delivery_method_ids'?: mixed, 'delivery_selection_required'?: mixed, 'expires_at'?: mixed, 'expires_in_seconds'?: mixed, 'external_reference_id'?: mixed, 'gift_card_challenge'?: mixed, 'inventory_reservation_ids'?: mixed, 'invoice'?: mixed, 'invoice_id'?: mixed, 'is_in_recovery'?: mixed, 'legal'?: mixed, 'merchant_id'?: mixed, 'metadata'?: mixed, 'order'?: mixed, 'order_id'?: mixed, 'page_origin'?: mixed, 'payment_collection'?: mixed, 'payment_intent_ids'?: mixed, 'payment_intents'?: mixed, 'payment_link'?: mixed, 'payment_link_id'?: mixed, 'payment_return_url'?: mixed, 'payments'?: mixed, 'prefill'?: mixed, 'problems'?: mixed, 'promotion_config'?: mixed, 'redirects'?: mixed, 'refunds'?: mixed, 'setup_collection'?: mixed, 'status'?: mixed, 'subscription_plan_id'?: mixed, 'subscription_terms'?: mixed, 'superseding_checkout_session_id'?: mixed, 'supported_actions'?: mixed, 'surface'?: mixed, 'tax'?: mixed, 'terminal_reason'?: mixed, 'theme'?: mixed, 'tip'?: mixed, 'type'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSessionPartiallyPaidInstalledMerchantsEventDataPreviousAttributes')); }
-    /** The payment attempt now collecting this checkout's order, the same attempt as the order's active_payment_attempt. Read it to recover after losing a pay response, and resume it only when is_resumable is true. Omitted when no attempt is active. Pending actions that open a URL are left out; the pay response carries them. anyOf[1] (Value): {@see OrderPaymentAttemptPreviousAttributes}. anyOf[2] (Value): null.
-     * @return OrderPaymentAttemptPreviousAttributes|null
+    /** The payment attempt now collecting this checkout's order, the same attempt as the order's active_payment_attempt. Read it to recover after losing a pay response, and resume it only when is_resumable is true. Omitted when no attempt is active. Pending actions that open a URL are left out; the pay response carries them. anyOf[1] (Value): {@see WebhookSnapshotOrderPaymentAttemptPreviousAttributes}. anyOf[2] (Value): null.
+     * @return WebhookSnapshotOrderPaymentAttemptPreviousAttributes|null
      */
-    public function getActivePaymentAttempt(): OrderPaymentAttemptPreviousAttributes|null { return $this->get('active_payment_attempt'); }
+    public function getActivePaymentAttempt(): WebhookSnapshotOrderPaymentAttemptPreviousAttributes|null { return $this->get('active_payment_attempt'); }
     public function hasActivePaymentAttempt(): bool { return $this->has('active_payment_attempt'); }
     /** Contact the buyer entered in checkout before paying, saved with the session's checkout credential. Separate from merchant-supplied prefill and customer_prefill from the customer record. Omitted until the buyer saves or clears a field. When a checkout session payment omits buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the contact 30 days after the session ends, and when a customer linked to the session is deleted. anyOf[1] (Value): {@see CheckoutBuyerContactPreviousAttributes}. anyOf[2] (Value): null.
      * @return CheckoutBuyerContactPreviousAttributes|null
@@ -171,7 +171,7 @@ final class CheckoutSessionPartiallyPaidInstalledMerchantsEventDataPreviousAttri
      */
     public function getInvoiceId(): string|null { return $this->get('invoice_id'); }
     public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
-    /** Whether this terminal session credential is temporarily restricted to recovering its owning payment attempt. anyOf[1] (Value): boolean. Whether this terminal session credential is temporarily restricted to recovering its owning payment attempt. anyOf[2] (Value): null.
+    /** Whether the checkout is in its payment recovery window after its deadline. The checkout credential can recover only an attempt it started. Merchant reads can also report a merchant-started attempt. anyOf[1] (Value): boolean. Whether the checkout is in its payment recovery window after its deadline. The checkout credential can recover only an attempt it started. Merchant reads can also report a merchant-started attempt. anyOf[2] (Value): null.
      * @return bool|null
      */
     public function getIsInRecovery(): bool|null { return $this->get('is_in_recovery'); }

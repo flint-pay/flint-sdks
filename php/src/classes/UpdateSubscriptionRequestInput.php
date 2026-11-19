@@ -10,14 +10,14 @@ namespace Flint;
  * @property-read array{'cycle_count': int, 'type': string}|object|array{'end_date': string, 'timezone'?: string, 'type': string}|object|null $end_after
  * @property-read int $expected_version
  * @property-read string|null $external_reference_id
- * @property-read array{'email': string, 'message'?: string|null, 'name'?: string|null}|object|null $gift_recipient
+ * @property-read array{'email': string, 'message'?: string|null, 'name'?: string|null, 'sender_name'?: string}|object|null $gift_recipient
  * @property-read array<array-key, string|null>|\stdClass|null $metadata
  * @property-read string $payment_method_id
  * @property-read null $scheduled_plan_change
  * @property-read array{'calculation'?: array{'components_source'?: string, 'mode': string}|object|null, 'enabled': bool}|object|null $tax
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdateSubscriptionRequestInput extends Model {
-    /** @param array{'billing_interval'?: string, 'billing_interval_count'?: int, 'billing_schedule'?: SubscriptionBillingScheduleUpdateRequestInput|array<array-key, mixed>|\stdClass, 'cancel_at_period_end'?: bool, 'delivery'?: SubscriptionDeliveryRequestInput|array<array-key, mixed>|\stdClass, 'end_after'?: array{'cycle_count': int, 'type': string}|object|array{'end_date': string, 'timezone'?: string, 'type': string}|object|null, 'expected_version'?: int, 'external_reference_id'?: string|null, 'gift_recipient'?: array{'email': string, 'message'?: string|null, 'name'?: string|null}|object|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'payment_method_id'?: string, 'scheduled_plan_change'?: null, 'tax'?: array{'calculation'?: array{'components_source'?: string, 'mode': string}|object|null, 'enabled': bool}|object|null}|object $values */
+    /** @param array{'billing_interval'?: string, 'billing_interval_count'?: int, 'billing_schedule'?: SubscriptionBillingScheduleUpdateRequestInput|array<array-key, mixed>|\stdClass, 'cancel_at_period_end'?: bool, 'delivery'?: SubscriptionDeliveryRequestInput|array<array-key, mixed>|\stdClass, 'end_after'?: array{'cycle_count': int, 'type': string}|object|array{'end_date': string, 'timezone'?: string, 'type': string}|object|null, 'expected_version'?: int, 'external_reference_id'?: string|null, 'gift_recipient'?: array{'email': string, 'message'?: string|null, 'name'?: string|null, 'sender_name'?: string}|object|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'payment_method_id'?: string, 'scheduled_plan_change'?: null, 'tax'?: array{'calculation'?: array{'components_source'?: string, 'mode': string}|object|null, 'enabled': bool}|object|null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateSubscriptionRequestInput')); }
     /** New billing interval unit. Send it with `billing_interval_count`; the pair must be one the subscription's `billing_interval_options` offer. It applies from the next renewal that has not been paid, and it is refused while a plan change is scheduled. Not accepted as null. Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
@@ -68,7 +68,7 @@ final class UpdateSubscriptionRequestInput extends Model {
     public function getExternalReferenceId(): string|null { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
     /** Replace the whole gift recipient, or send null to clear it. There are no partial changes. Send expected_version to guard against concurrent changes. Buyers cannot change this field. anyOf[1] (Value): {@see SubscriptionGiftRecipientRequestInput}. Who receives a gift subscription. Sending it replaces the whole recipient. anyOf[2] (Value): null.
-     * @return array{'email': string, 'message'?: string|null, 'name'?: string|null}|object|null
+     * @return array{'email': string, 'message'?: string|null, 'name'?: string|null, 'sender_name'?: string}|object|null
      * @throws SdkError When gift_recipient is omitted; use hasGiftRecipient() or valueOrDefault().
      */
     public function getGiftRecipient(): mixed { return $this->get('gift_recipient'); }

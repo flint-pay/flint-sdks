@@ -1,8 +1,8 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { RequestOptions } from '../declarations/types-61.js';
-import type { Ticket } from '../declarations/types-74.js';
+import type { RequestOptions } from '../declarations/types-62.js';
 import type {
+    Ticket,
     TicketListResponse,
     TicketResponse,
     TicketWithAdmissionCode,
@@ -16,7 +16,7 @@ import type {
     TicketsUpdateParams,
     TicketsVoidParams
 } from '../declarations/types-75.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -33,6 +33,7 @@ export type {
 } from '../runtime.js';
 export type {
     TicketsCheckInParams,
+    Ticket,
     TicketResponse,
     TicketsGetParams,
     TicketsListParams,
@@ -46,9 +47,8 @@ export type {
     TicketsVoidParams,
     TicketVersionRequestInput
 } from '../declarations/types-75.js';
-export type { RequestOptions } from '../declarations/types-61.js';
-export type { Ticket } from '../declarations/types-74.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CheckInTicketRequestInput, CheckoutBuyerContact, CheckInTicketRequest } from '../declarations/types-6.js';
 export type { AuthMode } from '../declarations/types-1.js';
@@ -59,13 +59,11 @@ export type { PricingAmounts } from '../declarations/types-56.js';
 export type { MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { OrderSettlementAmounts } from '../declarations/types-47.js';
 export type { SettlementAmounts } from '../declarations/types-68.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { LookupTicketRequestInput, LookupTicketRequest } from '../declarations/types-40.js';
 export type { UpdateTicketRequestInput, UpdateTicketRequest } from '../declarations/types-78.js';
-export { makeCheckInTicketRequest } from '../declarations/types-80.js';
-export { makeLookupTicketRequest } from '../declarations/types-87.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeCheckInTicketRequest } from '../declarations/types-81.js';
+export { makeLookupTicketRequest, makeMoneyValue } from '../declarations/types-88.js';
 export { makeTicketVersionRequest } from '../declarations/types-93.js';
 export { makeUpdateTicketRequest } from '../declarations/types-94.js';
 export interface TicketsResource {

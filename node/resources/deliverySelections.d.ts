@@ -11,8 +11,8 @@ import type {
     DeliverySelectionsListParams,
     DeliverySelectionsReleaseParams
 } from '../declarations/types-24.js';
-import type { RequestOptions } from '../declarations/types-61.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { RequestOptions } from '../declarations/types-62.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -46,8 +46,8 @@ export type {
     DeliverySelectionLifecycleEventResource,
     DeliverySelectionRecipientRequest
 } from '../declarations/types-24.js';
-export type { RequestOptions } from '../declarations/types-61.js';
-export type { _SdkWithoutIdempotency, Weight } from '../declarations/types-79.js';
+export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-62.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type {
     ClientOptions,
     CheckoutSessionPlatformFee,
@@ -130,10 +130,8 @@ export type {
     RefundAdjustmentReason,
     RefundLineItemAutomaticRefund,
     RefundLineItemModifierAllocation,
-    RefundTaxBreakdownRefund,
-    RefundTenderAllocation
+    RefundTaxBreakdownRefund
 } from '../declarations/types-60.js';
-export type { ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-62.js';
 export type {
     PendingPaymentAction,
     PendingPaymentActionSubject,
@@ -215,6 +213,7 @@ export type {
     BuyerRetryPaymentActionOptions
 } from '../declarations/types-3.js';
 export type { CategoryReference, CatalogPricing } from '../declarations/types-5.js';
+export type { RefundTenderAllocation } from '../declarations/types-61.js';
 export type {
     OrderGiftCardAllocation,
     OrderLineItemModifier,
@@ -230,7 +229,7 @@ export type {
     OrderLineItemRefundable,
     OrderLineItemTax
 } from '../declarations/types-46.js';
-export type { SubscriptionIntervalOption, SubscriptionGiftRecipient } from '../declarations/types-70.js';
+export type { SubscriptionIntervalOption, SubscriptionEndAfterCycles, SubscriptionGiftRecipient } from '../declarations/types-70.js';
 export type {
     Order,
     OrderAuthorizationAmounts,
@@ -258,6 +257,7 @@ export type {
     TaxBreakdownPercentage,
     TaxBreakdownFlatAmount
 } from '../declarations/types-73.js';
+export type { Weight } from '../declarations/types-79.js';
 export type {
     SubscriptionPlanLineItem,
     SubscriptionPlanSwapVariant,
@@ -266,10 +266,13 @@ export type {
     SubscriptionPlanLineItemCustom
 } from '../declarations/types-71.js';
 export type { TicketedEvent, Tip, TipPaymentIntentAllocation, TipValueSettlementAllocation } from '../declarations/types-75.js';
-export { makeAddressRequest } from '../declarations/types-79.js';
+export { makeAddressRequest } from '../declarations/types-80.js';
 export { makeCreateDeliverySelectionChoiceRequest, makeCreateDeliverySelectionRequest } from '../declarations/types-82.js';
-export { makeDeliverySelectionInstructionsRequest, makeDeliverySelectionRecipientRequest } from '../declarations/types-85.js';
-export { makeDeliveryWindowRequest } from '../declarations/types-86.js';
+export {
+    makeDeliverySelectionInstructionsRequest,
+    makeDeliverySelectionRecipientRequest,
+    makeDeliveryWindowRequest
+} from '../declarations/types-86.js';
 export { makeMoneyValue } from '../declarations/types-88.js';
 export { makeTextModifierRequest } from '../declarations/types-93.js';
 export interface DeliverySelectionsResource {
@@ -297,8 +300,9 @@ export interface DeliverySelectionsResource {
     /**
  * Returns one delivery selection, current or earlier, with its economics, lifecycle events, and
  * retention-aware private data. While the selection is selected, the tax on its delivery charges
- * follows the order's tax. A checkout credential reads only its own session's selections and
- * receives the buyer view; any other selection is refused as not found.
+ * follows the order's tax. A checkout credential receives the buyer view of its own session's
+ * selections. For an issued invoice, it can also retrieve the merchant-set selection named by the
+ * order's governing_delivery_selection_id. Other selections return 404.
  *
  * `GET /v1/delivery-selections/{delivery_selection_id}`
  * @param delivery_selection_id ID of the delivery selection to retrieve, whether current or

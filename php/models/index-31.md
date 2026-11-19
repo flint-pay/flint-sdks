@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# SubscriptionDeliveryMethodSummaryPreviousAttributesInput to SubscriptionPromotionPreviousAttributesInput
+# SubscriptionDeliveryMethodSummaryInput to SubscriptionPromotionApplyPreviewInput
 
+- [SubscriptionDeliveryMethodSummaryInput](SubscriptionDeliveryMethodSummaryInput.md)
 - [SubscriptionDeliveryMethodSummaryPreviousAttributesInput](SubscriptionDeliveryMethodSummaryPreviousAttributesInput.md)
 - [SubscriptionDeliveryMigrationInput](SubscriptionDeliveryMigrationInput.md)
 - [SubscriptionDeliveryMigrationCompletedInstalledMerchantsEventInput](SubscriptionDeliveryMigrationCompletedInstalledMerchantsEventInput.md)
@@ -101,5 +102,4 @@
 - [SubscriptionPreviewResponseInput](SubscriptionPreviewResponseInput.md)
 - [SubscriptionPromotionInput](SubscriptionPromotionInput.md)
 - [SubscriptionPromotionApplyPreviewInput](SubscriptionPromotionApplyPreviewInput.md)
-- [SubscriptionPromotionPreviousAttributesInput](SubscriptionPromotionPreviousAttributesInput.md)
 

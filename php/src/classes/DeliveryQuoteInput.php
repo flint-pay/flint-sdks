@@ -49,7 +49,7 @@ final class DeliveryQuoteInput extends Model {
      */
     public function getBuyerLocation(): mixed { return $this->get('buyer_location'); }
     public function hasBuyerLocation(): bool { return $this->has('buyer_location'); }
-    /** Buyer-safe reasons a choice group has no available option. Groups with an available option contribute no reasons. Merchant configuration details are never included. [] enum: "address_required", "address_incomplete", "outside_delivery_area", "no_pickup_location_nearby", "unavailable_for_these_items", "temporarily_unavailable". [] (Value): string.  Value enum: "address_required", "address_incomplete", "outside_delivery_area", "no_pickup_location_nearby", "unavailable_for_these_items", "temporarily_unavailable".
+    /** Buyer-safe reasons a choice group has no available option. Groups with an available option contribute no reasons. Merchant configuration details are never included. [] enum: "address_required", "address_incomplete", "address_needs_review", "outside_delivery_area", "no_pickup_location_nearby", "unavailable_for_these_items", "temporarily_unavailable". [] (Value): string.  Value enum: "address_required", "address_incomplete", "address_needs_review", "outside_delivery_area", "no_pickup_location_nearby", "unavailable_for_these_items", "temporarily_unavailable".
      * @return list<string>
      * @throws SdkError When buyer_reasons is omitted; use hasBuyerReasons() or valueOrDefault().
      */

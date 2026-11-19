@@ -20,13 +20,14 @@ namespace Flint;
  * @property-read ?string $payment_link_type
  * @property-read ?CheckoutPaymentConfig $payments
  * @property-read ?string $sales_end_at
+ * @property-read ?string $sales_start_at
  * @property-read string $status
  * @property-read ?string $subscription_plan_id
  * @property-read ?ThemeConfig $theme
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class PublicPaymentLink extends Model {
-    /** @param array{'completed_count': int, 'custom_fields'?: list<mixed>, 'custom_text'?: mixed, 'description'?: string, 'donation_max_amount_money'?: mixed, 'donation_min_amount_money'?: mixed, 'donation_suggested_amount_money_options'?: list<mixed>, 'event_config'?: mixed, 'image'?: mixed, 'inactive_message'?: string, 'legal'?: mixed, 'line_items'?: list<mixed>, 'max_completions'?: int, 'name': string, 'payment_link_id': string, 'payment_link_type'?: string, 'payments'?: mixed, 'sales_end_at'?: string, 'status': string, 'subscription_plan_id'?: string, 'theme'?: mixed, 'version': int, ...}|object $values */
+    /** @param array{'completed_count': int, 'custom_fields'?: list<mixed>, 'custom_text'?: mixed, 'description'?: string, 'donation_max_amount_money'?: mixed, 'donation_min_amount_money'?: mixed, 'donation_suggested_amount_money_options'?: list<mixed>, 'event_config'?: mixed, 'image'?: mixed, 'inactive_message'?: string, 'legal'?: mixed, 'line_items'?: list<mixed>, 'max_completions'?: int, 'name': string, 'payment_link_id': string, 'payment_link_type'?: string, 'payments'?: mixed, 'sales_end_at'?: string, 'sales_start_at'?: string, 'status': string, 'subscription_plan_id'?: string, 'theme'?: mixed, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PublicPaymentLink')); }
     /** Number of paid checkout sessions started from this link. Format: int32.
      * @return int
@@ -118,6 +119,11 @@ final class PublicPaymentLink extends Model {
      */
     public function getSalesEndAt(): ?string { return $this->get('sales_end_at'); }
     public function hasSalesEndAt(): bool { return $this->has('sales_end_at'); }
+    /** RFC3339 timestamp when buyers can first start a checkout from this link. Stored to nanosecond precision. Before it, resolve fails with ACTION_NOT_ALLOWED and reason sales_not_started. Must be earlier than the link’s sales end, including the event start when no explicit end is set. Format: date-time.
+     * @return ?string
+     */
+    public function getSalesStartAt(): ?string { return $this->get('sales_start_at'); }
+    public function hasSalesStartAt(): bool { return $this->has('sales_start_at'); }
     /** Whether the link can start new checkouts. Value enum: "active", "inactive".
      * @return string
      */

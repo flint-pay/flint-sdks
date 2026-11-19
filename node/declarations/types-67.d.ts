@@ -1,50 +1,99 @@
+import type { MoneyValue, MoneyValueInput, MoneyValuePreviousAttributes } from './types-44.js';
 import type {
+    RiskPredicateNode,
     RiskPredicateNodeAllRequest,
     RiskPredicateNodeAnyRequest,
     RiskPredicateNodeComparison,
     RiskPredicateNodeIn,
     RiskPredicateNodeInList,
     RiskPredicateNodeIsMissing,
-    RiskPredicateNodeMoneyComparison,
-    RiskPredicateNodeNotRequest,
     RiskPredicateNodeAllRequestInput,
     RiskPredicateNodeAnyRequestInput,
     RiskPredicateNodeComparisonRequestInput,
     RiskPredicateNodeInListRequestInput,
-    RiskPredicateNodeInRequestInput,
-    RiskPredicateNodeIsMissingRequestInput,
-    RiskPredicateNodeMoneyComparisonRequestInput,
-    RiskPredicateNodeNotRequestInput,
-    RiskPredicateNode
+    RiskPredicateNodeInRequestInput
 } from './types-66.js';
 import type { ResponseWarning, ResponseMeta, ResourceReference } from './types-62.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateRiskPreviewRequestInput } from './types-13.js';
 import type { CreateRiskRuleRequestInput, CreateSandboxRequestInput } from './types-14.js';
 import type { DisputesAcceptParams } from './types-26.js';
-import type { UpdateRiskRuleRequestInput, UpdateSettingsRequestInput } from './types-77.js';
-import type { GiftCardPurchaseRecipient } from './types-30.js';
-import type { GiftCardNotificationRecipientInput, GiftCardNotification } from './types-29.js';
-import type { GiftCard, FulfillmentSettings } from './types-28.js';
+import type { UpdateRiskRuleRequestInput } from './types-77.js';
+import type { GiftCardNotificationRecipient, GiftCardNotificationRecipientInput, GiftCardNotification } from './types-29.js';
+import type { GiftCard } from './types-28.js';
 import type { PartnerAppWithRotatedSecret, PartnerAppsListParams } from './types-50.js';
 import type { CreateDeveloperSandboxResult } from './types-9.js';
 import type { PaymentMethodWithSetup } from './types-53.js';
-import type { MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
-import type { PaymentCollection, PaymentErrorSummary, PaymentErrorSummaryPreviousAttributes } from './types-51.js';
-import type { SetupCollectionPreviousAttributes } from './types-68.js';
-import type { BrandingSettings } from './types-1.js';
-import type { CheckoutSettings } from './types-7.js';
-import type { CustomerAccountSettings, CustomerEmailDeliverySettings } from './types-16.js';
-import type { InventorySettings } from './types-33.js';
-import type { InvoiceSettings, LegalSettings } from './types-38.js';
-import type { MetadataMap } from './types-43.js';
-import type { PaymentLimitSettings } from './types-52.js';
-import type { PaymentSettings } from './types-54.js';
-import type { PromotionSettings } from './types-59.js';
-import type { ReceiptSettings } from './types-60.js';
-import type { SubscriptionSettings } from './types-72.js';
-import type { TaxIdentity, TaxSettings } from './types-74.js';
-import type { TippingSettings } from './types-75.js';
+import type {
+    PaymentCollection,
+    PaymentErrorSummary,
+    PaymentCollectionPreviousAttributes,
+    PaymentErrorSummaryPreviousAttributes
+} from './types-51.js';
+/** The `Is missing` variant of `RiskPredicateNode`. */
+export type RiskPredicateNodeIsMissingRequestInput = {
+    /**
+     * The payment attribute to test. Read the attribute registry for the names a rule can use.
+     * minLength: 1. maxLength: 280.
+     */
+    "attribute": string;
+    /** How the attribute is compared. Value enum: "is_missing". */
+    "operator": "is_missing";
+};
+/** The `Money comparison` variant of `RiskPredicateNode`. */
+export type RiskPredicateNodeMoneyComparison = {
+    /**
+     * The amount to compare with. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /**
+     * The payment attribute to test. Read the attribute registry for the names a rule can use.
+     * Value enum: "amount_money".
+     */
+    "attribute": "amount_money" | (string & {});
+    /** How the attribute is compared. Value enum: "eq", "neq", "gt", "gte", "lt", "lte". */
+    "operator": "eq" | "neq" | "gt" | "gte" | "lt" | "lte" | (string & {});
+};
+/** The `Money comparison` variant of `RiskPredicateNode`. */
+export type RiskPredicateNodeMoneyComparisonRequestInput = {
+    /**
+     * The amount to compare with. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code.
+     */
+    "amount_money": MoneyValueInput;
+    /**
+     * The payment attribute to test. Read the attribute registry for the names a rule can use.
+     * Value enum: "amount_money".
+     */
+    "attribute": "amount_money";
+    /** How the attribute is compared. Value enum: "eq", "neq", "gt", "gte", "lt", "lte". */
+    "operator": "eq" | "neq" | "gt" | "gte" | "lt" | "lte";
+};
+/** The `Not` variant of `RiskPredicateNode`. */
+export type RiskPredicateNodeNot = {
+    /**
+     * The predicate that must not match. A node in a risk rule condition: a comparison of an
+     * attribute, or an `all`, `any`, or `not` group of other nodes.
+     */
+    "not": RiskPredicateNode;
+};
+/** The `Not` variant of `RiskPredicateNode`. */
+export type RiskPredicateNodeNotRequest = {
+    /**
+     * The predicate that must not match. A node in a risk rule condition: a comparison of an
+     * attribute, or an `all`, `any`, or `not` group of other nodes.
+     */
+    "not": RiskPredicateNodeRequest;
+};
+/** The `Not` variant of `RiskPredicateNode`. */
+export type RiskPredicateNodeNotRequestInput = {
+    /**
+     * The predicate that must not match. A node in a risk rule condition: a comparison of an
+     * attribute, or an `all`, `any`, or `not` group of other nodes.
+     */
+    "not": RiskPredicateNodeRequestInput;
+};
 /**
  * A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not`
  * group of other nodes.
@@ -420,7 +469,7 @@ export type RotateGiftCardCodeRequest = {
      * commerce.gift_cards.secrets.write. Who receives a gift card notification: their `email`,
      * optional `name` and `message`, and an optional `send_at` time.
      */
-    "notification"?: GiftCardPurchaseRecipient;
+    "notification"?: GiftCardNotificationRecipient;
 };
 /** The request body for: Replace a gift card code. */
 export type RotateGiftCardCodeRequestInput = {
@@ -1241,9 +1290,9 @@ export type SelectableOrderPaymentIntentPreviousAttributes = {
     "last_payment_error"?: ((PaymentErrorSummaryPreviousAttributes) | (null));
     /**
      * Client setup details for collecting this payment. anyOf[1] (Value): {@link
-     * SetupCollectionPreviousAttributes}. anyOf[2] (Value): null.
+     * PaymentCollectionPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "payment_collection"?: ((SetupCollectionPreviousAttributes) | (null));
+    "payment_collection"?: ((PaymentCollectionPreviousAttributes) | (null));
     /**
      * Flint payment intent ID. anyOf[1] (Value): string. Flint payment intent ID. Example:
      * "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2] (Value): null.
@@ -1340,9 +1389,9 @@ export type SendOrderReceiptRequestInput = SendOrderReceiptRequest;
 /** The request body for: Send a payment receipt. */
 export type SendPaymentIntentReceiptRequestInput = {
     /**
-     * Email address that receives the receipt. Omit to use the order's receipt address for an
-     * order-owned intent, or receipt_email then the customer's email for a standalone intent. The
-     * local part before @ must be at most 64 octets (UTF-8 bytes). Format: email. minLength: 1.
+     * Email address that receives the receipt. Omit to use receipt_email, then the order's receipt
+     * address for an order-owned intent or the customer's email for a standalone intent. The local
+     * part before @ must be at most 64 octets (UTF-8 bytes). Format: email. minLength: 1.
      * maxLength: 254. Example: "buyer@example.com".
      */
     "email"?: string;
@@ -1371,210 +1420,4 @@ export type ServiceFulfillmentDetails = {
     "scheduled_start_at"?: string;
     /** Timezone used to display the service appointment. Uses an IANA time zone name. */
     "timezone"?: string;
-};
-export type ServiceFulfillmentDetailsPreviousAttributes = {
-    /**
-     * When the service was completed, in RFC3339 format. anyOf[1] (Value): string. When the
-     * service was completed, in RFC3339 format. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "completed_at"?: ((string) | (null));
-    /**
-     * Additional instructions or notes for performing the service. anyOf[1] (Value): string.
-     * Additional instructions or notes for performing the service. anyOf[2] (Value): null.
-     */
-    "notes"?: ((string) | (null));
-    /**
-     * Scheduled end of the service, in RFC3339 format. anyOf[1] (Value): string. Scheduled end of
-     * the service, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
-     * (Value): null.
-     */
-    "scheduled_end_at"?: ((string) | (null));
-    /**
-     * Scheduled start of the service, in RFC3339 format. anyOf[1] (Value): string. Scheduled start
-     * of the service, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * anyOf[2] (Value): null.
-     */
-    "scheduled_start_at"?: ((string) | (null));
-    /**
-     * Timezone used to display the service appointment. Uses an IANA time zone name. anyOf[1]
-     * (Value): string. Timezone used to display the service appointment. Uses an IANA time zone
-     * name. anyOf[2] (Value): null.
-     */
-    "timezone"?: ((string) | (null));
-};
-/** The settings for one merchant environment. */
-export type Settings = {
-    /**
-     * Colors, font, and corner radius of hosted checkout, receipts, and links. Omitted until you
-     * save a value in this section; effective settings fill in Flint's defaults. A merchant's
-     * branding settings: colors, corner radius, and font family. Checkout uses them as its default
-     * theme.
-     */
-    "branding"?: BrandingSettings;
-    /**
-     * Defaults for hosted checkout. Omitted until you save a value in this section; effective
-     * settings fill in Flint's defaults. Merchant defaults for checkout: delivery methods,
-     * expiration, payment options, required contact fields, promotion codes, recovery email, and
-     * saved payment details.
-     */
-    "checkout"?: CheckoutSettings;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /**
-     * The customer account where buyers manage their orders, subscriptions, returns, and invoices.
-     * Omitted until you save a value in this section; effective settings fill in Flint's defaults.
-     * Customer account settings: hosted mode, merchant account URL, presentation, route templates,
-     * and what buyers may do to their own subscriptions.
-     */
-    "customer_account"?: CustomerAccountSettings;
-    /**
-     * Whether Flint or you send each kind of buyer email. Omitted until you save a value in this
-     * section; effective settings fill in Flint's defaults. For each kind of customer email,
-     * whether Flint sends it or the merchant sends it.
-     */
-    "customer_email_delivery"?: CustomerEmailDeliverySettings;
-    /**
-     * Fulfillment workflow defaults. Omitted until you save a value in this section; effective
-     * settings fill in Flint's defaults. Merchant fulfillment settings, including whether
-     * fulfillments require approval (`approval_required`).
-     */
-    "fulfillment"?: FulfillmentSettings;
-    /**
-     * Inventory defaults, such as the low stock threshold and what happens when stock can't cover
-     * a paid order. Omitted until you save a value in this section; effective settings fill in
-     * Flint's defaults. Inventory settings: the `low_stock_threshold`, how inventory failures are
-     * handled for each order source, and the `default_routing_source` for requests that omit one.
-     */
-    "inventory"?: InventorySettings;
-    /**
-     * Defaults and policies for the invoices you issue. Omitted until you save a value in this
-     * section; effective settings fill in Flint's defaults. Merchant defaults for invoices,
-     * including numbering prefixes, default memo and footer, collection mode, reminders, and
-     * autopay retries.
-     */
-    "invoices"?: InvoiceSettings;
-    /**
-     * Legal links and terms acceptance that checkout shows. Omitted until you save a value in this
-     * section; effective settings fill in Flint's defaults. Merchant legal links and terms
-     * settings: contract, refund policy, shipping policy, and terms of service URLs, and whether
-     * buyers must accept the terms.
-     */
-    "legal"?: LegalSettings;
-    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-    "merchant_id": string;
-    /**
-     * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
-     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
-     * Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Your own lower and upper limits on payment amounts. Omitted until you save a value in this
-     * section; effective settings fill in Flint's defaults. Optional merchant limits that can
-     * lower Flint's payment-option and surface policy limits.
-     */
-    "payment_limits"?: PaymentLimitSettings;
-    /**
-     * Statement text for new payments and Stripe's current decision about the card statement name.
-     * Settings for the statement text on new payments.
-     */
-    "payments"?: PaymentSettings;
-    /**
-     * Whether automatic promotions and promotion codes apply, and how many discounts one order can
-     * stack. Omitted until you save a value in this section; effective settings fill in Flint's
-     * defaults. Merchant promotion settings: whether automatic promotions and codes are enabled,
-     * and how many promotions can apply to one order.
-     */
-    "promotions"?: PromotionSettings;
-    /**
-     * Merchant-provided text on payment receipt emails and PDFs. Omitted until you save a value in
-     * this section; effective settings fill in Flint's defaults. Merchant-provided text on payment
-     * receipt emails and PDFs.
-     */
-    "receipts"?: ReceiptSettings;
-    /**
-     * Unique identifier for this settings, prefixed `set_`. Example:
-     * "set_01KEZF7C00SA6XKHH6GVZ1JMC2".
-     */
-    "settings_id": string;
-    /**
-     * Subscription billing behavior, such as what happens when payment retries run out. Omitted
-     * until you save a value in this section; effective settings fill in Flint's defaults.
-     * Subscription settings: the default billing schedule owner, dunning retry days and end
-     * action, and the backorder email.
-     */
-    "subscriptions"?: SubscriptionSettings;
-    /**
-     * Default tax behavior for new checkouts and orders. Omitted until you save a value in this
-     * section; effective settings fill in Flint's defaults. Tax settings: whether tax is
-     * calculated by default and the default tax categories for line items and delivery charges.
-     */
-    "tax"?: TaxSettings;
-    /**
-     * The merchant's legal identity, printed on invoices, credit notes, and receipts. `null` when
-     * none is set. anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal identity
-     * displayed on invoices and credit notes. Flint does not verify IDs. On a customer, automatic
-     * tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider, which can
-     * apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an owned
-     * collection in display order; replacing the array requires the parent's expected_version.
-     * Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to
-     * add one. anyOf[2] (Value): null.
-     */
-    "tax_identity": ((TaxIdentity) | (null));
-    /**
-     * How tips work at checkout. Omitted until you save a value in this section; effective
-     * settings fill in Flint's defaults. Tipping settings: percent and fixed tip options, the
-     * preselected tip, and whether custom tips are allowed.
-     */
-    "tipping"?: TippingSettings;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-    /**
-     * Current version of this resource's owned state. Send it as `expected_version` when changing
-     * the resource to reject a stale write. Format: uint64. minimum: 1.
-     */
-    "version": number;
-};
-export type SettingsGetEffectiveParams = DisputesAcceptParams;
-export type SettingsGetParams = DisputesAcceptParams;
-/** A response containing `Settings` data. */
-export type SettingsResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. The settings for one
-     * merchant environment.
-     */
-    "data": Settings;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type SettingsUpdateParams = (InputValue<UpdateSettingsRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
 };

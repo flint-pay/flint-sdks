@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# PartnerAppCredentialPublicKeyRequestInput to PaymentIntentOvercaptureInput
+# PartnerAppCredentialResponseInput to PaymentIntentOvercapturePreviousAttributesInput
 
-- [PartnerAppCredentialPublicKeyRequestInput](PartnerAppCredentialPublicKeyRequestInput.md)
 - [PartnerAppCredentialResponseInput](PartnerAppCredentialResponseInput.md)
 - [PartnerAppCredentialWorkloadIdentityInput](PartnerAppCredentialWorkloadIdentityInput.md)
 - [PartnerAppCredentialWorkloadIdentityRequestInput](PartnerAppCredentialWorkloadIdentityRequestInput.md)
@@ -102,4 +101,5 @@
 - [PaymentIntentFulfillmentHoldUpdatedMerchantEventInput](PaymentIntentFulfillmentHoldUpdatedMerchantEventInput.md)
 - [PaymentIntentListResponseInput](PaymentIntentListResponseInput.md)
 - [PaymentIntentOvercaptureInput](PaymentIntentOvercaptureInput.md)
+- [PaymentIntentOvercapturePreviousAttributesInput](PaymentIntentOvercapturePreviousAttributesInput.md)
 

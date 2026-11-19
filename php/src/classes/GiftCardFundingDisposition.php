@@ -9,14 +9,14 @@ namespace Flint;
  * @property-read string $gift_card_funding_disposition_id
  * @property-read list<string> $gift_card_ids
  * @property-read MoneyValue $honored_value_money
- * @property-read string $idempotency_key
+ * @property-read string|null $idempotency_key
  * @property-read MoneyValue $original_gift_card_consideration_money
  * @property-read string $payment_intent_id
  * @property-read MoneyValue $preserved_reserved_value_money
  * @property-read string $reason_message
  * Presence-aware response; omitted optional fields return null. */
 final class GiftCardFundingDisposition extends Model {
-    /** @param array{'created_at': string, 'disposition': string, 'dispute_amount_money': mixed, 'dispute_id': string, 'gift_card_funding_disposition_id': string, 'gift_card_ids': list<string>, 'honored_value_money': mixed, 'idempotency_key': string, 'original_gift_card_consideration_money': mixed, 'payment_intent_id': string, 'preserved_reserved_value_money': mixed, 'reason_message': string, ...}|object $values */
+    /** @param array{'created_at': string, 'disposition': string, 'dispute_amount_money': mixed, 'dispute_id': string, 'gift_card_funding_disposition_id': string, 'gift_card_ids': list<string>, 'honored_value_money': mixed, 'idempotency_key': string|null, 'original_gift_card_consideration_money': mixed, 'payment_intent_id': string, 'preserved_reserved_value_money': mixed, 'reason_message': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardFundingDisposition')); }
     /** When the disposition was created. Format: date-time.
      * @return string
@@ -53,10 +53,10 @@ final class GiftCardFundingDisposition extends Model {
      */
     public function getHonoredValueMoney(): MoneyValue { return $this->get('honored_value_money'); }
     public function hasHonoredValueMoney(): bool { return $this->has('honored_value_money'); }
-    /** The Idempotency-Key sent with the request that created this disposition.
-     * @return string
+    /** The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource.
+     * @return string|null
      */
-    public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
+    public function getIdempotencyKey(): string|null { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
     /** What the buyer paid for the gift card value the disputed payment funded, summed across its funding loads. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue

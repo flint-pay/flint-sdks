@@ -12,6 +12,7 @@ Response model.
 | `message` | Optional | string or null | Personal message included with the gift card. `message`: [declared alternatives](../models/GiftCardPurchaseRecipientPreviousAttributes.md#giftcardpurchaserecipientpreviousattributesmessage). |
 | `name` | Optional | string or null | Name of the person receiving the gift card. `name`: [declared alternatives](../models/GiftCardPurchaseRecipientPreviousAttributes.md#giftcardpurchaserecipientpreviousattributesname). |
 | `send_at` | Optional | string or null | Optional send time between now and 90 days from now. Omission requests immediate recipient notification after funding. `send_at`: [declared alternatives](../models/GiftCardPurchaseRecipientPreviousAttributes.md#giftcardpurchaserecipientpreviousattributessend_at). |
+| `sender_name` | Optional | string or null | Name to show as the sender in the gift card email, when provided. `sender_name`: [declared alternatives](../models/GiftCardPurchaseRecipientPreviousAttributes.md#giftcardpurchaserecipientpreviousattributessender_name). |
 
 ### GiftCardPurchaseRecipientPreviousAttributes.email
 
@@ -68,4 +69,18 @@ anyOf variant 1: Optional send time between now and 90 days from now. Omission r
 anyOf variant 2.
 
 - Value shape: null. Optional send time between now and 90 days from now. Omission requests immediate recipient notification after funding. 
+
+### GiftCardPurchaseRecipientPreviousAttributes.sender_name
+
+### GiftCardPurchaseRecipientPreviousAttributes.sender_name variant 1
+
+anyOf variant 1: Name to show as the sender in the gift card email, when provided..
+
+- Value shape: string. Name to show as the sender in the gift card email, when provided. Name to show as the sender in the gift card email, when provided. maxLength: `255`. 
+
+### GiftCardPurchaseRecipientPreviousAttributes.sender_name variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Name to show as the sender in the gift card email, when provided. 
 

@@ -1,7 +1,7 @@
-import { d8093 as c0 } from '../descriptors/data/352.js?sdk=22459f40165c8f83629c1309c0555e659f12bdc99933459ef8de8ac0e4796ba2';
-import { d8093 as d8093 } from '../descriptors/data/352.js?sdk=22459f40165c8f83629c1309c0555e659f12bdc99933459ef8de8ac0e4796ba2';
+import { d8114 as c0 } from '../descriptors/data/357.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
+import { d8114 as d8114 } from '../descriptors/data/357.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d8093;
+const read = d8114;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["ThemeConfigRequest"]:c0()}); }
 export { codec as _validate };

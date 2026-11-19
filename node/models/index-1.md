@@ -1,6 +1,6 @@
 [Model index](../MODELS.md)
 
-# AcceptFulfillmentRequestInput to BuyerCreateReturnPreviewRequestInput
+# AcceptFulfillmentRequestInput to BuyerCreateReturnPreviewRequest
 
 - [AcceptFulfillmentRequestInput](AcceptFulfillmentRequestInput.md)
 - [AcceptPartnerAppPlatformTermsRequest](AcceptPartnerAppPlatformTermsRequest.md)
@@ -99,7 +99,7 @@
 - [BuyerCapabilitiesRequestInput](BuyerCapabilitiesRequestInput.md)
 - [BuyerCheckoutProblemResource](BuyerCheckoutProblemResource.md)
 - [BuyerCheckoutSession](BuyerCheckoutSession.md)
+- [BuyerCheckoutSessionLaunchResponse](BuyerCheckoutSessionLaunchResponse.md)
 - [BuyerCheckoutSessionWithSecret](BuyerCheckoutSessionWithSecret.md)
 - [BuyerCreateReturnPreviewRequest](BuyerCreateReturnPreviewRequest.md)
-- [BuyerCreateReturnPreviewRequestInput](BuyerCreateReturnPreviewRequestInput.md)
 

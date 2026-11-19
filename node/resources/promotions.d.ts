@@ -9,8 +9,8 @@ import type {
     PromotionsListParams,
     PromotionsUpdateParams
 } from '../declarations/types-59.js';
-import type { RequestOptions } from '../declarations/types-61.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { RequestOptions } from '../declarations/types-62.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -31,12 +31,14 @@ export type {
     PromotionsGetParams,
     PromotionsListParams,
     PromotionsUpdateParams,
+    PromotionRuleRequestInput,
     PromotionRuleValueRequestInput,
     PromotionScheduleRequestInput,
+    PromotionRuleValue,
     PromotionSchedule,
     PromotionSchedulePatchInput
 } from '../declarations/types-59.js';
-export type { RequestOptions } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type {
     Promotion,
     PromotionApplicationMethodRequestInput,
@@ -45,7 +47,6 @@ export type {
     PromotionApplicationMethod,
     PromotionAmountOffMethod,
     PromotionBuyXGetYMethod,
-    PromotionCode,
     PromotionApplicationMethodPatchInput
 } from '../declarations/types-57.js';
 export type {
@@ -53,7 +54,6 @@ export type {
     PromotionListResponse,
     PromotionPercentOffMethodRequestInput,
     PromotionRuleGroupRequestInput,
-    PromotionRuleRequestInput,
     PromotionRecurrenceRequestInput,
     PromotionRecurrenceOnceRequestInput,
     PromotionRecurrenceRepeatingRequestInput,
@@ -64,11 +64,11 @@ export type {
     PromotionPercentOffMethod,
     PromotionRuleGroup,
     PromotionRule,
-    PromotionRuleValue,
     PromotionRecurrence,
     PromotionRecurrenceOnce,
     PromotionRecurrenceRepeating,
     PromotionRecurrenceForever,
+    PromotionCode,
     PromotionCodesSummary,
     PromotionCombinesWith,
     PromotionExclusivity,
@@ -78,14 +78,13 @@ export type {
     PromotionExclusivityRequest,
     PromotionExclusivityPatch
 } from '../declarations/types-58.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreatePromotionRequestInput } from '../declarations/types-12.js';
 export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { UpdatePromotionRequestInput } from '../declarations/types-77.js';
 export type { CategoriesDeleteParams } from '../declarations/types-5.js';
@@ -113,7 +112,7 @@ export {
     makePromotionSchedulePatch,
     makePromotionScheduleRequest
 } from '../declarations/types-90.js';
-export { makeUpdatePromotionRequest } from '../declarations/types-93.js';
+export { makeUpdatePromotionRequest } from '../declarations/types-94.js';
 export interface PromotionsResource {
     /**
  * Creates a promotion: a discount that applies to qualifying orders automatically or when the

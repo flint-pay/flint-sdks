@@ -1,7 +1,14 @@
 [Model index](../MODELS.md)
 
-# RotateWebhookSecretRequestInput to SubscriptionBillingScheduleRequestInput
+# RotateGiftCardCodeRequest to SubscriptionBillingHold
 
+- [RotateGiftCardCodeRequest](RotateGiftCardCodeRequest.md)
+- [RotateGiftCardCodeRequestInput](RotateGiftCardCodeRequestInput.md)
+- [RotateGiftCardCodeResult](RotateGiftCardCodeResult.md)
+- [RotateGiftCardCodeResultResponse](RotateGiftCardCodeResultResponse.md)
+- [RotatePartnerAppSecretRequestInput](RotatePartnerAppSecretRequestInput.md)
+- [RotatePartnerAppSecretResponse](RotatePartnerAppSecretResponse.md)
+- [RotateWebhookSecretRequest](RotateWebhookSecretRequest.md)
 - [RotateWebhookSecretRequestInput](RotateWebhookSecretRequestInput.md)
 - [Sandbox](Sandbox.md)
 - [SandboxListResponse](SandboxListResponse.md)
@@ -95,11 +102,4 @@
 - [SubscriptionAnalytics](SubscriptionAnalytics.md)
 - [SubscriptionAnalyticsResponse](SubscriptionAnalyticsResponse.md)
 - [SubscriptionBillingHold](SubscriptionBillingHold.md)
-- [SubscriptionBillingHoldPreviousAttributes](SubscriptionBillingHoldPreviousAttributes.md)
-- [SubscriptionBillingScheduleInputExternal](SubscriptionBillingScheduleInputExternal.md)
-- [SubscriptionBillingScheduleInputExternalInput](SubscriptionBillingScheduleInputExternalInput.md)
-- [SubscriptionBillingScheduleInputFlint](SubscriptionBillingScheduleInputFlint.md)
-- [SubscriptionBillingScheduleInputFlintInput](SubscriptionBillingScheduleInputFlintInput.md)
-- [SubscriptionBillingScheduleRequest](SubscriptionBillingScheduleRequest.md)
-- [SubscriptionBillingScheduleRequestInput](SubscriptionBillingScheduleRequestInput.md)
 

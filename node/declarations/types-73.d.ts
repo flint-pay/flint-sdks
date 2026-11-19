@@ -1,9 +1,13 @@
+import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
 import type { InputValue } from '../runtime.js';
+import type { ApplySubscriptionPromotionRequestInput, Address } from './types-0.js';
+import type { CancelSubscriptionRequestInput } from './types-5.js';
+import type { ChangeSubscriptionPlanRequestInput, ChangeSubscriptionQuantityRequestInput } from './types-6.js';
 import type {
+    CreateSubscriptionAccessLinkRequestInput,
     CreateSubscriptionLineItemRequestInput,
     CreateSubscriptionRequestInput,
-    CreateTaxCalculationCallbackRequestInput,
-    CreateTaxRegistrationRequestInput
+    CreateTaxCalculationCallbackRequestInput
 } from './types-14.js';
 import type { FilesCompleteParams } from './types-27.js';
 import type { DisputesAcceptParams } from './types-26.js';
@@ -13,24 +17,169 @@ import type { PauseSubscriptionRequestInput } from './types-50.js';
 import type { RemoveSubscriptionPromotionsRequestInput, RenewSubscriptionRequestInput } from './types-61.js';
 import type { InvoicesMarkUncollectibleParams } from './types-38.js';
 import type { SkipSubscriptionCycleRequestInput } from './types-68.js';
-import type { UpdateSubscriptionLineItemRequestInput } from './types-77.js';
-import type { UpdateSubscriptionRequestInput, UpdateTaxCalculationCallbackRequestInput } from './types-78.js';
-import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
+import type {
+    UpdateSubscriptionLineItemRequestInput,
+    UpdateSubscriptionRequestInput,
+    UpdateTaxCalculationCallbackRequestInput
+} from './types-78.js';
 import type {
     TaxJurisdiction,
     TaxJurisdictionPreviousAttributes,
     TaxJurisdictionRequestModelInput,
     TaxJurisdictionRequestInput,
+    TaxConnectionDisclosure,
     TaxConnectionSellerAttestation,
-    TaxCountryCoverage,
-    TaxDisclosureStatement,
-    TaxDisclosureStatementPreviousAttributes
+    TaxCountryCoverage
 } from './types-74.js';
 import type { MerchantWebhookEnvelope } from './types-43.js';
 import type { ResponseMeta } from './types-62.js';
-import type { Address } from './types-0.js';
-import type { ConnectTaxConnectionRequestInput } from './types-8.js';
-import type { DisconnectTaxConnectionRequestInput } from './types-25.js';
+/**
+ * The half-open period [period_start_at, period_end_at) includes its start and excludes its end.
+ * Amounts and payments_count use currency; customer and subscription counts span currencies.
+ */
+export type SubscriptionWindowMetrics = {
+    /**
+     * Subscriptions selected by canceled_at in the period, across currencies. The half-open period
+     * [period_start_at, period_end_at) includes its start and excludes its end. Amounts and
+     * payments_count use currency; customer and subscription counts span currencies. Format:
+     * int64.
+     */
+    "canceled_subscriptions_count": number;
+    /**
+     * Captured amounts for succeeded subscription payments in the period, including the initial
+     * checkout payment, recurring charges, and setup fees, restricted to currency. Each payment is
+     * counted once by capture time. The half-open period [period_start_at, period_end_at) includes
+     * its start and excludes its end. Amounts and payments_count use currency; customer and
+     * subscription counts span currencies. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "collected_money": MoneyValue;
+    /**
+     * Subscriptions selected by subscription created_at in the period whose current status is
+     * trialing, active, paused, or past_due. Excludes incomplete and canceled subscriptions; past
+     * counts can change with current status. Spans currencies. The half-open period
+     * [period_start_at, period_end_at) includes its start and excludes its end. Amounts and
+     * payments_count use currency; customer and subscription counts span currencies. Format:
+     * int64.
+     */
+    "new_subscriptions_count": number;
+};
+export type SubscriptionsApplyPromotionParams = (InputValue<ApplySubscriptionPromotionRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type SubscriptionsCancelParams = (InputValue<CancelSubscriptionRequestInput>
+    | {
+    "cancel_immediately"?: never;
+    "cancellation_comment"?: never;
+    "cancellation_reason_code"?: never;
+    "expected_version"?: never;
+    "initiated_by"?: never;
+})
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type SubscriptionsChangePlanParams = (InputValue<ChangeSubscriptionPlanRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type SubscriptionsChangeQuantityParams = (InputValue<ChangeSubscriptionQuantityRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type SubscriptionsCreateAccessLinkParams = (InputValue<CreateSubscriptionAccessLinkRequestInput>
+    | {
+    "purpose"?: never;
+    "return_url"?: never;
+})
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
 export type SubscriptionsCreateLineItemParams = (CreateSubscriptionLineItemRequestInput)
     & {
     /**
@@ -103,12 +252,12 @@ export type SubscriptionsGetParams = {
     /**
      * Include related objects in the response. Supported expansions: customer, payment_method,
      * subscription_plan. Expansion requires commerce.subscriptions.read plus the read scope for
-     * each expanded resource. Limits: at most 10 unique expand paths per request. [] enum:
-     * "customer", "payment_method", "subscription_plan". Value enum: "customer", "payment_method",
-     * "subscription_plan". anyOf[1] (Value): Array of string. [] enum: "customer",
-     * "payment_method", "subscription_plan". anyOf[1][] (Value): string. Value enum: "customer",
-     * "payment_method", "subscription_plan". anyOf[2] (Value): string. Value enum: "customer",
-     * "payment_method", "subscription_plan".
+     * each expanded resource. Limits: at most 10 unique expand paths per request. Checkout session
+     * credentials cannot use expand on this route. [] enum: "customer", "payment_method",
+     * "subscription_plan". Value enum: "customer", "payment_method", "subscription_plan". anyOf[1]
+     * (Value): Array of string. [] enum: "customer", "payment_method", "subscription_plan".
+     * anyOf[1][] (Value): string. Value enum: "customer", "payment_method", "subscription_plan".
+     * anyOf[2] (Value): string. Value enum: "customer", "payment_method", "subscription_plan".
      */
     "expand"?: InputValue<("customer" | "payment_method" | "subscription_plan")
         | readonly ("customer" | "payment_method" | "subscription_plan")[]>;
@@ -139,8 +288,11 @@ export type SubscriptionsListParams = {
      * exact and case-sensitive. Returns only resources created in your caller namespace, plus
      * resources created before caller scoping under the original key. Returns current authorized
      * resources, not the recorded response. A pending resource does not prove that the operation
-     * succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength:
-     * 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
+     * succeeded, and an empty list does not prove that it had no effect. A match can show
+     * `idempotency_key: null` when that request sent no key, Flint created the resource, the
+     * reader isn't the caller that created it (another app install, a buyer, or the merchant
+     * reading an app's or buyer's record), or the caller that created an older record is unknown.
+     * minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
      */
     "idempotency_key"?: InputValue<string>;
     /**
@@ -2278,37 +2430,3 @@ export type TaxConnection = {
      */
     "version"?: number;
 };
-export type TaxConnectionConnectParams = (InputValue<ConnectTaxConnectionRequestInput>);
-export type TaxConnectionCreateRegistrationParams = (InputValue<CreateTaxRegistrationRequestInput>);
-export type TaxConnectionDeleteRegistrationParams = {
-    /**
-     * Registration version last read by the caller. Omit to delete the current registration.
-     * Format: uint64. minimum: 1. maximum: 9007199254740991.
-     */
-    "expected_version"?: InputValue<number>;
-};
-/** Ordered seller disclosure rendered with the merchant's effective automatic tax fee. */
-export type TaxConnectionDisclosure = {
-    /**
-     * Statements in display order. The seller must agree to every statement. [] (Value): {@link
-     * TaxDisclosureStatement}. One statement of the seller disclosure.
-     */
-    "statements": Array<TaxDisclosureStatement>;
-    /** Opaque version of the exact rendered statements. Do not parse it. */
-    "version": string;
-};
-export type TaxConnectionDisclosurePreviousAttributes = {
-    /**
-     * Statements in display order. The seller must agree to every statement. anyOf[1] (Value):
-     * Array of {@link TaxDisclosureStatementPreviousAttributes}. Statements in display order. The
-     * seller must agree to every statement. anyOf[1][] (Value): {@link
-     * TaxDisclosureStatementPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "statements"?: ((Array<TaxDisclosureStatementPreviousAttributes>) | (null));
-    /**
-     * Opaque version of the exact rendered statements. Do not parse it. anyOf[1] (Value): string.
-     * Opaque version of the exact rendered statements. Do not parse it. anyOf[2] (Value): null.
-     */
-    "version"?: ((string) | (null));
-};
-export type TaxConnectionDisconnectParams = (InputValue<DisconnectTaxConnectionRequestInput>);

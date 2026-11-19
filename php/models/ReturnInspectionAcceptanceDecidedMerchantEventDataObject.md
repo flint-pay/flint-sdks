@@ -8,5 +8,13 @@ The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Response model.
 
-Fields, types, descriptions and enum values: [ReturnInspection](../models/ReturnInspection.md#returninspection).
+Field definitions: [shared fields](WebhookSnapshotReturnInspection.md#webhooksnapshotreturninspection).
+
+### ReturnInspectionAcceptanceDecidedMerchantEventDataObject.generated_dispositions[]
+
+Field definitions: [WebhookSnapshotReturnInspection.generated_dispositions[]](../models/WebhookSnapshotReturnInspection.md#webhooksnapshotreturninspectiongenerated_dispositions).
+
+### ReturnInspectionAcceptanceDecidedMerchantEventDataObject.line_items[]
+
+Field definitions: [CancelReturnResponse.data.return_inspections[].line_items[]](../models/CancelReturnResponse.md#cancelreturnresponsedatareturn_inspectionsline_items).
 

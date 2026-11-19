@@ -67,7 +67,7 @@ import type {
 import type { LegalSettings } from './types-38.js';
 import type {
     PaymentLinkCustomFieldRequest,
-    PaymentLinkEventConfig,
+    PaymentLinkEventConfigRequest,
     PaymentLinkLineItemRequest,
     PaymentLinkCustomFieldRequestInput,
     PaymentLinkCustomTextConfigInput,
@@ -111,10 +111,13 @@ import type {
     RefundTaxBreakdownRefundIn,
     RefundChargeInput,
     RefundDestinationsInput,
-    RefundLineItemInput,
-    RefundTaxBreakdownRefundInInput
+    RefundLineItemInput
 } from './types-60.js';
-import type { RefundTenderAllocationRequest, RefundTenderAllocationRequestInput } from './types-61.js';
+import type {
+    RefundTenderAllocationRequest,
+    RefundTaxBreakdownRefundInInput,
+    RefundTenderAllocationRequestInput
+} from './types-61.js';
 /** The `variant` variant of `CreateOrderLineItem`. */
 export type CreateOrderLineItemVariant = ({
     /**
@@ -914,6 +917,11 @@ export type CreatePackageRequest = ({
      */
     "expected_delivery_at"?: string | null;
     /**
+     * Optional version of the owning fulfillment. If the version changed, Flint refuses the
+     * request before creating any records. Format: uint64. minimum: 1.
+     */
+    "expected_fulfillment_version"?: number;
+    /**
      * Caller-owned identifier for this resource in an external system. Requires external_system.
      * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
      * maxLength: 255. Example: "warehouse-1842".
@@ -925,11 +933,11 @@ export type CreatePackageRequest = ({
      */
     "external_system"?: string;
     /**
-     * Independent package-item collection. Required when status is shipped. Inline creation uses
-     * the child-create shape and commits atomically; edit items through the package item routes
-     * after creation. Each order line and bundle component pair may appear once. minItems: 1.
-     * maxItems: 100. [] (Value): {@link CreatePackageItemRequest}. The request body for: Create
-     * package item.
+     * Independent package-item collection. Required when status is shipped unless
+     * pack_fulfillment_items is true. Inline creation uses the child-create shape and commits
+     * atomically; edit items through the package item routes after creation. Each order line and
+     * bundle component pair may appear once. minItems: 1. maxItems: 100. [] (Value): {@link
+     * CreatePackageItemRequest}. The request body for: Create package item.
      */
     "items"?: Array<CreatePackageItemRequest>;
     /**
@@ -946,6 +954,11 @@ export type CreatePackageRequest = ({
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataMap;
+    /**
+     * Put every item in the fulfillment into this outbound package. Use with status shipped and a
+     * single package. Omit items. Value enum: true.
+     */
+    "pack_fulfillment_items"?: boolean;
     /**
      * Required for a package on a return shipment: allocates quantities from the shipment's
      * return_line_items to this parcel. Rejected on outbound shipments. [] (Value): {@link
@@ -1008,6 +1021,11 @@ export type CreatePackageRequestCreated = ({
      */
     "expected_delivery_at"?: string | null;
     /**
+     * Optional version of the owning fulfillment. If the version changed, Flint refuses the
+     * request before creating any records. Format: uint64. minimum: 1.
+     */
+    "expected_fulfillment_version"?: number;
+    /**
      * Caller-owned identifier for this resource in an external system. Requires external_system.
      * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
      * maxLength: 255. Example: "warehouse-1842".
@@ -1019,11 +1037,11 @@ export type CreatePackageRequestCreated = ({
      */
     "external_system"?: string;
     /**
-     * Independent package-item collection. Required when status is shipped. Inline creation uses
-     * the child-create shape and commits atomically; edit items through the package item routes
-     * after creation. Each order line and bundle component pair may appear once. minItems: 1.
-     * maxItems: 100. [] (Value): {@link CreatePackageItemRequest}. The request body for: Create
-     * package item.
+     * Independent package-item collection. Required when status is shipped unless
+     * pack_fulfillment_items is true. Inline creation uses the child-create shape and commits
+     * atomically; edit items through the package item routes after creation. Each order line and
+     * bundle component pair may appear once. minItems: 1. maxItems: 100. [] (Value): {@link
+     * CreatePackageItemRequest}. The request body for: Create package item.
      */
     "items"?: Array<CreatePackageItemRequest>;
     /**
@@ -1099,6 +1117,11 @@ export type CreatePackageRequestCreatedInput = ({
      */
     "expected_delivery_at"?: string | globalThis.Date | null;
     /**
+     * Optional version of the owning fulfillment. If the version changed, Flint refuses the
+     * request before creating any records. Format: uint64. minimum: 1.
+     */
+    "expected_fulfillment_version"?: number;
+    /**
      * Caller-owned identifier for this resource in an external system. Requires external_system.
      * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
      * maxLength: 255. Example: "warehouse-1842".
@@ -1110,11 +1133,11 @@ export type CreatePackageRequestCreatedInput = ({
      */
     "external_system"?: string;
     /**
-     * Independent package-item collection. Required when status is shipped. Inline creation uses
-     * the child-create shape and commits atomically; edit items through the package item routes
-     * after creation. Each order line and bundle component pair may appear once. minItems: 1.
-     * maxItems: 100. [] (Value): {@link CreatePackageItemRequestInput}. The request body for:
-     * Create package item.
+     * Independent package-item collection. Required when status is shipped unless
+     * pack_fulfillment_items is true. Inline creation uses the child-create shape and commits
+     * atomically; edit items through the package item routes after creation. Each order line and
+     * bundle component pair may appear once. minItems: 1. maxItems: 100. [] (Value): {@link
+     * CreatePackageItemRequestInput}. The request body for: Create package item.
      */
     "items"?: Array<CreatePackageItemRequestInput>;
     /**
@@ -1196,6 +1219,11 @@ export type CreatePackageRequestInput = ({
      */
     "expected_delivery_at"?: string | globalThis.Date | null;
     /**
+     * Optional version of the owning fulfillment. If the version changed, Flint refuses the
+     * request before creating any records. Format: uint64. minimum: 1.
+     */
+    "expected_fulfillment_version"?: number;
+    /**
      * Caller-owned identifier for this resource in an external system. Requires external_system.
      * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
      * maxLength: 255. Example: "warehouse-1842".
@@ -1207,11 +1235,11 @@ export type CreatePackageRequestInput = ({
      */
     "external_system"?: string;
     /**
-     * Independent package-item collection. Required when status is shipped. Inline creation uses
-     * the child-create shape and commits atomically; edit items through the package item routes
-     * after creation. Each order line and bundle component pair may appear once. minItems: 1.
-     * maxItems: 100. [] (Value): {@link CreatePackageItemRequestInput}. The request body for:
-     * Create package item.
+     * Independent package-item collection. Required when status is shipped unless
+     * pack_fulfillment_items is true. Inline creation uses the child-create shape and commits
+     * atomically; edit items through the package item routes after creation. Each order line and
+     * bundle component pair may appear once. minItems: 1. maxItems: 100. [] (Value): {@link
+     * CreatePackageItemRequestInput}. The request body for: Create package item.
      */
     "items"?: Array<CreatePackageItemRequestInput>;
     /**
@@ -1228,6 +1256,11 @@ export type CreatePackageRequestInput = ({
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataRequestInput;
+    /**
+     * Put every item in the fulfillment into this outbound package. Use with status shipped and a
+     * single package. Omit items. Value enum: true.
+     */
+    "pack_fulfillment_items"?: (true) & (true);
     /**
      * Required for a package on a return shipment: allocates quantities from the shipment's
      * return_line_items to this parcel. Rejected on outbound shipments. [] (Value): {@link
@@ -1289,6 +1322,11 @@ export type CreatePackageRequestShipped = ({
      */
     "expected_delivery_at"?: string | null;
     /**
+     * Optional version of the owning fulfillment. If the version changed, Flint refuses the
+     * request before creating any records. Format: uint64. minimum: 1.
+     */
+    "expected_fulfillment_version"?: number;
+    /**
      * Caller-owned identifier for this resource in an external system. Requires external_system.
      * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
      * maxLength: 255. Example: "warehouse-1842".
@@ -1300,13 +1338,13 @@ export type CreatePackageRequestShipped = ({
      */
     "external_system"?: string;
     /**
-     * Independent package-item collection. Required when status is shipped. Inline creation uses
-     * the child-create shape and commits atomically; edit items through the package item routes
-     * after creation. Each order line and bundle component pair may appear once. minItems: 1.
-     * maxItems: 100. [] (Value): {@link CreatePackageItemRequest}. The request body for: Create
-     * package item.
+     * Independent package-item collection. Required when status is shipped unless
+     * pack_fulfillment_items is true. Inline creation uses the child-create shape and commits
+     * atomically; edit items through the package item routes after creation. Each order line and
+     * bundle component pair may appear once. minItems: 1. maxItems: 100. [] (Value): {@link
+     * CreatePackageItemRequest}. The request body for: Create package item.
      */
-    "items": Array<CreatePackageItemRequest>;
+    "items"?: Array<CreatePackageItemRequest>;
     /**
      * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
      * external_system for provenance. Flint does not host the label file. minLength: 1.
@@ -1321,6 +1359,11 @@ export type CreatePackageRequestShipped = ({
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataMap;
+    /**
+     * Put every item in the fulfillment into this outbound package. Use with status shipped and a
+     * single package. Omit items. Value enum: true.
+     */
+    "pack_fulfillment_items"?: boolean;
     /**
      * Required for a package on a return shipment: allocates quantities from the shipment's
      * return_line_items to this parcel. Rejected on outbound shipments. [] (Value): {@link
@@ -1380,6 +1423,11 @@ export type CreatePackageRequestShippedInput = ({
      */
     "expected_delivery_at"?: string | globalThis.Date | null;
     /**
+     * Optional version of the owning fulfillment. If the version changed, Flint refuses the
+     * request before creating any records. Format: uint64. minimum: 1.
+     */
+    "expected_fulfillment_version"?: number;
+    /**
      * Caller-owned identifier for this resource in an external system. Requires external_system.
      * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
      * maxLength: 255. Example: "warehouse-1842".
@@ -1391,13 +1439,13 @@ export type CreatePackageRequestShippedInput = ({
      */
     "external_system"?: string;
     /**
-     * Independent package-item collection. Required when status is shipped. Inline creation uses
-     * the child-create shape and commits atomically; edit items through the package item routes
-     * after creation. Each order line and bundle component pair may appear once. minItems: 1.
-     * maxItems: 100. [] (Value): {@link CreatePackageItemRequestInput}. The request body for:
-     * Create package item.
+     * Independent package-item collection. Required when status is shipped unless
+     * pack_fulfillment_items is true. Inline creation uses the child-create shape and commits
+     * atomically; edit items through the package item routes after creation. Each order line and
+     * bundle component pair may appear once. minItems: 1. maxItems: 100. [] (Value): {@link
+     * CreatePackageItemRequestInput}. The request body for: Create package item.
      */
-    "items": Array<CreatePackageItemRequestInput>;
+    "items"?: Array<CreatePackageItemRequestInput>;
     /**
      * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
      * external_system for provenance. Flint does not host the label file. minLength: 1.
@@ -1412,6 +1460,11 @@ export type CreatePackageRequestShippedInput = ({
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataRequestInput;
+    /**
+     * Put every item in the fulfillment into this outbound package. Use with status shipped and a
+     * single package. Omit items. Value enum: true.
+     */
+    "pack_fulfillment_items"?: (true) & (true);
     /**
      * Required for a package on a return shipment: allocates quantities from the shipment's
      * return_line_items to this parcel. Rejected on outbound shipments. [] (Value): {@link
@@ -2128,7 +2181,7 @@ export type CreatePaymentLinkRequest = {
      * Event details for an `event` link: when and where it takes place and how many tickets it
      * sells. Event settings you supply when creating an event payment link.
      */
-    "event_config"?: PaymentLinkEventConfig;
+    "event_config"?: PaymentLinkEventConfigRequest;
     /**
      * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
      * 255. Example: "warehouse-1842".
@@ -2221,6 +2274,13 @@ export type CreatePaymentLinkRequest = {
      * Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      */
     "sales_end_at"?: string;
+    /**
+     * RFC3339 timestamp when buyers can first start a checkout from this link. Stored to
+     * nanosecond precision. Before it, resolve fails with ACTION_NOT_ALLOWED and reason
+     * sales_not_started. Must be earlier than the link’s sales end, including the event start when
+     * no explicit end is set. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "sales_start_at"?: string;
     /**
      * ID of the subscription plan the link sells. The plan must be active. Omit it for a link that
      * doesn't sell a subscription. It can't be changed after the link is created. minLength: 1.
@@ -2394,6 +2454,13 @@ export type CreatePaymentLinkRequestInput = {
      * Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      */
     "sales_end_at"?: string | globalThis.Date;
+    /**
+     * RFC3339 timestamp when buyers can first start a checkout from this link. Stored to
+     * nanosecond precision. Before it, resolve fails with ACTION_NOT_ALLOWED and reason
+     * sales_not_started. Must be earlier than the link’s sales end, including the event start when
+     * no explicit end is set. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "sales_start_at"?: string | globalThis.Date;
     /**
      * ID of the subscription plan the link sells. The plan must be active. Omit it for a link that
      * doesn't sell a subscription. It can't be changed after the link is created. minLength: 1.

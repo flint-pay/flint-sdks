@@ -8,5 +8,17 @@ The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Response model.
 
-Fields, types, descriptions and enum values: [InvoiceManualPayment](../models/InvoiceManualPayment.md#invoicemanualpayment).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Full amount received, including any principal and late fees covered. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `idempotency_key` | Optional | string or null | The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. |
+| `invoice_id` | Required | string | The invoice this payment was recorded against. |
+| `invoice_manual_payment_id` | Required | string | Stable payment ID. IDs begin with omp_. Gift card loads funded by this payment expose this value as source.order_manual_payment_id. |
+| `note` | Optional | string | Note about the offline payment, up to 4096 characters. minLength: `1`. maxLength: `4096`. |
+| `payment_reference` | Optional | string | Caller-owned check, wire, or bank reference, stored unmodified. minLength: `1`. maxLength: `255`. |
+| `received_at` | Required | string | When the payment was received. Format: `date-time`. |
+| `reversal_note` | Optional | string | Note supplied when reversing the payment. Present only when reversed and a note was supplied. minLength: `1`. maxLength: `4096`. |
+| `reversed_at` | Optional | string | When the payment was reversed. Present only when reversed. Format: `date-time`. |
+| `status` | Required | string | Whether the payment is recorded or has been reversed in full. Values: `"recorded"`, `"reversed"`. |
+| `supported_actions` | Required | Array of string | Lifecycle actions Flint accepts for this resource now, based on stored state. Independent of the caller's permissions; each action still requires its route's scope. Always [] when no action is available. Items values: `"reverse"`. |
 

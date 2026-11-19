@@ -6,11 +6,13 @@ namespace Flint;
  * @property-read string $carrier
  * @property-read DimensionsRequestInput|array<array-key, mixed>|\stdClass $dimensions
  * @property-read string|\DateTimeInterface|null $expected_delivery_at
+ * @property-read int $expected_fulfillment_version
  * @property-read string $external_reference_id
  * @property-read string $external_system
  * @property-read list<CreatePackageItemRequestInput|array<array-key, mixed>|\stdClass> $items
  * @property-read string $label_url
  * @property-read MetadataRequestInput|array<array-key, mixed>|\stdClass $metadata
+ * @property-read bool $pack_fulfillment_items
  * @property-read list<ReturnShipmentLineItemAllocationRequestInput|array<array-key, mixed>|\stdClass> $return_line_items
  * @property-read string $service_code
  * @property-read string $shipment_id
@@ -22,7 +24,7 @@ namespace Flint;
  * @property-read WeightRequestInput|array<array-key, mixed>|\stdClass $weight
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreatePackageRequestShippedInput extends Model {
-    /** @param array{'buyer_notification_behavior'?: string, 'carrier'?: string, 'dimensions'?: DimensionsRequestInput|array<array-key, mixed>|\stdClass, 'expected_delivery_at'?: string|\DateTimeInterface|null, 'external_reference_id'?: string, 'external_system'?: string, 'items': list<CreatePackageItemRequestInput|array<array-key, mixed>|\stdClass>, 'label_url'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'return_line_items'?: list<ReturnShipmentLineItemAllocationRequestInput|array<array-key, mixed>|\stdClass>, 'service_code'?: string, 'shipment_id': string, 'shipped_at'?: string|\DateTimeInterface, 'status': string, 'status_reason'?: string, 'tracking_number'?: string, 'tracking_url'?: string, 'weight'?: WeightRequestInput|array<array-key, mixed>|\stdClass}|object $values */
+    /** @param array{'buyer_notification_behavior'?: string, 'carrier'?: string, 'dimensions'?: DimensionsRequestInput|array<array-key, mixed>|\stdClass, 'expected_delivery_at'?: string|\DateTimeInterface|null, 'expected_fulfillment_version'?: int, 'external_reference_id'?: string, 'external_system'?: string, 'items'?: list<CreatePackageItemRequestInput|array<array-key, mixed>|\stdClass>, 'label_url'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'pack_fulfillment_items'?: bool, 'return_line_items'?: list<ReturnShipmentLineItemAllocationRequestInput|array<array-key, mixed>|\stdClass>, 'service_code'?: string, 'shipment_id': string, 'shipped_at'?: string|\DateTimeInterface, 'status': string, 'status_reason'?: string, 'tracking_number'?: string, 'tracking_url'?: string, 'weight'?: WeightRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreatePackageRequestShippedInput')); }
     /** Controls buyer email handling. Omit or use send to send when recipient, template, and deduplication rules allow it. Use suppress when another system owns buyer messaging. Value enum: "send", "suppress".
      * @return string
@@ -48,6 +50,12 @@ final class CreatePackageRequestShippedInput extends Model {
      */
     public function getExpectedDeliveryAt(): string|\DateTimeInterface|null { return $this->get('expected_delivery_at'); }
     public function hasExpectedDeliveryAt(): bool { return $this->has('expected_delivery_at'); }
+    /** Optional version of the owning fulfillment. If the version changed, Flint refuses the request before creating any records. Format: uint64. minimum: 1.
+     * @return int
+     * @throws SdkError When expected_fulfillment_version is omitted; use hasExpectedFulfillmentVersion() or valueOrDefault().
+     */
+    public function getExpectedFulfillmentVersion(): int { return $this->get('expected_fulfillment_version'); }
+    public function hasExpectedFulfillmentVersion(): bool { return $this->has('expected_fulfillment_version'); }
     /** Caller-owned identifier for this resource in an external system. Requires external_system. External references are not unique. Use Idempotency-Key for retries. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
@@ -60,7 +68,7 @@ final class CreatePackageRequestShippedInput extends Model {
      */
     public function getExternalSystem(): string { return $this->get('external_system'); }
     public function hasExternalSystem(): bool { return $this->has('external_system'); }
-    /** Independent package-item collection. Required when status is shipped. Inline creation uses the child-create shape and commits atomically; edit items through the package item routes after creation. Each order line and bundle component pair may appear once. minItems: 1. maxItems: 100. [] (Value): {@see CreatePackageItemRequestInput}. The request body for: Create package item.
+    /** Independent package-item collection. Required when status is shipped unless pack_fulfillment_items is true. Inline creation uses the child-create shape and commits atomically; edit items through the package item routes after creation. Each order line and bundle component pair may appear once. minItems: 1. maxItems: 100. [] (Value): {@see CreatePackageItemRequestInput}. The request body for: Create package item.
      * @return list<CreatePackageItemRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When items is omitted; use hasItems() or valueOrDefault().
      */
@@ -78,6 +86,12 @@ final class CreatePackageRequestShippedInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
+    /** Put every item in the fulfillment into this outbound package. Use with status shipped and a single package. Omit items. Value enum: true.
+     * @return bool
+     * @throws SdkError When pack_fulfillment_items is omitted; use hasPackFulfillmentItems() or valueOrDefault().
+     */
+    public function getPackFulfillmentItems(): bool { return $this->get('pack_fulfillment_items'); }
+    public function hasPackFulfillmentItems(): bool { return $this->has('pack_fulfillment_items'); }
     /** Required for a package on a return shipment: allocates quantities from the shipment's return_line_items to this parcel. Rejected on outbound shipments. [] (Value): {@see ReturnShipmentLineItemAllocationRequestInput}. A Return line and the quantity to place in a return shipment or package. The enclosing Return or shipment determines its parent.
      * @return list<ReturnShipmentLineItemAllocationRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When return_line_items is omitted; use hasReturnLineItems() or valueOrDefault().

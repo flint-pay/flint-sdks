@@ -24,11 +24,12 @@ import type {
     GiftCardFundingSource,
     GiftCardFundingSourceRequestInput,
     GiftCardLoad,
+    GiftCardNotificationRecipient,
     GiftCardNotificationRecipientInput,
     GiftCardNotification
 } from './types-29.js';
 import type { MoneyValue, MoneyValueInput } from './types-44.js';
-import type { GiftCardTransaction, GiftCardPurchaseRecipient } from './types-30.js';
+import type { GiftCardTransaction } from './types-30.js';
 import type { ResponseMeta } from './types-62.js';
 import type {
     InitialGiftCardFunding,
@@ -57,16 +58,19 @@ import type {
 import type { TextModifierConfigRequestInput } from './types-74.js';
 import type {
     InventorySourceSystemRequest,
-    InventorySourceSystemRequestInput,
     InventoryRoutingDemand,
     InventoryRoutingSourceRequest,
     InventoryReservationOwnerRequestInput,
     InventoryRoutingDemandInput,
     InventoryRoutingSourceRequestInput
 } from './types-33.js';
+import type {
+    InventorySourceSystemRequestInput,
+    InventoryTransferLineRequest,
+    InventoryTransferLineRequestInput
+} from './types-34.js';
 import type { InventoryReceiptLineRequest, InventoryReceiptLineRequestInput } from './types-32.js';
 import type { LookupLicenseKeyRequest } from './types-40.js';
-import type { InventoryTransferLineRequest, InventoryTransferLineRequestInput } from './types-34.js';
 import type {
     InvoiceLateFeePolicy,
     InvoiceLateFeePolicyRequestInput,
@@ -74,11 +78,11 @@ import type {
     InvoiceCollectionRequestInput
 } from './types-35.js';
 import type { InvoicePaymentTermCalculation, InvoicePaymentDueRequest, InvoicePaymentDueRequestInput } from './types-36.js';
-import type { InvoicePaymentTermCalculationRequestInput, InvoiceScheduleEntryWrite } from './types-37.js';
+import type { InvoicePaymentTermCalculationRequestInput } from './types-37.js';
 import type { OrderDeliveryDestinationRequest, OrderDeliveryDestinationRequestInput } from './types-45.js';
 import type { OrderTaxRequest, OrderTaxRequestInput } from './types-48.js';
 import type { AddressRequest, AddressRequestInput } from './types-0.js';
-import type { InvoiceScheduleEntryWriteInput } from './types-38.js';
+import type { InvoiceScheduleEntryWrite, InvoiceScheduleEntryWriteInput } from './types-38.js';
 /**
  * Provide at most one fulfillment details object: pickup_details, local_delivery_details,
  * digital_details, or service_details. Shipment execution details belong to shipments and
@@ -1265,7 +1269,7 @@ export type CreateGiftCardNotificationRequest = {
      * Who the notification is sent to. Who receives a gift card notification: their `email`,
      * optional `name` and `message`, and an optional `send_at` time.
      */
-    "recipient": GiftCardPurchaseRecipient;
+    "recipient": GiftCardNotificationRecipient;
     /**
      * ID of the earlier notification this one sends again. minLength: 1. Example:
      * "ntf_01KEZF7C00X0DP9KT950FYXHQ1".
@@ -1602,7 +1606,7 @@ export type CreateGiftCardRequest = {
      * card notification: their `email`, optional `name` and `message`, and an optional `send_at`
      * time.
      */
-    "notification"?: GiftCardPurchaseRecipient;
+    "notification"?: GiftCardNotificationRecipient;
 };
 /** The request body for: Create a gift card. */
 export type CreateGiftCardRequestInput = {

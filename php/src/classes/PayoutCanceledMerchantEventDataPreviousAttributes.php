@@ -14,6 +14,7 @@ namespace Flint;
  * @property-read string|null $failure_message
  * @property-read string|null $fee_amount_status
  * @property-read MoneyValuePreviousAttributes|null $fee_money
+ * @property-read string|null $idempotency_key
  * @property-read string|null $initiated_by
  * @property-read string|null $merchant_id
  * @property-read array<array-key, string>|null $metadata
@@ -34,7 +35,7 @@ namespace Flint;
  * @property-read string|null $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class PayoutCanceledMerchantEventDataPreviousAttributes extends Model {
-    /** @param array{'amount_money'?: mixed, 'arrival_date'?: mixed, 'balance_source_type'?: mixed, 'created_at'?: mixed, 'currency'?: mixed, 'description'?: mixed, 'direction'?: mixed, 'external_reference_id'?: mixed, 'failure_code'?: mixed, 'failure_message'?: mixed, 'fee_amount_status'?: mixed, 'fee_money'?: mixed, 'initiated_by'?: mixed, 'merchant_id'?: mixed, 'metadata'?: mixed, 'method'?: mixed, 'net_money'?: mixed, 'original_payout'?: mixed, 'original_payout_id'?: mixed, 'payout_destination'?: mixed, 'payout_destination_id'?: mixed, 'payout_id'?: mixed, 'reversal_status'?: mixed, 'reversed_by_payout'?: mixed, 'reversed_by_payout_id'?: mixed, 'statement_descriptor'?: mixed, 'status'?: mixed, 'supported_actions'?: mixed, 'trace_id'?: mixed, 'updated_at'?: mixed, ...}|object $values */
+    /** @param array{'amount_money'?: mixed, 'arrival_date'?: mixed, 'balance_source_type'?: mixed, 'created_at'?: mixed, 'currency'?: mixed, 'description'?: mixed, 'direction'?: mixed, 'external_reference_id'?: mixed, 'failure_code'?: mixed, 'failure_message'?: mixed, 'fee_amount_status'?: mixed, 'fee_money'?: mixed, 'idempotency_key'?: mixed, 'initiated_by'?: mixed, 'merchant_id'?: mixed, 'metadata'?: mixed, 'method'?: mixed, 'net_money'?: mixed, 'original_payout'?: mixed, 'original_payout_id'?: mixed, 'payout_destination'?: mixed, 'payout_destination_id'?: mixed, 'payout_id'?: mixed, 'reversal_status'?: mixed, 'reversed_by_payout'?: mixed, 'reversed_by_payout_id'?: mixed, 'statement_descriptor'?: mixed, 'status'?: mixed, 'supported_actions'?: mixed, 'trace_id'?: mixed, 'updated_at'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PayoutCanceledMerchantEventDataPreviousAttributes')); }
     /** Amount moved between your bank and Flint. Always positive. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      * @return MoneyValuePreviousAttributes|null
@@ -96,6 +97,11 @@ final class PayoutCanceledMerchantEventDataPreviousAttributes extends Model {
      */
     public function getFeeMoney(): MoneyValuePreviousAttributes|null { return $this->get('fee_money'); }
     public function hasFeeMoney(): bool { return $this->has('fee_money'); }
+    /** The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. anyOf[1] (Value): string. The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getIdempotencyKey(): string|null { return $this->get('idempotency_key'); }
+    public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
     /** What started the payout. Inbound payouts are always platform initiated. An outbound payout imported from your processor follows the processor: scheduled when it sent the payout automatically, otherwise manual. Only scheduled outbound payouts list their balance transactions through GET /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized. Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform", "other". anyOf[1] (Value): string. What started the payout. Inbound payouts are always platform initiated. An outbound payout imported from your processor follows the processor: scheduled when it sent the payout automatically, otherwise manual. Only scheduled outbound payouts list their balance transactions through GET /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized. Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform", "other". anyOf[2] (Value): null.
      * @return string|null
      */

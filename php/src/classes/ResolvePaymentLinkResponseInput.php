@@ -2,15 +2,15 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read BuyerCheckoutSessionWithSecretInput|array<array-key, mixed>|\stdClass $data
+ * @property-read ResolvedPaymentLinkCheckoutInput|array<array-key, mixed>|\stdClass $data
  * @property-read ResponseMetaInput|array<array-key, mixed>|\stdClass $meta
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class ResolvePaymentLinkResponseInput extends Model {
-    /** @param array{'data': BuyerCheckoutSessionWithSecretInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
+    /** @param array{'data': ResolvedPaymentLinkCheckoutInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ResolvePaymentLinkResponseInput')); }
-    /** The buyer checkout session and its checkout credential, created from the payment link. The checkout session with any newly issued checkout credential. Hosted launches return url without checkout_auth_token. Headless launches return checkout_auth_token without url. Customer binding confirmation returns its newly issued credential for either surface. A session in which a buyer completes an order's payment.
-     * @return BuyerCheckoutSessionWithSecretInput|array<array-key, mixed>|\stdClass
+    /** The buyer checkout session and its checkout credential, created from the payment link. The buyer checkout session created from the payment link, with its launch credential and optional buyer order. The checkout session with any newly issued checkout credential. Hosted launches return url without checkout_auth_token. Headless launches return checkout_auth_token without url. Customer binding confirmation returns its newly issued credential for either surface. A session in which a buyer completes an order's payment.
+     * @return ResolvedPaymentLinkCheckoutInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
      */
     public function getData(): mixed { return $this->get('data'); }

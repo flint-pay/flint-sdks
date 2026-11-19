@@ -14,15 +14,12 @@ import type { ReturnHandoffRequirementLineItem } from './types-63.js';
 import type { BuyerAction } from './types-1.js';
 import type { BuyerExpandedSubscriptionPlanSummary, BuyerOrder } from './types-2.js';
 import type { SubscriptionDelivery, SubscriptionDeliveryHold } from './types-69.js';
-import type {
-    SubscriptionEndAfter,
-    SubscriptionGiftRecipient,
-    SubscriptionIntervalOption,
-    SubscriptionPausedDeliveryHold
-} from './types-70.js';
+import type { SubscriptionEndAfter, SubscriptionGiftRecipient, SubscriptionIntervalOption } from './types-70.js';
+import type { SubscriptionPausedDeliveryHold, SubscriptionPlanSwapVariant, SubscriptionPlanChangePreview } from './types-71.js';
 import type {
     SubscriptionPromotion,
     SubscriptionUpcomingDeliveryHold,
+    SubscriptionPreview,
     SubscriptionQuantityChangePreview,
     SubscriptionRenewalPreview
 } from './types-72.js';
@@ -31,7 +28,6 @@ import type { Image } from './types-31.js';
 import type { SelectedProductOption } from './types-67.js';
 import type { PaymentErrorSummary } from './types-51.js';
 import type { OrderLineItemTax } from './types-46.js';
-import type { SubscriptionPlanSwapVariant, SubscriptionPlanChangePreview, SubscriptionPreview } from './types-71.js';
 import type { Address, AcceptFulfillmentRequestInput, ApplyInventoryCountRequestInput } from './types-0.js';
 import type { TipPaymentIntentAllocation, TipValueSettlementAllocation } from './types-75.js';
 import type { ContextSummary } from './types-8.js';
@@ -850,10 +846,10 @@ export type BuyerSubscription = {
      * "incorrect_cvc", "processing_error", "payment_method_unavailable",
      * "payment_method_declined", "payment_not_completed", "payment_action_expired",
      * "payment_method_temporarily_unavailable", "incorrect_pin", "pin_try_exceeded",
-     * "pin_required", "payment_failed". failed_at (Required): string. Time the payment attempt
-     * concluded in failure. Format: date-time. Example: "2026-08-02T16:00:00Z". message
-     * (Required): string. Flint-authored payment failure message written for the buyer. This is
-     * stable explanatory text, not raw provider copy.
+     * "pin_required", "confirmation_token_account_mismatch", "payment_failed". failed_at
+     * (Required): string. Time the payment attempt concluded in failure. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". message (Required): string. Flint-authored payment failure
+     * message written for the buyer. This is stable explanatory text, not raw provider copy.
      */
     "last_payment_error"?: {
         /**
@@ -865,7 +861,7 @@ export type BuyerSubscription = {
          * "processing_error", "payment_method_unavailable", "payment_method_declined",
          * "payment_not_completed", "payment_action_expired",
          * "payment_method_temporarily_unavailable", "incorrect_pin", "pin_try_exceeded",
-         * "pin_required", "payment_failed".
+         * "pin_required", "confirmation_token_account_mismatch", "payment_failed".
          */
         "code": "card_declined"
             | "card_details_outdated"
@@ -888,6 +884,7 @@ export type BuyerSubscription = {
             | "incorrect_pin"
             | "pin_try_exceeded"
             | "pin_required"
+            | "confirmation_token_account_mismatch"
             | "payment_failed"
             | (string & {});
         /**
@@ -918,12 +915,12 @@ export type BuyerSubscription = {
     /**
      * When Flint next starts a scheduled renewal charge, as an RFC3339 timestamp. Present only
      * while a trialing or active subscription has a billing date and isn't set to cancel at the
-     * end of its period. Absent when no renewal is scheduled: a paused subscription resumes at
-     * scheduled_resume_at, a past_due one reports the failed billing date in missed_billing_at and
-     * retries at next_retry_at, an incomplete one retries at next_retry_at, a scheduled start
-     * begins at starts_at, one set to cancel ends at scheduled_cancel_at, and an external schedule
-     * awaiting a date reports is_awaiting_billing_schedule. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
+     * end of its period. Absent when no renewal is scheduled: a subscription in its final billing
+     * cycle ends at expires_at, a paused subscription resumes at scheduled_resume_at, a past_due
+     * one reports the failed billing date in missed_billing_at and retries at next_retry_at, an
+     * incomplete one retries at next_retry_at, a scheduled start begins at starts_at, one set to
+     * cancel ends at scheduled_cancel_at, and an external schedule awaiting a date reports
+     * is_awaiting_billing_schedule. Format: date-time. Example: "2026-08-02T16:00:00Z".
      */
     "next_billing_at"?: string;
     /**
@@ -1302,13 +1299,24 @@ export type BuyerSubscriptionListResponse = {
 };
 /**
  * A retry of a past-due payment on the buyer's subscription. Includes, when available, its order,
- * payment intent and a failure the buyer can act on. Omits the store's idempotency key.
+ * payment intent and a failure the buyer can act on. Includes a creating key only for the buyer's
+ * own namespace.
  */
 export type BuyerSubscriptionPaymentRetry = {
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "completed_at"?: string;
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "created_at": string;
+    /**
+     * The Idempotency-Key of the request that created this resource. `null` when that request sent
+     * no key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer routes return only keys
+     * from your buyer namespace.
+     */
+    "idempotency_key": string | null;
     /**
      * Why the payment failed. Present only when the retry's status is `failed` and a payment
      * attempt was made. A summary of why a payment attempt failed, with a normalized error code, a
@@ -1351,7 +1359,7 @@ export type BuyerSubscriptionPaymentRetryListResponse = {
      * Resource, collection, or operation result returned by this request. [] (Value): {@link
      * BuyerSubscriptionPaymentRetry}. A retry of a past-due payment on the buyer's subscription.
      * Includes, when available, its order, payment intent and a failure the buyer can act on.
-     * Omits the store's idempotency key.
+     * Includes a creating key only for the buyer's own namespace.
      */
     "data": Array<BuyerSubscriptionPaymentRetry>;
     /**
@@ -1375,7 +1383,7 @@ export type BuyerSubscriptionPaymentRetryResponse = {
     /**
      * Resource, collection, or operation result returned by this request. A retry of a past-due
      * payment on the buyer's subscription. Includes, when available, its order, payment intent and
-     * a failure the buyer can act on. Omits the store's idempotency key.
+     * a failure the buyer can act on. Includes a creating key only for the buyer's own namespace.
      */
     "data": BuyerSubscriptionPaymentRetry;
     /**
@@ -2168,6 +2176,8 @@ export type BuyerTicket = {
     "ticket_id": string;
     /** The event prefix and sequence, such as GAL001. It doesn't admit anyone on its own. */
     "ticket_number": string;
+    /** Name of the ticket tier on the purchased order line. */
+    "tier_name"?: string;
 };
 /** Event details captured when the ticket's order was placed. */
 export type BuyerTicketEvent = {

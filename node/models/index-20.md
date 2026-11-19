@@ -1,7 +1,10 @@
 [Model index](../MODELS.md)
 
-# InvoiceIssuedMerchantEvent to InvoicePaymentTermListResponse
+# InvoiceDiscountPreviousAttributes to InvoicePaymentTermCalculationOnReceiptRequestInput
 
+- [InvoiceDiscountPreviousAttributes](InvoiceDiscountPreviousAttributes.md)
+- [InvoiceDocumentRow](InvoiceDocumentRow.md)
+- [InvoiceIssuedInstalledMerchantsEvent](InvoiceIssuedInstalledMerchantsEvent.md)
 - [InvoiceIssuedMerchantEvent](InvoiceIssuedMerchantEvent.md)
 - [InvoiceIssueFailedInstalledMerchantsEvent](InvoiceIssueFailedInstalledMerchantsEvent.md)
 - [InvoiceIssueFailedMerchantEvent](InvoiceIssueFailedMerchantEvent.md)
@@ -99,7 +102,4 @@
 - [InvoicePaymentTermCalculationOnReceipt](InvoicePaymentTermCalculationOnReceipt.md)
 - [InvoicePaymentTermCalculationOnReceiptPreviousAttributes](InvoicePaymentTermCalculationOnReceiptPreviousAttributes.md)
 - [InvoicePaymentTermCalculationOnReceiptRequestInput](InvoicePaymentTermCalculationOnReceiptRequestInput.md)
-- [InvoicePaymentTermCalculationPreviousAttributes](InvoicePaymentTermCalculationPreviousAttributes.md)
-- [InvoicePaymentTermCalculationRequestInput](InvoicePaymentTermCalculationRequestInput.md)
-- [InvoicePaymentTermListResponse](InvoicePaymentTermListResponse.md)
 

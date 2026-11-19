@@ -36,7 +36,7 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields.
 
-Field definitions: [shared fields](Payout.md#payout).
+Field definitions: [shared fields](PayoutCanceledMerchantEventDataObject.md#payoutcanceledmerchanteventdataobject).
 
 ### PayoutCanceledMerchantEvent.data fields 1.object.metadata
 
@@ -87,6 +87,10 @@ Declared alternatives: [PayoutCanceledMerchantEventDataPreviousAttributes.failur
 ### PayoutCanceledMerchantEvent.data fields 1.previous_attributes.fee_amount_status
 
 Declared alternatives: [PayoutCanceledMerchantEventDataPreviousAttributes.fee_amount_status](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributesfee_amount_status).
+
+### PayoutCanceledMerchantEvent.data fields 1.previous_attributes.idempotency_key
+
+Declared alternatives: [CreditNoteAllocationReversedMerchantEventDataPreviousAttributes.idempotency_key](../models/CreditNoteAllocationReversedMerchantEventDataPreviousAttributes.md#creditnoteallocationreversedmerchanteventdatapreviousattributesidempotency_key).
 
 ### PayoutCanceledMerchantEvent.data fields 1.previous_attributes.initiated_by
 

@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# SubscriptionPromotionRequestInput to TaxRegistrationInput
+# SubscriptionPromotionPreviousAttributesInput to TaxJurisdictionRequestModelInput
 
+- [SubscriptionPromotionPreviousAttributesInput](SubscriptionPromotionPreviousAttributesInput.md)
 - [SubscriptionPromotionRequestInput](SubscriptionPromotionRequestInput.md)
 - [SubscriptionQuantityChangeLineItemRequestInput](SubscriptionQuantityChangeLineItemRequestInput.md)
 - [SubscriptionQuantityChangePreviewInput](SubscriptionQuantityChangePreviewInput.md)
@@ -101,5 +102,4 @@
 - [TaxJurisdictionPreviousAttributesInput](TaxJurisdictionPreviousAttributesInput.md)
 - [TaxJurisdictionRequestInput](TaxJurisdictionRequestInput.md)
 - [TaxJurisdictionRequestModelInput](TaxJurisdictionRequestModelInput.md)
-- [TaxRegistrationInput](TaxRegistrationInput.md)
 

@@ -1,7 +1,10 @@
 [Model index](../MODELS.md)
 
-# OrderLineItemModifierInputCatalog to PackageItemListResponse
+# OrderLineItemFulfillmentRequirements to PackageCreateRequestInput
 
+- [OrderLineItemFulfillmentRequirements](OrderLineItemFulfillmentRequirements.md)
+- [OrderLineItemFulfillmentRequirementsPreviousAttributes](OrderLineItemFulfillmentRequirementsPreviousAttributes.md)
+- [OrderLineItemModifier](OrderLineItemModifier.md)
 - [OrderLineItemModifierInputCatalog](OrderLineItemModifierInputCatalog.md)
 - [OrderLineItemModifierInputCatalogRequestInput](OrderLineItemModifierInputCatalogRequestInput.md)
 - [OrderLineItemModifierInputText](OrderLineItemModifierInputText.md)
@@ -33,7 +36,6 @@
 - [OrderPaymentAttemptListResponse](OrderPaymentAttemptListResponse.md)
 - [OrderPaymentAttemptPaymentMethodSave](OrderPaymentAttemptPaymentMethodSave.md)
 - [OrderPaymentAttemptPaymentMethodSavePreviousAttributes](OrderPaymentAttemptPaymentMethodSavePreviousAttributes.md)
-- [OrderPaymentAttemptPreviousAttributes](OrderPaymentAttemptPreviousAttributes.md)
 - [OrderPaymentAttemptResponse](OrderPaymentAttemptResponse.md)
 - [OrderPaymentIntentSelection](OrderPaymentIntentSelection.md)
 - [OrderPaymentIntentSelectionInput](OrderPaymentIntentSelectionInput.md)
@@ -100,6 +102,4 @@
 - [PackageCreateInputShippedInput](PackageCreateInputShippedInput.md)
 - [PackageCreateRequest](PackageCreateRequest.md)
 - [PackageCreateRequestInput](PackageCreateRequestInput.md)
-- [PackageItem](PackageItem.md)
-- [PackageItemListResponse](PackageItemListResponse.md)
 

@@ -2,17 +2,17 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read BuyerCheckoutSessionWithSecret $data
+ * @property-read ResolvedPaymentLinkCheckout $data
  * @property-read ?ResponseMeta $meta
  * @property-read string $request_id
  * Presence-aware response; omitted optional fields return null. */
 final class ResolvePaymentLinkResponse extends Model {
     /** @param array{'data': mixed, 'meta'?: mixed, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ResolvePaymentLinkResponse')); }
-    /** The buyer checkout session and its checkout credential, created from the payment link. The checkout session with any newly issued checkout credential. Hosted launches return url without checkout_auth_token. Headless launches return checkout_auth_token without url. Customer binding confirmation returns its newly issued credential for either surface. A session in which a buyer completes an order's payment.
-     * @return BuyerCheckoutSessionWithSecret
+    /** The buyer checkout session and its checkout credential, created from the payment link. The buyer checkout session created from the payment link, with its launch credential and optional buyer order. The checkout session with any newly issued checkout credential. Hosted launches return url without checkout_auth_token. Headless launches return checkout_auth_token without url. Customer binding confirmation returns its newly issued credential for either surface. A session in which a buyer completes an order's payment.
+     * @return ResolvedPaymentLinkCheckout
      */
-    public function getData(): BuyerCheckoutSessionWithSecret { return $this->get('data'); }
+    public function getData(): ResolvedPaymentLinkCheckout { return $this->get('data'); }
     public function hasData(): bool { return $this->has('data'); }
     /** Additional information about this response. Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      * @return ?ResponseMeta

@@ -36,7 +36,7 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields.
 
-Field definitions: [shared fields](InvoicePaymentAttempt.md#invoicepaymentattempt).
+Field definitions: [shared fields](InvoicePaymentAttemptCanceledMerchantEventDataObject.md#invoicepaymentattemptcanceledmerchanteventdataobject).
 
 ### InvoicePaymentAttemptCanceledMerchantEvent.data fields 1.object.last_payment_error
 
@@ -63,6 +63,10 @@ Declared alternatives: [InvoicePaymentAttemptCanceledMerchantEventDataPreviousAt
 ### InvoicePaymentAttemptCanceledMerchantEvent.data fields 1.previous_attributes.expires_at
 
 Declared alternatives: [InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.expires_at](../models/InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.md#invoicepaymentattemptcanceledmerchanteventdatapreviousattributesexpires_at).
+
+### InvoicePaymentAttemptCanceledMerchantEvent.data fields 1.previous_attributes.idempotency_key
+
+Declared alternatives: [WebhookSnapshotOrderPaymentAttemptPreviousAttributes.idempotency_key](../models/WebhookSnapshotOrderPaymentAttemptPreviousAttributes.md#webhooksnapshotorderpaymentattemptpreviousattributesidempotency_key).
 
 ### InvoicePaymentAttemptCanceledMerchantEvent.data fields 1.previous_attributes.invoice_id
 

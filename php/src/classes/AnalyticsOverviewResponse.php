@@ -9,7 +9,7 @@ namespace Flint;
 final class AnalyticsOverviewResponse extends Model {
     /** @param array{'data': mixed, 'meta'?: mixed, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('AnalyticsOverviewResponse')); }
-    /** Resource, collection, or operation result returned by this request. Payments are selected by payment created_at and current succeeded status. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.
+    /** Resource, collection, or operation result returned by this request. Succeeded payments are selected by capture time. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.
      * @return AnalyticsOverview
      */
     public function getData(): AnalyticsOverview { return $this->get('data'); }

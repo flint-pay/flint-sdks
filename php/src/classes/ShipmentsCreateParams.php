@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $direction
+ * @property-read int $expected_fulfillment_version
  * @property-read string $external_reference_id
  * @property-read string $external_system
  * @property-read string $fulfillment_id
@@ -12,7 +13,7 @@ namespace Flint;
  * @property-read list<ReturnShipmentLineItemAllocationRequestInput|array<array-key, mixed>|\stdClass> $return_line_items
  * Presence-aware input; omitted fields throw when accessed. */
 final class ShipmentsCreateParams extends Model {
-    /** @param array{'direction': string, 'external_reference_id'?: string, 'external_system'?: string, 'fulfillment_id': string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'packages'?: list<PackageCreateRequestInput|array<array-key, mixed>|\stdClass>, 'return_id'?: string, 'return_line_items'?: list<ReturnShipmentLineItemAllocationRequestInput|array<array-key, mixed>|\stdClass>, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object|array{'direction': string, 'external_reference_id'?: string, 'external_system'?: string, 'fulfillment_id'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'packages'?: list<PackageCreateRequestInput|array<array-key, mixed>|\stdClass>, 'return_id': string, 'return_line_items': list<ReturnShipmentLineItemAllocationRequestInput|array<array-key, mixed>|\stdClass>, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
+    /** @param array{'direction': string, 'expected_fulfillment_version'?: int, 'external_reference_id'?: string, 'external_system'?: string, 'fulfillment_id': string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'packages'?: list<PackageCreateRequestInput|array<array-key, mixed>|\stdClass>, 'return_id'?: string, 'return_line_items'?: list<ReturnShipmentLineItemAllocationRequestInput|array<array-key, mixed>|\stdClass>, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object|array{'direction': string, 'expected_fulfillment_version'?: int, 'external_reference_id'?: string, 'external_system'?: string, 'fulfillment_id'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'packages'?: list<PackageCreateRequestInput|array<array-key, mixed>|\stdClass>, 'return_id': string, 'return_line_items': list<ReturnShipmentLineItemAllocationRequestInput|array<array-key, mixed>|\stdClass>, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ShipmentsCreateParams')); }
     /** Whether the shipment sends items to the buyer or returns items to the merchant. Value enum: "outbound", "return".
      * @return string
@@ -20,6 +21,12 @@ final class ShipmentsCreateParams extends Model {
      */
     public function getDirection(): string { return $this->get('direction'); }
     public function hasDirection(): bool { return $this->has('direction'); }
+    /** Optional version of the owning fulfillment. If the version changed, Flint refuses the request before creating any records. Format: uint64. minimum: 1.
+     * @return int
+     * @throws SdkError When expected_fulfillment_version is omitted; use hasExpectedFulfillmentVersion() or valueOrDefault().
+     */
+    public function getExpectedFulfillmentVersion(): int { return $this->get('expected_fulfillment_version'); }
+    public function hasExpectedFulfillmentVersion(): bool { return $this->has('expected_fulfillment_version'); }
     /** Caller-owned identifier for this resource in an external system. Requires external_system. External references are not unique. Use Idempotency-Key for retries. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().

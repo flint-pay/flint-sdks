@@ -1,1 +1,1 @@
-{"shared":"SubscriptionTermsRequest","dependencies":["SharedCodec232","SharedCodec233","SharedCodec2980","SharedCodec2981","SubscriptionOfferLineItemRequest","SubscriptionPlanChangeLineItemRequest","SubscriptionTermsRequest"]}
+{"shared":"SubscriptionTermsRequest","dependencies":["SharedCodec232","SharedCodec233","SharedCodec2974","SharedCodec2975","SubscriptionOfferLineItemRequest","SubscriptionPlanChangeLineItemRequest","SubscriptionTermsRequest"]}

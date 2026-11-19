@@ -10,7 +10,7 @@ namespace Flint;
 final class PaymentVolumeBucketInput extends Model {
     /** @param array{'payments_count': int, 'period_end_at': string|\DateTimeInterface, 'period_start_at': string|\DateTimeInterface, 'volume_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentVolumeBucketInput')); }
-    /** Succeeded payments selected by payment created_at within this bucket, restricted to the response currency. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Format: int64.
+    /** Succeeded payments captured in this bucket, restricted to the response currency. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Format: int64.
      * @return int
      * @throws SdkError When payments_count is omitted; use hasPaymentsCount() or valueOrDefault().
      */
@@ -28,7 +28,7 @@ final class PaymentVolumeBucketInput extends Model {
      */
     public function getPeriodStartAt(): string|\DateTimeInterface { return $this->get('period_start_at'); }
     public function hasPeriodStartAt(): bool { return $this->has('period_start_at'); }
-    /** Succeeded payment amounts selected by payment created_at within this bucket, in the response currency. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Captured amounts for succeeded payments captured in this bucket, in the response currency. Excludes gift card and store credit redemptions. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When volume_money is omitted; use hasVolumeMoney() or valueOrDefault().
      */

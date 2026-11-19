@@ -17,4 +17,5 @@ Request input.
 | `status` | Required | string | The admission lifecycle. Values: `"issued"`, `"checked_in"`, `"voided"`. |
 | `ticket_id` | Required | string | Unique ticket identity with the tkt_ prefix. Example: `"tkt_01KEZF7C00AWVKS6GAX8RMEBZ8"`. |
 | `ticket_number` | Required | string | The event prefix and sequence, such as GAL001. It doesn't admit anyone on its own. |
+| `tier_name` | Optional | string | Name of the ticket tier on the purchased order line. |
 

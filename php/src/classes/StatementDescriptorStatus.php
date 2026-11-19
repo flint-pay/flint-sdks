@@ -8,7 +8,7 @@ namespace Flint;
 final class StatementDescriptorStatus extends Model {
     /** @param array{'reason': string|null, 'status': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('StatementDescriptorStatus')); }
-    /** Stripe's refusal reason in plain language. Null when status is accepted or pending.
+    /** Stripe's refusal reason in plain language. `null` when status is accepted or pending.
      * @return string|null
      */
     public function getReason(): string|null { return $this->get('reason'); }

@@ -1,6 +1,6 @@
 [Model index](../MODELS.md)
 
-# OrderLineItemInput to PartnerAppCredentialPublicKeyInput
+# OrderLineItemInput to PartnerAppCredentialPublicKeyRequestInput
 
 - [OrderLineItemInput](OrderLineItemInput.md)
 - [OrderLineItemFulfillmentComponentInput](OrderLineItemFulfillmentComponentInput.md)
@@ -42,7 +42,6 @@
 - [OrderPaymentAttemptListResponseInput](OrderPaymentAttemptListResponseInput.md)
 - [OrderPaymentAttemptPaymentMethodSaveInput](OrderPaymentAttemptPaymentMethodSaveInput.md)
 - [OrderPaymentAttemptPaymentMethodSavePreviousAttributesInput](OrderPaymentAttemptPaymentMethodSavePreviousAttributesInput.md)
-- [OrderPaymentAttemptPreviousAttributesInput](OrderPaymentAttemptPreviousAttributesInput.md)
 - [OrderPaymentAttemptResponseInput](OrderPaymentAttemptResponseInput.md)
 - [OrderPaymentIntentSelectionInput](OrderPaymentIntentSelectionInput.md)
 - [OrderPaymentSourceCardSelectionInput](OrderPaymentSourceCardSelectionInput.md)
@@ -102,4 +101,5 @@
 - [PartnerAppCredentialJWKSURLRequestInput](PartnerAppCredentialJWKSURLRequestInput.md)
 - [PartnerAppCredentialListResponseInput](PartnerAppCredentialListResponseInput.md)
 - [PartnerAppCredentialPublicKeyInput](PartnerAppCredentialPublicKeyInput.md)
+- [PartnerAppCredentialPublicKeyRequestInput](PartnerAppCredentialPublicKeyRequestInput.md)
 

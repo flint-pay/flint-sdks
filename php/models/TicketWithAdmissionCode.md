@@ -24,6 +24,7 @@ Response model.
 | `supported_actions` | Required | Array of string | Actions currently offered for this ticket. Items values: `"check_in"`, `"undo_check_in"`, `"void"`. |
 | `ticket_id` | Required | string | Unique ticket identity with the tkt_ prefix. |
 | `ticket_number` | Required | string | The event prefix and sequence, such as GAL001. Numbers are never reused and do not authorize entry. |
+| `tier_name` | Optional | string | Name of the ticket tier on the purchased order line. |
 | `updated_at` | Required | string | When the ticket last changed. Format: `date-time`. |
 | `version` | Required | integer | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. Format: `uint64`. minimum: `1`. |
 | `voided_at` | Required | string or null | When the ticket was permanently voided. Null when the ticket has not been voided. Format: `date-time`. |

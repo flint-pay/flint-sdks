@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# DeliveryRateCallbackCreatedInstalledMerchantsEvent to DeliveryWindowTimeConditionInput
+# DeliveryRateCallbackConnectionCheckResponse to DeliveryWindowTimeCondition
 
+- [DeliveryRateCallbackConnectionCheckResponse](DeliveryRateCallbackConnectionCheckResponse.md)
 - [DeliveryRateCallbackCreatedInstalledMerchantsEvent](DeliveryRateCallbackCreatedInstalledMerchantsEvent.md)
 - [DeliveryRateCallbackCreatedMerchantEvent](DeliveryRateCallbackCreatedMerchantEvent.md)
 - [DeliveryRateCallbackDeactivatedInstalledMerchantsEvent](DeliveryRateCallbackDeactivatedInstalledMerchantsEvent.md)
@@ -101,5 +102,4 @@
 - [DeliveryWindowRequestInput](DeliveryWindowRequestInput.md)
 - [DeliveryWindowResourcePreviousAttributes](DeliveryWindowResourcePreviousAttributes.md)
 - [DeliveryWindowTimeCondition](DeliveryWindowTimeCondition.md)
-- [DeliveryWindowTimeConditionInput](DeliveryWindowTimeConditionInput.md)
 

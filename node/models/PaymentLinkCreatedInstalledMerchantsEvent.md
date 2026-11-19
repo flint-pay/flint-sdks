@@ -56,10 +56,6 @@ Field definitions: [CreatePaymentLinkRequest.donation_min_amount_money](../model
 
 Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options).
 
-### PaymentLinkCreatedInstalledMerchantsEvent.data.object.event_config
-
-Field definitions: [PaymentLink.event_config](../models/PaymentLink.md#paymentlinkevent_config).
-
 ### PaymentLinkCreatedInstalledMerchantsEvent.data.object.legal
 
 Field definitions: [PaymentLink.legal](../models/PaymentLink.md#paymentlinklegal).

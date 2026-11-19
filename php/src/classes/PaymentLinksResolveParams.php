@@ -12,9 +12,10 @@ namespace Flint;
  * @property-read CheckoutSubscriptionTermsRequestInput|array<array-key, mixed>|\stdClass $subscription_terms
  * @property-read array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass $unit_price_overrides
  * @property-read array<array-key, string>|\stdClass $variant_selections
+ * @property-read bool $include_checkout
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentLinksResolveParams extends Model {
-    /** @param array{'attendee_names'?: list<string>, 'client_reference'?: string, 'custom_field_values'?: array<array-key, string>|\stdClass, 'modifiers'?: array<array-key, ResolvePaymentLinkLineItemModifiersInput|array<array-key, mixed>|\stdClass>|\stdClass, 'prefill'?: PaymentLinkResolvePrefillRequestInput|array<array-key, mixed>|\stdClass, 'quantity_overrides'?: array<array-key, int>|\stdClass, 'resolution_context': string, 'subscription_terms'?: CheckoutSubscriptionTermsRequestInput|array<array-key, mixed>|\stdClass, 'unit_price_overrides'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'variant_selections'?: array<array-key, string>|\stdClass}|object $values */
+    /** @param array{'attendee_names'?: list<string>, 'client_reference'?: string, 'custom_field_values'?: array<array-key, string>|\stdClass, 'modifiers'?: array<array-key, ResolvePaymentLinkLineItemModifiersInput|array<array-key, mixed>|\stdClass>|\stdClass, 'prefill'?: PaymentLinkResolvePrefillRequestInput|array<array-key, mixed>|\stdClass, 'quantity_overrides'?: array<array-key, int>|\stdClass, 'resolution_context': string, 'subscription_terms'?: CheckoutSubscriptionTermsRequestInput|array<array-key, mixed>|\stdClass, 'unit_price_overrides'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'variant_selections'?: array<array-key, string>|\stdClass, 'include_checkout'?: bool}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinksResolveParams')); }
     /** One attendee name per ticket on an event payment link, in line_items order: each tier's tickets in turn, skipping tiers with quantity 0. The count must equal the tickets being bought. Required when event_config.collect_attendee_names is true, and optional otherwise. Flint trims each name, which must then be 1 to 200 characters. Duplicate names are allowed. Flint copies the names onto the tickets when the order is paid, as each ticket's attendee_name, and never stores them in metadata. minItems: 1. [] (Value): string. minLength: 1.
      * @return list<string>
@@ -76,4 +77,10 @@ final class PaymentLinksResolveParams extends Model {
      */
     public function getVariantSelections(): array|object { return $this->get('variant_selections'); }
     public function hasVariantSelections(): bool { return $this->has('variant_selections'); }
+    /** Include the buyer checkout read fields when a new hosted session is created. Replays return the launch fields.
+     * @return bool
+     * @throws SdkError When include_checkout is omitted; use hasIncludeCheckout() or valueOrDefault().
+     */
+    public function getIncludeCheckout(): bool { return $this->get('include_checkout'); }
+    public function hasIncludeCheckout(): bool { return $this->has('include_checkout'); }
 }

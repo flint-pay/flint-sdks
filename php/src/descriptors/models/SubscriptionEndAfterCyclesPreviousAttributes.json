@@ -1,0 +1,1 @@
+{"shared":"SubscriptionEndAfterCyclesPreviousAttributes","phpRepresentation":{"kind":"record","fields":{"cycle_count":{"kind":"nullable","value":{"kind":"value","type":"int"}},"type":{"kind":"nullable","value":{"kind":"value","type":"string"}}}},"dependencies":["SharedCodec2906","SharedCodec2907","SubscriptionEndAfterCyclesPreviousAttributes"]}

@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# TaxRegistrationListResponseInput to UpdateProductOptionRequestInput
+# TaxRegistrationInput to UpdatePriceListRequestInput
 
+- [TaxRegistrationInput](TaxRegistrationInput.md)
 - [TaxRegistrationListResponseInput](TaxRegistrationListResponseInput.md)
 - [TaxRegistrationResponseInput](TaxRegistrationResponseInput.md)
 - [TaxReverseChargeInput](TaxReverseChargeInput.md)
@@ -101,5 +102,4 @@
 - [UpdatePickupFulfillmentDetailsInput](UpdatePickupFulfillmentDetailsInput.md)
 - [UpdatePriceListPriceRequestInput](UpdatePriceListPriceRequestInput.md)
 - [UpdatePriceListRequestInput](UpdatePriceListRequestInput.md)
-- [UpdateProductOptionRequestInput](UpdateProductOptionRequestInput.md)
 

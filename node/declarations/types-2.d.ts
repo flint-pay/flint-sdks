@@ -1636,9 +1636,10 @@ export type BuyerFulfillment = {
     "charges"?: Array<FulfillmentChargeLink>;
     /**
      * When the fulfillment was completed. Mirrors the completion time for its type: delivered_at
-     * for shipment, local delivery, and digital fulfillments, picked_up_at for pickup, and
-     * service_details.completed_at for service fulfillments. Omitted until a completion time is
-     * recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * for shipment, local delivery, and digital fulfillments, picked_up_at for pickup,
+     * service_details.completed_at for service fulfillments, and the order's paid_at for handovers
+     * completed at payment. Omitted until a completion time is recorded. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z".
      */
     "completed_at"?: string;
     /**
@@ -2391,11 +2392,12 @@ export type BuyerInvoice = {
      */
     "payment_option_cost_comparison"?: InvoicePaymentOptionCostComparison;
     /**
-     * Ways the buyer can pay this invoice online, leaving out any option whose limit the amount
-     * exceeds. `[]` when it can't be paid online. Returned by `GET /v1/me/invoices/{invoice_id}`
-     * and in the invoice checkout session result; `GET /v1/me/invoices` omits it. [] enum: "card",
-     * "apple_pay", "google_pay", "affirm", "ach_debit". [] (Value): string. Value enum: "card",
-     * "apple_pay", "google_pay", "affirm", "ach_debit".
+     * Ways the buyer can pay this invoice online, including when the next scheduled payment
+     * becomes due. Ineligible methods are omitted. Check buyer_actions to see whether the buyer
+     * can pay now. Returned by `GET /v1/me/invoices/{invoice_id}` and in the invoice checkout
+     * session result; `GET /v1/me/invoices` omits it. [] enum: "card", "apple_pay", "google_pay",
+     * "affirm", "ach_debit". [] (Value): string. Value enum: "card", "apple_pay", "google_pay",
+     * "affirm", "ach_debit".
      */
     "payment_options"?: Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | (string & {})>;
     /**

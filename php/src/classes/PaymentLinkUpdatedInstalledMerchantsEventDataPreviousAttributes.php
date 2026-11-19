@@ -30,6 +30,7 @@ namespace Flint;
  * @property-read CheckoutPromotionConfigPreviousAttributes|null $promotion_config
  * @property-read CheckoutRedirectsPreviousAttributes|null $redirects
  * @property-read string|null $sales_end_at
+ * @property-read string|null $sales_start_at
  * @property-read PaymentLinkSalesSummaryPreviousAttributes|null $sales_summary
  * @property-read string|null $status
  * @property-read ExpandedSubscriptionPlanSummaryPreviousAttributes|null $subscription_plan
@@ -43,7 +44,7 @@ namespace Flint;
  * @property-read int|null $version
  * Presence-aware response; omitted optional fields return null. */
 final class PaymentLinkUpdatedInstalledMerchantsEventDataPreviousAttributes extends Model {
-    /** @param array{'buyer_fields'?: mixed, 'checkout_session_expires_in_seconds'?: mixed, 'completed_count'?: mixed, 'created_at'?: mixed, 'custom_fields'?: mixed, 'custom_text'?: mixed, 'delivery_method_ids'?: mixed, 'description'?: mixed, 'donation_max_amount_money'?: mixed, 'donation_min_amount_money'?: mixed, 'donation_suggested_amount_money_options'?: mixed, 'event_config'?: mixed, 'external_reference_id'?: mixed, 'image'?: mixed, 'inactive_message'?: mixed, 'inventory_routing_source'?: mixed, 'legal'?: mixed, 'line_items'?: mixed, 'max_completions'?: mixed, 'merchant_id'?: mixed, 'metadata'?: mixed, 'name'?: mixed, 'payment_link_id'?: mixed, 'payment_link_type'?: mixed, 'payments'?: mixed, 'promotion_config'?: mixed, 'redirects'?: mixed, 'sales_end_at'?: mixed, 'sales_summary'?: mixed, 'status'?: mixed, 'subscription_plan'?: mixed, 'subscription_plan_id'?: mixed, 'tax'?: mixed, 'theme'?: mixed, 'tip'?: mixed, 'total_quantity_sold'?: mixed, 'updated_at'?: mixed, 'url'?: mixed, 'version'?: mixed, ...}|object $values */
+    /** @param array{'buyer_fields'?: mixed, 'checkout_session_expires_in_seconds'?: mixed, 'completed_count'?: mixed, 'created_at'?: mixed, 'custom_fields'?: mixed, 'custom_text'?: mixed, 'delivery_method_ids'?: mixed, 'description'?: mixed, 'donation_max_amount_money'?: mixed, 'donation_min_amount_money'?: mixed, 'donation_suggested_amount_money_options'?: mixed, 'event_config'?: mixed, 'external_reference_id'?: mixed, 'image'?: mixed, 'inactive_message'?: mixed, 'inventory_routing_source'?: mixed, 'legal'?: mixed, 'line_items'?: mixed, 'max_completions'?: mixed, 'merchant_id'?: mixed, 'metadata'?: mixed, 'name'?: mixed, 'payment_link_id'?: mixed, 'payment_link_type'?: mixed, 'payments'?: mixed, 'promotion_config'?: mixed, 'redirects'?: mixed, 'sales_end_at'?: mixed, 'sales_start_at'?: mixed, 'sales_summary'?: mixed, 'status'?: mixed, 'subscription_plan'?: mixed, 'subscription_plan_id'?: mixed, 'tax'?: mixed, 'theme'?: mixed, 'tip'?: mixed, 'total_quantity_sold'?: mixed, 'updated_at'?: mixed, 'url'?: mixed, 'version'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinkUpdatedInstalledMerchantsEventDataPreviousAttributes')); }
     /** What checkout asks the buyer for. Each field you leave out uses your checkout settings. anyOf[1] (Value): {@see CheckoutBuyerFieldsPreviousAttributes}. anyOf[2] (Value): null.
      * @return CheckoutBuyerFieldsPreviousAttributes|null
@@ -185,6 +186,11 @@ final class PaymentLinkUpdatedInstalledMerchantsEventDataPreviousAttributes exte
      */
     public function getSalesEndAt(): string|null { return $this->get('sales_end_at'); }
     public function hasSalesEndAt(): bool { return $this->has('sales_end_at'); }
+    /** RFC3339 timestamp when buyers can first start a checkout from this link. Stored to nanosecond precision. Before it, resolve fails with ACTION_NOT_ALLOWED and reason sales_not_started. Must be earlier than the link’s sales end, including the event start when no explicit end is set. anyOf[1] (Value): string. RFC3339 timestamp when buyers can first start a checkout from this link. Stored to nanosecond precision. Before it, resolve fails with ACTION_NOT_ALLOWED and reason sales_not_started. Must be earlier than the link’s sales end, including the event start when no explicit end is set. Format: date-time. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getSalesStartAt(): string|null { return $this->get('sales_start_at'); }
+    public function hasSalesStartAt(): bool { return $this->has('sales_start_at'); }
     /** Present only with expand=sales_summary on GET /v1/payment-links or GET /v1/payment-links/{payment_link_id}. Available to merchant callers, including dashboard sessions and API keys with checkouts.payment_links.read. Uses the same paid-order definition as the merchant sales summary. anyOf[1] (Value): {@see PaymentLinkSalesSummaryPreviousAttributes}. anyOf[2] (Value): null.
      * @return PaymentLinkSalesSummaryPreviousAttributes|null
      */

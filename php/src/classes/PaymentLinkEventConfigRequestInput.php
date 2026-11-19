@@ -11,7 +11,7 @@ namespace Flint;
  * @property-read string $venue
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentLinkEventConfigRequestInput extends Model {
-    /** @param array{'collect_attendee_names'?: bool, 'event_at'?: string|\DateTimeInterface, 'max_total_quantity'?: int|null, 'send_ticket_emails'?: bool, 'ticket_prefix'?: string, 'timezone'?: string, 'venue'?: string}|object $values */
+    /** @param array{'collect_attendee_names'?: bool, 'event_at': string|\DateTimeInterface, 'max_total_quantity'?: int|null, 'send_ticket_emails'?: bool, 'ticket_prefix'?: string, 'timezone': string, 'venue'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinkEventConfigRequestInput')); }
     /** Whether resolving the link requires `attendee_names`, one name per ticket. Flint copies the names onto the tickets when the order is paid. Defaults to false.
      * @return bool

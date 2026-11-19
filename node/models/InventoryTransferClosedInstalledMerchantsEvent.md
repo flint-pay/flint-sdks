@@ -34,7 +34,7 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields.
 
-Field definitions: [shared fields](InventoryTransfer.md#inventorytransfer).
+Field definitions: [shared fields](WebhookSnapshotInventoryTransfer.md#webhooksnapshotinventorytransfer).
 
 ### InventoryTransferClosedInstalledMerchantsEvent.data.previous_attributes
 
@@ -48,7 +48,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `departed_at` | Optional | string or null | RFC3339 timestamp. `departed_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
 | `destination_location_id` | Optional | string or null | ID of the Location the stock goes to. `destination_location_id`: [declared alternatives](../models/InventoryTransferClosedInstalledMerchantsEvent.md#inventorytransferclosedinstalledmerchantseventdataprevious_attributesdestination_location_id). |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. `external_reference_id`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesexternal_reference_id). |
-| `idempotency_key` | Optional | string or null | The Idempotency-Key of the request that created this resource; on a movement, of the command that wrote it. Omitted when that request had no key. `idempotency_key`: [declared alternatives](../models/InventoryCountAppliedInstalledMerchantsEvent.md#inventorycountappliedinstalledmerchantseventdataprevious_attributesidempotency_key). |
+| `idempotency_key` | Optional | string or null | The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. `idempotency_key`: [declared alternatives](../models/CreditNoteAllocationReversedInstalledMerchantsEvent.md#creditnoteallocationreversedinstalledmerchantseventdataprevious_attributesidempotency_key). |
 | `inventory_transfer_id` | Optional | string or null | Unique identifier for this inventory transfer, prefixed `invtr_`. `inventory_transfer_id`: [declared alternatives](../models/InventoryTransferClosedInstalledMerchantsEvent.md#inventorytransferclosedinstalledmerchantseventdataprevious_attributesinventory_transfer_id). |
 | `lines` | Optional | Array of [InventoryTransferLinePreviousAttributes](../models/InventoryTransferLinePreviousAttributes.md#inventorytransferlinepreviousattributes) or null | Owned collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection. `lines`: [declared alternatives](../models/InventoryTransferClosedInstalledMerchantsEvent.md#inventorytransferclosedinstalledmerchantseventdataprevious_attributeslines). |
 | `note` | Optional | string or null | Free-text note about the transfer. `note`: [declared alternatives](../models/InventoryTransferClosedInstalledMerchantsEvent.md#inventorytransferclosedinstalledmerchantseventdataprevious_attributesnote). |
@@ -105,7 +105,7 @@ Declared alternatives: [BundleArchivedInstalledMerchantsEvent.data.previous_attr
 
 ### InventoryTransferClosedInstalledMerchantsEvent.data.previous_attributes.idempotency_key
 
-Declared alternatives: [InventoryCountAppliedInstalledMerchantsEvent.data.previous_attributes.idempotency_key](../models/InventoryCountAppliedInstalledMerchantsEvent.md#inventorycountappliedinstalledmerchantseventdataprevious_attributesidempotency_key).
+Declared alternatives: [CreditNoteAllocationReversedInstalledMerchantsEvent.data.previous_attributes.idempotency_key](../models/CreditNoteAllocationReversedInstalledMerchantsEvent.md#creditnoteallocationreversedinstalledmerchantseventdataprevious_attributesidempotency_key).
 
 ### InventoryTransferClosedInstalledMerchantsEvent.data.previous_attributes.inventory_transfer_id
 
